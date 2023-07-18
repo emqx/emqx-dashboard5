@@ -4,7 +4,11 @@
       <div class="search-bar">
         <el-input placeholder="Search" :suffix-icon="Search" clearable v-model="searchText" />
       </div>
-      <el-collapse class="node-type-list" :model-value="nodeArr.map(({ type }) => type)">
+      <el-collapse
+        v-if="nodeArr.length"
+        class="node-type-list"
+        :model-value="nodeArr.map(({ type }) => type)"
+      >
         <el-collapse-item
           class="node-type-item"
           v-for="{ type, typeLabel, nodeList } in nodeArr"
@@ -14,11 +18,11 @@
         >
           <ul class="node-list">
             <li
-              class="node-item"
-              :class="getNodeClass(type)"
               v-for="node in nodeList"
+              class="node-item"
               :key="node.name"
-              draggable="true"
+              :class="[getNodeClass(type), !getDraggable(node.specificType) ? 'is-disabled' : '']"
+              :draggable="getDraggable(node.specificType)"
               @dragstart="onDragStart($event, { type, node })"
             >
               <img
@@ -26,12 +30,14 @@
                 width="20"
                 alt="node-img"
                 class="node-img"
+                draggable="false"
               />
-              <span> {{ node.name }}</span>
+              <span draggable="false"> {{ node.name }}</span>
             </li>
           </ul>
         </el-collapse-item>
       </el-collapse>
+      <p v-else class="tip empty-placeholder">{{ t('Base.noData') }}</p>
     </div>
     <div ref="FlowWrapper" class="flow-wrap" @drop="onDrop" @dragover="onDragOver">
       <FlowGuide v-show="!flowData.length" />
@@ -63,10 +69,11 @@
 import { createRandomString } from '@/common/tools'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
+import useI18nTl from '@/hooks/useI18nTl'
 import { Search } from '@element-plus/icons-vue'
 import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { Ref, defineExpose, defineProps, ref } from 'vue'
+import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
@@ -77,6 +84,9 @@ const props = defineProps({
     default: '',
   },
 })
+
+const { t } = useI18nTl('Flow')
+
 const initFlowName: string = (() => props.flowName)()
 const createBridgeName = () => `${initFlowName}_data_bridge_${createRandomString(3)}`
 
@@ -90,10 +100,22 @@ const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFl
   id: flowEditorId,
 })
 
-const { nodeArr, flowData, createFlowNodeDataFromEvent } = useFlowEditor(
-  FlowerInstance,
-  FlowWrapper,
-)
+const {
+  nodeArr: rawNodeArr,
+  flowData,
+  nodeTypeOnlyByOne,
+  createFlowNodeDataFromEvent,
+} = useFlowEditor(FlowerInstance, FlowWrapper)
+const nodeArr = computed(() => {
+  const reg = new RegExp(`${searchText.value}`, `i`)
+  return rawNodeArr
+    .map((item) => {
+      const nodeList = item.nodeList.filter((node) => reg.test(node.name))
+      return { ...item, nodeList }
+    })
+    .filter(({ nodeList }) => nodeList.length)
+})
+
 const { getNodeClass, getNodeInfo, getNodeIcon } = useFlowNode()
 
 const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeType }) => {
@@ -119,6 +141,13 @@ const onDrop = (event: DragEvent) => {
     addNodes([newNode])
     openNodeDrawer(newNode)
   }
+}
+
+const getDraggable = (type: string) => {
+  if (!nodeTypeOnlyByOne.includes(type)) {
+    return true
+  }
+  return !getNodes.value.some(({ data }) => data.specificType === type)
 }
 
 const isDrawerVisible = ref(false)
@@ -174,6 +203,7 @@ defineExpose({ validate, getFlowData })
   display: flex;
   align-items: flex-start;
   height: 100%;
+  user-select: none;
 
   ul {
     padding: 0;
@@ -196,10 +226,19 @@ defineExpose({ validate, getFlowData })
       border-top-color: #e2e6f0;
       border-right-color: #e2e6f0;
       border-bottom-color: #e2e6f0;
+      &.is-disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
     }
     .node-img {
       margin-right: 10px;
     }
+  }
+
+  .empty-placeholder {
+    padding: 64px 0;
+    text-align: center;
   }
 
   .node-type-list {
