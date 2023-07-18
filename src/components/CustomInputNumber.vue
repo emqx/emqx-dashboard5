@@ -5,6 +5,7 @@
     :class="{ 'is-focus': isFocus }"
     @focus="handleFocus"
     @blur="handleBlur"
+    @keypress="handleKeypress"
   />
 </template>
 
@@ -33,6 +34,12 @@ const isFocus = ref(false)
 
 const handleFocus = () => (isFocus.value = true)
 const handleBlur = () => (isFocus.value = false)
+const handleKeypress = (event: KeyboardEvent) => {
+  const char = String.fromCharCode(event.which || event.keyCode)
+  if (!/[\d.e+-]/.test(char) && !event.metaKey && !event.ctrlKey) {
+    event.preventDefault()
+  }
+}
 </script>
 
 <style lang="scss">
