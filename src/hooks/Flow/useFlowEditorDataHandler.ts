@@ -8,13 +8,14 @@ import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
-import { FilterForm, FilterItem, ProcessingType, SinkType, SourceType } from './useFlowNode'
-
-const enum FlowNodeType {
-  Input = 'input',
-  Output = 'output',
-  Default = 'default',
-}
+import {
+  FilterForm,
+  FilterItem,
+  FlowNodeType,
+  ProcessingType,
+  SinkType,
+  SourceType,
+} from './useFlowNode'
 
 interface NodeData {
   id: string
@@ -84,7 +85,7 @@ export default (): {
         case SourceType.MQTTBroker:
           data = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${getBridgeKey({
             type: BridgeType.MQTT,
-            name: flowName,
+            name: node.data.formData.name,
           })}`
           break
         default:

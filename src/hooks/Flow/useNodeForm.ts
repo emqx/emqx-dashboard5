@@ -4,8 +4,8 @@ import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { FilterForm, FilterItem, ProcessingType, SinkType, SourceType } from './useFlowNode'
 
-const createMessageForm = () => ({ topic: '' })
-const createEventForm = () => ({ event: '' })
+export const createMessageForm = (topic = ''): { topic: string } => ({ topic })
+export const createEventForm = (event = ''): { event: string } => ({ event })
 
 export const createFilterItem = (): FilterItem => ({
   field: '',
