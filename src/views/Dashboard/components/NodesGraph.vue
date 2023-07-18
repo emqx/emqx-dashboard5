@@ -136,6 +136,7 @@ const showReplicantNodesCountPopover = computed(() => {
 
 const flowData: Ref<Array<FlowDataItem>> = ref([...backgroundNode.value])
 useVueFlow({
+  deleteKeyCode: null,
   nodesDraggable: false,
   nodesConnectable: false,
   zoomOnScroll: false,
