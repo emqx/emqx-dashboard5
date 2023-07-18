@@ -22,7 +22,7 @@
                   <p class="description">
                     {{ tl('nodeExporterDesc') }}
                     <a
-                      href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
+                      href="https://prometheus.io/docs/guides/node-exporter/#installing-and-running-the-node-exporter"
                       target="_blank"
                       rel="noopener"
                     >
@@ -115,7 +115,7 @@
                 <p class="description">
                   {{ tl('nodeExporterDesc') }}
                   <a
-                    href="https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter"
+                    href="https://prometheus.io/docs/guides/node-exporter/#installing-and-running-the-node-exporter"
                     target="_blank"
                     rel="noopener"
                   >
