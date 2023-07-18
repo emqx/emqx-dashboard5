@@ -4,6 +4,7 @@
     ref="FlowInstance"
     v-model="guideFlowData"
     :id="createRandomString()"
+    :deleteKeyCode="null"
     :nodes-draggable="false"
     :nodes-connectable="false"
     :zoom-on-scroll="false"
