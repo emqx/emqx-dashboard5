@@ -32,6 +32,7 @@ interface NodeTypeItem {
 interface Ret {
   nodeArr: Array<NodeTypeItem>
   flowData: Ref<Array<Node | Edge>>
+  nodeTypeOnlyByOne: string[]
   createFlowNodeDataFromEvent: (event: DragEvent) => Node | undefined
 }
 
@@ -80,6 +81,13 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     [NodeType.Processing]: FlowNodeType.Default,
     [NodeType.Sink]: FlowNodeType.Output,
   }
+
+  const nodeTypeOnlyByOne: Array<string> = [
+    ProcessingType.Filter,
+    ProcessingType.Function,
+    SinkType.Console,
+  ]
+
   const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
 
   const createFlowNodeDataFromEvent = (event: DragEvent) => {
@@ -114,6 +122,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
   return {
     nodeArr,
     flowData,
+    nodeTypeOnlyByOne,
     createFlowNodeDataFromEvent,
   }
 }
