@@ -1,13 +1,24 @@
 <template>
   <div class="flow">
-    <div class="flow-view-hd space-between vertical-align-center">
-      <el-radio-group v-model="showBy">
-        <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
-        <el-radio-button :label="ShowByOpt.List" disabled>{{ tl('list') }}</el-radio-button>
-      </el-radio-group>
+    <template v-if="flowData.length">
+      <div class="flow-view-hd space-between vertical-align-center">
+        <el-radio-group v-model="showBy">
+          <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
+          <el-radio-button :label="ShowByOpt.List" disabled>{{ tl('list') }}</el-radio-button>
+        </el-radio-group>
+        <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
+      </div>
+      <VueFlow ref="FlowerInstance" v-model="flowData" @node-click="handleClickNode" />
+    </template>
+    <div v-else class="flow-placeholder-container">
+      <img
+        class="img-placeholder"
+        width="520"
+        src="@/assets/img/flow_placeholder.png"
+        alt="empty_placeholder"
+      />
       <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
     </div>
-    <VueFlow ref="FlowerInstance" v-model="flowData" @node-click="handleClickNode" />
   </div>
 </template>
 
@@ -41,7 +52,9 @@ const handleClickNode = () => {
 
 onMounted(async () => {
   await getFlowData()
-  FlowerInstance.value.fitView()
+  if (flowData.value.length > 0) {
+    FlowerInstance.value?.fitView()
+  }
 })
 </script>
 
@@ -59,6 +72,17 @@ onMounted(async () => {
   }
   .vue-flow {
     height: calc(100% - #{$hd-height});
+  }
+  .flow-placeholder-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-bottom: 180px;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder {
+    margin-bottom: 48px;
   }
 }
 </style>
