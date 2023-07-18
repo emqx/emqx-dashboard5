@@ -71,7 +71,7 @@ const { isSubmitting, createFlow } = useSubmitFlowData()
 const create = async () => {
   if (editingMethod.value === EditingMethod.Flow) {
     const flowData = FlowEditorCom.value.getFlowData()
-    const data = getRuleNBridgesFromFlowData(flowBasicInfo.value.name, flowData)
+    const data = getRuleNBridgesFromFlowData(flowBasicInfo.value, flowData)
     await createFlow(data)
     ElMessage.success(t('Base.createSuccess'))
     router.push({ name: 'flow' })
