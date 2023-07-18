@@ -30,6 +30,7 @@
                   v-model="flappingDetectConfig.window_time"
                   number-placeholder="1"
                   :enabled-units="['m']"
+                  :disabled="!flappingDetectConfig.enable"
                 />
               </el-form-item>
               <el-form-item prop="max_count">
@@ -41,6 +42,7 @@
                   controls-position="right"
                   placeholder="15"
                   :min="0"
+                  :disabled="!flappingDetectConfig.enable"
                 />
               </el-form-item>
               <el-form-item prop="ban_time">
@@ -51,6 +53,7 @@
                   v-model="flappingDetectConfig.ban_time"
                   number-placeholder="5"
                   :enabled-units="['m']"
+                  :disabled="!flappingDetectConfig.enable"
                 />
               </el-form-item>
             </el-col>
