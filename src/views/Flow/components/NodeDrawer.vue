@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="showDialog"
-    custom-class="node-drawer"
+    custom-class="node-drawer drawer-with-divider"
     :size="width"
     :title="title"
     :z-index="1999"
@@ -158,6 +158,10 @@ watch(showDialog, (val) => {
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
     }
+  }
+  .message-form,
+  .event-form {
+    width: 80%;
   }
 }
 </style>

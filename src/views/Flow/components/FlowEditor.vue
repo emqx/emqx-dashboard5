@@ -99,6 +99,7 @@ const FlowerInstance = ref()
 const flowEditorId = createRandomString()
 const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFlow({
   id: flowEditorId,
+  deleteKeyCode: 'Delete',
 })
 
 const {
@@ -119,12 +120,29 @@ const nodeArr = computed(() => {
 
 const { getNodeClass, getNodeInfo, getNodeIcon } = useFlowNode()
 
+/**
+ * Position offset relative to the upper left corner of the node
+ */
+let startPositionOffset = { x: 0, y: 0 }
+const countPositionOffset = (event: DragEvent) => {
+  const ele: HTMLElement = event.target as HTMLElement
+  if (!ele) {
+    return
+  }
+  const { top, left } = ele.getBoundingClientRect()
+  const { clientX, clientY } = event
+  startPositionOffset = {
+    x: clientX - left,
+    y: clientY - top,
+  }
+}
 const onDragStart = (event: DragEvent, nodeData: { node: NodeItem; type: NodeType }) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData(MsgKey.Type, nodeData.type.toString())
     event.dataTransfer.setData(MsgKey.Name, nodeData.node.name)
     event.dataTransfer.setData(MsgKey.SpecificType, nodeData.node.specificType)
     event.dataTransfer.effectAllowed = 'move'
+    countPositionOffset(event)
   }
 }
 
@@ -137,7 +155,7 @@ const onDragOver = (event: DragEvent) => {
 
 const onDrop = (event: DragEvent) => {
   event.preventDefault()
-  const newNode = createFlowNodeDataFromEvent(event)
+  const newNode = createFlowNodeDataFromEvent(event, startPositionOffset)
   if (newNode) {
     addNodes([newNode])
     openNodeDrawer(newNode)
@@ -227,6 +245,7 @@ defineExpose({ validate, getFlowData })
       border-top-color: #e2e6f0;
       border-right-color: #e2e6f0;
       border-bottom-color: #e2e6f0;
+      transform: translate(0, 0);
       &.is-disabled {
         opacity: 0.6;
         filter: grayscale(1);
