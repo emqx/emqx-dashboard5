@@ -49,6 +49,7 @@ export default createStore({
     afterCurrentUserPwdChanged: false,
     schemaStoreMap: new Map(),
     ruleEventList: [] as Array<RuleEvent>,
+    ruleEventRequest: undefined as undefined | Promise<any>,
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -124,6 +125,9 @@ export default createStore({
     },
     SET_RULE_EVENT_LIST(state, payload: RuleEvent[]) {
       state.ruleEventList = payload
+    },
+    SET_RULE_EVENT_REQUEST(state, payload: Promise<any>) {
+      state.ruleEventRequest = payload
     },
   },
   getters: {
