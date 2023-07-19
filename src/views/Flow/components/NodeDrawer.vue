@@ -27,11 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import { SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeDirection } from '@/types/enum'
+import { Node } from '@vue-flow/core'
 import { cloneDeep, isFunction } from 'lodash'
-import { Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -48,6 +51,9 @@ const props = defineProps({
   generateBridgeName: {
     type: Function,
   },
+  nodes: {
+    type: Array as PropType<Array<Node>>,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'save', 'close'])
 
@@ -62,15 +68,42 @@ const { tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
-const {
-  getDrawerTitle,
-  drawerDefaultWidth,
-  getDrawerWidth,
-  getFormComponent,
-  getFormComponentProps,
-} = useNodeDrawer()
+const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
 const title = computed(() => (props.type ? getDrawerTitle(props.type) : ''))
 const width = computed(() => (props.type ? getDrawerWidth(props.type) : drawerDefaultWidth))
+
+const selectedEvents = computed(() => {
+  if (!props.nodes?.length) {
+    return []
+  }
+  return props.nodes.reduce((arr: Array<string>, node) => {
+    if (node.data.specificType === SourceType.Event && node.data.formData?.event) {
+      arr.push(node.data.formData.event)
+    }
+    return arr
+  }, [])
+})
+
+const existedTopics = computed(() => {
+  if (!props.nodes?.length) {
+    return []
+  }
+  return props.nodes.reduce((arr: Array<string>, node) => {
+    if (node.data.specificType === SourceType.Message && node.data.formData?.topic) {
+      arr.push(node.data.formData.topic)
+    }
+    return arr
+  }, [])
+})
+
+const formComponentPropsMap = computed(() => ({
+  [SourceType.Message]: { existedTopics: existedTopics.value },
+  [SourceType.Event]: { selectedEvents: selectedEvents.value },
+  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
+  [SinkType.HTTP]: { colSpan: 24 },
+}))
+const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
 const record: Ref<Record<string, any>> = ref({})
 
