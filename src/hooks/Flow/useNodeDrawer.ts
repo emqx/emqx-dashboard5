@@ -1,4 +1,3 @@
-import { BridgeDirection } from '@/types/enum'
 import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
 import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
@@ -15,7 +14,6 @@ export default (): {
   drawerDefaultWidth: string
   getDrawerWidth: (type: string) => string
   getFormComponent: (type: string) => Component
-  getFormComponentProps: (type: string) => Record<string, any>
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
@@ -50,18 +48,10 @@ export default (): {
   }
   const getFormComponent = (type: string) => formComponentMap[type]
 
-  const formComponentPropsMap: Record<string, Record<string, any>> = {
-    [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
-    [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-    [SinkType.HTTP]: { colSpan: 24 },
-  }
-  const getFormComponentProps = (type: string) => formComponentPropsMap[type] || {}
-
   return {
     getDrawerTitle,
     drawerDefaultWidth,
     getDrawerWidth,
     getFormComponent,
-    getFormComponentProps,
   }
 }
