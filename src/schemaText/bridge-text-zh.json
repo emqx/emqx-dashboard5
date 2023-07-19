@@ -170,7 +170,7 @@
       "desc": "HStreamDB 服务器的URL。使用 gRPC HTTP 服务器地址。"
     },
     "record_template": {
-      "desc": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。",
+      "desc": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。<br />注意：当使用 `raw record` 模板（意味着数据不是有效的JSON）时，应该在 HStream 中使用 `read` 或 `subscription` 来获取数据。",
       "label": "HStream Record 模板"
     },
     "stream_name": {
