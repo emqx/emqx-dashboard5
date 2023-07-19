@@ -11,7 +11,11 @@ export default (): {
     try {
       let eventList: Array<RuleEvent> = state.ruleEventList
       if (!eventList.length) {
-        eventList = await queryRuleEvents()
+        if (!state.ruleEventRequest) {
+          const request = queryRuleEvents()
+          commit('SET_RULE_EVENT_REQUEST', request)
+        }
+        eventList = await state.ruleEventRequest
         commit('SET_RULE_EVENT_LIST', eventList)
       }
       return Promise.resolve(eventList)

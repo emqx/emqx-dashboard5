@@ -16,7 +16,7 @@
           v-for="item in eventOptList"
           :key="item.event"
           :value="item.event"
-          :label="getEventLabel(item.title)"
+          :label="startCase(getEventLabel(item.title))"
           :disabled="isEventDisabled(item.event)"
         />
       </el-select>
@@ -30,7 +30,7 @@ import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
-import { pick } from 'lodash'
+import { pick, startCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
