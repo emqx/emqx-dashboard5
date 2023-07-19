@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="150px"
+    label-width="100px"
     class="message-form"
     label-position="right"
     hide-required-asterisk

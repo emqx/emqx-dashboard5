@@ -33,7 +33,10 @@ interface Ret {
   nodeArr: Array<NodeTypeItem>
   flowData: Ref<Array<Node | Edge>>
   nodeTypeOnlyByOne: string[]
-  createFlowNodeDataFromEvent: (event: DragEvent) => Node | undefined
+  createFlowNodeDataFromEvent: (
+    event: DragEvent,
+    positionOffset: { x: number; y: number },
+  ) => Node | undefined
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
@@ -90,7 +93,10 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
 
   const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
 
-  const createFlowNodeDataFromEvent = (event: DragEvent) => {
+  const createFlowNodeDataFromEvent = (
+    event: DragEvent,
+    positionOffset: { x: number; y: number },
+  ) => {
     const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
     const type: NodeType = (event.dataTransfer?.getData(MsgKey.Type) ||
       NodeType.Processing) as NodeType
@@ -103,8 +109,8 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     }
 
     const position = FlowerInstance.value.project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
+      x: event.clientX - reactFlowBounds.left - positionOffset.x,
+      y: event.clientY - reactFlowBounds.top - positionOffset.y,
     })
     const flowNodeType = getFlowNodeType(type)
 
