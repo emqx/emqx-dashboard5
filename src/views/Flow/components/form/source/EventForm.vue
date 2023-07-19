@@ -15,8 +15,9 @@
         <el-option
           v-for="item in eventOptList"
           :key="item.event"
-          :label="getEventLabel(item.title)"
           :value="item.event"
+          :label="getEventLabel(item.title)"
+          :disabled="isEventDisabled(item.event)"
         />
       </el-select>
     </el-form-item>
@@ -30,7 +31,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
 import { pick } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { PropType, Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
 
@@ -38,6 +39,9 @@ const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({}),
+  },
+  selectedEvents: {
+    type: Array as PropType<Array<string>>,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
@@ -61,6 +65,13 @@ const rules = { event: createRequiredRule(tl('event'), 'select') }
 const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel } = useRuleSourceEvents()
 const { getEventList } = useRuleEvents()
 const eventOptList: Ref<Array<EventOpt>> = ref([])
+
+const isEventDisabled = (event: string) => {
+  if (!props.selectedEvents || !props.selectedEvents.length || record.value.event === event) {
+    return false
+  }
+  return props.selectedEvents.includes(event)
+}
 
 const saveConfig = () => {
   emit('save', record.value)

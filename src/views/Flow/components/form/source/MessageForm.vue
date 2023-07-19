@@ -19,17 +19,20 @@
 <script setup lang="ts">
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({}),
   },
+  existedTopics: {
+    type: Array as PropType<Array<string>>,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
 
-const { tl } = useI18nTl('Base')
+const { t, tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
@@ -43,9 +46,22 @@ const record = computed({
 })
 
 const { createRequiredRule } = useFormRules()
-const rules = {
-  topic: createRequiredRule(tl('topic')),
-}
+const rules = computed(() => {
+  const ret = {
+    topic: [
+      ...createRequiredRule(tl('topic')),
+      {
+        validator(rules: any, value: string) {
+          if (props.existedTopics?.includes(value)) {
+            return [new Error(t('Flow.topicExistedError'))]
+          }
+          return []
+        },
+      },
+    ],
+  }
+  return ret
+})
 
 const saveConfig = () => {
   emit('save', record.value)

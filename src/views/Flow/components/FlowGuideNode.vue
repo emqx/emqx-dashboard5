@@ -32,7 +32,7 @@ const nodeType = computed(() => {
   align-items: center;
   text-align: center;
   // After the fit view, the position of the node on the upper side of the page..
-  padding-bottom: 160px;
+  padding-bottom: 260px;
   $square-size: 60px;
   $node-width: 168px;
   .square {
