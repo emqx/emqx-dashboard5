@@ -51,4 +51,8 @@ export default {
     zh: '个条件',
     en: 'condition | conditions',
   },
+  topicExistedError: {
+    zh: 'Topic 已存在',
+    en: 'Topic already exists',
+  },
 }

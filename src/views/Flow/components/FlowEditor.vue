@@ -59,6 +59,7 @@
     v-model="isDrawerVisible"
     :type="currentNodeType"
     :form-data="currentNodeFormData"
+    :nodes="getNodes"
     :generate-bridge-name="createBridgeName"
     @save="saveDataToNode"
     @close="resetDrawerData"
@@ -228,6 +229,7 @@ defineExpose({ validate, getFlowData })
       border-bottom-color: #e2e6f0;
       &.is-disabled {
         opacity: 0.6;
+        filter: grayscale(1);
         cursor: default;
       }
     }
