@@ -1,5 +1,9 @@
 import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
+import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
+import { startCase } from 'lodash'
+import useRuleEvents from '../Rule/rule/useRuleEvents'
+import useRuleSourceEvents from '../Rule/rule/useRuleSourceEvents'
 import useI18nTl from '../useI18nTl'
 
 export type FlowData = Array<Node | Edge>
@@ -128,6 +132,23 @@ export default (): {
     }, 0)
   }
 
+  const { getEventLabel } = useRuleSourceEvents()
+  const { getEventList } = useRuleEvents()
+  let eventList: Array<RuleEvent> = []
+
+  const initEventList = async () => {
+    eventList = await getEventList()
+  }
+  initEventList()
+
+  const getEventLabelFromVal = (val: string) => {
+    if (!val || !eventList.length) {
+      return ''
+    }
+    const target = eventList.find(({ event }) => event === val)
+    return target ? startCase(getEventLabel(target.title)) : ''
+  }
+
   const getFilterInfo = (filter: FilterForm) => {
     const num = countFiltersNum(filter)
     return `${num}${t('Flow.condition', num)}`
@@ -142,7 +163,7 @@ export default (): {
       case SourceType.Message:
         return `${t('Base.topic')}: ${formData.topic}`
       case SourceType.Event:
-        return `${t('RuleEngine.event')}: ${formData.event}`
+        return `${t('RuleEngine.event')}: ${getEventLabelFromVal(formData.event)}`
       case ProcessingType.Function:
         // TODO:TODO:TODO:TODO:
         return ''
