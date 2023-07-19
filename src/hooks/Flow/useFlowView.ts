@@ -13,6 +13,7 @@ import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString, unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
+import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useFlowNode, {
   FlowData,
   NodeType,
@@ -72,6 +73,7 @@ export default () => {
     return getRuleData()
   }
 
+  const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
   const getRuleData = async () => {
     try {
       const { meta, data } = await getRules({
@@ -79,7 +81,7 @@ export default () => {
         limit: RULE_MAX_NUM_PER_PAGE,
       })
       pageData.value.count = meta.count as number
-      ruleList = data
+      ruleList = data.filter((item) => !judgeIsWebhookRule(item))
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -88,7 +90,8 @@ export default () => {
 
   const getBridgeData = async () => {
     try {
-      bridgeList = await getBridgeList()
+      const list: Array<BridgeItem> = await getBridgeList()
+      bridgeList = list.filter((item) => !judgeIsWebhookBridge(item))
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
