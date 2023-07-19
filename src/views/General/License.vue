@@ -4,20 +4,24 @@
       <div class="license-info">
         <el-descriptions :title="tl('basicInfo')" :column="1">
           <el-descriptions-item :label="tl('numberOfConnectionLines')">
+            <el-progress
+              :stroke-width="20"
+              :percentage="licensePercentage"
+              :status="isWarningUsage ? 'warning' : ''"
+              :format="() => `${currentConnections}/${licenseData.max_connections}`"
+              @mouseover="showTooltip = true"
+              @mouseout="showTooltip = false"
+            >
+              {{ `${currentConnections}/${licenseData.max_connections}` }}
+            </el-progress>
             <el-tooltip
+              :visible="showTooltip"
               effect="dark"
               popper-class="info-tooltip"
               placement="top"
               :content="tl('usageWarning', { percentage: licenseConfig.connection_high_watermark })"
             >
-              <el-progress
-                :stroke-width="20"
-                :percentage="licensePercentage"
-                :status="isWarningUsage ? 'warning' : ''"
-                :format="() => `${currentConnections}/${licenseData.max_connections}`"
-              >
-                {{ `${currentConnections}/${licenseData.max_connections}` }}
-              </el-progress>
+              <div v-show="showTooltip" class="marked" :style="{ left: markedLeftPosition }"></div>
             </el-tooltip>
           </el-descriptions-item>
           <el-descriptions-item :label="tl('EMQXVersion')">
@@ -131,7 +135,7 @@ import {
   updateLicenseConfig,
 } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ref, ComputedRef, computed } from 'vue'
+import { ref, ComputedRef, computed, onMounted, onUnmounted } from 'vue'
 import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'
@@ -154,8 +158,11 @@ const currentConnections = ref(0)
 const store = useStore()
 const { docMap } = useDocLink()
 
+const progressBarOuterWidth = ref(0)
+
 const showUpdateDialog = ref(false)
 const saveLoading = ref(false)
+const showTooltip = ref(false)
 
 const licenseConfig = ref<LicenseConfig>({
   connection_high_watermark: '0%',
@@ -178,6 +185,14 @@ const isWarningUsage = computed(() => {
   return licensePercentage.value >= highWatermark
 })
 
+const getProgressBarWidth = () => {
+  const progressBarDOM = document.querySelector('.el-progress-bar') as HTMLElement
+  if (progressBarDOM) {
+    return progressBarDOM.clientWidth
+  }
+  return 0
+}
+
 const loadLicenseData = async () => {
   try {
     licenseConfigForm.value?.resetFields()
@@ -189,10 +204,23 @@ const loadLicenseData = async () => {
     currentConnections.value = state.connections
     store.commit('SET_LICENSE_DATA', data)
     licenseConfig.value = config
+    progressBarOuterWidth.value = getProgressBarWidth()
   } catch (error) {
     // handle error
   }
 }
+
+const handleWindowResize = () => {
+  progressBarOuterWidth.value = getProgressBarWidth()
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleWindowResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleWindowResize)
+})
 
 const watermarkValidator = (comparison: () => string, isHigher: boolean): ValidatorFn => {
   return (rule, value, callback) => {
@@ -223,6 +251,12 @@ const rules: any = {
   ],
 }
 
+const markedLeftPosition = computed(() => {
+  const percentage =
+    parseFloat(licenseConfig.value.connection_high_watermark.replace('%', '')) / 100
+  return progressBarOuterWidth.value * percentage - 1 + 'px'
+})
+
 const handleUpdate = async () => {
   saveLoading.value = true
   try {
@@ -252,6 +286,16 @@ html[lang='zh'] .license .el-descriptions .el-descriptions__label {
   }
   .el-progress {
     cursor: pointer;
+  }
+  .el-descriptions__content {
+    position: relative;
+  }
+  .marked {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #f19710;
   }
   .license-info {
     margin-bottom: 48px;
