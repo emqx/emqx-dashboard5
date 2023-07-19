@@ -64,7 +64,7 @@ const getIntersectedCircle = (x: number, y: number) => {
     let circle = SVGCom.value.querySelector('.circle:nth-of-type(' + (i + 1) + ')')
     let cy = numToFixed(parseFloat(circle.getAttribute('cy')))
     let distance = Math.abs(cy - y)
-    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 1.5)) {
+    if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 3)) {
       return circle
     }
   }
