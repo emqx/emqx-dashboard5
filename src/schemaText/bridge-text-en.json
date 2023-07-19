@@ -170,7 +170,7 @@
       "desc": "HStreamDB Server URL. Using gRPC http server address."
     },
     "record_template": {
-      "desc": "The HStream record template to be forwarded to the HStreamDB. Placeholders supported.",
+      "desc": "The HStream record template to be forwarded to the HStreamDB. Placeholders supported.<br />NOTE: When you use `raw record` template (which means the data is not a valid JSON), you should use `read` or `subscription` in HStream to get the data.",
       "label": "HStream Record Template"
     },
     "stream_name": {
