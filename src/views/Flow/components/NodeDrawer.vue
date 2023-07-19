@@ -20,7 +20,13 @@
     <template #footer>
       <div>
         <el-button @click="cancel">{{ tl('cancel') }}</el-button>
-        <el-button type="primary" @click="save">{{ tl('done') }}</el-button>
+        <el-button
+          :disabled="isSaveDisabled"
+          :type="isSaveDisabled ? 'info' : 'primary'"
+          @click="save"
+        >
+          {{ tl('done') }}
+        </el-button>
       </div>
     </template>
   </el-drawer>
@@ -107,6 +113,10 @@ const getFormComponentProps = (type: string) => formComponentPropsMap.value[type
 
 const record: Ref<Record<string, any>> = ref({})
 
+const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
+
+const isSaveDisabled = computed(() => checkFormIsEmpty(props.type, record.value))
+
 const cancel = () => {
   showDialog.value = false
 }
@@ -126,7 +136,6 @@ const handleDrawerClosed = () => {
   emit('close')
 }
 
-const { getFormDataByType, isBridgeType } = useNodeForm()
 watch(showDialog, (val) => {
   if (!val) return
   const { formData, type, generateBridgeName } = props
