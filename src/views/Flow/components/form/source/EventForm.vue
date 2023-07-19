@@ -2,7 +2,7 @@
   <el-form
     ref="FormCom"
     class="event-form"
-    label-width="150px"
+    label-width="100px"
     label-position="right"
     hide-required-asterisk
     :rules="rules"
