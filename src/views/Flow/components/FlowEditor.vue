@@ -57,17 +57,18 @@
   </div>
   <NodeDrawer
     v-model="isDrawerVisible"
+    :nodes="getNodes"
     :type="currentNodeType"
     :form-data="currentNodeFormData"
-    :nodes="getNodes"
     :generate-bridge-name="createBridgeName"
     @save="saveDataToNode"
     @close="resetDrawerData"
+    @cancel="handleCancelEditing"
   />
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
+import { createRandomString, isEmptyObj } from '@/common/tools'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -97,7 +98,7 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, getNodes, getEdges } = useVueFlow({
+const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges } = useVueFlow({
   id: flowEditorId,
   deleteKeyCode: 'Delete',
 })
@@ -198,6 +199,16 @@ const saveDataToNode = (data: Record<string, any>) => {
     node.data.desc = getNodeInfo(node)
   }
   resetDrawerData()
+}
+
+const handleCancelEditing = () => {
+  const node = findNode(currentNodeID)
+  if (!node) {
+    return
+  }
+  if (!node.data.formData || isEmptyObj(node.data.formData)) {
+    removeNodes([node])
+  }
 }
 
 const validate = () => {
