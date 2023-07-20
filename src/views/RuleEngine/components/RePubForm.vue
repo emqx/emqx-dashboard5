@@ -58,7 +58,7 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const FormCom = ref()
 
@@ -89,6 +89,10 @@ const rules = { 'args.topic': createRequiredRule('Topic') }
 const saveConfig = () => {
   emit('save', record.value)
 }
+
+const validate = () => FormCom.value.validate()
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss"></style>
