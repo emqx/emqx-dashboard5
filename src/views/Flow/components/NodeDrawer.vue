@@ -110,7 +110,7 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { colSpan: 24 },
+  [SinkType.HTTP]: { colSpan: 24, labelPosition: 'right', labelWidth: '180px' },
 }))
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
