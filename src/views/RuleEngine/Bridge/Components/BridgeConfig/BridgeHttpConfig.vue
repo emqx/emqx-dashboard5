@@ -6,6 +6,7 @@
     require-asterisk-position="right"
     :rules="formRules"
     :model="httpBridgeVal"
+    v-bind="$attrs"
   >
     <el-row :gutter="26">
       <el-col :span="colSpan">
@@ -75,9 +76,13 @@
       <el-col :span="24">
         <el-form-item>
           <template #label>
-            <label>{{ tl('body') }}</label>
-            <InfoTooltip :content="tl('payloadExample')" />
-            <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            <FormItemLabel
+              :label="tl('body')"
+              :desc="
+                colSpan === 12 ? tl('payloadExample') : tl('payloadExample') + tl('payloadDesc')
+              "
+            />
+            <p v-if="colSpan === 12" class="payload-desc">{{ tl('payloadDesc') }}</p>
           </template>
           <div class="monaco-container">
             <Monaco
@@ -117,6 +122,7 @@ import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
 import { PropType, Ref, defineComponent, onMounted, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 export default defineComponent({
   components: {
@@ -127,6 +133,7 @@ export default defineComponent({
     TimeInputWithUnitSelect,
     BridgeResourceOpt,
     CustomInputNumber,
+    FormItemLabel,
   },
   name: '',
   props: {

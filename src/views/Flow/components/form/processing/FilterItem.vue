@@ -64,6 +64,7 @@ const deleteItem = () => emit('delete')
 <style lang="scss">
 .filter-item {
   display: flex;
+  align-items: center;
   .el-form-item {
     flex-grow: 1;
     flex-basis: 28%;
@@ -72,6 +73,7 @@ const deleteItem = () => emit('delete')
   }
   .el-autocomplete {
     width: 100%;
+    line-height: 0;
   }
   .icon-del {
     color: var(--color-text-secondary);
