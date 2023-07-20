@@ -259,7 +259,7 @@ defineExpose({ validate, getFlowData })
     padding: 16px 12px;
     border-right: 1px solid var(--color-border-primary);
     overflow-y: scroll;
-    background-color: #f6f7fa;
+    background-color: var(--color-bg-main);
     .node-item {
       display: flex;
       align-items: center;

@@ -30,10 +30,10 @@
       <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
       <MQTTBridgeTransConfiguration
         v-model="record.ingress.local"
+        put-desc-in-tooltip
         path="ingress.locale"
         :direction="MQTTBridgeDirection.In"
         :topic-desc="tl('ingressLocalTopicDesc')"
-        put-desc-in-tooltip
       />
       <el-form-item :prop="['ingress', 'pool_size']">
         <template #label>
@@ -50,6 +50,7 @@
       <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
       <MQTTBridgeTransConfiguration
         v-model="record.egress.remote"
+        put-desc-in-tooltip
         path="egress.remote"
         :direction="MQTTBridgeDirection.Out"
         :topic-desc="tl('egressRemoteTopicDesc')"
