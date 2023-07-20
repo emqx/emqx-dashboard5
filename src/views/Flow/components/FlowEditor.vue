@@ -50,15 +50,15 @@
         @node-click="handleClickNode"
       >
         <template #node-custom_input="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_default="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_output="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
           <FlowNode :data="data" />
         </template>
       </VueFlow>
@@ -278,17 +278,25 @@ defineExpose({ validate, getFlowData })
   }
 
   .editor {
+    $icon-size: 16px;
+    $icon-padding-left: 18px;
+    $icon-padding-right: 4px;
+    $total-size: $icon-size + $icon-padding-left + $icon-padding-right;
     .icon-del {
       display: none;
       position: absolute;
       top: 0;
       right: 0;
-      transform: translate(18px, -18px);
-      width: 14px + 4px + 18px;
-      height: 14px + 4px + 18px;
-      padding: 4px 4px 18px 18px;
+      transform: translate($icon-padding-left, -$icon-padding-left);
+      width: $total-size;
+      height: $total-size;
+      padding: $icon-padding-right $icon-padding-right $icon-padding-left $icon-padding-left;
       svg {
+        width: $icon-size;
         cursor: pointer;
+        &:hover {
+          color: var(--color-primary);
+        }
       }
     }
     .vue-flow__node:hover {

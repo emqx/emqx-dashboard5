@@ -31,8 +31,10 @@
           <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
             <FilterOperatorLine
               class="sub-level"
+              show-del
               :operator="filter.groupOperator"
               @toggle="toggleGroupOperator(filter)"
+              @delete="deleteGroup(index, filter)"
             />
             <div :class="listWrapClass" :id="filter.id">
               <FilterItemCom
@@ -171,6 +173,11 @@ const toggleGroupOperator = (group: FilterForm) => {
     group.groupOperator === FilterLogicalOperator.Or
       ? FilterLogicalOperator.And
       : FilterLogicalOperator.Or
+}
+
+const deleteGroup = (index: number, group: FilterForm) => {
+  const filterItems = [...group.items]
+  record.value.items.splice(index, 1, ...filterItems)
 }
 
 /**
