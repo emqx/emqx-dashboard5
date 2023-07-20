@@ -49,9 +49,18 @@
         v-model="flowData"
         @node-click="handleClickNode"
       >
-        <template #node-custom_input="data"><FlowNode :data="data" /></template>
-        <template #node-custom_default="data"><FlowNode :data="data" /></template>
-        <template #node-custom_output="data"><FlowNode :data="data" /></template>
+        <template #node-custom_input="data">
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <FlowNode :data="data" />
+        </template>
+        <template #node-custom_default="data">
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <FlowNode :data="data" />
+        </template>
+        <template #node-custom_output="data">
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <FlowNode :data="data" />
+        </template>
       </VueFlow>
     </div>
   </div>
@@ -72,8 +81,8 @@ import { createRandomString, isEmptyObj } from '@/common/tools'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Search } from '@element-plus/icons-vue'
-import { Node, NodeMouseEvent, VueFlow, useVueFlow } from '@vue-flow/core'
+import { Delete, Search } from '@element-plus/icons-vue'
+import { Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import FlowGuide from './FlowGuide.vue'
@@ -186,6 +195,8 @@ const handleClickNode = (event: NodeMouseEvent) => {
   openNodeDrawer(node)
 }
 
+const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
+
 const resetDrawerData = () => {
   isDrawerVisible.value = false
   currentNodeType.value = ''
@@ -207,7 +218,7 @@ const handleCancelEditing = () => {
     return
   }
   if (!node.data.formData || isEmptyObj(node.data.formData)) {
-    removeNodes([node])
+    removeNodes([currentNodeID])
   }
 }
 
@@ -253,9 +264,7 @@ defineExpose({ validate, getFlowData })
       display: flex;
       align-items: center;
       cursor: grab;
-      border-top-color: #e2e6f0;
-      border-right-color: #e2e6f0;
-      border-bottom-color: #e2e6f0;
+      border-color: #e2e6f0;
       transform: translate(0, 0);
       &.is-disabled {
         opacity: 0.6;
@@ -265,6 +274,29 @@ defineExpose({ validate, getFlowData })
     }
     .node-img {
       margin-right: 10px;
+    }
+  }
+
+  .editor {
+    .icon-del {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(18px, -18px);
+      width: 14px + 4px + 18px;
+      height: 14px + 4px + 18px;
+      padding: 4px 4px 18px 18px;
+      svg {
+        cursor: pointer;
+      }
+    }
+    .vue-flow__node:hover {
+      border: 1px solid var(--color-primary);
+      box-shadow: 0px 4px 6px 0px #00b17329;
+      .icon-del {
+        display: block;
+      }
     }
   }
 

@@ -788,7 +788,7 @@ code {
 /* FLOW */
 .flow {
   .node-item {
-    padding: 9px 16px;
+    padding: 9px 16px 9px 9px + 16px;
     margin-bottom: 8px;
     font-size: 14px;
     line-height: 22px;
@@ -796,29 +796,44 @@ code {
     border-style: solid;
     background: var(--color-bg-primary);
 
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 16px;
+      height: 100%;
+      border-width: 0px 10px;
+      border-style: solid;
+      border-right-color: transparent;
+      border-top-left-radius: 7px;
+      border-bottom-left-radius: 7px;
+    }
+
     &.node-source {
-      border-left-color: var(--color-primary);
-      --vf-box-shadow: var(--color-primary);
+      &::before {
+        border-left-color: var(--color-primary);
+      }
     }
 
     &.node-processing {
-      border-left-color: #469cf7;
-      --vf-box-shadow: #469cf7;
+      &::before {
+        border-left-color: #469cf7;
+      }
     }
 
     &.node-sink {
-      border-left-color: #906ef2;
-      --vf-box-shadow: #906ef2;
+      &::before {
+        border-left-color: #906ef2;
+      }
     }
   }
 
   // To increase the weight
   .node-item,
   .vue-flow .node-item {
-    border-width: 1px 1px 1px 10px;
-    border-top-color: #f5f5f5;
-    border-right-color: #f5f5f5;
-    border-bottom-color: #f5f5f5;
+    border-width: 1px;
+    border-color: #f5f5f5;
   }
 
   .editor {
@@ -833,7 +848,7 @@ code {
   }
 
   .vue-flow__handle-left {
-    left: -4px - 9px;
+    left: -5px;
   }
 
   .vue-flow__handle {
