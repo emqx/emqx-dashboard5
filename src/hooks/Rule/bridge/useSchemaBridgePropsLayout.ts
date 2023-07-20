@@ -292,6 +292,8 @@ export default (
       timeout: 'dividing-line-below',
     },
     [BridgeType.HStream]: {
+      // TODO:remove
+      pool_size: 'dividing-line-below',
       record_template: 'dividing-line-below',
     },
   }
