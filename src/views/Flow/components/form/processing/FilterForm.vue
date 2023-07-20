@@ -67,12 +67,8 @@
 <script setup lang="ts">
 import { createRandomString, removeFromArr } from '@/common/tools'
 import useFilterConnectorInForm from '@/hooks/Flow/useFilterConnectorInForm'
-import {
-  FilterForm,
-  FilterItem,
-  createFilterForm,
-  createFilterItem,
-} from '@/hooks/Flow/useNodeForm'
+import { FilterForm, FilterItem } from '@/hooks/Flow/useFlowNode'
+import { createFilterForm, createFilterItem } from '@/hooks/Flow/useNodeForm'
 import useSortableFilterList from '@/hooks/Flow/useSortableFilterList'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
