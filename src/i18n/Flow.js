@@ -55,4 +55,8 @@ export default {
     zh: 'Topic 已存在',
     en: 'Topic already exists',
   },
+  nodeDrawerCancelTip: {
+    zh: '是否取消{type}？你所做的修改将不被保存',
+    en: 'Are you sure you want to cancel {type}? Your changes will not be saved.',
+  },
 }

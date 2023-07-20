@@ -1,5 +1,5 @@
 <template>
-  <div class="flow">
+  <div class="flow" v-loading="isLoading">
     <template v-if="flowData.length">
       <div class="flow-view-hd space-between vertical-align-center">
         <el-radio-group v-model="showBy">
@@ -45,7 +45,7 @@ const enum ShowByOpt {
 }
 const showBy = ref(ShowByOpt.Flow)
 
-const { flowData, getFlowData } = useFlowView()
+const { isLoading, flowData, getFlowData } = useFlowView()
 
 useVueFlow({
   deleteKeyCode: null,

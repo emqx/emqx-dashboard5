@@ -5,8 +5,10 @@
     :size="width"
     :title="title"
     :z-index="1999"
+    :before-close="cancel"
+    :destroy-on-close="true"
     :close-on-click-modal="false"
-    @closed="handleDrawerClosed"
+    :close-on-press-escape="false"
   >
     <template v-if="getFormComponent(type)">
       <component
@@ -39,7 +41,8 @@ import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { Node } from '@vue-flow/core'
-import { cloneDeep, isFunction } from 'lodash'
+import { ElMessageBox } from 'element-plus'
+import { cloneDeep, isFunction, isObject, isEqual, lowerCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
@@ -61,7 +64,7 @@ const props = defineProps({
     type: Array as PropType<Array<Node>>,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save', 'close'])
+const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close'])
 
 const showDialog = computed({
   get: () => props.modelValue,
@@ -70,7 +73,7 @@ const showDialog = computed({
   },
 })
 
-const { tl } = useI18nTl('Base')
+const { t, tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
@@ -117,8 +120,36 @@ const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(props.type, record.value))
 
-const cancel = () => {
-  showDialog.value = false
+/**
+ * When clicking the cancel / close button, it's used to compare the
+ * current record's value to determine whether to pop up a window or not.
+ */
+let rawRecord: Record<string, any> = {}
+
+const recordHasNotChanged = () => {
+  const ret = isEqual(record.value, rawRecord)
+  return ret
+}
+
+const cancel = async () => {
+  try {
+    if (!recordHasNotChanged()) {
+      await ElMessageBox.confirm(
+        t('Flow.nodeDrawerCancelTip', {
+          type: lowerCase(props.formData ? tl('edit') : tl('create')),
+        }),
+        {
+          confirmButtonText: tl('confirm'),
+          cancelButtonText: tl('cancel'),
+          type: 'warning',
+        },
+      )
+    }
+    emit('cancel')
+    showDialog.value = false
+  } catch (error) {
+    //
+  }
 }
 
 const save = async () => {
@@ -132,21 +163,17 @@ const save = async () => {
   }
 }
 
-const handleDrawerClosed = () => {
-  emit('close')
-}
-
 watch(showDialog, (val) => {
-  if (!val) return
-  const { formData, type, generateBridgeName } = props
-  if (formData) {
-    record.value = cloneDeep(formData)
+  if (!val) {
     return
   }
-  record.value = getFormDataByType(type)
-  if (isBridgeType(type) && isFunction(generateBridgeName)) {
+
+  const { formData, type, generateBridgeName } = props
+  record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
+  if (!formData && isBridgeType(type) && isFunction(generateBridgeName)) {
     record.value.name = generateBridgeName()
   }
+  rawRecord = cloneDeep(record.value)
 })
 </script>
 

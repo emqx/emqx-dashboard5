@@ -46,7 +46,11 @@ type GroupedNode = {
   [NodeType.Sink]: Array<Node>
 }
 
-export default () => {
+export default (): {
+  isLoading: Ref<boolean>
+  flowData: Ref<FlowData>
+  getFlowData: () => Promise<void>
+} => {
   let ruleList: Array<RuleItem> = []
   let bridgeList: Array<BridgeItem> = []
 
@@ -61,6 +65,7 @@ export default () => {
 
   let edgeArr: Array<Edge> = []
 
+  const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
   const pageData = ref({ count: 0, page: 1 })
@@ -428,14 +433,18 @@ export default () => {
 
   const getFlowData = async () => {
     try {
+      isLoading.value = true
       await getData()
       generateFlowData()
     } catch (error) {
       //
+    } finally {
+      isLoading.value = false
     }
   }
 
   return {
+    isLoading,
     flowData,
     getFlowData,
   }
