@@ -52,6 +52,7 @@
             v-model="record.items[index]"
             :key="index"
             :index="index"
+            :deletable="record.items.length > 1"
             :class="{ 'can-connect': getCanConnect(index) && showConnector }"
             @delete="deleteFilterItem(index)"
           />
