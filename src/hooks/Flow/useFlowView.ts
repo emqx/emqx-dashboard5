@@ -257,21 +257,23 @@ export default (): {
       let nextKeyIndex = i + 1
       let nextKey: keyof GroupedNode = keys[nextKeyIndex]
 
-      if (nodes[currentKey].length === 0) continue
+      if (nodes[currentKey]?.length === 0) continue
 
-      while (nodes[nextKey].length === 0 && i < keys.length - 2) {
+      while (nodes[nextKey]?.length === 0 && i < keys.length - 2) {
         nextKeyIndex += 1
         nextKey = keys[nextKeyIndex]
       }
-      nodes[currentKey].forEach((cur) => {
-        nodes[nextKey].forEach((nex) => {
-          result.push({
-            id: `${cur.id}-${nex.id}`,
-            source: cur.id,
-            target: nex.id,
+      if (nodes[currentKey] && nodes[nextKey]) {
+        nodes[currentKey].forEach((cur) => {
+          nodes[nextKey].forEach((nex) => {
+            result.push({
+              id: `${cur.id}-${nex.id}`,
+              source: cur.id,
+              target: nex.id,
+            })
           })
         })
-      })
+      }
     }
     return result
   }
@@ -292,7 +294,6 @@ export default (): {
       [ProcessingType.Function]: [],
       [NodeType.Sink]: [],
     }
-
     const { fieldStr, fromStr, whereStr } = getKeyPartsFromSQL(sql)
     if (fromStr !== undefined) {
       nodes[NodeType.Source] = generateNodesBaseFromData(transFromStrToFromArr(fromStr))

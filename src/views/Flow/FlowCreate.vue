@@ -120,10 +120,18 @@ const create = async () => {
     font-size: 16px;
     font-weight: 600;
   }
+  .info-name,
+  .info-desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: nowrap;
+    max-width: 500px;
+  }
   .info-name {
     margin-right: 16px;
   }
   .info-desc {
+    max-width: 400px;
     color: #656b7d;
   }
 }
