@@ -69,14 +69,17 @@ const FlowEditorCom = ref()
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
 const { isSubmitting, createFlow } = useSubmitFlowData()
 const create = async () => {
-  if (editingMethod.value === EditingMethod.Flow) {
-    const flowData = FlowEditorCom.value.getFlowData()
-    const data = getRuleNBridgesFromFlowData(flowBasicInfo.value, flowData)
-    await createFlow(data)
-    ElMessage.success(t('Base.createSuccess'))
-    router.push({ name: 'flow' })
-    // TODO:go back list page
-  } else {
+  try {
+    if (editingMethod.value === EditingMethod.Flow) {
+      const flowData = FlowEditorCom.value.getFlowData()
+      const data = await getRuleNBridgesFromFlowData(flowBasicInfo.value, flowData)
+      await createFlow(data)
+      ElMessage.success(t('Base.createSuccess'))
+      router.push({ name: 'flow' })
+    } else {
+      // TODO:
+    }
+  } catch (error) {
     //
   }
 }
