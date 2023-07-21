@@ -50,7 +50,6 @@ const { isLoading, flowData, getFlowData } = useFlowView()
 useVueFlow({
   deleteKeyCode: null,
   nodesConnectable: false,
-  panOnDrag: false,
   maxZoom: 1,
 })
 
