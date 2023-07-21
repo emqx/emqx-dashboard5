@@ -36,7 +36,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
     { value: BridgeType.Pulsar, label: tl('pulsar') },
-    { value: BridgeType.HStream, label: tl('hStream') },
+    // { value: BridgeType.HStream, label: tl('hStream') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
