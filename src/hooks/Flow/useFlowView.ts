@@ -3,9 +3,8 @@ import {
   BRIDGE_TYPES_WITH_TWO_DIRECTIONS,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
-  RULE_MAX_NUM_PER_PAGE,
 } from '@/common/constants'
-import { getKeyPartsFromSQL } from '@/common/tools'
+import { getAllListData, getKeyPartsFromSQL } from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -68,24 +67,13 @@ export default (): {
   const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
-  const pageData = ref({ count: 0, page: 1 })
-
   const { transFromStrToFromArr } = useRuleUtils()
   const { getTypeCommonData, getTypeLabel, getNodeInfo } = useFlowNode()
-
-  const getOtherPageData = async (page: number) => {
-    pageData.value.page = page
-    return getRuleData()
-  }
 
   const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
   const getRuleData = async () => {
     try {
-      const { meta, data } = await getRules({
-        page: pageData.value.page,
-        limit: RULE_MAX_NUM_PER_PAGE,
-      })
-      pageData.value.count = meta.count as number
+      const data = await getAllListData(getRules)
       ruleList = data.filter((item) => !judgeIsWebhookRule(item))
     } catch (error) {
       console.error(error)
