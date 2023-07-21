@@ -71,7 +71,7 @@ export default (): {
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
-  getNodeIcon: (type: string) => string
+  getNodeIcon: (type: string, disabled?: boolean) => string
 } => {
   const { t, tl } = useI18nTl('Flow')
 
@@ -178,7 +178,7 @@ export default (): {
     }
   }
 
-  const getNodeIcon = (type: string): string => {
+  const getNodeIcon = (type: string, disabled = false): string => {
     try {
       if (!type) {
         return ''
@@ -186,7 +186,7 @@ export default (): {
       if (type === SourceType.MQTTBroker || type === SinkType.MQTTBroker) {
         return require(`@/assets/flowIcon/mqtt.png`)
       }
-      return require(`@/assets/flowIcon/${type}.png`)
+      return require(`@/assets/flowIcon/${type}${disabled ? '-disabled' : ''}.png`)
     } catch (error) {
       return ''
     }
