@@ -26,7 +26,7 @@
               @dragstart="onDragStart($event, { type, node })"
             >
               <img
-                :src="getNodeIcon(node.specificType)"
+                :src="getNodeIcon(node.specificType, !getDraggable(node.specificType))"
                 width="20"
                 alt="node-img"
                 class="node-img"
@@ -266,9 +266,8 @@ defineExpose({ validate, getFlowData })
       cursor: grab;
       border-color: #e2e6f0;
       transform: translate(0, 0);
-      &.is-disabled {
-        opacity: 0.6;
-        filter: grayscale(1);
+      &.is-disabled::before {
+        border-left-color: var(--color-text-placeholder);
         cursor: default;
       }
     }
