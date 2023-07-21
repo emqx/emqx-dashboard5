@@ -11,7 +11,7 @@
     <el-form-item :prop="getFormItemProp('valueForComparison')">
       <el-input v-model="record.valueForComparison" />
     </el-form-item>
-    <el-button link @click="deleteItem">
+    <el-button link v-show="deletable" class="btn-del" :disabled="!deletable" @click="deleteItem">
       <el-icon :size="16" class="icon-del"><Delete /></el-icon>
     </el-button>
   </div>
@@ -33,6 +33,10 @@ const props = defineProps({
   },
   subIndex: {
     type: [Number, String],
+  },
+  deletable: {
+    type: Boolean,
+    default: true,
   },
 })
 const emit = defineEmits(['update:modelValue', 'delete'])
