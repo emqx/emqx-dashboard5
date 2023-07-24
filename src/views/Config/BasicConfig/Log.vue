@@ -1,6 +1,6 @@
 <template>
   <div class="log app-wrapper">
-    <el-card class="config-card">
+    <el-card class="config-card app-card">
       <schema-form
         ref="SchemaFormCom"
         :according-to="{ path: '/configs/log' }"

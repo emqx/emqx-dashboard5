@@ -52,7 +52,7 @@
           <authz-manager />
         </el-tab-pane>
         <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
-          <el-card v-if="!authzDetailLock">
+          <el-card v-if="!authzDetailLock" class="app-card">
             <database-config
               v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
               ref="formCom"
