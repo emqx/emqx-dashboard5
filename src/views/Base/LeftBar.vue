@@ -196,8 +196,8 @@ export default defineComponent({
   transition: all 0.3s;
   height: 100%;
   padding: 64px 0;
-  background-color: var(--color-bg-menu);
-  border-right: 1px solid var(--color-border-card);
+  background-color: var(--color-bg);
+  // border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
     white-space: nowrap;
   }

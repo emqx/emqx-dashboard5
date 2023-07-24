@@ -1,6 +1,6 @@
 <template>
   <div class="retainer app-wrapper">
-    <el-card>
+    <el-card class="app-card">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form

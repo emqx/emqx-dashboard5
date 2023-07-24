@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createWebhook'), routeName: 'webhook' }" />
-    <el-card class="webhook-create-card">
+    <el-card class="webhook-create-card app-card">
       <WebhookFormCom ref="FormCom" v-model="webhook" />
       <div class="card-ft">
         <el-button :loading="isSubmitting" type="primary" @click="submit">

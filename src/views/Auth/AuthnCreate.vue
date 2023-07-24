@@ -4,7 +4,7 @@
       :item="{ name: $t('Auth.createAuth'), path: '/authentication' }"
       v-if="!gateway"
     />
-    <el-card :shadow="!gateway ? 'always' : 'never'">
+    <el-card :shadow="!gateway ? 'always' : 'never'" class="app-card">
       <guide-bar
         :guide-list="getGuideList()"
         :active-guide-index-list="activeGuidesIndex"
