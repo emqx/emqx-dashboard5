@@ -1,5 +1,7 @@
 [data-theme='light'] {
   /* Background */
+  --color-bg: #071927;
+  --color-bg-content: #fff;
   --color-bg-primary: #fff;
   --color-bg-split: #F8FAFE;
   --color-bg-main: #f9fafb;
@@ -8,7 +10,7 @@
   --color-bg-trans: #ffffffe6;
   --color-bg-lighter: #E6EDFB;
   --color-bg-mdcode: #f4f4f4;
-  --color-bg-details: #ffffffed;
+  --color-bg-table-hd: #EEF0F5;
   /* Text */
   --color-text-primary: #343741;
   --color-text-secondary: #5a5f6f;
