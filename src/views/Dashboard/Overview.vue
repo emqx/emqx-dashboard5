@@ -250,8 +250,9 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
     .multiple-counts-wrap {
       display: flex;
+      // justify-content: space-around;
       div:not(:last-child) {
-        margin-right: 24px;
+        margin-right: 48px;
       }
     }
     a {

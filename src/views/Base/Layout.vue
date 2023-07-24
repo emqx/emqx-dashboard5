@@ -1,29 +1,34 @@
 <template>
-  <div>
-    <el-container>
-      <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-        <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-          <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
-        </div>
-        <left-bar></left-bar>
-        <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
-          <a
-            class="footer-menu-item"
-            @click="
-              () => {
-                store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
-              }
-            "
-          >
-            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
-            <EMQXVersion v-show="!leftBarCollapse" />
-          </a>
-        </div>
-      </el-aside>
-      <el-container class="layout">
-        <el-main :style="{ margin: 0, marginLeft: elMainStyle }">
-          <el-header :style="{ left: elMainStyle, height: 'auto' }">
-            <nav-header></nav-header>
+  <el-container>
+    <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+      <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
+        <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+      </div>
+      <left-bar></left-bar>
+      <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
+        <a
+          class="footer-menu-item"
+          @click="
+            () => {
+              store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
+            }
+          "
+        >
+          <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+          <EMQXVersion v-show="!leftBarCollapse" />
+        </a>
+      </div>
+    </el-aside>
+    <el-container class="layout">
+      <el-header :style="{ left: elMainStyle, height: 'auto' }">
+        <nav-header></nav-header>
+      </el-header>
+      <el-main :style="{ marginLeft: elMainStyle }">
+        <div class="main-content">
+          <el-scrollbar>
+            <h1 class="header-title">
+              {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
+            </h1>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
               :default-active="defaultSubMenu"
@@ -44,26 +49,17 @@
                 </el-menu-item>
               </template>
             </el-menu>
-          </el-header>
-
-          <div
-            class="main-content"
-            :class="{
-              'larger-margin-top': hasSubMenu && showSubMenu,
-              'is-full-height': fullHeight,
-            }"
-          >
             <router-view v-slot="{ Component, route }">
-              <keep-alive>
+              <KeepAlive>
                 <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
-              </keep-alive>
+              </KeepAlive>
             </router-view>
             <router-view v-if="!keepAlive" />
-          </div>
-        </el-main>
-      </el-container>
+          </el-scrollbar>
+        </div>
+      </el-main>
     </el-container>
-  </div>
+  </el-container>
 </template>
 
 <script lang="ts">
@@ -71,9 +67,8 @@ import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Expand, Fold } from '@element-plus/icons-vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 
 const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow', 'flow-create']
@@ -83,8 +78,6 @@ export default defineComponent({
   components: {
     NavHeader,
     LeftBar,
-    Expand,
-    Fold,
     EMQXVersion,
   },
   props: {
@@ -141,6 +134,18 @@ export default defineComponent({
       const { name } = route
       return name && ROUTE_NAMES_NEED_FULL_HEIGHT.includes(name as string)
     })
+    const firstPath = ref('')
+    const isNotFound = ref(false)
+    const setHeaderTitle = () => {
+      let { path } = route || []
+      let _firstPath = path.split('/')[1]
+      firstPath.value = _firstPath
+      isNotFound.value = route.matched?.[1]?.name === 'not-found'
+    }
+    watch(route, () => {
+      setHeaderTitle()
+    })
+    setHeaderTitle()
     return {
       store,
       route,
@@ -153,6 +158,8 @@ export default defineComponent({
       leftBarCollapse,
       fullHeight,
       kebab2pascal,
+      isNotFound,
+      firstPath,
     }
   },
 })
@@ -167,7 +174,7 @@ export default defineComponent({
   left: 0;
   z-index: 100;
   overflow-x: hidden;
-  background-color: #1f303c;
+  background-color: var(--color-bg);
   height: 100vh;
   .footer-menu {
     cursor: pointer;
@@ -176,11 +183,9 @@ export default defineComponent({
     box-sizing: border-box;
     bottom: 0;
     height: 36px;
-    background-color: #1f303c;
+    background-color: var(--color-bg);
+    border-top: 1px solid #ffffff24;
     transition: all 0.3s;
-    &:hover {
-      background-color: #2f4656;
-    }
     .footer-menu-item {
       display: flex;
       align-items: center;
@@ -205,7 +210,18 @@ export default defineComponent({
 
 .el-main {
   transition: margin-left 0.3s;
-  background-color: var(--color-bg-main);
+  background-color: var(--color-bg);
+  height: 100vh;
+  .main-content {
+    background-color: var(--color-bg-content);
+    margin-top: 60px;
+    margin-right: 8px;
+    border-radius: 8px;
+    position: relative;
+    height: 100%;
+    height: calc(100% - 68px); /* 60px + 12px padding */
+    overflow: hidden;
+  }
 }
 
 .el-container {
@@ -251,23 +267,7 @@ export default defineComponent({
 }
 
 .top-submenu {
-  transition: none;
-  padding: 0 22px;
-}
-
-.main-content {
-  $normal-margin-top: 60px;
-  $larger-margin-top: 120px;
-  position: relative;
-  margin-top: $normal-margin-top;
-  &.is-full-height {
-    height: calc(100vh - #{$normal-margin-top});
-  }
-  &.larger-margin-top {
-    margin-top: $larger-margin-top;
-    &.is-full-height {
-      height: calc(100vh - #{$larger-margin-top});
-    }
-  }
+  margin: 0 24px;
+  margin-bottom: 24px;
 }
 </style>

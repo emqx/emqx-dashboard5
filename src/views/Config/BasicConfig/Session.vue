@@ -1,6 +1,6 @@
 <template>
   <div class="session app-wrapper">
-    <el-card>
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="session"

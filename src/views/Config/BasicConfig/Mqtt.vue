@@ -1,6 +1,6 @@
 <template>
   <div class="mqtt app-wrapper">
-    <el-card>
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="mqtt"
