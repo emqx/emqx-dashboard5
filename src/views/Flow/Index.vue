@@ -61,7 +61,7 @@ const goCreate = () => router.push({ name: 'flow-create' })
 .flow {
   width: 100%;
   height: 100%;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-content);
 
   $hd-height: 56px;
   .flow-view-hd {
