@@ -75,4 +75,12 @@ export default {
     zh: '每次仅允许创建一个 Flow',
     en: 'Only one flow can be created at a time',
   },
+  alias: {
+    zh: '别名',
+    en: 'Alias',
+  },
+  transform: {
+    zh: '转换',
+    en: 'Transform',
+  },
 }
