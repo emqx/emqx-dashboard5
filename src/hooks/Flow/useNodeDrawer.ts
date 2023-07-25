@@ -5,6 +5,7 @@ import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
+import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowNode'
@@ -41,6 +42,7 @@ export default (): {
     [SourceType.Event]: EventForm,
     [SourceType.MQTTBroker]: MQTTBrokerForm,
     [ProcessingType.Filter]: FilterForm,
+    [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTTBroker]: MQTTBrokerForm,

@@ -52,6 +52,18 @@ export interface FilterItem {
   valueForComparison: string | number
 }
 
+export interface FunctionItem {
+  id: string
+  field: string
+  func: {
+    name: string
+    args: Array<string>
+  }
+  alias: string
+}
+
+export type FunctionForm = Array<FunctionItem>
+
 export interface FilterForm {
   groupOperator: FilterLogicalOperator
   // It can be used as the ID attribute for list elements, and can be used to
