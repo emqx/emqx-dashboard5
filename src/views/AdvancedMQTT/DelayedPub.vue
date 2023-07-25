@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper delayed-config">
-    <el-card class="config-card" v-loading="isLoading">
+    <el-card class="app-card" v-loading="isLoading">
       <el-form
         ref="delayedForm"
         :rules="delayedRules"

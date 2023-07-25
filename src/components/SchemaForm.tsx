@@ -506,7 +506,7 @@ const SchemaForm = defineComponent({
           <el-tab-pane label={tl(group)} name={group} />
         ))
         tabs = (
-          <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
+          <el-tabs v-model={currentGroup.value} class="group-tabs">
             {groupTabs}
           </el-tabs>
         )
