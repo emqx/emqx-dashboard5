@@ -14,13 +14,11 @@
         </span>
       </div>
     </div>
-    <el-card class="menu-card">
-      <el-menu router :default-active="matchedUrl" mode="horizontal">
-        <template v-for="item in types" :key="item">
-          <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
-        </template>
-      </el-menu>
-    </el-card>
+    <el-menu router :default-active="matchedUrl" mode="horizontal">
+      <template v-for="item in types" :key="item">
+        <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
+      </template>
+    </el-menu>
     <router-view></router-view>
   </div>
 </template>
@@ -98,14 +96,7 @@ export default defineComponent({
     background-size: contain;
   }
   .el-menu--horizontal {
-    border-bottom: 0px;
-    padding: 0 12px;
-  }
-  .el-card.menu-card {
-    margin-bottom: 40px;
-    .el-card__body {
-      padding: 0px;
-    }
+    margin-bottom: 24px;
   }
   .el-form {
     margin-bottom: 24px;
