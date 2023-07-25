@@ -237,6 +237,7 @@ syncPolling(loadData, POLLING_INTERVAL)
   display: flex;
   flex-direction: column;
   background: var(--color-bg-split);
+  border-radius: 8px;
 }
 .graph-entity {
   display: flex;
