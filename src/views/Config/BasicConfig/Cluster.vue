@@ -1,6 +1,6 @@
 <template>
   <div class="cluster app-wrapper">
-    <el-card class="config-card">
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         :according-to="{ path: '/configs/cluster' }"
