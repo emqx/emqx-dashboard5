@@ -159,7 +159,7 @@ const handleError = (error: any) => {
   }
   .el-button {
     font-size: 14px;
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-bg-content);
     border-color: var(--color-border-primary);
   }
 }

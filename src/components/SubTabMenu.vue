@@ -55,7 +55,7 @@ export default defineComponent({
       }
       .el-tabs__item {
         border: 1px solid var(--color-border-normal);
-        background-color: var(--color-bg-primary);
+        background-color: var(--color-bg-content);
         border-left: 1px solid var(--color-border-normal);
         border-top: none;
         &:first-child {

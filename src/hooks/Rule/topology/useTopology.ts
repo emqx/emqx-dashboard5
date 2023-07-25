@@ -61,7 +61,7 @@ const registerCustomNode = () => {
   )
 }
 
-const bgColorVariableKey = '--color-bg-primary'
+const bgColorVariableKey = '--color-bg-content'
 const textColorVariableKey = '--color-text-primary'
 
 const getDefaultNodeConfig = (bgColor: string, textColor: string) => ({

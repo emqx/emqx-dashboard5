@@ -87,7 +87,7 @@ watch(record, (val) => {
   box-sizing: border-box;
   width: 100%;
   padding: 2px 12px;
-  background: var(--color-bg-primary);
+  background: var(--color-bg-content);
   border: 1px solid var(--color-border-primary);
   border-top: none;
   text-align: right;
