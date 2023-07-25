@@ -1,0 +1,524 @@
+[
+  {
+    "groupLabel": "math",
+    "list": [
+      {
+        "name": "abs",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "cos",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "cosh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "acos",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "acosh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sin",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sinh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "asin",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "asinh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "tan",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "tanh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "atan",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "atanh",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "ceil",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "floor",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "round",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "exp",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "power",
+        "args": [
+          {
+            "name": "base",
+            "required": true
+          },
+          {
+            "name": "exponent",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sqrt",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "fmod",
+        "args": [
+          {
+            "name": "numer",
+            "required": true
+          },
+          {
+            "name": "denom",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log10",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log2",
+        "args": [
+          {
+            "name": "operand",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "dataTypeJudgment",
+    "list": [
+      {
+        "name": "is_null",
+        "args": []
+      },
+      {
+        "name": "is_not_null",
+        "args": []
+      },
+      {
+        "name": "is_str",
+        "args": []
+      },
+      {
+        "name": "is_bool",
+        "args": []
+      },
+      {
+        "name": "is_int",
+        "args": []
+      },
+      {
+        "name": "is_float",
+        "args": []
+      },
+      {
+        "name": "is_num",
+        "args": []
+      },
+      {
+        "name": "is_map",
+        "args": []
+      },
+      {
+        "name": "is_array",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "dataTypeConversion",
+    "list": [
+      {
+        "name": "str",
+        "args": []
+      },
+      {
+        "name": "str_utf8",
+        "args": []
+      },
+      {
+        "name": "bool",
+        "args": []
+      },
+      {
+        "name": "int",
+        "args": []
+      },
+      {
+        "name": "float",
+        "args": []
+      },
+      {
+        "name": "float2str",
+        "args": []
+      },
+      {
+        "name": "map",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "string",
+    "list": [
+      {
+        "name": "lower",
+        "args": []
+      },
+      {
+        "name": "upper",
+        "args": []
+      },
+      {
+        "name": "trim",
+        "args": []
+      },
+      {
+        "name": "ltrim",
+        "args": []
+      },
+      {
+        "name": "rtrim",
+        "args": []
+      },
+      {
+        "name": "reverse",
+        "args": []
+      },
+      {
+        "name": "strlen",
+        "args": []
+      },
+      {
+        "name": "substr",
+        "args": []
+      },
+      {
+        "name": "split",
+        "args": []
+      },
+      {
+        "name": "concat",
+        "args": []
+      },
+      {
+        "name": "tokens",
+        "args": []
+      },
+      {
+        "name": "sprintf",
+        "args": []
+      },
+      {
+        "name": "pad",
+        "args": []
+      },
+      {
+        "name": "replace",
+        "args": []
+      },
+      {
+        "name": "regex_match",
+        "args": []
+      },
+      {
+        "name": "regex_replace",
+        "args": []
+      },
+      {
+        "name": "ascii",
+        "args": []
+      },
+      {
+        "name": "find",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "map",
+    "list": [
+      {
+        "name": "map_get",
+        "args": []
+      },
+      {
+        "name": "map_put",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "arr",
+    "list": [
+      {
+        "name": "nth",
+        "args": []
+      },
+      {
+        "name": "length",
+        "args": []
+      },
+      {
+        "name": "sublist",
+        "args": []
+      },
+      {
+        "name": "sublist",
+        "args": []
+      },
+      {
+        "name": "first",
+        "args": []
+      },
+      {
+        "name": "last",
+        "args": []
+      },
+      {
+        "name": "contains",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "hash",
+    "list": [
+      {
+        "name": "md5",
+        "args": []
+      },
+      {
+        "name": "sha",
+        "args": []
+      },
+      {
+        "name": "sha256",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "compressesAndUncompresses",
+    "list": [
+      {
+        "name": "gzip",
+        "args": []
+      },
+      {
+        "name": "gunzip",
+        "args": []
+      },
+      {
+        "name": "zip",
+        "args": []
+      },
+      {
+        "name": "unzip",
+        "args": []
+      },
+      {
+        "name": "zip_compress",
+        "args": []
+      },
+      {
+        "name": "zip_uncompress",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "bit",
+    "list": [
+      {
+        "name": "subbits",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "decodingAndEncoding",
+    "list": [
+      {
+        "name": "base64_decode",
+        "args": []
+      },
+      {
+        "name": "json_decode",
+        "args": []
+      },
+      {
+        "name": "bin2hexstr",
+        "args": []
+      },
+      {
+        "name": "hexstr2bin",
+        "args": []
+      }
+    ]
+  },
+  {
+    "groupLabel": "timeAndDate",
+    "list": [
+      {
+        "name": "now_timestamp",
+        "args": []
+      },
+      {
+        "name": "now_rfc3339",
+        "args": []
+      },
+      {
+        "name": "unix_ts_to_rfc3339",
+        "args": []
+      },
+      {
+        "name": "rfc3339_to_unix_ts",
+        "args": []
+      },
+      {
+        "name": "format_date",
+        "args": []
+      },
+      {
+        "name": "date_to_unix_ts",
+        "args": []
+      }
+    ]
+  }
+]
