@@ -269,7 +269,7 @@ const submitNewPwd = async () => {
 
 <style lang="scss">
 .login {
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-content);
   width: 100vw;
   height: 100vh;
   h1 {

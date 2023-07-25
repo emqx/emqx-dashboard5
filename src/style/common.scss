@@ -462,7 +462,7 @@ input:disabled {
     .el-tabs__header {
       margin-bottom: 24px;
       .el-tabs__item.is-active {
-        border-bottom: 1px solid var(--color-bg-primary);
+        border-bottom: 1px solid var(--color-bg-content);
       }
     }
   }
@@ -794,7 +794,7 @@ code {
     line-height: 22px;
     border-radius: 8px;
     border-style: solid;
-    background: var(--color-bg-primary);
+    background: var(--color-bg-content);
 
     &::before {
       content: '';

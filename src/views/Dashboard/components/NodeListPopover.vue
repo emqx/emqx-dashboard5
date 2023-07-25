@@ -62,7 +62,7 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
   border: 1px solid var(--color-border-card);
   border-radius: 16px;
   box-shadow: 0px 2px 4px var(--color-shadow-primary);
-  background: var(--color-bg-primary);
+  background: var(--color-bg-content);
   .popover-hd {
     margin-bottom: 16px;
   }
