@@ -264,7 +264,7 @@ defineExpose({ validate, getFlowData })
       display: flex;
       align-items: center;
       cursor: grab;
-      border-color: #e2e6f0;
+      border-color: var(--color-border-card);
       transform: translate(0, 0);
       &.is-disabled::before {
         border-left-color: var(--color-text-placeholder);
@@ -317,6 +317,7 @@ defineExpose({ validate, getFlowData })
   }
 
   .el-collapse {
+    border-top: none;
     border-bottom: none;
   }
 
