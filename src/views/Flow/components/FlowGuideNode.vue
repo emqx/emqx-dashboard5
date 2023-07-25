@@ -39,29 +39,30 @@ const nodeType = computed(() => {
     width: $square-size;
     height: $square-size;
     margin-bottom: 14px;
-    border: 1px dashed rgba(0, 0, 0, 0.15);
+    border: 1px dashed var(--color-border-primary);
     border-radius: 4px;
   }
   .label {
     margin-bottom: 4px;
     font-size: 16px;
     line-height: 22px;
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--color-text-primary);
   }
   .desc {
     width: $node-width;
     line-height: 22px;
-    color: rgba(0, 0, 0, 0.25);
+    color: var(--color-text-secondary);
+    opacity: 0.6;
   }
   &.is-source {
     .square {
-      border: 2px dashed rgba(0, 0, 0, 0.65);
+      border: 2px dashed var(--color-text-secondary);
     }
     .label {
-      color: rgba(0, 177, 115, 1);
+      color: var(--color-primary);
     }
     .desc {
-      color: rgba(0, 0, 0, 0.45);
+      opacity: 1;
     }
   }
   .vue-flow__handle-right {
