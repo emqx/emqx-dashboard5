@@ -49,12 +49,14 @@
                 </el-menu-item>
               </template>
             </el-menu>
-            <router-view v-slot="{ Component, route }">
-              <KeepAlive>
-                <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
-              </KeepAlive>
-            </router-view>
-            <router-view v-if="!keepAlive" />
+            <div :class="{ 'is-full-height': fullHeight }">
+              <router-view v-slot="{ Component, route }">
+                <KeepAlive>
+                  <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
+                </KeepAlive>
+              </router-view>
+              <router-view v-if="!keepAlive" />
+            </div>
           </el-scrollbar>
         </div>
       </el-main>
@@ -224,6 +226,14 @@ export default defineComponent({
   }
 }
 
+$title-size: 22px;
+$title-margin: 22px;
+.header-title {
+  font-size: $title-size;
+  margin-top: $title-margin;
+  margin-bottom: $title-margin;
+}
+
 .el-container {
   min-height: 100vh;
 }
@@ -269,5 +279,10 @@ export default defineComponent({
 .top-submenu {
   margin: 0 24px;
   margin-bottom: 24px;
+}
+
+// 60px is header height
+.is-full-height {
+  height: calc(100vh - 60px - #{$title-size} - #{$title-margin} * 2);
 }
 </style>
