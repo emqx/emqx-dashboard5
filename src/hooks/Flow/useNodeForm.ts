@@ -3,7 +3,15 @@ import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
-import { FilterForm, FilterItem, ProcessingType, SinkType, SourceType } from './useFlowNode'
+import {
+  FilterForm,
+  FilterItem,
+  FunctionForm,
+  FunctionItem,
+  ProcessingType,
+  SinkType,
+  SourceType,
+} from './useFlowNode'
 
 export const createMessageForm = (topic = ''): { topic: string } => ({ topic })
 export const createEventForm = (event = ''): { event: string } => ({ event })
@@ -19,6 +27,18 @@ export const createFilterForm = (): FilterForm => ({
   id: createRandomString(),
   items: [createFilterItem()],
 })
+
+export const createFunctionItem = (): FunctionItem => ({
+  id: createRandomString(),
+  field: '',
+  func: {
+    name: '',
+    args: [],
+  },
+  alias: '',
+})
+
+export const createFunctionForm = (): FunctionForm => [createFunctionItem()]
 
 export const createRePubForm = (): OutputItemObj => ({
   function: 'republish',
@@ -43,6 +63,7 @@ export default (): {
     [SourceType.Event]: createEventForm,
     [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
     [ProcessingType.Filter]: createFilterForm,
+    [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
