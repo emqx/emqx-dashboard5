@@ -192,7 +192,7 @@ getList()
 <style lang="scss">
 .flow-list {
   padding: 24px;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-content);
   .search-block {
     position: relative;
     padding: 24px;

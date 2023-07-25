@@ -88,7 +88,7 @@ const create = async () => {
 <style lang="scss">
 .flow-create {
   height: 100%;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-content);
   p {
     margin: 0;
   }

@@ -317,6 +317,7 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
   }
   .cluster-card {
+    border: none;
     .el-card__body {
       padding: 0px;
     }

@@ -257,7 +257,7 @@ const submit = async () => {
   .is-view {
     .el-input.is-disabled,
     .el-textarea.is-disabled {
-      background-color: var(--color-bg-primary);
+      background-color: var(--color-bg-content);
       .el-input__inner,
       .el-textarea__inner {
         color: var(--color-text-primary);
