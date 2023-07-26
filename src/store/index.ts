@@ -134,7 +134,6 @@ export default createStore({
       state.abortControllers.push(controller)
     },
     CLEAR_ABORT_CONTROLLERS(state) {
-      console.log(state.abortControllers)
       state.abortControllers.forEach((controller) => {
         controller.abort()
       })
