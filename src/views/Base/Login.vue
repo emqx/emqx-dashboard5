@@ -293,7 +293,7 @@ const submitNewPwd = async () => {
   .el-row {
     height: 100%;
     .el-col.intro {
-      background-color: #1f252f;
+      background-color: var(--color-bg);
       position: relative;
       .logo {
         padding: 32px;
@@ -330,6 +330,7 @@ const submitNewPwd = async () => {
       }
     }
     .el-col.form {
+      background-color: var(--color-bg-content);
       position: relative;
       display: flex;
       justify-content: center;
