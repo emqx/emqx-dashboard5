@@ -22,7 +22,18 @@
     </el-form-item>
     <el-form-item :label="tl('transform')" prop="func.name">
       <el-select v-model="record.func.name">
-        <!-- TODO: -->
+        <el-option-group
+          v-for="group in funcOptList"
+          :key="group.groupLabel"
+          :label="group.groupLabel"
+        >
+          <el-option
+            v-for="item in group.list"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+          />
+        </el-option-group>
       </el-select>
     </el-form-item>
     <el-form-item :label="tl('alias')" prop="alias">
@@ -35,6 +46,7 @@
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineProps, defineEmits } from 'vue'
+import useRuleFunc from '@/hooks/useRuleFunc'
 
 const props = defineProps({
   modelValue: {
@@ -45,6 +57,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('Flow')
+
+const { funcOptList } = useRuleFunc()
 
 const COMMON_FIELDS: Array<string> = []
 

@@ -6,7 +6,8 @@
         "name": "abs",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -15,7 +16,8 @@
         "name": "cos",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -24,7 +26,8 @@
         "name": "cosh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -33,7 +36,8 @@
         "name": "acos",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -42,7 +46,8 @@
         "name": "acosh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -51,7 +56,8 @@
         "name": "sin",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -60,7 +66,8 @@
         "name": "sinh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -69,7 +76,8 @@
         "name": "asin",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -78,7 +86,8 @@
         "name": "asinh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -87,7 +96,8 @@
         "name": "tan",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -96,7 +106,8 @@
         "name": "tanh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -105,7 +116,8 @@
         "name": "atan",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -114,7 +126,8 @@
         "name": "atanh",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -123,7 +136,8 @@
         "name": "ceil",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -132,7 +146,8 @@
         "name": "floor",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -141,7 +156,8 @@
         "name": "round",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -150,7 +166,8 @@
         "name": "exp",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -159,11 +176,13 @@
         "name": "power",
         "args": [
           {
-            "name": "base",
+            "name": "Base",
+            "type": "number",
             "required": true
           },
           {
-            "name": "exponent",
+            "name": "Exponent",
+            "type": "number",
             "required": true
           }
         ]
@@ -172,7 +191,8 @@
         "name": "sqrt",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -181,11 +201,13 @@
         "name": "fmod",
         "args": [
           {
-            "name": "numer",
+            "name": "Numer",
+            "type": "number",
             "required": true
           },
           {
-            "name": "denom",
+            "name": "Denom",
+            "type": "number",
             "required": true
           }
         ]
@@ -194,7 +216,8 @@
         "name": "log",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -203,7 +226,8 @@
         "name": "log10",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -212,7 +236,8 @@
         "name": "log2",
         "args": [
           {
-            "name": "operand",
+            "name": "Value",
+            "type": "number",
             "required": true
           }
         ]
@@ -224,39 +249,93 @@
     "list": [
       {
         "name": "is_null",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_not_null",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_str",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_bool",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_int",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_float",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_num",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_map",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "is_array",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -265,31 +344,83 @@
     "list": [
       {
         "name": "str",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "str_utf8",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "bool",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "int",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "float",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       },
       {
         "name": "float2str",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "float",
+            "required": true
+          },
+          {
+            "name": "Precision",
+            "type": "integer",
+            "default": 2,
+            "range": [
+              0,
+              32
+            ],
+            "required": true
+          }
+        ]
       },
       {
         "name": "map",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -298,47 +429,155 @@
     "list": [
       {
         "name": "lower",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "upper",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "trim",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "ltrim",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "rtrim",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "reverse",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "strlen",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "substr",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "StartPosition",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "EndPosition",
+            "type": "number",
+            "required": false
+          }
+        ]
       },
       {
         "name": "split",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Separator",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Direction",
+            "required": false,
+            "type": "enum",
+            "optionalValues": [
+              "leading",
+              "trailing"
+            ]
+          }
+        ]
       },
       {
         "name": "concat",
-        "args": []
+        "args": [
+          {
+            "name": "String1",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "String2",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "tokens",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Separator",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "PreserveCRLF",
+            "type": "enum",
+            "optionalValues": [
+              "nocrlf"
+            ],
+            "required": false
+          }
+        ]
       },
       {
         "name": "sprintf",
@@ -346,27 +585,132 @@
       },
       {
         "name": "pad",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "TotalLength",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "PaddingDirection",
+            "type": "enum",
+            "optionalValues": [
+              "both",
+              "leading",
+              "trailing"
+            ],
+            "required": false
+          },
+          {
+            "name": "PaddingString",
+            "type": "string",
+            "required": false
+          }
+        ]
       },
       {
         "name": "replace",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "OldSubStr",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "NewSubStr",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "ReplaceCount",
+            "type": "enum",
+            "optionalValues": [
+              "all",
+              "trailing",
+              "leading"
+            ],
+            "required": false
+          }
+        ]
       },
       {
         "name": "regex_match",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Pattern",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "regex_replace",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Pattern",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Replacement",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "ascii",
-        "args": []
+        "args": [
+          {
+            "name": "Character",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "find",
-        "args": []
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "SubstringToBeFound",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "DirectionToFind",
+            "type": "enum",
+            "optionalValues": [
+              "leading",
+              "trailing"
+            ],
+            "required": false
+          }
+        ]
       }
     ]
   },
@@ -375,11 +719,43 @@
     "list": [
       {
         "name": "map_get",
-        "args": []
+        "args": [
+          {
+            "name": "Key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Map",
+            "type": "Object",
+            "required": true
+          },
+          {
+            "name": "DefaultValue",
+            "type": "any",
+            "required": false
+          }
+        ]
       },
       {
         "name": "map_put",
-        "args": []
+        "args": [
+          {
+            "name": "Key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          },
+          {
+            "name": "Map",
+            "type": "Object",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -388,31 +764,91 @@
     "list": [
       {
         "name": "nth",
-        "args": []
+        "args": [
+          {
+            "name": "Index",
+            "type": "integer",
+            "range": [
+              1,
+              null
+            ],
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       },
       {
         "name": "length",
-        "args": []
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       },
       {
         "name": "sublist",
-        "args": []
-      },
-      {
-        "name": "sublist",
-        "args": []
+        "args": [
+          {
+            "name": "StartIndex",
+            "type": "integer",
+            "range": [
+              1,
+              null
+            ],
+            "required": false
+          },
+          {
+            "name": "Length",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       },
       {
         "name": "first",
-        "args": []
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       },
       {
         "name": "last",
-        "args": []
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       },
       {
         "name": "contains",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -421,15 +857,33 @@
     "list": [
       {
         "name": "md5",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "sha",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "sha256",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -438,27 +892,63 @@
     "list": [
       {
         "name": "gzip",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "gunzip",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "zip",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "unzip",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "zip_compress",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "zip_uncompress",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -475,20 +965,64 @@
     "groupLabel": "decodingAndEncoding",
     "list": [
       {
+        "name": "base64_encode",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
         "name": "base64_decode",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "json_encode",
+        "args": [
+          {
+            "key": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "json_decode",
-        "args": []
+        "args": [
+          {
+            "key": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       },
       {
         "name": "bin2hexstr",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
       },
       {
         "name": "hexstr2bin",
-        "args": []
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -505,15 +1039,76 @@
       },
       {
         "name": "unix_ts_to_rfc3339",
-        "args": []
+        "args": [
+          {
+            "name": "UnixTimestamp",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          }
+        ]
       },
       {
         "name": "rfc3339_to_unix_ts",
-        "args": []
+        "args": [
+          {
+            "name": "RFC3339String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          }
+        ]
       },
       {
         "name": "format_date",
-        "args": []
+        "args": [
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          },
+          {
+            "name": "TimeOffset",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "DataFormat",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Timestamp",
+            "type": "number",
+            "required": false
+          }
+        ]
       },
       {
         "name": "date_to_unix_ts",
