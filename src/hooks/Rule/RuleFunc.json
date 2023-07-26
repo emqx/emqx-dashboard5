@@ -1,6 +1,6 @@
 [
   {
-    "groupLabel": "math",
+    "groupLabel": "mathFunc",
     "list": [
       {
         "name": "abs",
@@ -245,7 +245,7 @@
     ]
   },
   {
-    "groupLabel": "dataTypeJudgment",
+    "groupLabel": "dataTypeJudgmentFunc",
     "list": [
       {
         "name": "is_null",
@@ -340,7 +340,7 @@
     ]
   },
   {
-    "groupLabel": "dataTypeConversion",
+    "groupLabel": "dataTypeConversionFunc",
     "list": [
       {
         "name": "str",
@@ -425,7 +425,7 @@
     ]
   },
   {
-    "groupLabel": "string",
+    "groupLabel": "stringFunc",
     "list": [
       {
         "name": "lower",
@@ -715,7 +715,7 @@
     ]
   },
   {
-    "groupLabel": "map",
+    "groupLabel": "mapFunc",
     "list": [
       {
         "name": "map_get",
@@ -760,7 +760,7 @@
     ]
   },
   {
-    "groupLabel": "arr",
+    "groupLabel": "arrFunc",
     "list": [
       {
         "name": "nth",
@@ -853,7 +853,7 @@
     ]
   },
   {
-    "groupLabel": "hash",
+    "groupLabel": "hashFunc",
     "list": [
       {
         "name": "md5",
@@ -888,7 +888,7 @@
     ]
   },
   {
-    "groupLabel": "compressesAndUncompresses",
+    "groupLabel": "compressesAndUncompressesFunc",
     "list": [
       {
         "name": "gzip",
@@ -953,7 +953,7 @@
     ]
   },
   {
-    "groupLabel": "bit",
+    "groupLabel": "bitFunc",
     "list": [
       {
         "name": "subbits",
@@ -962,7 +962,7 @@
     ]
   },
   {
-    "groupLabel": "decodingAndEncoding",
+    "groupLabel": "decodingAndEncodingFunc",
     "list": [
       {
         "name": "base64_encode",
@@ -988,7 +988,7 @@
         "name": "json_encode",
         "args": [
           {
-            "key": "Value",
+            "name": "Value",
             "type": "string",
             "required": true
           }
@@ -998,7 +998,7 @@
         "name": "json_decode",
         "args": [
           {
-            "key": "Value",
+            "name": "Value",
             "type": "string",
             "required": true
           }
@@ -1027,7 +1027,7 @@
     ]
   },
   {
-    "groupLabel": "timeAndDate",
+    "groupLabel": "timeAndDateFunc",
     "list": [
       {
         "name": "now_timestamp",
