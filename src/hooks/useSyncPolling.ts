@@ -10,7 +10,9 @@ export default (): {
     const query = async () => {
       const startTime = Date.now()
       try {
-        await queryData()
+        if (needPolling.value) {
+          await queryData()
+        }
       } catch (error) {
         //
       } finally {
