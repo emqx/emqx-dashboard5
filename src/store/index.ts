@@ -50,6 +50,7 @@ export default createStore({
     schemaStoreMap: new Map(),
     ruleEventList: [] as Array<RuleEvent>,
     ruleEventRequest: undefined as undefined | Promise<any>,
+    abortControllers: [] as AbortController[],
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -128,6 +129,22 @@ export default createStore({
     },
     SET_RULE_EVENT_REQUEST(state, payload: Promise<any>) {
       state.ruleEventRequest = payload
+    },
+    ADD_ABORT_CONTROLLER(state, controller) {
+      state.abortControllers.push(controller)
+    },
+    CLEAR_ABORT_CONTROLLERS(state) {
+      console.log(state.abortControllers)
+      state.abortControllers.forEach((controller) => {
+        controller.abort()
+      })
+      state.abortControllers = []
+    },
+    REMOVE_ABORT_CONTROLLER(state, controller: AbortController) {
+      const index = state.abortControllers.indexOf(controller)
+      if (index !== -1) {
+        state.abortControllers.splice(index, 1)
+      }
     },
   },
   getters: {
