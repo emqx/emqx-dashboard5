@@ -2,7 +2,11 @@
   <div class="function-form">
     <ul class="field-list">
       <li class="field-item" v-for="(item, $index) in record" :key="item.id">
-        <FunctionBlock v-model="record[$index]" />
+        <FunctionBlock
+          v-model="record[$index]"
+          :ref="(el) => setFormCom(el, $index)"
+          @vnode-before-unmount="delFormCom($index)"
+        />
         <el-button v-if="record.length > 1" link class="btn-del" @click="deleteItem($index)">
           <el-icon :size="16" class="icon-del"><Delete /></el-icon>
         </el-button>
@@ -34,8 +38,14 @@ const emit = defineEmits(['update:modelValue', 'save'])
 
 const { tl } = useI18nTl('Base')
 
-// TODO:
 const FormComArr: Array<any> = []
+const setFormCom = (form: any, index: number) => {
+  FormComArr[index] = form
+}
+
+const delFormCom = (index: number) => {
+  FormComArr.splice(index, 1)
+}
 
 const record = computed({
   get() {
