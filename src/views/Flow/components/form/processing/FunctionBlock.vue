@@ -154,7 +154,7 @@ const numberTypes = [ArgumentType.Number, ArgumentType.Float, ArgumentType.Integ
  * no placeholder is used, convert the type of its value
  */
 const handleArgChanged = (val: string, index: number, type: ArgumentType) => {
-  if (numberTypes.includes(type) && !Number.isNaN(Number(val))) {
+  if (numberTypes.includes(type) && val !== '' && !Number.isNaN(Number(val))) {
     record.value.func.args[index] = Number(val)
   }
 }
