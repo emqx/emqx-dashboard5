@@ -83,4 +83,8 @@ export default {
     zh: '转换',
     en: 'Transform',
   },
+  unusedField: {
+    zh: '未被使用的字段',
+    en: 'Unused field',
+  },
 }
