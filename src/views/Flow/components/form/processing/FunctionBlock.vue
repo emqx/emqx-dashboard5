@@ -44,7 +44,26 @@
         :prop="`func.args.${$index}`"
         label-width="120px"
       >
-        <el-input v-model="record.func.args[$index]" />
+        <el-select
+          v-if="item.type === ArgumentType.Enum"
+          clearable
+          filterable
+          allow-create
+          v-model="record.func.args[$index]"
+          @change="handleSelectFunc"
+        >
+          <el-option
+            v-for="value in item.optionalValues"
+            :key="value"
+            :label="value"
+            :value="value"
+          />
+        </el-select>
+        <el-input
+          v-else
+          v-model="record.func.args[$index]"
+          @change="handleArgChanged($event, $index, item.type)"
+        />
       </el-form-item>
     </div>
     <el-form-item :label="t('Flow.alias')" prop="alias">
@@ -56,9 +75,9 @@
 <script setup lang="ts">
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import useRuleFunc, { ArgItem } from '@/hooks/useRuleFunc'
+import useRuleFunc, { ArgumentType, FuncItem } from '@/hooks/useRuleFunc'
 import { FormRules } from '@/types/common'
-import { computed, defineEmits, defineProps, ref, Ref } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -70,9 +89,11 @@ const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('Function')
 
-const { funcOptList, getFuncItemByName } = useRuleFunc()
+const { funcOptList, getFuncItemByName, getFuncGroupByName, getArgIndex } = useRuleFunc()
 
 const COMMON_FIELDS: Array<string> = []
+
+const FormCom = ref()
 
 const record = computed({
   get() {
@@ -83,31 +104,80 @@ const record = computed({
   },
 })
 
-const args: Ref<Array<ArgItem>> = ref([])
-const showArgsBlock = ref(false)
+const fillParams = (
+  field: string,
+  { groupLabel, func }: { groupLabel: string; func: FuncItem },
+) => {
+  let targetIndex = getArgIndex(func, groupLabel)
+  return func.args.map((_, index) => (index === targetIndex ? field : ''))
+}
+
+const selectedFunc = computed(() => {
+  const funcName = record.value?.func?.name
+  return funcName ? getFuncItemByName(funcName) : null
+})
+
+const args = computed(() => (selectedFunc.value ? selectedFunc.value.args : []))
+
+const showArgsBlock = computed(() => {
+  return !(args.value.length === 0 || (args.value.length === 1 && args.value[0].required))
+})
+
 const handleSelectFunc = (funcName: string) => {
   if (!funcName) {
-    args.value = []
-    showArgsBlock.value = false
     record.value.func.args = []
     return
   }
-  const func = getFuncItemByName(funcName)
-  if (!func) {
+  const groupLabel = getFuncGroupByName(funcName)
+  if (!groupLabel || !selectedFunc.value) {
     return
   }
-  args.value = func.args
-  showArgsBlock.value = !(args.value.length === 1 && args.value[0].required)
   if (showArgsBlock.value) {
-    record.value.func.args = new Array(args.value.length).fill('')
+    record.value.func.args = fillParams(record.value.field, {
+      groupLabel,
+      func: selectedFunc.value,
+    })
   } else {
     record.value.func.args = [record.value.field]
   }
 }
 
+const handleFieldChanged = (val: string) => {
+  if (args.value.length && !showArgsBlock.value) {
+    record.value.func.args = [val]
+  }
+}
+
+const numberTypes = [ArgumentType.Number, ArgumentType.Float, ArgumentType.Integer]
+/**
+ * When the type of the parameter is a number type and
+ * no placeholder is used, convert the type of its value
+ */
+const handleArgChanged = (val: string, index: number, type: ArgumentType) => {
+  if (numberTypes.includes(type) && !Number.isNaN(Number(val))) {
+    record.value.func.args[index] = Number(val)
+  }
+}
+
 const { createRequiredRule } = useFormRules()
 const rules = computed(() => {
-  const ret: FormRules = { field: createRequiredRule(t('component.field')) }
+  const ret: FormRules = {
+    field: [
+      ...createRequiredRule(t('components.field')),
+      {
+        validator(rules: any, value: string, callback) {
+          if (
+            showArgsBlock.value &&
+            Array.isArray(record.value?.func?.args) &&
+            !record.value.func.args.includes(value)
+          ) {
+            callback(new Error(t('Flow.unusedField')))
+          }
+          callback()
+        },
+      },
+    ],
+  }
   args.value.forEach((item, index) => {
     if (item.required) {
       // TODO:replace name to label
@@ -116,6 +186,10 @@ const rules = computed(() => {
   })
   return ret
 })
+
+const validate = () => FormCom.value.validate()
+
+defineExpose({ validate })
 </script>
 
 <style lang="scss">
