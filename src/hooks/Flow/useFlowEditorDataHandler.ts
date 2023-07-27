@@ -1,7 +1,7 @@
 /**
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { DEFAULT_SELECT, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { getBridgeKey } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
@@ -14,6 +14,7 @@ import {
   FilterForm,
   FilterItem,
   FlowNodeType,
+  FunctionItem,
   ProcessingType,
   SinkType,
   SourceType,
@@ -194,6 +195,32 @@ export default (): {
     return processFilterDataToSql(filterData)
   }
 
+  const getExpressionFromFunctionItem = ({
+    name,
+    args,
+  }: {
+    name: string
+    args: Array<string>
+  }): string => {
+    const argsStr = args.filter((item) => item !== '' && item !== undefined).join(', ')
+    return `${name}(${argsStr})`
+  }
+
+  const getFieldsExpressionsFromNode = (nodes: Array<NodeData>): string => {
+    const functionNode = nodes.find(({ data }) => data.specificType === ProcessingType.Function)
+    const functionData = functionNode?.data.formData
+    if (!functionData) {
+      return DEFAULT_SELECT
+    }
+    return functionData.reduce((str: string, item: FunctionItem) => {
+      const { field, func, alias } = item
+      const selection = func.name ? getExpressionFromFunctionItem(func) : field
+      const aliasStr = alias ? ` as ${alias}` : ''
+      const currentExpression = selection + aliasStr
+      return str ? `${str}, ${currentExpression}` : currentExpression
+    }, '')
+  }
+
   const getBridgesFromNodes = (flowName: string, nodes: Array<NodeData>): Array<BridgeItem> => {
     const bridgeDataArr = nodes.reduce((arr: Array<BridgeItem>, { type, data }) => {
       const isInputAndNotMessageOrEvent =
@@ -235,8 +262,8 @@ export default (): {
     } = nodes
     const fromArr = getFromDataFromNodes(flowName, inputNodes)
     const filterStr = getFilterStrFromNodes(processingNodes)
-    // TODO:replace *
-    rule.sql = transSQLFormDataToSQL('*', fromArr, filterStr)
+    const fieldsExpressions = getFieldsExpressionsFromNode(processingNodes)
+    rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
     rule.actions = getActionDataFromNodes(flowName, outputNodes)
     const bridges = getBridgesFromNodes(flowName, [...inputNodes, ...outputNodes])
     return { rule, bridges }
