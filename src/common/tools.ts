@@ -274,15 +274,58 @@ export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
   }
 }
 
-export const formatSELECTStatement = (str: string): string => {
-  const isForeach = /^FOREACH(.|\n)+/i.test(str)
-  if (isForeach) {
-    return str
+export const addNewlineAfterComma = (input: string): string => {
+  const bracketStack: Array<string> = []
+  let quoteFlag = false
+  let output = ''
+
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input[i]
+
+    if (currentChar === '(') {
+      bracketStack.push(currentChar)
+    } else if (currentChar === ')') {
+      if (bracketStack.length > 0) {
+        bracketStack.pop()
+      }
+    } else if (currentChar === "'") {
+      quoteFlag = !quoteFlag
+    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+      output += currentChar + '\n'
+      continue
+    }
+
+    output += currentChar
   }
-  return str
-    .split(',')
-    .map((item) => item.trim())
-    .join(',\n  ')
+
+  return output
+}
+
+export const splitOnComma = (input: string): string[] => {
+  const bracketStack: Array<string> = []
+  let quoteFlag = false
+  const output = ['']
+
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input[i]
+
+    if (currentChar === '(') {
+      bracketStack.push(currentChar)
+    } else if (currentChar === ')') {
+      if (bracketStack.length > 0) {
+        bracketStack.pop()
+      }
+    } else if (currentChar === "'") {
+      quoteFlag = !quoteFlag
+    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+      output.push('')
+      continue
+    }
+
+    output[output.length - 1] += currentChar
+  }
+
+  return output
 }
 
 export const getBridgeKey = ({

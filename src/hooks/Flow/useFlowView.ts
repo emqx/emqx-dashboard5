@@ -4,7 +4,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getAllListData, getKeyPartsFromSQL } from '@/common/tools'
+import { getAllListData, getKeyPartsFromSQL, splitOnComma } from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -180,6 +180,10 @@ export default (): {
     }
     node.data.desc = getNodeInfo(node)
     return node
+  }
+
+  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string) => {
+    const expressionArr = splitOnComma(fieldsExpressions)
   }
 
   const detectOutputType = (action: OutputItem): string => {
