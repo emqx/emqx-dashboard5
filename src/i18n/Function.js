@@ -189,4 +189,24 @@ export default {
     zh: '时间戳',
     en: 'Timestamp',
   },
+  BinaryData: {
+    zh: '二进制数据',
+    en: 'Binary Data',
+  },
+  BinaryStartIndex: {
+    zh: '起始位置的下标',
+    en: 'Start Index',
+  },
+  DataType: {
+    zh: '数据类型',
+    en: 'Data Type',
+  },
+  Signedness: {
+    zh: '符号性',
+    en: 'Signedness',
+  },
+  Endian: {
+    zh: '字节序',
+    en: 'Endian',
+  },
 }
