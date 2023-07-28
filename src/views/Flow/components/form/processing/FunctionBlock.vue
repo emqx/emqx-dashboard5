@@ -40,7 +40,7 @@
       <el-form-item
         v-for="(item, $index) in args"
         :key="`${record.func.name}-${item.name}`"
-        :label="item.name"
+        :label="tl(item.name)"
         :prop="`func.args.${$index}`"
         label-width="120px"
       >
@@ -181,7 +181,7 @@ const rules = computed(() => {
   args.value.forEach((item, index) => {
     if (item.required) {
       // TODO:replace name to label
-      ret[`func.args.${index}`] = createRequiredRule(item.name)
+      ret[`func.args.${index}`] = createRequiredRule(tl(item.name))
     }
   })
   return ret
