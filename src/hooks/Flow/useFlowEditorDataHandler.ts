@@ -200,7 +200,7 @@ export default (): {
     args,
   }: {
     name: string
-    args: Array<string>
+    args: Array<string | number>
   }): string => {
     const argsStr = args.filter((item) => item !== '' && item !== undefined).join(', ')
     return `${name}(${argsStr})`

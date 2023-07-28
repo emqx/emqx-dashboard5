@@ -328,6 +328,9 @@ export const splitOnComma = (input: string): string[] => {
   return output
 }
 
+export const removeSpacesAndLFs = (input: string): string =>
+  input.replace(/\s/g, '').replace(/\n/g, '')
+
 export const getBridgeKey = ({
   type,
   name,

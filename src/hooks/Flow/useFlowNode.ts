@@ -57,7 +57,7 @@ export interface FunctionItem {
   field: string
   func: {
     name: string
-    args: Array<string>
+    args: Array<string | number>
   }
   alias: string
 }
@@ -166,6 +166,11 @@ export default (): {
     return `${num}${t('Flow.condition', num)}`
   }
 
+  const getFunctionInfo = (func: FunctionForm) => {
+    const num = func.length
+    return `${num}${t('Flow.functionNum', num)}`
+  }
+
   const getNodeInfo = (node: Node): string => {
     const { specificType, formData } = node.data
     if (!specificType || !formData) {
@@ -177,8 +182,7 @@ export default (): {
       case SourceType.Event:
         return `${t('RuleEngine.event')}: ${getEventLabelFromVal(formData.event)}`
       case ProcessingType.Function:
-        // TODO:TODO:TODO:TODO:
-        return ''
+        return getFunctionInfo(formData)
       case ProcessingType.Filter:
         return getFilterInfo(formData)
       case SinkType.Console:
