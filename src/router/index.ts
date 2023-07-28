@@ -1,4 +1,6 @@
 import store from '@/store'
+import i18n from '@/i18n'
+import { ElNotification } from 'element-plus'
 import { Component } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
@@ -800,6 +802,7 @@ router.beforeEach((to, from, next) => {
   const info = store.state.user
 
   if (authRequired && !info.token) {
+    ElNotification.error(i18n.global?.t('Base.tokenExpiredMsg'))
     toLogin(fullPath)
   }
   next()
@@ -809,7 +812,7 @@ router.beforeEach((to, from, next) => {
 export function toLogin(path?: string): void {
   store.commit('UPDATE_USER_INFO', { logOut: true })
   store.commit('UPDATE_EDITION', null)
-  store.commit('CLEAR_ABORT_CONTROLLERS')
+  store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
   const currentPath = router.currentRoute.value.path
   currentPath !== '/login' &&
     router.push({
