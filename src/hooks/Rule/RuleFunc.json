@@ -957,7 +957,51 @@
     "list": [
       {
         "name": "subbits",
-        "args": []
+        "args": [
+          {
+            "name": "BinaryData",
+            "type": "binary",
+            "required": true
+          },
+          {
+            "name": "BinaryStartIndex",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "Length",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "DataType",
+            "type": "enum",
+            "optionalValues": [
+              "integer",
+              "float",
+              "bits"
+            ],
+            "required": false
+          },
+          {
+            "name": "Signedness",
+            "type": "enum",
+            "optionalValues": [
+              "unsigned",
+              "signed"
+            ],
+            "required": false
+          },
+          {
+            "name": "Endian",
+            "type": "enum",
+            "optionalValues": [
+              "big",
+              "little"
+            ],
+            "required": false
+          }
+        ]
       }
     ]
   },
