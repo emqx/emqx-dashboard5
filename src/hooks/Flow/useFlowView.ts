@@ -1,12 +1,19 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import {
   BRIDGE_TYPES_WITH_TWO_DIRECTIONS,
+  DEFAULT_SELECT,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getAllListData, getKeyPartsFromSQL, splitOnComma } from '@/common/tools'
+import {
+  getAllListData,
+  getKeyPartsFromSQL,
+  removeSpacesAndLFs,
+  splitOnComma,
+} from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import useRuleFunc, { ArgItem } from '@/hooks/useRuleFunc'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
@@ -21,7 +28,7 @@ import useFlowNode, {
   SourceType,
   getSpecificTypeWithDirection,
 } from './useFlowNode'
-import { createEventForm, createMessageForm } from './useNodeForm'
+import { createEventForm, createFunctionItem, createMessageForm } from './useNodeForm'
 import useParseWhere from './useParseWhere'
 
 /**
@@ -182,8 +189,73 @@ export default (): {
     return node
   }
 
-  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string) => {
-    const expressionArr = splitOnComma(fieldsExpressions)
+  const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
+  const countArgsWhenLengthNotMatch = (
+    functionParamTemplate: Array<ArgItem>,
+    actualParams: Array<string | number>,
+  ) => functionParamTemplate.map((item, index) => (item.required ? actualParams[index] : ''))
+
+  const getFuncDataFromExpression = (
+    expression: string,
+  ): { field: string | number; func: { name: string; args: Array<string | number> } } => {
+    const funcName = expression.slice(0, expression.indexOf('('))
+    const funcGroup = getFuncGroupByName(funcName)
+    const funcItem = getFuncItemByName(funcName)
+    if (!funcGroup || !funcItem) {
+      throw new Error(`can not find function ${funcName}`)
+    }
+    const argIndex = getArgIndex(funcItem, funcGroup)
+    const funcArgs = expression
+      .slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
+      .split(',')
+      .map((item) => item.trim())
+    let args: Array<string | number> = []
+    if (funcArgs.length !== funcItem.args.length) {
+      args = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
+    } else {
+      args = funcArgs
+    }
+    return { func: { name: funcName, args }, field: args[argIndex] }
+  }
+
+  const funcExpressionReg = /^(\w|_)\(.+\)/
+  const aliasPartReg = /\sas\s(\S+)/
+  const aliasReg = new RegExp(`.+${aliasPartReg.source}`)
+  const generateFunctionFormFromExpression = (expression: string) => {
+    const form = createFunctionItem()
+    const withAlias = aliasReg.test(expression)
+    if (withAlias) {
+      const [, alias = ''] = expression.match(aliasReg) || []
+      form.alias = alias
+    }
+
+    const selection = expression.replace(aliasPartReg, '')
+
+    if (funcExpressionReg.test(selection)) {
+      return { ...form, ...getFuncDataFromExpression(selection) }
+    }
+    return { ...form, field: selection }
+  }
+
+  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
+    if (removeSpacesAndLFs(fieldsExpressions) === DEFAULT_SELECT) {
+      return
+    }
+    const expressionArr = splitOnComma(fieldsExpressions).map((item) => removeSpacesAndLFs(item))
+    const formData = expressionArr.map((item) => generateFunctionFormFromExpression(item))
+    const node = {
+      id: `${ProcessingType.Function}-${ruleId}`,
+      ...getTypeCommonData(NodeType.Processing),
+      label: getTypeLabel(ProcessingType.Function),
+      position: { x: 0, y: 0 },
+      data: {
+        specificType: ProcessingType.Function,
+        formData,
+        desc: '',
+      },
+    }
+    node.data.desc = getNodeInfo(node)
+    return node
   }
 
   const detectOutputType = (action: OutputItem): string => {
@@ -306,8 +378,10 @@ export default (): {
       nodes[ProcessingType.Filter].push(generateNodeBaseWhereData(whereStr, id))
     }
     if (fieldStr !== undefined) {
-      // TODO:TODO:TODO:
-      nodes[ProcessingType.Function] = []
+      const node = generateNodeBaseFieldsExpressions(fieldStr, id)
+      if (node) {
+        nodes[ProcessingType.Function].push(node)
+      }
     }
     if (actions.length > 0) {
       nodes[NodeType.Sink] = generateNodesBaseActions(actions)
