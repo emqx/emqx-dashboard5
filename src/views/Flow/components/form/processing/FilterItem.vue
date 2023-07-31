@@ -11,7 +11,13 @@
     <CustomFormItem :readonly="readonly" :prop="getFormItemProp('valueForComparison')">
       <el-input v-model="record.valueForComparison" />
     </CustomFormItem>
-    <el-button link v-show="deletable" class="btn-del" :disabled="!deletable" @click="deleteItem">
+    <el-button
+      link
+      v-show="deletable && !readonly"
+      class="btn-del"
+      :disabled="!deletable"
+      @click="deleteItem"
+    >
       <el-icon :size="16" class="icon-del"><Delete /></el-icon>
     </el-button>
   </div>

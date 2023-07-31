@@ -5,12 +5,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import {
-  getAllListData,
-  getKeyPartsFromSQL,
-  removeSpacesAndLFs,
-  splitOnComma,
-} from '@/common/tools'
+import { getAllListData, getKeyPartsFromSQL, trimSpacesAndLFs, splitOnComma } from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
@@ -194,7 +189,16 @@ export default (): {
   const countArgsWhenLengthNotMatch = (
     functionParamTemplate: Array<ArgItem>,
     actualParams: Array<string | number>,
-  ) => functionParamTemplate.map((item, index) => (item.required ? actualParams[index] : ''))
+  ) => {
+    let startIndex = -1
+    return functionParamTemplate.map((item, index) => {
+      if (item.required && startIndex < 0) {
+        startIndex = index
+      }
+      const argIndex = index - startIndex
+      return startIndex > -1 && actualParams[argIndex] !== undefined ? actualParams[argIndex] : ''
+    })
+  }
 
   const getFuncDataFromExpression = (
     expression: string,
@@ -219,7 +223,7 @@ export default (): {
     return { func: { name: funcName, args }, field: args[argIndex] }
   }
 
-  const funcExpressionReg = /^(\w|_)\(.+\)/
+  const funcExpressionReg = /^(\w|_)+\(.|\n+\)/
   const aliasPartReg = /\sas\s(\S+)/
   const aliasReg = new RegExp(`.+${aliasPartReg.source}`)
   const generateFunctionFormFromExpression = (expression: string) => {
@@ -239,10 +243,10 @@ export default (): {
   }
 
   const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
-    if (removeSpacesAndLFs(fieldsExpressions) === DEFAULT_SELECT) {
+    if (trimSpacesAndLFs(fieldsExpressions) === DEFAULT_SELECT) {
       return
     }
-    const expressionArr = splitOnComma(fieldsExpressions).map((item) => removeSpacesAndLFs(item))
+    const expressionArr = splitOnComma(fieldsExpressions).map((item) => trimSpacesAndLFs(item))
     const formData = expressionArr.map((item) => generateFunctionFormFromExpression(item))
     const node = {
       id: `${ProcessingType.Function}-${ruleId}`,
