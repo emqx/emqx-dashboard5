@@ -163,12 +163,12 @@ export default (): {
 
   const getFilterInfo = (filter: FilterForm) => {
     const num = countFiltersNum(filter)
-    return `${num}${t('Flow.condition', num)}`
+    return `${num} ${t('Flow.condition', num)}`
   }
 
   const getFunctionInfo = (func: FunctionForm) => {
     const num = func.length
-    return `${num}${t('Flow.functionNum', num)}`
+    return `${num} ${t('Flow.functionNum', num)}`
   }
 
   const getNodeInfo = (node: Node): string => {

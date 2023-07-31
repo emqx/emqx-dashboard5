@@ -11,7 +11,7 @@
     @keyup.enter="saveConfig()"
   >
     <el-form-item :label="tl('event')" prop="event">
-      <el-select v-model="record.event">
+      <el-select v-if="!readonly" v-model="record.event">
         <el-option
           v-for="item in eventOptList"
           :key="item.event"
@@ -20,6 +20,7 @@
           :disabled="isEventDisabled(item.event)"
         />
       </el-select>
+      <p class="tip value">{{ getLabelByVal(record.event) }}</p>
     </el-form-item>
   </el-form>
 </template>
@@ -42,6 +43,10 @@ const props = defineProps({
   },
   selectedEvents: {
     type: Array as PropType<Array<string>>,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
@@ -71,6 +76,11 @@ const isEventDisabled = (event: string) => {
     return false
   }
   return props.selectedEvents.includes(event)
+}
+
+const getLabelByVal = (val: string) => {
+  const item = eventOptList.value.find((item) => item.event === val)
+  return item ? startCase(getEventLabel(item.title)) : ''
 }
 
 const saveConfig = () => {

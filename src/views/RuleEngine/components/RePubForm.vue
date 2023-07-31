@@ -10,10 +10,10 @@
     :validate-on-rule-change="false"
     @keyup.enter="saveConfig()"
   >
-    <el-form-item :label="$t('Base.topic')" required prop="args.topic">
+    <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
       <el-input v-model="record.args.topic" />
-    </el-form-item>
-    <el-form-item label="QoS">
+    </CustomFormItem>
+    <CustomFormItem label="QoS" :readonly="readonly">
       <el-select
         v-model="record.args.qos"
         :placeholder="tl('selectOrInput')"
@@ -22,8 +22,8 @@
       >
         <el-option v-for="item in QoSOptions" :value="item" :key="item" />
       </el-select>
-    </el-form-item>
-    <el-form-item label="Retain">
+    </CustomFormItem>
+    <CustomFormItem label="Retain" :readonly="readonly">
       <el-select
         v-model="record.args.retain"
         :placeholder="tl('selectOrInput')"
@@ -34,26 +34,28 @@
         <el-option label="false" :value="false" />
         <el-option label="${flags.retain}" value="${flags.retain}" />
       </el-select>
-    </el-form-item>
-    <el-form-item label="Payload">
+    </CustomFormItem>
+    <CustomFormItem label="Payload">
       <template #label>
         <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`" />
       </template>
       <div class="monaco-container">
         <Monaco
-          :id="createRandomString()"
           v-model="record.args.payload"
           lang="json"
           json-without-validate
+          :disabled="readonly"
+          :id="createRandomString()"
         />
       </div>
-    </el-form-item>
+    </CustomFormItem>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
@@ -66,6 +68,10 @@ const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({}),
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
