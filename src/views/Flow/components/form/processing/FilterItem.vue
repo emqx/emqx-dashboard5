@@ -1,16 +1,16 @@
 <template>
   <div class="filter-item">
-    <el-form-item :prop="getFormItemProp('field')">
+    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('field')">
       <el-autocomplete v-model="record.field" clearable :fetch-suggestions="getSuggestions" />
-    </el-form-item>
-    <el-form-item :prop="getFormItemProp('operator')">
+    </CustomFormItem>
+    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('operator')">
       <el-select v-model="record.operator">
         <el-option v-for="item in RULE_LOGICAL_OPERATORS" :key="item" :label="item" :value="item" />
       </el-select>
-    </el-form-item>
-    <el-form-item :prop="getFormItemProp('valueForComparison')">
+    </CustomFormItem>
+    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('valueForComparison')">
       <el-input v-model="record.valueForComparison" />
-    </el-form-item>
+    </CustomFormItem>
     <el-button link v-show="deletable" class="btn-del" :disabled="!deletable" @click="deleteItem">
       <el-icon :size="16" class="icon-del"><Delete /></el-icon>
     </el-button>
@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import { Delete } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps } from 'vue'
 
@@ -37,6 +38,10 @@ const props = defineProps({
   deletable: {
     type: Boolean,
     default: true,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'delete'])

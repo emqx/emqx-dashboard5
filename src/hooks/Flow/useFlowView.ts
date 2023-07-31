@@ -12,6 +12,7 @@ import {
   splitOnComma,
 } from '@/common/tools'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useRuleFunc, { ArgItem } from '@/hooks/useRuleFunc'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -498,10 +499,13 @@ export default (): {
     return await Promise.all([getRuleData(), getBridgeData()])
   }
 
+  const { getEventList } = useRuleEvents()
   const getFlowData = async () => {
     try {
       isLoading.value = true
       await getData()
+      // For event node info
+      await getEventList()
       generateFlowData()
     } catch (error) {
       //

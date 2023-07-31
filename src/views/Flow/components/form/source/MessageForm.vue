@@ -10,13 +10,14 @@
     :validate-on-rule-change="false"
     @keyup.enter.prevent="saveConfig()"
   >
-    <el-form-item :label="tl('topic')" prop="topic">
+    <CustomFormItem prop="topic" :label="tl('topic')" :readonly="readonly">
       <el-input v-model="record.topic" />
-    </el-form-item>
+    </CustomFormItem>
   </el-form>
 </template>
 
 <script setup lang="ts">
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
@@ -28,6 +29,10 @@ const props = defineProps({
   },
   existedTopics: {
     type: Array as PropType<Array<string>>,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])

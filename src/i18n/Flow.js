@@ -48,12 +48,12 @@ export default {
     en: 'Filter',
   },
   condition: {
-    zh: ' 个条件',
-    en: ' condition |  conditions',
+    zh: '个条件',
+    en: 'condition | conditions',
   },
   functionNum: {
-    zh: ' 个函数',
-    en: ' function |  functions',
+    zh: '个函数',
+    en: 'function | functions',
   },
   topicExistedError: {
     zh: 'Topic 已存在',
