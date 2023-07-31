@@ -5,6 +5,7 @@
         <FunctionBlock
           v-model="record[$index]"
           :ref="(el) => setFormCom(el, $index)"
+          :readonly="readonly"
           @vnode-before-unmount="delFormCom($index)"
         />
         <el-button v-if="record.length > 1" link class="btn-del" @click="deleteItem($index)">
@@ -31,6 +32,10 @@ const props = defineProps({
   modelValue: {
     type: Array as PropType<FunctionForm>,
     default: () => [],
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 

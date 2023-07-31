@@ -8,7 +8,7 @@
     :model="record"
     :validate-on-rule-change="false"
   >
-    <el-form-item :label="t('components.field')" prop="field">
+    <CustomFormItem :readonly="readonly" :label="t('components.field')" prop="field">
       <el-select
         v-model="record.field"
         filterable
@@ -19,8 +19,8 @@
       >
         <el-option v-for="item in COMMON_FIELDS" :key="item" :label="item" :value="item" />
       </el-select>
-    </el-form-item>
-    <el-form-item :label="t('Flow.transform')" prop="func.name">
+    </CustomFormItem>
+    <CustomFormItem :readonly="readonly" :label="t('Flow.transform')" prop="func.name">
       <el-select filterable clearable v-model="record.func.name" @change="handleSelectFunc">
         <el-option-group
           v-for="group in funcOptList"
@@ -35,13 +35,14 @@
           />
         </el-option-group>
       </el-select>
-    </el-form-item>
+    </CustomFormItem>
     <div class="args-block" v-if="showArgsBlock">
-      <el-form-item
+      <CustomFormItem
         v-for="(item, $index) in args"
-        :key="`${record.func.name}-${item.name}`"
+        :readonly="readonly"
         :label="tl(item.name)"
         :prop="`func.args.${$index}`"
+        :key="`${record.func.name}-${item.name}`"
         label-width="120px"
       >
         <el-select
@@ -64,15 +65,16 @@
           v-model="record.func.args[$index]"
           @change="handleArgChanged($event, $index, item.type)"
         />
-      </el-form-item>
+      </CustomFormItem>
     </div>
-    <el-form-item :label="t('Flow.alias')" prop="alias">
+    <CustomFormItem :readonly="readonly" :label="t('Flow.alias')" prop="alias">
       <el-input v-model="record.alias" />
-    </el-form-item>
+    </CustomFormItem>
   </el-form>
 </template>
 
 <script setup lang="ts">
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useRuleFunc, { ArgumentType, FuncItem } from '@/hooks/useRuleFunc'
@@ -83,6 +85,10 @@ const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({}),
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue'])

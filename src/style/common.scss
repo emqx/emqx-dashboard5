@@ -385,6 +385,14 @@ input:disabled {
   }
 }
 
+.el-form-item__content {
+  p.value {
+    margin: 0;
+    color: var(--color-text-secondary);
+    padding-left: 12px;
+  }
+}
+
 .form-item-desc {
   margin-left: 4px;
   font-size: 14px;
