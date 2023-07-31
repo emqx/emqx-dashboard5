@@ -14,6 +14,7 @@
     <div class="filter-container" ref="ListContainer">
       <FilterOperatorLine
         v-if="record.items.length > 1"
+        :readonly="readonly"
         :operator="record.groupOperator"
         @toggle="toggleGroupOperator(record)"
       />
@@ -32,6 +33,7 @@
             <FilterOperatorLine
               class="sub-level"
               show-del
+              :readonly="readonly"
               :operator="filter.groupOperator"
               @toggle="toggleGroupOperator(filter)"
               @delete="deleteGroup(index, filter)"
@@ -61,7 +63,7 @@
         </template>
       </div>
     </div>
-    <el-button link type="primary" :icon="Plus" @click="addFilterItem">
+    <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addFilterItem">
       {{ t('Base.add') }}
     </el-button>
   </el-form>
