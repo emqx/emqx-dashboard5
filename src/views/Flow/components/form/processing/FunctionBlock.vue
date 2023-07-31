@@ -7,6 +7,7 @@
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
+    :hide-required-asterisk="readonly"
   >
     <CustomFormItem :readonly="readonly" :label="t('components.field')" prop="field">
       <el-select

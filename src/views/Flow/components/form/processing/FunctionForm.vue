@@ -8,12 +8,17 @@
           :readonly="readonly"
           @vnode-before-unmount="delFormCom($index)"
         />
-        <el-button v-if="record.length > 1" link class="btn-del" @click="deleteItem($index)">
+        <el-button
+          v-if="!readonly && record.length > 1"
+          link
+          class="btn-del"
+          @click="deleteItem($index)"
+        >
           <el-icon :size="16" class="icon-del"><Delete /></el-icon>
         </el-button>
       </li>
     </ul>
-    <el-button link type="primary" :icon="Plus" @click="addItem">
+    <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addItem">
       {{ tl('add') }}
     </el-button>
   </div>
