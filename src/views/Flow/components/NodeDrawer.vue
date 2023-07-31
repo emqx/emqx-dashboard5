@@ -16,11 +16,12 @@
         :is="getFormComponent(type)"
         v-model="record"
         v-bind="getFormComponentProps(type)"
+        :readonly="readonly"
         @save="save"
       />
     </template>
     <template #footer>
-      <div>
+      <div v-if="!readonly">
         <el-button @click="cancel">{{ tl('cancel') }}</el-button>
         <el-button
           :disabled="isSaveDisabled"
@@ -30,6 +31,9 @@
           {{ tl('done') }}
         </el-button>
       </div>
+      <el-button v-else type="primary" @click="edit">
+        {{ tl('edit') }}
+      </el-button>
     </template>
   </el-drawer>
 </template>
@@ -50,6 +54,10 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  /**
+   * is specific type, no general type
+   * eg. SourceType.Message etc.
+   */
   type: {
     type: String,
     default: '',
@@ -62,6 +70,10 @@ const props = defineProps({
   },
   nodes: {
     type: Array as PropType<Array<Node>>,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close'])
@@ -161,6 +173,10 @@ const save = async () => {
   } catch (error) {
     //
   }
+}
+
+const edit = () => {
+  // TODO:TODO:TODO:
 }
 
 watch(showDialog, (val) => {

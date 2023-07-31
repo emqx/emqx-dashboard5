@@ -43,6 +43,7 @@
                 :key="subIndex"
                 :index="index"
                 :subIndex="subIndex"
+                :readonly="readonly"
                 @delete="deleteFilterItem(index, subIndex)"
               />
             </div>
@@ -52,6 +53,7 @@
             v-model="record.items[index]"
             :key="index"
             :index="index"
+            :readonly="readonly"
             :deletable="record.items.length > 1"
             :class="{ 'can-connect': getCanConnect(index) && showConnector }"
             @delete="deleteFilterItem(index)"
@@ -96,6 +98,10 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<any>,
     default: () => createFilterForm(),
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
