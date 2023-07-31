@@ -17,11 +17,11 @@ const getTheme = () => {
   if (theme && ['light', 'dark'].includes(theme)) {
     return theme
   }
-  return 'dark'
+  return 'light'
 }
 
 const getSyncOSTheme = () => {
-  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'false'
+  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'true'
   if (syncOsTheme === 'undefined') {
     return true
   }
