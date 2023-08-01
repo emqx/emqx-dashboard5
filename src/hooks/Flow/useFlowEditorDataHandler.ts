@@ -10,7 +10,7 @@ import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { groupBy } from 'lodash'
 import useI18nTl from '../useI18nTl'
-import {
+import useFlowNode, {
   FilterForm,
   FilterItem,
   FlowNodeType,
@@ -221,20 +221,12 @@ export default (): {
     }, '')
   }
 
+  const { isBridgerNode } = useFlowNode()
   const getBridgesFromNodes = (flowName: string, nodes: Array<NodeData>): Array<BridgeItem> => {
-    const bridgeDataArr = nodes.reduce((arr: Array<BridgeItem>, { type, data }) => {
-      const isInputAndNotMessageOrEvent =
-        type === FlowNodeType.Input &&
-        data.specificType !== SourceType.Message &&
-        data.specificType !== SourceType.Event
-
-      const isOutputAndNotConsoleOrRePub =
-        type === FlowNodeType.Output &&
-        data.specificType !== SinkType.Console &&
-        data.specificType !== SinkType.RePub
-
-      if (isInputAndNotMessageOrEvent || isOutputAndNotConsoleOrRePub) {
-        arr.push(data.formData)
+    const bridgeDataArr = nodes.reduce((arr: Array<BridgeItem>, node) => {
+      const isBridge = isBridgerNode(node)
+      if (isBridge) {
+        arr.push(node.data.formData)
       }
       return arr
     }, [])
