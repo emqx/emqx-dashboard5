@@ -36,7 +36,7 @@ export interface OutputItemObj {
  */
 export type OutputItem = string | OutputItemObj
 
-export type FromData = Array<string> | string
+export type FromData = Array<string>
 
 export interface BasicRule {
   id: string
