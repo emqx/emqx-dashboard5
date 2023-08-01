@@ -203,7 +203,7 @@ defineExpose({ validate })
 .function-block {
   padding: 24px;
   border-radius: 8px;
-  background-color: var(--color-bg-mdcode);
+  background-color: var(--color-bg-split);
 
   .args-block {
     // same as label width
@@ -212,7 +212,7 @@ defineExpose({ validate })
     margin-bottom: 16px;
     padding: 16px;
     border-radius: 8px;
-    background-color: var(--color-bg-main);
+    background-color: var(--color-bg-table-hd);
   }
 }
 </style>
