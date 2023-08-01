@@ -71,7 +71,7 @@ export default (): {
   const flowData: Ref<FlowData> = ref([])
 
   const { transFromStrToFromArr } = useRuleUtils()
-  const { getTypeCommonData, getTypeLabel, getNodeInfo } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
 
   const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
   const getRuleData = async () => {
@@ -467,6 +467,21 @@ export default (): {
     ;[sourceNodes, sinkNodes] = nodeArrays
   }
 
+  const isRemovedBridge = (node: Node) =>
+    isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
+
+  const setClassToRemovedBridges = () => {
+    const nodeArrays = [sourceNodes, sinkNodes]
+    nodeArrays.forEach((nodeArray) => {
+      nodeArray.forEach((node) => {
+        if (isRemovedBridge(node)) {
+          node.class = (node.class || '') + ' is-disabled'
+        }
+      })
+    })
+    ;[sourceNodes, sinkNodes] = nodeArrays
+  }
+
   const countNodesPosition = () => {
     const totalHeight =
       Math.max(sourceNodes.length, filterNodes.length, functionNodes.length, sinkNodes.length) *
@@ -497,6 +512,7 @@ export default (): {
     generateFlowDataFromRuleData(ruleList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
+    setClassToRemovedBridges()
     countNodesPosition()
     joinToFlowData()
   }
