@@ -368,6 +368,7 @@ export default (): {
     sql,
     actions,
     id,
+    from,
   }: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
     const nodes: GroupedNode = {
       [NodeType.Source]: [],
@@ -375,9 +376,9 @@ export default (): {
       [ProcessingType.Function]: [],
       [NodeType.Sink]: [],
     }
-    const { fieldStr, fromStr, whereStr } = getKeyPartsFromSQL(sql)
-    if (fromStr !== undefined) {
-      nodes[NodeType.Source] = generateNodesBaseFromData(transFromStrToFromArr(fromStr))
+    const { fieldStr, whereStr } = getKeyPartsFromSQL(sql)
+    if (from && from.length > 0) {
+      nodes[NodeType.Source] = generateNodesBaseFromData(from)
     }
     if (whereStr !== undefined) {
       nodes[ProcessingType.Filter].push(generateNodeBaseWhereData(whereStr, id))
@@ -395,13 +396,42 @@ export default (): {
     return { nodes, edges }
   }
 
+  const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
+    nodes.map((node) => {
+      node.data.rulesUsed = [ruleId]
+      return node
+    })
+
+  /**
+   * If a node already exists in the list, modify the rulesUsed data of the node
+   */
+  const addNodesToNodeArr = (nodes: Array<Node>, nodeArr: Array<Node>) => {
+    nodes.forEach((node) => {
+      const index = nodeArr.findIndex((item) => item.id === node.id)
+      if (index > -1) {
+        if (!nodeArr[index].data.rulesUsed) {
+          nodeArr[index].data.rulesUsed = []
+        }
+        nodeArr[index].data.rulesUsed.push(...node.data.rulesUsed)
+      } else {
+        nodeArr.push(node)
+      }
+    })
+    return nodeArr
+  }
+
   const generateFlowDataFromRuleData = (ruleArr: Array<RuleItem>) => {
     ruleArr.forEach((rule) => {
       const { nodes, edges } = generateFlowDataFromRuleItem(rule)
-      sourceNodes.push(...nodes[NodeType.Source])
+
+      sourceNodes = addNodesToNodeArr(
+        addRuleDataToNodes(nodes[NodeType.Source], rule.id),
+        sourceNodes,
+      )
       filterNodes.push(...nodes[ProcessingType.Filter])
       functionNodes.push(...nodes[ProcessingType.Function])
-      sinkNodes.push(...nodes[NodeType.Sink])
+      sinkNodes = addNodesToNodeArr(addRuleDataToNodes(nodes[NodeType.Sink], rule.id), sinkNodes)
+
       edgeArr.push(...edges)
     })
   }
