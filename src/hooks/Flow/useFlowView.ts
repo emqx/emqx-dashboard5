@@ -421,11 +421,11 @@ export default (): {
       const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
       const targetNodes = direction === BridgeDirection.Ingress ? sourceNodes : sinkNodes
       const node: Node = {
-        id: `${type}-${bridge.id}`,
+        id: `${specificType}-${bridge.id}`,
         position: { x: 0, y: 0 },
         label: getTypeLabel(specificType),
         ...getTypeCommonData(nodeType),
-        data: { specificType, formData: { name: bridge.name }, desc: '' },
+        data: { specificType, formData: bridge, desc: '' },
       }
       node.data.desc = getNodeInfo(node)
       targetNodes.push(node)
@@ -491,8 +491,10 @@ export default (): {
 
   const generateFlowData = () => {
     initNodeAndEdge()
-    generateFlowDataFromRuleData(ruleList)
+    // create bridge node first because this can get bridge data and set to form data,
+    // then remove duplicated node will remove the node without form data which from rule SQL
     generateNodesFromBridgeData(bridgeList)
+    generateFlowDataFromRuleData(ruleList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
     countNodesPosition()
