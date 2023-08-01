@@ -81,6 +81,7 @@ export default (): {
   getNodeClass: (type: NodeType) => string
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
+  isBridgerNode: (node: Partial<Node>) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
   getNodeIcon: (type: string, disabled?: boolean) => string
@@ -153,6 +154,18 @@ export default (): {
   }
   initEventList()
 
+  const isBridgerNode = ({ type, data }: Partial<Node>): boolean => {
+    const { specificType } = data || {}
+    return (
+      (type === FlowNodeType.Input &&
+        specificType !== SourceType.Message &&
+        specificType !== SourceType.Event) ||
+      (type === FlowNodeType.Output &&
+        specificType !== SinkType.Console &&
+        specificType !== SinkType.RePub)
+    )
+  }
+
   const getEventLabelFromVal = (val: string) => {
     if (!val || !eventList.length) {
       return ''
@@ -212,6 +225,7 @@ export default (): {
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
+    isBridgerNode,
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,
