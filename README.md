@@ -1,5 +1,9 @@
 # EMQX 5.0 Dashboard
 
+![Build Status](https://github.com/emqx/emqx-dashboard5/actions/workflows/build_oss_package.yaml/badge.svg)
+
+![Build Status](https://github.com/emqx/emqx-dashboard5/actions/workflows/build_enterprise_package.yaml/badge.svg)
+
 EMQX Dashboard is a comprehensive web interface for managing and monitoring EMQX. This intuitive tool allows users to effortlessly oversee EMQX clusters, customize features, and display data visually.
 
 ![image](./assets/overview-light.png)
