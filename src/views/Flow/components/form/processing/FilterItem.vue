@@ -1,7 +1,7 @@
 <template>
   <div class="filter-item">
     <CustomFormItem :readonly="readonly" :prop="getFormItemProp('field')">
-      <el-autocomplete v-model="record.field" clearable :fetch-suggestions="getSuggestions" />
+      <CommonFields v-model="record.field" />
     </CustomFormItem>
     <CustomFormItem :readonly="readonly" :prop="getFormItemProp('operator')">
       <el-select v-model="record.operator">
@@ -28,6 +28,7 @@ import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import { Delete } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps } from 'vue'
+import CommonFields from '../CommonFields.vue'
 
 const props = defineProps({
   modelValue: {
@@ -66,11 +67,6 @@ const getFormItemProp = (key: string) => {
   return props.subIndex !== undefined
     ? [LIST_KEY, props.index.toString(), LIST_KEY, props.subIndex.toString(), key]
     : [LIST_KEY, props.index.toString(), key]
-}
-
-const getSuggestions = () => {
-  // TODO:
-  return []
 }
 
 const deleteItem = () => emit('delete')
