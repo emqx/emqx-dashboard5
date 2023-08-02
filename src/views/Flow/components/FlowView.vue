@@ -68,12 +68,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style lang="scss">
-.flow-view {
-  .vue-flow__node.is-disabled {
-    filter: grayscale(1);
-    opacity: 0.7;
-  }
-}
-</style>
