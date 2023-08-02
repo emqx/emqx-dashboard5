@@ -13,6 +13,11 @@
     :form-data="currentNode?.data?.formData"
     @edit="editCurrentNode"
   />
+  <FlowSelectDialog
+    v-model="showFlowSelectDialog"
+    :id-arr="currentNode?.data?.rulesUsed"
+    @selected="goFlowDetail"
+  />
 </template>
 
 <script setup lang="ts">
@@ -22,6 +27,7 @@ import { Ref, defineEmits, onMounted, ref } from 'vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
 import { useRouter } from 'vue-router'
+import FlowSelectDialog from './FlowSelectDialog.vue'
 
 const router = useRouter()
 
@@ -41,6 +47,10 @@ const handleClickNode = ({ node }: NodeMouseEvent) => {
   currentNode.value = node
 }
 
+const goFlowDetail = (flowId: string) =>
+  router.push({ name: 'flow-detail', params: { id: flowId } })
+
+const showFlowSelectDialog = ref(false)
 const editCurrentNode = () => {
   if (!currentNode.value) {
     return
@@ -49,9 +59,9 @@ const editCurrentNode = () => {
     data: { rulesUsed },
   } = currentNode.value
   if (rulesUsed.length === 1) {
-    router.push({ name: 'flow-detail', params: { id: rulesUsed[0] } })
+    goFlowDetail(rulesUsed[0])
   } else {
-    // TODO:
+    showFlowSelectDialog.value = true
   }
 }
 
