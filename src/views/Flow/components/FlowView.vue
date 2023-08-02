@@ -11,6 +11,7 @@
     readonly
     :type="currentNode?.data?.specificType"
     :form-data="currentNode?.data?.formData"
+    @edit="editCurrentNode"
   />
 </template>
 
@@ -20,6 +21,9 @@ import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
 import { Ref, defineEmits, onMounted, ref } from 'vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const emit = defineEmits(['loaded'])
 
@@ -35,6 +39,20 @@ const handleClickNode = ({ node }: NodeMouseEvent) => {
   }
   showDrawer.value = true
   currentNode.value = node
+}
+
+const editCurrentNode = () => {
+  if (!currentNode.value) {
+    return
+  }
+  const {
+    data: { rulesUsed },
+  } = currentNode.value
+  if (rulesUsed.length === 1) {
+    router.push({ name: 'flow-detail', params: { id: rulesUsed[0] } })
+  } else {
+    // TODO:
+  }
 }
 
 onMounted(async () => {

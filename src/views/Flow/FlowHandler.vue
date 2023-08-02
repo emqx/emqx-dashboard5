@@ -22,6 +22,7 @@
       <FlowEditor
         ref="FlowEditorCom"
         v-if="editingMethod === EditingMethod.Flow"
+        :data="flowData"
         :flow-name="flowBasicInfo.name"
       />
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
@@ -32,12 +33,13 @@
 
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
+import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useI18nTl from '@/hooks/useI18nTl'
 import { EditPen } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FlowEditor from './components/FlowEditor.vue'
 import FlowNameDialog from './components/FlowNameDialog.vue'
@@ -56,10 +58,13 @@ const enum EditingMethod {
 const router = useRouter()
 const { t, tl } = useI18nTl('Flow')
 
+const { isInfoLoading, flowId, flowData } = useEditFlow()
+const isCreate = computed(() => !flowId.value)
 const editingMethod = ref(EditingMethod.Flow)
 
 // Set name and desc to rule
 const flowBasicInfo = ref({ name: createRandomString(), desc: '' })
+
 const showBasicInfoDialog = ref(false)
 const openBasicInfoDialog = () => (showBasicInfoDialog.value = true)
 const handleSaveBasicInfo = (val: FlowBasicInfo) => (flowBasicInfo.value = val)

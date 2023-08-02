@@ -73,7 +73,7 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 
-const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow', 'flow-create']
+const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow', 'flow-create', 'flow-detail']
 
 export default defineComponent({
   name: 'Layout',
