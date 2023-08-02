@@ -76,7 +76,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close'])
+const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit'])
 
 const showDialog = computed({
   get: () => props.modelValue,
@@ -176,6 +176,7 @@ const save = async () => {
 }
 
 const edit = () => {
+  emit('edit')
   // TODO:TODO:TODO:
 }
 
