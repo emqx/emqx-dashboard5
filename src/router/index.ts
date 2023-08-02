@@ -516,7 +516,12 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'create',
         name: 'flow-create',
-        component: () => import('@/views/Flow/FlowCreate.vue'),
+        component: () => import('@/views/Flow/FlowHandler.vue'),
+      },
+      {
+        path: ':id',
+        name: 'flow-detail',
+        component: () => import('@/views/Flow/FlowHandler.vue'),
       },
     ],
   },

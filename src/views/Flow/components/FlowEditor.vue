@@ -77,14 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, isEmptyObj } from '@/common/tools'
+import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Delete, Search } from '@element-plus/icons-vue'
-import { Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
+import { Edge, Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
+import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
@@ -93,6 +93,9 @@ const props = defineProps({
   flowName: {
     type: String,
     default: '',
+  },
+  data: {
+    type: Array as PropType<Array<Node | Edge>>,
   },
 })
 
@@ -107,10 +110,11 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges } = useVueFlow({
-  id: flowEditorId,
-  deleteKeyCode: 'Delete',
-})
+const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges, applyChanges } =
+  useVueFlow({
+    id: flowEditorId,
+    deleteKeyCode: 'Delete',
+  })
 
 const {
   nodeArr: rawNodeArr,
@@ -235,6 +239,17 @@ const getFlowData = () => {
 }
 
 onConnect((params) => addEdges(params))
+
+watch(
+  () => props.data,
+  async (nVal) => {
+    if (nVal && nVal.length) {
+      flowData.value = nVal
+      await waitAMoment()
+      FlowerInstance.value?.fitView()
+    }
+  },
+)
 
 defineExpose({ validate, getFlowData })
 </script>
