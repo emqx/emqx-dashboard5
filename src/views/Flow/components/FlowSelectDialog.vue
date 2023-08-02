@@ -57,6 +57,8 @@ const showDialog = computed({
 watch(showDialog, (val) => {
   if (!val) {
     record.value.flow = ''
+  } else {
+    record.value.flow = props.idArr[0]
   }
 })
 
