@@ -7,7 +7,7 @@ import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
-import useFlowNode, { FlowData, FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
+import { FlowData, FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -31,8 +31,6 @@ export default (): {
   const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
-  const { isBridgerNode } = useFlowNode()
-
   const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
 
   const getRuleData = async () => {
@@ -55,8 +53,12 @@ export default (): {
     }
   }
 
-  const { generateNodeFromBridgeData, generateFlowDataFromRuleItem, countNodesPosition } =
-    useFlowUtils()
+  const {
+    generateNodeFromBridgeData,
+    generateFlowDataFromRuleItem,
+    countNodesPosition,
+    isRemovedBridge,
+  } = useFlowUtils()
 
   const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
     nodes.map((node) => {
@@ -120,9 +122,6 @@ export default (): {
     })
     ;[sourceNodes, sinkNodes] = nodeArrays
   }
-
-  const isRemovedBridge = (node: Node) =>
-    isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
   const setClassToRemovedBridges = () => {
     const nodeArrays = [sourceNodes, sinkNodes]

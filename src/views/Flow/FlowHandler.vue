@@ -1,10 +1,12 @@
 <template>
-  <div class="flow-create">
+  <div class="flow-create" v-loading="isInfoLoading">
     <div class="flow-create-hd space-between">
       <div class="basic-info">
         <div class="info-hd">
           <p class="info-name">{{ flowBasicInfo.name }}</p>
-          <el-icon class="icon-edit" @click="openBasicInfoDialog"><EditPen /></el-icon>
+          <el-icon v-if="isCreate" class="icon-edit" @click="openBasicInfoDialog">
+            <EditPen />
+          </el-icon>
         </div>
         <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
       </div>

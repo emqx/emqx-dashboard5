@@ -43,7 +43,7 @@ export type GroupedNode = {
 }
 
 export default () => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
   const { generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
@@ -407,9 +407,13 @@ export default () => {
     nodesArr.forEach((arr, index) => setPositionToColumnNodes(arr, index, totalHeight))
   }
 
+  const isRemovedBridge = (node: Node) =>
+    isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
+
   return {
     generateNodeFromBridgeData,
     generateFlowDataFromRuleItem,
     countNodesPosition,
+    isRemovedBridge,
   }
 }
