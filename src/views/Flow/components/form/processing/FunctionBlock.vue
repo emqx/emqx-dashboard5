@@ -10,19 +10,16 @@
     :hide-required-asterisk="readonly"
   >
     <CustomFormItem :readonly="readonly" :label="t('components.field')" prop="field">
-      <el-select
-        v-model="record.field"
-        filterable
-        allow-create
-        default-first-option
-        :reserve-keyword="false"
-        @change="handleFieldChanged"
-      >
-        <el-option v-for="item in COMMON_FIELDS" :key="item" :label="item" :value="item" />
-      </el-select>
+      <CommonFields v-model="record.field" @change="handleFieldChanged" />
     </CustomFormItem>
     <CustomFormItem :readonly="readonly" :label="t('Flow.transform')" prop="func.name">
-      <el-select filterable clearable v-model="record.func.name" @change="handleSelectFunc">
+      <el-select
+        filterable
+        clearable
+        v-model="record.func.name"
+        class="select-func"
+        @change="handleSelectFunc"
+      >
         <el-option-group
           v-for="group in funcOptList"
           :key="group.groupLabel"
@@ -81,6 +78,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useRuleFunc, { ArgumentType, FuncItem } from '@/hooks/useRuleFunc'
 import { FormRules } from '@/types/common'
 import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import CommonFields from '../CommonFields.vue'
 
 const props = defineProps({
   modelValue: {
@@ -97,8 +95,6 @@ const emit = defineEmits(['update:modelValue'])
 const { t, tl } = useI18nTl('Function')
 
 const { funcOptList, getFuncItemByName, getFuncGroupByName, getArgIndex } = useRuleFunc()
-
-const COMMON_FIELDS: Array<string> = []
 
 const FormCom = ref()
 
@@ -213,6 +209,13 @@ defineExpose({ validate })
     padding: 16px;
     border-radius: 8px;
     background-color: var(--color-bg-table-hd);
+  }
+
+  .common-fields {
+    width: 100%;
+  }
+  .select-func {
+    width: 50%;
   }
 }
 </style>
