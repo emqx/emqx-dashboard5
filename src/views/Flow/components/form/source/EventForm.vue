@@ -20,7 +20,7 @@
           :disabled="isEventDisabled(item.event)"
         />
       </el-select>
-      <p class="tip value">{{ getLabelByVal(record.event) }}</p>
+      <p v-else class="tip value">{{ getLabelByVal(record.event) }}</p>
     </el-form-item>
   </el-form>
 </template>

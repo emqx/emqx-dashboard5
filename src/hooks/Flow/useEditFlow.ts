@@ -1,11 +1,11 @@
-import { getRuleInfo, getBridgeInfo } from '@/api/ruleengine'
+import { getBridgeInfo, getRuleInfo } from '@/api/ruleengine'
+import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
+import { unionBy } from 'lodash'
 import { Ref, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import useFlowUtils, { GroupedNode } from './useFlowUtils'
-import { RuleItem } from '@/types/rule'
 import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'
-import { unionBy } from 'lodash'
+import useFlowUtils, { GroupedNode } from './useFlowUtils'
 
 export default () => {
   const route = useRoute()
@@ -37,7 +37,7 @@ export default () => {
     const ruleFlowData = generateFlowDataFromRuleItem(ruleData)
     const { nodes, edges } = ruleFlowData
     const sourceAndSinkNodes = [...nodes[NodeType.Source], ...nodes[NodeType.Sink]]
-    const bridgeArr = await Promise.allSettled(
+    const bridgeRequestArr = await Promise.allSettled(
       sourceAndSinkNodes
         .filter((item) => isBridgerNode(item))
         .map(({ id: nodeId }) => {
@@ -45,6 +45,12 @@ export default () => {
           return getBridgeInfo(bridgeId)
         }),
     )
+    const bridgeArr = bridgeRequestArr.reduce((arr: Array<BridgeItem>, item) => {
+      if (item.status === 'fulfilled') {
+        arr.push(item.value)
+      }
+      return arr
+    }, [])
     bridgeArr.forEach((bridgeItem) => {
       if (!bridgeItem) {
         return
