@@ -91,4 +91,12 @@ export default {
     zh: '未被使用的字段',
     en: 'Unused field',
   },
+  flowSelect: {
+    zh: '选择修改的 Flow',
+    en: 'Select Flow',
+  },
+  flowSelectDesc: {
+    zh: '此节点被多个 Flow 共用，请选择您想要修改的 Flow',
+    en: 'This node is shared by multiple flows, please select the flow you want to modify',
+  },
 }
