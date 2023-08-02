@@ -5,7 +5,7 @@
         class="background-ring"
         @click="clickRing"
         v-click-outside="onClickRingOutside"
-        fill="#E7F7FF"
+        :fill="backgroundCircle"
         :d="ringPath"
         :stroke-width="ACTIVE_RING_STROKE_WIDTH"
         :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
@@ -25,11 +25,18 @@ import {
 } from '@/hooks/Overview/useNodesGraph'
 import { ClickOutside as vClickOutside } from 'element-plus'
 import { computed, defineEmits, ref } from 'vue'
+import { useStore } from 'vuex'
 
 const emit = defineEmits(['showPopover'])
+const store = useStore()
 
 const { SVGSideLength } = useBackgroundCircle()
 const SVGCenter = SVGSideLength / 2
+
+const backgroundCircle = computed(() => {
+  const { theme } = store.state
+  return theme === 'dark' ? '#469cf71a' : '#E7F7FF'
+})
 
 const ringPath = computed(() => {
   const innerRadius = BACKGROUND_CIRCLE_INNER_RADIUS
