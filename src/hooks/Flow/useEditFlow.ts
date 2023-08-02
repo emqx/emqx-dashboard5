@@ -27,8 +27,12 @@ export default () => {
     }
   }
 
-  const { generateFlowDataFromRuleItem, generateNodeFromBridgeData, countNodesPosition } =
-    useFlowUtils()
+  const {
+    generateFlowDataFromRuleItem,
+    generateNodeFromBridgeData,
+    countNodesPosition,
+    isRemovedBridge,
+  } = useFlowUtils()
   const { isBridgerNode } = useFlowNode()
   const getFlowData = async () => {
     if (!ruleData) {
@@ -65,9 +69,19 @@ export default () => {
     Object.entries(nodes).forEach(([key, value]) => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')
     })
+
     countNodesPosition(nodes)
     flowData.value = [
-      ...Object.entries(nodes).reduce((arr: Array<Node>, [, value]) => [...arr, ...value], []),
+      ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
+        if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
+          value.forEach((item) => {
+            if (isRemovedBridge(item)) {
+              item.class = (item.class || '') + ' is-disabled'
+            }
+          })
+        }
+        return [...arr, ...value]
+      }, []),
       ...edges,
     ]
   }

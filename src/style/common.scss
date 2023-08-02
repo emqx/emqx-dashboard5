@@ -850,6 +850,10 @@ code {
       box-sizing: border-box;
       padding: 8px 16px;
     }
+    .vue-flow__node.is-disabled {
+      filter: grayscale(1);
+      opacity: 0.7;
+    }
   }
 
   .vue-flow__handle {
