@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
 import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
@@ -60,18 +60,39 @@ const enum EditingMethod {
 const router = useRouter()
 const { t, tl } = useI18nTl('Flow')
 
-const { isInfoLoading, flowId, flowData } = useEditFlow()
-const isCreate = computed(() => !flowId.value)
-const editingMethod = ref(EditingMethod.Flow)
-
 // Set name and desc to rule
 const flowBasicInfo = ref({ name: createRandomString(), desc: '' })
+
+const { flowId, flowData, ruleData, getData } = useEditFlow()
+const isCreate = computed(() => !flowId.value)
+const editingMethod = ref(EditingMethod.Flow)
 
 const showBasicInfoDialog = ref(false)
 const openBasicInfoDialog = () => (showBasicInfoDialog.value = true)
 const handleSaveBasicInfo = (val: FlowBasicInfo) => (flowBasicInfo.value = val)
 
 const FlowEditorCom = ref()
+
+const isInfoLoading = ref(false)
+const getFlowDetail = async () => {
+  try {
+    isInfoLoading.value = true
+    await getData()
+    if (ruleData.value) {
+      const { id, description } = ruleData.value
+      flowBasicInfo.value = { name: id, desc: description }
+    }
+  } catch (error) {
+    //
+  } finally {
+    // Reduce the feeling of screen shake
+    await waitAMoment(100)
+    isInfoLoading.value = false
+  }
+}
+if (flowId.value) {
+  getFlowDetail()
+}
 
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
 const { isSubmitting, createFlow } = useSubmitFlowData()

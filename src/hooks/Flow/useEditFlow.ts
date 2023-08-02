@@ -10,16 +10,14 @@ import useFlowUtils, { GroupedNode } from './useFlowUtils'
 export default () => {
   const route = useRoute()
 
-  const isInfoLoading = ref(false)
-
   const flowId = computed(() => route.params.id?.toString())
-  let ruleData: undefined | RuleItem = undefined
+  const ruleData: Ref<undefined | RuleItem> = ref(undefined)
   // let bridgeInfoMap = {}
   const flowData: Ref<undefined | Array<Node | Edge>> = ref(undefined)
 
   const getRuleData = async () => {
     try {
-      ruleData = await getRuleInfo(flowId.value)
+      ruleData.value = await getRuleInfo(flowId.value)
       return Promise.resolve()
     } catch (error) {
       console.error(error)
@@ -35,10 +33,10 @@ export default () => {
   } = useFlowUtils()
   const { isBridgerNode } = useFlowNode()
   const getFlowData = async () => {
-    if (!ruleData) {
+    if (!ruleData.value) {
       return
     }
-    const ruleFlowData = generateFlowDataFromRuleItem(ruleData)
+    const ruleFlowData = generateFlowDataFromRuleItem(ruleData.value)
     const { nodes, edges } = ruleFlowData
     const sourceAndSinkNodes = [...nodes[NodeType.Source], ...nodes[NodeType.Sink]]
     const bridgeRequestArr = await Promise.allSettled(
@@ -86,25 +84,20 @@ export default () => {
     ]
   }
 
-  const initData = async () => {
+  const getData = async () => {
     try {
-      isInfoLoading.value = true
       await getRuleData()
       await getFlowData()
+      return Promise.resolve()
     } catch (error) {
-      //
-    } finally {
-      isInfoLoading.value = false
+      return Promise.reject()
     }
   }
 
-  if (flowId.value) {
-    initData()
-  }
-
   return {
-    isInfoLoading,
     flowId,
+    ruleData,
     flowData,
+    getData,
   }
 }
