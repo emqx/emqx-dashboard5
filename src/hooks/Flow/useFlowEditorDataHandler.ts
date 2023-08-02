@@ -83,15 +83,20 @@ export default (): {
 
   const verifyMultipleFlow = async ({ nodes, edges }: FlowData) => {
     const graph: Map<string, Array<string>> = new Map()
+
     for (const edge of edges) {
-      if (!graph.has(edge.source)) {
+      if (!graph.get(edge.source)) {
         graph.set(edge.source, [])
       }
+      if (!graph.has(edge.target)) {
+        graph.set(edge.target, [])
+      }
       ;(graph.get(edge.source) as Array<string>).push(edge.target)
+      ;(graph.get(edge.target) as Array<string>).push(edge.source)
     }
 
     const visited: Set<string> = new Set()
-    const dfs = (nodeId: string) => {
+    function dfs(nodeId: string) {
       visited.add(nodeId)
       const neighbors = graph.get(nodeId)
       if (neighbors) {
@@ -103,10 +108,17 @@ export default (): {
       }
     }
 
-    dfs(nodes[0].id)
+    let numberOfConnectedComponents = 0
 
-    const allNodesVisited = nodes.every((node) => visited.has(node.id))
-    return !allNodesVisited ? Promise.reject(tl('multipleFlowError')) : Promise.resolve()
+    for (const nodeId of graph.keys()) {
+      if (!visited.has(nodeId)) {
+        dfs(nodeId)
+        numberOfConnectedComponents++
+      }
+    }
+    return numberOfConnectedComponents > 1
+      ? Promise.reject(tl('multipleFlowError'))
+      : Promise.resolve()
   }
 
   const validateFlow = async (flowData: FlowData) => {
