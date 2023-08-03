@@ -18,7 +18,12 @@ import useFlowNode, {
   SourceType,
   getSpecificTypeWithDirection,
 } from './useFlowNode'
-import { createEventForm, createFunctionItem, createMessageForm } from './useNodeForm'
+import {
+  createConsoleForm,
+  createEventForm,
+  createFunctionItem,
+  createMessageForm,
+} from './useNodeForm'
 import useParseWhere from './useParseWhere'
 
 /**
@@ -253,6 +258,7 @@ export default () => {
 
       if (type === SinkType.Console) {
         id = SinkType.Console
+        formData = createConsoleForm()
       } else if (type === SinkType.RePub) {
         id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
         formData = item
