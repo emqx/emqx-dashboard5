@@ -4,7 +4,7 @@
       <div class="basic-info">
         <div class="info-hd">
           <p class="info-name">{{ flowBasicInfo.name }}</p>
-          <el-icon v-if="isCreate" class="icon-edit" @click="openBasicInfoDialog">
+          <el-icon class="icon-edit" @click="openBasicInfoDialog">
             <EditPen />
           </el-icon>
         </div>
@@ -15,8 +15,8 @@
           <el-radio-button :label="EditingMethod.Flow">Flow</el-radio-button>
           <el-radio-button :label="EditingMethod.SQL">SQL</el-radio-button>
         </el-radio-group>
-        <el-button type="primary" :loading="isSubmitting" @click="create">
-          {{ t('Base.create') }}
+        <el-button type="primary" :loading="isSubmitting" @click="submit">
+          {{ t(`Base.${isCreate ? 'create' : 'update'}`) }}
         </el-button>
       </div>
     </div>
@@ -30,7 +30,12 @@
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>
   </div>
-  <FlowNameDialog v-model="showBasicInfoDialog" :data="flowBasicInfo" @save="handleSaveBasicInfo" />
+  <FlowNameDialog
+    v-model="showBasicInfoDialog"
+    :is-edit="!isCreate"
+    :data="flowBasicInfo"
+    @save="handleSaveBasicInfo"
+  />
 </template>
 
 <script setup lang="ts">
@@ -96,7 +101,7 @@ if (flowId.value) {
 
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
 const { isSubmitting, createFlow } = useSubmitFlowData()
-const create = async () => {
+const submit = async () => {
   try {
     if (editingMethod.value === EditingMethod.Flow) {
       const flowData = FlowEditorCom.value.getFlowData()
