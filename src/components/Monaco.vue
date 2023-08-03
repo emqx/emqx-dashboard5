@@ -148,6 +148,10 @@ const initEditor = () => {
       emit('change', value)
     }
   })
+  editor.onDidBlurEditorWidget(async (event) => {
+    const value = editor.getValue()
+    emit('blur', value)
+  })
   // Update editor options
   const model = editor.getModel()
   if (model) {

@@ -62,7 +62,11 @@ export interface FunctionItem {
   alias: string
 }
 
-export type FunctionForm = Array<FunctionItem>
+export type FunctionForm = {
+  editedWay: 'form' | 'sql'
+  form: Array<FunctionItem>
+  sql: string
+}
 
 export interface FilterForm {
   groupOperator: FilterLogicalOperator
@@ -180,8 +184,8 @@ export default (): {
   }
 
   const getFunctionInfo = (func: FunctionForm) => {
-    const num = func.length
-    return `${num} ${t('Flow.functionNum', num)}`
+    const num = func?.form?.length
+    return num ? `${num} ${t('Flow.functionNum', num)}` : ''
   }
 
   const getNodeInfo = (node: Node): string => {
