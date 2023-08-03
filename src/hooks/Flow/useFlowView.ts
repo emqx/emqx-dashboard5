@@ -1,6 +1,6 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
-import useFlowUtils from '@/hooks/Flow/useFlowUtils'
+import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
@@ -58,7 +58,7 @@ export default (): {
     generateFlowDataFromRuleItem,
     countNodesPosition,
     isRemovedBridge,
-  } = useFlowUtils()
+  } = useGenerateFlowDataUtils()
 
   const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
     nodes.map((node) => {
