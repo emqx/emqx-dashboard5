@@ -6,13 +6,7 @@
       <template #node-custom_output="data"><FlowNode :data="data" /></template>
     </VueFlow>
   </div>
-  <NodeDrawer
-    v-model="showDrawer"
-    readonly
-    :type="currentNode?.data?.specificType"
-    :form-data="currentNode?.data?.formData"
-    @edit="editCurrentNode"
-  />
+  <NodeDrawer v-model="showDrawer" readonly :node="currentNode" @edit="editCurrentNode" />
   <FlowSelectDialog
     v-model="showFlowSelectDialog"
     :id-arr="currentNode?.data?.rulesUsed"
@@ -43,8 +37,8 @@ const handleClickNode = ({ node }: NodeMouseEvent) => {
   if (!node) {
     return
   }
-  showDrawer.value = true
   currentNode.value = node
+  showDrawer.value = true
 }
 
 const goFlowDetail = (flowId: string) =>

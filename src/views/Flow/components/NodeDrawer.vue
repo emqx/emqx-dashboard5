@@ -54,16 +54,8 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  /**
-   * is specific type, no general type
-   * eg. SourceType.Message etc.
-   */
-  type: {
-    type: String,
-    default: '',
-  },
-  formData: {
-    type: Object,
+  node: {
+    type: Object as PropType<Node>,
   },
   generateBridgeName: {
     type: Function,
@@ -87,11 +79,17 @@ const showDialog = computed({
 
 const { t, tl } = useI18nTl('Base')
 
+/**
+ * is specific type, no general type
+ * eg. SourceType.Message etc.
+ */
+const type = computed(() => props.node?.data?.specificType)
+
 const FormCom = ref()
 
 const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
-const title = computed(() => (props.type ? getDrawerTitle(props.type) : ''))
-const width = computed(() => (props.type ? getDrawerWidth(props.type) : drawerDefaultWidth))
+const title = computed(() => (type.value ? getDrawerTitle(type.value) : ''))
+const width = computed(() => (type.value ? getDrawerWidth(type.value) : drawerDefaultWidth))
 
 const selectedEvents = computed(() => {
   if (!props.nodes?.length) {
@@ -130,7 +128,7 @@ const record: Ref<Record<string, any>> = ref({})
 
 const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
 
-const isSaveDisabled = computed(() => checkFormIsEmpty(props.type, record.value))
+const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
 /**
  * When clicking the cancel / close button, it's used to compare the
@@ -148,7 +146,7 @@ const cancel = async () => {
     if (!recordHasNotChanged()) {
       await ElMessageBox.confirm(
         t('Flow.nodeDrawerCancelTip', {
-          type: lowerCase(props.formData ? tl('edit') : tl('create')),
+          type: lowerCase(props.node?.data?.formData ? tl('edit') : tl('create')),
         }),
         {
           confirmButtonText: tl('confirm'),
@@ -185,7 +183,8 @@ watch(showDialog, (val) => {
     return
   }
 
-  const { formData, type, generateBridgeName } = props
+  const { node, generateBridgeName } = props
+  const { formData, specificType: type } = node?.data || {}
   record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   if (!formData && isBridgeType(type) && isFunction(generateBridgeName)) {
     record.value.name = generateBridgeName()

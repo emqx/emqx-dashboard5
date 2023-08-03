@@ -67,8 +67,7 @@
   <NodeDrawer
     v-model="isDrawerVisible"
     :nodes="getNodes"
-    :type="currentNodeType"
-    :form-data="currentNodeFormData"
+    :node="currentNode"
     :generate-bridge-name="createBridgeName"
     @save="saveDataToNode"
     @close="resetDrawerData"
@@ -84,7 +83,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Delete, Search } from '@element-plus/icons-vue'
 import { Edge, Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
 import { pick } from 'lodash'
-import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineExpose, defineProps, ref, watch } from 'vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
@@ -110,11 +109,10 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges, applyChanges } =
-  useVueFlow({
-    id: flowEditorId,
-    deleteKeyCode: 'Delete',
-  })
+const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges } = useVueFlow({
+  id: flowEditorId,
+  deleteKeyCode: 'Delete',
+})
 
 const {
   nodeArr: rawNodeArr,
@@ -184,14 +182,12 @@ const getDraggable = (type: string) => {
 }
 
 const isDrawerVisible = ref(false)
-const currentNodeType = ref('')
-const currentNodeFormData: Ref<undefined | Record<string, any>> = ref(undefined)
+const currentNode: Ref<undefined | Node> = ref(undefined)
 let currentNodeID = ''
 const openNodeDrawer = (node: Node<any, any, string>) => {
-  isDrawerVisible.value = true
-  currentNodeType.value = node.data.specificType
-  currentNodeFormData.value = node.data.formData
+  currentNode.value = node
   currentNodeID = node.id
+  isDrawerVisible.value = true
 }
 
 const handleClickNode = (event: NodeMouseEvent) => {
@@ -203,7 +199,7 @@ const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
 
 const resetDrawerData = () => {
   isDrawerVisible.value = false
-  currentNodeType.value = ''
+  currentNode.value = undefined
   currentNodeID = ''
 }
 
