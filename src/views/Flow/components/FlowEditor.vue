@@ -50,15 +50,15 @@
         @node-click="handleClickNode"
       >
         <template #node-custom_input="data">
-          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_default="data">
-          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_output="data">
-          <el-icon class="icon-del"><Delete @click.stop="delNode(data)" /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
           <FlowNode :data="data" />
         </template>
       </VueFlow>
@@ -301,10 +301,13 @@ defineExpose({ validate, getFlowData })
       width: $total-size;
       height: $total-size;
       padding: $icon-padding-right $icon-padding-right $icon-padding-left $icon-padding-left;
+      border-radius: 0 0 0 40px;
       svg {
         width: $icon-size;
         cursor: pointer;
-        &:hover {
+      }
+      &:hover {
+        svg {
           color: var(--color-primary);
         }
       }

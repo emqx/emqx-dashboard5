@@ -862,9 +862,10 @@ code {
     width: 8px;
     height: 8px;
     border: none;
+
     // In order to expand the draggable area invisible
     &::before {
-      content:'';
+      content: '';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -872,6 +873,10 @@ code {
       display: block;
       width: 24px;
       height: 24px;
+    }
+
+    &:hover {
+      --vf-handle: var(--color-primary);
     }
   }
 
