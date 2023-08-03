@@ -5,7 +5,7 @@ import { unionBy } from 'lodash'
 import { Ref, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'
-import useFlowUtils, { GroupedNode } from './useFlowUtils'
+import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtils'
 
 export default () => {
   const route = useRoute()
@@ -70,7 +70,7 @@ export default () => {
     generateNodeFromBridgeData,
     countNodesPosition,
     isRemovedBridge,
-  } = useFlowUtils()
+  } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
   const getFlowData = async () => {
     if (!ruleData.value) {
