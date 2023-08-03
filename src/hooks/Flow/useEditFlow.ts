@@ -25,6 +25,46 @@ export default () => {
     }
   }
 
+  /**
+   *
+   * @param nodes source nodes concat sink node
+   */
+  const getBridgeArrFromNodes = async (nodes: Array<Node>) => {
+    const bridgeRequestArr = await Promise.allSettled(
+      nodes
+        .filter((item) => isBridgerNode(item))
+        .map(({ id: nodeId }) => {
+          const bridgeId = nodeId.split('-')[1]
+          return getBridgeInfo(bridgeId)
+        }),
+    )
+    const bridgeArr = bridgeRequestArr.reduce((arr: Array<BridgeItem>, item) => {
+      if (item.status === 'fulfilled' && item.value) {
+        arr.push(item.value)
+      }
+      return arr
+    }, [])
+    return bridgeArr
+  }
+
+  const addClassToBridgeNode = (node: Node) => {
+    if (isRemovedBridge(node)) {
+      node.class = (node.class || '') + ' is-disabled'
+    }
+    return node
+  }
+
+  /**
+   * Adding a flag to the node data indicates that these bridges have
+   * been added before, which can control whether the name can be modified,
+   * and when submitting data, whether the current bridge should call
+   * the added API or the updated API
+   */
+  const addFlagToBridgeNode = (node: Node) => {
+    node.data.isExisted = true
+    return node
+  }
+
   const {
     generateFlowDataFromRuleItem,
     generateNodeFromBridgeData,
@@ -39,25 +79,10 @@ export default () => {
     const ruleFlowData = generateFlowDataFromRuleItem(ruleData.value)
     const { nodes, edges } = ruleFlowData
     const sourceAndSinkNodes = [...nodes[NodeType.Source], ...nodes[NodeType.Sink]]
-    const bridgeRequestArr = await Promise.allSettled(
-      sourceAndSinkNodes
-        .filter((item) => isBridgerNode(item))
-        .map(({ id: nodeId }) => {
-          const bridgeId = nodeId.split('-')[1]
-          return getBridgeInfo(bridgeId)
-        }),
-    )
-    const bridgeArr = bridgeRequestArr.reduce((arr: Array<BridgeItem>, item) => {
-      if (item.status === 'fulfilled') {
-        arr.push(item.value)
-      }
-      return arr
-    }, [])
+    const bridgeArr = await getBridgeArrFromNodes(sourceAndSinkNodes)
+
     bridgeArr.forEach((bridgeItem) => {
-      if (!bridgeItem) {
-        return
-      }
-      const node = generateNodeFromBridgeData(bridgeItem)
+      const node = addFlagToBridgeNode(addClassToBridgeNode(generateNodeFromBridgeData(bridgeItem)))
       const targetNodes =
         node.type === FlowNodeType.Input ? nodes[NodeType.Source] : nodes[NodeType.Sink]
       // Push the node containing bridge info data to the front of the array,
@@ -70,16 +95,7 @@ export default () => {
 
     countNodesPosition(nodes)
     flowData.value = [
-      ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
-        if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
-          value.forEach((item) => {
-            if (isRemovedBridge(item)) {
-              item.class = (item.class || '') + ' is-disabled'
-            }
-          })
-        }
-        return [...arr, ...value]
-      }, []),
+      ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => [...arr, ...value], []),
       ...edges,
     ]
   }
