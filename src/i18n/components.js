@@ -104,8 +104,8 @@ export default {
     en: 'Integration',
   },
   flow: {
-    zh: 'Flows',
-    en: 'Flows',
+    zh: 'Flows 设计器',
+    en: 'Flows Designer',
   },
   webhook: {
     zh: 'Webhook',
