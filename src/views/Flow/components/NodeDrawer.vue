@@ -22,15 +22,27 @@
       />
     </template>
     <template #footer>
-      <div v-if="!readonly">
-        <el-button @click="cancel">{{ tl('cancel') }}</el-button>
-        <el-button
-          :disabled="isSaveDisabled"
-          :type="isSaveDisabled ? 'info' : 'primary'"
-          @click="save"
-        >
-          {{ tl('done') }}
-        </el-button>
+      <div class="space-between" v-if="!readonly">
+        <div>
+          <el-button
+            v-if="type === ProcessingType.Function"
+            link
+            type="primary"
+            @click="toggleEditedWay"
+          >
+            {{ t(`Flow.${record.editedWay === 'form' ? 'switchToSql' : 'switchToForm'}`) }}
+          </el-button>
+        </div>
+        <div>
+          <el-button @click="cancel">{{ tl('cancel') }}</el-button>
+          <el-button
+            :disabled="isSaveDisabled"
+            :type="isSaveDisabled ? 'info' : 'primary'"
+            @click="save"
+          >
+            {{ tl('done') }}
+          </el-button>
+        </div>
       </div>
       <el-button v-else type="primary" @click="edit">
         {{ tl('edit') }}
@@ -40,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
+import { ProcessingType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -131,6 +143,10 @@ const record: Ref<Record<string, any>> = ref({})
 const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
+
+const toggleEditedWay = () => {
+  record.value.editedWay = record.value.editedWay === 'sql' ? 'form' : 'sql'
+}
 
 /**
  * When clicking the cancel / close button, it's used to compare the

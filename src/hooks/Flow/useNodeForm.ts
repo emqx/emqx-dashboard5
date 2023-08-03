@@ -38,7 +38,11 @@ export const createFunctionItem = (): FunctionItem => ({
   alias: '',
 })
 
-export const createFunctionForm = (): FunctionForm => [createFunctionItem()]
+export const createFunctionForm = (): FunctionForm => ({
+  editedWay: 'form',
+  form: [createFunctionItem()],
+  sql: '',
+})
 
 export const createRePubForm = (): OutputItemObj => ({
   function: 'republish',

@@ -72,12 +72,17 @@ export default () => {
     try {
       isSubmitting.value = true
       const groupedBridge = groupBy(bridges, 'isCreated')
-      await createBridges(groupedBridge['false'].map(({ data }) => data))
-      await updateBridges(groupedBridge['true'].map(({ data }) => data))
+      if (groupedBridge['false']) {
+        await createBridges(groupedBridge['false'].map(({ data }) => data))
+      }
+      if (groupedBridge['true']) {
+        await updateBridges(groupedBridge['true'].map(({ data }) => data))
+      }
       await updateRules(rule.id, rule as any)
       isSubmitting.value = false
       return Promise.resolve()
     } catch (error) {
+      console.error(error)
       isSubmitting.value = false
       return Promise.reject()
     }

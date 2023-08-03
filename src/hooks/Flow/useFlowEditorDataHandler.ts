@@ -11,14 +11,13 @@ import { ElMessage } from 'element-plus'
 import { groupBy } from 'lodash'
 import useI18nTl from '../useI18nTl'
 import useFlowNode, {
-  FilterForm,
-  FilterItem,
   FlowNodeType,
   FunctionItem,
   ProcessingType,
   SinkType,
   SourceType,
 } from './useFlowNode'
+import useHandleFlowDataUtils from './useHandleFlowDataUtils'
 
 interface NodeData {
   id: string
@@ -59,6 +58,7 @@ export default (): {
   const { t, tl } = useI18nTl('Flow')
 
   const { createRawRuleForm } = useRuleForm()
+  const { getFuncExpressionFromForm, getFilterExpressionFromForm } = useHandleFlowDataUtils()
 
   /**
    * At least one input node and one output node are required
@@ -188,40 +188,13 @@ export default (): {
     }, [])
   }
 
-  const processFilterDataToSql = (filterData: FilterForm, level = 0): string => {
-    if (Array.isArray(filterData.items)) {
-      const clauses: Array<string> = filterData.items.map((item) =>
-        processFilterDataToSql(item as FilterForm, level + 1),
-      )
-      return `${level > 0 ? '(' : ''}${clauses.join(` ${filterData.groupOperator} `)}${
-        level > 0 ? ')' : ''
-      }`
-    }
-    const { field, operator, valueForComparison } = filterData as unknown as FilterItem
-    // TODO:Confirm how to determine the type of input data.
-    const strForComparison =
-      typeof valueForComparison === 'string' ? `'${valueForComparison}'` : valueForComparison
-    return `${field} ${operator} ${strForComparison}`
-  }
-
   const getFilterStrFromNodes = (nodes: Array<NodeData>): string => {
     const filterNode = nodes.find(({ data }) => data.specificType === ProcessingType.Filter)
     const filterData = filterNode?.data.formData
     if (!filterData) {
       return ''
     }
-    return processFilterDataToSql(filterData)
-  }
-
-  const getExpressionFromFunctionItem = ({
-    name,
-    args,
-  }: {
-    name: string
-    args: Array<string | number>
-  }): string => {
-    const argsStr = args.filter((item) => item !== '' && item !== undefined).join(', ')
-    return `${name}(${argsStr})`
+    return getFilterExpressionFromForm(filterData)
   }
 
   const getFieldsExpressionsFromNode = (nodes: Array<NodeData>): string => {
@@ -230,13 +203,7 @@ export default (): {
     if (!functionData) {
       return DEFAULT_SELECT
     }
-    return functionData.reduce((str: string, item: FunctionItem) => {
-      const { field, func, alias } = item
-      const selection = func.name ? getExpressionFromFunctionItem(func) : field
-      const aliasStr = alias ? ` as ${alias}` : ''
-      const currentExpression = selection + aliasStr
-      return str ? `${str}, ${currentExpression}` : currentExpression
-    }, '')
+    return getFuncExpressionFromForm(functionData)
   }
 
   const { isBridgerNode } = useFlowNode()
