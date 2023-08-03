@@ -164,19 +164,26 @@ const handleArgChanged = (val: string, index: number, type: ArgumentType) => {
 
 const { createRequiredRule } = useFormRules()
 const rules = computed(() => {
+  const { func = {} } = record.value || {}
   const ret: FormRules = {
     field: [
       ...createRequiredRule(t('components.field')),
       {
         validator(rules: any, value: string, callback) {
-          if (
-            showArgsBlock.value &&
-            Array.isArray(record.value?.func?.args) &&
-            !record.value.func.args.includes(value)
-          ) {
+          if (showArgsBlock.value && Array.isArray(func.args) && func.args.includes(value)) {
             callback(new Error(t('Flow.unusedField')))
           }
           callback()
+        },
+      },
+    ],
+    alias: [
+      {
+        validator(rules, value, cb) {
+          if (func.name && !value) {
+            cb(new Error(t('Flow.aliasRequired')))
+          }
+          cb()
         },
       },
     ],
