@@ -100,14 +100,15 @@ if (flowId.value) {
 }
 
 const { getRuleNBridgesFromFlowData } = useFlowEditorDataHandler()
-const { isSubmitting, createFlow } = useSubmitFlowData()
+const { isSubmitting, createFlow, updateFlow } = useSubmitFlowData()
 const submit = async () => {
   try {
     if (editingMethod.value === EditingMethod.Flow) {
       const flowData = FlowEditorCom.value.getFlowData()
       const data = await getRuleNBridgesFromFlowData(flowBasicInfo.value, flowData)
-      await createFlow(data)
-      ElMessage.success(t('Base.createSuccess'))
+      const request = isCreate.value ? createFlow : updateFlow
+      await request(data)
+      ElMessage.success(t(`Base.${isCreate.value ? 'createSuccess' : 'updateSuccess'}`))
       router.push({ name: 'flow' })
     } else {
       // TODO:
