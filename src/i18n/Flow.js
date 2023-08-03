@@ -107,4 +107,8 @@ export default {
     zh: '切换为表单编辑',
     en: 'Switch to Form',
   },
+  aliasRequired: {
+    zh: '调用函数后，需指定一个别名',
+    en: 'Need to specify an alias after calling the function',
+  },
 }
