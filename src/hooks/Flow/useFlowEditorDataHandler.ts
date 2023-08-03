@@ -25,6 +25,7 @@ interface NodeData {
   type: FlowNodeType
   data: {
     specificType: string
+    isCreated?: boolean
     formData: any
   }
 }
@@ -41,13 +42,18 @@ interface FlowData {
   edges: Array<EdgeData>
 }
 
+interface BridgeData {
+  isCreated: boolean
+  data: BridgeItem
+}
+
 export default (): {
   getRuleNBridgesFromFlowData: (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
   ) => Promise<{
     rule: BasicRule
-    bridges: Array<BridgeItem>
+    bridges: Array<BridgeData>
   }>
 } => {
   const { t, tl } = useI18nTl('Flow')
@@ -81,7 +87,7 @@ export default (): {
       : Promise.resolve()
   }
 
-  const verifyMultipleFlow = async ({ nodes, edges }: FlowData) => {
+  const verifyMultipleFlow = async ({ edges }: FlowData) => {
     const graph: Map<string, Array<string>> = new Map()
 
     for (const edge of edges) {
@@ -234,11 +240,11 @@ export default (): {
   }
 
   const { isBridgerNode } = useFlowNode()
-  const getBridgesFromNodes = (flowName: string, nodes: Array<NodeData>): Array<BridgeItem> => {
-    const bridgeDataArr = nodes.reduce((arr: Array<BridgeItem>, node) => {
+  const getBridgesFromNodes = (nodes: Array<NodeData>): Array<BridgeData> => {
+    const bridgeDataArr = nodes.reduce((arr: Array<BridgeData>, node) => {
       const isBridge = isBridgerNode(node)
       if (isBridge) {
-        arr.push(node.data.formData)
+        arr.push({ isCreated: !!node.data.isCreated, data: node.data.formData })
       }
       return arr
     }, [])
@@ -249,7 +255,7 @@ export default (): {
   const getRuleNBridgesFromFlowData = async (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
-  ): Promise<{ rule: BasicRule; bridges: Array<BridgeItem> }> => {
+  ): Promise<{ rule: BasicRule; bridges: Array<BridgeData> }> => {
     try {
       await validateFlow(flowData)
     } catch (error) {
@@ -269,7 +275,7 @@ export default (): {
     const fieldsExpressions = getFieldsExpressionsFromNode(processingNodes)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
     rule.actions = getActionDataFromNodes(flowName, outputNodes)
-    const bridges = getBridgesFromNodes(flowName, [...inputNodes, ...outputNodes])
+    const bridges = getBridgesFromNodes([...inputNodes, ...outputNodes])
     return { rule, bridges }
   }
 

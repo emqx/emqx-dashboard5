@@ -17,6 +17,7 @@
         v-model="record"
         v-bind="getFormComponentProps(type)"
         :readonly="readonly"
+        :edit="isEdit"
         @save="save"
       />
     </template>
@@ -84,6 +85,7 @@ const { t, tl } = useI18nTl('Base')
  * eg. SourceType.Message etc.
  */
 const type = computed(() => props.node?.data?.specificType)
+const isEdit = computed(() => props.node?.data?.isCreated)
 
 const FormCom = ref()
 
@@ -143,7 +145,7 @@ const recordHasNotChanged = () => {
 
 const cancel = async () => {
   try {
-    if (!recordHasNotChanged()) {
+    if (!recordHasNotChanged() && !props.readonly) {
       await ElMessageBox.confirm(
         t('Flow.nodeDrawerCancelTip', {
           type: lowerCase(props.node?.data?.formData ? tl('edit') : tl('create')),

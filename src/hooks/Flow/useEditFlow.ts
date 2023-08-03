@@ -61,7 +61,7 @@ export default () => {
    * the added API or the updated API
    */
   const addFlagToBridgeNode = (node: Node) => {
-    node.data.isExisted = true
+    node.data.isCreated = true
     return node
   }
 
@@ -82,7 +82,7 @@ export default () => {
     const bridgeArr = await getBridgeArrFromNodes(sourceAndSinkNodes)
 
     bridgeArr.forEach((bridgeItem) => {
-      const node = addFlagToBridgeNode(addClassToBridgeNode(generateNodeFromBridgeData(bridgeItem)))
+      const node = addFlagToBridgeNode(generateNodeFromBridgeData(bridgeItem))
       const targetNodes =
         node.type === FlowNodeType.Input ? nodes[NodeType.Source] : nodes[NodeType.Sink]
       // Push the node containing bridge info data to the front of the array,
@@ -95,7 +95,12 @@ export default () => {
 
     countNodesPosition(nodes)
     flowData.value = [
-      ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => [...arr, ...value], []),
+      ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
+        if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
+          value.forEach((item) => addClassToBridgeNode(item))
+        }
+        return [...arr, ...value]
+      }, []),
       ...edges,
     ]
   }
