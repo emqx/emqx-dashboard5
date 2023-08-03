@@ -12,6 +12,7 @@ import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
+  FunctionItem,
   NodeType,
   ProcessingType,
   SinkType,
@@ -80,12 +81,13 @@ export default () => {
 
   const getFuncDataFromExpression = (
     expression: string,
-  ): { field: string | number; func: { name: string; args: Array<string | number> } } => {
+  ): { field: string; func: { name: string; args: Array<string | number> } } | undefined => {
     const funcName = expression.slice(0, expression.indexOf('('))
     const funcGroup = getFuncGroupByName(funcName)
     const funcItem = getFuncItemByName(funcName)
     if (!funcGroup || !funcItem) {
-      throw new Error(`can not find function ${funcName}`)
+      console.error(`can not find function ${funcName}`)
+      return
     }
     const argIndex = getArgIndex(funcItem, funcGroup)
     const funcArgs = expression
@@ -98,34 +100,45 @@ export default () => {
     } else {
       args = funcArgs
     }
-    return { func: { name: funcName, args }, field: args[argIndex] }
+    return { func: { name: funcName, args }, field: args[argIndex].toString() }
   }
 
   const funcExpressionReg = /^(\w|_)+\(.|\n+\)/
   const aliasPartReg = /\sas\s(\S+)/
   const aliasReg = new RegExp(`.+${aliasPartReg.source}`)
-  const generateFunctionFormFromExpression = (expression: string) => {
+  const generateFunctionFormItemFromExpression = (expressionItem: string): FunctionItem => {
     const form = createFunctionItem()
-    const withAlias = aliasReg.test(expression)
+    const withAlias = aliasReg.test(expressionItem)
     if (withAlias) {
-      const [, alias = ''] = expression.match(aliasReg) || []
+      const [, alias = ''] = expressionItem.match(aliasReg) || []
       form.alias = alias
     }
 
-    const selection = expression.replace(aliasPartReg, '')
+    const selection = expressionItem.replace(aliasPartReg, '')
 
     if (funcExpressionReg.test(selection)) {
-      return { ...form, ...getFuncDataFromExpression(selection) }
+      const funcData = getFuncDataFromExpression(selection)
+      if (funcData) {
+        return { ...form, ...funcData }
+      }
     }
     return { ...form, field: selection }
   }
 
-  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
-    if (trimSpacesAndLFs(fieldsExpressions) === DEFAULT_SELECT) {
+  const generateFunctionFormFromExpression = (expression: string) => {
+    if (trimSpacesAndLFs(expression) === DEFAULT_SELECT) {
       return
     }
-    const expressionArr = splitOnComma(fieldsExpressions).map((item) => trimSpacesAndLFs(item))
-    const formData = expressionArr.map((item) => generateFunctionFormFromExpression(item))
+    const expressionArr = splitOnComma(expression).map((item) => trimSpacesAndLFs(item))
+    const formData = expressionArr.map((item) => generateFunctionFormItemFromExpression(item))
+    return formData
+  }
+
+  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
+    const formData = generateFunctionFormFromExpression(fieldsExpressions)
+    if (!formData) {
+      return
+    }
     const node = {
       id: `${ProcessingType.Function}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -133,7 +146,12 @@ export default () => {
       position: { x: 0, y: 0 },
       data: {
         specificType: ProcessingType.Function,
-        formData,
+        formData: {
+          // TODO:TODO:TODO: set by expression
+          editedWay: 'form',
+          sql: fieldsExpressions,
+          form: formData,
+        },
         desc: '',
       },
     }
@@ -417,6 +435,7 @@ export default () => {
     isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
   return {
+    generateFunctionFormFromExpression,
     generateNodeFromBridgeData,
     generateFlowDataFromRuleItem,
     countNodesPosition,

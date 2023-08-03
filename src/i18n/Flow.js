@@ -99,4 +99,12 @@ export default {
     zh: '此节点被多个 Flow 共用，请选择您想要修改的 Flow',
     en: 'This node is shared by multiple flows, please select the flow you want to modify',
   },
+  switchToSql: {
+    zh: '切换为 SQL 编辑',
+    en: 'Switch to SQL',
+  },
+  switchToForm: {
+    zh: '切换为表单编辑',
+    en: 'Switch to Form',
+  },
 }
