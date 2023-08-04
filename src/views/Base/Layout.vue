@@ -70,10 +70,11 @@ import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
 import { computed, defineComponent, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 
-const ROUTE_NAMES_NEED_FULL_HEIGHT = ['flow', 'flow-create', 'flow-detail']
+const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
+const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
 
 export default defineComponent({
   name: 'Layout',
@@ -134,7 +135,7 @@ export default defineComponent({
     })
     const fullHeight = computed(() => {
       const { name } = route
-      return name && ROUTE_NAMES_NEED_FULL_HEIGHT.includes(name as string)
+      return name && routesNeedFullHeight.includes(name as string)
     })
     const firstPath = ref('')
     const isNotFound = ref(false)
@@ -144,6 +145,18 @@ export default defineComponent({
       firstPath.value = _firstPath
       isNotFound.value = route.matched?.[1]?.name === 'not-found'
     }
+
+    onBeforeRouteUpdate((to) => {
+      if (
+        to &&
+        to.name &&
+        routesNeedCollapseMenu.includes(to.name.toString()) &&
+        !leftBarCollapse.value
+      ) {
+        store.dispatch('SET_LEFT_BAR_COLLAPSE', true)
+      }
+    })
+
     watch(route, () => {
       setHeaderTitle()
     })
