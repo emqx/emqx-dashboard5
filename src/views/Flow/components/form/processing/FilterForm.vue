@@ -1,99 +1,100 @@
 <template>
   <div>
-    <el-form
-      v-if="modelValue.editedWay === EditedWay.Form"
-      ref="FormCom"
-      label-width="0px"
-      class="filter-form"
-      label-position="right"
-      hide-required-asterisk
-      :rules="rules"
-      :model="record"
-      :validate-on-rule-change="false"
-      @keyup.enter="saveConfig()"
-    >
-      <!-- key is a hack, for refresh list -->
-      <div class="filter-container" ref="ListContainer">
-        <FilterOperatorLine
-          v-if="record.items.length > 1"
-          :readonly="readonly"
-          :operator="record.groupOperator"
-          @toggle="toggleGroupOperator(record)"
-        />
-        <div
-          class="connector-container"
-          :class="{ 'is-hidden': hideConnector }"
-          v-if="showConnector"
-        >
-          <FilterItemConnector
-            v-for="item in connectorArr"
-            :data="item"
-            :key="item.startIndex"
-            :style="getConnectorStyle(item)"
-            @connected="handleFiltersConnected"
+    <template v-if="!readonly">
+      <el-form
+        v-if="modelValue.editedWay === EditedWay.Form"
+        ref="FormCom"
+        label-width="0px"
+        class="filter-form"
+        label-position="right"
+        hide-required-asterisk
+        :rules="rules"
+        :model="record"
+        :validate-on-rule-change="false"
+        @keyup.enter="saveConfig()"
+      >
+        <!-- key is a hack, for refresh list -->
+        <div class="filter-container" ref="ListContainer">
+          <FilterOperatorLine
+            v-if="record.items.length > 1"
+            :operator="record.groupOperator"
+            @toggle="toggleGroupOperator(record)"
           />
-        </div>
-        <div :class="listWrapClass" :id="record.id" :key="randomStr">
-          <template v-for="(filter, index) in record.items">
-            <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
-              <FilterOperatorLine
-                class="sub-level"
-                show-del
-                :readonly="readonly"
-                :operator="filter.groupOperator"
-                @toggle="toggleGroupOperator(filter)"
-                @delete="deleteGroup(index, filter)"
-              />
-              <div :class="listWrapClass" :id="filter.id">
-                <FilterItemCom
-                  v-for="(subFilter, subIndex) in filter.items"
-                  v-model="filter.items[subIndex]"
-                  :key="subIndex"
-                  :index="index"
-                  :subIndex="subIndex"
-                  :readonly="readonly"
-                  @delete="deleteFilterItem(index, subIndex)"
-                />
-              </div>
-            </div>
-            <FilterItemCom
-              v-else
-              v-model="record.items[index]"
-              :key="index"
-              :index="index"
-              :readonly="readonly"
-              :deletable="record.items.length > 1"
-              :class="{ 'can-connect': getCanConnect(index) && showConnector }"
-              @delete="deleteFilterItem(index)"
+          <div
+            class="connector-container"
+            :class="{ 'is-hidden': hideConnector }"
+            v-if="showConnector"
+          >
+            <FilterItemConnector
+              v-for="item in connectorArr"
+              :data="item"
+              :key="item.startIndex"
+              :style="getConnectorStyle(item)"
+              @connected="handleFiltersConnected"
             />
-          </template>
+          </div>
+          <div :class="listWrapClass" :id="record.id" :key="randomStr">
+            <template v-for="(filter, index) in record.items">
+              <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
+                <FilterOperatorLine
+                  class="sub-level"
+                  show-del
+                  :operator="filter.groupOperator"
+                  @toggle="toggleGroupOperator(filter)"
+                  @delete="deleteGroup(index, filter)"
+                />
+                <div :class="listWrapClass" :id="filter.id">
+                  <FilterItemCom
+                    v-for="(subFilter, subIndex) in filter.items"
+                    v-model="filter.items[subIndex]"
+                    :key="subIndex"
+                    :index="index"
+                    :subIndex="subIndex"
+                    @delete="deleteFilterItem(index, subIndex)"
+                  />
+                </div>
+              </div>
+              <FilterItemCom
+                v-else
+                v-model="record.items[index]"
+                :key="index"
+                :index="index"
+                :deletable="record.items.length > 1"
+                :class="{ 'can-connect': getCanConnect(index) && showConnector }"
+                @delete="deleteFilterItem(index)"
+              />
+            </template>
+          </div>
         </div>
-      </div>
-      <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addFilterItem">
-        {{ t('Base.add') }}
-      </el-button>
-    </el-form>
-    <el-form
-      v-else
-      ref="SQLFormCom"
-      hide-required-asterisk
-      :rules="sqlRecordRules"
-      :model="sqlRecord"
-      :validate-on-rule-change="false"
-      @keyup.enter.prevent="saveConfig()"
-    >
-      <el-form-item prop="sql">
-        <div class="monaco-container">
-          <Monaco
-            :id="createRandomString()"
-            lang="sql"
-            v-model="sqlRecord.sql"
-            @change="updateSQLRecord"
-            @blur="transformToFormFromSql"
-          />
-        </div>
-      </el-form-item>
-    </el-form>
+        <el-button link type="primary" :icon="Plus" @click="addFilterItem">
+          {{ t('Base.add') }}
+        </el-button>
+      </el-form>
+      <el-form
+        v-else
+        ref="SQLFormCom"
+        hide-required-asterisk
+        :rules="sqlRecordRules"
+        :model="sqlRecord"
+        :validate-on-rule-change="false"
+        @keyup.enter.prevent="saveConfig()"
+      >
+        <el-form-item prop="sql">
+          <div class="monaco-container">
+            <Monaco
+              :id="createRandomString()"
+              lang="sql"
+              v-model="sqlRecord.sql"
+              @change="updateSQLRecord"
+              @blur="transformToFormFromSql"
+            />
+          </div>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template v-else>
+      <FilterFormReadonly :record="record" />
+    </template>
   </div>
 </template>
 
@@ -122,6 +123,7 @@ import {
   ref,
   watch,
 } from 'vue'
+import FilterFormReadonly from './FilterFormReadonly.vue'
 import FilterItemCom from './FilterItem.vue'
 import FilterItemConnector from './FilterItemConnector.vue'
 import FilterOperatorLine from './FilterOperatorLine.vue'
