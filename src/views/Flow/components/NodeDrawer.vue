@@ -25,7 +25,7 @@
       <div class="space-between" v-if="!readonly">
         <div>
           <el-button
-            v-if="type === ProcessingType.Function"
+            v-if="node?.type === FlowNodeType.Default && record.editedWay !== undefined"
             link
             type="primary"
             @click="toggleEditedWay"
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { EditedWay, ProcessingType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
+import { EditedWay, FlowNodeType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -187,7 +187,7 @@ const save = async () => {
     }
     emit('save', record.value)
   } catch (error) {
-    //
+    console.error(error)
   }
 }
 

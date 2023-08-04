@@ -1,79 +1,110 @@
 <template>
-  <el-form
-    ref="FormCom"
-    label-width="0px"
-    class="filter-form"
-    label-position="right"
-    hide-required-asterisk
-    :rules="rules"
-    :model="record"
-    :validate-on-rule-change="false"
-    @keyup.enter="saveConfig()"
-  >
-    <!-- key is a hack, for refresh list -->
-    <div class="filter-container" ref="ListContainer">
-      <FilterOperatorLine
-        v-if="record.items.length > 1"
-        :readonly="readonly"
-        :operator="record.groupOperator"
-        @toggle="toggleGroupOperator(record)"
-      />
-      <div class="connector-container" :class="{ 'is-hidden': hideConnector }" v-if="showConnector">
-        <FilterItemConnector
-          v-for="item in connectorArr"
-          :data="item"
-          :key="item.startIndex"
-          :style="getConnectorStyle(item)"
-          @connected="handleFiltersConnected"
+  <div>
+    <el-form
+      v-if="modelValue.editedWay === EditedWay.Form"
+      ref="FormCom"
+      label-width="0px"
+      class="filter-form"
+      label-position="right"
+      hide-required-asterisk
+      :rules="rules"
+      :model="record"
+      :validate-on-rule-change="false"
+      @keyup.enter="saveConfig()"
+    >
+      <!-- key is a hack, for refresh list -->
+      <div class="filter-container" ref="ListContainer">
+        <FilterOperatorLine
+          v-if="record.items.length > 1"
+          :readonly="readonly"
+          :operator="record.groupOperator"
+          @toggle="toggleGroupOperator(record)"
         />
-      </div>
-      <div :class="listWrapClass" :id="record.id" :key="randomStr">
-        <template v-for="(filter, index) in record.items">
-          <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
-            <FilterOperatorLine
-              class="sub-level"
-              show-del
-              :readonly="readonly"
-              :operator="filter.groupOperator"
-              @toggle="toggleGroupOperator(filter)"
-              @delete="deleteGroup(index, filter)"
-            />
-            <div :class="listWrapClass" :id="filter.id">
-              <FilterItemCom
-                v-for="(subFilter, subIndex) in filter.items"
-                v-model="filter.items[subIndex]"
-                :key="subIndex"
-                :index="index"
-                :subIndex="subIndex"
-                :readonly="readonly"
-                @delete="deleteFilterItem(index, subIndex)"
-              />
-            </div>
-          </div>
-          <FilterItemCom
-            v-else
-            v-model="record.items[index]"
-            :key="index"
-            :index="index"
-            :readonly="readonly"
-            :deletable="record.items.length > 1"
-            :class="{ 'can-connect': getCanConnect(index) && showConnector }"
-            @delete="deleteFilterItem(index)"
+        <div
+          class="connector-container"
+          :class="{ 'is-hidden': hideConnector }"
+          v-if="showConnector"
+        >
+          <FilterItemConnector
+            v-for="item in connectorArr"
+            :data="item"
+            :key="item.startIndex"
+            :style="getConnectorStyle(item)"
+            @connected="handleFiltersConnected"
           />
-        </template>
+        </div>
+        <div :class="listWrapClass" :id="record.id" :key="randomStr">
+          <template v-for="(filter, index) in record.items">
+            <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
+              <FilterOperatorLine
+                class="sub-level"
+                show-del
+                :readonly="readonly"
+                :operator="filter.groupOperator"
+                @toggle="toggleGroupOperator(filter)"
+                @delete="deleteGroup(index, filter)"
+              />
+              <div :class="listWrapClass" :id="filter.id">
+                <FilterItemCom
+                  v-for="(subFilter, subIndex) in filter.items"
+                  v-model="filter.items[subIndex]"
+                  :key="subIndex"
+                  :index="index"
+                  :subIndex="subIndex"
+                  :readonly="readonly"
+                  @delete="deleteFilterItem(index, subIndex)"
+                />
+              </div>
+            </div>
+            <FilterItemCom
+              v-else
+              v-model="record.items[index]"
+              :key="index"
+              :index="index"
+              :readonly="readonly"
+              :deletable="record.items.length > 1"
+              :class="{ 'can-connect': getCanConnect(index) && showConnector }"
+              @delete="deleteFilterItem(index)"
+            />
+          </template>
+        </div>
       </div>
-    </div>
-    <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addFilterItem">
-      {{ t('Base.add') }}
-    </el-button>
-  </el-form>
+      <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addFilterItem">
+        {{ t('Base.add') }}
+      </el-button>
+    </el-form>
+    <el-form
+      v-else
+      ref="SQLFormCom"
+      hide-required-asterisk
+      :rules="sqlRecordRules"
+      :model="sqlRecord"
+      :validate-on-rule-change="false"
+      @keyup.enter.prevent="saveConfig()"
+    >
+      <el-form-item prop="sql">
+        <div class="monaco-container">
+          <Monaco
+            :id="createRandomString()"
+            lang="sql"
+            v-model="sqlRecord.sql"
+            @change="updateSQLRecord"
+            @blur="transformToFormFromSql"
+          />
+        </div>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { createRandomString, removeFromArr } from '@/common/tools'
+import Monaco from '@/components/Monaco.vue'
 import useFilterConnectorInForm from '@/hooks/Flow/useFilterConnectorInForm'
-import { FilterForm, FilterItem } from '@/hooks/Flow/useFlowNode'
-import { createFilterForm, createFilterItem } from '@/hooks/Flow/useNodeForm'
+import { EditedWay, FilterForm, FilterFormData, FilterItem } from '@/hooks/Flow/useFlowNode'
+import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
+import { createFilterForm, createFilterFormData, createFilterItem } from '@/hooks/Flow/useNodeForm'
+import useParseWhere from '@/hooks/Flow/useParseWhere'
 import useSortableFilterList from '@/hooks/Flow/useSortableFilterList'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -89,6 +120,7 @@ import {
   nextTick,
   onMounted,
   ref,
+  watch,
 } from 'vue'
 import FilterItemCom from './FilterItem.vue'
 import FilterItemConnector from './FilterItemConnector.vue'
@@ -98,7 +130,7 @@ const FormCom = ref()
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<any>,
+    type: Object as PropType<FilterForm>,
     default: () => createFilterForm(),
   },
   readonly: {
@@ -112,10 +144,10 @@ const { t } = useI18nTl('RuleEngine')
 
 const record: WritableComputedRef<any> = computed({
   get() {
-    return props.modelValue
+    return props.modelValue.form
   },
   set(val) {
-    emit('update:modelValue', val)
+    emit('update:modelValue', { ...props.modelValue, form: val })
   },
 })
 
@@ -125,9 +157,12 @@ const ruleItem = {
   operator: createRequiredRule('', 'select'),
   valueForComparison: createRequiredRule(''),
 }
+/**
+ * rules for form
+ */
 const rules = computed(() => {
   return {
-    items: record.value.items.map((filter: FilterItem | FilterForm) => {
+    items: record.value.items.map((filter: FilterItem | FilterFormData) => {
       if (!('items' in filter)) {
         return { ...ruleItem }
       }
@@ -135,6 +170,23 @@ const rules = computed(() => {
     }),
   }
 })
+
+const SQLFormCom = ref()
+const sqlRecord: WritableComputedRef<any> = computed({
+  get() {
+    return { sql: props.modelValue.sql }
+  },
+  set(val) {
+    const { sql } = val
+    emit('update:modelValue', { ...props.modelValue, sql })
+  },
+})
+
+const sqlRecordRules = { sql: createRequiredRule('SQL') }
+
+const updateSQLRecord = (sql: string) => {
+  sqlRecord.value = { sql }
+}
 
 /**
  * If there is only one group item in the current first level,
@@ -150,7 +202,7 @@ const handleAllInSecondLevel = () => {
  * If there is only one item inside the group's items, move it out of the group.
  */
 const handleOnlyOneInGroup = () => {
-  record.value.items.forEach((filter: FilterItem | FilterForm, index: number) => {
+  record.value.items.forEach((filter: FilterItem | FilterFormData, index: number) => {
     if ('items' in filter && filter.items.length === 1) {
       record.value.items[index] = filter.items[0]
     }
@@ -162,9 +214,10 @@ const addFilterItem = () => {
 }
 
 const deleteFilterItem = (index: number, subIndex?: number) => {
-  const subItems = subIndex !== undefined ? record.value.items[index]?.items || [] : []
+  const subItems =
+    subIndex !== undefined ? (record.value.items[index] as FilterFormData)?.items || [] : []
   if (subIndex !== undefined && subItems.length > 1) {
-    record.value.items[index].items = removeFromArr(subItems, subIndex)
+    ;(record.value.items[index] as FilterFormData).items = removeFromArr(subItems, subIndex)
     // so, if items.length === 1, it's a empty group, delete it
   } else {
     record.value.items = removeFromArr(record.value.items, index)
@@ -173,14 +226,14 @@ const deleteFilterItem = (index: number, subIndex?: number) => {
   handleAllInSecondLevel()
 }
 
-const toggleGroupOperator = (group: FilterForm) => {
+const toggleGroupOperator = (group: FilterFormData) => {
   group.groupOperator =
     group.groupOperator === FilterLogicalOperator.Or
       ? FilterLogicalOperator.And
       : FilterLogicalOperator.Or
 }
 
-const deleteGroup = (index: number, group: FilterForm) => {
+const deleteGroup = (index: number, group: FilterFormData) => {
   const filterItems = [...group.items]
   record.value.items.splice(index, 1, ...filterItems)
 }
@@ -216,11 +269,13 @@ const handleFiltersConnected = async ({
   initSortable(sortEventOpt)
 }
 
-const findItemById = (id: string) => {
+const findItemById = (id: string): FilterFormData => {
   if (record.value.id === id) {
     return record.value
   }
-  return record.value.items.find(({ items, id: subId }: any) => items && id === subId)
+  return record.value.items.find(
+    ({ items, id: subId }: any) => items && id === subId,
+  ) as FilterFormData
 }
 
 const moveElement = (arr: any, oldIndex: any, newIndex: any) => {
@@ -239,6 +294,9 @@ const handleDragged = async (evt: any) => {
   const toID = toList.id
   const fromItem = findItemById(fromID)
   const toItem = findItemById(toID)
+  if (!fromItem || !toItem) {
+    return
+  }
   const target = fromItem.items[oldIndex]
   if (fromID === toID) {
     moveElement(fromItem.items, oldIndex, newIndex)
@@ -262,12 +320,42 @@ const saveConfig = () => {
   emit('save', record.value)
 }
 
+const { getFilterExpressionFromFormData } = useHandleFlowDataUtils()
+const transformToSqlFormForm = () => {
+  sqlRecord.value.sql = getFilterExpressionFromFormData(record.value) || ''
+}
+
+const { generateFilterForm } = useParseWhere()
+const transformToFormFromSql = () => {
+  if (!sqlRecord.value.sql) {
+    record.value = createFilterFormData()
+  } else {
+    record.value = generateFilterForm(sqlRecord.value.sql)
+  }
+}
+
+watch(
+  () => props.modelValue?.editedWay,
+  async (val) => {
+    if (val === EditedWay.SQL) {
+      transformToSqlFormForm()
+    } else {
+      transformToFormFromSql()
+      await nextTick()
+      initSortable()
+    }
+  },
+)
+
 onMounted(async () => {
   await nextTick()
   initSortable(sortEventOpt)
 })
 
-const validate = () => FormCom.value.validate()
+const validate = () => {
+  const Component = props.modelValue.editedWay === EditedWay.Form ? FormCom.value : SQLFormCom.value
+  return Component.validate()
+}
 defineExpose({ validate })
 </script>
 
