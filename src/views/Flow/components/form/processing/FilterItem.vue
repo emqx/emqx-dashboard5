@@ -1,23 +1,17 @@
 <template>
   <div class="filter-item">
-    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('field')">
+    <el-form-item :prop="getFormItemProp('field')">
       <CommonFields v-model="record.field" />
-    </CustomFormItem>
-    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('operator')">
+    </el-form-item>
+    <el-form-item :prop="getFormItemProp('operator')">
       <el-select v-model="record.operator">
         <el-option v-for="item in RULE_LOGICAL_OPERATORS" :key="item" :label="item" :value="item" />
       </el-select>
-    </CustomFormItem>
-    <CustomFormItem :readonly="readonly" :prop="getFormItemProp('valueForComparison')">
+    </el-form-item>
+    <el-form-item :prop="getFormItemProp('valueForComparison')">
       <el-input v-model="record.valueForComparison" />
-    </CustomFormItem>
-    <el-button
-      link
-      v-show="deletable && !readonly"
-      class="btn-del"
-      :disabled="!deletable"
-      @click="deleteItem"
-    >
+    </el-form-item>
+    <el-button link v-show="deletable" class="btn-del" :disabled="!deletable" @click="deleteItem">
       <el-icon :size="16" class="icon-del"><Delete /></el-icon>
     </el-button>
   </div>
@@ -25,7 +19,6 @@
 
 <script setup lang="ts">
 import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
-import CustomFormItem from '@/components/CustomFormItem.vue'
 import { Delete } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps } from 'vue'
 import CommonFields from '../CommonFields.vue'
@@ -45,10 +38,6 @@ const props = defineProps({
   deletable: {
     type: Boolean,
     default: true,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'delete'])
