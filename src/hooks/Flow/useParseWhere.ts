@@ -2,6 +2,7 @@ import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import { FilterLogicalOperator } from '@/types/enum'
 import { FilterFormData, FilterItem } from './useFlowNode'
+import { cloneDeep } from 'lodash'
 
 const parseWhere = (sql: string): FilterFormData | FilterItem => {
   return parseOrCondition(sql.trim())
@@ -61,7 +62,9 @@ const splitCondition = (sql: string, separator: string) => {
 
 // The sorting is done to prioritize longer comparison operators.
 const separator = new RegExp(
-  `(${RULE_LOGICAL_OPERATORS.sort((a, b) => b.length - a.length).join('|')})`,
+  `(${cloneDeep(RULE_LOGICAL_OPERATORS)
+    .sort((a, b) => b.length - a.length)
+    .join('|')})`,
 )
 
 const parseCondition = (condition: string): FilterItem | FilterFormData => {
