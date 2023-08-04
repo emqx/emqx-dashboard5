@@ -2,6 +2,23 @@ import { useStore } from 'vuex'
 import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
 import { RuleEvent } from '@/types/rule'
 
+const EVENT_SORT: Array<string> = [
+  '$events/client_connected',
+  '$events/client_disconnected',
+  '$events/client_connack',
+  '$events/client_check_authz_complete',
+  '$events/session_subscribed',
+  '$events/session_unsubscribed',
+  '$events/message_delivered',
+  '$events/message_acked',
+  '$events/message_dropped',
+  '$events/delivery_dropped',
+  '$events/message_publish',
+  '$bridges/mqtt:*',
+]
+
+const getEventIndex = (event: string) => EVENT_SORT.findIndex((item) => item === event)
+
 export default (): {
   getEventList: () => Promise<RuleEvent[]>
 } => {
@@ -15,7 +32,8 @@ export default (): {
           const request = queryRuleEvents()
           commit('SET_RULE_EVENT_REQUEST', request)
         }
-        eventList = await state.ruleEventRequest
+        const data: Array<RuleEvent> = await state.ruleEventRequest
+        eventList = data.sort((a, b) => getEventIndex(a.event) - getEventIndex(b.event))
         commit('SET_RULE_EVENT_LIST', eventList)
       }
       return Promise.resolve(eventList)
