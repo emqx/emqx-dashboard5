@@ -1,5 +1,7 @@
 <template>
-  <Handle v-if="data.type !== FlowNodeType.Input" type="target" :position="Position.Left" />
+  <Handle v-if="data.type !== FlowNodeType.Input" type="target" :position="Position.Left">
+    <el-icon class="icon-add" :size="10"><Plus /></el-icon>
+  </Handle>
   <div class="flow-node">
     <img :src="getIconSrc()" alt="node-img" class="node-icon" />
     <div class="node-bd">
@@ -7,11 +9,14 @@
       <p class="desc">{{ data.data.desc }}</p>
     </div>
   </div>
-  <Handle v-if="data.type !== FlowNodeType.Output" type="source" :position="Position.Right" />
+  <Handle v-if="data.type !== FlowNodeType.Output" type="source" :position="Position.Right">
+    <el-icon class="icon-add" :size="10"><Plus /></el-icon>
+  </Handle>
 </template>
 
 <script setup lang="ts">
 import useFlowNode, { FlowNodeType } from '@/hooks/Flow/useFlowNode'
+import { Plus } from '@element-plus/icons-vue'
 import { Handle, Position } from '@vue-flow/core'
 import { defineProps } from 'vue'
 
