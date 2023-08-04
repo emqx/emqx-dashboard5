@@ -1,13 +1,13 @@
 import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import { FilterLogicalOperator } from '@/types/enum'
-import { FilterForm, FilterItem } from './useFlowNode'
+import { FilterFormData, FilterItem } from './useFlowNode'
 
-const parseWhere = (sql: string): FilterForm | FilterItem => {
+const parseWhere = (sql: string): FilterFormData | FilterItem => {
   return parseOrCondition(sql.trim())
 }
 
-const parseOrCondition = (sql: string): FilterForm | FilterItem => {
+const parseOrCondition = (sql: string): FilterFormData | FilterItem => {
   const parts = splitCondition(sql, FilterLogicalOperator.Or)
   if (parts.length === 1) {
     return parseAndCondition(parts[0])
@@ -19,7 +19,7 @@ const parseOrCondition = (sql: string): FilterForm | FilterItem => {
   }
 }
 
-const parseAndCondition = (sql: string): FilterForm | FilterItem => {
+const parseAndCondition = (sql: string): FilterFormData | FilterItem => {
   const parts = splitCondition(sql, FilterLogicalOperator.And)
   if (parts.length === 1) {
     return parseCondition(parts[0])
@@ -64,7 +64,7 @@ const separator = new RegExp(
   `(${RULE_LOGICAL_OPERATORS.sort((a, b) => b.length - a.length).join('|')})`,
 )
 
-const parseCondition = (condition: string): FilterItem | FilterForm => {
+const parseCondition = (condition: string): FilterItem | FilterFormData => {
   if (condition[0] === '(') {
     return parseWhere(condition.slice(1, -1))
   }
@@ -76,15 +76,14 @@ const parseCondition = (condition: string): FilterItem | FilterForm => {
   return {
     field,
     operator,
-    valueForComparison:
-      value.startsWith("'") && value.endsWith("'") ? value.slice(1, -1) : Number(value),
+    valueForComparison: value.startsWith("'") && value.endsWith("'") ? value.slice(1, -1) : value,
   }
 }
 
 export default (): {
-  generateFilterForm: (whereStr: string) => FilterForm
+  generateFilterForm: (whereStr: string) => FilterFormData
 } => {
-  const generateFilterForm = (whereStr: string): FilterForm => {
+  const generateFilterForm = (whereStr: string): FilterFormData => {
     const filterForm = parseWhere(whereStr)
     if (!('items' in filterForm)) {
       return {

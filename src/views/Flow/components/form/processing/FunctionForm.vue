@@ -134,7 +134,7 @@ const transformToSqlFormForm = () => {
 const transformToFormFromSql = () => {
   const defaultForm = [createFunctionItem()]
   if (trimSpacesAndLFs(record.value.sql) === DEFAULT_SELECT) {
-    record.value.form = [createFunctionItem()]
+    record.value.form = defaultForm
   } else {
     const form = generateFunctionFormFromExpression(record.value.sql)
     record.value.form = form?.length ? form : defaultForm

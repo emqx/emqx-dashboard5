@@ -6,6 +6,7 @@ import { isObject } from 'lodash'
 import {
   EditedWay,
   FilterForm,
+  FilterFormData,
   FilterItem,
   FunctionForm,
   FunctionItem,
@@ -23,10 +24,20 @@ export const createFilterItem = (): FilterItem => ({
   valueForComparison: '',
 })
 
-export const createFilterForm = (): FilterForm => ({
+export const createFilterFormData = (): {
+  groupOperator: FilterLogicalOperator
+  id: string
+  items: Array<FilterItem>
+} => ({
   groupOperator: FilterLogicalOperator.And,
   id: createRandomString(),
   items: [createFilterItem()],
+})
+
+export const createFilterForm = (): FilterForm => ({
+  editedWay: EditedWay.Form,
+  sql: '',
+  form: createFilterFormData(),
 })
 
 export const createFunctionItem = (): FunctionItem => ({
@@ -110,13 +121,21 @@ export default (): {
     })
   }
 
-  const checkFilterFormIsEmpty = (form: FilterForm): boolean => {
+  const checkFilterFormDataIsEmpty = (form: FilterFormData): boolean => {
     return form.items.every((filter) => {
       if ('items' in filter) {
-        return checkFilterFormIsEmpty(filter)
+        return checkFilterFormDataIsEmpty(filter)
       }
       return checkALevelFormIsEmpty(filter)
     })
+  }
+
+  const checkFilterFormIsEmpty = (data: FilterForm): boolean => {
+    const { editedWay, form, sql } = data
+    if (editedWay === EditedWay.Form) {
+      return checkFilterFormDataIsEmpty(form)
+    }
+    return !sql
   }
 
   /**
