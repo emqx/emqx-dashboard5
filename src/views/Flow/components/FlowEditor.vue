@@ -321,6 +321,36 @@ defineExpose({ validate, getFlowData })
     }
   }
 
+  .vue-flow__handle {
+    // In order to expand the draggable area invisible
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+
+    $handle-size: 14px;
+    &:hover {
+      width: $handle-size;
+      height: $handle-size;
+      --vf-handle: var(--color-primary);
+      &.vue-flow__handle-left {
+        left: -$handle-size/2;
+      }
+      &.vue-flow__handle-right {
+        right: -$handle-size/2;
+      }
+      .icon-add {
+        display: block;
+      }
+    }
+  }
+
   .empty-placeholder {
     padding: 64px 0;
     text-align: center;
