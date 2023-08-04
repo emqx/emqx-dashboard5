@@ -73,12 +73,18 @@ export type FunctionForm = {
   sql: string
 }
 
-export interface FilterForm {
+export interface FilterFormData {
   groupOperator: FilterLogicalOperator
   // It can be used as the ID attribute for list elements, and can be used to
   // identify the source list and target list after a drag-and-drop operation.
   id: string
-  items: Array<FilterItem | FilterForm>
+  items: Array<FilterItem | FilterFormData>
+}
+
+export interface FilterForm {
+  editedWay: EditedWay
+  sql: string
+  form: FilterFormData
 }
 
 type PositionData =
@@ -143,7 +149,7 @@ export default (): {
   const getTypeLabel = (specificType: string): string =>
     typeLabelMap[specificType] || (specificType as string)
 
-  const countFiltersNum = (filter: FilterForm) => {
+  const countFiltersNum = (filter: FilterFormData) => {
     return filter.items.reduce((count, item) => {
       if ('items' in item) {
         count += countFiltersNum(item)
@@ -184,7 +190,7 @@ export default (): {
   }
 
   const getFilterInfo = (filter: FilterForm) => {
-    const num = countFiltersNum(filter)
+    const num = countFiltersNum(filter.form)
     return `${num} ${t('Flow.condition', num)}`
   }
 

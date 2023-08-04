@@ -1,8 +1,16 @@
-import { EditedWay, FilterForm, FilterItem, FunctionForm, FunctionItem } from './useFlowNode'
+import {
+  EditedWay,
+  FilterForm,
+  FilterFormData,
+  FilterItem,
+  FunctionForm,
+  FunctionItem,
+} from './useFlowNode'
 
 export default (): {
   getFuncExpressionFromForm: (funcForm: FunctionForm) => string
   getFuncExpressionFromFuncList: (funcList: Array<FunctionItem>) => string
+  getFilterExpressionFromFormData: (filterData: FilterFormData, level?: number) => string
   getFilterExpressionFromForm: (filterData: FilterForm, level?: number) => string
 } => {
   /* FUNCTION */
@@ -40,25 +48,37 @@ export default (): {
   }
 
   /* FILTER */
-  const getFilterExpressionFromForm = (filterData: FilterForm, level = 0) => {
+  const getFilterExpressionFromFormData = (filterData: FilterFormData, level = 0) => {
     if (Array.isArray(filterData.items)) {
       const clauses: Array<string> = filterData.items.map((item) =>
-        getFilterExpressionFromForm(item as FilterForm, level + 1),
+        getFilterExpressionFromFormData(item as FilterFormData, level + 1),
       )
       return `${level > 0 ? '(' : ''}${clauses.join(` ${filterData.groupOperator} `)}${
         level > 0 ? ')' : ''
       }`
     }
     const { field, operator, valueForComparison } = filterData as unknown as FilterItem
+    if (!field || !operator || !valueForComparison) {
+      return ''
+    }
     // TODO:Confirm how to determine the type of input data.
     const strForComparison =
       typeof valueForComparison === 'string' ? `'${valueForComparison}'` : valueForComparison
     return `${field} ${operator} ${strForComparison}`
   }
 
+  const getFilterExpressionFromForm = (filterData: FilterForm) => {
+    const { editedWay, form, sql } = filterData
+    if (editedWay === EditedWay.SQL) {
+      return sql
+    }
+    return getFilterExpressionFromFormData(form)
+  }
+
   return {
     getFuncExpressionFromForm,
     getFuncExpressionFromFuncList,
+    getFilterExpressionFromFormData,
     getFilterExpressionFromForm,
   }
 }

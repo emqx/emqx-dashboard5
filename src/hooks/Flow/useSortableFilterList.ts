@@ -23,9 +23,9 @@ export default (
   ) => {
     sortableArr.forEach((item) => item?.destroy())
     const eleArr: Array<HTMLElement> = Array.from(
-      ListContainer.value.querySelectorAll(`.${listWrapClass}`),
+      ListContainer.value?.querySelectorAll(`.${listWrapClass}`),
     )
-    sortableArr = eleArr.map((item) => {
+    sortableArr = eleArr?.map((item) => {
       return new Sortable(item, {
         group: 'shared',
         draggable: '.filter-item',

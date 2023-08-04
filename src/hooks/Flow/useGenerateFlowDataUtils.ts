@@ -231,7 +231,12 @@ export default () => {
       position: { x: 0, y: 0 },
       data: {
         specificType: ProcessingType.Filter,
-        formData: generateFilterForm(whereStr),
+        formData: {
+          // TODO:TODO:TODO: set by expression
+          editedWay: EditedWay.Form,
+          sql: whereStr,
+          form: generateFilterForm(whereStr),
+        },
         desc: '',
       },
     }
