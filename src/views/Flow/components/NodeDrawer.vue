@@ -30,7 +30,7 @@
             type="primary"
             @click="toggleEditedWay"
           >
-            {{ t(`Flow.${record.editedWay === 'form' ? 'switchToSql' : 'switchToForm'}`) }}
+            {{ t(`Flow.${record.editedWay === EditedWay.Form ? 'switchToSql' : 'switchToForm'}`) }}
           </el-button>
         </div>
         <div>
@@ -52,14 +52,14 @@
 </template>
 
 <script setup lang="ts">
-import { ProcessingType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
+import { EditedWay, ProcessingType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
-import { cloneDeep, isFunction, isObject, isEqual, lowerCase } from 'lodash'
+import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
@@ -145,7 +145,7 @@ const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
 const toggleEditedWay = () => {
-  record.value.editedWay = record.value.editedWay === 'sql' ? 'form' : 'sql'
+  record.value.editedWay = record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
 }
 
 /**
