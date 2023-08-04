@@ -4,6 +4,7 @@ import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
 import {
+  EditedWay,
   FilterForm,
   FilterItem,
   FunctionForm,
@@ -39,7 +40,7 @@ export const createFunctionItem = (): FunctionItem => ({
 })
 
 export const createFunctionForm = (): FunctionForm => ({
-  editedWay: 'form',
+  editedWay: EditedWay.Form,
   form: [createFunctionItem()],
   sql: '',
 })

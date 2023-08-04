@@ -62,8 +62,13 @@ export interface FunctionItem {
   alias: string
 }
 
+export const enum EditedWay {
+  Form,
+  SQL,
+}
+
 export type FunctionForm = {
-  editedWay: 'form' | 'sql'
+  editedWay: EditedWay
   form: Array<FunctionItem>
   sql: string
 }
