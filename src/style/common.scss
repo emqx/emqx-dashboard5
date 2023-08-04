@@ -857,31 +857,28 @@ code {
     }
   }
 
+  $handle-size: 8px;
   .vue-flow__handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: content-box;
-    width: 8px;
-    height: 8px;
+    width: $handle-size;
+    height: $handle-size;
     border: none;
-
-    // In order to expand the draggable area invisible
-    &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: block;
-      width: 24px;
-      height: 24px;
-    }
-
-    &:hover {
-      --vf-handle: var(--color-primary);
+    .icon-add {
+      display: none;
+      color: #fff;
+      font-weight: 600;
+      pointer-events: none;
     }
   }
 
   .vue-flow__handle-left {
-    left: -5px;
+    left: -$handle-size/2;
+  }
+  .vue-flow__handle-right {
+    right: -$handle-size/2;
   }
 
   .vue-flow__handle {
