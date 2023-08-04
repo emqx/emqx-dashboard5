@@ -1,6 +1,6 @@
 <template>
   <div class="function-form">
-    <template v-if="record.editedWay === 'form'">
+    <template v-if="record.editedWay === EditedWay.Form">
       <ul class="field-list">
         <li class="field-item" v-for="(item, $index) in record.form" :key="item.id">
           <FunctionBlock
@@ -52,7 +52,7 @@
 import { DEFAULT_SELECT } from '@/common/constants'
 import { createRandomString, trimSpacesAndLFs } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
-import { FunctionForm } from '@/hooks/Flow/useFlowNode'
+import { FunctionForm, EditedWay } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
 import { createFunctionItem } from '@/hooks/Flow/useNodeForm'
@@ -113,7 +113,7 @@ const deleteItem = (index: number) => {
 }
 
 const validate = () => {
-  if (record.value.editedWay === 'form') {
+  if (record.value.editedWay === EditedWay.Form) {
     return Promise.all(
       FormComArr.map((item) => {
         if (item.validate && isFunction(item.validate)) {
@@ -148,7 +148,7 @@ const saveConfig = () => {
 watch(
   () => props.modelValue?.editedWay,
   (val) => {
-    if (val === 'sql') {
+    if (val === EditedWay.SQL) {
       transformToSqlFormForm()
     } else {
       transformToFormFromSql()

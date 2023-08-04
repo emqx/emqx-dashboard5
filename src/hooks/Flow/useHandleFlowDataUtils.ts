@@ -1,4 +1,4 @@
-import { FilterForm, FilterItem, FunctionForm, FunctionItem } from './useFlowNode'
+import { EditedWay, FilterForm, FilterItem, FunctionForm, FunctionItem } from './useFlowNode'
 
 export default (): {
   getFuncExpressionFromForm: (funcForm: FunctionForm) => string
@@ -33,7 +33,7 @@ export default (): {
 
   const getFuncExpressionFromForm = (formData: FunctionForm) => {
     const { editedWay, form, sql } = formData
-    if (editedWay === 'sql') {
+    if (editedWay === EditedWay.SQL) {
       return sql
     }
     return getFuncExpressionFromFuncList(form)

@@ -12,6 +12,7 @@ import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
+  EditedWay,
   FunctionItem,
   NodeType,
   ProcessingType,
@@ -148,7 +149,7 @@ export default () => {
         specificType: ProcessingType.Function,
         formData: {
           // TODO:TODO:TODO: set by expression
-          editedWay: 'form',
+          editedWay: EditedWay.Form,
           sql: fieldsExpressions,
           form: formData,
         },
