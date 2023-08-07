@@ -21,6 +21,15 @@ defineProps({
 .filter-item-readonly {
   display: flex;
   align-items: center;
+  padding: 8px 0;
+  line-height: 20px;
+  &::before {
+    
+  }
+
+  p {
+    margin: 0;
+  }
   .field {
     font-weight: 600;
   }
