@@ -1,22 +1,18 @@
 <template>
   <div class="filter-form is-readonly">
     <div class="filter-container">
-      <FilterOperatorLineReadonly
-        :operator="record.groupOperator"
-        :level="1"
-        :filter-data="getFilterDataForLine(1)"
-      />
+      <FilterOperatorLineReadonly :operator="record.groupOperator" />
       <div :id="record.id">
         <template v-for="(filter, index) in record.items">
           <div class="sub-level filter-container" v-if="filter.items" :key="filter.id">
-            <FilterOperatorLineReadonly
-              :operator="filter.groupOperator"
-              :level="2"
-              :filter-data="getFilterDataForLine(2, index)"
-            />
+            <FilterOperatorLineReadonly :operator="filter.groupOperator" />
             <div :id="filter.id">
               <div v-for="(subFilter, subIndex) in filter.items" :key="subIndex">
-                <FilterItemReadonly :data="filter.items[subIndex]" />
+                <FilterItemReadonly
+                  :level="2"
+                  :data="filter.items[subIndex]"
+                  :operator="filter.groupOperator"
+                />
                 <OperatorTag
                   v-if="subIndex < filter.items.length - 1"
                   :operator="filter.groupOperator"
@@ -26,7 +22,12 @@
             </div>
           </div>
           <div v-else :key="index">
-            <FilterItemReadonly :data="record.items[index]" />
+            <OperatorTag v-if="showPreTag(index)" :operator="record.groupOperator" disabled />
+            <FilterItemReadonly
+              :level="1"
+              :data="record.items[index]"
+              :operator="record.groupOperator"
+            />
             <OperatorTag
               v-if="index < record.items.length - 1"
               :operator="record.groupOperator"
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed, defineProps } from 'vue'
+import { PropType, defineProps, computed } from 'vue'
 import FilterItemReadonly from './FilterItemReadonly.vue'
 import FilterOperatorLineReadonly from './FilterOperatorLineReadonly.vue'
 import OperatorTag from './OperatorTag.vue'
@@ -61,21 +62,11 @@ const filterCountArr = computed(() => {
     return 1
   })
 })
-const getFilterDataForLine = (level: 1 | 2, index?: number) => {
-  if (level === 2) {
-    const currentCount = filterCountArr.value[index as number]
-    return Array.from({ length: currentCount }, (_, index) => ({ filterIndex: index }))
+
+const showPreTag = (index: number) => {
+  if (index === 0) {
+    return false
   }
-  return filterCountArr.value.reduce(
-    (arr: Array<{ filterIndex: number }>, currentItem: number, index: number) => {
-      if (currentItem === 1) {
-        arr.push({ filterIndex: index })
-      }
-      return arr
-    },
-    [],
-  )
+  return filterCountArr.value[index - 1] > 1
 }
 </script>
-
-<style lang="scss"></style>
