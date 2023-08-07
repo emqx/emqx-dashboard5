@@ -22,9 +22,11 @@ export default (
     otherEventOpt: Record<string, ((event: SortableEvent) => void) | undefined> = {},
   ) => {
     sortableArr.forEach((item) => item?.destroy())
-    const eleArr: Array<HTMLElement> = Array.from(
-      ListContainer.value?.querySelectorAll(`.${listWrapClass}`),
-    )
+    const selected = ListContainer.value?.querySelectorAll(`.${listWrapClass}`)
+    if (!selected) {
+      return
+    }
+    const eleArr: Array<HTMLElement> = Array.from(selected)
     sortableArr = eleArr?.map((item) => {
       return new Sortable(item, {
         group: 'shared',
