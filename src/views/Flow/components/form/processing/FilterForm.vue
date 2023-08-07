@@ -374,9 +374,11 @@ defineExpose({ validate })
     flex-grow: 1;
   }
   // If you want to make changes here, please modify it along with src/hooks/Flow/useFilterConnectorInForm.ts:8:31
-  .filter-container:not(:last-child),
-  .filter-item:not(:last-child) {
-    margin-bottom: 16px;
+  &:not(.is-readonly) {
+    .filter-container:not(:last-child),
+    .filter-item:not(:last-child) {
+      margin-bottom: 16px;
+    }
   }
 
   $large-padding-right: 40px;
