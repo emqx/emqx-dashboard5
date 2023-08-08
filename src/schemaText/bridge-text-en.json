@@ -998,5 +998,183 @@
       "desc": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
       "label": "Connect Timeout"
     }
+  },
+  "emqx_ee_bridge_azure_event_hub": {
+    "bootstrap_hosts": {
+      "desc": "A comma separated list of Azure Event Hub Kafka <code>host[:port]</code> namespace endpoints to bootstrap the client.  Default port number is 9093.",
+      "label": "Bootstrap Hosts"
+    },
+    "connect_timeout": {
+      "desc": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
+      "label": "Connect Timeout"
+    },
+    "min_metadata_refresh_interval": {
+      "desc": "Minimum time interval the client has to wait before refreshing Azure Event Hub Kafka broker and topic metadata. Setting too small value may add extra load on Azure Event Hub.",
+      "label": "Min Metadata Refresh Interval"
+    },
+    "metadata_request_timeout": {
+      "desc": "Maximum wait time when fetching metadata from Azure Event Hub.",
+      "label": "Metadata Request Timeout"
+    },
+    "password": {
+      "desc": "The password for connecting to Azure Event Hub.  Should be the \"connection string-primary key\" of a Namespace shared access policy.",
+      "label": "Password"
+    },
+    "sndbuf": {
+      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
+      "label": "Socket Send Buffer Size"
+    },
+    "recbuf": {
+      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
+      "label": "Socket Receive Buffer Size"
+    },
+    "tcp_keepalive": {
+      "desc": "Enable TCP keepalive for Azure Event Hub bridge connections.\nThe value is three comma separated numbers in the format of 'Idle,Interval,Probes'\n - Idle: The number of seconds a connection needs to be idle before the server begins to send out keep-alive probes (Linux default 7200).\n - Interval: The number of seconds between TCP keep-alive probes (Linux default 75).\n - Probes: The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is obtained from the other end (Linux default 9).\nFor example \"240,30,5\" means: TCP keepalive probes are sent after the connection is idle for 240 seconds, and the probes are sent every 30 seconds until a response is received, if it misses 5 consecutive responses, the connection should be closed.\nDefault: 'none'",
+      "label": "TCP keepalive options"
+    },
+    "topic": {
+      "desc": "Event Hub name",
+      "label": "Event Hub Name"
+    },
+    "max_batch_bytes": {
+      "desc": "Maximum bytes to collect in an Azure Event Hub message batch. Most of the Kafka brokers default to a limit of 1 MB batch size. EMQX's default value is less than 1 MB in order to compensate Kafka message encoding overheads (especially when each individual message is very small). When a single message is over the limit, it is still sent (as a single element batch).",
+      "label": "Max Batch Bytes"
+    },
+    "partition_strategy": {
+      "desc": "Partition strategy is to tell the producer how to dispatch messages to Azure Event Hub partitions.\n\n<code>random</code>: Randomly pick a partition for each message\n<code>key_dispatch</code>: Hash Azure Event Hub message key to a partition number",
+      "label": "Partition Strategy"
+    },
+    "required_acks": {
+      "desc": "Required acknowledgements for Azure Event Hub partition leader to wait for its followers before it sends back the acknowledgement to EMQX Azure Event Hub producer\n\n<code>all_isr</code>: Require all in-sync replicas to acknowledge.\n<code>leader_only</code>: Require only the partition-leader's acknowledgement.",
+      "label": "Required Acks"
+    },
+    "kafka_headers": {
+      "desc": "Please provide a placeholder to be used as Azure Event Hub Headers<br/>\ne.g. <code>${'{'}pub_props{'}'}</code><br/>\nNotice that the value of the placeholder must either be an object:\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\nor an array of key-value pairs:\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
+      "label": "Azure Event Hub Headers"
+    },
+    "kafka_header_value_encode_mode": {
+      "desc": "Azure Event Hub headers value encode mode<br/>\n - NONE: only add binary values to Azure Event Hub headers;<br/>\n - JSON: only add JSON values to Azure Event Hub headers,\nand encode it to JSON strings before sending.",
+      "label": "Azure Event Hub headers value encode mode"
+    },
+    "partition_count_refresh_interval": {
+      "desc": "The time interval for Azure Event Hub producer to discover increased number of partitions.\nAfter the number of partitions is increased in Azure Event Hub, EMQX will start taking the\ndiscovered partitions into account when dispatching messages per <code>partition_strategy</code>.",
+      "label": "Partition Count Refresh Interval"
+    },
+    "max_inflight": {
+      "desc": "Maximum number of batches allowed for Azure Event Hub producer (per-partition) to send before receiving acknowledgement from Azure Event Hub. Greater value typically means better throughput. However, there can be a risk of message reordering when this value is greater than 1.",
+      "label": "Max Inflight"
+    },
+    "query_mode": {
+      "desc": "Query mode. Optional 'sync/async', default 'async'.",
+      "label": "Query mode"
+    },
+    "sync_query_timeout": {
+      "desc": "This parameter defines the timeout limit for synchronous queries. It applies only when the bridge query mode is configured to 'sync'.",
+      "label": "Synchronous Query Timeout"
+    },
+    "key": {
+      "desc": "Template to render Azure Event Hub message key. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Azure Event Hub's <code>NULL</code> (but not empty string) is used.",
+      "label": "Message Key"
+    },
+    "value": {
+      "desc": "Template to render Azure Event Hub message value. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Azure Event Hub's <code>NULL</code> (but not empty string) is used.",
+      "label": "Message Value"
+    },
+    "timestamp": {
+      "desc": "Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.",
+      "label": "Message Timestamp"
+    },
+    "kafka_ext_header_key": {
+      "desc": "Key of the Azure Event Hub header. Placeholders in format of ${'{'}var{'}'} are supported.",
+      "label": "Azure Event Hub extra header key."
+    },
+    "kafka_ext_header_value": {
+      "desc": "Value of the Azure Event Hub header. Placeholders in format of ${'{'}var{'}'} are supported.",
+      "label": "Value"
+    },
+    "mode": {
+      "desc": "Message buffer mode.\n\n<code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart\n<code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
+      "label": "Buffer Mode"
+    },
+    "per_partition_limit": {
+      "desc": "Number of bytes allowed to buffer for each Azure Event Hub partition. When this limit is exceeded, old messages will be dropped in a trade for credits for new messages to be buffered.",
+      "label": "Per-partition Buffer Limit"
+    },
+    "segment_bytes": {
+      "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.\nThis value is to specify the size of each on-disk buffer file.",
+      "label": "Segment File Bytes"
+    },
+    "memory_overload_protection": {
+      "desc": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
+      "label": "Memory Overload Protection"
+    }
+  },
+  "emqx_ee_bridge_kinesis": {
+    "pool_size": {
+      "desc": "The pool size.",
+      "label": "Pool Size"
+    },
+    "payload_template": {
+      "desc": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",
+      "label": "Payload template"
+    },
+    "aws_access_key_id": {
+      "desc": "Access Key ID for connecting to Amazon Kinesis.",
+      "label": "AWS Access Key ID"
+    },
+    "aws_secret_access_key": {
+      "desc": "AWS Secret Access Key for connecting to Amazon Kinesis.",
+      "label": "AWS Secret Access Key"
+    },
+    "endpoint": {
+      "desc": "The url of Amazon Kinesis endpoint.",
+      "label": "Amazon Kinesis Endpoint"
+    },
+    "stream_name": {
+      "desc": "The Amazon Kinesis Stream to publish messages to.",
+      "label": "Amazon Kinesis Stream"
+    },
+    "partition_key": {
+      "desc": "The Amazon Kinesis Partition Key associated to published message. Placeholders in format of ${'{'}var{'}'} are supported.",
+      "label": "Partition key"
+    },
+    "max_retries": {
+      "desc": "Max retry times if an error occurs when sending a request.",
+      "label": "Max Retries"
+    }
+  },
+  "emqx_ee_bridge_greptimedb": {
+    "write_syntax": {
+      "desc": "Conf of GreptimeDB gRPC protocol to write data points. Write syntax is a text-based format that provides the measurement, tag set, field set, and timestamp of a data point, and placeholder supported, which is the same as InfluxDB line protocol.\nSee also [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) and\n[GreptimeDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\nTLDR:</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\nPlease note that a placeholder for an integer value must be annotated with a suffix `i`. For example `${'{'}payload.int_value{'}'}i`.",
+      "label": "Write Syntax"
+    },
+    "server": {
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to.</br>\nA host entry has the following form: `Host[:Port]`.</br>\nThe GreptimeDB default port 8086 is used if `[:Port]` is not specified.",
+      "label": "Server Host"
+    },
+    "dbname": {
+      "desc": "GreptimeDB database.",
+      "label": "Database"
+    },
+    "greptimedb": {
+      "desc": "GreptimeDB's protocol. Support GreptimeDB v1.8 and before.",
+      "label": "HTTP API Protocol"
+    },
+    "username": {
+      "desc": "GreptimeDB username.",
+      "label": "Username"
+    },
+    "password": {
+      "desc": "GreptimeDB password.",
+      "label": "Password"
+    },
+    "precision": {
+      "desc": "GreptimeDB time precision.",
+      "label": "Time Precision"
+    },
+    "protocol": {
+      "desc": "GreptimeDB's protocol. gRPC API.",
+      "label": "Protocol"
+    }
   }
 }

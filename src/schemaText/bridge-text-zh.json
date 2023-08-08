@@ -996,5 +996,181 @@
       "desc": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
       "label": "连接超时"
     }
+  },
+  "emqx_ee_bridge_azure_event_hub": {
+    "bootstrap_hosts": {
+      "desc": "用于引导客户端的Azure Event Hub Kafka <code>host[:port]</code>命名空间端点的逗号分隔列表。默认端口号为9093。",
+      "label": "引导主机"
+    },
+    "connect_timeout": {
+      "desc": "TCP连接建立的最大等待时间（包括启用身份验证的时间）。",
+      "label": "连接超时"
+    },
+    "min_metadata_refresh_interval": {
+      "desc": "客户端在刷新Azure Event Hub Kafka代理和主题元数据之前必须等待的最小时间间隔。设置太小的值可能会对Azure Event Hub造成额外的负载。",
+      "label": "最小元数据刷新间隔"
+    },
+    "metadata_request_timeout": {
+      "desc": "从Azure Event Hub获取元数据时的最大等待时间。",
+      "label": "元数据请求超时"
+    },
+    "password": {
+      "desc": "连接到Azure Event Hub所需的密码。应为命名空间共享访问策略的“连接字符串 - 主键”。",
+      "label": "密码"
+    },
+    "sndbuf": {
+      "desc": "调整套接字发送缓冲区。默认值针对高吞吐量进行了调整。",
+      "label": "套接字发送缓冲区大小"
+    },
+    "recbuf": {
+      "desc": "调整套接字接收缓冲区。默认值针对高吞吐量进行了调整。",
+      "label": "套接字接收缓冲区大小"
+    },
+    "tcp_keepalive": {
+      "desc": "启用Azure Event Hub桥接连接的TCP保活。\n该值是以“Idle，Interval，Probes”格式的三个逗号分隔数字\n - Idle：连接在开始发送保活探测之前需要处于空闲状态的秒数（Linux默认为7200）。\n - Interval：TCP保活探测之间的秒数（Linux默认为75）。\n - Probes：在未从另一端获得响应的情况下发送的最大TCP保活探测次数（Linux默认为9）。\n例如，“240，30，5”表示：在连接空闲240秒后，发送TCP保活探测，并且在连续5次未获得响应时，应关闭连接。\n默认值：“none”",
+      "label": "TCP保活选项"
+    },
+    "topic": {
+      "desc": "事件中心名称",
+      "label": "事件中心名称"
+    },
+    "max_batch_bytes": {
+      "desc": "在Azure Event Hub消息批次中收集的最大字节数。大多数Kafka代理的默认限制为1 MB批次大小。EMQX的默认值小于1 MB，以补偿Kafka消息编码开销（特别是当每个单独消息非常小时）。当单个消息超过限制时，仍然会发送（作为单个元素批次）。",
+      "label": "最大批次字节数"
+    },
+    "partition_strategy": {
+      "desc": "分区策略用于告诉生产者如何将消息分派到Azure Event Hub分区。\n\n<code>random</code>：随机选择每个消息的分区\n<code>key_dispatch</code>：将Azure Event Hub消息键哈希到分区号",
+      "label": "分区策略"
+    },
+    "required_acks": {
+      "desc": "Azure Event Hub分区领导者在向其追随者发送确认之前必须等待的所需确认\n\n<code>all_isr</code>：要求所有同步副本进行确认。\n<code>leader_only</code>：仅需要分区领导者的确认。",
+      "label": "所需确认"
+    },
+    "kafka_headers": {
+      "desc": "请提供一个占位符用于用作Azure Event Hub头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\n或键值对数组：\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
+      "label": "Azure Event Hub头部"
+    },
+    "kafka_header_value_encode_mode": {
+      "desc": "Azure Event Hub头部值编码模式<br/>\n - NONE：仅将二进制值添加到Azure Event Hub头部；<br/>\n - JSON：仅将JSON值添加到Azure Event Hub头部，并在发送前将其编码为JSON字符串。",
+      "label": "Azure Event Hub头部值编码模式"
+    },
+    "partition_count_refresh_interval": {
+      "desc": "Azure Event Hub生产者用于发现增加的分区数的时间间隔。\n在Azure Event Hub中增加分区数后，EMQX将在根据<code>partition_strategy</code>分派消息时考虑已发现的分区。",
+      "label": "分区数刷新间隔"
+    },
+    "max_inflight": {
+      "desc": "Azure Event Hub生产者（每个分区）允许发送的最大批次数，然后从Azure Event Hub接收确认。较大的值通常意味着更高的吞吐量。但是，当该值大于1时，可能会有消息重新排序的风险。",
+      "label": "最大传输数"
+    },
+    "query_mode": {
+      "desc": "查询模式。可选值为'sync/async'，默认为'async'。",
+      "label": "查询模式"
+    },
+    "sync_query_timeout": {
+      "desc": "该参数定义同步查询的超时限制。仅在桥接查询模式配置为'sync'时适用。",
+      "label": "同步查询超时"
+    },
+    "key": {
+      "desc": "用于呈现Azure Event Hub消息键的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hub的<code>NULL</code>（而不是空字符串）。",
+      "label": "消息键"
+    },
+    "value": {
+      "desc": "用于呈现Azure Event Hub消息值的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hub的<code>NULL</code>（而不是空字符串）。",
+      "label": "消息值"
+    },
+    "timestamp": {
+      "desc": "要使用的时间戳。预期时间戳为毫秒精度的Unix时代，可以是字符串格式，例如<code>1661326462115</code>或<code>'1661326462115'</code>。当未找到所需的数据字段时，或者找到的数据不是有效的整数时，将使用当前系统时间戳。",
+      "label": "消息时间戳"
+    },
+    "kafka_ext_header_key": {
+      "desc": "Azure Event Hub头部的键。支持格式为${'{'}var{'}'}的占位符。",
+      "label": "Azure Event Hub额外头部键"
+    },
+    "kafka_ext_header_value": {
+      "desc": "Azure Event Hub头部的值。支持格式为${'{'}var{'}'}的占位符。",
+      "label": "值"
+    },
+    "mode": {
+      "desc": "消息缓冲区模式。\n\n<code>memory</code>：在内存中缓冲所有消息。在EMQX节点重启时，消息将会丢失\n<code>disk</code>：将所有消息缓冲到磁盘上。磁盘上的消息能够在EMQX节点重启时幸存下来。\n<code>hybrid</code>：首先在内存中缓冲消息，当达到一定限制时（有关更多信息，请参阅<code>segment_bytes</code>配置），然后开始将消息转移到磁盘上，与<code>memory</code>模式一样，消息将会在EMQX节点重启时丢失。",
+      "label": "缓冲区模式"
+    },
+    "per_partition_limit": {
+      "desc": "允许为每个Azure Event Hub分区缓冲的字节数。当超出此限制时，为了获取新消息的信用，旧消息将被丢弃。",
+      "label": "每个分区缓冲限制"
+    },
+    "segment_bytes": {
+      "desc": "在缓冲区模式设置为<code>disk</code>或<code>hybrid</code>时适用。\n此值用于指定每个磁盘缓冲文件的大小。",
+      "label": "段文件字节数"
+    },
+    "memory_overload_protection": {
+      "desc": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。",
+      "label": "内存过载保护"
+    }
+  },
+  "emqx_ee_bridge_kinesis": {
+    "pool_size": {
+      "label": "连接池大小"
+    },
+    "payload_template": {
+      "desc": "用于格式化输出消息的模板。如果未定义，将以 JSON 格式发送所有可用上下文。",
+      "label": "载荷模板"
+    },
+    "aws_access_key_id": {
+      "desc": "用于连接到 Amazon Kinesis 的访问密钥 ID。",
+      "label": "AWS 访问密钥 ID"
+    },
+    "aws_secret_access_key": {
+      "desc": "用于连接到 Amazon Kinesis 的 AWS 秘密访问密钥。",
+      "label": "AWS 秘密访问密钥"
+    },
+    "endpoint": {
+      "desc": "Amazon Kinesis 端点的 URL。",
+      "label": "Amazon Kinesis 端点"
+    },
+    "stream_name": {
+      "desc": "要发布消息的 Amazon Kinesis 流。",
+      "label": "Amazon Kinesis 流"
+    },
+    "partition_key": {
+      "desc": "与发布的消息关联的 Amazon Kinesis 分区键。支持 ${'{'}var{'}'} 格式的占位符。",
+      "label": "分区键"
+    },
+    "max_retries": {
+      "desc": "在发送请求时发生错误的最大重试次数。",
+      "label": "最大重试次数"
+    }
+  },
+  "emqx_ee_bridge_greptimedb": {
+    "write_syntax": {
+      "desc": "GreptimeDB gRPC 协议写数据点的配置。写语法是一种基于文本的格式，提供数据点的测量、标签集、字段集和时间戳，支持占位符，与 InfluxDB 线协议相同。\n参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 和\n[GreptimeDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\n简而言之：</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n请注意，整数值的占位符必须使用后缀 `i` 进行注释。例如 `${'{'}payload.int_value{'}'}i`。",
+      "label": "写语法"
+    },
+    "server": {
+      "desc": "要连接的 IPv4 或 IPv6 地址或主机名。</br>\n主机条目的格式为：`Host[:Port]`。</br>\n如果没有指定 `[:Port]`，则使用 GreptimeDB 的默认端口 8086。",
+      "label": "服务器地址"
+    },
+    "dbname": {
+      "label": "数据库"
+    },
+    "greptimedb": {
+      "desc": "GreptimeDB 的协议。支持 GreptimeDB v1.8 及之前版本。",
+      "label": "HTTP API 协议"
+    },
+    "username": {
+      "desc": "GreptimeDB 用户名。",
+      "label": "用户名"
+    },
+    "password": {
+      "desc": "GreptimeDB 密码。",
+      "label": "密码"
+    },
+    "precision": {
+      "desc": "GreptimeDB 时间精度。",
+      "label": "时间精度"
+    },
+    "protocol": {
+      "desc": "GreptimeDB 的协议。gRPC API。",
+      "label": "协议"
+    }
   }
 }
