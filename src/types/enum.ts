@@ -119,6 +119,9 @@ export enum BridgeType {
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
   HStream = 'hstreamdb',
+  AzureEventHubs = 'azure_event_hub',
+  AmazonKinesis = 'kinesis',
+  GreptimeDB = 'greptimedb',
 }
 
 export enum KafkaType {
