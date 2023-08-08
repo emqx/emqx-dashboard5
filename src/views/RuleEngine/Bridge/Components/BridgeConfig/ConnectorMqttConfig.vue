@@ -4,33 +4,42 @@
       <!-- <div class="part-header">{{ tl('connParams') }}</div> -->
       <el-row :gutter="30">
         <el-col :span="colSpan">
-          <el-form-item :label="tl('brokerAddress')" required :prop="getFormItemProp('server')">
+          <CustomFormItem
+            :label="tl('brokerAddress')"
+            required
+            :prop="getFormItemProp('server')"
+            :readonly="readonly"
+          >
             <el-input v-model="connectorVal.server" placeholder="broker.emqx.io:1883" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item :label="tl('username')">
+          <CustomFormItem :label="tl('username')" :readonly="readonly">
             <el-input v-model="connectorVal.username" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item :label="tl('password')" :prop="getFormItemProp('password')">
+          <CustomFormItem
+            :label="tl('password')"
+            :prop="getFormItemProp('password')"
+            :readonly="readonly"
+          >
             <el-input
               type="password"
               autocomplete="one-time-code"
               v-model="connectorVal.password"
               show-password
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item :label="'Keep Alive'">
+          <CustomFormItem :label="'Keep Alive'" :readonly="readonly">
             <TimeInputWithUnitSelect
               v-model="connectorVal.keepalive"
               number-placeholder="60"
               :enabled-units="['s']"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
           <el-form-item :label="tl('mqttVer')">
@@ -45,7 +54,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item>
+          <CustomFormItem :readonly="readonly">
             <template #label>
               <label>{{ tl('retryInterval') }}</label>
               <InfoTooltip :content="tl('retryIntervalDesc')" />
@@ -55,16 +64,16 @@
               :enabled-units="['ms', 's', 'm', 'h', 'd']"
               default-unit="s"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item>
+          <CustomFormItem :readonly="readonly">
             <template #label>
               <label>{{ tl('cleanStart') }}</label>
               <InfoTooltip :content="tl('cleanStartDesc')" />
             </template>
             <el-switch v-model="connectorVal.clean_start" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
           <el-form-item>
@@ -84,6 +93,7 @@
 
 <script lang="ts">
 import { MQTT_VERSION_LIST } from '@/common/constants'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -93,7 +103,7 @@ import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
-  components: { TimeInputWithUnitSelect, CommonTLSConfig, InfoTooltip },
+  components: { TimeInputWithUnitSelect, CommonTLSConfig, InfoTooltip, CustomFormItem },
   props: {
     modelValue: {
       type: Object,
@@ -119,6 +129,9 @@ export default defineComponent({
     colSpan: {
       type: Number,
       default: 12,
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   setup(prop, context) {
