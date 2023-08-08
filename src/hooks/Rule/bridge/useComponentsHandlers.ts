@@ -54,6 +54,9 @@ export default (props: {
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
     }
+    if (comRet.local_topic) {
+      Reflect.deleteProperty(comRet, 'local_topic')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
@@ -214,6 +217,32 @@ export default (props: {
     return { components, rules }
   }
 
+  const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { kafka } = components
+
+    const { kafka_ext_header_key, kafka_ext_header_value } =
+      kafka?.properties?.kafka_ext_headers?.items?.properties || {}
+    const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_azure_event_hub.'
+    if (kafka_ext_header_key) {
+      kafka_ext_header_key.label = t(`${i18nPrefix}kafka_ext_header_key.label`)
+      kafka_ext_header_key.description = t(`${i18nPrefix}kafka_ext_header_key.desc`)
+    }
+    if (kafka_ext_header_value) {
+      kafka_ext_header_value.label = t(`${i18nPrefix}kafka_ext_header_value.label`)
+      kafka_ext_header_value.description = t(`${i18nPrefix}kafka_ext_header_value.desc`)
+    }
+
+    const { key, value } = kafka?.properties?.message?.properties || {}
+    if (key?.type === 'string') {
+      key.componentProps = { type: 'textarea', rows: 3 }
+    }
+    if (value?.type === 'string') {
+      value.componentProps = { type: 'textarea', rows: 3 }
+    }
+
+    return { components, rules }
+  }
   const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { payload_template } = components
@@ -233,6 +262,7 @@ export default (props: {
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
+    [BridgeType.AzureEventHubs]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
   }
 

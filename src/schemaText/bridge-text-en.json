@@ -1052,6 +1052,10 @@
       "desc": "Please provide a placeholder to be used as Azure Event Hub Headers<br/>\ne.g. <code>${'{'}pub_props{'}'}</code><br/>\nNotice that the value of the placeholder must either be an object:\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\nor an array of key-value pairs:\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
       "label": "Azure Event Hub Headers"
     },
+    "kafka_ext_headers": {
+      "desc": "Please provide more key-value pairs for Azure Event Hub headers<br/>The key-value pairs here will be combined with the value of <code>kafka_headers</code> field before sending to Azure Event Hub.",
+      "label": "Extra Azure Event Hub headers"
+    },
     "kafka_header_value_encode_mode": {
       "desc": "Azure Event Hub headers value encode mode<br/>\n - NONE: only add binary values to Azure Event Hub headers;<br/>\n - JSON: only add JSON values to Azure Event Hub headers,\nand encode it to JSON strings before sending.",
       "label": "Azure Event Hub headers value encode mode"
@@ -1086,7 +1090,7 @@
     },
     "kafka_ext_header_key": {
       "desc": "Key of the Azure Event Hub header. Placeholders in format of ${'{'}var{'}'} are supported.",
-      "label": "Azure Event Hub extra header key."
+      "label": "Key"
     },
     "kafka_ext_header_value": {
       "desc": "Value of the Azure Event Hub header. Placeholders in format of ${'{'}var{'}'} are supported.",
