@@ -228,6 +228,56 @@ export default (
         1,
       ),
     },
+    [BridgeType.AzureEventHubs]: {
+      ...createOrderObj(
+        [
+          'bootstrap_hosts',
+          'authentication.password',
+          'connect_timeout',
+          'min_metadata_refresh_interval',
+          'metadata_request_timeout',
+          'ssl',
+          'kafka.topic',
+          'kafka.message',
+          'kafka.max_batch_bytes',
+          'kafka.partition_strategy',
+          'kafka.required_acks',
+          'kafka.kafka_headers',
+          'kafka.kafka_ext_headers',
+          'kafka.kafka_header_value_encode_mode',
+          'kafka.partition_count_refresh_interval',
+          'kafka.max_inflight',
+          'kafka.buffer',
+          'kafka.query_mode',
+          'kafka.sync_query_timeout',
+          'socket_opts.sndbuf',
+          'socket_opts.recbuf',
+          'socket_opts.tcp_keepalive',
+        ],
+        1,
+      ),
+    },
+    [BridgeType.AmazonKinesis]: {
+      ...createOrderObj(
+        [
+          'aws_access_key_id',
+          'aws_secret_access_key',
+          'endpoint',
+          'stream_name',
+          'partition_key',
+          'max_retries',
+          'pool_size',
+          'payload_template',
+        ],
+        1,
+      ),
+    },
+    [BridgeType.GreptimeDB]: {
+      ...createOrderObj(
+        ['server', 'dbname', 'username', 'password', 'precision', 'ssl', 'write_syntax'],
+        1,
+      ),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -295,6 +345,13 @@ export default (
       // TODO:remove
       pool_size: 'dividing-line-below',
       record_template: 'dividing-line-below',
+    },
+    [BridgeType.AmazonKinesis]: {
+      pool_size: 'dividing-line-below',
+      payload_template: 'dividing-line-below',
+    },
+    [BridgeType.GreptimeDB]: {
+      write_syntax: 'dividing-line-below',
     },
   }
 

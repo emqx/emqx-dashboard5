@@ -37,6 +37,9 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
     { value: BridgeType.Pulsar, label: tl('pulsar') },
     // { value: BridgeType.HStream, label: tl('hStream') },
+    { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
+    { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
+    { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
   ]
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
@@ -93,6 +96,9 @@ export const useBridgeTypeOptions = (): {
     [BridgeType.RabbitMQ, t('RuleEngine.bridgeDataToDesc', { name: tl('rabbitMQ') })],
     [BridgeType.Pulsar, t('RuleEngine.bridgeDataToDesc', { name: tl('pulsar') })],
     [BridgeType.HStream, t('RuleEngine.egressDataBaseDesc', { name: tl('hStream') })],
+    [BridgeType.AzureEventHubs, t('RuleEngine.bridgeDataToDesc', { name: tl('azureEventHubs') })],
+    [BridgeType.AmazonKinesis, t('RuleEngine.bridgeDataToDesc', { name: tl('amazonKinesis') })],
+    [BridgeType.GreptimeDB, t('RuleEngine.egressDataBaseDesc', { name: tl('greptimeDB') })],
   ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
@@ -222,7 +228,7 @@ export const useBridgeSchema = (): {
   )
 
   const getSchemaRefByType = (type: string, suffix?: string) => {
-    const finalSuffix = suffix ? refSuffixMap[suffix] || refSuffix : refSuffix
+    const finalSuffix = `${refSuffix}${suffix || ''}`
     return refPrefix + type + finalSuffix
   }
 

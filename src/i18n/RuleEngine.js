@@ -870,6 +870,18 @@ export default {
     zh: 'HStreamDB',
     en: 'HStreamDB',
   },
+  azureEventHubs: {
+    zh: 'Azure Event Hubs',
+    en: 'Azure Event Hubs',
+  },
+  amazonKinesis: {
+    zh: 'Amazon Kinesis',
+    en: 'Amazon Kinesis',
+  },
+  greptimeDB: {
+    zh: 'GreptimeDB',
+    en: 'GreptimeDB',
+  },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',

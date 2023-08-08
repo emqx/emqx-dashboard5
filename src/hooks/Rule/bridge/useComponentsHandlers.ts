@@ -214,6 +214,17 @@ export default (props: {
     return { components, rules }
   }
 
+  const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { payload_template } = components
+
+    if (payload_template?.type === 'string') {
+      payload_template.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
@@ -222,6 +233,7 @@ export default (props: {
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
+    [BridgeType.AmazonKinesis]: amazonKinesisHandler,
   }
 
   const getComponentsHandler = () => {

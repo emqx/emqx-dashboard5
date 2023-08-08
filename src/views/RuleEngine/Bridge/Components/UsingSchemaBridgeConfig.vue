@@ -50,7 +50,7 @@ type UseSchemaBridgeType = Exclude<
 const { getSchemaRefByType } = useBridgeSchema()
 const typeRefKeyMap = {
   [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-  [BridgeType.GCP]: getSchemaRefByType('gcp_pubsub', 'producer'),
+  [BridgeType.GCP]: getSchemaRefByType('gcp_pubsub', '_producer'),
   [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
   [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
   [BridgeType.MatrixDB]: getSchemaRefByType('matrix'),
@@ -65,6 +65,9 @@ const typeRefKeyMap = {
   [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
   [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
   [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
+  [BridgeType.AzureEventHubs]: getSchemaRefByType('azure_event_hub', '_producer'),
+  [BridgeType.AmazonKinesis]: getSchemaRefByType('kinesis', '_producer'),
+  [BridgeType.GreptimeDB]: getSchemaRefByType('greptimedb', '_grpc_v1'),
 }
 
 const props = defineProps({
