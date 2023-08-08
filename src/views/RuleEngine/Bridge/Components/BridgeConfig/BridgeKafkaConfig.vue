@@ -180,7 +180,7 @@
               v-if="producerComponents.kafka"
               v-model="formData.kafka"
               :headers-properties="
-                producerComponents?.kafka?.properties?.kafka_ext_headers.properties
+                producerComponents?.kafka?.properties?.kafka_ext_headers?.items?.properties
               "
               :schema-components="getProducerPropItem('kafka').properties"
             />
@@ -239,7 +239,7 @@
                 v-if="consumerComponents.topic_mapping"
                 prop-key="topic_mapping"
                 v-model="formData.topic_mapping"
-                :properties="consumerComponents?.topic_mapping?.properties"
+                :properties="consumerComponents?.topic_mapping?.items?.properties"
               />
             </el-form-item>
           </el-col>
@@ -367,14 +367,14 @@ const getKafkaAllRoleComponents = async () => {
   consumerComponents.value = getComponents({
     ref: '#/components/schemas/bridge_kafka.post_consumer',
   })
-  if (consumerComponents.value.topic_mapping.properties) {
-    consumerComponents.value.topic_mapping.properties = addLabelForProps(
-      consumerComponents.value.topic_mapping.properties as Properties,
+  if (consumerComponents.value.topic_mapping.items.properties) {
+    consumerComponents.value.topic_mapping.items.properties = addLabelForProps(
+      consumerComponents.value.topic_mapping.items.properties as Properties,
     )
   }
-  if (producerComponents.value.kafka.properties) {
-    producerComponents.value.kafka.properties.kafka_ext_headers.properties = addLabelForProps(
-      producerComponents.value.kafka.properties.kafka_ext_headers.properties as Properties,
+  if (producerComponents.value.kafka.properties?.kafka_ext_headers.items) {
+    producerComponents.value.kafka.properties.kafka_ext_headers.items.properties = addLabelForProps(
+      producerComponents.value.kafka.properties.kafka_ext_headers.items.properties as Properties,
     )
   }
 }
