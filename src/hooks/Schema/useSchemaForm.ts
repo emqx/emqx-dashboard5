@@ -170,7 +170,7 @@ export default function useSchemaForm(
             } else if (property.items.$ref) {
               const component = getComponentByRef(schema, property.items.$ref)
               property.items.path = property.path
-              property.properties = transComponents(component, property.items.path)
+              property.items.properties = transComponents(component, property.items.path)
             }
           } else if (oneOf && oneOf.find(({ $ref, type }) => $ref || type === 'object')) {
             property.oneOf = oneOf.map((item) => {

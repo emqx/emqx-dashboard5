@@ -20,6 +20,7 @@ import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
@@ -309,6 +310,18 @@ const SchemaForm = defineComponent({
                 {...handleUpdateModelValue}
                 disabled={isPropertyDisabled}
                 type={property.items.type}
+                default={property.default}
+                {...customProps}
+              />
+            )
+          } else if (property.items.path && property.items.properties) {
+            return (
+              <ObjectArrayEditor
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                properties={property.items.properties}
+                propKey={property.items.path}
+                disabled={isPropertyDisabled}
                 default={property.default}
                 {...customProps}
               />
