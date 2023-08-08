@@ -1050,6 +1050,10 @@
       "desc": "请提供一个占位符用于用作Azure Event Hub头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\n或键值对数组：\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
       "label": "Azure Event Hub头部"
     },
+    "kafka_ext_headers": {
+      "desc": "请为 Azure Event Hub 提供更多的键值对头部信息<br/>此处的键值对将在发送到 Azure Event Hub 之前与 <code>kafka_headers</code> 字段的值进行组合。",
+      "label": "额外的 Azure Event Hub 头部信息"
+    },
     "kafka_header_value_encode_mode": {
       "desc": "Azure Event Hub头部值编码模式<br/>\n - NONE：仅将二进制值添加到Azure Event Hub头部；<br/>\n - JSON：仅将JSON值添加到Azure Event Hub头部，并在发送前将其编码为JSON字符串。",
       "label": "Azure Event Hub头部值编码模式"
@@ -1084,7 +1088,7 @@
     },
     "kafka_ext_header_key": {
       "desc": "Azure Event Hub头部的键。支持格式为${'{'}var{'}'}的占位符。",
-      "label": "Azure Event Hub额外头部键"
+      "label": "键"
     },
     "kafka_ext_header_value": {
       "desc": "Azure Event Hub头部的值。支持格式为${'{'}var{'}'}的占位符。",
