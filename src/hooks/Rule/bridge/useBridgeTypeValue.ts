@@ -60,7 +60,15 @@ export const useBridgeTypeOptions = (): {
   /**
    * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
    */
-  const typesWithMultiSpecificType = [BridgeType.InfluxDB, BridgeType.Redis]
+  const typesWithMultiSpecificType = [
+    BridgeType.InfluxDB,
+    BridgeType.Redis,
+    BridgeType.MongoDB,
+    BridgeType.Kafka,
+    BridgeType.Pulsar,
+    BridgeType.AzureEventHubs,
+    BridgeType.AmazonKinesis,
+  ]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {
       return typeStr as BridgeType
