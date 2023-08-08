@@ -14,7 +14,7 @@
     },
     "cluster_dns_name": {
       "desc": "The domain name from which to discover peer EMQX nodes' IP addresses.\nApplicable when <code>cluster.discovery_strategy = dns</code>",
-      "label": "Cluster Dns Name"
+      "label": "Cluster DNS Name"
     },
     "rpc_keyfile": {
       "desc": "Path to the private key file for the <code>rpc.certfile</code>.<br/>\nNote: contents of this file are secret, so it's necessary to set permissions to 600.",
