@@ -324,3 +324,8 @@ export enum LicenseCustomerType {
   Large,
   Evaluation = 10,
 }
+
+export enum Role {
+  Producer = 'producer',
+  Consumer = 'consumer',
+}

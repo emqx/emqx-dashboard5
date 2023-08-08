@@ -291,9 +291,9 @@
 
 <script setup lang="ts">
 import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -304,7 +304,7 @@ import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { KafkaType } from '@/types/enum'
+import { KafkaType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
@@ -322,11 +322,6 @@ enum BasicAuthEncryptType {
   Plain = 'plain',
   SHA256 = 'scram_sha_256',
   SHA512 = 'scram_sha_512',
-}
-
-enum Role {
-  Producer,
-  Consumer,
 }
 
 const props = defineProps({

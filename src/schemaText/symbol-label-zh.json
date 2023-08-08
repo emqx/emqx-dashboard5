@@ -1,4 +1,6 @@
 {
   "async": "异步",
-  "sync": "同步"
+  "sync": "同步",
+  "producer": "生产者",
+  "consumer": "消费者"
 }

@@ -33,6 +33,7 @@ import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgeProps
 import {
   useMongoSecondTypeControl,
   useRedisSecondTypeControl,
+  useGCPSecondTypeControl,
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
@@ -50,7 +51,6 @@ type UseSchemaBridgeType = Exclude<
 const { getSchemaRefByType } = useBridgeSchema()
 const typeRefKeyMap = {
   [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-  [BridgeType.GCP]: getSchemaRefByType('gcp_pubsub', '_producer'),
   [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
   [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
   [BridgeType.MatrixDB]: getSchemaRefByType('matrix'),
@@ -112,14 +112,18 @@ const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)
 const { currentType: mongoFormType, keyField: mongoSecondTypeControlField } =
   useMongoSecondTypeControl(bridgeRecord)
+const { currentType: GCPFormType, keyField: GCPSecondTypeControlField } =
+  useGCPSecondTypeControl(bridgeRecord)
 
 const typesWithSecondControlMap = {
   [BridgeType.Redis]: redisFormType,
   [BridgeType.MongoDB]: mongoFormType,
+  [BridgeType.GCP]: GCPFormType,
 }
 const typesWithSecondControlKeyMap = {
   [BridgeType.Redis]: redisSecondTypeControlField,
   [BridgeType.MongoDB]: mongoSecondTypeControlField,
+  [BridgeType.GCP]: GCPSecondTypeControlField,
 }
 
 const propsDisabled = computed(() => {

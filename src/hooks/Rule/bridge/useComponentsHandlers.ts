@@ -1,10 +1,11 @@
 import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
+import { isEmptyObj } from '@/common/tools'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import { BridgeType } from '@/types/enum'
-import { Properties } from '@/types/schemaForm'
+import { BridgeType, Role } from '@/types/enum'
+import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { useRedisCommandCheck } from './useBridgeDataHandler'
 
@@ -26,6 +27,15 @@ export default (props: {
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
+  const roleProp = {
+    type: 'enum',
+    symbols: [Role.Producer, Role.Consumer],
+    path: 'role',
+    key: 'role',
+    label: '',
+    description: '',
+  } as Property
+
   const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -44,6 +54,21 @@ export default (props: {
       rules.name.push(...createCommonIdRule())
     }
     return rules
+  }
+
+  const addRoleProp = (components: Properties, defaultValue: Role) => {
+    if (!components || isEmptyObj(components)) {
+      return
+    }
+    components.role = { ...roleProp, default: defaultValue }
+    return components
+  }
+
+  const setLabelAndDesc = (prop: Property, path: string) => {
+    if (prop) {
+      prop.label = t(`${path}.label`)
+      prop.description = t(`${path}.desc`)
+    }
   }
 
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -127,7 +152,14 @@ export default (props: {
 
   const GCPComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { service_account_json, payload_template } = components
+
+    const { service_account_json, payload_template, type, consumer } = components
+    if (type && type?.symbols?.[0]?.indexOf) {
+      const isConsumer = type.symbols[0].indexOf('consumer') > -1
+      addRoleProp(components, isConsumer ? Role.Consumer : Role.Producer)
+    }
+
+    /* Common */
     if (service_account_json?.type === 'string') {
       // The backend does not give data indicating that it is possible to upload files here, add it manually
       service_account_json.format = 'file'
@@ -136,6 +168,7 @@ export default (props: {
         tip: t('Base.uploadTip', { format: '.json' }),
       }
     }
+    /* Producer */
     if (payload_template?.type === 'string') {
       payload_template.format = 'sql'
     }
@@ -157,6 +190,21 @@ export default (props: {
         trigger: 'blur',
       })
     }
+
+    /* Consumer */
+    if (consumer) {
+      const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_gcp_pubsub.'
+      const { pubsub_topic, mqtt_topic, qos, payload_template } =
+        consumer?.properties?.topic_mapping?.items?.properties || {}
+      const properties = [
+        { prop: pubsub_topic, key: 'consumer_pubsub_topic' },
+        { prop: mqtt_topic, key: 'consumer_mqtt_topic' },
+        { prop: qos, key: 'consumer_qos' },
+        { prop: payload_template, key: 'payload_template' },
+      ]
+      properties.forEach(({ prop, key }) => prop && setLabelAndDesc(prop, `${i18nPrefix}${key}`))
+    }
+
     return { components, rules }
   }
 
@@ -224,14 +272,10 @@ export default (props: {
     const { kafka_ext_header_key, kafka_ext_header_value } =
       kafka?.properties?.kafka_ext_headers?.items?.properties || {}
     const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_azure_event_hub.'
-    if (kafka_ext_header_key) {
-      kafka_ext_header_key.label = t(`${i18nPrefix}kafka_ext_header_key.label`)
-      kafka_ext_header_key.description = t(`${i18nPrefix}kafka_ext_header_key.desc`)
-    }
-    if (kafka_ext_header_value) {
-      kafka_ext_header_value.label = t(`${i18nPrefix}kafka_ext_header_value.label`)
-      kafka_ext_header_value.description = t(`${i18nPrefix}kafka_ext_header_value.desc`)
-    }
+    kafka_ext_header_key &&
+      setLabelAndDesc(kafka_ext_header_key, `${i18nPrefix}kafka_ext_header_key`)
+    kafka_ext_header_value &&
+      setLabelAndDesc(kafka_ext_header_value, `${i18nPrefix}kafka_ext_header_value`)
 
     const { key, value } = kafka?.properties?.message?.properties || {}
     if (key?.type === 'string') {

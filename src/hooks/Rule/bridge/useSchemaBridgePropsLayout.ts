@@ -84,6 +84,7 @@ export default (
     [BridgeType.GCP]: {
       ...createOrderObj(
         [
+          'role',
           'pubsub_topic',
           'pipelining',
           'connect_timeout',
@@ -91,6 +92,8 @@ export default (
           'max_retries',
           'service_account_json',
           'payload_template',
+          'consumer.topic_mapping',
+          'consumer.pull_max_messages',
         ],
         1,
       ),
@@ -305,8 +308,11 @@ export default (
       command_template: 'custom-col-24 dividing-line-below',
     },
     [BridgeType.GCP]: {
+      name: 'dividing-line-below',
       service_account_json: 'custom-col-24 dividing-line-above',
       payload_template: 'custom-col-24   dividing-line-below',
+      'consumer.topic_mapping': 'custom-col-24',
+      'consumer.pull_max_messages': 'col-need-row dividing-line-below',
     },
     [BridgeType.MongoDB]: {
       payload_template: 'dividing-line-below',

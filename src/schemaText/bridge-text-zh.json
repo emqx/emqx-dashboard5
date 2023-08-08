@@ -143,6 +143,26 @@
     "service_account_json": {
       "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
       "label": "GCP 服务账户凭证"
+    },
+    "pull_max_messages": {
+      "desc": "从 GCP PubSub 中在一个拉取请求里检索的最大消息数。\n实际数量可能小于指定的值。",
+      "label": "拉取的最大消息数"
+    },
+    "topic_mapping": {
+      "desc": "定义 GCP PubSub 主题和 MQTT 主题之间的映射。必须包含至少一个项目。",
+      "label": "主题映射"
+    },
+    "consumer_pubsub_topic": {
+      "desc": "要消费的 GCP PubSub 主题。",
+      "label": "GCP PubSub 主题"
+    },
+    "consumer_mqtt_topic": {
+      "desc": "应将从 GCP PubSub 消费的消息发布到的本地主题。",
+      "label": "MQTT 主题"
+    },
+    "consumer_qos": {
+      "desc": "用于发布从 GCP PubSub 消费的消息的 MQTT QoS。",
+      "label": "QoS"
     }
   },
   "emqx_ee_bridge_hstreamdb": {

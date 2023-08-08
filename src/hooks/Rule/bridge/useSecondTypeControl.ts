@@ -48,3 +48,25 @@ export const useMongoSecondTypeControl = (
 
   return { currentType, keyField }
 }
+
+export const useGCPSecondTypeControl = (
+  formData: WritableComputedRef<Record<string, any>>,
+): {
+  currentType: ComputedRef<string>
+  keyField: string
+} => {
+  const keyField: RedisType = 'role'
+  const fieldTypeMap: Record<RedisType, string> = {
+    producer: 'bridge_gcp_pubsub.post_producer',
+    consumer: 'bridge_gcp_pubsub.post_consumer',
+  }
+  const keyFieldValue = computed(() => formData.value?.[keyField])
+  const currentType = computed(() => {
+    if (keyFieldValue.value === undefined) {
+      return Object.entries(fieldTypeMap)[0][1]
+    }
+    return fieldTypeMap[keyFieldValue.value]
+  })
+
+  return { currentType, keyField }
+}
