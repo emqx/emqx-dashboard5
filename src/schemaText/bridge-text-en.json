@@ -143,6 +143,26 @@
     "service_account_json": {
       "desc": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
       "label": "GCP Service Account Credentials"
+    },
+    "pull_max_messages": {
+      "desc": "The maximum number of messages to retrieve from GCP PubSub in a single pull request.\n The actual number may be less than the specified value.",
+      "label": "Maximum Messages to Pull"
+    },
+    "topic_mapping": {
+      "desc": "Defines the mapping between GCP PubSub topics and MQTT topics. Must contain at least one item.",
+      "label": "Topic Mapping"
+    },
+    "consumer_pubsub_topic": {
+      "desc": "GCP PubSub topic to consume from.",
+      "label": "GCP PubSub Topic"
+    },
+    "consumer_mqtt_topic": {
+      "desc": "Local topic to which consumed GCP PubSub messages should be published to.",
+      "label": "MQTT Topic"
+    },
+    "consumer_qos": {
+      "desc": "MQTT QoS used to publish messages consumed from GCP PubSub.",
+      "label": "QoS"
     }
   },
   "emqx_ee_bridge_hstreamdb": {

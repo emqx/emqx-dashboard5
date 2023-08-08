@@ -1,4 +1,6 @@
 {
   "async": "Async",
-  "sync": "Sync"
+  "sync": "Sync",
+  "producer": "Producer",
+  "consumer": "Consumer"
 }

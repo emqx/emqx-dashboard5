@@ -158,6 +158,8 @@ export default (
     switch (prop.path) {
       case 'name':
         return { label: t('RuleEngine.name'), desc: '' }
+      case 'role':
+        return { label: t('RuleEngine.role'), desc: '' }
       case 'enable':
         return { label: t('Base.enable'), desc: '' }
       case 'type':
