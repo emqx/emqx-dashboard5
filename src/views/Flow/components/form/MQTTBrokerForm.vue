@@ -10,23 +10,23 @@
     :validate-on-rule-change="false"
     @keyup.enter="saveConfig()"
   >
-    <el-form-item :label="tl('name')" required prop="name">
+    <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
       <el-input v-model="record.name" :disabled="edit" />
-    </el-form-item>
-    <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" />
+    </CustomFormItem>
+    <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
     <div v-if="direction === BridgeDirection.Ingress">
       <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
-      <el-form-item :prop="['ingress', 'remote', 'topic']">
+      <CustomFormItem :prop="['ingress', 'remote', 'topic']" :readonly="readonly">
         <template #label>
           <FormItemLabel :label="t('Base.topic')" :desc="tl('ingressRemoteTopicDesc')" />
         </template>
         <el-input v-model="record.ingress.remote.topic" placeholder="t/#" />
-      </el-form-item>
-      <el-form-item label="QoS">
+      </CustomFormItem>
+      <CustomFormItem label="QoS" :readonly="readonly">
         <el-select v-model="record.ingress.remote.qos">
           <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
         </el-select>
-      </el-form-item>
+      </CustomFormItem>
       <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
       <MQTTBridgeTransConfiguration
         v-model="record.ingress.local"
@@ -34,8 +34,9 @@
         path="ingress.locale"
         :direction="MQTTBridgeDirection.In"
         :topic-desc="tl('ingressLocalTopicDesc')"
+        :readonly="readonly"
       />
-      <el-form-item :prop="['ingress', 'pool_size']">
+      <CustomFormItem :prop="['ingress', 'pool_size']" :readonly="readonly">
         <template #label>
           <FormItemLabel
             :label="tl('clientPoolsize')"
@@ -44,7 +45,7 @@
           />
         </template>
         <el-input v-model.number="record.ingress.pool_size" />
-      </el-form-item>
+      </CustomFormItem>
     </div>
     <div v-if="direction === BridgeDirection.Egress">
       <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
@@ -54,15 +55,16 @@
         path="egress.remote"
         :direction="MQTTBridgeDirection.Out"
         :topic-desc="tl('egressRemoteTopicDesc')"
+        :readonly="readonly"
       />
       <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
-      <el-form-item :prop="['egress', 'local', 'topic']">
+      <CustomFormItem :prop="['egress', 'local', 'topic']" :readonly="readonly">
         <template #label>
           <FormItemLabel :label="t('Base.topic')" :desc="tl('egressLocalTopicDesc')" />
         </template>
         <el-input v-model="record.egress.local.topic" placeholder="t/#" />
-      </el-form-item>
-      <el-form-item :prop="['egress', 'pool_size']">
+      </CustomFormItem>
+      <CustomFormItem :prop="['egress', 'pool_size']" :readonly="readonly">
         <template #label>
           <FormItemLabel
             :label="tl('clientPoolsize')"
@@ -71,15 +73,16 @@
           />
         </template>
         <el-input v-model.number="record.egress.pool_size" />
-      </el-form-item>
+      </CustomFormItem>
     </div>
     <el-divider />
-    <BridgeResourceOpt v-model="record.resource_opts" :col-span="24" />
+    <BridgeResourceOpt v-model="record.resource_opts" :col-span="24" :readonly="readonly" />
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { MQTTingressRemoteQoS } from '@/common/constants'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -101,6 +104,9 @@ const props = defineProps({
   },
   direction: {
     type: Number as PropType<BridgeDirection>,
+  },
+  readonly: {
+    type: Boolean,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
