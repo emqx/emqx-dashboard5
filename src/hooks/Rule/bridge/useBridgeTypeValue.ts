@@ -68,6 +68,7 @@ export const useBridgeTypeOptions = (): {
     BridgeType.Pulsar,
     BridgeType.AzureEventHubs,
     BridgeType.AmazonKinesis,
+    BridgeType.GCP,
   ]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {
