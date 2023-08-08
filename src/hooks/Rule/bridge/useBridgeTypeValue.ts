@@ -111,6 +111,8 @@ export const useBridgeTypeOptions = (): {
     BridgeType.MongoDB,
     BridgeType.Kafka,
     BridgeType.Pulsar,
+    BridgeType.AzureEventHubs,
+    BridgeType.AmazonKinesis,
   ]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {
