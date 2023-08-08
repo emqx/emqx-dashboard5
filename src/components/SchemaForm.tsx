@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, isEmptyObj } from '@/common/tools'
+import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -751,7 +751,8 @@ const SchemaForm = defineComponent({
           const oldComponent = _.cloneDeep(components.value)
           const oldRecord = _.cloneDeep(configForm.value)
           resetObjForGetComponent(nVal)
-
+          // Wait until the init function is called, and then process the record
+          await waitAMoment()
           // because change accordingTo will not reset parent component form value
           // so we need get new form and emit to parent for compare
           let newRecord = initRecordByComponents(components.value)
