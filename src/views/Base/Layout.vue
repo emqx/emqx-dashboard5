@@ -1,29 +1,34 @@
 <template>
-  <div>
-    <el-container>
-      <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-        <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-          <img class="img-logo" src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
-        </div>
-        <left-bar></left-bar>
-        <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
-          <a
-            class="footer-menu-item"
-            @click="
-              () => {
-                store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
-              }
-            "
-          >
-            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
-            <EMQXVersion v-show="!leftBarCollapse" />
-          </a>
-        </div>
-      </el-aside>
-      <el-container class="layout">
-        <el-main :style="{ margin: 0, marginLeft: elMainStyle }">
-          <el-header :style="{ left: elMainStyle, height: 'auto' }">
-            <nav-header></nav-header>
+  <el-container>
+    <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+      <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
+        <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+      </div>
+      <left-bar></left-bar>
+      <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
+        <a
+          class="footer-menu-item"
+          @click="
+            () => {
+              store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
+            }
+          "
+        >
+          <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+          <EMQXVersion v-show="!leftBarCollapse" />
+        </a>
+      </div>
+    </el-aside>
+    <el-container class="layout">
+      <el-header :style="{ left: elMainStyle, height: 'auto' }">
+        <nav-header></nav-header>
+      </el-header>
+      <el-main :style="{ marginLeft: elMainStyle }">
+        <div class="main-content">
+          <el-scrollbar>
+            <h1 class="header-title">
+              {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
+            </h1>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
               :default-active="defaultSubMenu"
@@ -44,26 +49,19 @@
                 </el-menu-item>
               </template>
             </el-menu>
-          </el-header>
-
-          <div
-            class="main-content"
-            :style="{
-              position: 'relative',
-              marginTop: hasSubMenu && showSubMenu ? '120px' : '60px',
-            }"
-          >
-            <router-view v-slot="{ Component, route }">
-              <keep-alive>
-                <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
-              </keep-alive>
-            </router-view>
-            <router-view v-if="!keepAlive" />
-          </div>
-        </el-main>
-      </el-container>
+            <div :class="{ 'is-full-height': fullHeight }">
+              <router-view v-slot="{ Component, route }">
+                <KeepAlive>
+                  <component v-if="keepAlive" :is="Component" :key="route.fullPath" />
+                </KeepAlive>
+              </router-view>
+              <router-view v-if="!keepAlive" />
+            </div>
+          </el-scrollbar>
+        </div>
+      </el-main>
     </el-container>
-  </div>
+  </el-container>
   <LicenseTipDialog
     v-model="showLicenseTipDialog"
     :max-connection="store.state.licenseData.max_connections"
@@ -76,19 +74,19 @@ import NavHeader from './NavHeader.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent, ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { Expand, Fold } from '@element-plus/icons-vue'
+import { computed, defineComponent, ref, watch, onMounted } from 'vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { loadLicenseInfo } from '@/api/common'
 import EMQXVersion from '@/components/EMQXVersion.vue'
+
+const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
+const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
 
 export default defineComponent({
   name: 'Layout',
   components: {
     NavHeader,
     LeftBar,
-    Expand,
-    Fold,
     LicenseTipDialog,
     EMQXVersion,
   },
@@ -169,6 +167,33 @@ export default defineComponent({
 
     initLicense()
 
+    const fullHeight = computed(() => {
+      const { name } = route
+      return name && routesNeedFullHeight.includes(name as string)
+    })
+    const firstPath = ref('')
+    const isNotFound = ref(false)
+    const setHeaderTitle = () => {
+      let { path } = route || []
+      let _firstPath = path.split('/')[1]
+      firstPath.value = _firstPath
+      isNotFound.value = route.matched?.[1]?.name === 'not-found'
+    }
+
+    onBeforeRouteUpdate((to) => {
+      if (
+        to &&
+        to.name &&
+        routesNeedCollapseMenu.includes(to.name.toString()) &&
+        !leftBarCollapse.value
+      ) {
+        store.dispatch('SET_LEFT_BAR_COLLAPSE', true)
+      }
+    })
+    watch(route, () => {
+      setHeaderTitle()
+    })
+    setHeaderTitle()
     return {
       store,
       route,
@@ -180,7 +205,10 @@ export default defineComponent({
       hasSubMenu,
       showSubMenu,
       leftBarCollapse,
+      fullHeight,
       kebab2pascal,
+      isNotFound,
+      firstPath,
     }
   },
 })
@@ -195,7 +223,7 @@ export default defineComponent({
   left: 0;
   z-index: 100;
   overflow-x: hidden;
-  background-color: #1f303c;
+  background-color: var(--color-bg);
   height: 100vh;
   .footer-menu {
     cursor: pointer;
@@ -204,11 +232,9 @@ export default defineComponent({
     box-sizing: border-box;
     bottom: 0;
     height: 36px;
-    background-color: #1f303c;
+    background-color: var(--color-bg);
+    border-top: 1px solid #ffffff24;
     transition: all 0.3s;
-    &:hover {
-      background-color: #2f4656;
-    }
     .footer-menu-item {
       display: flex;
       align-items: center;
@@ -233,7 +259,26 @@ export default defineComponent({
 
 .el-main {
   transition: margin-left 0.3s;
-  background-color: var(--color-bg-main);
+  background-color: var(--color-bg);
+  height: 100vh;
+  .main-content {
+    background-color: var(--color-bg-content);
+    margin-top: 60px;
+    margin-right: 8px;
+    border-radius: 8px;
+    position: relative;
+    height: 100%;
+    height: calc(100% - 68px); /* 60px + 12px padding */
+    overflow: hidden;
+  }
+}
+
+$title-size: 22px;
+$title-margin: 22px;
+.header-title {
+  font-size: $title-size;
+  margin-top: $title-margin;
+  margin-bottom: $title-margin;
 }
 
 .el-container {
@@ -242,7 +287,7 @@ export default defineComponent({
 
 .logo {
   position: fixed;
-  background-color: var(--color-bg-menu);
+  background-color: var(--color-bg);
   height: 60px;
   line-height: 60px;
   overflow: hidden;
@@ -278,7 +323,12 @@ export default defineComponent({
 }
 
 .top-submenu {
-  transition: none;
-  padding: 0 22px;
+  margin: 0 24px;
+  margin-bottom: 24px;
+}
+
+// 60px is header height
+.is-full-height {
+  height: calc(100vh - 60px - #{$title-size} - #{$title-margin} * 2);
 }
 </style>

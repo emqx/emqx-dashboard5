@@ -1,6 +1,6 @@
 <template>
   <div class="alarm-settings app-wrapper">
-    <el-card class="config-card">
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="sysmon"

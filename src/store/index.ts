@@ -1,8 +1,9 @@
-import { createStore } from 'vuex'
-import { getUser, setUser, removeUser } from '@/common/auth'
+import { getUser, removeUser, setUser } from '@/common/auth'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { LicenseCustomerType } from '@/types/enum'
+import { RuleEvent } from '@/types/rule'
+import { createStore } from 'vuex'
 
 const getLang = () => {
   let lang = localStorage.getItem('language')
@@ -18,11 +19,11 @@ const getTheme = () => {
   if (theme && ['light', 'dark'].includes(theme)) {
     return theme
   }
-  return 'dark'
+  return 'light'
 }
 
 const getSyncOSTheme = () => {
-  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'false'
+  const syncOsTheme = localStorage.getItem('syncOsTheme') || 'true'
   if (syncOsTheme === 'undefined') {
     return true
   }
@@ -50,6 +51,9 @@ export default createStore({
     afterCurrentUserPwdChanged: false,
     schemaStoreMap: new Map(),
     licenseData: {} as LicenseData,
+    ruleEventList: [] as Array<RuleEvent>,
+    ruleEventRequest: undefined as undefined | Promise<any>,
+    abortControllers: [] as AbortController[],
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -125,6 +129,27 @@ export default createStore({
     },
     SET_LICENSE_DATA(state, license: LicenseData) {
       state.licenseData = license
+    },
+    SET_RULE_EVENT_LIST(state, payload: RuleEvent[]) {
+      state.ruleEventList = payload
+    },
+    SET_RULE_EVENT_REQUEST(state, payload: Promise<any>) {
+      state.ruleEventRequest = payload
+    },
+    ADD_ABORT_CONTROLLER(state, controller) {
+      state.abortControllers.push(controller)
+    },
+    CLEAR_ABORT_CONTROLLERS(state) {
+      state.abortControllers.forEach((controller) => {
+        controller.abort()
+      })
+      state.abortControllers = []
+    },
+    REMOVE_ABORT_CONTROLLER(state, controller: AbortController) {
+      const index = state.abortControllers.indexOf(controller)
+      if (index !== -1) {
+        state.abortControllers.splice(index, 1)
+      }
     },
   },
   getters: {

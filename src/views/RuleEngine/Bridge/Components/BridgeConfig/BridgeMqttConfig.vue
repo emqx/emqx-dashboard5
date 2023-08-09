@@ -41,7 +41,7 @@
                   </el-form-item>
                   <el-form-item label="QoS">
                     <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                      <el-option v-for="qos in ingressRemoteQoS" :key="qos" :value="qos" />
+                      <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -137,15 +137,15 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { QoSOptions } from '@/common/constants'
+import { MQTTingressRemoteQoS } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
-import { MQTTBridgeDirection, QoSLevel } from '@/types/enum'
+import { MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
@@ -163,7 +163,6 @@ import {
 import MQTTBridgeTransConfiguration from '../MQTTBridgeTransConfiguration.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import ConnectorMqttConfig from './ConnectorMqttConfig.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {
@@ -181,43 +180,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const { createSSLForm } = useSSL()
-
-const createRawTransDefaultVal = () => ({
-  topic: '',
-  qos: 1,
-  payload: '${payload}',
-  retain: false,
-})
-
-const createIngressDefaultVal = () => ({
-  remote: {
-    topic: '',
-    qos: 1,
-  },
-  local: createRawTransDefaultVal(),
-})
-const createEgressDefaultValue = () => ({
-  local: {
-    topic: '',
-  },
-  remote: createRawTransDefaultVal(),
-})
-
-const { createDefaultResourceOptsForm } = useResourceOpt()
-
-const createMQTTBridgeDefaultVal = () => ({
-  enable: true,
-  server: '',
-  proto_ver: 'v4',
-  username: '',
-  password: '',
-  ssl: createSSLForm(),
-  ingress: createIngressDefaultVal(),
-  egress: createEgressDefaultValue(),
-  resource_opts: createDefaultResourceOptsForm({ inflight: true }),
-})
-
+const { createRawMQTTForm: createMQTTBridgeDefaultVal } = useBridgeFormCreator()
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
 const enableIngress = ref(false)
 const enableEgress = ref(false)
@@ -238,7 +201,6 @@ const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
 const formRules = computed(() => ({
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
-  remote_topic: createRequiredRule(t('Base.topic')),
   ingress: enableIngress.value
     ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
     : undefined,
@@ -268,8 +230,6 @@ const initMqttBridgeVal = async () => {
 const updateModelValue = (val: MQTTBridge) => {
   emit('update:modelValue', val)
 }
-
-const ingressRemoteQoS = ref(QoSOptions.filter((item) => item !== QoSLevel.QoS2))
 
 const handleIngressChanged = async () => {
   const topicTarget = mqttBridgeVal.value.ingress?.remote || {}

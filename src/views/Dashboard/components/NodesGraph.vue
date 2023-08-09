@@ -56,8 +56,6 @@ import useNodesGraph, {
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
-import '@vue-flow/core/dist/style.css'
-import '@vue-flow/core/dist/theme-default.css'
 import { ClickOutside as vClickOutside } from 'element-plus'
 import {
   ComputedRef,
@@ -138,6 +136,7 @@ const showReplicantNodesCountPopover = computed(() => {
 
 const flowData: Ref<Array<FlowDataItem>> = ref([...backgroundNode.value])
 useVueFlow({
+  deleteKeyCode: null,
   nodesDraggable: false,
   nodesConnectable: false,
   zoomOnScroll: false,

@@ -85,7 +85,7 @@ export async function loadNodeDetail(node: string): Promise<NodeInfo> {
   return http.get(`/nodes/${encodeURIComponent(node)}`)
 }
 
-export function loadStats(): Promise<Array<NodeStatisticalData>> {
+export async function loadStats(): Promise<Array<NodeStatisticalData>> {
   return http.get('/stats', { doNotTriggerProgress: true })
 }
 

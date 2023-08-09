@@ -3,36 +3,45 @@
     <div class="connector-mqtt-config form-sub-block">
       <!-- <div class="part-header">{{ tl('connParams') }}</div> -->
       <el-row :gutter="30">
-        <el-col :span="12">
-          <el-form-item :label="tl('brokerAddress')" required :prop="getFormItemProp('server')">
+        <el-col :span="colSpan">
+          <CustomFormItem
+            :label="tl('brokerAddress')"
+            required
+            :prop="getFormItemProp('server')"
+            :readonly="readonly"
+          >
             <el-input v-model="connectorVal.server" placeholder="broker.emqx.io:1883" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('username')">
-            <el-input v-model="connectorVal.username" :placeholder="connectorDefaultVal.username" />
-          </el-form-item>
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('username')" :readonly="readonly">
+            <el-input v-model="connectorVal.username" />
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('password')" :prop="getFormItemProp('password')">
+        <el-col :span="colSpan">
+          <CustomFormItem
+            :label="tl('password')"
+            :prop="getFormItemProp('password')"
+            :readonly="readonly"
+          >
             <el-input
               type="password"
               autocomplete="one-time-code"
               v-model="connectorVal.password"
               show-password
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'Keep Alive'">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="'Keep Alive'" :readonly="readonly">
             <TimeInputWithUnitSelect
               v-model="connectorVal.keepalive"
               number-placeholder="60"
               :enabled-units="['s']"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item :label="tl('mqttVer')">
             <el-select v-model="connectorVal.proto_ver">
               <el-option
@@ -44,8 +53,8 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item>
+        <el-col :span="colSpan">
+          <CustomFormItem :readonly="readonly">
             <template #label>
               <label>{{ tl('retryInterval') }}</label>
               <InfoTooltip :content="tl('retryIntervalDesc')" />
@@ -55,18 +64,18 @@
               :enabled-units="['ms', 's', 'm', 'h', 'd']"
               default-unit="s"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <el-form-item>
+        <el-col :span="colSpan">
+          <CustomFormItem :readonly="readonly">
             <template #label>
               <label>{{ tl('cleanStart') }}</label>
               <InfoTooltip :content="tl('cleanStartDesc')" />
             </template>
             <el-switch v-model="connectorVal.clean_start" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="colSpan">
           <el-form-item>
             <template #label>
               <label>{{ tl('bridgeMode') }}</label>
@@ -78,23 +87,23 @@
       </el-row>
     </div>
     <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit || copy" />
-    <el-divider />
+    <!-- <el-divider /> -->
   </div>
 </template>
 
 <script lang="ts">
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import { useI18n } from 'vue-i18n'
-import { computed, defineComponent, onMounted, watch } from 'vue'
-import { cloneDeep } from 'lodash'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import { ConnectorType } from '@/types/enum'
 import { MQTT_VERSION_LIST } from '@/common/constants'
+import CustomFormItem from '@/components/CustomFormItem.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { cloneDeep } from 'lodash'
+import { computed, defineComponent, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'ConnectorMqttConfig',
-  components: { TimeInputWithUnitSelect, CommonTLSConfig, InfoTooltip },
+  components: { TimeInputWithUnitSelect, CommonTLSConfig, InfoTooltip, CustomFormItem },
   props: {
     modelValue: {
       type: Object,
@@ -117,23 +126,16 @@ export default defineComponent({
     connectorField: {
       type: String,
     },
+    colSpan: {
+      type: Number,
+      default: 12,
+    },
+    readonly: {
+      type: Boolean,
+    },
   },
   setup(prop, context) {
     const { t } = useI18n()
-    const modeOptions = ['cluster_shareload', 'cluster_singleton']
-
-    const connectorDefaultVal = {
-      type: ConnectorType.MQTT,
-      server: '',
-      username: '',
-      password: '',
-      keepalive: '300s',
-      proto_ver: 'v4',
-      retry_interval: '15s',
-      clean_start: true,
-      bridge_mode: false,
-      mode: modeOptions[0],
-    }
 
     let connectorValCache = ''
     const connectorVal = computed({
@@ -161,7 +163,7 @@ export default defineComponent({
     }
 
     const initConnectorVal = () => {
-      connectorVal.value = { ...cloneDeep(connectorDefaultVal), ...cloneDeep(prop.modelValue) }
+      connectorVal.value = cloneDeep(prop.modelValue)
     }
 
     onMounted(() => {
@@ -172,8 +174,6 @@ export default defineComponent({
       tl: (key: string) => t('RuleEngine.' + key),
       MQTT_VERSION_LIST,
       connectorVal,
-      connectorDefaultVal,
-      modeOptions,
       getFormItemProp,
     }
   },

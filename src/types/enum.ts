@@ -69,6 +69,11 @@ export enum RuleSQLKeyword {
   Incase = 'incase',
 }
 
+export enum FilterLogicalOperator {
+  And = 'and',
+  Or = 'or',
+}
+
 export enum RuleOutput {
   Console = 'console',
   Republish = 'republish',

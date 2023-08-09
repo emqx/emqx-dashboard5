@@ -1,4 +1,6 @@
 import store from '@/store'
+import i18n from '@/i18n'
+import { ElNotification } from 'element-plus'
 import { Component } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
@@ -25,6 +27,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Base/Login.vue'),
   },
 
+  // Overview
   {
     path: '/dashboard',
     component: Layout,
@@ -62,6 +65,8 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+
+  // Alarm
   {
     path: '/alarm',
     component: Layout,
@@ -147,6 +152,8 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+
+  // Delayed Pub
   {
     path: '/delayed-pub',
     component: Layout,
@@ -394,6 +401,32 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Webhook
+  {
+    path: '/webhook',
+    component: Layout,
+    meta: {
+      hideKey: 'Webhook',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'webhook',
+        component: () => import('@/views/Webhook/Webhook.vue'),
+      },
+      {
+        path: 'create',
+        name: 'webhook-create',
+        component: () => import('@/views/Webhook/WebhookCreate.vue'),
+      },
+      {
+        path: ':name',
+        name: 'webhook-detail',
+        component: () => import('@/views/Webhook/WebhookDetail.vue'),
+      },
+    ],
+  },
   // IoT
   {
     path: '/rules',
@@ -480,6 +513,32 @@ export const routes: Array<RouteRecordRaw> = [
       //     },
       //   ],
       // },
+    ],
+  },
+  // Flow
+  {
+    path: '/flow',
+    component: Layout,
+    meta: {
+      hideKey: 'flow',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'flow',
+        component: () => import('@/views/Flow/Index.vue'),
+      },
+      {
+        path: 'create',
+        name: 'flow-create',
+        component: () => import('@/views/Flow/FlowHandler.vue'),
+      },
+      {
+        path: ':id',
+        name: 'flow-detail',
+        component: () => import('@/views/Flow/FlowHandler.vue'),
+      },
     ],
   },
   // configs
@@ -647,21 +706,7 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // Flow chart for IoT rule
-  {
-    path: '/flow',
-    component: Layout,
-    meta: {
-      hideKey: 'flow',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'flow',
-        component: () => import('@/views/RuleEngine/FlowChart/FlowChart.vue'),
-      },
-    ],
-  },
+
   // Schema Registry
   {
     path: '/schema',
@@ -790,6 +835,10 @@ router.beforeEach((to, from, next) => {
   const info = store.state.user
 
   if (authRequired && !info.token) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const errorMsg = i18n.global.t('Base.tokenExpiredMsg') as string
+    ElNotification.error(errorMsg)
     toLogin(fullPath)
   }
   next()
@@ -799,6 +848,7 @@ router.beforeEach((to, from, next) => {
 export function toLogin(path?: string): void {
   store.commit('UPDATE_USER_INFO', { logOut: true })
   store.commit('UPDATE_EDITION', null)
+  store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
   const currentPath = router.currentRoute.value.path
   currentPath !== '/login' &&
     router.push({

@@ -115,7 +115,7 @@ export default (): {
     return bridgeData
   }
 
-  const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason']
+  const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason', 'role']
   const keysNeedDel = {
     update: keysDoNotNeedForAPI,
     create: [...keysDoNotNeedForAPI, 'enable', 'id'],

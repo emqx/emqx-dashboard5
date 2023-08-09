@@ -1,8 +1,5 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
-    <h1 class="header-title">
-      {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
-    </h1>
     <div class="pull-right">
       <el-button class="go-link" @click="downloadEnterprise" v-if="!IS_ENTERPRISE">
         {{ $t('Base.upgrade') }}<el-icon><right /></el-icon>
@@ -71,9 +68,9 @@ import { toLogin } from '@/router'
 import { useStore } from 'vuex'
 import { Right, Bell, Setting } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'
@@ -89,12 +86,10 @@ export default defineComponent({
     Help,
   },
   setup() {
-    const firstPath = ref('')
     const showSettings = ref(false)
     const showHelp = ref(false)
     const store = useStore()
     const { t } = useI18n()
-    const route = useRoute()
     const router = useRouter()
     const alertCount = computed(() => {
       return store.state.alertCount
@@ -154,16 +149,6 @@ export default defineComponent({
         windowUrl.opener = null
       }
     }
-    const isNotFound = ref(false)
-    const setHeaderTitle = () => {
-      let { path } = route || []
-      let _firstPath = path.split('/')[1]
-      firstPath.value = _firstPath
-      isNotFound.value = route.matched?.[1]?.name === 'not-found'
-    }
-    watch(route, () => {
-      setHeaderTitle()
-    })
     const handleShowSettings = () => {
       showSettings.value = true
     }
@@ -171,7 +156,6 @@ export default defineComponent({
       showHelp.value = true
     }
     loadData()
-    setHeaderTitle()
     onMounted(() => {
       document.addEventListener('visibilitychange', visibilityChangeFunc)
     })
@@ -183,8 +167,6 @@ export default defineComponent({
       showSettings,
       showHelp,
       store,
-      isNotFound,
-      firstPath,
       leftBarCollapse,
       alertCount,
       alertText,
@@ -202,17 +184,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .nav-header {
-  box-shadow: 0px 2px 4px var(--color-shadow-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   padding: 0 24px;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg);
   left: 200px;
   z-index: 100;
   transition: all 0.3s;
-  border-bottom: 1px solid var(--color-border-card);
   .user-avatar {
     width: 21px;
     height: 21px;
@@ -239,6 +219,7 @@ export default defineComponent({
   padding: 0 10px;
   transition: all 0.3s;
   cursor: pointer;
+  color: #fff;
 }
 
 .el-badge {
@@ -249,8 +230,8 @@ export default defineComponent({
 }
 
 .el-button.go-link {
-  background-color: var(--color-bg-primary);
-  color: var(--color-title-primary);
+  background-color: transparent;
+  color: #fff;
   border: 1px solid var(--color-border-primary);
   margin-right: 12px;
   .el-icon {
@@ -259,7 +240,6 @@ export default defineComponent({
     height: 24px;
   }
   &:hover {
-    background: var(--bg-hover);
     border: 1px solid var(--color-primary);
     color: var(--color-primary);
   }
@@ -275,7 +255,7 @@ export default defineComponent({
 }
 .el-icon.bell,
 .el-icon.settings {
-  color: var(--color-title-primary);
+  color: #fff;
   font-size: 21px;
   width: 24px;
   height: 24px;
@@ -283,7 +263,7 @@ export default defineComponent({
   top: 1px;
 }
 .icon-question {
-  color: var(--color-title-primary);
+  color: #fff;
   font-size: 21px;
 }
 </style>
