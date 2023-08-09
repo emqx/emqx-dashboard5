@@ -146,22 +146,24 @@ export default (): {
         return ret
       }
       const { specificType, formData } = node.data
+      const isBridge = isBridgerNode(node)
       let data = ''
-      switch (specificType) {
-        case SourceType.Message:
-          data = formData.topic
-          break
-        case SourceType.Event:
-          data = formData.event
-          break
-        case SourceType.MQTTBroker:
-          data = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${getBridgeKey({
-            type: BridgeType.MQTT,
-            name: node.data.formData.name,
-          })}`
-          break
-        default:
-          return ret
+      if (isBridge) {
+        data = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${getBridgeKey({
+          type: node.data.formData.type,
+          name: node.data.formData.name,
+        })}`
+      } else {
+        switch (specificType) {
+          case SourceType.Message:
+            data = formData.topic
+            break
+          case SourceType.Event:
+            data = formData.event
+            break
+          default:
+            return ret
+        }
       }
       ret.push(data)
       return ret
