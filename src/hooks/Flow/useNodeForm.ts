@@ -73,17 +73,24 @@ export default (): {
   isBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const { createRawMQTTForm, createRawHTTPForm } = useBridgeFormCreator()
+  const {
+    createRawMQTTForm,
+    createRawHTTPForm,
+    createRawKafkaProducerForm,
+    createRawKafkaConsumerForm,
+  } = useBridgeFormCreator()
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
     [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
+    [SourceType.Kafka]: createRawKafkaConsumerForm,
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
     [SinkType.HTTP]: createRawHTTPForm,
+    [SinkType.Kafka]: createRawKafkaProducerForm,
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {

@@ -6,6 +6,7 @@ import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
+import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowNode'
@@ -41,12 +42,14 @@ export default (): {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
     [SourceType.MQTTBroker]: MQTTBrokerForm,
+    [SourceType.Kafka]: BridgeKafkaConfig,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTTBroker]: MQTTBrokerForm,
     [SinkType.HTTP]: BridgeHttpConfig,
+    [SinkType.Kafka]: BridgeKafkaConfig,
   }
   const getFormComponent = (type: string) => formComponentMap[type]
 
