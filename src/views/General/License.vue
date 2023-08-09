@@ -2,7 +2,7 @@
   <div class="license app-wrapper">
     <el-card class="license-card">
       <div class="license-info">
-        <el-descriptions :title="tl('basicInfo')" :column="1">
+        <el-descriptions :title="tl('basic')" :column="1">
           <el-descriptions-item :label="tl('numberOfConnectionLines')">
             <el-progress
               :stroke-width="20"

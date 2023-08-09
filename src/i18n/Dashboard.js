@@ -125,7 +125,7 @@ export default {
   },
   basic: {
     zh: '基础信息',
-    en: 'Basic',
+    en: 'Basic Info',
   },
   listener: {
     zh: '监听器',
