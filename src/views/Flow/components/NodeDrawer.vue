@@ -129,12 +129,14 @@ const existedTopics = computed(() => {
   }, [])
 })
 
+const bridgeFormProps = { colSpan: 24, labelPosition: 'right' }
+
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { colSpan: 24, labelPosition: 'right', labelWidth: '180px' },
+  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
 }))
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
@@ -203,9 +205,11 @@ watch(showDialog, (val) => {
 
   const { node, generateBridgeName } = props
   const { formData, specificType: type } = node?.data || {}
-  record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
+  const recordData = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   if (!formData && isBridgeType(type) && isFunction(generateBridgeName)) {
-    record.value.name = generateBridgeName()
+    record.value = { ...recordData, name: generateBridgeName() }
+  } else {
+    record.value = recordData
   }
   rawRecord = cloneDeep(record.value)
 })
