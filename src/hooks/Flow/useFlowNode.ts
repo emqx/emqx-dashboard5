@@ -1,3 +1,4 @@
+import { typesWithProducerAndConsumer } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
@@ -222,15 +223,40 @@ export default (): {
     }
   }
 
+  const adjustTypeForSpecialCases = (type: string): string => {
+    if ([SourceType.MQTTBroker, SinkType.MQTTBroker].includes(type)) {
+      return BridgeType.MQTT
+    }
+
+    const match = typesWithProducerAndConsumer.find((item) => type.includes(item))
+    return match || type
+  }
+  /**
+   * these types icon in @/assets/flowIcon
+   * others in @/assets/img
+   */
+  const typesIconNew: Array<string> = [
+    SourceType.Event,
+    SourceType.Message,
+    BridgeType.MQTT,
+    ProcessingType.Filter,
+    ProcessingType.Function,
+    SinkType.Console,
+    SinkType.RePub,
+    SinkType.HTTP,
+  ]
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
       if (!type) {
         return ''
       }
-      if (type === SourceType.MQTTBroker || type === SinkType.MQTTBroker) {
-        return require(`@/assets/flowIcon/mqtt.png`)
+      const adjustedType = adjustTypeForSpecialCases(type)
+      const iconSuffix = disabled ? '-disabled' : ''
+
+      if (typesIconNew.includes(adjustedType)) {
+        return require(`@/assets/flowIcon/${adjustedType}${iconSuffix}.png`)
       }
-      return require(`@/assets/flowIcon/${type}${disabled ? '-disabled' : ''}.png`)
+      return require(`@/assets/img/${adjustedType}${iconSuffix}.png`)
     } catch (error) {
       return ''
     }
