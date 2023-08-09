@@ -25,14 +25,6 @@ export function logout(username: string) {
   return http.post('/logout', { username })
 }
 
-export function loadLicenseInfo() {
-  return http.get('/license')
-}
-
-export function updateLicense(key: string) {
-  return http.post('/license', { key })
-}
-
 //metrics
 export function loadMetrics(
   queryClusterData: boolean,
