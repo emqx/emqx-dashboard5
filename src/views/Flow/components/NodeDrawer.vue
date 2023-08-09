@@ -233,5 +233,8 @@ watch(showDialog, (val) => {
   .event-form {
     width: 80%;
   }
+  .TLS-enable-config .TLS-input {
+    width: 100%;
+  }
 }
 </style>
