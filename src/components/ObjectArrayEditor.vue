@@ -31,8 +31,8 @@
 <script setup lang="ts">
 import { Properties } from '@/types/schemaForm'
 import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaFormRules'
-import { cloneDeep } from 'lodash'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
+import { cloneDeep, isFunction } from 'lodash'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
 
@@ -73,7 +73,9 @@ const deleteItem = (index: number) => {
 
 onMounted(async () => {
   await nextTick()
-  TableCom.value.doLayout()
+  if (isFunction(TableCom.value?.doLayout)) {
+    TableCom.value.doLayout()
+  }
 })
 </script>
 
