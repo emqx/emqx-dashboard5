@@ -37,6 +37,13 @@ export interface BridgeTypeOptions {
   externalConfig?: Partial<BridgeItem>
 }
 
+export const typesWithProducerAndConsumer = [
+  BridgeType.Kafka,
+  BridgeType.Pulsar,
+  BridgeType.AzureEventHubs,
+  BridgeType.AmazonKinesis,
+  BridgeType.GCP,
+]
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
   getBridgeType: (typeStr: string) => BridgeType
@@ -64,11 +71,7 @@ export const useBridgeTypeOptions = (): {
     BridgeType.InfluxDB,
     BridgeType.Redis,
     BridgeType.MongoDB,
-    BridgeType.Kafka,
-    BridgeType.Pulsar,
-    BridgeType.AzureEventHubs,
-    BridgeType.AmazonKinesis,
-    BridgeType.GCP,
+    ...typesWithProducerAndConsumer,
   ]
   const getBridgeType = (typeStr: string): BridgeType => {
     if (!typeStr) {
