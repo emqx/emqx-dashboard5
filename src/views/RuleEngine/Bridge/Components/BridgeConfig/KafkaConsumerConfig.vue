@@ -1,7 +1,7 @@
 <template>
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.max_batch_bytes">
           <template #label>
             <span>{{ getText('max_batch_bytes.label') }}</span>
@@ -14,7 +14,7 @@
           <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.offset_reset_policy">
           <template #label>
             <span>{{ getText('offset_reset_policy.label') }}</span>
@@ -34,7 +34,7 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.offset_commit_interval_seconds">
           <template #label>
             <span>{{ getText('offset_commit_interval_seconds.label') }}</span>
@@ -71,6 +71,14 @@ const props = defineProps({
   schemaComponents: {
     type: Object,
     default: () => ({}),
+  },
+  colSpan: {
+    type: Number,
+    default: 12,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 

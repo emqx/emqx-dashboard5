@@ -1,7 +1,7 @@
 <template>
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.topic">
           <template #label>
             <span>{{ tl('kafka_topic.label') }}</span>
@@ -10,8 +10,8 @@
           <el-input v-model="kafkaConfig.topic" />
         </el-form-item>
       </el-col>
-      <el-col :span="12"></el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan"></el-col>
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.kafka_headers">
           <template #label>
             <span>{{ tl('kafka_headers.label') }}</span>
@@ -24,7 +24,7 @@
           <el-input v-model="kafkaConfig.kafka_headers" placeholder="${pub_props}" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.kafka_header_value_encode_mode">
           <template #label>
             <span>{{ tl('kafka_header_value_encode_mode.label') }}</span>
@@ -57,33 +57,31 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.message.key">
           <template #label>
-            <span>{{ tl('kafka_message_key.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('kafka_message_key.desc')" />
-              </template>
-            </InfoTooltip>
+            <FormItemLabel
+              :label="tl('kafka_message_key.label')"
+              :desc="tl('kafka_message_key.desc')"
+              desc-marked
+            />
           </template>
           <el-input type="textarea" rows="4" v-model="kafkaConfig.message.key" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.message.value">
           <template #label>
-            <span>{{ tl('kafka_message_value.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <p v-safe-html="tl('kafka_message_value.desc')"></p>
-              </template>
-            </InfoTooltip>
+            <FormItemLabel
+              :label="tl('kafka_message_value.label')"
+              :desc="tl('kafka_message_value.desc')"
+              desc-marked
+            />
           </template>
           <el-input type="textarea" rows="4" v-model="kafkaConfig.message.value" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.message.timestamp">
           <template #label>
             <span>{{ tl('kafka_message_timestamp.label') }}</span>
@@ -97,7 +95,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.max_batch_bytes">
           <template #label>
             <span>{{ tl('max_batch_bytes.label') }}</span>
@@ -106,7 +104,7 @@
           <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.compression" :label="tl('compression.label')">
           <el-select v-model="kafkaConfig.compression">
             <el-option
@@ -119,7 +117,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.partition_strategy">
           <template #label>
             <span>{{ tl('partition_strategy.label') }}</span>
@@ -139,7 +137,7 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.required_acks">
           <template #label>
             <span>{{ tl('required_acks.label') }}</span>
@@ -160,7 +158,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.partition_count_refresh_interval">
           <template #label>
             <span>{{ tl('partition_count_refresh_interval.label') }}</span>
@@ -173,7 +171,7 @@
           <TimeInputWithUnitSelect v-model="kafkaConfig.partition_count_refresh_interval" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.max_inflight">
           <template #label>
             <span>{{ tl('max_inflight.label') }}</span>
@@ -182,7 +180,7 @@
           <el-input v-model="kafkaConfig.max_inflight" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.query_mode">
           <template #label>
             <span>{{ tl('query_mode.label') }}</span>
@@ -198,7 +196,7 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.sync_query_timeout">
           <template #label>
             <span>{{ tl('sync_query_timeout.label') }}</span>
@@ -208,7 +206,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.buffer.mode">
           <template #label>
             <span>{{ tl('buffer_mode.label') }}</span>
@@ -228,7 +226,7 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.buffer.per_partition_limit">
           <template #label>
             <span>{{ tl('buffer_per_partition_limit.label') }}</span>
@@ -240,7 +238,7 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.buffer.segment_bytes">
           <template #label>
             <span>{{ tl('buffer_segment_bytes.label') }}</span>
@@ -253,7 +251,7 @@
           <InputWithUnit v-model="kafkaConfig.buffer.segment_bytes" :units="usefulMemoryUnit" />
         </el-form-item>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="colSpan">
         <el-form-item prop="kafka.buffer.memory_overload_protection">
           <template #label>
             <span>{{ tl('buffer_memory_overload_protection.label') }}</span>
@@ -280,6 +278,7 @@ import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {
@@ -292,6 +291,14 @@ const props = defineProps({
   headersProperties: {
     type: Object,
     default: () => ({}),
+  },
+  colSpan: {
+    type: Number,
+    default: 12,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 

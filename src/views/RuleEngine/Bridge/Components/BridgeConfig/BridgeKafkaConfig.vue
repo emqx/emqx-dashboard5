@@ -1,292 +1,293 @@
 <template>
-  <div class="bridge-config bridge-kafka-config">
-    <el-form
-      ref="formCom"
-      label-position="top"
-      require-asterisk-position="right"
-      :rules="formRules"
-      :model="formData"
-      :validate-on-rule-change="false"
-    >
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('name')" prop="name">
-            <el-input v-model="formData.name" :disabled="edit" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item>
+  <el-form
+    ref="formCom"
+    label-position="top"
+    require-asterisk-position="right"
+    class="bridge-config bridge-kafka-config"
+    :rules="formRules"
+    :model="formData"
+    :validate-on-rule-change="false"
+  >
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <el-form-item :label="tl('name')" prop="name">
+          <el-input v-model="formData.name" :disabled="edit" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan" v-if="!fixedRole">
+        <el-form-item>
+          <template #label>
+            <span>{{ tl('role') }}</span>
+            <InfoTooltip>
+              <template #content> <MarkdownContent :content="tl('roleDesc')" /> </template>
+            </InfoTooltip>
+          </template>
+          <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
+            <el-option
+              v-for="{ value, label } in roleMap"
+              :key="value"
+              :value="value"
+              :label="label"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-divider />
+
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <el-form-item prop="bootstrap_hosts">
+          <template #label>
+            <span>{{ getText('bootstrap_hosts.label') }}</span>
+            <InfoTooltip>
+              <template #content>
+                <MarkdownContent :content="getText('bootstrap_hosts.desc')" />
+              </template>
+            </InfoTooltip>
+          </template>
+          <el-input v-model="formData.bootstrap_hosts" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item prop="min_metadata_refresh_interval">
+          <template #label>
+            <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
+            <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="colSpan">
+        <el-form-item :label="t('components.authentication')">
+          <el-select v-model="authType">
+            <el-option
+              v-for="{ value, label } in authTypeOptList"
+              :key="value"
+              :value="value"
+              :label="label"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <!-- For Basic -->
+      <template v-if="authType === AuthType.Basic">
+        <el-col :span="colSpan">
+          <el-form-item prop="authentication.mechanism">
             <template #label>
-              <span>{{ tl('role') }}</span>
-              <InfoTooltip>
-                <template #content> <MarkdownContent :content="tl('roleDesc')" /> </template>
-              </InfoTooltip>
+              <span>{{ tl('mechanism') }}</span>
+              <InfoTooltip :content="tl('mechanismDesc')" />
             </template>
-            <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
+            <el-select v-model="formData.authentication.mechanism">
               <el-option
-                v-for="{ value, label } in roleMap"
+                v-for="{ value, label } in mechanismOptList"
                 :key="value"
-                :value="value"
                 :label="label"
+                :value="value"
               />
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-divider />
-
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item prop="bootstrap_hosts">
+        <el-col :span="colSpan">
+          <el-form-item prop="authentication.username" :label="tl('username')">
+            <el-input v-model="formData.authentication.username" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="colSpan">
+          <el-form-item prop="authentication.password" :label="tl('password')">
+            <el-input
+              v-model="formData.authentication.password"
+              type="password"
+              autocomplete="one-time-code"
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </template>
+      <!-- For Kerberos -->
+      <template v-else-if="authType === AuthType.Kerberos">
+        <el-col :span="colSpan">
+          <el-form-item prop="authentication.kerberos_principal">
             <template #label>
-              <span>{{ getText('bootstrap_hosts.label') }}</span>
+              <span>{{ tl('kerberosPrincipal') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getText('bootstrap_hosts.desc')" />
+                  <p v-safe-html="tl('kerberosPrincipalDesc')"></p>
                 </template>
               </InfoTooltip>
             </template>
-            <el-input v-model="formData.bootstrap_hosts" />
+            <el-input v-model="formData.authentication.kerberos_principal" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="min_metadata_refresh_interval">
+        <el-col :span="colSpan">
+          <el-form-item prop="authentication.kerberos_keytab_file">
             <template #label>
-              <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
-              <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
+              <span>{{ tl('kerberosKeytabFile') }}</span>
+              <InfoTooltip :content="tl('kerberosKeytabFileDesc')" />
             </template>
-            <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
+            <el-input
+              v-model="formData.authentication.kerberos_keytab_file"
+              :placeholder="tl('filePathPlease')"
+            />
           </el-form-item>
         </el-col>
+      </template>
 
-        <el-col :span="12">
-          <el-form-item :label="t('components.authentication')">
-            <el-select v-model="authType">
+      <el-col :span="colSpan">
+        <el-form-item prop="metadata_request_timeout">
+          <template #label>
+            <span>{{ getText('metadata_request_timeout.label') }}</span>
+            <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item prop="connect_timeout">
+          <template #label>
+            <span>{{ getText('connect_timeout.label') }}</span>
+            <InfoTooltip :content="getText('connect_timeout.desc')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
+        </el-form-item>
+      </el-col>
+      <!-- ssl -->
+      <el-col :span="24">
+        <CommonTLSConfig
+          v-model="formData.ssl"
+          :is-edit="edit || copy"
+          :content="tl('kafkaSniDesc')"
+        />
+      </el-col>
+
+      <el-col :span="24"><el-divider /></el-col>
+
+      <!-- producer -->
+      <template v-if="role === Role.Producer">
+        <el-col :span="colSpan">
+          <el-form-item prop="local_topic">
+            <template #label>
+              <span>{{ getText('mqtt_topic.label') }}</span>
+              <InfoTooltip :content="getText('mqtt_topic.desc')" />
+            </template>
+            <el-input v-model="formData.local_topic" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <KafkaProducerConfig
+            v-if="producerComponents.kafka"
+            v-model="formData.kafka"
+            :colSpan="colSpan"
+            :headers-properties="
+              producerComponents?.kafka?.properties?.kafka_ext_headers?.items?.properties
+            "
+            :schema-components="getProducerPropItem('kafka').properties"
+          />
+        </el-col>
+      </template>
+
+      <!-- Consumer -->
+      <template v-else>
+        <el-col :span="colSpan">
+          <el-form-item prop="key_encoding_mode">
+            <template #label>
+              <span>{{ getText('consumer_key_encoding_mode.label') }}</span>
+              <InfoTooltip>
+                <template #content>
+                  <MarkdownContent :content="getText('consumer_key_encoding_mode.desc')" />
+                </template>
+              </InfoTooltip>
+            </template>
+            <el-select v-model="formData.key_encoding_mode">
               <el-option
-                v-for="{ value, label } in authTypeOptList"
-                :key="value"
-                :value="value"
-                :label="label"
+                v-for="item in getConsumerPropItem('key_encoding_mode').symbols || []"
+                :key="item"
+                :value="item"
+                :label="item"
               />
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- For Basic -->
-        <template v-if="authType === AuthType.Basic">
-          <el-col :span="12">
-            <el-form-item prop="authentication.mechanism">
-              <template #label>
-                <span>{{ tl('mechanism') }}</span>
-                <InfoTooltip :content="tl('mechanismDesc')" />
-              </template>
-              <el-select v-model="formData.authentication.mechanism">
-                <el-option
-                  v-for="{ value, label } in mechanismOptList"
-                  :key="value"
-                  :label="label"
-                  :value="value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="authentication.username" :label="tl('username')">
-              <el-input v-model="formData.authentication.username" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="authentication.password" :label="tl('password')">
-              <el-input
-                v-model="formData.authentication.password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
-            </el-form-item>
-          </el-col>
-        </template>
-        <!-- For Kerberos -->
-        <template v-else-if="authType === AuthType.Kerberos">
-          <el-col :span="12">
-            <el-form-item prop="authentication.kerberos_principal">
-              <template #label>
-                <span>{{ tl('kerberosPrincipal') }}</span>
-                <InfoTooltip>
-                  <template #content>
-                    <p v-safe-html="tl('kerberosPrincipalDesc')"></p>
-                  </template>
-                </InfoTooltip>
-              </template>
-              <el-input v-model="formData.authentication.kerberos_principal" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="authentication.kerberos_keytab_file">
-              <template #label>
-                <span>{{ tl('kerberosKeytabFile') }}</span>
-                <InfoTooltip :content="tl('kerberosKeytabFileDesc')" />
-              </template>
-              <el-input
-                v-model="formData.authentication.kerberos_keytab_file"
-                :placeholder="tl('filePathPlease')"
-              />
-            </el-form-item>
-          </el-col>
-        </template>
-
-        <el-col :span="12">
-          <el-form-item prop="metadata_request_timeout">
+        <el-col :span="colSpan">
+          <el-form-item prop="value_encoding_mode">
             <template #label>
-              <span>{{ getText('metadata_request_timeout.label') }}</span>
-              <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
+              <span>{{ getText('consumer_value_encoding_mode.label') }}</span>
+              <InfoTooltip>
+                <template #content>
+                  <MarkdownContent :content="getText('consumer_value_encoding_mode.desc')" />
+                </template>
+              </InfoTooltip>
             </template>
-            <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
+            <el-select v-model="formData.value_encoding_mode">
+              <el-option
+                v-for="item in getConsumerPropItem('value_encoding_mode').symbols || []"
+                :key="item"
+                :value="item"
+                :label="item"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="connect_timeout">
-            <template #label>
-              <span>{{ getText('connect_timeout.label') }}</span>
-              <InfoTooltip :content="getText('connect_timeout.desc')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-          </el-form-item>
-        </el-col>
-        <!-- ssl -->
         <el-col :span="24">
-          <CommonTLSConfig
-            v-model="formData.ssl"
-            :is-edit="edit || copy"
-            :content="tl('kafkaSniDesc')"
+          <el-form-item prop="topic_mapping">
+            <template #label>
+              <span>{{ getText('consumer_topic_mapping.label') }}</span>
+              <InfoTooltip :content="getText('consumer_topic_mapping.desc')" />
+            </template>
+            <ObjectArrayEditor
+              v-if="consumerComponents.topic_mapping"
+              prop-key="topic_mapping"
+              v-model="formData.topic_mapping"
+              :properties="consumerComponents?.topic_mapping?.items?.properties"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <KafkaConsumerConfig
+            v-model="formData.kafka"
+            :colSpan="colSpan"
+            :schema-components="getConsumerPropItem('kafka').properties"
           />
         </el-col>
+      </template>
 
-        <el-col :span="24"><el-divider /></el-col>
+      <el-col :span="24"><el-divider /></el-col>
 
-        <!-- producer -->
-        <template v-if="role === Role.Producer">
-          <el-col :span="12">
-            <el-form-item prop="local_topic">
-              <template #label>
-                <span>{{ getText('mqtt_topic.label') }}</span>
-                <InfoTooltip :content="getText('mqtt_topic.desc')" />
-              </template>
-              <el-input v-model="formData.local_topic" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <KafkaProducerConfig
-              v-if="producerComponents.kafka"
-              v-model="formData.kafka"
-              :headers-properties="
-                producerComponents?.kafka?.properties?.kafka_ext_headers?.items?.properties
-              "
-              :schema-components="getProducerPropItem('kafka').properties"
+      <!-- socket opt -->
+      <el-col :span="colSpan">
+        <el-form-item prop="socket_opts.sndbuf">
+          <template #label>
+            <span>{{ getText('socket_send_buffer.label') }}</span>
+            <InfoTooltip :content="getText('socket_send_buffer.desc')" />
+          </template>
+          <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item prop="socket_opts.recbuf">
+          <template #label>
+            <span>{{ getText('socket_receive_buffer.label') }}</span>
+            <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
+          </template>
+          <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item prop="socket_opts.tcp_keepalive">
+          <template #label>
+            <FormItemLabel
+              :label="getText('tcp_keepalive.label')"
+              :desc="getText('tcp_keepalive.desc')"
+              desc-marked
             />
-          </el-col>
-        </template>
-
-        <!-- Consumer -->
-        <template v-else>
-          <el-col :span="12">
-            <el-form-item prop="key_encoding_mode">
-              <template #label>
-                <span>{{ getText('consumer_key_encoding_mode.label') }}</span>
-                <InfoTooltip>
-                  <template #content>
-                    <MarkdownContent :content="getText('consumer_key_encoding_mode.desc')" />
-                  </template>
-                </InfoTooltip>
-              </template>
-              <el-select v-model="formData.key_encoding_mode">
-                <el-option
-                  v-for="item in getConsumerPropItem('key_encoding_mode').symbols || []"
-                  :key="item"
-                  :value="item"
-                  :label="item"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="value_encoding_mode">
-              <template #label>
-                <span>{{ getText('consumer_value_encoding_mode.label') }}</span>
-                <InfoTooltip>
-                  <template #content>
-                    <MarkdownContent :content="getText('consumer_value_encoding_mode.desc')" />
-                  </template>
-                </InfoTooltip>
-              </template>
-              <el-select v-model="formData.value_encoding_mode">
-                <el-option
-                  v-for="item in getConsumerPropItem('value_encoding_mode').symbols || []"
-                  :key="item"
-                  :value="item"
-                  :label="item"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item prop="topic_mapping">
-              <template #label>
-                <span>{{ getText('consumer_topic_mapping.label') }}</span>
-                <InfoTooltip :content="getText('consumer_topic_mapping.desc')" />
-              </template>
-              <ObjectArrayEditor
-                v-if="consumerComponents.topic_mapping"
-                prop-key="topic_mapping"
-                v-model="formData.topic_mapping"
-                :properties="consumerComponents?.topic_mapping?.items?.properties"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <KafkaConsumerConfig
-              v-model="formData.kafka"
-              :schema-components="getConsumerPropItem('kafka').properties"
-            />
-          </el-col>
-        </template>
-
-        <el-col :span="24"><el-divider /></el-col>
-
-        <!-- socket opt -->
-        <el-col :span="12">
-          <el-form-item prop="socket_opts.sndbuf">
-            <template #label>
-              <span>{{ getText('socket_send_buffer.label') }}</span>
-              <InfoTooltip :content="getText('socket_send_buffer.desc')" />
-            </template>
-            <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="socket_opts.recbuf">
-            <template #label>
-              <span>{{ getText('socket_receive_buffer.label') }}</span>
-              <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
-            </template>
-            <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="socket_opts.tcp_keepalive">
-            <template #label>
-              <FormItemLabel
-                :label="getText('tcp_keepalive.label')"
-                :desc="getText('tcp_keepalive.desc')"
-                desc-marked
-              />
-            </template>
-            <el-input v-model="formData.socket_opts.tcp_keepalive" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-  </div>
+          </template>
+          <el-input v-model="formData.socket_opts.tcp_keepalive" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
 </template>
 
 <script setup lang="ts">
@@ -298,17 +299,27 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
 import { KafkaType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
+import {
+  PropType,
+  Ref,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import KafkaConsumerConfig from './KafkaConsumerConfig.vue'
 import KafkaProducerConfig from './KafkaProducerConfig.vue'
 
@@ -333,6 +344,17 @@ const props = defineProps({
   },
   copy: {
     type: Boolean,
+  },
+  colSpan: {
+    type: Number,
+    default: 12,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
+  fixedRole: {
+    type: String as PropType<Role>,
   },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
@@ -376,73 +398,18 @@ const getKafkaAllRoleComponents = async () => {
 getKafkaAllRoleComponents()
 const { getPropItem: getConsumerPropItem } = useGetInfoFromComponents(consumerComponents)
 
-const role = ref<Role>(
-  (props.edit || props.copy) && props.modelValue && props.modelValue.type === KafkaType.Consumer
-    ? Role.Consumer
-    : Role.Producer,
-)
+const isEditingConsumer =
+  (props.edit || props.copy) && props.modelValue?.type === KafkaType.Consumer
+const role = ref<Role>(props.fixedRole || (isEditingConsumer ? Role.Consumer : Role.Producer))
 const roleMap = [
   { value: Role.Producer, label: tl('producer') },
   { value: Role.Consumer, label: tl('consumer') },
 ]
-const { createSSLForm } = useSSL()
-const createDefaultCommonPart = () => ({
-  name: '',
-  bootstrap_hosts: '',
-  connect_timeout: '5s',
-  min_metadata_refresh_interval: '3s',
-  metadata_request_timeout: '5s',
-  authentication: 'none',
-  socket_opts: {
-    sndbuf: '1024KB',
-    recbuf: '1024KB',
-    tcp_keepalive: 'none',
-  },
-  ssl: createSSLForm(),
-})
-const createDefaultProducerValue = () => ({
-  type: KafkaType.Producer,
-  ...createDefaultCommonPart(),
-  kafka: {
-    topic: '',
-    message: {
-      key: '${.clientid}',
-      value: '${.}',
-      timestamp: '${.timestamp}',
-    },
-    max_batch_bytes: '896KB',
-    compression: 'no_compression',
-    partition_strategy: 'random',
-    required_acks: 'all_isr',
-    partition_count_refresh_interval: '60s',
-    max_inflight: 10,
-    query_mode: 'async',
-    sync_query_timeout: '5s',
-    kafka_header_value_encode_mode: 'none',
-    buffer: {
-      mode: 'memory',
-      per_partition_limit: '2GB',
-      segment_bytes: '100MB',
-      memory_overload_protection: false,
-    },
-  },
-})
-
-const createDefaultConsumer = () => ({
-  type: KafkaType.Consumer,
-  ...createDefaultCommonPart(),
-  topic_mapping: [],
-  kafka: {
-    max_batch_bytes: '896KB',
-    offset_reset_policy: 'latest',
-    offset_commit_interval_seconds: '5s',
-  },
-  key_encoding_mode: 'none',
-  value_encoding_mode: 'none',
-})
+const { createKafkaDefaultValCommonPart, createRawKafkaProducerForm, createRawKafkaConsumerForm } =
+  useBridgeFormCreator()
 
 const getDefaultForm = () =>
-  role.value === Role.Producer ? createDefaultProducerValue() : createDefaultConsumer()
+  role.value === Role.Producer ? createRawKafkaProducerForm() : createRawKafkaConsumerForm()
 
 const formCom = ref()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
@@ -464,31 +431,36 @@ const formRules = computed<any>(() => {
   return ret
 })
 
-const formData: Ref<OtherBridge> = ref(getDefaultForm())
+const formData: Ref<OtherBridge> = ref({ ...getDefaultForm(), name: props.modelValue?.name || '' })
 
 const updateParentBridgeData = () => {
   emit('update:modelValue', formData.value)
 }
 
-const commonPartKeys = Object.keys(createDefaultCommonPart())
+const commonPartKeys = Object.keys(createKafkaDefaultValCommonPart())
 const handleRoleChanged = () => {
   if (role.value === Role.Consumer) {
-    formData.value = { ...createDefaultConsumer(), ...pick(formData.value, commonPartKeys) }
+    formData.value = { ...createRawKafkaConsumerForm(), ...pick(formData.value, commonPartKeys) }
   } else {
-    formData.value = { ...createDefaultProducerValue(), ...pick(formData.value, commonPartKeys) }
+    formData.value = { ...createRawKafkaProducerForm(), ...pick(formData.value, commonPartKeys) }
   }
 }
 
 watch(formData, updateParentBridgeData, { deep: true })
 
-const resetFormDataWhenEdit = async () => {
-  if ((props.edit || props.copy) && props.modelValue) {
+const initFormData = async () => {
+  if (!props.modelValue) {
+    return
+  }
+  if (props.edit || props.copy) {
     role.value = props.modelValue.type === KafkaType.Producer ? Role.Producer : Role.Consumer
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
       getDefaultForm(),
     )
     emit('init', formData.value)
+  } else {
+    formData.value = { ...formData.value, ...props.modelValue }
   }
 }
 
@@ -549,37 +521,19 @@ watch(
   () => props.modelValue,
   (val) => {
     if (!isEqual(val, formData.value)) {
-      resetFormDataWhenEdit()
+      initFormData()
     }
   },
 )
 
 onMounted(() => {
-  if (!props.edit && !props.copy) {
-    updateParentBridgeData()
-  } else if ((props.edit || props.copy) && props.modelValue) {
-    resetFormDataWhenEdit()
-  }
+  updateParentBridgeData()
 })
+initFormData()
 
 defineExpose({ validate, clearValidate })
 </script>
 
 <style lang="scss">
 @import '~@/style/rule.scss';
-.bridge-kafka-config {
-  .el-tabs {
-    width: 100%;
-    .el-card {
-      margin-bottom: 16px;
-    }
-  }
-  .broker-block-title {
-    margin-top: 0;
-    font-size: 16px;
-  }
-  .trans-desc {
-    margin: 20px 0;
-  }
-}
 </style>

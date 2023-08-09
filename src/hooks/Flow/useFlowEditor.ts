@@ -55,6 +55,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
         generateNodeByType(SourceType.Message),
         generateNodeByType(SourceType.Event),
         generateNodeByType(SourceType.MQTTBroker),
+        generateNodeByType(SourceType.Kafka),
       ],
     },
     {
@@ -73,6 +74,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
         generateNodeByType(SinkType.MQTTBroker),
         generateNodeByType(SinkType.Console),
         generateNodeByType(SinkType.RePub),
+        generateNodeByType(SinkType.Kafka),
       ],
     },
   ]
