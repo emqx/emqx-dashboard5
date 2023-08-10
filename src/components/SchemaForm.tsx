@@ -60,10 +60,6 @@ const SchemaForm = defineComponent({
       type: Object as PropType<Record<string, any>>,
       required: false,
     },
-    labelWidth: {
-      type: Number,
-      default: 350,
-    },
     recordLoading: {
       type: Boolean,
       default: false,
@@ -127,6 +123,14 @@ const SchemaForm = defineComponent({
      */
     dataHandler: {
       type: Function,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    formProps: {
+      type: Object as PropType<Record<string, any>>,
+      default: () => ({}),
     },
   },
   setup(props, ctx) {
@@ -449,6 +453,12 @@ const SchemaForm = defineComponent({
       const labelSlot = getLabelSlot(property)
       const colSpan = getColSpan(property) || col
       const colClass = getColClass(property)
+      // TODO:TODO:TODO:TODO:
+      const readonly = props.readonly
+      const bindProps = {
+        label: property.label,
+        prop: property.path,
+      }
 
       const colItem = (
         <el-col span={colSpan} class={colClass} key={property.path}>
@@ -459,12 +469,12 @@ const SchemaForm = defineComponent({
               placement="right"
               effect="dark"
             >
-              <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+              <el-form-item v-slots={labelSlot} {...bindProps}>
                 {setControl(property)}
               </el-form-item>
             </el-tooltip>
           ) : (
-            <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+            <el-form-item v-slots={labelSlot} {...bindProps}>
               {setControl(property)}
             </el-form-item>
           )}
@@ -499,12 +509,8 @@ const SchemaForm = defineComponent({
       ctx.emit('save', configForm.value)
     }
 
-    const getFormProps = () => {
-      if (props.type === 'bridge') {
-        return { labelPosition: 'top', requireAsteriskPosition: 'right' }
-      }
-      return { class: 'configuration-form', labelPosition: 'right', labelWidth: props.labelWidth }
-    }
+    const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
+    const getFormProps = () => ({ ...defaultFormProps, ...(props.formProps || {}) })
 
     const renderLayout = (contents: JSX.Element[]) => {
       const btnStyles = store.getters.configPageBtnStyle
@@ -724,11 +730,12 @@ const SchemaForm = defineComponent({
     const init = () => {
       handleComponentsData()
       initCurrentGroup()
-      if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
-        configForm.value = initRecordByComponents(components.value)
+      if (props.needRecord) {
+        let record = initRecordByComponents(components.value)
         if (typesNeedConciseSSL.includes(props.type)) {
-          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
+          record = handleSSLDataWhenUseConciseSSL(record)
         }
+        configForm.value = { ...record, ...(_.isObject(props.form) ? props.form : {}) }
       }
       handleSSLRuleWhenUseConciseSSL(rules.value)
     }
