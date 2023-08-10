@@ -52,7 +52,12 @@
 </template>
 
 <script setup lang="ts">
-import { EditedWay, FlowNodeType, SinkType, SourceType } from '@/hooks/Flow/useFlowNode'
+import useFlowNode, {
+  EditedWay,
+  FlowNodeType,
+  SinkType,
+  SourceType,
+} from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -129,6 +134,9 @@ const existedTopics = computed(() => {
   }, [])
 })
 
+const { isBridgeType } = useFlowNode()
+const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
+
 const bridgeFormProps = { colSpan: 24, labelPosition: 'right' }
 
 const formComponentPropsMap = computed(() => ({
@@ -141,8 +149,6 @@ const formComponentPropsMap = computed(() => ({
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
 const record: Ref<Record<string, any>> = ref({})
-
-const { getFormDataByType, isBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
