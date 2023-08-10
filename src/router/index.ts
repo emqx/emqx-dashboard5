@@ -689,22 +689,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Flow chart for IoT rule
-  // {
-  //   path: '/flow',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'flow',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'flow',
-  //       component: () => import('@/views/RuleEngine/FlowChart/FlowChart.vue'),
-  //     },
-  //   ],
-  // },
   // WebSocket
   {
     path: '/websocket',
