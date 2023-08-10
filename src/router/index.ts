@@ -705,8 +705,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Flow chart for IoT rule
-
   // Schema Registry
   {
     path: '/schema',

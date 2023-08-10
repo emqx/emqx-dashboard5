@@ -313,7 +313,7 @@ defineExpose({ validate, getFlowData })
       }
     }
     .vue-flow__node:hover {
-      border: 1px solid var(--color-primary);
+      border: 1px solid #00b173;
       box-shadow: 0px 4px 6px 0px #00b17329;
       .icon-del {
         display: block;
@@ -338,7 +338,7 @@ defineExpose({ validate, getFlowData })
     &:hover {
       width: $handle-size;
       height: $handle-size;
-      --vf-handle: var(--color-primary);
+      --vf-handle: #00b173;
       &.vue-flow__handle-left {
         left: -$handle-size/2;
       }
