@@ -10,14 +10,16 @@
       :need-record="!edit && !copy"
       :form="bridgeRecord"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
+      :readonly="readonly"
       :btn-loading="saveLoading"
       :record-loading="isLoading"
-      :form-item-span="12"
+      :form-item-span="colSpan"
       :use-tooltip-show-desc="true"
       :props-order-map="propsOrderMap"
       :custom-col-class="customColClass"
       :props-disabled="propsDisabled"
       :data-handler="getComponentsHandler()"
+      :form-props="formBindProps"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
     >
@@ -88,6 +90,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  colSpan: {
+    type: Number,
+    default: 12,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
+  formProps: {
+    type: Object as PropType<Properties>,
+    default: () => ({}),
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -105,6 +119,14 @@ const { handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
 const saveLoading = ref(false)
 
 const formCom = ref()
+
+const formBindProps = {
+  labelWidth: undefined,
+  labelPosition: 'top',
+  requireAsteriskPosition: 'right',
+  class: '',
+  ...props.formProps,
+}
 
 const { propsOrderMap, customColClass } = useSchemaBridgePropsLayout(props, bridgeRecord)
 

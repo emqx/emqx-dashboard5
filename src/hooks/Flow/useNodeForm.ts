@@ -68,6 +68,11 @@ export const createRePubForm = (): OutputItemObj => ({
 
 export const createConsoleForm = (): OutputItemObj => ({ function: 'console' })
 
+/**
+ * If you are using a schema bridge, create an empty object directly
+ */
+const createEmptyObj = (): Record<string, any> => ({})
+
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
   isBridgeType: (type: string) => boolean
@@ -91,6 +96,7 @@ export default (): {
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
     [SinkType.HTTP]: createRawHTTPForm,
     [SinkType.Kafka]: createRawKafkaProducerForm,
+    [SinkType.MySQL]: createEmptyObj,
   }
   const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {

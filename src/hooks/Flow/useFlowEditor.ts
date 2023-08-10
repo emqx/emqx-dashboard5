@@ -75,6 +75,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
         generateNodeByType(SinkType.Console),
         generateNodeByType(SinkType.RePub),
         generateNodeByType(SinkType.Kafka),
+        generateNodeByType(SinkType.MySQL),
       ],
     },
   ]
