@@ -27,6 +27,7 @@ export const SourceType = {
   Message: 'message',
   Event: 'event',
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
+  Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Ingress),
 }
 
 export const enum ProcessingType {
@@ -37,6 +38,7 @@ export const enum ProcessingType {
 export const SinkType = {
   HTTP: BridgeType.Webhook,
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
+  Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Egress),
   Console: 'console',
   RePub: 'republish',
 }
@@ -139,12 +141,14 @@ export default (): {
     [SourceType.Message]: t('RuleEngine.messages'),
     [SourceType.Event]: t('RuleEngine.event'),
     [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
+    [SourceType.Kafka]: t('RuleEngine.kafka'),
     [ProcessingType.Function]: tl('function'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
     [SinkType.RePub]: t('RuleEngine.republish'),
+    [SinkType.Kafka]: t('RuleEngine.kafka'),
   }
 
   const getTypeLabel = (specificType: string): string =>

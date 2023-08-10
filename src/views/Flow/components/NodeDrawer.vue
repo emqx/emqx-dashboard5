@@ -56,7 +56,7 @@ import { EditedWay, FlowNodeType, SinkType, SourceType } from '@/hooks/Flow/useF
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection } from '@/types/enum'
+import { BridgeDirection, Role } from '@/types/enum'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
@@ -135,8 +135,10 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Consumer },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
+  [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Producer },
 }))
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
