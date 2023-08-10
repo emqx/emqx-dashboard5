@@ -2,7 +2,7 @@
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
       <el-col :span="colSpan">
-        <el-form-item prop="kafka.max_batch_bytes">
+        <CustomFormItem prop="kafka.max_batch_bytes" :readonly="readonly">
           <template #label>
             <span>{{ getText('max_batch_bytes.label') }}</span>
             <InfoTooltip>
@@ -12,10 +12,10 @@
             </InfoTooltip>
           </template>
           <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="kafka.offset_reset_policy">
+        <CustomFormItem prop="kafka.offset_reset_policy" :readonly="readonly">
           <template #label>
             <span>{{ getText('offset_reset_policy.label') }}</span>
             <InfoTooltip>
@@ -32,10 +32,10 @@
               :label="item"
             />
           </el-select>
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="kafka.offset_commit_interval_seconds">
+        <CustomFormItem prop="kafka.offset_commit_interval_seconds" :readonly="readonly">
           <template #label>
             <span>{{ getText('offset_commit_interval_seconds.label') }}</span>
             <InfoTooltip>
@@ -48,7 +48,7 @@
             v-model="kafkaConfig.offset_commit_interval_seconds"
             :enabled-units="['s']"
           />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
     </el-row>
   </div>
@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { usefulMemoryUnit } from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'

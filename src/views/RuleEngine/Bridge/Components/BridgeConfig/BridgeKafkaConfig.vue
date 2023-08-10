@@ -10,12 +10,12 @@
   >
     <el-row :gutter="26">
       <el-col :span="colSpan">
-        <el-form-item :label="tl('name')" prop="name">
+        <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
           <el-input v-model="formData.name" :disabled="edit" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan" v-if="!fixedRole">
-        <el-form-item>
+        <CustomFormItem>
           <template #label>
             <span>{{ tl('role') }}</span>
             <InfoTooltip>
@@ -30,7 +30,7 @@
               :label="label"
             />
           </el-select>
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
     </el-row>
 
@@ -38,7 +38,7 @@
 
     <el-row :gutter="26">
       <el-col :span="colSpan">
-        <el-form-item prop="bootstrap_hosts">
+        <CustomFormItem prop="bootstrap_hosts" :readonly="readonly">
           <template #label>
             <span>{{ getText('bootstrap_hosts.label') }}</span>
             <InfoTooltip>
@@ -48,21 +48,21 @@
             </InfoTooltip>
           </template>
           <el-input v-model="formData.bootstrap_hosts" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="min_metadata_refresh_interval">
+        <CustomFormItem prop="min_metadata_refresh_interval" :readonly="readonly">
           <template #label>
             <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
             <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
           </template>
           <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
 
       <el-col :span="colSpan">
         <el-form-item :label="t('components.authentication')">
-          <el-select v-model="authType">
+          <el-select v-model="authType" v-if="!readonly">
             <el-option
               v-for="{ value, label } in authTypeOptList"
               :key="value"
@@ -70,6 +70,7 @@
               :label="label"
             />
           </el-select>
+          <p class="value" v-else>{{ getLabelFromValueInOptionList(authType, authTypeOptList) }}</p>
         </el-form-item>
       </el-col>
       <!-- For Basic -->
@@ -80,7 +81,7 @@
               <span>{{ tl('mechanism') }}</span>
               <InfoTooltip :content="tl('mechanismDesc')" />
             </template>
-            <el-select v-model="formData.authentication.mechanism">
+            <el-select v-model="formData.authentication.mechanism" v-if="!readonly">
               <el-option
                 v-for="{ value, label } in mechanismOptList"
                 :key="value"
@@ -88,28 +89,41 @@
                 :value="value"
               />
             </el-select>
+            <p class="value" v-else>
+              {{
+                getLabelFromValueInOptionList(formData.authentication.mechanism, mechanismOptList)
+              }}
+            </p>
           </el-form-item>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item prop="authentication.username" :label="tl('username')">
+          <CustomFormItem
+            prop="authentication.username"
+            :label="tl('username')"
+            :readonly="readonly"
+          >
             <el-input v-model="formData.authentication.username" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item prop="authentication.password" :label="tl('password')">
+          <CustomFormItem
+            prop="authentication.password"
+            :label="tl('password')"
+            :readonly="readonly"
+          >
             <el-input
               v-model="formData.authentication.password"
               type="password"
               autocomplete="one-time-code"
               show-password
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
       </template>
       <!-- For Kerberos -->
       <template v-else-if="authType === AuthType.Kerberos">
         <el-col :span="colSpan">
-          <el-form-item prop="authentication.kerberos_principal">
+          <CustomFormItem prop="authentication.kerberos_principal" :readonly="readonly">
             <template #label>
               <span>{{ tl('kerberosPrincipal') }}</span>
               <InfoTooltip>
@@ -119,10 +133,10 @@
               </InfoTooltip>
             </template>
             <el-input v-model="formData.authentication.kerberos_principal" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item prop="authentication.kerberos_keytab_file">
+          <CustomFormItem prop="authentication.kerberos_keytab_file" :readonly="readonly">
             <template #label>
               <span>{{ tl('kerberosKeytabFile') }}</span>
               <InfoTooltip :content="tl('kerberosKeytabFileDesc')" />
@@ -131,27 +145,27 @@
               v-model="formData.authentication.kerberos_keytab_file"
               :placeholder="tl('filePathPlease')"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
       </template>
 
       <el-col :span="colSpan">
-        <el-form-item prop="metadata_request_timeout">
+        <CustomFormItem prop="metadata_request_timeout" :readonly="readonly">
           <template #label>
             <span>{{ getText('metadata_request_timeout.label') }}</span>
             <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
           </template>
           <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="connect_timeout">
+        <CustomFormItem prop="connect_timeout" :readonly="readonly">
           <template #label>
             <span>{{ getText('connect_timeout.label') }}</span>
             <InfoTooltip :content="getText('connect_timeout.desc')" />
           </template>
           <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <!-- ssl -->
       <el-col :span="24">
@@ -159,6 +173,7 @@
           v-model="formData.ssl"
           :is-edit="edit || copy"
           :content="tl('kafkaSniDesc')"
+          :readonly="readonly"
         />
       </el-col>
 
@@ -167,13 +182,13 @@
       <!-- producer -->
       <template v-if="role === Role.Producer">
         <el-col :span="colSpan">
-          <el-form-item prop="local_topic">
+          <CustomFormItem prop="local_topic" :readonly="readonly">
             <template #label>
               <span>{{ getText('mqtt_topic.label') }}</span>
               <InfoTooltip :content="getText('mqtt_topic.desc')" />
             </template>
             <el-input v-model="formData.local_topic" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="24">
           <KafkaProducerConfig
@@ -184,6 +199,7 @@
               producerComponents?.kafka?.properties?.kafka_ext_headers?.items?.properties
             "
             :schema-components="getProducerPropItem('kafka').properties"
+            :readonly="readonly"
           />
         </el-col>
       </template>
@@ -191,7 +207,7 @@
       <!-- Consumer -->
       <template v-else>
         <el-col :span="colSpan">
-          <el-form-item prop="key_encoding_mode">
+          <CustomFormItem prop="key_encoding_mode" :readonly="readonly">
             <template #label>
               <span>{{ getText('consumer_key_encoding_mode.label') }}</span>
               <InfoTooltip>
@@ -208,10 +224,10 @@
                 :label="item"
               />
             </el-select>
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
-          <el-form-item prop="value_encoding_mode">
+          <CustomFormItem prop="value_encoding_mode" :readonly="readonly">
             <template #label>
               <span>{{ getText('consumer_value_encoding_mode.label') }}</span>
               <InfoTooltip>
@@ -228,10 +244,10 @@
                 :label="item"
               />
             </el-select>
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="24">
-          <el-form-item prop="topic_mapping">
+          <CustomFormItem prop="topic_mapping">
             <template #label>
               <span>{{ getText('consumer_topic_mapping.label') }}</span>
               <InfoTooltip :content="getText('consumer_topic_mapping.desc')" />
@@ -242,12 +258,13 @@
               v-model="formData.topic_mapping"
               :properties="consumerComponents?.topic_mapping?.items?.properties"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="24">
           <KafkaConsumerConfig
             v-model="formData.kafka"
             :colSpan="colSpan"
+            :readonly="readonly"
             :schema-components="getConsumerPropItem('kafka').properties"
           />
         </el-col>
@@ -257,25 +274,25 @@
 
       <!-- socket opt -->
       <el-col :span="colSpan">
-        <el-form-item prop="socket_opts.sndbuf">
+        <CustomFormItem prop="socket_opts.sndbuf" :readonly="readonly">
           <template #label>
             <span>{{ getText('socket_send_buffer.label') }}</span>
             <InfoTooltip :content="getText('socket_send_buffer.desc')" />
           </template>
           <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="socket_opts.recbuf">
+        <CustomFormItem prop="socket_opts.recbuf" :readonly="readonly">
           <template #label>
             <span>{{ getText('socket_receive_buffer.label') }}</span>
             <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
           </template>
           <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
-        <el-form-item prop="socket_opts.tcp_keepalive">
+        <CustomFormItem prop="socket_opts.tcp_keepalive" :readonly="readonly">
           <template #label>
             <FormItemLabel
               :label="getText('tcp_keepalive.label')"
@@ -284,14 +301,19 @@
             />
           </template>
           <el-input v-model="formData.socket_opts.tcp_keepalive" />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
     </el-row>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
+import {
+  fillEmptyValueToUndefinedField,
+  getLabelFromValueInOptionList,
+  usefulMemoryUnit,
+} from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
