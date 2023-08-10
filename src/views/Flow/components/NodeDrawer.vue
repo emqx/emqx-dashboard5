@@ -130,6 +130,20 @@ const existedTopics = computed(() => {
 })
 
 const bridgeFormProps = { colSpan: 24, labelPosition: 'right' }
+const schemaProps = {
+  formProps: {
+    labelWidth: '180px',
+    labelPosition: 'right',
+    hideRequiredAsterisk: true,
+  },
+}
+
+const getSchemaBridgeProps = (type: string) => ({
+  ...bridgeFormProps,
+  ...schemaProps,
+  labelWidth: '180px',
+  type,
+})
 
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
@@ -139,6 +153,7 @@ const formComponentPropsMap = computed(() => ({
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Producer },
+  [SinkType.MySQL]: getSchemaBridgeProps(SinkType.MySQL),
 }))
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 

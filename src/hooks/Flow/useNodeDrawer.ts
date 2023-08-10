@@ -1,12 +1,13 @@
 import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
 import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
+import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
+import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
+import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
-import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
-import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowNode'
@@ -50,6 +51,7 @@ export default (): {
     [SinkType.MQTTBroker]: MQTTBrokerForm,
     [SinkType.HTTP]: BridgeHttpConfig,
     [SinkType.Kafka]: BridgeKafkaConfig,
+    [SinkType.MySQL]: UsingSchemaBridgeConfig,
   }
   const getFormComponent = (type: string) => formComponentMap[type]
 
