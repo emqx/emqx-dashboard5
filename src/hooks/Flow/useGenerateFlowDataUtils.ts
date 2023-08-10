@@ -5,7 +5,10 @@ import {
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
 import { getKeyPartsFromSQL, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
-import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  typesWithProducerAndConsumer,
+  useBridgeTypeOptions,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
@@ -60,9 +63,38 @@ export default () => {
 
   const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':'))
 
-  const getBridgeTypeFromId = (id: string): BridgeType => {
+  const getBridgeTypeFromId = (id: string): string => {
     const type = id.slice(0, id.indexOf(':'))
-    return getBridgeType(type)
+    return type
+  }
+
+  /**
+   * Check only those bridge types that have direction
+   */
+  const typeSpecifiesTheDirection = (type: string): BridgeDirection | undefined => {
+    const generalType = getBridgeType(type)
+    if (typesWithProducerAndConsumer.includes(generalType)) {
+      return type.includes('consumer') ? BridgeDirection.Ingress : BridgeDirection.Egress
+    }
+    return
+  }
+
+  /**
+   * @param bridgeType The bridge type here is a specific type, for example, if it is influxdb, which version is it?
+   */
+  const getSpecificTypeForBridge = (bridgeType: string, nodeType?: NodeType) => {
+    if (isTwoDirectionBridge(bridgeType)) {
+      const direction =
+        nodeType === NodeType.Sink ? BridgeDirection.Egress : BridgeDirection.Ingress
+      return getSpecificTypeWithDirection(bridgeType as BridgeType, direction)
+    }
+    const direction = typeSpecifiesTheDirection(bridgeType)
+
+    if (direction !== undefined) {
+      const generalType = getBridgeType(bridgeType)
+      return getSpecificTypeWithDirection(generalType, direction)
+    }
+    return bridgeType
   }
 
   /* FIELDS */
@@ -169,6 +201,9 @@ export default () => {
     }
     return { name: getBridgeNameFromId(value) }
   }
+  /**
+   * @returns If the returned type is a bridge type, it is a specific bridge type
+   */
   const detectInputType = (from: string): string => {
     if (from.indexOf(RULE_INPUT_EVENT_PREFIX) > -1) {
       return SourceType.Event
@@ -190,21 +225,14 @@ export default () => {
     return fromArr.reduce((arr: Array<Node>, fromItem): Array<Node> => {
       const type = detectInputType(fromItem)
       let specificType = type
-      if (
-        type !== SourceType.Event &&
-        type !== SourceType.Message &&
-        isTwoDirectionBridge(specificType)
-      ) {
-        specificType = getSpecificTypeWithDirection(
-          specificType as BridgeType,
-          BridgeDirection.Ingress,
-        )
+      if (type !== SourceType.Event && type !== SourceType.Message) {
+        specificType = getSpecificTypeForBridge(specificType, NodeType.Source)
       }
       const formData = getFormDataByType(type, fromItem)
       const id =
         type === SourceType.Event || type === SourceType.Message
           ? `${type}-${fromItem}`
-          : `${specificType}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
+          : `${type}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
 
       const node = {
         id,
@@ -245,6 +273,9 @@ export default () => {
   }
 
   /* ACTIONS */
+  /**
+   * @returns If the returned type is a bridge type, it is a specific bridge type
+   */
   const detectOutputType = (action: OutputItem): string => {
     if (isString(action)) {
       return getBridgeTypeFromId(action)
@@ -266,15 +297,8 @@ export default () => {
       }
 
       let specificType = type
-      if (
-        type !== SinkType.Console &&
-        type !== SinkType.RePub &&
-        isTwoDirectionBridge(specificType)
-      ) {
-        specificType = getSpecificTypeWithDirection(
-          specificType as BridgeType,
-          BridgeDirection.Egress,
-        )
+      if (type !== SinkType.Console && type !== SinkType.RePub) {
+        specificType = getSpecificTypeForBridge(specificType, NodeType.Sink)
       }
 
       let id = ''
@@ -287,7 +311,7 @@ export default () => {
         id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
         formData = item
       } else {
-        id = `${specificType}-${item}`
+        id = `${type}-${item}`
         formData = { name: getBridgeNameFromId(item as string) }
       }
 
@@ -315,12 +339,21 @@ export default () => {
       if (type === BridgeType.MQTT && 'ingress' in bridge) {
         direction = BridgeDirection.Ingress
       }
-      specificType = getSpecificTypeWithDirection(type, direction)
+      specificType = getSpecificTypeForBridge(
+        type,
+        direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink,
+      )
+    } else {
+      const typeDirection = typeSpecifiesTheDirection(type)
+      if (typeDirection !== undefined) {
+        direction = typeDirection
+        const nodeType = typeDirection === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
+        specificType = getSpecificTypeForBridge(type, nodeType)
+      }
     }
-    // TODO: for kafka,gcp...detect direction
     const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
     const node: Node = {
-      id: `${specificType}-${bridge.id}`,
+      id: `${type}-${bridge.id}`,
       position: { x: 0, y: 0 },
       label: getTypeLabel(specificType),
       ...getTypeCommonData(nodeType),

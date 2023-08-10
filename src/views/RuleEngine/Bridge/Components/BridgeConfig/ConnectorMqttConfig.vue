@@ -43,7 +43,7 @@
         </el-col>
         <el-col :span="colSpan">
           <el-form-item :label="tl('mqttVer')">
-            <el-select v-model="connectorVal.proto_ver">
+            <el-select v-model="connectorVal.proto_ver" v-if="!readonly">
               <el-option
                 v-for="{ label, value } in MQTT_VERSION_LIST"
                 :key="value"
@@ -51,6 +51,9 @@
                 :label="label"
               />
             </el-select>
+            <p class="value" v-else>
+              {{ getLabelFromValueInOptionList(connectorVal.proto_ver, MQTT_VERSION_LIST) }}
+            </p>
           </el-form-item>
         </el-col>
         <el-col :span="colSpan">
@@ -81,18 +84,24 @@
               <label>{{ tl('bridgeMode') }}</label>
               <InfoTooltip :content="tl('bridgeModeDesc')" />
             </template>
-            <el-switch v-model="connectorVal.bridge_mode" />
+            <el-switch v-model="connectorVal.bridge_mode" :disabled="readonly" />
           </el-form-item>
         </el-col>
       </el-row>
     </div>
-    <CommonTLSConfig class="tls-config-form" v-model="connectorVal.ssl" :is-edit="edit || copy" />
+    <CommonTLSConfig
+      class="tls-config-form"
+      v-model="connectorVal.ssl"
+      :readonly="readonly"
+      :is-edit="edit || copy"
+    />
     <!-- <el-divider /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { MQTT_VERSION_LIST } from '@/common/constants'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -173,6 +182,7 @@ export default defineComponent({
     return {
       tl: (key: string) => t('RuleEngine.' + key),
       MQTT_VERSION_LIST,
+      getLabelFromValueInOptionList,
       connectorVal,
       getFormItemProp,
     }

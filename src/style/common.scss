@@ -391,6 +391,7 @@ input:disabled {
     margin: 0;
     color: var(--color-text-secondary);
     padding-left: 12px;
+    word-break: break-all;
   }
 }
 

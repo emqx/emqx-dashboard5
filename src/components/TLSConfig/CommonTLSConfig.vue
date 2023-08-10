@@ -1,9 +1,9 @@
 <template>
   <div class="common-tls-config">
-    <TLSBaseConfig v-model="record" />
+    <TLSBaseConfig v-model="record" :readonly="readonly" />
     <el-collapse-transition>
       <template v-if="record.enable">
-        <TLSEnableConfig v-model="record" :is-edit="isEdit" v-bind="$attrs" />
+        <TLSEnableConfig v-model="record" :is-edit="isEdit" v-bind="$attrs" :readonly="readonly" />
       </template>
     </el-collapse-transition>
   </div>
@@ -32,6 +32,10 @@ const props = defineProps({
    * influence the interaction of TLSEnableConfig
    */
   isEdit: {
+    type: Boolean,
+    default: false,
+  },
+  readonly: {
     type: Boolean,
     default: false,
   },
