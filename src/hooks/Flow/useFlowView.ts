@@ -1,6 +1,7 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
@@ -43,10 +44,13 @@ export default (): {
     }
   }
 
+  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
   const getBridgeData = async () => {
     try {
       const list: Array<BridgeItem> = await getBridgeList()
-      bridgeList = list.filter((item) => !judgeIsWebhookBridge(item))
+      bridgeList = list
+        .filter((item) => !judgeIsWebhookBridge(item))
+        .map((item) => handleBridgeDataAfterLoaded(item))
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
