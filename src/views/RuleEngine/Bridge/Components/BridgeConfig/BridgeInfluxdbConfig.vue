@@ -10,13 +10,18 @@
     >
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="tl('name')" prop="name">
+          <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
             <el-input v-model="formData.name" :disabled="edit" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('influxDBVersion')">
-            <el-select v-model="formData.type" :disabled="edit" @change="handleVersionChanged">
+            <el-select
+              v-model="formData.type"
+              :disabled="edit"
+              @change="handleVersionChanged"
+              v-if="!readonly"
+            >
               <el-option
                 v-for="{ value, label } in PROTOCOL_VERSION_OPT"
                 :value="value"
@@ -24,13 +29,16 @@
                 :label="label"
               />
             </el-select>
+            <p class="value" v-else>
+              {{ getLabelFromValueInOptionList(formData.type, PROTOCOL_VERSION_OPT) }}
+            </p>
           </el-form-item>
         </el-col>
       </el-row>
       <el-divider />
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item prop="server">
+          <CustomFormItem prop="server" :readonly="readonly">
             <template #label>
               <span>{{ getText('server.label') }}</span>
               <InfoTooltip>
@@ -40,30 +48,30 @@
               </InfoTooltip>
             </template>
             <el-input v-model="formData.server" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <!-- For v1 -->
         <el-col :span="12" v-if="formData.type === InfluxDBType.v1">
-          <el-form-item prop="database">
+          <CustomFormItem prop="database" :readonly="readonly">
             <template #label>
               <span>{{ tl('database') }}</span>
               <InfoTooltip :content="tl('databaseDesc')" />
             </template>
             <el-input v-model="formData.database" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <template v-if="formData.type === InfluxDBType.v1">
           <el-col :span="12">
-            <el-form-item prop="username">
+            <CustomFormItem prop="username" :readonly="readonly">
               <template #label>
                 <span>{{ tl('username') }}</span>
                 <InfoTooltip :content="tl('usernameDesc')" />
               </template>
               <el-input v-model="formData.username" />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="password">
+            <CustomFormItem prop="password" :readonly="readonly">
               <template #label>
                 <span>{{ tl('password') }}</span>
                 <InfoTooltip :content="tl('passwordDesc')" />
@@ -74,37 +82,37 @@
                 autocomplete="one-time-code"
                 show-password
               />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
         </template>
         <!-- For v2 -->
         <template v-if="formData.type === InfluxDBType.v2">
           <el-col :span="12">
-            <el-form-item prop="token">
+            <CustomFormItem prop="token" :readonly="readonly">
               <template #label>
                 <span>{{ getText('token.label') }}</span>
                 <InfoTooltip :content="getText('token.desc')" />
               </template>
               <el-input v-model="formData.token" type="password" show-password />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="org">
+            <CustomFormItem prop="org" :readonly="readonly">
               <template #label>
                 <span>{{ getText('org.label') }}</span>
                 <InfoTooltip :content="getText('org.desc')" />
               </template>
               <el-input v-model="formData.org" />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="bucket">
+            <CustomFormItem prop="bucket" :readonly="readonly">
               <template #label>
                 <span>{{ getText('bucket.label') }}</span>
                 <InfoTooltip :content="getText('bucket.desc')" />
               </template>
               <el-input v-model="formData.bucket" />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
         </template>
 
@@ -114,7 +122,7 @@
               <span>{{ getText('precision.label') }}</span>
               <InfoTooltip :content="getText('precision.desc')" />
             </template>
-            <el-select v-model="formData.precision">
+            <el-select v-model="formData.precision" v-if="!readonly">
               <el-option
                 v-for="{ value, label } in getPrecisionOpts()"
                 :value="value"
@@ -122,10 +130,18 @@
                 :label="label"
               />
             </el-select>
+            <p class="value" v-else>
+              {{ t(`General.${formData.precision === 's' ? 'sec' : formData.precision}`) }}
+            </p>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <CommonTLSConfig class="tls-config-form" v-model="formData.ssl" :is-edit="edit || copy" />
+          <CommonTLSConfig
+            class="tls-config-form"
+            v-model="formData.ssl"
+            :is-edit="edit || copy"
+            :readonly="readonly"
+          />
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
 
@@ -139,28 +155,33 @@
           </el-form-item>
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
-        <BridgeResourceOpt v-model="formData.resource_opts" with-batch-config />
+        <BridgeResourceOpt
+          v-model="formData.resource_opts"
+          with-batch-config
+          :readonly="readonly"
+        />
       </el-row>
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { fillEmptyValueToUndefinedField } from '@/common/tools'
+import { fillEmptyValueToUndefinedField, getLabelFromValueInOptionList } from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
+import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
+import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
@@ -173,6 +194,10 @@ const props = defineProps({
   },
   copy: {
     type: Boolean,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 
