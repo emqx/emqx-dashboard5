@@ -14,7 +14,6 @@
     "checkI18n": "node ./scripts/checkUselessI18n.js"
   },
   "dependencies": {
-    "@antv/g6": "^4.5.1",
     "@element-plus/icons-vue": "^1.1.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@vue-flow/core": "^1.20.1",
