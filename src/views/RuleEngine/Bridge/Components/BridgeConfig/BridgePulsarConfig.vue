@@ -10,9 +10,9 @@
     >
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="tl('name')" prop="name">
+          <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
             <el-input v-model="formData.name" :disabled="edit" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
           <el-form-item>
@@ -35,16 +35,16 @@
 
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item prop="servers">
+          <CustomFormItem prop="servers" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('servers')" />
             </template>
             <el-input v-model="formData.servers" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="t('components.authentication')">
-            <el-select v-model="authType">
+            <el-select v-model="authType" v-if="!readonly">
               <el-option
                 v-for="{ value, label } in authTypeOptList"
                 :key="value"
@@ -52,28 +52,39 @@
                 :label="label"
               />
             </el-select>
+            <p class="value" v-else>
+              {{ getLabelFromValueInOptionList(authType, authTypeOptList) }}
+            </p>
           </el-form-item>
         </el-col>
         <!-- For Basic -->
         <template v-if="authType === AuthType.Basic">
           <el-col :span="12">
-            <el-form-item prop="authentication.username" :label="tl('username')">
+            <CustomFormItem
+              prop="authentication.username"
+              :label="tl('username')"
+              :readonly="readonly"
+            >
               <el-input v-model="formData.authentication.username" />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="authentication.password" :label="tl('password')">
+            <CustomFormItem
+              prop="authentication.password"
+              :label="tl('password')"
+              :readonly="readonly"
+            >
               <el-input
                 v-model="formData.authentication.password"
                 type="password"
                 autocomplete="one-time-code"
                 show-password
               />
-            </el-form-item>
+            </CustomFormItem>
           </el-col>
         </template>
         <el-col v-else-if="authType === AuthType.Token" :span="12">
-          <el-form-item prop="authentication.jwt">
+          <CustomFormItem prop="authentication.jwt" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('authentication.jwt')" />
             </template>
@@ -83,18 +94,18 @@
               autocomplete="one-time-code"
               show-password
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="pulsar_topic">
+          <CustomFormItem prop="pulsar_topic" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('pulsar_topic')" />
             </template>
             <el-input v-model="formData.pulsar_topic" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="strategy">
+          <CustomFormItem prop="strategy" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('strategy')" />
             </template>
@@ -106,10 +117,10 @@
                 :label="item"
               />
             </el-select>
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="compression">
+          <CustomFormItem prop="compression" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('compression')" />
             </template>
@@ -121,18 +132,18 @@
                 :label="item"
               />
             </el-select>
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="sync_timeout">
+          <CustomFormItem prop="sync_timeout" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('sync_timeout')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.sync_timeout" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="retention_period">
+          <CustomFormItem prop="retention_period" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('retention_period')" />
             </template>
@@ -140,39 +151,39 @@
               :items="getPropItem('retention_period').oneOf"
               v-model="formData.retention_period"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="send_buffer">
+          <CustomFormItem prop="send_buffer" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('send_buffer')" />
             </template>
             <InputWithUnit v-model="formData.send_buffer" :units="usefulMemoryUnit" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="batch_size">
+          <CustomFormItem prop="batch_size" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('batch_size')" />
             </template>
             <el-input v-model="formData.batch_size" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="max_batch_bytes">
+          <CustomFormItem prop="max_batch_bytes" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('max_batch_bytes')" />
             </template>
             <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="connect_timeout">
+          <CustomFormItem prop="connect_timeout" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <!-- ssl -->
         <el-col :span="24">
@@ -180,24 +191,24 @@
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item prop="message.key">
+          <CustomFormItem prop="message.key" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('message.key')" />
             </template>
             <el-input type="textarea" rows="4" v-model="formData.message.key" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="message.value">
+          <CustomFormItem prop="message.value" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('message.value')" />
             </template>
             <el-input type="textarea" rows="4" v-model="formData.message.value" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item prop="buffer.mode">
+          <CustomFormItem prop="buffer.mode" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('buffer.mode')" />
             </template>
@@ -209,10 +220,10 @@
                 :label="item"
               />
             </el-select>
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="buffer.per_partition_limit">
+          <CustomFormItem prop="buffer.per_partition_limit" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('buffer.per_partition_limit')" />
             </template>
@@ -220,39 +231,39 @@
               v-model="formData.buffer.per_partition_limit"
               :units="usefulMemoryUnit"
             />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="buffer.segment_bytes">
+          <CustomFormItem prop="buffer.segment_bytes" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('buffer.segment_bytes')" />
             </template>
             <InputWithUnit v-model="formData.buffer.segment_bytes" :units="usefulMemoryUnit" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="buffer.memory_overload_protection">
             <template #label>
               <FormItemLabel v-bind="getLabelProps('buffer.memory_overload_protection')" />
             </template>
-            <el-switch v-model="formData.buffer.memory_overload_protection" />
+            <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="resource_opts.start_timeout">
+          <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="resource_opts.health_check_interval">
+          <CustomFormItem prop="resource_opts.health_check_interval" :readonly="readonly">
             <template #label>
               <FormItemLabel v-bind="getResourceOptLabelProp('health_check_interval')" />
             </template>
             <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
-          </el-form-item>
+          </CustomFormItem>
         </el-col>
       </el-row>
     </el-form>
@@ -260,7 +271,12 @@
 </template>
 
 <script setup lang="ts">
-import { fillEmptyValueToUndefinedField, usefulMemoryUnit } from '@/common/tools'
+import {
+  fillEmptyValueToUndefinedField,
+  usefulMemoryUnit,
+  getLabelFromValueInOptionList,
+} from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
@@ -274,7 +290,7 @@ import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OtherBridge } from '@/types/rule'
-import { snakeCase, merge, isEqual } from 'lodash'
+import { isEqual, merge, snakeCase } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 
 enum AuthType {
@@ -297,6 +313,10 @@ const props = defineProps({
   },
   copy: {
     type: Boolean,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
