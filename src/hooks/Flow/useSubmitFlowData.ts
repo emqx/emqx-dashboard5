@@ -5,19 +5,21 @@ import {
   updateBridge,
   updateRules,
 } from '@/api/ruleengine'
-import { checkNOmitFromObj } from '@/common/tools'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
 import { ref } from 'vue'
 
 export default () => {
   const isSubmitting = ref(false)
+  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 
   const createBridges = async (bridges: Array<any>) => {
     const addedIds: string[] = []
     for (const data of bridges) {
       try {
-        const { id } = await createBridge(checkNOmitFromObj(data))
+        const bridge = await handleBridgeDataBeforeSubmit(data)
+        const { id } = await createBridge(bridge)
         addedIds.push(id)
       } catch (error) {
         for (const id of addedIds) {
@@ -34,7 +36,12 @@ export default () => {
   }
 
   const updateBridges = async (bridges: Array<any>) => {
-    return Promise.all(bridges.map((item) => updateBridge(item.id, checkNOmitFromObj(item))))
+    return Promise.all(
+      bridges.map((item) => {
+        const bridge = handleBridgeDataBeforeSubmit(item)
+        return updateBridge(item.id, bridge)
+      }),
+    )
   }
 
   const createFlow = async ({
