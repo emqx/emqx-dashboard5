@@ -10,7 +10,7 @@
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
         :data-handler="handleFileSchema"
-        :label-width="state.lang === 'zh' ? 284 : 336"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 284 : 336 }"
         @save="handleSave"
       />
     </el-card>
