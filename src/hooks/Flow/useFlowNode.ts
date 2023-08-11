@@ -45,6 +45,11 @@ export const SinkType = {
   MySQL: BridgeType.MySQL,
   Console: 'console',
   RePub: 'republish',
+  Redis: BridgeType.Redis,
+  MongoDB: BridgeType.MongoDB,
+  RabbitMQ: BridgeType.RabbitMQ,
+  PgSQL: BridgeType.PgSQL,
+  TDengine: BridgeType.TDengine,
 }
 
 export const enum FlowNodeType {

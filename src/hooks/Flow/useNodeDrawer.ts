@@ -11,6 +11,7 @@ import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import { Component } from 'vue'
 import useI18nTl from '../useI18nTl'
 import { ProcessingType, SinkType, SourceType } from './useFlowNode'
+import useNodeForm from './useNodeForm'
 
 export default (): {
   getDrawerTitle: (type: string) => string
@@ -19,6 +20,8 @@ export default (): {
   getFormComponent: (type: string) => Component
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
+
+  const { isUsingSchemaBridgeType } = useNodeForm()
 
   const drawerTitleMap: Record<string, string> = {
     [SourceType.Message]: tl('message'),
@@ -51,9 +54,14 @@ export default (): {
     [SinkType.MQTTBroker]: MQTTBrokerForm,
     [SinkType.HTTP]: BridgeHttpConfig,
     [SinkType.Kafka]: BridgeKafkaConfig,
-    [SinkType.MySQL]: UsingSchemaBridgeConfig,
   }
-  const getFormComponent = (type: string) => formComponentMap[type]
+  const getFormComponent = (type: string) => {
+    const component = formComponentMap[type]
+    if (!component && isUsingSchemaBridgeType(type)) {
+      return UsingSchemaBridgeConfig
+    }
+    return component
+  }
 
   return {
     getDrawerTitle,

@@ -1,9 +1,10 @@
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
-import { BridgeDirection, FilterLogicalOperator } from '@/types/enum'
+import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
-import {
+import useFlowNode, {
   EditedWay,
   FilterForm,
   FilterFormData,
@@ -68,13 +69,9 @@ export const createRePubForm = (): OutputItemObj => ({
 
 export const createConsoleForm = (): OutputItemObj => ({ function: 'console' })
 
-/**
- * If you are using a schema bridge, create an empty object directly
- */
-const createEmptyObj = (): Record<string, any> => ({})
-
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
+  isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
   const {
@@ -83,7 +80,15 @@ export default (): {
     createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
   } = useBridgeFormCreator()
+  /**
+   *  If you are using a schema bridge, create an empty object directly
+   */
   const emptyCreator = () => ({})
+
+  const { isBridgeType } = useFlowNode()
+  const isUsingSchemaBridgeType = (type: string) => {
+    return isBridgeType(type) && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(type as BridgeType)
+  }
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
@@ -96,10 +101,12 @@ export default (): {
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
     [SinkType.HTTP]: createRawHTTPForm,
     [SinkType.Kafka]: createRawKafkaProducerForm,
-    [SinkType.MySQL]: createEmptyObj,
   }
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]
+    if (!creator && isUsingSchemaBridgeType(type)) {
+      return emptyCreator()
+    }
     if (creator) {
       return creator()
     }
@@ -162,6 +169,7 @@ export default (): {
 
   return {
     getFormDataByType,
+    isUsingSchemaBridgeType,
     checkFormIsEmpty,
   }
 }
