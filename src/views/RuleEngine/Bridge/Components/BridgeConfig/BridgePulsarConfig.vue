@@ -1,273 +1,269 @@
 <template>
-  <div class="bridge-config bridge-pulsar-config">
-    <el-form
-      ref="formCom"
-      label-position="top"
-      require-asterisk-position="right"
-      :rules="formRules"
-      :model="formData"
-      :validate-on-rule-change="false"
-    >
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-            <el-input v-model="formData.name" :disabled="edit" />
+  <el-form
+    ref="formCom"
+    label-position="top"
+    require-asterisk-position="right"
+    class="bridge-config bridge-pulsar-config"
+    :rules="formRules"
+    :model="formData"
+    :validate-on-rule-change="false"
+  >
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
+          <el-input v-model="formData.name" :disabled="edit" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item>
+          <template #label>
+            <span>{{ tl('role') }}</span>
+          </template>
+          <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
+            <el-option
+              v-for="{ value, label } in roleMap"
+              :key="value"
+              :value="value"
+              :label="label"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-divider />
+
+    <el-row :gutter="26">
+      <el-col :span="colSpan">
+        <CustomFormItem prop="servers" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('servers')" />
+          </template>
+          <el-input v-model="formData.servers" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item :label="t('components.authentication')">
+          <el-select v-model="authType" v-if="!readonly">
+            <el-option
+              v-for="{ value, label } in authTypeOptList"
+              :key="value"
+              :value="value"
+              :label="label"
+            />
+          </el-select>
+          <p class="value" v-else>
+            {{ getLabelFromValueInOptionList(authType, authTypeOptList) }}
+          </p>
+        </el-form-item>
+      </el-col>
+      <!-- For Basic -->
+      <template v-if="authType === AuthType.Basic">
+        <el-col :span="colSpan">
+          <CustomFormItem
+            prop="authentication.username"
+            :label="tl('username')"
+            :readonly="readonly"
+          >
+            <el-input v-model="formData.authentication.username" />
           </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <span>{{ tl('role') }}</span>
-            </template>
-            <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
-              <el-option
-                v-for="{ value, label } in roleMap"
-                :key="value"
-                :value="value"
-                :label="label"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-divider />
-
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <CustomFormItem prop="servers" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('servers')" />
-            </template>
-            <el-input v-model="formData.servers" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="t('components.authentication')">
-            <el-select v-model="authType" v-if="!readonly">
-              <el-option
-                v-for="{ value, label } in authTypeOptList"
-                :key="value"
-                :value="value"
-                :label="label"
-              />
-            </el-select>
-            <p class="value" v-else>
-              {{ getLabelFromValueInOptionList(authType, authTypeOptList) }}
-            </p>
-          </el-form-item>
-        </el-col>
-        <!-- For Basic -->
-        <template v-if="authType === AuthType.Basic">
-          <el-col :span="12">
-            <CustomFormItem
-              prop="authentication.username"
-              :label="tl('username')"
-              :readonly="readonly"
-            >
-              <el-input v-model="formData.authentication.username" />
-            </CustomFormItem>
-          </el-col>
-          <el-col :span="12">
-            <CustomFormItem
-              prop="authentication.password"
-              :label="tl('password')"
-              :readonly="readonly"
-            >
-              <el-input
-                v-model="formData.authentication.password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
-            </CustomFormItem>
-          </el-col>
-        </template>
-        <el-col v-else-if="authType === AuthType.Token" :span="12">
-          <CustomFormItem prop="authentication.jwt" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('authentication.jwt')" />
-            </template>
+        <el-col :span="colSpan">
+          <CustomFormItem
+            prop="authentication.password"
+            :label="tl('password')"
+            :readonly="readonly"
+          >
             <el-input
-              v-model="formData.authentication.jwt"
+              v-model="formData.authentication.password"
               type="password"
               autocomplete="one-time-code"
               show-password
             />
           </CustomFormItem>
         </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="pulsar_topic" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('pulsar_topic')" />
-            </template>
-            <el-input v-model="formData.pulsar_topic" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="strategy" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('strategy')" />
-            </template>
-            <el-select v-model="formData.strategy">
-              <el-option
-                v-for="item in getPropItem('strategy').symbols || []"
-                :key="item"
-                :value="item"
-                :label="item"
-              />
-            </el-select>
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="compression" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('compression')" />
-            </template>
-            <el-select v-model="formData.compression">
-              <el-option
-                v-for="item in getPropItem('compression').symbols || []"
-                :key="item"
-                :value="item"
-                :label="item"
-              />
-            </el-select>
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="sync_timeout" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('sync_timeout')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.sync_timeout" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="retention_period" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('retention_period')" />
-            </template>
-            <Oneof
-              :items="getPropItem('retention_period').oneOf"
-              v-model="formData.retention_period"
+      </template>
+      <el-col v-else-if="authType === AuthType.Token" :span="colSpan">
+        <CustomFormItem prop="authentication.jwt" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('authentication.jwt')" />
+          </template>
+          <el-input
+            v-model="formData.authentication.jwt"
+            type="password"
+            autocomplete="one-time-code"
+            show-password
+          />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="pulsar_topic" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('pulsar_topic')" />
+          </template>
+          <el-input v-model="formData.pulsar_topic" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="strategy" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('strategy')" />
+          </template>
+          <el-select v-model="formData.strategy">
+            <el-option
+              v-for="item in getPropItem('strategy').symbols || []"
+              :key="item"
+              :value="item"
+              :label="item"
             />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="send_buffer" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('send_buffer')" />
-            </template>
-            <InputWithUnit v-model="formData.send_buffer" :units="usefulMemoryUnit" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="batch_size" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('batch_size')" />
-            </template>
-            <el-input v-model="formData.batch_size" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="max_batch_bytes" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('max_batch_bytes')" />
-            </template>
-            <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="connect_timeout" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-          </CustomFormItem>
-        </el-col>
-        <!-- ssl -->
-        <el-col :span="24">
-          <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" />
-        </el-col>
-        <el-col :span="24"><el-divider /></el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="message.key" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('message.key')" />
-            </template>
-            <el-input type="textarea" rows="4" v-model="formData.message.key" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="message.value" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('message.value')" />
-            </template>
-            <el-input type="textarea" rows="4" v-model="formData.message.value" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="24"><el-divider /></el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="buffer.mode" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('buffer.mode')" />
-            </template>
-            <el-select v-model="formData.buffer.mode">
-              <el-option
-                v-for="item in getPropItem('buffer.mode').symbols || []"
-                :key="item"
-                :value="item"
-                :label="item"
-              />
-            </el-select>
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="buffer.per_partition_limit" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('buffer.per_partition_limit')" />
-            </template>
-            <InputWithUnit
-              v-model="formData.buffer.per_partition_limit"
-              :units="usefulMemoryUnit"
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="compression" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('compression')" />
+          </template>
+          <el-select v-model="formData.compression">
+            <el-option
+              v-for="item in getPropItem('compression').symbols || []"
+              :key="item"
+              :value="item"
+              :label="item"
             />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="buffer.segment_bytes" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('buffer.segment_bytes')" />
-            </template>
-            <InputWithUnit v-model="formData.buffer.segment_bytes" :units="usefulMemoryUnit" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="buffer.memory_overload_protection">
-            <template #label>
-              <FormItemLabel v-bind="getLabelProps('buffer.memory_overload_protection')" />
-            </template>
-            <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="12">
-          <CustomFormItem prop="resource_opts.health_check_interval" :readonly="readonly">
-            <template #label>
-              <FormItemLabel v-bind="getResourceOptLabelProp('health_check_interval')" />
-            </template>
-            <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
-          </CustomFormItem>
-        </el-col>
-      </el-row>
-    </el-form>
-  </div>
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="sync_timeout" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('sync_timeout')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.sync_timeout" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="retention_period" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('retention_period')" />
+          </template>
+          <Oneof
+            :items="getPropItem('retention_period').oneOf"
+            v-model="formData.retention_period"
+          />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="send_buffer" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('send_buffer')" />
+          </template>
+          <InputWithUnit v-model="formData.send_buffer" :units="usefulMemoryUnit" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="batch_size" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('batch_size')" />
+          </template>
+          <el-input v-model="formData.batch_size" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="max_batch_bytes" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('max_batch_bytes')" />
+          </template>
+          <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="connect_timeout" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
+        </CustomFormItem>
+      </el-col>
+      <!-- ssl -->
+      <el-col :span="24">
+        <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" />
+      </el-col>
+      <el-col :span="24"><el-divider /></el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="message.key" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('message.key')" />
+          </template>
+          <el-input type="textarea" rows="4" v-model="formData.message.key" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="message.value" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('message.value')" />
+          </template>
+          <el-input type="textarea" rows="4" v-model="formData.message.value" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="24"><el-divider /></el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="buffer.mode" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('buffer.mode')" />
+          </template>
+          <el-select v-model="formData.buffer.mode">
+            <el-option
+              v-for="item in getPropItem('buffer.mode').symbols || []"
+              :key="item"
+              :value="item"
+              :label="item"
+            />
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="buffer.per_partition_limit" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('buffer.per_partition_limit')" />
+          </template>
+          <InputWithUnit v-model="formData.buffer.per_partition_limit" :units="usefulMemoryUnit" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="buffer.segment_bytes" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('buffer.segment_bytes')" />
+          </template>
+          <InputWithUnit v-model="formData.buffer.segment_bytes" :units="usefulMemoryUnit" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <el-form-item prop="buffer.memory_overload_protection">
+          <template #label>
+            <FormItemLabel v-bind="getLabelProps('buffer.memory_overload_protection')" />
+          </template>
+          <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem prop="resource_opts.health_check_interval" :readonly="readonly">
+          <template #label>
+            <FormItemLabel v-bind="getResourceOptLabelProp('health_check_interval')" />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
+        </CustomFormItem>
+      </el-col>
+    </el-row>
+  </el-form>
 </template>
 
 <script setup lang="ts">
@@ -314,6 +310,10 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
+  colSpan: {
+    type: Number,
+    default: 12,
+  },
   readonly: {
     type: Boolean,
     default: false,
@@ -351,8 +351,15 @@ const { initRecordByComponents } = useSchemaRecord()
 const { createSSLForm } = useSSL()
 
 const initRecord = () => {
-  if (!isFormDataInit && !props.edit && !props.copy && Object.keys(components.value).length > 0) {
-    formData.value = { ...initRecordByComponents(components.value), ssl: createSSLForm() }
+  if (Object.keys(components.value).length === 0) {
+    return
+  }
+  if (!props.edit && !props.copy) {
+    formData.value = {
+      ...initRecordByComponents(components.value),
+      ssl: createSSLForm(),
+      ...(props.modelValue || {}),
+    }
   }
 }
 
@@ -365,7 +372,6 @@ const formRules = computed(() => {
   })
 })
 
-const isFormDataInit = false
 const formData: Ref<OtherBridge> = ref({
   authentication: 'none',
   message: {},
@@ -447,9 +453,7 @@ watch(
 )
 
 onMounted(() => {
-  if (!props.edit && !props.copy) {
-    updateParentBridgeData()
-  } else if ((props.edit || props.copy) && props.modelValue) {
+  if ((props.edit || props.copy) && props.modelValue) {
     resetFormDataWhenEdit()
   }
 })

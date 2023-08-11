@@ -7,6 +7,7 @@ import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
+import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import { Component } from 'vue'
@@ -56,8 +57,12 @@ export default (): {
     [SinkType.HTTP]: BridgeHttpConfig,
     [SinkType.Kafka]: BridgeKafkaConfig,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
+    [SinkType.Pulsar]: BridgePulsarConfig,
   }
   const getFormComponent = (type: string) => {
+    if (!type) {
+      return undefined
+    }
     const component = formComponentMap[type]
     if (!component && isUsingSchemaBridgeType(type)) {
       return UsingSchemaBridgeConfig
