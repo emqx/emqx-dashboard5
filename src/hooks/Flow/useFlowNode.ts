@@ -50,6 +50,20 @@ export const SinkType = {
   RabbitMQ: BridgeType.RabbitMQ,
   PgSQL: BridgeType.PgSQL,
   TDengine: BridgeType.TDengine,
+  TimescaleDB: BridgeType.TimescaleDB,
+  MatrixDB: BridgeType.MatrixDB,
+  ClickHouse: BridgeType.ClickHouse,
+  DynamoDB: BridgeType.DynamoDB,
+  Cassandra: BridgeType.Cassandra,
+  MicrosoftSQLServer: BridgeType.MicrosoftSQLServer,
+  RocketMQ: BridgeType.RocketMQ,
+  IoTDB: BridgeType.IoTDB,
+  OpenTSDB: BridgeType.OpenTSDB,
+  OracleDatabase: BridgeType.OracleDatabase,
+  HStream: BridgeType.HStream,
+  AzureEventHubs: BridgeType.AzureEventHubs,
+  AmazonKinesis: BridgeType.AmazonKinesis,
+  GreptimeDB: BridgeType.GreptimeDB,
 }
 
 export const enum FlowNodeType {
