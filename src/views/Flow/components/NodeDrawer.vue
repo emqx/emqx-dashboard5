@@ -52,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
   FlowNodeType,
@@ -191,7 +192,7 @@ const cancel = async () => {
 const save = async () => {
   try {
     if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
-      await FormCom.value.validate()
+      await customValidate(FormCom.value)
     }
     emit('save', record.value)
   } catch (error) {
