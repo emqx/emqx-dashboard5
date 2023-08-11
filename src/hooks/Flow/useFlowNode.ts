@@ -1,4 +1,7 @@
-import { typesWithProducerAndConsumer } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  typesWithProducerAndConsumer,
+  useBridgeTypeIcon,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
@@ -259,6 +262,7 @@ export default (): {
     SinkType.RePub,
     SinkType.HTTP,
   ]
+  const { getBridgeIcon } = useBridgeTypeIcon()
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
       if (!type) {
@@ -269,6 +273,9 @@ export default (): {
 
       if (typesIconNew.includes(adjustedType)) {
         return require(`@/assets/flowIcon/${adjustedType}${iconSuffix}.png`)
+      }
+      if (isBridgeType(type)) {
+        return getBridgeIcon(type)
       }
       return require(`@/assets/img/${adjustedType}${iconSuffix}.png`)
     } catch (error) {
