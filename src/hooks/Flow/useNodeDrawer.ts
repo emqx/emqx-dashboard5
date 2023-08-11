@@ -4,6 +4,7 @@ import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.v
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import BridgeHttpConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeHttpConfig.vue'
+import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
@@ -17,7 +18,7 @@ export default (): {
   getDrawerTitle: (type: string) => string
   drawerDefaultWidth: string
   getDrawerWidth: (type: string) => string
-  getFormComponent: (type: string) => Component
+  getFormComponent: (type: string) => Component | undefined
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
@@ -54,6 +55,7 @@ export default (): {
     [SinkType.MQTTBroker]: MQTTBrokerForm,
     [SinkType.HTTP]: BridgeHttpConfig,
     [SinkType.Kafka]: BridgeKafkaConfig,
+    [SinkType.InfluxDB]: BridgeInfluxdbConfig,
   }
   const getFormComponent = (type: string) => {
     const component = formComponentMap[type]

@@ -31,6 +31,7 @@ export const SourceType = {
   Event: 'event',
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
   Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Ingress),
+  GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Ingress),
 }
 
 export const enum ProcessingType {
@@ -42,6 +43,7 @@ export const SinkType = {
   HTTP: BridgeType.Webhook,
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
   Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Egress),
+  GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Egress),
   MySQL: BridgeType.MySQL,
   Console: 'console',
   RePub: 'republish',
@@ -50,6 +52,7 @@ export const SinkType = {
   RabbitMQ: BridgeType.RabbitMQ,
   PgSQL: BridgeType.PgSQL,
   TDengine: BridgeType.TDengine,
+  InfluxDB: BridgeType.InfluxDB,
   TimescaleDB: BridgeType.TimescaleDB,
   MatrixDB: BridgeType.MatrixDB,
   ClickHouse: BridgeType.ClickHouse,
