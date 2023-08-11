@@ -512,7 +512,7 @@ export default {
   qos: {
     zh: 'QoS',
     en: 'QoS',
-    ja: 'QoSs',
+    ja: 'QoS',
   },
   payload: {
     zh: 'Payload',
