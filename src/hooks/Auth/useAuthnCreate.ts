@@ -115,6 +115,22 @@ export default function useAuthnCreate() {
     }
   }
 
+  const getLdapConfig = () => {
+    return {
+      password_attribute: 'userPassword',
+      is_superuser_attribute: 'isSuperuser',
+      query_timeout: '5s',
+      enable: true,
+      server: 'localhost:389',
+      pool_size: 8,
+      username: '',
+      password: '',
+      base_dn: '',
+      filter: '(objectClass=mqttUser)',
+      ssl: createSSLForm(),
+    }
+  }
+
   const factory = (mechanism: string, backend: string) => {
     switch (mechanism) {
       case 'password_based':
@@ -128,6 +144,8 @@ export default function useAuthnCreate() {
           return getRedisConfig()
         } else if (backend === 'mongodb') {
           return getMongodbConfig()
+        } else if (backend === 'ldap') {
+          return getLdapConfig()
         }
         break
       case 'scram':

@@ -70,6 +70,13 @@
                 :type="configData.mechanism"
                 v-model="configData"
               />
+              <ldap-config
+                auth-type="authn"
+                v-else-if="currBackend === 'ldap'"
+                v-model="configData"
+                is-edit
+                ref="formCom"
+              />
             </template>
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
@@ -118,6 +125,7 @@ import HttpConfig from './components/HttpConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import AuthnManager from './components/AuthnManager.vue'
+import LdapConfig from './components/LdapConfig.vue'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -130,6 +138,7 @@ export default defineComponent({
     AuthItemOverview,
     AuthItemStatus,
     DetailHeader,
+    LdapConfig,
   },
   props: {
     gatewayInfo: {
@@ -140,12 +149,12 @@ export default defineComponent({
     updateFunc: {
       type: Function,
       required: false,
-      default: () => {},
+      default: () => ({}),
     },
     deleteFunc: {
       type: Function,
       required: false,
-      default: () => {},
+      default: () => ({}),
     },
     gateway: {
       type: String,

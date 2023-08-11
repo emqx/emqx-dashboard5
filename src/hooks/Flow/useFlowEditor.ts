@@ -51,12 +51,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     {
       type: NodeType.Source,
       typeLabel: 'Source',
-      nodeList: [
-        generateNodeByType(SourceType.Message),
-        generateNodeByType(SourceType.Event),
-        generateNodeByType(SourceType.MQTTBroker),
-        generateNodeByType(SourceType.Kafka),
-      ],
+      nodeList: Object.entries(SourceType).map(([, value]) => generateNodeByType(value)),
     },
     {
       type: NodeType.Processing,
@@ -69,14 +64,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     {
       type: NodeType.Sink,
       typeLabel: 'Sink',
-      nodeList: [
-        generateNodeByType(SinkType.HTTP),
-        generateNodeByType(SinkType.MQTTBroker),
-        generateNodeByType(SinkType.Console),
-        generateNodeByType(SinkType.RePub),
-        generateNodeByType(SinkType.Kafka),
-        generateNodeByType(SinkType.MySQL),
-      ],
+      nodeList: Object.entries(SinkType).map(([, value]) => generateNodeByType(value)),
     },
   ]
 

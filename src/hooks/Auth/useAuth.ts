@@ -15,6 +15,7 @@ export default function useAuth(): {
     redis: 'Redis',
     mongodb: 'MongoDB',
     file: 'File',
+    ldap: 'LDAP',
   }
   return {
     titleMap,

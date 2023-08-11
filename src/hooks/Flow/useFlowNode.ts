@@ -24,7 +24,7 @@ export const SINK_SUFFIX = '_sink'
 export const getSpecificTypeWithDirection = (
   type: BridgeType,
   direction: BridgeDirection,
-): string => `${type}_${direction === BridgeDirection.Ingress ? SOURCE_SUFFIX : SINK_SUFFIX}`
+): string => `${type}${direction === BridgeDirection.Ingress ? SOURCE_SUFFIX : SINK_SUFFIX}`
 
 export const SourceType = {
   Message: 'message',
@@ -104,6 +104,7 @@ export default (): {
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   isBridgerNode: (node: Partial<Node>) => boolean
+  removeDirectionFromSpecificType: (type: string) => string
   isBridgeType: (type: string) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
@@ -191,6 +192,9 @@ export default (): {
     )
   }
 
+  const removeDirectionFromSpecificType = (type: string) =>
+    type.replace(new RegExp(`${SOURCE_SUFFIX}|${SINK_SUFFIX}`), '')
+
   const isNotBridgeTypes = [
     SourceType.Event,
     SourceType.Message,
@@ -200,8 +204,9 @@ export default (): {
     SinkType.Console,
   ]
   const isBridgeType = (type: string) => {
-    const isBridge = Object.entries(BridgeType).some(([, value]) => value === type)
-    return !isNotBridgeTypes.includes(type) && isBridge
+    const typeRemovedDirection = removeDirectionFromSpecificType(type)
+    const isBridge = Object.entries(BridgeType).some(([, value]) => value === typeRemovedDirection)
+    return !isNotBridgeTypes.includes(typeRemovedDirection) && isBridge
   }
 
   const getEventLabelFromVal = (val: string) => {
@@ -294,6 +299,7 @@ export default (): {
     getTypeCommonData,
     isBridgerNode,
     isBridgeType,
+    removeDirectionFromSpecificType,
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,
