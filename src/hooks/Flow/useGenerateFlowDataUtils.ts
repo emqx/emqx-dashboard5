@@ -349,6 +349,10 @@ export default () => {
         direction = typeDirection
         const nodeType = typeDirection === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
         specificType = getSpecificTypeForBridge(type, nodeType)
+      } else {
+        // get general type from type
+        // eg. is type is redis_rs, get redis
+        specificType = getBridgeType(specificType)
       }
     }
     const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
