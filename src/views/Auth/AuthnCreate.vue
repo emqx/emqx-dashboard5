@@ -60,7 +60,7 @@
                 v-if="!isDisabledDatabase(item.value)"
                 :value="$t('Base.added')"
                 class="item"
-                :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
+                :hidden="((!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean)"
               >
                 <el-radio
                   :label="item.value"
@@ -78,7 +78,7 @@
                 v-for="item in others"
                 :key="item.value"
                 :value="$t('Base.added')"
-                :hidden="!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway"
+                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
                 class="item"
               >
                 <el-radio
@@ -133,6 +133,13 @@
             ref="formCom"
             :type="mechanism"
           />
+          <ldap-config
+            auth-type="authn"
+            v-else-if="backend === 'ldap'"
+            v-model="configData"
+            ref="formCom"
+          >
+          </ldap-config>
           <http-config
             auth-type="authn"
             v-else-if="backend === 'http'"
@@ -176,6 +183,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
+import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import useGuide from '@/hooks/useGuide'
 import { createAuthn } from '@/api/auth'
@@ -247,6 +255,7 @@ const supportBackendMap: any = {
     postgresql: 'PostgreSQL',
     http: tl('HTTPServer'),
     redis: 'Redis',
+    ldap: 'LDAP',
   },
   jwt: {},
   scram: {
