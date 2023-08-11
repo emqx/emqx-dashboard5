@@ -1,6 +1,6 @@
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSSL from '@/hooks/useSSL'
-import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
+import { BridgeDirection, BridgeType, InfluxDBType, KafkaType } from '@/types/enum'
 import {
   HTTPBridge,
   MQTTBridgeEgress,
@@ -15,6 +15,7 @@ export default (): {
   createKafkaDefaultValCommonPart: () => any
   createRawKafkaProducerForm: () => OtherBridge
   createRawKafkaConsumerForm: () => OtherBridge
+  createRawInfluxDBForm: () => OtherBridge
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
   const { createSSLForm } = useSSL()
@@ -138,11 +139,29 @@ export default (): {
     value_encoding_mode: 'none',
   })
 
+  const createRawInfluxDBForm = () => ({
+    type: InfluxDBType.v2,
+    name: '',
+    local_topic: '',
+    write_syntax: '',
+    server: '127.0.0.1:8086',
+    precision: 'ms',
+    database: '',
+    username: '',
+    password: '',
+    ssl: createSSLForm(),
+    bucket: '',
+    org: '',
+    token: '',
+    resource_opts: createDefaultResourceOptsForm({ inflight: true, batch: true }),
+  })
+
   return {
     createRawHTTPForm,
     createRawMQTTForm,
     createKafkaDefaultValCommonPart,
     createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
+    createRawInfluxDBForm,
   }
 }
