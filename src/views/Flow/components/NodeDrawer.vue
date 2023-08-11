@@ -135,7 +135,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgeType } = useFlowNode()
+const { isBridgeType, removeDirectionFromSpecificType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
@@ -151,7 +151,8 @@ const getSchemaBridgeProps = (type: string) => ({
   ...bridgeFormProps,
   ...schemaProps,
   labelWidth: '180px',
-  type,
+  hiddenFields: ['role'],
+  type: removeDirectionFromSpecificType(type),
 })
 
 const formComponentPropsMap = computed(() => ({

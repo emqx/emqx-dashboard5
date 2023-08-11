@@ -102,6 +102,10 @@ const props = defineProps({
     type: Object as PropType<Properties>,
     default: () => ({}),
   },
+  // for flow, hide `role`
+  hiddenFields: {
+    type: Array as PropType<Array<string>>,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -128,7 +132,17 @@ const formBindProps = {
   ...props.formProps,
 }
 
-const { propsOrderMap, customColClass } = useSchemaBridgePropsLayout(props, bridgeRecord)
+const { propsOrderMap, customColClass: fixedCustomColClass } = useSchemaBridgePropsLayout(
+  props,
+  bridgeRecord,
+)
+const customColClass = computed(() => {
+  const ret = fixedCustomColClass
+  if (props.hiddenFields) {
+    props.hiddenFields.forEach((key) => (ret[key] = 'col-hidden'))
+  }
+  return ret
+})
 
 const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)

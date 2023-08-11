@@ -1,7 +1,7 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
-import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
+import { BridgeDirection, BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
 import useFlowNode, {
@@ -94,6 +94,7 @@ export default (): {
     [SourceType.Event]: createEventForm,
     [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
     [SourceType.Kafka]: createRawKafkaConsumerForm,
+    [SourceType.GCP]: () => ({ role: Role.Consumer }),
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
@@ -101,6 +102,7 @@ export default (): {
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
     [SinkType.HTTP]: createRawHTTPForm,
     [SinkType.Kafka]: createRawKafkaProducerForm,
+    [SinkType.GCP]: () => ({ role: Role.Producer }),
   }
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]
