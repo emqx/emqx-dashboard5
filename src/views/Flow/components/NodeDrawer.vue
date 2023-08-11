@@ -136,7 +136,7 @@ const existedTopics = computed(() => {
 })
 
 const { isBridgeType } = useFlowNode()
-const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
+const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
 const schemaProps = {
@@ -162,9 +162,14 @@ const formComponentPropsMap = computed(() => ({
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Producer },
-  [SinkType.MySQL]: getSchemaBridgeProps(SinkType.MySQL),
 }))
-const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
+const getFormComponentProps = (type: string) => {
+  const ret = formComponentPropsMap.value[type]
+  if (!ret && isUsingSchemaBridgeType(type)) {
+    return getSchemaBridgeProps(type)
+  }
+  return ret || {}
+}
 
 const record: Ref<Record<string, any>> = ref({})
 
