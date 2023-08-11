@@ -79,6 +79,7 @@ export default (): {
     createRawHTTPForm,
     createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
+    createRawInfluxDBForm,
   } = useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
@@ -103,6 +104,7 @@ export default (): {
     [SinkType.HTTP]: createRawHTTPForm,
     [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
+    [SinkType.InfluxDB]: createRawInfluxDBForm,
   }
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]

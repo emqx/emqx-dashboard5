@@ -217,5 +217,20 @@ fillFormFromLineProtocol()
   .el-col:not(:last-child) {
     margin-bottom: 18px;
   }
+  .el-form-item {
+    display: block;
+  }
+  .el-form-item__label {
+    justify-content: flex-start;
+  }
+  .el-col {
+    .el-form-item {
+      .el-form-item__content {
+        > .el-input:not(.el-input-group--append) {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 </style>
