@@ -208,6 +208,7 @@ export enum DatabasesType {
   PostgreSQL = 'postgresql',
   HTTPServer = 'http',
   Redis = 'redis',
+  Ldap = 'ldap',
 }
 
 export enum GatewayName {
