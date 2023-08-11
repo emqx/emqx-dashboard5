@@ -179,6 +179,9 @@ const handleComponentChange = ({
   newVal,
   oldVal,
 }: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
+  if (props.edit || newVal.record?.type === oldVal.record?.type) {
+    return
+  }
   bridgeRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
 }
 
