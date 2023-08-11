@@ -67,7 +67,7 @@ export default {
   state: {
     zh: '状态',
     en: 'State',
-    ja: '状態',
+    ja: 'ステータス',
   },
   clearHistory: {
     zh: '清除历史告警',
@@ -87,7 +87,7 @@ export default {
   second: {
     zh: '次',
     en: 'second',
-    ja: '回',
+    ja: 'second',
   },
   clearSuccess: {
     zh: '清除历史告警成功',
