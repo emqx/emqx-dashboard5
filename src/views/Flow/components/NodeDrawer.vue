@@ -164,6 +164,7 @@ const formComponentPropsMap = computed(() => ({
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Producer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '180px' },
+  [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '180px' },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]

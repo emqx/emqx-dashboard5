@@ -105,6 +105,7 @@ export default (): {
     [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,
+    [SinkType.Pulsar]: emptyCreator,
   }
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]
