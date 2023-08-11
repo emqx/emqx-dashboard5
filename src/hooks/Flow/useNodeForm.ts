@@ -75,7 +75,6 @@ const createEmptyObj = (): Record<string, any> => ({})
 
 export default (): {
   getFormDataByType: (type: string) => Record<string, any>
-  isBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
   const {
@@ -107,15 +106,6 @@ export default (): {
     console.error('EMPTY FORM CREATOR')
     return emptyCreator()
   }
-
-  const isNotBridgeTypes = [
-    SourceType.Event,
-    SourceType.Message,
-    ProcessingType.Filter,
-    SinkType.RePub,
-    SinkType.Console,
-  ]
-  const isBridgeType = (type: string) => !isNotBridgeTypes.includes(type)
 
   const checkALevelFormIsEmpty = (form: Record<string, any>): boolean => {
     const keys = Object.keys(form)
@@ -172,7 +162,6 @@ export default (): {
 
   return {
     getFormDataByType,
-    isBridgeType,
     checkFormIsEmpty,
   }
 }
