@@ -5,12 +5,12 @@ import { FormItemRule } from '@/types/common'
 export default (
   props: any,
 ): {
-  ruleWhenTestConnection: Array<FormItemRule>
+  ruleWhenEditing: Array<FormItemRule>
 } => {
   const { tl } = useI18nTl('RuleEngine')
   // TODO: add rules for likePasswordFieldKeys
   // src/hooks/Rule/bridge/useBridgeDataHandler.ts:164:30
-  const ruleWhenTestConnection = [
+  const ruleWhenEditing = [
     {
       validator: (rule: any, value: any, callback: any) => {
         if (
@@ -28,6 +28,6 @@ export default (
   ]
 
   return {
-    ruleWhenTestConnection,
+    ruleWhenEditing,
   }
 }
