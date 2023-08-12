@@ -10,11 +10,13 @@
         </InfoTooltip>
       </template>
       <template #default="{ $index }">
-        <SchemaFormItem
-          v-model="arr[$index][key]"
-          :type="(value.type as any)"
-          :symbols="value.symbols"
-        />
+        <template v-if="arr[$index] !== undefined">
+          <SchemaFormItem
+            v-model="arr[$index][key]"
+            :type="(value.type as any)"
+            :symbols="value.symbols"
+          />
+        </template>
       </template>
     </el-table-column>
     <el-table-column width="100px">
@@ -33,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { Properties } from '@/types/schemaForm'
-import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import { cloneDeep, get, isFunction } from 'lodash'
-import InfoTooltip from './InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
+import { Properties } from '@/types/schemaForm'
+import { cloneDeep, get, isFunction } from 'lodash'
+import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref } from 'vue'
+import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
 
 const props = defineProps({
