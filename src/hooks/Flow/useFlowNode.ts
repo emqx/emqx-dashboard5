@@ -1,4 +1,4 @@
-import {
+import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -156,9 +156,14 @@ export default (): {
     [SinkType.RePub]: t('RuleEngine.republish'),
     [SinkType.Kafka]: t('RuleEngine.kafka'),
   }
-
-  const getTypeLabel = (specificType: string): string =>
-    typeLabelMap[specificType] || (specificType as string)
+  const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+  const getTypeLabel = (specificType: string): string => {
+    let ret: string | undefined = typeLabelMap[specificType]
+    if (!ret && isBridgeType(specificType)) {
+      ret = getBridgeLabelByTypeValue(removeDirectionFromSpecificType(specificType) as BridgeType)
+    }
+    return ret || specificType
+  }
 
   const countFiltersNum = (filter: FilterFormData) => {
     return filter.items.reduce((count, item) => {
