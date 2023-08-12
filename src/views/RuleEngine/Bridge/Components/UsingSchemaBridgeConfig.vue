@@ -137,7 +137,7 @@ const { propsOrderMap, customColClass: fixedCustomColClass } = useSchemaBridgePr
   bridgeRecord,
 )
 const customColClass = computed(() => {
-  const ret = fixedCustomColClass
+  const ret = fixedCustomColClass.value
   if (props.hiddenFields) {
     props.hiddenFields.forEach((key) => (ret[key] = 'col-hidden'))
   }
