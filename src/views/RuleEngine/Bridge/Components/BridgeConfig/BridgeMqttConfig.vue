@@ -197,7 +197,7 @@ const { tl, t } = useI18nTl('RuleEngine')
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
-const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const formRules = computed(() => ({
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
@@ -207,7 +207,7 @@ const formRules = computed(() => ({
   egress: enableEgress.value
     ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
     : undefined,
-  password: ruleWhenTestConnection,
+  password: ruleWhenEditing,
 })) as Partial<Record<string, any>>
 
 const initMqttBridgeVal = async () => {
