@@ -36,7 +36,7 @@ export default (props: {
     description: '',
   } as Property
 
-  const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+  const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
     // TODO:consider the path
@@ -44,7 +44,7 @@ export default (props: {
       rules.password = []
     }
     if (Array.isArray(rules.password)) {
-      rules.password.push(...ruleWhenTestConnection)
+      rules.password.push(...ruleWhenEditing)
     }
 
     if (!rules.name) {

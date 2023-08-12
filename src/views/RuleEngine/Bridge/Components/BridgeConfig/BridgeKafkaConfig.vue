@@ -435,7 +435,7 @@ const getDefaultForm = () =>
 
 const formCom = ref()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
-const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const formRules = computed<any>(() => {
   const ret = {
     name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
@@ -443,7 +443,7 @@ const formRules = computed<any>(() => {
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
       username: createRequiredRule(tl('username')),
-      password: [...createRequiredRule(tl('password')), ...ruleWhenTestConnection],
+      password: [...createRequiredRule(tl('password')), ...ruleWhenEditing],
       kerberos_keytab_file: createRequiredRule(tl('kerberosKeytabFile')),
       kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
     },

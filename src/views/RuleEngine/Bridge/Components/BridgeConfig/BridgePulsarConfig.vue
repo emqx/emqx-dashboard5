@@ -364,10 +364,10 @@ const initRecord = () => {
 }
 
 const formCom = ref()
-const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const formRules = computed(() => {
   const prePwdRule: any = rules.value?.['authentication.password'] || []
-  return { ...rules.value, ['authentication.password']: [...prePwdRule, ...ruleWhenTestConnection] }
+  return { ...rules.value, ['authentication.password']: [...prePwdRule, ...ruleWhenEditing] }
 })
 
 const formData: Ref<OtherBridge> = ref({
