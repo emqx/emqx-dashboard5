@@ -83,6 +83,7 @@ export default (): {
     createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
   } = useBridgeFormCreator()
+  const emptyCreator = () => ({})
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
@@ -97,7 +98,6 @@ export default (): {
     [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.MySQL]: createEmptyObj,
   }
-  const emptyCreator = () => ({})
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]
     if (creator) {
