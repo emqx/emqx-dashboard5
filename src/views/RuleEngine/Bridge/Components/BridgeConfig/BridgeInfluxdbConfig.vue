@@ -232,10 +232,10 @@ const commonRules = computed(() => ({
   write_syntax: createRequiredRule(getText('write_syntax.label')),
 }))
 
-const { ruleWhenTestConnection } = useSpecialRuleForPassword(props)
+const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const rulesForV1 = computed(() => ({
   database: createRequiredRule(getText('database.label')),
-  password: ruleWhenTestConnection,
+  password: ruleWhenEditing,
 }))
 
 const rulesForV2 = {
