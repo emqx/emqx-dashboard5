@@ -103,9 +103,13 @@ export default {
     zh: '集成',
     en: 'Integration',
   },
-  flow: {
+  flowDesigner: {
     zh: 'Flows 设计器',
     en: 'Flows Designer',
+  },
+  flow: {
+    zh: 'Flows',
+    en: 'Flows',
   },
   webhook: {
     zh: 'Webhook',

@@ -109,6 +109,7 @@ export default (): {
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
   getNodeIcon: (type: string, disabled?: boolean) => string
+  getIconClass: (type: string) => string
 } => {
   const { t, tl } = useI18nTl('Flow')
 
@@ -277,6 +278,7 @@ export default (): {
     SinkType.RePub,
     SinkType.HTTP,
   ]
+  const isTypeUsingNewIcon = (type: string) => typesIconNew.includes(type)
   const { getBridgeIcon } = useBridgeTypeIcon()
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
@@ -286,7 +288,7 @@ export default (): {
       const adjustedType = adjustTypeForSpecialCases(type)
       const iconSuffix = disabled ? '-disabled' : ''
 
-      if (typesIconNew.includes(adjustedType)) {
+      if (isTypeUsingNewIcon(adjustedType)) {
         return require(`@/assets/flowIcon/${adjustedType}${iconSuffix}.png`)
       }
       if (isBridgeType(type)) {
@@ -296,6 +298,15 @@ export default (): {
     } catch (error) {
       return ''
     }
+  }
+
+  // zoom in old icon for clip space padding
+  const getIconClass = (type: string): string => {
+    if (!type) {
+      return ''
+    }
+    const adjustedType = adjustTypeForSpecialCases(type)
+    return isTypeUsingNewIcon(adjustedType) ? '' : 'is-scaled-up'
   }
 
   return {
@@ -308,5 +319,6 @@ export default (): {
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,
+    getIconClass,
   }
 }

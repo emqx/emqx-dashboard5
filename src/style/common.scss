@@ -838,6 +838,9 @@ code {
         border-left-color: #906ef2;
       }
     }
+    img.is-scaled-up {
+      transform: scale(1.5);
+    }
   }
 
   // To increase the weight

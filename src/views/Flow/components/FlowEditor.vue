@@ -30,6 +30,7 @@
                 width="20"
                 alt="node-img"
                 class="node-img"
+                :class="getIconClass(node.specificType)"
                 draggable="false"
               />
               <span draggable="false"> {{ node.name }}</span>
@@ -130,7 +131,7 @@ const nodeArr = computed(() => {
     .filter(({ nodeList }) => nodeList.length)
 })
 
-const { getNodeClass, getNodeInfo, getNodeIcon } = useFlowNode()
+const { getNodeClass, getNodeInfo, getNodeIcon, getIconClass } = useFlowNode()
 
 /**
  * Position offset relative to the upper left corner of the node
