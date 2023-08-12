@@ -15,7 +15,7 @@ export default (): {
   const { getBridgeType } = useBridgeTypeOptions()
 
   const handleMQTTBridgeData = (bridgeData: any) => {
-    const { egress, ingress } = bridgeData
+    const { egress = {}, ingress = {} } = bridgeData
     if (!egress.remote?.topic) {
       Reflect.deleteProperty(bridgeData, 'egress')
     } else if (!ingress.remote?.topic) {
