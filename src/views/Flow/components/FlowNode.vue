@@ -3,7 +3,7 @@
     <el-icon class="icon-add" :size="10"><Plus /></el-icon>
   </Handle>
   <div class="flow-node">
-    <img :src="getIconSrc()" alt="node-img" class="node-icon" />
+    <img :src="getIconSrc()" alt="node-img" class="node-icon" :class="iconClass" />
     <div class="node-bd">
       <p class="label">{{ data.label }}</p>
       <p class="desc">{{ data.data.desc }}</p>
@@ -18,7 +18,7 @@
 import useFlowNode, { FlowNodeType } from '@/hooks/Flow/useFlowNode'
 import { Plus } from '@element-plus/icons-vue'
 import { Handle, Position } from '@vue-flow/core'
-import { defineProps } from 'vue'
+import { computed, defineProps } from 'vue'
 
 const props = defineProps({
   data: {
@@ -27,11 +27,13 @@ const props = defineProps({
   },
 })
 
-const { getNodeIcon } = useFlowNode()
+const { getNodeIcon, getIconClass } = useFlowNode()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)
 }
+
+const iconClass = computed(() => getIconClass(props.data?.data?.specificType))
 </script>
 
 <style lang="scss">
