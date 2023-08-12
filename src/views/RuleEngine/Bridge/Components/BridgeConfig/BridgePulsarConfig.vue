@@ -14,7 +14,7 @@
           <el-input v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
+      <el-col :span="colSpan" v-if="!isRoleHidden">
         <el-form-item>
           <template #label>
             <span>{{ tl('role') }}</span>
@@ -269,8 +269,8 @@
 <script setup lang="ts">
 import {
   fillEmptyValueToUndefinedField,
-  usefulMemoryUnit,
   getLabelFromValueInOptionList,
+  usefulMemoryUnit,
 } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
@@ -281,12 +281,11 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OtherBridge } from '@/types/rule'
-import { isEqual, merge, snakeCase } from 'lodash'
+import { isEqual, snakeCase } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 
 enum AuthType {
@@ -315,6 +314,10 @@ const props = defineProps({
     default: 12,
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  isRoleHidden: {
     type: Boolean,
     default: false,
   },
