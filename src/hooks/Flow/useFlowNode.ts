@@ -67,7 +67,7 @@ export const SinkType = {
   AzureEventHubs: BridgeType.AzureEventHubs,
   AmazonKinesis: BridgeType.AmazonKinesis,
   GreptimeDB: BridgeType.GreptimeDB,
-  Pulsar: BridgeType.Pulsar,
+  Pulsar: getSpecificTypeWithDirection(BridgeType.Pulsar, BridgeDirection.Egress),
 }
 
 export const enum FlowNodeType {
