@@ -4,7 +4,6 @@
     label-width="200px"
     class="mqtt-broker-form bridge-config"
     label-position="right"
-    hide-required-asterisk
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
