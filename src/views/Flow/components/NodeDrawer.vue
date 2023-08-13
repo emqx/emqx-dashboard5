@@ -138,7 +138,7 @@ const existedTopics = computed(() => {
 const { isBridgeType } = useFlowNode()
 const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
 
-const bridgeFormProps = { colSpan: 24, labelPosition: 'right' }
+const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
 
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
@@ -238,6 +238,9 @@ watch(showDialog, (val) => {
     }
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
+    }
+    .el-form-item__label {
+      text-align: right;
     }
   }
   .message-form,
