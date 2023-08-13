@@ -1,5 +1,6 @@
 <template>
   <el-form
+    v-if="showForm"
     ref="formCom"
     label-position="top"
     require-asterisk-position="right"
@@ -454,12 +455,24 @@ watch(
 )
 
 onMounted(() => {
-  if ((props.edit || props.copy) && props.modelValue) {
+  if ((props.edit || props.copy || props.readonly) && props.modelValue) {
     resetFormDataWhenEdit()
   }
 })
 
+/**
+ * Here, because the CustomFormItem component can't know the change
+ * of the slot's modelValue accordingly, it can't display the form
+ * item value in real time, so it displays the form after the schema is loaded.
+ */
+const showForm = ref(false)
+const detectLoadStatus = async () => {
+  await schemaLoadPromise
+  showForm.value = true
+}
+
 initRecord()
+detectLoadStatus()
 
 defineExpose({ validate, clearValidate })
 </script>
