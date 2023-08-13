@@ -405,9 +405,55 @@ const SchemaForm = defineComponent({
       }
     }
 
+    const typesShowValueDirectly = [
+      'string',
+      'number',
+      'duration',
+      'byteSize',
+      'percent',
+      'comma_separated_string',
+      'oneof',
+      'file',
+    ]
+    const getEleForReadonly = (property: Properties[string]): JSX.Element | undefined => {
+      if (!property.path) return
+      property.path = replaceVarPath(property.path)
+      const { path, type } = property
+
+      /**
+       * do not use v-model directly because there have some prop in second level
+       * like the props under the connector field
+       */
+      const modelValue = _.get(configForm.value, path)
+      if (typesShowValueDirectly.includes(type)) {
+        return <p class="value">{modelValue}</p>
+      }
+      switch (type) {
+        case 'enum':
+          return <p class="value">{getOptLabel(modelValue)}</p>
+        case 'boolean':
+          return switchComponent({ ...property, readOnly: true })
+        case 'sql':
+          return switchComponent({ ...property, readOnly: true })
+        case 'array':
+          // TODO:TODO:TODO:TODO:
+          break
+        case 'ssl': {
+          const ele = switchComponent({ ...property, readOnly: true })
+          if (ele?.props) {
+            ele.props.readonly = true
+          }
+          return ele
+        }
+        default:
+          return <p class="value">{modelValue}</p>
+      }
+    }
+
     const setControl = (property: Properties[string]) => {
       if (!property.type) return
-      return switchComponent(setTypeForProperty(property))
+      const prop = setTypeForProperty(property)
+      return !props.readonly ? switchComponent(prop) : getEleForReadonly(prop)
     }
 
     const getLabelSlot = (property: Property) => {
