@@ -143,7 +143,7 @@ const schemaProps = {
   formProps: {
     labelWidth: '180px',
     labelPosition: 'right',
-    hideRequiredAsterisk: true,
+    requireAsteriskPosition: 'left',
   },
 }
 
