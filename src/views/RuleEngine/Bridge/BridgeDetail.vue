@@ -450,7 +450,7 @@ defineExpose({
   min-height: 400px;
 }
 .btn-area {
-  margin-top: 40px;
+  margin-top: 24px;
   .el-button {
     margin-left: 0;
     margin-right: 12px;

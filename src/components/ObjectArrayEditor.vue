@@ -1,16 +1,22 @@
 <template>
-  <el-table class="object-array-editor" ref="TableCom" :data="arr">
+  <el-table class="object-array-editor key-and-value-editor shadow-none" ref="TableCom" :data="arr">
     <el-table-column v-for="(value, key) in properties" :key="key">
       <template #header>
         {{ value.label }}
-        <InfoTooltip :content="value.description" />
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="value.description" />
+          </template>
+        </InfoTooltip>
       </template>
       <template #default="{ $index }">
-        <SchemaFormItem
-          v-model="arr[$index][key]"
-          :type="(value.type as any)"
-          :symbols="value.symbols"
-        />
+        <template v-if="arr[$index] !== undefined">
+          <SchemaFormItem
+            v-model="arr[$index][key]"
+            :type="(value.type as any)"
+            :symbols="value.symbols"
+          />
+        </template>
       </template>
     </el-table-column>
     <el-table-column width="100px">
@@ -29,10 +35,11 @@
 </template>
 
 <script setup lang="ts">
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { Properties } from '@/types/schemaForm'
-import { defineProps, PropType, computed, defineEmits, onMounted, ref, nextTick } from 'vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaFormRules'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, get, isFunction } from 'lodash'
+import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref } from 'vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
 
@@ -44,6 +51,10 @@ const props = defineProps({
   properties: {
     type: Object as PropType<Properties>,
     default: () => ({}),
+  },
+  propKey: {
+    type: String,
+    required: true,
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -60,11 +71,11 @@ const arr = computed({
 const TableCom = ref()
 
 const { initRecordByComponents } = useSchemaRecord()
-const { topic_mapping: defaultValue } = initRecordByComponents(props.properties)
-const createDefaultValue = () => cloneDeep(defaultValue)
 
 const addItem = () => {
-  arr.value = [...arr.value, createDefaultValue()]
+  const objData = get(initRecordByComponents(props.properties), props.propKey)
+  const defaultValue = cloneDeep(objData)
+  arr.value = [...arr.value, defaultValue]
 }
 
 const deleteItem = (index: number) => {
@@ -73,7 +84,9 @@ const deleteItem = (index: number) => {
 
 onMounted(async () => {
   await nextTick()
-  TableCom.value.doLayout()
+  if (isFunction(TableCom.value?.doLayout)) {
+    TableCom.value.doLayout()
+  }
 })
 </script>
 

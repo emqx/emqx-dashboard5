@@ -558,4 +558,28 @@ export default {
     en: 'Priority number must be a number between 1 and 255.',
     ja: '優先度の数字は1から255の間でなければなりません。',
   },
+  query_timeout: {
+    zh: '查询超时',
+    en: 'Query Timeout',
+  },
+  base_dn: {
+    zh: '基本 DN',
+    en: 'Base DN',
+  },
+  password_attribute: {
+    zh: '密码属性名',
+    en: 'Password Hash Attribute',
+  },
+  password_attribute_desc: {
+    zh: '存储客户端密码的 LDAP 属性名称',
+    en: 'The LDAP attribute that stores the password hash for clients.',
+  },
+  is_superuser_attribute: {
+    zh: '超级用户属性名',
+    en: 'Is Superuser Attribute',
+  },
+  is_superuser_attribute_desc: {
+    zh: '存储客户端超级用户角色的 LDAP 属性名称',
+    en: "The LDAP attribute that indicates a client's superuser role.",
+  },
 }

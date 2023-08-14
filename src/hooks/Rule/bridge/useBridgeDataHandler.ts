@@ -15,7 +15,7 @@ export default (): {
   const { getBridgeType } = useBridgeTypeOptions()
 
   const handleMQTTBridgeData = (bridgeData: any) => {
-    const { egress, ingress } = bridgeData
+    const { egress = {}, ingress = {} } = bridgeData
     if (!egress.remote?.topic) {
       Reflect.deleteProperty(bridgeData, 'egress')
     } else if (!ingress.remote?.topic) {
@@ -24,7 +24,7 @@ export default (): {
     return bridgeData
   }
 
-  const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason']
+  const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason', 'role']
   const keysNeedDel = {
     update: keysDoNotNeedForAPI,
     create: [...keysDoNotNeedForAPI, 'enable', 'id'],

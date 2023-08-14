@@ -89,7 +89,7 @@ watch(showDialog, async (val) => {
   }
   .el-input.is-disabled {
     .el-input__wrapper {
-      background-color: var(--color-bg-primary);
+      background-color: var(--color-bg-content);
     }
     .el-input__inner {
       color: var(--color-text-primary);

@@ -69,6 +69,11 @@ export enum RuleSQLKeyword {
   Incase = 'incase',
 }
 
+export enum FilterLogicalOperator {
+  And = 'and',
+  Or = 'or',
+}
+
 export enum RuleOutput {
   Console = 'console',
   Republish = 'republish',
@@ -119,6 +124,9 @@ export enum BridgeType {
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
   HStream = 'hstreamdb',
+  AzureEventHubs = 'azure_event_hub',
+  AmazonKinesis = 'kinesis',
+  GreptimeDB = 'greptimedb',
 }
 
 export enum KafkaType {
@@ -200,6 +208,7 @@ export enum DatabasesType {
   PostgreSQL = 'postgresql',
   HTTPServer = 'http',
   Redis = 'redis',
+  Ldap = 'ldap',
 }
 
 export enum GatewayName {

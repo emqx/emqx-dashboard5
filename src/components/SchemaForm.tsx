@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, isEmptyObj } from '@/common/tools'
+import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -20,6 +20,7 @@ import { useStore } from 'vuex'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
@@ -58,10 +59,6 @@ const SchemaForm = defineComponent({
     form: {
       type: Object as PropType<Record<string, any>>,
       required: false,
-    },
-    labelWidth: {
-      type: Number,
-      default: 350,
     },
     recordLoading: {
       type: Boolean,
@@ -126,6 +123,14 @@ const SchemaForm = defineComponent({
      */
     dataHandler: {
       type: Function,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    formProps: {
+      type: Object as PropType<Record<string, any>>,
+      default: () => ({}),
     },
   },
   setup(props, ctx) {
@@ -313,6 +318,18 @@ const SchemaForm = defineComponent({
                 {...customProps}
               />
             )
+          } else if (property.items.path && property.items.properties) {
+            return (
+              <ObjectArrayEditor
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                properties={property.items.properties}
+                propKey={property.items.path}
+                disabled={isPropertyDisabled}
+                default={property.default}
+                {...customProps}
+              />
+            )
           }
           return <div></div>
         case 'duration':
@@ -388,9 +405,55 @@ const SchemaForm = defineComponent({
       }
     }
 
+    const typesShowValueDirectly = [
+      'string',
+      'number',
+      'duration',
+      'byteSize',
+      'percent',
+      'comma_separated_string',
+      'oneof',
+      'file',
+    ]
+    const getEleForReadonly = (property: Properties[string]): JSX.Element | undefined => {
+      if (!property.path) return
+      property.path = replaceVarPath(property.path)
+      const { path, type } = property
+
+      /**
+       * do not use v-model directly because there have some prop in second level
+       * like the props under the connector field
+       */
+      const modelValue = _.get(configForm.value, path)
+      if (typesShowValueDirectly.includes(type)) {
+        return <p class="value">{modelValue}</p>
+      }
+      switch (type) {
+        case 'enum':
+          return <p class="value">{getOptLabel(modelValue)}</p>
+        case 'boolean':
+          return switchComponent({ ...property, readOnly: true })
+        case 'sql':
+          return switchComponent({ ...property, readOnly: true })
+        case 'array':
+          // TODO:TODO:TODO:TODO:
+          break
+        case 'ssl': {
+          const ele = switchComponent({ ...property, readOnly: true })
+          if (ele?.props) {
+            ele.props.readonly = true
+          }
+          return ele
+        }
+        default:
+          return <p class="value">{modelValue}</p>
+      }
+    }
+
     const setControl = (property: Properties[string]) => {
       if (!property.type) return
-      return switchComponent(setTypeForProperty(property))
+      const prop = setTypeForProperty(property)
+      return !props.readonly ? switchComponent(prop) : getEleForReadonly(prop)
     }
 
     const getLabelSlot = (property: Property) => {
@@ -436,6 +499,12 @@ const SchemaForm = defineComponent({
       const labelSlot = getLabelSlot(property)
       const colSpan = getColSpan(property) || col
       const colClass = getColClass(property)
+      // TODO:TODO:TODO:TODO:
+      const readonly = props.readonly
+      const bindProps = {
+        label: property.label,
+        prop: property.path,
+      }
 
       const colItem = (
         <el-col span={colSpan} class={colClass} key={property.path}>
@@ -446,12 +515,12 @@ const SchemaForm = defineComponent({
               placement="right"
               effect="dark"
             >
-              <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+              <el-form-item v-slots={labelSlot} {...bindProps}>
                 {setControl(property)}
               </el-form-item>
             </el-tooltip>
           ) : (
-            <el-form-item v-slots={labelSlot} label={property.label} prop={property.path}>
+            <el-form-item v-slots={labelSlot} {...bindProps}>
               {setControl(property)}
             </el-form-item>
           )}
@@ -486,12 +555,8 @@ const SchemaForm = defineComponent({
       ctx.emit('save', configForm.value)
     }
 
-    const getFormProps = () => {
-      if (props.type === 'bridge') {
-        return { labelPosition: 'top', requireAsteriskPosition: 'right' }
-      }
-      return { class: 'configuration-form', labelPosition: 'right', labelWidth: props.labelWidth }
-    }
+    const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
+    const getFormProps = () => ({ ...defaultFormProps, ...(props.formProps || {}) })
 
     const renderLayout = (contents: JSX.Element[]) => {
       const btnStyles = store.getters.configPageBtnStyle
@@ -506,7 +571,7 @@ const SchemaForm = defineComponent({
           <el-tab-pane label={tl(group)} name={group} />
         ))
         tabs = (
-          <el-tabs type="card" v-model={currentGroup.value} class="group-tabs">
+          <el-tabs v-model={currentGroup.value} class="group-tabs">
             {groupTabs}
           </el-tabs>
         )
@@ -711,11 +776,12 @@ const SchemaForm = defineComponent({
     const init = () => {
       handleComponentsData()
       initCurrentGroup()
-      if ((!props.form || isEmptyObj(props.form)) && props.needRecord) {
-        configForm.value = initRecordByComponents(components.value)
+      if (props.needRecord) {
+        let record = initRecordByComponents(components.value)
         if (typesNeedConciseSSL.includes(props.type)) {
-          configForm.value = handleSSLDataWhenUseConciseSSL(configForm.value)
+          record = handleSSLDataWhenUseConciseSSL(record)
         }
+        configForm.value = { ...record, ...(_.isObject(props.form) ? props.form : {}) }
       }
       handleSSLRuleWhenUseConciseSSL(rules.value)
     }
@@ -738,7 +804,8 @@ const SchemaForm = defineComponent({
           const oldComponent = _.cloneDeep(components.value)
           const oldRecord = _.cloneDeep(configForm.value)
           resetObjForGetComponent(nVal)
-
+          // Wait until the init function is called, and then process the record
+          await waitAMoment()
           // because change accordingTo will not reset parent component form value
           // so we need get new form and emit to parent for compare
           let newRecord = initRecordByComponents(components.value)

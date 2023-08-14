@@ -25,6 +25,10 @@ axios.interceptors.request.use(
     config.headers = {
       Authorization: 'Bearer ' + user.token,
     }
+    const controller = new AbortController()
+    config.signal = controller.signal
+    config.controller = controller
+    store.commit('ADD_ABORT_CONTROLLER', controller)
     return config
   },
   (error) => {
@@ -59,6 +63,9 @@ axios.interceptors.response.use(
     if (/\/trace\/.+\/download/.test(response.config.url)) {
       return response
     }
+    // Remove AbortController
+    const controller = response.config.controller
+    store.commit('REMOVE_ABORT_CONTROLLER', controller)
     return response.data || response.status
   },
   (error) => {
@@ -106,6 +113,9 @@ axios.interceptors.response.use(
       }
     } else {
       const doNotPopupError = error.code === REQUEST_TIMEOUT_CODE && error.config.handleTimeoutSelf
+      if (error.code === 'ERR_CANCELED' && error.message === 'canceled') {
+        return
+      }
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
           CustomMessage.error(i18n.global.t('Base.networkError'))
@@ -116,6 +126,9 @@ axios.interceptors.response.use(
 
     if (store.state.request_queue === 0) respSet = new Set()
     _.throttle(resetRespSet, 2000, { trailing: false })
+    // Remove AbortController
+    const controller = error.config.controller
+    store.commit('REMOVE_ABORT_CONTROLLER', controller)
 
     return Promise.reject(error)
   },

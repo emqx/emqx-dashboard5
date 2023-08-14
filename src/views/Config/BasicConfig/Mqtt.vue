@@ -1,12 +1,12 @@
 <template>
   <div class="mqtt app-wrapper">
-    <el-card>
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="mqtt"
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
         :form="configs"
-        :label-width="state.lang === 'zh' ? 240 : 284"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 240 : 284 }"
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"

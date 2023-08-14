@@ -35,15 +35,21 @@ export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
 
 export const RULE_INPUT_EVENT_PREFIX = '$events/'
 
+export const MULTI_LEVEL_WILDCARD = '#'
+
 export const RULE_TOPOLOGY_ID = 'rule-topology'
 
 export const QoSOptions = [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2]
+
+export const MQTTingressRemoteQoS = QoSOptions.filter((item) => item !== QoSLevel.QoS2)
 
 export const RULE_FROM_SEPARATOR = ','
 
 export const DEFAULT_FROM = 't/#'
 
 export const DEFAULT_SELECT = '*'
+
+export const RULE_LOGICAL_OPERATORS = ['>', '<', '<=', '>=', '<>', '!=', '=', '=~']
 
 export const IP_REG =
   /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
@@ -232,3 +238,5 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
+// prefix for HTTP bridge **name** and rule **id**
+export const WEBHOOK_PREFIX = 'DASHBOARD_WEBHOOK_'

@@ -1,59 +1,66 @@
-# Dashboard for EMQX 5.0
+# EMQX 5.0 Dashboard
 
-EMQX Dashboard is a built-in management console for EMQX. It enables users to effortlessly manage and monitor EMQX clusters, configure required features, and visualize data through a web interface.
+![Build Status](https://github.com/emqx/emqx-dashboard5/actions/workflows/build_oss_package.yaml/badge.svg)
 
-![image](./assets/overview.png)
+![Build Status](https://github.com/emqx/emqx-dashboard5/actions/workflows/build_enterprise_package.yaml/badge.svg)
 
-## Key Features
+EMQX Dashboard is a comprehensive web interface for managing and monitoring EMQX. This intuitive tool allows users to effortlessly oversee EMQX clusters, customize features, and display data visually.
 
-- Data monitoring and management: clear overview of important data
+![image](./assets/overview-light.png)
 
-- Visual access control management: out-of-the-box authentication and authorization
+## 🎯 Key Features
 
-- Robust data integration capabilities: flow editor and bi-directional data bridge
+- **Data Monitoring & Management**: Get a comprehensive overview of crucial data.
+  
+- **Visual Access Control Management**: Pre-configured authentication and authorization.
+  
+- **Robust Data Integration Capabilities**: Includes a flow editor and bi-directional data bridge.
+  
+- **Real-time Configuration Updates**: Hot updates with instant configuration saving.
+  
+- **Customizable Extension Capabilities**: Built-in gateways, plugins, and hooks.
+  
+- **Comprehensive Diagnostic Tools**: Enables timely problem identification and resolution.
 
-- Real-time configuration updates: hot updates with immediate configuration saving
+## 🚀 Getting Started
 
-- Customizable extension capabilities: built-in gateways, plugins, and Hooks
+First, ensure that the latest version of [EMQX](https://www.emqx.com/en/try?product=broker) is installed.
 
-- Comprehensive diagnostic tools: timely problem identification and resolution
+Post successful installation, access the EMQX Dashboard by opening <http://localhost:18083/> in your browser (replace `localhost` with the actual IP if not on local machine). By default, the EMQX Dashboard listens on port 18083.
 
-## Running
+> EMQX can operate without the Dashboard. The Dashboard provides a convenient visual interface for users.
 
-First, install the latest version of [EMQX](https://www.emqx.com/en/try?product=broker).
+## 🤝 Get Involved
 
-Upon successful EMQX installation, access and use the EMQX Dashboard by opening <http://localhost:18083/> (replace localhost with the actual IP address if deployed on a non-local machine) in your browser. By default, EMQX Dashboard listens on port 18083 as a web application.
+- Stay updated with the latest news by following [@EMQTech on Twitter](https://twitter.com/EMQTech).
+  
+- Have a question? Check our [discussion forums](https://github.com/emqx/emqx/discussions).
+  
+- Join our [official Discord](https://discord.gg/xYGf3fQnES) for general discussions.
+  
+- Subscribe to our [EMQX YouTube](https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q) channel for video resources.
 
-> "Note that EMQX can still function without the Dashboard enabled. The Dashboard merely offers a visual interface for users".
-
-## Get Involved
-
-- Follow [@EMQTech on Twitter](https://twitter.com/EMQTech).
-- If you have a specific question, check out our [discussion forums](https://github.com/emqx/emqx/discussions).
-- For general discussions, join us on the [official Discord](https://discord.gg/xYGf3fQnES) team.
-- Keep updated on [EMQX YouTube](https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q) by subscribing.
-
-## Resources
+## 📘 Useful Resources
 
 - [MQTT client programming](https://www.emqx.com/en/blog/tag/mqtt-client-programming)
 
-  A collection of blog posts to help developers quickly learn MQTT in PHP, Node.js, Python, Golang, and other programming languages.
+  Learn MQTT in PHP, Node.js, Python, Golang, and more with this collection of blog posts.
 
 - [MQTT SDKs](https://www.emqx.com/en/mqtt-client-sdk)
 
-  Explore popular MQTT client SDKs in various programming languages, complete with code examples to facilitate a better understanding of MQTT clients.
+  Browse popular MQTT client SDKs in various programming languages, complemented with code examples.
 
-- [MQTT X](https://mqttx.app/)
+- [MQTTX](https://mqttx.app/)
 
-  An elegant cross-platform MQTT 5.0 client tool that provides desktop, command line, and web to help you develop and debug MQTT services and applications faster.
+  A versatile cross-platform MQTT 5.0 client tool offering desktop, command-line, and web interfaces.
 
 - [Internet of Vehicles](https://www.emqx.com/en/blog/category/internet-of-vehicles)
 
-  Build a reliable, efficient, and industry-specific IoV platform based on EMQ's practical experience, from protocol selection to platform architecture design.
+  Build a reliable, efficient, and industry-specific IoV platform leveraging EMQ's practical experience.
 
-## Local Development
+## 💻 Local Development
 
-To set up the project for local development, follow these steps:
+To set up for local development, follow these steps:
 
 1. Fork the repository and clone your fork:
 
@@ -62,7 +69,7 @@ To set up the project for local development, follow these steps:
     cd emqx-dashboard5
     ```
 
-    Alternatively, you can clone the original repository directly:
+   Or, clone the original repository directly:
 
     ```shell
     git clone https://github.com/emqx/emqx-dashboard5.git
@@ -75,13 +82,13 @@ To set up the project for local development, follow these steps:
     yarn
     ```
 
-3. Run the following command to start the development server:
+3. To start the development server, run:
 
     ```shell
     yarn serve
     ```
 
-4. Compile and minify for production:
+4. For production compilation and minification:
 
     ```shell
     yarn build
@@ -93,36 +100,36 @@ To set up the project for local development, follow these steps:
     yarn lint
     ```
 
-    or Format code with Prettier:
+   Or, format the code with Prettier:
 
     ```shell
     yarn format
     ```
 
-## Development with Cloud Host
+## ☁️ Development with Cloud Host
 
-To compile and hot-reload for development with a cloud host, follow these steps:
+To set up for development with a cloud host:
 
-1. Create a new file named `.env.development.local`
+1. Create a new `.env.development.local` file:
 
     ```shell
     touch .env.development.local
     ```
 
-2. Define your cloud host address in the `.env.development.local` file in the root directory:
+2. Define your cloud host address in the `.env.development.local` file:
 
     ```shell
     HOST_URL=http://your-cloud-host:port/
     ```
 
-3. Run the following command to start the development server:
+3. Start the development server:
 
     ```shell
     yarn serve
     ```
 
-## Customize configuration
+## ⚙️ Vue.js Customize Configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Refer to the [Configuration Reference](https://cli.vuejs.org/config/) for more information.
 
-The CI will then run automatically, and it will be released after the run is complete.
+After the completion of setup, the CI will run automatically and deploy upon successful execution.

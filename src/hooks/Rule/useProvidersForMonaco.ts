@@ -3,8 +3,8 @@ import { BridgeItem, RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
 import { Ref, ref } from 'vue'
 import useI18nTl from '../useI18nTl'
-import useRuleSourceEvents from './bridge/useRuleSourceEvents'
-import keysInRule from './KeysInRule.json'
+import useRuleSourceEvents from './rule/useRuleSourceEvents'
+import keysInRule from './KeysInRule'
 import { camelCase } from 'lodash'
 
 const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
@@ -71,30 +71,17 @@ export default (): {
    */
   const funcArr: Array<string> = []
 
-  const builtInFuncsDependencyProposals = (
-    Object.keys(builtInSQLFuncs) as Array<keyof typeof builtInSQLFuncs>
-  )
-    .reduce((arr: Array<EventDepItem>, currentType) => {
-      const funArr = builtInSQLFuncs[currentType]
-      funcArr.push(...funArr)
-      const currentDep = funArr.map((funcName: string) => ({
-        label: funcName,
-        kind: monaco.languages.CompletionItemKind.Function,
-        documentation: createFuncDoc(funcName),
-        insertText: `${funcName}(\${1})`,
-        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      }))
-      return [...arr, ...currentDep] as Array<EventDepItem>
-    }, [])
-    .concat(
-      jqFunc.map((func) => ({
-        label: func,
-        kind: monaco.languages.CompletionItemKind.Function,
-        documentation: createFuncDoc(func),
-        insertText: `${func}(\${1})`,
-        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      })),
-    )
+  const generateFuncProposal = (funcName: string) => ({
+    label: funcName,
+    kind: monaco.languages.CompletionItemKind.Function,
+    documentation: createFuncDoc(funcName),
+    insertText: `${funcName}(\${1})`,
+    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+  })
+
+  const builtInFuncsDependencyProposals = builtInSQLFuncs
+    .map((funcName) => generateFuncProposal(funcName))
+    .concat(jqFunc.map((funcName) => generateFuncProposal(funcName)))
 
   const getEventForHover = (
     content: monaco.editor.IWordAtPosition,

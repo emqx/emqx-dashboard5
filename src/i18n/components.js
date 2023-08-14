@@ -129,10 +129,18 @@ export default {
     en: 'Integration',
     ja: '統合',
   },
+  flowDesigner: {
+    zh: 'Flows 设计器',
+    en: 'Flows Designer',
+  },
   flow: {
     zh: 'Flows',
     en: 'Flows',
     ja: 'フロー',
+  },
+  webhook: {
+    zh: 'Webhook',
+    en: 'Webhook',
   },
   resources: {
     zh: '资源',

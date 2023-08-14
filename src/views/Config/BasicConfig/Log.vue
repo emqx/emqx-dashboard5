@@ -1,6 +1,6 @@
 <template>
   <div class="log app-wrapper">
-    <el-card class="config-card">
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         :according-to="{ path: '/configs/log' }"
@@ -10,7 +10,7 @@
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
         :data-handler="handleFileSchema"
-        :label-width="state.lang === 'zh' ? 284 : 336"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 284 : 336 }"
         @save="handleSave"
       />
     </el-card>

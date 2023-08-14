@@ -1,6 +1,6 @@
 <template>
   <div class="limiter app-wrapper">
-    <el-card class="config-card">
+    <el-card class="app-card">
       <schema-form
         need-rules
         type="limiter"
@@ -10,7 +10,7 @@
         :record-loading="configLoading"
         :data-handler="addPattern"
         :according-to="{ path: '/configs/limiter' }"
-        :label-width="state.lang === 'zh' ? 140 : 236"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 140 : 236 }"
         @save="handleSave"
       />
     </el-card>

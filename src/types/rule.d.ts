@@ -18,13 +18,16 @@ export interface Headers {
   'content-type': string
 }
 
+export interface RePub {
+  payload: string
+  topic: string
+  qos: QoSLevel
+  retain: boolean
+}
+
 export interface OutputItemObj {
   function: string
-  args?: {
-    payload: string
-    topic: string
-    qos: QoSLevel
-  }
+  args?: RePub
 }
 
 /**
@@ -33,13 +36,13 @@ export interface OutputItemObj {
  */
 export type OutputItem = string | OutputItemObj
 
-export type FromData = Array<string> | string
+export type FromData = Array<string>
 
 export interface BasicRule {
   id: string
   name?: string
   sql: string
-  actions: Array<OutputItem> | OutputItem
+  actions: Array<OutputItem>
   description: string
 }
 
@@ -103,13 +106,13 @@ export interface HTTPBridge extends BridgeBaseData {
 
 export interface MQTTBridgeTransConfiguration {
   payload: string
-  qos: string
-  retain: string
+  qos: string | number
+  retain: boolean
   topic: string
 }
 
 export interface MQTTBridgeEgress {
-  pool_size: number
+  pool_size?: number
   local: {
     topic: string
   }
@@ -117,7 +120,7 @@ export interface MQTTBridgeEgress {
 }
 
 export interface MQTTBridgeIngress {
-  pool_size: number
+  pool_size?: number
   local: MQTTBridgeTransConfiguration
   remote: {
     qos: number
@@ -131,7 +134,6 @@ export interface MQTTBridge extends BridgeBaseData {
   ingress: MQTTBridgeIngress
   keepalive: string
   max_inflight: number
-  mode: string
   password: string
   clean_start: boolean
   proto_ver: string
@@ -145,7 +147,6 @@ export interface MQTTOut extends BridgeBaseData {
   connector: string | Record<string, any>
   direction: MQTTBridgeDirection
   payload: string
-  remote_topic: string
   retain: boolean
   remote_qos: QoSLevel
 }

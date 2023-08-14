@@ -1,0 +1,1163 @@
+[
+  {
+    "groupLabel": "mathFunc",
+    "list": [
+      {
+        "name": "abs",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "cos",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "cosh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "acos",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "acosh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sin",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sinh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "asin",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "asinh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "tan",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "tanh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "atan",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "atanh",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "ceil",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "floor",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "round",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "exp",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "power",
+        "args": [
+          {
+            "name": "Base",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "Exponent",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sqrt",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "fmod",
+        "args": [
+          {
+            "name": "Numer",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "Denom",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log10",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "log2",
+        "args": [
+          {
+            "name": "Value",
+            "type": "number",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "dataTypeJudgmentFunc",
+    "list": [
+      {
+        "name": "is_null",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_not_null",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_str",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_bool",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_int",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_float",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_num",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_map",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "is_array",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "dataTypeConversionFunc",
+    "list": [
+      {
+        "name": "str",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "str_utf8",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "bool",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "int",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "float",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "float2str",
+        "args": [
+          {
+            "name": "Value",
+            "type": "float",
+            "required": true
+          },
+          {
+            "name": "Precision",
+            "type": "integer",
+            "default": 2,
+            "range": [
+              0,
+              32
+            ],
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "map",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "stringFunc",
+    "list": [
+      {
+        "name": "lower",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "upper",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "trim",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "ltrim",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "rtrim",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "reverse",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "strlen",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "substr",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "StartPosition",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "Length",
+            "type": "number",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "split",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Separator",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Direction",
+            "required": false,
+            "type": "enum",
+            "optionalValues": [
+              "leading",
+              "trailing"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "concat",
+        "args": [
+          {
+            "name": "String1",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "String2",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "tokens",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Separator",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "PreserveCRLF",
+            "type": "enum",
+            "optionalValues": [
+              "nocrlf"
+            ],
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "sprintf",
+        "args": []
+      },
+      {
+        "name": "pad",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "TotalLength",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "PaddingDirection",
+            "type": "enum",
+            "optionalValues": [
+              "both",
+              "leading",
+              "trailing"
+            ],
+            "required": false
+          },
+          {
+            "name": "PaddingString",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "replace",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "OldSubStr",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Replacement",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "ReplaceCount",
+            "type": "enum",
+            "optionalValues": [
+              "all",
+              "trailing",
+              "leading"
+            ],
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "regex_match",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Pattern",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "regex_replace",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Pattern",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Replacement",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "ascii",
+        "args": [
+          {
+            "name": "Character",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "find",
+        "args": [
+          {
+            "name": "String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "SubstringToBeFound",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "DirectionToFind",
+            "type": "enum",
+            "optionalValues": [
+              "leading",
+              "trailing"
+            ],
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "mapFunc",
+    "list": [
+      {
+        "name": "map_get",
+        "args": [
+          {
+            "name": "Key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Map",
+            "type": "object",
+            "required": true
+          },
+          {
+            "name": "DefaultValue",
+            "type": "any",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "map_put",
+        "args": [
+          {
+            "name": "Key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          },
+          {
+            "name": "Map",
+            "type": "object",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "arrFunc",
+    "list": [
+      {
+        "name": "nth",
+        "args": [
+          {
+            "name": "Index",
+            "type": "integer",
+            "range": [
+              1,
+              null
+            ],
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "length",
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sublist",
+        "args": [
+          {
+            "name": "StartIndex",
+            "type": "integer",
+            "range": [
+              1,
+              null
+            ],
+            "required": false
+          },
+          {
+            "name": "Length",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "first",
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "last",
+        "args": [
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "contains",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          },
+          {
+            "name": "Array",
+            "type": "array",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "hashFunc",
+    "list": [
+      {
+        "name": "md5",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sha",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sha256",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "compressesAndUncompressesFunc",
+    "list": [
+      {
+        "name": "gzip",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "gunzip",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "zip",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "unzip",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "zip_compress",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "zip_uncompress",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "bitFunc",
+    "list": [
+      {
+        "name": "subbits",
+        "args": [
+          {
+            "name": "BinaryData",
+            "type": "binary",
+            "required": true
+          },
+          {
+            "name": "BinaryStartIndex",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "Length",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "DataType",
+            "type": "enum",
+            "optionalValues": [
+              "integer",
+              "float",
+              "bits"
+            ],
+            "required": false
+          },
+          {
+            "name": "Signedness",
+            "type": "enum",
+            "optionalValues": [
+              "unsigned",
+              "signed"
+            ],
+            "required": false
+          },
+          {
+            "name": "Endian",
+            "type": "enum",
+            "optionalValues": [
+              "big",
+              "little"
+            ],
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "decodingAndEncodingFunc",
+    "list": [
+      {
+        "name": "base64_encode",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "base64_decode",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "json_encode",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "json_decode",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "bin2hexstr",
+        "args": [
+          {
+            "name": "Value",
+            "type": "binary",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "hexstr2bin",
+        "args": [
+          {
+            "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "groupLabel": "timeAndDateFunc",
+    "list": [
+      {
+        "name": "now_timestamp",
+        "args": []
+      },
+      {
+        "name": "now_rfc3339",
+        "args": []
+      },
+      {
+        "name": "unix_ts_to_rfc3339",
+        "args": [
+          {
+            "name": "UnixTimestamp",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "rfc3339_to_unix_ts",
+        "args": [
+          {
+            "name": "RFC3339String",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "format_date",
+        "args": [
+          {
+            "name": "TimeUnit",
+            "type": "enum",
+            "optionalValues": [
+              "second",
+              "millisecond",
+              "microsecond",
+              "nanosecond"
+            ],
+            "required": false
+          },
+          {
+            "name": "TimeOffset",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "DateFormat",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Timestamp",
+            "type": "number",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "date_to_unix_ts",
+        "args": []
+      }
+    ]
+  }
+]
