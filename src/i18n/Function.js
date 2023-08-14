@@ -78,7 +78,7 @@ export default {
     en: 'Start Position',
   },
   Separator: {
-    zh: '',
+    zh: '分割符',
     en: 'Separator',
   },
   Direction: {
