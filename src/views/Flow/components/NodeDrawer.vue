@@ -243,6 +243,11 @@ watch(showDialog, (val) => {
       text-align: right;
     }
   }
+  .mqtt-bridge-trans-configuration {
+    .monaco-container {
+      margin-top: 0;
+    }
+  }
   .message-form,
   .event-form {
     width: 80%;
