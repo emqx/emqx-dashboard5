@@ -69,6 +69,14 @@
               v-model="configData"
               is-edit
             />
+            <ldap-config
+              auth-type="authz"
+              v-else-if="type === 'ldap'"
+              v-model="configData"
+              ref="formCom"
+              is-edit
+            >
+            </ldap-config>
             <el-button @click="$router.push('/authorization')">
               {{ $t('Base.cancel') }}
             </el-button>
@@ -98,6 +106,7 @@ import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
 import useAuth from '@/hooks/Auth/useAuth'
 import AuthzManager from './components/AuthzManager.vue'
 import HttpConfig from './components/HttpConfig.vue'
+import LdapConfig from './components/LdapConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
@@ -114,6 +123,7 @@ export default defineComponent({
     DatabaseConfig,
     AuthzManager,
     HttpConfig,
+    LdapConfig,
     AuthItemOverview,
     AuthItemStatus,
   },
