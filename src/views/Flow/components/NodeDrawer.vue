@@ -225,6 +225,19 @@ watch(showDialog, (val) => {
 <style lang="scss">
 .node-drawer {
   .bridge-config {
+    .el-form-item {
+      margin-top: 0;
+      margin-bottom: 24px;
+    }
+    .el-divider--horizontal {
+      margin-top: 0;
+    }
+    .el-form-item__label {
+      height: 32px;
+      align-items: center;
+      text-align: right;
+      line-height: 1.2;
+    }
     $input-append-width: 120px;
     .el-form-item__content,
     .oneof-item {
@@ -238,9 +251,6 @@ watch(showDialog, (val) => {
     }
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
-    }
-    .el-form-item__label {
-      text-align: right;
     }
   }
   .mqtt-bridge-trans-configuration {
