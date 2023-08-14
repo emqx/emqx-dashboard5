@@ -257,6 +257,8 @@
               prop-key="topic_mapping"
               v-model="formData.topic_mapping"
               :properties="consumerComponents?.topic_mapping?.items?.properties"
+              :edit-mode="colSpan === 12 ? 'table' : 'list'"
+              :readonly="readonly"
             />
           </CustomFormItem>
         </el-col>

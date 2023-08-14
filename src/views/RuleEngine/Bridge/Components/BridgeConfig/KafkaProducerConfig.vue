@@ -55,6 +55,8 @@
             v-model="kafkaConfig.kafka_ext_headers"
             :properties="props.headersProperties"
             prop-key="kafka.kafka_ext_headers"
+            :edit-mode="colSpan === 12 ? 'table' : 'list'"
+            :readonly="readonly"
           />
         </el-form-item>
       </el-col>
