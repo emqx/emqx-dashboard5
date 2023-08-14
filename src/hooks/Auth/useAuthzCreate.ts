@@ -110,6 +110,22 @@ export default function useAuthzCreate() {
       ...createResourceOpt(),
     }
   }
+  const getLdapConfig = () => {
+    return {
+      query_timeout: '5s',
+      enable: true,
+      server: 'localhost:389',
+      pool_size: 8,
+      username: '',
+      password: '',
+      base_dn: '',
+      filter: '(& (objectClass=mqttUser) (uid=${username}))',
+      ssl: createSSLForm(),
+      publish_attribute: 'mqttPublishTopic',
+      subscribe_attribute: 'mqttSubscriptionTopic',
+      all_attribute: 'mqttPubSubTopic',
+    }
+  }
   const factory = (type: string) => {
     switch (type) {
       case 'file':
@@ -126,6 +142,8 @@ export default function useAuthzCreate() {
         return getRedisConfig()
       case 'built_in_database':
         return {}
+      case 'ldap':
+        return getLdapConfig()
     }
   }
   const create = (config: any, type: string) => {
