@@ -69,6 +69,10 @@ export default {
     en: 'Save',
     ja: '保存',
   },
+  done: {
+    zh: '完成',
+    en: 'Done',
+  },
   saveChanges: {
     zh: '保存修改',
     en: 'Save Changes',

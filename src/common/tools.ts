@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { BridgeItem } from '@/types/rule'
 import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
+import { ListDataWithPagination } from '@/types/common'
+import { BridgeType } from '@/types/enum'
 
 export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
@@ -226,14 +227,14 @@ export const handleSQLFromPartStatement = (fromStr: string): string => {
 }
 
 /**
- * If there is FOREACH in the SQL statement
- * put the FOREACH and the following statements into the SELECT
+ * Compared with the `getKeywordsFromSQL` below, the difference is that when a value cannot be obtained here, it returns undefined.
+ * TODO: Merge the function below.
  */
-export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
+export const getKeyPartsFromSQL = (sqlStr: string) => {
   const sql = sqlStr.trim()
-  let fieldStr = ''
-  let fromStr = ''
-  let whereStr = ''
+  let fieldStr = undefined
+  let fromStr = undefined
+  let whereStr = undefined
   let matchResult = null
 
   const isForeachReg = /^FOREACH/i
@@ -260,19 +261,80 @@ export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
   }
 }
 
-export const formatSELECTStatement = (str: string): string => {
-  const isForeach = /^FOREACH(.|\n)+/i.test(str)
-  if (isForeach) {
-    return str
+/**
+ * If there is FOREACH in the SQL statement
+ * put the FOREACH and the following statements into the SELECT
+ */
+export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
+  const { fieldStr = '', fromStr = '', whereStr = '' } = getKeyPartsFromSQL(sqlStr)
+  return {
+    fieldStr,
+    fromStr,
+    whereStr,
   }
-  return str
-    .split(',')
-    .map((item) => item.trim())
-    .join(',\n  ')
 }
 
-export const getBridgeKey = ({ type, name }: Omit<BridgeItem, 'id' | 'idForRuleFrom'>): string =>
-  `${type}:${name}`
+export const addNewlineAfterComma = (input: string): string => {
+  const bracketStack: Array<string> = []
+  let quoteFlag = false
+  let output = ''
+
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input[i]
+
+    if (currentChar === '(') {
+      bracketStack.push(currentChar)
+    } else if (currentChar === ')') {
+      if (bracketStack.length > 0) {
+        bracketStack.pop()
+      }
+    } else if (currentChar === "'") {
+      quoteFlag = !quoteFlag
+    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+      output += currentChar + '\n'
+      continue
+    }
+
+    output += currentChar
+  }
+
+  return output
+}
+
+export const splitOnComma = (input: string): string[] => {
+  const bracketStack: Array<string> = []
+  let quoteFlag = false
+  const output = ['']
+
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input[i]
+
+    if (currentChar === '(') {
+      bracketStack.push(currentChar)
+    } else if (currentChar === ')') {
+      if (bracketStack.length > 0) {
+        bracketStack.pop()
+      }
+    } else if (currentChar === "'") {
+      quoteFlag = !quoteFlag
+    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+      output.push('')
+      continue
+    }
+
+    output[output.length - 1] += currentChar
+  }
+
+  return output
+}
+
+export const trimSpacesAndLFs = (input: string): string =>
+  input.replace(/(^\s+)|(\s+$)/g, '').replace(/(^\n+)|(\n+$)/g, '')
+
+export const getBridgeKey = ({
+  type,
+  name,
+}: { type: BridgeType; name: string } & unknown): string => `${type}:${name}`
 
 export const usefulMemoryUnit = ['KB', 'MB', 'GB']
 
@@ -580,3 +642,32 @@ export const isJSONString = (str: string): boolean => {
 
 export const createOrderObj = (keyArr: Array<string>, beginning: number) =>
   keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
+
+export const getAllListData = async <T>(
+  requestFunc: (params: any) => Promise<ListDataWithPagination<T>>,
+): Promise<Array<T>> => {
+  try {
+    const limit = 1000
+    let page = 1
+    let allData: T[] = []
+    let data: ListDataWithPagination<T>
+
+    do {
+      data = await requestFunc({ page, limit })
+      allData = allData.concat([...data.data])
+      page++
+    } while (data.meta.count && allData.length < data.meta.count && data.data.length)
+
+    return Promise.resolve(allData)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+/**
+ * will change original arr
+ */
+export const removeFromArr = <T>(arr: Array<T>, index: number): Array<T> => {
+  arr.splice(index, 1)
+  return arr
+}

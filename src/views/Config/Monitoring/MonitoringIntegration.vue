@@ -1,6 +1,6 @@
 <template>
   <div class="monitoring-integration app-wrapper">
-    <el-card class="config-card" v-loading="isDataLoading">
+    <el-card class="app-card" v-loading="isDataLoading">
       <div class="schema-form">
         <el-form
           class="configuration-form"

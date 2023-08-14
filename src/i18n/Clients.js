@@ -179,11 +179,6 @@ export default {
     en: 'Client',
     ja: 'クライアントの詳細',
   },
-  basicInfo: {
-    zh: '基本信息',
-    en: 'Basic Info',
-    ja: '基本情報',
-  },
   subscriptions: {
     zh: '订阅数',
     en: 'Subscriptions',

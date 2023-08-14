@@ -236,6 +236,8 @@ syncPolling(loadData, POLLING_INTERVAL)
 .graph-wrapper {
   display: flex;
   flex-direction: column;
+  background: var(--color-bg-split);
+  border-radius: 8px;
 }
 .graph-entity {
   display: flex;
@@ -265,7 +267,6 @@ syncPolling(loadData, POLLING_INTERVAL)
 
 .node-detail {
   width: 55%;
-  background: var(--color-bg-split);
   padding: 26px 26px 8px;
   .node-card-header {
     display: flex;

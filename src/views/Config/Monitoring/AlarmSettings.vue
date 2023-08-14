@@ -1,13 +1,13 @@
 <template>
   <div class="alarm-settings app-wrapper">
-    <el-card class="config-card">
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="sysmon"
         :according-to="{ path: '/configs/sysmon' }"
         :form="configs"
         :btn-loading="saveLoading"
-        :label-width="state.lang === 'zh' ? 228 : 360"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 228 : 360 }"
         :record-loading="configLoading"
         @save="handleSave"
       />

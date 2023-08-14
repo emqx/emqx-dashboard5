@@ -3,73 +3,88 @@
     <el-form-item :label="verifyLabel || $t('Base.tlsVerify')">
       <el-switch
         v-model="record.verify"
+        :disabled="readonly"
         :active-value="SSL_VERIFY_VALUE_MAP.get(true)"
         :inactive-value="SSL_VERIFY_VALUE_MAP.get(false)"
       />
     </el-form-item>
-    <el-form-item label="SNI" v-if="showSni" :prop="getFormItemProp(`server_name_indication`)">
+    <CustomFormItem
+      label="SNI"
+      v-if="showSni"
+      :readonly="readonly"
+      :prop="getFormItemProp(`server_name_indication`)"
+    >
       <el-input class="TLS-input" v-model="record.server_name_indication" />
-    </el-form-item>
+    </CustomFormItem>
     <el-form-item :prop="getFormItemProp(`certfile`)">
       <template #label>
         <span>TLS Cert</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
       </template>
       <!-- TODO: use CertFileInput.vue -->
-      <TextareaWithUploader
-        v-if="!isEdit || !record.certfile || openResetMap.certfile"
-        class="TLS-input"
-        v-model="record.certfile"
-        :accept="CER_FILE_ACCEPTS"
-        :placeholder="$t('Base.certPlaceholder')"
-        @vnode-mounted="editConfigItem('certfile')"
-      />
-      <ConfigItemDataLook
-        v-else
-        class="TLS-input"
-        :value="record.certfile"
-        @reset="editConfigItem('certfile')"
-      />
+      <template v-if="!readonly">
+        <TextareaWithUploader
+          v-if="!isEdit || !record.certfile || openResetMap.certfile"
+          class="TLS-input"
+          v-model="record.certfile"
+          :accept="CER_FILE_ACCEPTS"
+          :placeholder="$t('Base.certPlaceholder')"
+          @vnode-mounted="editConfigItem('certfile')"
+        />
+        <ConfigItemDataLook
+          v-else
+          class="TLS-input"
+          :value="record.certfile"
+          @reset="editConfigItem('certfile')"
+        />
+      </template>
+      <p class="value" v-else>{{ record.certfile }}</p>
     </el-form-item>
     <el-form-item :prop="getFormItemProp(`keyfile`)">
       <template #label>
         <span>TLS Key</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
       </template>
-      <TextareaWithUploader
-        v-if="!isEdit || !record.keyfile || openResetMap.keyfile"
-        class="TLS-input"
-        v-model="record.keyfile"
-        :accept="CER_FILE_ACCEPTS"
-        :placeholder="$t('Base.keyFilePlaceholder')"
-        @vnode-mounted="editConfigItem('keyfile')"
-      />
-      <ConfigItemDataLook
-        v-else
-        class="TLS-input"
-        :value="record.keyfile"
-        @reset="editConfigItem('keyfile')"
-      />
+      <template v-if="!readonly">
+        <TextareaWithUploader
+          v-if="!isEdit || !record.keyfile || openResetMap.keyfile"
+          class="TLS-input"
+          v-model="record.keyfile"
+          :accept="CER_FILE_ACCEPTS"
+          :placeholder="$t('Base.keyFilePlaceholder')"
+          @vnode-mounted="editConfigItem('keyfile')"
+        />
+        <ConfigItemDataLook
+          v-else
+          class="TLS-input"
+          :value="record.keyfile"
+          @reset="editConfigItem('keyfile')"
+        />
+      </template>
+      <p class="value" v-else>{{ record.keyfile }}</p>
     </el-form-item>
     <el-form-item :prop="getFormItemProp(`cacertfile`)">
       <template #label>
         <span>CA Cert</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
       </template>
-      <TextareaWithUploader
-        v-if="!isEdit || !record.cacertfile || openResetMap.cacertfile"
-        class="TLS-input"
-        v-model="record.cacertfile"
-        :accept="CER_FILE_ACCEPTS"
-        :placeholder="$t('Base.certPlaceholder')"
-        @vnode-mounted="editConfigItem('cacertfile')"
-      />
-      <ConfigItemDataLook
-        v-else
-        class="TLS-input"
-        :value="record.cacertfile"
-        @reset="editConfigItem('cacertfile')"
-      />
+      <template v-if="!readonly">
+        <TextareaWithUploader
+          v-if="!isEdit || !record.cacertfile || openResetMap.cacertfile"
+          class="TLS-input"
+          v-model="record.cacertfile"
+          :accept="CER_FILE_ACCEPTS"
+          :placeholder="$t('Base.certPlaceholder')"
+          @vnode-mounted="editConfigItem('cacertfile')"
+        />
+        <ConfigItemDataLook
+          v-else
+          class="TLS-input"
+          :value="record.cacertfile"
+          @reset="editConfigItem('cacertfile')"
+        />
+      </template>
+      <p class="value" v-else>{{ record.cacertfile }}</p>
     </el-form-item>
   </div>
 </template>
@@ -83,11 +98,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { SSL_VERIFY_VALUE_MAP, CER_FILE_ACCEPTS } from '@/common/constants'
+import { CER_FILE_ACCEPTS, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
-import { computed, defineEmits, defineProps, PropType, Ref, ref, WritableComputedRef } from 'vue'
+import { PropType, Ref, WritableComputedRef, computed, defineEmits, defineProps, ref } from 'vue'
+import CustomFormItem from '../CustomFormItem.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 
@@ -121,6 +137,10 @@ const props = defineProps({
         return undefined
       }
     },
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 

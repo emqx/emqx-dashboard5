@@ -51,6 +51,10 @@ export default {
     zh: '配置信息',
     en: 'Configuration',
   },
+  HTTPServer: {
+    zh: 'HTTP 服务',
+    en: 'HTTP Server',
+  },
   bridgeDescHTTP: {
     zh: '发送数据到 HTTP 服务',
     en: 'Send data to HTTP Server',
@@ -63,12 +67,32 @@ export default {
     zh: '请求方法',
     en: 'Method',
   },
+  trigger: {
+    zh: '触发器',
+    en: 'Trigger',
+  },
+  topicFilter: {
+    zh: '主题过滤',
+    en: 'Topic Filter',
+  },
+  addTopic: {
+    zh: '添加主题',
+    en: 'Add Topic',
+  },
+  repeatedTopic: {
+    zh: '重复的主题',
+    en: 'Repeated topics',
+  },
   connParams: {
     zh: '连接参数',
     en: 'Connection',
   },
   brokerAddress: {
     zh: 'MQTT 服务地址',
+    en: 'MQTT Broker',
+  },
+  mqttBroker: {
+    zh: 'MQTT 服务',
     en: 'MQTT Broker',
   },
   mqttVer: {
@@ -176,6 +200,10 @@ export default {
     zh: '规则',
     en: 'rule',
   },
+  createWebhook: {
+    zh: '创建 Webhook',
+    en: 'Create Webhook',
+  },
   resetMetricsConfirm: {
     zh: '是否确认重置该{target}统计数据？',
     en: 'Are you sure you want to reset this {target} statistic?',
@@ -207,6 +235,10 @@ export default {
   sqlEditor: {
     zh: 'SQL 编辑器',
     en: 'SQL Editor',
+  },
+  message: {
+    zh: '消息',
+    en: 'Message',
   },
   messages: {
     zh: '消息',
@@ -243,6 +275,10 @@ export default {
   type: {
     zh: '类型',
     en: 'Type',
+  },
+  function: {
+    zh: '数据处理',
+    en: 'Function',
   },
   sqlPassed: {
     zh: '通过',
@@ -566,6 +602,10 @@ export default {
     zh: '测试连接',
     en: 'Test Connectivity',
   },
+  testConnectivity: {
+    zh: '测试',
+    en: 'Test',
+  },
   test: {
     zh: '启用调试',
     en: 'Enable Test',
@@ -642,9 +682,17 @@ export default {
     zh: '自定义主题',
     en: 'Custom topic',
   },
+  event: {
+    zh: '事件',
+    en: 'Event',
+  },
   events: {
     zh: '事件',
     en: 'Events',
+  },
+  allMsgsAndEvents: {
+    zh: '所有消息和事件',
+    en: 'All Message and Events',
   },
   eventsDesc: {
     zh: '规则可以通过 MQTT 消息、事件或数据桥来触发。在 SQL 中，多个数据源可以使用逗号分隔。',
@@ -805,5 +853,9 @@ export default {
   sync: {
     zh: '同步',
     en: 'Sync',
+  },
+  advancedSettings: {
+    zh: '高级设置',
+    en: 'Advanced Settings',
   },
 }

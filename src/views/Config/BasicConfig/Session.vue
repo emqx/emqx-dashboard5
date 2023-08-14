@@ -1,6 +1,6 @@
 <template>
   <div class="session app-wrapper">
-    <el-card>
+    <el-card class="app-card">
       <schema-form
         ref="SchemaFormCom"
         type="session"
@@ -8,7 +8,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
-        :label-width="state.lang === 'zh' ? 204 : 276"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 204 : 276 }"
         :props-order-map="propsOrderMap"
         :data-handler="handleSessionSchema"
         @save="handleSave"

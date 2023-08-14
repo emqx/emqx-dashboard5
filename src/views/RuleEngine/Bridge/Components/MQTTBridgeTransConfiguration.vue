@@ -1,31 +1,33 @@
 <template>
   <div class="mqtt-bridge-trans-configuration">
-    <el-form-item :prop="getProp('topic')">
+    <CustomFormItem :prop="getProp('topic')" :readonly="readonly">
       <template #label>
         <label>{{ t('Base.topic') }}</label>
         <InfoTooltip :content="topicDesc" />
       </template>
       <el-input v-model="config.topic" />
-    </el-form-item>
-    <el-form-item label="QoS">
+    </CustomFormItem>
+    <CustomFormItem label="QoS" :readonly="readonly">
       <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
         <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
       </el-select>
-    </el-form-item>
-    <el-form-item label="Retain">
+    </CustomFormItem>
+    <CustomFormItem label="Retain" :readonly="readonly">
       <el-select v-model="config.retain" :placeholder="tl('selectOrInput')" filterable allow-create>
         <el-option label="true" :value="true" />
         <el-option label="false" :value="false" />
         <el-option label="${flags.retain}" value="${flags.retain}" />
       </el-select>
-    </el-form-item>
+    </CustomFormItem>
     <el-row :gutter="26">
       <el-col :span="24">
         <el-form-item>
           <template #label>
             <label>{{ tl('payload') }}</label>
-            <InfoTooltip :content="tl('payloadExample')" />
-            <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            <InfoTooltip
+              :content="`${putDescInTooltip ? tl('payloadDesc') + ' ' : ''}${tl('payloadExample')}`"
+            />
+            <p class="payload-desc" v-if="!putDescInTooltip">{{ tl('payloadDesc') }}</p>
           </template>
           <div class="monaco-container">
             <Monaco
@@ -33,6 +35,7 @@
               v-model="config.payload"
               lang="json"
               json-without-validate
+              :disabled="readonly"
             />
           </div>
         </el-form-item>
@@ -44,11 +47,12 @@
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineProps, PropType } from 'vue'
 import { MQTTBridgeTransConfiguration } from '@/types/rule'
+import { computed, defineEmits, defineProps, PropType } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -61,6 +65,13 @@ const props = defineProps({
   topicDesc: {
     type: String,
     default: '',
+  },
+  putDescInTooltip: {
+    type: Boolean,
+    default: false,
+  },
+  readonly: {
+    type: Boolean,
   },
 })
 

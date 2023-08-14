@@ -134,11 +134,6 @@ export default {
     en: 'Node info',
     ja: 'ノード情報',
   },
-  basicInfo: {
-    zh: '基础信息',
-    en: 'Basic Info',
-    ja: '基本情報',
-  },
   metric: {
     zh: '指标',
     en: 'Metric',

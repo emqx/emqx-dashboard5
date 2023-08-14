@@ -25,9 +25,6 @@ export function logout(username: string) {
   return http.post('/logout', { username })
 }
 
-export function loadLicenseInfo() {
-  return http.get('/license_info')
-}
 //metrics
 export function loadMetrics(
   queryClusterData: boolean,
@@ -72,7 +69,7 @@ export async function loadNodeDetail(node: string): Promise<NodeInfo> {
   return http.get(`/nodes/${encodeURIComponent(node)}`)
 }
 
-export function loadStats(): Promise<Array<NodeStatisticalData>> {
+export async function loadStats(): Promise<Array<NodeStatisticalData>> {
   return http.get('/stats', { doNotTriggerProgress: true })
 }
 

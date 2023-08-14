@@ -2,7 +2,7 @@ import { RULE_FROM_SEPARATOR } from '@/common/constants'
 import { BridgeType, RuleInputType, RuleSQLKeyword, EventForRule } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { formatSELECTStatement } from '@/common/tools'
+import { addNewlineAfterComma } from '@/common/tools'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
@@ -125,7 +125,7 @@ export const useRuleUtils = (): {
 
   const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string): string => {
     const rawSelectStr = `${!/^FOREACH/i.test(select.trim()) ? 'SELECT\n  ' : ''}${select}`
-    const selectStr = formatSELECTStatement(rawSelectStr)
+    const selectStr = addNewlineAfterComma(rawSelectStr)
     const fromStr = `\nFROM\n  ${transFromDataArrToStr(from)}`
     let ret = selectStr + fromStr
     if (where) {

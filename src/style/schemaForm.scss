@@ -63,16 +63,15 @@
   }
   .btn-col {
     position: fixed;
-    background: var(--color-bg-primary);
-    bottom: 0;
-    right: 24px;
-    border-top: 1px solid var(--color-border-normal);
+    background: var(--color-bg-content);
+    bottom: 8px;
+    right: 34px;
+    border: 1px solid var(--color-border-card);
     height: 64px;
     z-index: 2;
-    box-shadow: var(--el-box-shadow-light);
     display: flex;
     align-items: center;
-    padding-left: 36px;
+    padding-left: 37px;
   }
   .schema-col-setting {
     position: absolute;

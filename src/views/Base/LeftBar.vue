@@ -10,7 +10,7 @@
         <template v-for="(menu, i) in menus" :key="menu.title">
           <el-sub-menu v-if="menu.children" :index="'' + i" :key="i">
             <template #title>
-              <i :class="['iconfont', menu.icon]"></i>
+              <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
@@ -25,9 +25,7 @@
               </el-menu-item>
               <el-menu-item-group v-else>
                 <template #title>
-                  <p class="menu-item-title">
-                    {{ $t(`components.${item.title}`) }}
-                  </p>
+                  <p class="menu-item-title group-name">{{ $t(`components.${item.title}`) }}</p>
                 </template>
                 <el-menu-item
                   v-for="level3Item in item.children"
@@ -44,7 +42,7 @@
             </template>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
-            <i :class="['iconfont', menu.icon]"></i>
+            <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
             <p class="menu-item-title first-level">
               {{ $t(`components.${menu.title}`) }}
             </p>
@@ -130,7 +128,8 @@ export default defineComponent({
     ]
 
     const integration = [
-      { title: 'flow', path: '/flow' },
+      { title: 'webhook', path: '/webhook' },
+      { title: 'flowDesigner', path: '/flow' },
       { title: 'rules', path: '/rules' },
       { title: 'bridge', path: '/bridge' },
     ]
@@ -195,16 +194,21 @@ export default defineComponent({
   transition: all 0.3s;
   height: 100%;
   padding: 64px 0;
-  background-color: var(--color-bg-menu);
-  border-right: 1px solid var(--color-border-card);
+  background-color: var(--color-bg);
+  // border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
     white-space: nowrap;
+  }
+  .menu-item-title.group-name {
+    position: relative;
+    left: -23px;
   }
   .el-menu.el-menu--collapse {
     width: 80px;
     .menu-item-title {
       padding-left: 26px;
       opacity: 0;
+      left: 0;
     }
     .el-sub-menu {
       .menu-item-title {

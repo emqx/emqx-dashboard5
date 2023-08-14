@@ -250,8 +250,9 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
     .multiple-counts-wrap {
       display: flex;
+      // justify-content: space-around;
       div:not(:last-child) {
-        margin-right: 24px;
+        margin-right: 48px;
       }
     }
     a {
@@ -316,6 +317,8 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
   }
   .cluster-card {
+    border: none;
+    border-radius: 8px;
     .el-card__body {
       padding: 0px;
     }
