@@ -319,6 +319,7 @@ const SchemaForm = defineComponent({
               />
             )
           } else if (property.items.path && property.items.properties) {
+            const editMode = props.formProps?.labelPosition === 'right' ? 'list' : 'table'
             return (
               <ObjectArrayEditor
                 modelValue={modelValue}
@@ -327,6 +328,7 @@ const SchemaForm = defineComponent({
                 propKey={property.items.path}
                 disabled={isPropertyDisabled}
                 default={property.default}
+                editMode={editMode}
                 {...customProps}
               />
             )
@@ -435,9 +437,13 @@ const SchemaForm = defineComponent({
           return switchComponent({ ...property, readOnly: true })
         case 'sql':
           return switchComponent({ ...property, readOnly: true })
-        case 'array':
-          // TODO:TODO:TODO:TODO:
-          break
+        case 'array': {
+          const ele = switchComponent({ ...property })
+          if (ele?.props) {
+            ele.props.readonly = true
+          }
+          return ele
+        }
         case 'ssl': {
           const ele = switchComponent({ ...property, readOnly: true })
           if (ele?.props) {
