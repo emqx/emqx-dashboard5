@@ -469,10 +469,10 @@ const SchemaForm = defineComponent({
       // FIXME: remove popperClass hack
       const labelSlot: any = {
         label: () => (
-          <label>
+          <>
             <span>{label}</span>
             {desc ? <InfoTooltip {...{ popperClass }} v-slots={tooltipSlots} /> : null}
-          </label>
+          </>
         ),
       }
       const tooltipSlots = {
