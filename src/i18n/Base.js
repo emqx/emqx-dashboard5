@@ -651,7 +651,7 @@ export default {
   commonIdError: {
     zh: '请以字母或数字开头，且只包含字母、数字、下划线和短横线',
     en: 'Please start with a letter or number, and only contain letters, numbers, underscores and hyphens',
-    ja: 'アルファベットまたは数字から開始し、アルファベット、数字、アンダースコア、ハイフンのみを含めてください。',
+    ja: '英字または数字から開始し、英字、数字、アンダースコア、ハイフンのみを含めてください。',
   },
   notSupportedChinese: {
     zh: '不支持中文',
