@@ -1,7 +1,7 @@
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType, InfluxDBType } from '@/types/enum'
+import { BridgeType, InfluxDBType, Role } from '@/types/enum'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, omit, set, get } from 'lodash'
 import { useBridgeTypeOptions } from './useBridgeTypeValue'
@@ -147,8 +147,11 @@ export default (): {
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     const bridgeType = getBridgeType(bridgeData.type)
 
-    if (bridgeType === BridgeType.GCP && 'service_account_json' in bridgeData) {
-      bridgeData.service_account_json = stringifyObjSafely(bridgeData.service_account_json, 2)
+    if (bridgeType === BridgeType.GCP) {
+      if ('service_account_json' in bridgeData) {
+        bridgeData.service_account_json = stringifyObjSafely(bridgeData.service_account_json, 2)
+      }
+      bridgeData.role = bridgeData.type.indexOf('consumer') > -1 ? Role.Consumer : Role.Producer
     } else if (
       bridgeType === BridgeType.Redis &&
       'command_template' in bridgeData &&
