@@ -68,6 +68,7 @@ export const typesWithProducerAndConsumer = [
   BridgeType.AmazonKinesis,
   BridgeType.GCP,
 ]
+export const consumerReg = /consumer/i
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
   getBridgeType: (typeStr: string) => BridgeType
@@ -203,8 +204,8 @@ export const useBridgeDirection = (): {
       }
       return BridgeDirection.Egress
     }
-    if (type === BridgeType.Kafka) {
-      return rawType === KafkaType.Producer ? BridgeDirection.Egress : BridgeDirection.Ingress
+    if (typesWithProducerAndConsumer.includes(type)) {
+      return consumerReg.test(rawType) ? BridgeDirection.Ingress : BridgeDirection.Egress
     }
 
     return BridgeDirection.Egress
