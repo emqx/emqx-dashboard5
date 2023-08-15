@@ -25,7 +25,6 @@
         ref="FlowEditorCom"
         v-if="editingMethod === EditingMethod.Flow"
         :data="flowData"
-        :flow-name="flowBasicInfo.name"
       />
       <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>

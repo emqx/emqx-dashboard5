@@ -37,8 +37,8 @@ export default () => {
 
   const updateBridges = async (bridges: Array<any>) => {
     return Promise.all(
-      bridges.map((item) => {
-        const bridge = handleBridgeDataBeforeSubmit(item)
+      bridges.map(async (item) => {
+        const bridge = await handleBridgeDataBeforeSubmit(item)
         return updateBridge(item.id, bridge)
       }),
     )
@@ -56,7 +56,14 @@ export default () => {
      */
     try {
       isSubmitting.value = true
-      await createBridges(bridges.map(({ data }) => data))
+      const groupedBridge = groupBy(bridges, ({ isCreated }) => !!isCreated)
+
+      if (groupedBridge['false']) {
+        await createBridges(groupedBridge['false'].map(({ data }) => data))
+      }
+      if (groupedBridge['true']) {
+        await updateBridges(groupedBridge['true'].map(({ data }) => data))
+      }
       await createRules(rule as any)
       isSubmitting.value = false
       return Promise.resolve()
