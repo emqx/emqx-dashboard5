@@ -34,7 +34,8 @@ export default (): {
           set(ret, path, {})
           walkALevel(properties)
         } else {
-          const valueToSet = defaultValue || createInitValueByType(propItem)
+          const valueToSet =
+            defaultValue !== undefined ? defaultValue : createInitValueByType(propItem)
           set(ret, path, valueToSet)
         }
       })
