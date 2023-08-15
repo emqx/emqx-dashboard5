@@ -385,8 +385,8 @@ export default {
   },
   tlsConfigItemDesc: {
     zh: '请填写服务器中 {file} 的文件路径或直接填写 {file} 文件内的内容',
-    en: 'サーバーにある {file} のファイルパス、または {file} ファイルの内容を直接入力してください。',
-    ja: '',
+    en: 'Please fill in the file path of {file} in the server or directly fill in the content of the {file} file.',
+    ja: 'サーバーにある {file} のファイルパス、または {file} ファイルの内容を直接入力してください。',
   },
   confirmReplacement: {
     zh: '是否确认替换当前内容？',
@@ -620,8 +620,8 @@ export default {
   },
   eeDesc: {
     zh: '可扩展的 MQTT 平台。连接设备，实时处理 IoT 数据，并与 40+ 云服务和企业系统集成',
-    en: 'スケーラブルMQTTプラットフォーム。デバイスを接続し、IoTデータをリアルタイムで処理。40以上のクラウドサービスやエンタープライズシステムと統合。',
-    ja: '',
+    en: 'Scalable MQTT Platform. Connect devices, process IoT data in real-time, and integrate with 40+ cloud services and enterprise systems.',
+    ja: 'スケーラブルMQTTプラットフォーム。デバイスを接続し、IoTデータをリアルタイムで処理。40以上のクラウドサービスやエンタープライズシステムと統合。',
   },
   cloudDesc: {
     zh: '全托管的 MQTT 服务，简化部署、数据集成和全球支持，提升安全性、可靠性和成本效益',
@@ -630,7 +630,7 @@ export default {
   },
   inputWithUploaderTip: {
     zh: '可输入文件内容或点击右侧按钮选择文件',
-    en: '',
+    en: 'You can enter the content of the file or select file by clicking the button on the right',
     ja: 'ファイルの内容を入力するか、右のボタンをクリックしてファイルを選択してください。',
   },
   uploadTip: {

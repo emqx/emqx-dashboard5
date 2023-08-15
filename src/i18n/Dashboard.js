@@ -322,7 +322,7 @@ export default {
   customer: {
     zh: '签发对象',
     en: 'Customer',
-    ja: '',
+    ja: '顧客',
   },
   numberOfConnectionLines: {
     zh: 'License 使用情况',
