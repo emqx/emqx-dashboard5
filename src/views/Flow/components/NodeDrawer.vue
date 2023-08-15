@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    v-model="showDialog"
+    v-model="showDrawer"
     custom-class="node-drawer drawer-with-divider"
     :size="width"
     :title="title"
@@ -35,12 +35,16 @@
         </div>
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
+          <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
+            <!-- TODO:TODO:TODO:zh -->
+            Save as a new sink
+          </el-button>
           <el-button
             :disabled="isSaveDisabled"
             :type="isSaveDisabled ? 'info' : 'primary'"
             @click="save"
           >
-            {{ tl('done') }}
+            {{ tl('save') }}
           </el-button>
         </div>
       </div>
@@ -49,6 +53,7 @@
       </el-button>
     </template>
   </el-drawer>
+  <NameInputForCopyBridgeDialog v-model="showNameInputDialog" @save="handleNameSave" />
 </template>
 
 <script setup lang="ts">
@@ -67,6 +72,7 @@ import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import NameInputForCopyBridgeDialog from './NameInputForCopyBridgeDialog.vue'
 
 const props = defineProps({
   modelValue: {
@@ -75,9 +81,6 @@ const props = defineProps({
   },
   node: {
     type: Object as PropType<Node>,
-  },
-  generateBridgeName: {
-    type: Function,
   },
   nodes: {
     type: Array as PropType<Array<Node>>,
@@ -89,7 +92,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit'])
 
-const showDialog = computed({
+const showDrawer = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
     emit('update:modelValue', val)
@@ -135,7 +138,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgeType, removeDirectionFromSpecificType } = useFlowNode()
+const { isBridgerNode ,removeDirectionFromSpecificType} = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 
 const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
@@ -182,6 +185,14 @@ const toggleEditedWay = () => {
   record.value.editedWay = record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
 }
 
+const isBridgeSelected = computed(() => {
+  if (!props.node) {
+    return false
+  }
+  return isBridgerNode(props.node) && !!record.value.id
+})
+const showNameInputDialog = ref(false)
+
 /**
  * When clicking the cancel / close button, it's used to compare the
  * current record's value to determine whether to pop up a window or not.
@@ -208,7 +219,7 @@ const cancel = async () => {
       )
     }
     emit('cancel')
-    showDialog.value = false
+    showDrawer.value = false
   } catch (error) {
     //
   }
@@ -225,24 +236,36 @@ const save = async () => {
   }
 }
 
+const saveAsNew = async () => {
+  try {
+    if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
+      await customValidate(FormCom.value)
+    }
+    showNameInputDialog.value = true
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const handleNameSave = (name: string) => {
+  record.value.name = name
+  Reflect.deleteProperty(record.value, 'id')
+  emit('save', record.value)
+}
+
 const edit = () => {
   emit('edit')
   // TODO:TODO:TODO:
 }
 
-watch(showDialog, (val) => {
+watch(showDrawer, (val) => {
   if (!val) {
     return
   }
 
-  const { node, generateBridgeName } = props
+  const { node } = props
   const { formData, specificType: type } = node?.data || {}
-  const recordData = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
-  if (!formData && isBridgeType(type) && isFunction(generateBridgeName)) {
-    record.value = { ...recordData, name: generateBridgeName() }
-  } else {
-    record.value = recordData
-  }
+  record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   rawRecord = cloneDeep(record.value)
 })
 </script>

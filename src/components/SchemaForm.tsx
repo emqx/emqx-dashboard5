@@ -194,6 +194,8 @@ const SchemaForm = defineComponent({
       return Promise.resolve()
     }
 
+    const clearValidate = () => formCom.value?.clearValidate?.()
+
     const replaceVarPath = (path: string) => {
       let _path = path
       if (/\$\w+/g.test(_path)) {
@@ -771,23 +773,27 @@ const SchemaForm = defineComponent({
       return formEle
     }
 
-    const handleComponentsData = () => {
+    const handleComponentsData = async () => {
       if (props.dataHandler && _.isFunction(props.dataHandler)) {
-        const data = props.dataHandler({ components: components.value, rules: rules.value })
+        const data = await props.dataHandler({ components: components.value, rules: rules.value })
         components.value = data.components
         rules.value = data.rules
       }
     }
 
-    const init = () => {
-      handleComponentsData()
+    const getInitRecord = () => {
+      let record = initRecordByComponents(components.value)
+      if (typesNeedConciseSSL.includes(props.type)) {
+        record = handleSSLDataWhenUseConciseSSL(record)
+      }
+      return record
+    }
+
+    const init = async () => {
+      await handleComponentsData()
       initCurrentGroup()
       if (props.needRecord) {
-        let record = initRecordByComponents(components.value)
-        if (typesNeedConciseSSL.includes(props.type)) {
-          record = handleSSLDataWhenUseConciseSSL(record)
-        }
-        configForm.value = { ...record, ...(_.isObject(props.form) ? props.form : {}) }
+        configForm.value = { ...getInitRecord(), ...(_.isObject(props.form) ? props.form : {}) }
       }
       handleSSLRuleWhenUseConciseSSL(rules.value)
     }
@@ -849,7 +855,7 @@ const SchemaForm = defineComponent({
       // }, 400)
     })()
 
-    ctx.expose({ configForm, validate })
+    ctx.expose({ configForm, validate, clearValidate, getInitRecord })
 
     return () => {
       return (
