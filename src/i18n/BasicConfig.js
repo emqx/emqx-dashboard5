@@ -62,7 +62,7 @@ export default {
   enableTelemetry: {
     zh: '启动遥测',
     en: 'Enable telemetry',
-    ja: 'テレメトリーを有効化',
+    ja: 'テレメトリーを有効にする',
   },
   rate: {
     zh: '速率限制',

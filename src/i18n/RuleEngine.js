@@ -759,7 +759,7 @@ export default {
   test: {
     zh: '启用调试',
     en: 'Enable Test',
-    ja: 'テストを有効化',
+    ja: 'テストを有効にする',
   },
   testTip: {
     zh: '启用调试后，可模拟数据源数据，并查看测试规则 SQL 的结果。',

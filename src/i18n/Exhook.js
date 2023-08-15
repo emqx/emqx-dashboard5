@@ -87,7 +87,7 @@ export default {
   autoReconnectInterval: {
     zh: '自动重连周期',
     en: 'Auto Reconnect Interval',
-    ja: '自動再接続インターバル',
+    ja: '自動再接続の間隔',
   },
   overview: {
     zh: '概览',

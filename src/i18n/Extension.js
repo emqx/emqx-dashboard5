@@ -56,7 +56,7 @@ export default {
   },
   msgExpiryInterval: {
     en: 'Message Expiry Interval',
-    ja: 'メッセージの有効期限',
+    ja: 'メッセージの有効期限間隔',
     zh: '消息过期间隔',
   },
   msgClearInterval: {
@@ -97,17 +97,17 @@ export default {
   enable: {
     zh: '启用',
     en: 'Enable',
-    ja: '有効化',
+    ja: '有効にする',
   },
   enableDelayed: {
     zh: '启用延迟发布',
     en: 'Enable Delayed Publish',
-    ja: '遅延パブリッシュを有効化',
+    ja: '遅延パブリッシュを有効にする',
   },
   enableRetained: {
     zh: '启用保留消息',
     en: 'Enable Retained Messages',
-    ja: '保持メッセージを有効化',
+    ja: '保持メッセージを有効にする',
   },
   enableDesc: {
     zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
@@ -167,7 +167,7 @@ export default {
   configMsg: {
     zh: '配置需要启用的事件消息',
     en: 'Configure event messages that need to be enabled',
-    ja: '有効化するイベントメッセージを設定する',
+    ja: '有効にするイベントメッセージを設定する',
   },
   client_connected: {
     en: 'Clients have already connected',
@@ -413,22 +413,22 @@ ja: `以下のハートビートメッセージをパブリッシュする時間
   },
   sysEventClientConnectedDesc: {
     en: 'Enable to publish client connected event messages',
-    ja: 'クライアント接続イベントメッセージをパブリッシュするかどうかを有効化する',
+    ja: 'クライアント接続イベントメッセージをパブリッシュするかどうかを有効にする',
     zh: '是否开启客户端已连接事件消息。',
   },
   sysEventClientDisconnectedDesc: {
     en: 'Enable to publish client disconnected event messages.',
-    ja: 'クライアント切断イベントメッセージをパブリッシュするかどうかを有効化する。',
+    ja: 'クライアント切断イベントメッセージをパブリッシュするかどうかを有効にする。',
     zh: '是否开启客户端已断开连接事件消息。',
   },
   sysEventClientSubscribedDesc: {
     en: 'Enable to publish event message that client subscribed a topic successfully.',
-    ja: 'クライアントがトピックをサブスクライブした際にイベントメッセージをパブリッシュするかどうかを有効化する。',
+    ja: 'クライアントがトピックをサブスクライブした際にイベントメッセージをパブリッシュするかどうかを有効にする。',
     zh: '是否开启客户端已成功订阅主题事件消息。',
   },
   sysEventClientUnsubscribedDesc: {
     en: 'Enable to publish event message that client unsubscribed a topic successfully.',
-    ja: 'クライアントがトピックをアンサブスクライブした際にイベントメッセージをパブリッシュするかどうかを有効化する。',
+    ja: 'クライアントがトピックをアンサブスクライブした際にイベントメッセージをパブリッシュするかどうかを有効にする。',
     zh: '是否开启客户端已成功取消订阅主题事件消息。',
   },
   proxySubTip: {

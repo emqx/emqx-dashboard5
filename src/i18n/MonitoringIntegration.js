@@ -12,7 +12,7 @@ export default {
   enablePushgateway: {
     zh: '启用 Pushgateway',
     en: 'Enable Pushgateway',
-    ja: 'Pushgatewayを有効化',
+    ja: 'Pushgatewayを有効にする',
   },
   enablePushgatewayDesc: {
     zh: '启用后，EMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',

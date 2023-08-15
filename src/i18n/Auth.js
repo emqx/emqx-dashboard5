@@ -132,7 +132,7 @@ export default {
   enableCache: {
     zh: '启用缓存',
     en: 'Enable Cache',
-    ja: 'キャッシュの有効化',
+    ja: 'キャッシュを有効にする',
   },
   clearCache: {
     zh: '清除缓存',
@@ -207,7 +207,7 @@ export default {
   enableTLS: {
     zh: '启用 TLS',
     en: 'Enable TLS',
-    ja: 'TLSの有効化',
+    ja: 'TLSを有効にする',
   },
   tlsVerify: {
     zh: '验证服务器证书',
@@ -391,7 +391,8 @@ export default {
   },
   topicTips: {
     zh: '主题字符串，支持 ${0} 和 ${1} 占位符，在执行权限检查时会被替换为对应客户端的 Username 或 Client ID',
-    en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks.",
+    en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks."
+    ja: 'トピック文字列は、${0} と ${1} のプレースホルダをサポートしています。これらは、権限チェック時に、対応するクライアントのユーザー名またはクライアントIDに置き換えられます。',
   },
   jwtBase64Tips: {
     zh: '接收一个 Base64 编码后的字符串',

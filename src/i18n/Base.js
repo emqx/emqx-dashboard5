@@ -536,7 +536,7 @@ export default {
   rate: {
     zh: '速率',
     en: 'Rate',
-    ja: '速度',
+    ja: 'レート',
   },
   topic: {
     zh: '主题',

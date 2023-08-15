@@ -247,7 +247,7 @@ export default {
   enableFlapping: {
     zh: '启用抖动检测',
     en: 'Enable Flapping Detection',
-    ja: 'フラッピング検出の有効化',
+    ja: 'フラッピング検出を有効にする',
   },
   enableDesc: {
     zh: '启用连接抖动的检测功能',

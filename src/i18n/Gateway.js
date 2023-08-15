@@ -47,7 +47,7 @@ export default {
   enable: {
     zh: '启用',
     en: 'Enable',
-    ja: '有効化',
+    ja: '有効にする',
   },
   disable: {
     zh: '停用',

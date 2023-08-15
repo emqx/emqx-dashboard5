@@ -22,7 +22,7 @@ export default {
   isEnable: {
     zh: '是否启用',
     en: 'Is Enable',
-    ja: '有効化',
+    ja: '有効にする',
   },
   show: {
     zh: '显示',
@@ -42,7 +42,7 @@ export default {
   enable: {
     zh: '启用',
     en: 'Enable',
-    ja: '有効化',
+    ja: '有効にする',
   },
   disable: {
     zh: '停用',
