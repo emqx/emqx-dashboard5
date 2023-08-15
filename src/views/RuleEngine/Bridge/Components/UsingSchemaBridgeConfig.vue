@@ -28,14 +28,16 @@
 </template>
 
 <script setup lang="ts">
+import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
+  useGCPSecondTypeControl,
   useMongoSecondTypeControl,
   useRedisSecondTypeControl,
-  useGCPSecondTypeControl,
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
@@ -43,7 +45,7 @@ import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -90,10 +92,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  colSpan: {
-    type: Number,
-    default: 12,
-  },
   readonly: {
     type: Boolean,
     default: false,
@@ -106,6 +104,9 @@ const props = defineProps({
   hiddenFields: {
     type: Array as PropType<Array<string>>,
   },
+  isUsingInFlow: {
+    type: Boolean,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -117,6 +118,8 @@ const bridgeRecord = computed({
     emit('update:modelValue', val)
   },
 })
+
+const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 
 const { handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
 
@@ -162,6 +165,19 @@ const typesWithSecondControlKeyMap = {
   [BridgeType.GCP]: GCPSecondTypeControlField,
 }
 
+const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
+  props,
+  bridgeRecord,
+)
+
+watch(isBridgeSelected, async (nVal, oVal) => {
+  if (!nVal && oVal && formCom.value?.getInitRecord) {
+    bridgeRecord.value = formCom.value.getInitRecord()
+    await waitAMoment()
+    formCom.value.clearValidate?.()
+  }
+})
+
 const propsDisabled = computed(() => {
   const ret = []
   if (props.edit) {
@@ -171,8 +187,9 @@ const propsDisabled = computed(() => {
         typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap],
       )
     }
+  } else if (isCreateBridgeInFlow.value && isBridgeSelected.value) {
+    ret.push(typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap])
   }
-
   return ret
 })
 
@@ -186,7 +203,18 @@ const getRefKey = computed(() => {
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
 
-const { getComponentsHandler } = useComponentsHandlers(props)
+const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)
+const getComponentsHandler = () => {
+  if (!isCreateBridgeInFlow.value) {
+    return getTypeComponentsHandler()
+  }
+  return async (data: any) => {
+    // To clear a validation error triggered by a change in the type of the name
+    const ret = await handleSchemaForReuse(getTypeComponentsHandler()(data))
+    window.setTimeout(() => formCom.value.clearValidate?.(), 16)
+    return ret
+  }
+}
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

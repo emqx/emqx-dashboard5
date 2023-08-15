@@ -153,6 +153,7 @@ const schemaProps = {
 const getSchemaBridgeProps = (type: string) => ({
   ...bridgeFormProps,
   ...schemaProps,
+  isUsingInFlow: true,
   labelWidth: '180px',
   hiddenFields: ['role'],
   type: removeDirectionFromSpecificType(type),
