@@ -52,17 +52,17 @@ export default {
   mqtt: {
     zh: 'MQTT 配置',
     en: 'MQTT Settings',
-    ja: '',
+    ja: 'MQTT設定',
   },
   authentication: {
     zh: '客户端认证',
     en: 'Authentication',
-    ja: 'MQTT設定',
+    ja: '認証',
   },
   authorization: {
     zh: '客户端授权',
     en: 'Authorization',
-    ja: '認証',
+    ja: '認可',
   },
   dashboard: {
     zh: '集群概览',
@@ -360,7 +360,7 @@ export default {
   noteAlertClickView: {
     zh: '条告警，点击查看',
     en: 'alerts, Click to view',
-    ja: '',
+    ja: 'アラート、クリックして表示',
   },
   noWarning: {
     zh: '暂无告警',
