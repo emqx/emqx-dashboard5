@@ -60,7 +60,7 @@ const showDialog = computed({
 const submit = async () => {
   try {
     await FormCom.value.validate()
-    emit('save', record.value)
+    emit('save', record.value.name)
     showDialog.value = false
   } catch (error) {
     //
