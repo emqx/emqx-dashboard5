@@ -11,10 +11,10 @@
         <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
       </div>
       <div class="vertical-align-center">
-        <el-radio-group v-model="editingMethod">
+        <!-- <el-radio-group v-model="editingMethod">
           <el-radio-button :label="EditingMethod.Flow">Flow</el-radio-button>
           <el-radio-button :label="EditingMethod.SQL">SQL</el-radio-button>
-        </el-radio-group>
+        </el-radio-group> -->
         <el-button type="primary" :loading="isSubmitting" @click="submit">
           {{ t(`Base.${isCreate ? 'create' : 'update'}`) }}
         </el-button>
