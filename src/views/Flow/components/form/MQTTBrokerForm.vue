@@ -7,19 +7,14 @@
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
-    @keyup.enter="saveConfig()"
   >
     <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-      <el-select
+      <InputSelect
         v-if="isCreateBridgeInFlow"
         v-model="record.name"
-        filterable
-        allow-create
-        default-first-option
+        :options="nameOptions"
         @change="handleNameChange"
-      >
-        <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
-      </el-select>
+      />
       <el-input v-else v-model="record.name" :disabled="edit" />
     </CustomFormItem>
     <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
@@ -91,8 +86,10 @@
 
 <script setup lang="ts">
 import { MQTTingressRemoteQoS } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -100,16 +97,8 @@ import { BridgeDirection, BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import ConnectorMqttConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/ConnectorMqttConfig.vue'
 import MQTTBridgeTransConfiguration from '@/views/RuleEngine/Bridge/Components/MQTTBridgeTransConfiguration.vue'
-import {
-  PropType,
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  nextTick,
-  ref,
-  watch,
-} from 'vue'
+import { cloneDeep } from 'lodash'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 
 const FormCom = ref()
 
@@ -150,12 +139,13 @@ const nameOptions = computed(() => {
   const bridges = getBridgesInSameType()
   return bridges?.map(({ name }) => name) || []
 })
+const initRecord = cloneDeep(record.value)
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
     const name = record.value.name
-    FormCom.value?.resetFields?.()
-    await nextTick()
-    record.value.name = name
+    record.value = Object.assign(cloneDeep(initRecord), { name })
+    await waitAMoment()
+    FormCom.value?.clearValidate?.()
   }
 })
 const { createRequiredRule } = useFormRules()
@@ -163,10 +153,6 @@ const rules = {
   server: createRequiredRule(tl('brokerAddress')),
   ingress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
   egress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
-}
-
-const saveConfig = () => {
-  emit('save', record.value)
 }
 
 const validate = () => FormCom.value.validate()
