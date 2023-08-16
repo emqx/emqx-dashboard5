@@ -97,7 +97,7 @@ export default {
     ja: '開始位置',
   },
   Separator: {
-    zh: '',
+    zh: '分割符',
     en: 'Separator',
     ja: '区切り文字',
   },

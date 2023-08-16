@@ -126,7 +126,7 @@ export default function useAuthnCreate() {
       username: '',
       password: '',
       base_dn: '',
-      filter: '(objectClass=mqttUser)',
+      filter: '(& (objectClass=mqttUser) (uid=${username}))',
       ssl: createSSLForm(),
     }
   }

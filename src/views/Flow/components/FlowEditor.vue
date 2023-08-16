@@ -69,7 +69,6 @@
     v-model="isDrawerVisible"
     :nodes="getNodes"
     :node="currentNode"
-    :generate-bridge-name="createBridgeName"
     @save="saveDataToNode"
     @close="resetDrawerData"
     @cancel="handleCancelEditing"
@@ -90,19 +89,12 @@ import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
 
 const props = defineProps({
-  flowName: {
-    type: String,
-    default: '',
-  },
   data: {
     type: Array as PropType<Array<Node | Edge>>,
   },
 })
 
 const { t } = useI18nTl('Flow')
-
-const initFlowName: string = (() => props.flowName)()
-const createBridgeName = () => `${initFlowName}_data_bridge_${createRandomString(3)}`
 
 const searchText = ref('')
 
@@ -131,7 +123,7 @@ const nodeArr = computed(() => {
     .filter(({ nodeList }) => nodeList.length)
 })
 
-const { getNodeClass, getNodeInfo, getNodeIcon, getIconClass } = useFlowNode()
+const { isBridgeType, getNodeClass, getNodeInfo, getNodeIcon, getIconClass } = useFlowNode()
 
 /**
  * Position offset relative to the upper left corner of the node
@@ -208,6 +200,9 @@ const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
     node.data.formData = data
+    if (isBridgeType(node.data.specificType) && !node.data.isCreated) {
+      node.data.isCreated = !!data.id
+    }
     node.data.desc = getNodeInfo(node)
   }
   resetDrawerData()

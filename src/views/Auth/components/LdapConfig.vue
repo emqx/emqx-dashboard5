@@ -18,13 +18,6 @@
             </el-form-item>
           </el-col>
 
-          <!-- Base DN -->
-          <el-col :span="12">
-            <el-form-item :label="tl('base_dn')" prop="base_dn">
-              <el-input v-model="ldapConfig.base_dn" />
-            </el-form-item>
-          </el-col>
-
           <!-- Username -->
           <el-col :span="12">
             <el-form-item :label="$t('Base.username')" required prop="username">
@@ -39,46 +32,10 @@
             </el-form-item>
           </el-col>
 
-          <!-- Password Attribute -->
-          <el-col :span="12">
-            <el-form-item :label="tl('password_attribute')" prop="password_attribute">
-              <template #label>
-                {{ tl('password_attribute') }}
-                <InfoTooltip
-                  v-if="ldapConfig.password_attribute"
-                  :content="tl('password_attribute_desc')"
-                />
-              </template>
-              <el-input v-model="ldapConfig.password_attribute" />
-            </el-form-item>
-          </el-col>
-
-          <!-- Is Superuser Attribute -->
-          <el-col :span="12">
-            <el-form-item :label="tl('is_superuser_attribute')" prop="is_superuser_attribute">
-              <template #label>
-                {{ tl('is_superuser_attribute') }}
-                <InfoTooltip
-                  v-if="ldapConfig.is_superuser_attribute"
-                  :content="tl('is_superuser_attribute_desc')"
-                />
-              </template>
-              <el-input v-model="ldapConfig.is_superuser_attribute" />
-            </el-form-item>
-          </el-col>
-
           <!-- TLS -->
           <el-col :span="24">
             <CommonTLSConfig class="TLS-config" v-model="ldapConfig.ssl" :is-edit="isEdit" />
-          </el-col>
-
-          <el-col :span="24"><el-divider /></el-col>
-
-          <!-- Query Timeout -->
-          <el-col :span="12">
-            <el-form-item :label="tl('queryTimeout')" prop="query_timeout">
-              <time-input-with-unit-select v-model="ldapConfig.query_timeout" />
-            </el-form-item>
+            <el-divider />
           </el-col>
 
           <!-- Connection Pool Size -->
@@ -87,6 +44,53 @@
               <el-input v-model.number="ldapConfig.pool_size" />
             </el-form-item>
           </el-col>
+
+          <!-- Query Timeout -->
+          <el-col :span="12">
+            <el-form-item :label="tl('queryTimeout')" prop="query_timeout">
+              <time-input-with-unit-select v-model="ldapConfig.query_timeout" />
+            </el-form-item>
+          </el-col>
+
+          <!-- Base DN -->
+          <el-col :span="12">
+            <el-form-item :label="tl('base_dn')" prop="base_dn">
+              <el-input
+                v-model="ldapConfig.base_dn"
+                :placeholder="authType === 'authz' ? 'cn=root,dc=emqx,dc=emqx.io' : ''"
+              />
+            </el-form-item>
+          </el-col>
+
+          <template v-if="authType === 'authn'">
+            <!-- Password Attribute -->
+            <el-col :span="12">
+              <el-form-item :label="tl('password_attribute')" prop="password_attribute">
+                <template #label>
+                  {{ tl('password_attribute') }}
+                  <InfoTooltip
+                    v-if="ldapConfig.password_attribute"
+                    :content="tl('password_attribute_desc')"
+                  />
+                </template>
+                <el-input v-model="ldapConfig.password_attribute" />
+              </el-form-item>
+            </el-col>
+
+            <!-- Is Superuser Attribute -->
+            <el-col :span="12">
+              <el-form-item :label="tl('is_superuser_attribute')" prop="is_superuser_attribute">
+                <template #label>
+                  {{ tl('is_superuser_attribute') }}
+                  <InfoTooltip
+                    v-if="ldapConfig.is_superuser_attribute"
+                    :content="tl('is_superuser_attribute_desc')"
+                  />
+                </template>
+                <el-input v-model="ldapConfig.is_superuser_attribute" />
+              </el-form-item>
+            </el-col>
+          </template>
 
           <!-- Filter -->
           <el-col :span="24">

@@ -141,6 +141,7 @@ export default {
   webhook: {
     zh: 'Webhook',
     en: 'Webhook',
+    ja: 'ウェブフック',
   },
   resources: {
     zh: '资源',

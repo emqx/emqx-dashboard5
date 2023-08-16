@@ -49,6 +49,13 @@
           auth-type="authz"
           v-model="configData"
         />
+        <ldap-config
+          auth-type="authz"
+          v-else-if="type === 'ldap'"
+          v-model="configData"
+          ref="formCom"
+        >
+        </ldap-config>
         <p v-else-if="type === 'built_in_database'" class="item-description">
           {{ $t('Auth.builtInDatabaseDesc') }}
         </p>
@@ -77,6 +84,7 @@ import { computed, defineComponent, ref, onMounted } from 'vue'
 import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
+import LdapConfig from './components/LdapConfig.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -97,6 +105,7 @@ export default defineComponent({
     FileConfig,
     DatabaseConfig,
     HttpConfig,
+    LdapConfig,
   },
   setup() {
     const { t, tl } = useI18nTl('Auth')
@@ -139,6 +148,11 @@ export default defineComponent({
         label: 'Redis',
         value: 'redis',
         img: require('@/assets/img/redis.png'),
+      },
+      {
+        label: 'LDAP',
+        value: 'ldap',
+        img: require('@/assets/img/ldap.png'),
       },
       {
         label: tl('HTTPServer'),
