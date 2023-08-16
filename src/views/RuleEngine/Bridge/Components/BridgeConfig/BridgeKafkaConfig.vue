@@ -11,7 +11,17 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-input v-model="formData.name" :disabled="edit" />
+          <el-select
+            v-if="isCreateBridgeInFlow"
+            v-model="formData.name"
+            filterable
+            allow-create
+            default-first-option
+            @change="handleNameChange"
+          >
+            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan" v-if="!fixedRole">
@@ -323,13 +333,14 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { KafkaType, Role } from '@/types/enum'
+import { BridgeType, KafkaType, Role, BridgeDirection } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
@@ -340,6 +351,7 @@ import {
   defineEmits,
   defineExpose,
   defineProps,
+  nextTick,
   onMounted,
   ref,
   watch,
@@ -369,16 +381,15 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
-  colSpan: {
-    type: Number,
-    default: 12,
-  },
   readonly: {
     type: Boolean,
     default: false,
   },
   fixedRole: {
     type: String as PropType<Role>,
+  },
+  isUsingInFlow: {
+    type: Boolean,
   },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
@@ -455,7 +466,26 @@ const formRules = computed<any>(() => {
   return ret
 })
 
-const formData: Ref<OtherBridge> = ref({ ...getDefaultForm(), name: props.modelValue?.name || '' })
+const formData: Ref<OtherBridge> = ref(getDefaultForm())
+
+const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
+  useReuseBridgeInFlow(
+    BridgeType.Kafka,
+    props,
+    formData,
+    role.value === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
+  )
+const nameOptions = computed(() => getBridgesInSameType()?.map(({ name }) => name))
+watch(isBridgeSelected, async (nVal, oVal) => {
+  if (!nVal && oVal) {
+    const name = formData.value.name
+    formCom.value?.resetFields?.()
+    await nextTick()
+    formData.value.name = name
+  }
+})
+
+const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 
 const updateParentBridgeData = () => {
   emit('update:modelValue', formData.value)
