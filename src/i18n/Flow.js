@@ -119,4 +119,8 @@ export default {
     zh: '保存为新 {target}',
     en: 'Save as a new {target}',
   },
+  pleaseInputOrSelect: {
+    zh: '请输入或选择',
+    en: 'Please Input or Select',
+  },
 }
