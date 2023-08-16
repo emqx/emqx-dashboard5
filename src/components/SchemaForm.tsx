@@ -3,6 +3,7 @@ import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -50,6 +51,7 @@ const SchemaForm = defineComponent({
     TextareaWithUploader,
     MarkdownContent,
     CustomInputNumber,
+    InputSelect,
   },
   props: {
     accordingTo: {
@@ -253,6 +255,16 @@ const SchemaForm = defineComponent({
       // TODO: use SchemaFormItem
       switch (property.type) {
         case 'string':
+          if (property.key === 'name' && property.symbols) {
+            return (
+              <InputSelect
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                options={property.symbols}
+                {...customProps}
+              />
+            )
+          }
           return stringInput
         case 'number':
           return (
@@ -328,8 +340,6 @@ const SchemaForm = defineComponent({
                 {...handleUpdateModelValue}
                 properties={property.items.properties}
                 propKey={property.items.path}
-                disabled={isPropertyDisabled}
-                default={property.default}
                 editMode={editMode}
                 {...customProps}
               />
