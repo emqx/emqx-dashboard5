@@ -11,16 +11,12 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-          <el-select
+          <InputSelect
             v-if="isCreateBridgeInFlow"
             v-model="httpBridgeVal.name"
-            filterable
-            allow-create
-            default-first-option
+            :options="nameOptions"
             @change="handleNameChange"
-          >
-            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+          />
           <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
@@ -134,11 +130,12 @@
 </template>
 
 <script lang="ts">
-import { createRandomString, fillEmptyValueToUndefinedField } from '@/common/tools'
+import { createRandomString, fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -151,7 +148,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { PropType, Ref, computed, defineComponent, onMounted, ref, watch, nextTick } from 'vue'
+import { PropType, Ref, computed, defineComponent, onMounted, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 export default defineComponent({
@@ -165,6 +162,7 @@ export default defineComponent({
     CustomInputNumber,
     FormItemLabel,
     CustomFormItem,
+    InputSelect,
   },
   name: '',
   props: {
@@ -212,12 +210,13 @@ export default defineComponent({
     const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
       useReuseBridgeInFlow(BridgeType.Webhook, props, httpBridgeVal)
     const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
+    const initRecord = cloneDeep(httpBridgeVal.value)
     watch(isBridgeSelected, async (nVal, oVal) => {
       if (!nVal && oVal) {
         const name = httpBridgeVal.value.name
-        formCom.value?.resetFields?.()
-        await nextTick()
-        httpBridgeVal.value.name = name
+        httpBridgeVal.value = Object.assign(cloneDeep(initRecord), { name })
+        await waitAMoment()
+        formCom.value?.clearValidate?.()
       }
     })
 
