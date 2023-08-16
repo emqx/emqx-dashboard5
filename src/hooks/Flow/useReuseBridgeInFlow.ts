@@ -19,10 +19,11 @@ export default (
   type: BridgeType,
   props: any,
   record: any,
+  direction?: BridgeDirection,
 ): {
   isCreateBridgeInFlow: ComputedRef<any>
   isBridgeSelected: Ref<boolean>
-  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[]
+  getBridgesInSameType: () => BridgeItem[]
   handleNameChange: (name: string) => void
   handleSchemaForReuse: (data: { components: Properties; rules: SchemaRules }) => Promise<{
     components: Properties
@@ -54,7 +55,7 @@ export default (
    * For consumer and producer separate types, the direction needs to be specified
    * For types where versions are separate (e.g., redis and mongo), a generic type
    */
-  const getBridgesInSameType = (direction?: BridgeDirection) => {
+  const getBridgesInSameType = () => {
     if (!type) {
       return []
     }

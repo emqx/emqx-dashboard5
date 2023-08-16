@@ -145,9 +145,9 @@ const record = computed({
   },
 })
 const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(BridgeType.MQTT, props, record)
+  useReuseBridgeInFlow(BridgeType.MQTT, props, record, props.direction)
 const nameOptions = computed(() => {
-  const bridges = getBridgesInSameType(props.direction)
+  const bridges = getBridgesInSameType()
   return bridges?.map(({ name }) => name) || []
 })
 watch(isBridgeSelected, async (nVal, oVal) => {
