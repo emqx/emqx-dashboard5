@@ -7,7 +7,7 @@ import {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { FormRules } from '@/types/common'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, Role } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep, groupBy } from 'lodash'
@@ -63,6 +63,13 @@ export default (
 
     if (type === BridgeType.MQTT && direction !== undefined) {
       return list.filter((item) => judgeBridgeDirection(item) === direction)
+    }
+
+    if (typesWithProducerAndConsumer.includes(type as BridgeType)) {
+      const { modelValue } = props
+      const bridgeDirection =
+        modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress
+      return list.filter((item) => judgeBridgeDirection(item) === bridgeDirection)
     }
 
     return list
