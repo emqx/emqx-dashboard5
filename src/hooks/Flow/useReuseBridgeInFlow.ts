@@ -22,7 +22,7 @@ export default (
 ): {
   isCreateBridgeInFlow: ComputedRef<any>
   isBridgeSelected: Ref<boolean>
-  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[] | undefined
+  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[]
   handleNameChange: (name: string) => void
   handleSchemaForReuse: (data: { components: Properties; rules: SchemaRules }) => Promise<{
     components: Properties
@@ -58,17 +58,13 @@ export default (
     if (!type) {
       return []
     }
-    const generalType = getBridgeType(type)
-    if (type === BridgeType.MQTT) {
-      const list = groupedBridgeMap.value[type] || []
-      return direction !== undefined
-        ? list.filter((item) => judgeBridgeDirection(item) === direction)
-        : list
-    } else if (typesWithProducerAndConsumer.includes(type as BridgeType)) {
-      // TODO:
-    } else {
-      return groupedBridgeMap.value[type] || []
+    const list = groupedBridgeMap.value[type] || []
+
+    if (type === BridgeType.MQTT && direction !== undefined) {
+      return list.filter((item) => judgeBridgeDirection(item) === direction)
     }
+
+    return list
   }
 
   const getBridgeByName = (name: string) => {

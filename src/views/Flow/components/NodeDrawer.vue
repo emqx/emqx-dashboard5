@@ -138,10 +138,15 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgerNode ,removeDirectionFromSpecificType} = useFlowNode()
+const { isBridgerNode, removeDirectionFromSpecificType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 
-const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
+const bridgeFormProps = {
+  colSpan: 24,
+  labelPosition: 'right',
+  requireAsteriskPosition: 'left',
+  isUsingInFlow: true,
+}
 const schemaProps = {
   formProps: {
     labelWidth: '180px',

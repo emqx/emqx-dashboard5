@@ -9,6 +9,7 @@
     :model="record"
     :validate-on-rule-change="false"
     @keyup.enter.prevent="saveConfig()"
+    @submit.prevent
   >
     <CustomFormItem prop="topic" :label="tl('topic')" :readonly="readonly">
       <el-input v-model="record.topic" />
