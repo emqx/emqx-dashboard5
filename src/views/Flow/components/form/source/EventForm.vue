@@ -9,6 +9,7 @@
     :model="record"
     :validate-on-rule-change="false"
     @keyup.enter="saveConfig()"
+    @submit.prevent
   >
     <el-form-item :label="tl('event')" prop="event">
       <el-select v-if="!readonly" v-model="record.event">

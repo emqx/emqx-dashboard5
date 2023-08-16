@@ -7,7 +7,6 @@
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
-    @keyup.enter="saveConfig()"
   >
     <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
       <el-select

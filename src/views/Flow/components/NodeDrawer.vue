@@ -36,8 +36,11 @@
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
           <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
-            <!-- TODO:TODO:TODO:zh -->
-            Save as a new sink
+            {{
+              t('Flow.saveAsDuplication', {
+                target: node?.type === FlowNodeType.Input ? 'source' : 'sink',
+              })
+            }}
           </el-button>
           <el-button
             :disabled="isSaveDisabled"
