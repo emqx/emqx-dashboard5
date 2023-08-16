@@ -56,6 +56,14 @@ export interface StatsD {
   server: string
 }
 
+export interface OpenTelemetry {
+  enable: boolean
+  exporter: {
+    endpoint: string
+    interval: string
+  }
+}
+
 export interface Alarm {
   node: string
   name: string
