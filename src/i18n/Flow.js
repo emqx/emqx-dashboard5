@@ -111,4 +111,12 @@ export default {
     zh: '调用函数后，需指定一个别名',
     en: 'Need to specify an alias after calling the function',
   },
+  nameInputDesc: {
+    zh: '由于名称不可重复，请输入新名称以保存',
+    en: 'Since names cannot be duplicated, please enter a new name to save',
+  },
+  saveAsDuplication: {
+    zh: '保存为新 {target}',
+    en: 'Save as a new {target}',
+  },
 }
