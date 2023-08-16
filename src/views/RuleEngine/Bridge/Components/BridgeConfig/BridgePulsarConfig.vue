@@ -12,7 +12,17 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-input v-model="formData.name" :disabled="edit" />
+          <el-select
+            v-if="isCreateBridgeInFlow"
+            v-model="formData.name"
+            filterable
+            allow-create
+            default-first-option
+            @change="handleNameChange"
+          >
+            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan" v-if="!isRoleHidden">
@@ -279,15 +289,27 @@ import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
+import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { isEqual, snakeCase } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
+import {
+  Ref,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 
 enum AuthType {
   None,
@@ -310,10 +332,6 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
-  colSpan: {
-    type: Number,
-    default: 12,
-  },
   readonly: {
     type: Boolean,
     default: false,
@@ -321,6 +339,9 @@ const props = defineProps({
   isRoleHidden: {
     type: Boolean,
     default: false,
+  },
+  isUsingInFlow: {
+    type: Boolean,
   },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
@@ -379,6 +400,20 @@ const formData: Ref<OtherBridge> = ref({
   message: {},
   resource_opts: {},
   buffer: {},
+})
+
+const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
+
+const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
+  useReuseBridgeInFlow(BridgeType.Pulsar, props, formData)
+const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
+watch(isBridgeSelected, async (nVal, oVal) => {
+  if (!nVal && oVal) {
+    const name = formData.value.name
+    formCom.value?.resetFields?.()
+    await nextTick()
+    formData.value.name = name
+  }
 })
 
 const updateParentBridgeData = () => {
