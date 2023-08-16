@@ -41,7 +41,7 @@ import {
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
@@ -165,10 +165,14 @@ const typesWithSecondControlKeyMap = {
   [BridgeType.GCP]: GCPSecondTypeControlField,
 }
 
+const direction = computed(() =>
+  props.modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
+)
 const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
   props.type as BridgeType,
   props,
   bridgeRecord,
+  direction.value,
 )
 
 watch(isBridgeSelected, async (nVal, oVal) => {
