@@ -11,7 +11,17 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-          <el-input v-model="httpBridgeVal.name" :disabled="edit" />
+          <el-select
+            v-if="isCreateBridgeInFlow"
+            v-model="httpBridgeVal.name"
+            filterable
+            allow-create
+            default-first-option
+            @change="handleNameChange"
+          >
+            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
     </el-row>
@@ -133,13 +143,15 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
 import { BridgeItem, HTTPBridge } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { PropType, Ref, defineComponent, onMounted, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineComponent, onMounted, ref, watch, nextTick } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 
 export default defineComponent({
@@ -169,11 +181,11 @@ export default defineComponent({
     copy: {
       type: Boolean,
     },
-    colSpan: {
-      type: Number,
-      default: 12,
-    },
     readonly: {
+      type: Boolean,
+      default: false,
+    },
+    isUsingInFlow: {
       type: Boolean,
       default: false,
     },
@@ -193,6 +205,20 @@ export default defineComponent({
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
+    })
+
+    const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
+
+    const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
+      useReuseBridgeInFlow(BridgeType.Webhook, props, httpBridgeVal)
+    const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
+    watch(isBridgeSelected, async (nVal, oVal) => {
+      if (!nVal && oVal) {
+        const name = httpBridgeVal.value.name
+        formCom.value?.resetFields?.()
+        await nextTick()
+        httpBridgeVal.value.name = name
+      }
     })
 
     const initHttpBridgeVal = () => {
@@ -247,8 +273,12 @@ export default defineComponent({
       tl,
       createRandomString,
       formCom,
+      colSpan,
       formRules,
       httpBridgeVal,
+      isCreateBridgeInFlow,
+      handleNameChange,
+      nameOptions,
       docMap,
       validate,
       clearValidate,

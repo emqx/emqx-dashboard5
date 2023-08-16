@@ -15,7 +15,7 @@ export default (
 ): {
   isCreateBridgeInFlow: ComputedRef<any>
   isBridgeSelected: Ref<boolean>
-  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[] | undefined
+  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[]
   handleNameChange: (name: string) => void
 } => {
   let getBridgeRequest: undefined | Promise<Array<BridgeItem>> = undefined

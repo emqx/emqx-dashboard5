@@ -141,7 +141,12 @@ const existedTopics = computed(() => {
 const { isBridgerNode } = useFlowNode()
 const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
 
-const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
+const bridgeFormProps = {
+  colSpan: 24,
+  labelPosition: 'right',
+  requireAsteriskPosition: 'left',
+  isUsingInFlow: true,
+}
 
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
