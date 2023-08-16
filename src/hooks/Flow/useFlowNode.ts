@@ -45,8 +45,6 @@ export const SinkType = {
   Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Egress),
   GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Egress),
   MySQL: BridgeType.MySQL,
-  Console: 'console',
-  RePub: 'republish',
   Redis: BridgeType.Redis,
   MongoDB: BridgeType.MongoDB,
   RabbitMQ: BridgeType.RabbitMQ,
@@ -68,6 +66,8 @@ export const SinkType = {
   AmazonKinesis: BridgeType.AmazonKinesis,
   GreptimeDB: BridgeType.GreptimeDB,
   Pulsar: getSpecificTypeWithDirection(BridgeType.Pulsar, BridgeDirection.Egress),
+  RePub: 'republish',
+  Console: 'console',
 }
 
 export const enum FlowNodeType {
