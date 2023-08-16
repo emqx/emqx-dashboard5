@@ -89,7 +89,7 @@ export default (
     const { name } = components
     if (name) {
       name.default = ''
-      name.symbols = getBridgesByType(props.type)?.map(({ name }) => name)
+      name.symbols = getBridgesInSameType()?.map(({ name }) => name)
       name.type = 'enum'
       name.componentProps = {
         filterable: true,
