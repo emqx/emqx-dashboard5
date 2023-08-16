@@ -8,6 +8,7 @@ import {
   NodeStatisticalData,
   Prometheus,
   StatsD,
+  OpenTelemetry,
   LicenseConfig,
   LicenseData,
 } from '@/types/dashboard'
@@ -71,6 +72,14 @@ export function getPrometheus(): Promise<Prometheus> {
 
 export function setPrometheus(body: Prometheus): Promise<Prometheus> {
   return http.put('/prometheus', body)
+}
+
+export function getOpenTelemetry(): Promise<OpenTelemetry> {
+  return http.get('/opentelemetry')
+}
+
+export function setOpenTelemetry(body: OpenTelemetry): Promise<OpenTelemetry> {
+  return http.put('/opentelemetry', body)
 }
 
 // Nodes

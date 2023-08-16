@@ -9,7 +9,7 @@
           :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
-            <el-col :xs="21" :sm="15" :md="12" :lg="10" :xl="9">
+            <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="12">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
@@ -19,7 +19,7 @@
                 </template>
                 <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                   <el-row :gutter="28">
-                    <el-col v-for="item in platformOpts" :key="item.label" :span="21">
+                    <el-col v-for="item in platformOpts" :key="item.label" :span="12">
                       <el-radio class="platform-radio" :label="item.label" border>
                         <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
                         <span class="platform-name"> {{ item.label }} </span>
@@ -30,71 +30,98 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="21" class="custom-col">
-              <el-form-item>
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('enablePushgateway')"
-                    :desc="tl('enablePushgatewayDesc')"
-                  />
-                </template>
-                <el-switch v-model="prometheusFormData.enable" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-collapse-transition>
-            <el-row v-show="prometheusFormData.enable">
-              <el-col :span="21" class="custom-col">
-                <el-form-item>
-                  <template #label>
-                    <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
-                  </template>
-                  <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="21" class="custom-col">
-                <el-form-item>
-                  <template #label>
-                    <span>{{ tl('pushgatewayServer') }}</span>
-                    <InfoTooltip>
-                      <template #content>
-                        {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
-                        <a
-                          href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
-                          target="_blank"
-                          rel="noopener"
-                        >
-                          {{ tl('whenToUsePushgateway') }}
-                        </a>
-                      </template>
-                    </InfoTooltip>
-                  </template>
-                  <el-input v-model="prometheusFormData.push_gateway_server" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="21" class="custom-col">
-                <el-form-item>
-                  <template #label>
-                    <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
-                  </template>
-                  <el-input v-model="prometheusFormData.job_name" />
-                </el-form-item>
-              </el-col>
+          <!-- Prometheus -->
+          <template v-if="selectedPlatform === 'Prometheus'">
+            <el-row>
               <el-col :span="21" class="custom-col">
                 <el-form-item>
                   <template #label>
                     <FormItemLabel
-                      :label="t('RuleEngine.headers')"
-                      :desc="tl('headersDesc')"
-                      desc-marked
+                      :label="tl('enablePushgateway')"
+                      :desc="tl('enablePushgatewayDesc')"
                     />
                   </template>
-                  <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                  <el-switch v-model="prometheusFormData.enable" />
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-collapse-transition>
+            <el-collapse-transition>
+              <el-row v-show="prometheusFormData.enable">
+                <el-col :span="21" class="custom-col">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
+                    </template>
+                    <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21" class="custom-col">
+                  <el-form-item>
+                    <template #label>
+                      <span>{{ tl('pushgatewayServer') }}</span>
+                      <InfoTooltip>
+                        <template #content>
+                          {{ tl('pushgatewayDesc') }} <span>{{ tl('learn') }}</span>
+                          <a
+                            href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            {{ tl('whenToUsePushgateway') }}
+                          </a>
+                        </template>
+                      </InfoTooltip>
+                    </template>
+                    <el-input v-model="prometheusFormData.push_gateway_server" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21" class="custom-col">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
+                    </template>
+                    <el-input v-model="prometheusFormData.job_name" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21" class="custom-col">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel
+                        :label="t('RuleEngine.headers')"
+                        :desc="tl('headersDesc')"
+                        desc-marked
+                      />
+                    </template>
+                    <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-collapse-transition>
+          </template>
+          <!-- OpenTelemetry -->
+          <template v-if="selectedPlatform === 'OpenTelemetry'">
+            <el-row>
+              <el-col :span="21" class="custom-col">
+                <el-form-item :label="tl('enableOpentelemetry')">
+                  <el-switch v-model="opentelemetryFormData.enable" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-collapse-transition>
+              <el-row v-show="opentelemetryFormData.enable">
+                <el-col :span="21" class="custom-col">
+                  <el-form-item :label="tl('endpoint')">
+                    <el-input v-model="opentelemetryFormData.exporter.endpoint" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21" class="custom-col">
+                  <el-form-item :label="tl('exportInterval')">
+                    <TimeInputWithUnitSelectVue v-model="opentelemetryFormData.exporter.interval" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-collapse-transition>
+          </template>
           <el-col class="btn-col" :span="24" :style="store.getters.configPageBtnStyle">
             <el-button type="primary" :loading="isSubmitting" @click="submit">
               {{ $t('Base.saveChanges') }}
@@ -111,15 +138,16 @@
 </template>
 
 <script setup lang="ts">
-import { getPrometheus, setPrometheus } from '@/api/common'
+import { getPrometheus, setPrometheus, getOpenTelemetry, setOpenTelemetry } from '@/api/common'
 import promImg from '@/assets/img/prom.png'
+import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Prometheus } from '@/types/dashboard'
+import { Prometheus, OpenTelemetry } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, ref } from 'vue'
@@ -127,6 +155,7 @@ import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 
 const PROMETHEUS = 'Prometheus'
+const OPENTELEMETRY = 'OpenTelemetry'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
@@ -136,6 +165,11 @@ const platformOpts = [
     label: PROMETHEUS,
     value: PROMETHEUS,
     img: promImg,
+  },
+  {
+    label: OPENTELEMETRY,
+    value: OPENTELEMETRY,
+    img: opentelemetryImg,
   },
 ]
 
@@ -147,6 +181,13 @@ const prometheusFormData: Ref<Prometheus> = ref({
   push_gateway_server: '',
   job_name: '',
   headers: {},
+})
+const opentelemetryFormData: Ref<OpenTelemetry> = ref({
+  enable: false,
+  exporter: {
+    endpoint: '',
+    interval: '10s',
+  },
 })
 
 const isDataLoading = ref(false)
@@ -183,11 +224,32 @@ const updatePrometheus = async function () {
   }
 }
 
+const loadOpentelemetry = async function () {
+  opentelemetryFormData.value = await getOpenTelemetry()
+}
+
+const updateOpentelemetry = async function () {
+  try {
+    isSubmitting.value = true
+    await setOpenTelemetry(opentelemetryFormData.value)
+    ElMessage.success(t('Base.updateSuccess'))
+  } catch (error) {
+    loadOpentelemetry()
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
 const submit = async () => {
-  await updatePrometheus()
+  if (selectedPlatform.value === 'Prometheus') {
+    await updatePrometheus()
+  } else if (selectedPlatform.value === 'OpenTelemetry') {
+    await updateOpentelemetry()
+  }
 }
 
 loadIntegration()
+loadOpentelemetry()
 </script>
 
 <style lang="scss">

@@ -137,4 +137,16 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '请配置 metrics API path',
     en: 'Please configure the metrics API path',
   },
+  enableOpentelemetry: {
+    zh: '启用 OpenTelemetry',
+    en: 'Enable OpenTelemetry',
+  },
+  endpoint: {
+    zh: '服务地址',
+    en: 'Endpoint',
+  },
+  exportInterval: {
+    zh: '导出间隔',
+    en: 'Export Interval',
+  },
 }
