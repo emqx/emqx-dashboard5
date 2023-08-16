@@ -166,6 +166,7 @@ const typesWithSecondControlKeyMap = {
 }
 
 const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
+  props.type as BridgeType,
   props,
   bridgeRecord,
 )
