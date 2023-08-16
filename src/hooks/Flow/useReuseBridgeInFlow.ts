@@ -2,22 +2,39 @@ import { getBridgeList } from '@/api/ruleengine'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import {
   typesWithProducerAndConsumer,
+  useBridgeDirection,
   useBridgeTypeOptions,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
+import { FormRules } from '@/types/common'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep, groupBy } from 'lodash'
-import { Ref, computed, ref } from 'vue'
+import { ComputedRef, Ref, computed, ref } from 'vue'
 
 type GroupedBridgeMap = { [key in BridgeType]?: Array<BridgeItem> }
 
-export default (props: any, record: any) => {
+export default (
+  type: BridgeType,
+  props: any,
+  record: any,
+): {
+  isCreateBridgeInFlow: ComputedRef<any>
+  isBridgeSelected: Ref<boolean>
+  getBridgesInSameType: (direction?: BridgeDirection) => BridgeItem[] | undefined
+  handleNameChange: (name: string) => void
+  handleSchemaForReuse: (data: { components: Properties; rules: SchemaRules }) => Promise<{
+    components: Properties
+    rules: FormRules
+  }>
+} => {
   let getBridgeRequest: undefined | Promise<Array<BridgeItem>> = undefined
   const groupedBridgeMap: Ref<GroupedBridgeMap> = ref({})
 
-  const isCreateBridgeInFlow = computed(() => props.isUsingInFlow && !props.edit && !props.readonly)
+  const isCreateBridgeInFlow: ComputedRef<boolean> = computed(
+    () => props.isUsingInFlow && !props.edit && !props.readonly,
+  )
 
   const { getBridgeType } = useBridgeTypeOptions()
 
@@ -31,18 +48,22 @@ export default (props: any, record: any) => {
     }
   }
 
+  const { judgeBridgeDirection } = useBridgeDirection()
   /**
    * @param type For mqtt, the direction needs to be specified
    * For consumer and producer separate types, the direction needs to be specified
    * For types where versions are separate (e.g., redis and mongo), a generic type
    */
-  const getBridgesByType = (type: BridgeType, direction?: BridgeDirection) => {
+  const getBridgesInSameType = (direction?: BridgeDirection) => {
     if (!type) {
       return []
     }
     const generalType = getBridgeType(type)
     if (type === BridgeType.MQTT) {
-      // TODO:
+      const list = groupedBridgeMap.value[type] || []
+      return direction !== undefined
+        ? list.filter((item) => judgeBridgeDirection(item) === direction)
+        : list
     } else if (typesWithProducerAndConsumer.includes(type as BridgeType)) {
       // TODO:
     } else {
@@ -51,7 +72,7 @@ export default (props: any, record: any) => {
   }
 
   const getBridgeByName = (name: string) => {
-    const bridges = getBridgesByType(props.type)
+    const bridges = getBridgesInSameType()
     return bridges?.find((item) => item.name === name)
   }
 
@@ -91,6 +112,16 @@ export default (props: any, record: any) => {
     return { components, rules }
   }
 
+  const handleNameChange = (name: string) => {
+    const bridge = !!name && getBridgeByName(name)
+    if (bridge) {
+      isBridgeSelected.value = true
+      record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
+    } else {
+      isBridgeSelected.value = false
+    }
+  }
+
   if (isCreateBridgeInFlow.value) {
     getBridges()
   }
@@ -98,7 +129,8 @@ export default (props: any, record: any) => {
   return {
     isCreateBridgeInFlow,
     isBridgeSelected,
-    getBridgesByType,
+    getBridgesInSameType,
+    handleNameChange,
     handleSchemaForReuse,
   }
 }
