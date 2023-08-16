@@ -12,16 +12,12 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-select
+          <InputSelect
             v-if="isCreateBridgeInFlow"
             v-model="formData.name"
-            filterable
-            allow-create
-            default-first-option
+            :options="nameOptions"
             @change="handleNameChange"
-          >
-            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+          />
           <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
@@ -282,9 +278,11 @@ import {
   fillEmptyValueToUndefinedField,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
+  waitAMoment,
 } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -299,17 +297,7 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { isEqual, snakeCase } from 'lodash'
-import {
-  Ref,
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 
 enum AuthType {
   None,
@@ -375,14 +363,16 @@ const { getPropItem } = useGetInfoFromComponents(components)
 const { initRecordByComponents } = useSchemaRecord()
 const { createSSLForm } = useSSL()
 
+const createRawFormData = () =>
+  Object.assign(initRecordByComponents(components.value), { ssl: createSSLForm() })
+
 const initRecord = () => {
   if (Object.keys(components.value).length === 0) {
     return
   }
   if (!props.edit && !props.copy) {
     formData.value = {
-      ...initRecordByComponents(components.value),
-      ssl: createSSLForm(),
+      ...createRawFormData(),
       ...(props.modelValue || {}),
     }
   }
@@ -409,10 +399,9 @@ const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleName
 const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
-    const name = formData.value.name
-    formCom.value?.resetFields?.()
-    await nextTick()
-    formData.value.name = name
+    formData.value = Object.assign(createRawFormData(), { name: formData.value.name })
+    await waitAMoment()
+    formCom.value?.clearValidate?.()
   }
 })
 

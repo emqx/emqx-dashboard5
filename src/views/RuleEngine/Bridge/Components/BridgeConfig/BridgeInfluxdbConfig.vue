@@ -11,16 +11,12 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-select
+          <InputSelect
             v-if="isCreateBridgeInFlow"
             v-model="formData.name"
-            filterable
-            allow-create
-            default-first-option
+            :options="nameOptions"
             @change="handleNameChange"
-          >
-            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+          />
           <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
@@ -176,9 +172,14 @@
 </template>
 
 <script setup lang="ts">
-import { fillEmptyValueToUndefinedField, getLabelFromValueInOptionList } from '@/common/tools'
+import {
+  fillEmptyValueToUndefinedField,
+  getLabelFromValueInOptionList,
+  waitAMoment,
+} from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
@@ -191,7 +192,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
@@ -266,10 +267,9 @@ const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleName
 const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
-    const name = formData.value.name
-    formCom.value?.resetFields?.()
-    await nextTick()
-    formData.value.name = name
+    formData.value = Object.assign(createDefaultValue(), { name: formData.value.name })
+    await waitAMoment()
+    formCom.value?.clearValidate?.()
   }
 })
 

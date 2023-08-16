@@ -94,11 +94,8 @@ export default (
     if (name) {
       name.default = ''
       name.symbols = getBridgesInSameType()?.map(({ name }) => name)
-      name.type = 'enum'
+      name.type = 'string'
       name.componentProps = {
-        filterable: true,
-        allowCreate: true,
-        defaultFirstOption: true,
         onChange: (val: string) => {
           const bridge = !!val && getBridgeByName(val)
           if (bridge) {

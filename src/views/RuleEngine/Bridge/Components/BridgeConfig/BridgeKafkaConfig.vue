@@ -11,16 +11,12 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-select
+          <InputSelect
             v-if="isCreateBridgeInFlow"
             v-model="formData.name"
-            filterable
-            allow-create
-            default-first-option
+            :options="nameOptions"
             @change="handleNameChange"
-          >
-            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+          />
           <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
@@ -324,10 +320,12 @@ import {
   fillEmptyValueToUndefinedField,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
+  waitAMoment,
 } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputSelect from '@/components/InputSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
@@ -340,7 +338,7 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType, KafkaType, Role, BridgeDirection } from '@/types/enum'
+import { BridgeDirection, BridgeType, KafkaType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual, pick } from 'lodash'
@@ -351,7 +349,6 @@ import {
   defineEmits,
   defineExpose,
   defineProps,
-  nextTick,
   onMounted,
   ref,
   watch,
@@ -479,9 +476,9 @@ const nameOptions = computed(() => getBridgesInSameType()?.map(({ name }) => nam
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
     const name = formData.value.name
-    formCom.value?.resetFields?.()
-    await nextTick()
-    formData.value.name = name
+    formData.value = Object.assign(getDefaultForm(), { name })
+    await waitAMoment()
+    formCom.value?.clearValidate?.()
   }
 })
 
