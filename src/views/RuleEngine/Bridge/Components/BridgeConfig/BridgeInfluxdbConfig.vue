@@ -11,14 +11,24 @@
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <el-input v-model="formData.name" :disabled="edit" />
+          <el-select
+            v-if="isCreateBridgeInFlow"
+            v-model="formData.name"
+            filterable
+            allow-create
+            default-first-option
+            @change="handleNameChange"
+          >
+            <el-option v-for="item in nameOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <el-input v-else v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
         <el-form-item :label="tl('influxDBVersion')">
           <el-select
             v-model="formData.type"
-            :disabled="edit"
+            :disabled="edit || isBridgeSelected"
             @change="handleVersionChanged"
             v-if="!readonly"
           >
@@ -171,16 +181,17 @@ import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { InfluxDBType } from '@/types/enum'
+import { BridgeType, InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import { Ref, computed, defineEmits, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 
@@ -194,13 +205,12 @@ const props = defineProps({
   copy: {
     type: Boolean,
   },
-  colSpan: {
-    type: Number,
-    default: 12,
-  },
   readonly: {
     type: Boolean,
     default: false,
+  },
+  isUsingInFlow: {
+    type: Boolean,
   },
 })
 
@@ -248,6 +258,20 @@ const formRules = computed(() => ({
   ...commonRules.value,
   ...(formData.value.type === InfluxDBType.v1 ? rulesForV1.value : rulesForV2),
 }))
+
+const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
+
+const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
+  useReuseBridgeInFlow(BridgeType.InfluxDB, props, formData)
+const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
+watch(isBridgeSelected, async (nVal, oVal) => {
+  if (!nVal && oVal) {
+    const name = formData.value.name
+    formCom.value?.resetFields?.()
+    await nextTick()
+    formData.value.name = name
+  }
+})
 
 const initFormData = async () => {
   if (!props.modelValue) {
