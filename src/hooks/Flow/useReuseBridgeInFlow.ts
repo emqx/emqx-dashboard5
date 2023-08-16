@@ -1,10 +1,6 @@
 import { getBridgeList } from '@/api/ruleengine'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
-import {
-  typesWithProducerAndConsumer,
-  useBridgeDirection,
-  useBridgeTypeOptions,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeDirection, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { cloneDeep, groupBy } from 'lodash'
@@ -51,17 +47,13 @@ export default (
     if (!type) {
       return []
     }
-    const generalType = getBridgeType(type)
-    if (type === BridgeType.MQTT) {
-      const list = groupedBridgeMap.value[type] || []
-      return direction !== undefined
-        ? list.filter((item) => judgeBridgeDirection(item) === direction)
-        : list
-    } else if (typesWithProducerAndConsumer.includes(type as BridgeType)) {
-      // TODO:
-    } else {
-      return groupedBridgeMap.value[type] || []
+    const list = groupedBridgeMap.value[type] || []
+
+    if (type === BridgeType.MQTT && direction !== undefined) {
+      return list.filter((item) => judgeBridgeDirection(item) === direction)
     }
+
+    return list
   }
 
   const getBridgeByName = (name: string) => {
