@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="180px"
+    label-width="160px"
     class="webhook-form"
     hide-required-asterisk
     :rules="rules"
@@ -195,8 +195,17 @@ defineExpose({ validate })
       }
     }
     &.item-headers {
-      width: 50%;
+      width: 664px;
     }
+  }
+  .el-form-item {
+    margin-bottom: 24px;
+  }
+  .el-form-item__label {
+    padding-right: 16px;
+  }
+  .TLS-enable-config .TLS-input {
+    width: 100%;
   }
   .one-of,
   .key-and-value-editor,
