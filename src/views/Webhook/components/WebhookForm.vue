@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="180px"
+    label-width="160px"
     class="webhook-form"
     hide-required-asterisk
     :rules="rules"
@@ -55,10 +55,10 @@
             :enabled-units="['s']"
           />
         </el-form-item>
-        <el-form-item :label="tl('connectionPoolSize')" required prop="pool_size">
+        <el-form-item :label="tl('connectionPoolSize')" required prop="bridge.pool_size">
           <el-input v-model.number="formData.bridge.pool_size" />
         </el-form-item>
-        <el-form-item :label="tl('poolType')" prop="pool_type">
+        <el-form-item :label="tl('poolType')" prop="bridge.pool_type">
           <el-select v-model="formData.bridge.pool_type">
             <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
           </el-select>
@@ -195,8 +195,17 @@ defineExpose({ validate })
       }
     }
     &.item-headers {
-      width: 50%;
+      width: 664px;
     }
+  }
+  .el-form-item {
+    margin-bottom: 24px;
+  }
+  .el-form-item__label {
+    padding-right: 16px;
+  }
+  .TLS-enable-config .TLS-input {
+    width: 100%;
   }
   .one-of,
   .key-and-value-editor,

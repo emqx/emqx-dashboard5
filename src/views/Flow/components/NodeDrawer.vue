@@ -171,12 +171,12 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
-  [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Consumer },
+  [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
-  [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '180px', fixedRole: Role.Producer },
-  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '180px' },
-  [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '180px', isRoleHidden: true },
+  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },
+  [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Producer },
+  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
+  [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '152px', isRoleHidden: true },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
