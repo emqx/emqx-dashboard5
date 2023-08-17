@@ -55,10 +55,10 @@
             :enabled-units="['s']"
           />
         </el-form-item>
-        <el-form-item :label="tl('connectionPoolSize')" required prop="pool_size">
+        <el-form-item :label="tl('connectionPoolSize')" required prop="bridge.pool_size">
           <el-input v-model.number="formData.bridge.pool_size" />
         </el-form-item>
-        <el-form-item :label="tl('poolType')" prop="pool_type">
+        <el-form-item :label="tl('poolType')" prop="bridge.pool_type">
           <el-select v-model="formData.bridge.pool_type">
             <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
           </el-select>
