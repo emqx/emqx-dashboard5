@@ -387,6 +387,9 @@ defineExpose({ validate })
   .topic-item {
     display: flex;
     margin-bottom: 12px;
+    .el-form-item {
+      margin-bottom: 0;
+    }
   }
   .btn-del {
     margin-left: 16px;
