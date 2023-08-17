@@ -298,6 +298,16 @@ export default (props: {
     return { components, rules }
   }
 
+  const greptimeDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    // TODO:remove
+    Reflect.deleteProperty(components, 'ssl')
+    Reflect.deleteProperty(rules, 'ssl')
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
@@ -308,6 +318,7 @@ export default (props: {
     [BridgeType.HStream]: hStreamHandler,
     [BridgeType.AzureEventHubs]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
+    [BridgeType.GreptimeDB]: greptimeDBHandler,
   }
 
   const getComponentsHandler = () => {

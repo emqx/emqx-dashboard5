@@ -370,6 +370,7 @@ export default (
     },
     [BridgeType.GreptimeDB]: {
       write_syntax: 'dividing-line-below',
+      precision: 'dividing-line-below',
     },
   }
 
