@@ -27,6 +27,7 @@ export default (): {
   const keysDoNotNeedForAPI = ['node_status', 'status', 'status_reason', 'role', 'idForRuleFrom']
 
   const keysNeedDel = {
+    saveAsCopy: ['enable', 'id'],
     update: keysDoNotNeedForAPI,
     create: [...keysDoNotNeedForAPI, 'enable', 'id'],
   }
@@ -60,7 +61,7 @@ export default (): {
   // When saving as a copy, check if it has been modified.
   const likePasswordFieldKeys = ['password']
   const handleBridgeDataForCopy = (bridgeData: any): any => {
-    const ret = omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.create)
+    const ret = omit(handleBridgeDataAfterLoaded(bridgeData), keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
       if (get(ret, key) !== undefined) {
         set(ret, key, '')
