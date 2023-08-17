@@ -391,7 +391,7 @@ export default {
   },
   topicTips: {
     zh: '主题字符串，支持 ${0} 和 ${1} 占位符，在执行权限检查时会被替换为对应客户端的 Username 或 Client ID',
-    en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks."
+    en: "Topic supports ${0} and ${1} placeholders, which will be replaced with the corresponding client's Username or Client ID when performing permission checks.",
     ja: 'トピック文字列は、${0} と ${1} のプレースホルダをサポートしています。これらは、権限チェック時に、対応するクライアントのユーザー名またはクライアントIDに置き換えられます。',
   },
   jwtBase64Tips: {

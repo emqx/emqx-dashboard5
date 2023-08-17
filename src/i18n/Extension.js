@@ -341,7 +341,7 @@ export default {
   },
   msgClearIntervalDesc: {
     en: `Periodic interval for cleaning up expired messages. Never clear if the value is 0.`,
-    ja: '期限切れメッセージをクリーンアップする周期的なインターバル。値が0の場合はクリアしない'
+    ja: '期限切れメッセージをクリーンアップする周期的なインターバル。値が0の場合はクリアしない',
     zh: '消息清理间隔。0 代表不进行清理',
   },
   maxPayloadSizeDesc: {
