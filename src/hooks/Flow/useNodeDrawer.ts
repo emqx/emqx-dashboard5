@@ -31,9 +31,9 @@ export default (): {
   }
   const getDrawerTitle = (type: string) => drawerTitleMap[type] || ''
 
-  const drawerDefaultWidth = '40%'
+  const drawerDefaultWidth = '560px'
   const drawerWidthMap: Record<string, string> = {
-    [ProcessingType.Filter]: '68%',
+    [ProcessingType.Filter]: '960px',
   }
   const getDrawerWidth = (type: string) => drawerWidthMap[type] || drawerDefaultWidth
 
