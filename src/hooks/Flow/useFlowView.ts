@@ -7,7 +7,6 @@ import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
-import useWebhookUtils from '../Webhook/useWebhookUtils'
 import { FlowData, FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
 
 export default (): {
@@ -32,12 +31,9 @@ export default (): {
   const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
-  const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
-
   const getRuleData = async () => {
     try {
-      const data = await getAllListData(getRules)
-      ruleList = data.filter((item) => !judgeIsWebhookRule(item))
+      ruleList = await getAllListData(getRules)
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -48,9 +44,7 @@ export default (): {
   const getBridgeData = async () => {
     try {
       const list: Array<BridgeItem> = await getBridgeList()
-      bridgeList = list
-        .filter((item) => !judgeIsWebhookBridge(item))
-        .map((item) => handleBridgeDataAfterLoaded(item))
+      bridgeList = list.map((item) => handleBridgeDataAfterLoaded(item))
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
