@@ -267,7 +267,7 @@ export default (props: {
 
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { kafka } = components
+    const { kafka, authentication } = components
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
       kafka?.properties?.kafka_ext_headers?.items?.properties || {}
@@ -283,6 +283,11 @@ export default (props: {
     }
     if (value?.type === 'string') {
       value.componentProps = { type: 'textarea', rows: 3 }
+    }
+
+    const { password } = authentication?.properties || {}
+    if (password?.type === 'string') {
+      password.format = 'password'
     }
 
     return { components, rules }
