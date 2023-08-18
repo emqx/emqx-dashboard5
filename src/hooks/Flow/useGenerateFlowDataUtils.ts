@@ -10,7 +10,7 @@ import {
   useBridgeTypeOptions,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
-import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
@@ -61,7 +61,7 @@ export default () => {
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
     BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
 
-  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':'))
+  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':') + 1)
 
   const getBridgeTypeFromId = (id: string): string => {
     const type = id.slice(0, id.indexOf(':'))
@@ -88,13 +88,14 @@ export default () => {
         nodeType === NodeType.Sink ? BridgeDirection.Egress : BridgeDirection.Ingress
       return getSpecificTypeWithDirection(bridgeType as BridgeType, direction)
     }
-    const direction = typeSpecifiesTheDirection(bridgeType)
 
+    const direction = typeSpecifiesTheDirection(bridgeType)
     if (direction !== undefined) {
       const generalType = getBridgeType(bridgeType)
       return getSpecificTypeWithDirection(generalType, direction)
     }
-    return bridgeType
+
+    return getBridgeType(bridgeType)
   }
 
   /* FIELDS */
@@ -193,13 +194,15 @@ export default () => {
   }
 
   /* SOURCE */
+  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
   const getFormDataByType = (type: string, value: string) => {
     if (type === SourceType.Event) {
       return createEventForm(value)
     } else if (type === SourceType.Message) {
       return createMessageForm(value)
     }
-    return { name: getBridgeNameFromId(value) }
+    const bridgeId = getBridgeIdFromInput(value)
+    return { name: getBridgeNameFromId(bridgeId), id: bridgeId }
   }
   /**
    * @returns If the returned type is a bridge type, it is a specific bridge type
@@ -232,7 +235,7 @@ export default () => {
       const id =
         type === SourceType.Event || type === SourceType.Message
           ? `${type}-${fromItem}`
-          : `${type}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
+          : `${type}-${getBridgeIdFromInput(fromItem)}`
 
       const node = {
         id,
@@ -312,7 +315,7 @@ export default () => {
         formData = item
       } else {
         id = `${type}-${item}`
-        formData = { name: getBridgeNameFromId(item as string) }
+        formData = { name: getBridgeNameFromId(item as string), id: item }
       }
 
       const node: Node = {
@@ -327,44 +330,6 @@ export default () => {
       arr.push(node)
       return arr
     }, [])
-  }
-
-  /* BRIDGES */
-  const generateNodeFromBridgeData = (bridge: BridgeItem) => {
-    const { type } = bridge
-    let specificType = type
-    let direction = BridgeDirection.Egress
-
-    if (isTwoDirectionBridge(type)) {
-      if (type === BridgeType.MQTT && 'ingress' in bridge) {
-        direction = BridgeDirection.Ingress
-      }
-      specificType = getSpecificTypeForBridge(
-        type,
-        direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink,
-      )
-    } else {
-      const typeDirection = typeSpecifiesTheDirection(type)
-      if (typeDirection !== undefined) {
-        direction = typeDirection
-        const nodeType = typeDirection === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
-        specificType = getSpecificTypeForBridge(type, nodeType)
-      } else {
-        // get general type from type
-        // eg. is type is redis_rs, get redis
-        specificType = getBridgeType(specificType)
-      }
-    }
-    const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
-    const node: Node = {
-      id: `${type}-${bridge.id}`,
-      position: { x: 0, y: 0 },
-      label: getTypeLabel(specificType),
-      ...getTypeCommonData(nodeType),
-      data: { specificType, formData: bridge, desc: '' },
-    }
-    node.data.desc = getNodeInfo(node)
-    return node
   }
 
   /* RULE */
@@ -479,7 +444,6 @@ export default () => {
 
   return {
     generateFunctionFormFromExpression,
-    generateNodeFromBridgeData,
     generateFlowDataFromRuleItem,
     countNodesPosition,
     isRemovedBridge,
