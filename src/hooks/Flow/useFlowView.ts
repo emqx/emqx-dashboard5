@@ -1,13 +1,13 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
+import useGenerateFlowDataUtils, { GroupedNode } from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
-import { FlowData, FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
+import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -15,7 +15,7 @@ export default (): {
   getFlowData: () => Promise<void>
 } => {
   let ruleList: Array<RuleItem> = []
-  let bridgeList: Array<BridgeItem> = []
+  let bridgeData: Map<string, BridgeItem> = new Map()
 
   // column 1
   let sourceNodes: Array<Node> = []
@@ -44,25 +44,37 @@ export default (): {
   const getBridgeData = async () => {
     try {
       const list: Array<BridgeItem> = await getBridgeList()
-      bridgeList = list.map((item) => handleBridgeDataAfterLoaded(item))
+      bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
+        m.set(item.id, handleBridgeDataAfterLoaded(item))
+        return m
+      }, new Map())
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const {
-    generateNodeFromBridgeData,
-    generateFlowDataFromRuleItem,
-    countNodesPosition,
-    isRemovedBridge,
-  } = useGenerateFlowDataUtils()
+  const { generateFlowDataFromRuleItem, countNodesPosition, isRemovedBridge } =
+    useGenerateFlowDataUtils()
+  const { isBridgerNode } = useFlowNode()
 
   const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
     nodes.map((node) => {
       node.data.rulesUsed = [ruleId]
       return node
     })
+
+  const addBridgeFormDataToNodes = (node: Array<Node>): Array<Node> => {
+    return node.map((item) => {
+      if (isBridgerNode(item) && bridgeData.get(item.data.formData?.id)) {
+        item.data.formData = {
+          ...item.data.formData,
+          ...(bridgeData.get(item.data.formData?.id) || {}),
+        }
+      }
+      return item
+    })
+  }
 
   /**
    * If a node already exists in the list, modify the rulesUsed data of the node
@@ -85,7 +97,12 @@ export default (): {
   const generateFlowDataFromRuleData = (ruleArr: Array<RuleItem>) => {
     ruleArr.forEach((rule) => {
       const { nodes, edges } = generateFlowDataFromRuleItem(rule)
-      Object.entries(nodes).forEach(([, value]) => addRuleDataToNodes(value, rule.id))
+      Object.entries(nodes).forEach(([key, value]) => {
+        addRuleDataToNodes(value, rule.id)
+        if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
+          nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
+        }
+      })
 
       sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
       filterNodes.push(...nodes[ProcessingType.Filter])
@@ -93,13 +110,6 @@ export default (): {
       sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
 
       edgeArr.push(...edges)
-    })
-  }
-  const generateNodesFromBridgeData = (bridgeArr: Array<BridgeItem>) => {
-    bridgeArr.forEach((bridge) => {
-      const node = generateNodeFromBridgeData(bridge)
-      const targetNodes = node.type === FlowNodeType.Input ? sourceNodes : sinkNodes
-      targetNodes.push(node)
     })
   }
 
@@ -157,9 +167,6 @@ export default (): {
 
   const generateFlowData = () => {
     initNodeAndEdge()
-    // create bridge node first because this can get bridge data and set to form data,
-    // then remove duplicated node will remove the node without form data which from rule SQL
-    generateNodesFromBridgeData(bridgeList)
     generateFlowDataFromRuleData(ruleList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
