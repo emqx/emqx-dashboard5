@@ -6,9 +6,11 @@ import { getBridgeKey } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import { BasicRule, BridgeItem } from '@/types/rule'
+import { ElementData, GraphEdge } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
 import { groupBy } from 'lodash'
 import useI18nTl from '../useI18nTl'
+import useFlowEdge from './useFlowEdge'
 import useFlowNode, { FlowNodeType, ProcessingType, SinkType, SourceType } from './useFlowNode'
 import useHandleFlowDataUtils from './useHandleFlowDataUtils'
 
@@ -22,10 +24,7 @@ interface NodeData {
   }
 }
 
-interface EdgeData {
-  source: string
-  target: string
-}
+type EdgeData = Pick<GraphEdge<ElementData>, 'source' | 'sourceNode' | 'target' | 'targetNode'>
 
 type NodesAfterGroup = Record<FlowNodeType, Array<NodeData>>
 
@@ -80,9 +79,38 @@ export default (): {
       : Promise.resolve()
   }
 
+  const { checkConnection } = useFlowEdge()
   const verifyConnection = async (flowData: FlowData) => {
-    //
-    return Promise.resolve()
+    const { nodes, edges } = flowData
+    try {
+      await Promise.all(edges.map((item) => checkConnection(item)))
+      const checkNodeFlow = async (nodeId: string, direction: 'in' | 'out') => {
+        const outputTypeSet = edges.reduce((set: Set<FlowNodeType>, edge): Set<FlowNodeType> => {
+          const target = direction === 'in' ? edge.target : edge.source
+          if (target === nodeId) {
+            const node = direction === 'in' ? edge.sourceNode : edge.targetNode
+            set.add(node.type as FlowNodeType)
+          }
+          return set
+        }, new Set() as Set<FlowNodeType>)
+        return [...outputTypeSet].length > 1
+          ? Promise.reject(tl('incorrectConnection'))
+          : Promise.resolve()
+      }
+      return Promise.all(
+        nodes.map(({ id, type, data }) => {
+          if (!type || !data.specificType) {
+            return Promise.resolve()
+          }
+          const isInputNode = type === FlowNodeType.Input
+          const isFunctionNode = data.specificType === ProcessingType.Function
+          const direction = isInputNode || isFunctionNode ? 'out' : 'in'
+          return checkNodeFlow(id, direction)
+        }),
+      )
+    } catch (error: any) {
+      return Promise.reject(error)
+    }
   }
 
   const verifyMultipleFlow = async ({ edges }: FlowData) => {
