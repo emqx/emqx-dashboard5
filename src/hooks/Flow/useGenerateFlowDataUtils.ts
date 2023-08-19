@@ -432,7 +432,7 @@ export default () => {
     nodeArr: Array<Node>,
     sourceNodes: Array<Node>,
     columnIndex: number,
-    defaultY: number,
+    totalHeight: number,
   ) => {
     const sourceIndexUsed: Set<number> = new Set()
     nodeArr.forEach((node) => {
@@ -458,13 +458,16 @@ export default () => {
           }
         } else {
           node.position = {
-            y: defaultY,
+            y: totalHeight / 2,
             x: getXPosition(columnIndex),
           }
         }
       }
     })
   }
+  /**
+   * count nodes position view all flows
+   */
   const countNodesPosition = (nodes: GroupedNode) => {
     // count source & sink nodes position first
     const keys: Array<keyof GroupedNode> = [NodeType.Source, NodeType.Sink]
@@ -474,7 +477,6 @@ export default () => {
       nodeRowSpacing
     setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
     setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
-
     // Set filter & function nodes position based on source nodes to avoid overlap
     const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
     processingTypes.forEach((type, columnIndex) =>
@@ -482,9 +484,26 @@ export default () => {
         nodes[type],
         nodes[NodeType.Source],
         columnIndex + 1,
-        totalHeight / 2,
+        totalHeight,
       ),
     )
+  }
+
+  /**
+   * Compared to the one above, there's no need to think about node coverage
+   */
+  const countNodePositionWhileEditing = (nodes: GroupedNode) => {
+    const keys: Array<keyof GroupedNode> = [
+      NodeType.Source,
+      ProcessingType.Function,
+      ProcessingType.Filter,
+      NodeType.Sink,
+    ]
+    const nodesArr = keys.map((key) => nodes[key])
+    const totalHeight =
+      Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
+      nodeRowSpacing
+    nodesArr.forEach((arr, index) => setPositionToColumnNodes(arr, index, totalHeight))
   }
 
   const isRemovedBridge = (node: Node) =>
@@ -494,6 +513,7 @@ export default () => {
     generateFunctionFormFromExpression,
     generateFlowDataFromRuleItem,
     countNodesPosition,
+    countNodePositionWhileEditing,
     isRemovedBridge,
   }
 }
