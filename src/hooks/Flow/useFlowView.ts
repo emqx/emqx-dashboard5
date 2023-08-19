@@ -20,9 +20,9 @@ export default (): {
   // column 1
   let sourceNodes: Array<Node> = []
   // column 2
-  let filterNodes: Array<Node> = []
-  // column 3
   let functionNodes: Array<Node> = []
+  // column 3
+  let filterNodes: Array<Node> = []
   // column 4
   let sinkNodes: Array<Node> = []
 
@@ -151,8 +151,8 @@ export default (): {
         const nodesArr = rulesGroupedByContent[key]
         nodesArr.forEach((nodes) => {
           sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
-          filterNodes.push(...nodes[ProcessingType.Filter])
           functionNodes.push(...nodes[ProcessingType.Function])
+          filterNodes.push(...nodes[ProcessingType.Filter])
           sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
         })
       },
@@ -160,9 +160,9 @@ export default (): {
   }
 
   const removeDuplicatedNodes = () => {
-    const nodeArrays = [sourceNodes, filterNodes, functionNodes, sinkNodes]
+    const nodeArrays = [sourceNodes, functionNodes, filterNodes, sinkNodes]
     nodeArrays.forEach((nodeArray, i) => (nodeArrays[i] = unionBy(nodeArray, 'id')))
-    ;[sourceNodes, filterNodes, functionNodes, sinkNodes] = nodeArrays
+    ;[sourceNodes, functionNodes, filterNodes, sinkNodes] = nodeArrays
   }
 
   const removeIsolatedBridge = () => {
@@ -200,13 +200,13 @@ export default (): {
   }
 
   const joinToFlowData = () => {
-    flowData.value = [...sourceNodes, ...filterNodes, ...functionNodes, ...sinkNodes, ...edgeArr]
+    flowData.value = [...sourceNodes, ...functionNodes, ...filterNodes, ...sinkNodes, ...edgeArr]
   }
 
   const initNodeAndEdge = () => {
     sourceNodes = []
-    filterNodes = []
     functionNodes = []
+    filterNodes = []
     sinkNodes = []
     edgeArr = []
   }

@@ -346,8 +346,8 @@ export default () => {
   }: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
     const nodes: GroupedNode = {
       [NodeType.Source]: [],
-      [ProcessingType.Filter]: [],
       [ProcessingType.Function]: [],
+      [ProcessingType.Filter]: [],
       [NodeType.Sink]: [],
     }
     const { fieldStr, whereStr } = getKeyPartsFromSQL(sql)
@@ -374,8 +374,8 @@ export default () => {
   const generateEdgesFromNodes = (nodes: GroupedNode): Array<Edge> => {
     const keys: Array<keyof GroupedNode> = [
       NodeType.Source,
-      ProcessingType.Filter,
       ProcessingType.Function,
+      ProcessingType.Filter,
       NodeType.Sink,
     ]
     const result: Edge[] = []
@@ -476,7 +476,7 @@ export default () => {
     setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
 
     // Set filter & function nodes position based on source nodes to avoid overlap
-    const processingTypes: Array<ProcessingType> = [ProcessingType.Filter, ProcessingType.Function]
+    const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
     processingTypes.forEach((type, columnIndex) =>
       setNodesPositionBySourceType(
         nodes[type],

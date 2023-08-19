@@ -5,18 +5,11 @@ import { DEFAULT_SELECT, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constant
 import { getBridgeKey } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
-import { BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { groupBy } from 'lodash'
 import useI18nTl from '../useI18nTl'
-import useFlowNode, {
-  FlowNodeType,
-  FunctionItem,
-  ProcessingType,
-  SinkType,
-  SourceType,
-} from './useFlowNode'
+import useFlowNode, { FlowNodeType, ProcessingType, SinkType, SourceType } from './useFlowNode'
 import useHandleFlowDataUtils from './useHandleFlowDataUtils'
 
 interface NodeData {
@@ -87,6 +80,11 @@ export default (): {
       : Promise.resolve()
   }
 
+  const verifyConnection = async (flowData: FlowData) => {
+    //
+    return Promise.resolve()
+  }
+
   const verifyMultipleFlow = async ({ edges }: FlowData) => {
     const graph: Map<string, Array<string>> = new Map()
 
@@ -131,6 +129,7 @@ export default (): {
     try {
       await verifyIntegrityOfFlow(flowData)
       await verifyIsolatedNode(flowData)
+      await verifyConnection(flowData)
       await verifyMultipleFlow(flowData)
     } catch (error) {
       return Promise.reject(error)
@@ -183,9 +182,7 @@ export default (): {
       } else {
         ret.push(getBridgeKey(formData))
       }
-      // TODO:TODO:TODO:Various types of bridges.
-      // TODO:TODO:TODO:Various types of bridges.
-      // TODO:TODO:TODO:Various types of bridges.
+
       return ret
     }, [])
   }
