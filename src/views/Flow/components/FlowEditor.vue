@@ -251,7 +251,7 @@ const validate = () => {
 }
 
 const nodeNeededKeys = ['id', 'data', 'type']
-const edgeNeededKeys = ['source', 'target']
+const edgeNeededKeys = ['source', 'sourceNode', 'target', 'targetNode']
 const getFlowData = () => {
   const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys))
   const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys))

@@ -8,9 +8,12 @@ export default () => {
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input
   const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
   const isDefaultNode = (node: Node) => node.type === FlowNodeType.Default
-  const checkConnection = async (edge: GraphEdge<ElementData>) => {
-    const { sourceNode, sourceHandle, targetNode, targetHandle } = edge
-
+  const checkConnection = async (
+    edge:
+      | GraphEdge<ElementData>
+      | Pick<GraphEdge<ElementData>, 'source' | 'sourceNode' | 'target' | 'targetNode'>,
+  ) => {
+    const { sourceNode, targetNode } = edge
     if (
       sourceNode.id === targetNode.id ||
       (isInputNode(sourceNode) && isInputNode(targetNode)) ||
@@ -19,22 +22,13 @@ export default () => {
       return Promise.reject(tl('incorrectConnection'))
     }
     if (isDefaultNode(sourceNode) && isDefaultNode(targetNode)) {
-      const functionNodeId = [sourceNode, targetNode].find(
-        (item) => item.data.specificType === ProcessingType.Function,
-      )?.id
-      const filterNodeId = [sourceNode, targetNode].find(
-        (item) => item.data.specificType === ProcessingType.Filter,
-      )?.id
-      if (functionNodeId && filterNodeId) {
-        const handleArr = [sourceHandle, targetHandle]
-        const isFromFunctionToFilter = handleArr.every((item) => {
-          const isRightDirection = item?.includes(functionNodeId) && /right/i.test(item)
-          const isLeftDirection = item?.includes(filterNodeId) && /left/i.test(item)
-          return isRightDirection || isLeftDirection
-        })
-        if (!isFromFunctionToFilter) {
-          return Promise.reject(tl('filterFunctionsWrongOrder'))
-        }
+      const sourceType = sourceNode.data?.specificType
+      const targetType = targetNode.data?.specificType
+      if (!sourceType || !targetType) {
+        return Promise.resolve()
+      }
+      if (sourceType === ProcessingType.Filter && targetType === ProcessingType.Function) {
+        return Promise.reject(tl('filterFunctionsWrongOrder'))
       }
     }
     return Promise.resolve()
