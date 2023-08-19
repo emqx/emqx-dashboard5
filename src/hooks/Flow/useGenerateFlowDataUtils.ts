@@ -399,6 +399,7 @@ export default () => {
               id: `${cur.id}-${nex.id}`,
               source: cur.id,
               target: nex.id,
+              style: {},
             })
           })
         })
@@ -412,31 +413,78 @@ export default () => {
   const nodeHeight = 60
   const nodeColumnSpacing = 100
   const nodeRowSpacing = 30
+  const getXPosition = (columnIndex: number) => (nodeWidth + nodeColumnSpacing) * columnIndex
+  const getYPosition = (index: number, start = 0) => start + index * (nodeRowSpacing + nodeHeight)
   const setPositionToColumnNodes = (
     columnNodes: Array<Node>,
     columnIndex: number,
     totalHeight: number,
   ) => {
     const columnTotalHeight = columnNodes.length * (nodeHeight + nodeRowSpacing) - nodeRowSpacing
-    const x = (nodeWidth + nodeColumnSpacing) * columnIndex
+    const x = getXPosition(columnIndex)
     const startY = (totalHeight - columnTotalHeight) / 2
     columnNodes.forEach((node, index) => {
-      node.position = { x, y: startY + index * (nodeRowSpacing + nodeHeight) }
+      node.position = { x, y: getYPosition(index, startY) }
+    })
+  }
+
+  const setNodesPositionBySourceType = (
+    nodeArr: Array<Node>,
+    sourceNodes: Array<Node>,
+    columnIndex: number,
+    defaultY: number,
+  ) => {
+    const sourceIndexUsed: Set<number> = new Set()
+    nodeArr.forEach((node) => {
+      const ruleId = node.data.rulesUsed[0]
+      let firstSourceNodeIndexConnected = sourceNodes.findIndex((item) => {
+        const arr = item?.data?.rulesUsed || []
+        return arr.includes(ruleId)
+      })
+      while (sourceIndexUsed.has(firstSourceNodeIndexConnected)) {
+        firstSourceNodeIndexConnected += 1
+      }
+      sourceIndexUsed.add(firstSourceNodeIndexConnected)
+      const connectedSourceNode = sourceNodes[firstSourceNodeIndexConnected]
+      if (connectedSourceNode) {
+        node.position = { y: connectedSourceNode.position.y, x: getXPosition(columnIndex) }
+      } else {
+        const startIndex = [...sourceIndexUsed][0]
+        const startY = sourceNodes[startIndex]?.position.y
+        if (startIndex !== undefined && startY !== undefined) {
+          node.position = {
+            y: getYPosition(firstSourceNodeIndexConnected - startIndex, startY),
+            x: getXPosition(columnIndex),
+          }
+        } else {
+          node.position = {
+            y: defaultY,
+            x: getXPosition(columnIndex),
+          }
+        }
+      }
     })
   }
   const countNodesPosition = (nodes: GroupedNode) => {
-    const keys: Array<keyof GroupedNode> = [
-      NodeType.Source,
-      ProcessingType.Filter,
-      ProcessingType.Function,
-      NodeType.Sink,
-    ]
-    const nodesArr = keys.map((key) => nodes[key])
+    // count source & sink nodes position first
+    const keys: Array<keyof GroupedNode> = [NodeType.Source, NodeType.Sink]
 
     const totalHeight =
       Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
       nodeRowSpacing
-    nodesArr.forEach((arr, index) => setPositionToColumnNodes(arr, index, totalHeight))
+    setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
+    setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
+
+    // Set filter & function nodes position based on source nodes to avoid overlap
+    const processingTypes: Array<ProcessingType> = [ProcessingType.Filter, ProcessingType.Function]
+    processingTypes.forEach((type, columnIndex) =>
+      setNodesPositionBySourceType(
+        nodes[type],
+        nodes[NodeType.Source],
+        columnIndex + 1,
+        totalHeight / 2,
+      ),
+    )
   }
 
   const isRemovedBridge = (node: Node) =>

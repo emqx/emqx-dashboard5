@@ -78,8 +78,13 @@ export default (): {
 
   /**
    * If a node already exists in the list, modify the rulesUsed data of the node
+   * @param type added direction
    */
-  const addNodesToNodeArr = (nodes: Array<Node>, nodeArr: Array<Node>) => {
+  const addNodesToNodeArr = (
+    nodes: Array<Node>,
+    nodeArr: Array<Node>,
+    addedDirection: 'push' | 'unshift' = 'push',
+  ) => {
     nodes.forEach((node) => {
       const index = nodeArr.findIndex((item) => item.id === node.id)
       if (index > -1) {
@@ -88,13 +93,46 @@ export default (): {
         }
         nodeArr[index].data.rulesUsed.push(...node.data.rulesUsed)
       } else {
-        nodeArr.push(node)
+        addedDirection === 'push' ? nodeArr.push(node) : nodeArr.unshift(node)
       }
     })
     return nodeArr
   }
 
+  const enum RuleContent {
+    Both,
+    Function,
+    Filter,
+    None,
+  }
+
+  const classifyRuleContent = (nodes: GroupedNode) => {
+    if (nodes[ProcessingType.Filter].length && nodes[ProcessingType.Function].length) {
+      return RuleContent.Both
+    }
+    if (nodes[ProcessingType.Function].length) {
+      return RuleContent.Function
+    }
+    if (nodes[ProcessingType.Filter].length) {
+      return RuleContent.Filter
+    }
+    return RuleContent.None
+  }
+
   const generateFlowDataFromRuleData = (ruleArr: Array<RuleItem>) => {
+    // Push the node from top to bottom; this is because the function node
+    // and the filter node should not be in the middle as far as possible,
+    // blocking the connection
+    const rulesGroupedByContent: Record<string, Array<GroupedNode>> = {
+      // with function & filter node
+      [RuleContent.Both]: [],
+      // with function node and without filter node
+      [RuleContent.Function]: [],
+      // with filter node and with out function node
+      [RuleContent.Filter]: [],
+      // without filter & function node
+      [RuleContent.None]: [],
+    }
     ruleArr.forEach((rule) => {
       const { nodes, edges } = generateFlowDataFromRuleItem(rule)
       Object.entries(nodes).forEach(([key, value]) => {
@@ -104,13 +142,21 @@ export default (): {
         }
       })
 
-      sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
-      filterNodes.push(...nodes[ProcessingType.Filter])
-      functionNodes.push(...nodes[ProcessingType.Function])
-      sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
+      rulesGroupedByContent[classifyRuleContent(nodes)].push(nodes)
 
       edgeArr.push(...edges)
     })
+    ;[RuleContent.Both, RuleContent.Function, RuleContent.Filter, RuleContent.None].forEach(
+      (key) => {
+        const nodesArr = rulesGroupedByContent[key]
+        nodesArr.forEach((nodes) => {
+          sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
+          filterNodes.push(...nodes[ProcessingType.Filter])
+          functionNodes.push(...nodes[ProcessingType.Function])
+          sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
+        })
+      },
+    )
   }
 
   const removeDuplicatedNodes = () => {
