@@ -123,4 +123,13 @@ export default {
     zh: '请输入或选择',
     en: 'Please Input or Select',
   },
+  incorrectConnection: {
+    zh: '错误的连线',
+    en: 'Incorrect connection',
+  },
+  filterFunctionsWrongOrder: {
+    // TODO:TODO:TODO:TODO:TODO:TODO:confirm text
+    zh: 'Flow 中 Function 节点需在 Filter 节点的上游',
+    en: 'The Function node in Flow needs to be upstream of the Filter node.',
+  },
 }
