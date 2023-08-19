@@ -59,7 +59,7 @@ export default () => {
     return node
   }
 
-  const { generateFlowDataFromRuleItem, countNodesPosition, isRemovedBridge } =
+  const { generateFlowDataFromRuleItem, countNodePositionWhileEditing, isRemovedBridge } =
     useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
   const getFlowData = async () => {
@@ -75,7 +75,7 @@ export default () => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')
     })
 
-    countNodesPosition(nodes)
+    countNodePositionWhileEditing(nodes)
     flowData.value = [
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
         if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
