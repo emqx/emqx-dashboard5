@@ -228,7 +228,7 @@ const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
     node.data.formData = data
-    if (isBridgeType(node.data.specificType) && !node.data.isCreated) {
+    if (isBridgeType(node.data.specificType)) {
       node.data.isCreated = !!data.id
     }
     node.data.desc = getNodeInfo(node)
