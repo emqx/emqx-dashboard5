@@ -163,6 +163,14 @@
     "consumer_qos": {
       "desc": "MQTT QoS used to publish messages consumed from GCP PubSub.",
       "label": "QoS"
+    },
+    "attributes_template": {
+      "desc": "The template for formatting the outgoing message attributes.  Undefined values will be rendered as empty string values.  Empty keys are removed from the attribute map.",
+      "label": "Attributes Template"
+    },
+    "ordering_key_template": {
+      "desc": "The template for formatting the outgoing message ordering key.  Undefined values will be rendered as empty string values.  This value will not be added to the message if it's empty.",
+      "label": "Ordering Key template"
     }
   },
   "emqx_ee_bridge_hstreamdb": {

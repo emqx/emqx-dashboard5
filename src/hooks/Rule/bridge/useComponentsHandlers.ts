@@ -153,7 +153,8 @@ export default (props: {
   const GCPComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
-    const { service_account_json, payload_template, type, consumer } = components
+    const { service_account_json, payload_template, type, consumer, attributes_template } =
+      components
     if (type && type?.symbols?.[0]?.indexOf) {
       const isConsumer = type.symbols[0].indexOf('consumer') > -1
       addRoleProp(components, isConsumer ? Role.Consumer : Role.Producer)
@@ -189,6 +190,12 @@ export default (props: {
         },
         trigger: 'blur',
       })
+    }
+    if (attributes_template) {
+      const i18nPrefix = 'components.'
+      const { key, value } = attributes_template?.items?.properties || {}
+      const properties = { key, value }
+      Object.entries(properties).forEach(([key, value]) => (value.label = t(`${i18nPrefix}${key}`)))
     }
 
     /* Consumer */
