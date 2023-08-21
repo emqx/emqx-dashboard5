@@ -204,7 +204,7 @@
               :label="t(`SchemaSymbolLabel.${item}`)"
             />
           </el-select>
-          <p class="value" v-else>{{ t(`SchemaSymbolLabel.kafkaConfig.query_mode`) }}</p>
+          <p class="value" v-else>{{ t(`SchemaSymbolLabel.${kafkaConfig.query_mode}`) }}</p>
         </el-form-item>
       </el-col>
       <el-col :span="colSpan">
