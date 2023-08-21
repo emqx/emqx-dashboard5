@@ -9,7 +9,7 @@
     <el-table-column v-for="(value, key) in properties" :key="key">
       <template #header>
         {{ value.label }}
-        <InfoTooltip>
+        <InfoTooltip v-if="value.description">
           <template #content>
             <MarkdownContent :content="value.description" />
           </template>
