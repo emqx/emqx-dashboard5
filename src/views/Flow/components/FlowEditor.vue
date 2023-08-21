@@ -49,6 +49,7 @@
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
+        @edges-change="checkEdges"
       >
         <template #node-custom_input="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
@@ -77,11 +78,22 @@
 
 <script setup lang="ts">
 import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
+import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Delete, Search } from '@element-plus/icons-vue'
-import { Edge, Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
+import {
+  Edge,
+  EdgeAddChange,
+  EdgeChange,
+  Node,
+  NodeMouseEvent,
+  NodeProps,
+  VueFlow,
+  useVueFlow,
+} from '@vue-flow/core'
+import { ElMessage } from 'element-plus'
 import { pick } from 'lodash'
 import { PropType, Ref, computed, defineExpose, defineProps, ref, watch } from 'vue'
 import FlowGuide from './FlowGuide.vue'
@@ -94,7 +106,7 @@ const props = defineProps({
   },
 })
 
-const { t } = useI18nTl('Flow')
+const { t, tl } = useI18nTl('Flow')
 
 const searchText = ref('')
 
@@ -102,10 +114,11 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges } = useVueFlow({
-  id: flowEditorId,
-  deleteKeyCode: 'Delete',
-})
+const { addNodes, onConnect, addEdges, findNode, removeNodes, removeEdges, getNodes, getEdges } =
+  useVueFlow({
+    id: flowEditorId,
+    deleteKeyCode: 'Delete',
+  })
 
 const {
   nodeArr: rawNodeArr,
@@ -188,6 +201,21 @@ const handleClickNode = (event: NodeMouseEvent) => {
   openNodeDrawer(node)
 }
 
+const { checkConnection } = useFlowEdge()
+const checkEdges = async (events: Array<EdgeChange>) => {
+  const e = events[0]
+  if (!e || e.type !== 'add') {
+    return
+  }
+  const { item } = e as EdgeAddChange
+  try {
+    await checkConnection(item)
+  } catch (error: any) {
+    removeEdges([item])
+    ElMessage.warning(error)
+  }
+}
+
 const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
 
 const resetDrawerData = () => {
@@ -223,7 +251,7 @@ const validate = () => {
 }
 
 const nodeNeededKeys = ['id', 'data', 'type']
-const edgeNeededKeys = ['source', 'target']
+const edgeNeededKeys = ['source', 'sourceNode', 'target', 'targetNode']
 const getFlowData = () => {
   const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys))
   const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys))
