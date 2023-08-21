@@ -92,6 +92,8 @@ export default (
           'max_retries',
           'service_account_json',
           'payload_template',
+          'attributes_template',
+          'ordering_key_template',
           'consumer.topic_mapping',
           'consumer.pull_max_messages',
         ],
@@ -310,8 +312,8 @@ export default (
     [BridgeType.GCP]: {
       name: 'dividing-line-below',
       service_account_json: 'custom-col-24 dividing-line-above',
-      payload_template: 'custom-col-24   dividing-line-below',
-      'consumer.topic_mapping': 'custom-col-24',
+      payload_template: 'custom-col-24 dividing-line-below',
+      ordering_key_template: 'col-need-row dividing-line-below',
       'consumer.pull_max_messages': 'col-need-row dividing-line-below',
     },
     [BridgeType.MongoDB]: {
@@ -361,7 +363,6 @@ export default (
     },
     [BridgeType.AzureEventHubs]: {
       'kafka.topic': 'col-need-row',
-      'kafka.kafka_ext_headers': 'custom-col-24',
       'kafka.buffer.segment_bytes': 'dividing-line-below',
     },
     [BridgeType.AmazonKinesis]: {

@@ -163,6 +163,14 @@
     "consumer_qos": {
       "desc": "用于发布从 GCP PubSub 消费的消息的 MQTT QoS。",
       "label": "QoS"
+    },
+    "attributes_template": {
+      "desc": "用于格式化消息属性的模板。未定义的值将被渲染为空字符串。空键将从属性映射中删除。",
+      "label": "属性模板"
+    },
+    "ordering_key_template": {
+      "desc": "用于格式化消息排序键的模板。未定义的值将被渲染为空字符串。如果此值为空，则不会将其添加到消息中。",
+      "label": "排序键模板"
     }
   },
   "emqx_ee_bridge_hstreamdb": {
