@@ -50,6 +50,8 @@
         v-model="flowData"
         @node-click="handleClickNode"
         @edges-change="checkEdges"
+        @edge-mouse-enter="handleMouseEnterEdge"
+        @edge-mouse-leave="handleMouseLeaveEdge"
       >
         <template #node-custom_input="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
@@ -62,6 +64,13 @@
         <template #node-custom_output="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
           <FlowNode :data="data" />
+        </template>
+        <template #edge-custom="props">
+          <FlowEdge
+            v-bind="props"
+            @mouse-enter="handleMouseEnterEdgeLabel(props)"
+            @mouse-leave="handleMouseLeaveEdge"
+          />
         </template>
       </VueFlow>
     </div>
@@ -87,6 +96,7 @@ import {
   Edge,
   EdgeAddChange,
   EdgeChange,
+  EdgeMouseEvent,
   Node,
   NodeMouseEvent,
   NodeProps,
@@ -95,7 +105,8 @@ import {
 } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
 import { pick } from 'lodash'
-import { PropType, Ref, computed, defineExpose, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
@@ -118,6 +129,7 @@ const { addNodes, onConnect, addEdges, findNode, removeNodes, removeEdges, getNo
   useVueFlow({
     id: flowEditorId,
     deleteKeyCode: 'Delete',
+    defaultEdgeOptions: { type: 'custom' },
   })
 
 const {
@@ -214,6 +226,32 @@ const checkEdges = async (events: Array<EdgeChange>) => {
     removeEdges([item])
     ElMessage.warning(error)
   }
+}
+
+const setEdgeStatus = (edge: Edge, isHover: boolean) => {
+  if (!edge.data) {
+    edge.data = {}
+  }
+  edge.data.isHover = isHover
+}
+
+const handleMouseEnterEdge = ({ edge }: EdgeMouseEvent) => {
+  if (!edge) {
+    return
+  }
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
+  setEdgeStatus(edge, true)
+}
+const handleMouseEnterEdgeLabel = async (edge: any) => {
+  if (!edge) {
+    return
+  }
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
+  await nextTick()
+  setEdgeStatus(edge, true)
+}
+const handleMouseLeaveEdge = async () => {
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
 }
 
 const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
