@@ -392,6 +392,7 @@ const SchemaForm = defineComponent({
               modelValue={modelValue}
               isEdit={!!props.form}
               {...handleUpdateModelValue}
+              {...customProps}
             />
           )
         case 'sql':
@@ -631,7 +632,7 @@ const SchemaForm = defineComponent({
         Object.keys(record).forEach((key) => {
           const propItem = record[key]
           if (typeof propItem === 'object') {
-            if (key === SSL_KEY && 'enable' in propItem) {
+            if (key === SSL_KEY && 'enable' in propItem && propItem.enable === false) {
               record[key] = createSSLForm()
             } else {
               walkData(propItem)
@@ -697,6 +698,17 @@ const SchemaForm = defineComponent({
       }, {})
     }
 
+    const isSSLPropAndNeedConcise = (keyOrPath: string) =>
+      SSL_PATH_REG.test(keyOrPath) && typesNeedConciseSSL.includes(props.type)
+    const handlePropertyWhenUseConciseSSL = (property: Property) => {
+      // is special ssl
+      if (property?.properties?.enable?.symbols?.length === 1) {
+        property.componentProps = { disabledBaseConfig: true }
+      }
+      property.type = 'ssl'
+      return property
+    }
+
     // Get the components to render form by Properties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
@@ -712,14 +724,11 @@ const SchemaForm = defineComponent({
             break
           } else if (typesDoNotNeedGroups.includes(props.type)) {
             // for bridge
-            const isSSLAndNeedConcise =
-              SSL_PATH_REG.test(propItem?.path || '') && typesNeedConciseSSL.includes(props.type)
+            const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propItem?.path || '')
             if (isSSLAndNeedConcise) {
-              Reflect.deleteProperty(propItem, 'properties')
-              propItem.type = 'ssl'
-            }
-            // TODO:like bullshit, refactor it
-            if (propItem.properties) {
+              handlePropertyWhenUseConciseSSL(propItem)
+              _properties[propItem.path as string] = propItem
+            } else if (propItem.properties) {
               _properties = {
                 ..._properties,
                 ...generatePropertiesUsePathAsKey(propItem.properties),
@@ -731,17 +740,17 @@ const SchemaForm = defineComponent({
           _properties[propItem.path as string] = propItem
         }
       }
+
       const setComponents = (properties: Properties) => {
         const propKeys = sortPropKeys(Object.keys(properties))
         propKeys.forEach((key) => {
           const property = properties[key]
           const propKey = property.key as string
           // for concise SSL
-          const isSSLAndNeedConcise =
-            SSL_PATH_REG.test(propKey) && typesNeedConciseSSL.includes(props.type)
+          // TODO: can delete it after check
+          const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
           if (isSSLAndNeedConcise) {
-            Reflect.deleteProperty(property, 'properties')
-            property.type = 'ssl'
+            handlePropertyWhenUseConciseSSL(property)
           }
           if (props.type === 'mqtt') {
             if (SESSION_FIELDS.includes(propKey)) {
@@ -753,7 +762,8 @@ const SchemaForm = defineComponent({
               return
             }
           }
-          if (property.properties) {
+
+          if (property.properties && !isSSLAndNeedConcise) {
             const { label, properties } = property
             levelName = label
             setComponents(properties)
@@ -770,6 +780,7 @@ const SchemaForm = defineComponent({
         })
         return elements
       }
+
       return setComponents(_properties)
     }
     const renderSchemaForm = (properties: Properties) => {
