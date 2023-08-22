@@ -31,8 +31,8 @@
   <div class="key-and-value-editor" v-else>
     <ul class="key-value-list">
       <li class="key-value-item" v-for="(item, $index) in tableData" :key="$index">
-        <el-input :placeholder="keyValueLabel.key" v-model="item.key" />
-        <el-input :placeholder="keyValueLabel.value" v-model="item.value" />
+        <el-input :placeholder="keyValueLabel.key" v-model="item.key" @input="atInputChange" />
+        <el-input :placeholder="keyValueLabel.value" v-model="item.value" @input="atInputChange" />
         <el-button class="btn-del" link @click="deleteItem(item)">
           <el-icon :size="16"><Delete /></el-icon>
         </el-button>
