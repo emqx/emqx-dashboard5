@@ -311,6 +311,15 @@
           <el-input v-model="formData.socket_opts.tcp_keepalive" />
         </CustomFormItem>
       </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem
+          prop="resource_opts.health_check_interval"
+          :label="t('RuleEngine.healthCheckInterval')"
+          :readonly="readonly"
+        >
+          <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
+        </CustomFormItem>
+      </el-col>
     </el-row>
   </el-form>
 </template>

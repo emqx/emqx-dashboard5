@@ -98,6 +98,7 @@ export default (): {
       tcp_keepalive: 'none',
     },
     ssl: createSSLForm(),
+    resource_opts: { health_check_interval: '15s' },
   })
   const createRawKafkaProducerForm = () => ({
     type: KafkaType.Producer,
