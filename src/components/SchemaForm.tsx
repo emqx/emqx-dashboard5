@@ -496,11 +496,11 @@ const SchemaForm = defineComponent({
     /**
      * if property with special col span, return it, else return undefined
      */
-    const getColSpan = ({ path, format }: Property): number | undefined => {
+    const getColSpan = ({ path, format, type }: Property): number | undefined => {
       if (!path) {
         return
       }
-      if (SSL_PATH_REG.test(path) || format === 'sql') {
+      if (SSL_PATH_REG.test(path) || format === 'sql' || type === 'array') {
         return 24
       }
       return
