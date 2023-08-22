@@ -7,6 +7,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, Role } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
+import { pick } from 'lodash'
 import { useRedisCommandCheck } from './useBridgeDataHandler'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -272,9 +273,10 @@ export default (props: {
     return { components, rules }
   }
 
+  const neededSSLConfig = ['cacertfile', 'certfile', 'keyfile', 'server_name_indication', 'enable']
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { kafka, authentication } = components
+    const { kafka, authentication, ssl } = components
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
       kafka?.properties?.kafka_ext_headers?.items?.properties || {}
@@ -295,6 +297,10 @@ export default (props: {
     const { password } = authentication?.properties || {}
     if (password?.type === 'string') {
       password.format = 'password'
+    }
+
+    if (ssl) {
+      ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
     }
 
     return { components, rules }
