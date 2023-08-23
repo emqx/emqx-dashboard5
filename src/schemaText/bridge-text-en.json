@@ -620,6 +620,10 @@
     "wait_queue_timeout": {
       "desc": "The maximum duration that a worker can wait for a connection to become available.",
       "label": "Wait Queue Timeout"
+    },
+    "use_legacy_protocol": {
+      "desc": "Whether to use MongoDB's legacy protocol for communicating with the database. The default is to attempt to automatically determine if the newer protocol is supported.",
+      "label": "Use Legacy Protocol"
     }
   },
   "emqx_ee_bridge_mysql": {

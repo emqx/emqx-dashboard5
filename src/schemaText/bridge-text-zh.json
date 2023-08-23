@@ -620,6 +620,10 @@
     "wait_queue_timeout": {
       "desc": "工作者等待连接可用的最长时间。",
       "label": "等待队列超时"
+    },
+    "use_legacy_protocol": {
+      "desc": "是否使用 MongoDB 的旧协议与数据库通信。默认情况下，系统会尝试自动确定是否支持新协议。",
+      "label": "使用旧协议"
     }
   },
   "emqx_ee_bridge_mysql": {
