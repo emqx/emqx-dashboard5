@@ -114,6 +114,14 @@ export default () => {
     })
   }
 
+  /**
+   * Because the subbits parameter is special, it is handled specially.
+   * https://docs.emqx.com/en/enterprise/v5.1/data-integration/rule-sql-builtin-functions.html#bit-functions
+   */
+  const countActualArgsForSubbits = (actualParams: Array<string>): Array<string> => {
+    return actualParams.length === 2 ? [actualParams[0], '', actualParams[1]] : actualParams
+  }
+
   const getFuncDataFromExpression = (
     expression: string,
   ): { field: string; func: { name: string; args: Array<string | number> } } | undefined => {
@@ -125,10 +133,13 @@ export default () => {
       return
     }
     const argIndex = getArgIndex(funcItem, funcGroup)
-    const funcArgs = expression
+    let funcArgs = expression
       .slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
       .split(',')
       .map((item) => item.trim())
+    if (funcName === 'subbits') {
+      funcArgs = countActualArgsForSubbits(funcArgs)
+    }
     let args: Array<string | number> = []
     if (funcArgs.length !== funcItem.args.length) {
       args = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
