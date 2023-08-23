@@ -1178,7 +1178,7 @@
       "label": "写语法"
     },
     "server": {
-      "desc": "要连接的 IPv4 或 IPv6 地址或主机名。</br>\n主机条目的格式为：`Host[:Port]`。</br>\n如果没有指定 `[:Port]`，则使用 GreptimeDB 的默认端口 8086。",
+      "desc": "要连接的 IPv4 或 IPv6 地址或主机名。</br>\n主机条目的格式为：`Host[:Port]`。",
       "label": "服务器地址"
     },
     "dbname": {
