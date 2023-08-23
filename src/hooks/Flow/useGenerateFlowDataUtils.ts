@@ -4,7 +4,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeyPartsFromSQL, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
+import { getKeyPartsFromSQL, isForeachReg, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
 import {
   typesWithProducerAndConsumer,
   useBridgeTypeOptions,
@@ -169,8 +169,12 @@ export default () => {
     return formData
   }
 
-  const detectFieldsExpressionsEditedWay = (fieldsExpressions: string) => {
-    // TODO:
+  const fieldWithFuncReg = /.*\(.*\).*/
+  const detectFieldsExpressionsEditedWay = (functionForm: FunctionItem[]) => {
+    const containsUnprocessedFields = functionForm.some(
+      ({ field }) => fieldWithFuncReg.test(field) || isForeachReg.test(field),
+    )
+    return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
   }
 
   const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
@@ -178,6 +182,7 @@ export default () => {
     if (!formData) {
       return
     }
+    const editedWay = detectFieldsExpressionsEditedWay(formData)
     const node = {
       id: `${ProcessingType.Function}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -186,8 +191,7 @@ export default () => {
       data: {
         specificType: ProcessingType.Function,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: fieldsExpressions,
           form: formData,
         },
@@ -520,6 +524,8 @@ export default () => {
     isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
   return {
+    detectFieldsExpressionsEditedWay,
+    detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
     generateFlowDataFromRuleItem,
     countNodesPosition,
