@@ -1099,7 +1099,7 @@
       "label": "最大传输数"
     },
     "query_mode": {
-      "desc": "查询模式。可选值为'sync/async'，默认为'async'。",
+      "desc": "查询模式。可选值为'同步/异步'，默认为'异步'模式。",
       "label": "查询模式"
     },
     "sync_query_timeout": {
