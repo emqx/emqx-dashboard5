@@ -167,7 +167,7 @@ export default (props: {
       service_account_json.format = 'file'
       service_account_json.componentProps = {
         accept: '.json',
-        tip: t('Base.uploadTip', { format: '.json' }),
+        tip: t('Base.uploadTip', { format: 'JSON' }),
       }
     }
     /* Producer */
