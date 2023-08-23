@@ -127,9 +127,12 @@ export default {
     zh: '错误的连线',
     en: 'Incorrect connection',
   },
+  editedWayToggleTip: {
+    zh: '表达式过于复杂无法完全转换到编辑器，结果将被更改',
+    en: 'Expressions that are excessively complex and cannot fully convert in the editor will be altered.',
+  },
   filterFunctionsWrongOrder: {
-    // TODO:TODO:TODO:TODO:TODO:TODO:confirm text
-    zh: 'Flow 中 Function 节点需在 Filter 节点的上游',
-    en: 'The Function node in Flow needs to be upstream of the Filter node.',
+    zh: '函数节点必须放置在过滤器节点之前，请调整节点位置。',
+    en: 'Function nodes must be placed before filter nodes. Please adjust node positions.',
   },
 }

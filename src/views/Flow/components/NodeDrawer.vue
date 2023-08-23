@@ -64,11 +64,13 @@ import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
   FlowNodeType,
+  ProcessingType,
   SinkType,
   SourceType,
 } from '@/hooks/Flow/useFlowNode'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useParseWhere from '@/hooks/Flow/useParseWhere'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { Node } from '@vue-flow/core'
@@ -164,8 +166,26 @@ const record: Ref<Record<string, any>> = ref({})
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
-const toggleEditedWay = () => {
-  record.value.editedWay = record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+const { detectFilterFormLevel } = useParseWhere()
+const toggleEditedWay = async () => {
+  try {
+    let needConfirm = false
+    if (type.value === ProcessingType.Filter) {
+      const level = detectFilterFormLevel(record.value.form)
+      needConfirm = level > 2
+    }
+    if (needConfirm) {
+      await ElMessageBox.confirm(t('Flow.editedWayToggleTip'), {
+        confirmButtonText: tl('confirm'),
+        cancelButtonText: tl('cancel'),
+        type: 'warning',
+      })
+    }
+    record.value.editedWay =
+      record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+  } catch (error) {
+    //
+  }
 }
 
 const isBridgeSelected = computed(() => {
@@ -236,10 +256,7 @@ const handleNameSave = (name: string) => {
   emit('save', record.value)
 }
 
-const edit = () => {
-  emit('edit')
-  // TODO:TODO:TODO:
-}
+const edit = () => emit('edit')
 
 watch(showDrawer, (val) => {
   if (!val) {
