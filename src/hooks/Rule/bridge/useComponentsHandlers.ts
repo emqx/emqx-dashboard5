@@ -266,10 +266,6 @@ export default (props: {
       record_template.format = 'sql'
     }
 
-    // TODO:remove
-    Reflect.deleteProperty(components, 'ssl')
-    Reflect.deleteProperty(rules, 'ssl')
-
     return { components, rules }
   }
 

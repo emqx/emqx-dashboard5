@@ -358,7 +358,6 @@ export default (
     },
     [BridgeType.HStream]: {
       // TODO:remove
-      pool_size: 'dividing-line-below',
       record_template: 'dividing-line-below',
     },
     [BridgeType.AzureEventHubs]: {
