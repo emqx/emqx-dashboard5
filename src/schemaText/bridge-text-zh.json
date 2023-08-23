@@ -1182,6 +1182,7 @@
       "label": "服务器地址"
     },
     "dbname": {
+      "desc": "GreptimeDB 数据库名称。",
       "label": "数据库"
     },
     "greptimedb": {
