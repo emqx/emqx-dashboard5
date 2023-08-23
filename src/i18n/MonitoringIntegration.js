@@ -4,8 +4,8 @@ export default {
     en: 'Monitoring platform',
   },
   monitoringPlatformFormItemLabel: {
-    zh: '选择一个监控平台，配置完成后点击“帮助”按钮查看如何配置监控平台。',
-    en: 'Select a monitoring platform, click the Help button after configuration to see how to configure the monitoring platform.',
+    en: `Select a monitoring platform, for Prometheus, click the "Help button" after configuration to see how to configure the monitoring platform.`,
+    zh: '选择一个监控平台，对于 Prometheus，配置后点击 "帮助按钮" 查看如何配置监控平台。',
   },
   enablePushgateway: {
     zh: '启用 Pushgateway',
