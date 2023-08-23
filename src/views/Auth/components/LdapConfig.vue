@@ -57,7 +57,9 @@
             <el-form-item :label="tl('base_dn')" prop="base_dn">
               <el-input
                 v-model="ldapConfig.base_dn"
-                :placeholder="authType === 'authz' ? 'cn=root,dc=emqx,dc=emqx.io' : ''"
+                :placeholder="
+                  authType === 'authz' ? 'uid=${username},ou=testdevice,dc=emqx,dc=io' : ''
+                "
               />
             </el-form-item>
           </el-col>
