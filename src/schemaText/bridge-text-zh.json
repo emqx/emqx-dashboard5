@@ -1178,7 +1178,7 @@
   },
   "emqx_ee_bridge_greptimedb": {
     "write_syntax": {
-      "desc": "GreptimeDB gRPC 协议写数据点的配置。写语法是一种基于文本的格式，提供数据点的测量、标签集、字段集和时间戳，支持占位符，与 InfluxDB 线协议相同。\n参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 和\n[GreptimeDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\n简而言之：</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n请注意，整数值的占位符必须使用后缀 `i` 进行注释。例如 `${'{'}payload.int_value{'}'}i`。",
+      "desc": "GreptimeDB gRPC 协议写数据点的配置。写语法是一种基于文本的格式，提供数据点的测量、标签集、字段集和时间戳，支持占位符，与 InfluxDB 行协议相同。\n参考 [InfluxDB 2.3 行协议](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 和\n[GreptimeDB 1.8 行协议](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\n简而言之：</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n请注意，整数值的占位符必须使用后缀 `i` 进行注释。例如 `${'{'}payload.int_value{'}'}i`。",
       "label": "写语法"
     },
     "server": {
