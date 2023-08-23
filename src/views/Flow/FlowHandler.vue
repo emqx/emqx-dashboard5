@@ -155,9 +155,11 @@ const submit = async () => {
   }
   .info-name,
   .info-desc {
+    -webkit-text-overflow: ellipsis;
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-wrap: nowrap;
+    white-space: nowrap;
     max-width: 500px;
   }
   .info-name {
