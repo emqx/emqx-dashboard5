@@ -32,7 +32,6 @@
       :rules="rules"
       :model="record"
       :validate-on-rule-change="false"
-      @keyup.enter.prevent="saveConfig()"
     >
       <el-form-item prop="sql">
         <div class="monaco-container">
@@ -40,6 +39,7 @@
             :id="createRandomString()"
             lang="sql"
             v-model="record.sql"
+            :disabled="readonly"
             @blur="transformToFormFromSql"
           />
         </div>

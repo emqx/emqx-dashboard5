@@ -79,7 +79,6 @@
       :rules="sqlRecordRules"
       :model="sqlRecord"
       :validate-on-rule-change="false"
-      @keyup.enter.prevent="saveConfig()"
     >
       <el-form-item prop="sql">
         <div class="monaco-container">
