@@ -16,6 +16,7 @@ import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
   EditedWay,
+  FilterFormData,
   FunctionItem,
   NodeType,
   ProcessingType,
@@ -55,7 +56,7 @@ export type GroupedNode = {
 export default () => {
   const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
-  const { generateFilterForm } = useParseWhere()
+  const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
 
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
@@ -168,6 +169,10 @@ export default () => {
     return formData
   }
 
+  const detectFieldsExpressionsEditedWay = (fieldsExpressions: string) => {
+    // TODO:
+  }
+
   const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
     const formData = generateFunctionFormFromExpression(fieldsExpressions)
     if (!formData) {
@@ -251,10 +256,16 @@ export default () => {
   }
 
   /* WHERE */
+
+  const detectWhereDataEditedWay = (filterForm: FilterFormData) =>
+    detectFilterFormLevel(filterForm) > 2 ? EditedWay.SQL : EditedWay.Form
+
   /**
    * generate filter node
    */
   const generateNodeBaseWhereData = (whereStr: string, ruleId: string): Node => {
+    const filterForm = generateFilterForm(whereStr)
+    const editedWay = detectWhereDataEditedWay(filterForm)
     const node = {
       id: `${ProcessingType.Filter}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -263,10 +274,9 @@ export default () => {
       data: {
         specificType: ProcessingType.Filter,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: whereStr,
-          form: generateFilterForm(whereStr),
+          form: filterForm,
         },
         desc: '',
       },

@@ -84,6 +84,8 @@ const parseCondition = (condition: string): FilterItem | FilterFormData => {
 }
 
 export default (): {
+  detectFilterFormLevel: (filterForm: FilterFormData) => number
+  discardHighLevelCondition: (data: FilterFormData, level?: number) => FilterFormData
   generateFilterForm: (whereStr: string) => FilterFormData
 } => {
   const generateFilterForm = (whereStr: string): FilterFormData => {
@@ -98,7 +100,45 @@ export default (): {
     return filterForm
   }
 
+  type DataOrItem = FilterFormData | FilterItem
+  const discardHighLevelCondition = (data: FilterFormData, maxLevel = 2): FilterFormData => {
+    const processItem = (item: DataOrItem, currentLevel: number): DataOrItem | null => {
+      if (
+        currentLevel > maxLevel ||
+        (currentLevel === maxLevel && 'items' in item && item.items.length)
+      ) {
+        return null
+      }
+
+      if ('items' in item) {
+        const filteredItems = item.items
+          .map((i) => processItem(i, currentLevel + 1))
+          .filter(Boolean) as DataOrItem[]
+        return { ...item, items: filteredItems }
+      }
+
+      return item
+    }
+
+    return processItem(data, 0) as FilterFormData
+  }
+
+  const detectFilterFormLevel = (filterForm: FilterFormData): number => {
+    const getMaxLevel = ({ items }: FilterFormData): number => {
+      if (!items || !items.length) {
+        return 0
+      }
+
+      const level = items.map((item) => ('items' in item ? getMaxLevel(item) : 0))
+      return 1 + Math.max(...level)
+    }
+
+    return getMaxLevel(filterForm)
+  }
+
   return {
+    detectFilterFormLevel,
+    discardHighLevelCondition,
     generateFilterForm,
   }
 }
