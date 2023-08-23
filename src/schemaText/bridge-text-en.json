@@ -1181,7 +1181,7 @@
       "label": "Write Syntax"
     },
     "server": {
-      "desc": "The IPv4 or IPv6 address or the hostname to connect to.</br>\nA host entry has the following form: `Host[:Port]`.</br>\nThe GreptimeDB default port 8086 is used if `[:Port]` is not specified.",
+      "desc": "The IPv4 or IPv6 address or the hostname to connect to. A host entry has the following form: `Host[:Port]`.",
       "label": "Server Host"
     },
     "dbname": {
