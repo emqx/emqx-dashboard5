@@ -16,28 +16,32 @@ export default {
     en: 'Basic Info',
   },
   guideSourceNodeLabel: {
-    zh: 'Source 节点',
-    en: 'Start with a Source',
+    zh: 'Source',
+    en: 'Source',
   },
   guideSourceNodeDesc: {
-    zh: '拖动 Source 节点，可以有多个 Source 节点',
-    en: 'Drag source nodes and multiple source nodes are allowed here',
+    zh: '输入消息、事件和数据集成的数据，支持多个节点',
+    en: 'Input data from messages, events, and data integrations. Supports multiple nodes',
   },
   guideProcessingNodeLabel: {
-    zh: 'Processing 节点',
-    en: 'Processing',
+    zh: 'Processing（可选）',
+    en: 'Processing (optional)',
   },
   guideProcessingNodeDesc: {
-    zh: '拖动 Processing 节点（可选）',
-    en: 'Drag Processing (optional)',
+    zh: '处理、转换和过滤数据',
+    en: 'Process, transform, and filter data.',
   },
   guideSinkNodeLabel: {
-    zh: 'Sink 节点',
+    zh: 'Sink',
     en: 'Sink',
   },
   guideSinkNodeDesc: {
-    zh: '拖动 Sink 节点，可以有多个 Sink 节点',
-    en: 'Drag sink nodes and multiple sink nodes are allowed here',
+    zh: '输出数据到外部数据集成，支持多个节点',
+    en: 'Output data to external data integrations. Supports multiple nodes',
+  },
+  guideDesc: {
+    zh: '拖拽节点以开始创建',
+    en: 'Drag and drop nodes to begin creating',
   },
   function: {
     zh: '函数',
