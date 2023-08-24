@@ -5,10 +5,6 @@
     <div class="square"></div>
     <p class="label">{{ data?.label }}</p>
     <p class="desc">{{ data?.data?.desc }}</p>
-    <!-- in fact, just for procession node -->
-    <p class="additional-desc tip" v-if="data?.data?.additionalDesc">
-      {{ data?.data?.additionalDesc }}
-    </p>
   </div>
 </template>
 
@@ -56,14 +52,6 @@ const nodeType = computed(() => {
     width: $node-width;
     line-height: 22px;
     color: var(--color-text-secondary);
-    opacity: 0.6;
-  }
-  .additional-desc {
-    position: absolute;
-    top: 180px;
-    width: 400px;
-    text-align: center;
-    margin-top: 100px;
     opacity: 0.6;
   }
   &.is-source {

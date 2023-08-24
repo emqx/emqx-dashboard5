@@ -20,28 +20,24 @@ export default {
     en: 'Source',
   },
   guideSourceNodeDesc: {
-    zh: '输入消息、事件和数据集成的数据，支持多个节点',
-    en: 'Input data from messages, events, and data integrations. Supports multiple nodes',
+    zh: '拖拽多个节点以选择消息与事件输入',
+    en: 'Drag in multiple nodes to select message and event inputs',
   },
   guideProcessingNodeLabel: {
     zh: 'Processing（可选）',
     en: 'Processing (optional)',
   },
   guideProcessingNodeDesc: {
-    zh: '处理、转换和过滤数据',
-    en: 'Process, transform, and filter data.',
+    zh: '拖拽节点以处理和过滤数据',
+    en: 'Drag nodes to transform and filter data',
   },
   guideSinkNodeLabel: {
     zh: 'Sink',
     en: 'Sink',
   },
   guideSinkNodeDesc: {
-    zh: '输出数据到外部数据集成，支持多个节点',
-    en: 'Output data to external data integrations. Supports multiple nodes',
-  },
-  guideDesc: {
-    zh: '拖拽节点以开始创建',
-    en: 'Drag and drop nodes to begin creating',
+    zh: '拖拽多个节点以输出数据到外部数据集成',
+    en: 'Drag in multiple nodes to output data to external integrations',
   },
   function: {
     zh: '函数',

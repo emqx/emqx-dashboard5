@@ -21,11 +21,7 @@ export default (): {
     {
       id: idProcessing,
       label: tl('guideProcessingNodeLabel'),
-      data: {
-        type: NodeType.Processing,
-        desc: tl('guideProcessingNodeDesc'),
-        additionalDesc: tl('guideDesc'),
-      },
+      data: { type: NodeType.Processing, desc: tl('guideProcessingNodeDesc') },
       type: 'guide',
       position: { x: 290, y: 90 },
     },
