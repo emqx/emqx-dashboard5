@@ -17,9 +17,9 @@
                   <li class="topic-item" v-for="(topic, $index) in topicList" :key="$index">
                     <el-form-item :error="topicErrorMsg[$index]">
                       <el-input
-                        :model-value="topicList[$index]"
-                        @update:model-value="handleTopicItemChanged($event, $index)"
-                        @blur="validateTopicArr(), validateTopicItem($index)"
+                        v-model="topicList[$index]"
+                        @blur="clearErrorMsg($index), validateTopicArr()"
+                        @input="handleTopicsUpdated"
                       />
                     </el-form-item>
                     <el-button class="btn-del" link @click="delTopic($index)">
@@ -66,6 +66,7 @@ import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { escapeRegExp, startCase } from 'lodash'
 import {
+  ComputedRef,
   Ref,
   WritableComputedRef,
   computed,
@@ -74,6 +75,7 @@ import {
   defineProps,
   nextTick,
   ref,
+  watch,
 } from 'vue'
 import { useStore } from 'vuex'
 
@@ -84,6 +86,9 @@ const enum TriggerType {
 }
 
 const SELECT_FIELD = '*'
+
+const CONDITION_PREFIX = 'topic =~ '
+const CONDITION_JOINER = ' or '
 
 const props = defineProps({
   /**
@@ -97,7 +102,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 // To prevent infinite loops
-let nowSQL = ''
+let nowSQL = ref('')
 
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
@@ -120,8 +125,8 @@ const isZh = computed(() => state.lang === 'zh')
 const getEventLabel = ({ zh, en }: { zh: string; en: string }) => startCase(isZh.value ? zh : en)
 
 const updateSQL = (sql: string) => {
-  if (sql !== nowSQL) {
-    nowSQL = sql
+  if (sql !== nowSQL.value) {
+    nowSQL.value = sql
     emit('update:modelValue', sql)
   }
 }
@@ -135,10 +140,7 @@ const allMsgsAndEvents = computed(() => {
   }, [])
 })
 
-const SQLKeywords = computed(() => {
-  let ret = getKeyPartsFromSQL(props.modelValue)
-  return ret
-})
+const SQLKeywords = computed(() => getKeyPartsFromSQL(props.modelValue))
 const fromDataArr = computed(() => {
   return SQLKeywords.value.fromStr !== undefined
     ? transFromStrToFromArr(SQLKeywords.value.fromStr)
@@ -151,12 +153,15 @@ const refreshSQLForMsgEvent = (events: Array<string>, topics: Array<string>) => 
   // If the event includes events that are not msg events, we need to add `where`
   const needWhere = events.length && events.some((item) => !isMsgPubEvent(item))
   const needTopic = events.length && events.some((item) => isMsgPubEvent(item))
+  const validTopics = topics.filter(Boolean)
 
-  const whereStr = needWhere ? topics.map((item) => `topic =~ '${item}'`).join(' or ') : undefined
+  const whereStr = needWhere
+    ? validTopics.map((item) => `${CONDITION_PREFIX}'${item}'`).join(CONDITION_JOINER)
+    : undefined
 
   let fromArr: Array<string> = []
   if (needTopic) {
-    fromArr = topics.length === 0 ? [MULTI_LEVEL_WILDCARD] : topics
+    fromArr = validTopics.length === 0 ? [MULTI_LEVEL_WILDCARD] : validTopics
   }
 
   const fromMsgEvents = events.filter((item) => !isMsgPubEvent(item))
@@ -170,19 +175,20 @@ const refreshSQLForMsgEvent = (events: Array<string>, topics: Array<string>) => 
 
 const selectedMsgEventList = computed({
   get() {
+    const resultSet = new Set<string>()
+
     // is msg event
     // does not match the bridge regex and does not match the event regex -> topic
-    return fromDataArr.value.reduce((arr: Array<string>, currentItem) => {
-      const isMsgEvent = msgEventOpts.value.some(({ event }) => event === currentItem)
-      if (isMsgEvent) {
-        return Array.from(new Set([...arr, currentItem]))
+    for (const currentItem of fromDataArr.value) {
+      if (!currentItem) continue
+
+      if (msgEventOpts.value.some(({ event }) => event === currentItem)) {
+        resultSet.add(currentItem)
+      } else if (checkIsTopic(currentItem)) {
+        resultSet.add(TOPIC_EVENT)
       }
-      const isTopic = checkIsTopic(currentItem)
-      if (isTopic) {
-        return Array.from(new Set([...arr, TOPIC_EVENT]))
-      }
-      return arr
-    }, [])
+    }
+    return [...resultSet]
   },
   set(val) {
     refreshSQLForMsgEvent(val, topicList.value)
@@ -204,13 +210,6 @@ const selectedOtherEventList: WritableComputedRef<Array<string>> = computed({
   },
 })
 
-/**
- * This variable is set to solve the problem that when the topic list is empty,
- * add the first topic, and the topic will be filtered out by `fromDataArr`,
- * resulting in the problem that the topic cannot be added.
- */
-const topicListCache: Ref<Array<string>> = ref([])
-
 /*
   - If there is a msg pub event and no topic filtering
   Has #
@@ -221,34 +220,41 @@ const topicListCache: Ref<Array<string>> = ref([])
   - If there is no msg pub event and the topic has been filtered
   No #
  */
-const trueTopicList = computed(() => {
-  return fromDataArr.value.filter((item) => {
+const conditionReg = new RegExp(`${CONDITION_PREFIX}'(.+)'`)
+const trueTopicList: ComputedRef<Array<string>> = computed(() => {
+  const topics: Set<string> = new Set()
+  fromDataArr.value.forEach((item) => {
     const isTopic = checkIsTopic(item)
-    return isTopic && item !== MULTI_LEVEL_WILDCARD
+    if (isTopic && item !== MULTI_LEVEL_WILDCARD) {
+      topics.add(item)
+    }
   })
-})
-const topicList = computed({
-  get() {
-    return trueTopicList.value.length ? trueTopicList.value : topicListCache.value
-  },
-  set(val) {
-    topicListCache.value = [...val]
-    refreshSQLForMsgEvent(selectedMsgEventList.value, val)
-  },
+  const { whereStr } = SQLKeywords.value
+  whereStr?.split(CONDITION_JOINER)?.map((item) => {
+    const matchRet = item.match(conditionReg)
+    if (matchRet && matchRet[1]) {
+      topics.add(matchRet[1])
+    }
+  })
+  return [...topics]
 })
 
+const topicList: Ref<Array<string>> = ref([])
+
+const handleTopicsUpdated = () => {
+  refreshSQLForMsgEvent(selectedMsgEventList.value, topicList.value)
+}
+
 const addTopic = async () => {
-  topicList.value = [...topicList.value, '']
+  topicList.value.push('')
   await nextTick()
   validateTopicArr()
 }
 const delTopic = async (index: number) => {
-  topicList.value = [...topicList.value.slice(0, index), ...topicList.value.slice(index + 1)]
+  topicList.value.splice(index, 1)
   await nextTick()
   validateTopicArr()
-}
-const handleTopicItemChanged = (val: string, index: number) => {
-  topicList.value = [...topicList.value.slice(0, index), val, ...topicList.value.slice(index + 1)]
+  handleTopicsUpdated()
 }
 
 const topicErrorMsg: Ref<Array<string>> = ref([])
@@ -279,7 +285,7 @@ const checkTopicAllFilled = () => {
   return topicErrorMsg.value.some((item) => !!item) ? Promise.reject() : Promise.resolve()
 }
 // just for clear error msg
-const validateTopicItem = (index: number) => {
+const clearErrorMsg = (index: number) => {
   if (topicList.value[index]) {
     topicErrorMsg.value[index] = ''
   }
@@ -311,18 +317,20 @@ const selectedType = computed({
   },
   async set(val) {
     isSelectedEvent.value = false
+    if (val === TriggerType.All) {
+      const sql = transSQLFormDataToSQL(SELECT_FIELD, allMsgsAndEvents.value)
+      updateSQL(sql)
+      return
+    }
     if (val === TriggerType.Messages) {
       selectedMsgEventList.value = []
-      // Waiting for SQL processing to complete.
-      await nextTick()
-      topicList.value = []
     } else if (val === TriggerType.Events) {
       isSelectedEvent.value = true
       selectedOtherEventList.value = []
-    } else if (val === TriggerType.All) {
-      const sql = transSQLFormDataToSQL(SELECT_FIELD, allMsgsAndEvents.value)
-      updateSQL(sql)
     }
+    // Waiting for SQL processing to complete.
+    await nextTick()
+    topicList.value = []
   },
 })
 
@@ -339,6 +347,16 @@ const getRuleEvents = async () => {
 getRuleEvents()
 
 defineExpose({ validate })
+
+watch(
+  () => props.modelValue,
+  async (val) => {
+    if (nowSQL.value !== val) {
+      await nextTick()
+      topicList.value = trueTopicList.value
+    }
+  },
+)
 </script>
 
 <style lang="scss">

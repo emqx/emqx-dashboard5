@@ -4,6 +4,12 @@ import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
 
+const bridgesOrder = [BridgeType.Webhook, BridgeType.MQTT]
+export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
+  (obj, type, index) => ({ ...obj, [type]: index }),
+  {},
+)
+
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
     value: BridgeType
@@ -40,7 +46,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
-  ]
+  ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
