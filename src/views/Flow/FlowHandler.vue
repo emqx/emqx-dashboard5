@@ -1,14 +1,19 @@
 <template>
   <div class="flow-create" v-loading="isInfoLoading">
     <div class="flow-create-hd space-between">
-      <div class="basic-info">
-        <div class="info-hd">
-          <p class="info-name">{{ flowBasicInfo.name }}</p>
-          <el-icon class="icon-edit" @click="openBasicInfoDialog">
-            <EditPen />
-          </el-icon>
+      <div class="hd-left">
+        <router-link class="link-back" :to="{ name: 'flow' }">
+          <el-icon :size="20"><ArrowLeft /></el-icon>
+        </router-link>
+        <div class="basic-info">
+          <div class="info-hd">
+            <p class="info-name">{{ flowBasicInfo.name }}</p>
+            <el-icon class="icon-edit" @click="openBasicInfoDialog">
+              <EditPen />
+            </el-icon>
+          </div>
+          <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
         </div>
-        <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
       </div>
       <div class="vertical-align-center">
         <!-- <el-radio-group v-model="editingMethod">
@@ -43,7 +48,7 @@ import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useI18nTl from '@/hooks/useI18nTl'
-import { EditPen } from '@element-plus/icons-vue'
+import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -133,6 +138,21 @@ const submit = async () => {
     padding-right: 24px;
     border-bottom: 1px solid var(--color-border-primary);
   }
+  $hd-line-height: 24px;
+  .hd-left {
+    display: flex;
+    align-items: flex-start;
+  }
+  .link-back {
+    margin-right: 16px;
+    color: var(--color-text-primary);
+    &:hover {
+      color: var(--el-color-primary);
+    }
+    .el-icon {
+      height: $hd-line-height;
+    }
+  }
   .el-radio-group {
     margin-right: 24px;
   }
@@ -141,7 +161,7 @@ const submit = async () => {
     flex-grow: 1;
   }
   .basic-info {
-    line-height: 24px;
+    line-height: $hd-line-height;
   }
   .icon-edit {
     cursor: pointer;
