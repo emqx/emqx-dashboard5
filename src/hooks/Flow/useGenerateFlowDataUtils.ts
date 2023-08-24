@@ -4,7 +4,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeyPartsFromSQL, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
+import { getKeyPartsFromSQL, isForeachReg, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
 import {
   typesWithProducerAndConsumer,
   useBridgeTypeOptions,
@@ -16,6 +16,7 @@ import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
   EditedWay,
+  FilterFormData,
   FunctionItem,
   NodeType,
   ProcessingType,
@@ -55,7 +56,7 @@ export type GroupedNode = {
 export default () => {
   const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
-  const { generateFilterForm } = useParseWhere()
+  const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
 
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
@@ -113,6 +114,14 @@ export default () => {
     })
   }
 
+  /**
+   * Because the subbits parameter is special, it is handled specially.
+   * https://docs.emqx.com/en/enterprise/v5.1/data-integration/rule-sql-builtin-functions.html#bit-functions
+   */
+  const countActualArgsForSubbits = (actualParams: Array<string>): Array<string> => {
+    return actualParams.length === 2 ? [actualParams[0], '', actualParams[1]] : actualParams
+  }
+
   const getFuncDataFromExpression = (
     expression: string,
   ): { field: string; func: { name: string; args: Array<string | number> } } | undefined => {
@@ -124,10 +133,13 @@ export default () => {
       return
     }
     const argIndex = getArgIndex(funcItem, funcGroup)
-    const funcArgs = expression
+    let funcArgs = expression
       .slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
       .split(',')
       .map((item) => item.trim())
+    if (funcName === 'subbits') {
+      funcArgs = countActualArgsForSubbits(funcArgs)
+    }
     let args: Array<string | number> = []
     if (funcArgs.length !== funcItem.args.length) {
       args = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
@@ -168,11 +180,20 @@ export default () => {
     return formData
   }
 
+  const fieldWithFuncReg = /.*\(.*\).*/
+  const detectFieldsExpressionsEditedWay = (functionForm: FunctionItem[]) => {
+    const containsUnprocessedFields = functionForm.some(
+      ({ field }) => fieldWithFuncReg.test(field) || isForeachReg.test(field),
+    )
+    return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
+  }
+
   const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
     const formData = generateFunctionFormFromExpression(fieldsExpressions)
     if (!formData) {
       return
     }
+    const editedWay = detectFieldsExpressionsEditedWay(formData)
     const node = {
       id: `${ProcessingType.Function}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -181,8 +202,7 @@ export default () => {
       data: {
         specificType: ProcessingType.Function,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: fieldsExpressions,
           form: formData,
         },
@@ -251,10 +271,16 @@ export default () => {
   }
 
   /* WHERE */
+
+  const detectWhereDataEditedWay = (filterForm: FilterFormData) =>
+    detectFilterFormLevel(filterForm) > 2 ? EditedWay.SQL : EditedWay.Form
+
   /**
    * generate filter node
    */
   const generateNodeBaseWhereData = (whereStr: string, ruleId: string): Node => {
+    const filterForm = generateFilterForm(whereStr)
+    const editedWay = detectWhereDataEditedWay(filterForm)
     const node = {
       id: `${ProcessingType.Filter}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -263,10 +289,9 @@ export default () => {
       data: {
         specificType: ProcessingType.Filter,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: whereStr,
-          form: generateFilterForm(whereStr),
+          form: filterForm,
         },
         desc: '',
       },
@@ -510,6 +535,8 @@ export default () => {
     isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
   return {
+    detectFieldsExpressionsEditedWay,
+    detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
     generateFlowDataFromRuleItem,
     countNodesPosition,

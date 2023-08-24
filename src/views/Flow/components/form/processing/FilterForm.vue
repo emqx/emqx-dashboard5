@@ -1,8 +1,9 @@
 <template>
   <div>
-    <template v-if="!readonly">
+    <template v-if="modelValue.editedWay === EditedWay.Form">
+      <FilterFormReadonly v-if="readonly" :record="record" />
       <el-form
-        v-if="modelValue.editedWay === EditedWay.Form"
+        v-else
         ref="FormCom"
         label-width="0px"
         class="filter-form"
@@ -70,31 +71,28 @@
           {{ t('Base.add') }}
         </el-button>
       </el-form>
-      <el-form
-        v-else
-        ref="SQLFormCom"
-        hide-required-asterisk
-        :rules="sqlRecordRules"
-        :model="sqlRecord"
-        :validate-on-rule-change="false"
-        @keyup.enter.prevent="saveConfig()"
-      >
-        <el-form-item prop="sql">
-          <div class="monaco-container">
-            <Monaco
-              :id="createRandomString()"
-              lang="sql"
-              v-model="sqlRecord.sql"
-              @change="updateSQLRecord"
-              @blur="transformToFormFromSql"
-            />
-          </div>
-        </el-form-item>
-      </el-form>
     </template>
-    <template v-else>
-      <FilterFormReadonly :record="record" />
-    </template>
+    <el-form
+      v-else
+      ref="SQLFormCom"
+      hide-required-asterisk
+      :rules="sqlRecordRules"
+      :model="sqlRecord"
+      :validate-on-rule-change="false"
+    >
+      <el-form-item prop="sql">
+        <div class="monaco-container">
+          <Monaco
+            :id="createRandomString()"
+            lang="sql"
+            v-model="sqlRecord.sql"
+            :disabled="readonly"
+            @change="updateSQLRecord"
+            @blur="transformToFormFromSql"
+          />
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -327,12 +325,14 @@ const transformToSqlFormForm = () => {
   sqlRecord.value.sql = getFilterExpressionFromFormData(record.value) || ''
 }
 
-const { generateFilterForm } = useParseWhere()
-const transformToFormFromSql = () => {
+const { generateFilterForm, discardHighLevelCondition } = useParseWhere()
+const transformToFormFromSql = async () => {
   if (!sqlRecord.value.sql) {
     record.value = createFilterFormData()
   } else {
-    record.value = generateFilterForm(sqlRecord.value.sql)
+    record.value = discardHighLevelCondition(generateFilterForm(sqlRecord.value.sql))
+    await nextTick()
+    handleOnlyOneInGroup()
   }
 }
 

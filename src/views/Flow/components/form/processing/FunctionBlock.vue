@@ -170,7 +170,7 @@ const rules = computed(() => {
       ...createRequiredRule(t('components.field')),
       {
         validator(rules: any, value: string, callback) {
-          if (showArgsBlock.value && Array.isArray(func.args) && func.args.includes(value)) {
+          if (showArgsBlock.value && Array.isArray(func.args) && !func.args.includes(value)) {
             callback(new Error(t('Flow.unusedField')))
           }
           callback()

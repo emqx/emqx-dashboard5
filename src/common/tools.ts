@@ -230,6 +230,7 @@ export const handleSQLFromPartStatement = (fromStr: string): string => {
  * Compared with the `getKeywordsFromSQL` below, the difference is that when a value cannot be obtained here, it returns undefined.
  * TODO: Merge the function below.
  */
+export const isForeachReg = /^FOREACH/i
 export const getKeyPartsFromSQL = (sqlStr: string) => {
   const sql = sqlStr.trim()
   let fieldStr = undefined
@@ -237,9 +238,8 @@ export const getKeyPartsFromSQL = (sqlStr: string) => {
   let whereStr = undefined
   let matchResult = null
 
-  const isForeachReg = /^FOREACH/i
   if (isForeachReg.test(sql)) {
-    matchResult = sql.match(/(.|\n)+WHERE(?<where>(.|\n)+)/)
+    matchResult = sql.match(/(?<foreach>(.|\n)+)FROM(?<from>(.|\n)+)/)
   } else {
     matchResult =
       sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))/i) ||

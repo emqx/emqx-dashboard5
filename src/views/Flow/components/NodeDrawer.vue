@@ -64,9 +64,11 @@ import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
   FlowNodeType,
+  ProcessingType,
   SinkType,
   SourceType,
 } from '@/hooks/Flow/useFlowNode'
+import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -190,8 +192,31 @@ const record: Ref<Record<string, any>> = ref({})
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
-const toggleEditedWay = () => {
-  record.value.editedWay = record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+const { detectFieldsExpressionsEditedWay, detectWhereDataEditedWay } = useGenerateFlowDataUtils()
+const toggleEditedWay = async () => {
+  try {
+    if (![ProcessingType.Filter, ProcessingType.Function].includes(type.value)) {
+      return
+    }
+    if (record.value.editedWay === EditedWay.SQL) {
+      const detectFunc =
+        type.value === ProcessingType.Filter
+          ? detectWhereDataEditedWay
+          : detectFieldsExpressionsEditedWay
+      const defaultEditedWay = detectFunc(record.value.form)
+      if (defaultEditedWay === EditedWay.SQL) {
+        await ElMessageBox.confirm(t('Flow.editedWayToggleTip'), {
+          confirmButtonText: tl('confirm'),
+          cancelButtonText: tl('cancel'),
+          type: 'warning',
+        })
+      }
+    }
+    record.value.editedWay =
+      record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+  } catch (error) {
+    //
+  }
 }
 
 const isBridgeSelected = computed(() => {
@@ -262,10 +287,7 @@ const handleNameSave = (name: string) => {
   emit('save', record.value)
 }
 
-const edit = () => {
-  emit('edit')
-  // TODO:TODO:TODO:
-}
+const edit = () => emit('edit')
 
 watch(showDrawer, (val) => {
   if (!val) {
