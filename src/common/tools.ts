@@ -671,3 +671,16 @@ export const removeFromArr = <T>(arr: Array<T>, index: number): Array<T> => {
   arr.splice(index, 1)
   return arr
 }
+
+export const arraysAreEqual = <T>(arr1: T[], arr2: T[]): boolean => {
+  if (arr1.length !== arr2.length) return false
+
+  const sortedArr1 = [...arr1].sort()
+  const sortedArr2 = [...arr2].sort()
+
+  for (let i = 0; i < sortedArr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) return false
+  }
+
+  return true
+}
