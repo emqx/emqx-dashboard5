@@ -4,7 +4,34 @@ import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
 
-const bridgesOrder = [BridgeType.Webhook, BridgeType.MQTT]
+const bridgesOrder = [
+  BridgeType.Webhook,
+  BridgeType.MQTT,
+  BridgeType.Kafka,
+  BridgeType.Pulsar,
+  BridgeType.RocketMQ,
+  BridgeType.RabbitMQ,
+  BridgeType.AzureEventHubs,
+  BridgeType.AmazonKinesis,
+  BridgeType.GCP,
+  BridgeType.MySQL,
+  BridgeType.Redis,
+  BridgeType.MongoDB,
+  BridgeType.InfluxDB,
+  BridgeType.PgSQL,
+  BridgeType.TDengine,
+  BridgeType.TimescaleDB,
+  BridgeType.IoTDB,
+  BridgeType.MatrixDB,
+  BridgeType.OpenTSDB,
+  BridgeType.GreptimeDB,
+  BridgeType.ClickHouse,
+  BridgeType.DynamoDB,
+  BridgeType.Cassandra,
+  BridgeType.MicrosoftSQLServer,
+  BridgeType.OracleDatabase,
+  BridgeType.HStream,
+]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
   {},
