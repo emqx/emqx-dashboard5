@@ -59,7 +59,7 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeyPartsFromSQL } from '@/common/tools'
+import { getKeyPartsFromSQL, arraysAreEqual } from '@/common/tools'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
@@ -113,9 +113,10 @@ const ruleInputBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PR
 
 const ruleEvents: Ref<Array<RuleEvent>> = ref([])
 
-const msgEventOpts = computed(() =>
-  ruleEvents.value.filter(({ event }) => event.indexOf('message') > -1),
-)
+const msgEventReg = /message/i
+const checkIsMsgEvent = (str: string) => ruleInputEventReg.test(str) && msgEventReg.test(str)
+
+const msgEventOpts = computed(() => ruleEvents.value.filter(({ event }) => msgEventReg.test(event)))
 
 const otherEventOpts = computed(() => {
   return ruleEvents.value.filter(({ event }) => event.indexOf('message') === -1)
@@ -204,11 +205,40 @@ const selectedOtherEventList: WritableComputedRef<Array<string>> = computed({
     )
   },
   set(val) {
-    const { whereStr } = SQLKeywords.value
-    const sql = transSQLFormDataToSQL(SELECT_FIELD, val, whereStr)
+    const sql = transSQLFormDataToSQL(SELECT_FIELD, val, '')
     updateSQL(sql)
   },
 })
+
+const topicListFromSelect: ComputedRef<Array<string>> = computed(() => {
+  return fromDataArr.value.reduce((arr: Array<string>, item) => {
+    const isTopic = checkIsTopic(item)
+    if (isTopic && item !== MULTI_LEVEL_WILDCARD && !arr.includes(item)) {
+      arr.push(item)
+    }
+    return arr
+  }, [])
+})
+
+const conditionReg = new RegExp(`${CONDITION_PREFIX}'(.+)'`)
+const topicListFromWhere: ComputedRef<Array<string>> = computed(() => {
+  const { whereStr } = SQLKeywords.value
+  const whereArr = whereStr?.split(CONDITION_JOINER) || []
+  return whereArr.reduce((arr: Array<string>, item) => {
+    const matchRet = item.match(conditionReg)
+    if (matchRet && matchRet[1] && !arr.includes(matchRet[1])) {
+      arr.push(matchRet[1])
+    }
+    return arr
+  }, [])
+})
+
+/**
+ * form `select` and `where`
+ */
+const topicListFromRule: ComputedRef<Array<string>> = computed(() => [
+  ...new Set([...topicListFromSelect.value, ...topicListFromWhere.value]),
+])
 
 /*
   - If there is a msg pub event and no topic filtering
@@ -220,25 +250,6 @@ const selectedOtherEventList: WritableComputedRef<Array<string>> = computed({
   - If there is no msg pub event and the topic has been filtered
   No #
  */
-const conditionReg = new RegExp(`${CONDITION_PREFIX}'(.+)'`)
-const trueTopicList: ComputedRef<Array<string>> = computed(() => {
-  const topics: Set<string> = new Set()
-  fromDataArr.value.forEach((item) => {
-    const isTopic = checkIsTopic(item)
-    if (isTopic && item !== MULTI_LEVEL_WILDCARD) {
-      topics.add(item)
-    }
-  })
-  const { whereStr } = SQLKeywords.value
-  whereStr?.split(CONDITION_JOINER)?.map((item) => {
-    const matchRet = item.match(conditionReg)
-    if (matchRet && matchRet[1]) {
-      topics.add(matchRet[1])
-    }
-  })
-  return [...topics]
-})
-
 const topicList: Ref<Array<string>> = ref([])
 
 const handleTopicsUpdated = () => {
@@ -295,17 +306,34 @@ const validate = () => {
   return Promise.all([validateTopicArr(), checkTopicAllFilled()])
 }
 
+const detectIsMsgEvent = () => {
+  // 1. just msg pub
+  if (fromDataArr.value.every(checkIsTopic) && topicListFromWhere.value.length === 0) {
+    return true
+  }
+  // 2. just other msg event (except msg pub)
+  const isAllMsgEvent = fromDataArr.value.every(
+    (item) => ruleInputEventReg.test(item) && checkIsMsgEvent(item),
+  )
+  if (isAllMsgEvent) {
+    return true
+  }
+  // 3. msg pub and other msg event
+  const isFormDataAllTopicOrMsgEvent = fromDataArr.value.every(
+    (item) => checkIsTopic(item) || checkIsMsgEvent(item),
+  )
+  const isTopicEqualWhere = arraysAreEqual(topicListFromSelect.value, topicListFromWhere.value)
+  return isFormDataAllTopicOrMsgEvent && isTopicEqualWhere
+}
+
 const isSelectedEvent = ref(false)
 const selectedType = computed({
   get() {
     if (!fromDataArr.value.length && isSelectedEvent.value) {
       return TriggerType.Events
     }
-    let msgEventNum = trueTopicList.value.length
-      ? selectedMsgEventList.value.length - 1 + trueTopicList.value.length
-      : selectedMsgEventList.value.length
-    const isAllMsgEvent = msgEventNum === fromDataArr.value.length
-    if (isAllMsgEvent) {
+    const isMsgEvent = detectIsMsgEvent()
+    if (isMsgEvent) {
       return TriggerType.Messages
     }
     const isAllOtherEvent = selectedOtherEventList.value.length === fromDataArr.value.length
@@ -322,15 +350,14 @@ const selectedType = computed({
       updateSQL(sql)
       return
     }
+
     if (val === TriggerType.Messages) {
       selectedMsgEventList.value = []
+      topicList.value = []
     } else if (val === TriggerType.Events) {
       isSelectedEvent.value = true
       selectedOtherEventList.value = []
     }
-    // Waiting for SQL processing to complete.
-    await nextTick()
-    topicList.value = []
   },
 })
 
@@ -353,7 +380,7 @@ watch(
   async (val) => {
     if (nowSQL.value !== val) {
       await nextTick()
-      topicList.value = trueTopicList.value
+      topicList.value = topicListFromRule.value
     }
   },
 )
