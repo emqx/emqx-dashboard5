@@ -42,6 +42,7 @@ export default (
         'resource_opts.start_timeout',
         'resource_opts.worker_pool_size',
         'resource_opts.request_timeout',
+        'resource_opts.request_ttl',
         'resource_opts.health_check_interval',
         'resource_opts.auto_restart_interval',
         'resource_opts.max_buffer_bytes',
@@ -222,6 +223,7 @@ export default (
           'publish_confirmation_timeout',
           'pool_size',
           'timeout',
+          'ssl',
           'payload_template',
         ],
         1,
@@ -354,10 +356,8 @@ export default (
     },
     [BridgeType.RabbitMQ]: {
       payload_template: 'dividing-line-below',
-      timeout: 'dividing-line-below',
     },
     [BridgeType.HStream]: {
-      // TODO:remove
       record_template: 'dividing-line-below',
     },
     [BridgeType.AzureEventHubs]: {
