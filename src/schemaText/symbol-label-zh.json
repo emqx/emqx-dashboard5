@@ -2,5 +2,9 @@
   "async": "异步",
   "sync": "同步",
   "producer": "生产者",
-  "consumer": "消费者"
+  "consumer": "消费者",
+  "ns": "纳秒",
+  "us": "微秒",
+  "ms": "毫秒",
+  "s": "秒"
 }

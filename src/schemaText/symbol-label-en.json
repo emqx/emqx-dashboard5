@@ -2,5 +2,9 @@
   "async": "Async",
   "sync": "Sync",
   "producer": "Producer",
-  "consumer": "Consumer"
+  "consumer": "Consumer",
+  "ns": "nanosecond",
+  "us": "microsecond",
+  "ms": "millisecond",
+  "s": "second"
 }
