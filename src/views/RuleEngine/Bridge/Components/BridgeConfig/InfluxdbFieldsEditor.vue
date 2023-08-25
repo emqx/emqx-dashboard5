@@ -2,12 +2,13 @@
   <el-table class="influxdb-fields-editor key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
-        <el-input v-model="row.key" class="key-input" @input="atInputChange" />
+        <el-input v-if="!readonly" v-model="row.key" class="key-input" @input="atInputChange" />
+        <p class="value" v-else>{{ row.key }}</p>
       </template>
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <el-input v-model="row.value" @input="atInputChange">
+        <el-input v-if="!readonly" v-model="row.value" @input="atInputChange">
           <template #suffix>
             <div class="suffix-container">
               <template v-if="explicitlySpecifyTypeInValue(row.value)">
@@ -23,9 +24,10 @@
             </div>
           </template>
         </el-input>
+        <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
-    <el-table-column width="100">
+    <el-table-column width="100" v-if="!readonly">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
@@ -64,6 +66,9 @@ export default defineComponent({
     customLabel: {
       type: Object,
       default: null,
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   setup(props, context) {

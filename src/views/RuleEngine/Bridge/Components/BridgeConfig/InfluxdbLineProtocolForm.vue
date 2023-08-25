@@ -1,16 +1,21 @@
 <template>
   <el-row class="influx-db-line-protocol-form" :gutter="26">
     <el-col :span="12">
-      <el-form-item label="Measurement" class="is-required" :error="measurementErrorMsg">
+      <CustomFormItem
+        label="Measurement"
+        class="is-required"
+        :error="measurementErrorMsg"
+        :readonly="readonly"
+      >
         <el-input
           v-model="measurement"
           @change="updateModelValue"
           @blur="validateItemWhenBlur('measurement')"
         />
-      </el-form-item>
+      </CustomFormItem>
     </el-col>
     <el-col :span="12">
-      <el-form-item>
+      <CustomFormItem :readonly="readonly">
         <template #label>
           <span>Timestamp</span>
           <InfoTooltip>
@@ -20,7 +25,7 @@
           </InfoTooltip>
         </template>
         <el-input v-model="timestamp" @change="updateModelValue" />
-      </el-form-item>
+      </CustomFormItem>
     </el-col>
     <el-col :span="24">
       <el-form-item class="is-required" :error="fieldsErrorMsg">
@@ -36,12 +41,17 @@
           :model-value="fieldMap"
           @update:model-value="handleFieldMapChanged"
           @add="fieldsErrorMsg = ''"
+          :readonly="readonly"
         />
       </el-form-item>
     </el-col>
     <el-col :span="24">
       <el-form-item label="Tags">
-        <KeyAndValueEditor :model-value="tagMap" @update:model-value="handleTabMapChanged" />
+        <KeyAndValueEditor
+          :model-value="tagMap"
+          :readonly="readonly"
+          @update:model-value="handleTabMapChanged"
+        />
       </el-form-item>
     </el-col>
   </el-row>
@@ -56,6 +66,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
@@ -71,6 +82,9 @@ import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
 const props = defineProps({
   modelValue: {
     type: String,
+  },
+  readonly: {
+    type: Boolean,
   },
 })
 
