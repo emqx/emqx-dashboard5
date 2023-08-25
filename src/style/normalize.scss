@@ -769,6 +769,12 @@
   color: var(--color-title-primary);
   font-weight: 600;
   font-size: 18px;
+  -webkit-text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 500px;
 }
 .el-page-header__icon {
   font-size: 14px;
