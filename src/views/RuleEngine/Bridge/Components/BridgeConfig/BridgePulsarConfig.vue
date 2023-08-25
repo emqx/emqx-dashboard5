@@ -194,7 +194,7 @@
       </el-col>
       <!-- ssl -->
       <el-col :span="24">
-        <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" />
+        <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" :readonly="readonly" />
       </el-col>
       <el-col :span="24"><el-divider /></el-col>
       <el-col :span="colSpan">
