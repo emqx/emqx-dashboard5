@@ -21,7 +21,7 @@ export const useBridgeTypeValue = (): {
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
-    { value: BridgeType.MQTT, label: 'MQTT' },
+    { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
   ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {

@@ -117,7 +117,7 @@ const props = defineProps({
   },
 })
 
-const { t, tl } = useI18nTl('Flow')
+const { t } = useI18nTl('Flow')
 
 const searchText = ref('')
 
