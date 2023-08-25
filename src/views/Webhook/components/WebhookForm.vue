@@ -136,7 +136,7 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
   },
 })
 
-const { createRequiredRule, createCommonIdRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule, createIntFieldRule } = useFormRules()
 const rules: FormRules = {
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   'rule.sql': [
@@ -150,6 +150,7 @@ const rules: FormRules = {
       trigger: 'blur',
     },
   ],
+  'bridge.pool_size': [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
 }
 
 watch(
