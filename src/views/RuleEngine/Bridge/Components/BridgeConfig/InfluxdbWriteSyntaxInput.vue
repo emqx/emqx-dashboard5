@@ -26,11 +26,11 @@
         </InfoTooltip>
       </template>
       <div class="monaco-container">
-        <Monaco :id="createRandomString()" v-model="lineProtocol" lang="sql" />
+        <Monaco :id="createRandomString()" v-model="lineProtocol" lang="sql" :disabled="readonly" />
       </div>
     </el-form-item>
     <el-card class="app-card json-form-card" shadow="never" v-else>
-      <InfluxdbLineProtocolForm v-model="lineProtocol" ref="protocolFormCom" />
+      <InfluxdbLineProtocolForm v-model="lineProtocol" ref="protocolFormCom" :readonly="readonly" />
     </el-card>
   </div>
 </template>
@@ -52,6 +52,10 @@ enum Tab {
 const props = defineProps({
   modelValue: {
     type: String,
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   },
 })
 

@@ -157,6 +157,7 @@
             v-model="formData.write_syntax"
             ref="writeSyntaxInputCom"
             :write-syntax-prop-item="getPropItem('write_syntax')"
+            :readonly="readonly"
           />
         </el-form-item>
       </el-col>
