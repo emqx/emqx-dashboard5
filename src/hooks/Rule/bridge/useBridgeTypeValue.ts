@@ -48,7 +48,7 @@ export const useBridgeTypeValue = (): {
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
-    { value: BridgeType.MQTT, label: 'MQTT' },
+    { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
     { value: BridgeType.Kafka, label: tl('kafka') },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
