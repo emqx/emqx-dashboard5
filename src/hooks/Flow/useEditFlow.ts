@@ -26,13 +26,6 @@ export default () => {
     }
   }
 
-  const addClassToBridgeNode = (node: Node) => {
-    if (isRemovedBridge(node)) {
-      node.class = (node.class || '') + ' is-disabled'
-    }
-    return node
-  }
-
   const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
   const addBridgeFormDataToNodes = async (nodes: Array<Node>) => {
     await Promise.allSettled(
@@ -59,9 +52,13 @@ export default () => {
     return node
   }
 
-  const { generateFlowDataFromRuleItem, countNodePositionWhileEditing, isRemovedBridge } =
-    useGenerateFlowDataUtils()
+  const {
+    generateFlowDataFromRuleItem,
+    countNodePositionWhileEditing,
+    addFlagToRemovedBridgeNode,
+  } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
+
   const getFlowData = async () => {
     if (!ruleData.value) {
       return
@@ -79,7 +76,7 @@ export default () => {
     flowData.value = [
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
         if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
-          value.forEach((item) => addClassToBridgeNode(item))
+          value.forEach((item) => addFlagToRemovedBridgeNode(item))
         }
         return [...arr, ...value]
       }, []),

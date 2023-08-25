@@ -10,7 +10,8 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
-    <template v-if="getFormComponent(type)">
+    <RemovedBridgeTip v-if="isRemovedBridge" />
+    <template v-else-if="getFormComponent(type)">
       <component
         ref="FormCom"
         :is="getFormComponent(type)"
@@ -73,6 +74,7 @@ import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
+import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
@@ -114,6 +116,13 @@ const type = computed(() => props.node?.data?.specificType)
 const isEdit = computed(() => props.node?.data?.isCreated)
 
 const FormCom = ref()
+
+const isRemovedBridge = computed(() => {
+  if (!props.node || !props.node.data) {
+    return false
+  }
+  return props.node.data.isRemoved
+})
 
 const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
 const title = computed(() => (type.value ? getDrawerTitle(type.value) : ''))

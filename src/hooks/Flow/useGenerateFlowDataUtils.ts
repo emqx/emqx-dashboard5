@@ -534,6 +534,18 @@ export default () => {
   const isRemovedBridge = (node: Node) =>
     isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
+  /* BRIDGE */
+  /**
+   * if is remove bridge, add flag and class
+   */
+  const addFlagToRemovedBridgeNode = (node: Node) => {
+    if (isRemovedBridge(node)) {
+      node.class = (node.class || '') + ' is-disabled'
+      node.data.isRemoved = true
+    }
+    return node
+  }
+
   return {
     detectFieldsExpressionsEditedWay,
     detectWhereDataEditedWay,
@@ -542,5 +554,6 @@ export default () => {
     countNodesPosition,
     countNodePositionWhileEditing,
     isRemovedBridge,
+    addFlagToRemovedBridgeNode,
   }
 }

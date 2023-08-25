@@ -54,7 +54,7 @@ export default (): {
     }
   }
 
-  const { generateFlowDataFromRuleItem, countNodesPosition, isRemovedBridge } =
+  const { generateFlowDataFromRuleItem, countNodesPosition, addFlagToRemovedBridgeNode } =
     useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
 
@@ -180,11 +180,7 @@ export default (): {
   const setClassToRemovedBridges = () => {
     const nodeArrays = [sourceNodes, sinkNodes]
     nodeArrays.forEach((nodeArray) => {
-      nodeArray.forEach((node) => {
-        if (isRemovedBridge(node)) {
-          node.class = (node.class || '') + ' is-disabled'
-        }
-      })
+      nodeArray.forEach((node) => addFlagToRemovedBridgeNode(node))
     })
     ;[sourceNodes, sinkNodes] = nodeArrays
   }
