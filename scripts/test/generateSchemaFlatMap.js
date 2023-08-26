@@ -3,28 +3,6 @@ const fs = require("fs");
 const filePath = "./bridges.json";
 const resultPath = "./result.json";
 
-const deepDel = (obj) => {
-  for (let key in obj) {
-    if (typeof obj[key] === "object" && obj[key] !== null) {
-      deepDel(obj[key]);
-    }
-    const isKeyOrDesc =
-      (key === "label" || key === "description") &&
-      typeof obj[key] === "string";
-    const isUselessKey = [
-      "default",
-      "enum",
-      "required",
-      "symbols",
-      "format",
-      "deprecated",
-    ].includes(key);
-    if (isKeyOrDesc || isUselessKey) {
-      delete obj[key];
-    }
-  }
-  return obj;
-};
 
 const regArr = [
   /\.get/,
@@ -59,7 +37,7 @@ fs.readFile(filePath, "utf-8", (err, data) => {
     console.log(err);
   } else {
     const obj = JSON.parse(data);
-    const ret = generatePropsArr(deepDel(removeUselessData(obj)));
+    const ret = generatePropsArr(removeUselessData(obj));
     fs.writeFile(resultPath, JSON.stringify(ret, null, 4), (err) => {
       if (err) {
         console.log(err);
