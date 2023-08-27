@@ -1,7 +1,7 @@
 name: Check Newest Schema
 
 
-# TODO: only in tag
+# TODO: only in tag 
 # make ${EMQX_NAME}-docker
 on:
   pull_request:
