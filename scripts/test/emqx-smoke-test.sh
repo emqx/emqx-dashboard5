@@ -62,7 +62,7 @@ check_swagger_json() {
 check_schema_json() {
     local name="$1"
     local expected_title="$2"
-    local url="$BASE_URL/api/v5/schemas1/$name"
+    local url="$BASE_URL/api/v5/schemas12/$name"
     local json
     json="$(curl -s "$url" | jq .)"
     title="$(echo "$json" | jq -r '.info.title')"
