@@ -4,8 +4,7 @@ name: Check Newest Schema
 # TODO: only in tag
 on:
   pull_request:
-    branches:
-      - '*'
+    types: [opened, reopened]
 
 jobs:
   docker:
