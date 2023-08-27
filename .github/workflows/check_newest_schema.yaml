@@ -2,7 +2,6 @@ name: Check Newest Schema
 
 
 # TODO: only in tag 
-# make ${EMQX_NAME}-docker
 on:
   pull_request:
     types: [opened, reopened]
@@ -31,7 +30,7 @@ jobs:
       - name: build and export to Docker
         id: build
         run: |
-          make emqx-enterprise
+          make ${EMQX_NAME}-docker
           echo "EMQX_IMAGE_TAG=$(cat .docker_image_tag)" >> $GITHUB_ENV
       - name: smoke test
         run: |
