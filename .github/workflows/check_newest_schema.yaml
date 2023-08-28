@@ -37,15 +37,16 @@ jobs:
           CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
           HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' $CID)
           echo "HTTP_PORT=$HTTP_PORT" >> $GITHUB_ENV
-      - name: fetch schema
+          echo "CID=$CID" >> $GITHUB_ENV
+      - name: Checkout Dashboard Code
+        uses: actions/checkout@v3
         run: |
-          curl http://localhost:${HTTP_PORT}/api/v5/bridges > bridge-schema.json
-          curl http://localhost:${HTTP_PORT}/api/v5/hotconf > conf-schema.json
+          ./scripts/test/emqx-smoke-test.sh localhost ${HTTP_PORT}
       - name: print schema
         run: |
           nodejs ./scripts/test/getSchema.js
 
       - name: stop docker
         run: |
-          docker stop $CID
+          docker stop ${CID}
 
