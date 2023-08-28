@@ -303,10 +303,14 @@ export default (props: {
   }
   const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { payload_template } = components
+    const { payload_template, aws_secret_access_key } = components
 
     if (payload_template?.type === 'string') {
       payload_template.format = 'sql'
+    }
+
+    if (aws_secret_access_key?.type === 'string') {
+      aws_secret_access_key.format = 'password'
     }
 
     return { components, rules }
