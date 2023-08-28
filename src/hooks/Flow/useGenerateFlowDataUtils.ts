@@ -53,7 +53,19 @@ export type GroupedNode = {
   [NodeType.Sink]: Array<Node>
 }
 
-export default () => {
+export default (): {
+  detectFieldsExpressionsEditedWay: (functionForm: Array<FunctionItem>) => EditedWay
+  detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
+  generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
+  generateFlowDataFromRuleItem: (ruleData: RuleItem) => {
+    nodes: GroupedNode
+    edges: Array<Edge>
+  }
+  countNodesPosition: (nodes: GroupedNode) => void
+  countNodePositionWhileEditing: (nodes: GroupedNode) => void
+  isRemovedBridge: (node: Node) => boolean
+  addFlagToRemovedBridgeNode: (node: Node) => Node
+} => {
   const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()

@@ -155,12 +155,12 @@ const clearFilterForm = () => {
   search()
 }
 
-const handleToggleStatus = (rule: RuleItem) => {
+const handleToggleStatus = () => {
   // TODO: toggle rule status
   // TODO: toggle bridge status
 }
 
-const copyFlowItem = (rule: RuleItem) => {
+const copyFlowItem = () => {
   // TODO:
 }
 
