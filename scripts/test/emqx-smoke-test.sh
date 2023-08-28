@@ -72,7 +72,7 @@ check_schema_json() {
         echo "got     : $title"
         exit 1
     else
-        echo 'SCHEMA_ERRORRRRRRRR'
+        echo 'SCHEMA_ERRORRRRRRRRRRR'
     fi
 }
 
