@@ -40,6 +40,8 @@ jobs:
           echo "CID=$CID" >> $GITHUB_ENV
       - name: Checkout Dashboard Code
         uses: actions/checkout@v3
+
+      - name: run script
         run: |
           ./scripts/test/emqx-smoke-test.sh localhost ${HTTP_PORT}
       - name: print schema
