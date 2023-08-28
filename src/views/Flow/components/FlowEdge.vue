@@ -76,6 +76,7 @@ const handleMouseLeave = () => emit('mouse-leave')
 <style lang="scss">
 .btn-edge-del {
   position: absolute;
+  z-index: 3;
   padding: 8px;
   cursor: pointer;
   pointer-events: all;
