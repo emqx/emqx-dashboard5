@@ -53,6 +53,7 @@
             v-model="httpBridgeVal.headers"
             class="kv-editor"
             :fixed-keys="readonly"
+            :readonly="readonly"
           />
         </el-form-item>
       </el-col>
