@@ -595,8 +595,8 @@ export default {
     en: 'The password is currently encrypted, to change it please re-enter',
   },
   pwdWarningWhenCoping: {
-    zh: '目前为加密密码，另存为副本需重新输入',
-    en: 'The password is currently encrypted. If you save this data bridge as a copy, you need to enter it again',
+    zh: '当前配置中的密码字段已加密，保存副本请重新输入。',
+    en: 'The password field in the current configuration is encrypted. Please re-enter when saving a copy.',
   },
   testTheConnection: {
     zh: '测试连接',
