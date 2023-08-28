@@ -412,9 +412,14 @@ const {
 })
 const { getPropItem: getProducerPropItem } = useGetInfoFromComponents(producerComponents)
 const consumerComponents: Ref<Properties> = ref({})
-const addLabelForProps = (props: Properties) => {
+const addLabelForProps = (type: 'consumer' | 'producer', props: Properties) => {
   Object.entries(props).forEach(([, value]) => {
-    value.description = getText(`${value.key}.desc`)
+    // Distinguish the description of the duplicate `MQTT Topic` field for Consumer and Producer.
+    if (type === 'consumer' && value.key === 'mqtt_topic') {
+      value.description = getText('consumer_mqtt_topic.desc')
+    } else {
+      value.description = getText(`${value.key}.desc`)
+    }
     value.label = getText(`${value.key}.label`)
   })
   return props
@@ -427,11 +432,13 @@ const getKafkaAllRoleComponents = async () => {
   })
   if (consumerComponents.value.topic_mapping.items.properties) {
     consumerComponents.value.topic_mapping.items.properties = addLabelForProps(
+      'consumer',
       consumerComponents.value.topic_mapping.items.properties as Properties,
     )
   }
   if (producerComponents.value.kafka.properties?.kafka_ext_headers.items) {
     producerComponents.value.kafka.properties.kafka_ext_headers.items.properties = addLabelForProps(
+      'producer',
       producerComponents.value.kafka.properties.kafka_ext_headers.items.properties as Properties,
     )
   }
