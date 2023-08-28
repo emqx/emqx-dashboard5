@@ -71,6 +71,8 @@ check_schema_json() {
         echo "expected: $expected_title"
         echo "got     : $title"
         exit 1
+    else
+        echo 'SCHEMA_ERRORRRRRRRR'
     fi
 }
 
