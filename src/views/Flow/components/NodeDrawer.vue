@@ -10,6 +10,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
+    <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
     <RemovedBridgeTip v-if="isRemovedBridge" />
     <template v-else-if="getFormComponent(type)">
       <component
@@ -72,6 +73,7 @@ import useFlowNode, {
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
@@ -253,11 +255,13 @@ const save = async () => {
   }
 }
 
+const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
 const saveAsNew = async () => {
   try {
     if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
       await customValidate(FormCom.value)
     }
+    await checkLikePwdField(record.value)
     showNameInputDialog.value = true
   } catch (error) {
     console.error(error)
@@ -314,6 +318,9 @@ watch(showDrawer, (val) => {
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
     }
+  }
+  .el-alert {
+    margin-bottom: 16px;
   }
   .mqtt-bridge-trans-configuration {
     .monaco-container {
