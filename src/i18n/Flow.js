@@ -139,4 +139,8 @@ export default {
     zh: '该节点已被删除，请及时更新 Flow',
     en: 'This node has been deleted, please update flow in time',
   },
+  saveAsNewWarning: {
+    zh: '当前配置中的密码字段己加密，保存为新 {target} 请重新输入',
+    en: 'The password field in the current configuration is encrypted, please re-enter when saving as a new {target}',
+  },
 }

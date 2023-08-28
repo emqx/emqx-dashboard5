@@ -7,7 +7,7 @@ import useBridgeDataHandler from './useBridgeDataHandler'
 
 export default (): {
   pwdErrorWhenCoping: Ref<string>
-  checkLikePwdField: (bridge: any) => Promise<void>
+  checkLikePwdField: (bridge: any, errorMsg?: string) => Promise<void>
 } => {
   const { tl } = useI18nTl('RuleEngine')
 
@@ -33,7 +33,7 @@ export default (): {
       }
     }
   }
-  const checkLikePwdField = async (bridge: any) => {
+  const checkLikePwdField = async (bridge: any, errorMsg?: string) => {
     const pwdValues = getPwdValues(bridge)
     pwdErrorWhenCoping.value = ''
     if (
@@ -41,7 +41,7 @@ export default (): {
       pwdValues.length &&
       pwdValues.some((item) => ENCRYPTED_PWD_REG.test(item))
     ) {
-      pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
+      pwdErrorWhenCoping.value = errorMsg || tl('pwdWarningWhenCoping')
       tryToViewPwdInput()
       return Promise.reject()
     }
