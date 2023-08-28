@@ -10,6 +10,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
+    <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
     <RemovedBridgeTip v-if="isRemovedBridge" />
     <template v-else-if="getFormComponent(type)">
       <component
@@ -37,11 +38,7 @@
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
           <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
-            {{
-              t('Flow.saveAsDuplication', {
-                target: node?.type === FlowNodeType.Input ? 'source' : 'sink',
-              })
-            }}
+            {{ t('Flow.saveAsDuplication', { target: targetForSaveAsNew }) }}
           </el-button>
           <el-button
             :disabled="isSaveDisabled"
@@ -72,6 +69,7 @@ import useFlowNode, {
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, Role } from '@/types/enum'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
@@ -279,11 +277,19 @@ const save = async () => {
   }
 }
 
+const targetForSaveAsNew = computed(() =>
+  props.node?.type === FlowNodeType.Input ? 'source' : 'sink',
+)
+const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
 const saveAsNew = async () => {
   try {
     if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
       await customValidate(FormCom.value)
     }
+    await checkLikePwdField(
+      record.value,
+      t('Flow.saveAsNewWarning', { target: targetForSaveAsNew.value }),
+    )
     showNameInputDialog.value = true
   } catch (error) {
     console.error(error)
@@ -307,6 +313,7 @@ watch(showDrawer, (val) => {
   const { formData, specificType: type } = node?.data || {}
   record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   rawRecord = cloneDeep(record.value)
+  pwdErrorWhenCoping.value = ''
 })
 </script>
 
@@ -340,6 +347,9 @@ watch(showDrawer, (val) => {
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
     }
+  }
+  .el-alert {
+    margin-bottom: 16px;
   }
   .mqtt-bridge-trans-configuration {
     .monaco-container {

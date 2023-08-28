@@ -3,12 +3,17 @@ import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
-import { Ref, computed, ref } from 'vue'
+import { ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useFlowNode, { NodeType } from './useFlowNode'
 import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtils'
 
-export default () => {
+export default (): {
+  flowId: ComputedRef<string>
+  ruleData: Ref<RuleItem | undefined>
+  flowData: Ref<(Node<any, any, string> | Edge)[] | undefined>
+  getData: () => Promise<void>
+} => {
   const route = useRoute()
 
   const flowId = computed(() => route.params.id?.toString())

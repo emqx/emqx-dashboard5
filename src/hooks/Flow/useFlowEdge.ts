@@ -2,7 +2,13 @@ import { GraphEdge, ElementData, Node } from '@vue-flow/core'
 import { FlowNodeType, ProcessingType } from './useFlowNode'
 import useI18nTl from '../useI18nTl'
 
-export default () => {
+export default (): {
+  checkConnection: (
+    edge:
+      | GraphEdge<ElementData>
+      | Pick<GraphEdge<ElementData>, 'source' | 'sourceNode' | 'target' | 'targetNode'>,
+  ) => Promise<void>
+} => {
   const { tl } = useI18nTl('Flow')
 
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input

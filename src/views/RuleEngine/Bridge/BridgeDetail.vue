@@ -152,11 +152,12 @@
 
 <script lang="ts" setup>
 import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api/ruleengine'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA, ENCRYPTED_PWD_REG } from '@/common/constants'
-import { customValidate, jumpToErrorFormItem } from '@/common/tools'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
@@ -249,12 +250,8 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const {
-  likePasswordFieldKeys,
-  handleBridgeDataAfterLoaded,
-  handleBridgeDataBeforeSubmit,
-  handleBridgeDataForSaveAsCopy,
-} = useBridgeDataHandler()
+const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
+  useBridgeDataHandler()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -297,44 +294,13 @@ const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(()
   type: 'bridge',
   obj: bridgeData.value,
 }))
-const tryToViewPwdInput = () => {
-  const jumpSuc = jumpToErrorFormItem('input[type="password"]')
-  if (!jumpSuc) {
-    const el = (
-      Array.from(
-        document.querySelectorAll('input[autocomplete="one-time-code"]'),
-      ) as Array<HTMLInputElement>
-    ).find((item) => {
-      return item.value && ENCRYPTED_PWD_REG.test(item.value)
-    })
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
-  }
-}
 
-const getPwdValue = (bridge: any) => {
-  for (let index = 0; index < likePasswordFieldKeys.length; index++) {
-    const value = _.get(bridge, likePasswordFieldKeys[index])
-    if (value !== undefined) {
-      return value
-    }
-  }
-  return
-}
-
-const pwdErrorWhenCoping = ref('')
+const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
 const saveAsCopy = async () => {
   try {
     await customValidate(formCom.value)
     const bridge = await getDataForSubmit()
-    const pwdValue = getPwdValue(bridge)
-    pwdErrorWhenCoping.value = ''
-    if (pwdValue !== undefined && ENCRYPTED_PWD_REG.test(pwdValue)) {
-      pwdErrorWhenCoping.value = tl('pwdWarningWhenCoping')
-      tryToViewPwdInput()
-      return
-    }
+    await checkLikePwdField(bridge)
     bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
     showNameInputDialog.value = true
   } catch (error) {
