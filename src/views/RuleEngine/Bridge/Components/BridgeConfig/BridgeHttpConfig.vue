@@ -118,9 +118,8 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <AdvancedSettingsBtn v-model="showAdvancedSettings" />
-    <el-collapse-transition>
-      <el-row :gutter="26" v-show="showAdvancedSettings">
+    <AdvancedSettingContainer>
+      <el-row :gutter="26">
         <BridgeResourceOpt
           v-model="httpBridgeVal.resource_opts"
           :with-request-timeout-config="true"
@@ -128,13 +127,13 @@
           :readonly="readonly"
         />
       </el-row>
-    </el-collapse-transition>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
 <script lang="ts">
 import { createRandomString, fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
-import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
@@ -167,7 +166,7 @@ export default defineComponent({
     FormItemLabel,
     CustomFormItem,
     InputSelect,
-    AdvancedSettingsBtn,
+    AdvancedSettingContainer,
   },
   name: '',
   props: {
@@ -209,8 +208,6 @@ export default defineComponent({
       url: createRequiredRule('URL'),
       pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
     })
-
-    const showAdvancedSettings = ref(false)
 
     const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 
@@ -283,7 +280,6 @@ export default defineComponent({
       formRules,
       httpBridgeVal,
       isCreateBridgeInFlow,
-      showAdvancedSettings,
       handleNameChange,
       nameOptions,
       docMap,
