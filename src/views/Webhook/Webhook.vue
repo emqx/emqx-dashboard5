@@ -23,6 +23,9 @@
           <el-button size="small" @click="goEditWebhook(row.name)">
             {{ $t('Base.edit') }}
           </el-button>
+          <el-button size="small" :loading="deleteLoading" @click="deleteWebhook(row)">
+            {{ $t('Base.delete') }}
+          </el-button>
           <!-- <TableItemDropdown :row-data="row" /> -->
         </template>
       </el-table-column>
@@ -42,7 +45,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 
-const { webhookList, isLoading, getWebhookList } = useWebhookList()
+const { webhookList, isLoading, deleteLoading, getWebhookList, deleteWebhook } = useWebhookList()
 const { toggleWebhookEnableStatus } = useWebhookItem()
 
 const addWebhook = () => {
