@@ -717,15 +717,15 @@ const SchemaForm = defineComponent({
       return property
     }
 
-    const showAdvanced = ref(false)
+    const showAdvancedSettings = ref(false)
     const getAdvancedBlock = (elements: JSX.Element[]) => {
       return (
         <>
           <el-col span={24}>
-            <AdvancedSettingsBtn v-model={showAdvanced.value} />
+            <AdvancedSettingsBtn v-model={showAdvancedSettings.value} />
           </el-col>
           <el-collapse-transition>
-            <el-col span={24} v-show={showAdvanced.value}>
+            <el-col span={24} v-show={showAdvancedSettings.value}>
               <el-row gutter={rowGutter.value}>{elements}</el-row>
             </el-col>
           </el-collapse-transition>
