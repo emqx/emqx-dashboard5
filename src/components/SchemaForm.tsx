@@ -18,7 +18,7 @@ import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import AdvancedSettingsBtn from './AdvancedSettingsBtn.vue'
+import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
@@ -53,7 +53,7 @@ const SchemaForm = defineComponent({
     MarkdownContent,
     CustomInputNumber,
     InputSelect,
-    AdvancedSettingsBtn,
+    AdvancedSettingContainer,
   },
   props: {
     accordingTo: {
@@ -717,19 +717,13 @@ const SchemaForm = defineComponent({
       return property
     }
 
-    const showAdvancedSettings = ref(false)
     const getAdvancedBlock = (elements: JSX.Element[]) => {
       return (
-        <>
-          <el-col span={24}>
-            <AdvancedSettingsBtn v-model={showAdvancedSettings.value} />
-          </el-col>
-          <el-collapse-transition>
-            <el-col span={24} v-show={showAdvancedSettings.value}>
-              <el-row gutter={rowGutter.value}>{elements}</el-row>
-            </el-col>
-          </el-collapse-transition>
-        </>
+        <el-col span={24}>
+          <AdvancedSettingContainer>
+            <el-row gutter={rowGutter.value}>{elements}</el-row>
+          </AdvancedSettingContainer>
+        </el-col>
       )
     }
     // Get the components to render form by Properties
