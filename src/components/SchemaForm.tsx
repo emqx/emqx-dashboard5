@@ -18,6 +18,7 @@ import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import AdvancedSettingsBtn from './AdvancedSettingsBtn.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
@@ -52,6 +53,7 @@ const SchemaForm = defineComponent({
     MarkdownContent,
     CustomInputNumber,
     InputSelect,
+    AdvancedSettingsBtn,
   },
   props: {
     accordingTo: {
@@ -133,6 +135,13 @@ const SchemaForm = defineComponent({
     formProps: {
       type: Object as PropType<Record<string, any>>,
       default: () => ({}),
+    },
+    /**
+     * Advanced configuration is collapsed by default
+     * https://www.figma.com/file/NJrNmLEpcZfYkDv381iGNG/EMQX-Dashboard?node-id=6202%3A76959&mode=dev
+     */
+    advancedFields: {
+      type: Array as PropType<Array<string>>,
     },
   },
   setup(props, ctx) {
@@ -518,8 +527,6 @@ const SchemaForm = defineComponent({
       const labelSlot = getLabelSlot(property)
       const colSpan = getColSpan(property) || col
       const colClass = getColClass(property)
-      // TODO:TODO:TODO:TODO:
-      const readonly = props.readonly
       const bindProps = {
         label: property.label,
         prop: property.path,
@@ -576,6 +583,7 @@ const SchemaForm = defineComponent({
 
     const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
     const getFormProps = () => ({ ...defaultFormProps, ...(props.formProps || {}) })
+    const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))
 
     const renderLayout = (contents: JSX.Element[]) => {
       const btnStyles = store.getters.configPageBtnStyle
@@ -606,7 +614,7 @@ const SchemaForm = defineComponent({
             model={configForm.value}
             validate-on-rule-change={false}
           >
-            <el-row gutter={props.formItemSpan <= 12 ? 24 : 0}>
+            <el-row gutter={rowGutter.value}>
               {contents}
               {props.needFooter ? (
                 <el-col span={24} class="btn-col" style={btnStyles}>
@@ -709,10 +717,29 @@ const SchemaForm = defineComponent({
       return property
     }
 
+    const showAdvancedSettings = ref(false)
+    const getAdvancedBlock = (elements: JSX.Element[]) => {
+      return (
+        <>
+          <el-col span={24}>
+            <AdvancedSettingsBtn v-model={showAdvancedSettings.value} />
+          </el-col>
+          <el-collapse-transition>
+            <el-col span={24} v-show={showAdvancedSettings.value}>
+              <el-row gutter={rowGutter.value}>{elements}</el-row>
+            </el-col>
+          </el-collapse-transition>
+        </>
+      )
+    }
     // Get the components to render form by Properties
     const getComponents = (properties: Properties, meta: FormItemMeta) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []
+      /**
+       * put props.advancedFields to this
+       */
+      const advancedFieldElement: JSX.Element[] = []
       let _properties: Properties = {}
       // Filter the current Group properties
       for (const key in properties) {
@@ -775,13 +802,22 @@ const SchemaForm = defineComponent({
             } else if (levelName === oldLevelName) {
               elFormItem = getColFormItem(property, { col: meta.col })
             }
-            elements.push(elFormItem)
+            if (props.advancedFields?.length && props.advancedFields.includes(key)) {
+              advancedFieldElement.push(elFormItem)
+            } else {
+              elements.push(elFormItem)
+            }
           }
         })
         return elements
       }
 
-      return setComponents(_properties)
+      const ret = setComponents(_properties)
+      if (advancedFieldElement.length) {
+        ret.push(getAdvancedBlock(advancedFieldElement))
+      }
+
+      return ret
     }
     const renderSchemaForm = (properties: Properties) => {
       if (Object.keys(properties).length === 0) {
