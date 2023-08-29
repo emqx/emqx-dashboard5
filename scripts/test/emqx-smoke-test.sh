@@ -5,7 +5,10 @@ echo "$2"
 
 set -euo pipefail
 
-[ $# -ne 2 ] && { echo "Usage: $0 host port"; exit 1; }
+[ $# -ne 2 ] && {
+    echo "Usage: $0 host port"
+    exit 1
+}
 
 HOST=$1
 PORT=$2
@@ -21,9 +24,11 @@ wait_for_emqx() {
         if [ $attempts -eq 0 ]; then
             echo "emqx is not responding on $url"
             exit 1
+        else
+            echo 'FFFFFFFF'
         fi
         sleep 5
-        attempts=$((attempts-1))
+        attempts=$((attempts - 1))
     done
 }
 
