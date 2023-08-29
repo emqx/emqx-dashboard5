@@ -867,10 +867,6 @@
       "desc": "用于认证 RabbitMQ 服务器的用户名。",
       "label": "用户名"
     },
-    "password": {
-      "desc": "用于认证 RabbitMQ 服务器的密码。",
-      "label": "密码"
-    },
     "pool_size": {
       "label": "连接池大小"
     },
@@ -1196,10 +1192,6 @@
     "username": {
       "desc": "GreptimeDB 用户名。",
       "label": "用户名"
-    },
-    "password": {
-      "desc": "GreptimeDB 密码。",
-      "label": "密码"
     },
     "precision": {
       "desc": "GreptimeDB 时间精度。",
