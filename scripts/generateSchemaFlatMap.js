@@ -1,9 +1,3 @@
-const fs = require("fs");
-
-const filePath = "./bridges.json";
-const resultPath = "./result.json";
-
-
 const regArr = [
   /\.get/,
   /\.put/,
@@ -32,18 +26,8 @@ const generatePropsArr = (obj) => {
   return ret;
 };
 
-fs.readFile(filePath, "utf-8", (err, data) => {
-  if (err) {
-    console.log(err);
-  } else {
-    const obj = JSON.parse(data);
-    const ret = generatePropsArr(removeUselessData(obj));
-    fs.writeFile(resultPath, JSON.stringify(ret, null, 4), (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("success");
-      }
-    });
-  }
-});
+const generateSchemaFlatMap = (data) => {
+  return generatePropsArr(removeUselessData(data));
+}
+
+module.exports = generateSchemaFlatMap
