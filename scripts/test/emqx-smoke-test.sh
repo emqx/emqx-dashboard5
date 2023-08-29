@@ -11,6 +11,8 @@ HOST=$1
 PORT=$2
 BASE_URL="http://$HOST:$PORT"
 
+echo "wait_for_emqx"
+
 ## Check if EMQX is responding
 wait_for_emqx() {
     local attempts=10
