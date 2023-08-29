@@ -103,5 +103,8 @@ defineExpose({ validate, clearValidate })
   .type-select {
     margin-bottom: 16px;
   }
+  .el-card {
+    margin-bottom: 0;
+  }
 }
 </style>
