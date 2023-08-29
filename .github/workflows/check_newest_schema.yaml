@@ -43,6 +43,7 @@ jobs:
 
       - name: run script
         run: |
+          echo ${HTTP_PORT}
           ./scripts/test/emqx-smoke-test.sh localhost ${HTTP_PORT}
       - name: print schema
         run: |

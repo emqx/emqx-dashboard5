@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "$1"
+echo "$2"
+
 set -euo pipefail
 
 [ $# -ne 2 ] && { echo "Usage: $0 host port"; exit 1; }
