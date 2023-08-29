@@ -1046,9 +1046,9 @@
       "desc": "从 Azure Event Hub 获取元数据时的最大等待时间。",
       "label": "元数据请求超时"
     },
-    "password": {
-      "desc": "连接到 Azure Event Hub 所需的密码。应为命名空间共享访问策略的“连接字符串 - 主键”。",
-      "label": "密码"
+    "connection_string": {
+      "desc": "用于连接到 Azure Event Hub 的连接字符串。应为命名空间共享访问策略的 “连接字符串 - 主键”。",
+      "label": "连接字符串"
     },
     "sndbuf": {
       "desc": "调整套接字发送缓冲区。默认值针对高吞吐量进行了调整。",

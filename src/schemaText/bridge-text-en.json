@@ -1048,9 +1048,9 @@
       "desc": "Maximum wait time when fetching metadata from Azure Event Hub.",
       "label": "Metadata Request Timeout"
     },
-    "password": {
-      "desc": "The password for connecting to Azure Event Hub.  Should be the \"connection string-primary key\" of a Namespace shared access policy.",
-      "label": "Password"
+    "connection_string": {
+      "desc": "The Connection String for connecting to Azure Event Hub. Should be the \"connection string-primary key\" of a Namespace shared access policy.",
+      "label": "Connection String"
     },
     "sndbuf": {
       "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
