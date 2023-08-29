@@ -20,6 +20,7 @@
       :props-disabled="propsDisabled"
       :data-handler="getComponentsHandler()"
       :form-props="formBindProps"
+      :advanced-fields="resourceOptFields"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
     >
@@ -33,7 +34,9 @@ import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
+import useSchemaBridgePropsLayout, {
+  resourceOptFields,
+} from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
   useGCPSecondTypeControl,
   useMongoSecondTypeControl,

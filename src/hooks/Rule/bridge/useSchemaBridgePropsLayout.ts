@@ -2,6 +2,19 @@ import { BridgeType } from '@/types/enum'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
 import useSyncConfiguration from './useSyncConfiguration'
 
+export const resourceOptFields = [
+  'start_timeout',
+  'worker_pool_size',
+  'request_ttl',
+  'health_check_interval',
+  'auto_restart_interval',
+  'max_buffer_bytes',
+  'batch_size',
+  'batch_time',
+  'query_mode',
+  'inflight_window',
+].map((item) => `resource_opts.${item}`)
+
 type PropsType = Readonly<
   {
     modelValue?: unknown
@@ -37,22 +50,7 @@ export default (
 
   const baseOrderMap = {
     name: 0,
-    ...createOrderObj(
-      [
-        'resource_opts.start_timeout',
-        'resource_opts.worker_pool_size',
-        'resource_opts.request_timeout',
-        'resource_opts.request_ttl',
-        'resource_opts.health_check_interval',
-        'resource_opts.auto_restart_interval',
-        'resource_opts.max_buffer_bytes',
-        'resource_opts.batch_size',
-        'resource_opts.batch_time',
-        'resource_opts.query_mode',
-        'resource_opts.inflight_window',
-      ],
-      99,
-    ),
+    ...createOrderObj(resourceOptFields, 99),
   }
 
   const pgSqlOrderMap = {
