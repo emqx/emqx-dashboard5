@@ -277,50 +277,52 @@
           />
         </el-col>
       </template>
-
-      <el-col :span="24"><el-divider /></el-col>
-
-      <!-- socket opt -->
-      <el-col :span="colSpan">
-        <CustomFormItem prop="socket_opts.sndbuf" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('socket_send_buffer.label') }}</span>
-            <InfoTooltip :content="getText('socket_send_buffer.desc')" />
-          </template>
-          <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="socket_opts.recbuf" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('socket_receive_buffer.label') }}</span>
-            <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
-          </template>
-          <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="socket_opts.tcp_keepalive" :readonly="readonly">
-          <template #label>
-            <FormItemLabel
-              :label="getText('tcp_keepalive.label')"
-              :desc="getText('tcp_keepalive.desc')"
-              desc-marked
-            />
-          </template>
-          <el-input v-model="formData.socket_opts.tcp_keepalive" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem
-          prop="resource_opts.health_check_interval"
-          :label="t('RuleEngine.healthCheckInterval')"
-          :readonly="readonly"
-        >
-          <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
-        </CustomFormItem>
-      </el-col>
     </el-row>
+
+    <!-- socket opt -->
+    <AdvancedSettingContainer>
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem prop="socket_opts.sndbuf" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('socket_send_buffer.label') }}</span>
+              <InfoTooltip :content="getText('socket_send_buffer.desc')" />
+            </template>
+            <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="socket_opts.recbuf" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('socket_receive_buffer.label') }}</span>
+              <InfoTooltip :content="getText('socket_receive_buffer.desc')" />
+            </template>
+            <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="socket_opts.tcp_keepalive" :readonly="readonly">
+            <template #label>
+              <FormItemLabel
+                :label="getText('tcp_keepalive.label')"
+                :desc="getText('tcp_keepalive.desc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="formData.socket_opts.tcp_keepalive" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem
+            prop="resource_opts.health_check_interval"
+            :label="t('RuleEngine.healthCheckInterval')"
+            :readonly="readonly"
+          >
+            <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
@@ -331,6 +333,7 @@ import {
   usefulMemoryUnit,
   waitAMoment,
 } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'

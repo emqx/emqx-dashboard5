@@ -253,23 +253,27 @@
           <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
         </el-form-item>
       </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="resource_opts.health_check_interval" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getResourceOptLabelProp('health_check_interval')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
-        </CustomFormItem>
-      </el-col>
     </el-row>
+    <AdvancedSettingContainer>
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getResourceOptLabelProp('start_timeout')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.resource_opts.start_timeout" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="resource_opts.health_check_interval" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getResourceOptLabelProp('health_check_interval')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.resource_opts.health_check_interval" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
@@ -280,6 +284,7 @@ import {
   usefulMemoryUnit,
   waitAMoment,
 } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputSelect from '@/components/InputSelect.vue'

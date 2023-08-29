@@ -161,14 +161,17 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="24"><el-divider /></el-col>
-      <BridgeResourceOpt
-        v-model="formData.resource_opts"
-        with-batch-config
-        :readonly="readonly"
-        :colSpan="colSpan"
-      />
     </el-row>
+    <AdvancedSettingContainer>
+      <el-row :gutter="26">
+        <BridgeResourceOpt
+          v-model="formData.resource_opts"
+          with-batch-config
+          :readonly="readonly"
+          :colSpan="colSpan"
+        />
+      </el-row>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
@@ -178,6 +181,7 @@ import {
   getLabelFromValueInOptionList,
   waitAMoment,
 } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputSelect from '@/components/InputSelect.vue'
