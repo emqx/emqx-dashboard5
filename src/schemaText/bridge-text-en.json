@@ -484,7 +484,7 @@
       "label": "TCP Keepalive"
     },
     "kafka_headers": {
-      "desc": "Please provide a placeholder to be used as Kafka Headers<br/>e.g. <code>${'{'}pub_props{'}'}</code><br/>Notice that the value of the placeholder must either be an object:<br/>`{'{'}\"foo\": \"bar\"{'}'}`<br/>or an array of key-value pairs:<br/>`[{'{'}\"key\": \"foo\", \"value\": \"bar\"{'}'}]`",
+      "desc": "Please provide a placeholder to be used as Kafka Headers<br/>e.g. <code>${'{'}pub_props{'}'}</code><br/>Notice that the value of the placeholder must either be an object:<br/>`{'{'}\"foo\": \"bar\"{'}'}`<br/>",
       "label": "Kafka Headers"
     },
     "kafka_ext_headers": {
@@ -1077,7 +1077,7 @@
       "label": "Required Acks"
     },
     "kafka_headers": {
-      "desc": "Please provide a placeholder to be used as Azure Event Hub Headers<br/>\ne.g. <code>${'{'}pub_props{'}'}</code><br/>\nNotice that the value of the placeholder must either be an object:\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\nor an array of key-value pairs:\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
+      "desc": "Please provide a placeholder to be used as Azure Event Hub Headers<br/>\ne.g. <code>${'{'}pub_props{'}'}</code><br/>\nNotice that the value of the placeholder must either be an object:\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>",
       "label": "Azure Event Hub Headers"
     },
     "kafka_ext_headers": {
