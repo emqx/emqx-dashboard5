@@ -484,7 +484,7 @@
       "label": "TCP Keepalive"
     },
     "kafka_headers": {
-      "desc": "请提供用作 Kafka Headers 的占位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意占位符的值必须是一个对象：<br/>`{'{'}\"foo\": \"bar\"{'}'}`<br/>或者是一个键值对的数组：<br/>`[{'{'}\"key\": \"foo\", \"value\": \"bar\"{'}'}]`",
+      "desc": "请提供用作 Kafka Headers 的占位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意占位符的值必须是一个对象：<br/>`{'{'}\"foo\": \"bar\"{'}'}`",
       "label": "Kafka Headers"
     },
     "kafka_ext_headers": {
@@ -1075,7 +1075,7 @@
       "label": "所需确认"
     },
     "kafka_headers": {
-      "desc": "请提供一个占位符用于用作 Azure Event Hub 头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>\n或键值对数组：\n<code>[{'{'}\\\"key\\\": \\\"foo\\\", \\\"value\\\": \\\"bar\\\"{'}'}]</code>",
+      "desc": "请提供一个占位符用于用作 Azure Event Hub 头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>",
       "label": "Azure Event Hub 头部"
     },
     "kafka_ext_headers": {
