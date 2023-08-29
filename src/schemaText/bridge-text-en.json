@@ -868,10 +868,6 @@
       "desc": "The username used to authenticate with the RabbitMQ server.",
       "label": "Username"
     },
-    "password": {
-      "desc": "The password used to authenticate with the RabbitMQ server.",
-      "label": "Password"
-    },
     "pool_size": {
       "desc": "The size of the connection pool.",
       "label": "Pool Size"
@@ -1199,10 +1195,6 @@
     "username": {
       "desc": "GreptimeDB username.",
       "label": "Username"
-    },
-    "password": {
-      "desc": "GreptimeDB password.",
-      "label": "Password"
     },
     "precision": {
       "desc": "GreptimeDB time precision.",

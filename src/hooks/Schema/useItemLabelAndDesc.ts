@@ -113,7 +113,7 @@ export default (
     if (prop.path && prop.path.indexOf('resource_opt') > -1) {
       return `emqx_resource_schema`
     }
-    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key)) {
+    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
     }
     let type = getTypeBySchemaRef(props.accordingTo.ref)
@@ -137,7 +137,7 @@ export default (
         key = MONGO_SPECIAL_KEY_MAP[key]
       }
     }
-    return key
+    return prop.labelKey || key
   }
 
   const getBridgeFormItemTextKey = (prop: Property) => {

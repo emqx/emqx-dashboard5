@@ -293,6 +293,7 @@ export default (props: {
     const { password } = authentication?.properties || {}
     if (password?.type === 'string') {
       password.format = 'password'
+      password.labelKey = 'connection_string'
     }
 
     if (ssl) {
