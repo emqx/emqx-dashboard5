@@ -3,21 +3,23 @@
     <div class="detail-top">
       <detail-header
         v-if="!isFromRule"
-        :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
+        :item="{ name: bridgeInfo.name, routeName: isWebhook ? 'webhook' : 'data-bridge' }"
       />
       <div v-if="!isFromRule" class="section-header">
         <div>
-          <img :src="getBridgeIcon(bridgeInfo.type)" />
+          <img
+            :src="isWebhook ? require('@/assets/img/webhook.png') : getBridgeIcon(bridgeInfo.type)"
+          />
           <div class="title-n-status">
             <div class="info-tags">
               <BridgeItemStatus :bridge="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
-                {{ getTypeStr(bridgeInfo) }}
+                {{ isWebhook ? 'Webhook' : getTypeStr(bridgeInfo) }}
               </el-tag>
             </div>
           </div>
         </div>
-        <div>
+        <div v-if="!isWebhook">
           <el-tooltip
             :content="bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -62,7 +64,7 @@
             />
           </div>
         </el-tab-pane>
-        <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting">
+        <el-tab-pane v-if="!isWebhook" :label="t('Base.setting')" :name="Tab.Setting">
           <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
           <el-card
             v-loading="isSettingCardLoading"
@@ -209,6 +211,10 @@ const props = defineProps({
   },
 })
 const formCom = ref()
+
+const isWebhook = computed(() => {
+  return route.name === 'webhook-detail-stats'
+})
 
 const queryTab = computed(() => {
   return route.query.tab as Tab
