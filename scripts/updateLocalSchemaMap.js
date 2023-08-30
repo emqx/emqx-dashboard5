@@ -5,12 +5,12 @@ const generateSchemaFlatMap = require('./generateSchemaFlatMap')
 const [host = 'localhost', port = '18083'] = process.argv.slice(2)
 const serverPath = `http://${host}:${port}/`
 
-const bridgeFilePath = './bridgeSchemaFlatMap.json'
-const hotFilePath = './hotConfSchemaFlatMap.json'
+const bridgeFilePath = './scripts/bridgeSchemaFlatMap.json'
+const hotFilePath = './scripts/hotConfSchemaFlatMap.json'
 
 const updateLocalSchema = async (type) => {
   try {
-    const data = await axios.get(`api/v5/schemas/${type}`, {
+    const { data } = await axios.get(`api/v5/schemas/${type}`, {
       baseURL: serverPath,
     })
     const result = generateSchemaFlatMap(data)
