@@ -43,11 +43,8 @@ jobs:
 
       - name: run script
         run: |
-          echo ${HTTP_PORT}
-          ./scripts/test/emqx-smoke-test.sh localhost ${HTTP_PORT}
-      - name: print schema
-        run: |
-          nodejs ./scripts/test/getSchema.js
+          yarn
+          ./scripts/test/checkSchemasMatch.sh localhost ${HTTP_PORT}
 
       - name: stop docker
         run: |
