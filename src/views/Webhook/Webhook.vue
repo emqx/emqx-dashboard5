@@ -7,7 +7,13 @@
       </el-button>
     </div>
     <el-table :data="webhookList" v-loading="isLoading">
-      <el-table-column prop="name" :label="t('Base.name')" />
+      <el-table-column prop="name" :label="t('Base.name')">
+        <template #default="{ row }">
+          <router-link :to="{ name: 'webhook-detail-stats', params: { id: row.bridge.id } }">
+            {{ row.name }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="URL">
         <template #default="{ row }">
           {{ row.bridge?.url }}
