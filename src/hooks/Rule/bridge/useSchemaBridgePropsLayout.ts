@@ -79,6 +79,25 @@ export default (
     'min_heartbeat_frequency_ms',
   ].map((item) => `topology.${item}`)
 
+  const azureAdvancedProps = [
+    'min_metadata_refresh_interval',
+    'metadata_request_timeout',
+    'kafka.max_batch_bytes',
+    'kafka.required_acks',
+    'kafka.partition_count_refresh_interval',
+    'kafka.max_inflight',
+    'kafka.query_mode',
+    'kafka.sync_query_timeout',
+    'kafka.buffer',
+    'mode',
+    'per_partition_limit',
+    'segment_bytes',
+    'memory_overload_protection',
+    'socket_opts.sndbuf',
+    'socket_opts.recbuf',
+    'socket_opts.tcp_keepalive',
+  ]
+
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MySQL]: {
       ...createOrderObj(['server', 'database', 'username', 'password', 'ssl', 'sql'], 1),
@@ -229,8 +248,6 @@ export default (
         [
           'bootstrap_hosts',
           'authentication.password',
-          'min_metadata_refresh_interval',
-          'metadata_request_timeout',
           'ssl',
           'kafka.topic',
           'kafka.kafka_headers',
@@ -240,24 +257,11 @@ export default (
           'kafka.message.key',
           'kafka.message.value',
           'kafka.message.timestamp',
-          'kafka.max_batch_bytes',
           'kafka.partition_strategy',
-          'kafka.required_acks',
-          'kafka.partition_count_refresh_interval',
-          'kafka.max_inflight',
-          'kafka.query_mode',
-          'kafka.sync_query_timeout',
-          'kafka.buffer',
-          'kafka.buffer.mode',
-          'kafka.buffer.per_partition_limit',
-          'kafka.buffer.segment_bytes',
-          'kafka.buffer.memory_overload_protection',
-          'socket_opts.sndbuf',
-          'socket_opts.recbuf',
-          'socket_opts.tcp_keepalive',
         ],
         1,
       ),
+      ...createOrderObj(azureAdvancedProps, 150),
     },
     [BridgeType.AmazonKinesis]: {
       ...createOrderObj(
@@ -314,7 +318,6 @@ export default (
     },
     [BridgeType.AzureEventHubs]: {
       'kafka.topic': 'col-need-row',
-      'kafka.buffer.segment_bytes': 'dividing-line-below',
     },
     [BridgeType.AmazonKinesis]: {
       partition_key: 'dividing-line-below',
@@ -335,6 +338,7 @@ export default (
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCP]: ['pipelining'],
+    [BridgeType.AzureEventHubs]: azureAdvancedProps,
   }
 
   const advancedFields = computed(() => {
