@@ -27,6 +27,10 @@ const toggle = () => {
 
 <style lang="scss">
 .advanced-settings-btn {
+  &.el-button.is-link {
+    padding-left: 0;
+    padding-right: 0;
+  }
   margin-top: 8px;
   margin-bottom: 24px;
   .el-icon {
