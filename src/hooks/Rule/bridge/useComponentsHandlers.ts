@@ -269,7 +269,14 @@ export default (props: {
     return { components, rules }
   }
 
-  const neededSSLConfig = ['cacertfile', 'certfile', 'keyfile', 'server_name_indication', 'enable']
+  const neededSSLConfig = [
+    'enable',
+    'verify',
+    'server_name_indication',
+    'cacertfile',
+    'certfile',
+    'keyfile',
+  ]
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { kafka, authentication, ssl } = components
@@ -298,6 +305,7 @@ export default (props: {
 
     if (ssl) {
       ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
+      ssl.componentProps = { disabledBaseConfig: true, disabledVerify: true }
     }
 
     return { components, rules }
