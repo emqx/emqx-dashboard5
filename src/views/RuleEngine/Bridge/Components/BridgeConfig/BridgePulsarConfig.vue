@@ -141,57 +141,7 @@
           </el-select>
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="sync_timeout" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('sync_timeout')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.sync_timeout" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="retention_period" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('retention_period')" />
-          </template>
-          <Oneof
-            :items="getPropItem('retention_period').oneOf"
-            v-model="formData.retention_period"
-          />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="send_buffer" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('send_buffer')" />
-          </template>
-          <InputWithUnit v-model="formData.send_buffer" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="batch_size" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('batch_size')" />
-          </template>
-          <el-input v-model="formData.batch_size" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="max_batch_bytes" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('max_batch_bytes')" />
-          </template>
-          <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="connect_timeout" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-        </CustomFormItem>
-      </el-col>
+
       <!-- ssl -->
       <el-col :span="24">
         <CommonTLSConfig v-model="formData.ssl" :is-edit="edit || copy" :readonly="readonly" />
@@ -213,49 +163,102 @@
           <el-input type="textarea" rows="4" v-model="formData.message.value" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="24"><el-divider /></el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="buffer.mode" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('buffer.mode')" />
-          </template>
-          <el-select v-model="formData.buffer.mode">
-            <el-option
-              v-for="item in getPropItem('buffer.mode').symbols || []"
-              :key="item"
-              :value="item"
-              :label="item"
-            />
-          </el-select>
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="buffer.per_partition_limit" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('buffer.per_partition_limit')" />
-          </template>
-          <InputWithUnit v-model="formData.buffer.per_partition_limit" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="buffer.segment_bytes" :readonly="readonly">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('buffer.segment_bytes')" />
-          </template>
-          <InputWithUnit v-model="formData.buffer.segment_bytes" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <el-form-item prop="buffer.memory_overload_protection">
-          <template #label>
-            <FormItemLabel v-bind="getLabelProps('buffer.memory_overload_protection')" />
-          </template>
-          <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
-        </el-form-item>
-      </el-col>
     </el-row>
     <AdvancedSettingContainer>
       <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem prop="sync_timeout" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('sync_timeout')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.sync_timeout" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="retention_period" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('retention_period')" />
+            </template>
+            <Oneof
+              :items="getPropItem('retention_period').oneOf"
+              v-model="formData.retention_period"
+            />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="send_buffer" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('send_buffer')" />
+            </template>
+            <InputWithUnit v-model="formData.send_buffer" :units="usefulMemoryUnit" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="batch_size" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('batch_size')" />
+            </template>
+            <el-input v-model="formData.batch_size" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="max_batch_bytes" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('max_batch_bytes')" />
+            </template>
+            <InputWithUnit v-model="formData.max_batch_bytes" :units="usefulMemoryUnit" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="connect_timeout" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('connect_timeout')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="buffer.mode" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('buffer.mode')" />
+            </template>
+            <el-select v-model="formData.buffer.mode">
+              <el-option
+                v-for="item in getPropItem('buffer.mode').symbols || []"
+                :key="item"
+                :value="item"
+                :label="item"
+              />
+            </el-select>
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="buffer.per_partition_limit" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('buffer.per_partition_limit')" />
+            </template>
+            <InputWithUnit
+              v-model="formData.buffer.per_partition_limit"
+              :units="usefulMemoryUnit"
+            />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="buffer.segment_bytes" :readonly="readonly">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('buffer.segment_bytes')" />
+            </template>
+            <InputWithUnit v-model="formData.buffer.segment_bytes" :units="usefulMemoryUnit" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <el-form-item prop="buffer.memory_overload_protection">
+            <template #label>
+              <FormItemLabel v-bind="getLabelProps('buffer.memory_overload_protection')" />
+            </template>
+            <el-switch v-model="formData.buffer.memory_overload_protection" :disabled="readonly" />
+          </el-form-item>
+        </el-col>
         <el-col :span="colSpan">
           <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
             <template #label>
