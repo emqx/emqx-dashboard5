@@ -6,13 +6,6 @@
     "authentication",
     "bootstrap_hosts",
     "connect_timeout",
-    "enable",
-    "kafka",
-    "local_topic",
-    "metadata_request_timeout",
-    "min_metadata_refresh_interval",
-    "name",
-    "socket_opts",
     "ssl",
     "type"
   ],
