@@ -15,8 +15,8 @@ const updateLocalSchema = async (type) => {
     })
     const result = generateSchemaFlatMap(data)
     const target = type === 'bridges' ? bridgeSchema : hotConfSchema
-    console.log(target)
-    expect(result).toEqual(target)
+    const ret = expect(result).toEqual(target)
+    console.log(ret)
   } catch (error) {
     console.error(error)
   }
