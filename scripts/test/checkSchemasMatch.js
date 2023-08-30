@@ -14,9 +14,10 @@ const updateLocalSchema = async (type) => {
       baseURL: serverPath,
     })
     const result = generateSchemaFlatMap(data)
+    console.log(result)
     const target = type === 'bridges' ? bridgeSchema : hotConfSchema
     const ret = expect(result).toEqual(target)
-    console.log(ret)
+    console.log('>>>>>>>>>>>>>>>>>>>>', ret)
   } catch (error) {
     console.error(error)
   }
