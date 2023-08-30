@@ -709,10 +709,6 @@ const SchemaForm = defineComponent({
     const isSSLPropAndNeedConcise = (keyOrPath: string) =>
       SSL_PATH_REG.test(keyOrPath) && typesNeedConciseSSL.includes(props.type)
     const handlePropertyWhenUseConciseSSL = (property: Property) => {
-      // is special ssl
-      if (property?.properties?.enable?.symbols?.length === 1) {
-        property.componentProps = { disabledBaseConfig: true }
-      }
       property.type = 'ssl'
       return property
     }
