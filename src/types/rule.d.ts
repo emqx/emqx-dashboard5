@@ -145,6 +145,7 @@ export interface MQTTBridge extends BridgeBaseData {
   clean_start: boolean
   proto_ver: string
   retry_interval: string
+  bridge_mode: boolean
   server: string
   ssl: SSL
   username: string
