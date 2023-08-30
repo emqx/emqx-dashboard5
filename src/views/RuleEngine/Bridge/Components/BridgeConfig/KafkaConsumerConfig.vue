@@ -2,19 +2,6 @@
   <div class="kafka-producer-kafka-config">
     <el-row :gutter="26">
       <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.max_batch_bytes" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('max_batch_bytes.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="getText('max_batch_bytes.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
         <CustomFormItem prop="kafka.offset_reset_policy" :readonly="readonly">
           <template #label>
             <span>{{ getText('offset_reset_policy.label') }}</span>
@@ -34,33 +21,14 @@
           </el-select>
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.offset_commit_interval_seconds" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('offset_commit_interval_seconds.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="getText('offset_commit_interval_seconds.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <TimeInputWithUnitSelect
-            v-model="kafkaConfig.offset_commit_interval_seconds"
-            :enabled-units="['s']"
-          />
-        </CustomFormItem>
-      </el-col>
     </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import { usefulMemoryUnit } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'

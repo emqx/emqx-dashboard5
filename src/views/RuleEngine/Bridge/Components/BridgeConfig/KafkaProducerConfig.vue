@@ -97,16 +97,6 @@
           <el-input v-model="kafkaConfig.message.timestamp" />
         </CustomFormItem>
       </el-col>
-
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.max_batch_bytes" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('max_batch_bytes.label') }}</span>
-            <InfoTooltip :content="tl('max_batch_bytes.desc')" />
-          </template>
-          <InputWithUnit v-model="kafkaConfig.max_batch_bytes" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
       <el-col :span="colSpan">
         <el-form-item prop="kafka.compression" :label="tl('compression.label')">
           <el-select v-model="kafkaConfig.compression" v-if="!readonly">
@@ -126,7 +116,6 @@
           </p>
         </el-form-item>
       </el-col>
-
       <el-col :span="colSpan">
         <CustomFormItem prop="kafka.partition_strategy" :readonly="readonly">
           <template #label>
@@ -147,147 +136,16 @@
           </el-select>
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.required_acks" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('required_acks.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('required_acks.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <el-select v-model="kafkaConfig.required_acks">
-            <el-option
-              v-for="item in getPropItem('required_acks').symbols || []"
-              :key="item"
-              :value="item"
-              :label="item"
-            />
-          </el-select>
-        </CustomFormItem>
-      </el-col>
-
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.partition_count_refresh_interval" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('partition_count_refresh_interval.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('partition_count_refresh_interval.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <TimeInputWithUnitSelect v-model="kafkaConfig.partition_count_refresh_interval" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.max_inflight" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('max_inflight.label') }}</span>
-            <InfoTooltip :content="tl('max_inflight.desc')" />
-          </template>
-          <el-input v-model="kafkaConfig.max_inflight" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <el-form-item prop="kafka.query_mode">
-          <template #label>
-            <span>{{ tl('query_mode.label') }}</span>
-            <InfoTooltip :content="tl('query_mode.desc')" />
-          </template>
-          <el-select v-model="kafkaConfig.query_mode" v-if="!readonly">
-            <el-option
-              v-for="item in getPropItem('query_mode').symbols || []"
-              :key="item"
-              :value="item"
-              :label="t(`SchemaSymbolLabel.${item}`)"
-            />
-          </el-select>
-          <p class="value" v-else>{{ t(`SchemaSymbolLabel.${kafkaConfig.query_mode}`) }}</p>
-        </el-form-item>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.sync_query_timeout" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('sync_query_timeout.label') }}</span>
-            <InfoTooltip :content="tl('sync_query_timeout.desc')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="kafkaConfig.sync_query_timeout" />
-        </CustomFormItem>
-      </el-col>
-
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.buffer.mode" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('buffer_mode.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('buffer_mode.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <el-select v-model="kafkaConfig.buffer.mode">
-            <el-option
-              v-for="item in getPropItem('buffer.mode').symbols || []"
-              :key="item"
-              :value="item"
-              :label="item"
-            />
-          </el-select>
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.buffer.per_partition_limit" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('buffer_per_partition_limit.label') }}</span>
-            <InfoTooltip :content="tl('buffer_per_partition_limit.desc')" />
-          </template>
-          <InputWithUnit
-            v-model="kafkaConfig.buffer.per_partition_limit"
-            :units="usefulMemoryUnit"
-          />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="kafka.buffer.segment_bytes" :readonly="readonly">
-          <template #label>
-            <span>{{ tl('buffer_segment_bytes.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('buffer_segment_bytes.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <InputWithUnit v-model="kafkaConfig.buffer.segment_bytes" :units="usefulMemoryUnit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <el-form-item prop="kafka.buffer.memory_overload_protection">
-          <template #label>
-            <span>{{ tl('buffer_memory_overload_protection.label') }}</span>
-            <InfoTooltip>
-              <template #content>
-                <MarkdownContent :content="tl('buffer_memory_overload_protection.desc')" />
-              </template>
-            </InfoTooltip>
-          </template>
-          <el-switch v-model="kafkaConfig.buffer.memory_overload_protection" :disabled="readonly" />
-        </el-form-item>
-      </el-col>
     </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import { usefulMemoryUnit } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
@@ -317,7 +175,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
-const { t, tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
+const { tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
 
 const kafkaConfig = computed({
   get() {

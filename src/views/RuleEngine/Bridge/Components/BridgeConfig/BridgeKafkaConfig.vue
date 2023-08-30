@@ -56,15 +56,6 @@
           <el-input v-model="formData.bootstrap_hosts" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="min_metadata_refresh_interval" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
-            <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
-        </CustomFormItem>
-      </el-col>
 
       <el-col :span="colSpan">
         <el-form-item :label="t('components.authentication')">
@@ -155,24 +146,6 @@
         </el-col>
       </template>
 
-      <el-col :span="colSpan">
-        <CustomFormItem prop="metadata_request_timeout" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('metadata_request_timeout.label') }}</span>
-            <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem prop="connect_timeout" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('connect_timeout.label') }}</span>
-            <InfoTooltip :content="getText('connect_timeout.desc')" />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
-        </CustomFormItem>
-      </el-col>
       <!-- ssl -->
       <el-col :span="24">
         <CommonTLSConfig
@@ -215,12 +188,11 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="key_encoding_mode" :readonly="readonly">
             <template #label>
-              <span>{{ getText('consumer_key_encoding_mode.label') }}</span>
-              <InfoTooltip>
-                <template #content>
-                  <MarkdownContent :content="getText('consumer_key_encoding_mode.desc')" />
-                </template>
-              </InfoTooltip>
+              <FormItemLabel
+                :label="getText('consumer_key_encoding_mode.label')"
+                :desc="getText('consumer_key_encoding_mode.desc')"
+                desc-marked
+              />
             </template>
             <el-select v-model="formData.key_encoding_mode">
               <el-option
@@ -235,12 +207,11 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="value_encoding_mode" :readonly="readonly">
             <template #label>
-              <span>{{ getText('consumer_value_encoding_mode.label') }}</span>
-              <InfoTooltip>
-                <template #content>
-                  <MarkdownContent :content="getText('consumer_value_encoding_mode.desc')" />
-                </template>
-              </InfoTooltip>
+              <FormItemLabel
+                :label="getText('consumer_value_encoding_mode.label')"
+                :desc="getText('consumer_value_encoding_mode.desc')"
+                desc-marked
+              />
             </template>
             <el-select v-model="formData.value_encoding_mode">
               <el-option
@@ -282,6 +253,211 @@
     <!-- socket opt -->
     <AdvancedSettingContainer>
       <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem prop="min_metadata_refresh_interval" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('min_metadata_refresh_interval.label') }}</span>
+              <InfoTooltip :content="getText('min_metadata_refresh_interval.desc')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.min_metadata_refresh_interval" />
+          </CustomFormItem>
+        </el-col>
+
+        <el-col :span="colSpan">
+          <CustomFormItem prop="metadata_request_timeout" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('metadata_request_timeout.label') }}</span>
+              <InfoTooltip :content="getText('metadata_request_timeout.desc')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.metadata_request_timeout" />
+          </CustomFormItem>
+        </el-col>
+
+        <el-col :span="colSpan">
+          <CustomFormItem prop="connect_timeout" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('connect_timeout.label') }}</span>
+              <InfoTooltip :content="getText('connect_timeout.desc')" />
+            </template>
+            <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
+          </CustomFormItem>
+        </el-col>
+        <!-- PRODUCER -->
+        <template v-if="role === Role.Producer">
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.max_batch_bytes" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('max_batch_bytes.label') }}</span>
+                <InfoTooltip :content="getText('max_batch_bytes.desc')" />
+              </template>
+              <InputWithUnit v-model="formData.kafka.max_batch_bytes" :units="usefulMemoryUnit" />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.required_acks" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('required_acks.label') }}</span>
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent :content="getText('required_acks.desc')" />
+                  </template>
+                </InfoTooltip>
+              </template>
+              <el-select v-model="formData.kafka.required_acks">
+                <el-option
+                  v-for="item in getProducerPropItem('kafka.required_acks').symbols || []"
+                  :key="item"
+                  :value="item"
+                  :label="item"
+                />
+              </el-select>
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.partition_count_refresh_interval" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('partition_count_refresh_interval.label') }}</span>
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent :content="getText('partition_count_refresh_interval.desc')" />
+                  </template>
+                </InfoTooltip>
+              </template>
+              <TimeInputWithUnitSelect v-model="formData.kafka.partition_count_refresh_interval" />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.max_inflight" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('max_inflight.label') }}</span>
+                <InfoTooltip :content="getText('max_inflight.desc')" />
+              </template>
+              <el-input v-model="formData.kafka.max_inflight" />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <el-form-item prop="kafka.query_mode">
+              <template #label>
+                <span>{{ getText('query_mode.label') }}</span>
+                <InfoTooltip :content="getText('query_mode.desc')" />
+              </template>
+              <el-select v-model="formData.kafka.query_mode" v-if="!readonly">
+                <el-option
+                  v-for="item in getProducerPropItem('kafka.query_mode').symbols || []"
+                  :key="item"
+                  :value="item"
+                  :label="t(`SchemaSymbolLabel.${item}`)"
+                />
+              </el-select>
+              <p class="value" v-else>{{ t(`SchemaSymbolLabel.${formData.kafka.query_mode}`) }}</p>
+            </el-form-item>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.sync_query_timeout" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('sync_query_timeout.label') }}</span>
+                <InfoTooltip :content="getText('sync_query_timeout.desc')" />
+              </template>
+              <TimeInputWithUnitSelect v-model="formData.kafka.sync_query_timeout" />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.buffer.mode" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('buffer_mode.label') }}</span>
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent :content="getText('buffer_mode.desc')" />
+                  </template>
+                </InfoTooltip>
+              </template>
+              <el-select v-model="formData.kafka.buffer.mode">
+                <el-option
+                  v-for="item in getProducerPropItem('kafka.buffer.mode').symbols || []"
+                  :key="item"
+                  :value="item"
+                  :label="item"
+                />
+              </el-select>
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.buffer.per_partition_limit" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('buffer_per_partition_limit.label') }}</span>
+                <InfoTooltip :content="getText('buffer_per_partition_limit.desc')" />
+              </template>
+              <InputWithUnit
+                v-model="formData.kafka.buffer.per_partition_limit"
+                :units="usefulMemoryUnit"
+              />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.buffer.segment_bytes" :readonly="readonly">
+              <template #label>
+                <span>{{ getText('buffer_segment_bytes.label') }}</span>
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent :content="getText('buffer_segment_bytes.desc')" />
+                  </template>
+                </InfoTooltip>
+              </template>
+              <InputWithUnit
+                v-model="formData.kafka.buffer.segment_bytes"
+                :units="usefulMemoryUnit"
+              />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <el-form-item prop="kafka.buffer.memory_overload_protection">
+              <template #label>
+                <span>{{ getText('buffer_memory_overload_protection.label') }}</span>
+                <InfoTooltip>
+                  <template #content>
+                    <MarkdownContent :content="getText('buffer_memory_overload_protection.desc')" />
+                  </template>
+                </InfoTooltip>
+              </template>
+              <el-switch
+                v-model="formData.kafka.buffer.memory_overload_protection"
+                :disabled="readonly"
+              />
+            </el-form-item>
+          </el-col>
+        </template>
+
+        <!-- CONSUMER -->
+        <template v-else>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.max_batch_bytes" :readonly="readonly">
+              <template #label>
+                <FormItemLabel
+                  :label="getText('consumer_max_batch_bytes.label')"
+                  :desc="getText('consumer_max_batch_bytes.desc')"
+                  desc-marked
+                />
+              </template>
+              <InputWithUnit v-model="formData.kafka.max_batch_bytes" :units="usefulMemoryUnit" />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="colSpan">
+            <CustomFormItem prop="kafka.offset_commit_interval_seconds" :readonly="readonly">
+              <template #label>
+                <FormItemLabel
+                  :label="getText('consumer_offset_commit_interval_seconds.label')"
+                  :desc="getText('consumer_offset_commit_interval_seconds.desc')"
+                  desc-marked
+                />
+              </template>
+              <TimeInputWithUnitSelect
+                v-model="formData.kafka.offset_commit_interval_seconds"
+                :enabled-units="['s']"
+              />
+            </CustomFormItem>
+          </el-col>
+        </template>
+
         <el-col :span="colSpan">
           <CustomFormItem prop="socket_opts.sndbuf" :readonly="readonly">
             <template #label>

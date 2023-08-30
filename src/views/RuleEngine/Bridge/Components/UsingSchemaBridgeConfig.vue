@@ -321,10 +321,5 @@ defineExpose({ getFormRecord, validate })
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
   }
-  .TLS-base-config {
-    .el-form-item {
-      margin-bottom: 0;
-    }
-  }
 }
 </style>
