@@ -411,8 +411,10 @@
   --el-button-hover-link-text-color: var(--color-primary);
   opacity: 0.8;
 }
-.el-button.is-link:focus {
+.el-button.is-link:focus,
+.el-button.is-link:not(.is-disabled):active {
   --el-button-hover-link-text-color: var(--color-primary);
+  --el-button-active-color: var(--color-primary);
 }
 
 /* Dropdown */

@@ -120,12 +120,11 @@
           </div>
         </el-collapse-transition>
       </div>
-      <AdvancedSettingsBtn v-model="showAdvancedSettings" />
-      <el-collapse-transition>
-        <el-row :gutter="26" v-show="showAdvancedSettings">
+      <AdvancedSettingContainer>
+        <el-row :gutter="26">
           <BridgeResourceOpt v-model="mqttBridgeVal.resource_opts" />
         </el-row>
-      </el-collapse-transition>
+      </AdvancedSettingContainer>
     </el-form>
   </div>
 </template>
@@ -141,7 +140,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { MQTTingressRemoteQoS } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
-import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
@@ -212,8 +211,6 @@ const formRules = computed(() => ({
     : undefined,
   password: ruleWhenEditing,
 })) as Partial<Record<string, any>>
-
-const showAdvancedSettings = ref(false)
 
 const initMqttBridgeVal = async () => {
   if (props.edit || props.copy) {
