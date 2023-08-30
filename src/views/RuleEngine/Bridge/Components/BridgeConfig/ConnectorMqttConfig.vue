@@ -59,33 +59,11 @@
         <el-col :span="colSpan">
           <CustomFormItem :readonly="readonly">
             <template #label>
-              <label>{{ tl('retryInterval') }}</label>
-              <InfoTooltip :content="tl('retryIntervalDesc')" />
-            </template>
-            <TimeInputWithUnitSelect
-              v-model="connectorVal.retry_interval"
-              :enabled-units="['ms', 's', 'm', 'h', 'd']"
-              default-unit="s"
-            />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="colSpan">
-          <CustomFormItem :readonly="readonly">
-            <template #label>
               <label>{{ tl('cleanStart') }}</label>
               <InfoTooltip :content="tl('cleanStartDesc')" />
             </template>
             <el-switch v-model="connectorVal.clean_start" />
           </CustomFormItem>
-        </el-col>
-        <el-col :span="colSpan">
-          <el-form-item>
-            <template #label>
-              <label>{{ tl('bridgeMode') }}</label>
-              <InfoTooltip :content="tl('bridgeModeDesc')" />
-            </template>
-            <el-switch v-model="connectorVal.bridge_mode" :disabled="readonly" />
-          </el-form-item>
         </el-col>
       </el-row>
     </div>

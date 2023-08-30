@@ -45,6 +45,17 @@
           <el-input v-model="httpBridgeVal.url" />
         </CustomFormItem>
       </el-col>
+      <el-col :span="colSpan">
+        <!-- FIXME: fix it in 5.2.1, is not required  -->
+        <CustomFormItem
+          required
+          prop="pool_size"
+          :readonly="readonly"
+          :label="tl('connectionPoolSize')"
+        >
+          <el-input v-model.number="httpBridgeVal.pool_size" />
+        </CustomFormItem>
+      </el-col>
     </el-row>
     <el-row>
       <el-col>
@@ -56,35 +67,6 @@
             :readonly="readonly"
           />
         </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="26">
-      <el-col :span="colSpan">
-        <CustomFormItem
-          required
-          prop="pool_size"
-          :readonly="readonly"
-          :label="tl('connectionPoolSize')"
-        >
-          <el-input v-model.number="httpBridgeVal.pool_size" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('poolType')" prop="pool_type" :readonly="readonly">
-          <el-select v-model="httpBridgeVal.pool_type">
-            <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
-          </el-select>
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('connTimeout')" :readonly="readonly">
-          <TimeInputWithUnitSelect v-model="httpBridgeVal.connect_timeout" :enabled-units="['s']" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('httpPipeline')" :readonly="readonly">
-          <CustomInputNumber v-model="httpBridgeVal.enable_pipelining" controls-position="right" />
-        </CustomFormItem>
       </el-col>
     </el-row>
     <CommonTLSConfig
@@ -120,6 +102,34 @@
     </el-row>
     <AdvancedSettingContainer>
       <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('poolType')" prop="pool_type" :readonly="readonly">
+            <el-select v-model="httpBridgeVal.pool_type">
+              <el-option
+                v-for="item in ['random', 'hash']"
+                :key="item"
+                :value="item"
+                :label="item"
+              />
+            </el-select>
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('connTimeout')" :readonly="readonly">
+            <TimeInputWithUnitSelect
+              v-model="httpBridgeVal.connect_timeout"
+              :enabled-units="['s']"
+            />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('httpPipeline')" :readonly="readonly">
+            <CustomInputNumber
+              v-model="httpBridgeVal.enable_pipelining"
+              controls-position="right"
+            />
+          </CustomFormItem>
+        </el-col>
         <BridgeResourceOpt
           v-model="httpBridgeVal.resource_opts"
           :with-request-timeout-config="true"
