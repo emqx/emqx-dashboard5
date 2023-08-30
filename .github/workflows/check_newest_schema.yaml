@@ -44,7 +44,7 @@ jobs:
       - name: run script
         run: |
           yarn
-          ./scripts/test/checkSchemasMatch.sh localhost ${HTTP_PORT}
+          node ./scripts/test/checkSchemasMatch.js localhost ${HTTP_PORT}
 
       - name: stop docker
         run: |
