@@ -20,7 +20,7 @@
       :props-disabled="propsDisabled"
       :data-handler="getComponentsHandler()"
       :form-props="formBindProps"
-      :advanced-fields="resourceOptFields"
+      :advanced-fields="advancedFields"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
     >
@@ -34,9 +34,7 @@ import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useSchemaBridgePropsLayout, {
-  resourceOptFields,
-} from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
+import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
   useGCPSecondTypeControl,
   useMongoSecondTypeControl,
@@ -138,10 +136,11 @@ const formBindProps = {
   ...props.formProps,
 }
 
-const { propsOrderMap, customColClass: fixedCustomColClass } = useSchemaBridgePropsLayout(
-  props,
-  bridgeRecord,
-)
+const {
+  propsOrderMap,
+  customColClass: fixedCustomColClass,
+  advancedFields,
+} = useSchemaBridgePropsLayout(props, bridgeRecord)
 const customColClass = computed(() => {
   const ret = fixedCustomColClass.value
   if (props.hiddenFields) {
@@ -276,6 +275,10 @@ defineExpose({ getFormRecord, validate })
       }
     }
   }
+  .el-form-item {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
   .el-col-12.dividing-line-below,
   .el-col-24.dividing-line-below {
     position: relative;
@@ -289,7 +292,7 @@ defineExpose({ getFormRecord, validate })
   .el-col-12:not(.custom-col-24).dividing-line-below {
     &::after {
       width: calc(200% + 24px);
-      margin-top: 24px + 18px;
+      margin-top: 24px;
       margin-bottom: 24px;
     }
   }
@@ -297,7 +300,7 @@ defineExpose({ getFormRecord, validate })
   .custom-col-24.dividing-line-below {
     &::after {
       width: 100%;
-      margin-top: 24px;
+      margin-top: 6px;
       margin-bottom: 24px;
     }
   }
@@ -308,7 +311,7 @@ defineExpose({ getFormRecord, validate })
       content: '';
       display: block;
       width: 100%;
-      margin-top: 24px;
+      margin-top: 6px;
       margin-bottom: 24px;
       height: 1px;
       background-color: var(--color-border-card);
@@ -318,10 +321,10 @@ defineExpose({ getFormRecord, validate })
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
   }
-  .monaco-container,
-  .key-and-value-editor,
-  .textarea-with-uploader {
-    margin-bottom: 18px;
+  .TLS-base-config {
+    .el-form-item {
+      margin-bottom: 0;
+    }
   }
 }
 </style>
