@@ -192,7 +192,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         })
       }
       isSubmitting.value = true
-      const data = checkNOmitFromObj(normalizeStructure(input))
+      const filePaths = ['certfile', 'keyfile', 'cacertfile'].reduce(
+        (arr: Array<string>, key) => [...arr, `dtls_options.${key}`, `ssl_options.${key}`],
+        [],
+      )
+      const data = checkNOmitFromObj(normalizeStructure(input), filePaths)
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
       showDialog.value = false
