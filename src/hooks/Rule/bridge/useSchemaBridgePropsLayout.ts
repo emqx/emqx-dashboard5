@@ -108,6 +108,7 @@ export default (
           'redis_type',
           'servers',
           'server',
+          'username',
           'password',
           'database',
           'sentinel',
