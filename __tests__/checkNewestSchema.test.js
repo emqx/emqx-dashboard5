@@ -6,10 +6,12 @@ const hotConfSchema = require('../scripts/hotConfSchemaFlatMap.json')
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
+console.log("🍅🍅🍅🍅🍅🍅🍅 ~ baseURL:", baseURL)
+
 const updateLocalSchema = async (type) => {
   try {
     const { data } = await axios.get(`/api/v5/schemas/${type}`, {
-      baseURL: serverPath,
+      baseURL: baseURL,
     })
     const result = generateSchemaFlatMap(data)
     console.log(result)
