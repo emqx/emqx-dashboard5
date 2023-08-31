@@ -17,6 +17,7 @@ const updateLocalSchema = async (type) => {
     console.log(result)
     const target = type === 'bridges' ? bridgeSchema : hotConfSchema
     expect(result).toEqual(target)
+    
   } catch (error) {
     console.error(error)
   }
