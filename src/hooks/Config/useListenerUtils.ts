@@ -18,7 +18,6 @@ export interface ListenerUtils {
   listenerFormRules: FormRules
   limiterRules: FormRules
   maxConnRateRule: FormRules
-  SSLCertfileRules: FormRules
   createRawListener: () => Listener
   getListenerNameNTypeById: (id: string) => {
     type: string
@@ -135,6 +134,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     ],
     'ssl_options.ocsp.responder_url': createRequiredRule(tl('responderUrl')),
     'ssl_options.ocsp.issuer_pem': createRequiredRule(tl('issuerPem')),
+    ...SSLCertfileRules,
   }
 
   const createRawSSLParams = () => ({
@@ -312,7 +312,6 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     gatewayTypesWhichHasSSLConfig,
     listenerFormRules,
     limiterRules,
-    SSLCertfileRules,
     maxConnRateRule,
     createRawListener,
     getListenerNameNTypeById,

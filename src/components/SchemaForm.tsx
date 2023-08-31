@@ -841,6 +841,7 @@ const SchemaForm = defineComponent({
       initCurrentGroup()
       if (props.needRecord) {
         configForm.value = { ...getInitRecord(), ...(_.isObject(props.form) ? props.form : {}) }
+        ctx.emit('init', configForm.value)
       }
       handleSSLRuleWhenUseConciseSSL(rules.value)
     }

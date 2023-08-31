@@ -21,6 +21,7 @@
         :readonly="readonly"
         :edit="isEdit"
         @save="save"
+        @init="resetRawRecord"
       />
     </template>
     <template #footer>
@@ -239,6 +240,10 @@ const showNameInputDialog = ref(false)
  * current record's value to determine whether to pop up a window or not.
  */
 let rawRecord: Record<string, any> = {}
+
+const resetRawRecord = (record: Record<string, any>) => {
+  rawRecord = cloneDeep(record)
+}
 
 const recordHasNotChanged = () => {
   const ret = isEqual(record.value, rawRecord)
