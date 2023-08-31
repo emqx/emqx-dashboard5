@@ -13,7 +13,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
-  ignorePatterns: ['dist', 'node_modules', '/src/assets/fonts', '/src/assets/iconfont', 'scripts'],
+  ignorePatterns: [
+    'dist',
+    'node_modules',
+    '/src/assets/fonts',
+    '/src/assets/iconfont',
+    'scripts',
+    '__tests__',
+  ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

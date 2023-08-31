@@ -11,7 +11,8 @@
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
     "escape": "node ./scripts/escapeI18N.js",
-    "checkI18n": "node ./scripts/checkUselessI18n.js"
+    "checkI18n": "node ./scripts/checkUselessI18n.js",
+    "test": "jest"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
@@ -67,7 +68,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "esm": "^3.2.25",
     "husky": "^7.0.4",
-    "jest": "^29.6.4",
+    "jest": "^24.3.0",
     "lint-staged": "^12.1.7",
     "monaco-editor-webpack-plugin": "^6.0.0",
     "prettier": "^2.2.1",
