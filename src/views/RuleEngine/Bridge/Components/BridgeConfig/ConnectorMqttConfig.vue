@@ -67,12 +67,15 @@
         </el-col>
       </el-row>
     </div>
-    <CommonTLSConfig
-      class="tls-config-form"
-      v-model="connectorVal.ssl"
-      :readonly="readonly"
-      :is-edit="edit || copy"
-    />
+    <CustomFormItem>
+      <CommonTLSConfig
+        class="tls-config-form"
+        v-model="connectorVal.ssl"
+        :readonly="readonly"
+        :is-edit="edit || copy"
+      />
+    </CustomFormItem>
+
     <!-- <el-divider /> -->
   </div>
 </template>
