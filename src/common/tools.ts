@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
+import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, set } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
@@ -444,14 +444,35 @@ export const tryToCompleteURL = (url: string): string => {
 /**
  * is obj[key] is string and is empty, delete it
  */
-export const checkNOmitFromObj = (obj: Record<string, any>): Record<string, any> => {
+export const checkNOmitFromObj = (
+  obj: Record<string, any>,
+  ignorePaths?: Array<string>,
+): Record<string, any> => {
+  const ignoreValues = {}
+  if (ignorePaths?.length) {
+    ignorePaths.forEach((path) => {
+      const value = get(obj, path)
+      if (!isUndefined(value)) {
+        set(ignoreValues, path, value)
+      }
+    })
+  }
   const emptyValueKeyArr = Object.keys(obj).filter((key) => {
     if (isObject(obj[key]) && !Array.isArray(obj[key])) {
       obj[key] = checkNOmitFromObj(obj[key])
     }
     return typeof obj[key] === 'string' ? !obj[key] : false
   })
-  return omit(obj, emptyValueKeyArr)
+  const ret = omit(obj, emptyValueKeyArr)
+  if (ignorePaths?.length) {
+    ignorePaths.forEach((path) => {
+      const value = get(ignoreValues, path)
+      if (!isUndefined(value)) {
+        set(ret, path, value)
+      }
+    })
+  }
+  return ret
 }
 
 /**
