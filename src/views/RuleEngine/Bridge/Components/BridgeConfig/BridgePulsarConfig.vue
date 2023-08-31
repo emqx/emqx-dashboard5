@@ -383,6 +383,7 @@ const initRecord = () => {
       ...createRawFormData(),
       ...(props.modelValue || {}),
     }
+    emit('init', formData.value)
   }
 }
 

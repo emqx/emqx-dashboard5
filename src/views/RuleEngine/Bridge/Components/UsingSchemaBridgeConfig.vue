@@ -23,6 +23,7 @@
       :advanced-fields="advancedFields"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
+      @init="handleRecordInit"
     >
     </schema-form>
   </div>
@@ -109,7 +110,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'init'])
 
 const bridgeRecord = computed({
   get() {
@@ -238,6 +239,10 @@ const handleRecordChanged = (formData: OtherBridge) => {
   if (Object.keys(formData).length > 0) {
     bridgeRecord.value = formData
   }
+}
+
+const handleRecordInit = (record: OtherBridge) => {
+  emit('init', record)
 }
 
 const validate = () => {
