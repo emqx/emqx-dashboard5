@@ -40,7 +40,7 @@
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Warning } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -54,7 +54,7 @@ const { t, tl } = useI18nTl('Flow')
 
 const FormCom = ref()
 
-const record = ref({ name: '', desc: '' })
+const record = ref({ name: '' })
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = { name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()] }
@@ -64,6 +64,12 @@ const showDialog = computed({
   set: (val: boolean) => {
     emit('update:modelValue', val)
   },
+})
+
+watch(showDialog, (val) => {
+  if (!val) {
+    record.value.name = ''
+  }
 })
 
 const submit = async () => {
