@@ -242,5 +242,5 @@ export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
 export const MONGO_TYPE = ['single', 'rs', 'sharded']
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
-// prefix for HTTP bridge **name** and rule **id**
-export const WEBHOOK_PREFIX = 'DASHBOARD_WEBHOOK_'
+// suffix for HTTP bridge **name** and rule **id**
+export const WEBHOOK_SUFFIX = '_WH_D'

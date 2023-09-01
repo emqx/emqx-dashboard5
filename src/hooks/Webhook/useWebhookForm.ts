@@ -1,4 +1,4 @@
-import { WEBHOOK_PREFIX } from '@/common/constants'
+import { WEBHOOK_SUFFIX } from '@/common/constants'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { BridgeType } from '@/types/enum'
@@ -18,8 +18,8 @@ export default (): {
     name: '',
   })
 
-  const getRuleIdByName = (name: string) => `${WEBHOOK_PREFIX}${name}`
-  const getBridgeNameByName = (name: string) => `${WEBHOOK_PREFIX}${name}`
+  const getRuleIdByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
+  const getBridgeNameByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
 
   return {
     createRawWebhookForm,
