@@ -1,31 +1,22 @@
-const fs = require('fs')
-const axios = require('axios')
+const axios = require('axios/dist/node/axios.cjs')
 const generateSchemaFlatMap = require('../scripts/generateSchemaFlatMap')
 const bridgeSchema = require('../scripts/bridgeSchemaFlatMap.json')
 const hotConfSchema = require('../scripts/hotConfSchemaFlatMap.json')
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
-console.log("🍅🍅🍅🍅🍅🍅🍅 ~ baseURL:", baseURL)
-
-const updateLocalSchema = async (type) => {
-  try {
-    const { data } = await axios.get(`/api/v5/schemas/${type}`, {
-      baseURL: baseURL,
-    })
-    const result = generateSchemaFlatMap(data)
-    console.log(result)
-    const target = type === 'bridges' ? bridgeSchema : hotConfSchema
-    expect(result).toEqual(target)
-    
-  } catch (error) {
-    console.error(error)
-  }
+const checkLocalSchema = async (type) => {
+  const { data } = await axios.get(`/api/v5/schemas/${type}`, {
+    baseURL: baseURL,
+  })
+  const result = generateSchemaFlatMap(data)
+  const target = type === 'bridges' ? bridgeSchema : hotConfSchema
+  return expect(result).toEqual(target)
 }
 
-const main = () => {
-  updateLocalSchema('bridges')
-  updateLocalSchema('hotconf')
-}
-
-main()
+test('check newest bridge schema', async () => {
+  await checkLocalSchema('bridges')
+})
+test('check newest hot conf schema', async () => {
+  await checkLocalSchema('hotconf')
+})

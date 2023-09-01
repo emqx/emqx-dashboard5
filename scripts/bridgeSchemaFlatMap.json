@@ -2,10 +2,22 @@
   "bridge_azure_event_hub.auth_username_password": [
     "password"
   ],
+  "bridge_azure_event_hub.kafka_message": [
+    "key",
+    "value"
+  ],
   "bridge_azure_event_hub.post_producer": [
     "authentication",
     "bootstrap_hosts",
     "connect_timeout",
+    "enable",
+    "kafka",
+    "local_topic",
+    "metadata_request_timeout",
+    "min_metadata_refresh_interval",
+    "name",
+    "resource_opts",
+    "socket_opts",
     "ssl",
     "type"
   ],
