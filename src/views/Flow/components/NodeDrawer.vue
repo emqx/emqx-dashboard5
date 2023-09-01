@@ -96,7 +96,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit'])
+const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit', 'saveAsNew'])
 
 const showDrawer = computed({
   get: () => props.modelValue,
@@ -304,7 +304,7 @@ const saveAsNew = async () => {
 const handleNameSave = (name: string) => {
   record.value.name = name
   Reflect.deleteProperty(record.value, 'id')
-  emit('save', record.value)
+  emit('saveAsNew', record.value)
 }
 
 const edit = () => emit('edit')

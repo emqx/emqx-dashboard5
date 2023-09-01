@@ -66,7 +66,8 @@ export default (): {
   isRemovedBridge: (node: Node) => boolean
   addFlagToRemovedBridgeNode: (node: Node) => Node
 } => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
+  const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
+    useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
@@ -446,8 +447,6 @@ export default (): {
   }
 
   /* NODE POSITION */
-  const nodeWidth = 200
-  const nodeHeight = 60
   const nodeColumnSpacing = 100
   const nodeRowSpacing = 30
   const getXPosition = (columnIndex: number) => (nodeWidth + nodeColumnSpacing) * columnIndex

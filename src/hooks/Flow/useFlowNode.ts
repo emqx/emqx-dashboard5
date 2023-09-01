@@ -123,6 +123,8 @@ type PositionData =
   | { sourcePosition: Position; targetPosition: Position }
 
 export default (): {
+  nodeWidth: number
+  nodeHeight: number
   getNodeClass: (type: NodeType) => string
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
@@ -135,6 +137,12 @@ export default (): {
   getIconClass: (type: string) => string
 } => {
   const { t, tl } = useI18nTl('Flow')
+
+  /**
+   * just record, not for setting
+   */
+  const nodeWidth = 200
+  const nodeHeight = 60
 
   const nodeClassMap: Record<NodeType, string> = {
     [NodeType.Source]: 'node-source',
@@ -333,6 +341,8 @@ export default (): {
   }
 
   return {
+    nodeWidth,
+    nodeHeight,
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
