@@ -4,6 +4,7 @@ const bridgeSchema = require('../scripts/bridgeSchemaFlatMap.json')
 const hotConfSchema = require('../scripts/hotConfSchemaFlatMap.json')
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
+console.log('🍅🍅🍅 ~ baseURL:', baseURL)
 
 const checkLocalSchema = async (type) => {
   const { data } = await axios.get(`/api/v5/schemas/${type}`, {
