@@ -26,8 +26,14 @@ export const useCheckDataChanged = (
   }
 }
 
-export default (countIsRecordChanged?: () => boolean): void => {
+export default (
+  countIsRecordChanged?: () => boolean,
+): {
+  updateIsSubmitted: () => void
+} => {
   const { t } = useI18nTl('RuleEngine')
+
+  let isSubmitted = false
 
   const { getters } = useStore()
   const unloadHandler = (event: BeforeUnloadEvent) => {
@@ -66,10 +72,15 @@ export default (countIsRecordChanged?: () => boolean): void => {
     })
   }
 
+  const updateIsSubmitted = () => (isSubmitted = true)
+
   onBeforeRouteLeave(async (to) => {
     try {
       // is same
-      if (to.name !== 'login' && (!isFunction(countIsRecordChanged) || countIsRecordChanged())) {
+      if (to.name === 'login' || isSubmitted) {
+        return
+      }
+      if (!isFunction(countIsRecordChanged) || countIsRecordChanged()) {
         await customPopupWarning()
       }
       return
@@ -81,4 +92,8 @@ export default (countIsRecordChanged?: () => boolean): void => {
   onMounted(bindEventListener)
 
   onUnmounted(unbindEventListener)
+
+  return {
+    updateIsSubmitted,
+  }
 }
