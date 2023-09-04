@@ -62,7 +62,7 @@ export default {
     en: 'Absolute value',
   },
   absParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   absReturns: {
@@ -74,7 +74,7 @@ export default {
     en: 'Cosine',
   },
   cosParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   cosReturns: {
@@ -86,7 +86,7 @@ export default {
     en: 'Hyperbolic cosine',
   },
   coshParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   coshReturns: {
@@ -98,7 +98,7 @@ export default {
     en: 'Inverse cosine',
   },
   acosParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   acosReturns: {
@@ -110,7 +110,7 @@ export default {
     en: 'Inverse hyperbolic cosine',
   },
   acoshParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   acoshReturns: {
@@ -122,7 +122,7 @@ export default {
     en: 'Sine',
   },
   sinParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   sinReturns: {
@@ -134,7 +134,7 @@ export default {
     en: 'Hyperbolic sine',
   },
   sinhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   sinhReturns: {
@@ -146,11 +146,11 @@ export default {
     en: 'Arcsine',
   },
   asinParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   asinReturns: {
-    zh: '值',
+    zh: '反正弦值',
     en: 'Arcsine value',
   },
   asinhDesc: {
@@ -158,7 +158,7 @@ export default {
     en: 'inverse hyperbolic sine',
   },
   asinhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   asinhReturns: {
@@ -170,7 +170,7 @@ export default {
     en: 'tangent',
   },
   tanParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   tanReturns: {
@@ -182,7 +182,7 @@ export default {
     en: 'Hyperbolic tangent',
   },
   tanhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   tanhReturns: {
@@ -194,7 +194,7 @@ export default {
     en: 'Arc tangent',
   },
   atanParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   atanReturns: {
@@ -206,7 +206,7 @@ export default {
     en: 'Inverse hyperbolic tangent',
   },
   atanhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   atanhReturns: {
@@ -218,7 +218,7 @@ export default {
     en: 'Round up',
   },
   ceilParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   ceilReturns: {
@@ -230,7 +230,7 @@ export default {
     en: 'Round down',
   },
   floorParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   floorReturns: {
@@ -242,7 +242,7 @@ export default {
     en: 'rounding',
   },
   roundParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   roundReturns: {
@@ -254,7 +254,7 @@ export default {
     en: 'Exponentiation',
   },
   expParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   expReturns: {
@@ -278,7 +278,7 @@ export default {
     en: 'Square root operation',
   },
   sqrtParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   sqrtReturns: {
@@ -286,7 +286,7 @@ export default {
     en: 'Square root',
   },
   fmodDesc: {
-    zh: '负点数取模函数',
+    zh: '浮点数取模函数',
     en: 'Floating point modulus function',
   },
   fmodParams: {
@@ -302,7 +302,7 @@ export default {
     en: 'Logarithm to e',
   },
   logParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   logReturns: {
@@ -314,7 +314,7 @@ export default {
     en: 'Logarithm to 10',
   },
   log10Params: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   log10Returns: {
@@ -326,7 +326,7 @@ export default {
     en: 'Logarithm to 2',
   },
   log2Params: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
   },
   log2Returns: {
@@ -338,7 +338,7 @@ export default {
     en: 'Judge if the variable is null',
   },
   isNullParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isNullReturns: {
@@ -350,7 +350,7 @@ export default {
     en: 'Judge if the variable is not null',
   },
   isNotNullParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isNotNullReturns: {
@@ -362,7 +362,7 @@ export default {
     en: 'Judge whether the variable is String type',
   },
   isStrParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isStrReturns: {
@@ -374,7 +374,7 @@ export default {
     en: 'Judge if the variable is Boolean type',
   },
   isBoolParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isBoolReturns: {
@@ -386,7 +386,7 @@ export default {
     en: 'Judge whether the variable is Integer type',
   },
   isIntParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isIntReturns: {
@@ -398,7 +398,7 @@ export default {
     en: 'Judge whether the variable is Float type',
   },
   isFloatParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isFloatReturns: {
@@ -410,7 +410,7 @@ export default {
     en: 'Judge whether the variable is a numeric type, including Integer and Float types',
   },
   isNumParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isNumReturns: {
@@ -422,7 +422,7 @@ export default {
     en: 'Judge whether the variable is Map type',
   },
   isMapParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isMapReturns: {
@@ -434,7 +434,7 @@ export default {
     en: 'Judge whether the variable is Array type',
   },
   isArrayParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   isArrayReturns: {
@@ -446,7 +446,7 @@ export default {
     en: 'Convert data to String type',
   },
   strParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   strReturns: {
@@ -458,7 +458,7 @@ export default {
     en: 'Convert data to UTF-8 String type',
   },
   strUtf8Params: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   strUtf8Returns: {
@@ -470,7 +470,7 @@ export default {
     en: 'Convert data to Boolean type',
   },
   boolParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   boolReturns: {
@@ -482,7 +482,7 @@ export default {
     en: 'Convert data to integer type',
   },
   intParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   intReturns: {
@@ -494,7 +494,7 @@ export default {
     en: 'Convert data to floating type',
   },
   floatParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   floatReturns: {
@@ -518,7 +518,7 @@ export default {
     en: 'Convert data to Map type',
   },
   mapParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
   },
   mapReturns: {
@@ -530,8 +530,8 @@ export default {
     en: 'convert to lowercase',
   },
   lowerParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   lowerReturns: {
     zh: '小写字符串',
@@ -542,8 +542,8 @@ export default {
     en: 'convert to uppercase',
   },
   upperParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   upperReturns: {
     zh: '大写字符串',
@@ -554,8 +554,8 @@ export default {
     en: 'Remove left and right space',
   },
   trimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   trimReturns: {
     zh: '去掉空格后的字符串',
@@ -566,8 +566,8 @@ export default {
     en: 'Remove the left space',
   },
   ltrimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   ltrimReturns: {
     zh: '去掉空格后的字符串',
@@ -578,8 +578,8 @@ export default {
     en: 'Remove the right space',
   },
   rtrimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   rtrimReturns: {
     zh: '去掉空格后的字符串',
@@ -590,20 +590,20 @@ export default {
     en: 'String inversion',
   },
   reverseParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   reverseReturns: {
     zh: '翻转后的字符串',
-    en: 'output string',
+    en: 'Output string',
   },
   strlenDesc: {
     zh: '取字符串长度',
-    en: 'string length',
+    en: 'String length',
   },
   strlenParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
   },
   strlenReturns: {
     zh: '整数值，字符长度',
@@ -629,13 +629,13 @@ export default {
   },
   splitParams: {
     zh: `1. 原字符串 <br />2. 分割符子串 <br />
-2. <i>可选</i>分割的规则，默认匹配字符串中所有分隔符
+3. <i>可选</i>分割的规则，默认匹配字符串中所有分隔符
 <ul>
   <li><code>leading</code>：只查找左边第一个分隔符</li>
   <li><code>trailing</code>：只查找右边第一个分隔符</li>
 </ul>`,
     en: `1. Original string <br />2. Separator substring <br />
-2. <i>Optional</i> Rule for splitting, default to matching all separators in the string
+3. <i>Optional</i> Rule for splitting, default to matching all separators in the string
 <ul>
 <li><code>leading</code>: Only search for the first separator on the left side</li>
 <li><code>trailing</code>: Only search for the first separator on the right side</li>
@@ -647,15 +647,15 @@ export default {
   },
   concatDesc: {
     zh: '字符串拼接',
-    en: '',
+    en: 'String concatenation',
   },
   concatParams: {
     zh: '1. 左字符串 <br />2. 右符子串',
-    en: '',
+    en: '1. Left string <br />2. Right substring',
   },
   concatReturns: {
     zh: '拼接后的字符串',
-    en: '',
+    en: 'Concatenated string',
   },
   tokensDesc: {
     zh: '字符串分解(按照指定字符串和换行符分解)',
@@ -663,25 +663,25 @@ export default {
   },
   tokensParams: {
     zh: `1. 原字符串</br>2. 分隔符</br>
-3. <i>可选</i>是否根据换行符进行分解，为 <code>nocrlf</code> 时则是`,
+3. <i>可选</i>是否根据换行符进行分解`,
     en: `1. Original string</br>2. Separator</br>
-3. <i>Optional</i>Whether to decompose according to the line break, when it is <code>nocrlf</code>, it is`,
+3. <i>Optional</i>Whether to decompose according to the line break`,
   },
   tokensReturns: {
     zh: '分解后的字符串数组',
-    en: '',
+    en: 'Decomposed string array',
   },
   sprintfDesc: {
-    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
-    en: '',
+    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
+    en: 'String formatting, see the Format section in <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> for usage',
   },
   sprintfParams: {
     zh: '1. 格式字符串 <br />2,3,4... 参数列表。参数个数不定',
-    en: '',
+    en: '1. Format string <br />2,3,4... Parameter list. The number of parameters may vary',
   },
   sprintfReturns: {
-    zh: '分解后的字符串数组',
-    en: '',
+    zh: '格式化后的字符串',
+    en: 'Formatted string',
   },
   padDesc: {
     zh: '将指定字符串填充到指定长度',
@@ -697,7 +697,7 @@ export default {
   },
   padReturns: {
     zh: '补足后的字符串',
-    en: '',
+    en: 'Padded string',
   },
   replaceDesc: {
     zh: '在字符串中搜索并替换指定的文本',
@@ -725,39 +725,39 @@ export default {
   },
   regexMatchDesc: {
     zh: '判断字符串是否与某正则表达式匹配',
-    en: '',
+    en: 'Check if a string matches a regular expression',
   },
   regexMatchParams: {
     zh: '1. 原字符串 <br />2. 正则表达式',
-    en: '',
+    en: '1. Original string <br />2. Regular expression',
   },
   regexMatchReturns: {
     zh: 'true 或 false',
-    en: '',
+    en: 'true or false',
   },
   regexReplaceDesc: {
     zh: '替换字符串中匹配到某正则表达式的子串',
-    en: '',
+    en: 'Replace substrings in a string that match a regular expression',
   },
   regexReplaceParams: {
     zh: '1. 原字符串 <br />2. 正则表达式 <br />3. 指定用于替换的字符串',
-    en: '',
+    en: '1. Original string <br />2. Regular expression <br />3. String used for replacement',
   },
   regexReplaceReturns: {
     zh: '替换后的字符串',
-    en: '',
+    en: 'Replaced string',
   },
   asciiDesc: {
     zh: '返回字符对应的 ASCII 码',
-    en: '',
+    en: 'Returns the ASCII code corresponding to the character',
   },
   asciiParams: {
-    zh: '1. 字符',
-    en: '',
+    zh: '字符',
+    en: 'Character',
   },
   asciiReturns: {
     zh: '整数值，字符对应的 ASCII 码',
-    en: '',
+    en: 'Integer value, ASCII code corresponding to the character',
   },
   findDesc: {
     zh: '查找并返回字符串中的某个子串',
@@ -813,7 +813,7 @@ export default {
   },
   nthParams: {
     zh: '1. 起始位置 <br /> 2. 原数组',
-    en: 'Original array',
+    en: '1. n (integer) <br />2. Array',
   },
   nthReturns: {
     zh: '第 n 个元素',
