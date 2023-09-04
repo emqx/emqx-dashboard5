@@ -49,10 +49,10 @@ jobs:
 
       - name: Upload mismatched schemas
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mismatched-schemas
-          path: ./scripts/schema/*.json
+          path: ./__test__/*.json
           retention-days: 3
 
       - name: stop docker
