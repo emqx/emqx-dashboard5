@@ -131,10 +131,8 @@
     "topic_mapping"
   ],
   "bridge_gcp_pubsub.consumer_resource_opts": [
-    "auto_restart_interval",
     "health_check_interval",
-    "request_ttl",
-    "worker_pool_size"
+    "request_ttl"
   ],
   "bridge_gcp_pubsub.consumer_topic_mapping": [
     "mqtt_topic",
@@ -189,6 +187,21 @@
     "type",
     "username",
     "write_syntax"
+  ],
+  "bridge_hstreamdb.post": [
+    "direction",
+    "enable",
+    "grpc_timeout",
+    "local_topic",
+    "name",
+    "partition_key",
+    "pool_size",
+    "record_template",
+    "resource_opts",
+    "ssl",
+    "stream",
+    "type",
+    "url"
   ],
   "bridge_influxdb.post_api_v1": [
     "database",
@@ -287,6 +300,7 @@
     "metadata_request_timeout",
     "min_metadata_refresh_interval",
     "name",
+    "resource_opts",
     "socket_opts",
     "ssl",
     "topic_mapping",
@@ -303,6 +317,7 @@
     "metadata_request_timeout",
     "min_metadata_refresh_interval",
     "name",
+    "resource_opts",
     "socket_opts",
     "ssl",
     "type"
@@ -333,10 +348,27 @@
     "sync_query_timeout",
     "topic"
   ],
+  "bridge_kafka.resource_opts": [
+    "health_check_interval"
+  ],
   "bridge_kafka.socket_opts": [
     "recbuf",
     "sndbuf",
     "tcp_keepalive"
+  ],
+  "bridge_kinesis.creation_opts": [
+    "auto_restart_interval",
+    "batch_size",
+    "batch_time",
+    "enable_queue",
+    "health_check_interval",
+    "inflight_window",
+    "max_buffer_bytes",
+    "query_mode",
+    "request_ttl",
+    "start_after_created",
+    "start_timeout",
+    "worker_pool_size"
   ],
   "bridge_kinesis.post_producer": [
     "aws_access_key_id",
@@ -658,12 +690,12 @@
     "local_topic",
     "name",
     "password",
-    "pool_size",
     "redis_type",
     "resource_opts",
     "servers",
     "ssl",
-    "type"
+    "type",
+    "username"
   ],
   "bridge_redis.post_sentinel": [
     "auto_reconnect",
@@ -679,7 +711,8 @@
     "sentinel",
     "servers",
     "ssl",
-    "type"
+    "type",
+    "username"
   ],
   "bridge_redis.post_single": [
     "auto_reconnect",
@@ -694,7 +727,8 @@
     "resource_opts",
     "server",
     "ssl",
-    "type"
+    "type",
+    "username"
   ],
   "bridge_rocketmq.post": [
     "access_key",
