@@ -1,8 +1,14 @@
 const fs = require('fs')
 const axios = require('axios/dist/node/axios.cjs')
 const generateSchemaFlatMap = require('../scripts/generateSchemaFlatMap')
-const bridgeSchema = require('../scripts/bridgeSchemaFlatMap.json')
-const hotConfSchema = require('../scripts/hotConfSchemaFlatMap.json')
+
+const fileName = {
+  bridges: 'bridgeSchemaFlatMap',
+  hotconf: 'hotConfSchemaFlatMap',
+}
+
+const bridgeSchema = require(`../scripts/${fileName.bridges}.json`)
+const hotConfSchema = require(`../scripts/${fileName.hotconf}.json`)
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
@@ -19,7 +25,7 @@ const checkLocalSchema = async (type) => {
     if (error.matcherResult && !error.matcherResult.pass) {
       console.error('Mismatch found for', type)
       // Save result to a file
-      const filename = `${type}-mismatch.json`
+      const filename = `${fileName[type]}.json`
       fs.writeFileSync(filename, JSON.stringify(result, null, 2))
     }
     throw error

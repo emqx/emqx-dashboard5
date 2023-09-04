@@ -1,7 +1,6 @@
 {
   "broker.alarm": [
     "actions",
-    "size_limit",
     "validity_period"
   ],
   "broker.event_names": [

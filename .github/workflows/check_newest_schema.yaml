@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mismatched-schemas
-          path: ./*-mismatch.json
+          path: ./*.json
           retention-days: 3
 
       - name: stop docker
