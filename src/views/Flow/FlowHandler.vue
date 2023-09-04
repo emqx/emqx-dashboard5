@@ -47,9 +47,12 @@ import { createRandomString, waitAMoment } from '@/common/tools'
 import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
+import { Edge, Node } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
+import { isEqual } from 'lodash'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FlowEditor from './components/FlowEditor.vue'
@@ -61,6 +64,11 @@ interface FlowBasicInfo {
   desc: string
 }
 
+interface SimpleFlowData {
+  nodes: Array<string>
+  edges: Array<{ source: string; target: string }>
+}
+
 const enum EditingMethod {
   Flow,
   SQL,
@@ -70,7 +78,8 @@ const router = useRouter()
 const { t, tl } = useI18nTl('Flow')
 
 // Set name and desc to rule
-const flowBasicInfo = ref({ name: createRandomString(), desc: '' })
+const initName = createRandomString()
+const flowBasicInfo = ref({ name: initName, desc: '' })
 
 const { flowId, flowData, ruleData, getData } = useEditFlow()
 const isCreate = computed(() => !flowId.value)
@@ -82,11 +91,48 @@ const handleSaveBasicInfo = (val: FlowBasicInfo) => (flowBasicInfo.value = val)
 
 const FlowEditorCom = ref()
 
+/**
+ * for compare to check if flow data changed
+ */
+let simpleInitFlowData: SimpleFlowData = { nodes: [], edges: [] }
+
+const getSimpleFlowData = (flowData: Array<Node | Edge>) => {
+  const ret: SimpleFlowData = { nodes: [], edges: [] }
+  flowData.forEach((item) => {
+    if ('source' in item && 'target' in item) {
+      ret.edges.push({ source: item.source, target: item.target })
+    } else {
+      ret.nodes.push(item.id)
+    }
+  })
+  ret.edges.sort((pre, next) => {
+    if (pre.source === next.source) {
+      return pre.target.localeCompare(next.target)
+    }
+    return pre.source.localeCompare(next.source)
+  })
+  ret.nodes.sort()
+  return ret
+}
+
+const isFlowChanged = (): boolean => {
+  const flowData = FlowEditorCom.value.getFlowData()
+  if (isCreate.value) {
+    return flowData.nodes.length !== 0 || initName !== flowBasicInfo.value.name
+  }
+  const simpleCurrentData = getSimpleFlowData([...flowData.nodes, ...flowData.edges])
+  return !isEqual(simpleInitFlowData, simpleCurrentData)
+}
+const { updateIsSubmitted } = useDataNotSaveConfirm(isFlowChanged)
+
 const isInfoLoading = ref(false)
 const getFlowDetail = async () => {
   try {
     isInfoLoading.value = true
     await getData()
+    if (flowData.value) {
+      simpleInitFlowData = getSimpleFlowData(flowData.value)
+    }
     if (ruleData.value) {
       const { id, description } = ruleData.value
       flowBasicInfo.value = { name: id, desc: description }
@@ -113,6 +159,7 @@ const submit = async () => {
       const request = isCreate.value ? createFlow : updateFlow
       await request(data)
       ElMessage.success(t(`Base.${isCreate.value ? 'createSuccess' : 'updateSuccess'}`))
+      updateIsSubmitted()
       router.push({ name: 'flow' })
     } else {
       // TODO:form
