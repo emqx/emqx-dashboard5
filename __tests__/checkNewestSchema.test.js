@@ -1,3 +1,4 @@
+const fs = require('fs')
 const axios = require('axios/dist/node/axios.cjs')
 const generateSchemaFlatMap = require('../scripts/generateSchemaFlatMap')
 const bridgeSchema = require('../scripts/bridgeSchemaFlatMap.json')
