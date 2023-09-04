@@ -1,20 +1,24 @@
 const fs = require('fs')
 const axios = require('axios')
-const generateSchemaFlatMap = require('./generateSchemaFlatMap')
+const {
+  SchemaType,
+  fileNameMap,
+  requestPath,
+  generateSchemaFlatMap,
+} = require('./generateSchemaFlatMap')
 
 const [host = 'localhost', port = '18083'] = process.argv.slice(2)
 const serverPath = `http://${host}:${port}/`
 
-const bridgeFilePath = './scripts/bridgeSchemaFlatMap.json'
-const hotFilePath = './scripts/hotConfSchemaFlatMap.json'
+const getFilePath = (type) => `./scripts/schema/${fileNameMap[type]}.json`
 
 const updateLocalSchema = async (type) => {
   try {
-    const { data } = await axios.get(`api/v5/schemas/${type}`, {
+    const { data } = await axios.get(`${requestPath}${type}`, {
       baseURL: serverPath,
     })
     const result = generateSchemaFlatMap(data)
-    const resultPath = type === 'bridges' ? bridgeFilePath : hotFilePath
+    const resultPath = getFilePath(type)
     fs.writeFile(resultPath, JSON.stringify(result, null, 2), (err) => {
       if (err) {
         console.log(err)
@@ -28,8 +32,8 @@ const updateLocalSchema = async (type) => {
 }
 
 const main = () => {
-  updateLocalSchema('bridges')
-  updateLocalSchema('hotconf')
+  updateLocalSchema(SchemaType.Bridge)
+  updateLocalSchema(SchemaType.HotConf)
 }
 
 main()

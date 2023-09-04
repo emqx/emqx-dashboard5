@@ -1,21 +1,21 @@
 const fs = require('fs')
 const axios = require('axios/dist/node/axios.cjs')
-const generateSchemaFlatMap = require('../scripts/generateSchemaFlatMap')
+const {
+  SchemaType,
+  fileNameMap,
+  requestPath,
+  generateSchemaFlatMap,
+} = require('../scripts/generateSchemaFlatMap')
 
-const fileName = {
-  bridges: 'bridgeSchemaFlatMap',
-  hotconf: 'hotConfSchemaFlatMap',
-}
-
-const bridgeSchema = require(`../scripts/${fileName.bridges}.json`)
-const hotConfSchema = require(`../scripts/${fileName.hotconf}.json`)
+const bridgeSchema = require(`../scripts/schema/${fileNameMap[SchemaType.Bridge]}.json`)
+const hotConfSchema = require(`../scripts/schema/${fileNameMap[SchemaType.HotConf]}.json`)
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
 const checkLocalSchema = async (type) => {
   let result
   try {
-    const { data } = await axios.get(`/api/v5/schemas/${type}`, {
+    const { data } = await axios.get(`${requestPath}${type}`, {
       baseURL: baseURL,
     })
     result = generateSchemaFlatMap(data)
@@ -25,7 +25,7 @@ const checkLocalSchema = async (type) => {
     if (error.matcherResult && !error.matcherResult.pass) {
       console.error('Mismatch found for', type)
       // Save result to a file
-      const filename = `./schemaMap/${fileName[type]}.json`
+      const filename = `./scripts/schema/${fileNameMap[type]}.json`
       fs.writeFileSync(filename, JSON.stringify(result, null, 2))
     }
     throw error
@@ -33,8 +33,8 @@ const checkLocalSchema = async (type) => {
 }
 
 test('check newest bridge schema', async () => {
-  await checkLocalSchema('bridges')
+  await checkLocalSchema(SchemaType.Bridge)
 })
 test('check newest hot conf schema', async () => {
-  await checkLocalSchema('hotconf')
+  await checkLocalSchema(SchemaType.HotConf)
 })

@@ -1,3 +1,15 @@
+const SchemaType = {
+  Bridge: 'bridges',
+  HotConf: 'hotconf',
+}
+
+const fileNameMap = {
+  [SchemaType.Bridge]: 'bridgeSchemaFlatMap',
+  [SchemaType.HotConf]: 'hotConfSchemaFlatMap',
+}
+
+const requestPath = '/api/v5/schemas/'
+
 const regArr = [/\.get/, /\.put/, /bridge\.node_status/, /bridge\.metrics/, /bridge\.node_metrics/]
 const removeUselessData = (obj) => {
   const target = obj.components.schemas
@@ -24,4 +36,9 @@ const generateSchemaFlatMap = (data) => {
   return generatePropsArr(removeUselessData(data))
 }
 
-module.exports = generateSchemaFlatMap
+module.exports = {
+  SchemaType,
+  fileNameMap,
+  requestPath,
+  generateSchemaFlatMap,
+}
