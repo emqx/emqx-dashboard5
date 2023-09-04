@@ -13,11 +13,13 @@ const hotConfSchema = require(`../scripts/schema/${fileNameMap[SchemaType.HotCon
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
 const checkLocalSchema = async (type) => {
-  let result
+  let result = {}
+  let rawSchema = {}
   try {
     const { data } = await axios.get(`${requestPath}${type}`, {
       baseURL: baseURL,
     })
+    rawSchema = data
     result = generateSchemaFlatMap(data)
     const target = type === 'bridges' ? bridgeSchema : hotConfSchema
     return expect(result).toEqual(target)
@@ -26,6 +28,9 @@ const checkLocalSchema = async (type) => {
       console.error('Mismatch found for', type)
       // Save result to a file
       const filename = `./__tests__/${fileNameMap[type]}.json`
+      fs.writeFileSync(filename, JSON.stringify(result, null, 2))
+      // Save raw schema to a file
+      const rawSchemaFilename = `./__tests__/schema-${type}.json`
       fs.writeFileSync(filename, JSON.stringify(result, null, 2))
     }
     throw error
