@@ -690,6 +690,7 @@
     "local_topic",
     "name",
     "password",
+    "pool_size",
     "redis_type",
     "resource_opts",
     "servers",
