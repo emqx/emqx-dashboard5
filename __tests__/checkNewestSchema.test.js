@@ -4,15 +4,25 @@ const bridgeSchema = require('../scripts/bridgeSchemaFlatMap.json')
 const hotConfSchema = require('../scripts/hotConfSchemaFlatMap.json')
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
-console.log('🍅🍅🍅 ~ baseURL:', baseURL)
 
 const checkLocalSchema = async (type) => {
-  const { data } = await axios.get(`/api/v5/schemas/${type}`, {
-    baseURL: baseURL,
-  })
-  const result = generateSchemaFlatMap(data)
-  const target = type === 'bridges' ? bridgeSchema : hotConfSchema
-  return expect(result).toEqual(target)
+  let result
+  try {
+    const { data } = await axios.get(`/api/v5/schemas/${type}`, {
+      baseURL: baseURL,
+    })
+    result = generateSchemaFlatMap(data)
+    const target = type === 'bridges' ? bridgeSchema : hotConfSchema
+    return expect(result).toEqual(target)
+  } catch (error) {
+    if (error.matcherResult && !error.matcherResult.pass) {
+      console.error('Mismatch found for', type)
+      // Save result to a file
+      const filename = `${type}-mismatch.json`
+      fs.writeFileSync(filename, JSON.stringify(result, null, 2))
+    }
+    throw error
+  }
 }
 
 test('check newest bridge schema', async () => {

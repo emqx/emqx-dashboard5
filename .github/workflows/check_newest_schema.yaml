@@ -32,6 +32,7 @@ jobs:
         run: |
           make ${EMQX_NAME}-docker
           echo "EMQX_IMAGE_TAG=$(cat .docker_image_tag)" >> $GITHUB_ENV
+
       - name: run docker
         run: |
           CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
@@ -42,10 +43,17 @@ jobs:
       - name: Checkout Dashboard Code
         uses: actions/checkout@v3
 
-      - name: run script
+      - name: Run script that checks schemas
         run: |
           yarn
           yarn test
+
+      - name: Upload mismatched schemas
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: mismatched-schemas
+          path: ./*-mismatch.json
 
       - name: stop docker
         run: |
