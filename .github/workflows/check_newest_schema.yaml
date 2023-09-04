@@ -1,7 +1,6 @@
 name: Check Newest Schema
 
-
-# TODO: only in tag 
+# TODO: only in tag
 on:
   pull_request:
     types: [opened, reopened]
@@ -10,9 +9,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     env:
-      EMQX_NAME: "emqx-enterprise"
-      OTP_VSN: "25.3.2-2"
-      ELIXIR_VSN: "1.14.5"
+      EMQX_NAME: 'emqx-enterprise'
+      OTP_VSN: '25.3.2-2'
+      ELIXIR_VSN: '1.14.5'
 
     strategy:
       fail-fast: false
@@ -54,8 +53,8 @@ jobs:
         with:
           name: mismatched-schemas
           path: ./*-mismatch.json
+          retention-days: 3
 
       - name: stop docker
         run: |
           docker stop ${CID}
-
