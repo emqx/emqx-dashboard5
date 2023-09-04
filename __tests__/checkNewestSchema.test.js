@@ -25,7 +25,7 @@ const checkLocalSchema = async (type) => {
     if (error.matcherResult && !error.matcherResult.pass) {
       console.error('Mismatch found for', type)
       // Save result to a file
-      const filename = `./__test__/${fileNameMap[type]}.json`
+      const filename = `./__tests__/${fileNameMap[type]}.json`
       fs.writeFileSync(filename, JSON.stringify(result, null, 2))
     }
     throw error
