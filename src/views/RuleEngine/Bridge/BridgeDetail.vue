@@ -3,7 +3,10 @@
     <div class="detail-top">
       <detail-header
         v-if="!isFromRule"
-        :item="{ name: bridgeInfo.name, routeName: isWebhook ? 'webhook' : 'data-bridge' }"
+        :item="{
+          name: bridgeName,
+          routeName: isWebhook ? 'webhook' : 'data-bridge',
+        }"
       />
       <div v-if="!isFromRule" class="section-header">
         <div>
@@ -154,7 +157,7 @@
 
 <script lang="ts" setup>
 import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api/ruleengine'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, WEBHOOK_SUFFIX } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
@@ -214,6 +217,14 @@ const formCom = ref()
 
 const isWebhook = computed(() => {
   return route.name === 'webhook-detail-stats'
+})
+
+const bridgeName = computed(() => {
+  const { name } = bridgeInfo.value
+  if (name && isWebhook.value) {
+    return name.replace(WEBHOOK_SUFFIX, '')
+  }
+  return bridgeInfo.value.name
 })
 
 const queryTab = computed(() => {
