@@ -278,7 +278,7 @@ const saveAsNew = async () => {
 const handleNameSave = (name: string) => {
   record.value.name = name
   Reflect.deleteProperty(record.value, 'id')
-  emit('saveAsNew', record.value)
+  emit(isEdit.value ? 'saveAsNew' : 'save', record.value)
 }
 
 const edit = () => emit('edit')
