@@ -22,7 +22,7 @@ jobs:
           - emqx-enterprise
 
     steps:
-      - name: Checkout emqx code
+      - name: checkout emqx code
         uses: actions/checkout@v3
         with:
           repository: emqx/emqx
@@ -42,10 +42,10 @@ jobs:
           echo "CID=$CID" >> $GITHUB_ENV
           echo "HOST_URL=http://localhost:$HTTP_PORT" >> $GITHUB_ENV
 
-      - name: Checkout Dashboard Code
+      - name: checkout dashboard code
         uses: actions/checkout@v3
 
-      - name: Check schema
+      - name: check schema
         uses: ./.github/workflows/check_newest_schema.yaml
 
       - name: stop docker
