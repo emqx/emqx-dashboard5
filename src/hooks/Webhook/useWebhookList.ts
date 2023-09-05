@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n'
 export default (): {
   webhookList: Ref<WebhookItem[]>
   isLoading: Ref<boolean>
+  isEmpty: Ref<boolean>
   deleteLoading: Ref<boolean>
   getWebhookList: () => Promise<void>
   deleteWebhook: (webhook: WebhookItem) => Promise<void>
@@ -21,6 +22,7 @@ export default (): {
   const isLoading = ref(false)
   const deleteLoading = ref(false)
   const { t } = useI18n()
+  const isEmpty = ref(false)
 
   const { judgeIsWebhookBridge, judgeIsWebhookRule, joiningDataToWebhookList } = useWebhookUtils()
 
@@ -50,6 +52,9 @@ export default (): {
 
   const joiningData = () => {
     webhookList.value = joiningDataToWebhookList(bridgeList, ruleList)
+    if (!webhookList.value.length) {
+      isEmpty.value = true
+    }
   }
 
   const getWebhookList = async () => {
@@ -96,6 +101,7 @@ export default (): {
   return {
     webhookList,
     isLoading,
+    isEmpty,
     deleteLoading,
     getWebhookList,
     deleteWebhook,
