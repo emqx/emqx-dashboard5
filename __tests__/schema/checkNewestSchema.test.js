@@ -1,14 +1,14 @@
 const fs = require('fs')
-const axios = require('axios/dist/node/axios.cjs')
+const axios = require('axios')
 const {
   SchemaType,
   fileNameMap,
   requestPath,
   generateSchemaFlatMap,
-} = require('../scripts/generateSchemaFlatMap')
+} = require('../../scripts/generateSchemaFlatMap')
 
-const bridgeSchema = require(`../scripts/schema/${fileNameMap[SchemaType.Bridge]}.json`)
-const hotConfSchema = require(`../scripts/schema/${fileNameMap[SchemaType.HotConf]}.json`)
+const bridgeSchema = require(`../../scripts/schema/${fileNameMap[SchemaType.Bridge]}.json`)
+const hotConfSchema = require(`../../scripts/schema/${fileNameMap[SchemaType.HotConf]}.json`)
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 

@@ -1,7 +1,13 @@
 module.exports = {
-  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
-  transform: {
-    '^.+\\.vue$': 'vue-jest',
-  },
+  projects: [
+    {
+      displayName: 'default',
+      testMatch: ['**/__tests__/**/*.[jt]s?(x)', '!**/schema/**'],
+    },
+    {
+      displayName: 'schema',
+      testMatch: ['**/__tests__/schema/**/*.[jt]s?(x)'],
+    },
+  ],
   testEnvironment: 'node',
 }

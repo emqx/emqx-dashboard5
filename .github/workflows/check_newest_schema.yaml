@@ -45,7 +45,7 @@ jobs:
       - name: Run script that checks schemas
         run: |
           yarn
-          yarn test
+          yarn test:schema
 
       - name: Upload mismatched schemas
         if: failure()
