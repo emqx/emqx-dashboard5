@@ -55,6 +55,14 @@ jobs:
           path: ./__tests__/*.json
           retention-days: 3
 
+      - name: Upload raw schemas
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: mismatched-schemas
+          path: ./public/*.json
+          retention-days: 3
+
       - name: stop docker
         run: |
           docker stop ${CID}

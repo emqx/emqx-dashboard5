@@ -30,8 +30,8 @@ const checkLocalSchema = async (type) => {
       const filename = `./__tests__/${fileNameMap[type]}.json`
       fs.writeFileSync(filename, JSON.stringify(result, null, 2))
       // Save raw schema to a file
-      const rawSchemaFilename = `./__tests__/schema-${type}.json`
-      fs.writeFileSync(filename, JSON.stringify(result, null, 2))
+      const rawSchemaFilename = `./public/schema-${type}.json`
+      fs.writeFileSync(filename, JSON.stringify(rawSchemaFilename, null, 2))
     }
     throw error
   }
