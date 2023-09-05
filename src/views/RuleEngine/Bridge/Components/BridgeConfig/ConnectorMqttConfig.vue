@@ -67,7 +67,7 @@
         </el-col>
       </el-row>
     </div>
-    <CustomFormItem>
+    <CustomFormItem label-width="0px">
       <CommonTLSConfig
         class="tls-config-form"
         v-model="connectorVal.ssl"
@@ -173,6 +173,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tls-config-form {
+  width: 100%;
   :deep(.TLS-base-config) {
     margin-bottom: 0px;
   }
