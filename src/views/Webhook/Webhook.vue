@@ -1,41 +1,52 @@
 <template>
   <div class="webhook app-wrapper">
-    <div class="section-header">
-      <div></div>
-      <el-button type="primary" @click="addWebhook" :icon="Plus">
-        {{ $t('Base.create') }}
-      </el-button>
+    <template v-if="!isEmpty">
+      <div class="section-header">
+        <div></div>
+        <el-button type="primary" :disabled="isLoading" @click="addWebhook" :icon="Plus">
+          {{ $t('Base.create') }}
+        </el-button>
+      </div>
+      <el-table :data="webhookList" v-loading="isLoading">
+        <el-table-column prop="name" :label="t('Base.name')">
+          <template #default="{ row }">
+            <router-link :to="{ name: 'webhook-detail-stats', params: { id: row.bridge.id } }">
+              {{ row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="URL">
+          <template #default="{ row }">
+            {{ row.bridge?.url }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+          <template #default="{ row }">
+            <el-switch v-model="row.enable" @change="handleToggleStatus(row)" />
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Base.operation')">
+          <template #default="{ row }">
+            <el-button size="small" @click="goEditWebhook(row.name)">
+              {{ $t('Base.edit') }}
+            </el-button>
+            <el-button size="small" :loading="deleteLoading" @click="deleteWebhook(row)">
+              {{ $t('Base.delete') }}
+            </el-button>
+            <!-- <TableItemDropdown :row-data="row" /> -->
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+    <div v-else class="webhook-placeholder-container">
+      <img
+        class="img-placeholder"
+        width="480"
+        :src="require(`@/assets/img/webhook-placeholder-${theme}.png`)"
+        alt="webhook_placeholder"
+      />
+      <el-button type="primary" @click="addWebhook">{{ $t('Base.create') }} Webhook</el-button>
     </div>
-    <el-table :data="webhookList" v-loading="isLoading">
-      <el-table-column prop="name" :label="t('Base.name')">
-        <template #default="{ row }">
-          <router-link :to="{ name: 'webhook-detail-stats', params: { id: row.bridge.id } }">
-            {{ row.name }}
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="URL">
-        <template #default="{ row }">
-          {{ row.bridge?.url }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
-        <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="handleToggleStatus(row)" />
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <el-button size="small" @click="goEditWebhook(row.name)">
-            {{ $t('Base.edit') }}
-          </el-button>
-          <el-button size="small" :loading="deleteLoading" @click="deleteWebhook(row)">
-            {{ $t('Base.delete') }}
-          </el-button>
-          <!-- <TableItemDropdown :row-data="row" /> -->
-        </template>
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
@@ -47,11 +58,19 @@ import { WebhookItem } from '@/types/webhook'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
+const store = useStore()
 
-const { webhookList, isLoading, deleteLoading, getWebhookList, deleteWebhook } = useWebhookList()
+const theme = computed(() => {
+  return store.state.theme
+})
+
+const { webhookList, isLoading, deleteLoading, isEmpty, getWebhookList, deleteWebhook } =
+  useWebhookList()
 const { toggleWebhookEnableStatus } = useWebhookItem()
 
 const addWebhook = () => {
@@ -73,3 +92,20 @@ const goEditWebhook = (webhookName: string) => {
   router.push({ name: 'webhook-detail', params: { name: webhookName } })
 }
 </script>
+
+<style lang="scss">
+.webhook {
+  width: 100%;
+  height: 100%;
+  .webhook-placeholder-container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder {
+    margin-bottom: 48px;
+  }
+}
+</style>
