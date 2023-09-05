@@ -331,10 +331,10 @@ const confirmNewNodePosition = (oldNodePos: Pos, flowNodeType: string) => {
     [],
   )
   let index = 1
-  const pos = { x: oldNodePos.x, y: oldNodePos.y + index * (nodeHeight + 20) }
+  const pos = { x: oldNodePos.x, y: oldNodePos.y + index * (nodeHeight + 30) }
   while (checkOverlapInArr(nowNodesPositionArr, pos)) {
     index += 1
-    pos.y = oldNodePos.y + index * (nodeHeight + 20)
+    pos.y = oldNodePos.y + index * (nodeHeight + 30)
   }
   return pos
 }
