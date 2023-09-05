@@ -44,6 +44,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="description" :label="tl('note')"></el-table-column>
+        <el-table-column :label="tl('actionsCount')">
+          <template #default="{ row }">
+            {{ row.actions?.length }}
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-button

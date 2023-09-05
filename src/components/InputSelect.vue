@@ -1,5 +1,6 @@
 <template>
   <el-select
+    class="input-select"
     ref="SelectCom"
     v-model="value"
     filterable
@@ -95,6 +96,11 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
+.input-select {
+  &.el-select .el-input .el-select__caret {
+    display: none;
+  }
+}
 .popper-hidden {
   display: none;
 }

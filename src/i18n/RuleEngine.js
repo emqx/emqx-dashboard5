@@ -164,6 +164,10 @@ export default {
     zh: '动作',
     en: 'Actions',
   },
+  actionsCount: {
+    zh: '动作数量',
+    en: 'Action Count',
+  },
   actionDesc: {
     zh: '将处理结果输出到数据桥接或内置函数中。',
     en: 'Output the processing result to a data bridge or built-in function.',
