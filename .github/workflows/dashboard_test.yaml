@@ -2,7 +2,6 @@ name: Dashboard Test
 
 on:
   pull_request:
-    types: [opened, reopened]
   push:
     branches:
       - 'dev/*'
