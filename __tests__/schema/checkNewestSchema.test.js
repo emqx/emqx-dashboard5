@@ -4,8 +4,8 @@ const {
   SchemaType,
   fileNameMap,
   requestPath,
-  generateSchemaFlatMap,
-} = require('../../scripts/generateSchemaFlatMap')
+  flatSchema,
+} = require('../../scripts/flatSchema')
 
 const getLocalSchemaFilePath = (type) => `../../scripts/schema/${fileNameMap[type]}.json`
 
@@ -23,7 +23,7 @@ const checkLocalSchema = async (type) => {
       baseURL: baseURL,
     })
     rawSchema = data
-    result = generateSchemaFlatMap(data)
+    result = flatSchema(data)
     const target = type === 'bridges' ? bridgeSchema : hotConfSchema
     return expect(result).toEqual(target)
   } catch (error) {

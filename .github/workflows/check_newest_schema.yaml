@@ -39,7 +39,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: mismatched-schemas
+          name: mismatched-flattened-schemas
           path: ./__tests__/*.json
           retention-days: 3
 

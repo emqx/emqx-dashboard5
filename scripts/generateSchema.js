@@ -4,8 +4,8 @@ const SchemaType = {
 }
 
 const fileNameMap = {
-  [SchemaType.Bridge]: 'bridgeSchemaFlatMap',
-  [SchemaType.HotConf]: 'hotConfSchemaFlatMap',
+  [SchemaType.Bridge]: 'bridgeFlattenedSchema',
+  [SchemaType.HotConf]: 'hotConfFlattenedSchema',
 }
 
 const requestPath = '/api/v5/schemas/'
@@ -32,7 +32,7 @@ const generatePropsArr = (obj) => {
   return ret
 }
 
-const generateSchemaFlatMap = (data) => {
+const flatSchema = (data) => {
   return generatePropsArr(removeUselessData(data))
 }
 
@@ -40,5 +40,5 @@ module.exports = {
   SchemaType,
   fileNameMap,
   requestPath,
-  generateSchemaFlatMap,
+  flatSchema,
 }
