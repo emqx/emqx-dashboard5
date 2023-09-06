@@ -142,8 +142,13 @@ const existedTopics = computed(() => {
   if (!props.nodes?.length) {
     return []
   }
+  const currentNodeID = props.node?.id
   return props.nodes.reduce((arr: Array<string>, node) => {
-    if (node.data.specificType === SourceType.Message && node.data.formData?.topic) {
+    if (
+      node.data.specificType === SourceType.Message &&
+      node.data.formData?.topic &&
+      node.id !== currentNodeID
+    ) {
       arr.push(node.data.formData.topic)
     }
     return arr

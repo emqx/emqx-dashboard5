@@ -20,6 +20,7 @@ interface NodeData {
   data: {
     specificType: string
     isCreated?: boolean
+    isChanged?: boolean
     formData: any
   }
 }

@@ -116,12 +116,13 @@ const getSimpleFlowData = (flowData: Array<Node | Edge>) => {
 }
 
 const isFlowChanged = (): boolean => {
-  const flowData = FlowEditorCom.value.getFlowData()
+  const flowData: { nodes: Array<Node>; edges: Array<Edge> } = FlowEditorCom.value.getFlowData()
   if (isCreate.value) {
     return flowData.nodes.length !== 0 || initName !== flowBasicInfo.value.name
   }
   const simpleCurrentData = getSimpleFlowData([...flowData.nodes, ...flowData.edges])
-  return !isEqual(simpleInitFlowData, simpleCurrentData)
+  const hasNodeFormChanged = flowData.nodes.some((node) => node.data.isChanged)
+  return !isEqual(simpleInitFlowData, simpleCurrentData) || hasNodeFormChanged
 }
 const { updateIsSubmitted } = useDataNotSaveConfirm(isFlowChanged)
 

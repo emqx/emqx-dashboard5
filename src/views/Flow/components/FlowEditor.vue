@@ -105,7 +105,7 @@ import {
   useVueFlow,
 } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, pick } from 'lodash'
+import { cloneDeep, isEqual, pick } from 'lodash'
 import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
 import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
@@ -279,6 +279,8 @@ const resetDrawerData = () => {
 const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
+    // TODO: check isCreated and isChanged before calling update API
+    node.data.isChanged = !isEqual(node.data.formData, data)
     node.data.formData = data
     if (isBridgeType(node.data.specificType)) {
       node.data.isCreated = !!data.id
