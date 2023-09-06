@@ -36,4 +36,4 @@ jobs:
       - build_emqx_for_test
     uses: ./.github/workflows/check_newest_schema.yaml
     with:
-      is-ee: ${{ jobs.set_env.outputs.is-ee }}
+      is-ee: ${{ needs.set_env.outputs.is-ee }}
