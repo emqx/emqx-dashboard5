@@ -17,9 +17,9 @@ jobs:
       id: set-output
       run: |
         if [[ "${{ github.ref }}" == refs/heads/dev/* ]]; then
-          echo "::set-output name=is-ee::false"
+          echo "is-ee=false" >> $GITHUB_ENV
         else
-          echo "::set-output name=is-ee::true"
+          echo "is-ee=true" >> $GITHUB_ENV
         fi
 
   build_emqx_for_test:
