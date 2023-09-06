@@ -3,6 +3,9 @@ name: Check Newest Schema
 on:
   workflow_call:
 
+env:
+  IS_CI: "true"
+
 jobs:
   check_schema:
     runs-on: ubuntu-latest
@@ -27,12 +30,12 @@ jobs:
       - name: checkout dashboard code
         uses: actions/checkout@v3
 
-      - name: Run script that checks schemas
+      - name: run script that checks schemas
         run: |
           yarn
           yarn test:schema
 
-      - name: Upload mismatched schemas
+      - name: upload mismatched schemas
         if: failure()
         uses: actions/upload-artifact@v3
         with:
@@ -40,7 +43,7 @@ jobs:
           path: ./__tests__/*.json
           retention-days: 3
 
-      - name: Upload raw schemas
+      - name: upload raw schemas
         if: failure()
         uses: actions/upload-artifact@v3
         with:

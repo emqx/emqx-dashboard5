@@ -37,4 +37,4 @@ jobs:
         with:
           name: 'emqx-docker'
           path: 'emqx-docker.tar.gz'
-          retention-days: 3
+          retention-days: 1

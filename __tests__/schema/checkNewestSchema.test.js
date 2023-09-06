@@ -7,10 +7,13 @@ const {
   generateSchemaFlatMap,
 } = require('../../scripts/generateSchemaFlatMap')
 
-const bridgeSchema = require(`../../scripts/schema/${fileNameMap[SchemaType.Bridge]}.json`)
-const hotConfSchema = require(`../../scripts/schema/${fileNameMap[SchemaType.HotConf]}.json`)
+const getLocalSchemaFilePath = (type) => `../../scripts/schema/${fileNameMap[type]}.json`
+
+const bridgeSchema = require(getLocalSchemaFilePath(SchemaType.Bridge))
+const hotConfSchema = require(getLocalSchemaFilePath(SchemaType.HotConf))
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
+const isCI = process.env.IS_CI === 'true'
 
 const checkLocalSchema = async (type) => {
   let result = {}
@@ -26,12 +29,18 @@ const checkLocalSchema = async (type) => {
   } catch (error) {
     if (error.matcherResult && !error.matcherResult.pass) {
       console.error('Mismatch found for', type)
-      // Save result to a file
-      const filename = `./__tests__/${fileNameMap[type]}.json`
-      fs.writeFileSync(filename, JSON.stringify(result, null, 2))
-      // Save raw schema to a file
-      const rawSchemaFilename = `./public/schema-${type}.json`
-      fs.writeFileSync(filename, JSON.stringify(rawSchemaFilename, null, 2))
+      if (isCI) {
+        // for artifact
+        // Save result to a file
+        const filename = `./__tests__/${fileNameMap[type]}.json`
+        fs.writeFileSync(filename, JSON.stringify(result, null, 2))
+        // Save raw schema to a file
+        const rawSchemaFilename = `./public/schema-${type}.json`
+        fs.writeFileSync(rawSchemaFilename, JSON.stringify(rawSchemaFilename, null, 2))
+      } else {
+        const filePath = `./scripts/schema/${fileNameMap[type]}.json`
+        fs.writeFileSync(filePath, JSON.stringify(result, null, 2))
+      }
     }
     throw error
   }

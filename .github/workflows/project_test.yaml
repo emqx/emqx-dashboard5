@@ -1,0 +1,22 @@
+name: Project Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'dev/*'
+      - 'enterprise'
+
+jobs:
+  build_emqx_for_test:
+    uses: ./.github/workflows/build_emqx_for_test.yaml
+
+  dashboard_test:
+    needs:
+      - build_emqx_for_test
+    uses: ./.github/workflows/dashboard_test.yaml
+
+  check_schema:
+    needs:
+      - build_emqx_for_test
+    uses: ./.github/workflows/check_newest_schema.yaml
