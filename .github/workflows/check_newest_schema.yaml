@@ -47,7 +47,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: mismatched-schemas
+          name: raw-schemas
           path: ./public/*.json
           retention-days: 3
 

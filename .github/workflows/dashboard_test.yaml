@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  check_schema:
+  dashboard_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,7 @@ jobs:
       - name: checkout dashboard code
         uses: actions/checkout@v3
 
-      - name: run script that checks schemas
+      - name: run script that test
         run: |
           yarn
           yarn test
