@@ -39,12 +39,7 @@
       </el-table>
     </template>
     <div v-else class="webhook-placeholder-container">
-      <img
-        class="img-placeholder"
-        width="480"
-        :src="require(`@/assets/img/webhook-placeholder-${theme}.png`)"
-        alt="webhook_placeholder"
-      />
+      <img class="img-placeholder" width="480" :src="getImgSrc()" alt="webhook_placeholder" />
       <el-button type="primary" @click="addWebhook">{{ $t('Base.create') }} Webhook</el-button>
     </div>
   </div>
@@ -68,6 +63,14 @@ const store = useStore()
 const theme = computed(() => {
   return store.state.theme
 })
+
+const getImgSrc = () => {
+  try {
+    return require(`@/assets/img/webhook-placeholder-${theme.value}.png`)
+  } catch (error) {
+    return ''
+  }
+}
 
 const { webhookList, isLoading, deleteLoading, isEmpty, getWebhookList, deleteWebhook } =
   useWebhookList()
