@@ -12,12 +12,7 @@
       <!-- <FlowList v-if="showBy === ShowByOpt.List" /> -->
     </template>
     <div v-else class="flow-placeholder-container">
-      <img
-        class="img-placeholder"
-        width="520"
-        :src="require(`@/assets/img/flow-placeholder-${theme}.png`)"
-        alt="empty_placeholder"
-      />
+      <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
       <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
     </div>
   </div>
@@ -38,6 +33,14 @@ const store = useStore()
 const theme = computed(() => {
   return store.state.theme
 })
+
+const getImgSrc = () => {
+  try {
+    return require(`@/assets/img/flow-placeholder-${theme.value}.png`)
+  } catch (error) {
+    return ''
+  }
+}
 
 const enum ShowByOpt {
   Flow,
