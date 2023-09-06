@@ -4,31 +4,50 @@ on:
   workflow_call:
 
 jobs:
-  docker:
+  check_schema:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: emqx-docker
+          path: /tmp
+      - name: load docker image
+        run: |
+          EMQX_IMAGE_TAG=$(docker load < /tmp/emqx-docker.tar.gz 2>/dev/null | sed 's/Loaded image: //g')
+          echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> $GITHUB_ENV
+      - name: run docker
+        run: |
+          CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
+          HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' $CID)
+          echo "HTTP_PORT=$HTTP_PORT" >> $GITHUB_ENV
+          echo "CID=$CID" >> $GITHUB_ENV
+          echo "HOST_URL=http://localhost:$HTTP_PORT" >> $GITHUB_ENV
 
-    - name: Checkout Dashboard Code
-      uses: actions/checkout@v3
+      - name: checkout dashboard code
+        uses: actions/checkout@v3
 
-    - name: Run script that checks schemas
-      run: |
-        yarn
-        yarn test:schema
+      - name: Run script that checks schemas
+        run: |
+          yarn
+          yarn test:schema
 
-    - name: Upload mismatched schemas
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: mismatched-schemas
-        path: ./__tests__/*.json
-        retention-days: 3
+      - name: Upload mismatched schemas
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: mismatched-schemas
+          path: ./__tests__/*.json
+          retention-days: 3
 
-    - name: Upload raw schemas
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: mismatched-schemas
-        path: ./public/*.json
-        retention-days: 3
+      - name: Upload raw schemas
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: mismatched-schemas
+          path: ./public/*.json
+          retention-days: 3
+
+      - name: stop docker
+        run: |
+          docker stop ${CID}
