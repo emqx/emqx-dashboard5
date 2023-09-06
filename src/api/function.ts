@@ -40,4 +40,8 @@ export function deleteBannedClient({ who, as }: Pick<BannedItem, 'who' | 'as'>):
   return http.delete(`/banned/${as}/${encodeURIComponent(who)}`)
 }
 
+export function clearAllBannedClients(): Promise<void> {
+  return http.delete('/banned')
+}
+
 export default {}
