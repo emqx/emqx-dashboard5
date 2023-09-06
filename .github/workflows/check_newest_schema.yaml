@@ -2,9 +2,14 @@ name: Check Newest Schema
 
 on:
   workflow_call:
+    inputs:
+      is-ee:
+        required: true
+        type: string
 
 env:
   IS_CI: "true"
+  IS_EE: ${{ inputs.is-ee }}
 
 jobs:
   check_schema:

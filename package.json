@@ -13,7 +13,8 @@
     "escape": "node ./scripts/escapeI18N.js",
     "checkI18n": "node ./scripts/checkUselessI18n.js",
     "test": "jest --selectProjects default",
-    "test:schema": "jest --selectProjects schema"
+    "test-schema-ee": "IS_EE=true jest --selectProjects schema",
+    "test-schema": "jest --selectProjects schema"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",

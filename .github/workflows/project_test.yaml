@@ -8,6 +8,20 @@ on:
       - 'enterprise'
 
 jobs:
+  set_env:
+    runs-on: ubuntu-latest
+    outputs:
+      is-ee: ${{ steps.set-output.outputs.is-ee }}
+    steps:
+    - name: check branch and set output
+      id: set-output
+      run: |
+        if [[ "${{ github.ref }}" == refs/heads/dev/* ]]; then
+          echo "::set-output name=is-ee::false"
+        else
+          echo "::set-output name=is-ee::true"
+        fi
+
   build_emqx_for_test:
     uses: ./.github/workflows/build_emqx_for_test.yaml
 
@@ -18,5 +32,8 @@ jobs:
 
   check_schema:
     needs:
+      - set_env
       - build_emqx_for_test
     uses: ./.github/workflows/check_newest_schema.yaml
+    with:
+      is-ee: ${{ jobs.set_env.outputs.is-ee }}

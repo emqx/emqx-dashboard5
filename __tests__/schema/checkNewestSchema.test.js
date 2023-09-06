@@ -1,11 +1,6 @@
 const fs = require('fs')
 const axios = require('axios')
-const {
-  SchemaType,
-  fileNameMap,
-  requestPath,
-  flatSchema,
-} = require('../../scripts/flatSchema')
+const { SchemaType, fileNameMap, requestPath, flatSchema } = require('../../scripts/flatSchema')
 
 const getLocalSchemaFilePath = (type) => `../../scripts/schema/${fileNameMap[type]}.json`
 
@@ -14,6 +9,8 @@ const hotConfSchema = require(getLocalSchemaFilePath(SchemaType.HotConf))
 
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 const isCI = process.env.IS_CI === 'true'
+const isEE = process.env.IS_EE === 'true'
+console.log('🍅🍅🍅 ~ isEE:', isEE)
 
 const checkLocalSchema = async (type) => {
   let result = {}
@@ -46,9 +43,11 @@ const checkLocalSchema = async (type) => {
   }
 }
 
-test('check newest bridge schema', async () => {
-  await checkLocalSchema(SchemaType.Bridge)
-})
+if (isEE) {
+  test('check newest bridge schema', async () => {
+    await checkLocalSchema(SchemaType.Bridge)
+  })
+}
 test('check newest hot conf schema', async () => {
   await checkLocalSchema(SchemaType.HotConf)
 })
