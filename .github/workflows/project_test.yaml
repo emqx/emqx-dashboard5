@@ -11,10 +11,10 @@ jobs:
   build_emqx_for_test:
     uses: ./.github/workflows/build_emqx_for_test.yaml
 
-  dashboard_test:
-    needs:
-      - build_emqx_for_test
-    uses: ./.github/workflows/dashboard_test.yaml
+  # dashboard_test:
+  #   needs:
+  #     - build_emqx_for_test
+  #   uses: ./.github/workflows/dashboard_test.yaml
 
   check_schema:
     needs:

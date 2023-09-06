@@ -36,7 +36,7 @@ const checkLocalSchema = async (type) => {
         fs.writeFileSync(filename, JSON.stringify(result, null, 2))
         // Save raw schema to a file
         const rawSchemaFilename = `./public/schema-${type}.json`
-        fs.writeFileSync(rawSchemaFilename, JSON.stringify(rawSchemaFilename, null, 2))
+        fs.writeFileSync(rawSchemaFilename, JSON.stringify(rawSchema, null, 2))
       } else {
         const filePath = `./scripts/schema/${fileNameMap[type]}.json`
         fs.writeFileSync(filePath, JSON.stringify(result, null, 2))
