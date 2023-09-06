@@ -5,6 +5,16 @@
       <el-button type="primary" :icon="Plus" @click="dialogVisible = true">
         {{ $t('Base.create') }}
       </el-button>
+      <el-button
+        type="danger"
+        plain
+        :icon="Remove"
+        :disabled="!tableData.length"
+        @click="clearAllConfirm"
+        :loading="clearLoading"
+      >
+        {{ tl('clearAll') }}
+      </el-button>
     </div>
     <el-table :data="tableData" v-loading="tbLoading" row-key="who">
       <el-table-column prop="who" :label="tl('who')" />
@@ -32,12 +42,12 @@
 </template>
 
 <script setup lang="ts">
-import { deleteBannedClient, loadBannedClient } from '@/api/function'
+import { deleteBannedClient, loadBannedClient, clearAllBannedClients } from '@/api/function'
 import { dateFormat } from '@/common/tools'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, Remove } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Banned } from 'src/types/auth'
 import { ref } from 'vue'
@@ -48,6 +58,7 @@ import { BannedItem } from '@/types/systemModule'
 const { t, tl } = useI18nTl('General')
 
 const dialogVisible = ref(false)
+const clearLoading = ref(false)
 const tableData = ref<BannedItem[]>([])
 const tbLoading = ref(false)
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
@@ -89,6 +100,24 @@ const deleteConfirm = async (item: Banned) => {
     refreshListData()
   } catch (error) {
     //
+  }
+}
+
+const clearAllConfirm = async () => {
+  try {
+    await ElMessageBox.confirm(tl('clearAllConfirm'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+    clearLoading.value = true
+    await clearAllBannedClients()
+    ElMessage.success(t('Base.deleteSuccess'))
+    refreshListData()
+  } catch (error) {
+    // ignore error
+  } finally {
+    clearLoading.value = false
   }
 }
 
