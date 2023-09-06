@@ -32,7 +32,7 @@ jobs:
 
       - name: export docker image
         run: |
-          docker save $EMQX_IMAGE_TAG | gzip > $emqx-docker.tar.gz
+          docker save $EMQX_IMAGE_TAG | gzip > emqx-docker.tar.gz
       - uses: actions/upload-artifact@v3
         with:
           name: 'emqx-docker'
