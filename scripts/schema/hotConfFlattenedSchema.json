@@ -1,0 +1,155 @@
+{
+  "broker.alarm": [
+    "actions",
+    "size_limit",
+    "validity_period"
+  ],
+  "broker.event_names": [
+    "client_connected",
+    "client_disconnected",
+    "client_subscribed",
+    "client_unsubscribed"
+  ],
+  "broker.flapping_detect": [
+    "ban_time",
+    "enable"
+  ],
+  "broker.force_gc": [
+    "bytes",
+    "count",
+    "enable"
+  ],
+  "broker.force_shutdown": [
+    "enable",
+    "max_heap_size",
+    "max_mailbox_size"
+  ],
+  "broker.mqtt": [
+    "await_rel_timeout",
+    "exclusive_subscription",
+    "idle_timeout",
+    "ignore_loop_deliver",
+    "keepalive_multiplier",
+    "max_awaiting_rel",
+    "max_clientid_len",
+    "max_inflight",
+    "max_mqueue_len",
+    "max_packet_size",
+    "max_qos_allowed",
+    "max_subscriptions",
+    "max_topic_alias",
+    "max_topic_levels",
+    "mqueue_default_priority",
+    "mqueue_priorities",
+    "mqueue_store_qos0",
+    "peer_cert_as_clientid",
+    "peer_cert_as_username",
+    "response_information",
+    "retain_available",
+    "retry_interval",
+    "server_keepalive",
+    "session_expiry_interval",
+    "shared_subscription",
+    "shared_subscription_strategy",
+    "strict_mode",
+    "upgrade_qos",
+    "use_username_as_clientid",
+    "wildcard_subscription"
+  ],
+  "broker.sys_topics": [
+    "sys_event_messages",
+    "sys_heartbeat_interval",
+    "sys_msg_interval"
+  ],
+  "broker.sysmon": [
+    "os",
+    "vm"
+  ],
+  "broker.sysmon_os": [
+    "cpu_check_interval",
+    "cpu_high_watermark",
+    "cpu_low_watermark",
+    "mem_check_interval",
+    "procmem_high_watermark",
+    "sysmem_high_watermark"
+  ],
+  "broker.sysmon_vm": [
+    "busy_dist_port",
+    "busy_port",
+    "large_heap",
+    "long_gc",
+    "long_schedule",
+    "process_check_interval",
+    "process_high_watermark",
+    "process_low_watermark"
+  ],
+  "dashboard.dashboard": [
+    "cors",
+    "listeners",
+    "token_expired_time"
+  ],
+  "dashboard.http": [
+    "backlog",
+    "bind",
+    "inet6",
+    "ipv6_v6only",
+    "max_connections",
+    "num_acceptors",
+    "proxy_header",
+    "send_timeout"
+  ],
+  "dashboard.https": [
+    "backlog",
+    "bind",
+    "inet6",
+    "ipv6_v6only",
+    "max_connections",
+    "num_acceptors",
+    "proxy_header",
+    "send_timeout",
+    "ssl_options"
+  ],
+  "dashboard.listeners": [
+    "http",
+    "https"
+  ],
+  "dashboard.ssl_options": [
+    "cacertfile",
+    "cacerts",
+    "certfile",
+    "ciphers",
+    "client_renegotiation",
+    "depth",
+    "dhfile",
+    "handshake_timeout",
+    "hibernate_after",
+    "honor_cipher_order",
+    "keyfile",
+    "log_level",
+    "password",
+    "reuse_sessions",
+    "secure_renegotiate",
+    "verify",
+    "versions"
+  ],
+  "emqx_conf_schema.console_handler": [
+    "enable",
+    "formatter",
+    "level",
+    "time_offset"
+  ],
+  "emqx_conf_schema.log": [
+    "console",
+    "file"
+  ],
+  "emqx_conf_schema.log_file_handler": [
+    "enable",
+    "formatter",
+    "level",
+    "path",
+    "rotation_count",
+    "rotation_size",
+    "time_offset"
+  ],
+  "limiter.limiter": []
+}

@@ -1,0 +1,38 @@
+name: Project Test
+
+on:
+  pull_request:
+    branches:
+      - 'dev/*'
+      - 'enterprise'
+
+jobs:
+  set_env:
+    runs-on: ubuntu-latest
+    outputs:
+      is-ee: ${{ steps.set-output.outputs.is-ee }}
+    steps:
+    - name: check branch and set output
+      id: set-output
+      run: |
+        if [[ "${{ github.base_ref }}" == dev/* ]]; then
+          echo "is-ee=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "is-ee=true" >> "$GITHUB_OUTPUT"
+        fi
+
+  build_emqx_for_test:
+    uses: ./.github/workflows/build_emqx_for_test.yaml
+
+  # dashboard_test:
+  #   needs:
+  #     - build_emqx_for_test
+  #   uses: ./.github/workflows/dashboard_test.yaml
+
+  check_schema:
+    needs:
+      - set_env
+      - build_emqx_for_test
+    uses: ./.github/workflows/check_newest_schema.yaml
+    with:
+      is-ee: ${{ needs.set_env.outputs.is-ee }}
