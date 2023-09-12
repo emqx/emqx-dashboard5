@@ -1,0 +1,50 @@
+export type GetSubscriptions500Code =
+  typeof GetSubscriptions500Code[keyof typeof GetSubscriptions500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSubscriptions500Code = {
+  NODE_DOWN: 'NODE_DOWN',
+} as const
+
+export type GetSubscriptions500 = {
+  code?: GetSubscriptions500Code
+  message?: string
+}
+
+export type GetSubscriptions400Code =
+  typeof GetSubscriptions400Code[keyof typeof GetSubscriptions400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSubscriptions400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+} as const
+
+export type GetSubscriptions400 = {
+  code?: GetSubscriptions400Code
+  message?: string
+}
+
+export type PublicPageParameter = number
+
+export type PublicLimitParameter = number
+
+export type GetSubscriptionsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  node?: string
+  clientid?: string
+  qos?: number
+  topic?: string
+  match_topic?: string
+  share_group?: string
+}
+
+export interface EmqxMgmtApiSubscriptionsSubscription {
+  node?: string
+  topic?: string
+  clientid?: string
+  qos?: number
+  nl?: number
+  rap?: number
+  rh?: number
+}
