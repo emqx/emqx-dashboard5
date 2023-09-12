@@ -1,0 +1,42 @@
+name: Project Test
+
+on:
+  pull_request:
+    branches:
+      - 'dev/*'
+      - 'enterprise'
+
+jobs:
+  set_version:
+    runs-on: ubuntu-latest
+    outputs:
+      emqx-name: ${{ steps.set-output.outputs.emqx-name }}
+    steps:
+    - name: check branch and set output
+      id: set-output
+      run: |
+        if [[ "${{ github.base_ref }}" == enterprise ]]; then
+          echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
+        else
+          echo "emqx-name=emqx" >> "$GITHUB_OUTPUT"
+        fi
+
+  build_emqx_for_test:
+    needs:
+      - set_version
+    uses: ./.github/workflows/build_emqx_for_test.yaml
+    with:
+      emqx-name: ${{ needs.set_version.outputs.emqx-name }}
+
+  # dashboard_test:
+  #   needs:
+  #     - build_emqx_for_test
+  #   uses: ./.github/workflows/dashboard_test.yaml
+
+  check_schema:
+    needs:
+      - set_version
+      - build_emqx_for_test
+    uses: ./.github/workflows/check_newest_schema.yaml
+    with:
+      emqx-name: ${{ needs.set_version.outputs.emqx-name }}
