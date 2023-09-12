@@ -1,0 +1,1343 @@
+{
+  "emqx_conf_schema": {
+    "common_handler_drop_mode_qlen": {
+      "desc": "バッファされたログイベント数がこの値を超えると、新しいログイベントはドロップされる。\nドロップモードの有効/無効時に、ログにメッセージが出力される。",
+      "label": "ドロップモード突入前のキュー長"
+    },
+    "cluster_mcast_addr": {
+      "desc": "マルチキャストIPv4アドレス。",
+      "label": "クラスターマルチキャストアドレス"
+    },
+    "desc_cluster_dns": {
+      "desc": "DNS SRVレコードによるサービス検出。",
+      "label": "クラスタDNS"
+    },
+    "cluster_dns_name": {
+      "desc": "ピアEMQXノードのIPアドレスを検出するためのドメイン名。\n<code>cluster.discovery_strategy = dns</code>の場合に適用される。",
+      "label": "クラスタDNSネーム"
+    },
+    "rpc_keyfile": {
+      "desc": "<code>rpc.certfile</code>の秘密鍵ファイルへのパス。\n注意: このファイルの内容は秘密なので、パーミッションを600に設定する必要がある。",
+      "label": "RPCキーファイル"
+    },
+    "cluster_mcast_recbuf": {
+      "desc": "着信データグラムのためのカーネルレベルのバッファサイズ。",
+      "label": "クラスターマルチキャスト受信バッファ"
+    },
+    "cluster_autoheal": {
+      "desc": "<code>true</code>の場合、ノードはネットワークのパーティションを自動的に修復しようとする。",
+      "label": "クラスターオートヒール"
+    },
+    "log_overload_kill_enable": {
+      "desc": "ログハンドラの過負荷キル機能を有効にする。",
+      "label": "ログハンドラ過負荷キル"
+    },
+    "node_etc_dir": {
+      "desc": "ノードの<code>etc</code>ディレクトリ",
+      "label": "etcディレクトリ"
+    },
+    "cluster_proto_dist": {
+      "desc": "クラスターのErlangディストリビューションプロトコル。<br/>\n- inet_tcp: IPv4 TCP <br/>\n- inet_tls: IPv4 TLS、<code>etc/ssl_dist.conf</code>と連携して機能する)",
+      "label": "クラスタープロトコルディストリビューション"
+    },
+    "log_burst_limit_enable": {
+      "desc": "ログバースト制御機能を有効にする。",
+      "label": "バーストを有効にする"
+    },
+    "dist_buffer_size": {
+      "desc": "Erlangのディストリビューションバッファのビジー制限(KB)。",
+      "label": "Erlang distバッファサイズ(KB)"
+    },
+    "common_handler_max_depth": {
+      "desc": "Erlang用語のログフォーマットとErlangプロセスメッセージキューの検査の最大深度。",
+      "label": "最大深度"
+    },
+    "desc_log": {
+      "desc": "EMQXのロギングは、ログイベントのための複数のシンクをサポートしている。\n各シンクは_ログハンドラー_によって表され、個別に設定できる。",
+      "label": "ログ"
+    },
+    "common_handler_flush_qlen": {
+      "desc": "バッファされたログイベント数がこのしきい値を超えると、フラッシュ(削除)操作が実行される。\nフラッシュでは、ログイベントを破棄するが、ログは記録しない。",
+      "label": "フラッシュしきい値"
+    },
+    "common_handler_chars_limit": {
+      "desc": "1つのログメッセージの最大長を設定する。この長さを超えると、ログメッセージは切り捨てられる。\n注意: フォーマッタがJSONの場合、charリミッターを制限することを推奨。切り捨てられた不完全なJSONデータを取得する可能性があり、推奨されない。",
+      "label": "ログ1件の最大長"
+    },
+    "cluster_k8s_namespace": {
+      "desc": "Kubernetesのnamespace.",
+      "label": "K8s Namespace"
+    },
+    "node_name": {
+      "desc": "EMQXノードのユニーク名。<code>%name%{'@'}FQDN</code>または\n<code>%name%{'@'}IPv4</code>形式に従う必要がある。",
+      "label": "ノード名"
+    },
+    "rpc_port_discovery": {
+      "desc": "<code>manual</code>: <code>tcp_server_port</code>によりポートを検出。<br/>\n<code>stateless</code>: ステートレスな方法でポートを検出。以下のアルゴリズムを使用。\nノード名が<code>emqxN{'@'}127.0.0.1</code>(Nは整数)の場合、\nリスニングポートは5370 + Nになる。",
+      "label": "RPCポート検出"
+    },
+    "log_overload_kill_restart_after": {
+      "desc": "ハンドラは、値が`infinity`でない限り、終了後一定時間後に自動的に再起動する。\n`infinity`はそれ以降の再起動をブロックする。",
+      "label": "ハンドラ再起動タイマー"
+    },
+    "log_file_handler_rotation_size": {
+      "desc": "このパラメータはログファイルのローテーションを制御する。\n`infinity`の場合、ログファイルは無制限に成長する。それ以外の場合は`max_size`バイトに達するとログファイルはローテーションされる。",
+      "label": "ローテーションサイズ"
+    },
+    "desc_log_file_handler": {
+      "desc": "ログイベントをファイルに出力するログハンドラ。",
+      "label": "ファイルログハンドラ"
+    },
+    "rpc_socket_keepalive_count": {
+      "desc": "応答を受信できないキープアライブプローブメッセージの回数。\nこの回数に達すると、RPC接続が途絶えたと判断される。",
+      "label": "RPCソケットキープアライブ回数"
+    },
+    "cluster_etcd_server": {
+      "desc": "etcdクラスタのエンドポイントURLリスト",
+      "label": "クラスタetcdサーバ"
+    },
+    "db_backend": {
+      "desc": "組み込みデータベースに使用するバックエンドの選択。<br/>\n<code>rlog</code>は非常に大規模なクラスタに適したデフォルトのバックエンド。<br/>\n<code>mnesia</code>は、小規模クラスタで適度なパフォーマンスを提供するバックエンド。",
+      "label": "DBバックエンド"
+    },
+    "desc_authorization": {
+      "desc": "クライアント認証を制御する設定。",
+      "label": "認証"
+    },
+    "cluster_etcd_ssl": {
+      "desc": "etcdクラスタへのTLS接続のオプション。",
+      "label": "クラスタetcd SSLオプション"
+    },
+    "rpc_insecure_fallback": {
+      "desc": "古いRPC認証の互換性を有効にする。",
+      "label": "RPCインセキュアフォールバック"
+    },
+    "cluster_mcast_buffer": {
+      "desc": "ユーザレベルのバッファサイズ。",
+      "label": "クラスターマルチキャストバッファ"
+    },
+    "rpc_authentication_timeout": {
+      "desc": "リモートノードの認証タイムアウト。",
+      "label": "RPC認証タイムアウト"
+    },
+    "cluster_call_retry_interval": {
+      "desc": "失敗した呼び出し後の再試行間隔。",
+      "label": "クラスタ呼び出し再試行間隔"
+    },
+    "cluster_mcast_sndbuf": {
+      "desc": "発信データグラムのカーネルレベルのバッファサイズ。",
+      "label": "クラスターマルチキャスト送信バッファ"
+    },
+    "rpc_driver": {
+      "desc": "ブローカー間通信に使用するトランスポートプロトコル",
+      "label": "RPCドライバ"
+    },
+    "max_ets_tables": {
+      "desc": "最大ETSテーブル数",
+      "label": "最大ETSテーブル数"
+    },
+    "desc_db": {
+      "desc": "組み込みデータベースの設定。",
+      "label": "データベース"
+    },
+    "desc_cluster_etcd": {
+      "desc": "etcd'サービスを使用したサービス検出。",
+      "label": "クラスタetcd"
+    },
+    "cluster_name": {
+      "desc": "EMQXクラスタのユーザーフレンドリーな名前",
+      "label": "クラスタ名"
+    },
+    "log_rotation_enable": {
+      "desc": "ログローテーション機能を有効にする。",
+      "label": "ローテーションを有効にする"
+    },
+    "cluster_call_cleanup_interval": {
+      "desc": "完了したが古いトランザクションをクリアするための時間間隔。\n完了したトランザクション数は<code>max_history</code>を下回ることを保証する。",
+      "label": "クリーンアップ間隔"
+    },
+    "desc_cluster_static": {
+      "desc": "静的ノードによるサービス検出。\n新しいノードは、ブートストラップノードの1つに接続することでクラスタに参加する。",
+      "label": "クラスタスタティック"
+    },
+    "db_default_shard_transport": {
+      "desc": "トランザクションログのプッシュに使用するデフォルトのトランスポートを定義する。<br/>\nこれは<code>db.shard_transports</code>のシャードごとにオーバーライドできる。\n<code>gen_rpc</code>は<code>gen_rpc</code>ライブラリを使用し、\n<code>distr</code>はErlangディストリビューションを使用する。",
+      "label": "デフォルトシャードトランスポート"
+    },
+    "cluster_static_seeds": {
+      "desc": "スタティッククラスタのEMQXノード名のリスト。<code>node.name</code>を参照。",
+      "label": "クラスタスタティックシーズ"
+    },
+    "log_overload_kill_qlen": {
+      "desc": "許容される最大キュー長。",
+      "label": "最大キュー長"
+    },
+    "node_backtrace_depth": {
+      "desc": "エラーメッセージと<code>process_info</code>に表示されるコールスタックの最大の深さ。",
+      "label": "バックトレースの深さ"
+    },
+    "desc_log_burst_limit": {
+      "desc": "短時間に大量のログイベントが発生すると、次のような問題が発生する可能性がある。\n- ログファイルが非常に大きくなる\n- ログファイルが頻繁にローテートされ、有用な情報が上書きされる\n- システム全体のパフォーマンスへの影響\n\nログバースト制限機能を使用すると、これらの問題を回避するためにロギングを一時的に無効にできる。",
+      "label": "ログバースト制限"
+    },
+    "common_handler_enable": {
+      "desc": "このログハンドラを有効にする。",
+      "label": "ログハンドラを有効にする"
+    },
+    "cluster_k8s_service_name": {
+      "desc": "EMQXブローカーサービス名。",
+      "label": "K8sサービス名"
+    },
+    "common_handler_rotation_count": {
+      "desc": "ログファイルの最大数。",
+      "label": "最大ログファイル数"
+    },
+    "node_cookie": {
+      "desc": "シークレットクッキーは、指定されたEMQXクラスタのすべてのノードで同じランダムな文字列である必要があり、EMQXクラスタごとに一意である必要がある。\nこれは、異なるクラスタに属するEMQXノードが誤って接続するのを防ぐために使用される。",
+      "label": "ノードクッキー"
+    },
+    "db_role": {
+      "desc": "ノードロールの選択。<br/>\n<code>core</code> ノードはデータの耐久性を提供し、書き込みを処理する。\ncoreノードを異なるラックまたは利用可能ゾーンに配置することをお勧めする。<br/>\n<code>replicant</code> ノードは一時的なワーカーノードである。\nこれらをクラスタから削除してもデータベースの冗長性には影響しない。<br/>\ncoreノードよりreplicantノードの方が多いことをお勧めする。<br/>\n注意: このパラメータは、<code>backend</code>がに設定されている場合にのみ有効になる。",
+      "label": "DBロール"
+    },
+    "rpc_tcp_server_port": {
+      "desc": "RPCローカルサービスが使用するリスニングポート。<br/>\nこの設定はrpc.port_discoveryがmanualに設定されている場合にのみ有効。",
+      "label": "RPC TCPサーバーポート"
+    },
+    "desc_console_handler": {
+      "desc": "ログイベントをEMQXコンソールに出力するログハンドラ。",
+      "label": "コンソールハンドラ"
+    },
+    "node_applications": {
+      "desc": "MQXブローカーがクラスタに参加するときに再起動されるErlangアプリケーションのリスト。",
+      "label": "アプリケーション"
+    },
+    "log_burst_limit_max_count": {
+      "desc": "<code>window_time</code>インターバル内で処理できるログイベントの最大数。\n制限に達すると、<code>window_time</code>の終わりまで後続のイベントはドロップされる。",
+      "label": "イベント数"
+    },
+    "rpc_tcp_client_num": {
+      "desc": "このノードから各リモートノードに開始されるRPC通信チャネルの最大数を設定する。",
+      "label": "RPC TCPクライアント数"
+    },
+    "cluster_k8s_address_type": {
+      "desc": "検出されたノードへの接続に使用されるアドレスタイプ。\n<code>cluster.k8s.address_type</code>を<code>ip</code>に設定すると、\nEMQXはKubernetes APIからピアノードのIPアドレスを検出する。",
+      "label": "k8sアドレスタイプ"
+    },
+    "rpc_socket_sndbuf": {
+      "desc": "TCPチューニングパラメータ。TCP送信バッファサイズ。",
+      "label": "RPCソケット送信バッファ"
+    },
+    "cluster_mcast_ttl": {
+      "desc": "発信UDPデータグラムの存続可能時間(TTL)。",
+      "label": "クラスターマルチキャストTTL"
+    },
+    "db_core_nodes": {
+      "desc": "レプリカントが接続するコアノードのリスト。<br/>\n注意: このパラメータは、<code>backend</code>が<code>rlog</code>に設定され、<code>role</code>が<code>replicant</code>に設定されている場合にのみ有効。<br/>\nこの値は、手動または静的なクラスタ検出メカニズムに対して定義する必要がある。<br/>\n自動クラスタ検出メカニズム(<code>etcd</code>など)が使用されている場合は、この値を設定する必要はない。",
+      "label": "DBコアノード"
+    },
+    "log_file_handler_path": {
+      "desc": "ログファイルのパス。",
+      "label": "ログファイルパス"
+    },
+    "log_file_handler_to": {
+      "desc": "ログファイルに名前を付ける。",
+      "label": "ログファイル名"
+    },
+    "node_dist_net_ticktime": {
+      "desc": "EMQXノードがダウンと見なされて切断されるまで応答がないと見なされるおおよその時間。",
+      "label": "分散ネットTickTime"
+    },
+    "desc_cluster_k8s": {
+      "desc": "Kubernetes APIサーバーを介したサービス検出。",
+      "label": "クラスタk8s"
+    },
+    "desc_cluster_mcast": {
+      "desc": "UDPマルチキャストによるサービス検出。",
+      "label": "クラスターマルチキャスト"
+    },
+    "rpc_cacertfile": {
+      "desc": "<code>rpc.certfile</code>を検証するために使用される認証局TLS証明書ファイルへのパス。<br/>\n注意: クラスタ内のすべてのノードの証明書は、同じCAによって署名する必要がある。",
+      "label": "RPC Cacertfile"
+    },
+    "desc_node": {
+      "desc": "ノード名、クッキー、設定とデータディレクトリ、およびErlang仮想マシン(BEAM)のブートパラメータ。",
+      "label": "ノード"
+    },
+    "cluster_k8s_apiserver": {
+      "desc": "Kubernetes APIエンドポイントURL。",
+      "label": "クラスタk8s APIサーバー"
+    },
+    "common_handler_supervisor_reports": {
+      "desc": "ログに記録される監視レポートのタイプ。デフォルトは<code>error</code>。<br/>\n- <code>error</code>: Erlangプロセスのエラーのみをログに記録する。<br/>\n- <code>progress</code>: プロセスの起動をログに記録する。",
+      "label": "レポートタイプ"
+    },
+    "node_data_dir": {
+      "desc": "永続データディレクトリへのパス。<br/>\n自動作成されるサブディレクトリは以下の通り:<br/>\n- mnesia/<node_name>: EMQXの組み込みデータベースディレクトリ。例: mnesia/emqx@127.0.0.1。1つのみ。<br/>\nノード名変更時(emqx@10.0.1.1など)は、古いディレクトリを最初に削除する。<br/>\n- configs: ブート時に生成された設定、クラスタ/ローカル上書き設定。<br/>\n- patches: ホットパッチビームファイルを配置。<br/>\n- trace: トレースログファイル。<br/>\n\n注意: 1つのデータディレクトリは、2つ以上のEMQXノードで共有できない。",
+      "label": "ノードデータディレクトリ"
+    },
+    "cluster_k8s_suffix": {
+      "desc": "ノード名のサフィックス。<br/>\n注意: このパラメータは、<code>address_type</code>が<code>dns</code>または<code>hostname</code>の場合にのみ関連する。",
+      "label": "k8sサフィックス"
+    },
+    "db_rpc_module": {
+      "desc": "レプリカントノードにトランザクションログをプッシュするために使用されるプロトコル。",
+      "label": "RPCモジュール"
+    },
+    "cluster_etcd_prefix": {
+      "desc": "EMQXサービス検出に使用されるキープレフィックス。",
+      "label": "クラスタetcdプレフィックス"
+    },
+    "cluster_mcast_iface": {
+      "desc": "ノード検出サービスがバインドする必要があるローカルIPアドレス。",
+      "label": "クラスターマルチキャストインターフェース"
+    },
+    "log_burst_limit_window_time": {
+      "desc": "<code>max_count</code>を参照。",
+      "label": "ウィンドウ時間"
+    },
+    "cluster_dns_record_type": {
+      "desc": "DNSレコードタイプ。",
+      "label": "DNSレコードタイプ"
+    },
+    "cluster_autoclean": {
+      "desc": "切断されたノードをこのインターバル後にクラスタから削除する。",
+      "label": "クラスターオートクリーン"
+    },
+    "process_limit": {
+      "desc": "このErlangシステムで同時に存在できるプロセスの最大数。\n実際の最大値は指定した数よりも大きくなる可能性がある。\n詳細は https://www.erlang.org/doc/man/erl.html を参照。",
+      "label": "Erlangプロセス制限"
+    },
+    "max_ports": {
+      "desc": "このErlangシステムで同時に存在できるポートの最大数。\n実際の最大値は指定した数よりも大きくなる可能性がある。\n詳細は https://www.erlang.org/doc/man/erl.html を参照。",
+      "label": "Erlangポート制限"
+    },
+    "desc_log_rotation": {
+      "desc": "デフォルトでは、ログは zipファイルのインストールでは./logディレクトリ、バイナリインストールでは/var/log/emqxに格納される。<br/>\nこの設定セクションでは、各ログハンドラーで保持するファイル数を制御する。",
+      "label": "ログローテーション"
+    },
+    "desc_log_overload_kill": {
+      "desc": "ログハンドラが多くのメモリを消費したり、多数のバッファされたログメッセージを持つと、過負荷防止機能がアクティブになる。\n過負荷を検出すると、ログハンドラは終了し、クールダウン期間後に再起動する。",
+      "label": "ログ過負荷キル"
+    },
+    "authorization": {
+      "desc": "認証、つまり ACL。<br/>\nEMQX では、MQTT クライアントのアクセス制御は非常に柔軟である。<br/>\n様々な認証データソースがサポートされている。<br/>\n例えば、<br/>\n- 'file': ファイルに簡潔で汎用的な ACL ルールを定義<br/>\n- 'built_in_database': EMQX ノードにクライアントごとのカスタマイズ可能なルールセットを格納<br/>\n- 'http': EMQXが外部HTTP APIを呼び出し、認証判断を下す<br/>\n- 'PostgreSQL': 外部データベースからクライアントやルールを参照。",
+      "label": "認証"
+    },
+    "rpc_socket_keepalive_idle": {
+      "desc": "ブローカー間の接続が、最後のメッセージ送信後に開いたままになる時間。",
+      "label": "RPCソケットキープアライブアイドル"
+    },
+    "desc_cluster_call": {
+      "desc": "クラスタ内のすべてのノードでコールバックを実行できる'クラスターコール'機能のオプション。",
+      "label": "クラスターコール"
+    },
+    "cluster_mcast_ports": {
+      "desc": "サービス検出に使用されるUDPポートのリスト。<br/>\n注意: プローブメッセージは、指定されたすべてのポートにブロードキャストされる。",
+      "label": "クラスターマルチキャストポート"
+    },
+    "log_overload_kill_mem_size": {
+      "desc": "ログハンドラプロセスが使用できるメモリの最大サイズ。",
+      "label": "ログハンドラの最大メモリサイズ"
+    },
+    "rpc_connect_timeout": {
+      "desc": "RPC接続の確立タイムアウト。",
+      "label": "RPC接続タイムアウト"
+    },
+    "cluster_etcd_node_ttl": {
+      "desc": "ノードに関連付けられているetcdキーの有効期限。\nノードが存続している限り、自動的に更新される。",
+      "label": "クラスタetcdノードTTL"
+    },
+    "rpc_call_receive_timeout": {
+      "desc": "同期RPCの応答タイムアウト。",
+      "label": "RPCコール受信タイムアウト"
+    },
+    "rpc_socket_recbuf": {
+      "desc": "TCPチューニングパラメータ。TCP受信バッファサイズ。",
+      "label": "RPCソケット受信バッファ"
+    },
+    "db_tlog_push_mode": {
+      "desc": "同期モードでは、コアノードは次のトランザクションログエントリを送信する前に、レプリカントノードからのACKを待つ。",
+      "label": "Tlogプッシュモード"
+    },
+    "node_crash_dump_bytes": {
+      "desc": "クラッシュダンプファイルの最大サイズ(バイト)を設定する。\nこの制限を超えるとダンプは切り詰められる。\n0に設定すると、ランタイムシステムはクラッシュダンプファイルの書き込みを試みない。",
+      "label": "クラッシュダンプバイト"
+    },
+    "rpc_certfile": {
+      "desc": "クラスタノードのID検証に使用されるTLS証明書ファイルへのパス。\nこの設定は、<code>rpc.driver</code>が<code>ssl</code>に設定されている場合にのみ有効。",
+      "label": "RPC Certfile"
+    },
+    "node_crash_dump_seconds": {
+      "desc":"クラッシュダンプファイルの書き込みに費やすことができる秒数を指定します。指定された秒数が経過すると、エミュレータは終了します。\n0秒に設定すると、ランタイムシステムはクラッシュダンプファイルの書き込みさえ試みません。単に終了します。\n正の値Sを設定すると、クラッシュダンプファイルの書き込みにS秒間費やしてから、SIGALRMシグナルでランタイムシステムを終了します。\n負の値を設定すると、クラッシュダンプファイルの書き込みが完了するまでランタイムシステムの終了が無期限に待機します。 ",
+      "label": "クラッシュダンプ秒数"
+    },
+    "log_file_handlers": {
+      "desc": "ファイルベースのログハンドラー。",
+      "label": "ファイルハンドラー"
+    },
+    "node_global_gc_interval": {
+      "desc": "定期的なガベージコレクションのインターバル。<code>disabled</code>に設定すると無効になります。",
+      "label": "グローバルGCインターバル"
+    },
+    "common_handler_time_offset": {
+      "desc": "タイムスタンプをフォーマットするときに使用する時刻オフセット。\n 以下のいずれかになります:\n <code>system</code>: ローカルシステムが使用する時刻オフセット\n<code>utc</code>: UTC時刻オフセット\n <code>+-[hh]:[mm]</code>: ユーザー指定の時刻オフセット、例: "-02:00" または "+00:00"\n デフォルト: <code>system</code>",
+      "label": "時刻オフセット"
+    },
+    "rpc_mode": {
+      "desc": "<code>sync</code>モードでは、送信側は受信側からの応答を待ちます。",
+      "label": "RPCモード"
+    },
+    "node_crash_dump_file": {
+      "desc": "クラッシュダンプファイルの場所",
+      "label": "クラッシュダンプファイル"
+    },
+    "cluster_mcast_loop": {
+      "desc": "<code>true</code>の場合、UDPデータグラムをローカルソケットにループバックします。",
+      "label": "クラスタマルチキャストループ"
+    },
+    "rpc_socket_keepalive_interval": {
+      "desc": "キープアライブメッセージのインターバル。",
+      "label": "RPCソケットキープアライブインターバル"
+    },
+    "common_handler_level": {
+      "desc": "現在のログハンドラーのログレベル。\nデフォルトは警告。",
+      "label": "ログレベル"
+    },
+    "desc_rpc": {
+      "desc": "EMQXはノード間通信に<code>gen_rpc</code>ライブラリを使用します。\n ほとんどの場合、デフォルトの設定で動作しますが \n パフォーマンスチューニングや試験的な調整が必要な場合は、\nここを確認してください。",
+      "label": "RPC"
+    },
+    "rpc_ssl_server_port": {
+      "desc": "RPCローカルサービスが使用するリスニングポート。\nこの設定は、rpc.port_discoveryがmanualに設定されている場合かつ\n <code>driver</code>が<code>ssl</code>に設定されている場合にのみ効果があります。",
+      "label": "RPC SSLサーバーポート"
+    },
+    "desc_cluster": {
+      "desc": "EMQXノードはクラスタを形成して全体の容量をスケールアップできます。<br/>\n ここには、個々のノードがお互いを発見する方法を指示する設定が含まれています。",
+      "label": "クラスター"
+    },
+    "common_handler_sync_mode_qlen": {
+      "desc": "バッファされたログイベントの数がこの値を下回っている限り、\nすべてのログイベントは非同期で処理されます。つまり、ログイベントを送信するクライアントプロセスは、\nLogger APIのログ関数を呼び出す際にハンドラーからの応答を待ちません。\n代わりに、イベントの送信直後に即座に実行を継続します。\nログデバイスにイベントを出力するのにハンドラーが費やす時間の影響は受けません。\nメッセージキューがこの値を超えると、ハンドラーは代わりに\nログイベントを同期的に処理を開始します。つまり、イベント送信側のクライアントプロセスは応答を待つ必要があります。\nハンドラーがメッセージキューをsync_mode_qlenしきい値を下回るレベルまで減らすと、\n非同期操作が再開されます。",
+      "label": "同期モードに入る前のキュー長"
+    },
+    "common_handler_formatter": {
+      "desc": "ログフォーマッタを選択してください。フリーテキストは <code>text</code>、構造化ログは <code>json</code> を使用します。",
+      "label": "ログフォーマッター"
+    },
+    "rpc_async_batch_size": {
+      "desc": "非同期モードで送信するバッチメッセージの最大数。\nこの設定は同期モードでは機能しません。",
+      "label": "非同期バッチサイズ"
+    },
+    "cluster_call_max_history": {
+      "desc": "完了したトランザクション(クエリ用)の最大数を保持します。",
+      "label": "クラスタコール最大履歴"
+    },
+    "cluster_discovery_strategy": {
+      "desc": "クラスタノードのサービス検出方法。使用可能な値は以下の通り:\n manual: <code>emqx ctl cluster</code>コマンドを使用してクラスタを管理。\nstatic: 設定ファイルの<code>seeds</code>に静的なノードリストを設定。\ndns: DNS Aレコードを使用してピアノードを検出。\netcd: etcdを使用してピアノードを検出。\nk8s: Kubernetes APIを使用してピアポッドを検出。",
+      "label": "クラスタ検出ストラテジー"
+    },
+    "rpc_send_timeout": {
+      "desc": "RPCリクエスト送信のタイムアウト時間。",
+      "label": "RPC送信タイムアウト"
+    },
+    "common_handler_single_line": {
+      "desc": "trueに設定した場合、ログは1行で出力されます。それ以外では、ログメッセージは複数行になることがあります。",
+      "label": "シングルラインモード"
+    },
+    "rpc_socket_buffer": {
+      "desc": "TCPチューニングパラメーター。ユーザーモードのソケットバッファサイズ。",
+      "label": "RPCソケットバッファー"
+    },
+    "db_shard_transports": {
+      "desc": "トランザクションログのレプリケーションに使用する転送方法をシャードごとに調整できます。\n <code>gen_rpc</code>は<code>gen_rpc</code>ライブラリを使用し、\n <code>distr</code>はErlangディストリビューションを使用します。\n指定されていない場合、デフォルトでは<code>db.default_shard_transport</code>で設定された値が使用されます。",
+      "label": "シャード転送"
+    }
+  },
+  "emqx_limiter_schema": {
+    "max_conn_rate": {
+      "desc": "最大接続レート。\nこのノードの接続レートを制限するために使用されます。\n制限に達すると、新しい接続は遅延させられたり拒否されたりします。",
+      "label": "最大接続レート"
+    },
+    "messages_rate": {
+      "desc": "メッセージパブリッシュレート。\nこのノードへの受信メッセージ数を制限するために使用されます。\n制限に達すると、制限されたクライアントは速度が低下し、しばらくはハングする場合もあります。",
+      "label": "メッセージパブリッシュレート"
+    },
+    "bytes_rate": {
+      "desc": "データパブリッシュレート。\nこのノードへの受信バイトレートを制限するために使用されます。\n制限に達すると、制限されたクライアントは速度が低下し、しばらくはハングする場合もあります。",
+      "label": "データパブリッシュレート"
+    }
+  },
+  "emqx_schema": {
+    "fields_mqtt_quic_listener_peer_unidi_stream_count": {
+      "desc": "ピアが開くことを許可する一方向ストリームの数",
+      "label": "ピア一方向ストリーム数"
+    },
+    "fields_authorization_no_match": {
+      "desc": "ユーザーまたはクライアントがACLルールに一致しない場合、または構成可能な認証ソース(組み込みデータベース、HTTP API、PostgreSQLへのクエリなど)によってそのようなユーザーまたはクライアントが見つからない場合のデフォルトのアクセス制御アクション。詳細は 'authorization.sources' の設定を参照。",
+      "label": "認証不一致"
+    },
+    "sysmon_top_db_hostname": {
+      "desc": "データポイントを収集するPostgreSQLデータベースのホスト名",
+      "label": "DBホスト名"
+    },
+    "zones": {
+      "desc": "ゾーンは、ゾーン<code>名</code>によってグループ化された設定のセットです。\n柔軟な設定マッピングのために、<code>名前</code>はリスナーの<code>ゾーン</code>設定に設定できます。\n注意: <code>default</code>という名前の組み込みゾーンが自動的に作成され、削除できません。"
+    },
+    "fields_mqtt_quic_listener_certfile": {
+      "desc": "証明書ファイルへのパス。5.1で非推奨になり、.ssl_options.certfileを使用します。",
+      "label": "証明書ファイル"
+    },
+    "fields_rate_limit_conn_bytes_in": {
+      "desc": "MQTT接続のパケットの受信レートを制限します。\nレートは1秒あたりのパケットバイト数で counted されます。",
+      "label": "接続入力バイト"
+    },
+    "crl_cache_capacity": {
+      "desc": "キャッシュに保持できるCRL URLの最大数。キャッシュが満杯になり、新しいURLをフェッチする必要がある場合、キャッシュ内で最も古く挿入されたURLが削除されます。",
+      "label": "CRLキャッシュ容量"
+    },
+    "alarm_actions": {
+      "desc": "アラームがアクティブ化されたときにトリガーされるアクション。\n現在、次のアクションがサポートされています: <code>log</code> と <code>publish</code>。\n<code>log</code> はアラームをログ(コンソールまたはファイル)に書き込むことです。\n<code>publish</code> はアラームをシステムトピックにMQTTメッセージとしてパブリッシュすることです:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> と \n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
+      "label": "アラームアクション"
+    },
+    "base_listener_max_connections": {
+      "desc": "リスナーが許可する最大同時接続数。",
+      "label": "最大接続数"
+    },
+    "mqtt_peer_cert_as_username": {
+      "desc": "ピア証明書のCN、DNフィールド、または証明書の全コンテンツをユーザー名として使用します。TLS接続でのみ機能します。\nサポートされている設定は次のとおりです。\n- <code>cn</code>: 証明書のCNフィールド\n- <code>dn</code>: 証明書のDNフィールド\n- <code>crt</code>: <code>DER</code> または <code>PEM</code> 証明書のコンテンツ\n- <code>pem</code>: <code>DER</code> 証明書のコンテンツを <code>PEM</code> 形式に変換してユーザー名として使用\n- <code>md5</code>: <code>DER</code> または <code>PEM</code> 証明書のMD5値。",
+      "label": "ピア証明書をユーザー名として使用"
+    },
+    "fields_cache_enable": {
+      "desc": "認証キャッシュの有効/無効を切り替えます。",
+      "label": "認証キャッシュの有効/無効の切り替え"
+    },
+    "fields_mqtt_quic_listener_disconnect_timeout_ms": {
+      "desc": "パスがデッドと宣言され接続が切断される前にACKを待つ時間。デフォルト: 16000",
+      "label": "切断タイムアウト(ミリ秒)"
+    },
+    "mqtt_max_topic_alias": {
+      "label": "最大トピックエイリアス"
+    },
+    "common_ssl_opts_schema_user_lookup_fun": {
+      "desc": "事前共有キー(PSK)識別子を検索するために使用されるEMQX内部コールバック。",
+      "label": "SSL PSKユーザー検索関数"
+    },
+    "fields_listeners_wss": {
+      "desc": "HTTPS WebSocketリスナー。",
+      "label": "HTTPS WebSocketリスナー"
+    },
+    "sysmon_top_max_procs": {
+      "desc": "VM内のプロセス数がこの値を超えたときにデータ収集を停止する",
+      "label": "最大プロセス数"
+    },
+    "mqtt_use_username_as_clientid": {
+      "desc": "ユーザー名をクライアントIDとして使用するかどうか。\nこの設定は、<code>ピア証明書をユーザー名として使用</code>および<code>ピア証明書をクライアントIDとして使用</code>の後に適用されます。",
+      "label": "ユーザー名をクライアントIDとして使用"
+    },
+    "mqtt_max_qos_allowed": {
+      "label": "最大QoSレベル"
+    },
+    "fields_mqtt_quic_listener_max_binding_stateless_operations": {
+      "desc": "バインディングで同時にキューできる最大状態レスオペレーション数。デフォルト: 100",
+      "label": "最大同時状態レスオペレーション"
+    },
+    "fields_mqtt_quic_listener_stream_recv_buffer_default": {
+      "desc": "ストリームの初期バッファサイズ。デフォルト: 4096",
+      "label": "ストリーム初期バッファサイズ"
+    },
+    "fields_mqtt_quic_listener_pacing_enabled": {
+      "desc": "パスのバッファオーバーフローを回避するために送信をペーシングする。デフォルト: 1 (有効)",
+      "label": "ペーシング有効"
+    },
+    "mqtt_max_subscriptions": {
+      "desc": "クライアントごとに許可される最大サブスクリプション数。",
+      "label": "最大サブスクリプション数"
+    },
+    "persistent_session_builtin_messages_table": {
+      "desc": "組み込みメッセージテーブルのパフォーマンス調整オプション。",
+      "label": "永続メッセージ"
+    },
+    "sysmon_os_cpu_low_watermark": {
+      "desc": "CPU使用率のシステムしきい値。\nこの値以下になると、対応するアラームがクリアされます。",
+      "label": "CPUロー水準"
+    },
+    "fields_mqtt_quic_listener_tls_server_max_send_buffer": {
+      "desc": "サーバーTLSがバッファリングする最大データサイズ。デフォルト: 8192",
+      "label": "TLSサーバー最大送信バッファ"
+    },
+    "base_listener_bind": {
+      "desc": "リスニングソケットのIPアドレスとポート",
+      "label": "IPアドレスとポート"
+    },
+    "server_ssl_opts_schema_handshake_timeout": {
+      "desc": "ハンドシェイク完了までに許容される最大時間。",
+      "label": "ハンドシェイクタイムアウト"
+    },
+    "fields_deflate_opts_server_context_takeover": {
+      "desc": "継続はサーバメッセージ間で圧縮状態を保持することを意味します。",
+      "label": "サーバコンテキスト継続"
+    },
+    "mqtt_session_expiry_interval": {
+      "desc": "接続が切断された後、非MQTT 5.0接続のセッションが期限切れになるまでの時間を指定します。",
+      "label": "セッション有効期限"
+    },
+    "fields_listener_enabled": {
+      "desc": "リスナーを有効にする。",
+      "label": "リスナーの有効化"
+    },
+    "mqtt": {
+      "desc": "Global MQTT configuration.\nThe configs here work as default values which can be overridden in <code>zone</code> configs"
+    },
+    "crl_cache_refresh_http_timeout": {
+      "desc": "CRL取得時のHTTPリクエストのタイムアウト値。これはすべてのリスナーのグローバル設定です。",
+      "label": "CRLキャッシュ更新HTTPタイムアウト"
+    },
+    "fields_tcp_opts_backlog": {
+      "desc": "TCPバックログは、保留接続のキューの最大長を定義します。",
+      "label": "TCPバックログ長"
+    },
+    "broker_route_batch_clean": {
+      "desc": "ルートバッチクリーンの有効化"
+    },
+    "fields_mqtt_quic_listener_initial_window_packets": {
+      "desc": "接続の初期輻輳ウィンドウのサイズ(パケット数)。デフォルト: 10",
+      "label": "初期ウィンドウパケット数"
+    },
+    "flapping_detect_enable": {
+      "desc": "フラッピング接続検出機能を有効にします。",
+      "label": "フラッピング検出の有効化"
+    },
+    "sysmon_top_db_password": {
+      "desc": "PostgreSQLデータベースのEMQXユーザーパスワード。",
+      "label": "DBパスワード"
+    },
+    "fields_ws_opts_check_origins": {
+      "desc": "許可オリジン <code>check_origin_enable</code>を参照してください",
+      "label": "許可オリジン"
+    },
+    "fields_deflate_opts_client_context_takeover": {
+      "desc": "継続はクライアントメッセージ間で圧縮状態を保持することを意味します。",
+      "label": "クライアントコンテキスト継続"
+    },
+    "base_listener_acceptors": {
+      "desc": "リスナーの受信プールのサイズ。",
+      "label": "アクセプタ数"
+    },
+    "common_ssl_opts_schema_cacertfile": {
+      "desc": "信頼されたPEM形式のCA証明書バンドルファイル。<br/>このファイルの証明書は、TLSピアの証明書を検証するために使用されます。<br/>新しいCAを信頼するには、証明書をファイルに追加してください。<br/>ファイルが更新されると自動的に読み込まれるため、EMQXを再起動する必要はありません。<br/>ただし、接続が既に確立している場合、ファイルから証明書が無効になっても影響はありません。",
+      "label": "CACertfile"
+    },
+    "fields_ws_opts_mqtt_path": {
+      "desc": "WebSocketのMQTTプロトコルパス。<br/>EMQX BrokerのWebSocketアドレスは次のようになります:<br/> <code>ws://{ip}:{port}/mqtt</code>",
+      "label": "WebSocket MQTTパス"
+    },
+    "sysmon_os_procmem_high_watermark": {
+      "desc": "システムメモリのしきい値。<br/>1つのErlangプロセスがこの値を超えるメモリを割り当てようとすると、\n 対応するアラームが発生します。",
+      "label": "プロセスメモリ高水準ProcMem high wartermark"
+    },
+    "fields_listeners_quic": {
+      "desc": "QUICリスナー。",
+      "label": "QUICリスナー"
+    },
+    "fields_listeners_ws": {
+      "desc": "HTTP WebSocketリスナー。",
+      "label": "HTTP WebSocketリスナー"
+    },
+    "mqtt_retry_interval": {
+      "desc": "QoS 1/2 メッセージ配信の再試行間隔。",
+      "label": "メッセージ再試行間隔"
+    },
+    "stats_enable": {
+      "desc": "統計データ収集の有効/無効。",
+      "label": "統計データ収集の有効化"
+    },
+    "fields_authorization_deny_action": {
+      "desc": "認証チェックで操作が拒否された場合のアクション。",
+      "label": "許可拒否アクション"
+    },
+    "fields_deflate_opts_server_max_window_bits": {
+      "desc": "サーバー側の圧縮コンテキストのサイズを指定します。",
+      "label": "サーバー最大ウィンドウサイズ"
+    },
+    "client_ssl_opts_schema_server_name_indication": {
+      "desc": "TLSサーバー名インジケーション拡張で使用するホスト名を指定します。<br/>例:"server.example.net"に接続する場合、接続を受け入れTLSハンドシェイクを実行する実際のサーバーは、TLSクライアントが最初に接続するホストと異なる場合があります。<br/>指定がない場合、接続確立に使用されたホスト名がデフォルトで使用されます(IPアドレスを使用している場合を除く)。<br/>ホスト名は、ピア証明書のホスト名検証にも使用されます。<br/>'server'を指定すると、この拡張が送信されず、ホスト名確認が無効になります。",
+      "label": "サーバー名インジケータ"
+    },
+    "fields_mqtt_quic_listener_retry_memory_limit": {
+      "desc": "ステートレスリトライを使用する前にハンドシェイク接続で使用できる利用可能メモリの割合。 N/65535で計算。デフォルト: 65",
+      "label": "リトライメモリ制限"
+    },
+    "force_shutdown_max_message_queue_len": {
+      "desc": "プロセスの最大メールボックスキューの長さ。",
+      "label": "最大メールボックスキュー長"
+    },
+    "sys_heartbeat_interval": {
+      "desc": "ハートビートインターバル次のハートビートメッセージを発行するための時間インターバル：\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
+    },
+    "flapping_detect_ban_time": {
+      "desc": "フラッピングクライアントIDがバンされる期間。",
+      "label": "バン期間"
+    },
+    "sysmon_top_num_items": {
+      "desc": "モニタリンググループごとのトッププロセス数。",
+      "label": "トップ項目数"
+    },
+    "persistent_session_builtin_session_table": {
+      "desc": "組み込みセッションテーブルのパフォーマンス調整オプション。",
+      "label": "永続セッション"
+    },
+    "mqtt_upgrade_qos": {
+      "desc": "サブスクリプションに応じてQoSレベルを強制的にアップグレードします。Force upgrade of QoS level according to subscription.",
+      "label": "QoSレベルアップグレード"
+    },
+    "mqtt_shared_subscription": {
+      "label": "共有サブスクリプションの許可"
+    },
+    "fields_tcp_opts_sndbuf": {
+      "desc": "接続のTCP送信バッファ(OSカーネル)。",
+      "label": "TCP送信バッファ"
+    },
+    "sysmon_os_mem_check_interval": {
+      "desc": "定期的なメモリチェックの時間インターバル。",
+      "label": "メモリチェックインターバル"
+    },
+    "server_ssl_opts_schema_gc_after_handshake": {
+      "desc": "有効にすると、TLS/SSLハンドシェイク後直ちにガベージコレクションが実行され、メモリ使用量が調整されます。",
+      "label": "ハンドシェイク後ガベージコレクション"
+    },
+    "fields_mqtt_quic_listener_ssl_options": {
+      "desc": "QUICトランスポートのTLSオプション。",
+      "label": "TLSオプション"
+    },
+    "fields_ws_opts_mqtt_piggyback": {
+      "desc": "WebSocketメッセージに複数のMQTTパケットを含めることを許可するかどうか。",
+      "label": "MQTTパケットの複数格納"
+    },
+    "base_listener_mountpoint": {
+      "desc": "パブリッシュ/サブスクライブ時にすべてのトピックにマウントポイント文字列を付加します。<br/>メッセージがサブスクライバーに配信されるとき、トピック名から接頭辞が削除されます。\nこれにより、リスナー間でメッセージルーティングを分離できます。\n例: クライアントAがsome_tenantマウントポイントでトピックtをサブスクライブし、クライアントBがtにメッセージを送信すると、some_tenant/tにルーティングされ、クライアントAがtトピック名で受信します。<br/>この機能を無効にするには`\"\"`を設定します。<br/>\n\nオプション:\n  - <code>${'{'}clientid{'}'}</code>: clientid\n  - <code>${'{'}username{'}'}</code>: username",
+      "label": "マウントポイント"
+    },
+    "mqtt_max_awaiting_rel": {
+      "desc": "各セッションでPUBRELを受信するかタイムアウトするまでに許可される保留中QoS 2メッセージの最大数を指定します。この制限に達すると、新しいQoS 2 PUBLISHリクエストはエラーコード147(0x93)で拒否されます。",
+      "label": "最大保留PUBREL数"
+    },
+    "ciphers_schema_quic": {
+      "desc": "TLS暗号スイート名をコンマ区切りまたは文字列配列で指定します。例: \n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> または\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n暗号（およびその順序）は、クライアントとサーバーがネットワーク接続を介して情報を暗号化する方法を定義します。\n適切な暗号スイートを選択することは、セキュリティ、機密性、パフォーマンスにとって重要です。\n\nThe names should be in OpenSSL string format (not RFC format).\nOpenSSL形式で指定してください。EMQXの設定例はすべてOpenSSL形式です。<br/>\n\n注意: 暗号スイートの互換性はTLSバージョンに依存します。バージョンと互換性のない暗号スイートは無視されます。\nたとえば、versionsで'tlsv1.3'のみが指定されている場合、他のバージョンの暗号スイートを設定しても効果はありません。\n<br/>\n\n注意: 'tlsv1.3'が有効な場合、PSK暗号スイートは抑制されます。\nこれを使用するには'tlsv1.3'を無効にしてください。<br/>\nPSK暗号スイート: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注意: QUICリスナーは'tlsv1.3'暗号のみサポートしています。",
+      "label": ""
+    },
+    "fields_mqtt_quic_listener_max_bytes_per_key": {
+      "desc": "キー更新前に1つの暗号キーで暗号化できる最大バイト数。デフォルト: 274877906944",
+      "label": "最大キーバイト数"
+    },
+    "fields_mqtt_quic_listener_mtu_discovery_search_complete_timeout_us": {
+      "desc": "MTUの最大値に達しなかった場合の再プローブ待ち時間(マイクロ秒)。デフォルト: 6000000",
+      "label": "MTU探索完了タイムアウト"
+    },
+    "fields_ws_opts_check_origin_enable": {
+      "desc": "もし<code>true</code>が設定されていれば、<code>origin</code> HTTPヘッダーは<code>check_origins</code>パラメータに設定された許可オリジンリストとの照合検証が行われます。",
+      "label": "オリジンチェック"
+    },
+    "sysmon_vm_busy_dist_port": {
+      "desc": "クラスタ通信が過負荷になると、<code>busy_dist_port</code> 警告ログが記録され、<code>$SYS/sysmon/busy_dist_port</code> トピックにMQTTメッセージがパブリッシュされます。",
+      "label": "配信ポート過負荷検知の有効化"
+    },
+    "mqtt_max_mqueue_len": {
+      "desc": "クライアントが切断されたり、インフライトウィンドウが満杯のときに許可されるキューの最大長。",
+      "label": "最大メッセージキュー長"
+    },
+    "mqtt_max_inflight": {
+      "desc": "確認応答の完了前に同時配信を許可するQoS 1およびQoS 2メッセージの最大数。",
+      "label": "最大インフライト"
+    },
+    "persistent_session_store_enabled": {
+      "desc": "データベースに永続セッション情報を保存し、ノード停止時にクライアント接続を他のクラスタノードに移行できるようにします。",
+      "label": "永続セッションストアの有効化"
+    },
+    "fields_deflate_opts_level": {
+      "desc": "圧縮レベル。",
+      "label": "圧縮レベル"
+    },
+    "mqtt_server_keepalive": {
+      "label": "サーバーキープアライブ"
+    },
+    "global_authentication": {
+      "desc": "すべてのMQTTリスナーのデフォルト認証設定。\n\nリスナー固有の設定は<code>authentication</code>オプションを参照。リスナーの設定での上書きを行う場合は、リスナー設定の <code>authentication </code>を参照してください。\n\nこのオプションは以下のように設定できます:\n<ul>\n  <li><code>[]</code>：デフォルト，*すべて*の認証を許可。</li>\n  <li>1つ: 例<code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>チェーン: 構造体の配列</li>\n</ul>\n\nチェーンが設定されている場合、順に認証が試行され、最初に許可/拒否が決定した時点で認証が完了します。\n\nチェーンを全て試行しても決定できない場合、認証は拒否されます。"
+    },
+    "fields_mqtt_quic_listener_load_balancing_mode": {
+      "desc": "0：無効、1：SERVER_ID_IP、2：SERVER_ID_FIXED。デフォルト：0",
+      "label": "ロードバランシングモード"
+    },
+    "persistent_session_store_session_message_gc_interval": {
+      "desc": "永続セッションメッセージの一時データのガベージコレクション開始インターバル。\n永続セッションメッセージの有効期間には影響しません。",
+      "label": "セッションメッセージガベージコレクション間隔"
+    },
+    "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
+      "desc": "OCSP応答をチェックするためのHTTPリクエストのタイムアウト時間。",
+      "label": "OCSPリフレッシュHTTPタイムアウト"
+    },
+    "fields_tcp_opts_send_timeout": {
+      "desc": "接続のTCP送信タイムアウト時間。",
+      "label": "TCP送信タイムアウト"
+    },
+    "sysmon_vm_process_high_watermark": {
+      "desc": "プロセス数の高水準のしきい値。<br/>この値を超えると、対応するアラームが発生します。",
+      "label": "プロセス高水準"
+    },
+    "fields_tcp_opts_buffer": {
+      "desc": "ドライバが使用するユーザースペースバッファのサイズ。",
+      "label": "TCPユーザースペースバッファ"
+    },
+    "server_ssl_opts_schema_honor_cipher_order": {
+      "desc": "暗号順序をサーバー指定の順序で強制します。",
+      "label": "SSL暗号順守"
+    },
+    "conn_congestion_min_alarm_sustain_duration": {
+      "desc": "アラームをクリアする前の最小時間。<br/>キュー内に保留データがなく、接続が混雑していると最後に判断してから<code>min_alarm_sustain_duration</code>ミリ秒以上経過している必要があります。<br/>アラームの頻繁な設定/クリアを避けるためです。",
+      "label": "アラーム継続時間下限"
+    },
+    "fields_mqtt_quic_listener_keep_alive_interval_ms": {
+      "desc": "接続を生きていることを確認するためにPINGフレームを送信する頻度。",
+      "label": "キープアライブ間隔(ms)"
+    },
+    "fields_mqtt_quic_listener_handshake_idle_timeout_ms": {
+      "desc": "ハンドシェイクが破棄されるまでアイドル状態でいられる時間。",
+      "label": "ハンドシェイクアイドルタイムアウト（ms）"
+    },
+    "broker_session_locking_strategy": {
+      "desc": "クラスタ内のセッションロック戦略。\n  - `local`：現在のノードでのみセッションをロック。\n  - `one`：リモートノードの1つを選択してセッションをロック。\n  - `quorum`：一部のノードを選択してセッションをロック。\n  - `all`：クラスタ内のすべてのノードでセッションをロック。"
+    },
+    "persistent_store_ram_cache": {
+      "desc": "より高速なアクセスのためにデータのコピーをRAMに保持。",
+      "label": "RAMキャッシュ"
+    },
+    "fields_mqtt_quic_listener_stream_recv_window_default": {
+      "desc": "ストリームの初期受信ウィンドウサイズ。デフォルト: 32678",
+      "label": "ストリーム受信ウィンドウデフォルト"
+    },
+    "mqtt_mqueue_priorities": {
+      "desc": "トピックの優先度。優先度番号 [1-255]。デフォルトでは優先度テーブルはなく、すべてのメッセージは均等に扱われます。<br/>注意: カンマと等号は優先トピック名では使用できません。<br/>注意: 優先度テーブルにないトピックのメッセージは、mqtt.mqueue_default_priorityの設定に応じて最高または最低優先度として扱われます。<br/>例：<br/>\"topic/1\" > \"topic/2\" とする場合：<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
+      "label": "トピック優先度"
+    },
+    "fields_rate_limit_conn_messages_in": {
+      "desc": "外部MQTT接続のメッセージ制限。",
+      "label": "接続メッセージ受信制限"
+    },
+    "fields_rate_limit_max_conn_rate": {
+      "desc": "1秒あたりの最大接続数。",
+      "label": "最大接続レート"
+    },
+    "alarm_size_limit": {
+      "desc": "非アクティブなアラームの履歴の最大総数。<br/>この制限を超えると、最も古い非アクティブアラームが削除されて総数が抑制されます。",
+      "label": "アラーム履歴最大数"
+    },
+    "fields_cache_max_size": {
+      "desc": "キャッシュする最大アイテム数。",
+      "label": "キャッシュ最大数"
+    },
+    "fields_listeners_tcp": {
+      "desc": "TCPリスナー。",
+      "label": "TCPリスナー"
+    },
+    "conn_congestion_enable_alarm": {
+      "desc": "接続の混雑アラームの有効/無効。",
+      "label": "混雑アラームの有効化"
+    },
+    "fields_ws_opts_proxy_port_header": {
+      "desc": "ロードバランサーの背後にEMQXクラスターがある場合に、クライアントポート情報を伝達するために使用するHTTPヘッダー。",
+      "label": "プロキシポートヘッダー"
+    },
+    "overload_protection_enable": {
+      "desc": "システムの過負荷に対応するかどうか。",
+      "label": "システムオーバーロードへの対応"
+    },
+    "fields_mqtt_quic_listener_minimum_mtu": {
+      "desc": "接続でサポートする最小MTU。これが開始MTUとして使用されます。デフォルト: 1248",
+      "label": "最小MTU"
+    },
+    "sys_msg_interval": {
+      "desc": "$SYSメッセージの発行間隔。"
+    },
+    "mqtt_await_rel_timeout": {
+      "desc": "PUBRELを受信せずにQoS 2メッセージを発行してからの待機時間制限。<br/>この制限に達すると、EMQXはパケットIDを解放し、警告レベルのログを出力します。\n注意: EMQXによる受信QoS2メッセージの転送は、PUBRELの受信とは無関係です。",
+      "label": "最大PUBREL待機タイムアウト"
+    },
+    "common_ssl_opts_schema_verify": {
+      "desc": "ピア検証の有効/無効。",
+      "label": "ピア検証の有効化"
+    },
+    "fields_listeners_ssl": {
+      "desc": "SSLスナー。",
+      "label": "SSLスナー"
+    },
+    "fields_deflate_opts_client_max_window_bits": {
+      "desc": "クライアント側の圧縮コンテキストのサイズを指定します。",
+      "label": "クライアント最大ウィンドウサイズ"
+    },
+    "common_ssl_opts_schema_keyfile": {
+      "desc": "PEM形式の秘密鍵ファイル。",
+      "label": "Keyfile"
+    },
+    "sysmon_os_cpu_high_watermark": {
+      "desc": "CPU使用率の高水準のしきい値。<br/>この値を超えると、対応するアラームが発生します。",
+      "label": "CPU高水準"
+    },
+    "flapping_detect_window_time": {
+      "desc": "フラッピング検知のための時間ウィンドウ。",
+      "label": "フラッピング検知ウィンドウ時間"
+    },
+    "mqtt_mqueue_default_priority": {
+      "desc": "デフォルトトピック優先度 <code>トピック優先度</code> (<code>mqueue_priorities</code>) にないトピックのデフォルト優先度。",
+      "label": "トピック優先度デフォルト"
+    },
+    "client_ssl_opts_schema_enable": {
+      "desc": "TLSを有効にする。",
+      "label": "TLSの有効化"
+    },
+    "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
+      "desc": "最大欠落プローブ数。デフォルト: 3",
+      "label": "MTU探索欠落プローブ数"
+    },
+    "fields_tcp_opts_recbuf": {
+      "desc": "接続のTCP受信バッファ(OSカーネル)。",
+      "label": "TCP受信バッファ"
+    },
+    "sysmon_vm_process_check_interval": {
+      "desc": "プロセス制限の定期チェック間隔。",
+      "label": "プロセス制限チェックインターバル"
+    },
+    "fields_mqtt_quic_listener_server_resumption_level": {
+      "desc": "再開チケットと/または0-RTTサーバーのサポートを制御。デフォルト: 0 (再開なし)",
+      "label": "サーバー再開レベル"
+    },
+    "fields_ws_opts_proxy_address_header": {
+      "desc": "ロードバランサーの背後にEMQXクラスターがある場合に、\nクライアントIPアドレス情報を伝達するために使用するHTTPヘッダー。",
+      "label": "プロキシアドレスヘッダー"
+    },
+    "sysmon_os_sysmem_high_watermark": {
+      "desc": "システムメモリの高水準のしきい値。\n この値を超えると、対応するアラームが発生します。",
+      "label": "システムメモリ高水準"
+    },
+    "fields_tcp_opts_high_watermark": {
+      "desc": "内部的にVMソケットにキューされたデータ量がこの制限に達すると、\nソケットはビジー状態に設定されます。",
+      "label": "TCP高水位線"
+    },
+    "fields_mqtt_quic_listener_stateless_operation_expiration_ms": {
+      "desc": "同一エンドポイントの連続操作の時間制限(ミリ秒)。デフォルト: 100",
+      "label": "ステートレスオペレーション有効期限（ms）"
+    },
+    "server_ssl_opts_schema_dhfile": {
+      "desc": "Diffie-HellmanパラメータのPEMエンコードされたファイルへのパス。\nDiffie-Hellman鍵交換を使用する暗号スイートがネゴシエートされた場合、サーバーがこれを使用します。\n指定しない場合、デフォルトパラメータが使用されます<br/>\n注意: TLS 1.3ではこのオプションはサポートされていません。",
+      "label": "SSL DHファイル"
+    },
+    "flapping_detect_max_count": {
+      "desc": "`window_time`内でMQTTクライアントの許容切断回数の最大値。",
+      "label": "フラッピング最大回数"
+    },
+    "mqtt_max_topic_levels": {
+      "label": "最大トピックレベル"
+    },
+    "force_shutdown_max_heap_size": {
+      "desc": "強制シャットダウン時の最大ヒープサイズ",
+      "label": "最大ヒープサイズ"
+    },
+    "persistent_store_on_disc": {
+      "desc": "永続セッションに関する情報をディスクに保存。\nこのオプションを有効にすると、永続セッションはクラスタ全体の再起動を生き延びます。\n無効の場合、すべてのデータはRAMに格納され、クラスタのすべてのノードが停止すると失われます。",
+      "label": "ディスクへの永続化"
+    },
+    "mqtt_ignore_loop_deliver": {
+      "desc": "MQTT v3.1.1/v3.1.0クライアントによって送信されたメッセージを、クライアント自身に転送しない。MQTT 5.0の`No Local`に似ています。",
+      "label": "ループ配信無視"
+    },
+    "common_ssl_opts_schema_certfile": {
+      "desc": "証明書チェーンファイル(PEMフォーマット)。<br/>\nこのファイルの証明書は発行順序と逆順に並べられている必要があります。<br/>ホストの証明書を先頭に置き、以下に発行者証明書を配置します。<br/>ルートCA証明書は任意ですが、ファイルの最後に配置する必要があります。",
+      "label": "Certfile"
+    },
+    "mqtt_exclusive_subscription": {
+      "label": "排他サブスクリプションの許可"
+    },
+    "mqtt_retain_available": {
+      "desc": "保持メッセージのサポートの有効/無効。",
+      "label": "保持メッセージの許可"
+    },
+    "fields_tcp_opts_reuseaddr": {
+      "desc": "接続のSO_REUSEADDRフラグ。",
+      "label": "SO_REUSEADDR"
+    },
+    "sysmon_vm_long_schedule": {
+      "desc": "Erlang VMが長時間スケジュールされたタスクを検知すると、'long_schedule' ログが記録され、システムトピック <code>$SYS/sysmon/long_schedule</code> にMQTTメッセージが発行されます。",
+      "label": "長時間スケジュールの検知"
+    },
+    "mqtt_keepalive_multiplier": {
+      "desc": "`キープアライブタイムアウト = キープアライブインターバル × キープアライブ倍率`。デフォルトはMQTT 5.0と同じ1.5です。\n\n例えば、10秒のキープアライブインターバルで倍率1.5の場合、タイムアウトは15秒になります。倍率を2に増やすと、タイムアウトは20秒に延長されます。",
+      "label": "キープアライブ倍率"
+    },
+    "force_gc_bytes": {
+      "desc": "指定バイト数のデータが通過した後にプロセスのGCを実行。",
+      "label": "プロセスGCバイト数"
+    },
+    "server_ssl_opts_schema_fail_if_no_peer_cert": {
+      "desc": "TLS/DTLSサーバーにおいて、{'{'}verify, verify_peer{'}'}と一緒に使用されます。\ntrueに設定された場合、クライアントが証明書を持っていない、つまり空の証明書を送信すると、サーバーは動作しません。\nfalseに設定された場合、クライアントが無効な証明書を送信したときのみ動作しません（空の証明書は有効と見なされます）。",
+      "label": "SSLクライアント証明書必須"
+    },
+    "fields_ws_opts_compress": {
+      "desc": "trueに設定された場合、WebSocket圧縮 <code>zlib</code>を使用してWebSocketメッセージを圧縮するかどうか。<br/> <code>deflate_opts</code> 以下の設定が圧縮関連パラメーターです。",
+      "label": "WebSocket圧縮"
+    },
+    "fields_mqtt_quic_listener_keep_alive_interval": {
+      "desc": "接続を生かしておくためにPINGフレームを送信する頻度。0は無効を意味します。",
+      "label": "キープアライブインターバル"
+    },
+    "fields_cache_ttl": {
+      "desc": "キャッシュデータのTTL。",
+      "label": "キャッシュTTL"
+    },
+    "sys_topics": {
+      "desc": "システムトピック設定。"
+    },
+    "sys_event_client_subscribed": {
+      "desc": "クライアントがトピックに正常サブスクライブした事件をパブリッシュするかどうか。"
+    },
+    "sysmon_top_db_port": {
+      "desc": "データポイント収集用PostgreSQLデータベースのポート番号。",
+      "label": "DBポート"
+    },
+    "fields_mqtt_quic_listener_max_operations_per_drain": {
+      "desc": "各接続クォンタムでドレインする最大オペレーション数。デフォルト: 16",
+      "label": "ドレインあたりの最大オペレーション数"
+    },
+    "fields_mqtt_quic_listener_datagram_receive_enabled": {
+      "desc": "QUICデータグラム拡張のサポートを通知。将来のために予約。デフォルト: 0 (無効)",
+      "label": "データグラム受信の有効化"
+    },
+    "fields_mqtt_quic_listener_initial_rtt_ms": {
+      "desc": "初期RTT推定値。",
+      "label": "初期RTT（ms）"
+    },
+    "overload_protection_backoff_gc": {
+      "desc": "高負荷時に強制GCをスキップ。",
+      "label": "GCスキップ"
+    },
+    "broker_perf_route_lock_type": {
+      "desc": "ワイルドカードトピックの購読/解除のパフォーマンス調整。\n多数のワイルドカードトピックがある場合のみ、このパラメータを変更してください。\n\n注意: `global` ロックから/への変更時は、クラスタ内の全ノードを変更前に停止する必要があります\n  - `key`：キーごとのロックを使用したmnesiaトランザクション更新。単一ノードの設定に推奨。\n  - `tab`：テーブルロックを使用したmnesiaトランザクション更新。クラスタ設定に推奨。\n  - `global`：グローバルロックで保護されたmnesia更新。大規模クラスタに推奨。"
+    },
+    "fields_tcp_opts_nodelay": {
+      "desc": "接続のTCP_NODELAYフラグ。",
+      "label": "TCP_NODELAY"
+    },
+    "sysmon_top_db_username": {
+      "desc": "PostgreSQLデータベースのユーザー名。",
+      "label": "DBユーザー名"
+    },
+    "broker": {
+      "desc": "メッセージブローカーの設定。"
+    },
+    "force_gc_count": {
+      "desc": "指定数のメッセージを受信した後にプロセスのGCを実行。",
+      "label": "プロセスGCメッセージ数"
+    },
+    "mqtt_max_clientid_len": {
+      "label": "最大クライアントID長"
+    },
+    "fields_ws_opts_supported_subprotocols": {
+      "desc": "サポートするサブプロトコルのカンマ区切りリスト。",
+      "label": "サポートサブプロトコル"
+    },
+    "broker_shared_subscription_strategy": {
+      "desc": "共有サブスクリプションの配信戦略。\n  - `random`：ランダムに選択したサブスクライバーに配信。\n  - `round_robin`：ラウンドロビンでサブスクライバーを選択。\n  - `round_robin_per_group`：共有サブスクライバーグループ内でラウンドロビン。\n  - `local`：ローカルサブスクライバーをランダムに選択、さもなくばクラスタ全体からランダム\n  - `sticky`：最後に選択したサブスクライバーに常に配信。サブスクライバーが切断するまで。\n  - `hash_clientid`：`clientIds`のハッシュでサブスクライバーを選択。\n  - `hash_topic`：ソーストピックのハッシュでサブスクライバーを選択。"
+    },
+    "fields_deflate_opts_mem_level": {
+      "desc": "接続ごとの圧縮状態のサイズを指定。<br/>\n値が小さいほどメモリ使用量は減少します。",
+      "label": "圧縮状態サイズ"
+    },
+    "fields_mqtt_quic_listener_send_idle_timeout_ms": {
+      "desc": "アイドル状態が一定時間続くと輻輳制御をリセット。デフォルト: 1000",
+      "label": "送信アイドルタイムアウト（ms）"
+    },
+    "base_listener_limiter": {
+      "desc": "レート制限の種類。",
+      "label": "レートリミッターの種別"
+    },
+    "persistent_session_store_backend": {
+      "desc": "永続セッション/メッセージ情報を保存するために使用するDBMS。\n- `builtin`: 組み込みDB (mria) を使用。",
+      "label": "バックエンド"
+    },
+    "alarm_validity_period": {
+      "desc": "非アクティブなアラームの保持期間。\nアラームは非アクティブ時にすぐに削除されませんが、保持時間の後に削除されます。",
+      "label": "アラーム有効期間"
+    },
+    "server_ssl_opts_schema_ocsp_issuer_pem": {
+      "desc": "サーバ証明書のOCSP発行者のPEMエンコード証明書。",
+      "label": "OCSP発行者証明書"
+    },
+    "fields_tcp_opts_active_n": {
+      "desc": "このソケットの {'{'}active, N{'}'} オプションを指定します。<br/>\n参照：https://erlang.org/doc/man/inet.html#setopts-2",
+      "label": "アクティブN"
+    },
+    "listener_authentication": {
+      "desc": "認証は、単一の認証子インスタンスか、認証子の配列のチェーンにできます。<br/>認証時には、設定された順に認証子がチェックされます。",
+      "label": "リスナーごとの認証設定の上書き。"
+    },
+    "fields_trace_payload_encode": {
+      "desc": "トレースファイルのペイロードフォーマットを決定します。<br/>\n`text`：テキストベースまたはプレーンテキストプロトコル。JSONエンコードの場合に推奨。<br/>\n`hex`：バイナリ16進エンコード。カスタムバイナリプロトコルの場合に推奨。<br/>\n`hidden`：ペイロードは `******`として隠蔽される。",
+      "label": "トレースペイロードエンコード"
+    },
+    "mqtt_response_information": {
+      "desc": "レスポンストピックを作成するためのUTF-8文字列。例: reqrsp/ を設定すると、パブリッシャー/サブスクライバーは reqrsp/ トピックで通信する。この機能を無効にするには、以下のテキストボックスに `\"\"` を入力。",
+      "label": "レスポンス情報"
+    },
+    "persistent_session_store_max_retain_undelivered": {
+      "desc": "以前のセッションが処理されていたノードが再起動または停止した場合に、永続セッションに配信されなかったメッセージがガベージコレクトされるまで保持される時間。",
+      "label": "未配信メッセージ最大保持時間"
+    },
+    "fields_mqtt_quic_listener_migration_enabled": {
+      "desc": "クライアントがIPアドレスとタプルを移行できるようにする。ロードバランサー不要か、協調的なロードバランサーが必要。デフォルト: 1 (有効)",
+      "label": "マイグレーションの有効化"
+    },
+    "common_ssl_opts_schema_password": {
+      "desc": "パスワードで保護された秘密鍵ファイルの場合に使用するユーザーパスワード。",
+      "label": "SSLパスフレーズ"
+    },
+    "common_ssl_opts_schema_hibernate_after": {
+      "desc": "一定時間アイドルだった後にSSLプロセスを休止状態にし、メモリ使用量を削減する。",
+      "label": "休止までの時間"
+    },
+    "fields_mqtt_quic_listener_send_buffering_enabled": {
+      "desc": "ACKを受信するまでアプリケーションバッファを保持する代わりに、送信データをバッファリングする。デフォルト: 1 (有効)",
+      "label": "送信バッファリングの有効化"
+    },
+    "sys_event_client_unsubscribed": {
+      "desc": "クライアントがトピックのアンサブスクライブに成功した時のイベントメッセージをパブリッシュするかどうか。"
+    },
+    "overload_protection_backoff_new_conn": {
+      "desc": "高負荷時に新規接続を閉じる。",
+      "label": "新規接続拒否"
+    },
+    "server_ssl_opts_schema_ocsp_responder_url": {
+      "desc": "サーバ証明書を対象としたOCSPレスポンダのURL。",
+      "label": "OCSPレスポンダURL"
+    },
+    "mqtt_idle_timeout": {
+      "desc": "接続がアイドル状態(データ転送なし)になれる最大時間。 \n\n- この時間を超えると、CONNECTパケットをまだ受信していない場合は自動切断、CONNECTパケットを受信済みの場合は休止モードにする。\n\n注意：長いアイドル時間はリソースの浪費につながるので、この設定は慎重に行ってください。",
+      "label": "アイドルタイムアウト"
+    },
+    "fields_mqtt_quic_listener_conn_flow_control_window": {
+      "desc": "接続全体のフロー制御ウィンドウ。デフォルト: 16777216",
+      "label": "接続フロー制御ウィンドウ"
+    },
+    "fields_mqtt_quic_listener_maximum_mtu": {
+      "desc": "接続でサポートする最大MTU。これがプローブの最大値となる。デフォルト: 1500",
+      "label": "最大MTU"
+    },
+    "sysmon_top_db_name": {
+      "desc": "PostgreSQLデータベース名",
+      "label": "DB名"
+    },
+    "mqtt_strict_mode": {
+      "desc": "MQTTメッセージを厳格モードで解析するかどうか。\n厳格モードの場合、クライアントID、トピック名などに不正なUTF-8文字列があると、クライアントは切断される。",
+      "label": "厳格モード"
+    },
+    "shared_subscription_group_strategy": {
+      "desc": "共有サブスクリプションのグループ別配信戦略。\nこの設定は、グループ名から戦略名へのマップ。\nグループ名の形式は [A-Za-z0-9]。特殊文字は使用禁止。"
+    },
+    "fields_deflate_opts_strategy": {
+      "desc": "圧縮戦略を指定します。",
+      "label": "圧縮戦略"
+    },
+    "shared_subscription_strategy_enum": {
+      "desc": "共有サブスクリプションの配信戦略。\n- `random`：ランダムに選択したサブスクライバーに配信。\n- `round_robin`：ラウンドロビンでサブスクライバーを選択。\n- `round_robin_per_group`：各共有サブスクライバーグループ内でラウンドロビン方式でサブスクライバーを選択。\n- `sticky`：最後に選択したサブスクライバーに配信。切断するまで。\n- `hash`：`clientIds`のハッシュ値でサブスクライバーを選択。\n- `local`：ローカルのランダムなサブスクライバーを選択。いなければクラスタ全体からランダムに選択。"
+    },
+    "persistent_session_builtin_sess_msg_table": {
+      "desc": "組み込みセッションメッセージテーブルのパフォーマンス調整オプション。",
+      "label": "永続セッションメッセージ"
+    },
+    "mqtt_mqueue_store_qos0": {
+      "desc": "接続が切断されているが、セッションが残っている間にQoS0メッセージをメッセージキューに格納するかどうか。",
+      "label": "QoS0メッセージの格納"
+    },
+    "server_ssl_opts_schema_client_renegotiation": {
+      "desc": "クライアント開始の再ネゴシエーションは、サーバー側のリソース消費が高くなるため、DoS攻撃の原因になります。\nこの設定をfalseにすることで、クライアント開始の再ネゴシエーションを完全に無効にできます。\nデフォルトはtrueです。注意：再ネゴシエーションを無効にすると、接続数制限により、長期接続が使用不能になる場合があります。",
+      "label": "SSLクライアント再ネゴシエーション"
+    },
+    "server_ssl_opts_schema_enable_crl_check": {
+      "desc": "このリスナーでのCRL検証を有効にするかどうか。",
+      "label": "CRLチェックの有効化"
+    },
+    "fields_mqtt_quic_listener_peer_bidi_stream_count": {
+      "desc": "ピアが開くことを許可する双方向ストリームの数。",
+      "label": "ピア双方向ストリーム数"
+    },
+    "fields_mqtt_quic_listener_max_stateless_operations": {
+      "desc": "ワーカーで同時にキューできる最大ステートレスオペレーション数。デフォルト: 16",
+      "label": "最大ステートレスオペレーション数"
+    },
+    "fields_ws_opts_idle_timeout": {
+      "desc": "指定した間隔でMQTT CONNECTメッセージが送られないクライアントとのトランスポート層の接続を閉じる。",
+      "label": "WebSocketアイドルタイムアウト"
+    },
+    "fields_mqtt_quic_listener_max_ack_delay_ms": {
+      "desc": "データ受信後、ACKを送信するまでの最大待機時間。デフォルト: 25",
+      "label": "最大ACK遅延（ms）"
+    },
+    "base_listener_zone": {
+      "desc": "リスナーが属する設定ゾーン。",
+      "label": "ゾーン"
+    },
+    "fields_mqtt_quic_listener_handshake_idle_timeout": {
+      "desc": "ハンドシェイクが破棄されるまでアイドル状態でいられる時間。",
+      "label": "ハンドシェイクアイドルタイムアウト"
+    },
+    "force_gc_enable": {
+      "desc": "強制ガベージコレクションの有効化。",
+      "label": "強制ガベージコレクションの有効化"
+    },
+    "fields_ws_opts_allow_origin_absence": {
+      "desc": "<code>disabled</code>に設定すると、オリジンヘッダーの検証が有効な場合、このヘッダーがないリクエストを拒否するかどうか",
+      "label": "オリジンヘッダ不在の許可"
+    },
+    "common_ssl_opts_schema_versions": {
+      "desc": "サポートするすべてのTLS/DTLSバージョン。<br/>\n注意: 'tlsv1.3'が有効な場合、PSK暗号スイートは抑制されます。<br/>\nPSK暗号を使用する場合は、ここに ['tlsv1.2', 'tlsv1.1'] を設定してください。",
+      "label": "SSLバージョン"
+    },
+    "mqtt_listener_proxy_protocol_timeout": {
+      "desc": "プロキシプロトコルのタイムアウト。この時間内にパケットが受信されない場合、TCP接続は閉じられる。",
+      "label": "プロキシプロトコルタイムアウト"
+    },
+    "fields_mqtt_quic_listener_idle_timeout": {
+      "desc": "接続が切断されるまでのアイドル時間。0でタイムアウトを無効化。",
+      "label": "アイドルタイムアウト"
+    },
+    "common_ssl_opts_schema_secure_renegotiate": {
+      "desc": "SSLのパラメータ再ネゴシエーションは、クライアントとサーバーがSSL接続のパラメータを動的に再ネゴシエートできる機能です。\nこの設定を有効にすると、MitM攻撃に脆弱な非セキュアな再ネゴシエーションはサポートされなくなります。",
+      "label": "SSL再ネゴシエーション"
+    },
+    "sysmon_vm_busy_port": {
+      "desc": "ポート(TCPソケットなど)が過負荷になると、<code>busy_port</code> 警告ログが記録され、システムトピック <code>$SYS/sysmon/busy_port</code> にMQTTメッセージが発行されます。",
+      "label": "ポート過負荷検知の有効化"
+    },
+    "sys_event_client_connected": {
+      "desc": "クライアント接続イベントメッセージをパブリッシュすることを有効にする"
+    },
+    "sysmon_vm_process_low_watermark": {
+      "desc": "プロセス数の低水準のしきい値。<br/>この値を下回ると、対応するアラームがクリアされます。",
+      "label": "プロセスロー水準"
+    },
+    "mqtt_max_packet_size": {
+      "desc": "設定値を超えるサイズの場合、現在の接続は切断されます。",
+      "label": "最大パケットサイズ"
+    },
+    "common_ssl_opts_schema_reuse_sessions": {
+      "desc": "TLSセッションの再利用を有効にする。",
+      "label": "TLSセッション再利用"
+    },
+    "common_ssl_opts_schema_depth": {
+      "desc": "信頼できる認証パスにおける、自己発行されていない中間CA証明書の最大数。\n深さ0の場合、ピアはルートCAに直接署名されている必要がある。<br/>\n深さ1の場合、パスは PEER, 中間CA, ルートCAとなる。<br/>\n深さ2の場合、パスは PEER, 中間CA1, 中間CA2, ルートCAとなる。",
+      "label": "CACertの階層"
+    },
+    "sysmon_vm_long_gc": {
+      "desc": "Erlangプロセスのガベージコレクションに長時間かかると、<code>long_gc</code> ログが記録され、システムトピック <code>$SYS/sysmon/long_gc</code> にMQTTメッセージがパブリッシュされます。",
+      "label": "長いガベージコレクション時間の検知"
+    },
+    "fields_mqtt_quic_listener_keyfile": {
+      "desc": "秘密鍵ファイルへのパス。5.1で非推奨になります。代わりに .ssl_options.keyfile を使用してください。",
+      "label": "鍵ファイル"
+    },
+    "mqtt_peer_cert_as_clientid": {
+      "desc": "TLS接続時に、ピア証明書のCNフィールド、DNフィールド、または証明書全体の内容をクライアントIDとして使用できます。\nサポートされている設定は次のとおりです：\n- <code>cn</code>：証明書のCNフィールド\n- <code>dn</code>：証明書のDNフィールド\n- <code>crt</code>：<code>DER</code> または <code>PEM</code> 証明書\n- <code>pem</code>：<code>DER</code> DER証明書を <code>PEM</code> 形式に変換\n- <code>md5</code>: <code>DER</code> または <code>PEM</code> 証明書のMD5ハッシュ",
+      "label": "ピア証明書をクライアントIDとして使用"
+    },
+    "persistent_session_store_message_gc_interval": {
+      "desc": "永続セッションへの未配信メッセージのガベージコレクションインターバル。\n「最大保持時間」（\"max_retain_undelivered\"）のチェック頻度に影響します。",
+      "label": "メッセージGCインターバル"
+    },
+    "broker_shared_dispatch_ack_enabled": {
+      "desc": "非推奨。5.1で削除。\nQoS 1、QoS 2メッセージの共有配信確認の有効/無効。\nグループ内のオフラインのサブスクライバーに対して、別のサブスクライバーに配信できるようにする、`shared_subscription_strategy` 設定に基づいて。"
+    },
+    "base_listener_enable_authn": {
+      "desc": "リスナーでのクライアント認証を有効にする。\n認証処理は設定された認証チェーンに従います。\n<code>false</code>の場合、認証なしでも接続できる。<br/>\n<code>quick_deny_anonymous</code>の場合、<code>username</code>がないクライアントは即座に拒否される。これは、匿名クライアントを早期に排除するのに役立ちます。",
+      "label": "認証の有効化"
+    },
+    "force_shutdown_enable": {
+      "desc": "強制シャットダウン機能を有効にする。",
+      "label": "強制シャットダウンの有効化"
+    },
+    "broker_enable_session_registry": {
+      "desc": "セッションレジストリの有効化"
+    },
+    "overload_protection_backoff_delay": {
+      "desc": "高負荷時のバックグラウンドタスク実行の最大遅延時間。",
+      "label": "遅延時間"
+    },
+    "ciphers_schema_common": {
+      "desc": "TLS暗号スイート名をコンマ区切りまたは文字列配列で指定します。例: \n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> または\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n暗号（およびその順序）は、クライアントとサーバーがネットワーク接続を介して情報を暗号化する方法を定義します。\n適切な暗号スイートを選択することは、セキュリティ、機密性、パフォーマンスにとって重要です。\n\nThe names should be in OpenSSL string format (not RFC format).\nOpenSSL形式で指定してください。EMQXの設定例はすべてOpenSSL形式です。<br/>\n\n注意: 暗号スイートの互換性はTLSバージョンに依存します。バージョンと互換性のない暗号スイートは無視されます。\nたとえば、versionsで'tlsv1.3'のみが指定されている場合、他のバージョンの暗号スイートを設定しても効果はありません。\n<br/>\n\n注意: 'tlsv1.3'が有効な場合、PSK暗号スイートは抑制されます。\nこれを使用するには'tlsv1.3'を無効にしてください。<br/>\nPSK暗号スイート: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注意: QUICリスナーは'tlsv1.3'暗号のみサポートしています。",
+      "label": ""
+    },
+    "sys_event_client_disconnected": {
+      "desc": "クライアント切断イベントメッセージをパブリッシュすることを有効にする"
+    },
+    "crl_cache_refresh_interval": {
+      "desc": "CRLのサーバからの更新周期。これは、すべてのURLとリスナーのグローバル設定です。",
+      "label": "CRLキャッシュ更新インターバル"
+    },
+    "mqtt_listener_proxy_protocol": {
+      "desc": "HAProxyやNginxの背後にEMQXクラスターがある場合に、プロキシプロトコルV1/V2を有効にする。<br/>\参照：https://www.haproxy.com/blog/haproxy/proxy-protocol/",
+      "label": "プロキシプロトコル"
+    },
+    "mqtt_listener_access_rules": {
+      "desc": "このリスナーのアクセス制御ルール。<br/>参照：https://github.com/emqtt/esockd#allowdeny",
+      "label": "リスナーアクセスルール"
+    },
+    "server_ssl_opts_schema_enable_ocsp_stapling": {
+      "desc": "このリスナーでのOCSPステープリングを有効にするかどうか。trueにするには、OCSPレスポンダURLと発行者PEMパスの定義が必要",
+      "label": "OCSPステープリングの有効化"
+    },
+    "fields_tcp_opts_send_timeout_close": {
+      "desc": "送信タイムアウト時に接続を切断する。",
+      "label": "TCP送信タイムアウト時の切断"
+    },
+    "sysmon_os_cpu_check_interval": {
+      "desc": "定期的なCPUチェックの間隔。",
+      "label": "CPUチェックインターバル"
+    },
+    "sysmon_top_sample_interval": {
+      "desc": "プロセス上位情報の収集間隔。",
+      "label": "トッププロセス収集間隔"
+    },
+    "fields_mqtt_quic_listener_idle_timeout_ms": {
+      "desc": "接続が切断されるまでのアイドル時間。0でタイムアウトを無効化。",
+      "label": "アイドルタイムアウト（ms）"
+    },
+    "fields_ws_opts_fail_if_no_subprotocol": {
+      "desc": "もし<code>true</code>であれば、クライアントが<code>Sec-WebSocket-Protocol</code>フィールドを持っていないとき、サーバーはエラーを返します。<br/>注: WeChatアプレットはこの検証を無効にする必要があります。",
+      "label": "サブプロトコルがない場合に失敗"
+    },
+    "mqtt_wildcard_subscription": {
+      "label": "ワイルドカードサブスクリプションの許可"
+    },
+    "server_ssl_opts_schema_ocsp_refresh_interval": {
+      "desc": "サーバーのOCSP応答を更新する周期。",
+      "label": "OCSP更新インターバル"
+    },
+    "overload_protection_backoff_hibernation": {
+      "desc": "高負荷時にプロセスの休止をスキップする。",
+      "label": "休止のスキップ"
+    },
+    "fields_ws_opts_max_frame_size": {
+      "desc": "1つのMQTTパケットの最大長。",
+      "label": "最大フレームサイズ"
+    },
+    "sys_event_messages": {
+      "desc": "クライアントイベントメッセージ。"
+    },
+    "broker_perf_trie_compaction": {
+      "desc": "トライパスの圧縮を有効にする。\nこれを有効にすると、ワイルドカードトピックがユニークなプレフィックスを持つ場合（例：'sensor/{'{'}{'{'}id{'}'}{'}'}/+/'のように、IDがサブスクライバーごとにユニークである場合）のワイルドカードトピックの購読率が大幅に向上します。\n大半のメッセージが多数のレベルを持つトピックに公開される場合、トピックのマッチ性能（公開時）が低下する可能性があります。\n注意：これはクラスタ全体の設定です。変更する前にすべてのノードを停止する必要があります。"
+    },
+    "sysmon_vm_large_heap": {
+      "desc": "Erlangプロセスが大量のヒープメモリを消費した場合、<code>large_heap</code> ログが記録され、システムトピック <code>$SYS/sysmon/large_heap</code>にMQTTメッセージが発行されます。",
+      "label": "大きなヒープの検知"
+    },
+    "mqtt_shared_subscription_strategy": {
+      "label": "共有サブスクリプションの配信戦略",
+      "desc": "共有サブスクリプションの配信戦略。\n- `random`：ランダムに選択したサブスクライバーに配信。\n- `round_robin`：ラウンドロビンでサブスクライバーを選択。\n- `round_robin_per_group`：各共有サブスクライバーグループ内でラウンドロビン方式でサブスクライバーを選択。\n- `sticky`：最後に選択したサブスクライバーに配信。切断するまで。\n- `hash`：`clientIds`のハッシュ値でサブスクライバーを選択。\n- `local`：ローカルのランダムなサブスクライバーを選択。いなければクラスタ全体からランダムに選択。<br/>- `hash_topic`：ソーストピックをハッシュ化してサブスクライバーを選択。<br/>- `hash_clientid`：`clientIds`をハッシュ化してサブスクライバーを選択。 "
+    }
+  }
+}

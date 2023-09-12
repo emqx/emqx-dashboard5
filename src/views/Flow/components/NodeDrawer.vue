@@ -330,6 +330,9 @@ watch(showDrawer, (val) => {
     .monaco-container {
       width: calc(100% - #{$input-append-width} / 2);
     }
+    .el-form-item__label {
+      text-align: right;
+    }
   }
   .el-alert {
     margin-bottom: 16px;
