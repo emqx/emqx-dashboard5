@@ -235,4 +235,12 @@ export default {
     zh: '抖动的连接客户端 ID 将被封禁的时长',
     en: 'The duration for which the flapping Client ID will be banned',
   },
+  clearAll: {
+    zh: '清除全部',
+    en: 'Clear All',
+  },
+  clearAllConfirm: {
+    zh: '是否确定要清除全部黑名单？',
+    en: 'Confirm to clear all banned clients?',
+  },
 }
