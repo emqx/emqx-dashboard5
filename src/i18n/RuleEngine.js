@@ -1142,4 +1142,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '高级设置',
     en: 'Advanced Settings',
   },
+  typeSearch: {
+    zh: '输入关键词搜索...',
+    en: 'Type to search...',
+  },
 }

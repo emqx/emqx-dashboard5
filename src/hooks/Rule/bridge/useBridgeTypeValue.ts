@@ -1,8 +1,9 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType, KafkaType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
+import { Ref, ref } from 'vue'
 
 const bridgesOrder = [
   BridgeType.Webhook,
@@ -101,8 +102,12 @@ export const typesWithProducerAndConsumer = [
   BridgeType.AmazonKinesis,
   BridgeType.GCP,
 ]
+
 export const consumerReg = /consumer/i
+
 export const useBridgeTypeOptions = (): {
+  searchQuery: Ref<string>
+  getFilterBridgeOptions: () => BridgeTypeOptions[]
   bridgeTypeOptions: BridgeTypeOptions[]
   getBridgeType: (typeStr: string) => BridgeType
   getTypeStr: (bridge: BridgeItem) => string
@@ -147,6 +152,17 @@ export const useBridgeTypeOptions = (): {
     desc: descMap.get(item.value) || '',
   }))
 
+  const searchQuery = ref('')
+
+  const getFilterBridgeOptions = () => {
+    if (searchQuery.value.trim() === '') {
+      return bridgeTypeOptions
+    }
+    return bridgeTypeOptions.filter((option) =>
+      option.label.toLowerCase().includes(searchQuery.value.trim().toLowerCase()),
+    )
+  }
+
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   /**
@@ -177,7 +193,9 @@ export const useBridgeTypeOptions = (): {
   }
 
   return {
+    searchQuery,
     bridgeTypeOptions,
+    getFilterBridgeOptions,
     getBridgeType,
     getTypeStr,
   }
