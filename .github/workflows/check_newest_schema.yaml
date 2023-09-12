@@ -1,0 +1,64 @@
+name: Check Newest Schema
+
+on:
+  workflow_call:
+    inputs:
+      emqx-name:
+        required: true
+        type: string
+
+env:
+  IS_CI: "true"
+  EMQX_NAME: ${{ inputs.emqx-name }}
+
+jobs:
+  check_schema:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.EMQX_NAME }}-docker
+          path: /tmp
+      - name: load docker image
+        run: |
+          EMQX_IMAGE_TAG=$(docker load < /tmp/${EMQX_NAME}-docker.tar.gz 2>/dev/null | sed 's/Loaded image: //g')
+          echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> $GITHUB_ENV
+      - name: run docker
+        run: |
+          CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
+          HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' $CID)
+          echo "HTTP_PORT=$HTTP_PORT" >> $GITHUB_ENV
+          echo "CID=$CID" >> $GITHUB_ENV
+          echo "HOST_URL=http://localhost:$HTTP_PORT" >> $GITHUB_ENV
+
+      - name: checkout dashboard code
+        uses: actions/checkout@v3
+
+      - name: run script that checks schemas
+        run: |
+          yarn
+          yarn orval
+
+      - name: check for changes
+        run: |
+          git_diff=$(git diff)
+          if [ -n "$git_diff" ]; then
+            git diff
+            echo "Detected differences in the repository. Uploading mismatched schemas."
+            exit 1
+          else
+            echo "No differences detected."
+          fi
+
+      - name: upload schemas
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: newest-schemas
+          path: ./src/types/schemas/*.ts
+          retention-days: 3
+
+      - name: stop docker
+        run: |
+          docker stop ${CID}

@@ -1,0 +1,38 @@
+name: Build EMQX For Test
+
+on:
+  workflow_call:
+    inputs:
+      emqx-name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      EMQX_NAME: ${{ inputs.emqx-name }}
+      OTP_VSN: '25.3.2-2'
+      ELIXIR_VSN: '1.14.5'
+
+    steps:
+      - name: checkout emqx code
+        uses: actions/checkout@v3
+        with:
+          repository: emqx/emqx
+          ref: master
+
+      - name: build and export to Docker
+        id: build
+        run: |
+          make ${EMQX_NAME}-docker
+          echo "EMQX_IMAGE_TAG=$(cat .docker_image_tag)" >> $GITHUB_ENV
+
+      - name: export docker image
+        run: |
+          docker save $EMQX_IMAGE_TAG | gzip > $EMQX_NAME-docker.tar.gz
+      - uses: actions/upload-artifact@v3
+        with:
+          name: '${{ env.EMQX_NAME }}-docker'
+          path: '${{ env.EMQX_NAME }}-docker.tar.gz'
+          retention-days: 1
