@@ -32,7 +32,6 @@
       :rules="rules"
       :model="record"
       :validate-on-rule-change="false"
-      @keyup.enter.prevent="saveConfig()"
     >
       <el-form-item prop="sql">
         <div class="monaco-container">
@@ -40,6 +39,7 @@
             :id="createRandomString()"
             lang="sql"
             v-model="record.sql"
+            :disabled="readonly"
             @blur="transformToFormFromSql"
           />
         </div>
@@ -74,7 +74,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'save'])
+const emit = defineEmits(['update:modelValue'])
 
 const { tl } = useI18nTl('Base')
 
@@ -139,10 +139,6 @@ const transformToFormFromSql = () => {
     const form = generateFunctionFormFromExpression(record.value.sql)
     record.value.form = form?.length ? form : defaultForm
   }
-}
-
-const saveConfig = () => {
-  emit('save', record.value)
 }
 
 watch(

@@ -20,34 +20,34 @@ export default {
     ja: '基本情報',
   },
   guideSourceNodeLabel: {
-    zh: 'Source 节点',
-    en: 'Start with a Source',
-    ja: 'ソースノードから始める',
+    zh: 'Source',
+    en: 'Source',
+    ja: 'Source',
   },
   guideSourceNodeDesc: {
-    zh: '拖动 Source 节点，可以有多个 Source 节点',
-    en: 'Drag source nodes and multiple source nodes are allowed here',
-    ja: 'ソースノードをドラッグできます。複数のソースノードが許可されます',
+    zh: '拖拽多个节点以选择消息与事件输入',
+    en: 'Drag in multiple nodes to select message and event inputs',
+    ja: '',
   },
   guideProcessingNodeLabel: {
-    zh: 'Processing 节点',
-    en: 'Processing',
-    ja: '処理ノード',
+    zh: 'Processing（可选）',
+    en: 'Processing (optional)',
+    ja: '',
   },
   guideProcessingNodeDesc: {
-    zh: '拖动 Processing 节点（可选）',
-    en: 'Drag Processing (optional)',
-    ja: '処理ノードをドラッグ(オプション)',
+    zh: '拖拽节点以处理和过滤数据',
+    en: 'Drag nodes to transform and filter data',
+    ja: '',
   },
   guideSinkNodeLabel: {
-    zh: 'Sink 节点',
+    zh: 'Sink',
     en: 'Sink',
     ja: 'シンクノード',
   },
   guideSinkNodeDesc: {
-    zh: '拖动 Sink 节点，可以有多个 Sink 节点',
-    en: 'Drag sink nodes and multiple sink nodes are allowed here',
-    ja: 'シンクノードをドラッグできます。複数のシンクノードが許可されます',
+    zh: '拖拽多个节点以输出数据到外部数据集成',
+    en: 'Drag in multiple nodes to output data to external integrations',
+    ja: '',
   },
   function: {
     zh: '函数',
@@ -138,5 +138,37 @@ export default {
     zh: '调用函数后，需指定一个别名',
     en: 'Need to specify an alias after calling the function',
     ja: '関数を呼び出した後、エイリアスを指定する必要があります',
+  },
+  nameInputDesc: {
+    zh: '由于名称不可重复，请输入新名称以保存',
+    en: 'Since names cannot be duplicated, please enter a new name to save',
+  },
+  saveAsDuplication: {
+    zh: '保存为新 {target}',
+    en: 'Save as a new {target}',
+  },
+  pleaseInputOrSelect: {
+    zh: '请输入或选择',
+    en: 'Please Input or Select',
+  },
+  incorrectConnection: {
+    zh: '错误的连线',
+    en: 'Incorrect connection',
+  },
+  editedWayToggleTip: {
+    zh: '表达式过于复杂无法完全转换到编辑器，结果将被更改',
+    en: 'Expressions that are excessively complex and cannot fully convert in the editor will be altered.',
+  },
+  filterFunctionsWrongOrder: {
+    zh: '函数节点必须放置在过滤器节点之前，请调整节点位置。',
+    en: 'Function nodes must be placed before filter nodes. Please adjust node positions.',
+  },
+  bridgeRemovedTip: {
+    zh: '该节点已被删除，请及时更新 Flow',
+    en: 'This node has been deleted, please update flow in time',
+  },
+  saveAsNewWarning: {
+    zh: '当前配置中的密码字段己加密，保存为新 {target} 请重新输入',
+    en: 'The password field in the current configuration is encrypted, please re-enter when saving as a new {target}',
   },
 }

@@ -12,12 +12,7 @@
       <!-- <FlowList v-if="showBy === ShowByOpt.List" /> -->
     </template>
     <div v-else class="flow-placeholder-container">
-      <img
-        class="img-placeholder"
-        width="520"
-        src="@/assets/img/flow_placeholder.png"
-        alt="empty_placeholder"
-      />
+      <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
       <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
     </div>
   </div>
@@ -26,12 +21,26 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { useVueFlow } from '@vue-flow/core'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FlowView from './components/FlowView.vue'
+import { useStore } from 'vuex'
 
 const router = useRouter()
 const { tl } = useI18nTl('Flow')
+const store = useStore()
+
+const theme = computed(() => {
+  return store.state.theme
+})
+
+const getImgSrc = () => {
+  try {
+    return require(`@/assets/img/flow-placeholder-${theme.value}.png`)
+  } catch (error) {
+    return ''
+  }
+}
 
 const enum ShowByOpt {
   Flow,

@@ -2,7 +2,7 @@
   <div class="TLS-base-config">
     <div>
       <el-form-item :label="$t('Base.enableTLS')">
-        <el-switch v-model="record.enable" :disabled="readonly" />
+        <el-switch v-model="record.enable" :disabled="readonly || disabled" />
       </el-form-item>
     </div>
   </div>
@@ -26,6 +26,10 @@ const props = defineProps({
     default: () => ({}),
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },

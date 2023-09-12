@@ -49,6 +49,9 @@
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
+        @edges-change="checkEdges"
+        @edge-mouse-enter="handleMouseEnterEdge"
+        @edge-mouse-leave="handleMouseLeaveEdge"
       >
         <template #node-custom_input="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
@@ -62,6 +65,13 @@
           <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
           <FlowNode :data="data" />
         </template>
+        <template #edge-custom="props">
+          <FlowEdge
+            v-bind="props"
+            @mouse-enter="handleMouseEnterEdgeLabel(props)"
+            @mouse-leave="handleMouseLeaveEdge"
+          />
+        </template>
       </VueFlow>
     </div>
   </div>
@@ -70,6 +80,7 @@
     :nodes="getNodes"
     :node="currentNode"
     @save="saveDataToNode"
+    @saveAsNew="saveAsNewNode"
     @close="resetDrawerData"
     @cancel="handleCancelEditing"
   />
@@ -77,16 +88,34 @@
 
 <script setup lang="ts">
 import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
+import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Delete, Search } from '@element-plus/icons-vue'
-import { Edge, Node, NodeMouseEvent, NodeProps, VueFlow, useVueFlow } from '@vue-flow/core'
-import { pick } from 'lodash'
-import { PropType, Ref, computed, defineExpose, defineProps, ref, watch } from 'vue'
+import {
+  Edge,
+  EdgeAddChange,
+  EdgeChange,
+  EdgeMouseEvent,
+  Node,
+  NodeMouseEvent,
+  NodeProps,
+  VueFlow,
+  useVueFlow,
+} from '@vue-flow/core'
+import { ElMessage } from 'element-plus'
+import { cloneDeep, isEqual, pick } from 'lodash'
+import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
+
+interface Pos {
+  x: number
+  y: number
+}
 
 const props = defineProps({
   data: {
@@ -102,10 +131,12 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, getNodes, getEdges } = useVueFlow({
-  id: flowEditorId,
-  deleteKeyCode: 'Delete',
-})
+const { addNodes, onConnect, addEdges, findNode, removeNodes, removeEdges, getNodes, getEdges } =
+  useVueFlow({
+    id: flowEditorId,
+    deleteKeyCode: 'Delete',
+    defaultEdgeOptions: { type: 'custom' },
+  })
 
 const {
   nodeArr: rawNodeArr,
@@ -123,7 +154,15 @@ const nodeArr = computed(() => {
     .filter(({ nodeList }) => nodeList.length)
 })
 
-const { isBridgeType, getNodeClass, getNodeInfo, getNodeIcon, getIconClass } = useFlowNode()
+const {
+  nodeWidth,
+  nodeHeight,
+  isBridgeType,
+  getNodeClass,
+  getNodeInfo,
+  getNodeIcon,
+  getIconClass,
+} = useFlowNode()
 
 /**
  * Position offset relative to the upper left corner of the node
@@ -188,6 +227,47 @@ const handleClickNode = (event: NodeMouseEvent) => {
   openNodeDrawer(node)
 }
 
+const { checkConnection } = useFlowEdge()
+const checkEdges = async (events: Array<EdgeChange>) => {
+  const e = events[0]
+  if (!e || e.type !== 'add') {
+    return
+  }
+  const { item } = e as EdgeAddChange
+  try {
+    await checkConnection(item)
+  } catch (error: any) {
+    removeEdges([item])
+    ElMessage.warning(error)
+  }
+}
+
+const setEdgeStatus = (edge: Edge, isHover: boolean) => {
+  if (!edge.data) {
+    edge.data = {}
+  }
+  edge.data.isHover = isHover
+}
+
+const handleMouseEnterEdge = ({ edge }: EdgeMouseEvent) => {
+  if (!edge) {
+    return
+  }
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
+  setEdgeStatus(edge, true)
+}
+const handleMouseEnterEdgeLabel = async (edge: any) => {
+  if (!edge) {
+    return
+  }
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
+  await nextTick()
+  setEdgeStatus(edge, true)
+}
+const handleMouseLeaveEdge = async () => {
+  getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
+}
+
 const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
 
 const resetDrawerData = () => {
@@ -199,11 +279,77 @@ const resetDrawerData = () => {
 const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
+    // TODO: check isCreated and isChanged before calling update API
+    node.data.isChanged = !isEqual(node.data.formData, data)
     node.data.formData = data
-    if (isBridgeType(node.data.specificType) && !node.data.isCreated) {
+    if (isBridgeType(node.data.specificType)) {
       node.data.isCreated = !!data.id
     }
     node.data.desc = getNodeInfo(node)
+  }
+  resetDrawerData()
+}
+
+function isNodeOverlap(rect1Center: Pos, rect2Center: Pos): boolean {
+  const rect1Left = rect1Center.x - nodeWidth / 2
+  const rect1Right = rect1Center.x + nodeWidth / 2
+  const rect1Top = rect1Center.y + nodeHeight / 2
+  const rect1Bottom = rect1Center.y - nodeHeight / 2
+
+  const rect2Left = rect2Center.x - nodeWidth / 2
+  const rect2Right = rect2Center.x + nodeWidth / 2
+  const rect2Top = rect2Center.y + nodeHeight / 2
+  const rect2Bottom = rect2Center.y - nodeHeight / 2
+
+  if (
+    rect1Left > rect2Right ||
+    rect1Right < rect2Left ||
+    rect1Bottom > rect2Top ||
+    rect1Top < rect2Bottom
+  ) {
+    return false
+  }
+
+  return true
+}
+
+function checkOverlapInArr(posArr: Array<Pos>, pos: Pos): boolean {
+  for (const posItem of posArr) {
+    if (isNodeOverlap(posItem, pos)) {
+      return true
+    }
+  }
+  return false
+}
+
+const confirmNewNodePosition = (oldNodePos: Pos, flowNodeType: string) => {
+  const nowNodesPositionArr = getNodes.value.reduce(
+    (arr: Array<{ x: number; y: number }>, { type, position }) => {
+      if (type === flowNodeType) {
+        arr.push(position)
+      }
+      return arr
+    },
+    [],
+  )
+  let index = 1
+  const pos = { x: oldNodePos.x, y: oldNodePos.y + index * (nodeHeight + 30) }
+  while (checkOverlapInArr(nowNodesPositionArr, pos)) {
+    index += 1
+    pos.y = oldNodePos.y + index * (nodeHeight + 30)
+  }
+  return pos
+}
+
+const saveAsNewNode = (data: Record<string, any>) => {
+  const node = findNode(currentNodeID)
+  if (node) {
+    const newNode = cloneDeep(node)
+    newNode.id = createRandomString()
+    newNode.position = confirmNewNodePosition(node.position, node.type)
+    newNode.data = { ...newNode.data, formData: data, isCreated: false }
+    newNode.data.desc = getNodeInfo(newNode)
+    addNodes([newNode])
   }
   resetDrawerData()
 }
@@ -223,7 +369,7 @@ const validate = () => {
 }
 
 const nodeNeededKeys = ['id', 'data', 'type']
-const edgeNeededKeys = ['source', 'target']
+const edgeNeededKeys = ['source', 'sourceNode', 'target', 'targetNode']
 const getFlowData = () => {
   const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys))
   const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys))

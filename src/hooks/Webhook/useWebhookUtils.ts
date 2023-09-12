@@ -1,4 +1,4 @@
-import { WEBHOOK_PREFIX } from '@/common/constants'
+import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OtherNodeType } from '@/hooks/Rule/topology/topologyType'
 import useUtilsForTopology from '@/hooks/Rule/topology/useUtilsForTopology'
@@ -8,7 +8,7 @@ import { WebhookItem } from '@/types/webhook'
 
 /* 
   The naming convention for rules created for webhooks
-  ${WEBHOOK_PREFIX}${webhook name}
+  ${webhook name}${WEBHOOK_SUFFIX}
  */
 
 export default (): {
@@ -19,7 +19,7 @@ export default (): {
     ruleList: Array<RuleItem>,
   ) => Array<WebhookItem>
 } => {
-  const webhookTargetReg = new RegExp(`^${WEBHOOK_PREFIX}`)
+  const webhookTargetReg = new RegExp(`${WEBHOOK_SUFFIX}$`)
 
   const { judgeOutputType } = useUtilsForTopology()
   const { getBridgeType } = useBridgeTypeOptions()

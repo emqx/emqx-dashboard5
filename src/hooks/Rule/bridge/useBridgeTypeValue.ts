@@ -4,6 +4,12 @@ import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
 
+const bridgesOrder = [BridgeType.Webhook, BridgeType.MQTT]
+export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
+  (obj, type, index) => ({ ...obj, [type]: index }),
+  {},
+)
+
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<{
     value: BridgeType
@@ -15,8 +21,8 @@ export const useBridgeTypeValue = (): {
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
-    { value: BridgeType.MQTT, label: 'MQTT' },
-  ]
+    { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
+  ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)

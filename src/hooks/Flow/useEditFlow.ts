@@ -1,13 +1,19 @@
 import { getBridgeInfo, getRuleInfo } from '@/api/ruleengine'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
-import { Ref, computed, ref } from 'vue'
+import { ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'
+import useFlowNode, { NodeType } from './useFlowNode'
 import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtils'
 
-export default () => {
+export default (): {
+  flowId: ComputedRef<string>
+  ruleData: Ref<RuleItem | undefined>
+  flowData: Ref<(Node<any, any, string> | Edge)[] | undefined>
+  getData: () => Promise<void>
+} => {
   const route = useRoute()
 
   const flowId = computed(() => route.params.id?.toString())
@@ -25,33 +31,19 @@ export default () => {
     }
   }
 
-  /**
-   *
-   * @param nodes source nodes concat sink node
-   */
-  const getBridgeArrFromNodes = async (nodes: Array<Node>) => {
-    const bridgeRequestArr = await Promise.allSettled(
-      nodes
-        .filter((item) => isBridgerNode(item))
-        .map(({ id: nodeId }) => {
-          const bridgeId = nodeId.split('-')[1]
-          return getBridgeInfo(bridgeId)
-        }),
+  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const addBridgeFormDataToNodes = async (nodes: Array<Node>) => {
+    await Promise.allSettled(
+      nodes.map(async (item) => {
+        if (isBridgerNode(item) && item.data?.formData?.id) {
+          const bridgeInfo = await getBridgeInfo(item.data.formData.id)
+          item.data.formData = { ...item.data.formData, ...handleBridgeDataAfterLoaded(bridgeInfo) }
+          addFlagToBridgeNode(item)
+        }
+        return Promise.resolve()
+      }),
     )
-    const bridgeArr = bridgeRequestArr.reduce((arr: Array<BridgeItem>, item) => {
-      if (item.status === 'fulfilled' && item.value) {
-        arr.push(item.value)
-      }
-      return arr
-    }, [])
-    return bridgeArr
-  }
-
-  const addClassToBridgeNode = (node: Node) => {
-    if (isRemovedBridge(node)) {
-      node.class = (node.class || '') + ' is-disabled'
-    }
-    return node
+    return nodes
   }
 
   /**
@@ -67,11 +59,11 @@ export default () => {
 
   const {
     generateFlowDataFromRuleItem,
-    generateNodeFromBridgeData,
-    countNodesPosition,
-    isRemovedBridge,
+    countNodePositionWhileEditing,
+    addFlagToRemovedBridgeNode,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
+
   const getFlowData = async () => {
     if (!ruleData.value) {
       return
@@ -79,25 +71,17 @@ export default () => {
     const ruleFlowData = generateFlowDataFromRuleItem(ruleData.value)
     const { nodes, edges } = ruleFlowData
     const sourceAndSinkNodes = [...nodes[NodeType.Source], ...nodes[NodeType.Sink]]
-    const bridgeArr = await getBridgeArrFromNodes(sourceAndSinkNodes)
+    await addBridgeFormDataToNodes(sourceAndSinkNodes)
 
-    bridgeArr.forEach((bridgeItem) => {
-      const node = addFlagToBridgeNode(generateNodeFromBridgeData(bridgeItem))
-      const targetNodes =
-        node.type === FlowNodeType.Input ? nodes[NodeType.Source] : nodes[NodeType.Sink]
-      // Push the node containing bridge info data to the front of the array,
-      // after deduplication, the node with info will be kept first
-      targetNodes.unshift(node)
-    })
     Object.entries(nodes).forEach(([key, value]) => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')
     })
 
-    countNodesPosition(nodes)
+    countNodePositionWhileEditing(nodes)
     flowData.value = [
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
         if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
-          value.forEach((item) => addClassToBridgeNode(item))
+          value.forEach((item) => addFlagToRemovedBridgeNode(item))
         }
         return [...arr, ...value]
       }, []),

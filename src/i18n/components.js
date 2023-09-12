@@ -130,8 +130,8 @@ export default {
     ja: '統合',
   },
   flowDesigner: {
-    zh: 'Flows 设计器',
-    en: 'Flows Designer',
+    zh: 'Flow 设计器',
+    en: 'Flow Designer',
   },
   flow: {
     zh: 'Flows',

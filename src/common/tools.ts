@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { cloneDeep, escape, isFunction, isObject, omit } from 'lodash'
+import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, set } from 'lodash'
 import moment from 'moment'
 import { COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
@@ -230,6 +230,7 @@ export const handleSQLFromPartStatement = (fromStr: string): string => {
  * Compared with the `getKeywordsFromSQL` below, the difference is that when a value cannot be obtained here, it returns undefined.
  * TODO: Merge the function below.
  */
+export const isForeachReg = /^FOREACH/i
 export const getKeyPartsFromSQL = (sqlStr: string) => {
   const sql = sqlStr.trim()
   let fieldStr = undefined
@@ -237,9 +238,8 @@ export const getKeyPartsFromSQL = (sqlStr: string) => {
   let whereStr = undefined
   let matchResult = null
 
-  const isForeachReg = /^FOREACH/i
   if (isForeachReg.test(sql)) {
-    matchResult = sql.match(/(.|\n)+WHERE(?<where>(.|\n)+)/)
+    matchResult = sql.match(/(?<foreach>(.|\n)+)FROM(?<from>(.|\n)+)/)
   } else {
     matchResult =
       sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))/i) ||
@@ -444,14 +444,35 @@ export const tryToCompleteURL = (url: string): string => {
 /**
  * is obj[key] is string and is empty, delete it
  */
-export const checkNOmitFromObj = (obj: Record<string, any>): Record<string, any> => {
+export const checkNOmitFromObj = (
+  obj: Record<string, any>,
+  ignorePaths?: Array<string>,
+): Record<string, any> => {
+  const ignoreValues = {}
+  if (ignorePaths?.length) {
+    ignorePaths.forEach((path) => {
+      const value = get(obj, path)
+      if (!isUndefined(value)) {
+        set(ignoreValues, path, value)
+      }
+    })
+  }
   const emptyValueKeyArr = Object.keys(obj).filter((key) => {
     if (isObject(obj[key]) && !Array.isArray(obj[key])) {
       obj[key] = checkNOmitFromObj(obj[key])
     }
     return typeof obj[key] === 'string' ? !obj[key] : false
   })
-  return omit(obj, emptyValueKeyArr)
+  const ret = omit(obj, emptyValueKeyArr)
+  if (ignorePaths?.length) {
+    ignorePaths.forEach((path) => {
+      const value = get(ignoreValues, path)
+      if (!isUndefined(value)) {
+        set(ret, path, value)
+      }
+    })
+  }
+  return ret
 }
 
 /**
@@ -670,4 +691,17 @@ export const getAllListData = async <T>(
 export const removeFromArr = <T>(arr: Array<T>, index: number): Array<T> => {
   arr.splice(index, 1)
   return arr
+}
+
+export const arraysAreEqual = <T>(arr1: T[], arr2: T[]): boolean => {
+  if (arr1.length !== arr2.length) return false
+
+  const sortedArr1 = [...arr1].sort()
+  const sortedArr2 = [...arr2].sort()
+
+  for (let i = 0; i < sortedArr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) return false
+  }
+
+  return true
 }

@@ -7,10 +7,11 @@
     :z-index="1999"
     :before-close="cancel"
     :destroy-on-close="true"
-    :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
-    <template v-if="getFormComponent(type)">
+    <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
+    <RemovedBridgeTip v-if="isRemovedBridge" />
+    <template v-else-if="getFormComponent(type)">
       <component
         ref="FormCom"
         :is="getFormComponent(type)"
@@ -19,6 +20,7 @@
         :readonly="readonly"
         :edit="isEdit"
         @save="save"
+        @init="resetRawRecord"
       />
     </template>
     <template #footer>
@@ -36,8 +38,7 @@
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
           <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
-            <!-- TODO:TODO:TODO:zh -->
-            Save as a new sink
+            {{ t('Flow.saveAsDuplication', { target: targetForSaveAsNew }) }}
           </el-button>
           <el-button
             :disabled="isSaveDisabled"
@@ -61,13 +62,17 @@ import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
   FlowNodeType,
+  ProcessingType,
   SinkType,
   SourceType,
 } from '@/hooks/Flow/useFlowNode'
+import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
+import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
@@ -90,7 +95,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit'])
+const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit', 'saveAsNew'])
 
 const showDrawer = computed({
   get: () => props.modelValue,
@@ -109,6 +114,13 @@ const type = computed(() => props.node?.data?.specificType)
 const isEdit = computed(() => props.node?.data?.isCreated)
 
 const FormCom = ref()
+
+const isRemovedBridge = computed(() => {
+  if (!props.node || !props.node.data) {
+    return false
+  }
+  return props.node.data.isRemoved
+})
 
 const { getDrawerTitle, drawerDefaultWidth, getDrawerWidth, getFormComponent } = useNodeDrawer()
 const title = computed(() => (type.value ? getDrawerTitle(type.value) : ''))
@@ -130,8 +142,13 @@ const existedTopics = computed(() => {
   if (!props.nodes?.length) {
     return []
   }
+  const currentNodeID = props.node?.id
   return props.nodes.reduce((arr: Array<string>, node) => {
-    if (node.data.specificType === SourceType.Message && node.data.formData?.topic) {
+    if (
+      node.data.specificType === SourceType.Message &&
+      node.data.formData?.topic &&
+      node.id !== currentNodeID
+    ) {
       arr.push(node.data.formData.topic)
     }
     return arr
@@ -141,14 +158,19 @@ const existedTopics = computed(() => {
 const { isBridgerNode } = useFlowNode()
 const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
 
-const bridgeFormProps = { colSpan: 24, labelPosition: 'right', requireAsteriskPosition: 'left' }
+const bridgeFormProps = {
+  colSpan: 24,
+  labelPosition: 'right',
+  requireAsteriskPosition: 'left',
+  isUsingInFlow: true,
+}
 
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '180px' },
+  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },
 }))
 const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
 
@@ -156,8 +178,31 @@ const record: Ref<Record<string, any>> = ref({})
 
 const isSaveDisabled = computed(() => checkFormIsEmpty(type.value, record.value))
 
-const toggleEditedWay = () => {
-  record.value.editedWay = record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+const { detectFieldsExpressionsEditedWay, detectWhereDataEditedWay } = useGenerateFlowDataUtils()
+const toggleEditedWay = async () => {
+  try {
+    if (![ProcessingType.Filter, ProcessingType.Function].includes(type.value)) {
+      return
+    }
+    if (record.value.editedWay === EditedWay.SQL) {
+      const detectFunc =
+        type.value === ProcessingType.Filter
+          ? detectWhereDataEditedWay
+          : detectFieldsExpressionsEditedWay
+      const defaultEditedWay = detectFunc(record.value.form)
+      if (defaultEditedWay === EditedWay.SQL) {
+        await ElMessageBox.confirm(t('Flow.editedWayToggleTip'), {
+          confirmButtonText: tl('confirm'),
+          cancelButtonText: tl('cancel'),
+          type: 'warning',
+        })
+      }
+    }
+    record.value.editedWay =
+      record.value.editedWay === EditedWay.SQL ? EditedWay.Form : EditedWay.SQL
+  } catch (error) {
+    //
+  }
 }
 
 const isBridgeSelected = computed(() => {
@@ -173,6 +218,10 @@ const showNameInputDialog = ref(false)
  * current record's value to determine whether to pop up a window or not.
  */
 let rawRecord: Record<string, any> = {}
+
+const resetRawRecord = (record: Record<string, any>) => {
+  rawRecord = cloneDeep(record)
+}
 
 const recordHasNotChanged = () => {
   const ret = isEqual(record.value, rawRecord)
@@ -211,11 +260,19 @@ const save = async () => {
   }
 }
 
+const targetForSaveAsNew = computed(() =>
+  props.node?.type === FlowNodeType.Input ? 'source' : 'sink',
+)
+const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
 const saveAsNew = async () => {
   try {
     if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
       await customValidate(FormCom.value)
     }
+    await checkLikePwdField(
+      record.value,
+      t('Flow.saveAsNewWarning', { target: targetForSaveAsNew.value }),
+    )
     showNameInputDialog.value = true
   } catch (error) {
     console.error(error)
@@ -225,13 +282,10 @@ const saveAsNew = async () => {
 const handleNameSave = (name: string) => {
   record.value.name = name
   Reflect.deleteProperty(record.value, 'id')
-  emit('save', record.value)
+  emit(isEdit.value ? 'saveAsNew' : 'save', record.value)
 }
 
-const edit = () => {
-  emit('edit')
-  // TODO:TODO:TODO:
-}
+const edit = () => emit('edit')
 
 watch(showDrawer, (val) => {
   if (!val) {
@@ -242,6 +296,7 @@ watch(showDrawer, (val) => {
   const { formData, specificType: type } = node?.data || {}
   record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   rawRecord = cloneDeep(record.value)
+  pwdErrorWhenCoping.value = ''
 })
 </script>
 
@@ -278,6 +333,9 @@ watch(showDrawer, (val) => {
     .el-form-item__label {
       text-align: right;
     }
+  }
+  .el-alert {
+    margin-bottom: 16px;
   }
   .mqtt-bridge-trans-configuration {
     .monaco-container {

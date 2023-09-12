@@ -77,7 +77,7 @@ export default {
     ja: '絶対値',
   },
   absParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -92,7 +92,7 @@ export default {
     ja: 'コサイン',
   },
   cosParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -107,7 +107,7 @@ export default {
     ja: '双曲線コサイン',
   },
   coshParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -122,7 +122,7 @@ export default {
     ja: '逆コサイン',
   },
   acosParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -137,7 +137,7 @@ export default {
     ja: '逆双曲線コサイン',
   },
   acoshParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -152,7 +152,7 @@ export default {
     ja: 'サイン',
   },
   sinParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -167,7 +167,7 @@ export default {
     ja: '双曲線サイン',
   },
   sinhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -182,12 +182,12 @@ export default {
     ja: '逆サイン',
   },
   asinParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
   asinReturns: {
-    zh: '值',
+    zh: '反正弦值',
     en: 'Arcsine value',
     ja: '逆サイン値',
   },
@@ -197,7 +197,7 @@ export default {
     ja: '逆双曲線サイン',
   },
   asinhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -212,7 +212,7 @@ export default {
     ja: 'タンジェント',
   },
   tanParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -227,7 +227,7 @@ export default {
     ja: '双曲線タンジェント',
   },
   tanhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -242,7 +242,7 @@ export default {
     ja: 'アークタンジェント',
   },
   atanParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -257,7 +257,7 @@ export default {
     ja: '逆双曲線タンジェント',
   },
   atanhParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -272,7 +272,7 @@ export default {
     ja: '切り上げ',
   },
   ceilParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -287,7 +287,7 @@ export default {
     ja: '切り捨て',
   },
   floorParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -302,7 +302,7 @@ export default {
     ja: '四捨五入',
   },
   roundParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -317,7 +317,7 @@ export default {
     ja: 'べき乗',
   },
   expParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -347,7 +347,7 @@ export default {
     ja: '平方根',
   },
   sqrtParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -357,7 +357,7 @@ export default {
     ja: '平方根',
   },
   fmodDesc: {
-    zh: '负点数取模函数',
+    zh: '浮点数取模函数',
     en: 'Floating point modulus function',
     ja: '浮動小数点モジュラス関数',
   },
@@ -377,7 +377,7 @@ export default {
     ja: '自然対数',
   },
   logParams: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -392,7 +392,7 @@ export default {
     ja: '常用対数',
   },
   log10Params: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -407,7 +407,7 @@ export default {
     ja: '2を底とする対数',
   },
   log2Params: {
-    zh: '1. 被操作数',
+    zh: '被操作数',
     en: 'Operand',
     ja: 'オペランド',
   },
@@ -422,7 +422,7 @@ export default {
     ja: '変数がNULLか判断',
   },
   isNullParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -437,7 +437,7 @@ export default {
     ja: '変数が非NULLか判断',
   },
   isNotNullParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -452,7 +452,7 @@ export default {
     ja: '変数が文字列型か判断',
   },
   isStrParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -467,7 +467,7 @@ export default {
     ja: '変数が論理型か判断',
   },
   isBoolParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -482,7 +482,7 @@ export default {
     ja: '変数が整数型か判断',
   },
   isIntParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -497,7 +497,7 @@ export default {
     ja: '変数が浮動小数点数型か判断',
   },
   isFloatParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -512,7 +512,7 @@ export default {
     ja: '変数が数値型(整数型または浮動小数点数型)か判断します。',
   },
   isNumParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -527,7 +527,7 @@ export default {
     ja: '変数がマップ型か判断',
   },
   isMapParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -542,7 +542,7 @@ export default {
     ja: '変数が配列型か判断',
   },
   isArrayParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -557,7 +557,7 @@ export default {
     ja: 'データを文字列型に変換',
   },
   strParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -572,7 +572,7 @@ export default {
     ja: 'データをUTF-8文字列型に変換',
   },
   strUtf8Params: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -587,7 +587,7 @@ export default {
     ja: 'データをブーリアン型に変換',
   },
   boolParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -602,7 +602,7 @@ export default {
     ja: 'データを整数型に変換',
   },
   intParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -617,7 +617,7 @@ export default {
     ja: 'データを浮動小数点数型に変換',
   },
   floatParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -647,7 +647,7 @@ export default {
     ja: 'データをマップ型に変換',
   },
   mapParams: {
-    zh: 'Data',
+    zh: '数据',
     en: 'Data',
     ja: 'データ',
   },
@@ -662,8 +662,8 @@ export default {
     ja: '小文字に変換',
   },
   lowerParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   lowerReturns: {
@@ -677,8 +677,8 @@ export default {
     ja: '大文字に変換',
   },
   upperParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   upperReturns: {
@@ -692,8 +692,8 @@ export default {
     ja: '左右のスペースを削除',
   },
   trimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   trimReturns: {
@@ -707,8 +707,8 @@ export default {
     ja: '左のスペースを削除',
   },
   ltrimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   ltrimReturns: {
@@ -722,8 +722,8 @@ export default {
     ja: '右のスペースを削除',
   },
   rtrimParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   rtrimReturns: {
@@ -737,23 +737,23 @@ export default {
     ja: '文字列の反転',
   },
   reverseParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   reverseReturns: {
     zh: '翻转后的字符串',
-    en: 'output string',
+    en: 'Output string',
     ja: '反転後の文字列',
   },
   strlenDesc: {
     zh: '取字符串长度',
-    en: 'string length',
+    en: 'String length',
     ja: '文字列の長さ',
   },
   strlenParams: {
-    zh: '1. 原字符串',
-    en: 'input string',
+    zh: '原字符串',
+    en: 'Input string',
     ja: '入力文字列',
   },
   strlenReturns: {
@@ -785,13 +785,13 @@ export default {
   },
   splitParams: {
     zh: `1. 原字符串 <br />2. 分割符子串 <br />
-2. <i>可选</i>分割的规则，默认匹配字符串中所有分隔符
+3. <i>可选</i>分割的规则，默认匹配字符串中所有分隔符
 <ul>
   <li><code>leading</code>：只查找左边第一个分隔符</li>
   <li><code>trailing</code>：只查找右边第一个分隔符</li>
 </ul>`,
     en: `1. Original string <br />2. Separator substring <br />
-2. <i>Optional</i> Rule for splitting, default to matching all separators in the string
+3. <i>Optional</i> Rule for splitting, default to matching all separators in the string
 <ul>
 <li><code>leading</code>: Only search for the first separator on the left side</li>
 <li><code>trailing</code>: Only search for the first separator on the right side</li>
@@ -810,17 +810,17 @@ export default {
   },
   concatDesc: {
     zh: '字符串拼接',
-    en: '',
+    en: 'String concatenation',
     ja: '文字列の連結',
   },
   concatParams: {
     zh: '1. 左字符串 <br />2. 右符子串',
-    en: '',
+    en: '1. Left string <br />2. Right substring',
     ja: '1. 左の文字列 <br />2. 右の文字列',
   },
   concatReturns: {
     zh: '拼接后的字符串',
-    en: '',
+    en: 'Concatenated string',
     ja: '連結後の文字列',
   },
   tokensDesc: {
@@ -830,31 +830,31 @@ export default {
   },
   tokensParams: {
     zh: `1. 原字符串</br>2. 分隔符</br>
-3. <i>可选</i>是否根据换行符进行分解，为 <code>nocrlf</code> 时则是`,
+3. <i>可选</i>是否根据换行符进行分解`,
     en: `1. Original string</br>2. Separator</br>
-3. <i>Optional</i>Whether to decompose according to the line break, when it is <code>nocrlf</code>, it is`,
+3. <i>Optional</i>Whether to decompose according to the line break`,
     ja: `1. 元の文字列</br>2. 区切り文字</br>
 3. <i>オプション</i>改行に従って分解するかどうか。`,
   },
   tokensReturns: {
     zh: '分解后的字符串数组',
-    en: '',
+    en: 'Decomposed string array',
     ja: '分割後の文字列配列',
   },
   sprintfDesc: {
-    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
-    en: '',
+    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
+    en: 'String formatting, see the Format section in <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> for usage',
     ja: '文字列のフォーマット。フォーマット文字列の使い方は <a href="https://erlang.org/doc/man/io.html#fwrite-1">https://erlang.org/doc/man/io.html#fwrite-1</a>のFormatセクションを参照。',
   },
   sprintfParams: {
     zh: '1. 格式字符串 <br />2,3,4... 参数列表。参数个数不定',
-    en: '',
+    en: '1. Format string <br />2,3,4... Parameter list. The number of parameters may vary',
     ja: '1. フォーマット文字列 <br />2,3,4... 引数リスト(可変長)',
   },
   sprintfReturns: {
-    zh: '分解后的字符串数组',
-    en: '',
-    ja: '分解后的字符串数组',
+    zh: '格式化后的字符串',
+    en: 'Formatted string',
+    ja: '',
   },
   padDesc: {
     zh: '将指定字符串填充到指定长度',
@@ -873,7 +873,7 @@ export default {
   },
   padReturns: {
     zh: '补足后的字符串',
-    en: '',
+    en: 'Padded string',
     ja: 'パディング後の文字列',
   },
   replaceDesc: {
@@ -901,7 +901,7 @@ export default {
 <ul>
   <li><code>all</code>: 一致するすべての部分文字列を置換。</li>
   <li><code>trailing</code>: 後ろから最初に一致した部分文字列を置換。</li>
-  <li><code>leading</code>: 前から最初に一致した部分文字列を置換。</li>
+  <li><code>leading</code>: 前から最初に一致した部分文字列を置換。</li>`,
   },
   replaceReturns: {
     zh: '替换后的字符串',
@@ -910,47 +910,47 @@ export default {
   },
   regexMatchDesc: {
     zh: '判断字符串是否与某正则表达式匹配',
-    en: '',
+    en: 'Check if a string matches a regular expression',
     ja: '文字列が指定した正規表現にマッチするか判定',
   },
   regexMatchParams: {
     zh: '1. 原字符串 <br />2. 正则表达式',
-    en: '',
+    en: '1. Original string <br />2. Regular expression',
     ja: '1. 元の文字列 <br />2. 正規表現',
   },
   regexMatchReturns: {
     zh: 'true 或 false',
-    en: '',
+    en: 'true or false',
     ja: '真偽値',
   },
   regexReplaceDesc: {
     zh: '替换字符串中匹配到某正则表达式的子串',
-    en: '',
+    en: 'Replace substrings in a string that match a regular expression',
     ja: '文字列内の指定した正規表現にマッチする部分文字列を置換',
   },
   regexReplaceParams: {
     zh: '1. 原字符串 <br />2. 正则表达式 <br />3. 指定用于替换的字符串',
-    en: '',
+    en: '1. Original string <br />2. Regular expression <br />3. String used for replacement',
     ja: '1. 元の文字列 <br />2. 正規表現 <br />3. 置換文字列',
   },
   regexReplaceReturns: {
     zh: '替换后的字符串',
-    en: '',
+    en: 'Replaced string',
     ja: '置換後の文字列',
   },
   asciiDesc: {
     zh: '返回字符对应的 ASCII 码',
-    en: '',
+    en: 'Returns the ASCII code corresponding to the character',
     ja: '文字のASCIIコードを取得',
   },
   asciiParams: {
-    zh: '1. 字符',
-    en: '',
+    zh: '字符',
+    en: 'Character',
     ja: '文字',
   },
   asciiReturns: {
     zh: '整数值，字符对应的 ASCII 码',
-    en: '',
+    en: 'Integer value, ASCII code corresponding to the character',
     ja: '整数のASCIIコード',
   },
   findDesc: {
@@ -959,23 +959,24 @@ export default {
     ja: '文字列内の部分文字列を検索して返す',
   },
   findParams: {
-    zh: '1. 原字符串 <br />2. 要查找的子串<br /> 3. < i > 可选</i> 指定查找方向，默认为 <code> leading</code>
-  <ul>
-    <li><code>leading</code>从字符串的头部开始查找</li>
-    <li><code>trailing</code>从字符串的尾部开始查找</li>
-  </ul>',
-    en: '1. Original string <br /> 2. Substring to be searched for<br />
-3. < i > Optional</i > Specify search direction, default is <code> leading</code>
-  <ul>
-    <li><code>leading</code>: start searching from the beginning of the string</li>
-    <li><code>trailing</code>: start searching from the end of the string</li>
-  </ul>',
-    ja: '1. 元の文字列 <br /> 2. 検索文字列<br />
-3. < i > オプション</i > 検索方向。デフォルトは <code> leading</code>
+    zh: `1. 原字符串<br />2. 要查找的子串<br />
+3. <i>可选</i>指定查找方向，默认为 <code>leading</code>
+<ul>
+  <li><code>leading</code>从字符串的头部开始查找</li>
+  <li><code>trailing</code>从字符串的尾部开始查找</li>
+</ul>`,
+    en: ` 1. Original string<br />2. Substring to be searched for<br />
+3. <i>Optional</i>Specify search direction, default is <code>leading</code>
+<ul>
+<li><code>leading</code>: start searching from the beginning of the string</li>
+<li><code>trailing</code>: start searching from the end of the string</li>
+</ul>`,
+    ja: `1. 元の文字列 <br /> 2. 検索文字列<br />
+3. <i> オプション</i> 検索方向。デフォルトは <code> leading</code>
   <ul>
     <li><code>leading</code>: 先頭から検索</li>
     <li><code>trailing</code>: 末尾から検索</li>
-  </ul>',
+  </ul>`,
   },
   findReturns: {
     zh: '查找到的子串，如找不到则返回空字符串',
@@ -988,9 +989,11 @@ export default {
     ja: 'マップから指定キーの値を取得',
   },
   mapGetParams: {
-    zh: '1. Key：需要获取的 Key，支持嵌套的 Key，比如 <code> a.b.c</code> <br /> 2. Map：从中获取 Key 的值的 Map <br />3. < i > 可选</i > Default Value：当 Map 中不存在指定的 Key 时，返回的默认值',
-    en: '1. Key: The key that needs to be obtained, supports nested keys, such as <code>a.b.c</code> <br /> 2. Map: The map from which the value of the key is obtained <br />3. < i > Optional</i > Default Value: The default value returned when the specified key does not exist in the map.',
-    ja: '1. キー: 取得したいキーを指定。ネストキーに対応、例<code>a.b.c</code> <br /> 2. マップ: キーの値を取得するマップ <br />3. < i >オプション</i > デフォルト値: キーが存在しない場合のデフォルト値。',
+    zh: `1. Key：需要获取的 Key，支持嵌套的 Key，比如 <code>a.b.c</code><br /> 2. Map：从中获取 Key 的值的 Map<br />
+3. <i>可选</i>Default Value：当 Map 中不存在指定的 Key 时，返回的默认值`,
+    en: `1. Key: The key that needs to be obtained, supports nested keys, such as <code>a.b.c</code><br /> 2. Map: The map from which the value of the key is obtained<br />
+3. <i>Optional</i>Default Value: The default value returned when the specified key does not exist in the map.`,
+    ja: '1. キー: 取得したいキーを指定。ネストキーに対応、例<code>a.b.c</code> <br /> 2. マップ: キーの値を取得するマップ <br />3. <i>オプション</i> デフォルト値: キーが存在しない場合のデフォルト値。',
   },
   mapGetReturns: {
     zh: 'Map 中某个 Key 的值',
@@ -1019,7 +1022,7 @@ export default {
   },
   nthParams: {
     zh: '1. 起始位置 <br /> 2. 原数组',
-    en: 'Original array',
+    en: '1. n (integer) <br />2. Array',
     ja: '1. 起点のインデックス <br />2. 元の配列',
   },
   nthReturns: {
@@ -1048,12 +1051,12 @@ export default {
     ja: '部分配列を取得',
   },
   sublistParams: {
-    zh: '1. < i > 可选</i > 指定截取的开始位置，下标从 1 开始，默认为 1</br >
-  2. 截取的数组的长度</br > 3. 原数组',
-    en: '1. < i > Optional</i > Specify the starting position of the interception, with an index starting from 1, default to 1</br >
-  2. The length of the intercepted array.</br > 3. The original array.'
-    ja: '1. < i > オプション</i > 開始インデックス。1起点で、デフォルトは1</br >
-  2. 部分配列の長さ。</br > 3. 元の配列。',
+    zh: `1. <i>可选</i>指定截取的开始位置，下标从 1 开始，默认为 1</br>
+2. 截取的数组的长度</br>3. 原数组`,
+    en: `1. <i>Optional</i>Specify the starting position of the interception, with an index starting from 1, default to 1</br>
+2. The length of the intercepted array.</br>3. The original array.`,
+    ja: `1. <i>オプション</i> 開始インデックス。1起点で、デフォルトは1</br>
+  2. 部分配列の長さ。</br> 3. 元の配列。`,
   },
   sublistReturns: {
     zh: '子数组',
@@ -1352,9 +1355,9 @@ export default {
     ja: '現在のUnixタイムスタンプを取得',
   },
   nowTimestampParams: {
-    zh: '1. < i > 可选</i > 时间单位，可设置为 <code> second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code> nanosecond</code>，默认为 <code> second</code> ',
-    en: '1. < i > Optional</i > Time unit, can be set to <code> second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code> nanosecond</code>, default is <code> second</code> ',
-    ja: '1. < i >オプション</i > 時間の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。',    
+    zh: `1. <i>可选</i>时间单位，可设置为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. <i>Optional</i>Time unit, can be set to <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
+    ja: '1. <i>オプション</i> 時間の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。',
   },
   nowTimestampReturns: {
     zh: 'Unix 时间戳',
@@ -1367,9 +1370,9 @@ export default {
     ja: '指定した時間単位で現在時刻のRFC3339文字列を取得',
   },
   nowRfc3339Params: {
-    zh: '1. < i > 可选</i > 时间单位，可设置为 <code> second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code> nanosecond</code>，默认为 <code> second</code> `,
-    en: `1. < i > Optional</i > Time unit, can be set to <code> second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code> nanosecond</code>, default is <code> second</code> `,
-    ja: `1. < i >オプション</i > 時間の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
+    zh: `1. <i>可选</i>时间单位，可设置为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. <i>Optional</i>Time unit, can be set to <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
+    ja: `1. <i>オプション</i> 時間の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
   },
   nowRfc3339Returns: {
     zh: 'RFC3339 时间字符串',
@@ -1382,12 +1385,12 @@ export default {
     ja: 'UnixタイムスタンプをRFC3339時刻文字列に変換',
   },
   unixTsToRfc3339Params: {
-    zh: `1. Unix 时间戳 <br />
-  2. < i > 可选</i > Unix 时间戳的时间单位，可为 <code> second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code> nanosecond</code>，默认为 <code> second</code> `,
+    zh: `1. Unix 时间戳<br />
+2. <i>可选</i>Unix 时间戳的时间单位，可为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
     en: `1. Unix timestamp <br />
-  2. < i > Optional</i > Time unit for Unix timestamp, can be <code> second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code> nanosecond</code>.Default is <code> second</code> `,
+2. <i>Optional</i>Time unit for Unix timestamp, can be <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>. Default is <code>second</code>`,
     ja: `1.  Unixタイムスタンプ<br />
-  2. < i >オプション</i >タイムスタンプの単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
+  2. <i>オプション</i>タイムスタンプの単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
   },
 
   unixTsToRfc3339Returns: {
@@ -1401,14 +1404,14 @@ export default {
     ja: 'RFC3339の時刻文字列をUnixエポックに変換する',
   },
   rfc3339ToUnixTsParams: {
-    zh: `1. RFC3339 时间字符串 </br >
-  2. < i > 可选</i > RFC3339 时间字符串的时间单位，可为 <code> second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code> nanosecond</code>，默认为 <code> second</code> `,
-    en: `1. RFC3339 time string </br >
-  2. < i > Optional</i > Unit of RFC3339 time string, can be <code> second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code> nanosecond</code>, default is <code> second</code> `,
+    zh: `1. RFC3339 时间字符串 </br>
+2. <i>可选</i>RFC3339 时间字符串的时间单位，可为 <code>second</code>，<code>millisecond</code>，<code>microsecond</code> 或 <code>nanosecond</code>，默认为 <code>second</code>`,
+    en: `1. RFC3339 time string </br>
+2. <i>Optional</i>Unit of RFC3339 time string, can be <code>second</code>, <code>millisecond</code>, <code>microsecond</code>, or <code>nanosecond</code>, default is <code>second</code>`,
     ja: `1. RFC3339の時刻文字列 </br >
-  2. < i >オプショナル</i > RFC3339の時刻文字列の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
+  2. <i>オプショナル</i> RFC3339の時刻文字列の単位。<code>秒</code>、<code>ミリ秒</code>、<code>マイクロ秒</code>、または<code>ナノ秒</code>が選べます。デフォルトは<code> 秒</code>です。`,
   },
-  
+
   rfc3339ToUnixTsReturns: {
     zh: 'Unix 时间戳',
     en: 'The unix epoch',
@@ -1449,12 +1452,12 @@ export default {
 对于规则 SQL 及其内置函数很难或无法实现的 JSON 消息处理，使用 JQ 函数可以很方便地实现。`,
     en: `JQ is a powerful command line tool and programming language designed primarily for transforming and querying data encoded as JSON.<br />
   Typical JQ programs describe simple transformations or filters for JSON data, but one can also use JQ to perform complex computations when needed.`,
-  ja: `JQは、主にJSONとしてエンコードされたデータの変換やクエリのために設計された強力なコマンドラインツールおよびプログラミング言語です。<br />
+    ja: `JQは、主にJSONとしてエンコードされたデータの変換やクエリのために設計された強力なコマンドラインツールおよびプログラミング言語です。<br />
   典型的なJQのプログラムは、JSONデータの簡単な変換やフィルターを記述しますが、必要に応じてJQを使用して複雑な計算を実行することもできます。`,
-  },  
+  },
   jqParams: {
-    zh: `1. 有效的 jq 程序字符串 <br /> 2. JSON 编码的字符串或对象 <br /> 3.执行超时（可选，单位为毫秒，默认为 10 秒）`,
-    en: `1. string containing valid jq program <br /> 2. JSON encoded string or object <br /> 3. Optional, integer timeout value(milliseconds, default is 10 seconds)`,
+    zh: `1. 有效的 jq 程序字符串<br />2. JSON 编码的字符串或对象<br />3.执行超时（可选，单位为毫秒，默认为 10 秒）`,
+    en: `1. string containing valid jq program<br />2. JSON encoded string or object<br />3. Optional, integer timeout value (milliseconds, default is 10 seconds)`,
     ja: `1. 有効なjqプログラムを含む文字列 <br /> 2. JSONでエンコードされた文字列またはオブジェクト <br /> 3. オプション、整数のタイムアウト値（ミリ秒、デフォルトは10秒）`,
   },
   jqReturns: {

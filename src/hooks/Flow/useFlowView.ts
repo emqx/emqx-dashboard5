@@ -1,14 +1,13 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
+import useGenerateFlowDataUtils, { GroupedNode } from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
-import useWebhookUtils from '../Webhook/useWebhookUtils'
-import { FlowData, FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
+import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -16,14 +15,14 @@ export default (): {
   getFlowData: () => Promise<void>
 } => {
   let ruleList: Array<RuleItem> = []
-  let bridgeList: Array<BridgeItem> = []
+  let bridgeData: Map<string, BridgeItem> = new Map()
 
   // column 1
   let sourceNodes: Array<Node> = []
   // column 2
-  let filterNodes: Array<Node> = []
-  // column 3
   let functionNodes: Array<Node> = []
+  // column 3
+  let filterNodes: Array<Node> = []
   // column 4
   let sinkNodes: Array<Node> = []
 
@@ -32,12 +31,9 @@ export default (): {
   const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
-  const { judgeIsWebhookBridge, judgeIsWebhookRule } = useWebhookUtils()
-
   const getRuleData = async () => {
     try {
-      const data = await getAllListData(getRules)
-      ruleList = data.filter((item) => !judgeIsWebhookRule(item))
+      ruleList = await getAllListData(getRules)
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -48,21 +44,19 @@ export default (): {
   const getBridgeData = async () => {
     try {
       const list: Array<BridgeItem> = await getBridgeList()
-      bridgeList = list
-        .filter((item) => !judgeIsWebhookBridge(item))
-        .map((item) => handleBridgeDataAfterLoaded(item))
+      bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
+        m.set(item.id, handleBridgeDataAfterLoaded(item))
+        return m
+      }, new Map())
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const {
-    generateNodeFromBridgeData,
-    generateFlowDataFromRuleItem,
-    countNodesPosition,
-    isRemovedBridge,
-  } = useGenerateFlowDataUtils()
+  const { generateFlowDataFromRuleItem, countNodesPosition, addFlagToRemovedBridgeNode } =
+    useGenerateFlowDataUtils()
+  const { isBridgerNode } = useFlowNode()
 
   const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
     nodes.map((node) => {
@@ -70,10 +64,27 @@ export default (): {
       return node
     })
 
+  const addBridgeFormDataToNodes = (node: Array<Node>): Array<Node> => {
+    return node.map((item) => {
+      if (isBridgerNode(item) && bridgeData.get(item.data.formData?.id)) {
+        item.data.formData = {
+          ...item.data.formData,
+          ...(bridgeData.get(item.data.formData?.id) || {}),
+        }
+      }
+      return item
+    })
+  }
+
   /**
    * If a node already exists in the list, modify the rulesUsed data of the node
+   * @param type added direction
    */
-  const addNodesToNodeArr = (nodes: Array<Node>, nodeArr: Array<Node>) => {
+  const addNodesToNodeArr = (
+    nodes: Array<Node>,
+    nodeArr: Array<Node>,
+    addedDirection: 'push' | 'unshift' = 'push',
+  ) => {
     nodes.forEach((node) => {
       const index = nodeArr.findIndex((item) => item.id === node.id)
       if (index > -1) {
@@ -82,37 +93,76 @@ export default (): {
         }
         nodeArr[index].data.rulesUsed.push(...node.data.rulesUsed)
       } else {
-        nodeArr.push(node)
+        addedDirection === 'push' ? nodeArr.push(node) : nodeArr.unshift(node)
       }
     })
     return nodeArr
   }
 
+  const enum RuleContent {
+    Both,
+    Function,
+    Filter,
+    None,
+  }
+
+  const classifyRuleContent = (nodes: GroupedNode) => {
+    if (nodes[ProcessingType.Filter].length && nodes[ProcessingType.Function].length) {
+      return RuleContent.Both
+    }
+    if (nodes[ProcessingType.Function].length) {
+      return RuleContent.Function
+    }
+    if (nodes[ProcessingType.Filter].length) {
+      return RuleContent.Filter
+    }
+    return RuleContent.None
+  }
+
   const generateFlowDataFromRuleData = (ruleArr: Array<RuleItem>) => {
+    // Push the node from top to bottom; this is because the function node
+    // and the filter node should not be in the middle as far as possible,
+    // blocking the connection
+    const rulesGroupedByContent: Record<string, Array<GroupedNode>> = {
+      // with function & filter node
+      [RuleContent.Both]: [],
+      // with function node and without filter node
+      [RuleContent.Function]: [],
+      // with filter node and with out function node
+      [RuleContent.Filter]: [],
+      // without filter & function node
+      [RuleContent.None]: [],
+    }
     ruleArr.forEach((rule) => {
       const { nodes, edges } = generateFlowDataFromRuleItem(rule)
-      Object.entries(nodes).forEach(([, value]) => addRuleDataToNodes(value, rule.id))
+      Object.entries(nodes).forEach(([key, value]) => {
+        addRuleDataToNodes(value, rule.id)
+        if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
+          nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
+        }
+      })
 
-      sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
-      filterNodes.push(...nodes[ProcessingType.Filter])
-      functionNodes.push(...nodes[ProcessingType.Function])
-      sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
+      rulesGroupedByContent[classifyRuleContent(nodes)].push(nodes)
 
       edgeArr.push(...edges)
     })
-  }
-  const generateNodesFromBridgeData = (bridgeArr: Array<BridgeItem>) => {
-    bridgeArr.forEach((bridge) => {
-      const node = generateNodeFromBridgeData(bridge)
-      const targetNodes = node.type === FlowNodeType.Input ? sourceNodes : sinkNodes
-      targetNodes.push(node)
-    })
+    ;[RuleContent.Both, RuleContent.Function, RuleContent.Filter, RuleContent.None].forEach(
+      (key) => {
+        const nodesArr = rulesGroupedByContent[key]
+        nodesArr.forEach((nodes) => {
+          sourceNodes = addNodesToNodeArr(nodes[NodeType.Source], sourceNodes)
+          functionNodes.push(...nodes[ProcessingType.Function])
+          filterNodes.push(...nodes[ProcessingType.Filter])
+          sinkNodes = addNodesToNodeArr(nodes[NodeType.Sink], sinkNodes)
+        })
+      },
+    )
   }
 
   const removeDuplicatedNodes = () => {
-    const nodeArrays = [sourceNodes, filterNodes, functionNodes, sinkNodes]
+    const nodeArrays = [sourceNodes, functionNodes, filterNodes, sinkNodes]
     nodeArrays.forEach((nodeArray, i) => (nodeArrays[i] = unionBy(nodeArray, 'id')))
-    ;[sourceNodes, filterNodes, functionNodes, sinkNodes] = nodeArrays
+    ;[sourceNodes, functionNodes, filterNodes, sinkNodes] = nodeArrays
   }
 
   const removeIsolatedBridge = () => {
@@ -130,11 +180,7 @@ export default (): {
   const setClassToRemovedBridges = () => {
     const nodeArrays = [sourceNodes, sinkNodes]
     nodeArrays.forEach((nodeArray) => {
-      nodeArray.forEach((node) => {
-        if (isRemovedBridge(node)) {
-          node.class = (node.class || '') + ' is-disabled'
-        }
-      })
+      nodeArray.forEach((node) => addFlagToRemovedBridgeNode(node))
     })
     ;[sourceNodes, sinkNodes] = nodeArrays
   }
@@ -150,22 +196,19 @@ export default (): {
   }
 
   const joinToFlowData = () => {
-    flowData.value = [...sourceNodes, ...filterNodes, ...functionNodes, ...sinkNodes, ...edgeArr]
+    flowData.value = [...sourceNodes, ...functionNodes, ...filterNodes, ...sinkNodes, ...edgeArr]
   }
 
   const initNodeAndEdge = () => {
     sourceNodes = []
-    filterNodes = []
     functionNodes = []
+    filterNodes = []
     sinkNodes = []
     edgeArr = []
   }
 
   const generateFlowData = () => {
     initNodeAndEdge()
-    // create bridge node first because this can get bridge data and set to form data,
-    // then remove duplicated node will remove the node without form data which from rule SQL
-    generateNodesFromBridgeData(bridgeList)
     generateFlowDataFromRuleData(ruleList)
     removeDuplicatedNodes()
     removeIsolatedBridge()

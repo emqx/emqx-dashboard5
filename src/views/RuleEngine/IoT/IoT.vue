@@ -44,9 +44,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="description" :label="tl('note')"></el-table-column>
-        <el-table-column :label="tl('createdAt')">
+        <el-table-column :label="tl('actionsCount')">
           <template #default="{ row }">
-            {{ row.created_at && moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
+            {{ row.actions?.length }}
           </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">

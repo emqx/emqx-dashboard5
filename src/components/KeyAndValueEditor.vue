@@ -3,19 +3,22 @@
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input
+          v-if="!readonly"
           v-model="row.key"
           class="key-input"
           @input="atInputChange"
           :readonly="fixedKeys"
         />
+        <p class="value" v-else>{{ row.key }}</p>
       </template>
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <el-input v-model="row.value" @input="atInputChange" />
+        <el-input v-if="!readonly" v-model="row.value" @input="atInputChange" />
+        <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
-    <el-table-column v-if="!disabled && !fixedKeys" width="100">
+    <el-table-column v-if="!disabled && !fixedKeys && !readonly" width="100">
       <template #header>
         <a href="javascript:;" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
@@ -31,8 +34,8 @@
   <div class="key-and-value-editor" v-else>
     <ul class="key-value-list">
       <li class="key-value-item" v-for="(item, $index) in tableData" :key="$index">
-        <el-input :placeholder="keyValueLabel.key" v-model="item.key" />
-        <el-input :placeholder="keyValueLabel.value" v-model="item.value" />
+        <el-input :placeholder="keyValueLabel.key" v-model="item.key" @input="atInputChange" />
+        <el-input :placeholder="keyValueLabel.value" v-model="item.value" @input="atInputChange" />
         <el-button class="btn-del" link @click="deleteItem(item)">
           <el-icon :size="16"><Delete /></el-icon>
         </el-button>
@@ -83,6 +86,9 @@ export default defineComponent({
     type: {
       type: String as PropType<'table' | 'list'>,
       default: 'table',
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   setup(props, context) {

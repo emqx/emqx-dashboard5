@@ -170,15 +170,18 @@ const rules = computed(() => {
       ...createRequiredRule(t('components.field')),
       {
         validator(rules: any, value: string, callback) {
-          if (showArgsBlock.value && Array.isArray(func.args) && func.args.includes(value)) {
+          if (showArgsBlock.value && Array.isArray(func.args) && !func.args.includes(value)) {
             callback(new Error(t('Flow.unusedField')))
           }
           callback()
         },
       },
     ],
-    alias: [
+  }
+  if (func.name) {
+    ret.alias = [
       {
+        required: true,
         validator(rules, value, cb) {
           if (func.name && !value) {
             cb(new Error(t('Flow.aliasRequired')))
@@ -186,7 +189,7 @@ const rules = computed(() => {
           cb()
         },
       },
-    ],
+    ]
   }
   args.value.forEach((item, index) => {
     if (item.required) {

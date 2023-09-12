@@ -8,9 +8,18 @@ import {
 import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-export default () => {
+interface BridgeData {
+  isCreated: boolean
+  data: BridgeItem
+}
+
+export default (): {
+  isSubmitting: Ref<boolean>
+  createFlow: (data: { rule: BasicRule; bridges: Array<BridgeData> }) => Promise<void>
+  updateFlow: (data: { rule: BasicRule; bridges: Array<BridgeData> }) => Promise<void>
+} => {
   const isSubmitting = ref(false)
   const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 

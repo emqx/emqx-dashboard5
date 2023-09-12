@@ -5,9 +5,9 @@ export default {
     ja: 'モニタリングプラットフォーム',
   },
   monitoringPlatformFormItemLabel: {
-    zh: '选择一个监控平台，配置完成后点击“帮助”按钮查看如何配置监控平台。',
-    en: 'Select a monitoring platform, click the Help button after configuration to see how to configure the monitoring platform.',
-    ja: 'モニタリングプラットフォームを選択し、設定後に「ヘルプ」ボタンをクリックして、モニタリングプラットフォームの設定方法を確認してください。',
+    en: `Select a monitoring platform, for Prometheus, click the "Help button" after configuration to see how to configure the monitoring platform.`,
+    zh: '选择一个监控平台，对于 Prometheus，配置后点击 "帮助按钮" 查看如何配置监控平台。',
+    ja: '',
   },
   enablePushgateway: {
     zh: '启用 Pushgateway',
@@ -172,5 +172,17 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '请配置 metrics API path',
     en: 'Please configure the metrics API path',
     ja: 'メトリクスAPIのアドレスを設定してください',
+  },
+  enableOpentelemetry: {
+    zh: '启用 OpenTelemetry',
+    en: 'Enable OpenTelemetry',
+  },
+  endpoint: {
+    zh: '服务地址',
+    en: 'Endpoint',
+  },
+  exportInterval: {
+    zh: '导出间隔',
+    en: 'Export Interval',
   },
 }

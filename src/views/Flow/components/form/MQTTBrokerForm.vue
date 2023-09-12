@@ -1,16 +1,21 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="200px"
+    label-width="152px"
     class="mqtt-broker-form bridge-config"
     label-position="right"
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
-    @keyup.enter="saveConfig()"
   >
     <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-      <el-input v-model="record.name" :disabled="edit" />
+      <InputSelect
+        v-if="isCreateBridgeInFlow"
+        v-model="record.name"
+        :options="nameOptions"
+        @change="handleNameChange"
+      />
+      <el-input v-else v-model="record.name" :disabled="edit" />
     </CustomFormItem>
     <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
     <div v-if="direction === BridgeDirection.Ingress">
@@ -74,22 +79,45 @@
         <el-input v-model.number="record.egress.pool_size" />
       </CustomFormItem>
     </div>
-    <el-divider />
-    <BridgeResourceOpt v-model="record.resource_opts" :col-span="24" :readonly="readonly" />
+    <AdvancedSettingContainer>
+      <CustomFormItem>
+        <template #label>
+          <FormItemLabel :label="tl('retryInterval')" :desc="tl('retryIntervalDesc')" />
+        </template>
+        <TimeInputWithUnitSelect
+          v-model="record.retry_interval"
+          :enabled-units="['ms', 's', 'm', 'h', 'd']"
+          default-unit="s"
+        />
+      </CustomFormItem>
+      <el-form-item>
+        <template #label>
+          <FormItemLabel :label="tl('bridgeMode')" :desc="tl('bridgeModeDesc')" />
+        </template>
+        <el-switch v-model="record.bridge_mode" />
+      </el-form-item>
+      <BridgeResourceOpt v-model="record.resource_opts" :col-span="24" :readonly="readonly" />
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { MQTTingressRemoteQoS } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import InputSelect from '@/components/InputSelect.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, MQTTBridgeDirection } from '@/types/enum'
+import { BridgeDirection, BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import ConnectorMqttConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/ConnectorMqttConfig.vue'
 import MQTTBridgeTransConfiguration from '@/views/RuleEngine/Bridge/Components/MQTTBridgeTransConfiguration.vue'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { cloneDeep } from 'lodash'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 
 const FormCom = ref()
 
@@ -107,6 +135,10 @@ const props = defineProps({
   readonly: {
     type: Boolean,
   },
+  isUsingInFlow: {
+    type: Boolean,
+    default: true,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
 
@@ -120,15 +152,27 @@ const record = computed({
     emit('update:modelValue', val)
   },
 })
-const { createRequiredRule } = useFormRules()
+const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
+  useReuseBridgeInFlow(BridgeType.MQTT, props, record, props.direction)
+const nameOptions = computed(() => {
+  const bridges = getBridgesInSameType()
+  return bridges?.map(({ name }) => name) || []
+})
+const initRecord = cloneDeep(record.value)
+watch(isBridgeSelected, async (nVal, oVal) => {
+  if (!nVal && oVal) {
+    const name = record.value.name
+    record.value = Object.assign(cloneDeep(initRecord), { name })
+    await waitAMoment()
+    FormCom.value?.clearValidate?.()
+  }
+})
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = {
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
   ingress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
   egress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
-}
-
-const saveConfig = () => {
-  emit('save', record.value)
 }
 
 const validate = () => FormCom.value.validate()

@@ -87,7 +87,7 @@ export default {
   trigger: {
     zh: '触发器',
     en: 'Trigger',
-    ja: 'トリガー',    
+    ja: 'トリガー',
   },
   topicFilter: {
     zh: '主题过滤',
@@ -199,6 +199,10 @@ export default {
     zh: '动作',
     en: 'Actions',
     ja: 'アクション',
+  },
+  actionsCount: {
+    zh: '动作数量',
+    en: 'Action Count',
   },
   actionDesc: {
     zh: '将处理结果输出到数据桥接或内置函数中。',
@@ -742,9 +746,9 @@ export default {
     ja: '現在のパスワードは暗号化されています。変更するには再入力が必要です。',
   },
   pwdWarningWhenCoping: {
-    zh: '目前为加密密码，另存为副本需重新输入',
-    en: 'The password is currently encrypted. If you save this data bridge as a copy, you need to enter it again',
-    ja: '現在のパスワードは暗号化されています。このデータブリッジをコピーして保存する場合は、再入力が必要です。',
+    zh: '当前配置中的密码字段已加密，保存副本请重新输入。',
+    en: 'The password field in the current configuration is encrypted. Please re-enter when saving a copy.',
+    ja: '',
   },
   testTheConnection: {
     zh: '测试连接',

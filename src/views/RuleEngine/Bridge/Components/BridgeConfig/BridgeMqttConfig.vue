@@ -120,10 +120,33 @@
           </div>
         </el-collapse-transition>
       </div>
-      <el-divider />
-      <el-row :gutter="26">
-        <BridgeResourceOpt v-model="mqttBridgeVal.resource_opts" />
-      </el-row>
+      <AdvancedSettingContainer>
+        <el-row :gutter="26">
+          <el-col :span="12">
+            <CustomFormItem>
+              <template #label>
+                <label>{{ tl('retryInterval') }}</label>
+                <InfoTooltip :content="tl('retryIntervalDesc')" />
+              </template>
+              <TimeInputWithUnitSelect
+                v-model="mqttBridgeVal.retry_interval"
+                :enabled-units="['ms', 's', 'm', 'h', 'd']"
+                default-unit="s"
+              />
+            </CustomFormItem>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item>
+              <template #label>
+                <label>{{ tl('bridgeMode') }}</label>
+                <InfoTooltip :content="tl('bridgeModeDesc')" />
+              </template>
+              <el-switch v-model="mqttBridgeVal.bridge_mode" />
+            </el-form-item>
+          </el-col>
+          <BridgeResourceOpt v-model="mqttBridgeVal.resource_opts" />
+        </el-row>
+      </AdvancedSettingContainer>
     </el-form>
   </div>
 </template>
@@ -139,8 +162,11 @@ export default defineComponent({
 <script lang="ts" setup>
 import { MQTTingressRemoteQoS } from '@/common/constants'
 import { fillEmptyValueToUndefinedField, waitAMoment } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
+import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'

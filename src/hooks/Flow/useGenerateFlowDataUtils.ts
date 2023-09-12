@@ -4,18 +4,19 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeyPartsFromSQL, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
+import { getKeyPartsFromSQL, isForeachReg, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
 import {
   typesWithProducerAndConsumer,
   useBridgeTypeOptions,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
-import { BridgeItem, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString } from 'lodash'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
   EditedWay,
+  FilterFormData,
   FunctionItem,
   NodeType,
   ProcessingType,
@@ -52,16 +53,29 @@ export type GroupedNode = {
   [NodeType.Sink]: Array<Node>
 }
 
-export default () => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } = useFlowNode()
+export default (): {
+  detectFieldsExpressionsEditedWay: (functionForm: Array<FunctionItem>) => EditedWay
+  detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
+  generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
+  generateFlowDataFromRuleItem: (ruleData: RuleItem) => {
+    nodes: GroupedNode
+    edges: Array<Edge>
+  }
+  countNodesPosition: (nodes: GroupedNode) => void
+  countNodePositionWhileEditing: (nodes: GroupedNode) => void
+  isRemovedBridge: (node: Node) => boolean
+  addFlagToRemovedBridgeNode: (node: Node) => Node
+} => {
+  const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
+    useFlowNode()
   const { getBridgeType } = useBridgeTypeOptions()
-  const { generateFilterForm } = useParseWhere()
+  const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
 
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
     BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
 
-  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':'))
+  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':') + 1)
 
   const getBridgeTypeFromId = (id: string): string => {
     const type = id.slice(0, id.indexOf(':'))
@@ -88,13 +102,14 @@ export default () => {
         nodeType === NodeType.Sink ? BridgeDirection.Egress : BridgeDirection.Ingress
       return getSpecificTypeWithDirection(bridgeType as BridgeType, direction)
     }
-    const direction = typeSpecifiesTheDirection(bridgeType)
 
+    const direction = typeSpecifiesTheDirection(bridgeType)
     if (direction !== undefined) {
       const generalType = getBridgeType(bridgeType)
       return getSpecificTypeWithDirection(generalType, direction)
     }
-    return bridgeType
+
+    return getBridgeType(bridgeType)
   }
 
   /* FIELDS */
@@ -112,6 +127,14 @@ export default () => {
     })
   }
 
+  /**
+   * Because the subbits parameter is special, it is handled specially.
+   * https://docs.emqx.com/en/enterprise/v5.1/data-integration/rule-sql-builtin-functions.html#bit-functions
+   */
+  const countActualArgsForSubbits = (actualParams: Array<string>): Array<string> => {
+    return actualParams.length === 2 ? [actualParams[0], '', actualParams[1]] : actualParams
+  }
+
   const getFuncDataFromExpression = (
     expression: string,
   ): { field: string; func: { name: string; args: Array<string | number> } } | undefined => {
@@ -123,10 +146,13 @@ export default () => {
       return
     }
     const argIndex = getArgIndex(funcItem, funcGroup)
-    const funcArgs = expression
+    let funcArgs = expression
       .slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
       .split(',')
       .map((item) => item.trim())
+    if (funcName === 'subbits') {
+      funcArgs = countActualArgsForSubbits(funcArgs)
+    }
     let args: Array<string | number> = []
     if (funcArgs.length !== funcItem.args.length) {
       args = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
@@ -167,11 +193,20 @@ export default () => {
     return formData
   }
 
+  const fieldWithFuncReg = /.*\(.*\).*/
+  const detectFieldsExpressionsEditedWay = (functionForm: FunctionItem[]) => {
+    const containsUnprocessedFields = functionForm.some(
+      ({ field }) => fieldWithFuncReg.test(field) || isForeachReg.test(field),
+    )
+    return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
+  }
+
   const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
     const formData = generateFunctionFormFromExpression(fieldsExpressions)
     if (!formData) {
       return
     }
+    const editedWay = detectFieldsExpressionsEditedWay(formData)
     const node = {
       id: `${ProcessingType.Function}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -180,8 +215,7 @@ export default () => {
       data: {
         specificType: ProcessingType.Function,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: fieldsExpressions,
           form: formData,
         },
@@ -193,13 +227,15 @@ export default () => {
   }
 
   /* SOURCE */
+  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
   const getFormDataByType = (type: string, value: string) => {
     if (type === SourceType.Event) {
       return createEventForm(value)
     } else if (type === SourceType.Message) {
       return createMessageForm(value)
     }
-    return { name: getBridgeNameFromId(value) }
+    const bridgeId = getBridgeIdFromInput(value)
+    return { name: getBridgeNameFromId(bridgeId), id: bridgeId }
   }
   /**
    * @returns If the returned type is a bridge type, it is a specific bridge type
@@ -232,7 +268,7 @@ export default () => {
       const id =
         type === SourceType.Event || type === SourceType.Message
           ? `${type}-${fromItem}`
-          : `${type}-${fromItem.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')}`
+          : `${type}-${getBridgeIdFromInput(fromItem)}`
 
       const node = {
         id,
@@ -248,10 +284,16 @@ export default () => {
   }
 
   /* WHERE */
+
+  const detectWhereDataEditedWay = (filterForm: FilterFormData) =>
+    detectFilterFormLevel(filterForm) > 2 ? EditedWay.SQL : EditedWay.Form
+
   /**
    * generate filter node
    */
   const generateNodeBaseWhereData = (whereStr: string, ruleId: string): Node => {
+    const filterForm = generateFilterForm(whereStr)
+    const editedWay = detectWhereDataEditedWay(filterForm)
     const node = {
       id: `${ProcessingType.Filter}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
@@ -260,10 +302,9 @@ export default () => {
       data: {
         specificType: ProcessingType.Filter,
         formData: {
-          // TODO:TODO:TODO: set by expression
-          editedWay: EditedWay.Form,
+          editedWay,
           sql: whereStr,
-          form: generateFilterForm(whereStr),
+          form: filterForm,
         },
         desc: '',
       },
@@ -312,7 +353,7 @@ export default () => {
         formData = item
       } else {
         id = `${type}-${item}`
-        formData = { name: getBridgeNameFromId(item as string) }
+        formData = { name: getBridgeNameFromId(item as string), id: item }
       }
 
       const node: Node = {
@@ -329,44 +370,6 @@ export default () => {
     }, [])
   }
 
-  /* BRIDGES */
-  const generateNodeFromBridgeData = (bridge: BridgeItem) => {
-    const { type } = bridge
-    let specificType = type
-    let direction = BridgeDirection.Egress
-
-    if (isTwoDirectionBridge(type)) {
-      if (type === BridgeType.MQTT && 'ingress' in bridge) {
-        direction = BridgeDirection.Ingress
-      }
-      specificType = getSpecificTypeForBridge(
-        type,
-        direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink,
-      )
-    } else {
-      const typeDirection = typeSpecifiesTheDirection(type)
-      if (typeDirection !== undefined) {
-        direction = typeDirection
-        const nodeType = typeDirection === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
-        specificType = getSpecificTypeForBridge(type, nodeType)
-      } else {
-        // get general type from type
-        // eg. is type is redis_rs, get redis
-        specificType = getBridgeType(specificType)
-      }
-    }
-    const nodeType = direction === BridgeDirection.Ingress ? NodeType.Source : NodeType.Sink
-    const node: Node = {
-      id: `${type}-${bridge.id}`,
-      position: { x: 0, y: 0 },
-      label: getTypeLabel(specificType),
-      ...getTypeCommonData(nodeType),
-      data: { specificType, formData: bridge, desc: '' },
-    }
-    node.data.desc = getNodeInfo(node)
-    return node
-  }
-
   /* RULE */
   /**
    * Generate message, event, filter, and function nodes based on the SQL of the rule.
@@ -381,8 +384,8 @@ export default () => {
   }: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
     const nodes: GroupedNode = {
       [NodeType.Source]: [],
-      [ProcessingType.Filter]: [],
       [ProcessingType.Function]: [],
+      [ProcessingType.Filter]: [],
       [NodeType.Sink]: [],
     }
     const { fieldStr, whereStr } = getKeyPartsFromSQL(sql)
@@ -409,8 +412,8 @@ export default () => {
   const generateEdgesFromNodes = (nodes: GroupedNode): Array<Edge> => {
     const keys: Array<keyof GroupedNode> = [
       NodeType.Source,
-      ProcessingType.Filter,
       ProcessingType.Function,
+      ProcessingType.Filter,
       NodeType.Sink,
     ]
     const result: Edge[] = []
@@ -434,6 +437,7 @@ export default () => {
               id: `${cur.id}-${nex.id}`,
               source: cur.id,
               target: nex.id,
+              style: {},
             })
           })
         })
@@ -443,31 +447,95 @@ export default () => {
   }
 
   /* NODE POSITION */
-  const nodeWidth = 200
-  const nodeHeight = 60
   const nodeColumnSpacing = 100
   const nodeRowSpacing = 30
+  const getXPosition = (columnIndex: number) => (nodeWidth + nodeColumnSpacing) * columnIndex
+  const getYPosition = (index: number, start = 0) => start + index * (nodeRowSpacing + nodeHeight)
   const setPositionToColumnNodes = (
     columnNodes: Array<Node>,
     columnIndex: number,
     totalHeight: number,
   ) => {
     const columnTotalHeight = columnNodes.length * (nodeHeight + nodeRowSpacing) - nodeRowSpacing
-    const x = (nodeWidth + nodeColumnSpacing) * columnIndex
+    const x = getXPosition(columnIndex)
     const startY = (totalHeight - columnTotalHeight) / 2
     columnNodes.forEach((node, index) => {
-      node.position = { x, y: startY + index * (nodeRowSpacing + nodeHeight) }
+      node.position = { x, y: getYPosition(index, startY) }
     })
   }
+
+  const setNodesPositionBySourceType = (
+    nodeArr: Array<Node>,
+    sourceNodes: Array<Node>,
+    columnIndex: number,
+    totalHeight: number,
+  ) => {
+    const sourceIndexUsed: Set<number> = new Set()
+    nodeArr.forEach((node) => {
+      const ruleId = node.data.rulesUsed[0]
+      let firstSourceNodeIndexConnected = sourceNodes.findIndex((item) => {
+        const arr = item?.data?.rulesUsed || []
+        return arr.includes(ruleId)
+      })
+      while (sourceIndexUsed.has(firstSourceNodeIndexConnected)) {
+        firstSourceNodeIndexConnected += 1
+      }
+      sourceIndexUsed.add(firstSourceNodeIndexConnected)
+      const connectedSourceNode = sourceNodes[firstSourceNodeIndexConnected]
+      if (connectedSourceNode) {
+        node.position = { y: connectedSourceNode.position.y, x: getXPosition(columnIndex) }
+      } else {
+        const startIndex = [...sourceIndexUsed][0]
+        const startY = sourceNodes[startIndex]?.position.y
+        if (startIndex !== undefined && startY !== undefined) {
+          node.position = {
+            y: getYPosition(firstSourceNodeIndexConnected - startIndex, startY),
+            x: getXPosition(columnIndex),
+          }
+        } else {
+          node.position = {
+            y: totalHeight / 2,
+            x: getXPosition(columnIndex),
+          }
+        }
+      }
+    })
+  }
+  /**
+   * count nodes position view all flows
+   */
   const countNodesPosition = (nodes: GroupedNode) => {
+    // count source & sink nodes position first
+    const keys: Array<keyof GroupedNode> = [NodeType.Source, NodeType.Sink]
+
+    const totalHeight =
+      Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
+      nodeRowSpacing
+    setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
+    setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
+    // Set filter & function nodes position based on source nodes to avoid overlap
+    const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
+    processingTypes.forEach((type, columnIndex) =>
+      setNodesPositionBySourceType(
+        nodes[type],
+        nodes[NodeType.Source],
+        columnIndex + 1,
+        totalHeight,
+      ),
+    )
+  }
+
+  /**
+   * Compared to the one above, there's no need to think about node coverage
+   */
+  const countNodePositionWhileEditing = (nodes: GroupedNode) => {
     const keys: Array<keyof GroupedNode> = [
       NodeType.Source,
-      ProcessingType.Filter,
       ProcessingType.Function,
+      ProcessingType.Filter,
       NodeType.Sink,
     ]
     const nodesArr = keys.map((key) => nodes[key])
-
     const totalHeight =
       Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
       nodeRowSpacing
@@ -477,11 +545,26 @@ export default () => {
   const isRemovedBridge = (node: Node) =>
     isBridgerNode(node) && Object.keys(node.data?.formData || {}).length < 3
 
+  /* BRIDGE */
+  /**
+   * if is remove bridge, add flag and class
+   */
+  const addFlagToRemovedBridgeNode = (node: Node) => {
+    if (isRemovedBridge(node)) {
+      node.class = (node.class || '') + ' is-disabled'
+      node.data.isRemoved = true
+    }
+    return node
+  }
+
   return {
+    detectFieldsExpressionsEditedWay,
+    detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
-    generateNodeFromBridgeData,
     generateFlowDataFromRuleItem,
     countNodesPosition,
+    countNodePositionWhileEditing,
     isRemovedBridge,
+    addFlagToRemovedBridgeNode,
   }
 }

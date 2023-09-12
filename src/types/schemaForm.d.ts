@@ -9,6 +9,7 @@ export interface Property {
    */
   deprecated: string | boolean
   label: string
+  labelKey?: string
   default: any
   symbols?: string[]
   type: string

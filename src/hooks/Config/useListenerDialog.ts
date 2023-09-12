@@ -1,6 +1,6 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -78,7 +78,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     completeGatewayListenerTypeList,
     listenerTypeList,
     listenerFormRules: rawRules,
-    SSLCertfileRules,
     limiterRules,
     maxConnRateRule,
     createListenerId,
@@ -130,17 +129,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       rules = { ...rules, ...maxConnRateRule }
     } else {
       rules = { ...rules, ...limiterRules }
-    }
-    if (
-      listenerRecord.value &&
-      listenerRecord.value[SSLConfigKey.value]?.verify === SSL_VERIFY_VALUE_MAP.get(true)
-    ) {
-      rules = { ...rules, ...SSLCertfileRules }
-    } else if (
-      listenerRecord.value[SSLConfigKey.value]?.verify === SSL_VERIFY_VALUE_MAP.get(false)
-    ) {
-      // After remove rules, the original validation results should be cleared
-      formCom.value.clearValidate()
     }
     return rules
   })
@@ -204,7 +192,11 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         })
       }
       isSubmitting.value = true
-      const data = checkNOmitFromObj(normalizeStructure(input))
+      const filePaths = ['certfile', 'keyfile', 'cacertfile'].reduce(
+        (arr: Array<string>, key) => [...arr, `dtls_options.${key}`, `ssl_options.${key}`],
+        [],
+      )
+      const data = checkNOmitFromObj(normalizeStructure(input), filePaths)
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
       showDialog.value = false
