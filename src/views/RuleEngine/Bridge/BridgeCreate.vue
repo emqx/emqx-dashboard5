@@ -15,11 +15,16 @@
             ></guide-bar>
           </el-col>
         </el-row>
+        <el-row v-if="step === 0">
+          <el-col :span="8">
+            <el-input v-model="searchQuery" :placeholder="tl('typeSearch')" clearable></el-input>
+          </el-col>
+        </el-row>
         <el-row class="config-body">
           <template v-if="step === 0">
             <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
               <el-row :gutter="28">
-                <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
+                <el-col v-for="item in getFilterBridgeOptions()" :key="item.label" :span="8">
                   <el-radio class="bridge-type-item" :label="item.value" border>
                     <img
                       class="bridge-type-item-img"
@@ -112,6 +117,7 @@
         <div></div>
       </el-card>
     </div>
+    <!-- In the Create/Settings Rule page -->
     <div v-else>
       <el-row :gutter="26">
         <el-col :span="12">
@@ -213,7 +219,8 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
-    const { bridgeTypeOptions, getBridgeType } = useBridgeTypeOptions()
+    const { bridgeTypeOptions, getBridgeType, searchQuery, getFilterBridgeOptions } =
+      useBridgeTypeOptions()
     const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
@@ -403,6 +410,8 @@ export default defineComponent({
       testConnection,
       handleTypeSelected,
       getBridgeIcon,
+      searchQuery,
+      getFilterBridgeOptions,
     }
   },
 })
