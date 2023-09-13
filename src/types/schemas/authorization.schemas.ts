@@ -123,6 +123,7 @@ export type PutAuthorizationSourcesType400 = {
 }
 
 export type PutAuthorizationSourcesTypeBody =
+  | EmqxAuthzApiSchemaLdap
   | EmqxAuthzApiSchemaFile
   | EmqxAuthzApiSchemaPostgresql
   | EmqxAuthzApiSchemaMysql
@@ -150,6 +151,7 @@ export type GetAuthorizationSourcesType404 = {
 }
 
 export type GetAuthorizationSourcesType200 =
+  | EmqxAuthzApiSchemaLdap
   | EmqxAuthzApiSchemaFile
   | EmqxAuthzApiSchemaPostgresql
   | EmqxAuthzApiSchemaMysql
@@ -281,6 +283,7 @@ export type PostAuthorizationSources400 = {
 }
 
 export type PostAuthorizationSourcesBody =
+  | EmqxAuthzApiSchemaLdap
   | EmqxAuthzApiSchemaFile
   | EmqxAuthzApiSchemaPostgresql
   | EmqxAuthzApiSchemaMysql
@@ -447,12 +450,24 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
+export interface EmqxAuthzApiSourcesSources {
+  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
 export type EmqxAuthzApiSchemaRedisSingleRedisType =
   typeof EmqxAuthzApiSchemaRedisSingleRedisType[keyof typeof EmqxAuthzApiSchemaRedisSingleRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzApiSchemaRedisSingleRedisType = {
   single: 'single',
+} as const
+
+export type EmqxAuthzApiSchemaRedisSingleType =
+  typeof EmqxAuthzApiSchemaRedisSingleType[keyof typeof EmqxAuthzApiSchemaRedisSingleType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiSchemaRedisSingleType = {
+  redis: 'redis',
 } as const
 
 export interface EmqxAuthzApiSchemaRedisSingle {
@@ -470,7 +485,24 @@ export interface EmqxAuthzApiSchemaRedisSingle {
   ssl?: BrokerSslClientOpts
 }
 
+export interface EmqxAuthzApiSchemaRedisSentinel {
+  enable?: boolean
+  type: EmqxAuthzApiSchemaRedisSentinelType
+  cmd: string
+  servers: string
+  redis_type?: EmqxAuthzApiSchemaRedisSentinelRedisType
+  sentinel: string
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
+
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
+  | EmqxAuthzApiSchemaLdap
   | EmqxAuthzApiSchemaFile
   | EmqxAuthzApiSchemaPostgresql
   | EmqxAuthzApiSchemaMysql
@@ -483,18 +515,6 @@ export type EmqxAuthzApiSourcesSourcesSourcesItem =
   | EmqxAuthzApiSchemaMongoSingle
   | EmqxAuthzApiSchemaHttpPost
   | EmqxAuthzApiSchemaHttpGet
-
-export interface EmqxAuthzApiSourcesSources {
-  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
-}
-
-export type EmqxAuthzApiSchemaRedisSingleType =
-  typeof EmqxAuthzApiSchemaRedisSingleType[keyof typeof EmqxAuthzApiSchemaRedisSingleType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSingleType = {
-  redis: 'redis',
-} as const
 
 export type EmqxAuthzApiSchemaRedisSentinelRedisType =
   typeof EmqxAuthzApiSchemaRedisSentinelRedisType[keyof typeof EmqxAuthzApiSchemaRedisSentinelRedisType]
@@ -511,22 +531,6 @@ export type EmqxAuthzApiSchemaRedisSentinelType =
 export const EmqxAuthzApiSchemaRedisSentinelType = {
   redis: 'redis',
 } as const
-
-export interface EmqxAuthzApiSchemaRedisSentinel {
-  enable?: boolean
-  type: EmqxAuthzApiSchemaRedisSentinelType
-  cmd: string
-  servers: string
-  redis_type?: EmqxAuthzApiSchemaRedisSentinelRedisType
-  sentinel: string
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
 
 export type EmqxAuthzApiSchemaRedisClusterRedisType =
   typeof EmqxAuthzApiSchemaRedisClusterRedisType[keyof typeof EmqxAuthzApiSchemaRedisClusterRedisType]
@@ -782,6 +786,31 @@ export interface EmqxAuthzApiSchemaMongoRs {
   auth_source?: string
   database: string
   topology?: EmqxMongodbTopology
+  ssl?: BrokerSslClientOpts
+}
+
+export type EmqxAuthzApiSchemaLdapType =
+  typeof EmqxAuthzApiSchemaLdapType[keyof typeof EmqxAuthzApiSchemaLdapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiSchemaLdapType = {
+  ldap: 'ldap',
+} as const
+
+export interface EmqxAuthzApiSchemaLdap {
+  type: EmqxAuthzApiSchemaLdapType
+  enable?: boolean
+  publish_attribute?: string
+  subscribe_attribute?: string
+  all_attribute?: string
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
   ssl?: BrokerSslClientOpts
 }
 
