@@ -93,7 +93,12 @@
           <el-button @click="goPreStep" v-if="step > 0" :disabled="submitLoading">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" @click="goNextStep" v-if="step < 1" :disabled="submitLoading">
+          <el-button
+            type="primary"
+            @click="goNextStep"
+            v-if="step < 1"
+            :disabled="submitLoading || getFilterBridgeOptions().length === 0"
+          >
             {{ $t('Base.nextStep') }}
           </el-button>
           <el-button
