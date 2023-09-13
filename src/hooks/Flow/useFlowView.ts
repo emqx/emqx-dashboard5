@@ -134,17 +134,21 @@ export default (): {
       [RuleContent.None]: [],
     }
     ruleArr.forEach((rule) => {
-      const { nodes, edges } = generateFlowDataFromRuleItem(rule)
-      Object.entries(nodes).forEach(([key, value]) => {
-        addRuleDataToNodes(value, rule.id)
-        if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
-          nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
-        }
-      })
+      try {
+        const { nodes, edges } = generateFlowDataFromRuleItem(rule)
+        Object.entries(nodes).forEach(([key, value]) => {
+          addRuleDataToNodes(value, rule.id)
+          if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
+            nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
+          }
+        })
 
-      rulesGroupedByContent[classifyRuleContent(nodes)].push(nodes)
+        rulesGroupedByContent[classifyRuleContent(nodes)].push(nodes)
 
-      edgeArr.push(...edges)
+        edgeArr.push(...edges)
+      } catch (error) {
+        console.error(error)
+      }
     })
     ;[RuleContent.Both, RuleContent.Function, RuleContent.Filter, RuleContent.None].forEach(
       (key) => {
