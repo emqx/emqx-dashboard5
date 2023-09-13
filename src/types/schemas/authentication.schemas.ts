@@ -25,6 +25,8 @@ export type PostAuthentication400 = {
 }
 
 export type PostAuthentication200 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -42,6 +44,8 @@ export type PostAuthentication200 =
   | AuthnBuiltinDb
 
 export type PostAuthenticationBody =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -59,6 +63,8 @@ export type PostAuthenticationBody =
   | AuthnBuiltinDb
 
 export type GetAuthentication200Item =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -115,6 +121,8 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -145,6 +153,8 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -407,6 +417,11 @@ export interface EmqxAuthnSchemaNodeResourceMetrics {
   metrics?: EmqxAuthnSchemaResourceMetrics
 }
 
+export interface EmqxAuthnSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthnSchemaMetrics
+}
+
 export interface EmqxAuthnSchemaNodeError {
   node?: string
   error?: string
@@ -431,11 +446,6 @@ export interface EmqxAuthnSchemaMetrics {
   rate?: number
   rate_max?: number
   rate_last5m?: number
-}
-
-export interface EmqxAuthnSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthnSchemaMetrics
 }
 
 export interface EmqxAuthnSchemaMetricsStatusFields {
@@ -989,6 +999,37 @@ export interface AuthnMongoRs {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export type AuthnLdapMechanism = typeof AuthnLdapMechanism[keyof typeof AuthnLdapMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdap {
+  mechanism: AuthnLdapMechanism
+  backend: AuthnLdapBackend
+  password_attribute?: string
+  is_superuser_attribute?: string
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: BrokerSslClientOpts
+}
+
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1180,6 +1221,19 @@ export interface AuthnHttpGet {
   /** @deprecated */
   retry_interval?: string
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnGcpDeviceMechanism =
+  typeof AuthnGcpDeviceMechanism[keyof typeof AuthnGcpDeviceMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnGcpDeviceMechanism = {
+  gcp_device: 'gcp_device',
+} as const
+
+export interface AuthnGcpDevice {
+  mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
 }
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =

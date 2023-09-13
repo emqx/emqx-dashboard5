@@ -39,6 +39,11 @@ const tagArr = [
   'Slow Subscriptions',
   'API Keys',
   'Banned',
+  /* ⬇ just for ee */
+  'File Transfer',
+  'License',
+  'Schema_registry',
+  'GCP Devices',
 ]
 
 const typesFolder = './src/types/schemas/'

@@ -229,6 +229,42 @@ export type PutGatewaysNameAuthentication400 = {
   message?: string
 }
 
+export type PutGatewaysNameAuthentication200 =
+  | AuthnGcpDevice
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type PutGatewaysNameAuthenticationBody =
+  | AuthnGcpDevice
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
 export type PostGatewaysNameAuthentication404Code =
   typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
 
@@ -257,6 +293,8 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -273,6 +311,8 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -316,6 +356,8 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -889,6 +931,37 @@ export interface AuthnMongoRs {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export type AuthnLdapMechanism = typeof AuthnLdapMechanism[keyof typeof AuthnLdapMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdap {
+  mechanism: AuthnLdapMechanism
+  backend: AuthnLdapBackend
+  password_attribute?: string
+  is_superuser_attribute?: string
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: BrokerSslClientOpts
+}
+
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1082,6 +1155,19 @@ export interface AuthnHttpGet {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnGcpDeviceMechanism =
+  typeof AuthnGcpDeviceMechanism[keyof typeof AuthnGcpDeviceMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnGcpDeviceMechanism = {
+  gcp_device: 'gcp_device',
+} as const
+
+export interface AuthnGcpDevice {
+  mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
+}
+
 export type AuthnBuiltinDbPasswordHashAlgorithm =
   | AuthnHashSimple
   | AuthnHashPbkdf2
@@ -1118,38 +1204,6 @@ export interface AuthnBuiltinDb {
   password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   enable?: boolean
 }
-
-export type PutGatewaysNameAuthentication200 =
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameAuthenticationBody =
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
 
 export type AuthnHashSimpleSaltPosition =
   typeof AuthnHashSimpleSaltPosition[keyof typeof AuthnHashSimpleSaltPosition]

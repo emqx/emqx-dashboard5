@@ -337,6 +337,8 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -353,6 +355,8 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -396,6 +400,8 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -412,6 +418,8 @@ export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -455,6 +463,8 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
+  | AuthnGcpDevice
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -1388,6 +1398,37 @@ export interface AuthnMongoRs {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export type AuthnLdapMechanism = typeof AuthnLdapMechanism[keyof typeof AuthnLdapMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdap {
+  mechanism: AuthnLdapMechanism
+  backend: AuthnLdapBackend
+  password_attribute?: string
+  is_superuser_attribute?: string
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: BrokerSslClientOpts
+}
+
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1579,6 +1620,19 @@ export interface AuthnHttpGet {
   /** @deprecated */
   retry_interval?: string
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnGcpDeviceMechanism =
+  typeof AuthnGcpDeviceMechanism[keyof typeof AuthnGcpDeviceMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnGcpDeviceMechanism = {
+  gcp_device: 'gcp_device',
+} as const
+
+export interface AuthnGcpDevice {
+  mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
 }
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
