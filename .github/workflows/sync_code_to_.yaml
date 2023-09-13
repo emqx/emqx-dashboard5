@@ -18,7 +18,7 @@ jobs:
           echo "echo"
           R=$(curl --silent --show-error \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.PERSONAL_TOKEN }}" \
             -X POST \
             -d "{\"title\": \"Sync code from $GITHUB_REF to $EE_REF\", \"head\": \"$GITHUB_REF\", \"base\":\"$EE_REF\"}" \
             https://api.github.com/repos/${{ github.repository_owner }}/emqx-dashboard5/pulls)
