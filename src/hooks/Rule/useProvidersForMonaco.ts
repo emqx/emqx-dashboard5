@@ -66,11 +66,6 @@ export default (): {
     supportHtml: true,
   })
 
-  /**
-   * To confirm whether the word under the mouse cursor is a function
-   */
-  const funcArr: Array<string> = []
-
   const generateFuncProposal = (funcName: string) => ({
     label: funcName,
     kind: monaco.languages.CompletionItemKind.Function,
