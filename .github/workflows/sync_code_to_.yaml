@@ -18,19 +18,8 @@ jobs:
           echo "echo"
           R=$(curl --silent --show-error \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.CI_GIT_TOKEN }}" \
             -X POST \
             -d "{\"title\": \"Sync code from $GITHUB_REF to $EE_REF\", \"head\": \"$GITHUB_REF\", \"base\":\"$EE_REF\"}" \
             https://api.github.com/repos/${{ github.repository_owner }}/emqx-dashboard5/pulls)
-          echo $R | jq
-          echo "::set-output name=url::$(echo $R | jq '.url')"
-      - name: request reviewers for a pull request
-        # if: steps.create_pull_request.outputs.url != 'null'
-        run: |
-          echo ${{steps.create_pull_request.outputs}}
-          set -euo pipefail
-          curl --silent --show-error \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -X POST \
-          ${{ steps.create_pull_request.outputs.url }}/requested_reviewers
+

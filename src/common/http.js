@@ -49,6 +49,15 @@ axios.interceptors.request.use(async (config) => {
 const isTokenExpired = (status, data) =>
   status === 401 && [BAD_TOKEN, TOKEN_TIME_OUT].includes(data.code)
 
+const readBlobResponse = async (data) => {
+  try {
+    const ret = await data.text()
+    return JSON.parse(ret)
+  } catch (error) {
+    return {}
+  }
+}
+
 /**
  * there are some custom configurations
  * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
@@ -68,13 +77,17 @@ axios.interceptors.response.use(
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
     return response.data || response.status
   },
-  (error) => {
+  async (error) => {
     if (!error.config.doNotTriggerProgress) {
       setProgressBarDone()
     }
 
     //throttle concurrent responses with unique status code
     if (error.response) {
+      if (error.response.data instanceof Blob) {
+        error.response.data = await readBlobResponse(error.response.data)
+      }
+
       let { data, status } = error.response
 
       if (!respSet.has(status)) {
