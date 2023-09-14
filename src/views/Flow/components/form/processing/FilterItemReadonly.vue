@@ -28,6 +28,8 @@ defineProps({
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .filter-item-readonly {
   position: relative;
   display: flex;
@@ -42,7 +44,7 @@ defineProps({
     content: '';
     position: absolute;
     top: 50%;
-    left: -$padding-right - $line-width / 2 - $dot-size / 2;
+    left: -$padding-right - math.div($line-width, 2) - math.div($dot-size, 2);
     transform: translateY(-50%);
     box-sizing: border-box;
     display: block;

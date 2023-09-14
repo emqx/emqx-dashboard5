@@ -25,6 +25,8 @@ const nodeType = computed(() => {
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .flow-guide-node {
   display: flex;
   flex-direction: column;
@@ -66,14 +68,14 @@ const nodeType = computed(() => {
     }
   }
   .vue-flow__handle-right {
-    right: ($node-width - $square-size)/2 - 2px;
+    right: math.div($node-width - $square-size, 2) - 2px;
   }
   .vue-flow__handle-left {
-    left: ($node-width - $square-size)/2 - 2px;
+    left: math.div($node-width - $square-size, 2) - 2px;
   }
   .vue-flow__handle-right,
   .vue-flow__handle-left {
-    top: $square-size/2;
+    top: math.div($square-size, 2);
   }
 }
 </style>
