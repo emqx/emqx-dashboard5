@@ -393,6 +393,8 @@ defineExpose({ validate, getFlowData })
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .flow-editor {
   display: flex;
   align-items: flex-start;
@@ -482,10 +484,10 @@ defineExpose({ validate, getFlowData })
       height: $handle-size;
       --vf-handle: #00b173;
       &.vue-flow__handle-left {
-        left: -$handle-size/2;
+        left: math.div(-$handle-size, 2);
       }
       &.vue-flow__handle-right {
-        right: -$handle-size/2;
+        right: math.div(-$handle-size, 2);
       }
       .icon-add {
         display: block;
