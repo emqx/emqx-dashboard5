@@ -1,8 +1,9 @@
 <template>
   <BaseEdge :id="id" :style="style" :path="path[0]" :marker-end="markerEnd" v-bind="$attrs" />
 
-  <EdgeLabelRenderer v-if="data?.isHover">
+  <EdgeLabelRenderer>
     <div
+      v-show="data?.isHover"
       :style="{ transform: `translate(-50%, -95%) translate(${path[1]}px,${path[2]}px)` }"
       class="nodrag nopan btn-edge-del"
       @click="removeEdges(id)"
