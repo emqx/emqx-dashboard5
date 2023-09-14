@@ -38,6 +38,7 @@ const splitCondition = (sql: string, separator: string) => {
   let start = 0
   let inString = false
   const separatorReg = new RegExp(`${separator}`, 'i')
+  const spaceReg = /\s|\n/
   for (let i = 0; i < sql.length; i++) {
     const currentChar = sql[i]
     const preChar = sql[i - 1]
@@ -49,10 +50,19 @@ const splitCondition = (sql: string, separator: string) => {
         level++
       } else if (currentChar === ')') {
         level--
-      } else if (level === 0 && separatorReg.test(sql.substring(i, i + separator.length))) {
-        result.push(sql.substring(start, i).trim())
-        i += separator.length - 1
-        start = i + 1
+      } else if (
+        level === 0 &&
+        separatorReg.test(sql.substring(i, i + separator.length)) &&
+        preChar &&
+        spaceReg.test(preChar)
+      ) {
+        // Make sure there are spaces or newlines before and after the operator
+        const nextChar = sql[i + separator.length]
+        if (nextChar && spaceReg.test(nextChar)) {
+          result.push(sql.substring(start, i).trim())
+          i += separator.length - 1
+          start = i + 1
+        }
       }
     }
   }
