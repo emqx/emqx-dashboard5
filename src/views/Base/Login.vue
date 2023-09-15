@@ -62,6 +62,16 @@
                   {{ $t('Base.forgetPassword') }}
                 </a>
               </div>
+              <!-- TODO:SSO -->
+              <a
+                v-if="SAMLConfig.XXXXXXX"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="forgot-btn"
+                :href="SAMLConfig.XXXXXXX"
+              >
+                Continue with SSO
+              </a>
             </el-form-item>
           </el-form>
         </div>
@@ -142,11 +152,12 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
+import { querySAMLConfig } from '@/api/sso'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import { toLogin } from '@/router'
-import { reactive, ref } from 'vue'
+import { Ref, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -265,6 +276,16 @@ const submitNewPwd = async () => {
     isSubmitting.value = false
   }
 }
+
+const SAMLConfig: Ref<unknown> = ref({})
+const getSAMLConfig = async () => {
+  try {
+    SAMLConfig.value = await querySAMLConfig()
+  } catch (error) {
+    //
+  }
+}
+getSAMLConfig()
 </script>
 
 <style lang="scss">

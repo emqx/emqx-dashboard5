@@ -772,6 +772,14 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/sso/saml',
+    name: 'SSO',
+    meta: {
+      authRequired: false,
+    },
+    component: () => import('@/views/Base/Login.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: Layout,
     meta: {},

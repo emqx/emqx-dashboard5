@@ -100,6 +100,8 @@
       </template>
     </el-dialog>
   </div>
+  // TODO:SSO
+  <div v-if="SAMLConfig.XXXXXXX"></div>
 </template>
 
 <script setup>
@@ -111,6 +113,7 @@ import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 import { PASSWORD_REG } from '@/common/constants'
 import useFormRules from '@/hooks/useFormRules'
+import { querySAMLConfig } from '@/api/sso.ts'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -122,6 +125,16 @@ const accessType = ref('')
 const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
+
+const SAMLConfig = ref({})
+const getSAMLConfig = async () => {
+  try {
+    SAMLConfig.value = await querySAMLConfig()
+  } catch (error) {
+    //
+  }
+}
+getSAMLConfig()
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {

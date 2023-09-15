@@ -17,6 +17,9 @@ const syncOsTheme = computed(() => {
   return store.state.syncOsTheme
 })
 
+debugger
+console.log(123)
+
 const updateThemeState = (theme: string) => {
   store.dispatch('UPDATE_SETTINGS', {
     lang: lang.value,
