@@ -149,11 +149,11 @@ export default defineComponent({
         value: 'redis',
         img: require('@/assets/img/redis.png'),
       },
-      {
-        label: 'LDAP',
-        value: 'ldap',
-        img: require('@/assets/img/ldap.png'),
-      },
+      // {
+      //   label: 'LDAP',
+      //   value: 'ldap',
+      //   img: require('@/assets/img/ldap.png'),
+      // },
       {
         label: tl('HTTPServer'),
         value: 'http',
