@@ -129,7 +129,7 @@ import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@
 import { PASSWORD_REG } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 import useFormRules from '@/hooks/useFormRules'
-import { querySSOConfig } from '@/api/sso.ts'
+import { getSSOList } from '@/api/sso.ts'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 import { UserRole } from '@/types/enum.ts'
 import { Plus } from '@element-plus/icons-vue'
@@ -156,7 +156,7 @@ const roleOptions = [
 const SSOConfig = ref({})
 const getSSOConfig = async () => {
   try {
-    SSOConfig.value = await querySSOConfig()
+    SSOConfig.value = await getSSOList()
   } catch (error) {
     //
   }
