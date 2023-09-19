@@ -37,7 +37,12 @@
       <el-col :span="24">
         <el-form-item label="Schema" prop="source">
           <div class="monaco-container">
-            <Monaco v-model="schemaForm.source" :id="createRandomString()" lang="plaintext" />
+            <Monaco
+              v-model="schemaForm.source"
+              :id="createRandomString()"
+              lang="plaintext"
+              @blur="onBlurChanged"
+            />
           </div>
         </el-form-item>
       </el-col>
@@ -46,7 +51,6 @@
 </template>
 
 <script lang="ts" setup>
-import { COMMON_ID_REG } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -92,17 +96,22 @@ const FormCom = ref()
 
 const { schemaTypeOpts } = useSchemaType()
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
-  name: [
-    ...createRequiredRule(t('Base.name')),
-    { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
-  ],
+  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   type: createRequiredRule(tl('type'), 'select'),
   source: createRequiredRule('Schema'),
 })
 
 const validate = () => FormCom.value.validate()
+
+const onBlurChanged = () => {
+  if (!schemaForm.value.source) {
+    FormCom.value.validateField('source')
+  } else {
+    FormCom.value.clearValidate('source')
+  }
+}
 
 defineExpose({ validate })
 </script>
