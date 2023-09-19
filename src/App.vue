@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
 const lang = computed(() => {
@@ -55,6 +56,15 @@ setLang()
 setWatchOSTheme()
 if (syncOsTheme.value) {
   hadleSyncOSTheme()
+}
+
+const handleSearch = () => {
+  const search = location.search
+  const router = useRouter()
+  // TODO:SSO
+  if (search) {
+    router.push({ name: 'sso-login' })
+  }
 }
 </script>
 

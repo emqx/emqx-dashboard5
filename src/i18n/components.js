@@ -211,6 +211,10 @@ export default {
     zh: 'License',
     en: 'License',
   },
+  sso: {
+    zh: '单点登录',
+    en: 'SSO',
+  },
   configuration: {
     zh: '功能配置',
     en: 'Configuration',
