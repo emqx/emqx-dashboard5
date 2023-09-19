@@ -43,4 +43,20 @@ export default {
     zh: '请选择',
     en: 'Please select',
   },
+  errorTopicLengthExceedLimit: {
+    zh: '主题长度超过限制',
+    en: 'Topic length exceeds the limit',
+  },
+  errorInvalidUseOfHashWildcard: {
+    zh: '"#" 通配符的使用无效',
+    en: 'Invalid use of "#" wildcard',
+  },
+  errorInvalidUseOfPlusWildcard: {
+    zh: '"+" 通配符的使用无效',
+    en: 'Invalid use of "+" wildcard',
+  },
+  errorInvalidCharacterInPublish: {
+    zh: '发布中不能包含 MQTT 通配符 "#" 和 "+"',
+    en: 'Publish cannot contain MQTT wildcards "#" and "+"',
+  },
 }
