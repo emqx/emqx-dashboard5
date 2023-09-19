@@ -19,6 +19,10 @@ export default {
     zh: '密码',
     en: 'Password',
   },
+  otherMethodsLogin: {
+    zh: '或者使用其他方式登录',
+    en: 'Or log in using other methods',
+  },
   skip: {
     zh: '跳过',
     en: 'Skip',

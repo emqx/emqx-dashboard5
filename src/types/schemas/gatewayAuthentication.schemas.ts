@@ -231,6 +231,7 @@ export type PutGatewaysNameAuthentication400 = {
 
 export type PutGatewaysNameAuthentication200 =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -249,6 +250,7 @@ export type PutGatewaysNameAuthentication200 =
 
 export type PutGatewaysNameAuthenticationBody =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -294,6 +296,7 @@ export type PostGatewaysNameAuthentication400 = {
 
 export type PostGatewaysNameAuthentication201 =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -312,6 +315,7 @@ export type PostGatewaysNameAuthentication201 =
 
 export type PostGatewaysNameAuthenticationBody =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -357,6 +361,7 @@ export type GetGatewaysNameAuthentication400 = {
 
 export type GetGatewaysNameAuthentication200 =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -929,6 +934,37 @@ export interface AuthnMongoRs {
   database: string
   topology?: EmqxMongodbTopology
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindBackend = {
+  ldap_bind: 'ldap_bind',
+} as const
+
+export type AuthnLdapBindMechanism =
+  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdapBind {
+  mechanism: AuthnLdapBindMechanism
+  backend: AuthnLdapBindBackend
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: BrokerSslClientOpts
+  bind_password?: string
 }
 
 export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
