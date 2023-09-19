@@ -304,3 +304,8 @@ export const enum TraceEncodeType {
   HEX = 'hex',
   Hidden = 'hidden',
 }
+
+export const enum UserRole {
+  Admin = 'admin',
+  Readonly = 'readonly',
+}

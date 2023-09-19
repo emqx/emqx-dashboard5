@@ -63,6 +63,14 @@ export default {
     zh: '创建用户',
     en: 'Create',
   },
+  admin: {
+    zh: '管理员',
+    en: 'Administrator',
+  },
+  readonly: {
+    zh: '查看者',
+    en: 'Readonly',
+  },
   password: {
     zh: '密码',
     en: 'Password',
