@@ -10,12 +10,23 @@
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="username" :label="tl('username')" />
       <el-table-column prop="description" :label="t('Base.note')" />
+      <el-table-column :label="t('Dashboard.role')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.role, roleOptions) }}
+        </template>
+      </el-table-column>
+      <!-- TODO:SSO -->
+      <el-table-column :label="tl('source')">
+        <template #default="{ row }">
+          {{ row.XXXXXXX }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" @click="showDialog('chPass', row)">
+          <el-button v-if="canChangePwd(row)" size="small" @click="showDialog('chPass', row)">
             {{ tl('changePassword') }}
           </el-button>
 
@@ -41,6 +52,7 @@
       "
       v-model="dialogVisible"
       destroy-on-close
+      width="512px"
     >
       <el-form
         ref="formCom"
@@ -67,6 +79,16 @@
             show-password
             autocomplete="new-password"
           />
+        </el-form-item>
+        <el-form-item v-if="accessType !== 'chPass'" :label="t('Dashboard.role')" prop="role">
+          <el-select v-model="record.role">
+            <el-option
+              v-for="{ label, value } in roleOptions"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
         </el-form-item>
         <div v-if="accessType === 'chPass'">
           <el-form-item prop="newPassword" :label="tl('newPassword')">
@@ -103,14 +125,17 @@
 </template>
 
 <script setup>
-import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function.ts'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import { useStore } from 'vuex'
-import { computed, ref, onBeforeMount } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl.ts'
+import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { PASSWORD_REG } from '@/common/constants'
+import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 import useFormRules from '@/hooks/useFormRules'
+import { querySSOConfig } from '@/api/sso.ts'
+import useI18nTl from '@/hooks/useI18nTl.ts'
+import { UserRole } from '@/types/enum.ts'
+import { Plus } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { computed, onBeforeMount, ref } from 'vue'
+import { useStore } from 'vuex'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -122,6 +147,26 @@ const accessType = ref('')
 const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
+
+const roleOptions = [
+  { label: tl('admin'), value: UserRole.Admin },
+  { label: tl('readonly'), value: UserRole.Readonly },
+]
+
+const SSOConfig = ref({})
+const getSSOConfig = async () => {
+  try {
+    SSOConfig.value = await querySSOConfig()
+  } catch (error) {
+    //
+  }
+}
+getSSOConfig()
+
+const canChangePwd = (user) => {
+  // TODO:SSO
+  return user.XXXXX
+}
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {
@@ -142,12 +187,13 @@ const newPwdSameConfirm = (rule, value, callback) => {
   }
 }
 
-const { createNoChineseRule } = useFormRules()
+const { createNoChineseRule, createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
   const ret = {
     username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
+    role: createRequiredRule(t('Dashboard.role'), 'select'),
     password: [
       {
         required: true,
@@ -203,6 +249,13 @@ const loadData = async () => {
   }
 }
 
+const generateRawForm = () => ({
+  username: '',
+  description: '',
+  role: UserRole.Admin,
+  password: '',
+})
+
 const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
@@ -217,11 +270,7 @@ const showDialog = (type = 'create', item = {}) => {
       repeatPassword: '',
     }
   } else {
-    record.value = {
-      username: '',
-      description: '',
-      password: '',
-    }
+    record.value = generateRawForm()
   }
   accessType.value = type
 }

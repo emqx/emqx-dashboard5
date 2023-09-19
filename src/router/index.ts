@@ -349,6 +349,27 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // SSO
+  {
+    path: '/sso',
+    component: Layout,
+    meta: {
+      hideKey: 'sso',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'SSO',
+        component: () => import('@/views/General/SSO.vue'),
+      },
+      {
+        path: ':name',
+        name: 'SSO-detail',
+        component: () => import('@/views/General/SSODetail.vue'),
+      },
+    ],
+  },
   // Plugins
   {
     path: '/plugins',
@@ -812,6 +833,11 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Diagnose/LogTrace/LogTraceDetail.vue'),
       },
     ],
+  },
+  {
+    path: '/sso',
+    name: 'sso-login',
+    component: () => import('@/views/Base/SSOLogin.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
