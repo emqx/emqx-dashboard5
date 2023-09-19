@@ -161,7 +161,7 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
-import { querySSOConfig } from '@/api/sso'
+import { getSSOList } from '@/api/sso'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
@@ -289,7 +289,7 @@ const submitNewPwd = async () => {
 const SSOConfig: Ref<unknown> = ref({})
 const getSSOConfig = async () => {
   try {
-    SSOConfig.value = await querySSOConfig()
+    SSOConfig.value = await getSSOList()
   } catch (error) {
     //
   }
