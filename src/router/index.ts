@@ -364,7 +364,7 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/General/SSO.vue'),
       },
       {
-        path: ':name',
+        path: ':backend',
         name: 'SSO-detail',
         component: () => import('@/views/General/SSODetail.vue'),
       },

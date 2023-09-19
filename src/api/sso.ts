@@ -5,13 +5,13 @@ import type {
   PostSsoLogin200,
   EmqxDashboardSsoLdapLogin,
   EmqxDashboardSsoLdapLdap,
-} from '@/types/schemas/dashboardSingleSignOn.schemas.ts'
+} from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 export const verifyTokenFromSAML = (token: string): Promise<unknown> => {
   return Promise.resolve()
 }
 
-export const querySSOConfig = (): Promise<DashboardSsoBackendStatus[]> => {
+export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
   return http.get(`/sso`)
 }
 
