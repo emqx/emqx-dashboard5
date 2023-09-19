@@ -63,6 +63,18 @@ export default {
     zh: '创建用户',
     en: 'Create',
   },
+  source: {
+    zh: '来源',
+    en: 'Source',
+  },
+  admin: {
+    zh: '管理员',
+    en: 'Administrator',
+  },
+  readonly: {
+    zh: '查看者',
+    en: 'Readonly',
+  },
   password: {
     zh: '密码',
     en: 'Password',
@@ -242,5 +254,13 @@ export default {
   clearAllConfirm: {
     zh: '是否确定要清除全部黑名单？',
     en: 'Confirm to clear all banned clients?',
+  },
+  ssoEnabled: {
+    zh: '已启用',
+    en: 'Enabled',
+  },
+  ssoDisabled: {
+    zh: '未启用',
+    en: 'Disabled',
   },
 }

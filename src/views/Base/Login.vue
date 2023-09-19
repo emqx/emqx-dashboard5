@@ -40,7 +40,7 @@
                 tabindex="1"
               />
             </el-form-item>
-            <el-form-item prop="password">
+            <el-form-item class="small-mg-bt" prop="password">
               <el-input
                 v-model="record.password"
                 type="password"
@@ -48,28 +48,47 @@
                 tabindex="2"
               />
             </el-form-item>
+            <div class="btn-container">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                class="forgot-btn"
+                :href="docMap.resetPassword"
+              >
+                {{ $t('Base.forgetPassword') }}
+              </a>
+            </div>
             <el-form-item>
-              <div class="oper-wrapper">
-                <el-button type="primary" @click="nativeLogin" :loading="isSubmitting">
-                  {{ $t('Base.login') }}
-                </el-button>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="forgot-btn"
-                  :href="docMap.resetPassword"
-                >
-                  {{ $t('Base.forgetPassword') }}
-                </a>
-              </div>
+              <el-button
+                class="btn-login"
+                type="primary"
+                @click="nativeLogin"
+                :loading="isSubmitting"
+              >
+                {{ $t('Base.login') }}
+              </el-button>
             </el-form-item>
           </el-form>
+          <!-- TODO:SSO -->
+          <div v-if="SSOConfig.XXXXXXX" class="other-login">
+            <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
+            <el-button v-if="SSOConfig.XXXXXXX" link type="info">LDAP</el-button>
+            <el-button v-if="SSOConfig.XXXXXXX" link type="info">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                class="forgot-btn"
+                :href="SSOConfig.XXXXXXX"
+              >
+                SAML
+              </a>
+            </el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
     <el-row v-else>
       <el-col :span="12" class="img-container">
-        <!-- TODO: -->
         <img
           src="@/assets/img/img-change-default-pwd.png"
           alt="img-change-default-pwd"
@@ -142,11 +161,12 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
+import { querySSOConfig } from '@/api/sso'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import { toLogin } from '@/router'
-import { reactive, ref } from 'vue'
+import { Ref, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -265,6 +285,16 @@ const submitNewPwd = async () => {
     isSubmitting.value = false
   }
 }
+
+const SSOConfig: Ref<unknown> = ref({})
+const getSSOConfig = async () => {
+  try {
+    SSOConfig.value = await querySSOConfig()
+  } catch (error) {
+    //
+  }
+}
+getSSOConfig()
 </script>
 
 <style lang="scss">
@@ -342,27 +372,27 @@ const submitNewPwd = async () => {
           height: 78px;
         }
         .el-form-item--large {
-          margin-bottom: 32px;
+          &:first-child {
+            margin-bottom: 32px;
+          }
+          &.small-mg-bt {
+            margin-bottom: 8px;
+          }
           .el-input--large .el-input__inner {
             height: 48px;
             line-height: 48px;
           }
         }
-        .el-button {
+        .btn-login {
           @include big-btn();
         }
-        .oper-wrapper {
-          position: relative;
-          flex-grow: 1;
-          padding-bottom: 48px;
-          .forgot-btn {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            display: block;
-            width: 100%;
-            text-align: right;
-          }
+        .btn-container {
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 28px;
+        }
+        .forgot-btn {
+          text-align: right;
         }
       }
     }
@@ -373,6 +403,24 @@ const submitNewPwd = async () => {
         border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
         padding: 1px 15px;
       }
+    }
+  }
+
+  .other-login {
+    text-align: center;
+    .el-button {
+      text-decoration: underline;
+    }
+    p,
+    .el-button {
+      color: var(--color-text-footer);
+    }
+    p {
+      margin-bottom: 4px;
+    }
+    a {
+      color: inherit;
+      transition: none;
     }
   }
 

@@ -14,6 +14,18 @@ export type PostLogoutBody = {
   username?: string
 }
 
+export type PostLogoutBackend = typeof PostLogoutBackend[keyof typeof PostLogoutBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogoutBackend = {
+  local: 'local',
+  ldap: 'ldap',
+} as const
+
+export type PostLogoutParams = {
+  backend: PostLogoutBackend
+}
+
 export type PostUsersUsernameChangePwd404Code =
   typeof PostUsersUsernameChangePwd404Code[keyof typeof PostUsersUsernameChangePwd404Code]
 
@@ -61,11 +73,27 @@ export type PutUsersUsername404 = {
 
 export type PutUsersUsername200 = {
   username?: string
+  role?: string
   description?: string
+  backend?: string
 }
 
 export type PutUsersUsernameBody = {
+  role?: string
   description?: string
+}
+
+export type PutUsersUsernameBackend =
+  typeof PutUsersUsernameBackend[keyof typeof PutUsersUsernameBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsernameBackend = {
+  local: 'local',
+  ldap: 'ldap',
+} as const
+
+export type PutUsersUsernameParams = {
+  backend: PutUsersUsernameBackend
 }
 
 export type DeleteUsersUsername404Code =
@@ -93,6 +121,19 @@ export const DeleteUsersUsername400Code = {
 export type DeleteUsersUsername400 = {
   code?: DeleteUsersUsername400Code
   message?: string
+}
+
+export type DeleteUsersUsernameBackend =
+  typeof DeleteUsersUsernameBackend[keyof typeof DeleteUsersUsernameBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsernameBackend = {
+  local: 'local',
+  ldap: 'ldap',
+} as const
+
+export type DeleteUsersUsernameParams = {
+  backend: DeleteUsersUsernameBackend
 }
 
 export type PostLogin401Code = typeof PostLogin401Code[keyof typeof PostLogin401Code]
@@ -133,16 +174,21 @@ export type PostLoginBody = {
 
 export type PostUsers200 = {
   username?: string
+  role?: string
   description?: string
+  backend?: string
 }
 
 export type PostUsersBody = {
   username?: string
   password?: string
+  role?: string
   description?: string
 }
 
 export interface DashboardUser {
   username?: string
+  role?: string
   description?: string
+  backend?: string
 }

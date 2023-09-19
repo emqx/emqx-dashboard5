@@ -26,6 +26,7 @@ export type PostAuthentication400 = {
 
 export type PostAuthentication200 =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
@@ -45,6 +46,7 @@ export type PostAuthentication200 =
 
 export type PostAuthenticationBody =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
@@ -64,6 +66,7 @@ export type PostAuthenticationBody =
 
 export type GetAuthentication200Item =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
@@ -122,6 +125,7 @@ export type PutAuthenticationId400 = {
 
 export type PutAuthenticationIdBody =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
@@ -154,6 +158,7 @@ export type GetAuthenticationId404 = {
 
 export type GetAuthenticationId200 =
   | AuthnGcpDevice
+  | AuthnLdapBind
   | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
@@ -997,6 +1002,37 @@ export interface AuthnMongoRs {
   database: string
   topology?: EmqxMongodbTopology
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindBackend = {
+  ldap_bind: 'ldap_bind',
+} as const
+
+export type AuthnLdapBindMechanism =
+  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdapBind {
+  mechanism: AuthnLdapBindMechanism
+  backend: AuthnLdapBindBackend
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: BrokerSslClientOpts
+  bind_password?: string
 }
 
 export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]

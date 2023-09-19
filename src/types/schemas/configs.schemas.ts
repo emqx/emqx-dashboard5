@@ -110,6 +110,7 @@ export const GetConfigsKey = {
   conn_congestion: 'conn_congestion',
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
+  dashboard_sso: 'dashboard_sso',
   delayed: 'delayed',
   exhook: 'exhook',
   file_transfer: 'file_transfer',
