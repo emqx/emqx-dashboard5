@@ -108,7 +108,7 @@ defineExpose({ validate })
 </script>
 
 <style scoped>
-.schema-form {
-  margin: 20px;
+.el-form-item {
+  margin-bottom: 24px;
 }
 </style>
