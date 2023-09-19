@@ -92,12 +92,9 @@ const FormCom = ref()
 
 const { schemaTypeOpts } = useSchemaType()
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
-  name: [
-    ...createRequiredRule(t('Base.name')),
-    { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
-  ],
+  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   type: createRequiredRule(tl('type'), 'select'),
   source: createRequiredRule('Schema'),
 })
@@ -107,8 +104,4 @@ const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
 
-<style scoped>
-.el-form-item {
-  margin-bottom: 24px;
-}
-</style>
+<style scoped></style>
