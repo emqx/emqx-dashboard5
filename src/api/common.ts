@@ -12,15 +12,10 @@ import {
   LicenseConfig,
   LicenseData,
 } from '@/types/dashboard'
+import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 //account
-export function login(user: { password: string; username: string }): Promise<{
-  license: {
-    edition: string
-  }
-  token: string
-  version: string
-}> {
+export function login(user: { password: string; username: string }): Promise<PostLogin200> {
   return http.post('/login', user)
 }
 
