@@ -67,6 +67,10 @@ export default {
     zh: '来源',
     en: 'Source',
   },
+  local: {
+    zh: '本地',
+    en: 'Local',
+  },
   admin: {
     zh: '管理员',
     en: 'Administrator',

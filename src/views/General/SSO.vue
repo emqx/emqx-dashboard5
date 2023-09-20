@@ -3,7 +3,7 @@
     <el-row class="sso-list">
       <el-col :span="6" class="sso-item" v-for="item in ssoList" :key="item.backend">
         <el-card>
-          <div class="card-hd">{{ item.backend }}</div>
+          <div class="card-hd">{{ getBackendLabel(item.backend) }}</div>
           <div class="card-ft space-between">
             <el-tag :type="item.enable ? 'success' : 'info'">
               {{ tl(item.enable ? 'ssoEnabled' : 'ssoDisabled') }}
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { getSSOList } from '@/api/sso'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useSSOBackendsLabel } from '@/hooks/useSSO'
 import type { DashboardSsoBackendStatus } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -30,6 +31,8 @@ const router = useRouter()
 
 const ssoList: Ref<Array<DashboardSsoBackendStatus>> = ref([])
 const isLoading = ref(false)
+
+const { getBackendLabel } = useSSOBackendsLabel()
 
 const getList = async () => {
   try {
