@@ -21,7 +21,7 @@ export default {
   },
   otherMethodsLogin: {
     zh: '或者使用其他方式登录',
-    en: 'Or log in using other methods',
+    en: 'Or login with other methods',
   },
   skip: {
     zh: '跳过',
