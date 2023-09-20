@@ -567,4 +567,8 @@ export default {
     zh: '无',
     en: 'None',
   },
+  ldapLogin: {
+    zh: 'LDAP 登录',
+    en: 'LDAP Login',
+  },
 }
