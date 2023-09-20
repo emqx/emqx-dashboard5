@@ -1,4 +1,4 @@
-import { ref, Ref, reactive } from 'vue'
+import { ref, Ref, reactive, computed, ComputedRef } from 'vue'
 import { getSSOList, postSSOLogin } from '@/api/sso'
 import {
   EmqxDashboardSsoLdapLogin,
@@ -29,6 +29,7 @@ export default function useSSO(): {
   loadConfigPromise: undefined | Promise<Array<DashboardSsoBackendStatus>>
   SSOConfig: Ref<Array<DashboardSsoBackendStatus>>
   ldapRecord: EmqxDashboardSsoLdapLogin
+  hasSSOEnabled: ComputedRef<boolean>
   getSSOList: () => Promise<unknown[]>
   ldapLogin: () => Promise<LdapLoginResult>
 } {
@@ -41,6 +42,9 @@ export default function useSSO(): {
     backend: 'ldap',
   })
   const currentLoginBackend = ref<LoginBackend>('native')
+
+  const hasSSOEnabled = computed(() => SSOConfig.value.some(({ enable }) => enable))
+
   const getSSOConfig = async () => {
     try {
       loadConfigPromise = getSSOList()
@@ -70,6 +74,7 @@ export default function useSSO(): {
     isSSOLoading,
     SSOConfig,
     ldapRecord,
+    hasSSOEnabled,
     getSSOList,
     ldapLogin,
   }
