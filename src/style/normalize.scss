@@ -727,6 +727,11 @@
 .el-form--label-top .el-form-item .el-form-item__label {
   display: inline-block;
 }
+.el-form--label-right {
+  .el-form-item {
+    margin-bottom: 24px;
+  }
+}
 
 /* Radio */
 .el-radio-button__inner {

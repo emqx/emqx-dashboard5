@@ -82,11 +82,14 @@
         <el-form-item v-if="accessType !== 'chPass'" :label="t('Dashboard.role')" prop="role">
           <el-select v-model="record.role">
             <el-option
-              v-for="{ label, value } in roleOptions"
+              v-for="{ label, value, desc } in roleOptions"
               :key="value"
-              :label="label"
               :value="value"
-            />
+              :label="label"
+            >
+              {{ label }}
+              <InfoTooltip :content="desc" />
+            </el-option>
           </el-select>
         </el-form-item>
         <div v-if="accessType === 'chPass'">
@@ -127,6 +130,7 @@
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { PASSWORD_REG } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 import useSSO, { useSSOBackendsLabel } from '@/hooks/useSSO'
@@ -150,8 +154,8 @@ const submitLoading = ref(false)
 const formCom = ref()
 
 const roleOptions = [
-  { label: tl('admin'), value: UserRole.Admin },
-  { label: tl('readonly'), value: UserRole.Readonly },
+  { label: tl('admin'), value: UserRole.Admin, desc: tl('adminDesc') },
+  { label: tl('viewer'), value: UserRole.Readonly, desc: tl('viewerDesc') },
 ]
 
 const { getBackendLabel } = useSSOBackendsLabel()
