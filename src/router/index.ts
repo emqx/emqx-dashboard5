@@ -838,10 +838,6 @@ router.beforeEach((to, from, next) => {
   const info = store.state.user
 
   if (authRequired && !info.token) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const errorMsg = i18n.global.t('Base.tokenExpiredMsg') as string
-    ElNotification.error(errorMsg)
     toLogin(fullPath)
   }
   next()

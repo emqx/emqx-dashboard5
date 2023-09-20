@@ -727,6 +727,9 @@
 .el-form--label-top .el-form-item .el-form-item__label {
   display: inline-block;
 }
+.el-form-item__error {
+  white-space: nowrap;
+}
 
 /* Radio */
 .el-radio-button__inner {

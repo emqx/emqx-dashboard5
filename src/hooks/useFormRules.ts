@@ -18,6 +18,8 @@ export default (): {
     min?: number | undefined,
     max?: number | undefined,
   ) => Array<FormItemRule>
+  createMqttPublishTopicRule: () => Array<FormItemRule>
+  createMqttSubscribeTopicRule: () => Array<FormItemRule>
 } => {
   const { t } = useI18n()
 
@@ -102,6 +104,57 @@ export default (): {
     return ret
   }
 
+  const createMqttPublishTopicRule = (): Array<FormItemRule> => {
+    return [
+      {
+        validator(rule: InternalRuleItem, val: string) {
+          // Validate whether the length exceeds the limit
+          if (val.length > 65535) {
+            return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
+          }
+          // Validate whether it contains illegal characters
+          if (/[+#]/.test(val)) {
+            return [new Error(t('Rule.errorInvalidCharacterInPublish'))]
+          }
+          return []
+        },
+        trigger: 'blur',
+      },
+    ]
+  }
+
+  const createMqttSubscribeTopicRule = (): Array<FormItemRule> => {
+    return [
+      {
+        validator(rule: InternalRuleItem, val: string) {
+          // Validate whether the length exceeds the limit
+          if (val.length > 65535) {
+            return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
+          }
+          // Validate the correct use of wildcards
+          const segments = val.split('/')
+          for (let i = 0; i < segments.length; i++) {
+            const segment = segments[i]
+            // '#' should only appear alone and in the last segment
+            if (segment === '#') {
+              if (i !== segments.length - 1) {
+                return [new Error(t('Rule.errorInvalidUseOfHashWildcard'))]
+              }
+            } else if (segment.includes('#')) {
+              return [new Error(t('Rule.errorInvalidUseOfHashWildcard'))]
+            }
+            // '+' should only appear alone in a segment
+            if (segment.includes('+') && segment !== '+') {
+              return [new Error(t('Rule.errorInvalidUseOfPlusWildcard'))]
+            }
+          }
+          return []
+        },
+        trigger: 'blur',
+      },
+    ]
+  }
+
   return {
     createRequiredRule,
     createIntFieldRule,
@@ -109,5 +162,7 @@ export default (): {
     createCommonIdRule,
     createNoChineseRule,
     createStringWithUnitFieldRule,
+    createMqttPublishTopicRule,
+    createMqttSubscribeTopicRule,
   }
 }

@@ -524,8 +524,8 @@ export default {
     en: 'Network Error',
   },
   commonIdError: {
-    zh: '须以字母或数字开头，允许 "_", "-"',
-    en: 'Start with a letter/number, "_" and "-" allowed',
+    zh: '以字母或数字开头，后续仅限字母、数字、-、_',
+    en: 'Start with letter/number; only letters, numbers, -, _ afterwards',
   },
   notSupportedChinese: {
     zh: '不支持中文',

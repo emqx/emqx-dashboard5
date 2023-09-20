@@ -221,17 +221,30 @@ let preEgressTopic = ''
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const { createRequiredRule, createCommonIdRule } = useFormRules()
+const {
+  createRequiredRule,
+  createCommonIdRule,
+  createMqttPublishTopicRule,
+  createMqttSubscribeTopicRule,
+} = useFormRules()
 const formCom = ref()
 const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const formRules = computed(() => ({
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
   ingress: enableIngress.value
-    ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
+    ? {
+        remote: {
+          topic: [...createRequiredRule(t('Base.topic')), ...createMqttSubscribeTopicRule()],
+        },
+      }
     : undefined,
   egress: enableEgress.value
-    ? { remote: { topic: createRequiredRule(t('Base.topic')) } }
+    ? {
+        remote: {
+          topic: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()],
+        },
+      }
     : undefined,
   password: ruleWhenEditing,
 })) as Partial<Record<string, any>>

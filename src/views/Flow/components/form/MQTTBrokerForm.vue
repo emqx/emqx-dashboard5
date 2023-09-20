@@ -167,12 +167,19 @@ watch(isBridgeSelected, async (nVal, oVal) => {
     FormCom.value?.clearValidate?.()
   }
 })
-const { createRequiredRule, createCommonIdRule } = useFormRules()
+const {
+  createRequiredRule,
+  createCommonIdRule,
+  createMqttSubscribeTopicRule,
+  createMqttPublishTopicRule,
+} = useFormRules()
 const rules = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
-  ingress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
-  egress: { remote: { topic: createRequiredRule(t('Base.topic')) } },
+  ingress: {
+    remote: { topic: [...createRequiredRule(t('Base.topic')), ...createMqttSubscribeTopicRule()] },
+  },
+  egress: { remote: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()] },
 }
 
 const validate = () => FormCom.value.validate()
