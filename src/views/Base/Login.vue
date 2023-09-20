@@ -65,7 +65,7 @@
             </el-form-item>
           </el-form>
           <!-- TODO:SSO -->
-          <div v-if="SSOConfig" class="other-login">
+          <div v-if="hasSSOEnabled" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
             <el-button link type="info" @click="currentLoginBackend = 'ldap'">LDAP</el-button>
             <el-button link type="info">
@@ -205,7 +205,8 @@ const route = useRoute()
 
 const { docMap } = useDocLink()
 
-const { SSOConfig, currentLoginBackend, isSSOLoading, ldapRecord, ldapLogin } = useSSO()
+const { SSOConfig, currentLoginBackend, isSSOLoading, ldapRecord, hasSSOEnabled, ldapLogin } =
+  useSSO()
 
 const record = reactive({
   username: '',
