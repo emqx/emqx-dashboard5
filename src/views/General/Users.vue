@@ -15,10 +15,9 @@
           {{ getLabelFromValueInOptionList(row.role, roleOptions) }}
         </template>
       </el-table-column>
-      <!-- TODO:SSO -->
-      <el-table-column :label="tl('source')">
+      <el-table-column v-if="showSourceColumn" :label="tl('source')">
         <template #default="{ row }">
-          {{ row.XXXXXXX }}
+          {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
@@ -129,13 +128,15 @@ import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@
 import { PASSWORD_REG } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 import useFormRules from '@/hooks/useFormRules'
-import { getSSOList } from '@/api/sso.ts'
 import useI18nTl from '@/hooks/useI18nTl.ts'
+import useSSO, { useSSOBackendsLabel } from '@/hooks/useSSO'
 import { UserRole } from '@/types/enum.ts'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
+
+const SOURCE_LOCAL = 'local'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')
@@ -153,20 +154,13 @@ const roleOptions = [
   { label: tl('readonly'), value: UserRole.Readonly },
 ]
 
-const SSOConfig = ref({})
-const getSSOConfig = async () => {
-  try {
-    SSOConfig.value = await getSSOList()
-  } catch (error) {
-    //
-  }
-}
-getSSOConfig()
+const { getBackendLabel } = useSSOBackendsLabel()
+const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
 
-const canChangePwd = (user) => {
-  // TODO:SSO
-  return user.XXXXX
-}
+const { loadConfigPromise, SSOConfig } = useSSO()
+const showSourceColumn = computed(() => SSOConfig.value.some(({ enable }) => enable))
+
+const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {
@@ -242,6 +236,9 @@ const loadData = async () => {
   lockTable.value = true
   try {
     tableData.value = await loadUser()
+    if (loadConfigPromise) {
+      await loadConfigPromise
+    }
   } catch (error) {
     //
   } finally {

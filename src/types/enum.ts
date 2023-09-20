@@ -324,11 +324,6 @@ export const enum TraceEncodeType {
   Hidden = 'hidden',
 }
 
-export const enum UserRole {
-  Admin = 'admin',
-  Readonly = 'readonly',
-}
-
 export enum LicenseCustomerType {
   Small = 0,
   Medium,
@@ -339,4 +334,9 @@ export enum LicenseCustomerType {
 export enum Role {
   Producer = 'producer',
   Consumer = 'consumer',
+}
+
+export const enum UserRole {
+  Admin = 'superuser',
+  Readonly = 'viewer',
 }
