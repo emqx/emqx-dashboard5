@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <detail-header :item="{ name: t('components.sso'), routeName: 'sso' }" />
+    <detail-header :item="{ name: t('components.sso'), routeName: 'SSO' }" />
     <el-card class="app-card sso-detail" v-loading="isLoading">
       <el-row>
         <el-col :md="21" :lg="18" v-if="formCom">
