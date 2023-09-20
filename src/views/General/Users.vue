@@ -15,7 +15,7 @@
           {{ getLabelFromValueInOptionList(row.role, roleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="showSourceColumn" :label="tl('source')">
+      <el-table-column v-if="hasSSOEnabled" :label="tl('source')">
         <template #default="{ row }">
           {{ getSourceLabel(row.backend) }}
         </template>
@@ -161,8 +161,7 @@ const roleOptions = [
 const { getBackendLabel } = useSSOBackendsLabel()
 const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
 
-const { loadConfigPromise, SSOConfig } = useSSO()
-const showSourceColumn = computed(() => SSOConfig.value.some(({ enable }) => enable))
+const { loadConfigPromise, hasSSOEnabled } = useSSO()
 
 const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
 
