@@ -70,18 +70,11 @@
             </el-form-item>
           </el-form>
           <!-- TODO:SSO -->
-          <div v-if="SSOConfig.XXXXXXX" class="other-login">
+          <div v-if="SSOConfig" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
-            <el-button v-if="SSOConfig.XXXXXXX" link type="info">LDAP</el-button>
-            <el-button v-if="SSOConfig.XXXXXXX" link type="info">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                class="forgot-btn"
-                :href="SSOConfig.XXXXXXX"
-              >
-                SAML
-              </a>
+            <el-button link type="info">LDAP</el-button>
+            <el-button link type="info">
+              <a target="_blank" rel="noopener noreferrer" class="forgot-btn"> SAML </a>
             </el-button>
           </div>
         </div>
@@ -161,12 +154,12 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
-import { getSSOList } from '@/api/sso'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
+import useSSO from '@/hooks/useSSO'
 import { toLogin } from '@/router'
-import { Ref, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -177,6 +170,8 @@ const router = useRouter()
 const route = useRoute()
 
 const { docMap } = useDocLink()
+
+const { SSOConfig } = useSSO()
 
 const record = reactive({
   username: '',
@@ -285,16 +280,6 @@ const submitNewPwd = async () => {
     isSubmitting.value = false
   }
 }
-
-const SSOConfig: Ref<unknown> = ref({})
-const getSSOConfig = async () => {
-  try {
-    SSOConfig.value = await getSSOList()
-  } catch (error) {
-    //
-  }
-}
-getSSOConfig()
 </script>
 
 <style lang="scss">
@@ -416,7 +401,7 @@ getSSOConfig()
       color: var(--color-text-footer);
     }
     p {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     a {
       color: inherit;
