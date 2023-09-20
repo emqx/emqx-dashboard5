@@ -2,51 +2,34 @@
   <el-form
     class="ldap-form"
     ref="FormCom"
-    label-position="top"
     require-asterisk-position="right"
     :model="formData"
     :rules="rules"
+    :label-width="150"
   >
-    <el-row :gutter="24">
-      <el-col :span="12">
-        <el-form-item prop="server" :label="t('Auth.server')">
-          <el-input v-model="formData.server" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" />
-      <el-col :span="12">
-        <el-form-item prop="username" :label="t('Base.username')">
-          <el-input v-model="formData.username" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item prop="password" :label="t('Base.password')">
-          <el-input v-model="formData.password" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item prop="base_dn" :label="tl('distinguishedName')">
-          <el-input v-model="formData.base_dn" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item prop="bind_password" :label="tl('bindPassword')">
-          <el-input v-model="formData.bind_password" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item prop="filter">
-          <template #label>
-            <FormItemLabel :label="tl('LDAPFilter')" :desc="tl('LDAPFilterDesc')" desc-marked />
-          </template>
-          <el-input v-model="formData.filter" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24">
-        <!-- TODO: fix type error -->
-        <CommonTLSConfig v-if="formData.ssl" class="tls-config-form" v-model="formData.ssl" />
-      </el-col>
-    </el-row>
+    <el-form-item prop="enable" :label="tl('LDAPEnable')">
+      <el-switch v-model="formData.enable" />
+    </el-form-item>
+    <el-form-item prop="server" :label="t('Auth.server')">
+      <el-input v-model="formData.server" />
+    </el-form-item>
+    <el-form-item prop="username" :label="t('Base.username')">
+      <el-input v-model="formData.username" />
+    </el-form-item>
+    <el-form-item prop="password" :label="t('Base.password')">
+      <el-input v-model="formData.password" />
+    </el-form-item>
+    <el-form-item prop="base_dn" :label="tl('baseDN')">
+      <el-input v-model="formData.base_dn" />
+    </el-form-item>
+    <el-form-item prop="filter">
+      <template #label>
+        <FormItemLabel :label="tl('LDAPFilter')" :desc="tl('LDAPFilterDesc')" desc-marked />
+      </template>
+      <el-input v-model="formData.filter" />
+    </el-form-item>
+    <!-- TODO: fix type error -->
+    <CommonTLSConfig v-if="formData.ssl" class="tls-config-form" v-model="formData.ssl" />
   </el-form>
 </template>
 
@@ -83,7 +66,7 @@ const { createRequiredRule } = useFormRules()
 const rules = {
   server: createRequiredRule(t('Auth.server')),
   username: createRequiredRule(t('Base.username')),
-  base_dn: createRequiredRule(tl('distinguishedName')),
+  base_dn: createRequiredRule(tl('baseDN')),
 }
 
 const validate = () => FormCom.value.validate()

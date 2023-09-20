@@ -730,6 +730,11 @@
 .el-form-item__error {
   white-space: nowrap;
 }
+.el-form--label-right {
+  .el-form-item {
+    margin-bottom: 24px;
+  }
+}
 
 /* Radio */
 .el-radio-button__inner {
