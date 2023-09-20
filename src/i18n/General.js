@@ -75,9 +75,17 @@ export default {
     zh: '管理员',
     en: 'Administrator',
   },
-  readonly: {
+  adminDesc: {
+    zh: '拥有对EMQX所有功能和资源的完全管理访问权限，包括客户端管理、系统配置、API 密钥以及用户管理。',
+    en: 'Has full access to manage all features and resources of EMQX, including client management, system configuration, API key and user management.',
+  },
+  viewer: {
     zh: '查看者',
-    en: 'Readonly',
+    en: 'Viewer',
+  },
+  viewerDesc: {
+    zh: '可以访问 EMQX 的所有数据和配置信息，但无权进行创建、修改和删除操作。',
+    en: 'Can access all data and configuration of EMQX, but has no rights to create, modify or delete.',
   },
   password: {
     zh: '密码',
@@ -267,20 +275,20 @@ export default {
     zh: '未启用',
     en: 'Disabled',
   },
-  distinguishedName: {
-    zh: '区分名',
-    en: 'Distinguished Name',
+  LDAPEnable: {
+    zh: '启用 LDAP SSO',
+    en: 'Enable LDAP SSO',
   },
-  bindPassword: {
-    zh: '绑定密码',
-    en: 'Bind Password',
+  baseDN: {
+    zh: '基本 DN',
+    en: 'Base DN',
   },
   LDAPFilter: {
-    zh: '过滤器',
-    en: 'Filter',
+    zh: '用户查询条件',
+    en: 'User Lookup Filter',
   },
   LDAPFilterDesc: {
-    zh: '定义必须满足的条件，以便搜索与特定条目匹配的筛选器。<br />筛选器的语法遵循RFC 4515，支持占位符。',
-    en: 'The filter that defines the conditions that must be fulfilled in order for the Search to match a given entry.<br />The syntax of the filter follows RFC 4515 and also supports placeholders.',
+    zh: 'LDAP 中匹配用户的过滤器,默认为 `(&(objectClass=person)(uid=${username}))`。对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName=${username}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。',
+    en: 'The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${username}))`. For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${username}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.',
   },
 }
