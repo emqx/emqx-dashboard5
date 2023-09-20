@@ -20,8 +20,8 @@
         </div>
       </el-col>
       <el-col class="form" :span="16">
-        <!-- Login -->
-        <div class="login-wrapper">
+        <!-- Native Login -->
+        <div v-if="currentLoginBackend === 'native'" class="login-wrapper native-login">
           <div class="form-hd">
             <h1>{{ $t('Base.login') }}</h1>
           </div>
@@ -31,7 +31,7 @@
             :rules="rules"
             hide-required-asterisk
             size="large"
-            @keyup.enter="nativeLogin"
+            @keyup.enter="submit"
           >
             <el-form-item prop="username">
               <el-input
@@ -59,12 +59,7 @@
               </a>
             </div>
             <el-form-item>
-              <el-button
-                class="btn-login"
-                type="primary"
-                @click="nativeLogin"
-                :loading="isSubmitting"
-              >
+              <el-button class="btn-login" type="primary" @click="submit" :loading="isSubmitting">
                 {{ $t('Base.login') }}
               </el-button>
             </el-form-item>
@@ -72,11 +67,48 @@
           <!-- TODO:SSO -->
           <div v-if="SSOConfig" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
-            <el-button link type="info">LDAP</el-button>
+            <el-button link type="info" @click="currentLoginBackend = 'ldap'">LDAP</el-button>
             <el-button link type="info">
               <a target="_blank" rel="noopener noreferrer" class="forgot-btn"> SAML </a>
             </el-button>
           </div>
+        </div>
+        <!-- LDAP Login -->
+        <div v-else-if="currentLoginBackend === 'ldap'" class="login-wrapper ldap-login">
+          <el-page-header :icon="ArrowLeft" @back="currentLoginBackend = 'native'">
+          </el-page-header>
+          <div class="form-hd">
+            <h1>{{ $t('Base.ldapLogin') }}</h1>
+          </div>
+          <el-form
+            ref="FormCom"
+            :model="ldapRecord"
+            :rules="rules"
+            hide-required-asterisk
+            size="large"
+            @keyup.enter="submit"
+          >
+            <el-form-item prop="username">
+              <el-input
+                v-model.trim="ldapRecord.username"
+                :placeholder="$t('Base.username')"
+                tabindex="1"
+              />
+            </el-form-item>
+            <el-form-item class="small-mg-bt" prop="password">
+              <el-input
+                v-model="ldapRecord.password"
+                type="password"
+                :placeholder="$t('Base.password')"
+                tabindex="2"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button class="btn-login" type="primary" @click="submit" :loading="isSSOLoading">
+                {{ $t('Base.login') }}
+              </el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </el-col>
     </el-row>
@@ -139,7 +171,7 @@
             </el-button>
             <div class="skip-wrap">
               <el-tooltip class="box-item" effect="dark" :content="$t('Base.skipTip')">
-                <el-button class="btn-skip" type="primary" link @click="redirect">
+                <el-button class="btn-skip" type="primary" link @click="redirectToDashboard">
                   {{ $t('Base.skip') }}
                 </el-button>
               </el-tooltip>
@@ -163,6 +195,8 @@ import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { ArrowLeft } from '@element-plus/icons-vue'
+import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 const { t } = useI18n()
 const store = useStore()
@@ -171,7 +205,7 @@ const route = useRoute()
 
 const { docMap } = useDocLink()
 
-const { SSOConfig } = useSSO()
+const { SSOConfig, currentLoginBackend, isSSOLoading, ldapRecord, ldapLogin } = useSSO()
 
 const record = reactive({
   username: '',
@@ -221,30 +255,34 @@ const pwdRules = {
 const FormCom = ref()
 const PwdFormCom = ref()
 
+const updateStoreInfo = (username: string, { token, license }: PostLogin200) => {
+  store.commit('UPDATE_USER_INFO', { token, username })
+  store.commit('UPDATE_EDITION', license?.edition)
+}
+
 const queryLogin = async ({ username, password }: { username: string; password: string }) => {
   isSubmitting.value = true
   try {
-    let res = await loginApi({ username, password })
+    const res = await loginApi({ username, password })
     isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
-    store.commit('UPDATE_USER_INFO', { token: res.token, username })
-    store.commit('UPDATE_EDITION', res.license?.edition)
+    updateStoreInfo(username, res)
     if (!isUsingDefaultPwd.value) {
-      redirect()
+      redirectToDashboard()
     } else {
       showChangePwdForm.value = true
     }
-    isSubmitting.value = false
-    return Promise.resolve()
+    return Promise.resolve({ username, response: res })
   } catch (error) {
-    isSubmitting.value = false
     return Promise.reject(error)
+  } finally {
+    isSubmitting.value = false
   }
 }
 
 const login = async (auto = false) => {
   const { username, token } = (auto && store.state.user) || record
   if (auto && username && token) {
-    redirect()
+    redirectToDashboard()
   } else {
     toLogin()
   }
@@ -253,16 +291,35 @@ const login = async (auto = false) => {
   }
 }
 
-const redirect = () => {
+const redirectToDashboard = () => {
   router.replace({
     path: (route.query.to ?? '/dashboard').toString(),
   })
 }
 
-const nativeLogin = async () => {
-  ;(await FormCom.value.validate().catch(() => {
-    /**/
-  })) && login()
+const submit = async () => {
+  const isValidated = await FormCom.value.validate().catch(() => false)
+  if (!isValidated) {
+    return
+  }
+  switch (currentLoginBackend.value) {
+    case 'native':
+      login()
+      break
+    case 'ldap':
+      ldapLogin()
+        .then(({ username, response }) => {
+          updateStoreInfo(username as string, response)
+          redirectToDashboard()
+        })
+        .catch(() => {
+          // ignore
+        })
+      break
+    default:
+      login()
+      break
+  }
 }
 
 const submitNewPwd = async () => {
@@ -379,6 +436,19 @@ const submitNewPwd = async () => {
         .forgot-btn {
           text-align: right;
         }
+        &.ldap-login {
+          .el-page-header__header {
+            margin-bottom: 24px;
+            color: var(--color-primary);
+            .el-page-header__content,
+            .el-divider.el-divider--vertical {
+              display: none;
+            }
+          }
+          .btn-login {
+            margin-top: 24px;
+          }
+        }
       }
     }
     // for beautify the style when auto fill status
@@ -393,6 +463,7 @@ const submitNewPwd = async () => {
 
   .other-login {
     text-align: center;
+    margin-top: 24px;
     .el-button {
       text-decoration: underline;
     }
