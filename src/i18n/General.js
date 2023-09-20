@@ -263,4 +263,20 @@ export default {
     zh: '未启用',
     en: 'Disabled',
   },
+  distinguishedName: {
+    zh: '区分名',
+    en: 'Distinguished Name',
+  },
+  bindPassword: {
+    zh: '绑定密码',
+    en: 'Bind Password',
+  },
+  LDAPFilter: {
+    zh: '过滤器',
+    en: 'Filter',
+  },
+  LDAPFilterDesc: {
+    zh: '定义必须满足的条件，以便搜索与特定条目匹配的筛选器。<br />筛选器的语法遵循RFC 4515，支持占位符。',
+    en: 'The filter that defines the conditions that must be fulfilled in order for the Search to match a given entry.<br />The syntax of the filter follows RFC 4515 and also supports placeholders.',
+  },
 }

@@ -1,0 +1,91 @@
+<template>
+  <el-form
+    class="ldap-form"
+    ref="FormCom"
+    label-position="top"
+    require-asterisk-position="right"
+    :model="formData"
+    :rules="rules"
+  >
+    <el-row :gutter="24">
+      <el-col :span="12">
+        <el-form-item prop="server" :label="t('Auth.server')">
+          <el-input v-model="formData.server" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12" />
+      <el-col :span="12">
+        <el-form-item prop="username" :label="t('Base.username')">
+          <el-input v-model="formData.username" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="password" :label="t('Base.password')">
+          <el-input v-model="formData.password" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="base_dn" :label="tl('distinguishedName')">
+          <el-input v-model="formData.base_dn" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="bind_password" :label="tl('bindPassword')">
+          <el-input v-model="formData.bind_password" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="filter">
+          <template #label>
+            <FormItemLabel :label="tl('LDAPFilter')" :desc="tl('LDAPFilterDesc')" desc-marked />
+          </template>
+          <el-input v-model="formData.filter" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <!-- TODO: fix type error -->
+        <CommonTLSConfig v-if="formData.ssl" class="tls-config-form" v-model="formData.ssl" />
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
+
+<script setup lang="ts">
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
+import { EmqxDashboardSsoLdapLdap } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+
+const props = defineProps({
+  modelValue: {
+    type: Object as PropType<EmqxDashboardSsoLdapLdap>,
+    default: () => ({}),
+  },
+})
+const emit = defineEmits(['update:modelValue', 'save'])
+
+const { t, tl } = useI18nTl('General')
+
+const FormCom = ref()
+
+const formData = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
+
+const { createRequiredRule } = useFormRules()
+const rules = {
+  server: createRequiredRule(t('Auth.server')),
+  username: createRequiredRule(t('Base.username')),
+  base_dn: createRequiredRule(tl('distinguishedName')),
+}
+
+const validate = () => FormCom.value.validate()
+defineExpose({ validate })
+</script>
