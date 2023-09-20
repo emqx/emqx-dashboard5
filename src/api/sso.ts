@@ -40,7 +40,7 @@ export const postSSOBackend = (
   return http.post(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
 }
 
-export const putSSOBacken = (
+export const putSSOBackend = (
   backend: 'ldap',
   emqxDashboardSsoLdapLdap: EmqxDashboardSsoLdapLdap,
 ): Promise<EmqxDashboardSsoLdapLdap> => {
