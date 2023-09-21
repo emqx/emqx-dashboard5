@@ -12,7 +12,7 @@ export const verifyTokenFromSAML = (token: string): Promise<unknown> => {
 }
 
 export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
-  return http.get(`/sso`)
+  return http.get('/sso')
 }
 
 export const postSSOLogin = (
@@ -23,7 +23,7 @@ export const postSSOLogin = (
 }
 
 export const getSSORunning = (): Promise<GetSsoRunning200Item[]> => {
-  return http.get(`/sso/running`)
+  return http.get('/sso/running')
 }
 
 export const getSSOBackend = (backend: 'ldap'): Promise<EmqxDashboardSsoLdapLdap> => {
