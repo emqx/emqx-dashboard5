@@ -24,7 +24,12 @@
     </el-form-item>
     <el-form-item prop="filter">
       <template #label>
-        <FormItemLabel :label="tl('LDAPFilter')" :desc="tl('LDAPFilterDesc')" desc-marked />
+        <FormItemLabel
+          :label="tl('LDAPFilter')"
+          :desc="tl('LDAPFilterDesc')"
+          desc-marked
+          popper-class="is-wider"
+        />
       </template>
       <el-input v-model="formData.filter" />
     </el-form-item>

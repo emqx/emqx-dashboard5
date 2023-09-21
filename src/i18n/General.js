@@ -288,7 +288,7 @@ export default {
     en: 'User Lookup Filter',
   },
   LDAPFilterDesc: {
-    zh: 'LDAP 中匹配用户的过滤器,默认为 `(&(objectClass=person)(uid=${username}))`。对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName=${username}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。',
-    en: 'The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${username}))`. For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${username}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.',
+    zh: "LDAP 中匹配用户的过滤器,默认为 `(& (objectClass=person) (uid=${'{'}username{'}'}))`。<br />对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。",
+    en: "The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${'{'}username{'}'}))`.<br />For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.",
   },
 }
