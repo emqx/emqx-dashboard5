@@ -2,7 +2,7 @@ import { ref, Ref, reactive, computed, ComputedRef } from 'vue'
 import { getSSOList, postSSOLogin } from '@/api/sso'
 import {
   EmqxDashboardSsoLdapLogin,
-  PostSsoLogin200,
+  PostSsoLoginBackend200,
   DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -20,7 +20,7 @@ type LoginBackend = 'native' | 'ldap'
 
 interface LdapLoginResult {
   username: string | undefined
-  response: PostSsoLogin200
+  response: PostSsoLoginBackend200
 }
 
 export default function useSSO(): {

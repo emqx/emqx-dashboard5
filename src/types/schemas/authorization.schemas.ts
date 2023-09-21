@@ -388,12 +388,6 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-  like_clientid?: string
-}
-
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -424,6 +418,12 @@ export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  like_clientid?: string
+}
+
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
@@ -450,8 +450,49 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
-export interface EmqxAuthzApiSourcesSources {
-  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+export type EmqxLdapSslServerNameIndication = string | 'disable'
+
+export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxLdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxLdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxLdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxLdapSslServerNameIndication
 }
 
 export type EmqxAuthzApiSchemaRedisSingleRedisType =
@@ -462,36 +503,12 @@ export const EmqxAuthzApiSchemaRedisSingleRedisType = {
   single: 'single',
 } as const
 
-export type EmqxAuthzApiSchemaRedisSingleType =
-  typeof EmqxAuthzApiSchemaRedisSingleType[keyof typeof EmqxAuthzApiSchemaRedisSingleType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSingleType = {
-  redis: 'redis',
-} as const
-
 export interface EmqxAuthzApiSchemaRedisSingle {
   enable?: boolean
   type: EmqxAuthzApiSchemaRedisSingleType
   cmd: string
   server: string
   redis_type?: EmqxAuthzApiSchemaRedisSingleRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export interface EmqxAuthzApiSchemaRedisSentinel {
-  enable?: boolean
-  type: EmqxAuthzApiSchemaRedisSentinelType
-  cmd: string
-  servers: string
-  redis_type?: EmqxAuthzApiSchemaRedisSentinelRedisType
-  sentinel: string
   pool_size?: number
   username?: string
   password?: string
@@ -516,6 +533,18 @@ export type EmqxAuthzApiSourcesSourcesSourcesItem =
   | EmqxAuthzApiSchemaHttpPost
   | EmqxAuthzApiSchemaHttpGet
 
+export interface EmqxAuthzApiSourcesSources {
+  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
+export type EmqxAuthzApiSchemaRedisSingleType =
+  typeof EmqxAuthzApiSchemaRedisSingleType[keyof typeof EmqxAuthzApiSchemaRedisSingleType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiSchemaRedisSingleType = {
+  redis: 'redis',
+} as const
+
 export type EmqxAuthzApiSchemaRedisSentinelRedisType =
   typeof EmqxAuthzApiSchemaRedisSentinelRedisType[keyof typeof EmqxAuthzApiSchemaRedisSentinelRedisType]
 
@@ -531,6 +560,22 @@ export type EmqxAuthzApiSchemaRedisSentinelType =
 export const EmqxAuthzApiSchemaRedisSentinelType = {
   redis: 'redis',
 } as const
+
+export interface EmqxAuthzApiSchemaRedisSentinel {
+  enable?: boolean
+  type: EmqxAuthzApiSchemaRedisSentinelType
+  cmd: string
+  servers: string
+  redis_type?: EmqxAuthzApiSchemaRedisSentinelRedisType
+  sentinel: string
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
 
 export type EmqxAuthzApiSchemaRedisClusterRedisType =
   typeof EmqxAuthzApiSchemaRedisClusterRedisType[keyof typeof EmqxAuthzApiSchemaRedisClusterRedisType]
@@ -811,7 +856,7 @@ export interface EmqxAuthzApiSchemaLdap {
   base_dn: string
   filter?: string
   request_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxLdapSsl
 }
 
 export type EmqxAuthzApiSchemaHttpPostBody = { [key: string]: any }

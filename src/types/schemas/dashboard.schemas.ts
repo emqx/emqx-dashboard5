@@ -23,7 +23,7 @@ export const PostLogoutBackend = {
 } as const
 
 export type PostLogoutParams = {
-  backend: PostLogoutBackend
+  backend?: PostLogoutBackend
 }
 
 export type PostUsersUsernameChangePwd404Code =
@@ -93,7 +93,7 @@ export const PutUsersUsernameBackend = {
 } as const
 
 export type PutUsersUsernameParams = {
-  backend: PutUsersUsernameBackend
+  backend?: PutUsersUsernameBackend
 }
 
 export type DeleteUsersUsername404Code =
@@ -133,7 +133,7 @@ export const DeleteUsersUsernameBackend = {
 } as const
 
 export type DeleteUsersUsernameParams = {
-  backend: DeleteUsersUsernameBackend
+  backend?: DeleteUsersUsernameBackend
 }
 
 export type PostLogin401Code = typeof PostLogin401Code[keyof typeof PostLogin401Code]

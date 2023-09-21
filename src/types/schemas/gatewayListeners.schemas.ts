@@ -598,6 +598,51 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
+export type EmqxLdapSslServerNameIndication = string | 'disable'
+
+export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxLdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxLdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxLdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxLdapSslServerNameIndication
+}
+
 export type EmqxGatewayApiUdpListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiUdpListenerType =
@@ -1430,7 +1475,7 @@ export interface AuthnLdapBind {
   base_dn: string
   filter?: string
   request_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxLdapSsl
   bind_password?: string
 }
 
@@ -1462,7 +1507,7 @@ export interface AuthnLdap {
   base_dn: string
   filter?: string
   request_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxLdapSsl
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]

@@ -35,55 +35,95 @@ export type DeleteSsoBackend404 = {
   message?: string
 }
 
-export type PostSsoLogin404Code = typeof PostSsoLogin404Code[keyof typeof PostSsoLogin404Code]
+export type PostSsoLoginBackend404Code =
+  typeof PostSsoLoginBackend404Code[keyof typeof PostSsoLoginBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLogin404Code = {
+export const PostSsoLoginBackend404Code = {
   BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
 } as const
 
-export type PostSsoLogin404 = {
-  code?: PostSsoLogin404Code
+export type PostSsoLoginBackend404 = {
+  code?: PostSsoLoginBackend404Code
   message?: string
 }
 
-export type PostSsoLogin401Code = typeof PostSsoLogin401Code[keyof typeof PostSsoLogin401Code]
+export type PostSsoLoginBackend401Code =
+  typeof PostSsoLoginBackend401Code[keyof typeof PostSsoLoginBackend401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLogin401Code = {
+export const PostSsoLoginBackend401Code = {
   BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
 } as const
 
-export type PostSsoLogin401 = {
-  code?: PostSsoLogin401Code
+export type PostSsoLoginBackend401 = {
+  code?: PostSsoLoginBackend401Code
   message?: string
 }
 
-export type PostSsoLogin200LicenseEdition =
-  typeof PostSsoLogin200LicenseEdition[keyof typeof PostSsoLogin200LicenseEdition]
+export type PostSsoLoginBackend200LicenseEdition =
+  typeof PostSsoLoginBackend200LicenseEdition[keyof typeof PostSsoLoginBackend200LicenseEdition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLogin200LicenseEdition = {
+export const PostSsoLoginBackend200LicenseEdition = {
   opensource: 'opensource',
   enterprise: 'enterprise',
 } as const
 
-export type PostSsoLogin200License = {
-  edition?: PostSsoLogin200LicenseEdition
+export type PostSsoLoginBackend200License = {
+  edition?: PostSsoLoginBackend200LicenseEdition
 }
 
-export type PostSsoLogin200 = {
+export type PostSsoLoginBackend200 = {
   token?: string
   version?: string
-  license?: PostSsoLogin200License
+  license?: PostSsoLoginBackend200License
 }
 
-export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
+export type EmqxLdapSslServerNameIndication = string | 'disable'
+
+export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSsoRunning200Item = {
-  ldap: 'ldap',
+export const EmqxLdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
 } as const
+
+export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxLdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxLdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxLdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxLdapSslServerNameIndication
+}
 
 export type EmqxDashboardSsoLdapLoginBackend =
   typeof EmqxDashboardSsoLdapLoginBackend[keyof typeof EmqxDashboardSsoLdapLoginBackend]
@@ -118,8 +158,7 @@ export interface EmqxDashboardSsoLdapLdap {
   base_dn: string
   filter?: string
   request_timeout?: string
-  ssl?: BrokerSslClientOpts
-  bind_password?: string
+  ssl?: EmqxLdapSsl
 }
 
 export type DashboardSsoBackendStatusBackend =
@@ -133,51 +172,4 @@ export const DashboardSsoBackendStatusBackend = {
 export interface DashboardSsoBackendStatus {
   enable?: boolean
   backend: DashboardSsoBackendStatusBackend
-}
-
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
-
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface BrokerSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: BrokerSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
