@@ -64,10 +64,17 @@
               </el-button>
             </el-form-item>
           </el-form>
-          <!-- TODO:SSO -->
           <div v-if="hasSSOEnabled" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
-            <el-button link type="info" @click="currentLoginBackend = 'ldap'">LDAP</el-button>
+            <el-button
+              v-if="isSSOItemEnable(DashboardSsoBackendStatusBackend.ldap)"
+              link
+              type="info"
+              @click="currentLoginBackend = 'ldap'"
+            >
+              LDAP
+            </el-button>
+            <!-- TODO:SSO -->
             <el-button link type="info">
               <a target="_blank" rel="noopener noreferrer" class="forgot-btn"> SAML </a>
             </el-button>
@@ -191,12 +198,13 @@ import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useSSO from '@/hooks/useSSO'
 import { toLogin } from '@/router'
+import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
+import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ArrowLeft } from '@element-plus/icons-vue'
-import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 const { t } = useI18n()
 const store = useStore()
@@ -207,6 +215,8 @@ const { docMap } = useDocLink()
 
 const { SSOConfig, currentLoginBackend, isSSOLoading, ldapRecord, hasSSOEnabled, ldapLogin } =
   useSSO()
+const isSSOItemEnable = (backend: string) =>
+  SSOConfig.value.some((item) => item.backend === backend && item.enable)
 
 const record = reactive({
   username: '',
