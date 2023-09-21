@@ -337,6 +337,6 @@ export enum Role {
 }
 
 export const enum UserRole {
-  Admin = 'superuser',
+  Admin = 'administrator',
   Readonly = 'viewer',
 }
