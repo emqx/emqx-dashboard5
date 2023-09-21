@@ -1,5 +1,13 @@
 <template>
   <el-col :span="colSpan">
+    <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
+      <template #label>
+        <FormItemLabel :label="tl('start_timeout.label')" :desc="tl('start_timeout.desc')" />
+      </template>
+      <TimeInputWithUnitSelect v-model="resourceOptForm.start_timeout" />
+    </CustomFormItem>
+  </el-col>
+  <el-col :span="colSpan">
     <CustomFormItem prop="resource_opts.worker_pool_size" :readonly="readonly">
       <template #label>
         <FormItemLabel :label="tl('worker_pool_size.label')" :desc="tl('worker_pool_size.desc')" />

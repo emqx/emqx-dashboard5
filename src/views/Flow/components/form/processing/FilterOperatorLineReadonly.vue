@@ -27,13 +27,15 @@ defineProps({
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 $content-width: 9px;
 $padding-right: 9px;
 $width: $content-width + $padding-right;
 // style associated with file src/views/Flow/components/form/processing/FilterItemReadonly.vue
 $item-padding-vertical: 8px;
 $line-height: 20px;
-$padding-vertical: $item-padding-vertical + $line-height / 2;
+$padding-vertical: $item-padding-vertical + math.div($line-height, 2);
 .filter-item-connector-readonly {
   position: relative;
   display: flex;

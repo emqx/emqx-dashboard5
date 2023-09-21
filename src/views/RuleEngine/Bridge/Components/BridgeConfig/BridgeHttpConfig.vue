@@ -45,17 +45,6 @@
           <el-input v-model="httpBridgeVal.url" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan">
-        <!-- FIXME: fix it in 5.2.1, is not required  -->
-        <CustomFormItem
-          required
-          prop="pool_size"
-          :readonly="readonly"
-          :label="tl('connectionPoolSize')"
-        >
-          <el-input v-model.number="httpBridgeVal.pool_size" />
-        </CustomFormItem>
-      </el-col>
     </el-row>
     <el-row>
       <el-col>
@@ -112,6 +101,11 @@
                 :label="item"
               />
             </el-select>
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
+          <CustomFormItem prop="pool_size" :readonly="readonly" :label="tl('connectionPoolSize')">
+            <el-input v-model.number="httpBridgeVal.pool_size" />
           </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
@@ -216,7 +210,7 @@ export default defineComponent({
       name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
-      pool_size: [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
+      pool_size: [...createIntFieldRule(1)],
     })
 
     const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))

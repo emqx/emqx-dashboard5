@@ -56,6 +56,8 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .node-list-popover {
   width: 430px;
   padding: 16px;
@@ -96,7 +98,7 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
   .node-status-dot {
     position: absolute;
     left: 16px;
-    top: (24px - 8px) / 2;
+    top: math.div(24px - 8px, 2);
   }
   .node-name {
     word-wrap: break-word;
