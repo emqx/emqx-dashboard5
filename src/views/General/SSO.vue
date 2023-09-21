@@ -1,13 +1,19 @@
 <template>
   <div class="sso app-wrapper" v-loading="isLoading">
-    <el-row class="sso-list">
+    <el-row class="sso-list" :gutter="24">
       <el-col :span="6" class="sso-item" v-for="item in SSOList" :key="item.backend">
-        <el-card>
-          <div class="card-hd">{{ getBackendLabel(item.backend) }}</div>
+        <el-card class="sso-item-card">
+          <div class="card-db">
+            <div class="img-container vertical-align-center">
+              <img width="64" :src="getBackendIcon(item.backend)" :alt="`icon-${item.backend}`" />
+            </div>
+            <p class="backend-name">{{ getBackendLabel(item.backend) }}</p>
+          </div>
           <div class="card-ft space-between">
-            <el-tag :type="item.enable ? 'success' : 'info'">
-              {{ tl(item.enable ? 'ssoEnabled' : 'ssoDisabled') }}
-            </el-tag>
+            <div class="sso-status vertical-align-center">
+              <i class="node-status-dot" :class="item.enable ? 'is-running' : 'is-stopped'"></i>
+              <span> {{ tl(item.enable ? 'ssoEnabled' : 'ssoDisabled') }}</span>
+            </div>
             <el-button link type="primary" @click="goDetailPage(item)">
               {{ t(`Base.${item.enable ? 'edit' : 'enable'}`) }}
             </el-button>
@@ -48,6 +54,13 @@ const SSOList: ComputedRef<Array<SSOItem>> = computed(() => {
 })
 
 const { getBackendLabel } = useSSOBackendsLabel()
+const getBackendIcon = (backend: string) => {
+  try {
+    return require(`@/assets/img/${backend}.png`)
+  } catch (error) {
+    return ''
+  }
+}
 
 const getList = async () => {
   try {
@@ -75,10 +88,34 @@ const goDetailPage = ({ backend, enable = true, isCreated }: SSOItem) => {
   .sso-list {
     list-style: none;
   }
-  .card-hd {
-    margin-bottom: 20px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .sso-item-card {
+    .el-card__body {
+      padding: 0;
+    }
+  }
+  $padding-side: 32px;
+  .card-db {
+    display: flex;
+    align-items: center;
+    padding: 24px $padding-side;
+    border-bottom: 1px solid var(--el-border-color-light);
+    .img-container {
+      height: 64px;
+    }
+    img {
+      margin-right: 24px;
+    }
+    .backend-name {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .card-ft {
+    padding: 8px $padding-side;
+    line-height: 24px;
+  }
+  .node-status-dot {
+    margin-right: 8px;
   }
 }
 </style>

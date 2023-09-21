@@ -1,6 +1,8 @@
 <template>
   <div class="app-wrapper">
-    <detail-header :item="{ name: t('components.sso'), routeName: 'SSO' }" />
+    <detail-header
+      :item="{ name: `${getBackendLabel(backend)} ${t('Base.setting')}`, routeName: 'SSO' }"
+    />
     <el-card class="app-card sso-detail" v-loading="isLoading">
       <el-row>
         <el-col :md="15" :lg="12" v-if="formCom">
@@ -20,7 +22,10 @@
 
 <script setup lang="ts">
 import { getSSOBackend, putSSOBackend } from '@/api/sso'
+import { checkNOmitFromObj } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
+import useSSODetail from '@/hooks/SSO/useSSODetail'
+import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useI18nTl from '@/hooks/useI18nTl'
 import {
   DashboardSsoBackendStatusBackend,
@@ -31,14 +36,13 @@ import { Component, ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
-import useSSODetail from '@/hooks/SSO/useSSODetail'
-import { checkNOmitFromObj } from '@/common/tools'
 
 const router = useRouter()
 const route = useRoute()
 const store = useStore()
 
 const { t } = useI18nTl('General')
+const { getBackendLabel } = useSSOBackendsLabel()
 
 const backend: ComputedRef<any> = computed(() => route.params.backend.toString())
 const routeQuery = computed(() => ({
@@ -61,7 +65,11 @@ const isLoading = ref(false)
 const getConfig = async () => {
   try {
     isLoading.value = true
-    formData.value = await getSSOBackend(backend.value)
+    const config = await getSSOBackend(backend.value)
+    formData.value = {
+      ...config,
+      enable: !routeQuery.value.enable ? true : config.enable,
+    }
   } catch (error) {
     //
   } finally {
