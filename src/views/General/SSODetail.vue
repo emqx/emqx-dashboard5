@@ -22,12 +22,17 @@
 import { getSSOBackend, putSSOBackend } from '@/api/sso'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import {
+  DashboardSsoBackendStatusBackend,
+  EmqxDashboardSsoLdapLdap,
+} from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ElMessage } from 'element-plus'
 import { Component, ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
+import useSSODetail from '@/hooks/SSO/useSSODetail'
+import { checkNOmitFromObj } from '@/common/tools'
 
 const router = useRouter()
 const route = useRoute()
@@ -36,7 +41,13 @@ const store = useStore()
 const { t } = useI18nTl('General')
 
 const backend: ComputedRef<any> = computed(() => route.params.backend.toString())
+const routeQuery = computed(() => ({
+  isCreated: route.query.isCreated === true.toString(),
+  enable: route.query.enable === true.toString(),
+}))
+const { createRawForm } = useSSODetail()
 
+const FormCom = ref()
 const formComMap: Map<string, Component> = new Map([
   [DashboardSsoBackendStatusBackend.ldap, LDAPForm],
 ])
@@ -57,15 +68,27 @@ const getConfig = async () => {
     isLoading.value = false
   }
 }
-getConfig()
+
+const initForm = () => {
+  if (routeQuery.value.isCreated) {
+    getConfig()
+  } else {
+    formData.value = createRawForm(backend.value)
+  }
+}
+initForm()
 
 const isSubmitting = ref(false)
 const saveConfig = async () => {
   try {
     isSubmitting.value = true
-    await putSSOBackend(backend.value, formData.value)
+    await FormCom.value?.validate?.()
+    await putSSOBackend(
+      backend.value,
+      checkNOmitFromObj(formData.value) as EmqxDashboardSsoLdapLdap,
+    )
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'sso' })
+    router.push({ name: 'SSO' })
   } catch (error) {
     //
   } finally {
