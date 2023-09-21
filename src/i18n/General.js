@@ -76,7 +76,7 @@ export default {
     en: 'Administrator',
   },
   adminDesc: {
-    zh: '拥有对EMQX所有功能和资源的完全管理访问权限，包括客户端管理、系统配置、API 密钥以及用户管理。',
+    zh: '拥有对 EMQX 所有功能和资源的完全管理访问权限，包括客户端管理、系统配置、API 密钥以及用户管理。',
     en: 'Has full access to manage all features and resources of EMQX, including client management, system configuration, API key and user management.',
   },
   viewer: {
