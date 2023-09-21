@@ -16,7 +16,7 @@ export default (): {
     username: '',
     password: '',
     base_dn: '',
-    filter: '(& (objectClass=person) (cn=${username}))',
+    filter: '(& (objectClass=person) (uid=${username}))',
     ssl: createSSLForm(),
   })
   const formCreatorMap: Map<string, () => any> = new Map([
