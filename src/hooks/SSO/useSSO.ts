@@ -1,9 +1,8 @@
 import { ref, Ref, reactive, computed, ComputedRef } from 'vue'
-import { getSSOList, postSSOLogin } from '@/api/sso'
+import { getSSORunning, postSSOLogin } from '@/api/sso'
 import {
   EmqxDashboardSsoLdapLogin,
   PostSsoLoginBackend200,
-  DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
@@ -26,15 +25,13 @@ interface LdapLoginResult {
 export default function useSSO(): {
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
-  loadConfigPromise: undefined | Promise<Array<DashboardSsoBackendStatus>>
-  SSOConfig: Ref<Array<DashboardSsoBackendStatus>>
+  enabledSSOList: Ref<Array<string>>
   ldapRecord: EmqxDashboardSsoLdapLogin
   hasSSOEnabled: ComputedRef<boolean>
-  getSSOList: () => Promise<unknown[]>
   ldapLogin: () => Promise<LdapLoginResult>
+  getEanbledSSO: () => Promise<void>
 } {
-  let loadConfigPromise: undefined | Promise<Array<DashboardSsoBackendStatus>> = undefined
-  const SSOConfig = ref<Array<DashboardSsoBackendStatus>>([])
+  const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
   const ldapRecord = reactive<EmqxDashboardSsoLdapLogin>({
     username: '',
@@ -43,22 +40,20 @@ export default function useSSO(): {
   })
   const currentLoginBackend = ref<LoginBackend>('native')
 
-  const hasSSOEnabled = computed(() => SSOConfig.value.some(({ enable }) => enable))
+  const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 
-  const getSSOConfig = async () => {
+  const getEanbledSSO = async () => {
     try {
-      loadConfigPromise = getSSOList()
-      SSOConfig.value = await loadConfigPromise
+      enabledSSOList.value = await getSSORunning()
     } catch (error) {
       //
     }
   }
-  getSSOConfig()
 
   const ldapLogin = async (): Promise<LdapLoginResult> => {
     try {
       isSSOLoading.value = true
-      const res = await postSSOLogin(currentLoginBackend.value as 'ldap', ldapRecord)
+      const res = await postSSOLogin('ldap', ldapRecord)
       const { username } = ldapRecord
       return Promise.resolve({ username, response: res })
     } catch (error) {
@@ -69,13 +64,12 @@ export default function useSSO(): {
   }
 
   return {
-    loadConfigPromise,
     currentLoginBackend,
     isSSOLoading,
-    SSOConfig,
+    enabledSSOList,
     ldapRecord,
     hasSSOEnabled,
-    getSSOList,
     ldapLogin,
+    getEanbledSSO,
   }
 }
