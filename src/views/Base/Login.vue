@@ -67,7 +67,7 @@
           <div v-if="hasSSOEnabled" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
             <el-button
-              v-if="isSSOItemEnable(DashboardSsoBackendStatusBackend.ldap)"
+              v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.ldap)"
               link
               type="info"
               @click="currentLoginBackend = 'ldap'"
@@ -213,10 +213,17 @@ const route = useRoute()
 
 const { docMap } = useDocLink()
 
-const { SSOConfig, currentLoginBackend, isSSOLoading, ldapRecord, hasSSOEnabled, ldapLogin } =
-  useSSO()
-const isSSOItemEnable = (backend: string) =>
-  SSOConfig.value.some((item) => item.backend === backend && item.enable)
+const {
+  enabledSSOList,
+  currentLoginBackend,
+  isSSOLoading,
+  ldapRecord,
+  hasSSOEnabled,
+  ldapLogin,
+  getEanbledSSO,
+} = useSSO()
+
+getEanbledSSO()
 
 const record = reactive({
   username: '',
