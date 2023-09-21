@@ -58,7 +58,7 @@ export default function useSSO(): {
   const ldapLogin = async (): Promise<LdapLoginResult> => {
     try {
       isSSOLoading.value = true
-      const res = await postSSOLogin(ldapRecord)
+      const res = await postSSOLogin(currentLoginBackend.value as 'ldap', ldapRecord)
       const { username } = ldapRecord
       return Promise.resolve({ username, response: res })
     } catch (error) {
