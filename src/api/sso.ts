@@ -4,6 +4,7 @@ import type {
   PostSsoLoginBackend200,
   EmqxDashboardSsoLdapLogin,
   EmqxDashboardSsoLdapLdap,
+  GetSsoRunning200Item,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 export const verifyTokenFromSAML = (token: string): Promise<unknown> => {
@@ -15,9 +16,14 @@ export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
 }
 
 export const postSSOLogin = (
+  backend: 'ldap',
   emqxDashboardSsoLdapLogin: EmqxDashboardSsoLdapLogin,
 ): Promise<PostSsoLoginBackend200> => {
-  return http.post(`/sso/login`, emqxDashboardSsoLdapLogin)
+  return http.post(`/sso/login/${backend}`, emqxDashboardSsoLdapLogin)
+}
+
+export const getSSORunning = (): Promise<GetSsoRunning200Item[]> => {
+  return http.get(`/sso/running`)
 }
 
 export const getSSOBackend = (backend: 'ldap'): Promise<EmqxDashboardSsoLdapLdap> => {
