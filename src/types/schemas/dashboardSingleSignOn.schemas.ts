@@ -35,6 +35,13 @@ export type DeleteSsoBackend404 = {
   message?: string
 }
 
+export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoRunning200Item = {
+  ldap: 'ldap',
+} as const
+
 export type PostSsoLoginBackend404Code =
   typeof PostSsoLoginBackend404Code[keyof typeof PostSsoLoginBackend404Code]
 
