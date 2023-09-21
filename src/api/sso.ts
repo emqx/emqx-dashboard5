@@ -1,7 +1,7 @@
 import http from '@/common/http'
 import type {
   DashboardSsoBackendStatus,
-  PostSsoLogin200,
+  PostSsoLoginBackend200,
   EmqxDashboardSsoLdapLogin,
   EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -16,7 +16,7 @@ export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
 
 export const postSSOLogin = (
   emqxDashboardSsoLdapLogin: EmqxDashboardSsoLdapLogin,
-): Promise<PostSsoLogin200> => {
+): Promise<PostSsoLoginBackend200> => {
   return http.post(`/sso/login`, emqxDashboardSsoLdapLogin)
 }
 
