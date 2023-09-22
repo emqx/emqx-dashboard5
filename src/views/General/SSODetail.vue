@@ -36,6 +36,7 @@ import { Component, ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
+import SAMLForm from './components/SSOForm/SAMLForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -52,11 +53,13 @@ const routeQuery = computed(() => ({
 const { createRawForm } = useSSODetail()
 
 const FormCom = ref()
-const formComMap: Map<string, Component> = new Map([
-  [DashboardSsoBackendStatusBackend.ldap, LDAPForm],
-])
+const formComMap: Record<string, Component> = {
+  [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
+  [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
+}
+
 const formCom = computed(() =>
-  formComMap.has(backend.value) ? formComMap.get(backend.value) : undefined,
+  backend.value in formComMap ? formComMap[backend.value] : undefined,
 )
 
 const formData: Ref<any> = ref({})
