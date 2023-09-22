@@ -12,7 +12,9 @@
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
     "escape": "node ./scripts/escapeI18N.js",
     "checkI18n": "node ./scripts/checkUselessI18n.js",
-    "remove-orval-client": "node ./scripts/removeOrvalClient.js"
+    "remove-orval-client": "node ./scripts/removeOrvalClient.js",
+    "orval:api": "source ./.env.development.local && yarn orval --input $HOST_URL\\api-docs/swagger.json",
+    "orval:local": "yarn orval --input ./swagger.json"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
