@@ -292,8 +292,8 @@ export default {
     en: "The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${'{'}username{'}'}))`.<br />For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.",
   },
   dashboardAddr: {
-    zh: 'Dashboard 地址',
-    en: 'Dashboard Address',
+    zh: '单点登录地址',
+    en: 'ACS URL',
   },
   idpMetadataUrl: {
     zh: 'SAML 元数据 URL',

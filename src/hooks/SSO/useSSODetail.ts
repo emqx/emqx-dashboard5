@@ -23,7 +23,7 @@ export default (): {
   const createRawSAMLForm = (): any => ({
     enable: true,
     backend: EmqxDashboardSsoSamlSamlBackend.saml,
-    dashboard_addr: 'https://127.0.0.1:18083',
+    dashboard_addr: location.origin + location.pathname.slice(0, -1),
     idp_metadata_url: '',
     sp_sign_request: false,
     sp_public_key: '',
