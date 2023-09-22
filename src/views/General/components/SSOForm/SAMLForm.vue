@@ -13,6 +13,9 @@
     </el-form-item>
     <el-form-item prop="dashboard_addr" :label="tl('dashboardAddr')">
       <el-input v-model="formData.dashboard_addr" />
+      <el-button link type="primary" @click="copyText(formData.dashboard_addr)">
+        {{ t('Base.copy') }}
+      </el-button>
     </el-form-item>
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
       <el-input v-model="formData.idp_metadata_url" placeholder="https://idp.example.com" />
@@ -20,17 +23,22 @@
     <el-form-item prop="sp_sign_request" :label="tl('spSignRequest')">
       <el-switch v-model="formData.sp_sign_request" />
     </el-form-item>
-    <el-form-item prop="sp_public_key" :label="tl('spPublicKey')">
-      <CertFileInput v-model="formData.sp_public_key" placeholder="" />
-    </el-form-item>
-    <el-form-item prop="sp_private_key" :label="tl('spPrivateKey')">
-      <CertFileInput v-model="formData.sp_private_key" placeholder="" />
-    </el-form-item>
+    <el-collapse-transition>
+      <div class="keys-container" v-if="formData.sp_sign_request">
+        <el-form-item prop="sp_public_key" :label="tl('spPublicKey')">
+          <CertFileInput v-model="formData.sp_public_key" placeholder="" />
+        </el-form-item>
+        <el-form-item prop="sp_private_key" :label="tl('spPrivateKey')">
+          <CertFileInput v-model="formData.sp_private_key" placeholder="" />
+        </el-form-item>
+      </div>
+    </el-collapse-transition>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
+import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
@@ -45,7 +53,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'save'])
 
-const { tl } = useI18nTl('General')
+const { t, tl } = useI18nTl('General')
 
 const FormCom = ref()
 
@@ -73,6 +81,22 @@ const rules = computed(() => ({
     : {}),
 }))
 
+const { copyText } = useCopy()
+
 const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
+
+<style lang="scss">
+.saml-form {
+  .keys-container {
+    padding: 2px 0 0;
+  }
+  .el-button {
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    transform: translate(100%, -50%);
+  }
+}
+</style>
