@@ -275,9 +275,9 @@ export default {
     zh: '未启用',
     en: 'Disabled',
   },
-  LDAPEnable: {
-    zh: '启用 LDAP SSO',
-    en: 'Enable LDAP SSO',
+  SSOEnable: {
+    zh: '启用 {backend} SSO',
+    en: 'Enable {backend} SSO',
   },
   baseDN: {
     zh: '基本 DN',
@@ -290,5 +290,25 @@ export default {
   LDAPFilterDesc: {
     zh: "LDAP 中匹配用户的过滤器,默认为 `(& (objectClass=person) (uid=${'{'}username{'}'}))`。<br />对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。",
     en: "The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${'{'}username{'}'}))`.<br />For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.",
+  },
+  dashboardAddr: {
+    zh: 'Dashboard 地址',
+    en: 'Dashboard Address',
+  },
+  idpMetadataUrl: {
+    zh: 'SAML 元数据 URL',
+    en: 'SAML Metadata URL',
+  },
+  spSignRequest: {
+    zh: 'SP 请求签名',
+    en: 'SP Request Signing',
+  },
+  spPublicKey: {
+    zh: 'SP 公钥',
+    en: 'SP Public Key',
+  },
+  spPrivateKey: {
+    zh: 'SP 私钥',
+    en: 'SP Private Key',
   },
 }

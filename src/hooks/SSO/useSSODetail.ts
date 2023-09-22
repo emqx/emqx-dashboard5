@@ -1,6 +1,7 @@
 import {
   DashboardSsoBackendStatusBackend,
   EmqxDashboardSsoLdapLdapBackend,
+  EmqxDashboardSsoSamlSamlBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import useSSL from '../useSSL'
 
@@ -19,8 +20,19 @@ export default (): {
     filter: '(& (objectClass=person) (uid=${username}))',
     ssl: createSSLForm(),
   })
+  const createRawSAMLForm = (): any => ({
+    enable: true,
+    backend: EmqxDashboardSsoSamlSamlBackend.saml,
+    dashboard_addr: 'https://127.0.0.1:18083',
+    idp_metadata_url: '',
+    sp_sign_request: false,
+    sp_public_key: '',
+    sp_private_key: '',
+  })
+
   const formCreatorMap: Map<string, () => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
+    [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)
