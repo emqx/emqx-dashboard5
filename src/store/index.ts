@@ -38,6 +38,14 @@ const getLeftBarCollapse = () => {
   return JSON.parse(leftBarCollapse)
 }
 
+const getLoginBackend = () => {
+  const loginBackend = localStorage.getItem('loginBackend') || 'local'
+  if (loginBackend === 'undefined') {
+    return 'local'
+  }
+  return loginBackend
+}
+
 export default createStore({
   state: {
     user: (getUser() || {}) as UserInfo,
@@ -54,6 +62,7 @@ export default createStore({
     ruleEventList: [] as Array<RuleEvent>,
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
+    loginBackend: getLoginBackend(),
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -73,6 +82,9 @@ export default createStore({
     },
     UPDATE_SETTINGS({ commit }, settings = {}) {
       commit('UPDATE_SETTINGS', settings)
+    },
+    UPDATE_LOGIN_BACKEND({ commit }, loginBackend) {
+      commit('UPDATE_LOGIN_BACKEND', loginBackend)
     },
   },
   mutations: {
@@ -98,6 +110,12 @@ export default createStore({
       if (lang && state.lang !== lang) {
         location.reload()
       }
+    },
+    UPDATE_LOGIN_BACKEND(state, loginBackend) {
+      loginBackend
+        ? localStorage.setItem('loginBackend', loginBackend)
+        : localStorage.removeItem('loginBackend')
+      state.loginBackend = loginBackend
     },
     SET_REQ_CHANGE(state, addOrDone) {
       addOrDone ? ++state.request_queue : --state.request_queue
