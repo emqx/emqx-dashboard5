@@ -878,6 +878,7 @@ export function toLogin(path?: string): void {
   store.commit('UPDATE_USER_INFO', { logOut: true })
   store.commit('UPDATE_EDITION', null)
   store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
+  store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
   const currentPath = router.currentRoute.value.path
   currentPath !== '/login' &&
     router.push({

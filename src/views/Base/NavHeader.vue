@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { loadAlarm } from '@/api/common'
+import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
 import { useStore } from 'vuex'
 import { Right, Bell, Setting } from '@element-plus/icons-vue'
@@ -124,15 +124,30 @@ export default defineComponent({
         confirmButtonText: t('components.signOut'),
         cancelButtonText: t('Base.cancel'),
         type: 'warning',
+        beforeClose: async (action, instance, done) => {
+          if (action !== 'confirm') {
+            done()
+            return
+          }
+
+          instance.confirmButtonLoading = true
+
+          try {
+            const { user, loginBackend } = store.state
+            await queryLogout(user.username, loginBackend)
+            toLogin()
+            ElNotification.success(t('components.loggedOut'))
+            done()
+          } catch (error) {
+            console.error('Logout failed:', error)
+            instance.confirmButtonLoading = false
+            instance.confirmButtonText = t('components.signOut')
+            done()
+          }
+        },
       })
-        .then(() => {
-          ElNotification.success(t('components.loggedOut'))
-          toLogin()
-        })
-        .catch(() => {
-          // do nothing
-        })
     }
+
     const handleDropdownCommand = (command: string) => {
       if (!command) {
         return

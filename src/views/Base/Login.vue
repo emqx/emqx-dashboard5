@@ -20,8 +20,8 @@
         </div>
       </el-col>
       <el-col class="form" :span="16">
-        <!-- Native Login -->
-        <div v-if="currentLoginBackend === 'native'" class="login-wrapper native-login">
+        <!-- Local Login -->
+        <div v-if="currentLoginBackend === 'local'" class="login-wrapper local-login">
           <div class="form-hd">
             <h1>{{ $t('Base.login') }}</h1>
           </div>
@@ -82,8 +82,7 @@
         </div>
         <!-- LDAP Login -->
         <div v-else-if="currentLoginBackend === 'ldap'" class="login-wrapper ldap-login">
-          <el-page-header :icon="ArrowLeft" @back="currentLoginBackend = 'native'">
-          </el-page-header>
+          <el-page-header :icon="ArrowLeft" @back="currentLoginBackend = 'local'"> </el-page-header>
           <div class="form-hd">
             <h1>{{ $t('Base.ldapLogin') }}</h1>
           </div>
@@ -276,6 +275,7 @@ const PwdFormCom = ref()
 const updateStoreInfo = (username: string, { token, license }: PostLogin200) => {
   store.commit('UPDATE_USER_INFO', { token, username })
   store.commit('UPDATE_EDITION', license?.edition)
+  store.commit('UPDATE_LOGIN_BACKEND', currentLoginBackend.value)
 }
 
 const queryLogin = async ({ username, password }: { username: string; password: string }) => {
@@ -321,7 +321,7 @@ const submit = async () => {
     return
   }
   switch (currentLoginBackend.value) {
-    case 'native':
+    case 'local':
       login()
       break
     case 'ldap':
