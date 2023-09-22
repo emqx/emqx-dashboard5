@@ -2,6 +2,7 @@ import { NodeStatusClass } from './enum'
 import { FormItemRule } from 'element-plus'
 
 export interface UserInfo {
+  role: 'viewer' | 'administrator'
   username: string
   token: string
 }
