@@ -6,6 +6,7 @@
     :model="formData"
     :rules="rules"
     :label-width="150"
+    :validate-on-rule-change="false"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
       <el-switch v-model="formData.enable" />
@@ -32,6 +33,7 @@
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { FormRules } from '@/types/common'
 import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
@@ -43,7 +45,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'save'])
 
-const { t, tl } = useI18nTl('General')
+const { tl } = useI18nTl('General')
 
 const FormCom = ref()
 
@@ -57,10 +59,19 @@ const formData = computed({
 })
 
 const { createRequiredRule } = useFormRules()
-const rules = {
+const fixedRules: FormRules = {
   dashboard_addr: createRequiredRule(tl('dashboardAddr')),
   idp_metadata_url: createRequiredRule(tl('idpMetadataUrl')),
 }
+const rules = computed(() => ({
+  ...fixedRules,
+  ...(formData.value.sp_sign_request
+    ? {
+        sp_public_key: createRequiredRule(tl('spPublicKey')),
+        sp_private_key: createRequiredRule(tl('spPrivateKey')),
+      }
+    : {}),
+}))
 
 const validate = () => FormCom.value.validate()
 defineExpose({ validate })
