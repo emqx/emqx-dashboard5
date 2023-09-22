@@ -19,8 +19,8 @@ export function login(user: { password: string; username: string }): Promise<Pos
   return http.post('/login', user)
 }
 
-export function logout(username: string) {
-  return http.post('/logout', { username })
+export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
+  return http.post(`/logout?backend=${backend}`, { username })
 }
 
 // License
