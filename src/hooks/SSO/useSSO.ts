@@ -15,7 +15,7 @@ export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => s
   return { getBackendLabel }
 }
 
-type LoginBackend = 'native' | 'ldap'
+type LoginBackend = 'local' | 'ldap'
 
 interface LdapLoginResult {
   username: string | undefined
@@ -38,7 +38,7 @@ export default function useSSO(): {
     password: '',
     backend: 'ldap',
   })
-  const currentLoginBackend = ref<LoginBackend>('native')
+  const currentLoginBackend = ref<LoginBackend>('local')
 
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 
