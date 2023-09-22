@@ -165,6 +165,7 @@ export type PostLogin200License = {
 }
 
 export type PostLogin200 = {
+  role?: string
   token?: string
   version?: string
   license?: PostLogin200License

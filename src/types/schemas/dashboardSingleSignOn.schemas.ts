@@ -138,6 +138,7 @@ export type PostSsoLoginBackend200License = {
 }
 
 export type PostSsoLoginBackend200 = {
+  role?: string
   token?: string
   version?: string
   license?: PostSsoLoginBackend200License
