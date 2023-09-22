@@ -4,7 +4,7 @@
     class="TLS-input"
     v-model="inputValue"
     :accept="CER_FILE_ACCEPTS"
-    :placeholder="$t('Base.certPlaceholder')"
+    :placeholder="isUndefined(placeholder) ? defaultPlaceholder : placeholder"
   />
   <ConfigItemDataLook v-else class="TLS-input" :value="inputValue" @reset="editConfigItem" />
 </template>
@@ -14,6 +14,8 @@ import { CER_FILE_ACCEPTS } from '@/common/constants'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import { PropType, computed, defineEmits, defineProps, ref } from 'vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { isUndefined } from 'lodash'
 
 const props = defineProps({
   modelValue: {
@@ -22,8 +24,15 @@ const props = defineProps({
   isEdit: {
     type: Boolean,
   },
+  placeholder: {
+    type: String,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
+
+const { tl } = useI18nTl('Base')
+
+const defaultPlaceholder = tl('certPlaceholder')
 
 const openReset = ref((props.isEdit && !props.modelValue) || false)
 const showUploader = computed(() => {

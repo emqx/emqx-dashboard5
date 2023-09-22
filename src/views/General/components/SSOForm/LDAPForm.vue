@@ -7,7 +7,7 @@
     :rules="rules"
     :label-width="150"
   >
-    <el-form-item prop="enable" :label="tl('LDAPEnable')">
+    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'LDAP' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
     <el-form-item prop="server" :label="t('Auth.server')">
