@@ -10,6 +10,10 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
+export type PutSsoBackend200 = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
+
+export type PutSsoBackendBody = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
+
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -21,6 +25,8 @@ export type GetSsoBackend404 = {
   code?: GetSsoBackend404Code
   message?: string
 }
+
+export type GetSsoBackend200 = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
 
 export type DeleteSsoBackend404Code =
   typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
@@ -35,11 +41,48 @@ export type DeleteSsoBackend404 = {
   message?: string
 }
 
+export type PostSsoSamlAcs404Code = typeof PostSsoSamlAcs404Code[keyof typeof PostSsoSamlAcs404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type PostSsoSamlAcs404 = {
+  code?: PostSsoSamlAcs404Code
+  message?: string
+}
+
+export type PostSsoSamlAcs401Code = typeof PostSsoSamlAcs401Code[keyof typeof PostSsoSamlAcs401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs401Code = {
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+} as const
+
+export type PostSsoSamlAcs401 = {
+  code?: PostSsoSamlAcs401Code
+  message?: string
+}
+
+export type PostSsoSamlAcs302Code = typeof PostSsoSamlAcs302Code[keyof typeof PostSsoSamlAcs302Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs302Code = {
+  REDIRECT: 'REDIRECT',
+} as const
+
+export type PostSsoSamlAcs302 = {
+  code?: PostSsoSamlAcs302Code
+  message?: string
+}
+
 export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
+  saml: 'saml',
 } as const
 
 export type PostSsoLoginBackend404Code =
@@ -68,6 +111,19 @@ export type PostSsoLoginBackend401 = {
   message?: string
 }
 
+export type PostSsoLoginBackend302Code =
+  typeof PostSsoLoginBackend302Code[keyof typeof PostSsoLoginBackend302Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoLoginBackend302Code = {
+  REDIRECT: 'REDIRECT',
+} as const
+
+export type PostSsoLoginBackend302 = {
+  code?: PostSsoLoginBackend302Code
+  message?: string
+}
+
 export type PostSsoLoginBackend200LicenseEdition =
   typeof PostSsoLoginBackend200LicenseEdition[keyof typeof PostSsoLoginBackend200LicenseEdition]
 
@@ -85,6 +141,40 @@ export type PostSsoLoginBackend200 = {
   token?: string
   version?: string
   license?: PostSsoLoginBackend200License
+}
+
+export type PostSsoLoginBackendBody = EmqxDashboardSsoSamlLogin | EmqxDashboardSsoLdapLogin
+
+export type GetSsoSamlMetadata404Code =
+  typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoSamlMetadata404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type GetSsoSamlMetadata404 = {
+  code?: GetSsoSamlMetadata404Code
+  message?: string
+}
+
+export type GetSsoSamlMetadata200LicenseEdition =
+  typeof GetSsoSamlMetadata200LicenseEdition[keyof typeof GetSsoSamlMetadata200LicenseEdition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoSamlMetadata200LicenseEdition = {
+  opensource: 'opensource',
+  enterprise: 'enterprise',
+} as const
+
+export type GetSsoSamlMetadata200License = {
+  edition?: GetSsoSamlMetadata200LicenseEdition
+}
+
+export type GetSsoSamlMetadata200 = {
+  token?: string
+  version?: string
+  license?: GetSsoSamlMetadata200License
 }
 
 export type EmqxLdapSslServerNameIndication = string | 'disable'
@@ -132,6 +222,36 @@ export interface EmqxLdapSsl {
   server_name_indication?: EmqxLdapSslServerNameIndication
 }
 
+export type EmqxDashboardSsoSamlSamlBackend =
+  typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxDashboardSsoSamlSamlBackend = {
+  saml: 'saml',
+} as const
+
+export interface EmqxDashboardSsoSamlSaml {
+  enable?: boolean
+  backend: EmqxDashboardSsoSamlSamlBackend
+  dashboard_addr?: string
+  idp_metadata_url?: string
+  sp_sign_request?: boolean
+  sp_public_key?: string
+  sp_private_key?: string
+}
+
+export type EmqxDashboardSsoSamlLoginBackend =
+  typeof EmqxDashboardSsoSamlLoginBackend[keyof typeof EmqxDashboardSsoSamlLoginBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxDashboardSsoSamlLoginBackend = {
+  saml: 'saml',
+} as const
+
+export interface EmqxDashboardSsoSamlLogin {
+  backend: EmqxDashboardSsoSamlLoginBackend
+}
+
 export type EmqxDashboardSsoLdapLoginBackend =
   typeof EmqxDashboardSsoLdapLoginBackend[keyof typeof EmqxDashboardSsoLdapLoginBackend]
 
@@ -174,6 +294,7 @@ export type DashboardSsoBackendStatusBackend =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
+  saml: 'saml',
 } as const
 
 export interface DashboardSsoBackendStatus {
