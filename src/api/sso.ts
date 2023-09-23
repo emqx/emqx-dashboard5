@@ -1,23 +1,19 @@
 import http from '@/common/http'
 import type {
   DashboardSsoBackendStatus,
-  PostSsoLoginBackend200,
-  EmqxDashboardSsoLdapLogin,
   EmqxDashboardSsoLdapLdap,
   GetSsoRunning200Item,
+  PostSsoLoginBackend200,
+  PostSsoLoginBackendBody,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
-
-export const verifyTokenFromSAML = (token: string): Promise<unknown> => {
-  return Promise.resolve()
-}
 
 export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
   return http.get('/sso')
 }
 
 export const postSSOLogin = (
-  backend: 'ldap',
-  emqxDashboardSsoLdapLogin: EmqxDashboardSsoLdapLogin,
+  backend: 'ldap' | 'saml',
+  emqxDashboardSsoLdapLogin: PostSsoLoginBackendBody,
 ): Promise<PostSsoLoginBackend200> => {
   return http.post(`/sso/login/${backend}`, emqxDashboardSsoLdapLogin)
 }

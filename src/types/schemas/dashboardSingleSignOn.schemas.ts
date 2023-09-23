@@ -41,42 +41,6 @@ export type DeleteSsoBackend404 = {
   message?: string
 }
 
-export type PostSsoSamlAcs404Code = typeof PostSsoSamlAcs404Code[keyof typeof PostSsoSamlAcs404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoSamlAcs404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type PostSsoSamlAcs404 = {
-  code?: PostSsoSamlAcs404Code
-  message?: string
-}
-
-export type PostSsoSamlAcs401Code = typeof PostSsoSamlAcs401Code[keyof typeof PostSsoSamlAcs401Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoSamlAcs401Code = {
-  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
-} as const
-
-export type PostSsoSamlAcs401 = {
-  code?: PostSsoSamlAcs401Code
-  message?: string
-}
-
-export type PostSsoSamlAcs302Code = typeof PostSsoSamlAcs302Code[keyof typeof PostSsoSamlAcs302Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoSamlAcs302Code = {
-  REDIRECT: 'REDIRECT',
-} as const
-
-export type PostSsoSamlAcs302 = {
-  code?: PostSsoSamlAcs302Code
-  message?: string
-}
-
 export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -176,6 +140,42 @@ export type GetSsoSamlMetadata200 = {
   token?: string
   version?: string
   license?: GetSsoSamlMetadata200License
+}
+
+export type PostSsoSamlAcs404Code = typeof PostSsoSamlAcs404Code[keyof typeof PostSsoSamlAcs404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type PostSsoSamlAcs404 = {
+  code?: PostSsoSamlAcs404Code
+  message?: string
+}
+
+export type PostSsoSamlAcs401Code = typeof PostSsoSamlAcs401Code[keyof typeof PostSsoSamlAcs401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs401Code = {
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+} as const
+
+export type PostSsoSamlAcs401 = {
+  code?: PostSsoSamlAcs401Code
+  message?: string
+}
+
+export type PostSsoSamlAcs302Code = typeof PostSsoSamlAcs302Code[keyof typeof PostSsoSamlAcs302Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoSamlAcs302Code = {
+  REDIRECT: 'REDIRECT',
+} as const
+
+export type PostSsoSamlAcs302 = {
+  code?: PostSsoSamlAcs302Code
+  message?: string
 }
 
 export type EmqxLdapSslServerNameIndication = string | 'disable'
