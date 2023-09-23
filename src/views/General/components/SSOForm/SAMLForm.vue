@@ -5,7 +5,7 @@
     require-asterisk-position="right"
     :model="formData"
     :rules="rules"
-    :label-width="150"
+    :label-width="180"
     :validate-on-rule-change="false"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
@@ -13,10 +13,28 @@
     </el-form-item>
     <el-form-item prop="dashboard_addr" :label="tl('dashboardAddr')">
       <el-input v-model="formData.dashboard_addr" />
-      <el-button link type="primary" @click="copyText(formData.dashboard_addr)">
-        {{ t('Base.copy') }}
-      </el-button>
     </el-form-item>
+    <div class="info-idp-block">
+      <p class="info-desc">{{ tl('infoIdPDesc') }}</p>
+      <div class="info-item is-first">
+        <label class="info-label">{{ tl('ssoUrl') }}</label>
+        <p class="info-value">{{ ssoAddress }}</p>
+        <el-tooltip :content="t('Base.copy')" placement="top">
+          <el-button class="btn-copy" link type="info">
+            <el-icon @click="copyText(ssoAddress)" class="icon-copy"><CopyDocument /></el-icon>
+          </el-button>
+        </el-tooltip>
+      </div>
+      <div class="info-item">
+        <label class="info-label">{{ tl('metaDataUrl') }}</label>
+        <p class="info-value">{{ metadataAddress }}</p>
+        <el-tooltip :content="t('Base.copy')" placement="top">
+          <el-button class="btn-copy" link type="info">
+            <el-icon @click="copyText(metadataAddress)" class="icon-copy"><CopyDocument /></el-icon>
+          </el-button>
+        </el-tooltip>
+      </div>
+    </div>
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
       <el-input v-model="formData.idp_metadata_url" placeholder="https://idp.example.com" />
     </el-form-item>
@@ -43,7 +61,11 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { CopyDocument } from '@element-plus/icons-vue'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+
+const SAML_SSO_PATH = '/api/v5/sso/saml/acs'
+const SAML_SSO_METADATA_PATH = '/api/v5/sso/saml/metadata'
 
 const props = defineProps({
   modelValue: {
@@ -81,6 +103,9 @@ const rules = computed(() => ({
     : {}),
 }))
 
+const ssoAddress = computed(() => formData.value.dashboard_addr + SAML_SSO_PATH)
+const metadataAddress = computed(() => formData.value.dashboard_addr + SAML_SSO_METADATA_PATH)
+
 const { copyText } = useCopy()
 
 const validate = () => FormCom.value.validate()
@@ -92,11 +117,51 @@ defineExpose({ validate })
   .keys-container {
     padding: 2px 0 0;
   }
-  .el-button {
+  .info-idp-block {
+    margin-bottom: 24px;
+  }
+  .info-desc {
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+  $padding-vertical: 8px;
+  .info-item {
+    position: relative;
+    padding: $padding-vertical 48px $padding-vertical 180px;
+    line-height: 24px;
+    border-radius: 4px;
+    background: var(--color-bg-main);
+    &.is-first {
+      margin-bottom: 8px;
+    }
+  }
+  .info-label {
     position: absolute;
-    top: 50%;
-    right: -16px;
-    transform: translate(100%, -50%);
+    left: 0;
+    top: 0;
+    width: 180px;
+    padding: $padding-vertical 16px;
+    font-size: 14px;
+    text-align: right;
+    color: var(--color-text-primary);
+  }
+  .info-value {
+    overflow: hidden;
+    margin: 0;
+    color: var(--color-text-primary);
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+  .btn-copy {
+    position: absolute;
+    right: 24px;
+    top: $padding-vertical;
+  }
+  .el-button.is-link:focus,
+  .el-button.is-link:not(.is-disabled):active {
+    color: inherit;
   }
 }
 </style>
