@@ -6,6 +6,9 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import useGetInfoFromQuery from '@/hooks/useGetInfoFromQuery'
+import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
+import { EmqxDashboardSsoSamlLoginBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 const store = useStore()
 const lang = computed(() => {
@@ -58,14 +61,18 @@ if (syncOsTheme.value) {
   hadleSyncOSTheme()
 }
 
-const handleSearch = () => {
-  const search = location.search
-  const router = useRouter()
-  // TODO:SSO
-  if (search) {
-    router.push({ name: 'sso-login' })
+const router = useRouter()
+const { getInfoFromQuery } = useGetInfoFromQuery()
+const { updateBaseInfo } = useUpdateBaseInfo()
+const handleQuery = () => {
+  const info = getInfoFromQuery()
+  if (info) {
+    location.replace(location.origin + location.pathname + location.hash)
+    updateBaseInfo(info.username, info, EmqxDashboardSsoSamlLoginBackend.saml)
+    router.push({ name: 'overview' })
   }
 }
+handleQuery()
 </script>
 
 <style lang="scss"></style>

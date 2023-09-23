@@ -1,10 +1,12 @@
-import { ref, Ref, reactive, computed, ComputedRef } from 'vue'
 import { getSSORunning, postSSOLogin } from '@/api/sso'
+import { API_BASE_URL } from '@/common/constants'
 import {
-  EmqxDashboardSsoLdapLogin,
-  PostSsoLoginBackend200,
   DashboardSsoBackendStatusBackend,
+  EmqxDashboardSsoLdapLogin,
+  EmqxDashboardSsoSamlLoginBackend,
+  PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { ComputedRef, Ref, computed, reactive, ref } from 'vue'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
   const backendsLabelMap: Map<string, string> = new Map([
@@ -24,13 +26,15 @@ interface LdapLoginResult {
 }
 
 export default function useSSO(): {
+  samlLoginUrl: string
+  samlBackend: Ref<'saml'>
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
   ldapRecord: EmqxDashboardSsoLdapLogin
   hasSSOEnabled: ComputedRef<boolean>
   ldapLogin: () => Promise<LdapLoginResult>
-  getEanbledSSO: () => Promise<void>
+  getEnabledSSO: () => Promise<void>
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
@@ -41,9 +45,12 @@ export default function useSSO(): {
   })
   const currentLoginBackend = ref<LoginBackend>('local')
 
+  const samlLoginUrl = `${API_BASE_URL}/sso/login/saml`
+  const samlBackend = ref(EmqxDashboardSsoSamlLoginBackend.saml)
+
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 
-  const getEanbledSSO = async () => {
+  const getEnabledSSO = async () => {
     try {
       enabledSSOList.value = await getSSORunning()
     } catch (error) {
@@ -66,11 +73,13 @@ export default function useSSO(): {
 
   return {
     currentLoginBackend,
+    samlLoginUrl,
+    samlBackend,
     isSSOLoading,
     enabledSSOList,
     ldapRecord,
     hasSSOEnabled,
     ldapLogin,
-    getEanbledSSO,
+    getEnabledSSO,
   }
 }

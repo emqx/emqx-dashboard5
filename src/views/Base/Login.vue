@@ -66,18 +66,33 @@
           </el-form>
           <div v-if="hasSSOEnabled" class="other-login">
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
-            <el-button
-              v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.ldap)"
-              link
-              type="info"
-              @click="currentLoginBackend = 'ldap'"
-            >
-              LDAP
-            </el-button>
-            <!-- TODO:SSO -->
-            <el-button link type="info">
-              <a target="_blank" rel="noopener noreferrer" class="forgot-btn"> SAML </a>
-            </el-button>
+            <div class="buttons-container vertical-align-center">
+              <el-button
+                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.ldap)"
+                link
+                type="info"
+                @click="currentLoginBackend = 'ldap'"
+              >
+                LDAP
+              </el-button>
+              <!-- for call api by browser -->
+              <form
+                :action="samlLoginUrl"
+                method="post"
+                class="form-example"
+                enctype="multipart/form-data"
+              >
+                <input
+                  v-show="false"
+                  type="text"
+                  name="backend"
+                  id="backend"
+                  required
+                  v-model="samlBackend"
+                />
+                <input class="el-button el-button--info is-link" type="submit" value="SAML" />
+              </form>
+            </div>
           </div>
         </div>
         <!-- LDAP Login -->
@@ -193,9 +208,10 @@
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
+import useSSO from '@/hooks/SSO/useSSO'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
-import useSSO from '@/hooks/SSO/useSSO'
+import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -213,16 +229,18 @@ const route = useRoute()
 const { docMap } = useDocLink()
 
 const {
+  samlLoginUrl,
+  samlBackend,
   enabledSSOList,
   currentLoginBackend,
   isSSOLoading,
   ldapRecord,
   hasSSOEnabled,
   ldapLogin,
-  getEanbledSSO,
+  getEnabledSSO,
 } = useSSO()
 
-getEanbledSSO()
+getEnabledSSO()
 
 const record = reactive({
   username: '',
@@ -272,11 +290,9 @@ const pwdRules = {
 const FormCom = ref()
 const PwdFormCom = ref()
 
-const updateStoreInfo = (username: string, { token, license }: PostLogin200) => {
-  store.commit('UPDATE_USER_INFO', { token, username })
-  store.commit('UPDATE_EDITION', license?.edition)
-  store.commit('UPDATE_LOGIN_BACKEND', currentLoginBackend.value)
-}
+const { updateBaseInfo } = useUpdateBaseInfo()
+const updateStoreInfo = (username: string, data: PostLogin200) =>
+  updateBaseInfo(username, data, currentLoginBackend.value)
 
 const queryLogin = async ({ username, password }: { username: string; password: string }) => {
   isSubmitting.value = true
@@ -492,9 +508,8 @@ const submitNewPwd = async () => {
     p {
       margin-bottom: 6px;
     }
-    a {
-      color: inherit;
-      transition: none;
+    .buttons-container {
+      justify-content: center;
     }
   }
 
