@@ -2,7 +2,8 @@
 const { camelCase } = require('lodash')
 const filterTargetSchema = require('./scripts/transformer/filterTagsSchema.js')
 
-const swaggerURL = `http://localhost:18083/api-docs/swagger.json`
+const baseURL = process.env.HOST_URL || 'http://localhost:18083'
+const swaggerURL = `${baseURL}/api-docs/swagger.json`
 
 const tagArr = [
   'Authentication',
