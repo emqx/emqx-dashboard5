@@ -62,6 +62,7 @@ export type PutUsersUsername404 = {
 export type PutUsersUsername200 = {
   username?: string
   description?: string
+  backend?: string
 }
 
 export type PutUsersUsernameBody = {
@@ -134,6 +135,7 @@ export type PostLoginBody = {
 export type PostUsers200 = {
   username?: string
   description?: string
+  backend?: string
 }
 
 export type PostUsersBody = {
@@ -145,4 +147,5 @@ export type PostUsersBody = {
 export interface DashboardUser {
   username?: string
   description?: string
+  backend?: string
 }
