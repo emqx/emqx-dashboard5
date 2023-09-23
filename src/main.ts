@@ -11,8 +11,8 @@ import ElementPlus from 'element-plus'
 import elementI18nZhCn from 'element-plus/es/locale/lang/zh-cn'
 import elementI18nEn from 'element-plus/es/locale/lang/en'
 import safeHTML from '@/common/safeHTML'
-
 import i18n from './i18n'
+import permissionsPlugin from './plugins/permissionsPlugin'
 
 function bindDirective(app: Application) {
   app.directive('safe-html', safeHTML)
@@ -27,6 +27,9 @@ const app = createApp(App)
   })
   .use(i18n)
   .use(bindDirective)
+  .use(permissionsPlugin, {
+    store,
+  })
   .mount('#app')
 
 export default app
