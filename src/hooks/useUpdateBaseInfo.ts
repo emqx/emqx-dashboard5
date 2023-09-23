@@ -6,8 +6,12 @@ export default (): {
 } => {
   const { commit } = useStore()
 
-  const updateBaseInfo = (username: string, { token, license }: PostLogin200, backend: string) => {
-    commit('UPDATE_USER_INFO', { token, username })
+  const updateBaseInfo = (
+    username: string,
+    { token, license, role }: PostLogin200,
+    backend: string,
+  ) => {
+    commit('UPDATE_USER_INFO', { token, username, role })
     commit('UPDATE_EDITION', license?.edition)
     commit('UPDATE_LOGIN_BACKEND', backend)
   }
