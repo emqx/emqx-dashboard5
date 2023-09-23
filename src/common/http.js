@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
 import _ from 'lodash'
-import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
+import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { BAD_TOKEN, TOKEN_TIME_OUT, NAME_PWD_ERROR } from '@/common/customErrorCode'
 import i18n from '@/i18n'
 
@@ -15,7 +15,7 @@ let respSet = new Set()
 const resetRespSet = () => (respSet = new Set())
 
 Object.assign(axios.defaults, {
-  baseURL: 'api/v5',
+  baseURL: API_BASE_URL,
   timeout: 20000,
 })
 
