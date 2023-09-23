@@ -22,7 +22,6 @@ const tagArr = [
   'Gateway Listeners',
   'Configs',
   'Clients',
-  'Schema_registry',
   'Cluster',
   'Gateway Clients',
   'Publish',
