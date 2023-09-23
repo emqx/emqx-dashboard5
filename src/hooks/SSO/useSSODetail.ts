@@ -1,3 +1,4 @@
+import { checkNOmitFromObj } from '@/common/tools'
 import {
   DashboardSsoBackendStatusBackend,
   EmqxDashboardSsoLdapLdapBackend,
@@ -7,6 +8,7 @@ import useSSL from '../useSSL'
 
 export default (): {
   createRawForm: (backend: string) => any
+  handleFormDataBeforeSubmit: (backend: string, form: any) => any
 } => {
   const { createSSLForm } = useSSL()
 
@@ -39,7 +41,26 @@ export default (): {
     return func?.() || {}
   }
 
+  const handleSAMLFormBeforeSubmit = (form: any) => {
+    if (!form.sp_sign_request) {
+      form.sp_public_key = ''
+      form.sp_private_key = ''
+    }
+    return form
+  }
+
+  const formHandlerMap: Map<string, (form: any) => any> = new Map([
+    [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
+    [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
+  ])
+
+  const handleFormDataBeforeSubmit = (backend: string, form: any) => {
+    const func = formHandlerMap.get(backend)
+    return func ? func(form) : form
+  }
+
   return {
     createRawForm,
+    handleFormDataBeforeSubmit,
   }
 }
