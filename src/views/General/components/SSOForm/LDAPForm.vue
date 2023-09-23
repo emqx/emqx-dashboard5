@@ -77,3 +77,11 @@ const rules = {
 const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
+
+<style lang="scss">
+.ldap-form {
+  .TLS-enable-config .TLS-input {
+    width: 100%;
+  }
+}
+</style>

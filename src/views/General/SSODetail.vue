@@ -22,10 +22,9 @@
 
 <script setup lang="ts">
 import { getSSOBackend, putSSOBackend } from '@/api/sso'
-import { checkNOmitFromObj } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useSSODetail from '@/hooks/SSO/useSSODetail'
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
+import useSSODetail from '@/hooks/SSO/useSSODetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import {
   DashboardSsoBackendStatusBackend,
@@ -50,7 +49,7 @@ const routeQuery = computed(() => ({
   isCreated: route.query.isCreated === true.toString(),
   enable: route.query.enable === true.toString(),
 }))
-const { createRawForm } = useSSODetail()
+const { createRawForm, handleFormDataBeforeSubmit } = useSSODetail()
 
 const FormCom = ref()
 const formComMap: Record<string, Component> = {
@@ -96,7 +95,7 @@ const saveConfig = async () => {
     await FormCom.value?.validate?.()
     await putSSOBackend(
       backend.value,
-      checkNOmitFromObj(formData.value) as EmqxDashboardSsoLdapLdap,
+      handleFormDataBeforeSubmit(backend.value, formData.value) as EmqxDashboardSsoLdapLdap,
     )
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'SSO' })
