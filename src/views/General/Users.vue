@@ -161,7 +161,7 @@ const roleOptions = [
 const { getBackendLabel } = useSSOBackendsLabel()
 const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
 
-const { loadConfigPromise, hasSSOEnabled } = useSSO()
+const { loadConfigPromise, hasSSOEnabled, getEnabledSSO } = useSSO()
 
 const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
 
@@ -238,6 +238,7 @@ const currentUser = computed(() => {
 const loadData = async () => {
   lockTable.value = true
   try {
+    await getEnabledSSO()
     tableData.value = await loadUser()
     if (loadConfigPromise) {
       await loadConfigPromise
