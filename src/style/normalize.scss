@@ -243,6 +243,16 @@
       border-bottom: none;
     }
   }
+  .el-button {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    &:not(:last-child),
+    & + .el-button,
+    & + .el-dropdown {
+      margin-left: 0;
+      margin-right: 12px;
+    }
+  }
 }
 .el-table__inner-wrapper::before {
   height: 0px;
