@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { createBridge, createRules } from '@/api/ruleengine'
-import { checkNOmitFromObj, getBridgeKey } from '@/common/tools'
+import { checkNOmitFromObj, customValidate, getBridgeKey } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -44,7 +44,7 @@ const setName = (data: WebhookForm) => {
 
 const submit = async () => {
   try {
-    await FormCom.value.validate()
+    await customValidate(FormCom.value)
     const data: any = checkNOmitFromObj(setName(webhook.value))
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
