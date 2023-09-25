@@ -27,7 +27,11 @@
         </el-table-column>
         <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
           <template #default="{ row }">
-            <el-switch v-model="row.enable" @change="handleToggleStatus(row)" />
+            <el-switch
+              v-model="row.enable"
+              :disabled="!$hasPermission('put')"
+              @change="handleToggleStatus(row)"
+            />
           </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">

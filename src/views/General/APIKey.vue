@@ -27,7 +27,11 @@
       <el-table-column prop="desc" :label="t('Base.note')" />
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="toggleKeyItemEnable(row)" />
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            @change="toggleKeyItemEnable(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
