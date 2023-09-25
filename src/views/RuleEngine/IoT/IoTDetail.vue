@@ -13,7 +13,12 @@
             :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
+            <el-switch
+              class="enable-btn"
+              :disabled="!$hasPermission('put')"
+              v-model="ruleInfo.enable"
+              @change="enableOrDisableRule"
+            />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button

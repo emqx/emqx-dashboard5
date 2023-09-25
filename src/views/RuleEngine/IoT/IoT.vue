@@ -45,7 +45,11 @@
         </el-table-column>
         <el-table-column prop="enable" :label="$t('Base.isEnabled')">
           <template #default="{ row }">
-            <el-switch v-model="row.enable" @change="startOrStopRule(row)" />
+            <el-switch
+              v-model="row.enable"
+              :disabled="!$hasPermission('put')"
+              @change="startOrStopRule(row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="description" :label="tl('note')"></el-table-column>
