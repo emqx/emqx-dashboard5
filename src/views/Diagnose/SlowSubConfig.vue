@@ -78,7 +78,11 @@
         <h6 class="config-block-title">{{ $t('Base.enable') }}</h6>
         <el-form>
           <el-form-item :label="$t('SlowSub.enableLabel')">
-            <el-switch v-model="configForm.enable" @change="toggleStatus" />
+            <el-switch
+              v-model="configForm.enable"
+              :disabled="!$hasPermission('put')"
+              @change="toggleStatus"
+            />
           </el-form-item>
         </el-form>
       </div>

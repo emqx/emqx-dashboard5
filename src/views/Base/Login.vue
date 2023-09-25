@@ -77,6 +77,7 @@
               </el-button>
               <!-- for call api by browser -->
               <form
+                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.saml)"
                 :action="samlLoginUrl"
                 method="post"
                 class="form-example"
