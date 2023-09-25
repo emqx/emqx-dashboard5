@@ -2,7 +2,12 @@
   <div class="app-wrapper rewrite">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="openOpDialog()" :icon="Plus">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="openOpDialog()"
+        :icon="Plus"
+      >
         {{ $t('Base.add') }}
       </el-button>
     </div>
@@ -17,10 +22,15 @@
       <el-table-column :label="tl('dTopic')" prop="dest_topic" :min-width="128" />
       <el-table-column :label="$t('Base.operation')" :min-width="146">
         <template #default="{ $index }">
-          <el-button size="small" @click="openOpDialog($index)">
+          <el-button size="small" :disabled="!$hasPermission('put')" @click="openOpDialog($index)">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" plain @click="deleteRewrite($index)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteRewrite($index)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -62,7 +72,12 @@
     </el-form>
     <template #footer>
       <el-button @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
-      <el-button type="primary" @click="submitRewrite(isEdit)" :loading="submitLoading">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="submitRewrite(isEdit)"
+        :loading="submitLoading"
+      >
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>

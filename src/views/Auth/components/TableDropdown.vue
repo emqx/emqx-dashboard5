@@ -22,23 +22,32 @@
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="moveUp" :disabled="position === 0">
+          <el-dropdown-item command="moveUp" :disabled="position === 0 || !$hasPermission('put')">
             <el-icon><ArrowUp /></el-icon>
             {{ $t('Base.up') }}
           </el-dropdown-item>
-          <el-dropdown-item command="moveDown" :disabled="position === tableDataLen - 1">
+          <el-dropdown-item
+            command="moveDown"
+            :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
+          >
             <el-icon><ArrowDown /></el-icon>
             {{ $t('Base.down') }}
           </el-dropdown-item>
-          <el-dropdown-item command="moveToTop" :disabled="position === 0">
+          <el-dropdown-item
+            command="moveToTop"
+            :disabled="position === 0 || !$hasPermission('put')"
+          >
             <el-icon><Top /></el-icon>
             {{ $t('Base.moveToTop') }}
           </el-dropdown-item>
-          <el-dropdown-item command="moveToBottom" :disabled="position === tableDataLen - 1">
+          <el-dropdown-item
+            command="moveToBottom"
+            :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
+          >
             <el-icon><Bottom /></el-icon>
             {{ $t('Base.moveToBottom') }}
           </el-dropdown-item>
-          <el-dropdown-item command="delete">
+          <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
             <el-icon><Delete /></el-icon>
             {{ $t('Base.delete') }}
           </el-dropdown-item>

@@ -82,6 +82,7 @@
         <el-button
           type="primary"
           @click="submit"
+          :disabled="!$hasPermission('post')"
           :loading="isSubmitting"
           v-if="operationType !== 'view'"
         >

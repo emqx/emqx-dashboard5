@@ -2,10 +2,19 @@
   <div class="authz app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" @click="showSettingDrawer = true">
+      <el-button
+        :disabled="!$hasPermission('put')"
+        :icon="Setting"
+        @click="showSettingDrawer = true"
+      >
         {{ $t('Base.setting') }}
       </el-button>
-      <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'authorizationCreate' })">
+      <el-button
+        type="primary"
+        :icon="Plus"
+        :disabled="!$hasPermission('post')"
+        @click="$router.push({ name: 'authorizationCreate' })"
+      >
         {{ $t('Base.create') }}
       </el-button>
     </div>
@@ -37,7 +46,11 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" :before-change="handleSwitchStatus(row)" />
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            :before-change="handleSwitchStatus(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">

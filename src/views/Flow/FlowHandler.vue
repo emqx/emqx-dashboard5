@@ -20,7 +20,12 @@
           <el-radio-button :label="EditingMethod.Flow">Flow</el-radio-button>
           <el-radio-button :label="EditingMethod.SQL">SQL</el-radio-button>
         </el-radio-group> -->
-        <el-button type="primary" :loading="isSubmitting" @click="submit">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :loading="isSubmitting"
+          @click="submit"
+        >
           {{ t(`Base.${isCreate ? 'create' : 'update'}`) }}
         </el-button>
       </div>

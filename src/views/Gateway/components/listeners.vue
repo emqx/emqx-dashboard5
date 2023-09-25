@@ -2,7 +2,12 @@
   <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="addListener">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="addListener"
+      >
         {{ tl('addListener') }}
       </el-button>
     </div>
@@ -38,7 +43,12 @@
       </el-table-column>
     </el-table>
     <div class="not-standalone-btn" v-if="showIntegration">
-      <el-button type="primary" :icon="Plus" @click="addListener">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="addListener"
+      >
         {{ tl('addListener') }}
       </el-button>
     </div>

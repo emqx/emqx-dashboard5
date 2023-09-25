@@ -67,6 +67,7 @@
           type="primary"
           v-if="stepActive === 2"
           :loading="submitLoading"
+          :disabled="!$hasPermission('post')"
           @click="createGateway()"
         >
           {{ $t('Base.enable') }}

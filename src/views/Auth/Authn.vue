@@ -39,7 +39,11 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" :before-change="handleSwitchStatus(row)" />
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            :before-change="handleSwitchStatus(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">

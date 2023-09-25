@@ -4,7 +4,12 @@
     <el-card class="webhook-create-card app-card">
       <WebhookFormCom ref="FormCom" v-model="webhook" />
       <div class="card-ft">
-        <el-button :loading="isSubmitting" type="primary" @click="submit">
+        <el-button
+          :loading="isSubmitting"
+          :disabled="!$hasPermission('post')"
+          type="primary"
+          @click="submit"
+        >
           {{ tl('save') }}
         </el-button>
       </div>

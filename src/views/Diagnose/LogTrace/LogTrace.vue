@@ -3,7 +3,12 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button type="primary" :icon="Plus" @click="openCreateDialog">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :icon="Plus"
+          @click="openCreateDialog"
+        >
           {{ $t('Base.create') }}
         </el-button>
       </div>
@@ -84,12 +89,23 @@
             {{ $t('LogTrace.download') }}
           </el-button>
           <template v-if="row.status !== 'stopped'">
-            <el-button size="small" type="danger" plain @click="stopTraceHandler(row)">
+            <el-button
+              size="small"
+              type="danger"
+              :disabled="!$hasPermission('put')"
+              plain
+              @click="stopTraceHandler(row)"
+            >
               {{ $t('LogTrace.stop') }}
             </el-button>
           </template>
           <template v-else>
-            <el-button size="small" plain @click="deleteTraceHandler(row)">
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('delete')"
+              plain
+              @click="deleteTraceHandler(row)"
+            >
               {{ $t('LogTrace.delete') }}
             </el-button>
           </template>
@@ -179,6 +195,7 @@
             class="dialog-primary-btn"
             type="primary"
             @click="submitTrace()"
+            :disabled="!$hasPermission('post')"
             :loading="createLoading"
           >
             {{ $t('Base.create') }}

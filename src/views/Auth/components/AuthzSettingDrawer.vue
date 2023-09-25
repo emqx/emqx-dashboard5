@@ -43,7 +43,7 @@
           <el-button @click="showDrawer = false">
             {{ $t('Base.cancel') }}
           </el-button>
-          <el-button type="primary" @click="save">
+          <el-button type="primary" :disabled="!$hasPermission('post')" @click="save">
             {{ $t('Base.save') }}
           </el-button>
         </el-card>
@@ -54,7 +54,12 @@
             <el-col :span="24">
               <div class="part-header">{{ titleCase($t('Auth.clearCache')) }}</div>
               <p class="block-desc">{{ $t('Auth.clearCacheDesc') }}</p>
-              <el-button type="primary" plain @click="clearCache">
+              <el-button
+                type="primary"
+                :disabled="!$hasPermission('delete')"
+                plain
+                @click="clearCache"
+              >
                 {{ $t('Auth.clearCache') }}
               </el-button>
             </el-col>

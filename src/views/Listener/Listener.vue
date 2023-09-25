@@ -2,7 +2,12 @@
   <div class="listener app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="addListener()">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="addListener()"
+      >
         {{ tl('addListener') }}
       </el-button>
     </div>
@@ -22,7 +27,11 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" :before-change="handleSwitch(row)" />
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            :before-change="handleSwitch(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column :label="tl('connection')">
@@ -79,7 +88,7 @@
             type="danger"
             plain
             @click="deleteListener(removeRow)"
-            :disabled="confirmDeleteName !== removeRow.name"
+            :disabled="confirmDeleteName !== removeRow.name || !$hasPermission('delete')"
             :loading="deleteLoading"
           >
             {{ $t('Base.confirm') }}

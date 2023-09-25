@@ -2,7 +2,7 @@
   <div class="topicMetrics app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="openAdd()">
+      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="openAdd()">
         {{ tl('addTopic') }}
       </el-button>
     </div>
@@ -133,7 +133,12 @@
           <el-button size="small" @click="resetTopic(row, $index)">
             {{ $t('Base.reset') }}
           </el-button>
-          <el-button size="small" plain @click="deleteTopic(row)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteTopic(row)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -156,7 +161,12 @@
       <template #footer>
         <div class="dialog-align-footer">
           <el-button @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
-          <el-button type="primary" @click="addTopic()" :loading="addLoading">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            @click="addTopic()"
+            :loading="addLoading"
+          >
             {{ $t('Base.add') }}
           </el-button>
         </div>

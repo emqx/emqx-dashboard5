@@ -2,7 +2,7 @@
   <div class="slow-sub app-wrapper" v-loading="isLoading">
     <div class="placeholder" v-if="!isEnable">
       <el-empty :description="$t('SlowSub.slowSubPlaceholder')" />
-      <el-button class="link-btn" type="primary">
+      <el-button :disabled="!$hasPermission('put')" class="link-btn" type="primary">
         <router-link :to="{ name: 'slow-sub-config', query: { enable: true } }">
           {{ $t('SlowSub.enable') }}
         </router-link>

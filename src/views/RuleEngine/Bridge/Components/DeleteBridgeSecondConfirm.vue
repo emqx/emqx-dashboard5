@@ -33,7 +33,13 @@
         <el-button @click="showDialog = false">
           {{ $t('Base.cancel') }}
         </el-button>
-        <el-button type="danger" plain @click="submit" :loading="isSubmitting">
+        <el-button
+          type="danger"
+          :disabled="!$hasPermission('delete')"
+          plain
+          @click="submit"
+          :loading="isSubmitting"
+        >
           {{ $t('Base.confirm') }}
         </el-button>
       </span>

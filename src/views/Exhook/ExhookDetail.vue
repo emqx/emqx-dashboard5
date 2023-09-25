@@ -12,11 +12,19 @@
             <el-switch
               class="enable-btn"
               v-model="exhookData.enable"
+              :disabled="!$hasPermission('put')"
               @change="updateExhookStatus"
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :disabled="!$hasPermission('delete')"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
@@ -55,7 +63,12 @@
         <el-tab-pane :label="t('Base.setting')" name="settings">
           <el-card class="app-card">
             <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
-            <el-button type="primary" :loading="isSubmitting" @click="updateExhook">
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="isSubmitting"
+              @click="updateExhook"
+            >
               {{ $t('Base.update') }}
             </el-button>
           </el-card>

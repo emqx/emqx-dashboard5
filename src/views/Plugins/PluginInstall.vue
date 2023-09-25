@@ -25,7 +25,12 @@
         <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
         </el-button>
-        <el-button type="primary" :loading="isUploading" @click="submit">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :loading="isUploading"
+          @click="submit"
+        >
           {{ tl('install') }}
         </el-button>
       </div>

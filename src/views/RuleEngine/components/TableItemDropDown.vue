@@ -14,15 +14,19 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="createRule" v-if="isBridge" :disabled="!rowData.enable">
+        <el-dropdown-item
+          command="createRule"
+          v-if="isBridge"
+          :disabled="!rowData.enable || $hasPermission('put')"
+        >
           <el-icon><DocumentAdd /></el-icon>
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="copy">
+        <el-dropdown-item :disabled="!$hasPermission('post')" command="copy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="delete">
+        <el-dropdown-item :disabled="!$hasPermission('post')" command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>

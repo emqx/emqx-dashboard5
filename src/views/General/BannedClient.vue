@@ -2,14 +2,19 @@
   <div class="banned-clients app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="dialogVisible = true">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="dialogVisible = true"
+      >
         {{ $t('Base.create') }}
       </el-button>
       <el-button
         type="danger"
         plain
         :icon="Remove"
-        :disabled="!tableData.length"
+        :disabled="!tableData.length || !$hasPermission('delete')"
         @click="clearAllConfirm"
         :loading="clearLoading"
       >
@@ -27,7 +32,12 @@
       <el-table-column prop="until" :formatter="formatterUntil" :label="tl('until')" />
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button plain size="small" @click="deleteConfirm(row)">
+          <el-button
+            plain
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            @click="deleteConfirm(row)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>

@@ -123,7 +123,12 @@
             </el-collapse-transition>
           </template>
           <el-col class="btn-col" :span="24" :style="store.getters.configPageBtnStyle">
-            <el-button type="primary" :loading="isSubmitting" @click="submit">
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="isSubmitting"
+              @click="submit"
+            >
               {{ $t('Base.saveChanges') }}
             </el-button>
             <el-button v-if="selectedPlatform === 'Prometheus'" @click="showPromSetup = true">

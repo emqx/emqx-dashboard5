@@ -16,13 +16,19 @@
       <el-button
         v-if="showTestBtn"
         @click="testConnector"
+        :disabled="!$hasPermission('post')"
         :loading="testLoading"
         type="primary"
         plain
       >
         {{ tl('testTheConnection') }}
       </el-button>
-      <el-button type="primary" @click="submit" :loading="isLoading">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="submit"
+        :loading="isLoading"
+      >
         {{ $t('Base.add') }}
       </el-button>
     </template>

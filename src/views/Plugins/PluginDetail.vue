@@ -21,13 +21,19 @@
           <el-button
             v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
             @click="handleDisable"
+            :disabled="!$hasPermission('put')"
           >
             {{ tl('stop', 'Base') }}
           </el-button>
-          <el-button @click="handleEnable" v-else>
+          <el-button @click="handleEnable" :disabled="!$hasPermission('put')" v-else>
             {{ tl('start') }}
           </el-button>
-          <el-button type="danger" plain @click="handleUninstall">
+          <el-button
+            type="danger"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="handleUninstall"
+          >
             {{ tl('uninstall') }}
           </el-button>
         </div>

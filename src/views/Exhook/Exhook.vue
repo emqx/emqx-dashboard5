@@ -2,7 +2,7 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="addExhook" :icon="Plus">
+      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addExhook" :icon="Plus">
         {{ $t('Base.add') }}
       </el-button>
     </div>

@@ -30,6 +30,7 @@
             <el-switch
               class="enable-btn"
               v-model="bridgeInfo.enable"
+              :disabled="!$hasPermission('put')"
               @change="enableOrDisableBridge"
             />
           </el-tooltip>
@@ -38,14 +39,21 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!bridgeInfo.enable"
+              :disabled="!bridgeInfo.enable || !$hasPermission('post')"
               plain
               @click="createRuleWithBridge"
             >
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              :disabled="!$hasPermission('delete')"
+              type="danger"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
@@ -120,12 +128,13 @@
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
-              <el-button @click="saveAsCopy">
+              <el-button :disabled="!$hasPermission('post')" @click="saveAsCopy">
                 {{ tl('saveAsCopy') }}
               </el-button>
               <el-button
                 v-if="bridgeInfo.type"
                 type="primary"
+                :disabled="!$hasPermission('put')"
                 plain
                 :loading="isTesting"
                 @click="testConnection"
@@ -135,6 +144,7 @@
               <el-button
                 type="primary"
                 v-if="bridgeInfo.type"
+                :disabled="!$hasPermission('put')"
                 :loading="updateLoading"
                 @click="updateBridgeInfo()"
               >

@@ -2,7 +2,12 @@
   <div class="app-wrapper subscribe">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="openOpDialog()" :icon="Plus">
+      <el-button
+        :disabled="!$hasPermission('post')"
+        type="primary"
+        @click="openOpDialog()"
+        :icon="Plus"
+      >
         {{ $t('Base.add') }}
       </el-button>
     </div>
@@ -23,8 +28,18 @@
       <el-table-column :label="$t('Clients.retainHandling')" prop="rh" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ $index }">
-          <el-button size="small" @click="openOpDialog($index)">{{ $t('Base.edit') }}</el-button>
-          <el-button size="small" plain @click="deleteSubs($index)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="openOpDialog($index)"
+            >{{ $t('Base.edit') }}</el-button
+          >
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteSubs($index)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -94,7 +109,12 @@
     </el-form>
     <template #footer>
       <el-button @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
-      <el-button type="primary" @click="submitSubs(isEdit)" :loading="submitLoading">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="submitSubs(isEdit)"
+        :loading="submitLoading"
+      >
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>

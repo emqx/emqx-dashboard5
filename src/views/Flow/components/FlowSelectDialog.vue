@@ -18,7 +18,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="showDialog = false">{{ $t('Base.cancel') }}</el-button>
-        <el-button type="primary" @click="submit">
+        <el-button type="primary" :disabled="!$hasPermission('post')" @click="submit">
           {{ $t('Base.confirm') }}
         </el-button>
       </span>

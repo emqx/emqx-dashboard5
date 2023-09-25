@@ -2,7 +2,12 @@
   <div class="API-key app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="createKeyItem" :icon="Plus">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="createKeyItem"
+        :icon="Plus"
+      >
         {{ $t('Base.create') }}
       </el-button>
     </div>
@@ -27,12 +32,20 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
-          <el-button size="small" @click="operateKeyItem('edit', row)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="operateKeyItem('edit', row)"
+          >
             {{ tl('edit', 'Base') }}
           </el-button>
-          <el-button size="small" plain @click="deleteKey(row)">{{
-            tl('delete', 'Base')
-          }}</el-button>
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteKey(row)"
+            >{{ tl('delete', 'Base') }}</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

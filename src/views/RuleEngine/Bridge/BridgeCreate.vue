@@ -105,6 +105,7 @@
             v-if="step === 1"
             type="primary"
             plain
+            :disabled="!$hasPermission('post')"
             :loading="isTesting"
             @click="testConnection"
           >
@@ -113,6 +114,7 @@
           <el-button
             type="primary"
             v-if="step === 1"
+            :disabled="!$hasPermission('post')"
             :loading="submitLoading"
             @click="submitCreateBridge"
           >

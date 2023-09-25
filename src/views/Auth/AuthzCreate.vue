@@ -70,7 +70,12 @@
           <el-button @click="handleBack">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" @click="handleCreate" :loading="saveLoading">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            @click="handleCreate"
+            :loading="saveLoading"
+          >
             {{ $t('Base.create') }}
           </el-button>
         </div>

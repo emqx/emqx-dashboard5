@@ -84,7 +84,11 @@
           :closable="false"
           type="info"
         />
-        <el-button type="primary" @click="showUpdateDialog = true">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('put')"
+          @click="showUpdateDialog = true"
+        >
           {{ startCase(tl('updateLicense')) }}
         </el-button>
       </div>
@@ -117,7 +121,12 @@
             </template>
             <InputWithUnit v-model="licenseConfig.connection_low_watermark" :units="['%']" />
           </el-form-item>
-          <el-button type="primary" :loading="saveLoading" @click="handleUpdate()">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('put')"
+            :loading="saveLoading"
+            @click="handleUpdate()"
+          >
             {{ $t('Base.saveChanges') }}
           </el-button>
         </el-form>

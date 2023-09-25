@@ -25,6 +25,7 @@ import InputWithUnit from './InputWithUnit.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import { usePerms } from '@/plugins/permissionsPlugin'
 
 interface FormItemMeta {
   col: number
@@ -146,6 +147,7 @@ const SchemaForm = defineComponent({
   },
   setup(props, ctx) {
     const store = useStore()
+    const { hasPermission } = usePerms()
     const configForm = ref<{ [key: string]: any }>({})
     const schemaLoadPath = props.schemaFilePath || '/api/v5/schemas/hotconf'
     const { components, rules, setTypeForProperty, resetObjForGetComponent } = useSchemaForm(
@@ -618,7 +620,12 @@ const SchemaForm = defineComponent({
               {contents}
               {props.needFooter ? (
                 <el-col span={24} class="btn-col" style={btnStyles}>
-                  <el-button type="primary" loading={props.btnLoading} onClick={save}>
+                  <el-button
+                    type="primary"
+                    disabled={!hasPermission('put')}
+                    loading={props.btnLoading}
+                    onClick={save}
+                  >
                     {t('Base.saveChanges')}
                   </el-button>
                 </el-col>

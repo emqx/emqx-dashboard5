@@ -2,7 +2,12 @@
   <div>
     <div v-loading="loadingAuth">
       <div class="auth-create" v-if="!hasAuth">
-        <el-button type="primary" :icon="Plus" @click="openAuthCreate()">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :icon="Plus"
+          @click="openAuthCreate()"
+        >
           {{ tl('addAuth') }}
         </el-button>
         <div class="tips">

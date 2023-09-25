@@ -13,23 +13,29 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="up" :disabled="rowIndex === 0">
+        <el-dropdown-item command="up" :disabled="rowIndex === 0 || !$hasPermission('put')">
           <el-icon><ArrowUp /></el-icon>
           {{ $t('Base.up') }}
         </el-dropdown-item>
-        <el-dropdown-item command="down" :disabled="rowIndex === tableLen - 1">
+        <el-dropdown-item
+          command="down"
+          :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
+        >
           <el-icon><ArrowDown /></el-icon>
           <span>{{ $t('Base.down') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="top" :disabled="rowIndex === 0">
+        <el-dropdown-item command="top" :disabled="rowIndex === 0 || !$hasPermission('put')">
           <el-icon><Top /></el-icon>
           <span>{{ $t('Plugins.moveToTop') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="bottom" :disabled="rowIndex === tableLen - 1">
+        <el-dropdown-item
+          command="bottom"
+          :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
+        >
           <el-icon><Bottom /></el-icon>
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="delete">
+        <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ $t('Base.delete') }}</span>
         </el-dropdown-item>

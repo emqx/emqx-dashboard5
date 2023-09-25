@@ -65,7 +65,12 @@
             </el-col>
           </el-row>
         </el-form>
-        <el-button class="btn-update" type="primary" @click="update">
+        <el-button
+          class="btn-update"
+          :disabled="!$hasPermission('put')"
+          type="primary"
+          @click="update"
+        >
           {{ $t('Base.update') }}
         </el-button>
       </div>
