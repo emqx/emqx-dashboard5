@@ -160,6 +160,10 @@ export default {
     zh: '文件日志',
     en: 'File Log',
   },
+  audit: {
+    zh: '审计日志',
+    en: 'Audit Log',
+  },
   connection: {
     zh: '连接速率',
     en: 'Connection',
