@@ -82,10 +82,21 @@
         <el-button @click="$router.push({ name: 'iot' })">
           {{ $t('Base.cancel') }}
         </el-button>
-        <el-button type="primary" plain @click="saveAsCopy" v-if="isEdit">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          plain
+          @click="saveAsCopy"
+          v-if="isEdit"
+        >
           {{ tl('saveAsCopy') }}
         </el-button>
-        <el-button type="primary" :loading="submitLoading" @click="$emit('save')">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :loading="submitLoading"
+          @click="$emit('save')"
+        >
           {{ isEdit ? $t('Base.update') : $t('Base.create') }}
         </el-button>
       </el-col>

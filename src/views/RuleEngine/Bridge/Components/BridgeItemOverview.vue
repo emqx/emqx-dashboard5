@@ -54,6 +54,7 @@
             <el-button
               size="small"
               type="primary"
+              :disabled="!$hasPermission('post')"
               v-if="row.status === ConnectionStatus.Disconnected"
               @click="reconnect(row)"
               :loading="nodeConnectingStatusMap[row.node]"

@@ -37,7 +37,12 @@
         </el-row>
         <el-row class="btn-row">
           <el-col :span="24">
-            <el-button type="primary" :loading="saveLoading" @click="updateDelayedConfig()">
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="saveLoading"
+              @click="updateDelayedConfig()"
+            >
               {{ $t('Base.saveChanges') }}
             </el-button>
           </el-col>

@@ -117,7 +117,12 @@
       <el-button @click="cancel()">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button type="primary" @click="submitOutput(isEdit)" :loading="submitLoading">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="submitOutput(isEdit)"
+        :loading="submitLoading"
+      >
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>

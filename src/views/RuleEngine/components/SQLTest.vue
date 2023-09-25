@@ -72,6 +72,7 @@
           :loading="testLoading"
           plain
           :icon="CaretRight"
+          :disabled="!$hasPermission('post')"
           @click="submitTest"
         >
           {{ tl('testsql') }}

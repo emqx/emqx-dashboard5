@@ -64,7 +64,12 @@
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="close">{{ $t('Base.cancel') }}</el-button>
-        <el-button type="primary" @click="handleAdd" :loading="submitLoading">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          @click="handleAdd"
+          :loading="submitLoading"
+        >
           {{ $t('Base.add') }}
         </el-button>
       </div>

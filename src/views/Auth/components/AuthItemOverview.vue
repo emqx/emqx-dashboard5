@@ -4,7 +4,13 @@
       <div class="overview-header">
         <p>{{ tl('statistics') }}</p>
         <el-tooltip :content="$t('Base.refresh')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
+          <el-button
+            class="icon-button"
+            type="primary"
+            :disabled="!$hasPermission('get')"
+            :icon="Refresh"
+            @click="handleRefresh"
+          >
           </el-button>
         </el-tooltip>
       </div>

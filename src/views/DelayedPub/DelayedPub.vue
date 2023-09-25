@@ -2,7 +2,7 @@
   <div class="app-wrapper delayed-pub" v-loading="tbLoading">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" @click="goSetting">
+      <el-button :icon="Setting" :disabled="!$hasPermission('put')" @click="goSetting">
         {{ $t('Base.setting') }}
       </el-button>
     </div>
@@ -25,7 +25,12 @@
 
       <el-table-column :label="$t('Base.operation')" :min-width="92">
         <template #default="{ row }">
-          <el-button size="small" plain @click="deleteDelayedInfo(row)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteDelayedInfo(row)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>

@@ -6,14 +6,18 @@
           <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
           <el-radio-button :label="ShowByOpt.List">{{ tl('list') }}</el-radio-button>
         </el-radio-group> -->
-        <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
+        <el-button @click="goCreate" :disabled="!$hasPermission('post')" type="primary">{{
+          tl('createFlow')
+        }}</el-button>
       </div>
       <FlowView v-if="showBy === ShowByOpt.Flow" @loaded="handleLoaded" />
       <!-- <FlowList v-if="showBy === ShowByOpt.List" /> -->
     </template>
     <div v-else class="flow-placeholder-container">
       <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
-      <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
+      <el-button @click="goCreate" :disabled="!$hasPermission('post')" type="primary">{{
+        tl('createFlow')
+      }}</el-button>
     </div>
   </div>
 </template>

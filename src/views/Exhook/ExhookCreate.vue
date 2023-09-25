@@ -7,7 +7,12 @@
         <el-button @click="cancel">
           {{ $t('Base.cancel') }}
         </el-button>
-        <el-button type="primary" :loading="isSubmitting" @click="submit">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :loading="isSubmitting"
+          @click="submit"
+        >
           {{ $t('Base.create') }}
         </el-button>
       </div>

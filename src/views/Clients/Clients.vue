@@ -94,7 +94,7 @@
           class="kick-btn"
           type="danger"
           plain
-          :disabled="selectedClients.length === 0"
+          :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           :icon="Delete"
           :loading="batchDeleteLoading"
           @click="cleanBatchClients"

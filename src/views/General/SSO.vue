@@ -14,7 +14,12 @@
               <i class="node-status-dot" :class="item.enable ? 'is-running' : 'is-stopped'"></i>
               <span> {{ tl(item.enable ? 'ssoEnabled' : 'ssoDisabled') }}</span>
             </div>
-            <el-button link type="primary" @click="goDetailPage(item)">
+            <el-button
+              link
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              @click="goDetailPage(item)"
+            >
               {{ t(`Base.${item.enable ? 'edit' : 'enable'}`) }}
             </el-button>
           </div>

@@ -36,6 +36,7 @@
             class="icon-button"
             type="danger"
             :icon="Delete"
+            :disabled="!$hasPermission('delete')"
             plain
             @click="handleDisconnect"
           >
@@ -143,7 +144,12 @@
           {{ tl('currentSubscription') }}
         </div>
         <div>
-          <el-button type="primary" :icon="Plus" @click="handlePreAdd">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            :icon="Plus"
+            @click="handlePreAdd"
+          >
             {{ tl('addASubscription') }}
           </el-button>
         </div>
@@ -170,7 +176,12 @@
         </template>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button plain size="small" @click="handleUnSubscription(row)">
+            <el-button
+              :disabled="!$hasPermission('delete')"
+              plain
+              size="small"
+              @click="handleUnSubscription(row)"
+            >
               {{ $t('Clients.unsubscribe') }}
             </el-button>
           </template>

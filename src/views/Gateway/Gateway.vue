@@ -41,6 +41,7 @@
           <el-switch
             v-if="hasBeenInitialized(row)"
             v-model="row.status"
+            :disabled="!$hasPermission('put')"
             :active-value="GatewayStatus.Running"
             :inactive-value="GatewayStatus.Stopped"
             :before-change="handleSwitchStatus(row)"
@@ -57,7 +58,13 @@
               {{ tl('clients') }}
             </el-button>
           </template>
-          <el-button v-else type="primary" size="small" @click="setupGateway(row)">
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            :disabled="!$hasPermission('post')"
+            @click="setupGateway(row)"
+          >
             {{ tl('setup') }}
           </el-button>
         </template>

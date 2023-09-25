@@ -2,7 +2,12 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="showDialog()">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="showDialog()"
+      >
         {{ $t('Base.create') }}
       </el-button>
     </div>
@@ -22,16 +27,26 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="showDialog('edit', row)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="showDialog('edit', row)"
+          >
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button v-if="canChangePwd(row)" size="small" @click="showDialog('chPass', row)">
+          <el-button
+            v-if="canChangePwd(row)"
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="showDialog('chPass', row)"
+          >
             {{ tl('changePassword') }}
           </el-button>
 
           <el-button
             plain
             size="small"
+            :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
             v-if="currentUser.username !== row.username"
           >
@@ -117,7 +132,12 @@
             {{ $t('Base.cancel') }}
           </el-button>
 
-          <el-button type="primary" @click="save" :loading="submitLoading">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            @click="save"
+            :loading="submitLoading"
+          >
             {{ accessType == 'create' ? $t('Base.create') : $t('Base.confirm') }}
           </el-button>
         </div>

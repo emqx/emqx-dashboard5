@@ -23,7 +23,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="submit">
+        <el-button type="primary" :disabled="!$hasPermission('post')" @click="submit">
           {{ t('Base.save') }}
         </el-button>
       </span>

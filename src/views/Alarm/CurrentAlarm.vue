@@ -2,10 +2,19 @@
   <div class="alarm app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" @click="$router.push({ name: 'alarm-settings' })">
+      <el-button
+        :icon="Setting"
+        :disabled="!$hasPermission('put')"
+        @click="$router.push({ name: 'alarm-settings' })"
+      >
         {{ $t('Base.setting') }}
       </el-button>
-      <el-button type="primary" :icon="RefreshRight" @click="loadData({ page: 1 })">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('get')"
+        :icon="RefreshRight"
+        @click="loadData({ page: 1 })"
+      >
         {{ $t('Base.refresh') }}
       </el-button>
     </div>

@@ -82,7 +82,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button plain @click="disconnectClient(row)" size="small">
+          <el-button
+            plain
+            :disabled="!$hasPermission('delete')"
+            @click="disconnectClient(row)"
+            size="small"
+          >
             {{ $t('Clients.kickOut') }}
           </el-button>
         </template>

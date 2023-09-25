@@ -5,7 +5,12 @@
       <div class="section-header">
         <div></div>
         <div>
-          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'iot-create' })">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            :icon="Plus"
+            @click="$router.push({ name: 'iot-create' })"
+          >
             {{ tl('create', 'Base') }}
           </el-button>
           <el-button type="primary" :icon="Refresh" @click="getRulesList">

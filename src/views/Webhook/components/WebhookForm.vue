@@ -36,6 +36,7 @@
         link
         class="btn-test"
         type="primary"
+        :disabled="!$hasPermission('post')"
         :loading="isTesting"
         @click="testConnectivity"
       >

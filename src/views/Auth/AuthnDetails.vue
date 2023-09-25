@@ -27,10 +27,22 @@
             :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+            <el-switch
+              class="enable-btn"
+              :disabled="!$hasPermission('put')"
+              v-model="configData.enable"
+              @change="updateEnable"
+            />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :disabled="!$hasPermission('delete')"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
@@ -82,7 +94,7 @@
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>
-            <el-button type="primary" @click="handleUpdate">
+            <el-button type="primary" :disabled="!$hasPermissons('put')" @click="handleUpdate">
               {{ $t('Base.update') }}
             </el-button>
             <!-- <el-button @click="handleTest">

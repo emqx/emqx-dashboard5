@@ -3,7 +3,12 @@
     <template v-if="!isEmpty">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :disabled="isLoading" @click="addWebhook" :icon="Plus">
+        <el-button
+          type="primary"
+          :disabled="isLoading || !$hasPermission('post')"
+          @click="addWebhook"
+          :icon="Plus"
+        >
           {{ $t('Base.create') }}
         </el-button>
       </div>
@@ -27,10 +32,19 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button size="small" @click="goEditWebhook(row.name)">
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('put')"
+              @click="goEditWebhook(row.name)"
+            >
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="small" :loading="deleteLoading" @click="deleteWebhook(row)">
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('delete')"
+              :loading="deleteLoading"
+              @click="deleteWebhook(row)"
+            >
               {{ $t('Base.delete') }}
             </el-button>
             <!-- <TableItemDropdown :row-data="row" /> -->
@@ -40,7 +54,9 @@
     </template>
     <div v-else class="webhook-placeholder-container">
       <img class="img-placeholder" width="480" :src="getImgSrc()" alt="webhook_placeholder" />
-      <el-button type="primary" @click="addWebhook">{{ $t('Base.create') }} Webhook</el-button>
+      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addWebhook"
+        >{{ $t('Base.create') }} Webhook</el-button
+      >
     </div>
   </div>
 </template>

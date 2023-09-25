@@ -16,7 +16,14 @@
             <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="deleteRule" plain>
+            <el-button
+              class="icon-button"
+              :disabled="!$hasPermission('delete')"
+              type="danger"
+              :icon="Delete"
+              @click="deleteRule"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>

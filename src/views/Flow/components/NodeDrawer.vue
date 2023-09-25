@@ -37,11 +37,17 @@
         </div>
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
-          <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
+          <el-button
+            v-if="isBridgeSelected"
+            :disabled="!$hasPermission('post')"
+            type="primary"
+            plain
+            @click="saveAsNew"
+          >
             {{ t('Flow.saveAsDuplication', { target: targetForSaveAsNew }) }}
           </el-button>
           <el-button
-            :disabled="isSaveDisabled"
+            :disabled="isSaveDisabled || $hasPermission('post')"
             :type="isSaveDisabled ? 'info' : 'primary'"
             @click="save"
           >
@@ -49,7 +55,7 @@
           </el-button>
         </div>
       </div>
-      <el-button v-else type="primary" @click="edit">
+      <el-button v-else :disabled="!$hasPermission('put')" type="primary" @click="edit">
         {{ tl('edit') }}
       </el-button>
     </template>

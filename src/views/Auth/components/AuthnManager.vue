@@ -42,12 +42,25 @@
               :auto-upload="false"
               :on-change="handleUsersFileChange"
             >
-              <el-button class="icon-button" type="primary" plain :icon="Upload"> </el-button>
+              <el-button
+                class="icon-button"
+                type="primary"
+                :disabled="!$hasPermission('post')"
+                plain
+                :icon="Upload"
+              >
+              </el-button>
             </el-upload>
           </el-tooltip>
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Plus" @click="addCommand">
+          <el-button
+            class="icon-button"
+            type="primary"
+            :icon="Plus"
+            :disabled="!$hasPermission('post')"
+            @click="addCommand"
+          >
           </el-button>
         </el-tooltip>
       </div>
@@ -66,10 +79,15 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="handleEdit(row)" size="small">
+          <el-button :disabled="!$hasPermission('put')" @click="handleEdit(row)" size="small">
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button plain @click="handleDelete(row)" size="small">
+          <el-button
+            plain
+            :disabled="!$hasPermission('delete')"
+            @click="handleDelete(row)"
+            size="small"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -118,7 +136,12 @@
             {{ $t('Base.cancel') }}
           </el-button>
 
-          <el-button type="primary" :loading="saveLoading" @click="save">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            :loading="saveLoading"
+            @click="save"
+          >
             {{ isEdit ? $t('Base.update') : $t('Base.save') }}
           </el-button>
         </div>

@@ -23,12 +23,16 @@
         </el-table-column>
         <el-table-column width="80">
           <template #header="scope">
-            <el-button size="small" @click="addTopic()" :disabled="disableAdd(scope)">
+            <el-button
+              size="small"
+              @click="addTopic()"
+              :disabled="disableAdd(scope) || !$hasPermission('post')"
+            >
               {{ $t('Base.add') }}
             </el-button>
           </template>
           <template #default="{ row }">
-            <el-button size="small" @click="delTopic(row)">
+            <el-button size="small" :disabled="!$hasPermission('delete')" @click="delTopic(row)">
               {{ $t('Base.delete') }}
             </el-button>
           </template>

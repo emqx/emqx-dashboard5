@@ -342,10 +342,21 @@
       <el-button @click="showDialog = false">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button v-if="canBeDeleted" type="danger" plain @click="onDelete">
+      <el-button
+        v-if="canBeDeleted"
+        type="danger"
+        :disabled="!$hasPermission('delete')"
+        plain
+        @click="onDelete"
+      >
         {{ $t('Base.delete') }}
       </el-button>
-      <el-button type="primary" @click="submit" :loading="isSubmitting">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        @click="submit"
+        :loading="isSubmitting"
+      >
         {{ props.listener ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>

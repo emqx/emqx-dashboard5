@@ -8,7 +8,7 @@
           plain
           :icon="Remove"
           @click="handleClearHistory"
-          :disabled="!historyAlarmData.length"
+          :disabled="!historyAlarmData.length || !$hasPermission('delete')"
         >
           {{ $t('Alarm.clearHistory') }}
         </el-button>

@@ -89,7 +89,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
-              <el-button type="primary" :loading="saveLoading" @click="updateConfigData()">
+              <el-button
+                :disabled="!$hasPermission('put')"
+                type="primary"
+                :loading="saveLoading"
+                @click="updateConfigData()"
+              >
                 {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>

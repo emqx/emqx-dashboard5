@@ -5,7 +5,12 @@
       <div class="app-wrapper data-bridge">
         <div class="section-header">
           <div></div>
-          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'bridge-create' })">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            :icon="Plus"
+            @click="$router.push({ name: 'bridge-create' })"
+          >
             {{ tl('create') }}
           </el-button>
         </div>
@@ -45,6 +50,7 @@
                   row.status === ConnectionStatus.Disconnected ||
                   row.status === ConnectionStatus.Inconsistent
                 "
+                :disabled="!$hasPermission('post')"
                 :loading="reconnectingMap.get(row.id)"
                 @click="reconnect(row)"
               >

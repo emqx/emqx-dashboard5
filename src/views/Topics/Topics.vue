@@ -46,7 +46,13 @@
                 <el-button size="small" plain disabled> {{ tl('addMetric') }}</el-button>
               </span>
             </el-tooltip>
-            <el-button v-else size="small" plain @click="createMetricForTopic(row.topic)">
+            <el-button
+              v-else
+              size="small"
+              :disabled="!$hasPermission('post')"
+              plain
+              @click="createMetricForTopic(row.topic)"
+            >
               {{ tl('addMetric') }}
             </el-button>
           </template>

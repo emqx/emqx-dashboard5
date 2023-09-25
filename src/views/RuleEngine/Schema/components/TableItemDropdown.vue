@@ -13,11 +13,11 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="copy">
+        <el-dropdown-item :disabled="!$hasPermission('post')" command="copy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item command="delete">
+        <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ $t('Base.delete') }}</span>
         </el-dropdown-item>

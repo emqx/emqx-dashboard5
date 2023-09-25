@@ -26,7 +26,14 @@
         </template>
       </div>
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <el-button class="icon-button" type="primary" :icon="Plus" @click="handleAdd"> </el-button>
+        <el-button
+          class="icon-button"
+          :disabled="!$hasPermission('post')"
+          type="primary"
+          :icon="Plus"
+          @click="handleAdd"
+        >
+        </el-button>
       </el-tooltip>
     </div>
     <el-table v-if="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
@@ -48,10 +55,19 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="handleEdit(row, $index)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="handleEdit(row, $index)"
+          >
             {{ $t('Base.edit') }}
           </el-button>
-          <el-button size="small" plain @click="handleDelete(row, $index)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="handleDelete(row, $index)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>
@@ -94,10 +110,19 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row, $index }">
-            <el-button size="small" @click="handleEdit(row, $index)">
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('put')"
+              @click="handleEdit(row, $index)"
+            >
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button size="small" plain @click="handleDelete(row, $index)">
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('delete')"
+              plain
+              @click="handleDelete(row, $index)"
+            >
               {{ $t('Base.delete') }}
             </el-button>
           </template>
@@ -217,7 +242,7 @@
           <el-button @click="dialogVisible = false">
             {{ $t('Base.cancel') }}
           </el-button>
-          <el-button type="primary" @click="handleSubmit">
+          <el-button type="primary" :disabled="!$hasPermission('post')" @click="handleSubmit">
             {{ isEdit ? $t('Base.update') : $t('Base.add') }}
           </el-button>
         </div>

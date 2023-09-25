@@ -3,15 +3,28 @@
     <div class="section-header">
       <div></div>
       <template v-if="isEnabledRetainer">
-        <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
+        <el-button
+          :icon="Setting"
+          :disabled="!$hasPermission('put')"
+          @click="$router.push({ name: 'mqtt-retainer' })"
+        >
           {{ $t('Base.setting') }}
         </el-button>
-        <el-button type="primary" :icon="RefreshRight" @click="refresh">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('get')"
+          :icon="RefreshRight"
+          @click="refresh"
+        >
           {{ $t('Base.refresh') }}
         </el-button>
       </template>
       <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
-        <el-button type="primary" @click="$router.push({ name: 'mqtt-retainer' })">
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('put')"
+          @click="$router.push({ name: 'mqtt-retainer' })"
+        >
           {{ $t('Base.enable') }}
         </el-button>
       </el-tooltip>
@@ -38,7 +51,12 @@
           <el-button size="small" @click="checkPayload(row)">
             {{ tl('openPayload') }}
           </el-button>
-          <el-button size="small" plain @click="deleteRetainerTopic(row)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="deleteRetainerTopic(row)"
+          >
             {{ $t('Base.delete') }}
           </el-button>
         </template>

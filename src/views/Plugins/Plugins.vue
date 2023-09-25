@@ -10,9 +10,13 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" :icon="Plus" @click="goInstall">{{
-        tl('installPlugin')
-      }}</el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="goInstall"
+        >{{ tl('installPlugin') }}</el-button
+      >
     </div>
     <el-table
       :data="pluginListToShow"
@@ -43,12 +47,14 @@
           <el-button
             size="small"
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
+            :disabled="!$hasPermission('put')"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
           </el-button>
           <el-button
             size="small"
+            :disabled="!$hasPermission('put')"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >

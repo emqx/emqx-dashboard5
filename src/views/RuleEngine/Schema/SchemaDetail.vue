@@ -4,7 +4,14 @@
       <detail-header :item="{ name: schemaName, routeName: 'schema' }" />
       <div class="btn-wrap">
         <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+          <el-button
+            class="icon-button"
+            type="danger"
+            :disabled="!$hasPermission('delete')"
+            :icon="Delete"
+            @click="handleDelete"
+            plain
+          >
           </el-button>
         </el-tooltip>
       </div>
@@ -19,7 +26,12 @@
               v-model="schemaData"
               is-edit
             />
-            <el-button type="primary" :loading="isSubmitting" @click="handleUpdate">
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="isSubmitting"
+              @click="handleUpdate"
+            >
               {{ $t('Base.update') }}
             </el-button>
           </el-card>

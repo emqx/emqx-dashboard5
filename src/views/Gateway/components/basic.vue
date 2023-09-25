@@ -20,7 +20,7 @@
         type="primary"
         :loading="updateLoading"
         @click="updateGatewayInfo()"
-        :disabled="basicData.status === 'unloaded'"
+        :disabled="basicData.status === 'unloaded' || !$hasPermission('put')"
       >
         {{ $t('Base.update') }}
       </el-button>
