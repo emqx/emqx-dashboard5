@@ -227,7 +227,7 @@ const getOutputTypeLabel = (item: OutputItem) => {
   margin-bottom: 12px;
   $img-width: 48px;
   $img-margin-right: 12px;
-  $op-width: 130px;
+  $op-width: 136px;
   img {
     width: $img-width;
     flex-shrink: 0;
@@ -253,6 +253,7 @@ const getOutputTypeLabel = (item: OutputItem) => {
     flex-basis: $op-width;
     flex-shrink: 0;
     padding: 0 10px;
+    text-align: right;
   }
   &:hover {
     border-color: var(--el-color-primary);
@@ -262,7 +263,7 @@ const getOutputTypeLabel = (item: OutputItem) => {
       color: var(--el-color-primary);
     }
     .outputs-item-bd {
-      max-width: calc(100% - $img-width - $img-margin-right - $op-width - 12px);
+      max-width: calc(100% - $img-width - $img-margin-right - $op-width);
     }
   }
 }
