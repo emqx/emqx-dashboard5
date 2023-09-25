@@ -74,12 +74,8 @@ const getList = async () => {
 }
 getList()
 
-const goDetailPage = ({ backend, enable = true, isCreated }: SSOItem) => {
-  router.push({
-    name: 'SSO-detail',
-    params: { backend },
-    query: { enable: enable.toString(), isCreated: isCreated.toString() },
-  })
+const goDetailPage = ({ backend }: SSOItem) => {
+  router.push({ name: 'SSO-detail', params: { backend } })
 }
 </script>
 
