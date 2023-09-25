@@ -21,12 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import { getSSOBackend, putSSOBackend } from '@/api/sso'
+import { getSSOBackend, putSSOBackend, getSSOList } from '@/api/sso'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useSSODetail from '@/hooks/SSO/useSSODetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import {
+  DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
   EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -45,10 +46,7 @@ const { t } = useI18nTl('General')
 const { getBackendLabel } = useSSOBackendsLabel()
 
 const backend: ComputedRef<any> = computed(() => route.params.backend.toString())
-const routeQuery = computed(() => ({
-  isCreated: route.query.isCreated === true.toString(),
-  enable: route.query.enable === true.toString(),
-}))
+const baseInfo: Ref<undefined | DashboardSsoBackendStatus> = ref(undefined)
 const { createRawForm, handleFormDataBeforeSubmit } = useSSODetail()
 
 const FormCom = ref()
@@ -64,26 +62,32 @@ const formCom = computed(() =>
 const formData: Ref<any> = ref({})
 const isLoading = ref(false)
 
-const getConfig = async () => {
+const getBaseInfo = async () => {
+  try {
+    const createdList = await getSSOList()
+    baseInfo.value = createdList.find((item) => item.backend === backend.value)
+  } catch (error) {
+    //
+  }
+}
+
+const initForm = async () => {
   try {
     isLoading.value = true
-    const config = await getSSOBackend(backend.value)
-    formData.value = {
-      ...config,
-      enable: !routeQuery.value.enable ? true : config.enable,
+    await getBaseInfo()
+    if (baseInfo.value) {
+      const config = await getSSOBackend(backend.value)
+      formData.value = {
+        ...config,
+        enable: !baseInfo.value.enable ? true : config.enable,
+      }
+    } else {
+      formData.value = createRawForm(backend.value)
     }
   } catch (error) {
     //
   } finally {
     isLoading.value = false
-  }
-}
-
-const initForm = () => {
-  if (routeQuery.value.isCreated) {
-    getConfig()
-  } else {
-    formData.value = createRawForm(backend.value)
   }
 }
 initForm()
