@@ -14,6 +14,7 @@ export default (): {
     query_mode: 'async',
     max_buffer_bytes: '1GB',
     request_ttl: '45s',
+    start_timeout: '5s',
   })
 
   const createDefaultResourceOptsForm = (
