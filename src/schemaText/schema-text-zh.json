@@ -447,6 +447,14 @@
     "db_shard_transports": {
       "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
       "label": "事务日志传输协议"
+    },
+    "audit_handler_path":{
+      "desc": "审计日志文件名称",
+      "label": "审计日志文件"
+    },
+    "audit_handler_level":{
+      "desc": "审计日志处理程序的日志级别。<br/>- 处理时间超过 3 秒的请求将记录为<code>警告</code>日志。<br/>- 使用 HTTP 的 GET 请求 200-300 之间的状态代码将记录为 <code>debug</code> 日志。<br/>- HTTP 状态代码在 200-300 之间的非 GET 请求将记录为 <code>info</code> 日志。< br/>- HTTP 状态代码在 300-400 之间的请求将记录为<code>警告</code>日志。<br/>- HTTP 状态代码在 400-500 之间的请求将记录为<code>错误</code > 日志。<br/>- 默认为信息。",
+      "label": "日志级别"
     }
   },
   "emqx_limiter_schema": {

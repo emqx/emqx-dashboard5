@@ -22,9 +22,10 @@ const TYPE_ZONE_MAP: Record<string, Array<string>> = {
  */
 const LOG_DEFAULT_PREFIX = 'common_handler_'
 const LOG_SPECIAL_KEY_PREFIX_MAP = {
+  audit_handler_: ['audit.path', 'audit.level'],
   log_overload_kill_: ['mem_size', 'qlen', 'restart_after'],
   log_burst_limit_: ['max_count', 'window_time'],
-  log_file_handler_: ['max_size', 'path', 'rotation_size'],
+  log_file_handler_: ['max_size', 'path', 'rotation_size', 'file.default.path'],
   log_rotation_: ['count'],
 }
 
@@ -75,8 +76,8 @@ export default (
 
   const getLogItemTextKey = ({ key, path }: Property) => {
     const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([, value]) =>
-        value.includes(key as string),
+      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(
+        ([, value]) => value.includes(path as string) || value.includes(key as string),
       )?.[0] || LOG_DEFAULT_PREFIX
     return `${getConfigurationTextZone()}.${prefix}${key}`
   }
