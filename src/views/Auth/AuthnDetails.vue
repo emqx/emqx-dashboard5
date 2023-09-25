@@ -94,7 +94,7 @@
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>
-            <el-button type="primary" :disabled="!$hasPermissons('put')" @click="handleUpdate">
+            <el-button type="primary" :disabled="!$hasPermission('put')" @click="handleUpdate">
               {{ $t('Base.update') }}
             </el-button>
             <!-- <el-button @click="handleTest">
