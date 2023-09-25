@@ -31,7 +31,11 @@
 
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
-          <el-switch v-model="row.enable" @change="changeExhookStatus(row)" />
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            @change="changeExhookStatus(row)"
+          />
         </template>
       </el-table-column>
       <!-- FIXME: -->
