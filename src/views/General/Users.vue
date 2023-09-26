@@ -151,12 +151,13 @@ import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@
 import { PASSWORD_REG } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl.ts'
-import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import { UserRole } from '@/types/enum.ts'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -304,13 +305,16 @@ const trimUserName = () => {
   record.value.username = record.value.username.trim()
 }
 
+const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
+
 const save = async () => {
   try {
     await formCom.value.validate()
     submitLoading.value = true
     const { username } = record.value
     if (accessType.value === 'edit') {
-      await updateUser(username, record.value)
+      const backend = getBackend(record.value.backend)
+      await updateUser(username, pick(record.value, ['description', 'role']), backend)
       ElMessage.success(t('Base.updateSuccess'))
     } else if (accessType.value === 'chPass') {
       let pass = {
@@ -346,7 +350,8 @@ const deleteConfirm = async (item) => {
       confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
-    await destroyUser(item.username)
+    const backend = getBackend(item.backend)
+    await destroyUser(item.username, backend)
     ElMessage.success(t('Base.deleteSuccess'))
     loadData()
   } catch (error) {
