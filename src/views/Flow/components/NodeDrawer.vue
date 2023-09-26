@@ -47,7 +47,7 @@
             {{ t('Flow.saveAsDuplication', { target: targetForSaveAsNew }) }}
           </el-button>
           <el-button
-            :disabled="isSaveDisabled || $hasPermission('post')"
+            :disabled="isSaveDisabled || !$hasPermission('post')"
             :type="isSaveDisabled ? 'info' : 'primary'"
             @click="save"
           >
