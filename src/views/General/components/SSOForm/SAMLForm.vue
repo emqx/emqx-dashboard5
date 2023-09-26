@@ -11,7 +11,10 @@
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
-    <el-form-item prop="dashboard_addr" :label="tl('dashboardAddr')">
+    <el-form-item prop="dashboard_addr">
+      <template #label>
+        <FormItemLabel :label="tl('dashboardAddr')" :desc="tl('dashboardAddrDesc')" />
+      </template>
       <el-input v-model="formData.dashboard_addr" />
     </el-form-item>
     <div class="info-idp-block">
@@ -38,7 +41,10 @@
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
       <el-input v-model="formData.idp_metadata_url" placeholder="https://idp.example.com" />
     </el-form-item>
-    <el-form-item prop="sp_sign_request" :label="tl('spSignRequest')">
+    <el-form-item prop="sp_sign_request">
+      <template #label>
+        <FormItemLabel :label="tl('spSignRequest')" :desc="tl('spSignRequestDesc')" />
+      </template>
       <el-switch v-model="formData.sp_sign_request" />
     </el-form-item>
     <el-collapse-transition>
@@ -55,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import useCopy from '@/hooks/useCopy'
 import useFormRules from '@/hooks/useFormRules'

@@ -295,6 +295,10 @@ export default {
     zh: 'Dashboard 地址',
     en: 'Dashboard Address',
   },
+  dashboardAddrDesc: {
+    zh: '确保用户能够访问 Dashboard 的实际访问地址。',
+    en: 'Ensure users can access the actual URL of the Dashboard.',
+  },
   idpMetadataUrl: {
     zh: 'SAML 元数据 URL',
     en: 'SAML Metadata URL',
@@ -302,6 +306,10 @@ export default {
   spSignRequest: {
     zh: 'SP 请求签名',
     en: 'SP Request Signing',
+  },
+  spSignRequestDesc: {
+    zh: '对 Dashboard 和身份提供商(IdP)之间的请求消息进行签名以提高安全性。',
+    en: 'Signing the request messages between the Dashboard and the Identity Provider (IdP) to improve security.',
   },
   spPublicKey: {
     zh: 'SP 公钥',
