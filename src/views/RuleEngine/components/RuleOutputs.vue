@@ -27,7 +27,12 @@
             </span>
           </div>
         </template>
-        <el-button class="btn-add" type="primary" @click="openOutputDialog(false)">
+        <el-button
+          class="btn-add"
+          :disabled="!$hasPermission('post')"
+          type="primary"
+          @click="openOutputDialog(false)"
+        >
           <el-icon><plus /></el-icon>
           <span>{{ tl('addAction') }}</span>
         </el-button>
