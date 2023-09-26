@@ -110,7 +110,6 @@ export const GetConfigsKey = {
   conn_congestion: 'conn_congestion',
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
-  dashboard_sso: 'dashboard_sso',
   delayed: 'delayed',
   exhook: 'exhook',
   file_transfer: 'file_transfer',
@@ -378,6 +377,96 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
+export type EmqxLdapSslServerNameIndication = string | 'disable'
+
+export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxLdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxLdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxLdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxLdapSslServerNameIndication
+}
+
+export type EmqxDashboardSsoSamlSamlBackend =
+  typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxDashboardSsoSamlSamlBackend = {
+  saml: 'saml',
+} as const
+
+export interface EmqxDashboardSsoSamlSaml {
+  enable?: boolean
+  backend: EmqxDashboardSsoSamlSamlBackend
+  dashboard_addr?: string
+  idp_metadata_url?: string
+  sp_sign_request?: boolean
+  sp_public_key?: string
+  sp_private_key?: string
+}
+
+export type EmqxDashboardSsoLdapLdapBackend =
+  typeof EmqxDashboardSsoLdapLdapBackend[keyof typeof EmqxDashboardSsoLdapLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxDashboardSsoLdapLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export interface EmqxDashboardSsoLdapLdap {
+  enable?: boolean
+  backend: EmqxDashboardSsoLdapLdapBackend
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: EmqxLdapSsl
+}
+
+export interface EmqxDashboardSsoSchemaSso {
+  ldap?: EmqxDashboardSsoLdapLdap
+  saml?: EmqxDashboardSsoSamlSaml
+}
+
 export type EmqxConfSchemaLogFileHandlerFormatter =
   typeof EmqxConfSchemaLogFileHandlerFormatter[keyof typeof EmqxConfSchemaLogFileHandlerFormatter]
 
@@ -565,6 +654,7 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
+  sso?: EmqxDashboardSsoSchemaSso
 }
 
 export type BrokerSysmonVmLargeHeap = string | 'disabled'
