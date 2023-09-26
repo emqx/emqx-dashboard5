@@ -16,16 +16,23 @@ export function createUser(body: UserFormForCreate): Promise<UserItem> {
   return http.post(`/users`, body)
 }
 
-export function updateUser(username: string, body: UserItem): Promise<UserItem> {
-  return http.put(`/users/${encodeURIComponent(username)}`, body)
+export function updateUser(username: string, body: UserItem, backend?: string): Promise<UserItem> {
+  return http.put(
+    `/users/${encodeURIComponent(username)}`,
+    body,
+    backend ? { params: { backend } } : undefined,
+  )
 }
 
 export function changePassword(username: string, body: PwdFormForUpdate): Promise<void> {
   return http.post(`/users/${encodeURIComponent(username)}/change_pwd`, body)
 }
 
-export function destroyUser(username: string): Promise<void> {
-  return http.delete(`/users/${encodeURIComponent(username)}`)
+export function destroyUser(username: string, backend?: string): Promise<void> {
+  return http.delete(
+    `/users/${encodeURIComponent(username)}`,
+    backend ? { params: { backend } } : undefined,
+  )
 }
 
 export function loadBannedClient(params = {}): Promise<ListDataWithPagination<BannedItem>> {
