@@ -89,8 +89,8 @@ const record = computed({
   },
 })
 
-const { createRequiredRule } = useFormRules()
-const rules = { 'args.topic': createRequiredRule('Topic') }
+const { createRequiredRule, createMqttPublishTopicRule } = useFormRules()
+const rules = { 'args.topic': [...createRequiredRule('Topic'), ...createMqttPublishTopicRule()] }
 
 const saveConfig = () => {
   emit('save', record.value)

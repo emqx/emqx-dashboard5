@@ -208,11 +208,11 @@ const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
 const bridgeForm = ref<Record<string, any>>({})
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createMqttPublishTopicRule } = useFormRules()
 const outputFormRules: Record<string, any> = {
   type: createRequiredRule(t('RuleEngine.action', 1).toLowerCase(), 'select'),
   args: {
-    topic: createRequiredRule('Topic'),
+    topic: [...createRequiredRule('Topic'), ...createMqttPublishTopicRule()],
   },
 }
 
