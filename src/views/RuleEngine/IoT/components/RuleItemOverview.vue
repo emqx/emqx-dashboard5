@@ -8,7 +8,13 @@
           </el-button>
         </el-tooltip>
         <el-tooltip :content="tl('resetStatistics')" placement="top">
-          <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
+          <el-button
+            class="icon-button"
+            :icon="Close"
+            :disabled="!$hasPermission('put')"
+            @click="resetStatistics"
+          >
+          </el-button>
         </el-tooltip>
       </div>
     </div>
