@@ -4,7 +4,7 @@
       <label>{{ tl('test') }}</label>
       <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
-      <el-switch v-model="showTest"></el-switch>
+      <el-switch v-model="showTest" :disabled="!$hasPermission('post')"></el-switch>
     </div>
     <el-collapse-transition>
       <div v-show="showTest">
