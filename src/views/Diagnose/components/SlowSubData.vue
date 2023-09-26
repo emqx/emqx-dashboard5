@@ -2,13 +2,12 @@
   <div class="slow-sub-data">
     <div class="slow-sub-data-bar">
       <div>
-        <el-button class="link-btn">
-          <router-link :to="{ name: 'slow-sub-config' }">
-            <el-icon><Tools class="el-icon-s-tools" /></el-icon>
-            <span>
-              {{ $t('Base.setting') }}
-            </span>
-          </router-link>
+        <el-button
+          :icon="Setting"
+          @click="$router.push({ name: 'slow-sub-config' })"
+          :disabled="!$hasPermission('put')"
+        >
+          {{ $t('Base.setting') }}
         </el-button>
         <el-button type="danger" :disabled="!$hasPermission('delete')" plain @click="clearData">
           {{ tl('clearData') }}
@@ -63,7 +62,7 @@ import usePageController from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaging from '@/hooks/usePaging'
 import { SlowSubStatistic } from '@/types/diagnose'
-import { Tools } from '@element-plus/icons-vue'
+import { Tools, Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import moment from 'moment'
@@ -185,9 +184,6 @@ getTotalStatistics()
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 40px;
-  }
-  .el-icon-s-tools {
-    transform: scale(1.2);
   }
   .el-icon-question {
     vertical-align: top;
