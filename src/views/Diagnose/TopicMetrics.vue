@@ -130,7 +130,11 @@
           >
             {{ $t('Base.view') }}
           </el-button>
-          <el-button size="small" @click="resetTopic(row, $index)">
+          <el-button
+            size="small"
+            :disabled="!$hasPermission('put')"
+            @click="resetTopic(row, $index)"
+          >
             {{ $t('Base.reset') }}
           </el-button>
           <el-button
