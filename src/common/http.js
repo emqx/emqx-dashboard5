@@ -69,9 +69,10 @@ axios.interceptors.response.use(
     if (!response.config.doNotTriggerProgress) {
       setProgressBarDone()
     }
-    if (/\/trace\/.+\/download/.test(response.config.url)) {
+    if (response.data instanceof Blob) {
       return response
     }
+
     // Remove AbortController
     const controller = response.config.controller
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
