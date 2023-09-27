@@ -22,20 +22,33 @@
       <div class="info-item is-first">
         <label class="info-label">{{ tl('ssoUrl') }}</label>
         <p class="info-value">{{ ssoAddress }}</p>
-        <el-tooltip :content="t('Base.copy')" placement="top">
-          <el-button class="btn-copy" link type="info">
-            <el-icon @click="copyText(ssoAddress)" class="icon-copy"><CopyDocument /></el-icon>
-          </el-button>
-        </el-tooltip>
+        <div class="buttons-container">
+          <el-tooltip :content="t('Base.copy')" placement="top">
+            <el-button class="btn-copy" link type="info">
+              <el-icon @click="copyText(ssoAddress)"><CopyDocument /></el-icon>
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
       <div class="info-item">
         <label class="info-label">{{ tl('metaDataUrl') }}</label>
         <p class="info-value">{{ metadataAddress }}</p>
-        <el-tooltip :content="t('Base.copy')" placement="top">
-          <el-button class="btn-copy" link type="info">
-            <el-icon @click="copyText(metadataAddress)" class="icon-copy"><CopyDocument /></el-icon>
-          </el-button>
-        </el-tooltip>
+        <div class="buttons-container">
+          <el-tooltip :content="t('Base.copy')" placement="top">
+            <el-button class="btn-copy" link type="info">
+              <el-icon @click="copyText(metadataAddress)">
+                <CopyDocument />
+              </el-icon>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="t('Base.download')" placement="top">
+            <el-button link type="info" :loading="isDownloading">
+              <el-icon @click="downloadMetaData">
+                <Download />
+              </el-icon>
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
     </div>
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
@@ -61,6 +74,8 @@
 </template>
 
 <script setup lang="ts">
+import { downloadSAMLMetaData } from '@/api/sso'
+import { API_BASE_URL, SAML_SSO_METADATA_REQUEST_PATH } from '@/common/constants'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import useCopy from '@/hooks/useCopy'
@@ -68,11 +83,11 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { CopyDocument } from '@element-plus/icons-vue'
+import { CopyDocument, Download } from '@element-plus/icons-vue'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const SAML_SSO_PATH = '/api/v5/sso/saml/acs'
-const SAML_SSO_METADATA_PATH = '/api/v5/sso/saml/metadata'
+const SAML_SSO_METADATA_PATH = `/${API_BASE_URL}${SAML_SSO_METADATA_REQUEST_PATH}`
 
 const props = defineProps({
   modelValue: {
@@ -115,6 +130,18 @@ const metadataAddress = computed(() => formData.value.dashboard_addr + SAML_SSO_
 
 const { copyText } = useCopy()
 
+const isDownloading = ref(false)
+const downloadMetaData = async () => {
+  try {
+    isDownloading.value = true
+    await downloadSAMLMetaData()
+  } catch (error) {
+    //
+  } finally {
+    isDownloading.value = false
+  }
+}
+
 const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
@@ -136,7 +163,7 @@ defineExpose({ validate })
   $padding-vertical: 8px;
   .info-item {
     position: relative;
-    padding: $padding-vertical 48px $padding-vertical 180px;
+    padding: $padding-vertical 80px $padding-vertical 180px;
     line-height: 24px;
     border-radius: 4px;
     background: var(--color-bg-main);
@@ -161,9 +188,9 @@ defineExpose({ validate })
     text-overflow: ellipsis;
     text-wrap: nowrap;
   }
-  .btn-copy {
+  .buttons-container {
     position: absolute;
-    right: 24px;
+    right: 16px;
     top: $padding-vertical;
   }
   .el-button.is-link:focus,

@@ -1,4 +1,6 @@
+import { SAML_SSO_METADATA_REQUEST_PATH } from '@/common/constants'
 import http from '@/common/http'
+import { downloadBlobData } from '@/common/tools'
 import type {
   DashboardSsoBackendStatus,
   EmqxDashboardSsoLdapLdap,
@@ -31,4 +33,17 @@ export const putSSOBackend = (
   emqxDashboardSsoLdapLdap: EmqxDashboardSsoLdapLdap,
 ): Promise<EmqxDashboardSsoLdapLdap> => {
   return http.put(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
+}
+
+export const downloadSAMLMetaData = async (): Promise<void> => {
+  try {
+    const res = await http.get(SAML_SSO_METADATA_REQUEST_PATH, {
+      responseType: 'blob',
+      timeout: 30000,
+    })
+    downloadBlobData(res, 'saml-metadata')
+    return Promise.resolve()
+  } catch (error: any) {
+    return Promise.reject(error)
+  }
 }

@@ -246,3 +246,5 @@ export const MONGO_TYPE = ['single', 'rs', 'sharded']
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'
+
+export const SAML_SSO_METADATA_REQUEST_PATH = '/sso/saml/metadata'
