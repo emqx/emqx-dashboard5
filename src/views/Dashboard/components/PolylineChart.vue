@@ -141,7 +141,7 @@ const createTooltip = (xAxis: string, title: string, val: number, color: string)
   const container = document.createElement('div')
   container.innerHTML = `
   <div class="polyline-chart-tooltip">
-    <p class="x-value">${_formatTime(xAxis)}</p>
+    <p class="x-value">${_formatTime(xAxis, 'MM/DD HH:mm:ss')}</p>
     <div class="tooltip-body">
       <div>
         <i class="badge" style="background-color:${color}"></i>
