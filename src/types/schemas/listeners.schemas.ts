@@ -153,19 +153,12 @@ export type PostListeners400 = {
   message?: string
 }
 
-export type PostListeners200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
-
 export type PostListenersBody =
-  | ListenersQuicRequiredBindWithName
-  | ListenersWssRequiredBindWithName
-  | ListenersWsRequiredBindWithName
-  | ListenersSslRequiredBindWithName
-  | ListenersTcpRequiredBindWithName
+  | ListenersWithNameQuicRequiredBind
+  | ListenersWithNameWssRequiredBind
+  | ListenersWithNameWsRequiredBind
+  | ListenersWithNameSslRequiredBind
+  | ListenersWithNameTcpRequiredBind
 
 export type GetListenersType = typeof GetListenersType[keyof typeof GetListenersType]
 
@@ -180,69 +173,6 @@ export const GetListenersType = {
 
 export type GetListenersParams = {
   type?: GetListenersType
-}
-
-export type ListenersWssRequiredBindWithNameAuthenticationItem =
-  | AuthnGcpDevice
-  | AuthnLdapBind
-  | AuthnLdap
-  | AuthnScram
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type ListenersWssRequiredBindWithNameEnableAuthn =
-  typeof ListenersWssRequiredBindWithNameEnableAuthn[keyof typeof ListenersWssRequiredBindWithNameEnableAuthn]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersWssRequiredBindWithNameEnableAuthn = {
-  true: 'true',
-  false: 'false',
-  quick_deny_anonymous: 'quick_deny_anonymous',
-} as const
-
-export type ListenersWssRequiredBindWithNameMaxConnections = number | 'infinity'
-
-export type ListenersWssRequiredBindWithNameType =
-  typeof ListenersWssRequiredBindWithNameType[keyof typeof ListenersWssRequiredBindWithNameType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersWssRequiredBindWithNameType = {
-  wss: 'wss',
-} as const
-
-export interface ListenersWssRequiredBindWithName {
-  type: ListenersWssRequiredBindWithNameType
-  running?: boolean
-  name: string
-  current_connections?: number
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersWssRequiredBindWithNameMaxConnections
-  mountpoint?: string
-  enable_authn?: ListenersWssRequiredBindWithNameEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
-  access_rules?: string[]
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  authentication?: ListenersWssRequiredBindWithNameAuthenticationItem[]
-  tcp_options?: BrokerTcpOpts
-  ssl_options?: BrokerListenerWssOpts
-  websocket?: BrokerWsOpts
 }
 
 export type ListenersWssRequiredBindAuthenticationItem =
@@ -371,68 +301,6 @@ export interface ListenersWssNotRequiredBind {
   websocket?: BrokerWsOpts
 }
 
-export type ListenersWsRequiredBindWithNameAuthenticationItem =
-  | AuthnGcpDevice
-  | AuthnLdapBind
-  | AuthnLdap
-  | AuthnScram
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type ListenersWsRequiredBindWithNameEnableAuthn =
-  typeof ListenersWsRequiredBindWithNameEnableAuthn[keyof typeof ListenersWsRequiredBindWithNameEnableAuthn]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersWsRequiredBindWithNameEnableAuthn = {
-  true: 'true',
-  false: 'false',
-  quick_deny_anonymous: 'quick_deny_anonymous',
-} as const
-
-export type ListenersWsRequiredBindWithNameMaxConnections = number | 'infinity'
-
-export type ListenersWsRequiredBindWithNameType =
-  typeof ListenersWsRequiredBindWithNameType[keyof typeof ListenersWsRequiredBindWithNameType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersWsRequiredBindWithNameType = {
-  ws: 'ws',
-} as const
-
-export interface ListenersWsRequiredBindWithName {
-  type: ListenersWsRequiredBindWithNameType
-  running?: boolean
-  name: string
-  current_connections?: number
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersWsRequiredBindWithNameMaxConnections
-  mountpoint?: string
-  enable_authn?: ListenersWsRequiredBindWithNameEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
-  access_rules?: string[]
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  authentication?: ListenersWsRequiredBindWithNameAuthenticationItem[]
-  tcp_options?: BrokerTcpOpts
-  websocket?: BrokerWsOpts
-}
-
 export type ListenersWsRequiredBindAuthenticationItem =
   | AuthnGcpDevice
   | AuthnLdapBind
@@ -494,6 +362,13 @@ export interface ListenersWsRequiredBind {
   tcp_options?: BrokerTcpOpts
   websocket?: BrokerWsOpts
 }
+
+export type PostListeners200 =
+  | ListenersWssRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersQuicRequiredBind
 
 export type ListenersWsNotRequiredBindAuthenticationItem =
   | AuthnGcpDevice
@@ -557,7 +432,7 @@ export interface ListenersWsNotRequiredBind {
   websocket?: BrokerWsOpts
 }
 
-export type ListenersTcpRequiredBindWithNameAuthenticationItem =
+export type ListenersWithNameWssRequiredBindAuthenticationItem =
   | AuthnGcpDevice
   | AuthnLdapBind
   | AuthnLdap
@@ -577,45 +452,270 @@ export type ListenersTcpRequiredBindWithNameAuthenticationItem =
   | AuthnMysql
   | AuthnBuiltinDb
 
-export type ListenersTcpRequiredBindWithNameEnableAuthn =
-  typeof ListenersTcpRequiredBindWithNameEnableAuthn[keyof typeof ListenersTcpRequiredBindWithNameEnableAuthn]
+export type ListenersWithNameWssRequiredBindEnableAuthn =
+  typeof ListenersWithNameWssRequiredBindEnableAuthn[keyof typeof ListenersWithNameWssRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersTcpRequiredBindWithNameEnableAuthn = {
+export const ListenersWithNameWssRequiredBindEnableAuthn = {
   true: 'true',
   false: 'false',
   quick_deny_anonymous: 'quick_deny_anonymous',
 } as const
 
-export type ListenersTcpRequiredBindWithNameMaxConnections = number | 'infinity'
+export type ListenersWithNameWssRequiredBindMaxConnections = number | 'infinity'
 
-export type ListenersTcpRequiredBindWithNameType =
-  typeof ListenersTcpRequiredBindWithNameType[keyof typeof ListenersTcpRequiredBindWithNameType]
+export type ListenersWithNameWssRequiredBindType =
+  typeof ListenersWithNameWssRequiredBindType[keyof typeof ListenersWithNameWssRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersTcpRequiredBindWithNameType = {
-  tcp: 'tcp',
+export const ListenersWithNameWssRequiredBindType = {
+  wss: 'wss',
 } as const
 
-export interface ListenersTcpRequiredBindWithName {
-  type: ListenersTcpRequiredBindWithNameType
+export interface ListenersWithNameWssRequiredBind {
+  type: ListenersWithNameWssRequiredBindType
   running?: boolean
   name: string
   current_connections?: number
   enable?: boolean
   bind: string
   acceptors?: number
-  max_connections?: ListenersTcpRequiredBindWithNameMaxConnections
+  max_connections?: ListenersWithNameWssRequiredBindMaxConnections
   mountpoint?: string
-  enable_authn?: ListenersTcpRequiredBindWithNameEnableAuthn
+  enable_authn?: ListenersWithNameWssRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
   bytes_rate?: string
   access_rules?: string[]
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
-  authentication?: ListenersTcpRequiredBindWithNameAuthenticationItem[]
+  authentication?: ListenersWithNameWssRequiredBindAuthenticationItem[]
   tcp_options?: BrokerTcpOpts
+  ssl_options?: BrokerListenerWssOpts
+  websocket?: BrokerWsOpts
+}
+
+export type ListenersWithNameWsRequiredBindAuthenticationItem =
+  | AuthnGcpDevice
+  | AuthnLdapBind
+  | AuthnLdap
+  | AuthnScram
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type ListenersWithNameWsRequiredBindEnableAuthn =
+  typeof ListenersWithNameWsRequiredBindEnableAuthn[keyof typeof ListenersWithNameWsRequiredBindEnableAuthn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameWsRequiredBindEnableAuthn = {
+  true: 'true',
+  false: 'false',
+  quick_deny_anonymous: 'quick_deny_anonymous',
+} as const
+
+export type ListenersWithNameWsRequiredBindMaxConnections = number | 'infinity'
+
+export type ListenersWithNameWsRequiredBindType =
+  typeof ListenersWithNameWsRequiredBindType[keyof typeof ListenersWithNameWsRequiredBindType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameWsRequiredBindType = {
+  ws: 'ws',
+} as const
+
+export interface ListenersWithNameWsRequiredBind {
+  type: ListenersWithNameWsRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameWsRequiredBindMaxConnections
+  mountpoint?: string
+  enable_authn?: ListenersWithNameWsRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
+  access_rules?: string[]
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  authentication?: ListenersWithNameWsRequiredBindAuthenticationItem[]
+  tcp_options?: BrokerTcpOpts
+  websocket?: BrokerWsOpts
+}
+
+export type ListenersWithNameTcpRequiredBindAuthenticationItem =
+  | AuthnGcpDevice
+  | AuthnLdapBind
+  | AuthnLdap
+  | AuthnScram
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type ListenersWithNameTcpRequiredBindEnableAuthn =
+  typeof ListenersWithNameTcpRequiredBindEnableAuthn[keyof typeof ListenersWithNameTcpRequiredBindEnableAuthn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameTcpRequiredBindEnableAuthn = {
+  true: 'true',
+  false: 'false',
+  quick_deny_anonymous: 'quick_deny_anonymous',
+} as const
+
+export type ListenersWithNameTcpRequiredBindMaxConnections = number | 'infinity'
+
+export type ListenersWithNameTcpRequiredBindType =
+  typeof ListenersWithNameTcpRequiredBindType[keyof typeof ListenersWithNameTcpRequiredBindType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameTcpRequiredBindType = {
+  tcp: 'tcp',
+} as const
+
+export interface ListenersWithNameTcpRequiredBind {
+  type: ListenersWithNameTcpRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
+  mountpoint?: string
+  enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
+  access_rules?: string[]
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  authentication?: ListenersWithNameTcpRequiredBindAuthenticationItem[]
+  tcp_options?: BrokerTcpOpts
+}
+
+export type ListenersWithNameSslRequiredBindAuthenticationItem =
+  | AuthnGcpDevice
+  | AuthnLdapBind
+  | AuthnLdap
+  | AuthnScram
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type ListenersWithNameSslRequiredBindEnableAuthn =
+  typeof ListenersWithNameSslRequiredBindEnableAuthn[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameSslRequiredBindEnableAuthn = {
+  true: 'true',
+  false: 'false',
+  quick_deny_anonymous: 'quick_deny_anonymous',
+} as const
+
+export type ListenersWithNameSslRequiredBindMaxConnections = number | 'infinity'
+
+export type ListenersWithNameSslRequiredBindType =
+  typeof ListenersWithNameSslRequiredBindType[keyof typeof ListenersWithNameSslRequiredBindType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameSslRequiredBindType = {
+  ssl: 'ssl',
+} as const
+
+export interface ListenersWithNameSslRequiredBind {
+  type: ListenersWithNameSslRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameSslRequiredBindMaxConnections
+  mountpoint?: string
+  enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
+  access_rules?: string[]
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  authentication?: ListenersWithNameSslRequiredBindAuthenticationItem[]
+  tcp_options?: BrokerTcpOpts
+  ssl_options?: BrokerListenerSslOpts
+}
+
+export type ListenersWithNameQuicRequiredBindEnableAuthn =
+  typeof ListenersWithNameQuicRequiredBindEnableAuthn[keyof typeof ListenersWithNameQuicRequiredBindEnableAuthn]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameQuicRequiredBindEnableAuthn = {
+  true: 'true',
+  false: 'false',
+  quick_deny_anonymous: 'quick_deny_anonymous',
+} as const
+
+export type ListenersWithNameQuicRequiredBindMaxConnections = number | 'infinity'
+
+export type ListenersWithNameQuicRequiredBindType =
+  typeof ListenersWithNameQuicRequiredBindType[keyof typeof ListenersWithNameQuicRequiredBindType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameQuicRequiredBindType = {
+  quic: 'quic',
+} as const
+
+export interface ListenersWithNameQuicRequiredBind {
+  type: ListenersWithNameQuicRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  ciphers?: string[]
+  ssl_options?: BrokerListenerQuicSslOpts
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameQuicRequiredBindMaxConnections
+  mountpoint?: string
+  enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
 }
 
 export type ListenersTcpRequiredBindAuthenticationItem =
@@ -750,68 +850,6 @@ export interface ListenersStatus {
   current_connections?: number
 }
 
-export type ListenersSslRequiredBindWithNameAuthenticationItem =
-  | AuthnGcpDevice
-  | AuthnLdapBind
-  | AuthnLdap
-  | AuthnScram
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type ListenersSslRequiredBindWithNameEnableAuthn =
-  typeof ListenersSslRequiredBindWithNameEnableAuthn[keyof typeof ListenersSslRequiredBindWithNameEnableAuthn]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersSslRequiredBindWithNameEnableAuthn = {
-  true: 'true',
-  false: 'false',
-  quick_deny_anonymous: 'quick_deny_anonymous',
-} as const
-
-export type ListenersSslRequiredBindWithNameMaxConnections = number | 'infinity'
-
-export type ListenersSslRequiredBindWithNameType =
-  typeof ListenersSslRequiredBindWithNameType[keyof typeof ListenersSslRequiredBindWithNameType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersSslRequiredBindWithNameType = {
-  ssl: 'ssl',
-} as const
-
-export interface ListenersSslRequiredBindWithName {
-  type: ListenersSslRequiredBindWithNameType
-  running?: boolean
-  name: string
-  current_connections?: number
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersSslRequiredBindWithNameMaxConnections
-  mountpoint?: string
-  enable_authn?: ListenersSslRequiredBindWithNameEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
-  access_rules?: string[]
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  authentication?: ListenersSslRequiredBindWithNameAuthenticationItem[]
-  tcp_options?: BrokerTcpOpts
-  ssl_options?: BrokerListenerSslOpts
-}
-
 export type ListenersSslRequiredBindAuthenticationItem =
   | AuthnGcpDevice
   | AuthnLdapBind
@@ -934,44 +972,6 @@ export interface ListenersSslNotRequiredBind {
   authentication?: ListenersSslNotRequiredBindAuthenticationItem[]
   tcp_options?: BrokerTcpOpts
   ssl_options?: BrokerListenerSslOpts
-}
-
-export type ListenersQuicRequiredBindWithNameEnableAuthn =
-  typeof ListenersQuicRequiredBindWithNameEnableAuthn[keyof typeof ListenersQuicRequiredBindWithNameEnableAuthn]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersQuicRequiredBindWithNameEnableAuthn = {
-  true: 'true',
-  false: 'false',
-  quick_deny_anonymous: 'quick_deny_anonymous',
-} as const
-
-export type ListenersQuicRequiredBindWithNameMaxConnections = number | 'infinity'
-
-export type ListenersQuicRequiredBindWithNameType =
-  typeof ListenersQuicRequiredBindWithNameType[keyof typeof ListenersQuicRequiredBindWithNameType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ListenersQuicRequiredBindWithNameType = {
-  quic: 'quic',
-} as const
-
-export interface ListenersQuicRequiredBindWithName {
-  type: ListenersQuicRequiredBindWithNameType
-  running?: boolean
-  name: string
-  current_connections?: number
-  ciphers?: string[]
-  ssl_options?: BrokerListenerQuicSslOpts
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersQuicRequiredBindWithNameMaxConnections
-  mountpoint?: string
-  enable_authn?: ListenersQuicRequiredBindWithNameEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
 }
 
 export type ListenersQuicRequiredBindEnableAuthn =

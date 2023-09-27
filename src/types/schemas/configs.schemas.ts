@@ -422,6 +422,30 @@ export interface EmqxLdapSsl {
   server_name_indication?: EmqxLdapSslServerNameIndication
 }
 
+export type EmqxEnterpriseSchemaLogAuditHandlerRotationSize = string | 'infinity'
+
+export interface EmqxEnterpriseSchemaLogAuditHandler {
+  path?: string
+  rotation_count?: number
+  rotation_size?: EmqxEnterpriseSchemaLogAuditHandlerRotationSize
+  enable?: boolean
+  time_offset?: string
+}
+
+export type EmqxEnterpriseSchemaLogFileOneOf = {
+  $handler_name?: EmqxConfSchemaLogFileHandler
+}
+
+export type EmqxEnterpriseSchemaLogFile =
+  | EmqxEnterpriseSchemaLogFileOneOf
+  | EmqxConfSchemaLogFileHandler
+
+export interface EmqxEnterpriseSchemaLog {
+  console?: EmqxConfSchemaConsoleHandler
+  file?: EmqxEnterpriseSchemaLogFile
+  audit?: EmqxEnterpriseSchemaLogAuditHandler
+}
+
 export type EmqxDashboardSsoSamlSamlBackend =
   typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
 
@@ -438,6 +462,11 @@ export interface EmqxDashboardSsoSamlSaml {
   sp_sign_request?: boolean
   sp_public_key?: string
   sp_private_key?: string
+}
+
+export interface EmqxDashboardSsoSchemaSso {
+  ldap?: EmqxDashboardSsoLdapLdap
+  saml?: EmqxDashboardSsoSamlSaml
 }
 
 export type EmqxDashboardSsoLdapLdapBackend =
@@ -460,11 +489,6 @@ export interface EmqxDashboardSsoLdapLdap {
   filter?: string
   request_timeout?: string
   ssl?: EmqxLdapSsl
-}
-
-export interface EmqxDashboardSsoSchemaSso {
-  ldap?: EmqxDashboardSsoLdapLdap
-  saml?: EmqxDashboardSsoSamlSaml
 }
 
 export type EmqxConfSchemaLogFileHandlerFormatter =
@@ -504,39 +528,6 @@ export interface EmqxConfSchemaLogFileHandler {
   time_offset?: string
 }
 
-export type EmqxConfSchemaLogAuditHandlerLevel =
-  typeof EmqxConfSchemaLogAuditHandlerLevel[keyof typeof EmqxConfSchemaLogAuditHandlerLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaLogAuditHandlerLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export type EmqxConfSchemaLogAuditHandlerRotationSize = string | 'infinity'
-
-export interface EmqxConfSchemaLogAuditHandler {
-  path?: string
-  rotation_count?: number
-  rotation_size?: EmqxConfSchemaLogAuditHandlerRotationSize
-  level?: EmqxConfSchemaLogAuditHandlerLevel
-  enable?: boolean
-  time_offset?: string
-}
-
-export type EmqxConfSchemaLogFileOneOf = {
-  $handler_name?: EmqxConfSchemaLogFileHandler
-}
-
-export type EmqxConfSchemaLogFile = EmqxConfSchemaLogFileOneOf | EmqxConfSchemaLogFileHandler
-
 export type EmqxConfSchemaConsoleHandlerFormatter =
   typeof EmqxConfSchemaConsoleHandlerFormatter[keyof typeof EmqxConfSchemaConsoleHandlerFormatter]
 
@@ -567,12 +558,6 @@ export interface EmqxConfSchemaConsoleHandler {
   enable?: boolean
   formatter?: EmqxConfSchemaConsoleHandlerFormatter
   time_offset?: string
-}
-
-export interface EmqxConfSchemaLog {
-  console?: EmqxConfSchemaConsoleHandler
-  file?: EmqxConfSchemaLogFile
-  audit?: EmqxConfSchemaLogAuditHandler
 }
 
 export type DashboardSslOptionsLogLevel =
