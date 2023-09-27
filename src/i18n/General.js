@@ -321,7 +321,7 @@ export default {
   },
   infoIdPDesc: {
     zh: '配置服务提供商(IdP)所需信息',
-    en: 'Information required to configure the service provider (IdP)',
+    en: 'Information required to configure the identity provider (IdP)',
   },
   ssoUrl: {
     zh: '单点登录地址',
