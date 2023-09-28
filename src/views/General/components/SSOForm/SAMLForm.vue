@@ -50,10 +50,10 @@
     <el-collapse-transition>
       <div class="keys-container" v-if="formData.sp_sign_request">
         <el-form-item prop="sp_public_key" :label="tl('spPublicKey')">
-          <CertFileInput v-model="formData.sp_public_key" placeholder="" />
+          <CertFileInput v-model="formData.sp_public_key" placeholder="" :is-edit="isEdit" />
         </el-form-item>
         <el-form-item prop="sp_private_key" :label="tl('spPrivateKey')">
-          <CertFileInput v-model="formData.sp_private_key" placeholder="" />
+          <CertFileInput v-model="formData.sp_private_key" placeholder="" :is-edit="isEdit" />
         </el-form-item>
       </div>
     </el-collapse-transition>
@@ -78,6 +78,10 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<EmqxDashboardSsoSamlSaml>,
     default: () => ({}),
+  },
+  isEdit: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])

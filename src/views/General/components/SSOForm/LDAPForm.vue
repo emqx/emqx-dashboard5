@@ -17,7 +17,7 @@
       <el-input v-model="formData.username" />
     </el-form-item>
     <el-form-item prop="password" :label="t('Base.password')">
-      <el-input type="password" v-model="formData.password" />
+      <el-input type="password" v-model="formData.password" autocomplete="one-time-code" />
     </el-form-item>
     <el-form-item prop="base_dn" :label="tl('baseDN')">
       <el-input v-model="formData.base_dn" />
@@ -34,7 +34,12 @@
       <el-input v-model="formData.filter" />
     </el-form-item>
     <!-- TODO: fix type error -->
-    <CommonTLSConfig v-if="formData.ssl" class="tls-config-form" v-model="formData.ssl" />
+    <CommonTLSConfig
+      v-if="formData.ssl"
+      class="tls-config-form"
+      v-model="formData.ssl"
+      :is-edit="isEdit"
+    />
   </el-form>
 </template>
 
@@ -50,6 +55,10 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<EmqxDashboardSsoLdapLdap>,
     default: () => ({}),
+  },
+  isEdit: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])

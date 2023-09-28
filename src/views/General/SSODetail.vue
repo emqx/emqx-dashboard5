@@ -5,8 +5,8 @@
     />
     <el-card class="app-card sso-detail" v-loading="isLoading">
       <el-row>
-        <el-col :md="15" :lg="12" v-if="formCom">
-          <component ref="FormCom" :is="formCom" v-model="formData" />
+        <el-col :md="18" :lg="15" v-if="formCom">
+          <component ref="FormCom" :is="formCom" v-model="formData" :is-edit="!!baseInfo" />
         </el-col>
       </el-row>
       <el-row class="schema-form">
