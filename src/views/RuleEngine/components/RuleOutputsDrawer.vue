@@ -14,7 +14,7 @@
       ref="formCom"
     >
       <el-row :gutter="26">
-        <el-col :span="12" v-loading="isLoading">
+        <el-col :span="12">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
             <el-select v-model="outputForm.type">
               <el-option
@@ -48,71 +48,19 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
-        <el-row :gutter="26">
-          <el-col :span="10">
-            <el-form-item :label="$t('Base.topic')" required prop="args.topic">
-              <el-input v-model="outputForm.args.topic" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="QoS">
-              <el-select
-                v-model="outputForm.args.qos"
-                :placeholder="tl('selectOrInput')"
-                filterable
-                allow-create
-              >
-                <el-option v-for="item in QoSOptions" :value="item" :key="item" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="Retain">
-              <el-select
-                v-model="outputForm.args.retain"
-                :placeholder="tl('selectOrInput')"
-                filterable
-                allow-create
-              >
-                <el-option label="true" :value="true" />
-                <el-option label="false" :value="false" />
-                <el-option label="${flags.retain}" value="${flags.retain}" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="Payload">
-              <template #label>
-                <label>Payload</label>
-                <InfoTooltip :content="tl('payloadExample')" />
-                <p class="payload-desc">{{ tl('payloadDesc') }}</p>
-              </template>
-              <div class="monaco-container">
-                <Monaco
-                  :id="createRandomString()"
-                  v-model="outputForm.args.payload"
-                  lang="json"
-                  json-without-validate
-                />
-              </div>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="output-content" v-if="outputForm.type === RuleOutput.Console">
-        {{ tl('console') }}
-      </div>
-      <BridgeDetail
-        v-else-if="isOutputToBridge && bridgeForm.id"
-        ref="BridgeDetailRef"
-        class="output-content"
-        :bridge-id="bridgeForm.id"
-      />
     </el-form>
+    <div class="output-content" v-if="outputForm.type === RuleOutput.Republish">
+      <RePubForm ref="RePubFormCom" v-model="outputForm" />
+    </div>
+    <div class="output-content" v-else-if="outputForm.type === RuleOutput.Console">
+      {{ tl('console') }}
+    </div>
+    <BridgeDetail
+      v-else-if="isOutputToBridge && bridgeForm.id"
+      ref="BridgeDetailRef"
+      class="output-content"
+      :bridge-id="bridgeForm.id"
+    />
     <template #footer>
       <el-button @click="cancel()">
         {{ $t('Base.cancel') }}
@@ -136,30 +84,27 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getBridgeList } from '@/api/ruleengine'
-import { QoSOptions as defaultQoSOptions } from '@/common/constants'
-import { createRandomString } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItemObj } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import {
+  PropType,
+  Ref,
+  WritableComputedRef,
   computed,
   defineEmits,
   defineProps,
   nextTick,
   onActivated,
-  PropType,
   ref,
-  Ref,
   watch,
-  WritableComputedRef,
 } from 'vue'
 import { useRoute } from 'vue-router'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import AddBridgeOnRule from './AddBridgeOnRule.vue'
+import RePubForm from './RePubForm.vue'
 
 type OutputForm = {
   type: string
@@ -201,22 +146,17 @@ const createRawOutputForm = (): OutputForm => ({
 
 const route = useRoute()
 const formCom = ref()
-const isLoading = ref(false)
+const RePubFormCom = ref()
 const submitLoading = ref(false)
 const bridgeList: Ref<Array<BridgeItem>> = ref([])
 const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
 const bridgeForm = ref<Record<string, any>>({})
 
-const { createRequiredRule, createMqttPublishTopicRule } = useFormRules()
+const { createRequiredRule } = useFormRules()
 const outputFormRules: Record<string, any> = {
   type: createRequiredRule(t('RuleEngine.action', 1).toLowerCase(), 'select'),
-  args: {
-    topic: [...createRequiredRule('Topic'), ...createMqttPublishTopicRule()],
-  },
 }
-
-const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const showDrawer: WritableComputedRef<boolean> = computed({
   get() {
@@ -300,6 +240,7 @@ const submitOutput = async (edit = false) => {
         opObj = { function: outputForm.value.type }
         break
       case RuleOutput.Republish:
+        await RePubFormCom.value?.validate()
         opObj = {
           function: outputForm.value.type,
           args: { ...outputForm.value.args },
