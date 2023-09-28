@@ -9,12 +9,12 @@
     @keyup.enter="saveConfig()"
   >
     <el-row :gutter="26">
-      <el-col :span="isUsingInFlow ? 24 : 10">
+      <el-col :span="getColSpan(10)">
         <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
           <el-input v-model="record.args.topic" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="isUsingInFlow ? 24 : 6">
+      <el-col :span="getColSpan(6)">
         <CustomFormItem label="QoS" :readonly="readonly">
           <el-select
             v-model="record.args.qos"
@@ -26,7 +26,7 @@
           </el-select>
         </CustomFormItem>
       </el-col>
-      <el-col :span="isUsingInFlow ? 24 : 6">
+      <el-col :span="getColSpan(6)">
         <CustomFormItem label="Retain" :readonly="readonly">
           <el-select
             v-model="record.args.retain"
@@ -64,7 +64,78 @@
           </div>
         </CustomFormItem>
       </el-col>
+      <el-col :span="getColSpan(24)">
+        <CustomFormItem :label="tl('pubProp')">
+          <el-switch v-model="showPubProps" />
+        </CustomFormItem>
+      </el-col>
     </el-row>
+    <el-collapse-transition>
+      <el-row :gutter="26" v-if="showPubProps">
+        <el-col :span="getColSpan(24)">
+          <CustomFormItem
+            :label="tl('userProperties')"
+            prop="args.user_properties"
+            :readonly="readonly"
+          >
+            <el-input type="textarea" rows="4" v-model="record.args.user_properties" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('payloadFormatIndicator')"
+            prop="args.mqtt_properties.Payload-Format-Indicator"
+            :readonly="readonly"
+          >
+            <el-select
+              v-model="record.args.mqtt_properties['Payload-Format-Indicator']"
+              :placeholder="tl('selectOrInput')"
+              filterable
+              allow-create
+            >
+              <el-option label="true" :value="true" />
+              <el-option label="false" :value="false" />
+            </el-select>
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('messageExpiryInterval')"
+            prop="args.mqtt_properties.Message-Expiry-Interval"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Message-Expiry-Interval']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('contentType')"
+            prop="args.mqtt_properties.Content-Type"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Content-Type']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('responseTopic')"
+            prop="args.mqtt_properties.Response-Topic"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Response-Topic']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('correlationData')"
+            prop="args.mqtt_properties.Correlation-Data"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Correlation-Data']" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+    </el-collapse-transition>
   </el-form>
 </template>
 
@@ -76,14 +147,17 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
-import { ComputedRef, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { ComputedRef, PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+
+type RePubForm = RuleEngineBuiltinActionRepublish | any
 
 const FormCom = ref()
 
 const props = defineProps({
   modelValue: {
-    type: Object,
+    type: Object as PropType<RePubForm>,
     default: () => ({}),
   },
   readonly: {
@@ -99,11 +173,21 @@ const emit = defineEmits(['update:modelValue', 'save'])
 
 const { tl } = useI18nTl('RuleEngine')
 
+const withPubProps = (record: RePubForm): boolean => {
+  const { mqtt_properties, user_properties } = record.args
+  return (
+    !!user_properties ||
+    (mqtt_properties && Object.entries(mqtt_properties).some(([, value]) => !!value))
+  )
+}
+
+const showPubProps = ref(withPubProps(props.modelValue))
+
 const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const record = computed({
   get() {
-    return props.modelValue
+    return { mqtt_properties: {}, ...props.modelValue }
   },
   set(val) {
     emit('update:modelValue', val)
@@ -129,6 +213,8 @@ const formProps: ComputedRef<Partial<FormProps>> = computed(() => {
     labelPosition: 'top',
   }
 })
+
+const getColSpan = (spanOriginal?: number) => (props.isUsingInFlow ? 24 : spanOriginal || 12)
 
 const validate = () => FormCom.value.validate()
 
