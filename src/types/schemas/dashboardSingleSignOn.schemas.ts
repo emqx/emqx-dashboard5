@@ -301,4 +301,6 @@ export const DashboardSsoBackendStatusBackend = {
 export interface DashboardSsoBackendStatus {
   enable?: boolean
   backend: DashboardSsoBackendStatusBackend
+  running?: boolean
+  last_error?: string
 }
