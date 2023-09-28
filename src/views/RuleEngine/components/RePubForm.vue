@@ -1,54 +1,70 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="120px"
     class="message-form"
-    label-position="right"
-    hide-required-asterisk
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
+    v-bind="formProps"
     @keyup.enter="saveConfig()"
   >
-    <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
-      <el-input v-model="record.args.topic" />
-    </CustomFormItem>
-    <CustomFormItem label="QoS" :readonly="readonly">
-      <el-select
-        v-model="record.args.qos"
-        :placeholder="tl('selectOrInput')"
-        filterable
-        allow-create
-      >
-        <el-option v-for="item in QoSOptions" :value="item" :key="item" />
-      </el-select>
-    </CustomFormItem>
-    <CustomFormItem label="Retain" :readonly="readonly">
-      <el-select
-        v-model="record.args.retain"
-        :placeholder="tl('selectOrInput')"
-        filterable
-        allow-create
-      >
-        <el-option label="true" :value="true" />
-        <el-option label="false" :value="false" />
-        <el-option label="${flags.retain}" value="${flags.retain}" />
-      </el-select>
-    </CustomFormItem>
-    <CustomFormItem label="Payload">
-      <template #label>
-        <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`" />
-      </template>
-      <div class="monaco-container">
-        <Monaco
-          v-model="record.args.payload"
-          lang="json"
-          json-without-validate
-          :disabled="readonly"
-          :id="createRandomString()"
-        />
-      </div>
-    </CustomFormItem>
+    <el-row :gutter="26">
+      <el-col :span="isUsingInFlow ? 24 : 10">
+        <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
+          <el-input v-model="record.args.topic" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="isUsingInFlow ? 24 : 6">
+        <CustomFormItem label="QoS" :readonly="readonly">
+          <el-select
+            v-model="record.args.qos"
+            :placeholder="tl('selectOrInput')"
+            filterable
+            allow-create
+          >
+            <el-option v-for="item in QoSOptions" :value="item" :key="item" />
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="isUsingInFlow ? 24 : 6">
+        <CustomFormItem label="Retain" :readonly="readonly">
+          <el-select
+            v-model="record.args.retain"
+            :placeholder="tl('selectOrInput')"
+            filterable
+            allow-create
+          >
+            <el-option label="true" :value="true" />
+            <el-option label="false" :value="false" />
+            <el-option label="${flags.retain}" value="${flags.retain}" />
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="24">
+        <CustomFormItem label="Payload">
+          <template #label>
+            <FormItemLabel
+              v-if="isUsingInFlow"
+              label="Payload"
+              :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`"
+            />
+            <template v-else>
+              <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')}`" />
+              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            </template>
+          </template>
+          <div class="monaco-container">
+            <Monaco
+              v-model="record.args.payload"
+              lang="json"
+              json-without-validate
+              :disabled="readonly"
+              :id="createRandomString()"
+            />
+          </div>
+        </CustomFormItem>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 
@@ -60,7 +76,8 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { FormProps } from 'element-plus'
+import { ComputedRef, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const FormCom = ref()
 
@@ -70,6 +87,10 @@ const props = defineProps({
     default: () => ({}),
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  isUsingInFlow: {
     type: Boolean,
     default: false,
   },
@@ -95,6 +116,19 @@ const rules = { 'args.topic': [...createRequiredRule('Topic'), ...createMqttPubl
 const saveConfig = () => {
   emit('save', record.value)
 }
+
+const formProps: ComputedRef<Partial<FormProps>> = computed(() => {
+  if (props.isUsingInFlow) {
+    return {
+      labelWidth: '120px',
+      labelPosition: 'right',
+      hideRequiredAsterisk: true,
+    }
+  }
+  return {
+    labelPosition: 'top',
+  }
+})
 
 const validate = () => FormCom.value.validate()
 
