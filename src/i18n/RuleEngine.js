@@ -638,6 +638,34 @@ export default {
     zh: "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用数据桥接的业务需求来选择字段，置空则原样转发消息。",
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
+  pubProp: {
+    zh: '发布属性',
+    en: 'Publish Properties',
+  },
+  payloadFormatIndicator: {
+    zh: '有效载荷指示器',
+    en: 'Payload Format Indicator',
+  },
+  messageExpiryInterval: {
+    zh: '遗嘱消息过期时间',
+    en: 'Message Expiry Interval',
+  },
+  contentType: {
+    zh: '遗嘱消息描述',
+    en: 'Content Type',
+  },
+  responseTopic: {
+    zh: '响应主题',
+    en: 'Response Topic',
+  },
+  correlationData: {
+    zh: '对比数据',
+    en: 'Correlation Data',
+  },
+  userProperties: {
+    zh: '用户属性',
+    en: 'User Properties',
+  },
   ingressRemoteTopicDesc: {
     zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。当 EMQX 配置为集群或启用了 ingress 连接池时，必须使用共享订阅来避免消息重复。',
     en: 'The local broker will subscribe to topic to receive messages from remote broker .When EMQX is running in a cluster or with an enabled ingress connection pool, it is mandatory to use shared subscriptions to avoid message duplication.',

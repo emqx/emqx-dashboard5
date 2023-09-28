@@ -23,6 +23,8 @@ export interface RePub {
   topic: string
   qos: QoSLevel
   retain: boolean
+  mqtt_properties: Record<string, string>
+  user_properties: string
 }
 
 export interface OutputItemObj {
