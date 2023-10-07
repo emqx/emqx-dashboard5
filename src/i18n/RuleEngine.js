@@ -647,11 +647,11 @@ export default {
     en: 'Payload Format Indicator',
   },
   messageExpiryInterval: {
-    zh: '遗嘱消息过期时间',
+    zh: '消息过期时间',
     en: 'Message Expiry Interval',
   },
   contentType: {
-    zh: '遗嘱消息描述',
+    zh: '内容类型',
     en: 'Content Type',
   },
   responseTopic: {
