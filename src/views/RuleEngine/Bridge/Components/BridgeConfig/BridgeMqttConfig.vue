@@ -49,7 +49,7 @@
                   <label>{{ tl('localBroker') }}</label>
                   <MQTTBridgeTransConfiguration
                     v-model="mqttBridgeVal.ingress.local"
-                    path="ingress.locale"
+                    path="ingress.local"
                     :direction="MQTTBridgeDirection.In"
                     :topic-desc="tl('ingressLocalTopicDesc')"
                   />
@@ -237,12 +237,18 @@ const formRules = computed(() => ({
         remote: {
           topic: [...createRequiredRule(t('Base.topic')), ...createMqttSubscribeTopicRule()],
         },
+        local: {
+          topic: [...createMqttPublishTopicRule()],
+        },
       }
     : undefined,
   egress: enableEgress.value
     ? {
         remote: {
           topic: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()],
+        },
+        local: {
+          topic: [...createMqttSubscribeTopicRule()],
         },
       }
     : undefined,
