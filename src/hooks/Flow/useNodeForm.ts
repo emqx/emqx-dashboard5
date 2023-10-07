@@ -64,6 +64,8 @@ export const createRePubForm = (): OutputItemObj => ({
     qos: 0,
     payload: '',
     retain: false,
+    mqtt_properties: {},
+    user_properties: '',
   },
 })
 

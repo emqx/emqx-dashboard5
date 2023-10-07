@@ -191,6 +191,7 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [SinkType.RePub]: { isUsingInFlow: true },
   [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },

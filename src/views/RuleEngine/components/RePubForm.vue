@@ -1,54 +1,141 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="120px"
     class="message-form"
-    label-position="right"
-    hide-required-asterisk
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
+    v-bind="formProps"
     @keyup.enter="saveConfig()"
   >
-    <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
-      <el-input v-model="record.args.topic" />
-    </CustomFormItem>
-    <CustomFormItem label="QoS" :readonly="readonly">
-      <el-select
-        v-model="record.args.qos"
-        :placeholder="tl('selectOrInput')"
-        filterable
-        allow-create
-      >
-        <el-option v-for="item in QoSOptions" :value="item" :key="item" />
-      </el-select>
-    </CustomFormItem>
-    <CustomFormItem label="Retain" :readonly="readonly">
-      <el-select
-        v-model="record.args.retain"
-        :placeholder="tl('selectOrInput')"
-        filterable
-        allow-create
-      >
-        <el-option label="true" :value="true" />
-        <el-option label="false" :value="false" />
-        <el-option label="${flags.retain}" value="${flags.retain}" />
-      </el-select>
-    </CustomFormItem>
-    <CustomFormItem label="Payload">
-      <template #label>
-        <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`" />
-      </template>
-      <div class="monaco-container">
-        <Monaco
-          v-model="record.args.payload"
-          lang="json"
-          json-without-validate
-          :disabled="readonly"
-          :id="createRandomString()"
-        />
-      </div>
-    </CustomFormItem>
+    <el-row :gutter="26">
+      <el-col :span="getColSpan(10)">
+        <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
+          <el-input v-model="record.args.topic" />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="getColSpan(6)">
+        <CustomFormItem label="QoS" :readonly="readonly">
+          <el-select
+            v-model="record.args.qos"
+            :placeholder="tl('selectOrInput')"
+            filterable
+            allow-create
+          >
+            <el-option v-for="item in QoSOptions" :value="item" :key="item" />
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="getColSpan(6)">
+        <CustomFormItem label="Retain" :readonly="readonly">
+          <el-select
+            v-model="record.args.retain"
+            :placeholder="tl('selectOrInput')"
+            filterable
+            allow-create
+          >
+            <el-option label="true" :value="true" />
+            <el-option label="false" :value="false" />
+            <el-option label="${flags.retain}" value="${flags.retain}" />
+          </el-select>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="24">
+        <CustomFormItem label="Payload">
+          <template #label>
+            <FormItemLabel
+              v-if="isUsingInFlow"
+              label="Payload"
+              :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`"
+            />
+            <template v-else>
+              <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')}`" />
+              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
+            </template>
+          </template>
+          <div class="monaco-container">
+            <Monaco
+              v-model="record.args.payload"
+              lang="json"
+              json-without-validate
+              :disabled="readonly"
+              :id="createRandomString()"
+            />
+          </div>
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="getColSpan(24)">
+        <CustomFormItem :label="tl('pubProp')">
+          <el-switch v-model="showPubProps" />
+        </CustomFormItem>
+      </el-col>
+    </el-row>
+    <el-collapse-transition>
+      <el-row :gutter="26" v-if="showPubProps">
+        <el-col :span="getColSpan(24)">
+          <CustomFormItem
+            :label="tl('userProperties')"
+            prop="args.user_properties"
+            :readonly="readonly"
+          >
+            <el-input type="textarea" rows="4" v-model="record.args.user_properties" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('payloadFormatIndicator')"
+            prop="args.mqtt_properties.Payload-Format-Indicator"
+            :readonly="readonly"
+          >
+            <el-select
+              v-model="record.args.mqtt_properties['Payload-Format-Indicator']"
+              :placeholder="tl('selectOrInput')"
+              filterable
+              allow-create
+            >
+              <el-option label="true" :value="true" />
+              <el-option label="false" :value="false" />
+            </el-select>
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('messageExpiryInterval')"
+            prop="args.mqtt_properties.Message-Expiry-Interval"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Message-Expiry-Interval']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('contentType')"
+            prop="args.mqtt_properties.Content-Type"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Content-Type']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('responseTopic')"
+            prop="args.mqtt_properties.Response-Topic"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Response-Topic']" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="getColSpan()">
+          <CustomFormItem
+            :label="tl('correlationData')"
+            prop="args.mqtt_properties.Correlation-Data"
+            :readonly="readonly"
+          >
+            <el-input v-model="record.args.mqtt_properties['Correlation-Data']" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+    </el-collapse-transition>
   </el-form>
 </template>
 
@@ -60,16 +147,24 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
+import { FormProps } from 'element-plus'
+import { ComputedRef, PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+
+type RePubForm = RuleEngineBuiltinActionRepublish | any
 
 const FormCom = ref()
 
 const props = defineProps({
   modelValue: {
-    type: Object,
+    type: Object as PropType<RePubForm>,
     default: () => ({}),
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  isUsingInFlow: {
     type: Boolean,
     default: false,
   },
@@ -78,11 +173,21 @@ const emit = defineEmits(['update:modelValue', 'save'])
 
 const { tl } = useI18nTl('RuleEngine')
 
+const withPubProps = (record: RePubForm): boolean => {
+  const { mqtt_properties, user_properties } = record.args
+  return (
+    !!user_properties ||
+    (mqtt_properties && Object.entries(mqtt_properties).some(([, value]) => !!value))
+  )
+}
+
+const showPubProps = ref(withPubProps(props.modelValue))
+
 const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const record = computed({
   get() {
-    return props.modelValue
+    return { mqtt_properties: {}, ...props.modelValue }
   },
   set(val) {
     emit('update:modelValue', val)
@@ -95,6 +200,21 @@ const rules = { 'args.topic': [...createRequiredRule('Topic'), ...createMqttPubl
 const saveConfig = () => {
   emit('save', record.value)
 }
+
+const formProps: ComputedRef<Partial<FormProps>> = computed(() => {
+  if (props.isUsingInFlow) {
+    return {
+      labelWidth: '120px',
+      labelPosition: 'right',
+      hideRequiredAsterisk: true,
+    }
+  }
+  return {
+    labelPosition: 'top',
+  }
+})
+
+const getColSpan = (spanOriginal?: number) => (props.isUsingInFlow ? 24 : spanOriginal || 12)
 
 const validate = () => FormCom.value.validate()
 
