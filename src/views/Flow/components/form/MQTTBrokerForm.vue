@@ -35,7 +35,7 @@
       <MQTTBridgeTransConfiguration
         v-model="record.ingress.local"
         put-desc-in-tooltip
-        path="ingress.locale"
+        path="ingress.local"
         :direction="MQTTBridgeDirection.In"
         :topic-desc="tl('ingressLocalTopicDesc')"
         :readonly="readonly"
@@ -178,8 +178,16 @@ const rules = {
   server: createRequiredRule(tl('brokerAddress')),
   ingress: {
     remote: { topic: [...createRequiredRule(t('Base.topic')), ...createMqttSubscribeTopicRule()] },
+    local: {
+      topic: [...createMqttPublishTopicRule()],
+    },
   },
-  egress: { remote: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()] },
+  egress: {
+    remote: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()],
+    local: {
+      topic: [...createMqttSubscribeTopicRule()],
+    },
+  },
 }
 
 const validate = () => FormCom.value.validate()
