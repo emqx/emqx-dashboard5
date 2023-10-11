@@ -51,11 +51,12 @@ const record = computed({
   },
 })
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules = computed(() => {
   const ret = {
     topic: [
       ...createRequiredRule(tl('topic')),
+      ...createMqttSubscribeTopicRule(),
       {
         validator(rules: any, value: string) {
           if (props.existedTopics?.includes(value)) {
