@@ -41,7 +41,7 @@ const tagArr = [
   /* ⬇ just for ee */
   'File Transfer',
   'License',
-  'Schema_registry',
+  'Schema Registry',
   'GCP Devices',
   'Dashboard Single Sign-On',
 ]
