@@ -173,7 +173,7 @@ const {
   createMqttSubscribeTopicRule,
   createMqttPublishTopicRule,
 } = useFormRules()
-const rules = {
+const rules: any = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   server: createRequiredRule(tl('brokerAddress')),
   ingress: {
@@ -183,7 +183,7 @@ const rules = {
     },
   },
   egress: {
-    remote: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()],
+    remote: { topic: [...createRequiredRule(t('Base.topic')), ...createMqttPublishTopicRule()] },
     local: {
       topic: [...createMqttSubscribeTopicRule()],
     },
