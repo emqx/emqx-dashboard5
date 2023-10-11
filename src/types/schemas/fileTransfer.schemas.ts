@@ -24,6 +24,19 @@ export type GetFileTransferFilesClientidFileid404 = {
   message?: string
 }
 
+export type PutFileTransfer400Code =
+  typeof PutFileTransfer400Code[keyof typeof PutFileTransfer400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutFileTransfer400Code = {
+  INVALID_CONFIG: 'INVALID_CONFIG',
+} as const
+
+export type PutFileTransfer400 = {
+  code?: PutFileTransfer400Code
+  message?: string
+}
+
 export type GetFileTransferFiles503Code =
   typeof GetFileTransferFiles503Code[keyof typeof GetFileTransferFiles503Code]
 
@@ -81,11 +94,6 @@ export type GetFileTransferFile404 = {
   message?: string
 }
 
-export type GetFileTransferFileParams = {
-  node: FileTransferFileNodeParameter
-  fileref: FileTransferFileRefParameter
-}
-
 export type PublicLimitParameter = number
 
 export type FileTransferFollowingParameter = string
@@ -93,3 +101,144 @@ export type FileTransferFollowingParameter = string
 export type FileTransferFileRefParameter = string
 
 export type FileTransferFileNodeParameter = string
+
+export type GetFileTransferFileParams = {
+  node: FileTransferFileNodeParameter
+  fileref: FileTransferFileRefParameter
+}
+
+export type S3TransportOptionsHeaders = { [key: string]: any }
+
+export type S3TransportOptionsPoolType =
+  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const S3TransportOptionsPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export interface S3TransportOptions {
+  ipv6_probe?: boolean
+  connect_timeout?: string
+  pool_type?: S3TransportOptionsPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  ssl?: BrokerSslClientOpts
+  headers?: S3TransportOptionsHeaders
+  max_retries?: number
+  request_timeout?: string
+}
+
+export type FileTransferS3ExporterAcl =
+  typeof FileTransferS3ExporterAcl[keyof typeof FileTransferS3ExporterAcl]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileTransferS3ExporterAcl = {
+  private: 'private',
+  public_read: 'public_read',
+  public_read_write: 'public_read_write',
+  authenticated_read: 'authenticated_read',
+  bucket_owner_read: 'bucket_owner_read',
+  bucket_owner_full_control: 'bucket_owner_full_control',
+} as const
+
+export interface FileTransferS3Exporter {
+  access_key_id?: string
+  secret_access_key?: string
+  bucket: string
+  host: string
+  port: number
+  url_expire_time?: string
+  min_part_size: string
+  max_part_size: string
+  acl?: FileTransferS3ExporterAcl
+  transport_options?: S3TransportOptions
+  enable?: boolean
+}
+
+export interface FileTransferLocalStorageSegmentsGc {
+  interval?: string
+  maximum_segments_ttl?: string
+  minimum_segments_ttl?: string
+}
+
+export interface FileTransferLocalStorageSegments {
+  root?: string
+  gc?: FileTransferLocalStorageSegmentsGc
+}
+
+export interface FileTransferLocalStorageExporter {
+  root?: string
+  enable?: boolean
+}
+
+export interface FileTransferLocalStorageExporterBackend {
+  local?: FileTransferLocalStorageExporter
+  s3?: FileTransferS3Exporter
+}
+
+export interface FileTransferLocalStorage {
+  segments?: FileTransferLocalStorageSegments
+  exporter?: FileTransferLocalStorageExporterBackend
+  enable?: boolean
+}
+
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
+}
+
+export interface FileTransferFileTransfer {
+  enable?: boolean
+  init_timeout?: string
+  store_segment_timeout?: string
+  assemble_timeout?: string
+  storage?: FileTransferStorageBackend
+}
+
+export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+
+export type BrokerSslClientOptsLogLevel =
+  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerSslClientOptsVerify =
+  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: BrokerSslClientOptsServerNameIndication
+}
