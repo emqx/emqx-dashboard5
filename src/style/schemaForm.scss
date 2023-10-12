@@ -111,7 +111,8 @@
         width: $base-number-input-width;
       }
       >.el-input,
-      >.el-textarea {
+      >.el-textarea,
+      >.textarea-with-uploader {
         width: $base-input-width;
       }
       >.input-with-unit {

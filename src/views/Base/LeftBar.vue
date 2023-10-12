@@ -115,6 +115,7 @@ export default defineComponent({
           { title: 'topic-rewrite', path: '/topic-rewrite' },
           { title: 'auto-sub', path: '/auto-sub' },
           { title: 'delayed-pub', path: '/delayed-pub-configuration' },
+          { title: 'file-transfer', path: '/file-transfer' },
         ],
       },
       {
