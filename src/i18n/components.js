@@ -259,6 +259,10 @@ export default {
     zh: '延迟发布',
     en: 'Delayed Publish',
   },
+  'file-transfer': {
+    zh: '文件传输',
+    en: 'File Transfer',
+  },
   topicMetrics: {
     zh: 'Topic Metrics',
     en: 'Topic Metrics',
