@@ -15,6 +15,7 @@ const TYPE_ZONE_MAP: Record<string, Array<string>> = {
   emqx_schema: ['mqtt', 'session', 'sysmon'],
   emqx_conf_schema: ['log'],
   emqx_limiter_schema: ['limiter'],
+  file_trans: ['file-trans'],
 }
 
 /**
@@ -65,6 +66,25 @@ export const useSymbolLabel = (): {
     getOptLabel,
   }
 }
+const SSL_CONF_REG = /ssl|tls/i
+const SSL_CONFIG_KEYS = [
+  'user_lookup_fun',
+  'cacertfile',
+  'verify',
+  'keyfile',
+  'certfile',
+  'cacerts',
+  'password',
+  'hibernate_after',
+  'versions',
+  'secure_renegotiate',
+  'reuse_sessions',
+  'depth',
+  'server_name_indication',
+  'enable',
+  'ciphers',
+  'log_level',
+]
 
 export default (
   props: any,
@@ -76,6 +96,13 @@ export default (
   getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
+
+  const getSSLPropKey = ({ key, path }: Property): string | false => {
+    if (path && SSL_CONF_REG.test(path) && key && SSL_CONFIG_KEYS.includes(key)) {
+      return `ssl_opts.${key}`
+    }
+    return false
+  }
 
   /**
    * zone is first level
@@ -100,12 +127,26 @@ export default (
 
   const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
 
+  const getFileTransTextKey = (propItem: Property) => {
+    const sslPropKey = getSSLPropKey(propItem)
+    if (sslPropKey) {
+      return sslPropKey
+    }
+    const { key, path } = propItem
+    let textKey = key
+    if (key === 'enable' || key === 'root') {
+      textKey = snakeCase(path)
+    }
+    return `${getConfigurationTextZone()}.${textKey}`
+  }
+
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
     session: getMQTTAndSessionItemTextKey,
     log: getLogItemTextKey,
     sysmon: getSysMonTextKey,
     limiter: getLimiterTextKey,
+    'file-trans': getFileTransTextKey,
   }
 
   const getConfigurationItemTextKey = (prop: Property) => {
@@ -113,7 +154,7 @@ export default (
     if (func && isFunction(func)) {
       return func(prop)
     }
-    return undefined
+    return prop.path
   }
 
   const { getTypeBySchemaRef } = useBridgeSchema()
