@@ -526,10 +526,6 @@
     "mqtt_max_topic_alias": {
       "label": "Max Topic Alias"
     },
-    "common_ssl_opts_schema_user_lookup_fun": {
-      "desc": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
-      "label": "SSL PSK user lookup fun"
-    },
     "fields_listeners_wss": {
       "desc": "HTTPS websocket listeners.",
       "label": "HTTPS websocket listeners"
@@ -631,10 +627,6 @@
       "desc": "The size of the listener's receiving pool.",
       "label": "Acceptors Num"
     },
-    "common_ssl_opts_schema_cacertfile": {
-      "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
-      "label": "CACertfile"
-    },
     "fields_ws_opts_mqtt_path": {
       "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
       "label": "WS MQTT Path"
@@ -666,10 +658,6 @@
     "fields_deflate_opts_server_max_window_bits": {
       "desc": "Specifies the size of the compression context for the server.",
       "label": "Server compression max window size"
-    },
-    "client_ssl_opts_schema_server_name_indication": {
-      "desc": "Specify the host name to be used in TLS Server Name Indication extension.<br/>\nFor instance, when connecting to \"server.example.net\", the genuine server\nwhich accepts the connection and performs TLS handshake may differ from the\nhost the TLS client initially connects to, e.g. when connecting to an IP address\nor when the host has multiple resolvable DNS records <br/>\nIf not specified, it will default to the host name string which is used\nto establish the connection, unless it is IP addressed used.<br/>\nThe host name is then also used in the host name verification of the peer\ncertificate.<br/> The special value 'disable' prevents the Server Name\nIndication extension from being sent and disables the hostname\nverification check.",
-      "label": "Server Name Indication"
     },
     "fields_mqtt_quic_listener_retry_memory_limit": {
       "desc": "The percentage of available memory usable for handshake connections before stateless retry is used. Calculated as `N/65535`. Default: 65",
@@ -869,10 +857,6 @@
       "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
       "label": "Max Awaiting PUBREL Timeout"
     },
-    "common_ssl_opts_schema_verify": {
-      "desc": "Enable or disable peer verification.",
-      "label": "Verify peer"
-    },
     "fields_listeners_ssl": {
       "desc": "SSL listeners.",
       "label": "SSL listeners"
@@ -880,10 +864,6 @@
     "fields_deflate_opts_client_max_window_bits": {
       "desc": "Specifies the size of the compression context for the client.",
       "label": "Client compression max window size"
-    },
-    "common_ssl_opts_schema_keyfile": {
-      "desc": "PEM format private key file.",
-      "label": "Keyfile"
     },
     "sysmon_os_cpu_high_watermark": {
       "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
@@ -896,10 +876,6 @@
     "mqtt_mqueue_default_priority": {
       "desc": "Default topic priority, which will be used by topics not in <code>Topic Priorities</code> (<code>mqueue_priorities</code>).",
       "label": "Default Topic Priorities"
-    },
-    "client_ssl_opts_schema_enable": {
-      "desc": "Enable TLS.",
-      "label": "Enable TLS"
     },
     "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
       "desc": "The maximum number of stateless operations that may be queued on a binding at any one time. Default: 3",
@@ -955,10 +931,6 @@
     "mqtt_ignore_loop_deliver": {
       "desc": "Whether the messages sent by the MQTT v3.1.1/v3.1.0 client will be forwarded to the client itself, similar to `No Local` in MQTT 5.0.",
       "label": "Ignore Loop Deliver"
-    },
-    "common_ssl_opts_schema_certfile": {
-      "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
-      "label": "Certfile"
     },
     "mqtt_exclusive_subscription": {
       "label": "Allowed Exclusive Subscription"
@@ -1101,14 +1073,6 @@
       "desc": "Enable clients to migrate IP addresses and tuples. Requires a cooperative load-balancer, or no load-balancer. Default: 1 (Enabled)",
       "label": "Migration enabled"
     },
-    "common_ssl_opts_schema_password": {
-      "desc": "String containing the user's password. Only used if the private key file is password-protected.",
-      "label": "Keyfile passphrase"
-    },
-    "common_ssl_opts_schema_hibernate_after": {
-      "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
-      "label": "hibernate after"
-    },
     "fields_mqtt_quic_listener_send_buffering_enabled": {
       "desc": "Buffer send data instead of holding application buffers until sent data is acknowledged. Default: 1 (Enabled)",
       "label": "Send buffering enabled"
@@ -1202,10 +1166,6 @@
       "desc": "If <code>false</code> and <code>check_origin_enable</code> is\n <code>true</code>, the server will reject requests that don't have <code>origin</code>\n HTTP header.",
       "label": "Allow origin absence"
     },
-    "common_ssl_opts_schema_versions": {
-      "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
-      "label": "SSL versions"
-    },
     "mqtt_listener_proxy_protocol_timeout": {
       "desc": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
       "label": "Proxy protocol timeout"
@@ -1213,10 +1173,6 @@
     "fields_mqtt_quic_listener_idle_timeout": {
       "desc": "How long a connection can go idle before it is gracefully shut down. 0 to disable",
       "label": "Idle Timeout"
-    },
-    "common_ssl_opts_schema_secure_renegotiate": {
-      "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
-      "label": "SSL renegotiate"
     },
     "sysmon_vm_busy_port": {
       "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
@@ -1232,14 +1188,6 @@
     "mqtt_max_packet_size": {
       "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
       "label": "Max Packet Size"
-    },
-    "common_ssl_opts_schema_reuse_sessions": {
-      "desc": "Enable TLS session reuse.",
-      "label": "TLS session reuse"
-    },
-    "common_ssl_opts_schema_depth": {
-      "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
-      "label": "CACert Depth"
     },
     "sysmon_vm_long_gc": {
       "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
@@ -1274,10 +1222,6 @@
     "overload_protection_backoff_delay": {
       "desc": "The maximum duration of delay for background task execution during high load conditions.",
       "label": "Delay Time"
-    },
-    "ciphers_schema_common": {
-      "desc": "This config holds TLS cipher suite names separated by comma,\nor as an array of strings. e.g.\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-      "label": ""
     },
     "sys_event_client_disconnected": {
       "desc": "Enable to publish client disconnected event messages."
@@ -1346,6 +1290,172 @@
     "mqtt_shared_subscription_strategy": {
       "label": "Shared Subscription Strategy",
       "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the clientIds"
+    }
+  },
+  "ssl_opts": {
+    "user_lookup_fun": {
+      "desc": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
+      "label": "SSL PSK user lookup fun"
+    },
+    "cacertfile": {
+      "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
+      "label": "CACertfile"
+    },
+    "verify": {
+      "desc": "Enable or disable peer verification.",
+      "label": "Verify peer"
+    },
+    "keyfile": {
+      "desc": "PEM format private key file.",
+      "label": "Keyfile"
+    },
+    "certfile": {
+      "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
+      "label": "Certfile"
+    },
+    "cacerts": {
+      "label": "CACerts"
+    },
+    "password": {
+      "desc": "String containing the user's password. Only used if the private key file is password-protected.",
+      "label": "Keyfile passphrase"
+    },
+    "hibernate_after": {
+      "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
+      "label": "hibernate after"
+    },
+    "versions": {
+      "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
+      "label": "SSL versions"
+    },
+    "secure_renegotiate": {
+      "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
+      "label": "SSL renegotiate"
+    },
+    "reuse_sessions": {
+      "desc": "Enable TLS session reuse.",
+      "label": "TLS session reuse"
+    },
+    "depth": {
+      "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
+      "label": "CACert Depth"
+    },
+    "server_name_indication": {
+      "desc": "Specify the host name to be used in TLS Server Name Indication extension.<br/>\nFor instance, when connecting to \"server.example.net\", the genuine server\nwhich accepts the connection and performs TLS handshake may differ from the\nhost the TLS client initially connects to, e.g. when connecting to an IP address\nor when the host has multiple resolvable DNS records <br/>\nIf not specified, it will default to the host name string which is used\nto establish the connection, unless it is IP addressed used.<br/>\nThe host name is then also used in the host name verification of the peer\ncertificate.<br/> The special value 'disable' prevents the Server Name\nIndication extension from being sent and disables the hostname\nverification check.",
+      "label": "Server Name Indication"
+    },
+    "enable": {
+      "desc": "Enable TLS.",
+      "label": "Enable TLS"
+    },
+    "log_level": {
+      "desc": "Log level for SSL communication. Default is 'notice'. Set to 'debug' to inspect TLS handshake messages.",
+      "label": "SSL log level"
+    },
+    "ciphers": {
+      "desc": "This config holds TLS cipher suite names separated by comma,\nor as an array of strings. e.g.\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
+      "label": "Cipher Suites"
+    }
+  },
+  "file_trans": {
+    "enable": {
+      "label": "Enable"
+    },
+    "init_timeout": {
+      "desc": "When the `init` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80)",
+      "label": "Init Timeout"
+    },
+    "store_segment_timeout": {
+      "desc": "When the `segment` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
+      "label": "Store Segment Timeout"
+    },
+    "assemble_timeout": {
+      "desc": "When the `fin` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
+      "label": "Assemble Timeout"
+    },
+    "storage_local_segments_root": {
+      "desc": "Uploaded segment temporary storage path. Absolute path. It is recommended to set it to a disk with high I/O performance.",
+      "label": "Segments Root Directory"
+    },
+    "interval": {
+      "desc": "Interval of periodic garbage collection.",
+      "label": "Storage GC Interval"
+    },
+    "minimum_segments_ttl": {
+      "desc": "Minimum Segments TTL. Segments will not be cleaned up before the TTL expires. Even if the TTL specified by some file transfer is less than this value, or the segments have been merged.",
+      "label": "Minimum Segments TTL"
+    },
+    "maximum_segments_ttl": {
+      "desc": "Maximum Segments TTL. Segments will be cleaned up after the TTL expires. Even if the TTL specified by some file transfer is greater than this value, or the segments have not been merged.",
+      "label": "Maximum Segments TTL"
+    },
+    "storage_local_exporter_local_enable": {
+      "desc": "Assemble segments and store them in the specified local directory after the file is uploaded.",
+      "label": "Enable Local Storage"
+    },
+    "storage_local_exporter_s_3_enable": {
+      "desc": "Assemble segments and store them in the specified S3 bucket after the file is uploaded.",
+      "label": "Enable S3 Storage"
+    },
+    "storage_local_exporter_local_root": {
+      "desc": "Uploaded and assembled files. Absolute path.",
+      "label": "Files Root Directory"
+    },
+    "host": {
+      "label": "Host"
+    },
+    "port": {
+      "label": "Port"
+    },
+    "access_key_id": {
+      "label": "Access Key ID"
+    },
+    "secret_access_key": {
+      "label": "Secret Access Key"
+    },
+    "bucket": {
+      "label": "Bucket"
+    },
+    "url_expire_time": {
+      "desc": "Expiration time of the generated URL.",
+      "label": "URL Expire Time"
+    },
+    "min_part_size": {
+      "label": "Minimum Part Size"
+    },
+    "max_part_size": {
+      "label": "Maximum Part Size"
+    },
+    "acl": {
+      "desc": "The ACL to use for the uploaded objects.",
+      "label": "ACL"
+    },
+    "ipv6_probe": {
+      "desc": "Whether to probe for IPv6 support.",
+      "label": "IPV6 Probe"
+    },
+    "headers": {
+      "label": "HTTP Headers"
+    },
+    "max_retries": {
+      "desc": "Max retry times if error on sending request.",
+      "label": "Max Retries"
+    },
+    "request_timeout": {
+      "label": "Request Timeout"
+    },
+    "connect_timeout": {
+      "label": "Connect Timeout"
+    },
+    "pool_type": {
+      "desc": "The type of the pool. Can be one of `random`, `hash`.",
+      "label": "Pool Type"
+    },
+    "pool_size": {
+      "label": "Pool Size"
+    },
+    "enable_pipelining": {
+      "label": "HTTP Pipelining"
     }
   }
 }
