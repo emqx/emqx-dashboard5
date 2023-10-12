@@ -66,7 +66,7 @@
       </el-col>
       <el-col :span="getColSpan(24)">
         <CustomFormItem :label="tl('pubProp')">
-          <el-switch v-model="showPubProps" />
+          <el-switch v-model="showPubProps" @change="togglePubPropsEnabled" />
         </CustomFormItem>
       </el-col>
     </el-row>
@@ -92,6 +92,7 @@
               :placeholder="tl('selectOrInput')"
               filterable
               allow-create
+              clearable
             >
               <el-option label="true" value="true" />
               <el-option label="false" value="false" />
@@ -182,6 +183,15 @@ const withPubProps = (record: RePubForm): boolean => {
 }
 
 const showPubProps = ref(withPubProps(props.modelValue))
+const togglePubPropsEnabled = (val: string | number | boolean) => {
+  if (val === false) {
+    const { mqtt_properties } = record.value.args
+    record.value.args.user_properties = ''
+    if (typeof mqtt_properties === 'object') {
+      Object.keys(mqtt_properties).forEach((key) => (mqtt_properties[key] = ''))
+    }
+  }
+}
 
 const QoSOptions = [...defaultQoSOptions, '${qos}']
 
