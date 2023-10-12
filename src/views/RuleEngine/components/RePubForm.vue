@@ -93,8 +93,8 @@
               filterable
               allow-create
             >
-              <el-option label="true" :value="true" />
-              <el-option label="false" :value="false" />
+              <el-option label="true" value="true" />
+              <el-option label="false" value="false" />
             </el-select>
           </CustomFormItem>
         </el-col>
