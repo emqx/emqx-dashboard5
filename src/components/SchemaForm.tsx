@@ -25,6 +25,7 @@ import InputWithUnit from './InputWithUnit.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import CertFileInput from './TLSConfig/CertFileInput.vue'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 interface FormItemMeta {
@@ -32,10 +33,11 @@ interface FormItemMeta {
   levelName?: string
 }
 
-const typesDoNotNeedGroups = ['bridge']
+const typesDoNotNeedGroups = ['bridge', 'file-trans']
 const typesNeedConciseSSL = ['bridge']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
+const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -55,6 +57,7 @@ const SchemaForm = defineComponent({
     CustomInputNumber,
     InputSelect,
     AdvancedSettingContainer,
+    CertFileInput,
   },
   props: {
     accordingTo: {
@@ -142,7 +145,7 @@ const SchemaForm = defineComponent({
      * https://www.figma.com/file/NJrNmLEpcZfYkDv381iGNG/EMQX-Dashboard?node-id=6202%3A76959&mode=dev
      */
     advancedFields: {
-      type: Array as PropType<Array<string>>,
+      type: Array as PropType<Array<string | RegExp>>,
     },
   },
   setup(props, ctx) {
@@ -272,6 +275,16 @@ const SchemaForm = defineComponent({
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 options={property.symbols}
+                {...customProps}
+              />
+            )
+          }
+          if (property.key && CERT_FIELDS_REG.test(property.key)) {
+            return (
+              <CertFileInput
+                modelValue={modelValue}
+                isEdit={true}
+                {...handleUpdateModelValue}
                 {...customProps}
               />
             )
@@ -770,6 +783,7 @@ const SchemaForm = defineComponent({
         propKeys.forEach((key) => {
           const property = properties[key]
           const propKey = property.key as string
+          const propPath = property.path as string
           // for concise SSL
           // TODO: can delete it after check
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
@@ -799,7 +813,12 @@ const SchemaForm = defineComponent({
             } else if (levelName === oldLevelName) {
               elFormItem = getColFormItem(property, { col: meta.col })
             }
-            if (props.advancedFields?.length && props.advancedFields.includes(key)) {
+            const isAdvancedField = props.advancedFields?.some(
+              (field) =>
+                (typeof field === 'string' && field === propPath) ||
+                (_.isRegExp(field) && field.test(propPath)),
+            )
+            if (isAdvancedField) {
               advancedFieldElement.push(elFormItem)
             } else {
               elements.push(elFormItem)
@@ -862,6 +881,7 @@ const SchemaForm = defineComponent({
       },
     )
 
+    // WARNING: If the parent component modifies the object pointed to by `components`, it will cause a dead loop
     watch(components, init)
 
     watch(

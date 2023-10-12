@@ -172,4 +172,20 @@ export default {
     zh: '请输入格式正确的速率配置',
     en: 'Please enter a properly formatted rate configuration',
   },
+  basicConf: {
+    zh: '基本配置',
+    en: 'Basic Configuration',
+  },
+  fileStorage: {
+    zh: '文件存储',
+    en: 'File Storage',
+  },
+  localStorage: {
+    zh: '本地存储',
+    en: 'Local Storage',
+  },
+  s3Storage: {
+    zh: 'S3 存储',
+    en: 'S3 Storage',
+  },
 }

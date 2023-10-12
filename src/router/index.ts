@@ -677,6 +677,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/file-transfer',
+    component: Layout,
+    meta: {
+      hideKey: 'file-transfer',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'file-transfer',
+        component: () => import('@/views/Config/FileTransfer.vue'),
+      },
+    ],
+  },
   // log config
   {
     path: '/log',
