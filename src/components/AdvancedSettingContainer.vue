@@ -3,7 +3,7 @@
     <AdvancedSettingsBtn v-model="showAdvancedSettings" />
   </div>
   <el-collapse-transition>
-    <div class="advanced-settings" v-show="showAdvancedSettings">
+    <div class="advanced-settings" v-if="showAdvancedSettings">
       <slot />
     </div>
   </el-collapse-transition>
