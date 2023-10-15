@@ -1,57 +1,70 @@
 <template>
   <div class="file-trans app-wrapper">
     <el-card class="app-card">
-      <el-tabs v-model="currentGroup" class="group-tabs">
-        <el-tab-pane :label="tl('basicConf')" :name="Tabs.Basic">
-          <schema-form
-            ref="SchemaFormCom"
-            type="file-trans"
-            :according-to="{ path: '/configs/file_transfer' }"
-            :form="configs"
-            :form-props="{ labelWidth: state.lang === 'zh' ? 270 : 270 }"
-            :btn-loading="saveLoading"
-            :record-loading="configLoading"
-            :props-order-map="propsOrderMap.basic"
-            :data-handler="handleSchemaToBasicInfo"
-            :advanced-fields="advancedFields.basic"
-            @save="handleSave"
-          >
-          </schema-form>
-        </el-tab-pane>
-        <el-tab-pane :label="tl('fileStorage')" :name="Tabs.File">
-          <div class="config-sub-block">
-            <p class="sub-title">{{ tl('localStorage') }}</p>
-            <schema-form
-              ref="SchemaFormCom"
-              type="file-trans"
-              :according-to="{ path: '/configs/file_transfer' }"
-              :form="configs"
-              :form-props="{ labelWidth: state.lang === 'zh' ? 270 : 270 }"
-              :btn-loading="saveLoading"
-              :record-loading="configLoading"
-              :data-handler="handleSchemaToLocalFileInfo"
-              @save="handleSave"
-            />
-          </div>
-          <el-divider />
-          <div class="config-sub-block">
-            <p class="sub-title">{{ tl('s3Storage') }}</p>
-            <schema-form
-              ref="SchemaFormCom"
-              type="file-trans"
-              :according-to="{ path: '/configs/file_transfer' }"
-              :form="configs"
-              :form-props="{ labelWidth: state.lang === 'zh' ? 270 : 270 }"
-              :btn-loading="saveLoading"
-              :record-loading="configLoading"
-              :props-order-map="propsOrderMap.file"
-              :data-handler="handleSchemaToS3FileInfo"
-              :advanced-fields="advancedFields.file"
-              @save="handleSave"
-            />
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+      <schema-form
+        ref="BasicFormCom"
+        type="file-trans"
+        :according-to="{ path: '/configs/file_transfer' }"
+        :form="configs"
+        :form-props="{ labelWidth }"
+        :btn-loading="saveLoading"
+        :record-loading="isPageLoading"
+        :props-order-map="propsOrderMap.basic"
+        :data-handler="handleSchemaToBasicInfo"
+        :need-footer="false"
+        @schema-loaded="isSchemaLoading = false"
+      />
+      <template v-if="!isPageLoading">
+        <el-form class="schema-form">
+          <el-rol>
+            <el-col :span="21">
+              <el-form-item :label-width="labelWidth" :label="tl('fileStorage')">
+                <el-radio-group
+                  class="platform-radio-group"
+                  v-model="selectedStorageType"
+                  @change="handleTypeChanged"
+                >
+                  <el-row :gutter="28">
+                    <el-col v-for="{ value, label } in storageTypeOpt" :key="value" :span="12">
+                      <el-radio class="platform-radio" :label="value" border>
+                        <span class="platform-name"> {{ label }} </span>
+                      </el-radio>
+                    </el-col>
+                  </el-row>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-rol>
+        </el-form>
+        <schema-form
+          :key="storageFormComKey"
+          v-show="selectedStorageType === StorageType.Local"
+          ref="LocalStorageFormCom"
+          type="file-trans"
+          :according-to="{ path: '/configs/file_transfer' }"
+          :form="configs"
+          :form-props="{ labelWidth }"
+          :btn-loading="saveLoading"
+          :record-loading="configLoading"
+          :data-handler="handleSchemaToLocalFileInfo"
+          :advanced-fields="advancedFields.local"
+          @save="handleSave"
+        />
+        <schema-form
+          v-show="selectedStorageType === StorageType.S3"
+          ref="S3StorageFormCom"
+          type="file-trans"
+          :according-to="{ path: '/configs/file_transfer' }"
+          :form="configs"
+          :form-props="{ labelWidth }"
+          :btn-loading="saveLoading"
+          :record-loading="configLoading"
+          :props-order-map="propsOrderMap.file"
+          :data-handler="handleSchemaToS3FileInfo"
+          :advanced-fields="advancedFields.s3"
+          @save="handleSave"
+        />
+      </template>
     </el-card>
   </div>
 </template>
@@ -66,9 +79,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Properties } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, pick } from 'lodash'
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { cloneDeep, get, isEqual, merge, omit, pick, set } from 'lodash'
+import { Ref, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 interface SchemaData {
@@ -76,28 +88,47 @@ interface SchemaData {
   rules: SchemaRules
 }
 
-const enum Tabs {
-  Basic,
-  File,
+const enum StorageType {
+  Local,
+  S3,
 }
 
-const currentGroup = ref(Tabs.Basic)
-
-const configs = ref({})
+const configs: Ref<FileTransferConf> = ref({})
 const saveLoading = ref(false)
 const { t, tl } = useI18nTl('BasicConfig')
 const { state } = useStore()
 
+const selectedStorageType = ref(StorageType.Local)
+
+const storageTypeOpt = [
+  { value: StorageType.Local, label: tl('localStorage') },
+  { value: StorageType.S3, label: tl('s3Storage') },
+]
+
 let rawData: any = undefined
-const SchemaFormCom = ref()
+
+// hack for refresh component
+const storageFormComKey = ref(0)
+
+const BasicFormCom = ref()
+const LocalStorageFormCom = ref()
+const S3StorageFormCom = ref()
+
 const configLoading = ref(false)
-const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+const isSchemaLoading = ref(false)
+const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
+
+const checkDataIsChanged = () => !isEqual(S3StorageFormCom.value?.configForm, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
+
+const labelWidth = computed(() => (state.lang === 'zh' ? 200 : 230))
 
 const propsOrderMap = {
   basic: createOrderObj([], 0),
   file: createOrderObj(
     [
+      'segments',
+      'exporter',
       'enable',
       'host',
       'port',
@@ -119,39 +150,81 @@ const propsOrderMap = {
   ),
 }
 
+const getFieldSchemaPath = (fieldPath: string) => fieldPath.split('.').join('.properties.')
+
+// TODO:
+// const pickNeededFieldsSchema = (schema: Properties, fieldPaths: Array<string>) => {}
+
+const omitFieldItemFromSchema = (schema: Properties, fieldPath: string) => {
+  if (!/\./.test(fieldPath)) {
+    Reflect.deleteProperty(schema, fieldPath)
+  } else {
+    let parent = get(schema, getFieldSchemaPath(fieldPath.split('.').slice(0, -1).join('.')))
+    if (parent?.properties) {
+      Reflect.deleteProperty(parent.properties, fieldPath.split('.').slice(-1)[0])
+    }
+  }
+  return schema
+}
+const omitFieldsFromSchema = (schema: Properties, fieldPaths: Array<string>) => {
+  fieldPaths.forEach((path) => omitFieldItemFromSchema(schema, path))
+  return schema
+}
+
+const basicConfFields = ['enable', 'init_timeout', 'storage.local.segments.root']
+// storage.properties.local.properties.segments.properties.root
+
+const basicAdvancedFields = ['store_segment_timeout', 'assemble_timeout', /\.gc\./]
 const advancedFields = {
-  basic: [
-    'init_timeout',
-    'store_segment_timeout',
-    'assemble_timeout',
-    /maximum_segments_ttl/,
-    /minimum_segments_ttl/,
+  local: basicAdvancedFields,
+  s3: [
+    ...basicAdvancedFields,
+    /transport_options/,
+    /acl/,
+    /max_part_size/,
+    /min_part_size/,
+    /url_expire_time/,
   ],
-  file: [/transport_options/, /acl/, /max_part_size/, /min_part_size/, /url_expire_time/],
 }
 
 const handleSchemaToBasicInfo = (data: SchemaData) => {
   const { components, rules } = data
-  const target = components?.storage?.properties?.local
-  if (target && target.properties) {
-    target.properties = pick(target.properties, 'segments')
+  const localSchema = components?.storage?.properties?.local
+  if (localSchema && localSchema.properties) {
+    localSchema.properties = pick(localSchema.properties, 'segments')
   }
+  const segmentsSchema = localSchema?.properties?.segments
+  if (segmentsSchema && segmentsSchema.properties) {
+    segmentsSchema.properties = pick(segmentsSchema.properties, 'root')
+  }
+  const firstLevelKeys = basicConfFields.map((item) => {
+    const dotIndex = item.indexOf('.')
+    return dotIndex < 0 ? item : item.slice(0, dotIndex)
+  })
+  Object.keys(components).forEach((key) => {
+    if (!firstLevelKeys.includes(key)) {
+      Reflect.deleteProperty(components, key)
+    }
+  })
   return { components, rules }
 }
 
+const enableField = {
+  [StorageType.Local]: 'storage.local.exporter.local.enable',
+  [StorageType.S3]: 'storage.local.exporter.s3.enable',
+}
 const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
   const { components, rules } = data
   if (!Object.keys(components).length) {
     return data
   }
-  Object.keys(components).forEach((key) => {
-    if (key !== 'storage') {
-      Reflect.deleteProperty(components, key)
-    }
-  })
+  omitFieldsFromSchema(components, basicConfFields)
+  // hide two enable fields
+  omitFieldsFromSchema(components, [enableField[StorageType.Local], enableField[StorageType.S3]])
+
   const target = components?.storage?.properties?.local
   if (target && target.properties) {
-    target.properties = pick(target.properties, 'exporter')
+    target.properties = pick(target.properties, ['exporter', 'segments'])
     const exporter = target?.properties?.exporter
     if (exporter && exporter.properties) {
       exporter.properties = pick(exporter.properties, type)
@@ -161,14 +234,48 @@ const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
   return { components, rules }
 }
 
+const handleTypeChanged = (val: StorageType | any) => {
+  const isLocal = val === StorageType.Local
+  // sync form data
+  const SourceFormCom = isLocal ? LocalStorageFormCom.value : S3StorageFormCom.value
+  const TargetFormCom = isLocal ? S3StorageFormCom.value : LocalStorageFormCom.value
+  const storageForm = merge(SourceFormCom.configForm, TargetFormCom.configForm)
+  // set value to enable
+  set(storageForm, enableField[StorageType.Local], isLocal)
+  set(storageForm, enableField[StorageType.S3], !isLocal)
+  configs.value = merge(configs.value, omit(storageForm, basicConfFields))
+}
+
 const handleSchemaToLocalFileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 'local')
 const handleSchemaToS3FileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 's3')
+
+const setDefaultValue = (conf: FileTransferConf) => {
+  if (!conf.storage?.local?.exporter?.s3?.min_part_size) {
+    set(conf, 'storage.local.exporter.s3.min_part_size', '5MB')
+  }
+  if (!conf.storage?.local?.exporter?.s3?.max_part_size) {
+    set(conf, 'storage.local.exporter.s3.max_part_size', '5MB')
+  }
+  return conf
+}
+
+const setSelectedStorageType = () => {
+  const localEnable = get(configs.value, enableField[StorageType.Local])
+  const s3Enable = get(configs.value, enableField[StorageType.S3])
+  if (!localEnable && s3Enable) {
+    selectedStorageType.value = StorageType.S3
+  } else {
+    selectedStorageType.value = StorageType.Local
+  }
+}
 
 const loadData = async () => {
   try {
     configLoading.value = true
     configs.value = await getFileTransConfigs()
+    setDefaultValue(configs.value)
     rawData = cloneDeep(configs.value)
+    setSelectedStorageType()
   } catch (error) {
     //
   } finally {
@@ -180,14 +287,24 @@ const reloading = () => {
 }
 const handleSave = async (val: FileTransferConf) => {
   try {
-    await customValidate(SchemaFormCom.value)
+    await customValidate(BasicFormCom.value)
+    const storageFormCom =
+      selectedStorageType.value === StorageType.Local
+        ? LocalStorageFormCom.value
+        : S3StorageFormCom.value
+    await customValidate(storageFormCom)
     saveLoading.value = true
-    const data = { ...val }
-    await updateFileTransConfigs(checkNOmitFromObj(data))
+    // When saving, the form data comes from the storage conf form component;
+    // this component does not have basic conf data and needs to be processed.
+    const storageFormData = val
+    const basicFormData = BasicFormCom.value.configForm
+    const data = checkNOmitFromObj(merge(storageFormData, pick(basicFormData, basicConfFields)))
+
+    await updateFileTransConfigs(data)
     ElMessage.success(t('Base.updateSuccess'))
     reloading()
   } catch (error) {
-    // ignore error
+    console.error(error)
   } finally {
     saveLoading.value = false
   }
@@ -212,6 +329,15 @@ loadData()
     text-align: right;
     width: 250px;
     font-size: 16px;
+  }
+  .schema-form:not(:last-child) {
+    padding-bottom: 0;
+  }
+  .el-radio {
+    line-height: 1;
+  }
+  .el-col-24 {
+    padding: 8px;
   }
 }
 </style>
