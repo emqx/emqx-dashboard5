@@ -710,10 +710,9 @@ const SchemaForm = defineComponent({
         }
       }
       ret.sort((pre, next) => {
-        if (pre in propsOrderMap && next in propsOrderMap) {
-          return propsOrderMap[pre] - propsOrderMap[next]
-        }
-        return 0
+        const preOrder = propsOrderMap[pre] ?? 999
+        const nextOrder = propsOrderMap[next] ?? 999
+        return preOrder - nextOrder
       })
       return ret
     }
@@ -841,7 +840,8 @@ const SchemaForm = defineComponent({
         formEle = null
       } else {
         formEle = renderLayout(getComponents(properties, { col: props.formItemSpan }))
-        formLoading.value = false
+        ctx.emit('schema-loaded')
+        isSchemaLoading.value = false
       }
       return formEle
     }
@@ -913,21 +913,18 @@ const SchemaForm = defineComponent({
       ctx.emit('update', configForm.value)
     })
 
-    const formLoading = ref(true)
+    const isSchemaLoading = ref(true)
     const showSkeleton = computed(
-      () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
+      () => (isSchemaLoading.value || props.recordLoading) && props.type !== 'bridge',
     )
     const showLoading = computed(
-      () => (formLoading.value || props.recordLoading) && props.type === 'bridge',
+      () => (isSchemaLoading.value || props.recordLoading) && props.type === 'bridge',
     )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
       init()
-      // window.setTimeout(() => {
-      //   formLoading.value = false
-      // }, 400)
     })()
 
     ctx.expose({ configForm, validate, clearValidate, getInitRecord })
