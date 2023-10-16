@@ -1302,8 +1302,7 @@
       "label": "CACertfile"
     },
     "verify": {
-      "desc": "Enable or disable peer verification.",
-      "label": "Verify peer"
+      "label": "TLS Verify"
     },
     "keyfile": {
       "desc": "PEM format private key file.",
@@ -1314,7 +1313,7 @@
       "label": "Certfile"
     },
     "cacerts": {
-      "label": "CACerts"
+      "label": "CA Cert"
     },
     "password": {
       "desc": "String containing the user's password. Only used if the private key file is password-protected.",
@@ -1342,7 +1341,7 @@
     },
     "server_name_indication": {
       "desc": "Specify the host name to be used in TLS Server Name Indication extension.<br/>\nFor instance, when connecting to \"server.example.net\", the genuine server\nwhich accepts the connection and performs TLS handshake may differ from the\nhost the TLS client initially connects to, e.g. when connecting to an IP address\nor when the host has multiple resolvable DNS records <br/>\nIf not specified, it will default to the host name string which is used\nto establish the connection, unless it is IP addressed used.<br/>\nThe host name is then also used in the host name verification of the peer\ncertificate.<br/> The special value 'disable' prevents the Server Name\nIndication extension from being sent and disables the hostname\nverification check.",
-      "label": "Server Name Indication"
+      "label": "SNI"
     },
     "enable": {
       "desc": "Enable TLS.",
