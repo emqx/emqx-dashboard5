@@ -16,7 +16,7 @@
       />
       <template v-if="!isPageLoading">
         <el-form class="schema-form">
-          <el-rol>
+          <el-row>
             <el-col :span="21">
               <el-form-item :label-width="labelWidth" :label="tl('fileStorage')">
                 <el-radio-group
@@ -34,7 +34,7 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-          </el-rol>
+          </el-row>
         </el-form>
         <schema-form
           :key="storageFormComKey"
@@ -62,6 +62,7 @@
           :props-order-map="propsOrderMap.file"
           :data-handler="handleSchemaToS3FileInfo"
           :advanced-fields="advancedFields.s3"
+          :custom-col-class="customColClass"
           @save="handleSave"
         />
       </template>
@@ -71,6 +72,7 @@
 
 <script lang="ts" setup>
 import { getFileTransConfigs, updateFileTransConfigs } from '@/api/config'
+import { SSL_FIELDS } from '@/common/constants'
 import { checkNOmitFromObj, createOrderObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
@@ -80,7 +82,7 @@ import { Properties } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, isEqual, merge, omit, pick, set } from 'lodash'
-import { Ref, computed, ref } from 'vue'
+import { Ref, computed, nextTick, ref } from 'vue'
 import { useStore } from 'vuex'
 
 interface SchemaData {
@@ -148,6 +150,30 @@ const propsOrderMap = {
     ],
     0,
   ),
+}
+
+/**
+ * This form is not bound to the form component. It is used to
+ * get the latest storage form data to control whether the
+ * SSL configuration needs to be displayed.
+ */
+const recordInS3Form: Ref<FileTransferConf> = ref({})
+const sslConfPath = 'storage.local.exporter.s3.transport_options.ssl'
+const getSSLConfPath = (key: string) => `${sslConfPath}.${key}`
+const customColClass = computed(() => {
+  const isSSLEnabled = get(recordInS3Form.value, getSSLConfPath('enable'))
+  if (isSSLEnabled) {
+    return {}
+  }
+  return SSL_FIELDS.reduce((obj: Record<string, string>, key) => {
+    if (key === 'enable') {
+      return obj
+    }
+    return { ...obj, [getSSLConfPath(key)]: 'is-hidden' }
+  }, {})
+})
+const getRecordInS3Form = () => {
+  recordInS3Form.value = S3StorageFormCom.value.configForm
 }
 
 const getFieldSchemaPath = (fieldPath: string) => fieldPath.split('.').join('.properties.')
@@ -243,12 +269,19 @@ const handleTypeChanged = (val: StorageType | any) => {
   // set value to enable
   set(storageForm, enableField[StorageType.Local], isLocal)
   set(storageForm, enableField[StorageType.S3], !isLocal)
-  configs.value = merge(configs.value, omit(storageForm, basicConfFields))
+  configs.value = { ...merge(configs.value, omit(storageForm, basicConfFields)) }
+  if (!isLocal) {
+    getRecordInS3Form()
+  }
 }
 
 const handleSchemaToLocalFileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 'local')
 const handleSchemaToS3FileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 's3')
 
+/**
+ * If there are some parameters that do not have a value set,
+ * set a default value for them.
+ */
 const setDefaultValue = (conf: FileTransferConf) => {
   if (!conf.storage?.local?.exporter?.s3?.min_part_size) {
     set(conf, 'storage.local.exporter.s3.min_part_size', '5MB')
@@ -259,11 +292,16 @@ const setDefaultValue = (conf: FileTransferConf) => {
   return conf
 }
 
-const setSelectedStorageType = () => {
+/**
+ * After getting the conf, based on the conf, determine the type of storage enabled
+ */
+const setSelectedStorageType = async () => {
   const localEnable = get(configs.value, enableField[StorageType.Local])
   const s3Enable = get(configs.value, enableField[StorageType.S3])
   if (!localEnable && s3Enable) {
     selectedStorageType.value = StorageType.S3
+    await nextTick()
+    getRecordInS3Form()
   } else {
     selectedStorageType.value = StorageType.Local
   }

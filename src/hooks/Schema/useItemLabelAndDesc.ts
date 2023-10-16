@@ -1,3 +1,4 @@
+import { SSL_FIELDS } from '@/common/constants'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
@@ -67,24 +68,7 @@ export const useSymbolLabel = (): {
   }
 }
 const SSL_CONF_REG = /ssl|tls/i
-const SSL_CONFIG_KEYS = [
-  'user_lookup_fun',
-  'cacertfile',
-  'verify',
-  'keyfile',
-  'certfile',
-  'cacerts',
-  'password',
-  'hibernate_after',
-  'versions',
-  'secure_renegotiate',
-  'reuse_sessions',
-  'depth',
-  'server_name_indication',
-  'enable',
-  'ciphers',
-  'log_level',
-]
+const SSL_CONFIG_KEYS = SSL_FIELDS
 
 export default (
   props: any,
