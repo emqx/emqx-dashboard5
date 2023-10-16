@@ -323,6 +323,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
+              {...customProps}
             />
           )
         case 'array':
