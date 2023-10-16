@@ -72,13 +72,13 @@
 
 <script lang="ts" setup>
 import { getFileTransConfigs, updateFileTransConfigs } from '@/api/config'
-import { SSL_FIELDS } from '@/common/constants'
+import { SSL_FIELDS, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import { checkNOmitFromObj, createOrderObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Properties } from '@/types/schemaForm'
+import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, isEqual, merge, omit, pick, set } from 'lodash'
@@ -116,7 +116,7 @@ const BasicFormCom = ref()
 const LocalStorageFormCom = ref()
 const S3StorageFormCom = ref()
 
-const configLoading = ref(false)
+const configLoading = ref(true)
 const isSchemaLoading = ref(false)
 const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
 
@@ -144,9 +144,9 @@ const propsOrderMap = {
       'transport_options',
       'verify',
       'server_name_indication',
-      'cacertfile',
       'certfile',
       'keyfile',
+      'cacertfile',
     ],
     0,
   ),
@@ -205,11 +205,21 @@ const advancedFields = {
   local: basicAdvancedFields,
   s3: [
     ...basicAdvancedFields,
-    /transport_options/,
+    /transport_options\.(?!ssl)/,
     /acl/,
     /max_part_size/,
     /min_part_size/,
     /url_expire_time/,
+    ...[
+      'reuse_sessions',
+      'depth',
+      'password',
+      'versions',
+      'ciphers',
+      'secure_renegotiate',
+      'log_level',
+      'hibernate_after',
+    ].map(getSSLConfPath),
   ],
 }
 
@@ -235,6 +245,15 @@ const handleSchemaToBasicInfo = (data: SchemaData) => {
   return { components, rules }
 }
 
+const handleFieldVerifySchema = (schema: Property) => {
+  schema.type = 'boolean'
+  schema.componentProps = {
+    activeValue: SSL_VERIFY_VALUE_MAP.get(true),
+    inactiveValue: SSL_VERIFY_VALUE_MAP.get(false),
+  }
+  return schema
+}
+
 const enableField = {
   [StorageType.Local]: 'storage.local.exporter.local.enable',
   [StorageType.S3]: 'storage.local.exporter.s3.enable',
@@ -257,8 +276,19 @@ const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
     }
   }
 
+  if (type === 's3') {
+    const fieldVerifySchema = get(components, getFieldSchemaPath(getSSLConfPath('verify')))
+    fieldVerifySchema && handleFieldVerifySchema(fieldVerifySchema)
+
+    const fieldKeyFileSchema = get(components, getFieldSchemaPath(getSSLConfPath('keyfile')))
+    fieldKeyFileSchema.componentProps = { placeholder: t('Base.keyFilePlaceholder') }
+  }
+
   return { components, rules }
 }
+
+const handleSchemaToLocalFileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 'local')
+const handleSchemaToS3FileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 's3')
 
 const handleTypeChanged = (val: StorageType | any) => {
   const isLocal = val === StorageType.Local
@@ -274,9 +304,6 @@ const handleTypeChanged = (val: StorageType | any) => {
     getRecordInS3Form()
   }
 }
-
-const handleSchemaToLocalFileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 'local')
-const handleSchemaToS3FileInfo = (data: SchemaData) => handleSchemaToFileInfo(data, 's3')
 
 /**
  * If there are some parameters that do not have a value set,
@@ -309,7 +336,6 @@ const setSelectedStorageType = async () => {
 
 const loadData = async () => {
   try {
-    configLoading.value = true
     configs.value = await getFileTransConfigs()
     setDefaultValue(configs.value)
     rawData = cloneDeep(configs.value)
