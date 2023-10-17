@@ -58,6 +58,19 @@ const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
 const SSL_CONF_REG = /ssl|tls/i
 const SSL_CONFIG_KEYS = SSL_FIELDS
 
+export const useSymbolLabel = (): {
+  getOptLabel: (key: string) => string
+} => {
+  const { t, te } = useI18n()
+  const getOptLabel = (key: string) => {
+    const textKey = `SchemaSymbolLabel.${key}`
+    return te(textKey) ? t(textKey) : key.toString()
+  }
+  return {
+    getOptLabel,
+  }
+}
+
 export default (
   props: any,
 ): {
