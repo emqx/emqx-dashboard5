@@ -25,7 +25,6 @@
             <CustomInputNumber
               v-model.number="sValue.frame.max_body_length"
               :min="0"
-              controls-position="right"
               :placeholder="String(sValueDefault.frame.max_body_length)"
             />
           </el-form-item>

@@ -278,7 +278,6 @@ const SchemaForm = defineComponent({
         case 'number':
           return (
             <CustomInputNumber
-              controls-position="right"
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}

@@ -23,7 +23,6 @@
       <CustomInputNumber
         v-else-if="oneOfInfo.propEnabled.type === 'number'"
         v-model="valueProxy"
-        controls-position="right"
         :disabled="disabled"
         clearable
       />
