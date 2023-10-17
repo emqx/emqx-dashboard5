@@ -35,8 +35,12 @@
             </InfoTooltip>
           </template>
           <el-select v-model="kafkaConfig.kafka_header_value_encode_mode" v-if="!readonly">
-            <el-option value="none" label="NONE" />
-            <el-option value="json" label="JSON" />
+            <el-option
+              v-for="item in getPropItem('kafka_header_value_encode_mode').symbols || []"
+              :key="item"
+              :value="item"
+              :label="getOptLabel(item)"
+            />
           </el-select>
           <p class="value" v-else>{{ kafkaConfig.kafka_header_value_encode_mode.toUpperCase() }}</p>
         </el-form-item>
@@ -147,6 +151,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
+import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, PropType } from 'vue'
 
@@ -176,6 +181,7 @@ const emit = defineEmits(['update:modelValue'])
 const components = computed(() => props.schemaComponents)
 const { getPropItem } = useGetInfoFromComponents(components)
 const { tl, te } = useI18nTl('BridgeSchema.emqx_ee_bridge_kafka')
+const { getOptLabel } = useSymbolLabel()
 
 const kafkaConfig = computed({
   get() {

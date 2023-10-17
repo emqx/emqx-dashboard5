@@ -199,7 +199,7 @@
                 v-for="item in getConsumerPropItem('key_encoding_mode').symbols || []"
                 :key="item"
                 :value="item"
-                :label="item"
+                :label="getOptLabel(item)"
               />
             </el-select>
           </CustomFormItem>
@@ -218,7 +218,7 @@
                 v-for="item in getConsumerPropItem('value_encoding_mode').symbols || []"
                 :key="item"
                 :value="item"
-                :label="item"
+                :label="getOptLabel(item)"
               />
             </el-select>
           </CustomFormItem>
@@ -555,6 +555,7 @@ import {
 } from 'vue'
 import KafkaConsumerConfig from './KafkaConsumerConfig.vue'
 import KafkaProducerConfig from './KafkaProducerConfig.vue'
+import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 
 enum AuthType {
   None,
@@ -592,6 +593,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl } = useI18nTl('RuleEngine')
+const { getOptLabel } = useSymbolLabel()
 const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
 
 const {
