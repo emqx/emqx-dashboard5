@@ -223,9 +223,12 @@ export default defineComponent({
 }
 
 .el-badge {
-  &:deep(.is-fixed.is-dot) {
+  &:deep(.is-fixed) {
     right: 5px;
     top: 3px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
   }
 }
 
