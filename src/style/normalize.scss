@@ -641,8 +641,11 @@
   .el-message__content {
     color: #343741;
     line-height: 1.5;
+    word-break: break-all;
   }
   .el-message__closeBtn {
+    transform: none;
+    top: 16px + math.div(14px * 0.5, 2);
     color: #343741;
     font-size: 14px;
   }
