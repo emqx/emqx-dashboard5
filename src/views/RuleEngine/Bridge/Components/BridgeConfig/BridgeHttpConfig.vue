@@ -118,10 +118,7 @@
         </el-col>
         <el-col :span="colSpan">
           <CustomFormItem :label="tl('httpPipeline')" :readonly="readonly">
-            <CustomInputNumber
-              v-model="httpBridgeVal.enable_pipelining"
-              controls-position="right"
-            />
+            <CustomInputNumber v-model="httpBridgeVal.enable_pipelining" />
           </CustomFormItem>
         </el-col>
         <BridgeResourceOpt

@@ -52,7 +52,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Auth.httpPipelining')">
-              <CustomInputNumber v-model="httpConfig.enable_pipelining" controls-position="right" />
+              <CustomInputNumber v-model="httpConfig.enable_pipelining" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
