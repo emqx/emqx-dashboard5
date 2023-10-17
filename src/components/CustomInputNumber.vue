@@ -3,6 +3,7 @@
     v-model="num"
     class="custom-input-number"
     :class="{ 'is-focus': isFocus }"
+    :controls-position="controlsPosition"
     @focus="handleFocus"
     @blur="handleBlur"
     @keypress="handleKeypress"
@@ -10,11 +11,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, computed } from 'vue'
+import { ref, defineProps, defineEmits, computed, PropType } from 'vue'
 
 const props = defineProps({
   modelValue: {
     type: [Number, String],
+  },
+  controlsPosition: {
+    type: String as PropType<'right' | ''>,
+    default: 'right',
   },
 })
 

@@ -39,7 +39,6 @@
                 </template>
                 <CustomInputNumber
                   v-model.number="flappingDetectConfig.max_count"
-                  controls-position="right"
                   placeholder="15"
                   :min="0"
                   :disabled="!flappingDetectConfig.enable"
