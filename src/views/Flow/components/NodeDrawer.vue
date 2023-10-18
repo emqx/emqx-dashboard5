@@ -158,6 +158,13 @@ const existedTopics = computed(() => {
 const { isBridgerNode } = useFlowNode()
 const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
 
+const addedSourceNodes = computed(() => {
+  if (!props.nodes?.length) {
+    return []
+  }
+  return props.nodes.filter(({ type }) => type === FlowNodeType.Input)
+})
+
 const bridgeFormProps = {
   colSpan: 24,
   labelPosition: 'right',
@@ -169,6 +176,7 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
   [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },
