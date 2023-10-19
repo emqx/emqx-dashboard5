@@ -53,18 +53,6 @@ const props = defineProps({
     type: String,
     default: '190px',
   },
-  gridRight: {
-    type: String,
-    default: '5%',
-  },
-  gridLeft: {
-    type: String,
-    default: '2%',
-  },
-  legendBottom: {
-    type: String,
-    default: '0px',
-  },
 })
 
 const seriesConfig: Ref<Array<any>> = ref([])
@@ -165,10 +153,10 @@ const drawChart = () => {
   const option = {
     color: props.chartColors,
     grid: {
-      left: props.gridLeft,
-      right: props.gridRight,
       top: '5%',
+      right: 30,
       bottom: '3%',
+      left: 24,
       containLabel: true,
     },
     tooltip: {
@@ -197,7 +185,7 @@ const drawChart = () => {
       },
       axisLabel: {
         hideOverlap: true,
-        showMinLabel: false,
+        showMinLabel: true,
         color: props.axisColor.colorAxisLabel,
         formatter(value: string) {
           return `${_formatTime(value, 'MM/DD')} ${_formatTime(value, 'HH:mm')}`
