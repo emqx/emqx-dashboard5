@@ -1174,4 +1174,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '输入关键词搜索...',
     en: 'Type to search...',
   },
+  topicMappingRequired: {
+    zh: '请添加至少一个主题映射关系',
+    en: 'Please add at least one topic mapping',
+  },
 }
