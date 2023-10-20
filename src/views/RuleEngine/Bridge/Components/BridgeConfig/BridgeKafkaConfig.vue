@@ -655,7 +655,7 @@ const formRules = computed<any>(() => {
       kerberos_principal: createRequiredRule(tl('kerberosPrincipal')),
     },
     kafka: { topic: createRequiredRule(tl('kafkaProducerTopic')) },
-    topic_mapping: createRequiredRule(getConsumerPropItem('topic_mapping').label),
+    topic_mapping: [{ message: tl('topicMappingRequired'), required: true }],
   }
   return ret
 })
