@@ -92,6 +92,10 @@ export default defineComponent({
           trigger: 'blur',
         }
       }
+      const expiryInterval = mqttComponent.properties.session_expiry_interval
+      if (expiryInterval) {
+        expiryInterval.componentProps = { enabledUnits: ['s', 'm', 'h'] }
+      }
       return { components, rules }
     }
 
