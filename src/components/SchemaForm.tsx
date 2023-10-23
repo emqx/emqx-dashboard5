@@ -839,6 +839,9 @@ const SchemaForm = defineComponent({
       if (props.needFooter) {
         addObserverToFooter()
       }
+      if (props.needFooter) {
+        addObserverToFooter()
+      }
       return formEle
     }
 
