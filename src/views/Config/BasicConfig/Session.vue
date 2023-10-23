@@ -1,6 +1,6 @@
 <template>
   <div class="session app-wrapper">
-    <el-card class="app-card">
+    <el-card class="app-card allow-overflow">
       <schema-form
         ref="SchemaFormCom"
         type="session"
@@ -92,7 +92,7 @@ export default defineComponent({
           trigger: 'blur',
         }
       }
-      const expiryInterval = mqttComponent.properties.session_expiry_interval
+      const expiryInterval = mqttComponent?.properties?.session_expiry_interval || {}
       if (expiryInterval) {
         expiryInterval.componentProps = { enabledUnits: ['s', 'm', 'h'] }
       }
