@@ -37,7 +37,7 @@
           <el-button
             v-if="canChangePwd(row)"
             size="small"
-            :disabled="!$hasPermission('put')"
+            :disabled="!isCurrentUser(row.username) && !$hasPermission('put')"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
@@ -48,7 +48,7 @@
             size="small"
             :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
-            v-if="currentUser.username !== row.username"
+            v-if="isCurrentUser(row.username)"
           >
             {{ $t('Base.delete') }}
           </el-button>
@@ -134,7 +134,7 @@
 
           <el-button
             type="primary"
-            :disabled="!$hasPermission('post')"
+            :disabled="!isCurrentUser(record.username) && !$hasPermission('post')"
             @click="save"
             :loading="submitLoading"
           >
@@ -278,6 +278,8 @@ const generateRawForm = () => ({
   password: '',
 })
 
+const isCurrentUser = (user) => user === currentUser.value.username
+
 const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
@@ -323,7 +325,7 @@ const save = async () => {
       }
       await changePassword(username, pass)
       ElMessage.success(tl('changePassSuccess'))
-      if (username === currentUser.value.username) {
+      if (isCurrentUser(username)) {
         store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', true)
       }
     } else {
@@ -340,7 +342,7 @@ const save = async () => {
 }
 
 const deleteConfirm = async (item) => {
-  if (item.username === currentUser.value.username) {
+  if (isCurrentUser(item.username)) {
     return
   }
   try {
