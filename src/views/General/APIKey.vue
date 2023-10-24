@@ -24,6 +24,11 @@
           {{ expiredAt(row.expired_at) }}
         </template>
       </el-table-column>
+      <el-table-column prop="role" :label="t('Dashboard.role')">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" :label="t('Base.note')" />
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
@@ -71,6 +76,8 @@ import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import moment from 'moment'
 import { Plus } from '@element-plus/icons-vue'
+import useRole from '@/hooks/SSO/useRole'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 
 const { t } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
@@ -89,6 +96,8 @@ const createKeyItem = () => {
   currentAPIKey.value = undefined
   showDialog.value = true
 }
+
+const { apiKeyRoleOptions } = useRole()
 
 const operateKeyItem = (type: 'edit' | 'view', itemData: APIKey) => {
   dialogOperationType.value = type

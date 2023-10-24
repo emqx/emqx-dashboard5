@@ -17,7 +17,7 @@
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="t('Dashboard.role')">
         <template #default="{ row }">
-          {{ getLabelFromValueInOptionList(row.role, roleOptions) }}
+          {{ getLabelFromValueInOptionList(row.role, userRoleOptions) }}
         </template>
       </el-table-column>
       <el-table-column v-if="hasSSOEnabled" :label="tl('source')">
@@ -97,7 +97,7 @@
         <el-form-item v-if="accessType !== 'chPass'" :label="t('Dashboard.role')" prop="role">
           <el-select v-model="record.role">
             <el-option
-              v-for="{ label, value, desc } in roleOptions"
+              v-for="{ label, value, desc } in userRoleOptions"
               :key="value"
               :value="value"
               :label="label"
@@ -160,6 +160,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
+import useRole from '@/hooks/SSO/useRole'
 
 const SOURCE_LOCAL = 'local'
 
@@ -174,10 +175,7 @@ const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
 
-const roleOptions = [
-  { label: tl('admin'), value: UserRole.Admin, desc: tl('adminDesc') },
-  { label: tl('viewer'), value: UserRole.Readonly, desc: tl('viewerDesc') },
-]
+const { userRoleOptions } = useRole()
 
 const { getBackendLabel } = useSSOBackendsLabel()
 const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
