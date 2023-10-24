@@ -190,8 +190,6 @@ export interface FileTransferStorageBackend {
 
 export interface FileTransferFileTransfer {
   enable?: boolean
-  init_timeout?: string
-  store_segment_timeout?: string
   assemble_timeout?: string
   storage?: FileTransferStorageBackend
 }
