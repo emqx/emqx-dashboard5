@@ -331,4 +331,8 @@ export default {
     zh: '元数据地址',
     en: 'Metadata Address',
   },
+  publisher: {
+    zh: '消息发布者',
+    en: 'Publisher',
+  },
 }

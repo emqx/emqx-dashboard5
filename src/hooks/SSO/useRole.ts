@@ -18,6 +18,7 @@ export default function useRole(): {
   const apiKeyRoleOptions: RoleOption[] = [
     { label: t('General.admin'), value: 'api_administrator' },
     { label: t('General.viewer'), value: 'api_viewer' },
+    { label: t('General.publisher'), value: 'api_publisher' },
   ]
   const userRoleOptions: RoleOptionWithDesc[] = [
     { label: t('General.admin'), value: UserRole.Admin, desc: t('General.adminDesc') },
