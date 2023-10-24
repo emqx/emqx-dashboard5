@@ -152,7 +152,7 @@ const createRawFormData = () => ({
   expired_at: undefined,
   desc: '',
   enable: true,
-  role: 'api_administrator',
+  role: 'administrator',
 })
 
 const formCom = ref()

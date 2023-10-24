@@ -339,4 +339,5 @@ export enum Role {
 export const enum UserRole {
   Admin = 'administrator',
   Readonly = 'viewer',
+  Publisher = 'publisher',
 }
