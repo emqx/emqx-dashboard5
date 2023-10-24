@@ -44,6 +44,20 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('role', 'Dashboard')" prop="role">
+            <el-select v-model="formData.role">
+              <el-option
+                v-for="{ label, value } in apiKeyRoleOptions"
+                :key="value"
+                :value="value"
+                :label="label"
+              >
+                {{ label }}
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
         <el-col :span="24" v-if="operationType === 'view'">
           <el-form-item label="API Key">
             <el-row :gutter="12">
@@ -105,6 +119,7 @@ import APIKeyResultDialog from './APIKeyResultDialog.vue'
 import useCopy from '@/hooks/useCopy'
 import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useFormRules from '@/hooks/useFormRules'
+import useRole from '@/hooks/SSO/useRole'
 
 export type OperationType = 'create' | 'view' | 'edit'
 
@@ -137,6 +152,7 @@ const createRawFormData = () => ({
   expired_at: undefined,
   desc: '',
   enable: true,
+  role: 'api_administrator',
 })
 
 const formCom = ref()
@@ -203,6 +219,8 @@ watch(showDialog, async (val) => {
 })
 
 const { copyText } = useCopy()
+
+const { apiKeyRoleOptions } = useRole()
 
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime

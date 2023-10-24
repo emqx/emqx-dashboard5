@@ -548,6 +548,8 @@ export interface EmqxEnterpriseSchemaLogAuditHandler {
   path?: string
   rotation_count?: number
   rotation_size?: EmqxEnterpriseSchemaLogAuditHandlerRotationSize
+  max_filter_size?: number
+  ignore_high_frequency_request?: boolean
   enable?: boolean
   time_offset?: string
 }
@@ -560,8 +562,6 @@ export interface EmqxEnterpriseSchemaLog {
 
 export interface EmqxEnterpriseSchemaFileTransfer {
   enable?: boolean
-  init_timeout?: string
-  store_segment_timeout?: string
   assemble_timeout?: string
   storage?: FileTransferStorageBackend
 }

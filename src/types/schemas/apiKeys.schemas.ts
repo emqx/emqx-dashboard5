@@ -20,6 +20,7 @@ export type PutApiKeyName200 = {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type PutApiKeyName200ExpiredAtOneOf = number | string
@@ -35,6 +36,7 @@ export type PutApiKeyNameBody = {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type GetApiKeyName404Code = typeof GetApiKeyName404Code[keyof typeof GetApiKeyName404Code]
@@ -63,6 +65,7 @@ export type GetApiKeyName200 = {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type DeleteApiKeyName404Code =
@@ -100,6 +103,7 @@ export type PostApiKeyBody = {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type GetApiKey200CreatedAt = number | string
@@ -112,6 +116,7 @@ export type GetApiKey200 = {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type GetApiKey200ExpiredAtOneOf = number | string
@@ -129,6 +134,7 @@ export interface ApiKeyApp {
   desc?: string
   enable?: boolean
   expired?: boolean
+  role?: string
 }
 
 export type ApiKeyAppExpiredAtOneOf = number | string
