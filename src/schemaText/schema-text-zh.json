@@ -455,6 +455,14 @@
     "audit_handler_level": {
       "desc": "审计日志处理程序的日志级别。<br/>- 处理时间超过 3 秒的请求将记录为<code>警告</code>日志。<br/>- 使用 HTTP 的 GET 请求 200-300 之间的状态代码将记录为 <code>debug</code> 日志。<br/>- HTTP 状态代码在 200-300 之间的非 GET 请求将记录为 <code>info</code> 日志。< br/>- HTTP 状态代码在 300-400 之间的请求将记录为<code>警告</code>日志。<br/>- HTTP 状态代码在 400-500 之间的请求将记录为<code>错误</code > 日志。<br/>- 默认为信息。",
       "label": "日志级别"
+    },
+    "common_handler_max_filter_size": {
+      "desc": "在数据库中存储最新的 N 条日志条目，以允许 `/audit` HTTP API 进行日志数据的过滤和检索。",
+      "label": "最大过滤器大小"
+    },
+    "common_handler_ignore_high_frequency_request": {
+      "desc": "忽略高频请求以避免淹没审计日志，例如被忽略的发布/订阅踢出 http api 请求。",
+      "label": "忽略高频请求"
     }
   },
   "emqx_limiter_schema": {

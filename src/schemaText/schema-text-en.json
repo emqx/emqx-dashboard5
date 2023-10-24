@@ -459,6 +459,14 @@
     "audit_handler_level": {
       "desc": "The log level for the audit log handler.<br/>- Requests that take longer than 3 seconds to process are logged as <code>warning</code> logs.<br/>- GET requests with HTTP status codes between 200-300 are logged as <code>debug</code> logs.<br/>- Non-GET Requests with HTTP status codes between 200-300 are logged as <code>info</code> logs.<br/>- Requests with HTTP status codes between 300-400 are logged as <code>warning</code> logs.<br/>- Requests with HTTP status codes between 400-500 are logged as <code>error</code> logs.<br/>- Defaults to info.",
       "label": "Log Level"
+    },
+    "common_handler_max_filter_size": {
+      "desc": "Store the latest N log entries in a database for allow `/audit` HTTP API to filter and retrieval of log data.",
+      "label": "Max Filter Size"
+    },
+    "common_handler_ignore_high_frequency_request": {
+      "desc": "Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.",
+      "label": "Ignore High Frequency Request"
     }
   },
   "emqx_limiter_schema": {
