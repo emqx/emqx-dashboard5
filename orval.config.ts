@@ -44,6 +44,7 @@ const tagArr = [
   'Schema Registry',
   'GCP Devices',
   'Dashboard Single Sign-On',
+  'Audit',
 ]
 
 const typesFolder = './src/types/schemas/'

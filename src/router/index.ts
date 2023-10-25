@@ -187,6 +187,23 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
+  // Audit Log
+  {
+    path: '/audit-log',
+    component: Layout,
+    meta: {
+      hideKey: 'audit-log',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'audit-log',
+        component: () => import('@/views/General/AuditLog.vue'),
+      },
+    ],
+  },
+
   // Black list
   {
     path: '/banned-clients',

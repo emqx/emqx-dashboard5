@@ -203,6 +203,10 @@ export default {
     zh: '用户',
     en: 'Users',
   },
+  'audit-log': {
+    zh: '审计日志',
+    en: 'Audit Log',
+  },
   system: {
     zh: '系统设置',
     en: 'System',
