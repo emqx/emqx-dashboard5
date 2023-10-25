@@ -1,13 +1,13 @@
 <template>
-  <div class="audit-log" v-loading.lock="isInitializing">
-    <div v-if="!isAuditEnabled" class="no-log-tip">
+  <div class="audit-log" :class="{ 'is-loading': isInitializing }" v-loading.lock="isInitializing">
+    <div v-if="!isInitializing && !isAuditEnabled" class="no-log-tip">
       <img src="@/assets/img/log_disabled.png" alt="" width="375" />
       <p>{{ tl('auditLogDesc') }}</p>
       <el-button class="confirm-btn" type="primary" :loading="isEnabling" @click="enableModule">
         {{ t('Base.enable') }}
       </el-button>
     </div>
-    <template v-else>
+    <template v-else-if="!isInitializing && isAuditEnabled">
       <el-form class="search-wrapper" @keyup.enter="search">
         <el-row :gutter="20">
           <el-col v-bind="colProps">
@@ -106,7 +106,7 @@
           <el-button
             :icon="Setting"
             :disabled="!$hasPermission('put')"
-            @click="$router.push({ name: 'log' })"
+            @click="$router.push({ name: 'log', query: { tab: 'audit' } })"
           >
             {{ t('Base.setting') }}
           </el-button>
@@ -334,6 +334,9 @@ init()
 <style lang="scss">
 @import '~@/style/management.scss';
 .audit-log {
+  &.is-loading {
+    min-height: 320px;
+  }
   .no-log-tip {
     display: flex;
     flex-direction: column;
