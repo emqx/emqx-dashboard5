@@ -140,14 +140,14 @@ const createRawFormData = () => ({
 
 const formCom = ref()
 const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
-const { createCommonIdRule } = useFormRules()
+const { createLetterStartRule } = useFormRules()
 const rules = {
   name: [
     {
       required: true,
       message: tl('keyNameRequired'),
     },
-    ...createCommonIdRule(),
+    ...createLetterStartRule(),
   ],
 }
 const isEnableOptions = [

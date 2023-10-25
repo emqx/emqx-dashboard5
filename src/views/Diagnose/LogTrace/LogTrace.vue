@@ -194,11 +194,11 @@ import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@
 import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
 import CheckIcon from '@/components/CheckIcon.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import { FormItemRule } from '@/types/common'
+import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, TraceEncodeType } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
-import { ElForm, ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { omit } from 'lodash'
 import moment from 'moment'
 import { Ref, defineComponent, nextTick, onMounted, ref } from 'vue'
@@ -246,21 +246,9 @@ export default defineComponent({
     ]
     const record: Ref<TraceFormRecord> = ref(createRawTraceForm())
     const createDialog = ref(false)
-
-    const createRules: Record<string, Array<FormItemRule>> = {
-      name: [
-        { required: true, message: t('General.pleaseEnter') },
-        {
-          validator: (rule, value, callback) => {
-            if (/[\w-]+/.test(value)) {
-              callback()
-            } else {
-              callback(new Error(t('General.validString')))
-            }
-          },
-          trigger: ['change'],
-        },
-      ],
+    const { createLetterStartRule } = useFormRules()
+    const createRules: FormRules = {
+      name: [{ required: true, message: t('General.pleaseEnter') }, ...createLetterStartRule()],
       topic: [{ required: true, message: t('General.pleaseEnter') }],
       clientid: [{ required: true, message: t('General.pleaseEnter') }],
       ip_address: [{ required: true, message: t('General.pleaseEnter') }],
