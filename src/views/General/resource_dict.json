@@ -1,0 +1,450 @@
+{
+  "types": {
+    "clients": {
+      "en": "Clients",
+      "zh": "客户端"
+    },
+    "mqtt": {
+      "en": "Publish",
+      "zh": "发布"
+    },
+    "rules": {
+      "en": "Rule Engine",
+      "zh": "规则引擎"
+    },
+    "resources": {
+      "en": "Resource",
+      "zh": "资源"
+    },
+    "schemas": {
+      "en": "Schema Registry",
+      "zh": "编解码"
+    },
+    "modules": {
+      "en": "Module",
+      "zh": "模块"
+    },
+    "maybe_start_modules": {
+      "en": "Module",
+      "zh": "模块"
+    },
+    "auth": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "users": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "change_pwd": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "apps": {
+      "en": "Application",
+      "zh": "应用"
+    },
+    "license": {
+      "en": "License",
+      "zh": "License"
+    },
+    "dynamic_license": {
+      "en": "License",
+      "zh": "License"
+    },
+    "auth_clientid": {
+      "en": "认证",
+      "zh": "访问控制"
+    },
+    "auth_username": {
+      "en": "Access Control",
+      "zh": "访问控制"
+    },
+    "acl": {
+      "en": "Access Control",
+      "zh": "访问控制"
+    },
+    "acl-cache": {
+      "en": "Access Control",
+      "zh": "访问控制"
+    },
+    "nodes": {
+      "en": "Plugins",
+      "zh": "插件"
+    },
+    "configs": {
+      "en": "Configurations",
+      "zh": "参数配置"
+    },
+    "cluster": {
+      "en": "Cluster",
+      "zh": "Cluster"
+    },
+    "alarms": {
+      "en": "Alarm",
+      "zh": "Alarm"
+    },
+    "banned": {
+      "en": "Banned",
+      "zh": "黑名单"
+    },
+    "data": {
+      "en": "Backup & Restore",
+      "zh": "备份与恢复"
+    },
+    "listeners": {
+      "en": "Listener",
+      "zh": "监听器"
+    },
+    "plugins": {
+      "en": "Plugins",
+      "zh": "插件"
+    },
+    "topic-metrics": {
+      "en": "Topic Metrics",
+      "zh": "主题监控"
+    },
+    "trace": {
+      "en": "Log Traces",
+      "zh": "日志追踪"
+    },
+    "slow_subscriptions": {
+      "en": "Slow Subscriptions",
+      "zh": "慢订阅"
+    },
+    "load_rebalance": {
+      "en": "Load Rebalance",
+      "zh": "负载重平衡"
+    }
+  },
+  "names": {
+    "kickout_client": {
+      "en": "Kickout Client",
+      "zh": "踢出客户端"
+    },
+    "clean_acl_cache": {
+      "en": "Clean Client ACL Cache",
+      "zh": "清除客户端 ACL 缓存"
+    },
+    "set_ratelimit_policy": {
+      "en": "Set Client Ratelimit Policy",
+      "zh": "设置客户端限速策略"
+    },
+    "clean_ratelimit": {
+      "en": "Clean Client Ratelimit",
+      "zh": "清除客户端限速策略"
+    },
+    "set_quota_policy": {
+      "en": "Set Client Quota Policy",
+      "zh": "设置客户端配额策略"
+    },
+    "clean_quota": {
+      "en": "Clean Client Quota",
+      "zh": "清除客户端配额"
+    },
+    "mqtt_subscribe": {
+      "en": "MQTT Subscribe",
+      "zh": "MQTT 订阅"
+    },
+    "mqtt_publish": {
+      "en": "MQTT Publish",
+      "zh": "MQTT 发布"
+    },
+    "mqtt_unsubscribe": {
+      "en": "MQTT Unsubscribe",
+      "zh": "MQTT 取消订阅"
+    },
+    "mqtt_subscribe_batch": {
+      "en": "MQTT Subscribe Batch",
+      "zh": "MQTT 批量订阅"
+    },
+    "mqtt_publish_batch": {
+      "en": "MQTT Publish Batch",
+      "zh": "MQTT 批量发布"
+    },
+    "mqtt_unsubscribe_batch": {
+      "en": "MQTT Unsubscribe Batch",
+      "zh": "MQTT 批量取消订阅"
+    },
+    "create_rule": {
+      "en": "Create Rule",
+      "zh": "创建规则"
+    },
+    "update_rule": {
+      "en": "Update Rule",
+      "zh": "更新规则"
+    },
+    "delete_rule": {
+      "en": "Delete Rule",
+      "zh": "删除规则"
+    },
+    "reset_metrics": {
+      "en": "Reset Rule Metrics",
+      "zh": "重置规则指标"
+    },
+    "create_resource": {
+      "en": "Create Resource",
+      "zh": "创建资源"
+    },
+    "update_resource": {
+      "en": "Update Resource",
+      "zh": "更新资源"
+    },
+    "start_resource": {
+      "en": "Start Resource",
+      "zh": "启动资源"
+    },
+    "delete_resource": {
+      "en": "Delete Resource",
+      "zh": "删除资源"
+    },
+    "create_schema": {
+      "en": "Create Schema",
+      "zh": "创建编解码"
+    },
+    "delete_schema": {
+      "en": "Delete Schema",
+      "zh": "删除编解码"
+    },
+    "create_module": {
+      "en": "Create Module",
+      "zh": "创建模块"
+    },
+    "update_module": {
+      "en": "Update Module",
+      "zh": "更新模块"
+    },
+    "start_module": {
+      "en": "Start Module",
+      "zh": "启动模块"
+    },
+    "delete_module": {
+      "en": "Delete Module",
+      "zh": "删除模块"
+    },
+    "maybe_start_modules": {
+      "en": "Maybe Start Modules",
+      "zh": "尝试启动模块"
+    },
+    "auth_user": {
+      "en": "User Logined in",
+      "zh": "用户登录"
+    },
+    "create_user": {
+      "en": "Create User",
+      "zh": "创建用户"
+    },
+    "update_user": {
+      "en": "Update User",
+      "zh": "更新用户"
+    },
+    "delete_user": {
+      "en": "Delete User",
+      "zh": "删除用户"
+    },
+    "change_pwd": {
+      "en": "Change Password",
+      "zh": "更改密码"
+    },
+    "add_app": {
+      "en": "Add Application",
+      "zh": "添加应用"
+    },
+    "del_app": {
+      "en": "Delete Application",
+      "zh": "删除应用"
+    },
+    "update_app": {
+      "en": "Update Application",
+      "zh": "更新应用"
+    },
+    "upload_license": {
+      "en": "Upload License",
+      "zh": "上传 License"
+    },
+    "dynamic_license": {
+      "en": "Set Dynamic License",
+      "zh": "设置动态 License "
+    },
+    "add_clientid": {
+      "en": "Add ACL(ClientID)",
+      "zh": "添加 ACL(客户端 ID)"
+    },
+    "update_clientid": {
+      "en": "Update Auth Credentials(ClientID)",
+      "zh": "更新认证凭证(客户端 ID)"
+    },
+    "add_username": {
+      "en": "Add Auth Credentials(Username)",
+      "zh": "添加认证凭证(用户名)"
+    },
+    "update_username": {
+      "en": "更新 Auth Credentials(Username)",
+      "zh": "更新认证凭证(用户名)"
+    },
+    "add": {
+      "en": "Add ACL",
+      "zh": "添加 ACL"
+    },
+    "delete_clientid": {
+      "en": "Delete ACL(ClientID)",
+      "zh": "删除 ACL(客户端 ID)"
+    },
+    "delete_username": {
+      "en": "Delete ACL(Username)",
+      "zh": "删除 ACL(用户名)"
+    },
+    "delete_all": {
+      "en": "Delete All ACL",
+      "zh": "删除全部 ACL"
+    },
+    "clean_acl_cache_all": {
+      "en": "Clean All ACL Cache",
+      "zh": "清除全部 ACL 缓存"
+    },
+    "clean_acl_cache_node": {
+      "en": "Clean Node ACL Cache",
+      "zh": "清除节点 ACL 缓存"
+    },
+    "update": {
+      "en": "Update configs",
+      "zh": "更新配置"
+    },
+    "add_listener": {
+      "en": "Add Listener",
+      "zh": "添加监听器"
+    },
+    "update_listener": {
+      "en": "Update Listener",
+      "zh": "更新监听器"
+    },
+    "delete_listener": {
+      "en": "Delete Listener",
+      "zh": "删除监听器"
+    },
+    "add_zone": {
+      "en": "Add Zone",
+      "zh": "添加 Zone"
+    },
+    "update_zone": {
+      "en": "Update Zone",
+      "zh": "更新 Zone "
+    },
+    "delete_zone": {
+      "en": "Delete Zone",
+      "zh": "删除 Zone "
+    },
+    "invite_node": {
+      "en": "Invite Node",
+      "zh": "邀请节点"
+    },
+    "force_leave": {
+      "en": "Force Leave",
+      "zh": "强制离开"
+    },
+    "deactivate_alarm": {
+      "en": "Deactivate Alarm",
+      "zh": "停用告警"
+    },
+    "delete_all_deactivated_alarms": {
+      "en": "Delete All Deactivated Alarms",
+      "zh": "删除全部停用告警"
+    },
+    "delete_node_deactivated_alarms": {
+      "en": "Delete Node Deactivated Alarms",
+      "zh": "删除节点停用告警"
+    },
+    "create_banned": {
+      "en": "Create Banned",
+      "zh": "创建黑名单"
+    },
+    "delete_banned": {
+      "en": "Delete Banned",
+      "zh": "删除黑名单"
+    },
+    "export": {
+      "en": "Export Backup Data",
+      "zh": "导出备份数据"
+    },
+    "import": {
+      "en": "Import Backup data",
+      "zh": "导入备份数据"
+    },
+    "restart_listener": {
+      "en": "Restart Listener",
+      "zh": "重启监听器"
+    },
+    "restart_node_listener": {
+      "en": "Restart Listener(Node)",
+      "zh": "重启监听器(节点)"
+    },
+    "load_node_plugin": {
+      "en": "Load Plugin(Node)",
+      "zh": "启动插件(节点)"
+    },
+    "unload_node_plugin": {
+      "en": "Unload Plugin(Node)",
+      "zh": "停止插件(节点)"
+    },
+    "reload_node_plugin": {
+      "en": "Reload Plugin(Node)",
+      "zh": "重启插件(节点)"
+    },
+    "unload_plugin": {
+      "en": "Unload Plugin",
+      "zh": "停止插件"
+    },
+    "reload_plugin": {
+      "en": "Reload Plugin",
+      "zh": "重启插件"
+    },
+    "register_topic_metrics": {
+      "en": "Register topic metrics",
+      "zh": "添加监控主题"
+    },
+    "unregister_all_topic_metrics": {
+      "en": "Unregister All Topic Metrics",
+      "zh": "取消全部监控主题"
+    },
+    "unregister_topic_metrics": {
+      "en": "Unregister Topic Metrics",
+      "zh": "删除监控主题"
+    },
+    "create_trace": {
+      "en": "Create Log Trace",
+      "zh": "创建日志追踪"
+    },
+    "delete_trace": {
+      "en": "Delete Log Trace",
+      "zh": "删除追踪"
+    },
+    "clear_trace": {
+      "en": "Clear Log Trace",
+      "zh": "清除日志追踪"
+    },
+    "disable_trace": {
+      "en": "Disable Log Trace",
+      "zh": "禁用日志追踪"
+    },
+    "clear_history": {
+      "en": "Clear Slow Subscriptions History",
+      "zh": "清除历史慢订阅记录"
+    },
+    "load_rebalance_start": {
+      "en": "Start Load Rebalancing",
+      "zh": "启动负载重平衡"
+    },
+    "load_rebalance_stop": {
+      "en": "Stop Load Rebalance",
+      "zh": "停止负载重平衡"
+    },
+    "load_rebalance_evacuation_start": {
+      "en": "Start Node Evacuation",
+      "zh": "启动节点疏散"
+    },
+    "load_rebalance_evacuation_stop": {
+      "en": "Stop Node Evacuation",
+      "zh": "停止节点疏散"
+    }
+  }
+}

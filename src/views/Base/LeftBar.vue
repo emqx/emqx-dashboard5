@@ -145,6 +145,7 @@ export default defineComponent({
 
     const system = [
       { title: 'users', path: '/users' },
+      { title: 'audit-log', path: '/audit-log' },
       { title: 'api-key', path: '/api-key' },
       { title: 'license', path: '/license' },
       { title: 'sso', path: '/sso' },
