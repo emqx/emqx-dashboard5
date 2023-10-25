@@ -147,6 +147,9 @@ const SchemaForm = defineComponent({
     advancedFields: {
       type: Array as PropType<Array<string | RegExp>>,
     },
+    defaultTab: {
+      type: String,
+    },
   },
   setup(props, ctx) {
     const store = useStore()
@@ -200,7 +203,7 @@ const SchemaForm = defineComponent({
     const currentGroup = ref(groups.value[0] || tl('basic'))
 
     const initCurrentGroup = () => {
-      currentGroup.value = groups.value[0] || tl('basic')
+      currentGroup.value = props.defaultTab || groups.value[0] || tl('basic')
     }
 
     const validate = () => {

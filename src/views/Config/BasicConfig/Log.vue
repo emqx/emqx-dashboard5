@@ -11,6 +11,7 @@
         :props-order-map="propsOrderMap"
         :data-handler="handleFileSchema"
         :form-props="{ labelWidth: state.lang === 'zh' ? 284 : 336 }"
+        :default-tab="tab"
         @save="handleSave"
       />
     </el-card>
@@ -27,8 +28,9 @@ import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
-import { defineComponent, ref } from 'vue'
+import { ComputedRef, computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -46,6 +48,9 @@ export default defineComponent({
     let rawData: any = undefined
     const SchemaFormCom = ref()
     const propsOrderMap = { enable: 0 }
+
+    const route = useRoute()
+    const tab: ComputedRef<string | undefined> = computed(() => route.query.tab?.toString())
 
     const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
@@ -104,6 +109,7 @@ export default defineComponent({
     return {
       state,
       SchemaFormCom,
+      tab,
       handleFileSchema,
       handleSave,
       configs,
