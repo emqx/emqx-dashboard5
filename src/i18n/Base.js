@@ -531,6 +531,10 @@ export default {
     zh: '以字母或数字开头，后续仅限字母、数字、-、_',
     en: 'Start with letter/number; only letters, numbers, -, _ afterwards',
   },
+  letterBeginError: {
+    zh: '以字母开头，后续仅限字母、数字、-、_',
+    en: 'Start with letter; only letters, numbers, -, _ afterwards',
+  },
   notSupportedChinese: {
     zh: '不支持中文',
     en: 'Does not support Chinese characters',

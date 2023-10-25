@@ -219,10 +219,6 @@ export default {
     zh: '纳秒',
     en: 'nanosecond|nanoseconds',
   },
-  validString: {
-    zh: "请输入由字母开头，字母、数字、下划线及 '-' 组成的字符串",
-    en: "Please enter a string consisting of letters, numbers, underscores and '-' starting with a letter",
-  },
   timeEarlierError: {
     zh: '所选时间不能早于当前时间',
     en: 'The selected time cannot be earlier than the current time',
