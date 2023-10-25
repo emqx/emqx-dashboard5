@@ -336,7 +336,7 @@ export default {
     en: 'Publisher',
   },
   sourceType: {
-    zh: '操作来源',
+    zh: '操作方式',
     en: 'Source Type',
   },
   auditLogDesc: {
@@ -344,8 +344,8 @@ export default {
     en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
   },
   opSource: {
-    zh: '用户/AppID',
-    en: 'User/AppID',
+    zh: '操作者',
+    en: 'Operator',
   },
   operationResult: {
     zh: '操作结果',
@@ -362,5 +362,13 @@ export default {
   info: {
     zh: '信息',
     en: 'Info',
+  },
+  console: {
+    zh: '控制台',
+    en: 'Erlang Console',
+  },
+  event: {
+    zh: '事件',
+    en: 'Event',
   },
 }
