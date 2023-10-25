@@ -119,7 +119,9 @@
           </el-table-column>
           <el-table-column prop="operation_type" :label="tl('info')">
             <template #default="{ row }">
-              <template v-if="row.from !== AuditLogFrom.cli">
+              <template
+                v-if="row.from !== AuditLogFrom.cli && row.from !== AuditLogFrom.erlang_console"
+              >
                 {{ getLabelFromOpts(row.operation_type, opTypeList) || row.operation_type }}:
                 {{ getLabelFromOpts(row.operation_id, opNameList) || row.operation_id }}
               </template>
@@ -131,23 +133,15 @@
                   row.http_request.bindings && Object.keys(row.http_request.bindings).length > 0
                 "
               >
-                <el-popover
-                  placement="top"
-                  trigger="hover"
-                  width="400"
-                  :open-delay="200"
-                  popper-class="detail-popover"
-                >
-                  <pre>{{ row.http_request.bindings }}</pre>
-                  <div v-for="(value, label) in row.details" :key="label">
-                    {{ label }}: {{ value }}
-                  </div>
-                  <template #reference>
-                    <span class="details">
-                      <i class="iconfont icon-bangzhu"></i>
-                    </span>
+                <InfoTooltip popper-class="code-popper">
+                  <template #content>
+                    <CodeView
+                      lang="json"
+                      :code="stringifyObjSafely(row.http_request.bindings)"
+                      :show-copy-btn="false"
+                    />
                   </template>
-                </el-popover>
+                </InfoTooltip>
               </template>
             </template>
           </el-table-column>
@@ -158,10 +152,14 @@
               {{ getSourceData(row) }}
             </template>
           </el-table-column>
-          <el-table-column prop="source_ip" label="IP" />
+          <el-table-column label="IP">
+            <template #default="{ row }">
+              {{ row.source_ip || '--' }}
+            </template>
+          </el-table-column>
           <el-table-column :label="tl('operationResult')">
             <template #default="{ row }">
-              {{ getLabelFromOpts(row.operation_result, requestResultOpt) }}
+              {{ getLabelFromOpts(row.operation_result, requestResultOpt) || '--' }}
             </template>
           </el-table-column>
         </el-table>
@@ -177,7 +175,12 @@
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
 import { queryAuditLogs } from '@/api/systemModule'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { getLabelFromValueInOptionList as getLabelFromOpts } from '@/common/tools'
+import {
+  getLabelFromValueInOptionList as getLabelFromOpts,
+  stringifyObjSafely,
+} from '@/common/tools'
+import CodeView from '@/components/CodeView.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import commonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
@@ -204,8 +207,8 @@ const sourceTypeOpt = [
   { value: AuditLogFrom.dashboard, label: 'Dashboard' },
   { value: AuditLogFrom.rest_api, label: 'REST API' },
   { value: AuditLogFrom.cli, label: 'CLI' },
-  { value: AuditLogFrom.erlang_console, label: 'Console' },
-  { value: AuditLogFrom.event, label: 'Event' },
+  { value: AuditLogFrom.erlang_console, label: tl('console') },
+  { value: AuditLogFrom.event, label: tl('event') },
 ]
 const requestResultOpt = [
   { value: AuditLogOperationResult.success, label: t('Exhook.success') },
@@ -299,13 +302,17 @@ const init = async () => {
 }
 const formatDate = (ipt: string) => moment(ipt).format('YYYY-MM-DD HH:mm:ss')
 
+const typesUseNodeAsInfo: Array<string> = [
+  AuditLogFrom.cli,
+  AuditLogFrom.erlang_console,
+  AuditLogFrom.event,
+]
 const getSourceData = (row: AuditLogItem) => {
-  // FIXME:
   const { from, node, source } = row
-  if (from === AuditLogFrom.cli) {
+  if (from && typesUseNodeAsInfo.includes(from)) {
     return `${t('Clients.node')}: ${node || ''}`
   }
-  const label = from === AuditLogFrom.rest_api ? 'AppID' : tl('user')
+  const label = from === AuditLogFrom.rest_api ? 'API Key' : tl('user')
   return `${label}: ${source}`
 }
 
@@ -313,6 +320,7 @@ const enableModule = async () => {
   try {
     isEnabling.value = true
     await updateLogConfigs({ audit: { enable: true } } as any)
+    init()
   } catch (error) {
     //
   } finally {
