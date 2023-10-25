@@ -1,5 +1,7 @@
 import http from '@/common/http'
+import { ListDataWithPagination } from '@/types/common'
 import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
+import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
 
 export const loadAPIKeyList = async (): Promise<Array<APIKey>> => {
   try {
@@ -34,4 +36,10 @@ export const updateAPIKey = (
 
 export const deleteAPIKey = (name: string): Promise<void> => {
   return http.delete(`/api_key/${name}`)
+}
+
+export const queryAuditLogs = (
+  params: GetAuditParams,
+): Promise<ListDataWithPagination<AuditLogItem>> => {
+  return http.get('/audit', { params })
 }
