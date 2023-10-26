@@ -7,6 +7,5 @@ export interface WebhookForm {
 }
 
 export interface WebhookItem extends WebhookForm {
-  name: string
   enable: boolean
 }
