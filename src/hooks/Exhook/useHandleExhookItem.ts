@@ -2,12 +2,14 @@ import { moveExhook, deleteExhook as requestDeleteExhook, updateExhook } from '@
 import { TargetPosition } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { cloneDeep } from 'lodash'
 import { useI18n } from 'vue-i18n'
 import useSSL from '../useSSL'
 
 export default (): {
   deleteExhook: (name: string) => Promise<void>
   updateExhookEnable: (exhookData: Exhook, enable: boolean) => Promise<void>
+  handleExhookBeforeSubmit: <T extends ExhookFormForCreate>(data: T) => T
   moveExhookToTop: (exhookItem: Exhook) => Promise<void>
   moveExhookToBottom: (exhookItem: Exhook) => Promise<void>
   moveExhookBeforeAnotherExhook: (exhookItem: Exhook, anotherExhook: Exhook) => Promise<void>
@@ -64,6 +66,17 @@ export default (): {
     }
   }
 
+  const handleExhookBeforeSubmit = <T extends ExhookFormForCreate>(data: T): T => {
+    const ret = cloneDeep(data)
+    if (typeof ret.auto_reconnect === 'string' && ret.auto_reconnect === '') {
+      Reflect.deleteProperty(ret, 'auto_reconnect')
+    }
+    if (!ret.request_timeout) {
+      Reflect.deleteProperty(ret, 'request_timeout')
+    }
+    return ret
+  }
+
   const moveExhookToTop = (exhookItem: Exhook) => {
     return moveExhook(exhookItem.name, TargetPosition.Top)
   }
@@ -83,6 +96,7 @@ export default (): {
   return {
     deleteExhook,
     updateExhookEnable,
+    handleExhookBeforeSubmit,
     moveExhookToTop,
     moveExhookToBottom,
     moveExhookBeforeAnotherExhook,
