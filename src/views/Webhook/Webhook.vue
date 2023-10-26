@@ -10,7 +10,7 @@
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
           <template #default="{ row }">
-            <router-link :to="{ name: 'webhook-detail-stats', params: { id: row.bridge.id } }">
+            <router-link :to="{ name: 'webhook-detail', params: { name: row.name } }">
               {{ row.name }}
             </router-link>
           </template>
@@ -28,9 +28,9 @@
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-button size="small" @click="goEditWebhook(row.name)">
-              {{ $t('Base.edit') }}
+              {{ $t('Base.setting') }}
             </el-button>
-            <el-button size="small" :loading="deleteLoading" @click="deleteWebhook(row)">
+            <el-button size="small" :loading="deleteLoading" @click="handleDeleteWebhook(row)">
               {{ $t('Base.delete') }}
             </el-button>
             <!-- <TableItemDropdown :row-data="row" /> -->
@@ -49,12 +49,13 @@
 import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
 import useWebhookList from '@/hooks/Webhook/useWebhookList'
 import useI18nTl from '@/hooks/useI18nTl'
+import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
 
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
@@ -72,9 +73,8 @@ const getImgSrc = () => {
   }
 }
 
-const { webhookList, isLoading, deleteLoading, isEmpty, getWebhookList, deleteWebhook } =
-  useWebhookList()
-const { toggleWebhookEnableStatus } = useWebhookItem()
+const { webhookList, isLoading, isEmpty, getWebhookList } = useWebhookList()
+const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookItem()
 
 const addWebhook = () => {
   router.push({ name: 'webhook-create' })
@@ -91,8 +91,21 @@ const handleToggleStatus = async (webhook: WebhookItem) => {
   }
 }
 
+const handleDeleteWebhook = async (webhook: WebhookItem) => {
+  try {
+    await deleteWebhook(webhook)
+    getWebhookList()
+  } catch (error) {
+    ElMessage.error(t('Base.deleteFailed'))
+  }
+}
+
 const goEditWebhook = (webhookName: string) => {
-  router.push({ name: 'webhook-detail', params: { name: webhookName } })
+  router.push({
+    name: 'webhook-detail',
+    params: { name: webhookName },
+    query: { tab: DetailTab.Setting },
+  })
 }
 </script>
 
