@@ -24,7 +24,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item required prop="pool_size">
+        <el-form-item prop="pool_size">
           <template #label>
             <label>Pool Size</label>
             <InfoTooltip :content="tl('poolSizeDesc')" />
@@ -33,7 +33,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item required prop="request_timeout">
+        <el-form-item prop="request_timeout">
           <template #label>
             <label>{{ t('Auth.requestTimeout') }}</label>
             <InfoTooltip :content="tl('requestTimeOutDesc')" />
@@ -46,7 +46,7 @@
       </el-col>
 
       <el-col :span="12">
-        <el-form-item required prop="failed_action">
+        <el-form-item prop="failed_action">
           <template #label>
             <label>{{ tl('failedAction') }}</label>
             <InfoTooltip :content="tl('failedActionDesc')" />
@@ -58,27 +58,16 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item>
-          <template #label>
-            <label>{{ tl('autoReconnect') }}</label>
-            <InfoTooltip :content="tl('autoReconnectDesc')" />
-          </template>
-          <el-select v-model="autoReconnect">
-            <el-option label="true" :value="true" />
-            <el-option label="false" :value="false" />
-          </el-select>
-        </el-form-item>
-      </el-col>
-
-      <el-col :span="12" v-if="autoReconnect">
-        <el-form-item required prop="auto_reconnect">
+        <el-form-item prop="auto_reconnect">
           <template #label>
             <label>{{ tl('autoReconnectInterval') }}</label>
           </template>
-          <TimeInputWithUnitSelect
+          <Oneof
             v-model="formData.auto_reconnect"
-            :enabled-units="['ms', 's', 'm', 'h', 'd']"
-            default-unit="s"
+            in-row
+            disabled-label=" "
+            :items="[{ type: 'duration' }, { symbols: [false], type: 'enum' }]"
+            :input-props="{ enabledUnits: ['ms', 's', 'm', 'h', 'd'] }"
           />
         </el-form-item>
       </el-col>
@@ -88,9 +77,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { ExhookFailedAction } from '@/types/enum'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import { ExhookFailedAction } from '@/types/enum'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ExhookForm',
@@ -98,20 +87,21 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import Oneof from '@/components/Oneof.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useFormRules from '@/hooks/useFormRules'
+import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import {
-  ref,
-  defineProps,
-  defineEmits,
-  defineExpose,
-  computed,
   PropType,
   WritableComputedRef,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  ref,
 } from 'vue'
-import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
-import useFormRules from '@/hooks/useFormRules'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   modelValue: {
@@ -135,45 +125,16 @@ const formData: WritableComputedRef<Exhook | ExhookFormForCreate> = computed({
   },
 })
 
-const autoReconnect = computed({
-  get() {
-    return !(formData.value.auto_reconnect === false)
-  },
-  set(val: boolean) {
-    if (!val) {
-      formData.value.auto_reconnect = val
-    } else {
-      formData.value.auto_reconnect = ''
-    }
-  },
-})
-
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Exhook') => t(`${moduleName}.${key}`)
-const {
-  createRequiredRule,
-  createIntFieldRule,
-  createStringWithUnitFieldRule,
-  createCommonIdRule,
-} = useFormRules()
+const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
 
 const formCom = ref()
-
-const timeoutUnits = [
-  { label: 'ms', value: 'ms' },
-  { label: 's', value: 's' },
-  { label: 'm', value: 'm' },
-  { label: 'h', value: 'h' },
-  { label: 'd', value: 'd' },
-]
 
 const rules = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   url: createRequiredRule('URL'),
-  pool_size: [...createRequiredRule('Pool Size'), ...createIntFieldRule()],
-  request_timeout: createStringWithUnitFieldRule(timeoutUnits.map(({ value }) => value)),
-  failed_action: createRequiredRule(tl('failedAction'), 'select'),
-  auto_reconnect: createRequiredRule(tl('autoReconnectInterval'), 'input'),
+  pool_size: createIntFieldRule(),
 }
 
 const validate = async () => formCom.value.validate()
