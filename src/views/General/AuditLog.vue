@@ -208,7 +208,6 @@ const sourceTypeOpt = [
   { value: AuditLogFrom.rest_api, label: 'REST API' },
   { value: AuditLogFrom.cli, label: 'CLI' },
   { value: AuditLogFrom.erlang_console, label: tl('console') },
-  { value: AuditLogFrom.event, label: tl('event') },
 ]
 const requestResultOpt = [
   { value: AuditLogOperationResult.success, label: t('Exhook.success') },
@@ -302,11 +301,7 @@ const init = async () => {
 }
 const formatDate = (ipt: string) => moment(ipt).format('YYYY-MM-DD HH:mm:ss')
 
-const typesUseNodeAsInfo: Array<string> = [
-  AuditLogFrom.cli,
-  AuditLogFrom.erlang_console,
-  AuditLogFrom.event,
-]
+const typesUseNodeAsInfo: Array<string> = [AuditLogFrom.cli, AuditLogFrom.erlang_console]
 const getSourceData = (row: AuditLogItem) => {
   const { from, node, source } = row
   if (from && typesUseNodeAsInfo.includes(from)) {
