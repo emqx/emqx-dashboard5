@@ -28,7 +28,11 @@
           <!-- Password -->
           <el-col :span="12">
             <el-form-item :label="$t('Base.password')" prop="password">
-              <el-input type="password" v-model="ldapConfig.password" />
+              <el-input
+                type="password"
+                v-model="ldapConfig.password"
+                autocomplete="one-time-code"
+              />
             </el-form-item>
           </el-col>
 
@@ -65,31 +69,60 @@
           </el-col>
 
           <template v-if="authType === 'authn'">
-            <!-- Password Attribute -->
             <el-col :span="12">
-              <el-form-item :label="tl('password_attribute')" prop="password_attribute">
-                <template #label>
-                  {{ tl('password_attribute') }}
-                  <InfoTooltip
-                    v-if="ldapConfig.password_attribute"
-                    :content="tl('password_attribute_desc')"
-                  />
-                </template>
-                <el-input v-model="ldapConfig.password_attribute" />
+              <el-form-item :label="tl('pwdMethod')" prop="method.type">
+                <el-select v-model="ldapConfig.method.type">
+                  <el-option
+                    v-for="{ value, label, desc } in authMethodOpts"
+                    :key="value"
+                    :value="value"
+                    :label="label"
+                  >
+                    {{ label }}
+                    <InfoTooltip :content="desc" />
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
+            <template v-if="ldapConfig.method.type === LDAPAuthMethod.Hash">
+              <!-- Password Attribute -->
+              <el-col :span="12">
+                <el-form-item :label="tl('password_attribute')" prop="method.password_attribute">
+                  <template #label>
+                    {{ tl('password_attribute') }}
+                    <InfoTooltip
+                      v-if="ldapConfig.method.password_attribute"
+                      :content="tl('password_attribute_desc')"
+                    />
+                  </template>
+                  <el-input v-model="ldapConfig.method.password_attribute" />
+                </el-form-item>
+              </el-col>
 
-            <!-- Is Superuser Attribute -->
-            <el-col :span="12">
-              <el-form-item :label="tl('is_superuser_attribute')" prop="is_superuser_attribute">
+              <!-- Is Superuser Attribute -->
+              <el-col :span="12">
+                <el-form-item
+                  :label="tl('is_superuser_attribute')"
+                  prop="method.is_superuser_attribute"
+                >
+                  <template #label>
+                    {{ tl('is_superuser_attribute') }}
+                    <InfoTooltip
+                      v-if="ldapConfig.method.is_superuser_attribute"
+                      :content="tl('is_superuser_attribute_desc')"
+                    />
+                  </template>
+                  <el-input v-model="ldapConfig.method.is_superuser_attribute" />
+                </el-form-item>
+              </el-col>
+            </template>
+            <el-col :span="12" v-else-if="ldapConfig.method.type === LDAPAuthMethod.Bind">
+              <el-form-item :label="tl('bind_password')" prop="method.bind_password">
                 <template #label>
-                  {{ tl('is_superuser_attribute') }}
-                  <InfoTooltip
-                    v-if="ldapConfig.is_superuser_attribute"
-                    :content="tl('is_superuser_attribute_desc')"
-                  />
+                  {{ tl('bind_password') }}
+                  <InfoTooltip :content="tl('bind_password_desc')" />
                 </template>
-                <el-input v-model="ldapConfig.is_superuser_attribute" />
+                <el-input v-model="ldapConfig.method.bind_password" />
               </el-form-item>
             </el-col>
           </template>
@@ -116,6 +149,7 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import Monaco from '@/components/Monaco.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import { LDAPAuthMethod } from '@/types/enum'
 
 const props = defineProps({
   modelValue: {
@@ -140,6 +174,11 @@ defineExpose({
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const authMethodOpts = [
+  { value: LDAPAuthMethod.Hash, label: tl('methodHashLabel'), desc: tl('methodHashDesc') },
+  { value: LDAPAuthMethod.Bind, label: tl('methodBindLabel'), desc: tl('methodBindDesc') },
+]
 
 watch(ldapConfig, (value) => {
   emit('update:modelValue', value)

@@ -455,6 +455,18 @@ export default {
     zh: '基本 DN',
     en: 'Base DN',
   },
+  pwdMethod: {
+    zh: '密码认证方式',
+    en: 'Password Authentication Method',
+  },
+  bind_password: {
+    zh: '绑定密码',
+    en: 'Bind Password',
+  },
+  bind_password_desc: {
+    zh: '用于绑定密码的模板',
+    en: 'The template for password to bind.',
+  },
   password_attribute: {
     zh: '密码属性名',
     en: 'Password Hash Attribute',
@@ -470,5 +482,21 @@ export default {
   is_superuser_attribute_desc: {
     zh: '存储客户端超级用户角色的 LDAP 属性名称',
     en: "The LDAP attribute that indicates a client's superuser role.",
+  },
+  methodHashLabel: {
+    zh: '本地密码比对',
+    en: 'Local Password Comparison',
+  },
+  methodHashDesc: {
+    zh: 'EMQX 查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
+    en: "EMQX queries LDAP to retrieve the client's password and then compares it locally.",
+  },
+  methodBindLabel: {
+    zh: 'LDAP绑定验证',
+    en: 'LDAP Bind Authentication',
+  },
+  methodBindDesc: {
+    zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
+    en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
   },
 }
