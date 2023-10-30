@@ -2,6 +2,7 @@ import { ElMessage as M } from 'element-plus'
 import _ from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@/common/tools'
+import { LDAPAuthMethod } from '@/types/enum'
 // import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -69,6 +70,15 @@ export default function useProcessAuthData() {
       M.error(error.toString())
     }
   }
+  const processLDAPConfig = (data: any) => {
+    const { method } = data
+    if (method.type === LDAPAuthMethod.Hash) {
+      data.method = _.omit(method, 'bind_password')
+    } else if (method.type === LDAPAuthMethod.Bind) {
+      data.method = _.omit(method, ['password_attribute', 'is_superuser_attribute'])
+    }
+    return data
+  }
   const processJwtConfig = (data: any) => {
     const {
       enable,
@@ -122,6 +132,7 @@ export default function useProcessAuthData() {
     createResourceOpt,
     processHttpConfig,
     processMongoDBConfig,
+    processLDAPConfig,
     processRedisConfig,
     processJwtConfig,
     processPasswordHashAlgorithmData,

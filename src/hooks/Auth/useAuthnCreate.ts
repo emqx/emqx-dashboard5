@@ -2,6 +2,7 @@ import useSSL from '@/hooks/useSSL'
 import _ from 'lodash'
 import { getPasswordHashAlgorithmObj } from './usePasswordHashAlgorithmData'
 import useProcessAuthData from './useProcessAuthData'
+import { LDAPAuthMethod } from '@/types/enum'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
@@ -10,6 +11,7 @@ export default function useAuthnCreate() {
     createResourceOpt,
     processHttpConfig,
     processMongoDBConfig,
+    processLDAPConfig,
     processRedisConfig,
     processJwtConfig,
     processPasswordHashAlgorithmData,
@@ -117,8 +119,6 @@ export default function useAuthnCreate() {
 
   const getLdapConfig = () => {
     return {
-      password_attribute: 'userPassword',
-      is_superuser_attribute: 'isSuperuser',
       query_timeout: '5s',
       enable: true,
       server: 'localhost:389',
@@ -128,6 +128,12 @@ export default function useAuthnCreate() {
       base_dn: '',
       filter: '(& (objectClass=mqttUser) (uid=${username}))',
       ssl: createSSLForm(),
+      method: {
+        type: LDAPAuthMethod.Hash,
+        bind_password: '${password}',
+        password_attribute: 'userPassword',
+        is_superuser_attribute: 'isSuperuser',
+      },
     }
   }
 
@@ -171,6 +177,9 @@ export default function useAuthnCreate() {
           break
         case 'mongodb':
           data = processMongoDBConfig(config)
+          break
+        case 'ldap':
+          data = processLDAPConfig(config)
           break
         default:
           data = _.cloneDeep(config)
