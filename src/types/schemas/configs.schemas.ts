@@ -412,33 +412,6 @@ export interface EmqxConfSchemaLogFileHandler {
   time_offset?: string
 }
 
-export type EmqxConfSchemaLogAuditHandlerLevel =
-  typeof EmqxConfSchemaLogAuditHandlerLevel[keyof typeof EmqxConfSchemaLogAuditHandlerLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaLogAuditHandlerLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export type EmqxConfSchemaLogAuditHandlerRotationSize = string | 'infinity'
-
-export interface EmqxConfSchemaLogAuditHandler {
-  path?: string
-  rotation_count?: number
-  rotation_size?: EmqxConfSchemaLogAuditHandlerRotationSize
-  level?: EmqxConfSchemaLogAuditHandlerLevel
-  enable?: boolean
-  time_offset?: string
-}
-
 export type EmqxConfSchemaLogFileOneOf = {
   $handler_name?: EmqxConfSchemaLogFileHandler
 }
@@ -480,7 +453,6 @@ export interface EmqxConfSchemaConsoleHandler {
 export interface EmqxConfSchemaLog {
   console?: EmqxConfSchemaConsoleHandler
   file?: EmqxConfSchemaLogFile
-  audit?: EmqxConfSchemaLogAuditHandler
 }
 
 export type DashboardSslOptionsLogLevel =

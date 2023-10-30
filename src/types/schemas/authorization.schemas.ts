@@ -123,18 +123,19 @@ export type PutAuthorizationSourcesType400 = {
 }
 
 export type PutAuthorizationSourcesTypeBody =
-  | EmqxAuthzApiSchemaFile
-  | EmqxAuthzApiSchemaPostgresql
-  | EmqxAuthzApiSchemaMysql
-  | EmqxAuthzApiSchemaBuiltInDatabase
-  | EmqxAuthzApiSchemaRedisCluster
-  | EmqxAuthzApiSchemaRedisSentinel
-  | EmqxAuthzApiSchemaRedisSingle
-  | EmqxAuthzApiSchemaMongoSharded
-  | EmqxAuthzApiSchemaMongoRs
-  | EmqxAuthzApiSchemaMongoSingle
-  | EmqxAuthzApiSchemaHttpPost
-  | EmqxAuthzApiSchemaHttpGet
+  | EmqxAuthzLdapSchemaLdap
+  | EmqxAuthzMongodbSchemaMongoSharded
+  | EmqxAuthzMongodbSchemaMongoRs
+  | EmqxAuthzMongodbSchemaMongoSingle
+  | EmqxAuthzPostgresqlSchemaPostgresql
+  | EmqxAuthzMysqlSchemaMysql
+  | EmqxAuthzRedisSchemaRedisCluster
+  | EmqxAuthzRedisSchemaRedisSentinel
+  | EmqxAuthzRedisSchemaRedisSingle
+  | EmqxAuthzHttpSchemaHttpPost
+  | EmqxAuthzHttpSchemaHttpGet
+  | EmqxAuthzMnesiaSchemaBuiltinDb
+  | EmqxAuthzFileSchemaApiFile
 
 export type GetAuthorizationSourcesType404Code =
   typeof GetAuthorizationSourcesType404Code[keyof typeof GetAuthorizationSourcesType404Code]
@@ -150,18 +151,19 @@ export type GetAuthorizationSourcesType404 = {
 }
 
 export type GetAuthorizationSourcesType200 =
-  | EmqxAuthzApiSchemaFile
-  | EmqxAuthzApiSchemaPostgresql
-  | EmqxAuthzApiSchemaMysql
-  | EmqxAuthzApiSchemaBuiltInDatabase
-  | EmqxAuthzApiSchemaRedisCluster
-  | EmqxAuthzApiSchemaRedisSentinel
-  | EmqxAuthzApiSchemaRedisSingle
-  | EmqxAuthzApiSchemaMongoSharded
-  | EmqxAuthzApiSchemaMongoRs
-  | EmqxAuthzApiSchemaMongoSingle
-  | EmqxAuthzApiSchemaHttpPost
-  | EmqxAuthzApiSchemaHttpGet
+  | EmqxAuthzLdapSchemaLdap
+  | EmqxAuthzMongodbSchemaMongoSharded
+  | EmqxAuthzMongodbSchemaMongoRs
+  | EmqxAuthzMongodbSchemaMongoSingle
+  | EmqxAuthzPostgresqlSchemaPostgresql
+  | EmqxAuthzMysqlSchemaMysql
+  | EmqxAuthzRedisSchemaRedisCluster
+  | EmqxAuthzRedisSchemaRedisSentinel
+  | EmqxAuthzRedisSchemaRedisSingle
+  | EmqxAuthzHttpSchemaHttpPost
+  | EmqxAuthzHttpSchemaHttpGet
+  | EmqxAuthzMnesiaSchemaBuiltinDb
+  | EmqxAuthzFileSchemaApiFile
 
 export type DeleteAuthorizationSourcesType400Code =
   typeof DeleteAuthorizationSourcesType400Code[keyof typeof DeleteAuthorizationSourcesType400Code]
@@ -281,18 +283,19 @@ export type PostAuthorizationSources400 = {
 }
 
 export type PostAuthorizationSourcesBody =
-  | EmqxAuthzApiSchemaFile
-  | EmqxAuthzApiSchemaPostgresql
-  | EmqxAuthzApiSchemaMysql
-  | EmqxAuthzApiSchemaBuiltInDatabase
-  | EmqxAuthzApiSchemaRedisCluster
-  | EmqxAuthzApiSchemaRedisSentinel
-  | EmqxAuthzApiSchemaRedisSingle
-  | EmqxAuthzApiSchemaMongoSharded
-  | EmqxAuthzApiSchemaMongoRs
-  | EmqxAuthzApiSchemaMongoSingle
-  | EmqxAuthzApiSchemaHttpPost
-  | EmqxAuthzApiSchemaHttpGet
+  | EmqxAuthzLdapSchemaLdap
+  | EmqxAuthzMongodbSchemaMongoSharded
+  | EmqxAuthzMongodbSchemaMongoRs
+  | EmqxAuthzMongodbSchemaMongoSingle
+  | EmqxAuthzPostgresqlSchemaPostgresql
+  | EmqxAuthzMysqlSchemaMysql
+  | EmqxAuthzRedisSchemaRedisCluster
+  | EmqxAuthzRedisSchemaRedisSentinel
+  | EmqxAuthzRedisSchemaRedisSingle
+  | EmqxAuthzHttpSchemaHttpPost
+  | EmqxAuthzHttpSchemaHttpGet
+  | EmqxAuthzMnesiaSchemaBuiltinDb
+  | EmqxAuthzFileSchemaApiFile
 
 export type GetAuthorizationSourcesTypeStatus404Code =
   typeof GetAuthorizationSourcesTypeStatus404Code[keyof typeof GetAuthorizationSourcesTypeStatus404Code]
@@ -385,12 +388,6 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-  like_clientid?: string
-}
-
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -421,6 +418,12 @@ export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  like_clientid?: string
+}
+
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
@@ -447,20 +450,142 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
-export type EmqxAuthzApiSchemaRedisSingleRedisType =
-  typeof EmqxAuthzApiSchemaRedisSingleRedisType[keyof typeof EmqxAuthzApiSchemaRedisSingleRedisType]
+export type EmqxLdapSslServerNameIndication = string | 'disable'
+
+export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSingleRedisType = {
+export const EmqxLdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxLdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxLdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxLdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxLdapSslServerNameIndication
+}
+
+export interface EmqxAuthzSchemaResourceMetrics {
+  matched?: number
+  success?: number
+  failed?: number
+  rate?: number
+  rate_max?: number
+  rate_last5m?: number
+}
+
+export type EmqxAuthzSchemaNodeStatusStatus =
+  typeof EmqxAuthzSchemaNodeStatusStatus[keyof typeof EmqxAuthzSchemaNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzSchemaNodeStatusStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+} as const
+
+export interface EmqxAuthzSchemaNodeStatus {
+  node?: string
+  status?: EmqxAuthzSchemaNodeStatusStatus
+}
+
+export interface EmqxAuthzSchemaNodeResourceMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaResourceMetrics
+}
+
+export interface EmqxAuthzSchemaNodeError {
+  node?: string
+  error?: string
+}
+
+export type EmqxAuthzSchemaMetricsStatusFieldsStatus =
+  typeof EmqxAuthzSchemaMetricsStatusFieldsStatus[keyof typeof EmqxAuthzSchemaMetricsStatusFieldsStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface EmqxAuthzSchemaMetrics {
+  total?: number
+  allow?: number
+  deny?: number
+  nomatch?: number
+  rate?: number
+  rate_max?: number
+  rate_last5m?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaMetrics
+}
+
+export interface EmqxAuthzSchemaMetricsStatusFields {
+  resource_metrics?: EmqxAuthzSchemaResourceMetrics
+  node_resource_metrics?: EmqxAuthzSchemaNodeResourceMetrics[]
+  metrics?: EmqxAuthzSchemaMetrics
+  node_metrics?: EmqxAuthzSchemaNodeMetrics[]
+  status?: EmqxAuthzSchemaMetricsStatusFieldsStatus
+  node_status?: EmqxAuthzSchemaNodeStatus[]
+  node_error?: EmqxAuthzSchemaNodeError[]
+}
+
+export type EmqxAuthzRedisSchemaRedisSingleRedisType =
+  typeof EmqxAuthzRedisSchemaRedisSingleRedisType[keyof typeof EmqxAuthzRedisSchemaRedisSingleRedisType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzRedisSchemaRedisSingleRedisType = {
   single: 'single',
 } as const
 
-export interface EmqxAuthzApiSchemaRedisSingle {
+export type EmqxAuthzRedisSchemaRedisSingleType =
+  typeof EmqxAuthzRedisSchemaRedisSingleType[keyof typeof EmqxAuthzRedisSchemaRedisSingleType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzRedisSchemaRedisSingleType = {
+  redis: 'redis',
+} as const
+
+export interface EmqxAuthzRedisSchemaRedisSingle {
+  type: EmqxAuthzRedisSchemaRedisSingleType
   enable?: boolean
-  type: EmqxAuthzApiSchemaRedisSingleType
-  cmd: string
   server: string
-  redis_type?: EmqxAuthzApiSchemaRedisSingleRedisType
+  redis_type?: EmqxAuthzRedisSchemaRedisSingleRedisType
   pool_size?: number
   username?: string
   password?: string
@@ -468,56 +593,30 @@ export interface EmqxAuthzApiSchemaRedisSingle {
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: BrokerSslClientOpts
+  cmd: string
 }
 
-export type EmqxAuthzApiSourcesSourcesSourcesItem =
-  | EmqxAuthzApiSchemaFile
-  | EmqxAuthzApiSchemaPostgresql
-  | EmqxAuthzApiSchemaMysql
-  | EmqxAuthzApiSchemaBuiltInDatabase
-  | EmqxAuthzApiSchemaRedisCluster
-  | EmqxAuthzApiSchemaRedisSentinel
-  | EmqxAuthzApiSchemaRedisSingle
-  | EmqxAuthzApiSchemaMongoSharded
-  | EmqxAuthzApiSchemaMongoRs
-  | EmqxAuthzApiSchemaMongoSingle
-  | EmqxAuthzApiSchemaHttpPost
-  | EmqxAuthzApiSchemaHttpGet
-
-export interface EmqxAuthzApiSourcesSources {
-  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
-}
-
-export type EmqxAuthzApiSchemaRedisSingleType =
-  typeof EmqxAuthzApiSchemaRedisSingleType[keyof typeof EmqxAuthzApiSchemaRedisSingleType]
+export type EmqxAuthzRedisSchemaRedisSentinelRedisType =
+  typeof EmqxAuthzRedisSchemaRedisSentinelRedisType[keyof typeof EmqxAuthzRedisSchemaRedisSentinelRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSingleType = {
-  redis: 'redis',
-} as const
-
-export type EmqxAuthzApiSchemaRedisSentinelRedisType =
-  typeof EmqxAuthzApiSchemaRedisSentinelRedisType[keyof typeof EmqxAuthzApiSchemaRedisSentinelRedisType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSentinelRedisType = {
+export const EmqxAuthzRedisSchemaRedisSentinelRedisType = {
   sentinel: 'sentinel',
 } as const
 
-export type EmqxAuthzApiSchemaRedisSentinelType =
-  typeof EmqxAuthzApiSchemaRedisSentinelType[keyof typeof EmqxAuthzApiSchemaRedisSentinelType]
+export type EmqxAuthzRedisSchemaRedisSentinelType =
+  typeof EmqxAuthzRedisSchemaRedisSentinelType[keyof typeof EmqxAuthzRedisSchemaRedisSentinelType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisSentinelType = {
+export const EmqxAuthzRedisSchemaRedisSentinelType = {
   redis: 'redis',
 } as const
 
-export interface EmqxAuthzApiSchemaRedisSentinel {
+export interface EmqxAuthzRedisSchemaRedisSentinel {
+  type: EmqxAuthzRedisSchemaRedisSentinelType
   enable?: boolean
-  type: EmqxAuthzApiSchemaRedisSentinelType
-  cmd: string
   servers: string
-  redis_type?: EmqxAuthzApiSchemaRedisSentinelRedisType
+  redis_type?: EmqxAuthzRedisSchemaRedisSentinelRedisType
   sentinel: string
   pool_size?: number
   username?: string
@@ -526,50 +625,52 @@ export interface EmqxAuthzApiSchemaRedisSentinel {
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: BrokerSslClientOpts
+  cmd: string
 }
 
-export type EmqxAuthzApiSchemaRedisClusterRedisType =
-  typeof EmqxAuthzApiSchemaRedisClusterRedisType[keyof typeof EmqxAuthzApiSchemaRedisClusterRedisType]
+export type EmqxAuthzRedisSchemaRedisClusterRedisType =
+  typeof EmqxAuthzRedisSchemaRedisClusterRedisType[keyof typeof EmqxAuthzRedisSchemaRedisClusterRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisClusterRedisType = {
+export const EmqxAuthzRedisSchemaRedisClusterRedisType = {
   cluster: 'cluster',
 } as const
 
-export type EmqxAuthzApiSchemaRedisClusterType =
-  typeof EmqxAuthzApiSchemaRedisClusterType[keyof typeof EmqxAuthzApiSchemaRedisClusterType]
+export type EmqxAuthzRedisSchemaRedisClusterType =
+  typeof EmqxAuthzRedisSchemaRedisClusterType[keyof typeof EmqxAuthzRedisSchemaRedisClusterType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaRedisClusterType = {
+export const EmqxAuthzRedisSchemaRedisClusterType = {
   redis: 'redis',
 } as const
 
-export interface EmqxAuthzApiSchemaRedisCluster {
+export interface EmqxAuthzRedisSchemaRedisCluster {
+  type: EmqxAuthzRedisSchemaRedisClusterType
   enable?: boolean
-  type: EmqxAuthzApiSchemaRedisClusterType
-  cmd: string
   servers: string
-  redis_type?: EmqxAuthzApiSchemaRedisClusterRedisType
+  redis_type?: EmqxAuthzRedisSchemaRedisClusterRedisType
   pool_size?: number
   username?: string
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: BrokerSslClientOpts
+  cmd: string
 }
 
-export type EmqxAuthzApiSchemaPostgresqlType =
-  typeof EmqxAuthzApiSchemaPostgresqlType[keyof typeof EmqxAuthzApiSchemaPostgresqlType]
+export type EmqxAuthzPostgresqlSchemaPostgresqlPrepareStatement = { [key: string]: any }
+
+export type EmqxAuthzPostgresqlSchemaPostgresqlType =
+  typeof EmqxAuthzPostgresqlSchemaPostgresqlType[keyof typeof EmqxAuthzPostgresqlSchemaPostgresqlType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaPostgresqlType = {
+export const EmqxAuthzPostgresqlSchemaPostgresqlType = {
   postgresql: 'postgresql',
 } as const
 
-export interface EmqxAuthzApiSchemaPostgresql {
+export interface EmqxAuthzPostgresqlSchemaPostgresql {
+  type: EmqxAuthzPostgresqlSchemaPostgresqlType
   enable?: boolean
-  type: EmqxAuthzApiSchemaPostgresqlType
-  query: string
   server: string
   database: string
   pool_size?: number
@@ -578,24 +679,23 @@ export interface EmqxAuthzApiSchemaPostgresql {
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: BrokerSslClientOpts
+  prepare_statement?: EmqxAuthzPostgresqlSchemaPostgresqlPrepareStatement
+  query: string
 }
 
-export interface EmqxAuthzApiSchemaPosition {
-  position: string
-}
+export type EmqxAuthzMysqlSchemaMysqlPrepareStatement = { [key: string]: any }
 
-export type EmqxAuthzApiSchemaMysqlType =
-  typeof EmqxAuthzApiSchemaMysqlType[keyof typeof EmqxAuthzApiSchemaMysqlType]
+export type EmqxAuthzMysqlSchemaMysqlType =
+  typeof EmqxAuthzMysqlSchemaMysqlType[keyof typeof EmqxAuthzMysqlSchemaMysqlType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMysqlType = {
+export const EmqxAuthzMysqlSchemaMysqlType = {
   mysql: 'mysql',
 } as const
 
-export interface EmqxAuthzApiSchemaMysql {
+export interface EmqxAuthzMysqlSchemaMysql {
+  type: EmqxAuthzMysqlSchemaMysqlType
   enable?: boolean
-  type: EmqxAuthzApiSchemaMysqlType
-  query: string
   server: string
   database: string
   pool_size?: number
@@ -604,299 +704,345 @@ export interface EmqxAuthzApiSchemaMysql {
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: BrokerSslClientOpts
+  prepare_statement?: EmqxAuthzMysqlSchemaMysqlPrepareStatement
+  query: string
 }
 
-export type EmqxAuthzApiSchemaMongoSingleUseLegacyProtocol =
-  typeof EmqxAuthzApiSchemaMongoSingleUseLegacyProtocol[keyof typeof EmqxAuthzApiSchemaMongoSingleUseLegacyProtocol]
+export type EmqxAuthzMongodbSchemaMongoSingleUseLegacyProtocol =
+  typeof EmqxAuthzMongodbSchemaMongoSingleUseLegacyProtocol[keyof typeof EmqxAuthzMongodbSchemaMongoSingleUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoSingleUseLegacyProtocol = {
+export const EmqxAuthzMongodbSchemaMongoSingleUseLegacyProtocol = {
   auto: 'auto',
   true: 'true',
   false: 'false',
 } as const
 
-export type EmqxAuthzApiSchemaMongoSingleWMode =
-  typeof EmqxAuthzApiSchemaMongoSingleWMode[keyof typeof EmqxAuthzApiSchemaMongoSingleWMode]
+export type EmqxAuthzMongodbSchemaMongoSingleWMode =
+  typeof EmqxAuthzMongodbSchemaMongoSingleWMode[keyof typeof EmqxAuthzMongodbSchemaMongoSingleWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoSingleWMode = {
+export const EmqxAuthzMongodbSchemaMongoSingleWMode = {
   unsafe: 'unsafe',
   safe: 'safe',
 } as const
 
-export type EmqxAuthzApiSchemaMongoSingleMongoType =
-  typeof EmqxAuthzApiSchemaMongoSingleMongoType[keyof typeof EmqxAuthzApiSchemaMongoSingleMongoType]
+export type EmqxAuthzMongodbSchemaMongoSingleMongoType =
+  typeof EmqxAuthzMongodbSchemaMongoSingleMongoType[keyof typeof EmqxAuthzMongodbSchemaMongoSingleMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoSingleMongoType = {
+export const EmqxAuthzMongodbSchemaMongoSingleMongoType = {
   single: 'single',
 } as const
 
-export type EmqxAuthzApiSchemaMongoSingleFilter = { [key: string]: any }
+export type EmqxAuthzMongodbSchemaMongoSingleFilter = { [key: string]: any }
 
-export type EmqxAuthzApiSchemaMongoSingleType =
-  typeof EmqxAuthzApiSchemaMongoSingleType[keyof typeof EmqxAuthzApiSchemaMongoSingleType]
+export type EmqxAuthzMongodbSchemaMongoSingleType =
+  typeof EmqxAuthzMongodbSchemaMongoSingleType[keyof typeof EmqxAuthzMongodbSchemaMongoSingleType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoSingleType = {
+export const EmqxAuthzMongodbSchemaMongoSingleType = {
   mongodb: 'mongodb',
 } as const
 
-export interface EmqxAuthzApiSchemaMongoSingle {
+export interface EmqxAuthzMongodbSchemaMongoSingle {
+  type: EmqxAuthzMongodbSchemaMongoSingleType
   enable?: boolean
-  type: EmqxAuthzApiSchemaMongoSingleType
   collection: string
-  filter?: EmqxAuthzApiSchemaMongoSingleFilter
-  mongo_type?: EmqxAuthzApiSchemaMongoSingleMongoType
+  filter?: EmqxAuthzMongodbSchemaMongoSingleFilter
+  mongo_type?: EmqxAuthzMongodbSchemaMongoSingleMongoType
   server: string
-  w_mode?: EmqxAuthzApiSchemaMongoSingleWMode
+  w_mode?: EmqxAuthzMongodbSchemaMongoSingleWMode
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: EmqxAuthzApiSchemaMongoSingleUseLegacyProtocol
+  use_legacy_protocol?: EmqxAuthzMongodbSchemaMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: EmqxMongodbTopology
   ssl?: BrokerSslClientOpts
 }
 
-export type EmqxAuthzApiSchemaMongoShardedUseLegacyProtocol =
-  typeof EmqxAuthzApiSchemaMongoShardedUseLegacyProtocol[keyof typeof EmqxAuthzApiSchemaMongoShardedUseLegacyProtocol]
+export type EmqxAuthzMongodbSchemaMongoShardedUseLegacyProtocol =
+  typeof EmqxAuthzMongodbSchemaMongoShardedUseLegacyProtocol[keyof typeof EmqxAuthzMongodbSchemaMongoShardedUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoShardedUseLegacyProtocol = {
+export const EmqxAuthzMongodbSchemaMongoShardedUseLegacyProtocol = {
   auto: 'auto',
   true: 'true',
   false: 'false',
 } as const
 
-export type EmqxAuthzApiSchemaMongoShardedWMode =
-  typeof EmqxAuthzApiSchemaMongoShardedWMode[keyof typeof EmqxAuthzApiSchemaMongoShardedWMode]
+export type EmqxAuthzMongodbSchemaMongoShardedWMode =
+  typeof EmqxAuthzMongodbSchemaMongoShardedWMode[keyof typeof EmqxAuthzMongodbSchemaMongoShardedWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoShardedWMode = {
+export const EmqxAuthzMongodbSchemaMongoShardedWMode = {
   unsafe: 'unsafe',
   safe: 'safe',
 } as const
 
-export type EmqxAuthzApiSchemaMongoShardedMongoType =
-  typeof EmqxAuthzApiSchemaMongoShardedMongoType[keyof typeof EmqxAuthzApiSchemaMongoShardedMongoType]
+export type EmqxAuthzMongodbSchemaMongoShardedMongoType =
+  typeof EmqxAuthzMongodbSchemaMongoShardedMongoType[keyof typeof EmqxAuthzMongodbSchemaMongoShardedMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoShardedMongoType = {
+export const EmqxAuthzMongodbSchemaMongoShardedMongoType = {
   sharded: 'sharded',
 } as const
 
-export type EmqxAuthzApiSchemaMongoShardedFilter = { [key: string]: any }
+export type EmqxAuthzMongodbSchemaMongoShardedFilter = { [key: string]: any }
 
-export type EmqxAuthzApiSchemaMongoShardedType =
-  typeof EmqxAuthzApiSchemaMongoShardedType[keyof typeof EmqxAuthzApiSchemaMongoShardedType]
+export type EmqxAuthzMongodbSchemaMongoShardedType =
+  typeof EmqxAuthzMongodbSchemaMongoShardedType[keyof typeof EmqxAuthzMongodbSchemaMongoShardedType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoShardedType = {
+export const EmqxAuthzMongodbSchemaMongoShardedType = {
   mongodb: 'mongodb',
 } as const
 
-export interface EmqxAuthzApiSchemaMongoSharded {
+export interface EmqxAuthzMongodbSchemaMongoSharded {
+  type: EmqxAuthzMongodbSchemaMongoShardedType
   enable?: boolean
-  type: EmqxAuthzApiSchemaMongoShardedType
   collection: string
-  filter?: EmqxAuthzApiSchemaMongoShardedFilter
-  mongo_type?: EmqxAuthzApiSchemaMongoShardedMongoType
+  filter?: EmqxAuthzMongodbSchemaMongoShardedFilter
+  mongo_type?: EmqxAuthzMongodbSchemaMongoShardedMongoType
   servers: string
-  w_mode?: EmqxAuthzApiSchemaMongoShardedWMode
+  w_mode?: EmqxAuthzMongodbSchemaMongoShardedWMode
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: EmqxAuthzApiSchemaMongoShardedUseLegacyProtocol
+  use_legacy_protocol?: EmqxAuthzMongodbSchemaMongoShardedUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: EmqxMongodbTopology
   ssl?: BrokerSslClientOpts
 }
 
-export type EmqxAuthzApiSchemaMongoRsUseLegacyProtocol =
-  typeof EmqxAuthzApiSchemaMongoRsUseLegacyProtocol[keyof typeof EmqxAuthzApiSchemaMongoRsUseLegacyProtocol]
+export type EmqxAuthzMongodbSchemaMongoRsUseLegacyProtocol =
+  typeof EmqxAuthzMongodbSchemaMongoRsUseLegacyProtocol[keyof typeof EmqxAuthzMongodbSchemaMongoRsUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoRsUseLegacyProtocol = {
+export const EmqxAuthzMongodbSchemaMongoRsUseLegacyProtocol = {
   auto: 'auto',
   true: 'true',
   false: 'false',
 } as const
 
-export type EmqxAuthzApiSchemaMongoRsRMode =
-  typeof EmqxAuthzApiSchemaMongoRsRMode[keyof typeof EmqxAuthzApiSchemaMongoRsRMode]
+export type EmqxAuthzMongodbSchemaMongoRsRMode =
+  typeof EmqxAuthzMongodbSchemaMongoRsRMode[keyof typeof EmqxAuthzMongodbSchemaMongoRsRMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoRsRMode = {
+export const EmqxAuthzMongodbSchemaMongoRsRMode = {
   master: 'master',
   slave_ok: 'slave_ok',
 } as const
 
-export type EmqxAuthzApiSchemaMongoRsWMode =
-  typeof EmqxAuthzApiSchemaMongoRsWMode[keyof typeof EmqxAuthzApiSchemaMongoRsWMode]
+export type EmqxAuthzMongodbSchemaMongoRsWMode =
+  typeof EmqxAuthzMongodbSchemaMongoRsWMode[keyof typeof EmqxAuthzMongodbSchemaMongoRsWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoRsWMode = {
+export const EmqxAuthzMongodbSchemaMongoRsWMode = {
   unsafe: 'unsafe',
   safe: 'safe',
 } as const
 
-export type EmqxAuthzApiSchemaMongoRsMongoType =
-  typeof EmqxAuthzApiSchemaMongoRsMongoType[keyof typeof EmqxAuthzApiSchemaMongoRsMongoType]
+export type EmqxAuthzMongodbSchemaMongoRsMongoType =
+  typeof EmqxAuthzMongodbSchemaMongoRsMongoType[keyof typeof EmqxAuthzMongodbSchemaMongoRsMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoRsMongoType = {
+export const EmqxAuthzMongodbSchemaMongoRsMongoType = {
   rs: 'rs',
 } as const
 
-export type EmqxAuthzApiSchemaMongoRsFilter = { [key: string]: any }
+export type EmqxAuthzMongodbSchemaMongoRsFilter = { [key: string]: any }
 
-export type EmqxAuthzApiSchemaMongoRsType =
-  typeof EmqxAuthzApiSchemaMongoRsType[keyof typeof EmqxAuthzApiSchemaMongoRsType]
+export type EmqxAuthzMongodbSchemaMongoRsType =
+  typeof EmqxAuthzMongodbSchemaMongoRsType[keyof typeof EmqxAuthzMongodbSchemaMongoRsType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaMongoRsType = {
+export const EmqxAuthzMongodbSchemaMongoRsType = {
   mongodb: 'mongodb',
 } as const
 
-export interface EmqxAuthzApiSchemaMongoRs {
+export interface EmqxAuthzMongodbSchemaMongoRs {
+  type: EmqxAuthzMongodbSchemaMongoRsType
   enable?: boolean
-  type: EmqxAuthzApiSchemaMongoRsType
   collection: string
-  filter?: EmqxAuthzApiSchemaMongoRsFilter
-  mongo_type?: EmqxAuthzApiSchemaMongoRsMongoType
+  filter?: EmqxAuthzMongodbSchemaMongoRsFilter
+  mongo_type?: EmqxAuthzMongodbSchemaMongoRsMongoType
   servers: string
-  w_mode?: EmqxAuthzApiSchemaMongoRsWMode
-  r_mode?: EmqxAuthzApiSchemaMongoRsRMode
+  w_mode?: EmqxAuthzMongodbSchemaMongoRsWMode
+  r_mode?: EmqxAuthzMongodbSchemaMongoRsRMode
   replica_set_name: string
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: EmqxAuthzApiSchemaMongoRsUseLegacyProtocol
+  use_legacy_protocol?: EmqxAuthzMongodbSchemaMongoRsUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: EmqxMongodbTopology
   ssl?: BrokerSslClientOpts
 }
 
-export type EmqxAuthzApiSchemaHttpPostBody = { [key: string]: any }
-
-export type EmqxAuthzApiSchemaHttpPostType =
-  typeof EmqxAuthzApiSchemaHttpPostType[keyof typeof EmqxAuthzApiSchemaHttpPostType]
+export type EmqxAuthzMnesiaSchemaBuiltinDbType =
+  typeof EmqxAuthzMnesiaSchemaBuiltinDbType[keyof typeof EmqxAuthzMnesiaSchemaBuiltinDbType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaHttpPostType = {
-  http: 'http',
-} as const
-
-export type EmqxAuthzApiSchemaHttpPostHeaders = { [key: string]: any }
-
-export type EmqxAuthzApiSchemaHttpPostMethod =
-  typeof EmqxAuthzApiSchemaHttpPostMethod[keyof typeof EmqxAuthzApiSchemaHttpPostMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaHttpPostMethod = {
-  post: 'post',
-} as const
-
-export interface EmqxAuthzApiSchemaHttpPost {
-  method: EmqxAuthzApiSchemaHttpPostMethod
-  headers?: EmqxAuthzApiSchemaHttpPostHeaders
-  enable?: boolean
-  type: EmqxAuthzApiSchemaHttpPostType
-  url: string
-  body?: EmqxAuthzApiSchemaHttpPostBody
-  request_timeout?: string
-  connect_timeout?: string
-  enable_pipelining?: number
-  /** @deprecated */
-  max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
-  /** @deprecated */
-  retry_interval?: string
-  ssl?: BrokerSslClientOpts
-}
-
-export type EmqxAuthzApiSchemaHttpGetBody = { [key: string]: any }
-
-export type EmqxAuthzApiSchemaHttpGetType =
-  typeof EmqxAuthzApiSchemaHttpGetType[keyof typeof EmqxAuthzApiSchemaHttpGetType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaHttpGetType = {
-  http: 'http',
-} as const
-
-export type EmqxAuthzApiSchemaHttpGetHeaders = { [key: string]: any }
-
-export type EmqxAuthzApiSchemaHttpGetMethod =
-  typeof EmqxAuthzApiSchemaHttpGetMethod[keyof typeof EmqxAuthzApiSchemaHttpGetMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaHttpGetMethod = {
-  get: 'get',
-} as const
-
-export interface EmqxAuthzApiSchemaHttpGet {
-  method: EmqxAuthzApiSchemaHttpGetMethod
-  headers?: EmqxAuthzApiSchemaHttpGetHeaders
-  enable?: boolean
-  type: EmqxAuthzApiSchemaHttpGetType
-  url: string
-  body?: EmqxAuthzApiSchemaHttpGetBody
-  request_timeout?: string
-  connect_timeout?: string
-  enable_pipelining?: number
-  /** @deprecated */
-  max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
-  /** @deprecated */
-  retry_interval?: string
-  ssl?: BrokerSslClientOpts
-}
-
-export type EmqxAuthzApiSchemaFileType =
-  typeof EmqxAuthzApiSchemaFileType[keyof typeof EmqxAuthzApiSchemaFileType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaFileType = {
-  file: 'file',
-} as const
-
-export interface EmqxAuthzApiSchemaFile {
-  enable?: boolean
-  type: EmqxAuthzApiSchemaFileType
-  rules: string
-}
-
-export type EmqxAuthzApiSchemaBuiltInDatabaseType =
-  typeof EmqxAuthzApiSchemaBuiltInDatabaseType[keyof typeof EmqxAuthzApiSchemaBuiltInDatabaseType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSchemaBuiltInDatabaseType = {
+export const EmqxAuthzMnesiaSchemaBuiltinDbType = {
   built_in_database: 'built_in_database',
 } as const
 
-export interface EmqxAuthzApiSchemaBuiltInDatabase {
+export interface EmqxAuthzMnesiaSchemaBuiltinDb {
+  type: EmqxAuthzMnesiaSchemaBuiltinDbType
   enable?: boolean
-  type: EmqxAuthzApiSchemaBuiltInDatabaseType
 }
 
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  clientid: string
+export type EmqxAuthzLdapSchemaLdapType =
+  typeof EmqxAuthzLdapSchemaLdapType[keyof typeof EmqxAuthzLdapSchemaLdapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzLdapSchemaLdapType = {
+  ldap: 'ldap',
+} as const
+
+export interface EmqxAuthzLdapSchemaLdap {
+  type: EmqxAuthzLdapSchemaLdapType
+  enable?: boolean
+  publish_attribute?: string
+  subscribe_attribute?: string
+  all_attribute?: string
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: EmqxLdapSsl
 }
 
-export interface EmqxAuthzApiMnesiaRules {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
+export type EmqxAuthzHttpSchemaHttpPostHeadersItem = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpPostMethod =
+  typeof EmqxAuthzHttpSchemaHttpPostMethod[keyof typeof EmqxAuthzHttpSchemaHttpPostMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpPostMethod = {
+  post: 'post',
+} as const
+
+export type EmqxAuthzHttpSchemaHttpPostBody = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpPostType =
+  typeof EmqxAuthzHttpSchemaHttpPostType[keyof typeof EmqxAuthzHttpSchemaHttpPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpPostType = {
+  http: 'http',
+} as const
+
+export interface EmqxAuthzHttpSchemaHttpPost {
+  type: EmqxAuthzHttpSchemaHttpPostType
+  enable?: boolean
+  url: string
+  request_timeout?: string
+  body?: EmqxAuthzHttpSchemaHttpPostBody
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: EmqxAuthzHttpSchemaHttpPostMethod
+  headers?: EmqxAuthzHttpSchemaHttpPostHeadersItem[]
+}
+
+export type EmqxAuthzHttpSchemaHttpGetHeadersItem = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpGetMethod =
+  typeof EmqxAuthzHttpSchemaHttpGetMethod[keyof typeof EmqxAuthzHttpSchemaHttpGetMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpGetMethod = {
+  get: 'get',
+} as const
+
+export type EmqxAuthzHttpSchemaHttpGetBody = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpGetType =
+  typeof EmqxAuthzHttpSchemaHttpGetType[keyof typeof EmqxAuthzHttpSchemaHttpGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpGetType = {
+  http: 'http',
+} as const
+
+export interface EmqxAuthzHttpSchemaHttpGet {
+  type: EmqxAuthzHttpSchemaHttpGetType
+  enable?: boolean
+  url: string
+  request_timeout?: string
+  body?: EmqxAuthzHttpSchemaHttpGetBody
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: EmqxAuthzHttpSchemaHttpGetMethod
+  headers?: EmqxAuthzHttpSchemaHttpGetHeadersItem[]
+}
+
+export type EmqxAuthzFileSchemaApiFileType =
+  typeof EmqxAuthzFileSchemaApiFileType[keyof typeof EmqxAuthzFileSchemaApiFileType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzFileSchemaApiFileType = {
+  file: 'file',
+} as const
+
+export interface EmqxAuthzFileSchemaApiFile {
+  type: EmqxAuthzFileSchemaApiFileType
+  enable?: boolean
+  rules: string
+}
+
+export type EmqxAuthzApiSourcesSourcesSourcesItem =
+  | EmqxAuthzLdapSchemaLdap
+  | EmqxAuthzMongodbSchemaMongoSharded
+  | EmqxAuthzMongodbSchemaMongoRs
+  | EmqxAuthzMongodbSchemaMongoSingle
+  | EmqxAuthzPostgresqlSchemaPostgresql
+  | EmqxAuthzMysqlSchemaMysql
+  | EmqxAuthzRedisSchemaRedisCluster
+  | EmqxAuthzRedisSchemaRedisSentinel
+  | EmqxAuthzRedisSchemaRedisSingle
+  | EmqxAuthzHttpSchemaHttpPost
+  | EmqxAuthzHttpSchemaHttpGet
+  | EmqxAuthzMnesiaSchemaBuiltinDb
+  | EmqxAuthzFileSchemaApiFile
+
+export interface EmqxAuthzApiSourcesSources {
+  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
+export interface EmqxAuthzApiSourcesPosition {
+  position: string
+}
+
+export interface EmqxAuthzApiMnesiaUsernameResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForUsername[]
+  meta?: PublicMeta
 }
 
 export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
@@ -933,9 +1079,13 @@ export interface EmqxAuthzApiMnesiaRulesForUsername {
   username: string
 }
 
-export interface EmqxAuthzApiMnesiaUsernameResponseData {
-  data?: EmqxAuthzApiMnesiaRulesForUsername[]
-  meta?: PublicMeta
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  clientid: string
+}
+
+export interface EmqxAuthzApiMnesiaRules {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
 export interface EmqxAuthzApiMnesiaClientidResponseData {
@@ -1005,73 +1155,4 @@ export interface BrokerAuthzCache {
   enable: boolean
   max_size?: number
   ttl?: string
-}
-
-export interface AuthzResourceMetrics {
-  matched?: number
-  success?: number
-  failed?: number
-  rate?: number
-  rate_max?: number
-  rate_last5m?: number
-}
-
-export type AuthzNodeStatusStatus = typeof AuthzNodeStatusStatus[keyof typeof AuthzNodeStatusStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthzNodeStatusStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-} as const
-
-export interface AuthzNodeStatus {
-  node?: string
-  status?: AuthzNodeStatusStatus
-}
-
-export interface AuthzNodeResourceMetrics {
-  node?: string
-  metrics?: AuthzResourceMetrics
-}
-
-export interface AuthzNodeError {
-  node?: string
-  error?: string
-}
-
-export type AuthzMetricsStatusFieldsStatus =
-  typeof AuthzMetricsStatusFieldsStatus[keyof typeof AuthzMetricsStatusFieldsStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthzMetricsStatusFieldsStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface AuthzMetrics {
-  total?: number
-  allow?: number
-  deny?: number
-  nomatch?: number
-  rate?: number
-  rate_max?: number
-  rate_last5m?: number
-}
-
-export interface AuthzNodeMetrics {
-  node?: string
-  metrics?: AuthzMetrics
-}
-
-export interface AuthzMetricsStatusFields {
-  resource_metrics?: AuthzResourceMetrics
-  node_resource_metrics?: AuthzNodeResourceMetrics[]
-  metrics?: AuthzMetrics
-  node_metrics?: AuthzNodeMetrics[]
-  status?: AuthzMetricsStatusFieldsStatus
-  node_status?: AuthzNodeStatus[]
-  node_error?: AuthzNodeError[]
 }
