@@ -612,13 +612,149 @@ export interface EmqxAuthzApiMnesiaUsernameResponseData {
   meta?: PublicMeta
 }
 
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  clientid: string
+export type EmqxAuthzLdapSchemaLdapType =
+  typeof EmqxAuthzLdapSchemaLdapType[keyof typeof EmqxAuthzLdapSchemaLdapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzLdapSchemaLdapType = {
+  ldap: 'ldap',
+} as const
+
+export interface EmqxAuthzLdapSchemaLdap {
+  type: EmqxAuthzLdapSchemaLdapType
+  enable?: boolean
+  publish_attribute?: string
+  subscribe_attribute?: string
+  all_attribute?: string
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: EmqxLdapSsl
 }
 
-export interface EmqxAuthzApiMnesiaRules {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
+export type EmqxAuthzHttpSchemaHttpPostHeadersItem = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpPostMethod =
+  typeof EmqxAuthzHttpSchemaHttpPostMethod[keyof typeof EmqxAuthzHttpSchemaHttpPostMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpPostMethod = {
+  post: 'post',
+} as const
+
+export type EmqxAuthzHttpSchemaHttpPostBody = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpPostType =
+  typeof EmqxAuthzHttpSchemaHttpPostType[keyof typeof EmqxAuthzHttpSchemaHttpPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpPostType = {
+  http: 'http',
+} as const
+
+export interface EmqxAuthzHttpSchemaHttpPost {
+  type: EmqxAuthzHttpSchemaHttpPostType
+  enable?: boolean
+  url: string
+  request_timeout?: string
+  body?: EmqxAuthzHttpSchemaHttpPostBody
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: EmqxAuthzHttpSchemaHttpPostMethod
+  headers?: EmqxAuthzHttpSchemaHttpPostHeadersItem[]
+}
+
+export type EmqxAuthzHttpSchemaHttpGetHeadersItem = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpGetMethod =
+  typeof EmqxAuthzHttpSchemaHttpGetMethod[keyof typeof EmqxAuthzHttpSchemaHttpGetMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpGetMethod = {
+  get: 'get',
+} as const
+
+export type EmqxAuthzHttpSchemaHttpGetBody = { [key: string]: any }
+
+export type EmqxAuthzHttpSchemaHttpGetType =
+  typeof EmqxAuthzHttpSchemaHttpGetType[keyof typeof EmqxAuthzHttpSchemaHttpGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzHttpSchemaHttpGetType = {
+  http: 'http',
+} as const
+
+export interface EmqxAuthzHttpSchemaHttpGet {
+  type: EmqxAuthzHttpSchemaHttpGetType
+  enable?: boolean
+  url: string
+  request_timeout?: string
+  body?: EmqxAuthzHttpSchemaHttpGetBody
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: EmqxAuthzHttpSchemaHttpGetMethod
+  headers?: EmqxAuthzHttpSchemaHttpGetHeadersItem[]
+}
+
+export type EmqxAuthzFileSchemaApiFileType =
+  typeof EmqxAuthzFileSchemaApiFileType[keyof typeof EmqxAuthzFileSchemaApiFileType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzFileSchemaApiFileType = {
+  file: 'file',
+} as const
+
+export interface EmqxAuthzFileSchemaApiFile {
+  type: EmqxAuthzFileSchemaApiFileType
+  enable?: boolean
+  rules: string
+}
+
+export type EmqxAuthzApiSourcesSourcesSourcesItem =
+  | EmqxAuthzLdapSchemaLdap
+  | EmqxAuthzMongodbSchemaMongoSharded
+  | EmqxAuthzMongodbSchemaMongoRs
+  | EmqxAuthzMongodbSchemaMongoSingle
+  | EmqxAuthzPostgresqlSchemaPostgresql
+  | EmqxAuthzMysqlSchemaMysql
+  | EmqxAuthzRedisSchemaRedisCluster
+  | EmqxAuthzRedisSchemaRedisSentinel
+  | EmqxAuthzRedisSchemaRedisSingle
+  | EmqxAuthzHttpSchemaHttpPost
+  | EmqxAuthzHttpSchemaHttpGet
+  | EmqxAuthzMnesiaSchemaBuiltinDb
+  | EmqxAuthzFileSchemaApiFile
+
+export interface EmqxAuthzApiSourcesSources {
+  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
+export interface EmqxAuthzApiSourcesPosition {
+  position: string
+}
+
+export interface EmqxAuthzApiMnesiaUsernameResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForUsername[]
+  meta?: PublicMeta
 }
 
 export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'

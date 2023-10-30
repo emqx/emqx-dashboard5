@@ -544,201 +544,10 @@ export interface BrokerSslClientOpts {
   server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
-export type AuthnRedisSingleRedisType =
-  typeof AuthnRedisSingleRedisType[keyof typeof AuthnRedisSingleRedisType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSingleRedisType = {
-  single: 'single',
-} as const
-
-export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcrypt
-
-export type AuthnRedisSingleBackend =
-  typeof AuthnRedisSingleBackend[keyof typeof AuthnRedisSingleBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSingleBackend = {
-  redis: 'redis',
-} as const
-
-export type AuthnRedisSingleMechanism =
-  typeof AuthnRedisSingleMechanism[keyof typeof AuthnRedisSingleMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSingleMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnRedisSingle {
-  mechanism: AuthnRedisSingleMechanism
-  backend: AuthnRedisSingleBackend
-  cmd: string
-  password_hash_algorithm?: AuthnRedisSinglePasswordHashAlgorithm
-  enable?: boolean
-  server: string
-  redis_type?: AuthnRedisSingleRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export type AuthnRedisSentinelRedisType =
-  typeof AuthnRedisSentinelRedisType[keyof typeof AuthnRedisSentinelRedisType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSentinelRedisType = {
-  sentinel: 'sentinel',
-} as const
-
-export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcrypt
-
-export type AuthnRedisSentinelBackend =
-  typeof AuthnRedisSentinelBackend[keyof typeof AuthnRedisSentinelBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSentinelBackend = {
-  redis: 'redis',
-} as const
-
-export type AuthnRedisSentinelMechanism =
-  typeof AuthnRedisSentinelMechanism[keyof typeof AuthnRedisSentinelMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisSentinelMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnRedisSentinel {
-  mechanism: AuthnRedisSentinelMechanism
-  backend: AuthnRedisSentinelBackend
-  cmd: string
-  password_hash_algorithm?: AuthnRedisSentinelPasswordHashAlgorithm
-  enable?: boolean
-  servers: string
-  redis_type?: AuthnRedisSentinelRedisType
-  sentinel: string
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export type AuthnRedisClusterRedisType =
-  typeof AuthnRedisClusterRedisType[keyof typeof AuthnRedisClusterRedisType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisClusterRedisType = {
-  cluster: 'cluster',
-} as const
-
-export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcrypt
-
-export type AuthnRedisClusterBackend =
-  typeof AuthnRedisClusterBackend[keyof typeof AuthnRedisClusterBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisClusterBackend = {
-  redis: 'redis',
-} as const
-
-export type AuthnRedisClusterMechanism =
-  typeof AuthnRedisClusterMechanism[keyof typeof AuthnRedisClusterMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnRedisClusterMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnRedisCluster {
-  mechanism: AuthnRedisClusterMechanism
-  backend: AuthnRedisClusterBackend
-  cmd: string
-  password_hash_algorithm?: AuthnRedisClusterPasswordHashAlgorithm
-  enable?: boolean
-  servers: string
-  redis_type?: AuthnRedisClusterRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcrypt
-
-export type AuthnPostgresqlBackend =
-  typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnPostgresqlBackend = {
-  postgresql: 'postgresql',
-} as const
-
-export type AuthnPostgresqlMechanism =
-  typeof AuthnPostgresqlMechanism[keyof typeof AuthnPostgresqlMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnPostgresqlMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnPostgresql {
-  mechanism: AuthnPostgresqlMechanism
-  backend: AuthnPostgresqlBackend
-  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
-  query: string
-  enable?: boolean
-  server: string
-  database: string
-  pool_size?: number
-  username: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
-
-export type AuthnMysqlBackend = typeof AuthnMysqlBackend[keyof typeof AuthnMysqlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMysqlBackend = {
-  mysql: 'mysql',
-} as const
-
-export type AuthnMysqlMechanism = typeof AuthnMysqlMechanism[keyof typeof AuthnMysqlMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMysqlMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnMysql {
-  mechanism: AuthnMysqlMechanism
-  backend: AuthnMysqlBackend
-  password_hash_algorithm?: AuthnMysqlPasswordHashAlgorithm
+export interface EmqxAuthnMysqlSchemaMysql {
+  mechanism: EmqxAuthnMysqlSchemaMysqlMechanism
+  backend: EmqxAuthnMysqlSchemaMysqlBackend
+  password_hash_algorithm?: EmqxAuthnMysqlSchemaMysqlPasswordHashAlgorithm
   query: string
   query_timeout?: string
   enable?: boolean
@@ -752,73 +561,24 @@ export interface AuthnMysql {
   ssl?: BrokerSslClientOpts
 }
 
-export type AuthnMongoSingleUseLegacyProtocol =
-  typeof AuthnMongoSingleUseLegacyProtocol[keyof typeof AuthnMongoSingleUseLegacyProtocol]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMongoSingleUseLegacyProtocol = {
-  auto: 'auto',
-  true: 'true',
-  false: 'false',
-} as const
-
-export type AuthnMongoSingleWMode = typeof AuthnMongoSingleWMode[keyof typeof AuthnMongoSingleWMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMongoSingleWMode = {
-  unsafe: 'unsafe',
-  safe: 'safe',
-} as const
-
-export type AuthnMongoSingleMongoType =
-  typeof AuthnMongoSingleMongoType[keyof typeof AuthnMongoSingleMongoType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMongoSingleMongoType = {
-  single: 'single',
-} as const
-
-export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcrypt
-
-export type AuthnMongoSingleFilter = { [key: string]: any }
-
-export type AuthnMongoSingleBackend =
-  typeof AuthnMongoSingleBackend[keyof typeof AuthnMongoSingleBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMongoSingleBackend = {
-  mongodb: 'mongodb',
-} as const
-
-export type AuthnMongoSingleMechanism =
-  typeof AuthnMongoSingleMechanism[keyof typeof AuthnMongoSingleMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMongoSingleMechanism = {
-  password_based: 'password_based',
-} as const
-
-export interface AuthnMongoSingle {
-  mechanism: AuthnMongoSingleMechanism
-  backend: AuthnMongoSingleBackend
+export interface EmqxAuthnMongodbSchemaMongoSingle {
+  mechanism: EmqxAuthnMongodbSchemaMongoSingleMechanism
+  backend: EmqxAuthnMongodbSchemaMongoSingleBackend
   collection: string
-  filter?: AuthnMongoSingleFilter
+  filter?: EmqxAuthnMongodbSchemaMongoSingleFilter
   password_hash_field?: string
   salt_field?: string
   is_superuser_field?: string
-  password_hash_algorithm?: AuthnMongoSinglePasswordHashAlgorithm
+  password_hash_algorithm?: EmqxAuthnMongodbSchemaMongoSinglePasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoSingleMongoType
+  mongo_type?: EmqxAuthnMongodbSchemaMongoSingleMongoType
   server: string
-  w_mode?: AuthnMongoSingleWMode
+  w_mode?: EmqxAuthnMongodbSchemaMongoSingleWMode
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: AuthnMongoSingleUseLegacyProtocol
+  use_legacy_protocol?: EmqxAuthnMongodbSchemaMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: MongoTopology
