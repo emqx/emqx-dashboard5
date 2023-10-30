@@ -699,7 +699,7 @@ const initFormData = async () => {
     return
   }
   if (props.edit || props.copy) {
-    role.value = props.modelValue.type === KafkaType.Producer ? Role.Producer : Role.Consumer
+    role.value = props.modelValue.type === KafkaType.Consumer ? Role.Consumer : Role.Producer
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
       getDefaultForm(),
