@@ -72,15 +72,23 @@
     </el-row>
     <el-collapse-transition>
       <el-row :gutter="26" v-if="showPubProps">
-        <el-col :span="getColSpan(24)">
-          <CustomFormItem
-            :label="tl('userProperties')"
-            prop="args.user_properties"
-            :readonly="readonly"
-          >
-            <el-input type="textarea" rows="4" v-model="record.args.user_properties" />
+        <!-- <el-col :span="getColSpan(24)">
+          <CustomFormItem prop="args.user_properties" :readonly="readonly">
+            <template #label>
+              <label class="props-title">{{ tl('userProperties') }}</label>
+            </template>
+            <el-input
+              type="textarea"
+              rows="4"
+              v-model="record.args.user_properties"
+              placeholder='{ "clientid": "${clientid}" }'
+            />
           </CustomFormItem>
-        </el-col>
+        </el-col> -->
+        <!-- MQTT Props -->
+        <!-- <el-col :span="24">
+          <p class="props-title">{{ tl('mqttProperties') }}</p>
+        </el-col> -->
         <el-col :span="getColSpan()">
           <CustomFormItem
             :label="tl('payloadFormatIndicator')"
@@ -231,4 +239,9 @@ const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.props-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+</style>
