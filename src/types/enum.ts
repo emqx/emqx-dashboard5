@@ -130,7 +130,7 @@ export enum BridgeType {
 }
 
 export enum KafkaType {
-  Producer = 'kafka_producer',
+  Producer = 'kafka',
   Consumer = 'kafka_consumer',
 }
 
