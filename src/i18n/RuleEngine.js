@@ -643,8 +643,8 @@ export default {
     en: "For example: ${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'} , ${'{'}username{'}'}, etc. Use fields according to the data bridges requirements of your business and forwards the message as it is if it is empty.",
   },
   pubProp: {
-    zh: '发布属性',
-    en: 'Publish Properties',
+    zh: 'MQTT 5.0 消息属性',
+    en: 'MQTT 5.0 Message Properties',
   },
   payloadFormatIndicator: {
     zh: '有效载荷指示器',
@@ -669,6 +669,10 @@ export default {
   userProperties: {
     zh: '用户属性',
     en: 'User Properties',
+  },
+  mqttProperties: {
+    zh: 'MQTT 属性',
+    en: 'MQTT Properties',
   },
   ingressRemoteTopicDesc: {
     zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。当 EMQX 配置为集群或启用了 ingress 连接池时，必须使用共享订阅来避免消息重复。',
