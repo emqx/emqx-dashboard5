@@ -4,6 +4,7 @@
     :popper-class="tooltipPopperClass"
     :placement="place"
     :content="content"
+    :show-after="showAfter"
   >
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
@@ -35,6 +36,10 @@ const props = defineProps({
   place: {
     type: String as PropType<EpPropMergeType<StringConstructor, Placement, unknown> | undefined>,
     default: 'top',
+  },
+  showAfter: {
+    type: Number,
+    default: 500,
   },
 })
 
