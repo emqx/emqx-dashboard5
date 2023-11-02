@@ -1159,8 +1159,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Please upload your GCP Service Account Credentials in a valid format',
   },
   kafkaSniDesc: {
-    zh: `TLS Server Name Indication (SNI)。可以设置为 "auto" 来自动使用连接主机名为 SNI，设置为 "none" 来禁用 SNI（与该字段留白效果一样），或者设置一个主机名，例如 "my.kafka.host" 来使用静态的 SNI。`,
-    en: `The TLS Server Name Indication (SNI). We can set it to "auto" to use connecting hostname as SNI, set to none to disable SNI (same as leaving it blank), or set to an FQDN such as "my.kafka.host" to use a static SNI for all SSL connections.`,
+    zh: `服务器名称指示 (SNI) 用于 TLS 握手设置。<br/>- <code>auto</code>：允许客户端自动确定适当的SNI。<br/>- <code>disable</code>：如果希望阻止客户端发送SNI。<br/>- 其他字符串值将按原样发送。`,
+    en: `Server Name Indication (SNI) setting for TLS handshake.<br/>- <code>auto</code>: Allow the client to automatically determine the appropriate SNI.<br/>- <code>disable</code>: If you wish to prevent the client from sending the SNI.<br/>- Other string values will be sent as-is.`,
   },
   redisCommandError: {
     zh: '不正确的 Redis 命令',
