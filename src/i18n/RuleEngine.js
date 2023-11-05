@@ -855,7 +855,7 @@ export default {
     en: 'Deleting this bridge will affect the data flow for the rules listed below. If the bridge has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   rateUnit: {
-    zh: 'message/sec | messages/sec',
+    zh: '条/秒 | 条/秒',
     en: 'message/sec | messages/sec',
   },
   saveAsCopy: {
@@ -889,5 +889,9 @@ export default {
   advancedSettings: {
     zh: '高级设置',
     en: 'Advanced Settings',
+  },
+  rateBarDesc: {
+    zh: '近一分钟内消息发出速度趋势',
+    en: 'Trend of message sending speed in the past minute',
   },
 }
