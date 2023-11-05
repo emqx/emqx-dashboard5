@@ -559,4 +559,12 @@ export default {
     zh: '选择适合您需求的升级方案',
     en: 'Choose the Upgrade Plan That Fits Your Needs',
   },
+  statistics: {
+    zh: '统计指标',
+    en: 'Statistics',
+  },
+  rateIndicators: {
+    zh: '速度指标',
+    en: 'Rate Indicators',
+  },
 }
