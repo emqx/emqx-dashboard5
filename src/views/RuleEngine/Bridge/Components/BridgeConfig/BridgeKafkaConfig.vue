@@ -489,6 +489,18 @@
           </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
+          <CustomFormItem prop="socket_opts.nodelay" :readonly="readonly">
+            <template #label>
+              <FormItemLabel
+                :label="getText('socket_nodelay.label')"
+                :desc="getText('socket_nodelay.desc')"
+                desc-marked
+              />
+            </template>
+            <el-switch v-model="formData.socket_opts.nodelay" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
           <CustomFormItem
             prop="resource_opts.health_check_interval"
             :label="t('RuleEngine.healthCheckInterval')"
