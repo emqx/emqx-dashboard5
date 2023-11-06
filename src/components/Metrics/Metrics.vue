@@ -95,16 +95,19 @@
 <script setup lang="ts">
 import { createRandomString, formatNumber } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MetricType, PieDataItem, usePieChart, useRateChart } from '@/hooks/useMetrics'
+import {
+  TypeMapData,
+  TypeMetricDataItem,
+  useChartDataUtils,
+  usePieChart,
+  useRateChart,
+} from '@/hooks/useMetrics'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { BridgeMetricsData, Metrics } from '@/types/rule'
 import { Close, Refresh } from '@element-plus/icons-vue'
-import moment from 'moment'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { ComputedRef, Ref, computed, defineProps, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-
-type TypeMapData = Record<MetricType, { title: string; contains: Array<string> }>
 
 interface Rate {
   unitKey: string
@@ -129,32 +132,19 @@ const props = defineProps<{
   title: string
 }>()
 
-interface TypeMetricDataItem {
-  type: MetricType
-  title: string
-  count?: number
-  detail: Array<{
-    value: number
-    desc?: string
-    label: string
-  }>
-}
-
 const { t, tl } = useI18nTl('RuleEngine')
 
 const metricsData: Ref<BridgeMetricsData> = ref({ metrics: {}, node_metrics: [] })
 
 const CLUSTER = 'cluster'
 const clusterOpt = { label: t('BasicConfig.cluster'), value: CLUSTER }
-const nodeOpts = computed(() => {
-  return [
-    clusterOpt,
-    ...(metricsData.value?.node_metrics || []).map(({ node }) => ({ value: node, label: node })),
-  ]
-})
+const nodeOpts = computed(() => [
+  clusterOpt,
+  ...(metricsData.value?.node_metrics || []).map(({ node }) => ({ value: node, label: node })),
+])
 const selectedNode = ref(CLUSTER)
 const handleNodeChange = () => {
-  rateData = createEmptyRateData()
+  rateData = getInitRateData()
   updateToView()
 }
 
@@ -172,77 +162,32 @@ const currentMetrics: ComputedRef<Metrics> = computed(() => {
   return node_metrics.find(({ node }) => node === selectedNode.value)?.metrics || {}
 })
 
+const {
+  generatePieData,
+  createEmptyRateData,
+  addRateDataItem,
+  generateMetricTypeData: generateMetricTypeDataFunc,
+  generateEmptyMetricTypeData,
+} = useChartDataUtils()
+
 /* TYPE METRICS */
-const initTypeMetricsData = (): Array<TypeMetricDataItem> => {
-  return Object.entries(props.typeMetricsMap).reduce(
-    (arr: Array<TypeMetricDataItem>, [key, { title }]) => {
-      arr.push({
-        title,
-        count: undefined,
-        detail: [],
-        type: Number(key) as MetricType,
-      })
-      return arr
-    },
-    [] as Array<TypeMetricDataItem>,
-  )
-}
+const initTypeMetricsData = (): Array<TypeMetricDataItem> =>
+  generateEmptyMetricTypeData(props.typeMetricsMap)
 const typeMetricsData: Ref<Array<TypeMetricDataItem>> = ref(initTypeMetricsData())
 const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData) => {
-  return Object.entries(typeMapData).reduce(
-    (arr: Array<TypeMetricDataItem>, [key, { title, contains: values }]) => {
-      let typeCount = 0
-      const typeList = values.reduce((ret, key) => {
-        const item = {
-          value: metrics[key],
-          label: getMetricItemLabel(key),
-          desc: getMetricItemDesc(key),
-        }
-        typeCount += metrics[key]
-        ret.push(item)
-        return ret
-      }, [] as Array<{ value: number; label: string; desc?: string }>)
-      arr.push({ title, count: typeCount, detail: typeList, type: Number(key) as MetricType })
-      return arr
-    },
-    [] as Array<TypeMetricDataItem>,
-  )
+  return generateMetricTypeDataFunc(metrics, typeMapData, props.textMap)
 }
 
 /* PIE */
 let pieData = []
-const generatePieData = (metrics: Metrics, typeMapData: TypeMapData): Array<PieDataItem> => {
-  return Object.entries(typeMapData).reduce(
-    (arr: Array<PieDataItem>, [key, { title, contains: values }]) => {
-      const value = values.reduce((sum, item) => sum + (metrics[item] || 0), 0)
-      return [...arr, { type: Number(key) as MetricType, name: title, value }]
-    },
-    [] as Array<PieDataItem>,
-  )
-}
 
 /* RATE */
 const rateDataLength = 20
-const createEmptyArray = (length: number) => new Array(length).fill(undefined)
-const createEmptyRateData = () => ({
-  x: createEmptyArray(rateDataLength),
-  y: createEmptyArray(rateDataLength),
-})
-let rateData = createEmptyRateData()
-const getNow = () => moment().format('HH:mm:ss')
-const addRateDataItem = (rate: number) => {
-  rateData.x.push(getNow())
-  rateData.y.push(rate)
-
-  if (rateData.x.length >= rateDataLength) {
-    rateData.x.shift()
-    rateData.y.shift()
-  }
-}
+const getInitRateData = () => createEmptyRateData(rateDataLength)
+let rateData = getInitRateData()
 const updateRateData = (metrics: Metrics) => {
   const rate = metrics[props.rateMetrics.current]
-  addRateDataItem(rate)
-  return rateData
+  return addRateDataItem(rate, rateData, rateDataLength)
 }
 
 const { ChartEle: BarChartEle, updateBarData } = useRateChart()
@@ -268,7 +213,7 @@ const getMetrics = async () => {
 }
 
 const initMetrics = () => {
-  rateData = createEmptyRateData()
+  rateData = getInitRateData()
   typeMetricsData.value = initTypeMetricsData()
 }
 
