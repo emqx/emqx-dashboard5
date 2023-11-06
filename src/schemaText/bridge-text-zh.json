@@ -29,6 +29,12 @@
       "label": "数据库名字"
     }
   },
+  "common_fields": {
+    "local_topic": {
+      "desc": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
+      "label": "MQTT 主题"
+    }
+  },
   "emqx_ee_bridge_cassa": {
     "local_topic": {
       "desc": "发送到 'local_topic' 的消息都会转发到 Cassandra。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",

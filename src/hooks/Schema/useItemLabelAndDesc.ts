@@ -43,6 +43,9 @@ const COMMON_CONNECTOR_KEY = [
   'database',
 ]
 
+const COMMON_FIELDS_ZONE = 'common_fields'
+const COMMON_FIELDS = ['local_topic']
+
 const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   matrix: 'pgsql',
   timescale: 'pgsql',
@@ -116,6 +119,9 @@ export default (
     }
     if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
+    }
+    if (prop.key && COMMON_FIELDS.includes(prop.key) && !prop.labelKey) {
+      return COMMON_FIELDS_ZONE
     }
     let type = getTypeBySchemaRef(props.accordingTo.ref)
     if (type in BRIDGE_SPECIAL_TYPE_MAP) {
