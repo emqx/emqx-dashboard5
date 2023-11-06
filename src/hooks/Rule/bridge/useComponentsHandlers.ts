@@ -72,6 +72,7 @@ export default (props: {
     }
   }
 
+  const typesKeepLocalTopic: Array<string> = [BridgeType.AzureEventHubs]
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -80,7 +81,7 @@ export default (props: {
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
     }
-    if (comRet.local_topic) {
+    if (props.type && !typesKeepLocalTopic.includes(props.type) && comRet.local_topic) {
       Reflect.deleteProperty(comRet, 'local_topic')
     }
     const rulesRet = addRuleForPassword(rules)
