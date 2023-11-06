@@ -1,11 +1,13 @@
 import useEchartResize from '@/hooks/useEchartResize'
-import { ECharts, EChartsOption, PieSeriesOption, BarSeriesOption } from 'echarts'
-import 'echarts/lib/chart/pie'
+import { Metrics } from '@/types/rule'
+import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
 import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
+import moment from 'moment'
 import { Ref, ref } from 'vue'
 import useI18nTl from './useI18nTl'
 
@@ -15,6 +17,8 @@ export const enum MetricType {
   Red,
   Gray,
 }
+
+export type TypeMapData = Record<MetricType, { title: string; contains: Array<string> }>
 
 const BLUE = '#469cf7'
 
@@ -68,12 +72,6 @@ export const usePieChart = (): {
   const getChartOpts = (chartData: PieConfData): EChartsOption => ({
     tooltip: {
       trigger: 'item',
-    },
-    legend: {
-      top: '5%',
-      left: 'center',
-      // doesn't perfectly work with our tricks, disable it
-      selectedMode: false,
     },
     series: [
       {
@@ -129,6 +127,105 @@ export const usePieChart = (): {
   return {
     ChartEle,
     updateRingData,
+  }
+}
+
+type RateData = {
+  x: Array<string>
+  y: Array<number>
+}
+export interface TypeMetricDataItem {
+  type: MetricType
+  title: string
+  count?: number
+  detail: Array<{
+    value: number
+    desc?: string
+    label: string
+  }>
+}
+type TextMap = Record<string, { label: string; desc?: string }>
+export const useChartDataUtils = (): {
+  generatePieData: (metrics: Metrics, typeMapData: TypeMapData) => Array<PieDataItem>
+  createEmptyRateData: (length: number) => RateData
+  addRateDataItem: (rate: number, rateData: RateData, dataLen: number) => RateData
+  generateMetricTypeData: (
+    metrics: Metrics,
+    typeMapData: TypeMapData,
+    textMap: TextMap,
+  ) => Array<TypeMetricDataItem>
+  generateEmptyMetricTypeData: (typeMapData: TypeMapData) => Array<TypeMetricDataItem>
+} => {
+  /* TYPE */
+  const getMetricItemLabel = (key: string, textMap: TextMap) => textMap[key]?.label || key
+  const getMetricItemDesc = (key: string, textMap: TextMap) => textMap[key]?.desc || ''
+  const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData, textMap: TextMap) => {
+    return Object.entries(typeMapData).reduce(
+      (arr: Array<TypeMetricDataItem>, [key, { title, contains: values }]) => {
+        let typeCount = 0
+        const typeList = values.reduce((ret, key) => {
+          const item = {
+            value: metrics[key],
+            label: getMetricItemLabel(key, textMap),
+            desc: getMetricItemDesc(key, textMap),
+          }
+          typeCount += metrics[key]
+          ret.push(item)
+          return ret
+        }, [] as Array<{ value: number; label: string; desc?: string }>)
+        arr.push({ title, count: typeCount, detail: typeList, type: Number(key) as MetricType })
+        return arr
+      },
+      [] as Array<TypeMetricDataItem>,
+    )
+  }
+  const generateEmptyMetricTypeData = (typeMapData: TypeMapData): Array<TypeMetricDataItem> => {
+    return Object.entries(typeMapData).reduce(
+      (arr: Array<TypeMetricDataItem>, [key, { title }]) => {
+        arr.push({
+          title,
+          count: undefined,
+          detail: [],
+          type: Number(key) as MetricType,
+        })
+        return arr
+      },
+      [] as Array<TypeMetricDataItem>,
+    )
+  }
+
+  /* PIE */
+  const generatePieData = (metrics: Metrics, typeMapData: TypeMapData): Array<PieDataItem> => {
+    return Object.entries(typeMapData).reduce(
+      (arr: Array<PieDataItem>, [key, { title, contains: values }]) => {
+        const value = values.reduce((sum, item) => sum + (metrics[item] || 0), 0)
+        return [...arr, { type: Number(key) as MetricType, name: title, value }]
+      },
+      [] as Array<PieDataItem>,
+    )
+  }
+  /* RATE */
+  const createEmptyArray = (length: number) => new Array(length).fill(undefined)
+  const createEmptyRateData = (length: number) => ({
+    x: createEmptyArray(length),
+    y: createEmptyArray(length),
+  })
+  const getNow = () => moment().format('HH:mm:ss')
+  const addRateDataItem = (rate: number, rateData: RateData, dataLen: number) => {
+    rateData.x.push(getNow())
+    rateData.y.push(rate)
+    if (rateData.x.length >= dataLen) {
+      rateData.x.shift()
+      rateData.y.shift()
+    }
+    return rateData
+  }
+  return {
+    generatePieData,
+    createEmptyRateData,
+    addRateDataItem,
+    generateMetricTypeData,
+    generateEmptyMetricTypeData,
   }
 }
 
