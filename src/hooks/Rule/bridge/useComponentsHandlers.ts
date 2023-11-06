@@ -279,7 +279,12 @@ export default (props: {
   ]
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { kafka, authentication, ssl } = components
+
+    const { kafka, authentication, ssl, description } = components
+
+    if (description) {
+      Reflect.deleteProperty(components, 'description')
+    }
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
       kafka?.properties?.kafka_ext_headers?.items?.properties || {}

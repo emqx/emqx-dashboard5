@@ -384,7 +384,7 @@
       "label": "元数据请求超时"
     },
     "socket_nodelay": {
-      "desc": "设置‘true’让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
+      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
       "label": "是否关闭延迟发送"
     },
     "authentication": {
@@ -1137,6 +1137,10 @@
     "memory_overload_protection": {
       "desc": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。",
       "label": "内存过载保护"
+    },
+    "nodelay": {
+      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
+      "label": "是否关闭延迟发送"
     }
   },
   "emqx_ee_bridge_kinesis": {
