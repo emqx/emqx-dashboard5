@@ -160,7 +160,7 @@
 
       <!-- producer -->
       <template v-if="role === Role.Producer">
-        <el-col :span="colSpan">
+        <el-col :span="colSpan" v-if="formData.local_topic">
           <CustomFormItem prop="local_topic" :readonly="readonly">
             <template #label>
               <span>{{ getText('mqtt_topic.label') }}</span>
