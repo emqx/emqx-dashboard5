@@ -251,7 +251,6 @@ export default (
           'bootstrap_hosts',
           'authentication.password',
           'ssl',
-          'local_topic',
           'kafka.topic',
           'kafka.kafka_headers',
           'kafka.kafka_header_value_encode_mode',
@@ -320,7 +319,6 @@ export default (
       password: 'dividing-line-below',
     },
     [BridgeType.AzureEventHubs]: {
-      local_topic: 'col-need-row',
       'kafka.topic': 'col-need-row',
     },
     [BridgeType.AmazonKinesis]: {
