@@ -143,7 +143,6 @@ export default (): {
   const createRawInfluxDBForm = () => ({
     type: InfluxDBType.v2,
     name: '',
-    local_topic: '',
     write_syntax: '',
     server: '127.0.0.1:8086',
     precision: 'ms',
