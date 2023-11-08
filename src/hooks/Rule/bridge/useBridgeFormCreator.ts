@@ -96,6 +96,7 @@ export default (): {
       sndbuf: '1024KB',
       recbuf: '1024KB',
       tcp_keepalive: 'none',
+      nodelay: true,
     },
     ssl: createSSLForm(),
     resource_opts: { health_check_interval: '15s' },
