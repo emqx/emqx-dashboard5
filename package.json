@@ -43,7 +43,8 @@
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "webpack-bundle-analyzer": "^4.8.0",
-    "xss": "^1.0.14"
+    "xss": "^1.0.14",
+    "@emqx/shared-ui-i18n": "0.0.3"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",

@@ -1200,6 +1200,11 @@
   resolved "https://registry.yarnpkg.com/@element-plus/icons-vue/-/icons-vue-2.0.9.tgz#b7777c57534522e387303d194451d50ff549d49a"
   integrity sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==
 
+"@emqx/shared-ui-i18n@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.3.tgz#0855fb833a4c2c406e4bf9424ec2a67dd59ada2f"
+  integrity sha512-b7tB9e1WVkINJJ4YHdcOn12YnfGzJq3psE3pJ2mibKy2MKKHqHMYEKKo/24hjOFcau0eKjNzf16k708bXOet0g==
+
 "@esbuild/android-arm@0.15.18":
   version "0.15.18"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm/-/android-arm-0.15.18.tgz#266d40b8fdcf87962df8af05b76219bc786b4f80"
