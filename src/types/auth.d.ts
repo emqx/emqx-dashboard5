@@ -1,3 +1,4 @@
+import { MetricsDataWithExtraData } from './common'
 import { BannedType, ConnectionStatus } from './enum'
 
 export interface AuthzSetting {
@@ -64,18 +65,13 @@ export interface DataManagerItem {
   is_superuser: boolean
 }
 
-export interface Metrics {
-  metrics: Record<string, number>
-  node_metrics: Array<{
-    metrics: Metrics
-    node: string
-  }>
+export type Metrics = MetricsDataWithExtraData<{
   node_status: Array<{
     node: string
     status: string
   }>
   status: ConnectionStatus
-}
+}>
 
 export interface Banned {
   as: BannedType
