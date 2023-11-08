@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import SQLTemplates from '@/common/SQLTemplates'
+import { SQLTemplates } from '@emqx/shared-ui-i18n'
 import { stringifyObjSafely } from '@/common/tools'
 import { computed, defineEmits, defineProps, ref, Ref, WritableComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
