@@ -89,6 +89,16 @@
         </el-col>
       </el-row>
     </div>
+    <div class="metric-block" v-if="$slots.table">
+      <div class="block-hd">
+        <p class="block-title">
+          {{ tl('nodeStatus') }} <InfoTooltip :content="tl('nodeStatusBridgeDesc')" />
+        </p>
+      </div>
+      <div class="block-bd">
+        <slot name="table" :data="metricsData"></slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -132,6 +142,7 @@ const props = defineProps<{
    * for confirm dialog
    */
   title: string
+  tableData?: Array<string>
 }>()
 
 const { t, tl } = useI18nTl('RuleEngine')
@@ -397,6 +408,9 @@ const { syncPolling } = useSyncPolling()
         }
       }
     }
+  }
+  .text-status {
+    margin-right: 8px;
   }
 }
 </style>
