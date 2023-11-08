@@ -1,5 +1,5 @@
 import useEchartResize from '@/hooks/useEchartResize'
-import { Metrics } from '@/types/rule'
+import { Metrics } from '@/types/common'
 import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -18,7 +18,7 @@ export const enum MetricType {
   Gray,
 }
 
-export type TypeMapData = Record<MetricType, { title: string; contains: Array<string> }>
+export type TypeMapData = { [key in MetricType]?: { title: string; contains: Array<string> } }
 
 const BLUE = '#469cf7'
 
@@ -160,49 +160,52 @@ export const useChartDataUtils = (): {
   const getMetricItemLabel = (key: string, textMap: TextMap) => textMap[key]?.label || key
   const getMetricItemDesc = (key: string, textMap: TextMap) => textMap[key]?.desc || ''
   const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData, textMap: TextMap) => {
-    return Object.entries(typeMapData).reduce(
-      (arr: Array<TypeMetricDataItem>, [key, { title, contains: values }]) => {
-        let typeCount = 0
-        const typeList = values.reduce((ret, key) => {
-          const item = {
-            value: metrics[key],
-            label: getMetricItemLabel(key, textMap),
-            desc: getMetricItemDesc(key, textMap),
-          }
-          typeCount += metrics[key]
-          ret.push(item)
-          return ret
-        }, [] as Array<{ value: number; label: string; desc?: string }>)
-        arr.push({ title, count: typeCount, detail: typeList, type: Number(key) as MetricType })
+    return Object.entries(typeMapData).reduce((arr: Array<TypeMetricDataItem>, [key, value]) => {
+      if (!value) {
         return arr
-      },
-      [] as Array<TypeMetricDataItem>,
-    )
+      }
+      const { title, contains: values } = value
+      let typeCount = 0
+      const typeList = values.reduce((ret, key) => {
+        const item = {
+          value: metrics[key],
+          label: getMetricItemLabel(key, textMap),
+          desc: getMetricItemDesc(key, textMap),
+        }
+        typeCount += metrics[key]
+        ret.push(item)
+        return ret
+      }, [] as Array<{ value: number; label: string; desc?: string }>)
+      arr.push({ title, count: typeCount, detail: typeList, type: Number(key) as MetricType })
+      return arr
+    }, [] as Array<TypeMetricDataItem>)
   }
   const generateEmptyMetricTypeData = (typeMapData: TypeMapData): Array<TypeMetricDataItem> => {
-    return Object.entries(typeMapData).reduce(
-      (arr: Array<TypeMetricDataItem>, [key, { title }]) => {
-        arr.push({
-          title,
-          count: undefined,
-          detail: [],
-          type: Number(key) as MetricType,
-        })
+    return Object.entries(typeMapData).reduce((arr: Array<TypeMetricDataItem>, [key, value]) => {
+      if (!value) {
         return arr
-      },
-      [] as Array<TypeMetricDataItem>,
-    )
+      }
+      const { title } = value
+      arr.push({
+        title,
+        count: undefined,
+        detail: [],
+        type: Number(key) as MetricType,
+      })
+      return arr
+    }, [] as Array<TypeMetricDataItem>)
   }
 
   /* PIE */
   const generatePieData = (metrics: Metrics, typeMapData: TypeMapData): Array<PieDataItem> => {
-    return Object.entries(typeMapData).reduce(
-      (arr: Array<PieDataItem>, [key, { title, contains: values }]) => {
-        const value = values.reduce((sum, item) => sum + (metrics[item] || 0), 0)
-        return [...arr, { type: Number(key) as MetricType, name: title, value }]
-      },
-      [] as Array<PieDataItem>,
-    )
+    return Object.entries(typeMapData).reduce((arr: Array<PieDataItem>, [key, dataItem]) => {
+      if (!dataItem) {
+        return arr
+      }
+      const { title, contains: values } = dataItem
+      const value = values.reduce((sum, item) => sum + (metrics[item] || 0), 0)
+      return [...arr, { type: Number(key) as MetricType, name: title, value }]
+    }, [] as Array<PieDataItem>)
   }
   /* RATE */
   const createEmptyArray = (length: number) => new Array(length).fill(undefined)
@@ -309,4 +312,57 @@ export const useRateChart = (): {
   }
 }
 
-export default () => {}
+interface Rate {
+  unitKey: string
+  current: string
+  right1: string
+  right2: string
+}
+export const useBridgeMetrics = (): {
+  typeMetricsMap: TypeMapData
+  textMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { tl } = useI18nTl('RuleEngine')
+  const typeMetricsMap = {
+    [MetricType.Green]: { title: tl('success'), contains: ['success', 'matched', 'received'] },
+    [MetricType.Blue]: { title: 'Processing', contains: ['queuing'] },
+    [MetricType.Red]: { title: tl('sqlFailed'), contains: ['failed', 'inflight', 'late_reply'] },
+    [MetricType.Gray]: {
+      title: tl('dropped'),
+      contains: [
+        'dropped',
+        'dropped.expired',
+        'dropped.other',
+        'dropped.queue_full',
+        'dropped.resource_not_found',
+        'dropped.resource_stopped',
+      ],
+    },
+  }
+  const textMap = {
+    matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
+    success: { label: tl('sentSuccessfully'), desc: tl('sentSuccessfullyDesc') },
+    failed: { label: tl('sentFailed'), desc: tl('sentFailedDesc') },
+    inflight: { label: tl('sentInflight'), desc: tl('sentInflightDesc') },
+    late_reply: { label: tl('lateReply'), desc: tl('lateReplyDesc') },
+    dropped: { label: tl('dropped'), desc: tl('droppedDesc') },
+    queuing: { label: tl('queuing'), desc: tl('queuingDesc') },
+    retried: { label: tl('retried'), desc: tl('retriedDesc') },
+    rate: { label: tl('rateNow'), desc: tl('rateBarDesc') },
+    rate_max: { label: tl('rateMax') },
+    rate_last5m: { label: tl('rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'rate',
+    right1: 'rate_last5m',
+    right2: 'rate_max',
+  }
+  return {
+    typeMetricsMap,
+    textMap,
+    rateData,
+  }
+}
