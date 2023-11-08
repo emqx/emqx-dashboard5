@@ -103,11 +103,13 @@ import {
   useRateChart,
 } from '@/hooks/useMetrics'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { BridgeMetricsData, Metrics } from '@/types/rule'
+import { Metrics, MetricsDataWithExtraData } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ComputedRef, Ref, computed, defineProps, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
+
+type MetricsData = MetricsDataWithExtraData<unknown>
 
 interface Rate {
   unitKey: string
@@ -134,7 +136,7 @@ const props = defineProps<{
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const metricsData: Ref<BridgeMetricsData> = ref({ metrics: {}, node_metrics: [] })
+const metricsData: Ref<MetricsData> = ref({ metrics: {}, node_metrics: [] })
 
 const CLUSTER = 'cluster'
 const clusterOpt = { label: t('BasicConfig.cluster'), value: CLUSTER }
@@ -275,6 +277,9 @@ const { syncPolling } = useSyncPolling()
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+  }
+  .block-title {
+    font-weight: 600;
   }
   .handlers-container {
     display: flex;
