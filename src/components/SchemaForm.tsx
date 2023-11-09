@@ -909,9 +909,6 @@ const SchemaForm = defineComponent({
         configForm.value = _.cloneDeep(props.form)
       }
       init()
-      // window.setTimeout(() => {
-      //   formLoading.value = false
-      // }, 400)
     })()
 
     ctx.expose({ configForm, validate, clearValidate, getInitRecord })
