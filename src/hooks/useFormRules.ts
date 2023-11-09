@@ -113,6 +113,9 @@ export default (): {
     return [
       {
         validator(rule: InternalRuleItem, val: string) {
+          if (!val) {
+            return []
+          }
           // Validate whether the length exceeds the limit
           if (val.length > 65535) {
             return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
@@ -132,6 +135,9 @@ export default (): {
     return [
       {
         validator(rule: InternalRuleItem, val: string) {
+          if (!val) {
+            return []
+          }
           // Validate whether the length exceeds the limit
           if (val.length > 65535) {
             return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
