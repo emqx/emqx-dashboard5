@@ -1,6 +1,11 @@
 <!-- ❗️If the form currently using the oneof component contains form validation 
   and the current field is a required field, please directly place the oneof 
-  component in the form item component or bind to the formItem property. -->
+  component in the form item component or bind to the formItem property. 
+
+  Different from src/components/OneofRefs.vue, this components handles simple oneof
+  - item of oneof is not an object
+  - there are only two options for oneof
+-->
 <template>
   <div
     class="one-of"
