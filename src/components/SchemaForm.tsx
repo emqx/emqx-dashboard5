@@ -24,10 +24,10 @@ import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
+import OneofRefs from './OneofRefs.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
 interface FormItemMeta {
-  col: number
   levelName?: string
 }
 
@@ -228,6 +228,9 @@ const SchemaForm = defineComponent({
       return readOnly || (propsDisabled && path && propsDisabled.includes(path))
     }
 
+    const isComplexOneof = (prop: Property) =>
+      prop.type === 'oneof' && prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
+
     const { getText, getOptLabel } = useItemLabelAndDesc(props)
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
@@ -384,15 +387,19 @@ const SchemaForm = defineComponent({
           )
         case 'comma_separated_string':
           return stringInput
-        case 'oneof':
-          return (
-            <oneof
-              modelValue={modelValue}
-              {...handleUpdateModelValue}
-              items={property.oneOf}
-              disabled={isPropertyDisabled}
-            />
+        case 'oneof': {
+          const props = {
+            modelValue,
+            ...handleUpdateModelValue,
+            items: property.oneOf,
+            disabled: isPropertyDisabled,
+          }
+          return isComplexOneof(property) ? (
+            <OneofRefs {...props} path={property.path} span={getColSpan(property)} />
+          ) : (
+            <oneof {...props} />
           )
+        }
         case 'ssl':
           return (
             <CommonTLSConfig
@@ -505,13 +512,10 @@ const SchemaForm = defineComponent({
      * if property with special col span, return it, else return undefined
      */
     const getColSpan = ({ path, format, type }: Property): number | undefined => {
-      if (!path) {
-        return
-      }
-      if (SSL_PATH_REG.test(path) || format === 'sql' || type === 'array') {
+      if ((path && SSL_PATH_REG.test(path)) || format === 'sql' || type === 'array') {
         return 24
       }
-      return
+      return props.formItemSpan
     }
 
     const getColClass = ({ path }: Property) => {
@@ -521,16 +525,22 @@ const SchemaForm = defineComponent({
       return props.customColClass[path]
     }
 
-    const getColFormItem = (property: Properties[string], { col, levelName }: FormItemMeta) => {
+    const getColFormItem = (property: Properties[string], { levelName }: FormItemMeta = {}) => {
       const labelSlot = getLabelSlot(property)
-      const colSpan = getColSpan(property) || col
+      const colSpan = getColSpan(property)
       const colClass = getColClass(property)
-      const bindProps = {
-        label: property.label,
-        prop: property.path,
-      }
+      const bindProps = { label: property.label, prop: property.path }
+      const formItemContent = setControl(property)
 
-      const colItem = (
+      /**
+       * Because there may be several fields that need to be arranged in order,
+       * there is no need to wrap them with el-col
+       */
+      const doNotNeedWrap = isComplexOneof(property)
+
+      const colItem = doNotNeedWrap ? (
+        formItemContent || <div></div>
+      ) : (
         <el-col span={colSpan} class={colClass} key={property.path}>
           {property.readOnly ? (
             <el-tooltip
@@ -540,12 +550,12 @@ const SchemaForm = defineComponent({
               effect="dark"
             >
               <el-form-item v-slots={labelSlot} {...bindProps}>
-                {setControl(property)}
+                {formItemContent}
               </el-form-item>
             </el-tooltip>
           ) : (
             <el-form-item v-slots={labelSlot} {...bindProps}>
-              {setControl(property)}
+              {formItemContent}
             </el-form-item>
           )}
         </el-col>
@@ -557,7 +567,7 @@ const SchemaForm = defineComponent({
           return (
             <>
               {colItem}
-              <el-col span={col}>{ctx.slots['invite-node']?.()}</el-col>
+              <el-col span={colSpan}>{ctx.slots['invite-node']?.()}</el-col>
             </>
           )
         }
@@ -719,7 +729,7 @@ const SchemaForm = defineComponent({
       )
     }
     // Get the components to render form by Properties
-    const getComponents = (properties: Properties, meta: FormItemMeta) => {
+    const getComponents = (properties: Properties, meta: FormItemMeta = {}) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []
       /**
@@ -784,9 +794,9 @@ const SchemaForm = defineComponent({
             let elFormItem = <></>
             if (levelName !== oldLevelName) {
               oldLevelName = levelName
-              elFormItem = getColFormItem(property, { levelName, col: meta.col })
+              elFormItem = getColFormItem(property, { levelName })
             } else if (levelName === oldLevelName) {
-              elFormItem = getColFormItem(property, { col: meta.col })
+              elFormItem = getColFormItem(property)
             }
             if (props.advancedFields?.length && props.advancedFields.includes(key)) {
               advancedFieldElement.push(elFormItem)
@@ -811,8 +821,9 @@ const SchemaForm = defineComponent({
         // Initialize with an empty object, do not modify the loading variable at this point.
         formEle = null
       } else {
-        formEle = renderLayout(getComponents(properties, { col: props.formItemSpan }))
         formLoading.value = false
+        ctx.emit('schema-loaded')
+        formEle = renderLayout(getComponents(properties))
       }
       if (props.needFooter) {
         addObserverToFooter()
