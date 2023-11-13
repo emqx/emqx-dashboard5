@@ -21,9 +21,11 @@ type Handler = ({ components, rules }: { components: Properties; rules: SchemaRu
  * or changing the type of a form item if the data given by the backend is incorrect,
  * etc. This can be defined here.
  */
-export default (props: {
-  type: string
-}): {
+export default (
+  props: {
+    type?: string
+  } & unknown,
+): {
   getComponentsHandler: () => Handler
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
@@ -349,7 +351,7 @@ export default (props: {
   }
 
   const getComponentsHandler = () => {
-    if (props.type in specialBridgeHandlerMap) {
+    if (props.type && props.type in specialBridgeHandlerMap) {
       return specialBridgeHandlerMap[props.type]
     }
     return commonHandler

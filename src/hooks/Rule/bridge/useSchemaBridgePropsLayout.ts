@@ -15,18 +15,17 @@ export const resourceOptFields = [
   'inflight_window',
 ].map((item) => `resource_opts.${item}`)
 
-type PropsType = Readonly<
-  {
-    modelValue?: unknown
-    type?: unknown
-    edit?: unknown
-  } & {
-    edit: boolean
-  } & {
-    modelValue?: Record<string, any> | undefined
-    type?: BridgeType.MySQL | BridgeType.Redis | BridgeType.GCP | BridgeType.MongoDB | undefined
-  }
->
+type PropsType = Readonly<{
+  modelValue: Record<string, any>
+  type?: Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB>
+  edit?: boolean
+  copy?: boolean
+  isLoading?: boolean
+  readonly?: boolean
+  formProps?: Record<string, any>
+  hiddenFields?: string[]
+  isUsingInFlow?: boolean
+}>
 
 /**
  * props order and class name
@@ -36,14 +35,7 @@ export default (
   bridgeRecord: WritableComputedRef<Record<string, any>>,
 ): {
   propsOrderMap: ComputedRef<Record<string, number>>
-  customColClass: ComputedRef<{
-    name: string
-    direction: string
-    type: string
-    enable: string
-    local_topic: string
-    ssl: string
-  }>
+  customColClass: ComputedRef<Record<string, string>>
   advancedFields: ComputedRef<Array<string>>
 } => {
   const createOrderObj = (keyArr: Array<string>, beginning: number) =>
