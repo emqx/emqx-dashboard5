@@ -1,14 +1,14 @@
 <template>
-  <div class="schema-bridge bridge-config">
+  <div class="schema-connector connector-config">
     <schema-form
       v-if="getRefKey"
       ref="formCom"
       type="bridge"
       need-rules
-      schema-file-path="/api/v5/schemas/bridges"
+      schema-file-path="api/v5/schemas/connectors"
       :need-footer="false"
       :need-record="!edit && !copy"
-      :form="bridgeRecord"
+      :form="connectorRecord"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
       :readonly="readonly"
       :btn-loading="saveLoading"
@@ -17,10 +17,9 @@
       :use-tooltip-show-desc="true"
       :props-order-map="propsOrderMap"
       :custom-col-class="customColClass"
-      :props-disabled="propsDisabled"
-      :data-handler="getComponentsHandler()"
       :form-props="formBindProps"
       :advanced-fields="advancedFields"
+      :data-handler="getComponentsHandler()"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
       @init="handleRecordInit"
@@ -33,15 +32,9 @@
 import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
-import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
-import {
-  useGCPSecondTypeControl,
-  useMongoSecondTypeControl,
-  useRedisSecondTypeControl,
-} from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
+import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
+import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { BridgeDirection, BridgeType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
@@ -49,44 +42,23 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-type UseSchemaBridgeType = Exclude<
+type UseConnectorBridgeType = Exclude<
   BridgeType,
-  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
+  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
 >
 
-const { getSchemaRefByType } = useBridgeSchema()
 const typeRefKeyMap = {
-  [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-  [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
-  [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
-  [BridgeType.MatrixDB]: getSchemaRefByType('matrix'),
-  [BridgeType.TDengine]: getSchemaRefByType('tdengine'),
-  [BridgeType.ClickHouse]: getSchemaRefByType('clickhouse'),
-  [BridgeType.DynamoDB]: getSchemaRefByType('dynamo'),
-  [BridgeType.Cassandra]: getSchemaRefByType('cassa'),
-  [BridgeType.RocketMQ]: getSchemaRefByType('rocketmq'),
-  [BridgeType.MicrosoftSQLServer]: getSchemaRefByType('sqlserver'),
-  [BridgeType.IoTDB]: getSchemaRefByType('iotdb'),
-  [BridgeType.OpenTSDB]: getSchemaRefByType('opents'),
-  [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
-  [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
-  [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
-  [BridgeType.AzureEventHubs]: getSchemaRefByType('azure_event_hub', '_producer'),
-  [BridgeType.AmazonKinesis]: getSchemaRefByType('kinesis', '_producer'),
-  [BridgeType.GreptimeDB]: getSchemaRefByType('greptimedb', '_grpc_v1'),
+  [BridgeType.Kafka]: 'bridge_kafka.post_connector',
 }
 
 const props = withDefaults(
   defineProps<{
     modelValue: Record<string, any>
-    type?: UseSchemaBridgeType
+    type?: UseConnectorBridgeType
     edit?: boolean
     copy?: boolean
     isLoading?: boolean
     readonly?: boolean
-    /**
-     * bind to el-form component
-     */
     formProps?: Record<string, any>
     // for flow, hide `role`
     hiddenFields?: Array<string>
@@ -99,7 +71,7 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const bridgeRecord = computed({
+const connectorRecord = computed({
   get() {
     return props.modelValue || {}
   },
@@ -110,7 +82,7 @@ const bridgeRecord = computed({
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 
-const { handleSyncEtcFormData } = useSyncConfiguration(bridgeRecord)
+const { handleSyncEtcFormData } = useSyncConfiguration(connectorRecord)
 
 const saveLoading = ref(false)
 
@@ -128,7 +100,7 @@ const {
   propsOrderMap,
   customColClass: fixedCustomColClass,
   advancedFields,
-} = useSchemaBridgePropsLayout(props, bridgeRecord)
+} = useSchemaPropsLayout(props, connectorRecord)
 const customColClass = computed(() => {
   const ret = fixedCustomColClass.value
   if (props.hiddenFields) {
@@ -137,63 +109,27 @@ const customColClass = computed(() => {
   return ret
 })
 
-const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
-  useRedisSecondTypeControl(bridgeRecord)
-const { currentType: mongoFormType, keyField: mongoSecondTypeControlField } =
-  useMongoSecondTypeControl(bridgeRecord)
-const { currentType: GCPFormType, keyField: GCPSecondTypeControlField } =
-  useGCPSecondTypeControl(bridgeRecord)
-
-const typesWithSecondControlMap = {
-  [BridgeType.Redis]: redisFormType,
-  [BridgeType.MongoDB]: mongoFormType,
-  [BridgeType.GCP]: GCPFormType,
-}
-const typesWithSecondControlKeyMap = {
-  [BridgeType.Redis]: redisSecondTypeControlField,
-  [BridgeType.MongoDB]: mongoSecondTypeControlField,
-  [BridgeType.GCP]: GCPSecondTypeControlField,
-}
-
 const direction = computed(() =>
   props.modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
 )
 const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
   props.type as BridgeType,
   props,
-  bridgeRecord,
+  connectorRecord,
   direction.value,
 )
 
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal && formCom.value?.getInitRecord) {
-    bridgeRecord.value = formCom.value.getInitRecord()
+    connectorRecord.value = formCom.value.getInitRecord()
     await waitAMoment()
     formCom.value.clearValidate?.()
   }
 })
 
-const propsDisabled = computed(() => {
-  const ret = []
-  if (props.edit) {
-    ret.push('name')
-    if (props.type && props.type in typesWithSecondControlKeyMap) {
-      ret.push(
-        typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap],
-      )
-    }
-  } else if (isCreateBridgeInFlow.value && isBridgeSelected.value) {
-    ret.push(typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap])
-  }
-  return ret
-})
-
 const getRefKey = computed(() => {
   if (!props.type) {
     return
-  }
-  if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
-    return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
   return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
 })
@@ -219,12 +155,12 @@ const handleComponentChange = ({
   if (props.edit || newVal.record?.type === oldVal.record?.type) {
     return
   }
-  bridgeRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
+  connectorRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
 }
 
 const handleRecordChanged = (formData: OtherBridge) => {
   if (Object.keys(formData).length > 0) {
-    bridgeRecord.value = formData
+    connectorRecord.value = formData
   }
 }
 

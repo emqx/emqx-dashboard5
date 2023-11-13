@@ -170,6 +170,13 @@ export type OtherBridge = Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
+export type Connector = {
+  name: string
+  type: BridgeType
+  resource_opts: ResourceOpt
+  [key: string]: any
+}
+
 export interface BridgeMetricsData {
   metrics: Metrics
   node_metrics: Array<NodeMetrics>
