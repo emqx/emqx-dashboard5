@@ -1,6 +1,4 @@
 import store from '@/store'
-import i18n from '@/i18n'
-import { ElNotification } from 'element-plus'
 import { Component } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
@@ -544,18 +542,18 @@ export const routes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      // {
-      //   path: 'connector',
-      //   name: 'bridge-connector',
-      //   component: Connector,
-      //   children: [
-      //     {
-      //       path: 'create',
-      //       name: 'connector-create',
-      //       component: ConnectorCreate,
-      //     },
-      //   ],
-      // },
+      {
+        path: 'connector',
+        name: 'bridge-connector',
+        component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
+        children: [
+          {
+            path: 'create',
+            name: 'connector-create',
+            component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
+          },
+        ],
+      },
     ],
   },
   // Flow
