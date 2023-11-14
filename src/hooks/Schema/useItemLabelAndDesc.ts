@@ -43,6 +43,7 @@ const COMMON_CONNECTOR_KEY = [
   'ssl',
   'username',
   'database',
+  'description',
 ]
 
 const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {

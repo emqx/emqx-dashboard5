@@ -1,5 +1,5 @@
 <template>
-  <div class="schema-bridge bridge-config">
+  <div class="schema-form-integration bridge-config">
     <schema-form
       v-if="getRefKey"
       ref="formCom"
@@ -243,75 +243,3 @@ const getFormRecord = () => handleSyncEtcFormData(cloneDeep(formCom.value.config
 
 defineExpose({ getFormRecord, validate })
 </script>
-
-<style lang="scss">
-.schema-bridge {
-  min-height: 320px;
-  .col-need-row {
-    // To squeeze the next column down
-    margin-right: 40%;
-  }
-  .col-hidden {
-    display: none !important;
-  }
-  .custom-col-24 {
-    width: 100%;
-    max-width: 100%;
-    flex-basis: 100%;
-  }
-  // hide first label
-  .col-ssl {
-    > .el-form-item {
-      > .el-form-item__label {
-        display: none;
-      }
-    }
-  }
-  .el-form-item {
-    margin-top: 0;
-    margin-bottom: 18px;
-  }
-  .el-col-12.dividing-line-below,
-  .el-col-24.dividing-line-below {
-    position: relative;
-    &::after {
-      content: '';
-      display: block;
-      height: 1px;
-      background-color: var(--color-border-card);
-    }
-  }
-  .el-col-12:not(.custom-col-24).dividing-line-below {
-    &::after {
-      width: calc(200% + 24px);
-      margin-top: 24px;
-      margin-bottom: 24px;
-    }
-  }
-  .el-col-24.dividing-line-below,
-  .custom-col-24.dividing-line-below {
-    &::after {
-      width: 100%;
-      margin-top: 6px;
-      margin-bottom: 24px;
-    }
-  }
-  .custom-col-24.dividing-line-above,
-  .el-col-24.dividing-line-above {
-    position: relative;
-    &::before {
-      content: '';
-      display: block;
-      width: 100%;
-      margin-top: 6px;
-      margin-bottom: 24px;
-      height: 1px;
-      background-color: var(--color-border-card);
-    }
-  }
-  .schema-form .el-form-item__label {
-    font-size: var(--el-form-label-font-size);
-    color: var(--el-text-color-regular);
-  }
-}
-</style>

@@ -27,6 +27,9 @@
     "database": {
       "desc": "数据库名字。",
       "label": "数据库名字"
+    },
+    "description": {
+      "label": "描述"
     }
   },
   "emqx_ee_bridge_cassa": {

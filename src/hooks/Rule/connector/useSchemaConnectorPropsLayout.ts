@@ -49,8 +49,10 @@ export default (
     ...resourceOptFields,
   ]
 
+  const baseFields = ['name', 'description']
+  const fieldStartIndex = baseFields.length
   const baseOrderMap = {
-    name: 0,
+    ...createOrderObj(baseFields, 0),
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
@@ -64,7 +66,10 @@ export default (
   ]
 
   const azureOrderMap = {
-    ...createOrderObj(['bootstrap_hosts', 'authentication', 'ssl'], 1),
+    ...createOrderObj(
+      ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl'],
+      fieldStartIndex,
+    ),
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
@@ -97,10 +102,9 @@ export default (
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
     return {
       ...syncEtcFieldsClassMap.value,
-      name: 'col-need-row dividing-line-below',
       type: 'col-hidden',
       enable: 'col-hidden',
-      ssl: 'col-ssl col-need-row dividing-line-below',
+      ssl: 'col-ssl col-need-row',
       ...externalClass,
     }
   })
