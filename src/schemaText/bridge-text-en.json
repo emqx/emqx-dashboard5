@@ -27,6 +27,9 @@
     "database": {
       "desc": "Database name.",
       "label": "Database Name"
+    },
+    "description": {
+      "label": "Description"
     }
   },
   "emqx_ee_bridge_cassa": {
