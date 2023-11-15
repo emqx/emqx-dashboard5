@@ -496,43 +496,6 @@ export const checkNSetToNullFromObj = (obj: Record<string, any>): Record<string,
   return obj
 }
 
-// { a: { b: c: 1 } } => { 'a.b.c': 1 }
-export const flattenObject = (
-  obj: { [key: string]: any },
-  prefix: any[] = [],
-  current: { [key: string]: any } = {},
-) => {
-  if (typeof obj === 'object' && !Array.isArray(obj) && obj !== null) {
-    for (const key of Object.keys(obj)) {
-      flattenObject(obj[key], prefix.concat(key), current)
-    }
-  } else {
-    current[prefix.join('.')] = obj
-  }
-  return current
-}
-// { 'a.b.c': 1 } => { a: { b: { c: 1 } } }
-export const unflattenObject = (obj: { [key: string]: any }) => {
-  if (Object(obj) !== obj && !Array.isArray(obj)) return obj
-  const regex = /\.?([^.[\]]+)|\[(\d+)\]/g
-  const resultholder: { [key: string]: any } = {}
-  try {
-    for (const p in obj) {
-      let current = resultholder
-      let prop = ''
-      let m: any
-      while ((m = regex.exec(p))) {
-        current = current[prop] || (current[prop] = m[2] ? [] : {})
-        prop = m[2] || m[1]
-      }
-      current[prop] = obj[p]
-    }
-  } catch (error) {
-    console.error(error)
-  }
-  return resultholder[''] || resultholder
-}
-
 export const replaceSpaceForHTML = (str: string): string => {
   if (!str || typeof str !== 'string') {
     return str
