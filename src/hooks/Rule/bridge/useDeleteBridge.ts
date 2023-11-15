@@ -5,11 +5,9 @@ import { isFunction } from 'lodash'
 import { ref, Ref } from 'vue'
 
 const getRuleArrFromErrorMsg = (msg: string) => {
-  const reg = /\[(?<rules>.+)\]/
-  const ruleReg = /<<"(.+?)">>/g
-
-  const ruleStr = msg.match(reg)?.groups?.rules || ''
-  return ruleStr.match(ruleReg)?.map((rule) => rule.slice(3, -3)) || []
+  const reg = /Cannot delete bridge while active rules are depending on it: /
+  const ruleStr = msg.replace(reg, '')
+  return ruleStr.split(' ').filter(Boolean)
 }
 
 export default (
