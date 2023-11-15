@@ -148,10 +148,6 @@ export default {
     zh: '该数据桥接不存在，请检查并更新规则的 SQL 语句',
     en: 'The data bridge does not exist, please check and update the SQL of the rule',
   },
-  createdAt: {
-    zh: '创建时间',
-    en: 'Created At',
-  },
   note: {
     zh: '备注',
     en: 'Note',

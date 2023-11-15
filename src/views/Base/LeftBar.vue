@@ -149,6 +149,7 @@ export default defineComponent({
       { title: 'api-key', path: '/api-key' },
       { title: 'license', path: '/license' },
       { title: 'sso', path: '/sso' },
+      { title: 'backup', path: '/backup' },
     ]
 
     menus.value = [

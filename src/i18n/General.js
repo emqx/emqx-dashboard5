@@ -371,4 +371,24 @@ export default {
     zh: '事件',
     en: 'Event',
   },
+  filename: {
+    zh: '文件名称',
+    en: 'File Name',
+  },
+  createdAt: {
+    zh: '创建时间',
+    en: 'Created At',
+  },
+  fileSize: {
+    zh: '文件大小',
+    en: 'File Size',
+  },
+  restore: {
+    zh: '恢复',
+    en: 'Restore',
+  },
+  upload: {
+    zh: '上传',
+    en: 'Upload',
+  },
 }
