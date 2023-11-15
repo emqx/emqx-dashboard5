@@ -178,6 +178,7 @@
 <script setup lang="ts">
 import {
   fillEmptyValueToUndefinedField,
+  getAPIPath,
   getLabelFromValueInOptionList,
   waitAMoment,
 } from '@/common/tools'
@@ -230,7 +231,7 @@ const PROTOCOL_VERSION_OPT = [
   { value: InfluxDBType.v2, label: 'v2' },
 ]
 
-const { components } = useSchemaForm(`/api/v5/schemas/bridges`, {
+const { components } = useSchemaForm(getAPIPath(`/schemas/bridges`), {
   ref: '#/components/schemas/bridge_influxdb.post_api_v2',
 })
 const { getPropItem } = useGetInfoFromComponents(components)
