@@ -6,7 +6,7 @@ export const postConnectorsProbe = (data: Connector): Promise<void> => {
   return http.post(`/connectors_probe`, data)
 }
 
-export const deleteConnectorsId = (id: string): Promise<void> => {
+export const deleteConnector = (id: string): Promise<void> => {
   return http.delete(`/connectors/${id}`)
 }
 
@@ -18,8 +18,8 @@ export const putConnectorsId = (id: string, data: Connector): Promise<Connector>
   return http.put(`/connectors/${id}`, data)
 }
 
-export const postConnectorsIdOperation = (id: string, operation: 'start'): Promise<void> => {
-  return http.post(`/connectors/${id}/${operation}`)
+export const reconnectConnector = (id: string): Promise<void> => {
+  return http.post(`/connectors/${id}/start`)
 }
 
 export const postNodesNodeConnectorsIdOperation = (

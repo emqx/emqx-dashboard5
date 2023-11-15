@@ -443,7 +443,7 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideKey: 'bridge',
       authRequired: true,
-      // subMenu: true,
+      subMenu: true,
       // showSubMenuInFirstLevel: true,
     },
     children: [
@@ -475,6 +475,12 @@ export const routes: Array<RouteRecordRaw> = [
             component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
           },
         ],
+      },
+      {
+        path: 'connector/:id',
+        name: 'connector-detail',
+        component: () => import('@/views/RuleEngine/Connector/ConnectorDetail.vue'),
+        meta: { hideInMenu: true },
       },
     ],
   },

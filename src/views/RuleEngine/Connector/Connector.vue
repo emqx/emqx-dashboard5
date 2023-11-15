@@ -4,7 +4,7 @@
       <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
         <el-table-column :label="tl('name')" :min-width="120">
           <template #default="{ row }">
-            <router-link :to="getDetailPageRoute(row.id)" class="first-column-with-icon-type">
+            <router-link :to="getDetailPageRoute(row)" class="first-column-with-icon-type">
               <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
               <div class="name-type-block">
                 <span class="name-data">
@@ -15,20 +15,56 @@
             </router-link>
           </template>
         </el-table-column>
+        <el-table-column :label="tl('connectionStatus')">
+          <template #default="{ row }">
+            {{ row.status }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="tl('associativeDataBridge')">
+          <template #default="{ row }"> TODO:{{ row.connect_timeout }} </template>
+        </el-table-column>
+        <el-table-column :label="$t('Base.operation')" :min-width="168">
+          <template #default="{ row }">
+            <el-button
+              size="small"
+              v-if="
+                row.status === ConnectionStatus.Disconnected ||
+                row.status === ConnectionStatus.Inconsistent
+              "
+              :loading="reconnectingMap.get(row.id)"
+              @click="reconnect(row)"
+            >
+              {{ $t('RuleEngine.reconnect') }}
+            </el-button>
+            <el-button size="small" @click="$router.push(getDetailPageRoute(row.id))">
+              {{ $t('Base.setting') }}
+            </el-button>
+            <TableItemDropDown
+              is-bridge
+              :row-data="row"
+              @copy="copyConnectorItem(row)"
+              @delete="handleDeleteConnector(row)"
+            />
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getConnectors } from '@/api/connector'
+import { getConnectors, reconnectConnector, deleteConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
+import { ConnectionStatus } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ref } from 'vue'
+import TableItemDropDown from '../components/TableItemDropDown.vue'
 
 const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector>>([])
+
+const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
 const { tl } = useI18nTl('RuleEngine')
 
@@ -36,6 +72,7 @@ const getList = async () => {
   try {
     isLoading.value = true
     tableData.value = await getConnectors()
+    initReconnectingMap()
   } catch (error) {
     //
   } finally {
@@ -43,14 +80,43 @@ const getList = async () => {
   }
 }
 
+const initReconnectingMap = () => {
+  reconnectingMap.value = new Map()
+  tableData.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
+}
+
+const reconnect = async ({ id }: Connector) => {
+  try {
+    reconnectingMap.value.set(id, true)
+    await reconnectConnector(id)
+    getList()
+  } catch (error) {
+    //
+  } finally {
+    reconnectingMap.value.set(id, false)
+  }
+}
+
+const getDetailPageRoute = ({ id }: Connector) => ({
+  name: 'connector-detail',
+  params: { id },
+})
+
+const copyConnectorItem = ({ id }: Connector) => {
+  // TODO:
+}
+
+const handleDeleteConnector = async ({ id }: Connector) => {
+  try {
+    await deleteConnector(id)
+    getList()
+  } catch (error) {
+    //
+  }
+}
+
 const { getBridgeIcon } = useBridgeTypeIcon()
 const { getTypeStr } = useBridgeTypeOptions()
-
-const getDetailPageRoute = (id: string, tab?: string) => ({
-  name: 'bridge-detail',
-  params: { id },
-  query: { tab },
-})
 
 getList()
 </script>
