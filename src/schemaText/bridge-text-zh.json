@@ -33,10 +33,6 @@
     }
   },
   "emqx_ee_bridge_cassa": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Cassandra。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "keyspace": {
       "desc": "要连接到的 Keyspace 名称。",
       "label": "Keyspace"
@@ -55,10 +51,6 @@
       "desc": "默认为逗号 ','，适用于 VALUES 格式。您也可以使用其他分隔符， 请参考 [INSERT INTO 语句](https://clickhouse.com/docs/zh/sql-reference/statements/insert-into)。",
       "label": "分隔符"
     },
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Clickhouse。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "connect_timeout": {
       "desc": "连接HTTP服务器的超时时间。",
       "label": "连接超时"
@@ -73,10 +65,6 @@
     }
   },
   "emqx_ee_bridge_dynamo": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 DynamoDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "template": {
       "desc": "模板，默认值为空。当此值为空时，整个消息将存储在数据库中。<br />模板可以是任何带有占位符的有效json，并确保表中所有的键都在这里，例如：<br />  `{'{'}\"id\" : \"${'{'}id{'}'}\", \"clientid\" : \"${'{'}clientid{'}'}\", \"data\" : \"${'{'}payload.data{'}'}\"{'}'}`",
       "label": "模板"
@@ -114,10 +102,6 @@
     "desc_type": {
       "desc": "桥接类型",
       "label": "桥接类型"
-    },
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 GCP PubSub。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 GCP PubSub。",
-      "label": "本地 Topic"
     },
     "max_retries": {
       "desc": "请求出错时的最大重试次数。",
@@ -181,10 +165,6 @@
       "desc": "桥接的方向， 必须是 egress",
       "label": "桥接方向"
     },
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 HStreamDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 HStreamDB。",
-      "label": "本地 Topic"
-    },
     "payload": {
       "desc": "要转发到 HStreamDB 的数据内容，支持占位符",
       "label": "消息内容"
@@ -216,10 +196,6 @@
     }
   },
   "emqx_ee_bridge_influxdb": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 InfluxDB。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 InfluxDB。",
-      "label": "本地 Topic"
-    },
     "write_syntax": {
       "desc": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符，参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及 [InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) <br/>TLDR: <br/>```<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]```<br/>注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${'{'}payload.int_value{'}'}i`",
       "label": "写语句"
@@ -630,10 +606,6 @@
     }
   },
   "emqx_ee_bridge_mysql": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 MySQL。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "server": {
       "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。",
       "label": "服务器地址"
@@ -644,10 +616,6 @@
     }
   },
   "emqx_ee_bridge_pgsql": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到该数据桥。</br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "server": {
       "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用默认端口 5432。",
       "label": "服务器地址"
@@ -661,10 +629,6 @@
     "command_template": {
       "desc": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。",
       "label": "Redis 命令模板"
-    },
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Redis。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发到 Redis。",
-      "label": "本地 Topic"
     },
     "cluster": {
       "desc": "集群模式。当 Redis 服务运行在集群模式下，该配置必须设置为 'cluster'。",
@@ -696,10 +660,6 @@
     }
   },
   "emqx_ee_bridge_rocketmq": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 RocketMQ。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "template": {
       "desc": "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br>模板可以是任意带有占位符的合法字符串, 例如:<br>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}",
       "label": "模板"
@@ -738,10 +698,6 @@
     }
   },
   "emqx_ee_bridge_tdengine": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 TDengine。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "本地 Topic"
-    },
     "server": {
       "desc": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 TDengine 默认端口 6041。",
       "label": "服务器地址"
@@ -763,10 +719,6 @@
     "sql": {
       "label": "SQL 模板",
       "desc": "SQL 模板"
-    },
-    "local_topic": {
-      "label": "本地 Topic",
-      "desc": "发送到 'local_topic' 的消息都会转发到 Microsoft SQL Server。 </br><br/>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。"
     }
   },
   "emqx_ee_bridge_iotdb": {
@@ -837,10 +789,6 @@
     }
   },
   "emqx_ee_bridge_oracle": {
-    "local_topic": {
-      "desc": "发送到 'local_topic' 的消息都会转发到 Oracle Database。 </br>注意：如果这个 Bridge 被用作规则（EMQX 规则引擎）的输出，同时也配置了 'local_topic' ，那么这两部分的消息都会被转发。",
-      "label": "服务器地址"
-    },
     "sql": {
       "desc": "SQL模板。模板中描述消息元数据和有效载荷的字符串可以包含占位符。这些占位符在插入时不会做任何检查和格式转换，所以请务必确保插入值被正确地格式化和转义。",
       "label": "SQL 模板"
@@ -966,10 +914,6 @@
     "retention_period": {
       "desc": "指定在与 Pulsar broker 断开连接时缓冲消息的持续时间。请合理设置该值，时间设置越久，需要的内存/磁盘的使用量越高。",
       "label": "保留期"
-    },
-    "local_topic": {
-      "desc": "指定作为桥接数据源的 MQTT 主题，或留空由规则动作指定数据源。",
-      "label": "源 MQTT 主题"
     },
     "pulsar_topic": {
       "desc": "Pulsar 主题名称",
