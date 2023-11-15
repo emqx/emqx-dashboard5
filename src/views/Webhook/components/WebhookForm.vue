@@ -65,10 +65,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="tl('httpPipeline')">
-          <CustomInputNumber
-            v-model="formData.bridge.enable_pipelining"
-            controls-position="right"
-          />
+          <CustomInputNumber v-model="formData.bridge.enable_pipelining" />
         </el-form-item>
       </div>
     </el-collapse-transition>

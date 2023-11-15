@@ -1,6 +1,6 @@
 <template>
   <div class="monitoring-integration app-wrapper">
-    <el-card class="app-card" v-loading="isDataLoading">
+    <el-card class="app-card allow-overflow" v-loading="isDataLoading">
       <div class="schema-form">
         <el-form
           class="configuration-form"
@@ -122,7 +122,7 @@
               </el-row>
             </el-collapse-transition>
           </template>
-          <el-col class="btn-col" :span="24" :style="store.getters.configPageBtnStyle">
+          <el-col class="btn-col" :span="24">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"
@@ -143,16 +143,17 @@
 </template>
 
 <script setup lang="ts">
-import { getPrometheus, setPrometheus, getOpenTelemetry, setOpenTelemetry } from '@/api/common'
-import promImg from '@/assets/img/prom.png'
+import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from '@/api/common'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
+import promImg from '@/assets/img/prom.png'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Prometheus, OpenTelemetry } from '@/types/dashboard'
+import { OpenTelemetry, Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, ref } from 'vue'
@@ -200,13 +201,12 @@ const isDataLoading = ref(false)
 let rawData: any = undefined
 const nowRecordData = computed(() => ({
   prometheus: prometheusFormData.value,
+  openTelemetry: opentelemetryFormData.value,
 }))
 const checkDataIsChanged = () => !isEqual(nowRecordData.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 const updateRawDataForCompare = () => {
-  rawData = cloneDeep({
-    prometheus: prometheusFormData.value,
-  })
+  rawData = cloneDeep(nowRecordData.value)
 }
 
 const loadIntegration = async function () {
@@ -221,6 +221,7 @@ const updatePrometheus = async function () {
   try {
     isSubmitting.value = true
     await setPrometheus(prometheusFormData.value)
+    updateRawDataForCompare()
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     loadIntegration()
@@ -253,8 +254,11 @@ const submit = async () => {
   }
 }
 
-loadIntegration()
-loadOpentelemetry()
+const { addObserverToFooter } = useConfFooterStyle()
+;(async () => {
+  await Promise.allSettled([loadIntegration(), loadOpentelemetry()])
+  addObserverToFooter()
+})()
 </script>
 
 <style lang="scss">

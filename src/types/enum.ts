@@ -340,3 +340,8 @@ export const enum UserRole {
   Admin = 'administrator',
   Readonly = 'viewer',
 }
+
+export const enum DetailTab {
+  Overview,
+  Setting,
+}

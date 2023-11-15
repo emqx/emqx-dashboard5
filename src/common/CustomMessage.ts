@@ -23,7 +23,9 @@ const message: any = (options: MessageOptions) => {
   const { message, duration: dur, showClose: showC, type } = normalizeOptions(options)
   const duration = dur || (message && countDuration(message as string)) || undefined
   const showClose = showC || type === 'error'
-  return ElMessage({ ...options, duration, showClose })
+  const instance = ElMessage({ ...options, duration, showClose })
+  window.setTimeout(() => instance?.close?.(), duration ? duration + 2000 : 8000)
+  return instance
 }
 
 messageTypes.forEach((type) => {

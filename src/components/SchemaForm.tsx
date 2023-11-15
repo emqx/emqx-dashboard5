@@ -11,13 +11,13 @@ import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
-import { useStore } from 'vuex'
 import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
@@ -280,7 +280,6 @@ const SchemaForm = defineComponent({
         case 'number':
           return (
             <CustomInputNumber
-              controls-position="right"
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
@@ -588,8 +587,6 @@ const SchemaForm = defineComponent({
     const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))
 
     const renderLayout = (contents: JSX.Element[]) => {
-      const btnStyles = store.getters.configPageBtnStyle
-
       let groupTabs = null
       let tabs: JSX.Element | null = null
       // do not show tabs when there are just one tab(i think, maybe) or is bridge
@@ -619,7 +616,7 @@ const SchemaForm = defineComponent({
             <el-row gutter={rowGutter.value}>
               {contents}
               {props.needFooter ? (
-                <el-col span={24} class="btn-col" style={btnStyles}>
+                <el-col span={24} class="btn-col">
                   <el-button
                     type="primary"
                     disabled={!hasPermission('put')}
@@ -816,6 +813,7 @@ const SchemaForm = defineComponent({
 
       return ret
     }
+    const { addObserverToFooter } = useConfFooterStyle()
     const renderSchemaForm = (properties: Properties) => {
       if (Object.keys(properties).length === 0) {
         // Initialize with an empty object, do not modify the loading variable at this point.
@@ -823,6 +821,9 @@ const SchemaForm = defineComponent({
       } else {
         formEle = renderLayout(getComponents(properties, { col: props.formItemSpan }))
         formLoading.value = false
+      }
+      if (props.needFooter) {
+        addObserverToFooter()
       }
       return formEle
     }

@@ -362,8 +362,9 @@ const cleanBatchClients = async () => {
         z-index: 20;
       }
     }
+    $select-width: 100px;
     > .el-select {
-      width: 30%;
+      width: $select-width;
       .el-input__wrapper {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -371,7 +372,7 @@ const cleanBatchClients = async () => {
       }
     }
     > .el-date-editor {
-      width: 70%;
+      width: calc(100% - #{$select-width});
       position: relative;
       left: -1px;
       .el-input__wrapper {
