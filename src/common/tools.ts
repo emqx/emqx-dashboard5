@@ -123,14 +123,6 @@ export const downloadBlobData = (
   window.URL.revokeObjectURL(url)
 }
 
-export const parseJSONSafely = (str: any): Record<string, any> | void => {
-  try {
-    return JSON.parse(str)
-  } catch (error) {
-    console.error('An error occurred while parsing the JSON string')
-  }
-}
-
 export const stringifyObjSafely = (obj: Record<string, any>, tabSpaces?: number): string => {
   try {
     if (typeof obj === 'string') {
@@ -614,18 +606,6 @@ export const countDuplicationName = (rawName: string): string => {
     })
   }
   return `${rawName}${COPY_SUFFIX}`
-}
-
-export const isEmptyObj = (obj: Record<any, any>) => Object.keys(obj).length === 0
-
-export const isJSONString = (str: string): boolean => {
-  if (typeof str !== 'string') return false
-  try {
-    const obj = JSON.parse(str)
-    return typeof obj === 'object' && obj !== null
-  } catch (e) {
-    return false
-  }
 }
 
 export const createOrderObj = (keyArr: Array<string>, beginning: number) =>

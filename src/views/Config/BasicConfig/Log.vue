@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
-import { customValidate, isEmptyObj } from '@/common/tools'
+import { customValidate } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'

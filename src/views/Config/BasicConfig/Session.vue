@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { createOrderObj, customValidate, isJSONString } from '@/common/tools'
+import { createOrderObj, customValidate } from '@/common/tools'
+import { isJSONString } from '@emqx/shared-ui-utils'
 import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'

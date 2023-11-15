@@ -1,4 +1,4 @@
-import { parseJSONSafely } from '@/common/tools'
+import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { PageData } from '@/types/common'
 import { omit } from 'lodash'
 import { Ref } from 'vue'
