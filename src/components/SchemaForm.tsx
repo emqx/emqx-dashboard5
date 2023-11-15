@@ -146,7 +146,6 @@ const SchemaForm = defineComponent({
     },
   },
   setup(props, ctx) {
-    const store = useStore()
     const { hasPermission } = usePerms()
     const configForm = ref<{ [key: string]: any }>({})
     const schemaLoadPath = props.schemaFilePath || '/api/v5/schemas/hotconf'
