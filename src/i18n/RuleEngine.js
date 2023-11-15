@@ -47,6 +47,14 @@ export default {
     zh: '资源状态',
     en: 'Resource Status',
   },
+  connectionStatus: {
+    zh: '连接状态',
+    en: 'Connection Status',
+  },
+  associativeDataBridge: {
+    zh: '关联数据桥接',
+    en: 'Associative Data Bridge',
+  },
   configuration: {
     zh: '配置信息',
     en: 'Configuration',

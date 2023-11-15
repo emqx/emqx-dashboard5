@@ -166,6 +166,7 @@ export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 export type Connector = {
   name: string
   type: BridgeType
+  id: string
   resource_opts: ResourceOpt
   [key: string]: any
 }
