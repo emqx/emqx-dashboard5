@@ -1,5 +1,6 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, getAPIPath, isEmptyObj, waitAMoment } from '@/common/tools'
+import { createRandomString, getAPIPath, waitAMoment } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
