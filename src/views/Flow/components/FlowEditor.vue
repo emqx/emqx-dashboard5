@@ -87,7 +87,8 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'

@@ -1,7 +1,7 @@
 import { ElMessage as M } from 'element-plus'
 import _ from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
-import { parseJSONSafely } from '@/common/tools'
+import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 // import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 
