@@ -430,32 +430,13 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'create',
-        component: () => import('@/views/Base/KeepAliveChildren.vue'),
-        redirect: '/iot/create/form',
-        children: [
-          {
-            path: 'form',
-            name: 'iot-create',
-            component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
-          },
-        ],
+        name: 'iot-create',
+        component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
       },
       {
         path: 'detail/:id',
-        component: () => import('@/views/Base/KeepAliveChildren.vue'),
-        redirect: '/rules/detail/:id/info',
-        children: [
-          {
-            path: 'info',
-            name: 'iot-detail',
-            component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
-          },
-          {
-            path: 'bridge',
-            name: 'create-bridge-for-edit-iot',
-            component: BridgeCreate,
-          },
-        ],
+        name: 'iot-detail',
+        component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
       },
     ],
   },
