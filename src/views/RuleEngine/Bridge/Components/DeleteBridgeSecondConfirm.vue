@@ -99,6 +99,9 @@ const submit = async () => {
     padding-left: 36px;
     margin-bottom: 0;
   }
+  li {
+    margin-right: 4px;
+  }
   .rule-item {
     display: inline-block;
     padding: 4px 0;
