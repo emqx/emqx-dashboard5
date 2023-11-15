@@ -517,6 +517,7 @@
 <script setup lang="ts">
 import {
   fillEmptyValueToUndefinedField,
+  getAPIPath,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
   waitAMoment,
@@ -600,7 +601,7 @@ const {
   components: producerComponents,
   schemaLoadPromise,
   getComponents,
-} = useSchemaForm(`/api/v5/schemas/bridges`, {
+} = useSchemaForm(getAPIPath(`/schemas/bridges`), {
   ref: '#/components/schemas/bridge_kafka.post_producer',
 })
 const { getPropItem: getProducerPropItem } = useGetInfoFromComponents(producerComponents)
