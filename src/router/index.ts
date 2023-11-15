@@ -385,6 +385,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Users
+  {
+    path: '/backup',
+    component: Layout,
+    meta: {
+      hideKey: 'backup',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'backup',
+        component: () => import('@/views/General/Backup.vue'),
+      },
+    ],
+  },
   // Plugins
   {
     path: '/plugins',

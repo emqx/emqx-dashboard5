@@ -196,7 +196,7 @@ export default {
     en: 'Flapping Detect',
   },
   backup: {
-    zh: '备份',
+    zh: '备份与恢复',
     en: 'Backup',
   },
   users: {
