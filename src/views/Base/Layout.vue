@@ -124,12 +124,11 @@ export default defineComponent({
       return meta && meta.subMenu
     })
     const showSubMenu = computed(() => {
-      const { meta, children, path } = topLvRoute.value
+      const { meta } = topLvRoute.value
       const showSubMenuInFirstLevel = meta.showSubMenuInFirstLevel || false
       if (showSubMenuInFirstLevel) {
-        return children.some(
-          ({ path: childPath }: { path: any }) => `${path}/${childPath}` === route.path,
-        )
+        const level = route.path.match(/\//g)?.length
+        return level && level <= 2
       }
       return true
     })
