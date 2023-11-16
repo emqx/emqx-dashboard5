@@ -120,62 +120,55 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, reactive, watch } from 'vue'
-import _ from 'lodash'
+<script setup lang="ts">
+import { onMounted, reactive, watch, defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
+import _ from 'lodash'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
-export default defineComponent({
-  name: 'LwBasic',
-  props: {
-    value: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
-  },
-  components: {
-    TimeInputWithUnitSelect,
-  },
-  setup(props, context) {
-    let lValueDefault = {
-      idle_timeout: '30s',
-      xml_dir: 'etc/lwm2m_xml/',
-      qmode_time_window: '22s',
-      lifetime_min: '1s',
-      lifetime_max: '86400s',
-      auto_observe: true,
-      enable_stats: true,
-      update_msg_publish_condition: 'contains_object_list',
-      mountpoint: '',
-      translators: {
-        command: { topic: 'dn/#', qos: 0 },
-        response: { topic: 'up/resp', qos: 0 },
-        notify: { topic: 'up/notify', qos: 0 },
-        register: { topic: 'up/register', qos: 0 },
-        update: { topic: 'up/update', qos: 0 },
-      },
-    }
-    const { t } = useI18n()
-
-    const lValue = reactive(_.merge(lValueDefault, props.value))
-
-    watch(
-      () => _.cloneDeep(lValue),
-      (v) => {
-        context.emit('update:value', v)
-      },
-    )
-    onMounted(() => {
-      context.emit('update:value', lValue)
-    })
-
-    return {
-      tl: (key: string, collection = 'Gateway') => t(collection + '.' + key),
-      lValueDefault,
-      lValue,
-    }
+const props = defineProps({
+  value: {
+    type: Object,
+    required: false,
+    default: () => ({}),
   },
 })
+
+const emit = defineEmits(['update:value'])
+
+let lValueDefault = {
+  idle_timeout: '30s',
+  xml_dir: 'etc/lwm2m_xml/',
+  qmode_time_window: '22s',
+  lifetime_min: '1s',
+  lifetime_max: '86400s',
+  auto_observe: true,
+  enable_stats: true,
+  update_msg_publish_condition: 'contains_object_list',
+  mountpoint: '',
+  translators: {
+    command: { topic: 'dn/#', qos: 0 },
+    response: { topic: 'up/resp', qos: 0 },
+    notify: { topic: 'up/notify', qos: 0 },
+    register: { topic: 'up/register', qos: 0 },
+    update: { topic: 'up/update', qos: 0 },
+  },
+}
+
+const { t } = useI18n()
+
+const lValue = reactive(_.merge(lValueDefault, props.value))
+
+watch(
+  () => _.cloneDeep(lValue),
+  (v) => {
+    emit('update:value', v)
+  },
+)
+
+onMounted(() => {
+  emit('update:value', lValue)
+})
+
+const tl = (key: string, collection = 'Gateway') => t(collection + '.' + key)
 </script>

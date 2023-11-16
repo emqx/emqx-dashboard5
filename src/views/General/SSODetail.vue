@@ -37,7 +37,8 @@ import {
   EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ElMessage } from 'element-plus'
-import { Component, ComputedRef, Ref, computed, ref } from 'vue'
+import type { Component, ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'

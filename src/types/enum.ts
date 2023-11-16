@@ -226,6 +226,9 @@ export enum GatewayName {
   LwM2M = 'lwm2m',
   MQTT_SN = 'mqttsn',
   STOMP = 'stomp',
+  GBT32960 = 'gbt32960',
+  JT808 = 'jt808',
+  OCPP = 'ocpp',
 }
 
 /**
