@@ -165,13 +165,35 @@ export type OtherBridge = Record<string, any>
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
 export type Connector = {
-  name: string
   type: BridgeType
+  name: string
+  description: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
   id: string
-  resource_opts: ResourceOpt
   status: ConnectionStatus
   status_reason?: string
-  [key: string]: any
+  enable: boolean
+  resource_opts: ResourceOpt
+  [key: any]: any
+}
+
+export interface Action {
+  type: BridgeType
+  name: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
+  id: string
+  status: ConnectionStatus
+  status_reason?: string
+  enable: boolean
+  connector: string
+  resource_opts: ResourceOpt
+  [key: any]: any
 }
 
 export interface BridgeMetricsData {

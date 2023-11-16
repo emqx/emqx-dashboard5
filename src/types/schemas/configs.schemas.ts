@@ -100,6 +100,7 @@ export type GetConfigsKey = typeof GetConfigsKey[keyof typeof GetConfigsKey]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsKey = {
+  actions: 'actions',
   alarm: 'alarm',
   api_key: 'api_key',
   authentication: 'authentication',
@@ -108,6 +109,7 @@ export const GetConfigsKey = {
   bridges: 'bridges',
   cluster: 'cluster',
   conn_congestion: 'conn_congestion',
+  connectors: 'connectors',
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
