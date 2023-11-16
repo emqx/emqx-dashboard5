@@ -15,7 +15,7 @@
           />
           <div class="title-n-status">
             <div class="info-tags">
-              <BridgeItemStatus :bridge="bridgeInfo" is-tag />
+              <TargetItemStatus :bridge="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
                 {{ isWebhook ? 'Webhook' : getTypeStr(bridgeInfo) }}
               </el-tag>
@@ -158,7 +158,7 @@ import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
-import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 
 enum Tab {

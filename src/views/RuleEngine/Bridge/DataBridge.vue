@@ -29,7 +29,7 @@
           </el-table-column>
           <el-table-column :label="tl('status')" :min-width="120">
             <template #default="{ row }">
-              <BridgeItemStatus :bridge="row" />
+              <TargetItemStatus :target="row" />
             </template>
           </el-table-column>
           <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
@@ -86,14 +86,14 @@ import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
-import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { ConnectionStatus } from '@/types/enum'
 
 export default defineComponent({
-  components: { BridgeItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
+  components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
   setup() {
     const bridgeTb = ref([])
     const tbLoading = ref(false)
