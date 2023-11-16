@@ -51,6 +51,10 @@ export default {
     zh: '连接状态',
     en: 'Connection Status',
   },
+  statusReason: {
+    zh: '状态原因',
+    en: 'Status Reason',
+  },
   associativeDataBridge: {
     zh: '关联数据桥接',
     en: 'Associative Data Bridge',

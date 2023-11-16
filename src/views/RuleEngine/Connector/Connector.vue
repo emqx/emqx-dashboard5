@@ -17,20 +17,17 @@
         </el-table-column>
         <el-table-column :label="tl('connectionStatus')">
           <template #default="{ row }">
-            {{ row.status }}
+            <TargetItemStatus :target="row" />
           </template>
         </el-table-column>
         <el-table-column :label="tl('associativeDataBridge')">
-          <template #default="{ row }"> TODO:{{ row.connect_timeout }} </template>
+          <template #default="{ row }"> TODO:{{ row.XXXXXXX }} </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')" :min-width="168">
           <template #default="{ row }">
             <el-button
               size="small"
-              v-if="
-                row.status === ConnectionStatus.Disconnected ||
-                row.status === ConnectionStatus.Inconsistent
-              "
+              v-if="isErrorStatus(row)"
               :loading="reconnectingMap.get(row.id)"
               @click="reconnect(row)"
             >
@@ -39,9 +36,10 @@
             <el-button size="small" @click="$router.push(getDetailPageRoute(row.id))">
               {{ $t('Base.setting') }}
             </el-button>
+            <!-- TODO:disable del -->
             <TableItemDropDown
-              is-bridge
               :row-data="row"
+              :disable-del="row.XXXXXX"
               @copy="copyConnectorItem(row)"
               @delete="handleDeleteConnector(row)"
             />
@@ -53,12 +51,13 @@
 </template>
 
 <script setup lang="ts">
-import { getConnectors, reconnectConnector, deleteConnector } from '@/api/connector'
+import { deleteConnector, getConnectors, reconnectConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ref } from 'vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 
 const isLoading = ref<boolean>(false)
@@ -84,6 +83,9 @@ const initReconnectingMap = () => {
   reconnectingMap.value = new Map()
   tableData.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
 }
+
+const isErrorStatus = ({ status }: Connector) =>
+  status === ConnectionStatus.Disconnected || status === ConnectionStatus.Inconsistent
 
 const reconnect = async ({ id }: Connector) => {
   try {
