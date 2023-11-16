@@ -44,7 +44,7 @@
             :disabled="!$hasPermission('put')"
             :active-value="GatewayStatus.Running"
             :inactive-value="GatewayStatus.Stopped"
-            :before-change="handleSwitchStatus(row)"
+            :before-change="() => handleSwitchStatus(row)"
           />
         </template>
       </el-table-column>
@@ -151,9 +151,9 @@ export default defineComponent({
     }
 
     const handleSwitchStatus = (gateway: any) => {
-      return () => {
-        gatewayStartStop(gateway)
-      }
+      return gatewayStartStop(gateway)
+        .then(() => false)
+        .catch(() => true)
     }
 
     const goSettingPage = ({ name }: { name: string }) => {
