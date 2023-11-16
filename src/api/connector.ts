@@ -2,36 +2,36 @@ import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
 import { Connector } from '@/types/rule'
 
-export const postConnectorsProbe = (data: Connector): Promise<void> => {
+export const testConnectorConnectivity = (data: Connector): Promise<void> => {
   return http.post(`/connectors_probe`, data)
 }
 
 export const deleteConnector = (id: string): Promise<void> => {
-  return http.delete(`/connectors/${id}`)
+  return http.delete(`/connectors/${encodeURIComponent(id)}`)
 }
 
 export const getConnectorDetail = (id: string): Promise<Connector> => {
-  return http.get(`/connectors/${id}`)
+  return http.get(`/connectors/${encodeURIComponent(id)}`)
 }
 
-export const putConnectorsId = (id: string, data: Connector): Promise<Connector> => {
-  return http.put(`/connectors/${id}`, data)
+export const putConnector = (id: string, data: Connector): Promise<Connector> => {
+  return http.put(`/connectors/${encodeURIComponent(id)}`, data)
 }
 
 export const reconnectConnector = (id: string): Promise<void> => {
-  return http.post(`/connectors/${id}/start`)
+  return http.post(`/connectors/${encodeURIComponent(id)}/start`)
 }
 
-export const postNodesNodeConnectorsIdOperation = (
+export const reconnectConnectorForNode = (
   node: string,
   id: string,
   operation: 'start',
 ): Promise<void> => {
-  return http.post(`/nodes/${node}/connectors/${id}/${operation}`)
+  return http.post(`/nodes/${node}/connectors/${encodeURIComponent(id)}/${operation}`)
 }
 
-export const putConnectorsIdEnableEnable = (id: string, enable: boolean): Promise<void> => {
-  return http.put(`/connectors/${id}/enable/${enable}`)
+export const putConnectorEnable = (id: string, enable: boolean): Promise<void> => {
+  return http.put(`/connectors/${encodeURIComponent(id)}/enable/${enable}`)
 }
 
 export const getConnectors = async (): Promise<Array<Connector>> => {
@@ -48,6 +48,6 @@ export const getConnectors = async (): Promise<Array<Connector>> => {
   }
 }
 
-export const postConnectors = (data: Connector): Promise<Connector> => {
+export const postConnector = (data: Connector): Promise<Connector> => {
   return http.post(`/connectors`, data)
 }

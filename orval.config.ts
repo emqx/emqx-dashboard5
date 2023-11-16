@@ -38,6 +38,8 @@ const tagArr = [
   'Slow Subscriptions',
   'API Keys',
   'Banned',
+  'Connectors',
+  'Actions',
 ]
 
 const typesFolder = './src/types/schemas/'
