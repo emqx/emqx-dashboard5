@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, set } from 'lodash'
 import moment from 'moment'
-import { COPY_SUFFIX } from './constants'
+import { API_BASE_URL, COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 
@@ -709,3 +709,8 @@ export const arraysAreEqual = <T>(arr1: T[], arr2: T[]): boolean => {
 
   return true
 }
+
+/**
+ * add base url
+ */
+export const getAPIPath = (url: string) => `${API_BASE_URL}${url}`

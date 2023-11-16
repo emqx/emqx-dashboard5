@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, isEmptyObj, waitAMoment } from '@/common/tools'
+import { createRandomString, getAPIPath, isEmptyObj, waitAMoment } from '@/common/tools'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -148,7 +148,7 @@ const SchemaForm = defineComponent({
   setup(props, ctx) {
     const { hasPermission } = usePerms()
     const configForm = ref<{ [key: string]: any }>({})
-    const schemaLoadPath = props.schemaFilePath || '/api/v5/schemas/hotconf'
+    const schemaLoadPath = props.schemaFilePath || getAPIPath('/schemas/hotconf')
     const { components, rules, setTypeForProperty, resetObjForGetComponent } = useSchemaForm(
       schemaLoadPath,
       props.accordingTo,
