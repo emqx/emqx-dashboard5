@@ -123,7 +123,6 @@ export type PutAuthorizationSourcesType400 = {
 }
 
 export type PutAuthorizationSourcesTypeBody =
-  | EmqxAuthzLdapSchemaLdap
   | EmqxAuthzMongodbSchemaMongoSharded
   | EmqxAuthzMongodbSchemaMongoRs
   | EmqxAuthzMongodbSchemaMongoSingle
@@ -151,7 +150,6 @@ export type GetAuthorizationSourcesType404 = {
 }
 
 export type GetAuthorizationSourcesType200 =
-  | EmqxAuthzLdapSchemaLdap
   | EmqxAuthzMongodbSchemaMongoSharded
   | EmqxAuthzMongodbSchemaMongoRs
   | EmqxAuthzMongodbSchemaMongoSingle
@@ -283,7 +281,6 @@ export type PostAuthorizationSources400 = {
 }
 
 export type PostAuthorizationSourcesBody =
-  | EmqxAuthzLdapSchemaLdap
   | EmqxAuthzMongodbSchemaMongoSharded
   | EmqxAuthzMongodbSchemaMongoRs
   | EmqxAuthzMongodbSchemaMongoSingle
@@ -388,6 +385,12 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  like_clientid?: string
+}
+
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -418,12 +421,6 @@ export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-  like_clientid?: string
-}
-
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
@@ -448,51 +445,6 @@ export interface EmqxMongodbTopology {
   wait_queue_timeout_ms?: string
   heartbeat_frequency_ms?: string
   min_heartbeat_frequency_ms?: string
-}
-
-export type EmqxLdapSslServerNameIndication = string | 'disable'
-
-export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface EmqxLdapSsl {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: EmqxLdapSslVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: EmqxLdapSslLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: EmqxLdapSslServerNameIndication
 }
 
 export interface EmqxAuthzSchemaResourceMetrics {
@@ -524,6 +476,11 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   metrics?: EmqxAuthzSchemaResourceMetrics
 }
 
+export interface EmqxAuthzSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaMetrics
+}
+
 export interface EmqxAuthzSchemaNodeError {
   node?: string
   error?: string
@@ -548,11 +505,6 @@ export interface EmqxAuthzSchemaMetrics {
   rate?: number
   rate_max?: number
   rate_last5m?: number
-}
-
-export interface EmqxAuthzSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthzSchemaMetrics
 }
 
 export interface EmqxAuthzSchemaMetricsStatusFields {
@@ -900,31 +852,6 @@ export interface EmqxAuthzMnesiaSchemaBuiltinDb {
   enable?: boolean
 }
 
-export type EmqxAuthzLdapSchemaLdapType =
-  typeof EmqxAuthzLdapSchemaLdapType[keyof typeof EmqxAuthzLdapSchemaLdapType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzLdapSchemaLdapType = {
-  ldap: 'ldap',
-} as const
-
-export interface EmqxAuthzLdapSchemaLdap {
-  type: EmqxAuthzLdapSchemaLdapType
-  enable?: boolean
-  publish_attribute?: string
-  subscribe_attribute?: string
-  all_attribute?: string
-  query_timeout?: string
-  server: string
-  pool_size?: number
-  username: string
-  password?: string
-  base_dn: string
-  filter?: string
-  request_timeout?: string
-  ssl?: EmqxLdapSsl
-}
-
 export type EmqxAuthzHttpSchemaHttpPostHeadersItem = { [key: string]: any }
 
 export type EmqxAuthzHttpSchemaHttpPostMethod =
@@ -1018,7 +945,6 @@ export interface EmqxAuthzFileSchemaApiFile {
 }
 
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
-  | EmqxAuthzLdapSchemaLdap
   | EmqxAuthzMongodbSchemaMongoSharded
   | EmqxAuthzMongodbSchemaMongoRs
   | EmqxAuthzMongodbSchemaMongoSingle

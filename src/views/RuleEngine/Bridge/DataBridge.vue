@@ -71,7 +71,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
+import { getMixedBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -87,7 +87,7 @@ import { ConnectionStatus } from '@/types/enum'
 export default defineComponent({
   components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
   setup() {
-    const bridgeTb = ref([])
+    const bridgeTb = ref<Array<BridgeItem>>([])
     const tbLoading = ref(false)
     const router = useRouter()
     const reconnectingMap: Ref<Map<string, boolean>> = ref(new Map())
@@ -103,7 +103,7 @@ export default defineComponent({
     const listBridge = async function () {
       tbLoading.value = true
       try {
-        bridgeTb.value = await getBridgeList()
+        bridgeTb.value = await getMixedBridgeList()
         initReconnectingMap()
       } catch (error) {
         console.error(error)
