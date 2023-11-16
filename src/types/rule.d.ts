@@ -86,6 +86,7 @@ export interface BridgeBaseData {
     status: ConnectionStatus
   }>
   status: ConnectionStatus
+  status_reason?: string
   type: BridgeType
   local_topic?: string
   enable: boolean
@@ -168,6 +169,8 @@ export type Connector = {
   type: BridgeType
   id: string
   resource_opts: ResourceOpt
+  status: ConnectionStatus
+  status_reason?: string
   [key: string]: any
 }
 
