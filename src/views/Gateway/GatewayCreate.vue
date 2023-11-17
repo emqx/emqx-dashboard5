@@ -192,7 +192,7 @@ const createGateway = async () => {
     M.success(t('Base.createSuccess'))
     gotoList()
   } catch (error) {
-    // 错误处理
+    // ignore error
   } finally {
     submitLoading.value = false
   }
@@ -210,7 +210,7 @@ const gatewayStatus = async () => {
       gotoList()
     }
   } catch (error) {
-    // 错误处理
+    // ignore error
   }
 }
 
