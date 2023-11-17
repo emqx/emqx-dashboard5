@@ -16,6 +16,9 @@
       <template v-else-if="name === 'exproto'">
         <exproto-basic v-model:value="basicData" :key="iKey" is-edit />
       </template>
+      <template v-else-if="name === 'gbt32960'">
+        <gbt32960-basic v-model:value="basicData" :key="iKey" is-edit />
+      </template>
       <el-button
         type="primary"
         :loading="updateLoading"
@@ -35,6 +38,7 @@ import Lwm2mBasic from './lwm2mBasic.vue'
 import MqttsnBasic from './mqttsnBasic.vue'
 import stompBasic from './stompBasic.vue'
 import ExprotoBasic from './exprotoBasic.vue'
+import Gbt32960Basic from './gbt32960Basic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -42,7 +46,7 @@ import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
 import { GatewayName } from '@/types/enum'
 
 export default defineComponent({
-  components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic },
+  components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic, Gbt32960Basic },
   name: 'GatewayDetailBasic',
 
   setup() {

@@ -144,7 +144,7 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
   gbt32960: {
     type: 'tcp',
     name: 'default',
-    bind: '61613',
+    bind: '7325',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },

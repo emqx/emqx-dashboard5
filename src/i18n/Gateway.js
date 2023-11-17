@@ -99,6 +99,18 @@ export default {
     zh: '最大 Body 长度',
     en: 'Max Body Length',
   },
+  msgQueueLen: {
+    zh: '最大消息队列长度',
+    en: 'Max message queue length',
+  },
+  maxRetryTimes: {
+    zh: '最大重试次数',
+    en: 'Max Retry Times',
+  },
+  retryInterval: {
+    zh: '重试间隔',
+    en: 'Retry Interval',
+  },
   idleTime: {
     zh: '空闲超时时间',
     en: 'Idle Timeout',
