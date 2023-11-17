@@ -1,3 +1,4 @@
+import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -10,11 +11,13 @@ export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   {},
 )
 
+type TypeItem = {
+  value: BridgeType
+  label: string
+}
+
 export const useBridgeTypeValue = (): {
-  bridgeTypeList: Array<{
-    value: BridgeType
-    label: string
-  }>
+  bridgeTypeList: Array<TypeItem>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
 } => {
   const { t } = useI18nTl('RuleEngine')
@@ -31,6 +34,24 @@ export const useBridgeTypeValue = (): {
   return {
     bridgeTypeList,
     getBridgeLabelByTypeValue,
+  }
+}
+
+export const useConnectorTypeValue = (): {
+  connectorTypeList: TypeItem[]
+} => {
+  const { bridgeTypeList } = useBridgeTypeValue()
+
+  const connectorTypeList = SUPPORTED_CONNECTOR_TYPES.reduce((arr: Array<TypeItem>, type) => {
+    const item = bridgeTypeList.find((item) => item.value === type)
+    if (item) {
+      arr.push(item)
+    }
+    return arr
+  }, [])
+
+  return {
+    connectorTypeList,
   }
 }
 
