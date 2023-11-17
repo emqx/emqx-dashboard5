@@ -5,7 +5,7 @@ import {
   updateBridge,
   updateRules,
 } from '@/api/ruleengine'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
 import { Ref, ref } from 'vue'

@@ -1,7 +1,7 @@
 import { getBridgeList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
 import useGenerateFlowDataUtils, { GroupedNode } from '@/hooks/Flow/useGenerateFlowDataUtils'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'

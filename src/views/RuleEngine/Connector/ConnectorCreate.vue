@@ -29,7 +29,7 @@
           <el-button :disabled="isSubmitting" @click="goPreStep">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" plain :loading="isTesting" @click="handleTest">
+          <el-button type="primary" plain :loading="isTesting" @click="testConnectivity">
             {{ tl('testTheConnection') }}
           </el-button>
           <el-button type="primary" :loading="isSubmitting" @click="submit">
@@ -46,6 +46,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import { useBridgeTypeValue, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
+import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
@@ -90,12 +91,12 @@ const goNextStep = () => {
 const cancel = () => router.push({ name: 'connector' })
 
 const isSubmitting = ref(false)
+const { handleConnectorDataBeforeSubmit, handleConnectorDataForCopy } = useConnectorDataHandler()
 const submit = async () => {
   // TODO:
 }
 
 const { isTesting, testConnectivity } = useTestConnector()
-const handleTest = async () => {}
 </script>
 
 <style lang="scss">
