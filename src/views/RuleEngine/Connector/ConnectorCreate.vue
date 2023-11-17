@@ -14,7 +14,7 @@
         <TypeSelect v-model="selectedType" />
       </div>
       <div class="form-container" v-else-if="step === 1">
-        <component :is="formCom" />
+        <component ref="FormCom" :is="formCom" />
       </div>
       <div class="btn-container">
         <template v-if="step === 0">
@@ -29,7 +29,7 @@
           <el-button :disabled="isSubmitting" @click="goPreStep">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" plain :loading="isTesting" @click="testConnectivity">
+          <el-button type="primary" plain :loading="isTesting" @click="testConnectivity(formData)">
             {{ tl('testTheConnection') }}
           </el-button>
           <el-button type="primary" :loading="isSubmitting" @click="submit">
@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { getConnectorDetail, postConnector } from '@/api/connector'
+import { countDuplicationName, customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import { useBridgeTypeValue, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -50,6 +52,7 @@ import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
+import { Connector } from '@/types/rule'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
@@ -64,12 +67,14 @@ const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.na
 const { connectorTypeList } = useConnectorTypeValue()
 const selectedType = ref<BridgeType>(connectorTypeList[0].value)
 
-const formData = ref({})
+const FormCom = ref()
+
+const formData = ref<Connector>({} as Connector)
 
 const { formCom } = useConnectorFormComponent(selectedType)
 
 const initConnectorData = () => {
-  formData.value = {}
+  formData.value = {} as Connector
 }
 
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
@@ -93,8 +98,46 @@ const cancel = () => router.push({ name: 'connector' })
 const isSubmitting = ref(false)
 const { handleConnectorDataBeforeSubmit, handleConnectorDataForCopy } = useConnectorDataHandler()
 const submit = async () => {
-  // TODO:
+  try {
+    await customValidate(FormCom.value)
+    isSubmitting.value = true
+    const data = handleConnectorDataBeforeSubmit(formData.value)
+    await postConnector(data)
+    router.push({ name: 'connector' })
+  } catch (error) {
+    //
+  } finally {
+    isSubmitting.value = false
+  }
 }
+
+const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
+const targetLoading = ref(false)
+const checkClipStatus = async () => {
+  if (!isCopy.value) {
+    return
+  }
+  try {
+    const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
+    selectedType.value = currentType as BridgeType
+    step.value = 1
+    targetLoading.value = true
+    const connectorData = await getConnectorDetail(route.query.target as string)
+    if (connectorData) {
+      formData.value = {
+        ...handleConnectorDataForCopy(connectorData),
+        name: countDuplicationName(connectorData.name),
+      }
+      selectedType.value = connectorData.type
+    }
+  } catch (error) {
+    //
+  } finally {
+    targetLoading.value = false
+  }
+}
+
+checkClipStatus()
 
 const { isTesting, testConnectivity } = useTestConnector()
 </script>
