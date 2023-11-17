@@ -25,6 +25,8 @@ export type PostAuthentication400 = {
 }
 
 export type PostAuthentication200 =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -42,6 +44,8 @@ export type PostAuthentication200 =
   | AuthnBuiltinDb
 
 export type PostAuthenticationBody =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -56,9 +60,11 @@ export type PostAuthenticationBody =
   | AuthnMongoSingle
   | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbApi
 
 export type GetAuthentication200Item =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -115,6 +121,8 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -129,7 +137,7 @@ export type PutAuthenticationIdBody =
   | AuthnMongoSingle
   | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbApi
 
 export type GetAuthenticationId404Code =
   typeof GetAuthenticationId404Code[keyof typeof GetAuthenticationId404Code]
@@ -145,6 +153,8 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -365,7 +375,7 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string
@@ -378,74 +388,49 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
-export interface EmqxAuthnSchemaResourceMetrics {
-  matched?: number
-  success?: number
-  failed?: number
-  rate?: number
-  rate_max?: number
-  rate_last5m?: number
-}
+export type LdapSslServerNameIndication = string | 'disable'
 
-export type EmqxAuthnSchemaNodeStatusStatus =
-  typeof EmqxAuthnSchemaNodeStatusStatus[keyof typeof EmqxAuthnSchemaNodeStatusStatus]
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthnSchemaNodeStatusStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
+export const LdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
 } as const
 
-export interface EmqxAuthnSchemaNodeStatus {
-  node?: string
-  status?: EmqxAuthnSchemaNodeStatusStatus
-}
-
-export interface EmqxAuthnSchemaNodeResourceMetrics {
-  node?: string
-  metrics?: EmqxAuthnSchemaResourceMetrics
-}
-
-export interface EmqxAuthnSchemaNodeError {
-  node?: string
-  error?: string
-}
-
-export type EmqxAuthnSchemaMetricsStatusFieldsStatus =
-  typeof EmqxAuthnSchemaMetricsStatusFieldsStatus[keyof typeof EmqxAuthnSchemaMetricsStatusFieldsStatus]
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthnSchemaMetricsStatusFieldsStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
+export const LdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
 } as const
 
-export interface EmqxAuthnSchemaMetrics {
-  nomatch?: number
-  total?: number
-  success?: number
-  failed?: number
-  rate?: number
-  rate_max?: number
-  rate_last5m?: number
-}
-
-export interface EmqxAuthnSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthnSchemaMetrics
-}
-
-export interface EmqxAuthnSchemaMetricsStatusFields {
-  resource_metrics?: EmqxAuthnSchemaResourceMetrics
-  node_resource_metrics?: EmqxAuthnSchemaNodeResourceMetrics
-  metrics?: EmqxAuthnSchemaMetrics
-  node_metrics?: EmqxAuthnSchemaNodeMetrics
-  status?: EmqxAuthnSchemaMetricsStatusFieldsStatus
-  node_status?: EmqxAuthnSchemaNodeStatus
-  node_error?: EmqxAuthnSchemaNodeError
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: LdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: LdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export interface EmqxAuthnApiResponseUser {
@@ -555,6 +540,15 @@ export interface AuthnScram {
   algorithm?: AuthnScramAlgorithm
   iteration_count?: number
   enable?: boolean
+}
+
+export interface AuthnResourceMetrics {
+  matched?: number
+  success?: number
+  failed?: number
+  rate?: number
+  rate_max?: number
+  rate_last5m?: number
 }
 
 export type AuthnRedisSingleRedisType =
@@ -732,6 +726,35 @@ export interface AuthnPostgresql {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnNodeStatusStatus = typeof AuthnNodeStatusStatus[keyof typeof AuthnNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnNodeStatusStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+} as const
+
+export interface AuthnNodeStatus {
+  node?: string
+  status?: AuthnNodeStatusStatus
+}
+
+export interface AuthnNodeResourceMetrics {
+  node?: string
+  metrics?: AuthnResourceMetrics
+}
+
+export interface AuthnNodeMetrics {
+  node?: string
+  metrics?: AuthnMetrics
+}
+
+export interface AuthnNodeError {
+  node?: string
+  error?: string
+}
+
 export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMysqlBackend = typeof AuthnMysqlBackend[keyof typeof AuthnMysqlBackend]
@@ -834,7 +857,7 @@ export interface AuthnMongoSingle {
   use_legacy_protocol?: AuthnMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
 }
 
@@ -908,7 +931,7 @@ export interface AuthnMongoSharded {
   use_legacy_protocol?: AuthnMongoShardedUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
 }
 
@@ -985,8 +1008,101 @@ export interface AuthnMongoRs {
   use_legacy_protocol?: AuthnMongoRsUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnMetricsStatusFieldsStatus =
+  typeof AuthnMetricsStatusFieldsStatus[keyof typeof AuthnMetricsStatusFieldsStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMetricsStatusFieldsStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface AuthnMetrics {
+  nomatch?: number
+  total?: number
+  success?: number
+  failed?: number
+  rate?: number
+  rate_max?: number
+  rate_last5m?: number
+}
+
+export interface AuthnMetricsStatusFields {
+  resource_metrics?: AuthnResourceMetrics
+  node_resource_metrics?: AuthnNodeResourceMetrics
+  metrics?: AuthnMetrics
+  node_metrics?: AuthnNodeMetrics
+  status?: AuthnMetricsStatusFieldsStatus
+  node_status?: AuthnNodeStatus
+  node_error?: AuthnNodeError
+}
+
+export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindBackend = {
+  ldap_bind: 'ldap_bind',
+} as const
+
+export type AuthnLdapBindMechanism =
+  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdapBind {
+  mechanism: AuthnLdapBindMechanism
+  backend: AuthnLdapBindBackend
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
+  bind_password?: string
+}
+
+export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export type AuthnLdapMechanism = typeof AuthnLdapMechanism[keyof typeof AuthnLdapMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdap {
+  mechanism: AuthnLdapMechanism
+  backend: AuthnLdapBackend
+  password_attribute?: string
+  is_superuser_attribute?: string
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
@@ -996,6 +1112,8 @@ export const AuthnJwtPublicKeyFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtPublicKeyVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtPublicKeyMechanism =
   typeof AuthnJwtPublicKeyMechanism[keyof typeof AuthnJwtPublicKeyMechanism]
@@ -1018,7 +1136,7 @@ export interface AuthnJwtPublicKey {
   public_key?: string
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtPublicKeyVerifyClaims
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -1030,6 +1148,8 @@ export const AuthnJwtJwksFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtJwksVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtJwksMechanism = typeof AuthnJwtJwksMechanism[keyof typeof AuthnJwtJwksMechanism]
 
@@ -1053,7 +1173,7 @@ export interface AuthnJwtJwks {
   ssl?: BrokerSslClientOpts
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtJwksVerifyClaims
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -1065,6 +1185,8 @@ export const AuthnJwtHmacFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtHmacVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtHmacMechanism = typeof AuthnJwtHmacMechanism[keyof typeof AuthnJwtHmacMechanism]
 
@@ -1086,7 +1208,7 @@ export interface AuthnJwtHmac {
   secret_base64_encoded?: boolean
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtHmacVerifyClaims
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }
@@ -1182,10 +1304,43 @@ export interface AuthnHttpGet {
   ssl?: BrokerSslClientOpts
 }
 
-export type AuthnBuiltinDbPasswordHashAlgorithm =
+export type AuthnBuiltinDbApiUserIdType =
+  typeof AuthnBuiltinDbApiUserIdType[keyof typeof AuthnBuiltinDbApiUserIdType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiUserIdType = {
+  clientid: 'clientid',
+  username: 'username',
+} as const
+
+export type AuthnBuiltinDbApiBackend =
+  typeof AuthnBuiltinDbApiBackend[keyof typeof AuthnBuiltinDbApiBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiBackend = {
+  built_in_database: 'built_in_database',
+} as const
+
+export type AuthnBuiltinDbApiMechanism =
+  typeof AuthnBuiltinDbApiMechanism[keyof typeof AuthnBuiltinDbApiMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiMechanism = {
+  password_based: 'password_based',
+} as const
+
+export type AuthnBuiltinDbApiPasswordHashAlgorithm =
   | AuthnHashSimple
   | AuthnHashPbkdf2
-  | AuthnHashBcryptRw
+  | AuthnHashBcryptRwApi
+
+export interface AuthnBuiltinDbApi {
+  password_hash_algorithm?: AuthnBuiltinDbApiPasswordHashAlgorithm
+  mechanism: AuthnBuiltinDbApiMechanism
+  backend: AuthnBuiltinDbApiBackend
+  user_id_type: AuthnBuiltinDbApiUserIdType
+  enable?: boolean
+}
 
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]
@@ -1211,11 +1366,16 @@ export const AuthnBuiltinDbMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
+
 export interface AuthnBuiltinDb {
+  password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
-  password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   enable?: boolean
 }
 
@@ -1271,6 +1431,19 @@ export interface AuthnHashPbkdf2 {
   mac_fun: AuthnHashPbkdf2MacFun
   iterations: number
   dk_length?: number
+}
+
+export type AuthnHashBcryptRwApiName =
+  typeof AuthnHashBcryptRwApiName[keyof typeof AuthnHashBcryptRwApiName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptRwApiName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcryptRwApi {
+  name: AuthnHashBcryptRwApiName
+  salt_rounds?: number
 }
 
 export type AuthnHashBcryptRwName = typeof AuthnHashBcryptRwName[keyof typeof AuthnHashBcryptRwName]
