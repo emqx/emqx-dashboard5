@@ -344,4 +344,28 @@ export default {
     zh: '速率配置（可选）',
     en: 'Limiter (Optional)',
   },
+  maxLenOfFrame: {
+    zh: '最大帧长度',
+    en: 'Max Length of Frame',
+  },
+  allowAnonymous: {
+    zh: '允许匿名',
+    en: 'Allow Anonymous',
+  },
+  registry: {
+    zh: '注册表',
+    en: 'Registry',
+  },
+  authentication: {
+    zh: '认证',
+    en: 'Authentication',
+  },
+  upTopic: {
+    zh: '上行主题',
+    en: 'Up Topic',
+  },
+  dnTopic: {
+    zh: '下行主题',
+    en: 'Dn Topic',
+  },
 }
