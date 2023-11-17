@@ -9,7 +9,7 @@ export default (
 } => {
   const { tl } = useI18nTl('RuleEngine')
   // TODO: add rules for likePasswordFieldKeys
-  // src/hooks/Rule/bridge/useBridgeDataHandler.ts:164:30
+  // src/hooks/Rule/useDataHandler.ts:164:30
   const ruleWhenEditing = [
     {
       validator: (rule: any, value: any, callback: any) => {

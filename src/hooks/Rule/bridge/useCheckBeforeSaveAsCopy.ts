@@ -3,7 +3,7 @@ import { jumpToErrorFormItem } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { get } from 'lodash'
 import { ref, Ref } from 'vue'
-import useBridgeDataHandler from './useBridgeDataHandler'
+import { useBridgeDataHandler } from '../useDataHandler'
 
 export default (): {
   pwdErrorWhenCoping: Ref<string>
