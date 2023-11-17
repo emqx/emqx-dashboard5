@@ -437,7 +437,7 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string

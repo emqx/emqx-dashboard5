@@ -380,7 +380,7 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string
@@ -493,65 +493,47 @@ export interface EmqxAuthnSchemaResourceMetrics {
   rate_last5m?: number
 }
 
-export type EmqxAuthnSchemaNodeStatusStatus =
-  typeof EmqxAuthnSchemaNodeStatusStatus[keyof typeof EmqxAuthnSchemaNodeStatusStatus]
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthnSchemaNodeStatusStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
+export const LdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
 } as const
 
-export interface EmqxAuthnSchemaNodeStatus {
-  node?: string
-  status?: EmqxAuthnSchemaNodeStatusStatus
-}
-
-export interface EmqxAuthnSchemaNodeResourceMetrics {
-  node?: string
-  metrics?: EmqxAuthnSchemaResourceMetrics
-}
-
-export interface EmqxAuthnSchemaNodeError {
-  node?: string
-  error?: string
-}
-
-export type EmqxAuthnSchemaMetricsStatusFieldsStatus =
-  typeof EmqxAuthnSchemaMetricsStatusFieldsStatus[keyof typeof EmqxAuthnSchemaMetricsStatusFieldsStatus]
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthnSchemaMetricsStatusFieldsStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
+export const LdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
 } as const
 
-export interface EmqxAuthnSchemaMetrics {
-  nomatch?: number
-  total?: number
-  success?: number
-  failed?: number
-  rate?: number
-  rate_max?: number
-  rate_last5m?: number
-}
-
-export interface EmqxAuthnSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthnSchemaMetrics
-}
-
-export interface EmqxAuthnSchemaMetricsStatusFields {
-  resource_metrics?: EmqxAuthnSchemaResourceMetrics
-  node_resource_metrics?: EmqxAuthnSchemaNodeResourceMetrics
-  metrics?: EmqxAuthnSchemaMetrics
-  node_metrics?: EmqxAuthnSchemaNodeMetrics
-  status?: EmqxAuthnSchemaMetricsStatusFieldsStatus
-  node_status?: EmqxAuthnSchemaNodeStatus
-  node_error?: EmqxAuthnSchemaNodeError
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: LdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: LdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export type EmqxAuthnRedisSchemaRedisSingleRedisType =
@@ -1439,6 +1421,19 @@ export interface AuthnHashPbkdf2 {
   mac_fun: AuthnHashPbkdf2MacFun
   iterations: number
   dk_length?: number
+}
+
+export type AuthnHashBcryptRwApiName =
+  typeof AuthnHashBcryptRwApiName[keyof typeof AuthnHashBcryptRwApiName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptRwApiName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcryptRwApi {
+  name: AuthnHashBcryptRwApiName
+  salt_rounds?: number
 }
 
 export type AuthnHashBcryptRwName = typeof AuthnHashBcryptRwName[keyof typeof AuthnHashBcryptRwName]

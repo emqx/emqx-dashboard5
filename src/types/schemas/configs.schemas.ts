@@ -100,6 +100,7 @@ export type GetConfigsKey = typeof GetConfigsKey[keyof typeof GetConfigsKey]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsKey = {
+  actions: 'actions',
   alarm: 'alarm',
   api_key: 'api_key',
   authentication: 'authentication',
@@ -652,8 +653,8 @@ export type BrokerSysmonVmLongGc = string | 'disabled'
 
 export interface BrokerSysmonVm {
   process_check_interval?: string
-  process_high_watermark?: number
-  process_low_watermark?: number
+  process_high_watermark?: string
+  process_low_watermark?: string
   long_gc?: BrokerSysmonVmLongGc
   long_schedule?: BrokerSysmonVmLongSchedule
   large_heap?: BrokerSysmonVmLargeHeap
@@ -665,11 +666,11 @@ export type BrokerSysmonOsMemCheckInterval = string | 'disabled'
 
 export interface BrokerSysmonOs {
   cpu_check_interval?: string
-  cpu_high_watermark?: number
-  cpu_low_watermark?: number
+  cpu_high_watermark?: string
+  cpu_low_watermark?: string
   mem_check_interval?: BrokerSysmonOsMemCheckInterval
-  sysmem_high_watermark?: number
-  procmem_high_watermark?: number
+  sysmem_high_watermark?: string
+  procmem_high_watermark?: string
 }
 
 export interface BrokerSysmon {
