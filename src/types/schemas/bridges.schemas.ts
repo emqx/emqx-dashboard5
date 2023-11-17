@@ -550,7 +550,7 @@ export interface ResourceSchemaCreationOpts {
   max_buffer_bytes?: string
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string
@@ -2578,7 +2578,7 @@ export interface BridgeMongodbPutSingle {
   use_legacy_protocol?: BridgeMongodbPutSingleUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2624,7 +2624,7 @@ export interface BridgeMongodbPutSharded {
   use_legacy_protocol?: BridgeMongodbPutShardedUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2681,7 +2681,7 @@ export interface BridgeMongodbPutRs {
   use_legacy_protocol?: BridgeMongodbPutRsUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2735,7 +2735,7 @@ export interface BridgeMongodbPostSingle {
   use_legacy_protocol?: BridgeMongodbPostSingleUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2791,7 +2791,7 @@ export interface BridgeMongodbPostSharded {
   use_legacy_protocol?: BridgeMongodbPostShardedUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2858,7 +2858,7 @@ export interface BridgeMongodbPostRs {
   use_legacy_protocol?: BridgeMongodbPostRsUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2928,7 +2928,7 @@ export interface BridgeMongodbGetSingle {
   use_legacy_protocol?: BridgeMongodbGetSingleUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -2998,7 +2998,7 @@ export interface BridgeMongodbGetSharded {
   use_legacy_protocol?: BridgeMongodbGetShardedUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -3079,7 +3079,7 @@ export interface BridgeMongodbGetRs {
   use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
   enable?: boolean
   collection?: string
@@ -3380,7 +3380,7 @@ export interface BridgeKafkaPutProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -3520,9 +3520,9 @@ export type BridgeKafkaPostProducerType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostProducerType = {
-  kafka_consumer: 'kafka_consumer',
   kafka: 'kafka',
   kafka_producer: 'kafka_producer',
+  kafka_consumer: 'kafka_consumer',
 } as const
 
 export interface BridgeKafkaPostProducer {
@@ -3538,7 +3538,7 @@ export interface BridgeKafkaPostProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -3570,9 +3570,9 @@ export type BridgeKafkaPostConsumerType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostConsumerType = {
-  kafka_consumer: 'kafka_consumer',
   kafka: 'kafka',
   kafka_producer: 'kafka_producer',
+  kafka_consumer: 'kafka_consumer',
 } as const
 
 export interface BridgeKafkaPostConsumer {
@@ -3610,9 +3610,9 @@ export type BridgeKafkaGetProducerType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetProducerType = {
-  kafka_consumer: 'kafka_consumer',
   kafka: 'kafka',
   kafka_producer: 'kafka_producer',
+  kafka_consumer: 'kafka_consumer',
 } as const
 
 export type BridgeKafkaGetProducerStatus =
@@ -3642,7 +3642,7 @@ export interface BridgeKafkaGetProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -3674,9 +3674,9 @@ export type BridgeKafkaGetConsumerType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConsumerType = {
-  kafka_consumer: 'kafka_consumer',
   kafka: 'kafka',
   kafka_producer: 'kafka_producer',
+  kafka_consumer: 'kafka_consumer',
 } as const
 
 export type BridgeKafkaGetConsumerStatus =
@@ -4913,7 +4913,7 @@ export interface BridgeAzureEventHubPutProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -4974,7 +4974,7 @@ export interface BridgeAzureEventHubPostProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeAzureEventHubSslClientOpts
   local_topic?: string
-  kafka: BridgeAzureEventHubProducerKafkaOpts
+  parameters: BridgeAzureEventHubProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -5009,9 +5009,9 @@ export type BridgeAzureEventHubGetProducerType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetProducerType = {
-  kafka_consumer: 'kafka_consumer',
   kafka: 'kafka',
   kafka_producer: 'kafka_producer',
+  kafka_consumer: 'kafka_consumer',
 } as const
 
 export type BridgeAzureEventHubGetProducerStatus =
@@ -5041,7 +5041,7 @@ export interface BridgeAzureEventHubGetProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 

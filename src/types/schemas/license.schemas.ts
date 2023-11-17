@@ -28,18 +28,18 @@ export type PutLicenseSetting400 = {
 }
 
 export type PutLicenseSetting200 = {
-  connection_low_watermark?: number
-  connection_high_watermark?: number
+  connection_low_watermark?: string
+  connection_high_watermark?: string
 }
 
 export type PutLicenseSettingBody = {
-  connection_low_watermark?: number
-  connection_high_watermark?: number
+  connection_low_watermark?: string
+  connection_high_watermark?: string
 }
 
 export type GetLicenseSetting200 = {
-  connection_low_watermark?: number
-  connection_high_watermark?: number
+  connection_low_watermark?: string
+  connection_high_watermark?: string
 }
 
 export interface LicenseHttpApiKeyLicense {
