@@ -149,7 +149,13 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  jt808: {},
+  jt808: {
+    type: 'tcp',
+    name: 'default',
+    bind: '6207',
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
   ocpp: {},
 }
 

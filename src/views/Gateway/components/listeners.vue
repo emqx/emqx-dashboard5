@@ -65,8 +65,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { onMounted, ref, watch, defineProps, defineEmits, computed, PropType } from 'vue'
+<script setup>
+import { onMounted, ref, watch, defineProps, defineEmits, computed } from 'vue'
 import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import _ from 'lodash'
 import { useRoute } from 'vue-router'
@@ -74,9 +74,7 @@ import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { GatewayName } from '@/types/enum'
-import { Listener } from '@/types/listener'
+import useI18nTl from '@/hooks/useI18nTl.ts'
 
 const props = defineProps({
   integration: {
@@ -90,7 +88,7 @@ const props = defineProps({
     default: '',
   },
   list: {
-    type: Array as PropType<Listener[]>,
+    type: Array,
     required: false,
     default: () => [],
   },
@@ -98,18 +96,17 @@ const props = defineProps({
 
 const showIntegration = computed(() => props.integration)
 
-const emit = defineEmits(['update:list'])
+const emit = defineEmits(['list'])
 
 const route = useRoute()
 const { t, tl } = useI18nTl('Gateway')
-const name = (route.params.name || props.gatewayName) as string
-const gName = name.toLowerCase() as GatewayName
+const gName = (route.params.name || props.gatewayName).toLowerCase()
 const { normalizeStructure, deNormalizeStructure, transPort } = useListenerUtils()
 
 let opListener = ref(false)
-let listenerTable = ref<Listener[]>([])
+let listenerTable = ref([])
 let listenerLoading = ref(false)
-const currentListener = ref<Listener | undefined>(undefined)
+const currentListener = ref(undefined)
 
 let editPos = 0
 
@@ -118,7 +115,7 @@ const addListener = () => {
   opListener.value = true
 }
 
-const editListener = (listener: Listener, index: number) => {
+const editListener = (listener, index) => {
   currentListener.value = listener
   editPos = index
   opListener.value = true
@@ -128,7 +125,7 @@ const loadListenerData = async function () {
   listenerLoading.value = true
   try {
     let res = await getGatewayListeners(gName)
-    listenerTable.value = res.map((v: Listener) => deNormalizeStructure(v, gName))
+    listenerTable.value = res.map((v) => deNormalizeStructure(v, gName))
   } catch (error) {
     //
   } finally {
@@ -136,7 +133,7 @@ const loadListenerData = async function () {
   }
 }
 
-const submitListener = async function (data: Listener) {
+const submitListener = async function (data) {
   const isEdit = !!currentListener.value
   if (isEdit) {
     listenerTable.value.splice(editPos, 1, data)
@@ -145,14 +142,14 @@ const submitListener = async function (data: Listener) {
   }
 }
 
-const delListener = async function (row: Listener) {
+const delListener = async function (row) {
   await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'warning',
   })
   if (props.integration) {
-    listenerTable.value.splice(listenerTable.value.indexOf(row as never), 1)
+    listenerTable.value.splice(listenerTable.value.indexOf(row), 1)
   } else {
     try {
       await deleteGatewayListener(gName, row.id)

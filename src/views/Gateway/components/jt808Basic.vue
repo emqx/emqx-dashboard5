@@ -1,16 +1,46 @@
 <template>
   <div class="jt808-basic">
-    <el-form label-position="top" v-model="gbtValue">
+    <el-form label-position="top" v-model="jValue">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
-            <el-input v-model="gbtValue.mountpoint" />
+            <el-input v-model="jValue.mountpoint" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('maxLenOfFrame')">
+            <CustomInputNumber
+              v-model.number="jValue.frame.max_length"
+              :min="0"
+              controls-position="right"
+              :placeholder="String(createDefault().frame.max_length)"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('registry')">
+            <el-input v-model="jValue.proto.registry" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('authentication')">
+            <el-input v-model="jValue.proto.authentication" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('upTopic')">
+            <el-input v-model="jValue.proto.up_topic" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('dnTopic')">
+            <el-input v-model="jValue.proto.dn_topic" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
             <TimeInputWithUnitSelect
-              v-model="gbtValue.retry_interval"
+              v-model="jValue.retry_interval"
               :number-placeholder="parseInt(createDefault().retry_interval).toString()"
               :enabled-units="['s']"
             />
@@ -19,7 +49,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('maxRetryTimes')">
             <CustomInputNumber
-              v-model.number="gbtValue.max_retry_times"
+              v-model.number="jValue.max_retry_times"
               :min="0"
               controls-position="right"
               :placeholder="String(createDefault().max_retry_times)"
@@ -29,7 +59,7 @@
         <el-col :span="12">
           <el-form-item :label="tl('msgQueueLen')">
             <CustomInputNumber
-              v-model.number="gbtValue.message_queue_len"
+              v-model.number="jValue.message_queue_len"
               :min="0"
               controls-position="right"
               :placeholder="String(createDefault().message_queue_len)"
@@ -39,15 +69,20 @@
         <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
             <TimeInputWithUnitSelect
-              v-model="gbtValue.idle_timeout"
+              v-model="jValue.idle_timeout"
               :number-placeholder="parseInt(createDefault().idle_timeout).toString()"
               :enabled-units="['s', 'ms']"
             />
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('allowAnonymous')">
+            <el-switch v-model="jValue.proto.allow_anonymous" />
+          </el-form-item>
+        </el-col>
         <el-col :span="24">
           <el-form-item :label="tl('useLog')">
-            <el-switch v-model="gbtValue.enable_stats" />
+            <el-switch v-model="jValue.enable_stats" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,7 +108,17 @@ const props = defineProps({
 const emit = defineEmits(['update:value'])
 
 const createDefault = () => ({
-  mountpoint: '',
+  frame: {
+    max_length: 8192,
+  },
+  proto: {
+    allow_anonymous: true,
+    registry: '',
+    authentication: '',
+    up_topic: 'jt808/${clientid}/${phone}/up',
+    dn_topic: 'jt808/${clientid}/${phone}/dn',
+  },
+  mountpoint: 'jt808/${clientid}/',
   retry_interval: '8s',
   max_retry_times: 3,
   message_queue_len: 10,
@@ -81,14 +126,14 @@ const createDefault = () => ({
   idle_timeout: '30s',
 })
 
-const gbtValue = reactive(_.merge(createDefault(), props.value))
+const jValue = reactive(_.merge(createDefault(), props.value))
 
 const { tl } = useI18nTl('Gateway')
 
-watch(gbtValue, (v) => {
+watch(jValue, (v) => {
   emit('update:value', v)
 })
 onMounted(() => {
-  emit('update:value', gbtValue)
+  emit('update:value', jValue)
 })
 </script>
