@@ -127,7 +127,7 @@ import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'

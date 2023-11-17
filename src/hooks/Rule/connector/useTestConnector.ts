@@ -1,12 +1,23 @@
-import { ref } from 'vue'
+import { testConnectorConnectivity } from '@/api/connector'
+import { Connector } from '@/types/rule'
 import type { Ref } from 'vue'
+import { ref } from 'vue'
+import { useConnectorDataHandler } from '../useDataHandler'
 
 export default (): {
   isTesting: Ref<boolean>
-  testConnectivity: () => Promise<void>
+  testConnectivity: (connector: Connector) => Promise<void>
 } => {
   const isTesting = ref(false)
-  const testConnectivity = async () => {}
+
+  const { handleConnectorDataBeforeSubmit } = useConnectorDataHandler()
+  const testConnectivity = async (connector: Connector) => {
+    try {
+      await testConnectorConnectivity(handleConnectorDataBeforeSubmit(connector))
+    } catch (error) {
+      //
+    }
+  }
 
   return {
     isTesting,
