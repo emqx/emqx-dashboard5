@@ -34,7 +34,7 @@
             <gbt32960-basic v-model:value="basicData"></gbt32960-basic>
           </template>
           <template v-else-if="gname === 'jt808'">
-            <!-- <jt808-basic v-model:value="basicData"></jt808-basic> -->
+            <jt808-basic v-model:value="basicData"></jt808-basic>
           </template>
           <template v-else-if="gname === 'ocpp'">
             <!-- <ocpp-basic v-model:value="basicData"></ocpp-basic> -->
@@ -95,6 +95,7 @@ import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
 import Gbt32960Basic from './components/gbt32960Basic.vue'
+import Jt808Basic from './components/jt808Basic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'

@@ -5,13 +5,13 @@ export function getGatewayList() {
   return http.get('/gateways')
 }
 
-export async function getGatewayListeners(name: string, id: string) {
+export async function getGatewayListeners(name: string, listenerId?: string) {
   if (!name) return Promise.reject()
   return http.get(
     '/gateways/' +
       encodeURIComponent(name) +
       '/listeners' +
-      ((id && '/' + encodeURIComponent(id)) || ''),
+      ((listenerId && '/' + encodeURIComponent(listenerId)) || ''),
   )
 }
 
@@ -31,10 +31,10 @@ export async function updateGatewayListener(
   )
 }
 
-export async function deleteGatewayListener(name: string, id: string) {
-  if (!name || !id) return Promise.reject()
+export async function deleteGatewayListener(name: string, listenerId: string) {
+  if (!name || !listenerId) return Promise.reject()
   return http.delete(
-    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
+    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(listenerId),
   )
 }
 
