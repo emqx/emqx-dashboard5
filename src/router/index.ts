@@ -470,13 +470,13 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'connector',
-        name: 'bridge-connector',
+        name: 'connector',
         component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
       },
       {
         path: 'connector/create',
         name: 'connector-create',
-        component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
+        component: () => import('@/views/RuleEngine/Connector/ConnectorCreate.vue'),
         meta: { hideInMenu: true },
       },
       {

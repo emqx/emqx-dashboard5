@@ -1,6 +1,12 @@
 <template>
   <div class="connectors">
     <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'connector-create' })">
+          {{ tl('create') }}
+        </el-button>
+      </div>
       <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
         <el-table-column :label="tl('name')" :min-width="120">
           <template #default="{ row }">
@@ -56,9 +62,10 @@ import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/use
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { Connector } from '@/types/rule'
+import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 
 const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector>>([])
