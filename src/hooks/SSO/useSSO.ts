@@ -2,7 +2,7 @@ import { getSSORunning, postSSOLogin } from '@/api/sso'
 import { API_BASE_URL } from '@/common/constants'
 import {
   DashboardSsoBackendStatusBackend,
-  EmqxDashboardSsoLdapLogin,
+  SsoLogin,
   EmqxDashboardSsoSamlLoginBackend,
   PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -31,14 +31,14 @@ export default function useSSO(): {
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
-  ldapRecord: EmqxDashboardSsoLdapLogin
+  ldapRecord: SsoLogin
   hasSSOEnabled: ComputedRef<boolean>
   ldapLogin: () => Promise<LdapLoginResult>
   getEnabledSSO: () => Promise<void>
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
-  const ldapRecord = reactive<EmqxDashboardSsoLdapLogin>({
+  const ldapRecord = reactive<SsoLogin>({
     username: '',
     password: '',
     backend: 'ldap',
