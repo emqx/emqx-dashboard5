@@ -100,6 +100,7 @@ export type GetConfigsKey = typeof GetConfigsKey[keyof typeof GetConfigsKey]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsKey = {
+  actions: 'actions',
   alarm: 'alarm',
   api_key: 'api_key',
   authentication: 'authentication',
@@ -108,6 +109,7 @@ export const GetConfigsKey = {
   bridges: 'bridges',
   cluster: 'cluster',
   conn_congestion: 'conn_congestion',
+  connectors: 'connectors',
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
@@ -412,33 +414,6 @@ export interface EmqxConfSchemaLogFileHandler {
   time_offset?: string
 }
 
-export type EmqxConfSchemaLogAuditHandlerLevel =
-  typeof EmqxConfSchemaLogAuditHandlerLevel[keyof typeof EmqxConfSchemaLogAuditHandlerLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaLogAuditHandlerLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export type EmqxConfSchemaLogAuditHandlerRotationSize = string | 'infinity'
-
-export interface EmqxConfSchemaLogAuditHandler {
-  path?: string
-  rotation_count?: number
-  rotation_size?: EmqxConfSchemaLogAuditHandlerRotationSize
-  level?: EmqxConfSchemaLogAuditHandlerLevel
-  enable?: boolean
-  time_offset?: string
-}
-
 export type EmqxConfSchemaLogFileOneOf = {
   $handler_name?: EmqxConfSchemaLogFileHandler
 }
@@ -480,7 +455,6 @@ export interface EmqxConfSchemaConsoleHandler {
 export interface EmqxConfSchemaLog {
   console?: EmqxConfSchemaConsoleHandler
   file?: EmqxConfSchemaLogFile
-  audit?: EmqxConfSchemaLogAuditHandler
 }
 
 export type DashboardSslOptionsLogLevel =
@@ -572,8 +546,8 @@ export type BrokerSysmonVmLongGc = string | 'disabled'
 
 export interface BrokerSysmonVm {
   process_check_interval?: string
-  process_high_watermark?: number
-  process_low_watermark?: number
+  process_high_watermark?: string
+  process_low_watermark?: string
   long_gc?: BrokerSysmonVmLongGc
   long_schedule?: BrokerSysmonVmLongSchedule
   large_heap?: BrokerSysmonVmLargeHeap
@@ -585,11 +559,11 @@ export type BrokerSysmonOsMemCheckInterval = string | 'disabled'
 
 export interface BrokerSysmonOs {
   cpu_check_interval?: string
-  cpu_high_watermark?: number
-  cpu_low_watermark?: number
+  cpu_high_watermark?: string
+  cpu_low_watermark?: string
   mem_check_interval?: BrokerSysmonOsMemCheckInterval
-  sysmem_high_watermark?: number
-  procmem_high_watermark?: number
+  sysmem_high_watermark?: string
+  procmem_high_watermark?: string
 }
 
 export interface BrokerSysmon {

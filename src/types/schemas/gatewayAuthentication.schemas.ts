@@ -229,6 +229,42 @@ export type PutGatewaysNameAuthentication400 = {
   message?: string
 }
 
+export type PutGatewaysNameAuthentication200 =
+  | AuthnLdapBind
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type PutGatewaysNameAuthenticationBody =
+  | AuthnLdapBind
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
 export type PostGatewaysNameAuthentication404Code =
   typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
 
@@ -257,6 +293,8 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -273,6 +311,8 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -316,6 +356,8 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
+  | AuthnLdapBind
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
   | AuthnJwtHmac
@@ -365,7 +407,7 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string
@@ -376,6 +418,51 @@ export interface EmqxMongodbTopology {
   wait_queue_timeout_ms?: string
   heartbeat_frequency_ms?: string
   min_heartbeat_frequency_ms?: string
+}
+
+export type LdapSslServerNameIndication = string | 'disable'
+
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: LdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: LdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export interface EmqxAuthnApiResponseUser {
@@ -734,7 +821,7 @@ export interface AuthnMongoSingle {
   use_legacy_protocol?: AuthnMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
 }
 
@@ -808,7 +895,7 @@ export interface AuthnMongoSharded {
   use_legacy_protocol?: AuthnMongoShardedUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
 }
 
@@ -885,8 +972,70 @@ export interface AuthnMongoRs {
   use_legacy_protocol?: AuthnMongoRsUseLegacyProtocol
   auth_source?: string
   database: string
-  topology?: EmqxMongodbTopology
+  topology?: MongoTopology
   ssl?: BrokerSslClientOpts
+}
+
+export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindBackend = {
+  ldap_bind: 'ldap_bind',
+} as const
+
+export type AuthnLdapBindMechanism =
+  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBindMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdapBind {
+  mechanism: AuthnLdapBindMechanism
+  backend: AuthnLdapBindBackend
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
+  bind_password?: string
+}
+
+export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export type AuthnLdapMechanism = typeof AuthnLdapMechanism[keyof typeof AuthnLdapMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnLdapMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnLdap {
+  mechanism: AuthnLdapMechanism
+  backend: AuthnLdapBackend
+  password_attribute?: string
+  is_superuser_attribute?: string
+  query_timeout?: string
+  enable?: boolean
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
@@ -896,6 +1045,8 @@ export const AuthnJwtPublicKeyFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtPublicKeyVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtPublicKeyMechanism =
   typeof AuthnJwtPublicKeyMechanism[keyof typeof AuthnJwtPublicKeyMechanism]
@@ -918,7 +1069,7 @@ export interface AuthnJwtPublicKey {
   public_key?: string
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtPublicKeyVerifyClaims
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -930,6 +1081,8 @@ export const AuthnJwtJwksFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtJwksVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtJwksMechanism = typeof AuthnJwtJwksMechanism[keyof typeof AuthnJwtJwksMechanism]
 
@@ -953,7 +1106,7 @@ export interface AuthnJwtJwks {
   ssl?: BrokerSslClientOpts
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtJwksVerifyClaims
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -965,6 +1118,8 @@ export const AuthnJwtHmacFrom = {
   username: 'username',
   password: 'password',
 } as const
+
+export type AuthnJwtHmacVerifyClaims = { [key: string]: any }
 
 export type AuthnJwtHmacMechanism = typeof AuthnJwtHmacMechanism[keyof typeof AuthnJwtHmacMechanism]
 
@@ -986,7 +1141,7 @@ export interface AuthnJwtHmac {
   secret_base64_encoded?: boolean
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
-  verify_claims?: string[]
+  verify_claims?: AuthnJwtHmacVerifyClaims
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }
@@ -1082,11 +1237,6 @@ export interface AuthnHttpGet {
   ssl?: BrokerSslClientOpts
 }
 
-export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcryptRw
-
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]
 
@@ -1112,44 +1262,12 @@ export const AuthnBuiltinDbMechanism = {
 } as const
 
 export interface AuthnBuiltinDb {
+  password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
-  password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   enable?: boolean
 }
-
-export type PutGatewaysNameAuthentication200 =
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameAuthenticationBody =
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
 
 export type AuthnHashSimpleSaltPosition =
   typeof AuthnHashSimpleSaltPosition[keyof typeof AuthnHashSimpleSaltPosition]
@@ -1216,6 +1334,11 @@ export interface AuthnHashBcryptRw {
   name: AuthnHashBcryptRwName
   salt_rounds?: number
 }
+
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashBcryptName = typeof AuthnHashBcryptName[keyof typeof AuthnHashBcryptName]
 
