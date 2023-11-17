@@ -2,7 +2,7 @@
   <div :class="[!isFromRule ? 'app-wrapper' : '', 'bridge-create']">
     <detail-header
       v-if="!isFromRule"
-      :item="{ name: tl('createBridge'), routeName: backRoute.name }"
+      :item="{ name: tl('createBridge'), routeName: 'data-bridge' }"
     />
     <div v-if="!isFromRule" class="data-bridge-create">
       <el-card class="app-card">
@@ -17,20 +17,20 @@
         </el-row>
         <el-row class="config-body">
           <template v-if="step === 0">
-            <el-radio-group class="bridge-type-select" v-model="chosenBridgeType">
+            <el-radio-group class="target-type-select" v-model="chosenBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in bridgeTypeOptions" :key="item.label" :span="8">
-                  <el-radio class="bridge-type-item" :label="item.value" border>
+                  <el-radio class="target-type-item" :label="item.value" border>
                     <img
-                      class="bridge-type-item-img"
+                      class="target-type-item-img"
                       height="64"
                       width="64"
                       :src="getBridgeIcon(item.value)"
                       :alt="item.label"
                     />
-                    <div class="bridge-type-item-bd">
+                    <div class="target-type-item-bd">
                       <div class="title">{{ item.label }}</div>
-                      <span class="bridge-type-desc">{{ item.desc }}</span>
+                      <span class="target-type-desc">{{ item.desc }}</span>
                     </div>
                   </el-radio>
                 </el-col>
@@ -169,14 +169,6 @@ export default defineComponent({
       isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
     )
 
-    const backRoute = computed(() => {
-      let name = 'data-bridge'
-      if (isFromRule.value) {
-        name = route.params.from.indexOf('detail') > -1 ? 'iot-detail' : 'iot-create'
-      }
-      return { name }
-    })
-
     const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
     const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
@@ -210,13 +202,7 @@ export default defineComponent({
       handleNext()
     }
 
-    const cancel = () => {
-      if (!isFromRule.value) {
-        router.push({ name: 'data-bridge' })
-      } else {
-        router.push({ name: route.params.from as string })
-      }
-    }
+    const cancel = () => router.push({ name: 'data-bridge' })
 
     const targetLoading = ref(false)
     const checkBridgeClipStatus = async () => {
@@ -320,7 +306,6 @@ export default defineComponent({
     return {
       tl,
       isFromRule,
-      backRoute,
       step,
       activeGuidesIndex,
       guideDescList,
@@ -374,61 +359,8 @@ export default defineComponent({
   margin-top: 24px;
 }
 
-.el-radio-group {
-  .el-row {
-    width: 100%;
-  }
-}
-
-.el-radio.is-bordered {
-  :deep(.el-radio__label) {
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0 0 0 52px;
-    min-height: 52px;
-    .title {
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      color: var(--color-title-primary);
-    }
-    .bridge-type-desc {
-      color: var(--color-title-primary);
-      font-size: 12px;
-      white-space: normal;
-    }
-    .bridge-type-item-bd {
-      padding-left: 16px;
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-  }
-}
-
 .config-body {
   flex-direction: column;
   width: 75%;
-}
-.bridge-type-select {
-  width: 100%;
-  margin-bottom: 24px;
-}
-.bridge-type-item {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  min-width: 40%;
-  margin-top: 16px;
-  padding: 0 12px 0 2px;
-  border: 2px solid var(--color-border-primary);
-}
-.bridge-type-item-img {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
 }
 </style>
