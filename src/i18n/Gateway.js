@@ -366,6 +366,6 @@ export default {
   },
   dnTopic: {
     zh: '下行主题',
-    en: 'Dn Topic',
+    en: 'Down Topic',
   },
 }
