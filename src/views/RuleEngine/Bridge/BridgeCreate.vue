@@ -136,7 +136,7 @@ import {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import GuideBar from '@/components/GuideBar.vue'

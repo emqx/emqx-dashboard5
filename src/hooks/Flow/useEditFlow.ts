@@ -1,5 +1,5 @@
 import { getBridgeInfo, getRuleInfo } from '@/api/ruleengine'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
