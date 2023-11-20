@@ -19,17 +19,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, defineEmits, ref, watch, PropType } from 'vue'
-import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { createRules, createBridge } from '@/api/ruleengine'
-import { useRouter } from 'vue-router'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import { postConnector } from '@/api/connector'
+import { createBridge, createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeItem, Connector, RuleItem } from '@/types/rule'
+import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
+import { PropType, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface CopyTarget {
-  type: 'bridge' | 'rule'
-  obj: BridgeItem | RuleItem
+  type: 'bridge' | 'rule' | 'connector'
+  obj: BridgeItem | RuleItem | Connector
 }
 
 const props = defineProps({
@@ -95,6 +96,13 @@ const submitBridge = () => {
   })
 }
 
+const submitConnector = () => {
+  return postConnector({
+    ...(checkNOmitFromObj(props.target.obj) as Connector),
+    name: inputValue.value,
+  })
+}
+
 const confirmAfterCreatedBridge = (id: string) => {
   if (id) {
     showDialog.value = false
@@ -114,6 +122,11 @@ const confirmAfterCreatedBridge = (id: string) => {
   }
 }
 
+const submitFuncMap = new Map([
+  ['rule', submitRule],
+  ['bridge', submitBridge],
+  ['connector', submitConnector],
+])
 const submit = async () => {
   if (!checkName()) {
     return
@@ -121,7 +134,11 @@ const submit = async () => {
 
   try {
     isSubmitting.value = true
-    const submitFunc = isRule.value ? submitRule : submitBridge
+    const submitFunc = submitFuncMap.get(props.target.type)
+    if (!submitFunc) {
+      console.error('can not find func to submit')
+      return
+    }
     const res = await submitFunc()
     ElMessage.success(t('Base.createSuccess'))
     if (isRule.value) {
