@@ -17,7 +17,7 @@ export const resourceOptFields = [
 
 type PropsType = Readonly<{
   modelValue: Record<string, any>
-  type?: Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB>
+  type?: string
   edit?: boolean
   copy?: boolean
   isLoading?: boolean
@@ -74,7 +74,7 @@ export default (
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.AzureEventHubs]: azureOrderMap,
-    [BridgeType.Kafka]: azureOrderMap,
+    [BridgeType.KafkaProducer]: azureOrderMap,
   }
 
   const propsOrderMap = computed(() => {
@@ -89,7 +89,7 @@ export default (
 
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
-    [BridgeType.Kafka]: azureAdvancedProps,
+    [BridgeType.KafkaProducer]: azureAdvancedProps,
   }
 
   const advancedFields = computed(() => {

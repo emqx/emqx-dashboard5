@@ -91,19 +91,32 @@ export const useBridgeTypeValue = (): {
 
 export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
+  getTypeStr: (type: string) => string
 } => {
+  const { tl } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
+
+  const connectorTypeLabel = new Map([
+    [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
+  ])
 
   const connectorTypeList = SUPPORTED_CONNECTOR_TYPES.reduce((arr: Array<TypeItem>, type) => {
     const item = bridgeTypeList.find((item) => item.value === type)
     if (item) {
       arr.push(item)
+    } else {
+      arr.push({ value: type, label: connectorTypeLabel.get(type) || type })
     }
     return arr
   }, [])
 
+  const getTypeStr = (type: string): string => {
+    return getLabelFromValueInOptionList(type, connectorTypeList)
+  }
+
   return {
     connectorTypeList,
+    getTypeStr,
   }
 }
 
