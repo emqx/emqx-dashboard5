@@ -1,6 +1,6 @@
-import { checkNOmitFromObj, createRandomString } from '@/common/tools'
+import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType } from '@/types/enum'
+import { BridgeType, InfluxDBType, Role } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
@@ -38,7 +38,15 @@ const useCommonDataHandler = () => {
 
   // When copying, set to empty value.
   // When saving as a copy, check if it has been modified.
-  const likePasswordFieldKeys = ['password']
+  const likePasswordFieldKeys = [
+    'password',
+    'authentication.password',
+    'authentication.jwt',
+    'secret_key',
+    'aws_secret_access_key',
+    'token',
+    'security_token',
+  ]
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
@@ -152,6 +160,8 @@ export const useBridgeDataHandler = (): {
   handleBridgeDataForCopy: (bridgeData: any) => any
   handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
+  const { tl } = useI18nTl('RuleEngine')
+
   const { getBridgeType } = useBridgeTypeOptions()
   const {
     handleDataBeforeSubmit,
@@ -170,12 +180,52 @@ export const useBridgeDataHandler = (): {
     return bridgeData
   }
 
+  const handleInfluxDBBridgeData = (bridgeData: any) => {
+    if (bridgeData.type === InfluxDBType.v1) {
+      bridgeData = omit(bridgeData, ['token', 'org', 'bucket'])
+    } else {
+      bridgeData = omit(bridgeData, ['database', 'username', 'password'])
+    }
+    return bridgeData
+  }
+
+  const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
+  const handleRedisBridgeData = async (bridgeData: any) => {
+    try {
+      bridgeData.command_template = await splitBySpace(bridgeData.command_template)
+      return bridgeData
+    } catch (error) {
+      return Promise.reject()
+    }
+  }
+
+  const handleGCPBridgeData = (bridgeData: any) => {
+    if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
+      try {
+        bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
+        return bridgeData
+      } catch (error) {
+        ElMessage.error(tl('accountJSONError'))
+        return Promise.reject()
+      }
+    }
+    return bridgeData
+  }
+
+  const specialDataHandlerBeforeSubmit = new Map([
+    [BridgeType.MQTT, handleMQTTBridgeData],
+    [BridgeType.Redis, handleRedisBridgeData],
+    [BridgeType.GCP, handleGCPBridgeData],
+    [BridgeType.InfluxDB, handleInfluxDBBridgeData],
+  ])
+
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
       let ret = cloneDeep(bridgeData)
       const bridgeType = getBridgeType(bridgeData.type)
-      if (bridgeType === BridgeType.MQTT) {
-        ret = await handleMQTTBridgeData(ret)
+      const handler = specialDataHandlerBeforeSubmit.get(bridgeType)
+      if (handler) {
+        ret = await handler(ret)
       }
       return Promise.resolve(handleDataBeforeSubmit(ret))
     } catch (error) {
@@ -184,7 +234,31 @@ export const useBridgeDataHandler = (): {
     }
   }
 
+  const handleGCPDataAfterLoaded = (data: any) => {
+    if ('service_account_json' in data && typeof data.service_account_json === 'object') {
+      data.service_account_json = stringifyObjSafely(data.service_account_json, 2)
+    }
+    data.role = data.type.indexOf('consumer') > -1 ? Role.Consumer : Role.Producer
+    return data
+  }
+
+  const handleRedisDataAfterLoaded = (data: any) => {
+    if ('command_template' in data && Array.isArray(data.command_template)) {
+      data.command_template = transCommandArrToStr(data.command_template)
+    }
+    return data
+  }
+
+  const specialHandlerAfterLoaded = new Map([
+    [BridgeType.GCP, handleGCPDataAfterLoaded],
+    [BridgeType.Redis, handleRedisDataAfterLoaded],
+  ])
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
+    const bridgeType = getBridgeType(bridgeData.type)
+    const handler = specialHandlerAfterLoaded.get(bridgeType)
+    if (handler) {
+      handler(bridgeData)
+    }
     return bridgeData
   }
 
