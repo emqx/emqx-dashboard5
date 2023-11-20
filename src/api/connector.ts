@@ -10,8 +10,13 @@ export const deleteConnector = (id: string): Promise<void> => {
   return http.delete(`/connectors/${encodeURIComponent(id)}`)
 }
 
-export const getConnectorDetail = (id: string): Promise<Connector> => {
-  return http.get(`/connectors/${encodeURIComponent(id)}`)
+export const getConnectorDetail = async (id: string): Promise<Connector> => {
+  try {
+    const data = await http.get(`/connectors/${encodeURIComponent(id)}`)
+    return Promise.resolve(Object.assign(data, { id: getBridgeKey(data) }))
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const putConnector = (id: string, data: Connector): Promise<Connector> => {

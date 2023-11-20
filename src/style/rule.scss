@@ -1,13 +1,8 @@
 .bridge-config {
-  .block-desc {
-    margin-bottom: 0px;
-    font-size: 14px;
+  .payload-desc {
+    margin-top: 4px;
+    margin-bottom: 0;
     color: var(--el-text-color-secondary);
-    line-height: 20px;
-  }
-  .part-sub-title {
-    font-size: 14px;
-    font-weight: bold;
   }
 
   .TLS-base-config {
@@ -23,11 +18,6 @@
     .TLS-input {
       width: 100%;
     }
-  }
-  .payload-desc {
-    margin-top: 4px;
-    margin-bottom: 0;
-    color: var(--el-text-color-secondary);
   }
 
   .one-of {
@@ -45,6 +35,27 @@
     }
   }
 }
+
+.bridge-detail {
+  .section-header img {
+    height: 64px;
+    vertical-align: top;
+  }
+  .title-n-status {
+    vertical-align: top;
+  }
+  .info-tags {
+    .el-tag,
+    .node-status {
+      margin-right: 8px;
+    }
+  }
+  .el-alert {
+    width: 75%;
+    margin-bottom: 12px;
+  }
+}
+
 /* Type Select */
 .target-type-select {
   width: 100%;
