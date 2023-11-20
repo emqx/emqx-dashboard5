@@ -23,56 +23,38 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { getGateway } from '@/api/gateway'
-import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { GatewayStatus } from '@/types/enum.ts'
+import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
+import useI18nTl from '@/hooks/useI18nTl'
 
-export default defineComponent({
-  name: 'GatewayDetail',
-  components: {
-    DetailHeader,
-  },
-  setup() {
-    let gInfo = ref({})
-    const { t } = useI18n()
-    const route = useRoute()
-    const types = ['settings', 'clients', 'auth', 'listeners']
-    const gname = String(route.params.name).toLowerCase()
-    const { transGatewayName } = useTransName()
-
-    const matchedUrl = computed(function () {
-      let currentPath = route.path || ''
-      return (
-        types.find((v) => {
-          return currentPath.match(v)
-        }) || types[0]
-      )
-    })
-
-    const loadGatewayInfo = async () => {
-      try {
-        gInfo.value = await getGateway(gname)
-      } catch (error) {
-        gInfo.value = {}
-      }
-    }
-    loadGatewayInfo()
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      gInfo,
-      gname,
-      transGatewayName,
-      types,
-      matchedUrl,
-      GatewayStatus,
-    }
-  },
+const gInfo = ref<Record<string, any>>({})
+const route = useRoute()
+const types = ['settings', 'clients', 'auth', 'listeners']
+const gname = String(route.params.name).toLowerCase() as GatewayName
+const { transGatewayName } = useTransName()
+const { tl } = useI18nTl('Gateway')
+const matchedUrl = computed(() => {
+  const currentPath = route.path || ''
+  return (
+    types.find((v) => {
+      return currentPath.match(v)
+    }) || types[0]
+  )
 })
+
+const loadGatewayInfo = async () => {
+  try {
+    gInfo.value = await getGateway(gname)
+  } catch (error) {
+    gInfo.value = {}
+  }
+}
+loadGatewayInfo()
 </script>
 
 <style lang="scss">
