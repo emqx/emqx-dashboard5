@@ -2,7 +2,7 @@ import { computed, ref, Ref, ComputedRef } from 'vue'
 import useFormRules from '@/hooks/useFormRules'
 import { FormRules } from '@/types/common'
 import useI18nTl from '../useI18nTl'
-import { isJSONString } from '@/common/tools'
+import { isJSONString } from '@emqx/shared-ui-utils'
 
 export default (): {
   formCom: Ref<any>

@@ -1,5 +1,5 @@
 import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
-import { isEmptyObj } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'

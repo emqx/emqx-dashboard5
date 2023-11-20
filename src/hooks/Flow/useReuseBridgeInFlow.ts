@@ -1,5 +1,5 @@
 import { getBridgeList } from '@/api/ruleengine'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import {
   typesWithProducerAndConsumer,
   useBridgeDirection,
