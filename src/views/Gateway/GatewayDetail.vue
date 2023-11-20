@@ -34,22 +34,28 @@ import useI18nTl from '@/hooks/useI18nTl'
 
 const gInfo = ref<Record<string, any>>({})
 const route = useRoute()
-const types = ['settings', 'clients', 'auth', 'listeners']
-const gname = String(route.params.name).toLowerCase() as GatewayName
+const gname = computed(() => String(route.params.name).toLowerCase() as GatewayName)
+const types = computed(() => {
+  const comonTypes = ['settings', 'clients', 'listeners']
+  if (gname.value !== 'jt808') {
+    comonTypes.splice(2, 0, 'auth')
+  }
+  return comonTypes
+})
 const { transGatewayName } = useTransName()
 const { tl } = useI18nTl('Gateway')
 const matchedUrl = computed(() => {
   const currentPath = route.path || ''
   return (
-    types.find((v) => {
+    types.value.find((v) => {
       return currentPath.match(v)
-    }) || types[0]
+    }) || types.value[0]
   )
 })
 
 const loadGatewayInfo = async () => {
   try {
-    gInfo.value = await getGateway(gname)
+    gInfo.value = await getGateway(gname.value)
   } catch (error) {
     gInfo.value = {}
   }
