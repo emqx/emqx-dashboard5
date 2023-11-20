@@ -26,6 +26,8 @@
             <TargetItemStatus :target="row" />
           </template>
         </el-table-column>
+        <el-table-column :label="tl('associativeDataBridge')">
+          <template #default="{ row }"> TODO:{{ row.XXXXXXX }} </template>
         </el-table-column>
         <el-table-column :label="$t('Base.operation')" :min-width="168">
           <template #default="{ row }">
@@ -55,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+import { deleteConnector, getConnectors, reconnectConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'

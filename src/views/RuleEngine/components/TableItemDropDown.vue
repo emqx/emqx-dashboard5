@@ -26,11 +26,7 @@
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item
-          :disabled="!$hasPermission('post')"
-          command="delete"
-          :disabled="disableDel"
-        >
+        <el-dropdown-item :disabled="!$hasPermission('post') || disableDel" command="delete">
           <el-icon><Delete /></el-icon>
           <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>
