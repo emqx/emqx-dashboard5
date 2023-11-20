@@ -66,9 +66,9 @@ export async function getGatewayClientDetail(name: string, listenerId: string) {
 }
 
 export async function getGatewayClientSubs(name: string, listenerId: string) {
-  if (!name || !id) return Promise.reject()
+  if (!name || !listenerId) return Promise.reject()
   return http.get(
-    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
+    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(listenerId)}/subscriptions`,
   )
 }
 
