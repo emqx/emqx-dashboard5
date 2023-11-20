@@ -8,7 +8,7 @@ import { BridgeType, Role } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { pick } from 'lodash'
-import { useRedisCommandCheck } from './useBridgeDataHandler'
+import { useRedisCommandCheck } from '../useDataHandler'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
