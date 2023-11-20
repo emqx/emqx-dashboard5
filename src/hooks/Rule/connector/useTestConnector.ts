@@ -13,9 +13,12 @@ export default (): {
   const { handleConnectorDataBeforeSubmit } = useConnectorDataHandler()
   const testConnectivity = async (connector: Connector) => {
     try {
+      isTesting.value = true
       await testConnectorConnectivity(handleConnectorDataBeforeSubmit(connector))
     } catch (error) {
       //
+    } finally {
+      isTesting.value = false
     }
   }
 

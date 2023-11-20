@@ -60,12 +60,16 @@
 import { deleteConnector, getConnectors, reconnectConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ConnectionStatus } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+
+const router = useRouter()
 
 const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector>>([])
@@ -112,12 +116,17 @@ const getDetailPageRoute = ({ id }: Connector) => ({
 })
 
 const copyConnectorItem = ({ id }: Connector) => {
-  // TODO:
+  router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
 }
 
-const handleDeleteConnector = async ({ id }: Connector) => {
+// TODO:TODO:TODO:
+const { confirmDel } = useOperationConfirm()
+const handleDeleteConnector = async ({ id, XXXXX }: Connector) => {
+  if (XXXXX) {
+    return
+  }
   try {
-    await deleteConnector(id)
+    await confirmDel(() => deleteConnector(id))
     getList()
   } catch (error) {
     //
