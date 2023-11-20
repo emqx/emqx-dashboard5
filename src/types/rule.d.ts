@@ -93,6 +93,7 @@ export interface BridgeBaseData {
     status: ConnectionStatus
   }>
   status: ConnectionStatus
+  status_reason?: string
   type: BridgeType
   local_topic?: string
   enable: boolean
@@ -171,10 +172,35 @@ export type OtherBridge = Record<string, any>
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
 export type Connector = {
-  name: string
   type: BridgeType
+  name: string
+  description: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
+  id: string
+  status: ConnectionStatus
+  status_reason?: string
+  enable: boolean
   resource_opts: ResourceOpt
-  [key: string]: any
+  [key: any]: any
+}
+
+export interface Action {
+  type: BridgeType
+  name: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
+  id: string
+  status: ConnectionStatus
+  status_reason?: string
+  enable: boolean
+  connector: string
+  resource_opts: ResourceOpt
+  [key: any]: any
 }
 
 export interface BridgeMetricsData {

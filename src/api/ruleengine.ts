@@ -1,7 +1,9 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
+import { ListDataWithPagination } from '@/types/common'
 import {
+  Action,
   BridgeItem,
   BridgeMetricsData,
   ParamsForQueryRules,
@@ -9,7 +11,7 @@ import {
   RuleMetrics,
   SchemaRegistry,
 } from '@/types/rule'
-import { ListDataWithPagination } from '@/types/common'
+import { getActions } from './action'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -25,6 +27,28 @@ export async function getBridgeList(): Promise<any> {
         }
       }),
     )
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+/**
+ * bridge + action list
+ */
+export const getMixedBridgeList = async (): Promise<Array<BridgeItem>> => {
+  try {
+    const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
+    // FIXME:FIXME:FIXME: KAFKA
+    const actionData = actionList.reduce((map: Map<string, Action>, actionItem: Action) => {
+      map.set(actionItem.id, actionItem)
+      return map
+    }, new Map())
+    for (let index = 0; index < bridgeList.length; index++) {
+      if (actionData.get(bridgeList[index].id)) {
+        bridgeList.splice(index, 1, actionData.get(bridgeList[index].id))
+      }
+    }
+    return Promise.resolve(bridgeList)
   } catch (error) {
     return Promise.reject(error)
   }

@@ -327,6 +327,13 @@ export const enum TraceEncodeType {
   Hidden = 'hidden',
 }
 
+export const enum LDAPAuthMethod {
+  Bind = 'bind',
+  Hash = 'hash',
+}
+
+/* EE exclusive 👇🏻 */
+
 export enum LicenseCustomerType {
   Small = 0,
   Medium,

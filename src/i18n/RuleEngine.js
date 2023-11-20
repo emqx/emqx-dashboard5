@@ -3,6 +3,10 @@ export default {
     zh: '创建数据桥接',
     en: 'Create Data Bridge',
   },
+  createConnector: {
+    zh: '创建连接',
+    en: 'Create Connector',
+  },
   updateBridgeTip: {
     zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
     en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
@@ -14,6 +18,10 @@ export default {
   bridgeType: {
     zh: '数据桥接类型',
     en: 'Type of Data Bridge',
+  },
+  connectorType: {
+    zh: '连接类型',
+    en: 'Type of Connector',
   },
   dataBridge: {
     zh: '数据桥接',
@@ -50,6 +58,18 @@ export default {
   status: {
     zh: '资源状态',
     en: 'Resource Status',
+  },
+  connectionStatus: {
+    zh: '连接状态',
+    en: 'Connection Status',
+  },
+  statusReason: {
+    zh: '状态原因',
+    en: 'Status Reason',
+  },
+  associativeDataBridge: {
+    zh: '关联数据桥接',
+    en: 'Associative Data Bridge',
   },
   configuration: {
     zh: '配置信息',

@@ -26,7 +26,11 @@
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item :disabled="!$hasPermission('post')" command="delete">
+        <el-dropdown-item
+          :disabled="!$hasPermission('post')"
+          command="delete"
+          :disabled="disableDel"
+        >
           <el-icon><Delete /></el-icon>
           <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>
@@ -58,6 +62,13 @@ defineProps({
     type: Object as PropType<PluginItem>,
   },
   isBridge: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * for connector, when a connector associated with bridge, it should be disabled
+   */
+  disableDel: {
     type: Boolean,
     default: false,
   },

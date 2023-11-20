@@ -1,111 +1,103 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <component :is="Component" v-if="Component"></component>
-    <template v-else>
-      <div class="app-wrapper data-bridge">
-        <div class="section-header">
-          <div></div>
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('post')"
-            :icon="Plus"
-            @click="$router.push({ name: 'bridge-create' })"
-          >
-            {{ tl('create') }}
-          </el-button>
-        </div>
+  <div class="app-wrapper data-bridge">
+    <div class="section-header">
+      <div></div>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :icon="Plus"
+        @click="$router.push({ name: 'bridge-create' })"
+      >
+        {{ tl('create') }}
+      </el-button>
+    </div>
 
-        <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
-          <el-table-column :label="tl('name')" :min-width="120">
-            <template #default="{ row }">
-              <router-link
-                :to="getBridgeDetailPageRoute(row.id)"
-                class="first-column-with-icon-type"
-              >
-                <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
-                <div class="name-type-block">
-                  <span class="name-data">
-                    {{ row.name }}
-                  </span>
-                  <span class="type-data">{{ getTypeStr(row) }}</span>
-                </div>
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column :label="tl('status')" :min-width="120">
-            <template #default="{ row }">
-              <BridgeItemStatus :bridge="row" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
-            <template #default="{ row }">
-              <el-switch
-                v-model="row.enable"
-                :disabled="!$hasPermission('put')"
-                @change="enableOrDisableBridge(row)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('Base.operation')" :min-width="168">
-            <template #default="{ row }">
-              <el-button
-                size="small"
-                v-if="
-                  row.status === ConnectionStatus.Disconnected ||
-                  row.status === ConnectionStatus.Inconsistent
-                "
-                :disabled="!$hasPermission('post')"
-                :loading="reconnectingMap.get(row.id)"
-                @click="reconnect(row)"
-              >
-                {{ $t('RuleEngine.reconnect') }}
-              </el-button>
-              <el-button
-                size="small"
-                @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
-              >
-                {{ $t('Base.setting') }}
-              </el-button>
-              <TableItemDropDown
-                is-bridge
-                :row-data="row"
-                @copy="copyBridgeItem(row)"
-                @delete="handleDeleteBridge(row.id)"
-                @create-rule="createRuleWithBridge(row.id)"
-              />
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <DeleteBridgeSecondConfirm
-        v-model="showSecondConfirm"
-        :rule-list="usingBridgeRules"
-        :id="currentDeleteBridgeId"
-        @submitted="handleDeleteSuc"
-      />
-    </template>
-  </router-view>
+    <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
+      <el-table-column :label="tl('name')" :min-width="120">
+        <template #default="{ row }">
+          <router-link :to="getBridgeDetailPageRoute(row.id)" class="first-column-with-icon-type">
+            <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
+            <div class="name-type-block">
+              <span class="name-data">
+                {{ row.name }}
+              </span>
+              <span class="type-data">{{ getTypeStr(row) }}</span>
+            </div>
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('status')" :min-width="120">
+        <template #default="{ row }">
+          <TargetItemStatus :bridge="row" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+        <template #default="{ row }">
+          <el-switch
+            v-model="row.enable"
+            :disabled="!$hasPermission('put')"
+            @change="enableOrDisableBridge(row)"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Base.operation')" :min-width="168">
+        <template #default="{ row }">
+          <el-button
+            size="small"
+            v-if="
+              row.status === ConnectionStatus.Disconnected ||
+              row.status === ConnectionStatus.Inconsistent
+            "
+            :disabled="!$hasPermission('post')"
+            :loading="reconnectingMap.get(row.id)"
+            @click="reconnect(row)"
+          >
+            {{ $t('RuleEngine.reconnect') }}
+          </el-button>
+          <el-button
+            size="small"
+            @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
+          >
+            {{ $t('Base.setting') }}
+          </el-button>
+          <TableItemDropDown
+            is-bridge
+            :row-data="row"
+            @copy="copyBridgeItem(row)"
+            @delete="handleDeleteBridge(row.id)"
+            @create-rule="createRuleWithBridge(row.id)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <DeleteBridgeSecondConfirm
+    v-model="showSecondConfirm"
+    :rule-list="usingBridgeRules"
+    :id="currentDeleteBridgeId"
+    @submitted="handleDeleteSuc"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
+import { getMixedBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
-import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { ConnectionStatus } from '@/types/enum'
 
 export default defineComponent({
-  components: { BridgeItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
+  components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
   setup() {
-    const bridgeTb = ref([])
+    const bridgeTb = ref<Array<BridgeItem>>([])
     const tbLoading = ref(false)
     const router = useRouter()
     const reconnectingMap: Ref<Map<string, boolean>> = ref(new Map())
@@ -121,7 +113,7 @@ export default defineComponent({
     const listBridge = async function () {
       tbLoading.value = true
       try {
-        bridgeTb.value = await getBridgeList()
+        bridgeTb.value = await getMixedBridgeList()
         initReconnectingMap()
       } catch (error) {
         console.error(error)

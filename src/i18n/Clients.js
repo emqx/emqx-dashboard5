@@ -384,15 +384,15 @@ export default {
     en: 'e.g. typing test/# will filter for subscriptions where the topic is test/1, test/2, etc.',
   },
   noLocal: {
-    zh: 'No Local',
+    zh: '禁止本地转发',
     en: 'No Local',
   },
   retainAsPublished: {
-    zh: 'Retain as Published',
+    zh: '发布时状态保留',
     en: 'Retain as Published',
   },
   retainHandling: {
-    zh: 'Retain Handling',
+    zh: '保留消息处理',
     en: 'Retain Handling',
   },
   topicRequired: {

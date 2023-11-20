@@ -39,6 +39,7 @@ const tagArr = [
   'API Keys',
   'Banned',
   'Connectors',
+  'Actions',
   /* ⬇ just for ee */
   'File Transfer',
   'License',

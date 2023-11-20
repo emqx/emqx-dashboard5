@@ -65,10 +65,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="tl('httpPipeline')">
-          <CustomInputNumber
-            v-model="formData.bridge.enable_pipelining"
-            controls-position="right"
-          />
+          <CustomInputNumber v-model="formData.bridge.enable_pipelining" />
         </el-form-item>
       </div>
     </el-collapse-transition>
@@ -87,7 +84,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'

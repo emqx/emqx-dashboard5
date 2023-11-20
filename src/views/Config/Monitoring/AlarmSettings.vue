@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { loadAlarm } from '@/api/common'
 import { getSysMon, updateSysMon } from '@/api/config'
 import { customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
@@ -30,7 +31,7 @@ import { useStore } from 'vuex'
 const configs = ref({})
 const saveLoading = ref(false)
 const configLoading = ref(false)
-const { state } = useStore()
+const { state, dispatch } = useStore()
 const { t } = useI18n()
 
 let rawData: any = undefined
@@ -52,12 +53,26 @@ const loadData = async () => {
 const reloading = () => {
   loadData()
 }
+
+/**
+ * The conditions that originally triggered alarms may not trigger alarms after updating the conf.
+ * Therefore, we need to update the alarm list after updating the conf.
+ */
+const refreshAlarmList = async () => {
+  try {
+    const { data } = await loadAlarm()
+    dispatch('SET_ALERT_COUNT', (data || []).length)
+  } catch (error) {
+    //
+  }
+}
 const handleSave = async (val: AlarmSettings) => {
   try {
     await customValidate(SchemaFormCom.value)
     saveLoading.value = true
     const data = { ...val }
     await updateSysMon(data)
+    refreshAlarmList()
     ElMessage.success(t('Base.updateSuccess'))
     reloading()
   } catch (error) {

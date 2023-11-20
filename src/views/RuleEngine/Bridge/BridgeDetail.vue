@@ -15,7 +15,7 @@
           />
           <div class="title-n-status">
             <div class="info-tags">
-              <BridgeItemStatus :bridge="bridgeInfo" is-tag />
+              <TargetItemStatus :bridge="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
                 {{ isWebhook ? 'Webhook' : getTypeStr(bridgeInfo) }}
               </el-tag>
@@ -170,7 +170,7 @@ import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api
 import { BRIDGE_TYPES_NOT_USE_SCHEMA, WEBHOOK_SUFFIX } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
@@ -199,7 +199,7 @@ import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
-import BridgeItemStatus from './Components/BridgeItemStatus.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 

@@ -63,7 +63,8 @@
           <!-- Basic -->
           <el-col :span="12" v-if="!(isRedis && databaseConfig.redis_type === 'cluster')">
             <el-form-item :label="$t('Auth.database')" required prop="database">
-              <el-input v-model="databaseConfig.database" />
+              <el-input v-if="!isRedis" v-model="databaseConfig.database" />
+              <CustomInputNumber v-else v-model="databaseConfig.database" :min="0" />
             </el-form-item>
           </el-col>
           <el-col v-if="isMongoDB" :span="12">
@@ -276,6 +277,7 @@ import { ElMessageBox } from 'element-plus'
 import { computed, defineComponent, ref, PropType } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -285,6 +287,7 @@ export default defineComponent({
     PasswordHashAlgorithmFormItems,
     Monaco,
     HelpBlock,
+    CustomInputNumber,
   },
 
   props: {

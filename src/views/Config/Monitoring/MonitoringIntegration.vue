@@ -200,13 +200,12 @@ const isDataLoading = ref(false)
 let rawData: any = undefined
 const nowRecordData = computed(() => ({
   prometheus: prometheusFormData.value,
+  openTelemetry: opentelemetryFormData.value,
 }))
 const checkDataIsChanged = () => !isEqual(nowRecordData.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 const updateRawDataForCompare = () => {
-  rawData = cloneDeep({
-    prometheus: prometheusFormData.value,
-  })
+  rawData = cloneDeep(nowRecordData.value)
 }
 
 const loadIntegration = async function () {
@@ -221,6 +220,7 @@ const updatePrometheus = async function () {
   try {
     isSubmitting.value = true
     await setPrometheus(prometheusFormData.value)
+    updateRawDataForCompare()
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     loadIntegration()

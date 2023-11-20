@@ -4,12 +4,7 @@
       <el-row :gutter="30">
         <el-col :span="12" prop="gateway_id">
           <el-form-item :label="'Gateway ID'">
-            <CustomInputNumber
-              v-model.number="mValue.gateway_id"
-              controls-position="right"
-              :min="0"
-              :max="255"
-            />
+            <CustomInputNumber v-model.number="mValue.gateway_id" :min="0" :max="255" />
           </el-form-item>
         </el-col>
         <el-col :span="12">

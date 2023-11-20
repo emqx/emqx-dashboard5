@@ -248,6 +248,8 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
+export const SUPPORTED_CONNECTOR_TYPES = [BridgeType.Webhook]
+
 export const COPY_SUFFIX = '_duplication'
 
 export const AUTO_RESTART_INTERVAL_DEFAULT = '60s'

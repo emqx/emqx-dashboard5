@@ -391,6 +391,19 @@ export type PutBridgesIdEnableEnable404 = {
   message?: string
 }
 
+export type PutBridgesIdEnableEnable400Code =
+  typeof PutBridgesIdEnableEnable400Code[keyof typeof PutBridgesIdEnableEnable400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutBridgesIdEnableEnable400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutBridgesIdEnableEnable400 = {
+  code?: PutBridgesIdEnableEnable400Code
+  message?: string
+}
+
 export type PostBridgesProbe400Code =
   typeof PostBridgesProbe400Code[keyof typeof PostBridgesProbe400Code]
 

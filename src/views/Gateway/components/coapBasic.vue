@@ -3,7 +3,10 @@
     <el-form label-position="top">
       <el-row :gutter="30">
         <el-col :span="12">
-          <el-form-item :label="tl('connectionRequire')">
+          <el-form-item prop="connection_required">
+            <template #label>
+              <FormItemLabel :label="tl('connectionRequire')" :desc="tl('connectionRequireDesc')" />
+            </template>
             <el-select v-model="cValue.connection_required">
               <el-option :value="true" label="true" />
               <el-option :value="false" label="false" />
@@ -71,11 +74,13 @@ import { defineComponent, onMounted, reactive, watch } from 'vue'
 import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 export default defineComponent({
   name: 'CoapBasic',
   components: {
     TimeInputWithUnitSelect,
+    FormItemLabel,
   },
   props: {
     value: {
