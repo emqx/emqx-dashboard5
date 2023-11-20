@@ -4,7 +4,7 @@
   - there are only two options for oneof
  -->
 <template>
-  <el-col :span="colSpan">
+  <el-col :span="colSpan" v-bind="$attrs">
     <el-form-item :label="`TODO:`">
       <el-select v-model="typeIndex" v-if="!readonly" @change="handleTypeChanged">
         <el-option
@@ -19,7 +19,12 @@
   </el-col>
   <template v-for="(oneOfItem, $index) in items" :key="$index">
     <template v-if="oneOfItem.$ref && typeIndex === $index">
-      <el-col :span="colSpan" v-for="(item, $key) in oneOfItem.properties" :key="$key">
+      <el-col
+        v-for="(item, $key) in oneOfItem.properties"
+        :span="colSpan"
+        :key="$key"
+        v-bind="$attrs"
+      >
         <el-form-item :label="`TODO:${$key}`" :prop="getFormItemProp($key)">
           <SchemaFormItem
             v-model="fieldValue[$key]"

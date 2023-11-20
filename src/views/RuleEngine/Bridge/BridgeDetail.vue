@@ -15,7 +15,7 @@
           />
           <div class="title-n-status">
             <div class="info-tags">
-              <TargetItemStatus :bridge="bridgeInfo" is-tag />
+              <TargetItemStatus :target="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
                 {{ isWebhook ? 'Webhook' : getTypeStr(bridgeInfo) }}
               </el-tag>
@@ -408,26 +408,6 @@ defineExpose({
 </style>
 
 <style lang="scss" scoped>
-.section-header img {
-  height: 64px;
-  vertical-align: top;
-}
-.title-n-status {
-  vertical-align: top;
-}
-.section-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 22px;
-}
-.info-tags {
-  .el-tag,
-  :deep(.node-status) {
-    margin-right: 8px;
-  }
-}
 .setting-area {
   width: 75%;
   min-height: 400px;
@@ -444,12 +424,6 @@ defineExpose({
     display: none;
   }
 }
-
-.el-alert {
-  width: 75%;
-  margin-bottom: 12px;
-}
-
 .overview-container.is-loading {
   height: 600px;
 }

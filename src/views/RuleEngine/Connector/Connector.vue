@@ -16,7 +16,7 @@
                 <span class="name-data">
                   {{ row.name }}
                 </span>
-                <span class="type-data">{{ getTypeStr(row) }}</span>
+                <span class="type-data">{{ getTypeStr(row.type) }}</span>
               </div>
             </router-link>
           </template>
@@ -39,7 +39,7 @@
             >
               {{ $t('RuleEngine.reconnect') }}
             </el-button>
-            <el-button size="small" @click="$router.push(getDetailPageRoute(row.id))">
+            <el-button size="small" @click="$router.push(getDetailPageRoute(row))">
               {{ $t('Base.setting') }}
             </el-button>
             <!-- TODO:disable del -->
@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { deleteConnector, getConnectors, reconnectConnector } from '@/api/connector'
-import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ConnectionStatus } from '@/types/enum'
@@ -134,7 +134,7 @@ const handleDeleteConnector = async ({ id, XXXXX }: Connector) => {
 }
 
 const { getBridgeIcon } = useBridgeTypeIcon()
-const { getTypeStr } = useBridgeTypeOptions()
+const { getTypeStr } = useConnectorTypeValue()
 
 getList()
 </script>
