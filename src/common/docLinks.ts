@@ -48,7 +48,11 @@ const createQueryStr = (queryObj: Record<string, string | number>) => {
   )
 }
 
-const QUERY_FOR_HELP = createQueryStr({ utm_campaign: 'emqx-dashboard-help' })
+const QUERY_FOR_HELP = createQueryStr({
+  utm_campaign: 'emqx-enterprise-dashboard-header-to-contact',
+  utm_source: 'emqx-enterprise-dashboard',
+  utm_medium: 'referral',
+})
 const QUERY_FOR_GO_CLOUD = createQueryStr({
   utm_campaign: 'dashboard-to-cloud',
   // TODO: confirm this link
