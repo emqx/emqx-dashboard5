@@ -1,7 +1,7 @@
 import { checkNOmitFromObj } from '@/common/tools'
 import {
   DashboardSsoBackendStatusBackend,
-  EmqxDashboardSsoLdapLdapBackend,
+  SsoLdapBackend,
   EmqxDashboardSsoSamlSamlBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import useSSL from '../useSSL'
@@ -14,7 +14,7 @@ export default (): {
 
   const createRawLDAPForm = (): any => ({
     enable: true,
-    backend: EmqxDashboardSsoLdapLdapBackend.ldap,
+    backend: SsoLdapBackend.ldap,
     server: 'localhost:389',
     username: '',
     password: '',

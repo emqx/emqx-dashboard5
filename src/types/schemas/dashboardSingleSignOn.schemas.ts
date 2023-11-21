@@ -10,9 +10,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
+export type PutSsoBackend200 = EmqxDashboardSsoSamlSaml | SsoLdap
 
-export type PutSsoBackendBody = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
+export type PutSsoBackendBody = EmqxDashboardSsoSamlSaml | SsoLdap
 
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
@@ -26,7 +26,7 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = EmqxDashboardSsoSamlSaml | EmqxDashboardSsoLdapLdap
+export type GetSsoBackend200 = EmqxDashboardSsoSamlSaml | SsoLdap
 
 export type DeleteSsoBackend404Code =
   typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
@@ -108,8 +108,6 @@ export type PostSsoLoginBackend200 = {
   license?: PostSsoLoginBackend200License
 }
 
-export type PostSsoLoginBackendBody = EmqxDashboardSsoSamlLogin | EmqxDashboardSsoLdapLogin
-
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
 
@@ -178,12 +176,48 @@ export type PostSsoSamlAcs302 = {
   message?: string
 }
 
-export type EmqxLdapSslServerNameIndication = string | 'disable'
-
-export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+export type SsoLoginBackend = typeof SsoLoginBackend[keyof typeof SsoLoginBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslLogLevel = {
+export const SsoLoginBackend = {
+  ldap: 'ldap',
+} as const
+
+export interface SsoLogin {
+  backend: SsoLoginBackend
+  username?: string
+  password?: string
+}
+
+export type PostSsoLoginBackendBody = EmqxDashboardSsoSamlLogin | SsoLogin
+
+export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export interface SsoLdap {
+  enable?: boolean
+  backend: SsoLdapBackend
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
+}
+
+export type LdapSslServerNameIndication = string | 'disable'
+
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslLogLevel = {
   emergency: 'emergency',
   alert: 'alert',
   critical: 'critical',
@@ -196,31 +230,31 @@ export const EmqxLdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslVerify = {
+export const LdapSslVerify = {
   verify_peer: 'verify_peer',
   verify_none: 'verify_none',
 } as const
 
-export interface EmqxLdapSsl {
+export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
   keyfile?: string
-  verify?: EmqxLdapSslVerify
+  verify?: LdapSslVerify
   reuse_sessions?: boolean
   depth?: number
   password?: string
   versions?: string[]
   ciphers?: string[]
   secure_renegotiate?: boolean
-  log_level?: EmqxLdapSslLogLevel
+  log_level?: LdapSslLogLevel
   hibernate_after?: string
   enable?: boolean
-  server_name_indication?: EmqxLdapSslServerNameIndication
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export type EmqxDashboardSsoSamlSamlBackend =
@@ -251,42 +285,6 @@ export const EmqxDashboardSsoSamlLoginBackend = {
 
 export interface EmqxDashboardSsoSamlLogin {
   backend: EmqxDashboardSsoSamlLoginBackend
-}
-
-export type EmqxDashboardSsoLdapLoginBackend =
-  typeof EmqxDashboardSsoLdapLoginBackend[keyof typeof EmqxDashboardSsoLdapLoginBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoLdapLoginBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface EmqxDashboardSsoLdapLogin {
-  backend: EmqxDashboardSsoLdapLoginBackend
-  username?: string
-  password?: string
-}
-
-export type EmqxDashboardSsoLdapLdapBackend =
-  typeof EmqxDashboardSsoLdapLdapBackend[keyof typeof EmqxDashboardSsoLdapLdapBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoLdapLdapBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface EmqxDashboardSsoLdapLdap {
-  enable?: boolean
-  backend: EmqxDashboardSsoLdapLdapBackend
-  query_timeout?: string
-  server: string
-  pool_size?: number
-  username: string
-  password?: string
-  base_dn: string
-  filter?: string
-  request_timeout?: string
-  ssl?: EmqxLdapSsl
 }
 
 export type DashboardSsoBackendStatusBackend =

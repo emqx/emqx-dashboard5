@@ -54,15 +54,15 @@
         @edge-mouse-leave="handleMouseLeaveEdge"
       >
         <template #node-custom_input="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_default="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_output="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><Delete /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
           <FlowNode :data="data" />
         </template>
         <template #edge-custom="props">
@@ -93,7 +93,7 @@ import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Delete, Search } from '@element-plus/icons-vue'
+import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import {
   Edge,
   EdgeAddChange,
@@ -434,7 +434,7 @@ defineExpose({ validate, getFlowData })
 
   .editor {
     $icon-size: 16px;
-    $icon-padding-left: 18px;
+    $icon-padding-left: 16px;
     $icon-padding-right: 4px;
     $total-size: $icon-size + $icon-padding-left + $icon-padding-right;
     .icon-del {
@@ -447,14 +447,13 @@ defineExpose({ validate, getFlowData })
       height: $total-size;
       padding: $icon-padding-right $icon-padding-right $icon-padding-left $icon-padding-left;
       border-radius: 0 0 0 40px;
+      color: var(--el-color-danger);
       svg {
         width: $icon-size;
         cursor: pointer;
       }
       &:hover {
-        svg {
-          color: var(--color-primary);
-        }
+        filter: contrast(130%);
       }
     }
     .vue-flow__node:hover {

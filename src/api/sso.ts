@@ -1,7 +1,7 @@
 import http from '@/common/http'
 import type {
   DashboardSsoBackendStatus,
-  EmqxDashboardSsoLdapLdap,
+  SsoLdap,
   GetSsoRunning200Item,
   PostSsoLoginBackend200,
   PostSsoLoginBackendBody,
@@ -22,13 +22,13 @@ export const getSSORunning = (): Promise<GetSsoRunning200Item[]> => {
   return http.get('/sso/running')
 }
 
-export const getSSOBackend = (backend: 'ldap'): Promise<EmqxDashboardSsoLdapLdap> => {
+export const getSSOBackend = (backend: 'ldap'): Promise<SsoLdap> => {
   return http.get(`/sso/${backend}`)
 }
 
 export const putSSOBackend = (
   backend: 'ldap',
-  emqxDashboardSsoLdapLdap: EmqxDashboardSsoLdapLdap,
-): Promise<EmqxDashboardSsoLdapLdap> => {
+  emqxDashboardSsoLdapLdap: SsoLdap,
+): Promise<SsoLdap> => {
   return http.put(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
 }

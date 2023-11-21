@@ -5,7 +5,7 @@
       ref="formCom"
       type="bridge"
       need-rules
-      schema-file-path="/api/v5/schemas/bridges"
+      :schema-file-path="getAPIPath(`/schemas/bridges`)"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="bridgeRecord"
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { waitAMoment } from '@/common/tools'
+import { getAPIPath, waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'

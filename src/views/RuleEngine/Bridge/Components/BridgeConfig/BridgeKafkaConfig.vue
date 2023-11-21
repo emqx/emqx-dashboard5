@@ -160,7 +160,7 @@
 
       <!-- producer -->
       <template v-if="role === Role.Producer">
-        <el-col :span="colSpan">
+        <el-col :span="colSpan" v-if="formData.local_topic">
           <CustomFormItem prop="local_topic" :readonly="readonly">
             <template #label>
               <span>{{ getText('mqtt_topic.label') }}</span>
@@ -489,6 +489,18 @@
           </CustomFormItem>
         </el-col>
         <el-col :span="colSpan">
+          <CustomFormItem prop="socket_opts.nodelay" :readonly="readonly">
+            <template #label>
+              <FormItemLabel
+                :label="getText('socket_nodelay.label')"
+                :desc="getText('socket_nodelay.desc')"
+                desc-marked
+              />
+            </template>
+            <el-switch v-model="formData.socket_opts.nodelay" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan">
           <CustomFormItem
             prop="resource_opts.health_check_interval"
             :label="t('RuleEngine.healthCheckInterval')"
@@ -505,6 +517,7 @@
 <script setup lang="ts">
 import {
   fillEmptyValueToUndefinedField,
+  getAPIPath,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
   waitAMoment,
@@ -588,7 +601,7 @@ const {
   components: producerComponents,
   schemaLoadPromise,
   getComponents,
-} = useSchemaForm(`/api/v5/schemas/bridges`, {
+} = useSchemaForm(getAPIPath(`/schemas/bridges`), {
   ref: '#/components/schemas/bridge_kafka.post_producer',
 })
 const { getPropItem: getProducerPropItem } = useGetInfoFromComponents(producerComponents)
@@ -701,7 +714,7 @@ const initFormData = async () => {
     return
   }
   if (props.edit || props.copy) {
-    role.value = props.modelValue.type === KafkaType.Producer ? Role.Producer : Role.Consumer
+    role.value = props.modelValue.type === KafkaType.Consumer ? Role.Consumer : Role.Producer
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
       getDefaultForm(),

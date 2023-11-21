@@ -14,6 +14,7 @@ import { WebhookItem } from '@/types/webhook'
 export default (): {
   judgeIsWebhookBridge: (bridge: BridgeItem) => boolean
   judgeIsWebhookRule: ({ id }: RuleItem) => boolean
+  getEnableStatus: (bridge: HTTPBridge, rule: RuleItem) => boolean
   joiningDataToWebhookList: (
     httpBridgeList: Array<HTTPBridge>,
     ruleList: Array<RuleItem>,
@@ -81,6 +82,7 @@ export default (): {
   return {
     judgeIsWebhookBridge,
     judgeIsWebhookRule,
+    getEnableStatus,
     joiningDataToWebhookList,
   }
 }

@@ -493,6 +493,19 @@ export type DeleteGatewaysNameListenersIdAuthentication400 = {
   message?: string
 }
 
+export interface MongoTopology {
+  max_overflow?: number
+  overflow_ttl?: string
+  overflow_check_period?: string
+  local_threshold_ms?: string
+  connect_timeout_ms?: string
+  socket_timeout_ms?: string
+  server_selection_timeout_ms?: string
+  wait_queue_timeout_ms?: string
+  heartbeat_frequency_ms?: string
+  min_heartbeat_frequency_ms?: string
+}
+
 export type ListenersStatusMaxConnections = number | 'infinity'
 
 export type ListenersStatusRunning = boolean | 'inconsistent'
@@ -506,6 +519,51 @@ export interface ListenersStatus {
 export interface ListenersNodeStatus {
   node?: string
   status?: ListenersStatus
+}
+
+export type LdapSslServerNameIndication = string | 'disable'
+
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: LdapSslVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: LdapSslLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export interface GatewayUdpOpts {
@@ -1848,6 +1906,11 @@ export interface AuthnHashBcryptRw {
   name: AuthnHashBcryptRwName
   salt_rounds?: number
 }
+
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashBcryptName = typeof AuthnHashBcryptName[keyof typeof AuthnHashBcryptName]
 

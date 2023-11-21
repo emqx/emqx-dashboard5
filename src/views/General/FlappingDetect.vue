@@ -1,6 +1,6 @@
 <template>
   <div class="flapping-detect app-wrapper">
-    <el-card>
+    <el-card class="allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
@@ -58,7 +58,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
+            <el-col :span="24" class="btn-col">
               <el-button
                 type="primary"
                 :disabled="!$hasPermission('put')"
@@ -76,15 +76,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
-import useI18nTl from '@/hooks/useI18nTl'
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { Zone } from '@/types/config'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
+import useI18nTl from '@/hooks/useI18nTl'
+import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
 const { t, tl } = useI18nTl('General')
 
@@ -124,6 +125,10 @@ const updateConfigData = async () => {
   }
 }
 
+const { addObserverToFooter } = useConfFooterStyle()
 // Fetch data
-onMounted(loadData)
+onMounted(async () => {
+  await loadData()
+  addObserverToFooter()
+})
 </script>

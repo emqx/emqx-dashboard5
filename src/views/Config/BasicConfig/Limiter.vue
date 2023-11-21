@@ -1,6 +1,6 @@
 <template>
   <div class="limiter app-wrapper">
-    <el-card class="app-card">
+    <el-card class="app-card allow-overflow">
       <schema-form
         need-rules
         type="limiter"

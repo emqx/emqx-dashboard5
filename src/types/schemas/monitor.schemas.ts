@@ -67,12 +67,12 @@ export const PrometheusPrometheusVmDistCollector = {
   enabled: 'enabled',
 } as const
 
-export type PrometheusPrometheusHeadersItem = { [key: string]: any }
+export type PrometheusPrometheusHeaders = { [key: string]: any }
 
 export interface PrometheusPrometheus {
   push_gateway_server: string
   interval: string
-  headers?: PrometheusPrometheusHeadersItem[]
+  headers?: PrometheusPrometheusHeaders
   job_name: string
   enable: boolean
   vm_dist_collector: PrometheusPrometheusVmDistCollector

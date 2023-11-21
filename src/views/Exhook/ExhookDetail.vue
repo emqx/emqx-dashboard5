@@ -121,7 +121,7 @@ if (queryTab.value) {
 
 const registeredHooks: Ref<Array<RegisteredHook>> = ref([])
 
-const { deleteExhook, updateExhookEnable } = useHandleExhookItem()
+const { deleteExhook, updateExhookEnable, handleExhookBeforeSubmit } = useHandleExhookItem()
 const { handleSSLDataBeforeSubmit } = useSSL()
 
 const getExhookDetail = async () => {
@@ -142,16 +142,18 @@ const updateExhook = async () => {
     await formCom.value.validate()
     const { auto_reconnect, enable, failed_action, name, pool_size, request_timeout, ssl, url } =
       exhookData.value
-    await requestUpdateExhook({
-      auto_reconnect,
-      enable,
-      failed_action,
-      name,
-      pool_size,
-      request_timeout,
-      ssl: handleSSLDataBeforeSubmit(ssl),
-      url,
-    })
+    await requestUpdateExhook(
+      handleExhookBeforeSubmit({
+        auto_reconnect,
+        enable,
+        failed_action,
+        name,
+        pool_size,
+        request_timeout,
+        ssl: handleSSLDataBeforeSubmit(ssl),
+        url,
+      }),
+    )
     ElMessage.success(tl('updateSuccess', 'Base'))
     router.push({ name: 'exhook' })
   } catch (error) {
