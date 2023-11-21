@@ -4,6 +4,11 @@ import { cloneDeep, omit } from 'lodash'
 export default (): {
   handleExprotoData: (gatewayData: Record<string, any>) => Record<string, any>
 } => {
+  /**
+   * Handles the gateway data by modifying the SSL options if necessary.
+   * @param gatewayData - The gateway data to be handled.
+   * @returns The modified gateway data.
+   */
   const handleExprotoData = (gatewayData: Record<string, any>) => {
     const ret = cloneDeep(gatewayData)
     if (ret?.handler?.ssl_options) {
@@ -23,6 +28,7 @@ export default (): {
     }
     return ret
   }
+
   return {
     handleExprotoData,
   }

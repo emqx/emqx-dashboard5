@@ -372,4 +372,56 @@ export default {
     zh: '下行主题',
     en: 'Down Topic',
   },
+  defaultHeartbeatInterval: {
+    zh: '默认心跳间隔',
+    en: 'Default Heartbeat Interval',
+  },
+  heartbeatCheckingTimesBackoff: {
+    zh: '心跳检查退避次数',
+    en: 'Heartbeat Checking Times Backoff',
+  },
+  upstream: {
+    zh: '上行数据流',
+    en: 'Upstream',
+  },
+  upstreamTopic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  topicOverrideMapping: {
+    zh: '主题映射',
+    en: 'Topic Override Mapping',
+  },
+  upstreamReplyTopic: {
+    zh: '回复主题',
+    en: 'Reply Topic',
+  },
+  upstreamErrorTopic: {
+    zh: '错误主题',
+    en: 'Error Topic',
+  },
+  dnstream: {
+    zh: '下行数据流',
+    en: 'Downstream',
+  },
+  dnstreamTopic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  dnstreamMaxMqueueLen: {
+    zh: '最大消息队列长度',
+    en: 'Max Message Queue Length',
+  },
+  messageFormatChecking: {
+    zh: '消息格式检查',
+    en: 'Message Format Checking',
+  },
+  jsonSchemaDir: {
+    zh: 'JSON Schema 文件目录',
+    en: 'JSON Schema Directory',
+  },
+  jsonSchemaIdPrefix: {
+    zh: 'JSON Schema ID 前缀',
+    en: 'JSON Schema ID Prefix',
+  },
 }
