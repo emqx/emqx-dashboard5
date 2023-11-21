@@ -1,5 +1,5 @@
 <template>
-  <el-row class="markdown-content" :gutter="40">
+  <el-row class="markdown-content" :gutter="gutter">
     <el-col :span="showToc ? 18 : 24">
       <div class="markdown-content" ref="containerEle"></div>
     </el-col>
@@ -32,6 +32,11 @@ const props = defineProps({
     required: false,
     type: Boolean as PropType<boolean>,
     default: false,
+  },
+  gutter: {
+    required: false,
+    type: Number,
+    default: 40,
   },
 })
 

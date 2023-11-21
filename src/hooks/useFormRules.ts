@@ -12,6 +12,7 @@ export default (): {
   createNumRangeRule: (min?: number, max?: number) => Array<FormItemRule>
   createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<FormItemRule>
   createCommonIdRule: () => Array<FormItemRule>
+  createLetterStartRule: () => Array<FormItemRule>
   createNoChineseRule: () => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
@@ -25,6 +26,10 @@ export default (): {
 
   const createCommonIdRule = (): Array<FormItemRule> => [
     { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
+  ]
+
+  const createLetterStartRule = (): Array<FormItemRule> => [
+    { pattern: /^[A-Za-z]+[A-Za-z0-9-_]*$/, message: t('Base.letterBeginError') },
   ]
 
   const createNoChineseRule = (): Array<FormItemRule> => [
@@ -108,6 +113,9 @@ export default (): {
     return [
       {
         validator(rule: InternalRuleItem, val: string) {
+          if (!val) {
+            return []
+          }
           // Validate whether the length exceeds the limit
           if (val.length > 65535) {
             return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
@@ -127,6 +135,9 @@ export default (): {
     return [
       {
         validator(rule: InternalRuleItem, val: string) {
+          if (!val) {
+            return []
+          }
           // Validate whether the length exceeds the limit
           if (val.length > 65535) {
             return [new Error(t('Rule.errorTopicLengthExceedLimit'))]
@@ -160,6 +171,7 @@ export default (): {
     createIntFieldRule,
     createNumRangeRule,
     createCommonIdRule,
+    createLetterStartRule,
     createNoChineseRule,
     createStringWithUnitFieldRule,
     createMqttPublishTopicRule,

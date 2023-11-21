@@ -1,6 +1,6 @@
 <template>
   <div class="retainer app-wrapper">
-    <el-card class="app-card">
+    <el-card class="app-card allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
@@ -44,8 +44,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="21" class="custom-col">
               <el-form-item prop="backend.max_retained_messages">
                 <template #label>
@@ -120,7 +118,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
+            <el-col :span="24" class="btn-col">
               <el-button
                 :disabled="!$hasPermission('put')"
                 type="primary"
@@ -142,12 +140,13 @@ import { getRetainer, updateRetainer } from '@/api/extension'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Retainer } from '@/types/extension'
 import { ElMessage } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 const { tl, t } = useI18nTl('Extension')
@@ -245,9 +244,12 @@ const updateConfigData = async function () {
   }
 }
 
-onMounted(() => {
-  loadConfigData()
-})
+const { addObserverToFooter } = useConfFooterStyle()
+
+;(async () => {
+  await loadConfigData()
+  addObserverToFooter()
+})()
 </script>
 
 <style lang="scss">

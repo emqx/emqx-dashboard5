@@ -14,8 +14,14 @@
       :prop="getFormItemProp(`server_name_indication`)"
     >
       <template #label>
-        <span>SNI</span>
-        <InfoTooltip v-if="$attrs.content" v-bind="$attrs" />
+        <span v-if="!$attrs.content">SNI</span>
+        <FormItemLabel
+          v-else
+          label="SNI"
+          :desc="($attrs.content as string)"
+          v-bind="$attrs"
+          desc-marked
+        />
       </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </CustomFormItem>
@@ -109,6 +115,7 @@ import { PropType, Ref, WritableComputedRef, computed, defineEmits, defineProps,
 import CustomFormItem from '../CustomFormItem.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
+import FormItemLabel from '../FormItemLabel.vue'
 
 type ConfigItemKey = 'certfile' | 'keyfile' | 'cacertfile'
 

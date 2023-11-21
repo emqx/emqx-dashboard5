@@ -7,7 +7,11 @@
   - there are only two options for oneof
 -->
 <template>
-  <div class="one-of" v-if="oneOfInfo.valueDisabled !== undefined && oneOfInfo.propEnabled">
+  <div
+    class="one-of"
+    :class="{ 'in-row': inRow }"
+    v-if="oneOfInfo.valueDisabled !== undefined && oneOfInfo.propEnabled"
+  >
     <div class="switch-container">
       <el-switch
         v-model="switchProxy"
@@ -49,6 +53,7 @@
         v-else-if="oneOfInfo.propEnabled.type === 'duration'"
         :disabled="disabled"
         default-unit="s"
+        v-bind="inputProps"
       />
       <input-with-unit
         v-else-if="oneOfInfo.propEnabled.type === 'byteSize'"
@@ -94,7 +99,9 @@ import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
 const props = defineProps({
   modelValue: {
-    type: [String, Number, Object] as PropType<string | number | Record<string, any> | undefined>,
+    type: [String, Number, Object, Boolean] as PropType<
+      string | number | Record<string, any> | undefined | boolean
+    >,
   },
   items: {
     type: Array as PropType<Properties[string][] | Array<{ [key: string]: any }>>,
@@ -110,6 +117,16 @@ const props = defineProps({
   },
   formItem: {
     type: Object as PropType<typeof ElFormItem>,
+  },
+  inRow: {
+    type: Boolean,
+  },
+  /**
+   * When enable, the props of the form input component
+   */
+  inputProps: {
+    type: Object,
+    default: () => ({}),
   },
 })
 
@@ -199,6 +216,20 @@ watch(isDisabled, async (val) => {
   }
 
   &.in-one-row {
+    display: flex;
+    width: 100%;
+
+    .switch-container {
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+
+    .oneof-item {
+      flex-grow: 1;
+      margin-top: 0;
+    }
+  }
+  &.in-row {
     display: flex;
     width: 100%;
 

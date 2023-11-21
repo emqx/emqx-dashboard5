@@ -393,7 +393,7 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export interface EmqxMongodbTopology {
+export interface MongoTopology {
   max_overflow?: number
   overflow_ttl?: string
   overflow_check_period?: string
@@ -406,12 +406,12 @@ export interface EmqxMongodbTopology {
   min_heartbeat_frequency_ms?: string
 }
 
-export type EmqxLdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = string | 'disable'
 
-export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslLogLevel = {
+export const LdapSslLogLevel = {
   emergency: 'emergency',
   alert: 'alert',
   critical: 'critical',
@@ -424,31 +424,31 @@ export const EmqxLdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslVerify = {
+export const LdapSslVerify = {
   verify_peer: 'verify_peer',
   verify_none: 'verify_none',
 } as const
 
-export interface EmqxLdapSsl {
+export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
   keyfile?: string
-  verify?: EmqxLdapSslVerify
+  verify?: LdapSslVerify
   reuse_sessions?: boolean
   depth?: number
   password?: string
   versions?: string[]
   ciphers?: string[]
   secure_renegotiate?: boolean
-  log_level?: EmqxLdapSslLogLevel
+  log_level?: LdapSslLogLevel
   hibernate_after?: string
   enable?: boolean
-  server_name_indication?: EmqxLdapSslServerNameIndication
+  server_name_indication?: LdapSslServerNameIndication
 }
 
 export type EmqxGcpDeviceAuthnSchemaGcpDeviceMechanism =
@@ -1381,6 +1381,11 @@ export interface AuthnHashBcryptRw {
   name: AuthnHashBcryptRwName
   salt_rounds?: number
 }
+
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashBcryptName = typeof AuthnHashBcryptName[keyof typeof AuthnHashBcryptName]
 

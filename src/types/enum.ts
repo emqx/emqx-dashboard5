@@ -354,3 +354,8 @@ export const enum UserRole {
   Readonly = 'viewer',
   Publisher = 'publisher',
 }
+
+export const enum DetailTab {
+  Overview,
+  Setting,
+}

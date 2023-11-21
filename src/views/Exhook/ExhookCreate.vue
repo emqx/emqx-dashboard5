@@ -21,17 +21,17 @@
 </template>
 
 <script setup lang="ts">
+import { createExhook } from '@/api/exhook'
+import DetailHeader from '@/components/DetailHeader.vue'
+import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
+import useSSL from '@/hooks/useSSL'
+import { ExhookFailedAction } from '@/types/enum'
+import { ExhookFormForCreate } from '@/types/systemModule'
+import { ElMessage } from 'element-plus'
 import { ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import ExhookForm from './components/ExhookForm.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { ExhookFormForCreate } from '@/types/systemModule'
-import { createExhook } from '@/api/exhook'
-import { ExhookFailedAction } from '@/types/enum'
-import useSSL from '@/hooks/useSSL'
-import { cloneDeep } from 'lodash'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -56,12 +56,13 @@ const isSubmitting = ref(false)
 
 const cancel = () => router.push({ name: 'exhook' })
 
+const { handleExhookBeforeSubmit } = useHandleExhookItem()
 const submit = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
     await createExhook({
-      ...cloneDeep(formData.value),
+      ...handleExhookBeforeSubmit(formData.value),
       ssl: handleSSLDataBeforeSubmit(formData.value.ssl),
     })
     ElMessage.success(tl('createSuccess', 'Base'))

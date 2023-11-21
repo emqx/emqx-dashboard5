@@ -1,5 +1,5 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { createRandomString, getAPIPath, waitAMoment } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
@@ -12,13 +12,13 @@ import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
-import { useStore } from 'vuex'
 import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
@@ -153,10 +153,9 @@ const SchemaForm = defineComponent({
     },
   },
   setup(props, ctx) {
-    const store = useStore()
     const { hasPermission } = usePerms()
     const configForm = ref<{ [key: string]: any }>({})
-    const schemaLoadPath = props.schemaFilePath || '/api/v5/schemas/hotconf'
+    const schemaLoadPath = props.schemaFilePath || getAPIPath('/schemas/hotconf')
     const { components, rules, setTypeForProperty, resetObjForGetComponent } = useSchemaForm(
       schemaLoadPath,
       props.accordingTo,
@@ -615,8 +614,6 @@ const SchemaForm = defineComponent({
     const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))
 
     const renderLayout = (contents: JSX.Element[]) => {
-      const btnStyles = store.getters.configPageBtnStyle
-
       let groupTabs = null
       let tabs: JSX.Element | null = null
       // do not show tabs when there are just one tab(i think, maybe) or is bridge
@@ -646,7 +643,7 @@ const SchemaForm = defineComponent({
             <el-row gutter={rowGutter.value}>
               {contents}
               {props.needFooter ? (
-                <el-col span={24} class="btn-col" style={btnStyles}>
+                <el-col span={24} class="btn-col">
                   <el-button
                     type="primary"
                     disabled={!hasPermission('put')}
@@ -848,6 +845,7 @@ const SchemaForm = defineComponent({
 
       return ret
     }
+    const { addObserverToFooter } = useConfFooterStyle()
     const renderSchemaForm = (properties: Properties) => {
       if (Object.keys(properties).length === 0) {
         // Initialize with an empty object, do not modify the loading variable at this point.
@@ -856,6 +854,9 @@ const SchemaForm = defineComponent({
         formEle = renderLayout(getComponents(properties))
         ctx.emit('schema-loaded')
         isSchemaLoading.value = false
+      }
+      if (props.needFooter) {
+        addObserverToFooter()
       }
       return formEle
     }

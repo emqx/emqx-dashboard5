@@ -92,6 +92,7 @@ export default (
     'socket_opts.sndbuf',
     'socket_opts.recbuf',
     'socket_opts.tcp_keepalive',
+    'socket_opts.nodelay',
   ]
 
   const propsOrderTypeMap: Record<string, Record<string, number>> = {

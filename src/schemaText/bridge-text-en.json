@@ -363,7 +363,7 @@
       "label": "Metadata Request Timeout"
     },
     "socket_nodelay": {
-      "desc": "When set to 'true', TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
       "label": "No Delay"
     },
     "authentication": {
@@ -1086,6 +1086,10 @@
     "memory_overload_protection": {
       "desc": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
+    },
+    "nodelay": {
+      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+      "label": "No Delay"
     }
   },
   "emqx_ee_bridge_kinesis": {

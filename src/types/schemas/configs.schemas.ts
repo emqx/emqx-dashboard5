@@ -215,6 +215,45 @@ export type GetConfigsDashboard404 = {
   message?: string
 }
 
+export type PutConfigsFileTransfer403Code =
+  typeof PutConfigsFileTransfer403Code[keyof typeof PutConfigsFileTransfer403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsFileTransfer403Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsFileTransfer403 = {
+  code?: PutConfigsFileTransfer403Code
+  message?: string
+}
+
+export type PutConfigsFileTransfer400Code =
+  typeof PutConfigsFileTransfer400Code[keyof typeof PutConfigsFileTransfer400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsFileTransfer400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsFileTransfer400 = {
+  code?: PutConfigsFileTransfer400Code
+  message?: string
+}
+
+export type GetConfigsFileTransfer404Code =
+  typeof GetConfigsFileTransfer404Code[keyof typeof GetConfigsFileTransfer404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetConfigsFileTransfer404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetConfigsFileTransfer404 = {
+  code?: GetConfigsFileTransfer404Code
+  message?: string
+}
+
 export type PutConfigsAlarm403Code =
   typeof PutConfigsAlarm403Code[keyof typeof PutConfigsAlarm403Code]
 
@@ -379,12 +418,61 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
-export type EmqxLdapSslServerNameIndication = string | 'disable'
-
-export type EmqxLdapSslLogLevel = typeof EmqxLdapSslLogLevel[keyof typeof EmqxLdapSslLogLevel]
+export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslLogLevel = {
+export const SsoLdapBackend = {
+  ldap: 'ldap',
+} as const
+
+export interface SsoLdap {
+  enable?: boolean
+  backend: SsoLdapBackend
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
+}
+
+export interface SsoSso {
+  ldap?: SsoLdap
+  saml?: EmqxDashboardSsoSamlSaml
+}
+
+export type S3TransportOptionsHeaders = { [key: string]: any }
+
+export type S3TransportOptionsPoolType =
+  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const S3TransportOptionsPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export interface S3TransportOptions {
+  ipv6_probe?: boolean
+  connect_timeout?: string
+  pool_type?: S3TransportOptionsPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  ssl?: BrokerSslClientOpts
+  headers?: S3TransportOptionsHeaders
+  max_retries?: number
+  request_timeout?: string
+}
+
+export type LdapSslServerNameIndication = string | 'disable'
+
+export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslLogLevel = {
   emergency: 'emergency',
   alert: 'alert',
   critical: 'critical',
@@ -397,31 +485,89 @@ export const EmqxLdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type EmqxLdapSslVerify = typeof EmqxLdapSslVerify[keyof typeof EmqxLdapSslVerify]
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLdapSslVerify = {
+export const LdapSslVerify = {
   verify_peer: 'verify_peer',
   verify_none: 'verify_none',
 } as const
 
-export interface EmqxLdapSsl {
+export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
   keyfile?: string
-  verify?: EmqxLdapSslVerify
+  verify?: LdapSslVerify
   reuse_sessions?: boolean
   depth?: number
   password?: string
   versions?: string[]
   ciphers?: string[]
   secure_renegotiate?: boolean
-  log_level?: EmqxLdapSslLogLevel
+  log_level?: LdapSslLogLevel
   hibernate_after?: string
   enable?: boolean
-  server_name_indication?: EmqxLdapSslServerNameIndication
+  server_name_indication?: LdapSslServerNameIndication
+}
+
+export type FileTransferS3ExporterAcl =
+  typeof FileTransferS3ExporterAcl[keyof typeof FileTransferS3ExporterAcl]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileTransferS3ExporterAcl = {
+  private: 'private',
+  public_read: 'public_read',
+  public_read_write: 'public_read_write',
+  authenticated_read: 'authenticated_read',
+  bucket_owner_read: 'bucket_owner_read',
+  bucket_owner_full_control: 'bucket_owner_full_control',
+} as const
+
+export interface FileTransferS3Exporter {
+  access_key_id?: string
+  secret_access_key?: string
+  bucket: string
+  host: string
+  port: number
+  url_expire_time?: string
+  min_part_size: string
+  max_part_size: string
+  acl?: FileTransferS3ExporterAcl
+  transport_options?: S3TransportOptions
+  enable?: boolean
+}
+
+export interface FileTransferLocalStorageSegmentsGc {
+  interval?: string
+  maximum_segments_ttl?: string
+  minimum_segments_ttl?: string
+}
+
+export interface FileTransferLocalStorageSegments {
+  root?: string
+  gc?: FileTransferLocalStorageSegmentsGc
+}
+
+export interface FileTransferLocalStorageExporter {
+  root?: string
+  enable?: boolean
+}
+
+export interface FileTransferLocalStorageExporterBackend {
+  local?: FileTransferLocalStorageExporter
+  s3?: FileTransferS3Exporter
+}
+
+export interface FileTransferLocalStorage {
+  segments?: FileTransferLocalStorageSegments
+  exporter?: FileTransferLocalStorageExporterBackend
+  enable?: boolean
+}
+
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
 }
 
 export type EmqxEnterpriseSchemaLogAuditHandlerRotationSize = string | 'infinity'
@@ -448,6 +594,14 @@ export interface EmqxEnterpriseSchemaLog {
   audit?: EmqxEnterpriseSchemaLogAuditHandler
 }
 
+export interface EmqxEnterpriseSchemaFileTransfer {
+  enable?: boolean
+  init_timeout?: string
+  store_segment_timeout?: string
+  assemble_timeout?: string
+  storage?: FileTransferStorageBackend
+}
+
 export type EmqxDashboardSsoSamlSamlBackend =
   typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
 
@@ -464,33 +618,6 @@ export interface EmqxDashboardSsoSamlSaml {
   sp_sign_request?: boolean
   sp_public_key?: string
   sp_private_key?: string
-}
-
-export interface EmqxDashboardSsoSchemaSso {
-  ldap?: EmqxDashboardSsoLdapLdap
-  saml?: EmqxDashboardSsoSamlSaml
-}
-
-export type EmqxDashboardSsoLdapLdapBackend =
-  typeof EmqxDashboardSsoLdapLdapBackend[keyof typeof EmqxDashboardSsoLdapLdapBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoLdapLdapBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface EmqxDashboardSsoLdapLdap {
-  enable?: boolean
-  backend: EmqxDashboardSsoLdapLdapBackend
-  query_timeout?: string
-  server: string
-  pool_size?: number
-  username: string
-  password?: string
-  base_dn: string
-  filter?: string
-  request_timeout?: string
-  ssl?: EmqxLdapSsl
 }
 
 export type EmqxConfSchemaLogFileHandlerFormatter =
@@ -641,7 +768,7 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
-  sso?: EmqxDashboardSsoSchemaSso
+  sso?: SsoSso
 }
 
 export type BrokerSysmonVmLargeHeap = string | 'disabled'
@@ -652,8 +779,8 @@ export type BrokerSysmonVmLongGc = string | 'disabled'
 
 export interface BrokerSysmonVm {
   process_check_interval?: string
-  process_high_watermark?: number
-  process_low_watermark?: number
+  process_high_watermark?: string
+  process_low_watermark?: string
   long_gc?: BrokerSysmonVmLongGc
   long_schedule?: BrokerSysmonVmLongSchedule
   large_heap?: BrokerSysmonVmLargeHeap
@@ -665,11 +792,11 @@ export type BrokerSysmonOsMemCheckInterval = string | 'disabled'
 
 export interface BrokerSysmonOs {
   cpu_check_interval?: string
-  cpu_high_watermark?: number
-  cpu_low_watermark?: number
+  cpu_high_watermark?: string
+  cpu_low_watermark?: string
   mem_check_interval?: BrokerSysmonOsMemCheckInterval
-  sysmem_high_watermark?: number
-  procmem_high_watermark?: number
+  sysmem_high_watermark?: string
+  procmem_high_watermark?: string
 }
 
 export interface BrokerSysmon {
@@ -685,6 +812,53 @@ export interface BrokerSysTopics {
   sys_msg_interval?: BrokerSysTopicsSysMsgInterval
   sys_heartbeat_interval?: BrokerSysTopicsSysHeartbeatInterval
   sys_event_messages?: BrokerEventNames
+}
+
+export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+
+export type BrokerSslClientOptsLogLevel =
+  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerSslClientOptsVerify =
+  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
 export type BrokerMqttMaxSubscriptions = 'infinity' | number

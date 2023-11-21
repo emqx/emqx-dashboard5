@@ -96,6 +96,7 @@ export default (): {
       sndbuf: '1024KB',
       recbuf: '1024KB',
       tcp_keepalive: 'none',
+      nodelay: true,
     },
     ssl: createSSLForm(),
     resource_opts: { health_check_interval: '15s' },
@@ -143,7 +144,6 @@ export default (): {
   const createRawInfluxDBForm = () => ({
     type: InfluxDBType.v2,
     name: '',
-    local_topic: '',
     write_syntax: '',
     server: '127.0.0.1:8086',
     precision: 'ms',

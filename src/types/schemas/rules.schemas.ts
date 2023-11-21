@@ -97,7 +97,7 @@ export type GetRules400 = {
 }
 
 export type GetRules200 = {
-  data?: EmqxRuleApiSchemaRuleInfo[]
+  data?: RuleEngineRuleInfo[]
   meta?: PublicMeta
 }
 
@@ -147,6 +147,103 @@ export interface RuleEngineUserProvidedFunction {
   args?: RuleEngineUserProvidedFunctionArgs
 }
 
+export type RuleEngineRuleTestContext =
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
+
+export interface RuleEngineRuleTest {
+  context?: RuleEngineRuleTestContext
+  sql: string
+}
+
+export interface RuleEngineRuleMetrics {
+  id: string
+  metrics?: RuleEngineMetrics
+  node_metrics?: RuleEngineNodeMetrics[]
+}
+
+export type RuleEngineRuleInfoMetadata = { [key: string]: any }
+
+export type RuleEngineRuleInfoActionsItem =
+  | RuleEngineUserProvidedFunction
+  | RuleEngineBuiltinActionConsole
+  | RuleEngineBuiltinActionRepublish
+  | string
+
+export interface RuleEngineRuleInfo {
+  id: string
+  from?: string[]
+  created_at?: string
+  name?: string
+  sql: string
+  actions?: RuleEngineRuleInfoActionsItem[]
+  enable?: boolean
+  description?: string
+  metadata?: RuleEngineRuleInfoMetadata
+}
+
+export type RuleEngineRuleEventsTestColumns = { [key: string]: any }
+
+export type RuleEngineRuleEventsColumns = { [key: string]: any }
+
+export type RuleEngineRuleEventsEvent =
+  typeof RuleEngineRuleEventsEvent[keyof typeof RuleEngineRuleEventsEvent]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineRuleEventsEvent = {
+  '$events/client_connected': '$events/client_connected',
+  '$events/client_disconnected': '$events/client_disconnected',
+  '$events/client_connack': '$events/client_connack',
+  '$events/client_check_authz_complete': '$events/client_check_authz_complete',
+  '$events/session_subscribed': '$events/session_subscribed',
+  '$events/session_unsubscribed': '$events/session_unsubscribed',
+  '$events/message_delivered': '$events/message_delivered',
+  '$events/message_acked': '$events/message_acked',
+  '$events/message_dropped': '$events/message_dropped',
+  '$events/delivery_dropped': '$events/delivery_dropped',
+} as const
+
+export interface RuleEngineRuleEvents {
+  event: RuleEngineRuleEventsEvent
+  title?: string
+  description?: string
+  columns?: RuleEngineRuleEventsColumns
+  test_columns?: RuleEngineRuleEventsTestColumns
+  sql_example?: string
+}
+
+export interface RuleEngineRuleEngine {
+  ignore_sys_message?: boolean
+  jq_function_default_timeout?: string
+}
+
+export type RuleEngineRuleCreationMetadata = { [key: string]: any }
+
+export type RuleEngineRuleCreationActionsItem =
+  | RuleEngineUserProvidedFunction
+  | RuleEngineBuiltinActionConsole
+  | RuleEngineBuiltinActionRepublish
+  | string
+
+export interface RuleEngineRuleCreation {
+  name?: string
+  sql: string
+  actions?: RuleEngineRuleCreationActionsItem[]
+  enable?: boolean
+  description?: string
+  metadata?: RuleEngineRuleCreationMetadata
+}
+
 export interface RuleEngineRepublishMqttProperties {
   'Payload-Format-Indicator'?: string
   'Message-Expiry-Interval'?: string
@@ -166,6 +263,289 @@ export interface RuleEngineRepublishArgs {
   payload?: string
   mqtt_properties?: RuleEngineRepublishMqttProperties
   user_properties?: string
+}
+
+export interface RuleEngineNodeMetrics {
+  node?: string
+  matched?: number
+  'matched.rate'?: number
+  'matched.rate.max'?: number
+  'matched.rate.last5m'?: number
+  passed?: number
+  failed?: number
+  'failed.exception'?: number
+  'failed.unknown'?: number
+  'actions.total'?: number
+  'actions.success'?: number
+  'actions.failed'?: number
+  'actions.failed.out_of_service'?: number
+  'actions.failed.unknown'?: number
+}
+
+export interface RuleEngineMetrics {
+  matched?: number
+  'matched.rate'?: number
+  'matched.rate.max'?: number
+  'matched.rate.last5m'?: number
+  passed?: number
+  failed?: number
+  'failed.exception'?: number
+  'failed.unknown'?: number
+  'actions.total'?: number
+  'actions.success'?: number
+  'actions.failed'?: number
+  'actions.failed.out_of_service'?: number
+  'actions.failed.unknown'?: number
+}
+
+export type RuleEngineCtxUnsubEventType =
+  typeof RuleEngineCtxUnsubEventType[keyof typeof RuleEngineCtxUnsubEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxUnsubEventType = {
+  session_unsubscribed: 'session_unsubscribed',
+} as const
+
+export interface RuleEngineCtxUnsub {
+  event_type: RuleEngineCtxUnsubEventType
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxSubEventType =
+  typeof RuleEngineCtxSubEventType[keyof typeof RuleEngineCtxSubEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxSubEventType = {
+  session_subscribed: 'session_subscribed',
+} as const
+
+export interface RuleEngineCtxSub {
+  event_type: RuleEngineCtxSubEventType
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxPubEventType =
+  typeof RuleEngineCtxPubEventType[keyof typeof RuleEngineCtxPubEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxPubEventType = {
+  message_publish: 'message_publish',
+} as const
+
+export interface RuleEngineCtxPub {
+  event_type: RuleEngineCtxPubEventType
+  id?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxDroppedEventType =
+  typeof RuleEngineCtxDroppedEventType[keyof typeof RuleEngineCtxDroppedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxDroppedEventType = {
+  message_dropped: 'message_dropped',
+} as const
+
+export interface RuleEngineCtxDropped {
+  event_type: RuleEngineCtxDroppedEventType
+  id?: string
+  reason?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxDisconnectedEventType =
+  typeof RuleEngineCtxDisconnectedEventType[keyof typeof RuleEngineCtxDisconnectedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxDisconnectedEventType = {
+  client_disconnected: 'client_disconnected',
+} as const
+
+export interface RuleEngineCtxDisconnected {
+  event_type: RuleEngineCtxDisconnectedEventType
+  clientid?: string
+  username?: string
+  reason?: string
+  peername?: string
+  sockname?: string
+  disconnected_at?: number
+}
+
+export type RuleEngineCtxDeliveryDroppedEventType =
+  typeof RuleEngineCtxDeliveryDroppedEventType[keyof typeof RuleEngineCtxDeliveryDroppedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxDeliveryDroppedEventType = {
+  delivery_dropped: 'delivery_dropped',
+} as const
+
+export interface RuleEngineCtxDeliveryDropped {
+  event_type: RuleEngineCtxDeliveryDroppedEventType
+  id?: string
+  reason?: string
+  from_clientid?: string
+  from_username?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxDeliveredEventType =
+  typeof RuleEngineCtxDeliveredEventType[keyof typeof RuleEngineCtxDeliveredEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxDeliveredEventType = {
+  message_delivered: 'message_delivered',
+} as const
+
+export interface RuleEngineCtxDelivered {
+  event_type: RuleEngineCtxDeliveredEventType
+  id?: string
+  from_clientid?: string
+  from_username?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxConnectedEventType =
+  typeof RuleEngineCtxConnectedEventType[keyof typeof RuleEngineCtxConnectedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxConnectedEventType = {
+  client_connected: 'client_connected',
+} as const
+
+export interface RuleEngineCtxConnected {
+  event_type: RuleEngineCtxConnectedEventType
+  clientid?: string
+  username?: string
+  mountpoint?: string
+  peername?: string
+  sockname?: string
+  proto_name?: string
+  proto_ver?: string
+  keepalive?: number
+  clean_start?: boolean
+  expiry_interval?: number
+  is_bridge?: boolean
+  connected_at?: number
+}
+
+export type RuleEngineCtxConnackEventType =
+  typeof RuleEngineCtxConnackEventType[keyof typeof RuleEngineCtxConnackEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxConnackEventType = {
+  client_connack: 'client_connack',
+} as const
+
+export interface RuleEngineCtxConnack {
+  event_type: RuleEngineCtxConnackEventType
+  reason_code?: string
+  clientid?: string
+  clean_start?: boolean
+  username?: string
+  peername?: string
+  sockname?: string
+  proto_name?: string
+  proto_ver?: string
+  keepalive?: number
+  expiry_interval?: number
+  connected_at?: number
+}
+
+export type RuleEngineCtxCheckAuthzCompleteEventType =
+  typeof RuleEngineCtxCheckAuthzCompleteEventType[keyof typeof RuleEngineCtxCheckAuthzCompleteEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxCheckAuthzCompleteEventType = {
+  client_check_authz_complete: 'client_check_authz_complete',
+} as const
+
+export interface RuleEngineCtxCheckAuthzComplete {
+  event_type: RuleEngineCtxCheckAuthzCompleteEventType
+  clientid?: string
+  username?: string
+  peerhost?: string
+  topic?: string
+  action?: string
+  authz_source?: string
+  result?: string
+}
+
+export type RuleEngineCtxBridgeMqttEventType =
+  typeof RuleEngineCtxBridgeMqttEventType[keyof typeof RuleEngineCtxBridgeMqttEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxBridgeMqttEventType = {
+  '$bridges/mqtt:*': '$bridges/mqtt:*',
+} as const
+
+export interface RuleEngineCtxBridgeMqtt {
+  event_type: RuleEngineCtxBridgeMqttEventType
+  id?: string
+  payload?: string
+  topic?: string
+  server?: string
+  dup?: string
+  retain?: string
+  message_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxAckedEventType =
+  typeof RuleEngineCtxAckedEventType[keyof typeof RuleEngineCtxAckedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxAckedEventType = {
+  message_acked: 'message_acked',
+} as const
+
+export interface RuleEngineCtxAcked {
+  event_type: RuleEngineCtxAckedEventType
+  id?: string
+  from_clientid?: string
+  from_username?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
 }
 
 export type RuleEngineBuiltinActionRepublishFunction =
@@ -198,384 +578,4 @@ export interface PublicMeta {
   limit?: number
   count?: number
   hasnext: boolean
-}
-
-export type EmqxRuleApiSchemaRuleTestContext =
-  | EmqxRuleApiSchemaCtxDeliveryDropped
-  | EmqxRuleApiSchemaCtxBridgeMqtt
-  | EmqxRuleApiSchemaCtxCheckAuthzComplete
-  | EmqxRuleApiSchemaCtxConnack
-  | EmqxRuleApiSchemaCtxDisconnected
-  | EmqxRuleApiSchemaCtxConnected
-  | EmqxRuleApiSchemaCtxDropped
-  | EmqxRuleApiSchemaCtxAcked
-  | EmqxRuleApiSchemaCtxDelivered
-  | EmqxRuleApiSchemaCtxUnsub
-  | EmqxRuleApiSchemaCtxSub
-  | EmqxRuleApiSchemaCtxPub
-
-export interface EmqxRuleApiSchemaRuleTest {
-  context?: EmqxRuleApiSchemaRuleTestContext
-  sql: string
-}
-
-export interface EmqxRuleApiSchemaRuleMetrics {
-  id: string
-  metrics?: EmqxRuleApiSchemaMetrics
-  node_metrics?: EmqxRuleApiSchemaNodeMetrics[]
-}
-
-export type EmqxRuleApiSchemaRuleInfoMetadata = { [key: string]: any }
-
-export type EmqxRuleApiSchemaRuleInfoActionsItem =
-  | RuleEngineUserProvidedFunction
-  | RuleEngineBuiltinActionConsole
-  | RuleEngineBuiltinActionRepublish
-  | string
-
-export interface EmqxRuleApiSchemaRuleInfo {
-  id: string
-  from?: string[]
-  created_at?: string
-  name?: string
-  sql: string
-  actions?: EmqxRuleApiSchemaRuleInfoActionsItem[]
-  enable?: boolean
-  description?: string
-  metadata?: EmqxRuleApiSchemaRuleInfoMetadata
-}
-
-export type EmqxRuleApiSchemaRuleEventsTestColumns = { [key: string]: any }
-
-export type EmqxRuleApiSchemaRuleEventsColumns = { [key: string]: any }
-
-export type EmqxRuleApiSchemaRuleEventsEvent =
-  typeof EmqxRuleApiSchemaRuleEventsEvent[keyof typeof EmqxRuleApiSchemaRuleEventsEvent]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaRuleEventsEvent = {
-  '$events/client_connected': '$events/client_connected',
-  '$events/client_disconnected': '$events/client_disconnected',
-  '$events/client_connack': '$events/client_connack',
-  '$events/client_check_authz_complete': '$events/client_check_authz_complete',
-  '$events/session_subscribed': '$events/session_subscribed',
-  '$events/session_unsubscribed': '$events/session_unsubscribed',
-  '$events/message_delivered': '$events/message_delivered',
-  '$events/message_acked': '$events/message_acked',
-  '$events/message_dropped': '$events/message_dropped',
-  '$events/delivery_dropped': '$events/delivery_dropped',
-} as const
-
-export interface EmqxRuleApiSchemaRuleEvents {
-  event: EmqxRuleApiSchemaRuleEventsEvent
-  title?: string
-  description?: string
-  columns?: EmqxRuleApiSchemaRuleEventsColumns
-  test_columns?: EmqxRuleApiSchemaRuleEventsTestColumns
-  sql_example?: string
-}
-
-export interface EmqxRuleApiSchemaRuleEngine {
-  ignore_sys_message?: boolean
-  jq_function_default_timeout?: string
-}
-
-export type EmqxRuleApiSchemaRuleCreationMetadata = { [key: string]: any }
-
-export type EmqxRuleApiSchemaRuleCreationActionsItem =
-  | RuleEngineUserProvidedFunction
-  | RuleEngineBuiltinActionConsole
-  | RuleEngineBuiltinActionRepublish
-  | string
-
-export interface EmqxRuleApiSchemaRuleCreation {
-  name?: string
-  sql: string
-  actions?: EmqxRuleApiSchemaRuleCreationActionsItem[]
-  enable?: boolean
-  description?: string
-  metadata?: EmqxRuleApiSchemaRuleCreationMetadata
-}
-
-export interface EmqxRuleApiSchemaNodeMetrics {
-  node?: string
-  matched?: number
-  'matched.rate'?: number
-  'matched.rate.max'?: number
-  'matched.rate.last5m'?: number
-  passed?: number
-  failed?: number
-  'failed.exception'?: number
-  'failed.unknown'?: number
-  'actions.total'?: number
-  'actions.success'?: number
-  'actions.failed'?: number
-  'actions.failed.out_of_service'?: number
-  'actions.failed.unknown'?: number
-}
-
-export interface EmqxRuleApiSchemaMetrics {
-  matched?: number
-  'matched.rate'?: number
-  'matched.rate.max'?: number
-  'matched.rate.last5m'?: number
-  passed?: number
-  failed?: number
-  'failed.exception'?: number
-  'failed.unknown'?: number
-  'actions.total'?: number
-  'actions.success'?: number
-  'actions.failed'?: number
-  'actions.failed.out_of_service'?: number
-  'actions.failed.unknown'?: number
-}
-
-export type EmqxRuleApiSchemaCtxUnsubEventType =
-  typeof EmqxRuleApiSchemaCtxUnsubEventType[keyof typeof EmqxRuleApiSchemaCtxUnsubEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxUnsubEventType = {
-  session_unsubscribed: 'session_unsubscribed',
-} as const
-
-export interface EmqxRuleApiSchemaCtxUnsub {
-  event_type: EmqxRuleApiSchemaCtxUnsubEventType
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxSubEventType =
-  typeof EmqxRuleApiSchemaCtxSubEventType[keyof typeof EmqxRuleApiSchemaCtxSubEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxSubEventType = {
-  session_subscribed: 'session_subscribed',
-} as const
-
-export interface EmqxRuleApiSchemaCtxSub {
-  event_type: EmqxRuleApiSchemaCtxSubEventType
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxPubEventType =
-  typeof EmqxRuleApiSchemaCtxPubEventType[keyof typeof EmqxRuleApiSchemaCtxPubEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxPubEventType = {
-  message_publish: 'message_publish',
-} as const
-
-export interface EmqxRuleApiSchemaCtxPub {
-  event_type: EmqxRuleApiSchemaCtxPubEventType
-  id?: string
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxDroppedEventType =
-  typeof EmqxRuleApiSchemaCtxDroppedEventType[keyof typeof EmqxRuleApiSchemaCtxDroppedEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxDroppedEventType = {
-  message_dropped: 'message_dropped',
-} as const
-
-export interface EmqxRuleApiSchemaCtxDropped {
-  event_type: EmqxRuleApiSchemaCtxDroppedEventType
-  id?: string
-  reason?: string
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxDisconnectedEventType =
-  typeof EmqxRuleApiSchemaCtxDisconnectedEventType[keyof typeof EmqxRuleApiSchemaCtxDisconnectedEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxDisconnectedEventType = {
-  client_disconnected: 'client_disconnected',
-} as const
-
-export interface EmqxRuleApiSchemaCtxDisconnected {
-  event_type: EmqxRuleApiSchemaCtxDisconnectedEventType
-  clientid?: string
-  username?: string
-  reason?: string
-  peername?: string
-  sockname?: string
-  disconnected_at?: number
-}
-
-export type EmqxRuleApiSchemaCtxDeliveryDroppedEventType =
-  typeof EmqxRuleApiSchemaCtxDeliveryDroppedEventType[keyof typeof EmqxRuleApiSchemaCtxDeliveryDroppedEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxDeliveryDroppedEventType = {
-  delivery_dropped: 'delivery_dropped',
-} as const
-
-export interface EmqxRuleApiSchemaCtxDeliveryDropped {
-  event_type: EmqxRuleApiSchemaCtxDeliveryDroppedEventType
-  id?: string
-  reason?: string
-  from_clientid?: string
-  from_username?: string
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxDeliveredEventType =
-  typeof EmqxRuleApiSchemaCtxDeliveredEventType[keyof typeof EmqxRuleApiSchemaCtxDeliveredEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxDeliveredEventType = {
-  message_delivered: 'message_delivered',
-} as const
-
-export interface EmqxRuleApiSchemaCtxDelivered {
-  event_type: EmqxRuleApiSchemaCtxDeliveredEventType
-  id?: string
-  from_clientid?: string
-  from_username?: string
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxConnectedEventType =
-  typeof EmqxRuleApiSchemaCtxConnectedEventType[keyof typeof EmqxRuleApiSchemaCtxConnectedEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxConnectedEventType = {
-  client_connected: 'client_connected',
-} as const
-
-export interface EmqxRuleApiSchemaCtxConnected {
-  event_type: EmqxRuleApiSchemaCtxConnectedEventType
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  peername?: string
-  sockname?: string
-  proto_name?: string
-  proto_ver?: string
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  is_bridge?: boolean
-  connected_at?: number
-}
-
-export type EmqxRuleApiSchemaCtxConnackEventType =
-  typeof EmqxRuleApiSchemaCtxConnackEventType[keyof typeof EmqxRuleApiSchemaCtxConnackEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxConnackEventType = {
-  client_connack: 'client_connack',
-} as const
-
-export interface EmqxRuleApiSchemaCtxConnack {
-  event_type: EmqxRuleApiSchemaCtxConnackEventType
-  reason_code?: string
-  clientid?: string
-  clean_start?: boolean
-  username?: string
-  peername?: string
-  sockname?: string
-  proto_name?: string
-  proto_ver?: string
-  keepalive?: number
-  expiry_interval?: number
-  connected_at?: number
-}
-
-export type EmqxRuleApiSchemaCtxCheckAuthzCompleteEventType =
-  typeof EmqxRuleApiSchemaCtxCheckAuthzCompleteEventType[keyof typeof EmqxRuleApiSchemaCtxCheckAuthzCompleteEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxCheckAuthzCompleteEventType = {
-  client_check_authz_complete: 'client_check_authz_complete',
-} as const
-
-export interface EmqxRuleApiSchemaCtxCheckAuthzComplete {
-  event_type: EmqxRuleApiSchemaCtxCheckAuthzCompleteEventType
-  clientid?: string
-  username?: string
-  peerhost?: string
-  topic?: string
-  action?: string
-  authz_source?: string
-  result?: string
-}
-
-export type EmqxRuleApiSchemaCtxBridgeMqttEventType =
-  typeof EmqxRuleApiSchemaCtxBridgeMqttEventType[keyof typeof EmqxRuleApiSchemaCtxBridgeMqttEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxBridgeMqttEventType = {
-  '$bridges/mqtt:*': '$bridges/mqtt:*',
-} as const
-
-export interface EmqxRuleApiSchemaCtxBridgeMqtt {
-  event_type: EmqxRuleApiSchemaCtxBridgeMqttEventType
-  id?: string
-  payload?: string
-  topic?: string
-  server?: string
-  dup?: string
-  retain?: string
-  message_received_at?: number
-  qos?: number
-}
-
-export type EmqxRuleApiSchemaCtxAckedEventType =
-  typeof EmqxRuleApiSchemaCtxAckedEventType[keyof typeof EmqxRuleApiSchemaCtxAckedEventType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxRuleApiSchemaCtxAckedEventType = {
-  message_acked: 'message_acked',
-} as const
-
-export interface EmqxRuleApiSchemaCtxAcked {
-  event_type: EmqxRuleApiSchemaCtxAckedEventType
-  id?: string
-  from_clientid?: string
-  from_username?: string
-  clientid?: string
-  username?: string
-  payload?: string
-  peerhost?: string
-  topic?: string
-  publish_received_at?: number
-  qos?: number
 }

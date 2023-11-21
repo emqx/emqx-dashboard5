@@ -43,6 +43,7 @@
             </label>
             <el-table
               class="shadow-none"
+              :key="tableKey"
               :data="resultData"
               row-key="key"
               default-expand-all
@@ -156,6 +157,8 @@ const props = defineProps({
 
 const testLoading = ref(false)
 const resultData = ref<{ [key: string]: any }[]>([])
+// for refresh table
+const tableKey = ref(0)
 const emits = defineEmits(['use-sql'])
 
 const showTest = ref(false)
@@ -300,6 +303,7 @@ const submitTest = async () => {
         })
       }
       resultData.value = mapData(res)
+      tableKey.value += 1
       ElMessage.success(tl('testPassed'))
     }
   } catch (e) {

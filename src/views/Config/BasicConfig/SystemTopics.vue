@@ -1,6 +1,6 @@
 <template>
   <div class="sys-topics app-wrapper">
-    <el-card class="app-card">
+    <el-card class="app-card allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
@@ -88,7 +88,7 @@
                 <el-switch v-model="sysTopics.sys_event_messages.client_unsubscribed" />
               </el-form-item>
             </el-col>
-            <el-col :span="24" class="btn-col" :style="store.getters.configPageBtnStyle">
+            <el-col :span="24" class="btn-col">
               <el-button
                 :disabled="!$hasPermission('put')"
                 type="primary"
@@ -115,8 +115,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SysTopics } from '@/types/extension'
@@ -165,7 +166,11 @@ const updateConfigData = async () => {
   }
 }
 
-getConfig()
+const { addObserverToFooter } = useConfFooterStyle()
+;(async () => {
+  await getConfig()
+  addObserverToFooter()
+})()
 </script>
 
 <style lang="scss">

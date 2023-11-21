@@ -283,6 +283,7 @@
 <script setup lang="ts">
 import {
   fillEmptyValueToUndefinedField,
+  getAPIPath,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
   waitAMoment,
@@ -363,7 +364,7 @@ const roleMap = [
 ]
 
 const { components, rules, schemaLoadPromise } = useSchemaForm(
-  '/api/v5/schemas/bridges',
+  getAPIPath('/schemas/bridges'),
   { ref: `#/components/schemas/bridge_pulsar.post_producer` },
   true,
 )

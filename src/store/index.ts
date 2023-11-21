@@ -180,11 +180,6 @@ export default createStore({
     isDev() {
       return process.env.NODE_ENV === 'development'
     },
-    configPageBtnStyle(state) {
-      return {
-        left: state.leftBarCollapse ? '104px' : '224px',
-      }
-    },
     getSchema(state) {
       return (key: string) => {
         return state.schemaStoreMap.get(key)
