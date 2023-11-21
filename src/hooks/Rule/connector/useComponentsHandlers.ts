@@ -1,11 +1,21 @@
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
-import { Properties } from '@/types/schemaForm'
+import { BridgeType } from '@/types/enum'
+import { Properties, Property } from '@/types/schemaForm'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
   rules: SchemaRules
+}
+
+/**
+ * Set the format for the password field to control the
+ * password input box configuration field on the page.
+ */
+const setPwdFormat = (prop: Property) => {
+  prop.format = 'password'
+  return prop
 }
 
 /**
@@ -41,7 +51,7 @@ export default (
     return rules
   }
 
-  const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+  const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.enable) {
       Reflect.deleteProperty(comRet, 'enable')
@@ -53,11 +63,26 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
-  const specialConnectorHandlerMap: Record<string, Handler> = {}
+  const KafkaProducerHandler: Handler = ({ components, rules }) => {
+    const authList = components.authentication?.oneOf
+    if (authList) {
+      const pwdProp = authList.find(({ properties }) => properties?.password)?.properties?.password
+      pwdProp && setPwdFormat(pwdProp)
+    }
+    return { components, rules }
+  }
+
+  const specialConnectorHandlerMap: Map<string, Handler> = new Map([
+    [BridgeType.KafkaProducer, KafkaProducerHandler],
+  ])
 
   const getComponentsHandler = () => {
-    if (props.type && props.type in specialConnectorHandlerMap) {
-      return specialConnectorHandlerMap[props.type]
+    const specialHandler = props.type && specialConnectorHandlerMap.get(props.type)
+    if (specialHandler) {
+      return (data: { components: Properties; rules: SchemaRules }) => {
+        const ret = commonHandler(data)
+        return specialHandler(ret)
+      }
     }
     return commonHandler
   }
