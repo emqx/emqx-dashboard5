@@ -1,12 +1,5 @@
 <template>
   <div class="app-wrapper data-bridge">
-    <div class="section-header">
-      <div></div>
-      <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'bridge-create' })">
-        {{ tl('create') }}
-      </el-button>
-    </div>
-
     <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
       <el-table-column :label="tl('name')" :min-width="120">
         <template #default="{ row }">
@@ -53,7 +46,7 @@
           <TableItemDropDown
             is-bridge
             :row-data="row"
-            @copy="copyBridgeItem(row)"
+            :can-copy="false"
             @delete="handleDeleteBridge(row.id)"
             @create-rule="createRuleWithBridge(row.id)"
           />
@@ -77,7 +70,7 @@ import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { onBeforeRouteUpdate, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -146,14 +139,10 @@ export default defineComponent({
     } = useDeleteBridge(listBridge)
 
     const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
-      name: 'bridge-detail',
+      name: 'action-detail',
       params: { id },
       query: { tab },
     })
-
-    const copyBridgeItem = (row: BridgeItem) => {
-      router.push({ name: 'bridge-create', query: { action: 'copy', target: row.id } })
-    }
 
     const reconnect = async ({ id }: BridgeItem) => {
       try {
@@ -169,12 +158,6 @@ export default defineComponent({
 
     onMounted(listBridge)
 
-    onBeforeRouteUpdate((to) => {
-      if (to.name === 'data-bridge') {
-        listBridge()
-      }
-    })
-
     return {
       Plus,
       tl: (key: string) => t('RuleEngine.' + key),
@@ -188,7 +171,6 @@ export default defineComponent({
       currentDeleteBridgeId,
       handleDeleteSuc,
       handleDeleteBridge,
-      copyBridgeItem,
       reconnectingMap,
       ConnectionStatus,
       reconnect,

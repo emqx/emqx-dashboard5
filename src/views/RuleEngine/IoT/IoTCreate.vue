@@ -1,6 +1,6 @@
 <template>
   <div class="iot-create app-wrapper">
-    <detail-header :item="{ name: $t('RuleEngine.createRule'), path: '/rules' }" />
+    <detail-header :item="{ name: $t('RuleEngine.createRule'), routeName: 'iot' }" />
     <el-card class="iot-form-card overview-visible app-card">
       <iotform
         ref="formCom"

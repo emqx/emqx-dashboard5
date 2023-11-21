@@ -39,6 +39,7 @@ export const useBridgeTypeValue = (): {
 
 export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
+  getTypeStr: (type: string) => string
 } => {
   const { bridgeTypeList } = useBridgeTypeValue()
 
@@ -50,8 +51,12 @@ export const useConnectorTypeValue = (): {
     return arr
   }, [])
 
+  const getTypeStr = (type: string) =>
+    getLabelFromValueInOptionList(type, connectorTypeList) || type
+
   return {
     connectorTypeList,
+    getTypeStr,
   }
 }
 
