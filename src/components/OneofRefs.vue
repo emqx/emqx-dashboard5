@@ -30,6 +30,7 @@
             v-model="fieldValue[$key]"
             :type="(item.type as any)"
             :symbols="item.symbols"
+            :format="item.format"
           />
         </el-form-item>
       </el-col>
