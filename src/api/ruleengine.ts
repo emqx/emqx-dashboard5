@@ -34,7 +34,7 @@ export async function getBridgeList(): Promise<any> {
 /**
  * bridge + action list
  */
-export const getMixedBridgeList = async (): Promise<Array<BridgeItem>> => {
+export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
   try {
     const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
     // FIXME:FIXME:FIXME: KAFKA
