@@ -1,5 +1,5 @@
 <template>
-  <div class="connector-create" :class="[!isFromRule ? 'app-wrapper' : '', 'bridge-create']">
+  <div class="connector-create" :class="[!isFromRule ? 'app-wrapper' : '', 'action-create']">
     <DetailHeader
       v-if="!isFromRule"
       :item="{ name: tl('createConnector'), routeName: 'connector' }"

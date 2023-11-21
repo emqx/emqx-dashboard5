@@ -1,15 +1,12 @@
 <template>
-  <div :class="[!isFromRule ? 'app-wrapper' : '', 'bridge-create']">
-    <detail-header
-      v-if="!isFromRule"
-      :item="{ name: tl('createBridge'), routeName: 'data-bridge' }"
-    />
+  <div :class="[!isFromRule ? 'app-wrapper' : '', 'action-create']">
+    <detail-header v-if="!isFromRule" :item="{ name: tl('createAction'), routeName: 'actions' }" />
     <div v-if="!isFromRule" class="data-bridge-create">
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
             <guide-bar
-              :guide-list="[tl('bridgeType'), tl('configuration')]"
+              :guide-list="[tl('actionType'), tl('configuration')]"
               :active-guide-index-list="activeGuidesIndex"
               :desc-list="guideDescList"
             ></guide-bar>
@@ -88,7 +85,7 @@
     <div v-else>
       <el-row :gutter="26">
         <el-col :span="12">
-          <label>{{ tl('bridgeType') }}</label>
+          <label>{{ tl('actionType') }}</label>
           <el-select class="bridge-select" v-model="chosenBridgeType" @change="handleTypeSelected">
             <el-option
               v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
@@ -202,7 +199,7 @@ export default defineComponent({
       handleNext()
     }
 
-    const cancel = () => router.push({ name: 'data-bridge' })
+    const cancel = () => router.push({ name: 'actions' })
 
     const targetLoading = ref(false)
     const checkBridgeClipStatus = async () => {
@@ -289,7 +286,7 @@ export default defineComponent({
               router.push({ name: 'iot-create', query: { bridgeId } })
             })
             .catch(() => {
-              router.push({ name: 'data-bridge' })
+              router.push({ name: 'actions' })
             })
         } else {
           return Promise.resolve(bridgeId)

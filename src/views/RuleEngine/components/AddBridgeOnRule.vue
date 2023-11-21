@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :title="tl('createBridge')"
+    :title="tl('createAction')"
     v-model="showDrawer"
     :lock-scroll="false"
     size="50%"
