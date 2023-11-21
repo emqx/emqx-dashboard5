@@ -106,6 +106,7 @@ export enum BridgeType {
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
   Kafka = 'kafka',
+  KafkaProducer = 'kafka_producer',
   Redis = 'redis',
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',

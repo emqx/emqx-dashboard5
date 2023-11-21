@@ -13,10 +13,10 @@
       <div class="type-select-container" v-if="step === 0">
         <TypeSelect v-model="selectedType" />
       </div>
-      <div class="form-container" v-else-if="step === 1">
-        <component ref="FormCom" :is="formCom" />
+      <div class="form-container bridge-config" v-else-if="step === 1">
+        <component ref="FormCom" :is="formCom" v-model="formData" :type="selectedType" />
       </div>
-      <div class="btn-container">
+      <div class="form-ft">
         <template v-if="step === 0">
           <el-button @click="cancel">
             {{ $t('Base.cancel') }}
@@ -29,7 +29,7 @@
           <el-button :disabled="isSubmitting" @click="goPreStep">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" plain :loading="isTesting" @click="testConnectivity(formData)">
+          <el-button type="primary" plain :loading="isTesting" @click="handleTest">
             {{ tl('testTheConnection') }}
           </el-button>
           <el-button type="primary" :loading="isSubmitting" @click="submit">
@@ -140,14 +140,25 @@ const checkClipStatus = async () => {
 checkClipStatus()
 
 const { isTesting, testConnectivity } = useTestConnector()
+const handleTest = async () => {
+  try {
+    await customValidate(FormCom.value)
+    testConnectivity(formData.value)
+  } catch (error) {
+    //
+  }
+}
 </script>
 
 <style lang="scss">
+@import '~@/style/rule.scss';
 .connector-create {
-  .type-select-container {
+  .type-select-container,
+  .form-container {
     width: 75%;
   }
-  .btn-container {
+
+  .form-ft {
     margin-top: 24px;
   }
 }
