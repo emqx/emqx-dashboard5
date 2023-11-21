@@ -37,19 +37,16 @@ export const useBridgeTypeValue = (): {
   }
 }
 
+export const isConnectorSupported = (type: string): boolean =>
+  SUPPORTED_CONNECTOR_TYPES.includes(type as BridgeType)
+
 export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
   getTypeStr: (type: string) => string
 } => {
   const { bridgeTypeList } = useBridgeTypeValue()
 
-  const connectorTypeList = SUPPORTED_CONNECTOR_TYPES.reduce((arr: Array<TypeItem>, type) => {
-    const item = bridgeTypeList.find((item) => item.value === type)
-    if (item) {
-      arr.push(item)
-    }
-    return arr
-  }, [])
+  const connectorTypeList = bridgeTypeList
 
   const getTypeStr = (type: string) =>
     getLabelFromValueInOptionList(type, connectorTypeList) || type
