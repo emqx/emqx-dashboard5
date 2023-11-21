@@ -359,8 +359,3 @@ export const enum DetailTab {
   Overview,
   Setting,
 }
-
-export const enum LDAPAuthMethod {
-  Bind = 'bind',
-  Hash = 'hash',
-}
