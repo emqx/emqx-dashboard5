@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column :label="tl('status')" :min-width="120">
         <template #default="{ row }">
-          <TargetItemStatus :bridge="row" />
+          <TargetItemStatus :target="row" />
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
