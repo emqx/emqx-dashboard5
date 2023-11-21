@@ -42,7 +42,7 @@ import Gbt32960Basic from './gbt32960Basic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
+import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData.ts'
 import { GatewayName } from '@/types/enum'
 
 export default defineComponent({
@@ -71,7 +71,7 @@ export default defineComponent({
       }
     }
 
-    const { handleExprotoData } = useHandleExprotoData()
+    const { handleExprotoData } = useHandleGatewayData()
     const updateGatewayInfo = async function () {
       updateLoading.value = true
       infoLoading.value = true
@@ -134,3 +134,4 @@ export default defineComponent({
   margin: 10px;
 }
 </style>
+@/hooks/Gateway/

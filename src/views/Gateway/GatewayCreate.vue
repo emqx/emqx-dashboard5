@@ -37,7 +37,7 @@
             <jt808-basic v-model:value="basicData"></jt808-basic>
           </template>
           <template v-else-if="gname === 'ocpp'">
-            <!-- <ocpp-basic v-model:value="basicData"></ocpp-basic> -->
+            <ocpp-basic v-model:value="basicData"></ocpp-basic>
           </template>
         </el-col>
 
@@ -96,11 +96,12 @@ import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
 import Gbt32960Basic from './components/gbt32960Basic.vue'
 import Jt808Basic from './components/jt808Basic.vue'
+import OcppBasic from './components/ocppBasic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
+import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
 import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -156,14 +157,23 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  ocpp: {},
+  ocpp: {
+    type: 'ws',
+    name: 'default',
+    bind: '33033',
+    websocket: {
+      path: '/ocpp',
+    },
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
 }
 
 const router = useRouter()
 const route = useRoute()
 const { tl } = useI18nTl('Gateway')
 const { t } = useI18n()
-const { handleExprotoData } = useHandleExprotoData()
+const { handleExprotoData } = useHandleGatewayData()
 const { transGatewayName } = useTransName()
 
 const stepActive = ref(0)

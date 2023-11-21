@@ -113,16 +113,16 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
 }
 
 /* 
-  |         | TCP  | UDP  | SSL  | DTLS |
-  | ------- | ---- | ---- | ---- | ---- |
-  | CoAP    |      | ✔︎    |      | ✔︎    |
-  | ExProto | ✔︎    | ✔︎    | ✔︎    | ✔︎    |
-  | LwM2M   |      | ✔︎    |      | ✔︎    |
-  | MQTT-SN |      | ✔︎    |      | ✔︎    |
-  | STOMP   | ✔︎    |      | ✔︎    |      |
-  | OCPP    | ✔︎    |      | ✔︎    |      |
-  | JT808   | ✔︎    |      | ✔︎    |      |
-  | GB32960 | ✔︎    |      | ✔︎    |      |
+  |         | TCP  | UDP  | SSL  | DTLS | WS  | WSS |
+  | ------- | ---- | ---- | ---- | ---- | --- | --- |
+  | CoAP    |      | ✔︎    |      | ✔︎    |     |     |
+  | ExProto | ✔︎    | ✔︎    | ✔︎    | ✔︎    |     |     |
+  | LwM2M   |      | ✔︎    |      | ✔︎    |     |     |
+  | MQTT-SN |      | ✔︎    |      | ✔︎    |     |     |
+  | STOMP   | ✔︎    |      | ✔︎    |      |     |     |
+  | OCPP    |      |      |      |      | ✔︎   | ✔︎   |
+  | JT808   | ✔︎    |      | ✔︎    |      |     |     |
+  | GB32960 | ✔︎    |      | ✔︎    |      |     |     |
 */
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
@@ -131,7 +131,12 @@ export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTy
   [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
   [GatewayName.GBT32960]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
   [GatewayName.JT808]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
-  [GatewayName.OCPP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.OCPP]: [
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+  ],
 }
 
 export const DEFAULT_ZONE = 'default'

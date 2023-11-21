@@ -46,6 +46,8 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     ListenerTypeForGateway.SSL,
     ListenerTypeForGateway.UDP,
     ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
   ]
 
   // ListenerType.QUIC,
