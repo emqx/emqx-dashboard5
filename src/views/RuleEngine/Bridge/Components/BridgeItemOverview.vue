@@ -1,5 +1,5 @@
 <template>
-  <Metrics
+  <OverviewMetrics
     total="matched"
     :title="lowerCase(tl('dataBridge'))"
     :request-metrics="getBridgeMetrics"
@@ -57,12 +57,12 @@
         </el-table-column>
       </el-table>
     </template>
-  </Metrics>
+  </OverviewMetrics>
 </template>
 
 <script setup lang="ts">
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
-import Metrics from '@/components/Metrics/Metrics.vue'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
