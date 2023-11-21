@@ -1,10 +1,7 @@
 <template>
   <div class="bridge-detail">
     <div class="detail-top">
-      <detail-header
-        v-if="!isFromRule"
-        :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
-      />
+      <detail-header v-if="!isFromRule" :item="{ name: bridgeInfo.name, routeName: 'actions' }" />
       <div v-if="!isFromRule" class="section-header">
         <div>
           <img :src="getBridgeIcon(bridgeInfo.type)" />
@@ -311,7 +308,7 @@ const updateBridgeInfo = async () => {
     const res = await updateBridge(bridgeInfo.value.id, data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
-      router.push({ name: 'data-bridge' })
+      router.push({ name: 'actions' })
     }
     return Promise.resolve(res.id)
   } catch (error) {
@@ -350,7 +347,7 @@ const createRuleWithBridge = () => {
 }
 
 const goBack = () => {
-  router.push({ name: 'data-bridge' })
+  router.push({ name: 'actions' })
 }
 const {
   showSecondConfirm,

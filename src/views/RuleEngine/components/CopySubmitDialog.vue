@@ -115,10 +115,10 @@ const confirmAfterCreatedBridge = (id: string) => {
         router.push({ name: 'iot-create', query: { bridgeId: id } })
       })
       .catch(() => {
-        router.push({ name: 'data-bridge' })
+        router.push({ name: 'actions' })
       })
   } else {
-    router.push({ name: 'data-bridge' })
+    router.push({ name: 'actions' })
   }
 }
 

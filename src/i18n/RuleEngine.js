@@ -1,7 +1,7 @@
 export default {
-  createBridge: {
-    zh: '创建数据桥接',
-    en: 'Create Data Bridge',
+  createAction: {
+    zh: '创建动作',
+    en: 'Create Action',
   },
   createConnector: {
     zh: '创建连接',
@@ -15,9 +15,9 @@ export default {
     zh: '创建',
     en: 'Create',
   },
-  bridgeType: {
-    zh: '数据桥接类型',
-    en: 'Type of Data Bridge',
+  actionType: {
+    zh: '动作类型',
+    en: 'Type of Action',
   },
   connectorType: {
     zh: '连接类型',
