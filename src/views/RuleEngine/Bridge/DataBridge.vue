@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getMixedBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
+import { getMixedActionList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -96,7 +96,7 @@ export default defineComponent({
     const listBridge = async function () {
       tbLoading.value = true
       try {
-        bridgeTb.value = await getMixedBridgeList()
+        bridgeTb.value = await getMixedActionList()
         initReconnectingMap()
       } catch (error) {
         console.error(error)
