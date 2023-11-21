@@ -332,6 +332,22 @@ export const getBridgeKey = ({
   name,
 }: { type: BridgeType; name: string } & unknown): string => `${type}:${name}`
 
+const keyReg = /^(?<type>\w+):(?<name>.+)$/
+/**
+ * for connector, action and bridge
+ */
+export const getTypeAndNameFromKey = (key: string): { type: BridgeType; name: string } => {
+  const matchResult = key.match(keyReg)
+  if (!matchResult) {
+    throw new Error('invalid key')
+  }
+  const { type, name } = matchResult.groups || {}
+  return {
+    type: type as BridgeType,
+    name,
+  }
+}
+
 export const usefulMemoryUnit = ['KB', 'MB', 'GB']
 
 const ONE_KB = 1024
