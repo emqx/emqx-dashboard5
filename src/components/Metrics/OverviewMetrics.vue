@@ -1,5 +1,5 @@
 <template>
-  <div class="metrics">
+  <div class="overview-metrics">
     <div class="metric-block">
       <div class="block-hd">
         <p class="block-title">{{ t('Base.statistics') }}</p>
@@ -118,6 +118,7 @@ import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ComputedRef, Ref, computed, defineProps, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>
 
@@ -253,7 +254,7 @@ const { syncPolling } = useSyncPolling()
 <style lang="scss">
 @use 'sass:math';
 
-.metrics {
+.overview-metrics {
   p {
     margin: 0;
   }

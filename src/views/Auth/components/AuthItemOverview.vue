@@ -63,6 +63,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 const props = defineProps({
   metrics: {
     type: Object as PropType<Metrics>,
+    required: true,
   },
   type: {
     type: String as PropType<'authn' | 'authz'>,
