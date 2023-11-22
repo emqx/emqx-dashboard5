@@ -3,7 +3,6 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
-import { ElPageHeader } from 'element-plus'
 import { escapeRegExp } from 'lodash'
 import { Ref, ref } from 'vue'
 
