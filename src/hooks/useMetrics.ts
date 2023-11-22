@@ -376,14 +376,12 @@ export const useAuthMetrics = (): {
 } => {
   const { t, tl } = useI18nTl('Auth')
   const authnTypeMetricsMap = {
-    [MetricType.Green]: { title: t('Base.total'), contains: ['total'] },
-    [MetricType.Blue]: { title: t('Base.allow'), contains: ['success'] },
+    [MetricType.Green]: { title: t('Base.allow'), contains: ['success'] },
     [MetricType.Red]: { title: t('Base.deny'), contains: ['failed'] },
     [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
   }
   const authzTypeMetricsMap = {
-    [MetricType.Green]: { title: t('Base.total'), contains: ['total'] },
-    [MetricType.Blue]: { title: t('Base.allow'), contains: ['allow'] },
+    [MetricType.Green]: { title: t('Base.allow'), contains: ['allow'] },
     [MetricType.Red]: { title: t('Base.deny'), contains: ['deny'] },
     [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
   }
