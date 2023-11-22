@@ -47,7 +47,7 @@ export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
         bridgeList.splice(index, 1, actionData.get(bridgeList[index].id))
       }
     }
-    return Promise.resolve(bridgeList)
+    return Promise.resolve(actionList.concat(bridgeList))
   } catch (error) {
     return Promise.reject(error)
   }
