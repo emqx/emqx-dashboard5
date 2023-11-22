@@ -368,22 +368,39 @@ export const useBridgeMetrics = (): {
 }
 
 export const useAuthMetrics = (): {
-  typeMetricsMap: TypeMapData
+  authnTypeMetricsMap: TypeMapData
+  authzTypeMetricsMap: TypeMapData
   authnTextMap: Record<string, { label: string; desc?: string }>
+  authzTextMap: Record<string, { label: string; desc?: string }>
   rateData: Rate
 } => {
-  const { t } = useI18nTl('Auth')
-  const typeMetricsMap = {
+  const { t, tl } = useI18nTl('Auth')
+  const authnTypeMetricsMap = {
     [MetricType.Green]: { title: t('Base.total'), contains: ['total'] },
-    [MetricType.Blue]: { title: t('Base.success'), contains: ['success'] },
-    [MetricType.Red]: { title: t('Base.failed'), contains: ['failed'] },
+    [MetricType.Blue]: { title: t('Base.allow'), contains: ['success'] },
+    [MetricType.Red]: { title: t('Base.deny'), contains: ['failed'] },
+    [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
+  }
+  const authzTypeMetricsMap = {
+    [MetricType.Green]: { title: t('Base.total'), contains: ['total'] },
+    [MetricType.Blue]: { title: t('Base.allow'), contains: ['allow'] },
+    [MetricType.Red]: { title: t('Base.deny'), contains: ['deny'] },
     [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
   }
   const authnTextMap = {
-    total: { label: t('Base.total'), desc: t('Base.authnTotalDesc') },
-    success: { label: t('Base.success'), desc: t('Base.authnSuccessDesc') },
-    failed: { label: t('Base.failed'), desc: t('Base.authnFailedDesc') },
-    nomatch: { label: t('Base.nomatch'), desc: t('Base.authnNomatchDesc') },
+    total: { label: t('Base.total'), desc: tl('authnTotalDesc') },
+    success: { label: t('Base.allow'), desc: tl('authnSuccessDesc') },
+    failed: { label: t('Base.deny'), desc: tl('authnFailedDesc') },
+    nomatch: { label: t('Base.nomatch'), desc: tl('authnNomatchDesc') },
+    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate_max: { label: t('Base.rateMax') },
+    rate_last5m: { label: t('Base.rateLast5M') },
+  }
+  const authzTextMap = {
+    total: { label: t('Base.total'), desc: tl('authzTotalDesc') },
+    allow: { label: t('Base.allow'), desc: tl('authzSuccessDesc') },
+    deny: { label: t('Base.deny'), desc: tl('authzFailedDesc') },
+    nomatch: { label: t('Base.nomatch'), desc: tl('authzNomatchDesc') },
     rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
@@ -396,8 +413,10 @@ export const useAuthMetrics = (): {
     right2: 'rate_max',
   }
   return {
-    typeMetricsMap,
+    authnTypeMetricsMap,
+    authzTypeMetricsMap,
     authnTextMap,
+    authzTextMap,
     rateData,
   }
 }

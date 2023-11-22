@@ -567,33 +567,25 @@ export default {
     zh: '总数',
     en: 'Total',
   },
-  authnTotalDesc: {
-    zh: '认证器被触发执行的总次数',
-    en: 'Total number of authenticator triggers',
-  },
   success: {
+    zh: '成功',
+    en: 'Success',
+  },
+  failed: {
+    zh: '失败',
+    en: 'Failed',
+  },
+  allow: {
     zh: '允许',
     en: 'Allow',
   },
-  authnSuccessDesc: {
-    zh: '认证成功允许连接的次数',
-    en: 'Number of successful authentications allowed for connection',
-  },
-  failed: {
+  deny: {
     zh: '拒绝',
     en: 'Deny',
-  },
-  authnFailedDesc: {
-    zh: '认证失败拒绝连接次数，通常是密码错误导致',
-    en: 'Number of failed authentications resulting in connection denied, typically due to password errors',
   },
   nomatch: {
     zh: '不匹配',
     en: 'No match',
-  },
-  authnNomatchDesc: {
-    zh: '未找到客户端认证数据的次数。如果认证器执行失败也会增加此计数',
-    en: 'Number of times client authentication data is not found. If the authenticator execution fails, the count will also increase',
   },
   rateNow: {
     zh: '当前速率',
