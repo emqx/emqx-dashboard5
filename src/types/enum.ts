@@ -105,8 +105,10 @@ export enum BridgeType {
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
+  // TODO: remove this type
   Kafka = 'kafka',
   KafkaProducer = 'kafka_producer',
+  KafkaConsumer = 'kafka_consumer',
   Redis = 'redis',
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',
