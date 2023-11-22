@@ -1,6 +1,7 @@
 <template>
   <div class="resource-item-overview">
     <OverviewMetrics
+      total="total"
       :request-metrics="getAuthMetrics"
       :type-metrics-map="isAuthn ? authnTypeMetricsMap : authzTypeMetricsMap"
       :text-map="isAuthn ? authnTextMap : authzTextMap"
