@@ -16,6 +16,7 @@ import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
+import ConnectorSelect from '@/views/RuleEngine/Bridge/Components/ConnectorSelect.vue'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
@@ -278,6 +279,15 @@ const SchemaForm = defineComponent({
             )
           }
           return stringInput
+        case 'connector':
+          return (
+            <ConnectorSelect
+              modelValue={modelValue}
+              type={configForm.value.type}
+              {...handleUpdateModelValue}
+              {...customProps}
+            />
+          )
         case 'number':
           return (
             <CustomInputNumber

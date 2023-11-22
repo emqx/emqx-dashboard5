@@ -6,6 +6,8 @@ import { Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
 
+const CONNECTOR_CONF_KEYS = 'connector'
+
 const keysNeedRemove = ['label', 'description', 'summary']
 const removeUselessKey = (obj: any) => {
   for (const key in obj) {
@@ -97,6 +99,8 @@ export default function useSchemaForm(
         property.type = 'sql'
       } else if (property.format === 'file') {
         property.type = 'file'
+      } else if (property.path === CONNECTOR_CONF_KEYS) {
+        property.type = 'connector'
       }
     }
     return property
