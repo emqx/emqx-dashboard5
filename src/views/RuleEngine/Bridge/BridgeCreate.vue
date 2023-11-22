@@ -121,7 +121,8 @@ import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { createBridge, getBridgeInfo, testConnect } from '@/api/ruleengine'
+import { testConnect } from '@/api/ruleengine'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -201,6 +202,8 @@ export default defineComponent({
 
     const cancel = () => router.push({ name: 'actions' })
 
+    const { getDetail, addAction } = useHandleActionItem()
+
     const targetLoading = ref(false)
     const checkBridgeClipStatus = async () => {
       if (!isCopy.value) {
@@ -213,7 +216,7 @@ export default defineComponent({
         }
         step.value = 1
         targetLoading.value = true
-        const bridgeInfo = await getBridgeInfo(route.query.target as string)
+        const bridgeInfo = await getDetail(route.query.target as string)
         if (bridgeInfo) {
           bridgeData.value = {
             ...handleBridgeDataForCopy(bridgeInfo),
@@ -273,7 +276,7 @@ export default defineComponent({
 
       try {
         const data = await getDataForSubmit()
-        res = await createBridge(data)
+        res = await addAction(data)
 
         const bridgeId = res?.id
         if (!isFromRule.value) {
