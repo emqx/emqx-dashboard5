@@ -24,7 +24,7 @@ export default (): {
   getConnectorDetail: <T = NowConnector>(id: string) => Promise<T>
   addConnector: <T = NowConnector>(data: T) => Promise<T>
   updateConnector: <T = NowConnector>(data: T) => Promise<T>
-  deleteConnector: ({ id }: NowConnector) => Promise<void>
+  deleteConnector: (id: string) => Promise<void>
   handleDataForCopy: <T = NowConnector>(data: T) => T
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
@@ -76,7 +76,7 @@ export default (): {
     return func((data as NowConnector).id, dataForSubmit) as Promise<T>
   }
 
-  const deleteConnector = async ({ id }: NowConnector): Promise<void> => {
+  const deleteConnector = async (id: string): Promise<void> => {
     const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
       ? requestDelConnector
       : deleteBridge

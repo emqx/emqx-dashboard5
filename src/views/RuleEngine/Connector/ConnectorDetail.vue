@@ -15,8 +15,7 @@
           </div>
         </div>
         <div>
-          <!-- TODO:TODO:TODO: -->
-          <el-tooltip :content="$t('Base.delete')" placement="top" :disabled="connectorData.XXXXX">
+          <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
             </el-button>
           </el-tooltip>
@@ -69,12 +68,11 @@
 </template>
 
 <script setup lang="ts">
-import { deleteConnector, getConnectorDetail, putConnector } from '@/api/connector'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
-import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
@@ -130,6 +128,9 @@ const connectorName = computed(() => connectorData.value.name)
 const { getBridgeIcon } = useBridgeTypeIcon()
 const { getTypeStr } = useConnectorTypeValue()
 
+const { getConnectorDetail, updateConnector, deleteConnector, isTesting, testConnectivity } =
+  useHandleConnectorItem()
+
 const isLoading = ref(false)
 const getDetail = async () => {
   try {
@@ -153,7 +154,6 @@ const handleDelete = async () => {
   }
 }
 
-const { isTesting, testConnectivity } = useTestConnector()
 const handleTest = async () => {
   try {
     await customValidate(FormCom.value)
@@ -186,7 +186,7 @@ const submit = async () => {
     await operationWarning(tl('updateBridgeTip'))
     isSubmitting.value = true
     const data = await handleConnectorDataBeforeSubmit(connectorData.value)
-    const res = await putConnector(data.id, data)
+    const res = await updateConnector(data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'connector' })
