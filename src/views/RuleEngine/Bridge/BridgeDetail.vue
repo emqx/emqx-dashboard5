@@ -69,7 +69,6 @@
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-http-config
                 v-if="bridgeType === BridgeType.Webhook"
-                v-model:tls="bridgeInfo.ssl"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
