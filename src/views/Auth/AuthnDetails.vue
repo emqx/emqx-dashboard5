@@ -181,7 +181,7 @@ export default defineComponent({
     const configData = ref({
       ssl: { enable: false },
     })
-    const authMetrics = ref(undefined)
+    const authMetrics = ref({})
 
     const currBackend = ref('')
 

@@ -16,13 +16,15 @@
             <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
             </el-button>
           </el-tooltip>
-          <el-tooltip :content="tl('resetStatistics')" placement="top">
+          <el-tooltip v-if="requestReset" :content="tl('resetStatistics')" placement="top">
             <el-button class="icon-button" :icon="Close" @click="resetStatistics"></el-button>
           </el-tooltip>
         </div>
       </div>
+      <!-- Number Stats -->
       <div class="block-bd">
-        <el-card class="metric-pie">
+        <!-- Pie Chart -->
+        <el-card v-if="total" class="metric-pie">
           <p class="metric-name">{{ getMetricItemLabel(total) }}</p>
           <p class="metric-num">{{ formatNumber(currentMetrics[total]) }}</p>
           <div class="pie-container" :id="createRandomString()" ref="ChartEle"></div>
@@ -37,6 +39,7 @@
         </div>
       </div>
     </div>
+    <!-- Rate Stats -->
     <div class="metric-block">
       <div class="block-hd">
         <p class="block-title">{{ t('Base.rateIndicators') }}</p>
@@ -56,6 +59,7 @@
               </p>
             </div>
             <div class="metric-bar-bd">
+              <!-- Bar Chart -->
               <div class="bar-container" :id="createRandomString()" ref="BarChartEle"></div>
               <p class="bar-desc tip">{{ getMetricItemDesc(rateMetrics.current) }}</p>
             </div>
@@ -131,18 +135,19 @@ interface Rate {
 
 const props = defineProps<{
   requestMetrics: () => any
-  requestReset: () => any
+  requestReset?: () => any
   textMap: Record<string, { label: string; desc?: string }>
   /**
    * metric key for get total
+   * Data chart will only be displayed if 'total' is provided.
    */
-  total: string
+  total?: string
   typeMetricsMap: TypeMapData
   rateMetrics: Rate
   /**
    * for confirm dialog
    */
-  title: string
+  title?: string
   tableData?: Array<string>
 }>()
 
@@ -208,11 +213,12 @@ const { ChartEle: BarChartEle, updateBarData } = useRateChart()
 const { ChartEle, updateRingData } = usePieChart()
 const updateToView = () => {
   const data = currentMetrics.value
-  pieData = generatePieData(data, props.typeMetricsMap)
-  updateRingData(pieData)
-
-  const { x, y } = updateRateData(data)
-  updateBarData(x, y)
+  if (props.total) {
+    pieData = generatePieData(data, props.typeMetricsMap)
+    updateRingData(pieData)
+    const { x, y } = updateRateData(data)
+    updateBarData(x, y)
+  }
 
   typeMetricsData.value = generateMetricTypeData(data, props.typeMetricsMap)
 }
@@ -238,7 +244,9 @@ const handleRefresh = () => {
 
 const resetStatistics = async () => {
   await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: props.title }))
-  await props.requestReset()
+  if (props.requestReset) {
+    await props.requestReset()
+  }
   ElMessage.success(tl('resetSuccessfully'))
   initMetrics()
   getMetrics()
@@ -382,7 +390,7 @@ const { syncPolling } = useSyncPolling()
     }
     .bar-desc {
       color: var(--color-text-placeholder);
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 400;
       line-height: 24px;
     }

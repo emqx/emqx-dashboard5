@@ -6,6 +6,7 @@
           <div class="front-hd">
             <i class="dot-type"></i>
             <p class="metric-name">{{ data.title }}</p>
+            <InfoTooltip v-if="hasNoDetails && oneDetailData.desc" :content="oneDetailData.desc" />
           </div>
           <div class="front-body">
             <div class="num-container">
@@ -20,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div class="side-trigger" @click="toggleShow">
+        <div v-if="!hasNoDetails" class="side-trigger" @click="toggleShow">
           <el-icon class="icon-arrow" :size="20"><ArrowRight /></el-icon>
         </div>
       </div>
@@ -88,6 +89,10 @@ const typeColor = computed(() => TYPE_COLOR_MAP[props.type])
 const showBack = ref(false)
 const toggleShow = () => (showBack.value = !showBack.value)
 
+const hasNoDetails = computed(() => props.data.detail.length === 1)
+
+const oneDetailData = computed<DetailItem>(() => props.data.detail[0])
+
 const diff = ref(0)
 watch(
   () => props.data.count,
@@ -103,7 +108,6 @@ watch(
 .type-metrics {
   position: relative;
   user-select: none;
-
   .el-card__body {
     padding: 0;
     height: 100%;
@@ -135,6 +139,10 @@ watch(
     border-radius: 50%;
     background-color: v-bind(typeColor);
     margin-right: 8px;
+  }
+
+  .metric-name {
+    margin-right: 6px;
   }
 
   .num-container {
