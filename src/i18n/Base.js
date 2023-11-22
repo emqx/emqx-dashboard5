@@ -603,8 +603,4 @@ export default {
     zh: '最大速率',
     en: 'Maximum Rate',
   },
-  rateBarDesc: {
-    zh: '近一分钟内消息发出速度趋势',
-    en: 'Trend of message sending speed in the past minute',
-  },
 }

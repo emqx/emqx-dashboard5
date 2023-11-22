@@ -390,7 +390,7 @@ export const useAuthMetrics = (): {
     success: { label: t('Base.allow'), desc: tl('authnSuccessDesc') },
     failed: { label: t('Base.deny'), desc: tl('authnFailedDesc') },
     nomatch: { label: t('Base.nomatch'), desc: tl('authnNomatchDesc') },
-    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate: { label: t('Base.rateNow'), desc: tl('authnRateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
   }
@@ -399,13 +399,13 @@ export const useAuthMetrics = (): {
     allow: { label: t('Base.allow'), desc: tl('authzSuccessDesc') },
     deny: { label: t('Base.deny'), desc: tl('authzFailedDesc') },
     nomatch: { label: t('Base.nomatch'), desc: tl('authzNomatchDesc') },
-    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate: { label: t('Base.rateNow'), desc: tl('authzRateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
   }
 
   const rateData = {
-    unitKey: 'RuleEngine.rateUnit',
+    unitKey: 'Auth.rateUnit',
     current: 'rate',
     right1: 'rate_last5m',
     right2: 'rate_max',
