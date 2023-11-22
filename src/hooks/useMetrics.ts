@@ -323,7 +323,7 @@ export const useBridgeMetrics = (): {
   textMap: Record<string, { label: string; desc?: string }>
   rateData: Rate
 } => {
-  const { tl } = useI18nTl('RuleEngine')
+  const { t, tl } = useI18nTl('RuleEngine')
   const typeMetricsMap = {
     [MetricType.Green]: { title: tl('success'), contains: ['success', 'matched', 'received'] },
     [MetricType.Blue]: { title: 'Processing', contains: ['queuing'] },
@@ -349,9 +349,9 @@ export const useBridgeMetrics = (): {
     dropped: { label: tl('dropped'), desc: tl('droppedDesc') },
     queuing: { label: tl('queuing'), desc: tl('queuingDesc') },
     retried: { label: tl('retried'), desc: tl('retriedDesc') },
-    rate: { label: tl('rateNow'), desc: tl('rateBarDesc') },
-    rate_max: { label: tl('rateMax') },
-    rate_last5m: { label: tl('rateLast5M') },
+    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate_max: { label: t('Base.rateMax') },
+    rate_last5m: { label: t('Base.rateLast5M') },
   }
 
   const rateData = {
@@ -363,6 +363,41 @@ export const useBridgeMetrics = (): {
   return {
     typeMetricsMap,
     textMap,
+    rateData,
+  }
+}
+
+export const useAuthMetrics = (): {
+  typeMetricsMap: TypeMapData
+  authnTextMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t } = useI18nTl('Auth')
+  const typeMetricsMap = {
+    [MetricType.Green]: { title: t('Base.total'), contains: ['total'] },
+    [MetricType.Blue]: { title: t('Base.success'), contains: ['success'] },
+    [MetricType.Red]: { title: t('Base.failed'), contains: ['failed'] },
+    [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
+  }
+  const authnTextMap = {
+    total: { label: t('Base.total'), desc: t('Base.authnTotalDesc') },
+    success: { label: t('Base.success'), desc: t('Base.authnSuccessDesc') },
+    failed: { label: t('Base.failed'), desc: t('Base.authnFailedDesc') },
+    nomatch: { label: t('Base.nomatch'), desc: t('Base.authnNomatchDesc') },
+    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate_max: { label: t('Base.rateMax') },
+    rate_last5m: { label: t('Base.rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'rate',
+    right1: 'rate_last5m',
+    right2: 'rate_max',
+  }
+  return {
+    typeMetricsMap,
+    authnTextMap,
     rateData,
   }
 }
