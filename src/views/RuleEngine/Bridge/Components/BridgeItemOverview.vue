@@ -43,14 +43,14 @@
         </el-table-column>
         <el-table-column>
           <template #header>
-            <p>{{ tl('rateLast5M') }}</p>
+            <p>{{ t('Base.rateLast5M') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
           <template #default="{ row }">{{ getEgressData(row.metrics?.rate_last5m) }}</template>
         </el-table-column>
-        <el-table-column :label="tl('rateMax')">
+        <el-table-column :label="t('Base.rateMax')">
           <template #header>
-            <p>{{ tl('rateMax') }}</p>
+            <p>{{ t('Base.rateMax') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
           <template #default="{ row }">{{ getEgressData(row.metrics?.rate_max) }}</template>

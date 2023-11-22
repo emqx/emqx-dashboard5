@@ -567,4 +567,52 @@ export default {
     zh: '速度指标',
     en: 'Rate Indicators',
   },
+  total: {
+    zh: '总数',
+    en: 'Total',
+  },
+  authnTotalDesc: {
+    zh: '认证器被触发执行的总次数',
+    en: 'Total number of authenticator triggers',
+  },
+  success: {
+    zh: '允许',
+    en: 'Allow',
+  },
+  authnSuccessDesc: {
+    zh: '认证成功允许连接的次数',
+    en: 'Number of successful authentications allowed for connection',
+  },
+  failed: {
+    zh: '拒绝',
+    en: 'Deny',
+  },
+  authnFailedDesc: {
+    zh: '认证失败拒绝连接次数，通常是密码错误导致',
+    en: 'Number of failed authentications resulting in connection denied, typically due to password errors',
+  },
+  nomatch: {
+    zh: '不匹配',
+    en: 'No match',
+  },
+  authnNomatchDesc: {
+    zh: '未找到客户端认证数据的次数。如果认证器执行失败也会增加此计数',
+    en: 'Number of times client authentication data is not found. If the authenticator execution fails, the count will also increase',
+  },
+  rateNow: {
+    zh: '当前速率',
+    en: 'Rate',
+  },
+  rateLast5M: {
+    zh: '最近 5 分钟速率',
+    en: 'Rate in Last 5 Min',
+  },
+  rateMax: {
+    zh: '最大速率',
+    en: 'Maximum Rate',
+  },
+  rateBarDesc: {
+    zh: '近一分钟内消息发出速度趋势',
+    en: 'Trend of message sending speed in the past minute',
+  },
 }

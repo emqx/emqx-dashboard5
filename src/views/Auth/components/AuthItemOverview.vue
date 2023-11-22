@@ -1,48 +1,41 @@
 <template>
   <div class="resource-item-overview">
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p>{{ tl('statistics') }}</p>
-        <el-tooltip :content="$t('Base.refresh')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
-          </el-button>
-        </el-tooltip>
-      </div>
-      <TargetDetailMetrics :metrics="metricsData" />
-    </div>
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p class="vertical-align-center">
-          {{ tl('nodeStatus') }}
-          <InfoTooltip :content="nodeStatusDesc" />
-        </p>
-      </div>
-
-      <el-table :data="nodeStatusTableData">
-        <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column :label="$t('Auth.status')">
-          <template #default="{ row }">
-            <span class="text-status" :class="getStatusClass(row.status)">
-              {{ getLabelByStatusValue(row.status) }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
-          :label="tl('success')"
-        />
-        <el-table-column
-          :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
-          :label="tl('ErrNum')"
-        />
-        <el-table-column prop="metrics.rate" :label="`${tl('rateNow')}(tps)`" />
-      </el-table>
-    </div>
+    <OverviewMetrics
+      :request-metrics="getAuthnMetrics"
+      :type-metrics-map="typeMetricsMap"
+      :text-map="authnTextMap"
+      :rate-metrics="rateData"
+    >
+      <template #table="{ data }">
+        <el-table :data="nodeStatusTableData(data)">
+          <el-table-column prop="node" :label="tl('name')" />
+          <el-table-column :label="$t('Auth.status')">
+            <template #default="{ row }">
+              <span class="text-status" :class="getStatusClass(row.status)">
+                {{ getLabelByStatusValue(row.status) }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
+            :label="tl('success')"
+          />
+          <el-table-column
+            :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
+            :label="tl('ErrNum')"
+          />
+          <el-table-column prop="metrics.rate" :label="`${$t('Base.rateNow')} (QPS)`" />
+        </el-table>
+      </template>
+    </OverviewMetrics>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { queryAuthnItemMetrics } from '@/api/auth'
+import { useRoute } from 'vue-router'
+import { MetricsData } from '@/types/common'
 
 export default defineComponent({
   name: 'AuthItemOverview',
@@ -51,14 +44,13 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineProps, PropType, computed, ref, Ref, watch, defineEmits } from 'vue'
-import { Refresh } from '@element-plus/icons-vue'
 import { ConnectionStatus } from '@/types/enum'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
+import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import useI18nTl from '@/hooks/useI18nTl'
 import { upperFirst } from 'lodash'
-import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 
 const props = defineProps({
   metrics: {
@@ -74,7 +66,23 @@ const props = defineProps({
   },
 })
 
+const route = useRoute()
+
 const isAuthn = computed(() => props.type === 'authn')
+
+const { authnTextMap, typeMetricsMap, rateData } = useAuthMetrics()
+
+const getAuthnMetrics = async () => {
+  try {
+    const authnId = route.params.id as string
+    if (!authnId) {
+      return
+    }
+    return queryAuthnItemMetrics(authnId)
+  } catch (error) {
+    //
+  }
+}
 
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
 
@@ -116,8 +124,8 @@ const metricsData = computed(() => [
   },
 ])
 
-const nodeStatusTableData = computed(() => {
-  return nodeMetrics.value.map(({ node, metrics }) => {
+const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
+  return node_metrics.map(({ node, metrics }) => {
     const status =
       nodeStatus.value.find((item) => item.node === node)?.status || ConnectionStatus.Disconnected
     return {
@@ -126,7 +134,7 @@ const nodeStatusTableData = computed(() => {
       status,
     }
   })
-})
+}
 
 const { t, tl } = useI18nTl('RuleEngine')
 

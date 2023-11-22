@@ -47,10 +47,6 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  rateNow: {
-    zh: '当前速率',
-    en: 'Rate',
-  },
   status: {
     zh: '资源状态',
     en: 'Resource Status',
@@ -340,10 +336,6 @@ export default {
     zh: '成功执行但没有输出结果',
     en: 'Executes Successfully But No Output Results',
   },
-  rateLast5M: {
-    zh: '最近 5 分钟速率',
-    en: 'Rate in Last 5 Min',
-  },
   sent: {
     zh: '已发送',
     en: 'Sent',
@@ -415,10 +407,6 @@ export default {
   receivedDesc: {
     zh: '从远程系统收到的消息个数',
     en: 'Count of messages that is received from the remote system',
-  },
-  rateMax: {
-    zh: '最大速率',
-    en: 'Maximum Rate',
   },
   activated: {
     zh: '已启用',
@@ -913,9 +901,5 @@ export default {
   advancedSettings: {
     zh: '高级设置',
     en: 'Advanced Settings',
-  },
-  rateBarDesc: {
-    zh: '近一分钟内消息发出速度趋势',
-    en: 'Trend of message sending speed in the past minute',
   },
 }
