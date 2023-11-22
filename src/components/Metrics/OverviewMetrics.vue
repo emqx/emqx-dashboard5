@@ -216,6 +216,8 @@ const updateToView = () => {
   if (props.total) {
     pieData = generatePieData(data, props.typeMetricsMap)
     updateRingData(pieData)
+  }
+  if (props.rateMetrics) {
     const { x, y } = updateRateData(data)
     updateBarData(x, y)
   }
