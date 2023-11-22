@@ -42,13 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { getConnectorDetail, postConnector } from '@/api/connector'
 import { countDuplicationName, customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import { useBridgeTypeValue, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
-import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
@@ -96,13 +94,13 @@ const goNextStep = () => {
 const cancel = () => router.push({ name: 'connector' })
 
 const isSubmitting = ref(false)
-const { handleConnectorDataBeforeSubmit, handleConnectorDataForCopy } = useConnectorDataHandler()
+const { getConnectorDetail, addConnector, handleDataForCopy, isTesting, testConnectivity } =
+  useHandleConnectorItem()
 const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
-    const data = handleConnectorDataBeforeSubmit(formData.value)
-    await postConnector(data)
+    await addConnector(formData.value)
     router.push({ name: 'connector' })
   } catch (error) {
     //
@@ -122,10 +120,10 @@ const checkClipStatus = async () => {
     selectedType.value = currentType as BridgeType
     step.value = 1
     targetLoading.value = true
-    const connectorData = await getConnectorDetail(route.query.target as string)
+    const connectorData = await getConnectorDetail<Connector>(route.query.target as string)
     if (connectorData) {
       formData.value = {
-        ...handleConnectorDataForCopy(connectorData),
+        ...handleDataForCopy(connectorData),
         name: countDuplicationName(connectorData.name),
       }
       selectedType.value = connectorData.type
@@ -139,7 +137,6 @@ const checkClipStatus = async () => {
 
 checkClipStatus()
 
-const { isTesting, testConnectivity } = useTestConnector()
 const handleTest = async () => {
   try {
     await customValidate(FormCom.value)
@@ -148,6 +145,11 @@ const handleTest = async () => {
     //
   }
 }
+
+/**
+ * TODO:TODO:TODO:
+ * `isBridgeTypeDisabled` bridge create
+ */
 </script>
 
 <style lang="scss">
