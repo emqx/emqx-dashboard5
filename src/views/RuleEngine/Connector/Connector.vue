@@ -26,9 +26,9 @@
             <TargetItemStatus :target="row" />
           </template>
         </el-table-column>
-        <el-table-column :label="tl('associativeDataBridge')">
+        <!-- <el-table-column :label="tl('associativeDataBridge')">
           <template #default="{ row }"> TODO:{{ row.XXXXXXX }} </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column :label="$t('Base.operation')" :min-width="168">
           <template #default="{ row }">
             <el-button
@@ -43,9 +43,9 @@
               {{ $t('Base.setting') }}
             </el-button>
             <!-- TODO:disable del -->
+            <!-- :disable-del="row.XXXXXX" -->
             <TableItemDropDown
               :row-data="row"
-              :disable-del="row.XXXXXX"
               @copy="copyConnectorItem(row)"
               @delete="handleDeleteConnector(row)"
             />
@@ -57,12 +57,13 @@
 </template>
 
 <script setup lang="ts">
-import { deleteConnector, getConnectors, reconnectConnector } from '@/api/connector'
+import { deleteConnector, reconnectConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ConnectionStatus } from '@/types/enum'
-import { Connector } from '@/types/rule'
+import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -72,16 +73,17 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 const router = useRouter()
 
 const isLoading = ref<boolean>(false)
-const tableData = ref<Array<Connector>>([])
+const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
 const { tl } = useI18nTl('RuleEngine')
 
+const { getMixedConnectorList } = useMixedConnectorList()
 const getList = async () => {
   try {
     isLoading.value = true
-    tableData.value = await getConnectors()
+    tableData.value = await getMixedConnectorList()
     initReconnectingMap()
   } catch (error) {
     //
@@ -121,10 +123,11 @@ const copyConnectorItem = ({ id }: Connector) => {
 
 // TODO:TODO:TODO:
 const { confirmDel } = useOperationConfirm()
-const handleDeleteConnector = async ({ id, XXXXX }: Connector) => {
-  if (XXXXX) {
-    return
-  }
+const handleDeleteConnector = async ({ id }: Connector) => {
+  // TODO:can not delete connector which associated with action
+  // if (XXXXX) {
+  //   return
+  // }
   try {
     await confirmDel(() => deleteConnector(id))
     getList()

@@ -22,7 +22,7 @@
           <el-icon><DocumentAdd /></el-icon>
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item :disabled="!$hasPermission('post')" command="copy">
+        <el-dropdown-item command="copy" :disabled="!$hasPermission('post')" v-if="canCopy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
@@ -67,6 +67,10 @@ defineProps({
   disableDel: {
     type: Boolean,
     default: false,
+  },
+  canCopy: {
+    type: Boolean,
+    default: true,
   },
 })
 

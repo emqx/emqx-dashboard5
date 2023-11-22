@@ -3,6 +3,7 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
+import { ElPageHeader } from 'element-plus'
 import { escapeRegExp } from 'lodash'
 import { Ref, ref } from 'vue'
 
@@ -89,6 +90,9 @@ export const useBridgeTypeValue = (): {
   }
 }
 
+export const isConnectorSupported = (type: string): boolean =>
+  SUPPORTED_CONNECTOR_TYPES.includes(type as BridgeType)
+
 export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
   getTypeStr: (type: string) => string
@@ -96,23 +100,14 @@ export const useConnectorTypeValue = (): {
   const { tl } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
 
-  const connectorTypeLabel = new Map([
-    [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
-  ])
+  // const connectorTypeLabel = new Map([
+  //   [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
+  // ])
 
-  const connectorTypeList = SUPPORTED_CONNECTOR_TYPES.reduce((arr: Array<TypeItem>, type) => {
-    const item = bridgeTypeList.find((item) => item.value === type)
-    if (item) {
-      arr.push(item)
-    } else {
-      arr.push({ value: type, label: connectorTypeLabel.get(type) || type })
-    }
-    return arr
-  }, [])
+  const connectorTypeList = bridgeTypeList
 
-  const getTypeStr = (type: string): string => {
-    return getLabelFromValueInOptionList(type, connectorTypeList)
-  }
+  const getTypeStr = (type: string) =>
+    getLabelFromValueInOptionList(type, connectorTypeList) || type
 
   return {
     connectorTypeList,

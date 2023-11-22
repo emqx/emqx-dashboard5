@@ -131,8 +131,8 @@ export default defineComponent({
     const integration = [
       { title: 'webhook', path: '/webhook' },
       { title: 'flowDesigner', path: '/flow' },
-      { title: 'rules', path: '/rules' },
-      { title: 'bridge', path: '/bridge' },
+      { title: 'rules', path: '/rule' },
+      { title: 'connector', path: '/connector' },
       { title: 'schema', path: '/schema' },
     ]
 

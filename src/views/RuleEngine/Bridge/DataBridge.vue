@@ -1,17 +1,5 @@
 <template>
   <div class="app-wrapper data-bridge">
-    <div class="section-header">
-      <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="$router.push({ name: 'bridge-create' })"
-      >
-        {{ tl('create') }}
-      </el-button>
-    </div>
-
     <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
       <el-table-column :label="tl('name')" :min-width="120">
         <template #default="{ row }">
@@ -63,7 +51,7 @@
           <TableItemDropDown
             is-bridge
             :row-data="row"
-            @copy="copyBridgeItem(row)"
+            :can-copy="false"
             @delete="handleDeleteBridge(row.id)"
             @create-rule="createRuleWithBridge(row.id)"
           />
@@ -81,18 +69,19 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getMixedBridgeList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
+import { getMixedActionList, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { onBeforeRouteUpdate, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { ConnectionStatus } from '@/types/enum'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 
 export default defineComponent({
   components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
@@ -113,7 +102,7 @@ export default defineComponent({
     const listBridge = async function () {
       tbLoading.value = true
       try {
-        bridgeTb.value = await getMixedBridgeList()
+        bridgeTb.value = await getMixedActionList()
         initReconnectingMap()
       } catch (error) {
         console.error(error)
@@ -122,11 +111,12 @@ export default defineComponent({
       }
     }
 
+    const { toggleActionEnable } = useHandleActionItem()
     const enableOrDisableBridge = async (row: BridgeItem) => {
-      const statusToSend = row.enable ? 'enable' : 'disable'
-      const sucMessage = row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
+      const { enable } = row
+      const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
       try {
-        await startStopBridge(row.id, statusToSend)
+        await toggleActionEnable(row.id, enable)
         M.success(t(sucMessage))
         listBridge()
       } catch (error) {
@@ -156,14 +146,10 @@ export default defineComponent({
     } = useDeleteBridge(listBridge)
 
     const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
-      name: 'bridge-detail',
+      name: 'action-detail',
       params: { id },
       query: { tab },
     })
-
-    const copyBridgeItem = (row: BridgeItem) => {
-      router.push({ name: 'bridge-create', query: { action: 'copy', target: row.id } })
-    }
 
     const reconnect = async ({ id }: BridgeItem) => {
       try {
@@ -179,12 +165,6 @@ export default defineComponent({
 
     onMounted(listBridge)
 
-    onBeforeRouteUpdate((to) => {
-      if (to.name === 'data-bridge') {
-        listBridge()
-      }
-    })
-
     return {
       Plus,
       tl: (key: string) => t('RuleEngine.' + key),
@@ -198,7 +178,6 @@ export default defineComponent({
       currentDeleteBridgeId,
       handleDeleteSuc,
       handleDeleteBridge,
-      copyBridgeItem,
       reconnectingMap,
       ConnectionStatus,
       reconnect,

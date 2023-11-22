@@ -115,7 +115,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
+import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import {
   checkIsValidArr,
@@ -126,6 +126,7 @@ import {
 } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
@@ -134,7 +135,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleSQLKeyword } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
+import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import EventsSelect from './EventsSelect.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -226,7 +227,7 @@ const { completionProvider, hoverProvider, setExtDepData } = useProvidersForMona
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
-  (val) => {
+  () => {
     syncData()
   },
 )
@@ -262,12 +263,13 @@ const addBridgeToAction = (bridgeID: string) => {
 }
 
 const { judgeBridgeDirection } = useBridgeDirection()
+const { getDetail } = useHandleActionItem()
 const handleBridgeDataFromQuery = async () => {
   const bridgeId = route.query.bridgeId?.toString()
   if (!bridgeId) {
     return
   }
-  const bridgeInfo = await getBridgeInfo(bridgeId)
+  const bridgeInfo = await getDetail(bridgeId)
   const direction = judgeBridgeDirection(bridgeInfo)
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
     addBridgeToAction(bridgeInfo.id)

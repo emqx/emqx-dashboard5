@@ -35,7 +35,7 @@ export async function getBridgeList(): Promise<any> {
 /**
  * bridge + action list
  */
-export const getMixedBridgeList = async (): Promise<Array<BridgeItem>> => {
+export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
   try {
     const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
     // FIXME:FIXME:FIXME: KAFKA
@@ -73,9 +73,8 @@ export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
   }
 }
 
-export function startStopBridge(id: string, op: 'enable' | 'disable'): Promise<any> {
+export function startStopBridge(id: string, isEnable: boolean): Promise<any> {
   if (!id) return Promise.reject()
-  const isEnable = op === 'enable'
   return http.put(`/bridges/${encodeURIComponent(id)}/enable/${isEnable}`)
 }
 

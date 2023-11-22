@@ -480,75 +480,75 @@ export const routes: Array<RouteRecordRaw> = [
   },
   // IoT
   {
-    path: '/rules',
+    path: '/rule',
     component: Layout,
+    redirect: '/rule/rules',
     meta: {
       hideKey: 'iot',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'iot',
-        component: () => import('@/views/RuleEngine/IoT/IoT.vue'),
-      },
-      {
-        path: 'create',
-        name: 'iot-create',
-        component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
-      },
-      {
-        path: 'detail/:id',
-        name: 'iot-detail',
-        component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
-      },
-    ],
-  },
-  // Bridge
-  {
-    path: '/bridge',
-    component: Layout,
-    redirect: '/bridge/data-bridge',
-    meta: {
-      hideKey: 'bridge',
       authRequired: true,
       subMenu: true,
       showSubMenuInFirstLevel: true,
     },
     children: [
       {
-        path: 'data-bridge',
-        name: 'data-bridge',
+        path: 'rules',
+        name: 'iot',
+        component: () => import('@/views/RuleEngine/IoT/IoT.vue'),
+      },
+      {
+        path: 'rules/create',
+        name: 'iot-create',
+        component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'rules/:id',
+        name: 'iot-detail',
+        component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'actions',
+        name: 'actions',
         component: () => import('@/views/RuleEngine/Bridge/DataBridge.vue'),
       },
       {
-        path: 'data-bridge/detail/:id',
-        name: 'bridge-detail',
+        path: 'actions/:id',
+        name: 'action-detail',
         component: () => import('@/views/RuleEngine/Bridge/BridgeDetail.vue'),
         meta: { hideInMenu: true },
       },
       {
-        path: 'data-bridge/create',
-        name: 'bridge-create',
+        path: 'actions/create',
+        name: 'action-create',
         component: () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue'),
         meta: { hideInMenu: true },
       },
+    ],
+  },
+  // Connector
+  {
+    path: '/connector',
+    component: Layout,
+    meta: {
+      hideKey: 'connectors',
+      authRequired: true,
+    },
+    children: [
       {
-        path: 'connector',
+        path: '',
         name: 'connector',
         component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
       },
       {
-        path: 'connector/create',
+        path: 'create',
         name: 'connector-create',
         component: () => import('@/views/RuleEngine/Connector/ConnectorCreate.vue'),
-        meta: { hideInMenu: true },
       },
       {
-        path: 'connector/:id',
+        path: ':id',
         name: 'connector-detail',
         component: () => import('@/views/RuleEngine/Connector/ConnectorDetail.vue'),
-        meta: { hideInMenu: true },
       },
     ],
   },

@@ -9,10 +9,7 @@ export default (): {
   deleteLoading: Ref<boolean>
   deleteWebhook: (webhook: WebhookItem) => Promise<void>
 } => {
-  const toggleBridgeEnableStatus = async (id: string, enable: boolean) => {
-    const statusToSend = enable ? 'enable' : 'disable'
-    return startStopBridge(id, statusToSend)
-  }
+  const toggleBridgeEnableStatus = startStopBridge
 
   const toggleRuleEnableStatus = async (id: string, enable: boolean) => {
     return updateRules(id, { enable })

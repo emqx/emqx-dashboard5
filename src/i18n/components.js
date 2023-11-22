@@ -275,6 +275,10 @@ export default {
     zh: '规则',
     en: 'Rules',
   },
+  actions: {
+    zh: '动作',
+    en: 'Actions',
+  },
   bridge: {
     zh: '数据桥接',
     en: 'Data Bridges',
@@ -336,7 +340,7 @@ export default {
     en: 'Data Bridges',
   },
   connector: {
-    zh: '连接配置',
+    zh: '连接器',
     en: 'Connector',
   },
   extensions: {

@@ -1,10 +1,5 @@
-import {
-  createBridge,
-  createRules,
-  deleteBridge,
-  updateBridge,
-  updateRules,
-} from '@/api/ruleengine'
+import { createRules, updateRules } from '@/api/ruleengine'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
@@ -22,18 +17,19 @@ export default (): {
 } => {
   const isSubmitting = ref(false)
   const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+  const { addAction, updateAction, deleteAction } = useHandleActionItem()
 
   const createBridges = async (bridges: Array<any>) => {
     const addedIds: string[] = []
     for (const data of bridges) {
       try {
         const bridge = await handleBridgeDataBeforeSubmit(data)
-        const { id } = await createBridge(bridge)
+        const { id } = await addAction(bridge)
         addedIds.push(id)
       } catch (error) {
         for (const id of addedIds) {
           try {
-            await deleteBridge(id)
+            await deleteAction(id)
           } catch (error) {
             console.error(`error when deleting ${id}`)
           }
@@ -48,7 +44,7 @@ export default (): {
     return Promise.all(
       bridges.map(async (item) => {
         const bridge = await handleBridgeDataBeforeSubmit(item)
-        return updateBridge(item.id, bridge)
+        return updateAction({ ...bridge, id: item.id })
       }),
     )
   }

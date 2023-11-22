@@ -1,15 +1,12 @@
 <template>
-  <div :class="[!isFromRule ? 'app-wrapper' : '', 'bridge-create']">
-    <detail-header
-      v-if="!isFromRule"
-      :item="{ name: tl('createBridge'), routeName: 'data-bridge' }"
-    />
+  <div :class="[!isFromRule ? 'app-wrapper' : '', 'action-create']">
+    <detail-header v-if="!isFromRule" :item="{ name: tl('createAction'), routeName: 'actions' }" />
     <div v-if="!isFromRule" class="data-bridge-create">
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
             <guide-bar
-              :guide-list="[tl('bridgeType'), tl('configuration')]"
+              :guide-list="[tl('actionType'), tl('configuration')]"
               :active-guide-index-list="activeGuidesIndex"
               :desc-list="guideDescList"
             ></guide-bar>
@@ -128,7 +125,7 @@
     <div v-else>
       <el-row :gutter="26">
         <el-col :span="12">
-          <label>{{ tl('bridgeType') }}</label>
+          <label>{{ tl('actionType') }}</label>
           <el-select class="bridge-select" v-model="chosenBridgeType" @change="handleTypeSelected">
             <el-option
               v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
@@ -185,7 +182,8 @@ import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { createBridge, getBridgeInfo, testConnect } from '@/api/ruleengine'
+import { testConnect } from '@/api/ruleengine'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -277,7 +275,9 @@ export default defineComponent({
       handleNext()
     }
 
-    const cancel = () => router.push({ name: 'data-bridge' })
+    const cancel = () => router.push({ name: 'actions' })
+
+    const { getDetail, addAction } = useHandleActionItem()
 
     const targetLoading = ref(false)
     const checkBridgeClipStatus = async () => {
@@ -291,7 +291,7 @@ export default defineComponent({
         }
         step.value = 1
         targetLoading.value = true
-        const bridgeInfo = await getBridgeInfo(route.query.target as string)
+        const bridgeInfo = await getDetail(route.query.target as string)
         if (bridgeInfo) {
           bridgeData.value = {
             ...handleBridgeDataForCopy(bridgeInfo),
@@ -351,7 +351,7 @@ export default defineComponent({
 
       try {
         const data = await getDataForSubmit()
-        res = await createBridge(data)
+        res = await addAction(data)
 
         const bridgeId = res?.id
         if (!isFromRule.value) {
@@ -364,7 +364,7 @@ export default defineComponent({
               router.push({ name: 'iot-create', query: { bridgeId } })
             })
             .catch(() => {
-              router.push({ name: 'data-bridge' })
+              router.push({ name: 'actions' })
             })
         } else {
           return Promise.resolve(bridgeId)

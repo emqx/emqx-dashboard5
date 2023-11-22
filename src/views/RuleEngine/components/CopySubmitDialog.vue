@@ -24,9 +24,10 @@
 </template>
 
 <script lang="ts" setup>
-import { postConnector } from '@/api/connector'
-import { createBridge, createRules } from '@/api/ruleengine'
+import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj } from '@/common/tools'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem, Connector, RuleItem } from '@/types/rule'
 import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
@@ -94,15 +95,17 @@ const submitRule = async () => {
   return createRules({ sql, enable, description, actions, id: inputValue.value })
 }
 
+const { addAction } = useHandleActionItem()
 const submitBridge = () => {
-  return createBridge({
+  return addAction({
     ...checkNOmitFromObj(props.target.obj as BridgeItem),
     name: inputValue.value,
   })
 }
 
+const { addConnector } = useHandleConnectorItem()
 const submitConnector = () => {
-  return postConnector({
+  return addConnector({
     ...(checkNOmitFromObj(props.target.obj) as Connector),
     name: inputValue.value,
   })
@@ -120,10 +123,10 @@ const confirmAfterCreatedBridge = (id: string) => {
         router.push({ name: 'iot-create', query: { bridgeId: id } })
       })
       .catch(() => {
-        router.push({ name: 'data-bridge' })
+        router.push({ name: 'actions' })
       })
   } else {
-    router.push({ name: 'data-bridge' })
+    router.push({ name: 'actions' })
   }
 }
 
