@@ -1,4 +1,5 @@
-import { getBridgeInfo, getRuleInfo } from '@/api/ruleengine'
+import { getRuleInfo } from '@/api/ruleengine'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
@@ -32,11 +33,12 @@ export default (): {
   }
 
   const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { getDetail } = useHandleActionItem()
   const addBridgeFormDataToNodes = async (nodes: Array<Node>) => {
     await Promise.allSettled(
       nodes.map(async (item) => {
         if (isBridgerNode(item) && item.data?.formData?.id) {
-          const bridgeInfo = await getBridgeInfo(item.data.formData.id)
+          const bridgeInfo = await getDetail(item.data.formData.id)
           item.data.formData = { ...item.data.formData, ...handleBridgeDataAfterLoaded(bridgeInfo) }
           addFlagToBridgeNode(item)
         }

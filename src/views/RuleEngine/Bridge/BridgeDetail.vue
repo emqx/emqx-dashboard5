@@ -119,14 +119,15 @@
 </template>
 
 <script lang="ts" setup>
-import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api/ruleengine'
+import { testConnect } from '@/api/ruleengine'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -146,10 +147,10 @@ import {
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
-import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 
 enum Tab {
@@ -216,11 +217,12 @@ const isSettingCardLoading = computed(
 )
 const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
   useBridgeDataHandler()
+const { getDetail, updateAction, toggleActionEnable } = useHandleActionItem()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    const data = await getBridgeInfo(id.value)
+    const data = await getDetail(id.value)
     bridgeInfo.value = handleBridgeDataAfterLoaded(data)
     rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
   } catch (error) {
@@ -304,7 +306,7 @@ const updateBridgeInfo = async () => {
 
     updateLoading.value = true
     const data = await getDataForSubmit()
-    const res = await updateBridge(bridgeInfo.value.id, data)
+    const res = await updateAction(data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
@@ -319,11 +321,10 @@ const updateBridgeInfo = async () => {
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
-  bridgeInfo.value.enable = !bridgeInfo.value.enable
-  const statusToSend = bridgeInfo.value.enable ? 'disable' : 'enable'
-  const sucMessage = bridgeInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
+  const { enable } = bridgeInfo.value
+  const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await startStopBridge(bridgeInfo.value.id, statusToSend)
+    await toggleActionEnable(bridgeInfo.value.id, enable)
     ElMessage.success(t(sucMessage))
     loadBridgeInfo()
   } catch (error) {

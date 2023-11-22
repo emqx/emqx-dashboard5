@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getMixedActionList, startStopBridge, reconnectBridge } from '@/api/ruleengine'
+import { getMixedActionList, reconnectBridge } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -76,6 +76,7 @@ import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { ConnectionStatus } from '@/types/enum'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 
 export default defineComponent({
   components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
@@ -105,11 +106,12 @@ export default defineComponent({
       }
     }
 
+    const { toggleActionEnable } = useHandleActionItem()
     const enableOrDisableBridge = async (row: BridgeItem) => {
-      const statusToSend = row.enable ? 'enable' : 'disable'
-      const sucMessage = row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
+      const { enable } = row
+      const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
       try {
-        await startStopBridge(row.id, statusToSend)
+        await toggleActionEnable(row.id, enable)
         M.success(t(sucMessage))
         listBridge()
       } catch (error) {

@@ -72,9 +72,8 @@ export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
   }
 }
 
-export function startStopBridge(id: string, op: 'enable' | 'disable'): Promise<any> {
+export function startStopBridge(id: string, isEnable: boolean): Promise<any> {
   if (!id) return Promise.reject()
-  const isEnable = op === 'enable'
   return http.put(`/bridges/${encodeURIComponent(id)}/enable/${isEnable}`)
 }
 
