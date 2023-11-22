@@ -479,4 +479,16 @@ export default {
     zh: '未找到客户端权限数据的次数。如果授权器执行失败也会增加此计数',
     en: 'Number of times client authorization data is not found. If the authorizer execution fails, the count will also increase',
   },
+  rateUnit: {
+    zh: '次/秒 | 次/秒',
+    en: 'time/sec | times/sec',
+  },
+  authnRateBarDesc: {
+    zh: '近一分钟内认证次数趋势',
+    en: 'Trend of authentication counts in the past minute',
+  },
+  authzRateBarDesc: {
+    zh: '近一分钟内授权次数趋势',
+    en: 'Trend of authorization counts in the past minute',
+  },
 }
