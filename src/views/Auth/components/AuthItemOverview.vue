@@ -1,9 +1,9 @@
 <template>
   <div class="resource-item-overview">
     <OverviewMetrics
-      :request-metrics="getAuthnMetrics"
-      :type-metrics-map="typeMetricsMap"
-      :text-map="authnTextMap"
+      :request-metrics="getAuthMetrics"
+      :type-metrics-map="isAuthn ? authnTypeMetricsMap : authzTypeMetricsMap"
+      :text-map="isAuthn ? authnTextMap : authzTextMap"
       :rate-metrics="rateData"
     >
       <template #table="{ data }">
@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { queryAuthnItemMetrics } from '@/api/auth'
+import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
 import { useRoute } from 'vue-router'
 import { MetricsData } from '@/types/common'
 
@@ -43,13 +43,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, ref, Ref, watch, defineEmits } from 'vue'
+import { defineProps, PropType, computed, ref, Ref, watch } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import useI18nTl from '@/hooks/useI18nTl'
-import { upperFirst } from 'lodash'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 
 const props = defineProps({
@@ -70,17 +69,27 @@ const route = useRoute()
 
 const isAuthn = computed(() => props.type === 'authn')
 
-const { authnTextMap, typeMetricsMap, rateData } = useAuthMetrics()
+const { authnTextMap, authzTextMap, authnTypeMetricsMap, authzTypeMetricsMap, rateData } =
+  useAuthMetrics()
 
-const getAuthnMetrics = async () => {
+const getAuthMetrics = async () => {
   try {
-    const authnId = route.params.id as string
-    if (!authnId) {
+    // Authn Qurey
+    if (isAuthn.value) {
+      const authId = route.params.id as string
+      if (!authId) {
+        return
+      }
+      return queryAuthnItemMetrics(authId)
+    }
+    // Authz Query
+    const authzType = route.params.type as string
+    if (!authzType) {
       return
     }
-    return queryAuthnItemMetrics(authnId)
+    return queryAuthzItemMetrics(authzType)
   } catch (error) {
-    //
+    // ignore error
   }
 }
 
@@ -92,37 +101,6 @@ const nodeStatus = computed(() => {
   const nodeStatusData = props.metrics?.node_status
   return Array.isArray(nodeStatusData) ? nodeStatusData : []
 })
-
-const nodeMetrics = computed(() => {
-  const nodeMetricsData = props.metrics?.node_metrics
-  return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
-})
-
-const metricsData = computed(() => [
-  {
-    label: t('Auth.allow'),
-    value: isAuthn.value ? props.metrics?.metrics?.success : props.metrics?.metrics?.allow,
-    className: 'success-bg',
-    desc: t('Auth.allowDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
-  },
-  {
-    label: t('Auth.deny'),
-    value: isAuthn.value ? props.metrics?.metrics?.failed : props.metrics?.metrics?.deny,
-    className: 'failed-bg',
-    desc: t('Auth.denyDesc', { type: t(`Auth.${isAuthn.value ? 'authn' : 'authzCheck'}`) }),
-  },
-  {
-    label: tl('noMatch'),
-    value: props.metrics?.metrics?.nomatch,
-    className: 'matched-bg',
-    desc: t(`Auth.${isAuthn.value ? 'noMatchAuthnDesc' : 'noMatchAuthzDesc'}`),
-  },
-  {
-    label: `${tl('rateNow')}(tps)`,
-    value: props.metrics?.metrics?.rate,
-    className: 'rate-bg',
-  },
-])
 
 const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
   return node_metrics.map(({ node, metrics }) => {
@@ -136,15 +114,7 @@ const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
   })
 }
 
-const { t, tl } = useI18nTl('RuleEngine')
-
-const nodeStatusDesc = computed(() => {
-  return t('Auth.nodeStatusDesc', {
-    target: upperFirst(
-      isAuthn.value ? t('components.authentication') : t('components.authorization'),
-    ),
-  })
-})
+const { tl } = useI18nTl('RuleEngine')
 
 const setNodeConnectingStatusMap = () => {
   nodeConnectingStatusMap.value = props.metrics.node_status.reduce((obj, nodeStatusItem) => {
@@ -153,11 +123,6 @@ const setNodeConnectingStatusMap = () => {
       [nodeStatusItem.node]: false,
     }
   }, {})
-}
-const emits = defineEmits(['refresh'])
-
-const handleRefresh = () => {
-  emits('refresh')
 }
 
 watch(() => props.metrics, setNodeConnectingStatusMap)
