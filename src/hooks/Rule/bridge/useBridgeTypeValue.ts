@@ -237,6 +237,7 @@ export const useBridgeTypeIcon = (): {
   const specialIconMap = {
     [BridgeType.Webhook]: 'http',
     [BridgeType.PgSQL]: 'postgresql',
+    [BridgeType.AzureEventHubs]: 'azure_event_hub',
   }
 
   const { getBridgeType } = useBridgeTypeOptions()
@@ -311,6 +312,30 @@ export const useBridgeSchema = (): {
       .map(escapeRegExp)
       .join('|')})`,
   )
+
+  const getSchemaRefByType = (type: string, suffix?: string) => {
+    const finalSuffix = `${refSuffix}${suffix || ''}`
+    return refPrefix + type + finalSuffix
+  }
+
+  const getTypeBySchemaRef = (ref: string) => {
+    const matchRet = ref.match(typeReg)
+    return matchRet ? matchRet[1] : ''
+  }
+
+  return {
+    getSchemaRefByType,
+    getTypeBySchemaRef,
+  }
+}
+
+export const useActionSchema = (): {
+  getSchemaRefByType: (type: string, suffix?: string) => string
+  getTypeBySchemaRef: (ref: string) => string
+} => {
+  const refPrefix = 'bridge_'
+  const refSuffix = '.post_bridge_v2'
+  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)})`)
 
   const getSchemaRefByType = (type: string, suffix?: string) => {
     const finalSuffix = `${refSuffix}${suffix || ''}`

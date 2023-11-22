@@ -5,7 +5,7 @@
       ref="formCom"
       type="bridge"
       need-rules
-      :schema-file-path="getAPIPath(`/schemas/bridges`)"
+      :schema-file-path="schemaFilePath"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="bridgeRecord"
@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
+import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getAPIPath, waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
-import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
@@ -55,7 +56,7 @@ type UseSchemaBridgeType = Exclude<
 >
 
 const { getSchemaRefByType } = useBridgeSchema()
-const typeRefKeyMap = {
+const bridgeTypeRefKeyMap = {
   [BridgeType.MySQL]: getSchemaRefByType('mysql'),
   [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
   [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
@@ -71,9 +72,14 @@ const typeRefKeyMap = {
   [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
   [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
   [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
-  [BridgeType.AzureEventHubs]: getSchemaRefByType('azure_event_hub', '_producer'),
   [BridgeType.AmazonKinesis]: getSchemaRefByType('kinesis', '_producer'),
   [BridgeType.GreptimeDB]: getSchemaRefByType('greptimedb', '_grpc_v1'),
+}
+
+const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
+const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
+const actionTypeRefKeyMap = {
+  [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
 }
 
 const props = withDefaults(
@@ -98,6 +104,16 @@ const props = withDefaults(
   },
 )
 const emit = defineEmits(['update:modelValue', 'init'])
+
+/**
+ * different from is bridge
+ */
+const isAction = computed(() => SUPPORTED_CONNECTOR_TYPES.includes(props.type as BridgeType))
+
+const schemaFilePath = computed(() => {
+  const schemaType = isAction.value ? 'actions' : 'bridges'
+  return getAPIPath(`/schemas/${schemaType}`)
+})
 
 const bridgeRecord = computed({
   get() {
@@ -192,10 +208,13 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
+  if (isAction.value) {
+    return actionTypeRefKeyMap[props.type as keyof typeof actionTypeRefKeyMap] || undefined
+  }
   if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
     return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
-  return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
+  return bridgeTypeRefKeyMap[props.type as keyof typeof bridgeTypeRefKeyMap] || undefined
 })
 
 const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)
