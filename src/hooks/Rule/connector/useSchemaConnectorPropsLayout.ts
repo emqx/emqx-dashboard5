@@ -102,6 +102,7 @@ export default (
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
     return {
       ...syncEtcFieldsClassMap.value,
+      name: `dividing-line-below`,
       type: 'col-hidden',
       enable: 'col-hidden',
       ssl: 'col-ssl col-need-row',

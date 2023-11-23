@@ -3,6 +3,7 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
+import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -63,7 +64,7 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
-  const KafkaProducerHandler: Handler = ({ components, rules }) => {
+  const kafkaProducerHandler: Handler = ({ components, rules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
       components.authentication.oneOf = authList.reverse()
@@ -73,8 +74,36 @@ export default (
     return { components, rules }
   }
 
+  const neededSSLConfig = [
+    'enable',
+    'verify',
+    'server_name_indication',
+    'cacertfile',
+    'certfile',
+    'keyfile',
+  ]
+  const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    const { authentication, ssl } = components
+
+    const { password } = authentication?.properties || {}
+    if (password?.type === 'string') {
+      password.format = 'password'
+      password.labelKey = 'connection_string'
+    }
+
+    if (ssl) {
+      ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
+      ssl.componentProps = { disabledBaseConfig: true, disabledVerify: true }
+    }
+
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
-    [BridgeType.KafkaProducer, KafkaProducerHandler],
+    [BridgeType.KafkaProducer, kafkaProducerHandler],
+    [BridgeType.AzureEventHubs, azureEventHubsHandler],
   ])
 
   const getComponentsHandler = () => {
