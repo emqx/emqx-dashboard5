@@ -9,5 +9,8 @@
   "s": "秒",
   "none": "None",
   "base64": "Base64",
-  "json": "JSON"
+  "json": "JSON",
+  "authentication_auth_gssapi_kerberos": "Kerberos",
+  "authentication_auth_username_password": "基础认证",
+  "authentication_none": "无"
 }

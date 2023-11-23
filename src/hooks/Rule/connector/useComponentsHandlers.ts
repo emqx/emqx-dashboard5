@@ -66,6 +66,7 @@ export default (
   const KafkaProducerHandler: Handler = ({ components, rules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
+      components.authentication.oneOf = authList.reverse()
       const pwdProp = authList.find(({ properties }) => properties?.password)?.properties?.password
       pwdProp && setPwdFormat(pwdProp)
     }

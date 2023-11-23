@@ -266,7 +266,7 @@
       "desc": "配置消息缓存的相关参数。<br/>当 EMQX 需要发送的消息超过 Kafka 处理能力，或者当 Kafka 临时下线时，EMQX 内部会将消息缓存起来。",
       "label": "消息缓存"
     },
-    "socket_send_buffer": {
+    "sndbuf": {
       "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
       "label": "Socket 发送缓存大小"
     },
@@ -278,7 +278,7 @@
       "desc": "设置每次从 Kafka 拉取数据的字节数。如该配置小于 Kafka 消息的大小，可能会影响消费性能。",
       "label": "拉取字节数"
     },
-    "socket_receive_buffer": {
+    "recbuf": {
       "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
       "label": "Socket 收包缓存大小"
     },
@@ -330,7 +330,7 @@
       "desc": "本地 MQTT 消息转发。",
       "label": "MQTT 转发"
     },
-    "auth_kerberos_principal": {
+    "kerberos_principal": {
       "desc": "SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中",
       "label": "Kerberos Principal"
     },
@@ -362,7 +362,7 @@
       "desc": "刷新元数据时最大等待时长。",
       "label": "元数据请求超时"
     },
-    "socket_nodelay": {
+    "nodelay": {
       "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
       "label": "是否关闭延迟发送"
     },
@@ -374,7 +374,7 @@
       "desc": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
       "label": "内存过载保护"
     },
-    "auth_sasl_mechanism": {
+    "mechanism": {
       "desc": "SASL 认证方法名称。",
       "label": "认证方法"
     },
@@ -442,9 +442,9 @@
       "desc": "SASL 认证的用户名。",
       "label": "用户名"
     },
-    "auth_kerberos_keytab_file": {
+    "kerberos_keytab_file": {
       "desc": "SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。",
-      "label": "Kerberos keytab 文件"
+      "label": "Kerberos Keytab 文件"
     },
     "compression": {
       "desc": "压缩方法。",
