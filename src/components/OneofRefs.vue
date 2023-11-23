@@ -5,7 +5,7 @@
  -->
 <template>
   <el-col :span="colSpan" v-bind="$attrs">
-    <el-form-item :label="`TODO:`">
+    <el-form-item :label="getLabel(property)">
       <el-select v-model="typeIndex" v-if="!readonly" @change="handleTypeChanged">
         <el-option
           v-for="{ value, label } in typeOpts"
@@ -25,9 +25,12 @@
         :key="$key"
         v-bind="$attrs"
       >
-        <el-form-item :label="`TODO:${$key}`" :prop="getFormItemProp($key)">
+        <el-form-item :prop="getFormItemProp($key)">
+          <template #label>
+            <FormItemLabel :label="getLabel(item)" :desc="getDesc(item)" desc-marked />
+          </template>
           <SchemaFormItem
-            v-model="fieldValue[$key]"
+            v-model="(fieldValue as any)[$key]"
             :type="(item.type as any)"
             :symbols="item.symbols"
             :format="item.format"
@@ -39,10 +42,12 @@
 </template>
 
 <script setup lang="ts">
+import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { Properties, Property } from '@/types/schemaForm'
-import { get, isEqual } from 'lodash'
+import { get, isEqual, isFunction, snakeCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'
 
 type OneOfItem = Property | Properties
@@ -53,14 +58,14 @@ const props = defineProps({
   modelValue: {
     type: [String, Number, Object] as PropType<string | number | Record<string, any> | undefined>,
   },
+  property: {
+    type: Object as PropType<Property>,
+    required: true,
+  },
   items: {
     type: Array as PropType<Array<OneOfItem>>,
     required: true,
     default: () => [],
-  },
-  path: {
-    type: String,
-    required: true,
   },
   disabled: {
     type: Boolean,
@@ -73,6 +78,9 @@ const props = defineProps({
   readonly: {
     type: Boolean,
   },
+  getText: {
+    type: Function as PropType<(property: Property) => { label: string; desc: string }>,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -80,21 +88,27 @@ const isFixedEnum = (item: OneOfItem) => Array.isArray(item.symbols) && item.sym
 
 const typeIndex: Ref<undefined | number> = ref(undefined)
 
+const propertyPath = computed(() => props.property.path || '')
+
 const nameReg = /^.*\.([^.]+)$/
-const getTypeLabel = (item: OneOfItem) => {
+
+const { getOptLabel } = useSymbolLabel()
+const getLabelKey = (item: OneOfItem) => {
+  let end = ''
   if (isFixedEnum(item)) {
-    return (item.symbols as Symbols)[0]
-  }
-  if (typeof item.$ref === 'string') {
+    end = (item.symbols as Symbols)[0]
+  } else if (typeof item.$ref === 'string') {
     const name = item.$ref.match(nameReg)?.[1]
-    return name || item.$ref
+    end = name || item.$ref
+  } else {
+    end = getOptLabel(item?.toString?.())
   }
-  return item?.toString?.()
+  return snakeCase(`${propertyPath.value || ''}${propertyPath.value && '_'}${end}`)
 }
 const typeOpts = computed(() => {
   return props.items.map((item, $index) => ({
     value: $index,
-    label: getTypeLabel(item),
+    label: getOptLabel(getLabelKey(item)),
   }))
 })
 const { initRecordByComponents } = useSchemaRecord()
@@ -102,12 +116,13 @@ const handleTypeChanged = (value: number) => {
   const newProps = props.items[value]
   if (newProps.$ref) {
     const newRecord = initRecordByComponents(newProps.properties as Properties)
-    fieldValue.value = get(newRecord, props.path)
+    fieldValue.value = get(newRecord, propertyPath.value)
   } else if (isFixedEnum(newProps)) {
     fieldValue.value = (newProps.symbols as Symbols)[0]
   }
 }
-const getFormItemProp = (key: string) => `${props.path}${props.path ? '.' : ''}${key}`
+const getFormItemProp = (key: string) =>
+  `${propertyPath.value}${propertyPath.value ? '.' : ''}${key}`
 
 const fieldValue: Ref<string | number | boolean | Record<string, any>> = ref('')
 
@@ -133,6 +148,18 @@ const init = () => {
     typeIndex.value = judgeTypeIndexByValue(props.modelValue, props.items)
   }
 }
+
+const getLocalizedValue = (property: Property, field: 'label' | 'desc') => {
+  const { key } = property
+  if (isFunction(props.getText)) {
+    const localizedText = props.getText(property)
+    return localizedText ? localizedText[field] || key : key
+  }
+  return key
+}
+
+const getLabel = (property: Property) => getLocalizedValue(property, 'label')
+const getDesc = (property: Property) => getLocalizedValue(property, 'desc')
 
 watch(
   () => props.modelValue,

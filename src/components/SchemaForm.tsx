@@ -405,11 +405,17 @@ const SchemaForm = defineComponent({
             items: property.oneOf,
             disabled: isPropertyDisabled,
           }
-          return isComplexOneof(property) ? (
-            <OneofRefs {...props} path={property.path} span={getColSpan(property)} />
-          ) : (
-            <oneof {...props} />
-          )
+          if (isComplexOneof(property)) {
+            return (
+              <OneofRefs
+                {...props}
+                property={property}
+                span={getColSpan(property)}
+                getText={getText}
+              />
+            )
+          }
+          return <oneof {...props} />
         }
         case 'ssl':
           return (
