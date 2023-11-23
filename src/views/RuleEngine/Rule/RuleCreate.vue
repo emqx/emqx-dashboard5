@@ -2,7 +2,7 @@
   <div class="rule-create app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createRule'), routeName: 'rule' }" />
     <el-card class="rule-form-card overview-visible app-card">
-      <ruleform
+      <rule-form
         ref="formCom"
         v-model="ruleValue"
         :submit-loading="submitLoading"
@@ -32,7 +32,7 @@ import { cloneDeep, isEqual, pick } from 'lodash'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import ruleform from '../components/RuleForm.vue'
+import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()
 

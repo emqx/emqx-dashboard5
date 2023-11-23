@@ -31,7 +31,7 @@
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
           <el-card class="detail-card overview-visible app-card" v-loading="infoLoading">
-            <ruleform
+            <rule-form
               ref="formCom"
               v-model="ruleInfo"
               is-edit
@@ -62,7 +62,7 @@ import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
-import ruleform from '../components/RuleForm.vue'
+import RuleForm from '../components/RuleForm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 
