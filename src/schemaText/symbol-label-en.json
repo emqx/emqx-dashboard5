@@ -9,5 +9,8 @@
   "s": "second",
   "none": "None",
   "base64": "Base64",
-  "json": "JSON"
+  "json": "JSON",
+  "authentication_auth_gssapi_kerberos": "Kerberos",
+  "authentication_auth_username_password": "Basic auth",
+  "authentication_none": "None"
 }

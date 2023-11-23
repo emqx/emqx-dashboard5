@@ -266,7 +266,7 @@
       "desc": "Configure producer message buffer.<br/>Tell Kafka producer how to buffer messages when EMQX has more messages to send than Kafka can keep up, or when Kafka is down.",
       "label": "Message Buffer"
     },
-    "socket_send_buffer": {
+    "sndbuf": {
       "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
       "label": "Socket Send Buffer Size"
     },
@@ -278,7 +278,7 @@
       "desc": "Set how many bytes to pull from Kafka in each fetch request. Please note that if the configured value is smaller than the message size in Kafka, it may negatively impact the fetch performance.",
       "label": "Fetch Bytes"
     },
-    "socket_receive_buffer": {
+    "recbuf": {
       "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
       "label": "Socket Receive Buffer Size"
     },
@@ -330,7 +330,7 @@
       "desc": "Local MQTT message publish.",
       "label": "MQTT publish"
     },
-    "auth_kerberos_principal": {
+    "kerberos_principal": {
       "desc": "SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.",
       "label": "Kerberos Principal"
     },
@@ -362,7 +362,7 @@
       "desc": "Maximum wait time when fetching metadata from Kafka.",
       "label": "Metadata Request Timeout"
     },
-    "socket_nodelay": {
+    "nodelay": {
       "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
       "label": "No Delay"
     },
@@ -374,7 +374,7 @@
       "desc": "Applicable when buffer mode is set to <code>memory</code><br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
     },
-    "auth_sasl_mechanism": {
+    "mechanism": {
       "desc": "SASL authentication mechanism.",
       "label": "Mechanism"
     },
@@ -442,9 +442,9 @@
       "desc": "SASL authentication username.",
       "label": "Username"
     },
-    "auth_kerberos_keytab_file": {
+    "kerberos_keytab_file": {
       "desc": "SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.",
-      "label": "Kerberos keytab file"
+      "label": "Kerberos Keytab File"
     },
     "compression": {
       "desc": "Compression method.",
