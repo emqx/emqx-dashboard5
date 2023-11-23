@@ -37,7 +37,11 @@ export default (): {
   }
 
   const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
-  const { handleConnectorDataBeforeSubmit, handleConnectorDataForCopy } = useConnectorDataHandler()
+  const {
+    handleConnectorDataBeforeSubmit,
+    handleConnectorDataBeforeUpdate,
+    handleConnectorDataForCopy,
+  } = useConnectorDataHandler()
 
   const handleDataForCopy = <T = NowConnector>(data: T): T => {
     try {
@@ -52,28 +56,28 @@ export default (): {
     }
   }
 
-  const handleDataBeforeSubmit = async (data: NowConnector): Promise<any> => {
-    try {
-      const dataHandle = isConnectorSupported(data.type)
-        ? handleConnectorDataBeforeSubmit
-        : handleBridgeDataBeforeSubmit
-      const ret = await dataHandle(data as any)
-      return ret
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(error)
-    }
-  }
   const addConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const request = isConnectorSupported((data as NowConnector).type) ? postConnector : createBridge
-    const dataForSubmit = await handleDataBeforeSubmit(data as NowConnector)
+    const isTrueConnector = isConnectorSupported((data as NowConnector).type)
+    const request = isTrueConnector ? postConnector : createBridge
+    const dataHandler = isTrueConnector
+      ? handleConnectorDataBeforeSubmit
+      : handleBridgeDataBeforeSubmit
+    const dataForSubmit = await dataHandler(data as any)
     return request(dataForSubmit) as Promise<T>
   }
 
   const updateConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const func = isConnectorSupported((data as NowConnector).type) ? putConnector : updateBridge
-    const dataForSubmit = await handleDataBeforeSubmit(data as NowConnector)
-    return func((data as NowConnector).id, dataForSubmit) as Promise<T>
+    const { id, type } = data as NowConnector
+
+    const isTrueConnector = isConnectorSupported(type)
+    const func = isTrueConnector ? putConnector : updateBridge
+    const dataHandler = isTrueConnector
+      ? handleConnectorDataBeforeUpdate
+      : handleBridgeDataBeforeSubmit
+
+    const dataForSubmit = await dataHandler(data as any)
+    Reflect.deleteProperty(dataForSubmit, 'id')
+    return func(id, dataForSubmit) as Promise<T>
   }
 
   const deleteConnector = async (id: string): Promise<void> => {

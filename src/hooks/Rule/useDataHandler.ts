@@ -19,6 +19,10 @@ const keysNeedDel = {
   update: keysDoNotNeedForAPI,
   create: [...keysDoNotNeedForAPI, 'enable', 'id'],
 }
+/**
+ * update action and connectors
+ */
+const keysNeedRemovedForUpdate = ['type', 'name']
 
 /**
  * common for connector, action and bridge
@@ -63,6 +67,7 @@ type ConnectorDataHandler = (connector: Connector) => Connector
 export const useConnectorDataHandler = (): {
   likePasswordFieldKeys: string[]
   handleConnectorDataBeforeSubmit: ConnectorDataHandler
+  handleConnectorDataBeforeUpdate: (data: Connector) => Connector
   handleConnectorDataForCopy: ConnectorDataHandler
   handleConnectorDataForSaveAsCopy: ConnectorDataHandler
 } => {
@@ -75,6 +80,11 @@ export const useConnectorDataHandler = (): {
 
   const handleConnectorDataBeforeSubmit = handleDataBeforeSubmit
 
+  const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
+    const ret = handleConnectorDataBeforeSubmit(data)
+    return omit(ret, keysNeedRemovedForUpdate) as Connector
+  }
+
   const handleConnectorDataForCopy = handleDataForCopy
 
   const handleConnectorDataForSaveAsCopy = handleDataForSaveAsCopy
@@ -82,6 +92,7 @@ export const useConnectorDataHandler = (): {
   return {
     likePasswordFieldKeys,
     handleConnectorDataBeforeSubmit,
+    handleConnectorDataBeforeUpdate,
     handleConnectorDataForCopy,
     handleConnectorDataForSaveAsCopy,
   }
@@ -142,5 +153,20 @@ export const useBridgeDataHandler = (): {
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
     handleBridgeDataForSaveAsCopy,
+  }
+}
+
+export const useActionDataHandler = (): {
+  handleActionDataBeforeUpdate: (data: any) => Promise<any>
+} => {
+  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+
+  const handleActionDataBeforeUpdate = async (data: any): Promise<any> => {
+    const ret = await handleBridgeDataBeforeSubmit(data)
+    return omit(ret, keysNeedRemovedForUpdate)
+  }
+
+  return {
+    handleActionDataBeforeUpdate,
   }
 }

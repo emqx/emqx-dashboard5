@@ -43,8 +43,7 @@ export default (): {
   const updateBridges = async (bridges: Array<any>) => {
     return Promise.all(
       bridges.map(async (item) => {
-        const bridge = await handleBridgeDataBeforeSubmit(item)
-        return updateAction({ ...bridge, id: item.id })
+        return updateAction({ ...item, id: item.id })
       }),
     )
   }
