@@ -48,8 +48,10 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 <style lang="scss">
 @import '~@/style/rule.scss';
 .target-type-select.is-connector {
-  .title {
-    margin-bottom: 0;
+  .el-radio__label {
+    .title {
+      margin-bottom: 0;
+    }
   }
 }
 </style>
