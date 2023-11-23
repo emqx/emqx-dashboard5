@@ -325,31 +325,41 @@ export const useBridgeMetrics = (): {
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
   const typeMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['success', 'matched', 'received'] },
-    [MetricType.Blue]: { title: 'Processing', contains: ['queuing'] },
-    [MetricType.Red]: { title: tl('sqlFailed'), contains: ['failed', 'inflight', 'late_reply'] },
+    [MetricType.Green]: { title: tl('success'), contains: ['success'] },
+    [MetricType.Blue]: { title: tl('processing'), contains: ['queuing', 'inflight'] },
+    [MetricType.Red]: { title: tl('sqlFailed'), contains: ['failed'] },
     [MetricType.Gray]: {
       title: tl('dropped'),
       contains: [
-        'dropped',
         'dropped.expired',
-        'dropped.other',
         'dropped.queue_full',
         'dropped.resource_not_found',
         'dropped.resource_stopped',
+        'dropped.other',
       ],
     },
   }
   const textMap = {
     matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
-    success: { label: tl('sentSuccessfully'), desc: tl('sentSuccessfullyDesc') },
-    failed: { label: tl('sentFailed'), desc: tl('sentFailedDesc') },
     inflight: { label: tl('sentInflight'), desc: tl('sentInflightDesc') },
-    late_reply: { label: tl('lateReply'), desc: tl('lateReplyDesc') },
     dropped: { label: tl('dropped'), desc: tl('droppedDesc') },
+    'dropped.expired': { label: tl('droppedExpired'), desc: tl('droppedExpiredDesc') },
+    'dropped.queue_full': { label: tl('droppedQueueFull'), desc: tl('droppedQueueFullDesc') },
+    'dropped.resource_stopped': {
+      label: tl('droppedResourceStopped'),
+      desc: tl('droppedResourceStoppedDesc'),
+    },
+    'dropped.resource_not_found': {
+      label: tl('droppedResourceNotFound'),
+      desc: tl('droppedResourceNotFoundDesc'),
+    },
+    'dropped.other': {
+      label: tl('droppedOther'),
+      desc: tl('droppedOtherDesc'),
+    },
     queuing: { label: tl('queuing'), desc: tl('queuingDesc') },
     retried: { label: tl('retried'), desc: tl('retriedDesc') },
-    rate: { label: t('Base.rateNow'), desc: t('Base.rateBarDesc') },
+    rate: { label: t('Base.rateNow'), desc: tl('rateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
   }

@@ -345,8 +345,8 @@ export default {
     en: 'Queued',
   },
   queuingDesc: {
-    zh: '当前被缓存到磁盘队列的消息个数',
-    en: 'Count of messages that are currently queuing',
+    zh: '已经缓冲但等待发送到外部数据系统的消息数',
+    en: 'Number of messages buffered but awaiting to be sent to the external data system',
   },
   sentSuccessfully: {
     zh: '发送成功',
@@ -369,8 +369,8 @@ export default {
     en: 'Sent Inflight',
   },
   sentInflightDesc: {
-    zh: '已异步地发送但没有收到 ACK 的消息个数',
-    en: 'Count of messages that were sent asynchronously but ACKs are not received',
+    zh: '正在发送到外部数据系统并等待响应的消息数',
+    en: 'Number of messages being sent to the external data system and awaiting response',
   },
   lateReply: {
     zh: '超期回复',
@@ -846,6 +846,10 @@ export default {
     zh: '条/秒 | 条/秒',
     en: 'message/sec | messages/sec',
   },
+  rateBarDesc: {
+    zh: '近一分钟内消息发出速度趋势',
+    en: 'Trend of message sending speed in the past minute',
+  },
   saveAsCopy: {
     zh: '保存为副本',
     en: 'Save as copy',
@@ -877,5 +881,49 @@ export default {
   advancedSettings: {
     zh: '高级设置',
     en: 'Advanced Settings',
+  },
+  processing: {
+    zh: '处理中',
+    en: 'Processing',
+  },
+  droppedExpired: {
+    zh: '过期',
+    en: 'Expired',
+  },
+  droppedExpiredDesc: {
+    zh: '在排队等待发送之前，消息的有效期（TTL）已经到期',
+    en: 'The message time-to-live (TTL) was reached during queuing before it got a chance to be sent',
+  },
+  droppedQueueFull: {
+    zh: '队列已满',
+    en: 'Queue full',
+  },
+  droppedQueueFullDesc: {
+    zh: '达到了最大队列大小，为防止内存溢出而丢弃消息',
+    en: 'The maximum queue size was reached and the message was dropped to prevent memory overflow',
+  },
+  droppedResourceStopped: {
+    zh: '资源已停止',
+    en: 'Resource stopped',
+  },
+  droppedResourceStoppedDesc: {
+    zh: '在桥接已停止的情况下，仍然尝试发送消息',
+    en: 'The message being attempted for delivery when the bridge was already stopped',
+  },
+  droppedResourceNotFound: {
+    zh: '未找到资源',
+    en: 'Resource not found',
+  },
+  droppedResourceNotFoundDesc: {
+    zh: '在桥接不再存在时尝试发送消息。这种情况非常罕见，通常是由于在移除桥接时出现竞争条件',
+    en: 'The message was attempted to be sent when the bridge was no longer found. It occurs rarely and usually due to race conditions during the removal of a bridge',
+  },
+  droppedOther: {
+    zh: '其他丢弃',
+    en: 'Other dropped',
+  },
+  droppedOtherDesc: {
+    zh: '由于其他未知原因而丢弃的消息',
+    en: 'Messages dropped due to other unknown reasons',
   },
 }
