@@ -15,12 +15,15 @@ export default (
    * Already supported connector
    */
   const connectorComMap = new Map([[BridgeType.Webhook, HTTPConfig]])
-  const actionComMap = new Map([[BridgeType.MQTT, BridgeMqttConfig]])
+  /**
+   * do not supported connector
+   */
+  const bridgeComMap = new Map([[BridgeType.MQTT, BridgeMqttConfig]])
   const formCom = computed<Component | null>(() => {
     if (SUPPORTED_CONNECTOR_TYPES.includes(type.value)) {
       return connectorComMap.get(type.value) || ConnectorSchemaForm
     }
-    return actionComMap.get(type.value) || null
+    return bridgeComMap.get(type.value) || null
   })
   return { formCom }
 }
