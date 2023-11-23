@@ -7,7 +7,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, Role } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
-import { pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -271,48 +270,25 @@ export default (
     return { components, rules }
   }
 
-  const neededSSLConfig = [
-    'enable',
-    'verify',
-    'server_name_indication',
-    'cacertfile',
-    'certfile',
-    'keyfile',
-  ]
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
-    const { kafka, authentication, ssl, description } = components
-
-    if (description) {
-      Reflect.deleteProperty(components, 'description')
-    }
+    const { parameters } = components
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
-      kafka?.properties?.kafka_ext_headers?.items?.properties || {}
+      parameters?.properties?.kafka_ext_headers?.items?.properties || {}
     const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_azure_event_hub.'
     kafka_ext_header_key &&
       setLabelAndDesc(kafka_ext_header_key, `${i18nPrefix}kafka_ext_header_key`)
     kafka_ext_header_value &&
       setLabelAndDesc(kafka_ext_header_value, `${i18nPrefix}kafka_ext_header_value`)
 
-    const { key, value } = kafka?.properties?.message?.properties || {}
+    const { key, value } = parameters?.properties?.message?.properties || {}
     if (key?.type === 'string') {
       key.componentProps = { type: 'textarea', rows: 3 }
     }
     if (value?.type === 'string') {
       value.componentProps = { type: 'textarea', rows: 3 }
-    }
-
-    const { password } = authentication?.properties || {}
-    if (password?.type === 'string') {
-      password.format = 'password'
-      password.labelKey = 'connection_string'
-    }
-
-    if (ssl) {
-      ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
-      ssl.componentProps = { disabledBaseConfig: true, disabledVerify: true }
     }
 
     return { components, rules }

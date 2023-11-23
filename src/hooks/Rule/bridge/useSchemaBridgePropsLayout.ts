@@ -1,5 +1,6 @@
 import { BridgeType } from '@/types/enum'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
+import { isConnectorSupported } from './useBridgeTypeValue'
 import useSyncConfiguration from './useSyncConfiguration'
 
 export const resourceOptFields = [
@@ -350,7 +351,9 @@ export default (
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
     return {
       ...syncEtcFieldsClassMap.value,
-      name: 'col-need-row dividing-line-below',
+      name: `dividing-line-below ${
+        !isConnectorSupported(props.type as BridgeType) && `col-need-row`
+      }`,
       direction: 'col-hidden',
       type: 'col-hidden',
       enable: 'col-hidden',
