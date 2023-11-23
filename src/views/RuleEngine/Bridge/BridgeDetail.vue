@@ -96,8 +96,15 @@
                 :edit="true"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
-              <bridge-kafka-config
-                v-else-if="bridgeType === BridgeType.Kafka"
+              <bridge-kafka-producer-config
+                v-else-if="bridgeType === BridgeType.KafkaProducer"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
+              <bridge-kafka-consumer-config
+                v-else-if="bridgeType === BridgeType.KafkaConsumer"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
@@ -189,11 +196,12 @@ import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
-import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import BridgeKafkaProducerConfig from './Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
+import BridgeKafkaConsumerConfig from './Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 
 enum Tab {
   Overview = 'overview',

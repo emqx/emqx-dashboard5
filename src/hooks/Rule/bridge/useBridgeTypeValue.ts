@@ -4,12 +4,14 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
-import { Ref, ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const bridgesOrder = [
   BridgeType.Webhook,
   BridgeType.MQTT,
-  BridgeType.Kafka,
+  BridgeType.KafkaProducer,
+  BridgeType.KafkaConsumer,
   BridgeType.Pulsar,
   BridgeType.RocketMQ,
   BridgeType.RabbitMQ,
@@ -53,7 +55,8 @@ export const useBridgeTypeValue = (): {
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
-    { value: BridgeType.Kafka, label: tl('kafka') },
+    { value: BridgeType.KafkaProducer, label: `${tl('kafka')} ${tl('producer')}` },
+    { value: BridgeType.KafkaConsumer, label: `${tl('kafka')} ${tl('consumer')}` },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.PgSQL, label: tl('pgSql') },
@@ -95,8 +98,9 @@ export const isConnectorSupported = (type: string): boolean =>
 export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
   getTypeStr: (type: string) => string
+  searchQuery: Ref<string>
+  filteredConnectorTypeList: ComputedRef<TypeItem[]>
 } => {
-  const { tl } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
 
   // const connectorTypeLabel = new Map([
@@ -108,9 +112,21 @@ export const useConnectorTypeValue = (): {
   const getTypeStr = (type: string) =>
     getLabelFromValueInOptionList(type, connectorTypeList) || type
 
+  const searchQuery = ref('')
+
+  const filteredConnectorTypeList = computed(() => {
+    if (searchQuery.value.trim() === '') {
+      return connectorTypeList
+    }
+    const reg = new RegExp(searchQuery.value.trim(), 'i')
+    return connectorTypeList.filter((option) => reg.test(option.label))
+  })
+
   return {
     connectorTypeList,
     getTypeStr,
+    searchQuery,
+    filteredConnectorTypeList,
   }
 }
 
@@ -124,7 +140,6 @@ export interface BridgeTypeOptions {
 }
 
 export const typesWithProducerAndConsumer = [
-  BridgeType.Kafka,
   BridgeType.Pulsar,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
