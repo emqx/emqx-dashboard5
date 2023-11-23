@@ -21,8 +21,13 @@ export const getActions = async (): Promise<Array<Action>> => {
   }
 }
 
-export const postAction = (data: Action): Promise<Action> => {
-  return http.post(`/actions`, data)
+export const postAction = async (data: Action): Promise<Action> => {
+  try {
+    const ret = await http.post(`/actions`, data)
+    return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const testActionConnectivity = (data: Action): Promise<void> => {
