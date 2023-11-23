@@ -1,13 +1,5 @@
-import { BackendI18n, SSL, PageParams } from './common'
+import { BackendI18n, MetricsData, MetricsDataWithExtraData, PageParams, SSL } from './common'
 import { BridgeType, ConnectionStatus, ConnectorType, MQTTBridgeDirection, QoSLevel } from './enum'
-import { Merge } from 'type-fest'
-
-export type Metrics = Record<string, number>
-
-export interface NodeMetrics {
-  node: string
-  metrics: Metrics
-}
 
 export interface NodeStatus {
   node: string
@@ -196,10 +188,7 @@ export interface Action {
   [key: any]: any
 }
 
-export interface BridgeMetricsData {
-  metrics: Metrics
-  node_metrics: Array<NodeMetrics>
-}
+export type BridgeMetricsData = MetricsData
 
 export type BridgeItemWithMetrics = BridgeItem & BridgeMetricsData
 
@@ -261,10 +250,4 @@ export type RuleItem = {
   description?: string
 }
 
-export interface RuleMetrics {
-  id: string
-  metrics: Metrics
-  node_metrics: Array<Merge<{ node: string }, Metrics>>
-}
-
-export type RuleDataItemWithMetrics = Merge<RuleItem, { metrics: Metrics }>
+export type RuleMetrics = MetricsDataWithExtraData<{ id: string }>

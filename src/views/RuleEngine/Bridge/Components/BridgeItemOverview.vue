@@ -1,50 +1,15 @@
 <template>
-  <div class="resource-item-overview">
-    <div class="overview-sub-block" v-if="showEgressStats">
-      <div class="overview-header">
-        <p class="block-title">{{ tl('egressStatistics') }}</p>
-        <div v-if="!(showIngressStats && !showEgressStats)">
-          <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
-            </el-button>
-          </el-tooltip>
-          <el-tooltip :content="tl('resetStatistics')" placement="top">
-            <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
-          </el-tooltip>
-        </div>
-      </div>
-      <div class="overview-sub-block">
-        <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-        <TargetDetailMetrics class="rule-statistic" :metrics="egressStatisticsData" />
-      </div>
-    </div>
-    <div class="overview-sub-block" v-if="showIngressStats">
-      <div class="overview-header">
-        <p class="block-title">{{ tl('ingressStatistics') }}</p>
-        <div v-if="showIngressStats && !showEgressStats">
-          <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
-            </el-button>
-          </el-tooltip>
-          <el-tooltip :content="tl('resetStatistics')" placement="top">
-            <el-button class="icon-button" :icon="Close" @click="resetStatistics"> </el-button>
-          </el-tooltip>
-        </div>
-      </div>
-      <div class="overview-sub-block">
-        <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-        <TargetDetailMetrics class="rule-statistic" :metrics="ingressStatisticsData" />
-      </div>
-    </div>
-
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p class="vertical-align-center">
-          {{ tl('nodeStatus') }}
-          <InfoTooltip :content="tl('nodeStatusBridgeDesc')" />
-        </p>
-      </div>
-      <el-table :data="nodeStatusTableData">
+  <OverviewMetrics
+    total="matched"
+    :title="lowerCase(tl('dataBridge'))"
+    :request-metrics="getBridgeMetrics"
+    :request-reset="resetMetrics"
+    :type-metrics-map="typeMetricsMap"
+    :text-map="textMap"
+    :rate-metrics="rateData"
+  >
+    <template #table="{ data }">
+      <el-table :data="nodeStatusTableData(data)">
         <el-table-column prop="node" :label="tl('name')" />
         <el-table-column :label="tl('status')" :width="230">
           <template #default="{ row }">
@@ -78,44 +43,35 @@
         </el-table-column>
         <el-table-column>
           <template #header>
-            <p>{{ tl('rateLast5M') }}</p>
+            <p>{{ t('Base.rateLast5M') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
           <template #default="{ row }">{{ getEgressData(row.metrics?.rate_last5m) }}</template>
         </el-table-column>
-        <el-table-column :label="tl('rateMax')">
+        <el-table-column :label="t('Base.rateMax')">
           <template #header>
-            <p>{{ tl('rateMax') }}</p>
+            <p>{{ t('Base.rateMax') }}</p>
             <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
           </template>
           <template #default="{ row }">{{ getEgressData(row.metrics?.rate_max) }}</template>
         </el-table-column>
       </el-table>
-    </div>
-  </div>
+    </template>
+  </OverviewMetrics>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'BridgeItemOverview',
-})
-</script>
-
 <script setup lang="ts">
-import { computed, ComputedRef, defineEmits, defineProps, PropType, ref, Ref, watch } from 'vue'
 import { queryBridgeMetrics, reconnectBridgeForNode, resetBridgeMetrics } from '@/api/ruleengine'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useBridgeMetrics } from '@/hooks/useMetrics'
+import { MetricsData, NodeMetrics } from '@/types/common'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
-import { BridgeItem, BridgeMetricsData, NodeMetrics, NodeStatus } from '@/types/rule'
-import { Close, Refresh } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { BridgeItem, NodeStatus } from '@/types/rule'
 import { lowerCase } from 'lodash'
+import { ComputedRef, PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   /**
@@ -127,40 +83,39 @@ const props = defineProps({
   },
   bridgeId: {
     type: String,
-    required: true,
   },
 })
-
 const emit = defineEmits(['reconnect'])
-const bridgeMetrics: Ref<BridgeMetricsData> = ref({ metrics: {}, node_metrics: [] })
+
+const { t, tl } = useI18nTl('RuleEngine')
+
+const { typeMetricsMap, textMap, rateData } = useBridgeMetrics()
+
+const getBridgeMetrics = async () => {
+  try {
+    if (!props.bridgeId) {
+      return
+    }
+    return queryBridgeMetrics(props.bridgeId)
+  } catch (error) {
+    //
+  }
+}
+
+const resetMetrics = async () => {
+  if (!props.bridgeId) {
+    return
+  }
+  return resetBridgeMetrics(props.bridgeId)
+}
+
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
-
-const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
-
-const { judgeBridgeDirection } = useBridgeDirection()
-
-const bridgeDirection = computed(() => judgeBridgeDirection(props.bridgeMsg))
-
-const showEgressStats = computed(() => {
-  return bridgeDirection.value !== BridgeDirection.Ingress
-})
-
-const showIngressStats = computed(() => {
-  return bridgeDirection.value !== BridgeDirection.Egress
-})
-
 const nodeStatus: ComputedRef<Array<NodeStatus>> = computed(() => {
   const nodeStatusData = props.bridgeMsg?.node_status
   return Array.isArray(nodeStatusData) ? nodeStatusData : []
 })
-
-const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {
-  const nodeMetricsData = bridgeMetrics.value.node_metrics
-  return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
-})
-
-const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = computed(() => {
-  return nodeMetrics.value.map(({ node, metrics }) => {
+const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
+  return node_metrics.map(({ node, metrics }) => {
     const status =
       nodeStatus.value.find((item) => item.node === node)?.status || ConnectionStatus.Disconnected
     return {
@@ -169,122 +124,24 @@ const nodeStatusTableData: ComputedRef<Array<NodeMetrics & NodeStatus>> = comput
       status,
     }
   })
-})
-
-const { tl, t } = useI18nTl('RuleEngine')
-
-const egressStatisticsData = computed(() => [
-  {
-    label: tl('matched'),
-    desc: tl('bridgeMatchedDesc'),
-    value: bridgeMetrics.value.metrics.matched,
-    className: 'matched-bg',
-  },
-  {
-    label: tl('sentSuccessfully'),
-    desc: tl('sentSuccessfullyDesc'),
-    value: bridgeMetrics.value.metrics.success,
-    className: 'last-five-rate-bg',
-  },
-  {
-    label: tl('sentFailed'),
-    desc: tl('sentFailedDesc'),
-    value: bridgeMetrics.value.metrics.failed,
-    className: 'failed-bg',
-  },
-  {
-    label: tl('sentInflight'),
-    desc: tl('sentInflightDesc'),
-    value: bridgeMetrics.value.metrics.inflight,
-    className: 'no-result-bg',
-  },
-  {
-    label: tl('lateReply'),
-    desc: tl('lateReplyDesc'),
-    value: bridgeMetrics.value.metrics.late_reply,
-    className: 'no-result-bg',
-  },
-
-  {
-    label: tl('dropped'),
-    desc: tl('droppedDesc'),
-    value: bridgeMetrics.value.metrics.dropped,
-    className: 'failed-bg',
-  },
-  {
-    label: tl('queuing'),
-    desc: tl('queuingDesc'),
-    value: bridgeMetrics.value.metrics.queuing,
-    className: 'max-rate-bg',
-  },
-  {
-    label: tl('retried'),
-    desc: tl('retriedDesc'),
-    value: bridgeMetrics.value.metrics.retried,
-    className: 'success-bg',
-  },
-  {
-    label: tl('rateNow'),
-    value: bridgeMetrics.value.metrics.rate,
-    unit: t('RuleEngine.rateUnit', bridgeMetrics.value.metrics.rate),
-    className: 'rate-bg',
-  },
-])
-
-const ingressStatisticsData = computed(() => [
-  {
-    label: tl('received'),
-    desc: tl('receivedDesc'),
-    value: bridgeMetrics.value.metrics.received,
-    className: 'max-rate-bg',
-  },
-])
-
-const getBridgeMetrics = async () => {
-  try {
-    if (!props.bridgeId) {
-      return
-    }
-    bridgeMetrics.value = await queryBridgeMetrics(props.bridgeId)
-  } catch (error) {
-    //
-  }
 }
 
-const handleRefresh = () => {
-  getBridgeMetrics()
-}
+const { judgeBridgeDirection } = useBridgeDirection()
+const bridgeDirection = computed(() => judgeBridgeDirection(props.bridgeMsg))
+const showEgressStats = computed(() => bridgeDirection.value !== BridgeDirection.Ingress)
+const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
+const showIngressStats = computed(() => bridgeDirection.value !== BridgeDirection.Egress)
 
-const resetStatistics = async () => {
-  if (!props.bridgeId) {
-    return
-  }
-  await ElMessageBox.confirm(
-    t('RuleEngine.resetMetricsConfirm', { target: lowerCase(tl('dataBridge')) }),
-  )
-  await resetBridgeMetrics(props.bridgeId)
-  ElMessage.success(tl('resetSuccessfully'))
-  getBridgeMetrics()
-}
-
+const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
+type NodeStatusData = { node: string; status: ConnectionStatus }
 const setNodeConnectingStatusMap = () => {
   nodeConnectingStatusMap.value = props.bridgeMsg.node_status?.reduce(
-    (
-      obj: Record<string, ConnectionStatus>,
-      nodeStatusItem: {
-        node: string
-        status: ConnectionStatus
-      },
-    ) => {
-      return {
-        ...obj,
-        [nodeStatusItem.node]: false,
-      }
+    (obj: Record<string, ConnectionStatus>, nodeStatusItem: NodeStatusData) => {
+      return { ...obj, [nodeStatusItem.node]: false }
     },
     {},
   )
 }
-
 const reconnect = async ({ node }: NodeMetrics) => {
   try {
     nodeConnectingStatusMap.value[node] = true
@@ -296,10 +153,5 @@ const reconnect = async ({ node }: NodeMetrics) => {
     nodeConnectingStatusMap.value[node] = false
   }
 }
-
-const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
-
 watch(() => props.bridgeMsg, setNodeConnectingStatusMap)
-
-getBridgeMetrics()
 </script>
