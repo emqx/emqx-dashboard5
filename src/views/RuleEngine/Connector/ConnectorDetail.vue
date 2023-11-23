@@ -95,7 +95,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
-const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 
 const { t, tl } = useI18nTl('RuleEngine')
 
