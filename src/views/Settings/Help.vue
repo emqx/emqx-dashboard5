@@ -67,10 +67,10 @@
       </el-row>
     </el-card>
     <template #footer>
-      <el-button @click="handleLinkGo('feedback')">
+      <el-button type="primary" plain @click="handleLinkGo('feedback')">
         {{ $t('Base.feedback') }}
       </el-button>
-      <el-button @click="handleLinkGo('contactUs')">
+      <el-button type="primary" @click="handleLinkGo('contactUs')">
         {{ $t('Base.contactUs') }}
       </el-button>
     </template>
