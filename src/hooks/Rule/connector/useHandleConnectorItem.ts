@@ -3,20 +3,22 @@ import {
   putConnector,
   getConnectorDetail as requestConnectorDetail,
   deleteConnector as requestDelConnector,
+  reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
 import {
   createBridge,
   deleteBridge,
   getBridgeInfo,
+  reconnectBridge,
   testConnect,
   updateBridge,
 } from '@/api/ruleengine'
 import { getTypeAndNameFromKey } from '@/common/tools'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
 import { BridgeItem, Connector } from '@/types/rule'
+import type { Ref } from 'vue'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useBridgeDataHandler, useConnectorDataHandler } from '../useDataHandler'
-import type { Ref } from 'vue'
 
 type NowConnector = Connector | BridgeItem
 
@@ -25,6 +27,7 @@ export default (): {
   addConnector: <T = NowConnector>(data: T) => Promise<T>
   updateConnector: <T = NowConnector>(data: T) => Promise<T>
   deleteConnector: (id: string) => Promise<void>
+  reconnectConnector: (id: string) => Promise<void>
   handleDataForCopy: <T = NowConnector>(data: T) => T
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
@@ -37,7 +40,11 @@ export default (): {
   }
 
   const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
-  const { handleConnectorDataBeforeSubmit, handleConnectorDataForCopy } = useConnectorDataHandler()
+  const {
+    handleConnectorDataBeforeSubmit,
+    handleConnectorDataBeforeUpdate,
+    handleConnectorDataForCopy,
+  } = useConnectorDataHandler()
 
   const handleDataForCopy = <T = NowConnector>(data: T): T => {
     try {
@@ -52,34 +59,41 @@ export default (): {
     }
   }
 
-  const handleDataBeforeSubmit = async (data: NowConnector): Promise<any> => {
-    try {
-      const dataHandle = isConnectorSupported(data.type)
-        ? handleConnectorDataBeforeSubmit
-        : handleBridgeDataBeforeSubmit
-      const ret = await dataHandle(data as any)
-      return ret
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(error)
-    }
-  }
   const addConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const request = isConnectorSupported((data as NowConnector).type) ? postConnector : createBridge
-    const dataForSubmit = await handleDataBeforeSubmit(data as NowConnector)
+    const isTrueConnector = isConnectorSupported((data as NowConnector).type)
+    const request = isTrueConnector ? postConnector : createBridge
+    const dataHandler = isTrueConnector
+      ? handleConnectorDataBeforeSubmit
+      : handleBridgeDataBeforeSubmit
+    const dataForSubmit = await dataHandler(data as any)
     return request(dataForSubmit) as Promise<T>
   }
 
   const updateConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const func = isConnectorSupported((data as NowConnector).type) ? putConnector : updateBridge
-    const dataForSubmit = await handleDataBeforeSubmit(data as NowConnector)
-    return func((data as NowConnector).id, dataForSubmit) as Promise<T>
+    const { id, type } = data as NowConnector
+
+    const isTrueConnector = isConnectorSupported(type)
+    const func = isTrueConnector ? putConnector : updateBridge
+    const dataHandler = isTrueConnector
+      ? handleConnectorDataBeforeUpdate
+      : handleBridgeDataBeforeSubmit
+
+    const dataForSubmit = await dataHandler(data as any)
+    Reflect.deleteProperty(dataForSubmit, 'id')
+    return func(id, dataForSubmit) as Promise<T>
   }
 
   const deleteConnector = async (id: string): Promise<void> => {
     const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
       ? requestDelConnector
       : deleteBridge
+    return func(id)
+  }
+
+  const reconnectConnector = async (id: string): Promise<void> => {
+    const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
+      ? requestReconnectConnector
+      : reconnectBridge
     return func(id)
   }
 
@@ -105,6 +119,7 @@ export default (): {
     addConnector,
     updateConnector,
     deleteConnector,
+    reconnectConnector,
     handleDataForCopy,
     isTesting,
     testConnectivity,

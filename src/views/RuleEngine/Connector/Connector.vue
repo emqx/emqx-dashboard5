@@ -57,8 +57,8 @@
 </template>
 
 <script setup lang="ts">
-import { deleteConnector, reconnectConnector } from '@/api/connector'
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
@@ -99,6 +99,8 @@ const initReconnectingMap = () => {
 
 const isErrorStatus = ({ status }: Connector) =>
   status === ConnectionStatus.Disconnected || status === ConnectionStatus.Inconsistent
+
+const { deleteConnector, reconnectConnector } = useHandleConnectorItem()
 
 const reconnect = async ({ id }: Connector) => {
   try {

@@ -163,8 +163,7 @@ const handleTest = async () => {
   }
 }
 
-const { handleConnectorDataBeforeSubmit, handleConnectorDataForSaveAsCopy } =
-  useConnectorDataHandler()
+const { handleConnectorDataForSaveAsCopy } = useConnectorDataHandler()
 const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
 const saveAsCopy = async () => {
   try {
@@ -185,8 +184,7 @@ const submit = async () => {
     // TODO: confirm update
     await operationWarning(tl('updateBridgeTip'))
     isSubmitting.value = true
-    const data = await handleConnectorDataBeforeSubmit(connectorData.value)
-    const res = await updateConnector(data)
+    const res = await updateConnector(connectorData.value)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'connector' })
