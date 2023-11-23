@@ -81,7 +81,7 @@ export default (lang: string): DocMap => {
     dataBridge: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/data-bridges.html?${QUERY_FOR_HELP}`,
     ruleEngine: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
-    mqttV5: `https://www.emqx.com/${lang}/mqtt/mqtt5?${QUERY_FOR_HELP}`,
+    mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
     mqttClient:
       lang === 'zh'
         ? `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`
