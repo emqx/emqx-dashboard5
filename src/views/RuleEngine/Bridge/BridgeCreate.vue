@@ -22,7 +22,7 @@
             <el-radio-group class="target-type-select" v-model="chosenBridgeType">
               <el-row :gutter="28">
                 <el-col v-for="item in getFilterBridgeOptions()" :key="item.label" :span="8">
-                  <el-radio class="bridge-type-item" :label="item.value" border>
+                  <el-radio class="target-type-item" :label="item.value" border>
                     <img
                       class="target-type-item-img"
                       height="64"
@@ -53,8 +53,14 @@
                 ref="formCom"
                 :copy="isCopy"
               />
-              <bridge-kafka-config
-                v-else-if="chosenBridgeType === BridgeType.Kafka"
+              <bridge-kafka-producer-config
+                v-else-if="chosenBridgeType === BridgeType.KafkaProducer"
+                v-model="bridgeData"
+                ref="formCom"
+                :copy="isCopy"
+              />
+              <bridge-kafka-consumer-config
+                v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
@@ -157,10 +163,17 @@
         v-model="bridgeData"
         ref="formCom"
       />
-      <bridge-kafka-config
-        v-else-if="chosenBridgeType === BridgeType.Kafka"
+      <bridge-kafka-producer-config
+        v-else-if="chosenBridgeType === BridgeType.KafkaProducer"
         v-model="bridgeData"
         ref="formCom"
+        :copy="isCopy"
+      />
+      <bridge-kafka-consumer-config
+        v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
+        v-model="bridgeData"
+        ref="formCom"
+        :copy="isCopy"
       />
       <bridge-pulsar-config
         v-else-if="chosenBridgeType === BridgeType.Pulsar"
@@ -203,7 +216,8 @@ import useGuide from '@/hooks/useGuide'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgeKafkaConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConfig.vue'
+import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
+import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 
 export default defineComponent({
@@ -215,8 +229,9 @@ export default defineComponent({
     GuideBar,
     UsingSchemaBridgeConfig,
     BridgeInfluxdbConfig,
-    BridgeKafkaConfig,
     BridgePulsarConfig,
+    BridgeKafkaProducerConfig,
+    BridgeKafkaConsumerConfig,
   },
   setup() {
     const { tl } = useI18nTl('RuleEngine')

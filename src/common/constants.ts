@@ -247,7 +247,8 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
-  BridgeType.Kafka,
+  BridgeType.KafkaProducer,
+  BridgeType.KafkaConsumer,
   BridgeType.Pulsar,
 ]
 
