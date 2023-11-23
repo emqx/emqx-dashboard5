@@ -19,7 +19,7 @@
         <li v-for="item in ruleList" :key="item" class="rule-item">
           <el-tag size="large">
             <router-link
-              :to="{ name: 'iot-detail', params: { id: item }, query: { tab: 'settings' } }"
+              :to="{ name: 'rule-detail', params: { id: item }, query: { tab: 'settings' } }"
               target="_blank"
             >
               {{ item }}
