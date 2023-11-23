@@ -51,12 +51,7 @@
     <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
       <div :class="{ 'app-wrapper': !gateway }">
         <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
-          <AuthItemOverview
-            :metrics="authMetrics"
-            type="authn"
-            :refresh-loading="refreshLoading"
-            @refresh="handleRefresh"
-          />
+          <AuthItemOverview :metrics="authMetrics" type="authn" />
         </el-tab-pane>
         <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
           <el-card class="app-card" :shadow="gateway ? 'never' : 'always'">
@@ -193,7 +188,7 @@ export default defineComponent({
     const configData = ref({
       ssl: { enable: false },
     })
-    const authMetrics = ref(undefined)
+    const authMetrics = ref({})
 
     const currBackend = ref('')
 

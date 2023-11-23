@@ -387,30 +387,6 @@ export default {
     zh: '鉴权检查',
     en: 'authorizations',
   },
-  allow: {
-    zh: '允许',
-    en: 'Allow',
-  },
-  allowDesc: {
-    zh: '{type}通过次数',
-    en: 'Number of {type} passed',
-  },
-  deny: {
-    zh: '拒绝',
-    en: 'Deny',
-  },
-  denyDesc: {
-    zh: '{type}失败次数',
-    en: 'Number of {type} failed',
-  },
-  noMatchAuthnDesc: {
-    zh: '未查找到客户端认证数据次数',
-    en: 'Number of times client authentication data not found',
-  },
-  noMatchAuthzDesc: {
-    zh: '未查找到客户端权限数据次数',
-    en: 'Number of times client authorizations data not found',
-  },
   publish: {
     zh: '发布时',
     en: 'Publish',
@@ -494,5 +470,49 @@ export default {
   methodBindDesc: {
     zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
     en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
+  },
+  authnTotalDesc: {
+    zh: '认证器被触发执行的总次数',
+    en: 'Total number of authenticator triggers',
+  },
+  authnSuccessDesc: {
+    zh: '认证成功允许连接的次数',
+    en: 'Number of successful authentications allowed for connection',
+  },
+  authnFailedDesc: {
+    zh: '认证失败拒绝连接次数，通常是密码错误导致',
+    en: 'Number of failed authentications resulting in connection denied, typically due to password errors',
+  },
+  authnNomatchDesc: {
+    zh: '未找到客户端认证数据的次数。如果认证器执行失败也会增加此计数',
+    en: 'Number of times client authentication data is not found. If the authenticator execution fails, the count will also increase',
+  },
+  authzTotalDesc: {
+    zh: '授权器被触发执行的总次数',
+    en: 'Total number of authorizer triggers',
+  },
+  authzSuccessDesc: {
+    zh: '授权成功的次数',
+    en: 'Number of successful authorizations',
+  },
+  authzFailedDesc: {
+    zh: '授权失败的次数',
+    en: 'Number of authorization failures.Number of successful authorizations',
+  },
+  authzNomatchDesc: {
+    zh: '未找到客户端权限数据的次数。如果授权器执行失败也会增加此计数',
+    en: 'Number of times client authorization data is not found. If the authorizer execution fails, the count will also increase',
+  },
+  rateUnit: {
+    zh: '次/秒 | 次/秒',
+    en: 'time/sec | times/sec',
+  },
+  authnRateBarDesc: {
+    zh: '近一分钟内认证次数趋势',
+    en: 'Trend of authentication counts in the past minute',
+  },
+  authzRateBarDesc: {
+    zh: '近一分钟内授权次数趋势',
+    en: 'Trend of authorization counts in the past minute',
   },
 }

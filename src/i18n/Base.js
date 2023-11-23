@@ -575,4 +575,48 @@ export default {
     zh: 'LDAP 登录',
     en: 'LDAP Login',
   },
+  statistics: {
+    zh: '统计指标',
+    en: 'Statistics',
+  },
+  rateIndicators: {
+    zh: '速度指标',
+    en: 'Rate Indicators',
+  },
+  total: {
+    zh: '总数',
+    en: 'Total',
+  },
+  success: {
+    zh: '成功',
+    en: 'Success',
+  },
+  failed: {
+    zh: '失败',
+    en: 'Failed',
+  },
+  allow: {
+    zh: '允许',
+    en: 'Allow',
+  },
+  deny: {
+    zh: '拒绝',
+    en: 'Deny',
+  },
+  nomatch: {
+    zh: '不匹配',
+    en: 'No match',
+  },
+  rateNow: {
+    zh: '当前速率',
+    en: 'Rate',
+  },
+  rateLast5M: {
+    zh: '最近 5 分钟速率',
+    en: 'Rate in Last 5 Min',
+  },
+  rateMax: {
+    zh: '最大速率',
+    en: 'Maximum Rate',
+  },
 }

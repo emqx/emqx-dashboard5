@@ -35,7 +35,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { NodeMetrics } from '@/types/rule'
+import { NodeMetrics } from '@/types/common'
 import { Exhook } from '@/types/systemModule'
 import { computed, defineProps, PropType, ComputedRef } from 'vue'
 
