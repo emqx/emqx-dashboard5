@@ -252,6 +252,8 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.Webhook]: 'http',
     [BridgeType.PgSQL]: 'postgresql',
     [BridgeType.AzureEventHubs]: 'azure_event_hub',
+    [BridgeType.KafkaProducer]: 'kafka',
+    [BridgeType.KafkaConsumer]: 'kafka',
   }
 
   const { getBridgeType } = useBridgeTypeOptions()
