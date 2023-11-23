@@ -6,6 +6,7 @@
       :type-metrics-map="isAuthn ? authnTypeMetricsMap : authzTypeMetricsMap"
       :text-map="isAuthn ? authnTextMap : authzTextMap"
       :rate-metrics="rateData"
+      show-rate
     >
       <template #table="{ data }">
         <el-table :data="nodeStatusTableData(data)">
