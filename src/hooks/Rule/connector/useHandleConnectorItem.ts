@@ -3,20 +3,22 @@ import {
   putConnector,
   getConnectorDetail as requestConnectorDetail,
   deleteConnector as requestDelConnector,
+  reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
 import {
   createBridge,
   deleteBridge,
   getBridgeInfo,
+  reconnectBridge,
   testConnect,
   updateBridge,
 } from '@/api/ruleengine'
 import { getTypeAndNameFromKey } from '@/common/tools'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
 import { BridgeItem, Connector } from '@/types/rule'
+import type { Ref } from 'vue'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useBridgeDataHandler, useConnectorDataHandler } from '../useDataHandler'
-import type { Ref } from 'vue'
 
 type NowConnector = Connector | BridgeItem
 
@@ -25,6 +27,7 @@ export default (): {
   addConnector: <T = NowConnector>(data: T) => Promise<T>
   updateConnector: <T = NowConnector>(data: T) => Promise<T>
   deleteConnector: (id: string) => Promise<void>
+  reconnectConnector: (id: string) => Promise<void>
   handleDataForCopy: <T = NowConnector>(data: T) => T
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
@@ -87,6 +90,13 @@ export default (): {
     return func(id)
   }
 
+  const reconnectConnector = async (id: string): Promise<void> => {
+    const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
+      ? requestReconnectConnector
+      : reconnectBridge
+    return func(id)
+  }
+
   const { isTesting, testConnectivity: testConnectorConnectivity } = useTestConnector()
 
   const testBridgeConnectivity = async (bridge: BridgeItem) => {
@@ -109,6 +119,7 @@ export default (): {
     addConnector,
     updateConnector,
     deleteConnector,
+    reconnectConnector,
     handleDataForCopy,
     isTesting,
     testConnectivity,
