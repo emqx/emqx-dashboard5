@@ -1,6 +1,6 @@
 <template>
   <el-select v-model="selected">
-    <el-option v-for="{ id, name } in connectorOpts" :label="name" :value="id" :key="id" />
+    <el-option v-for="{ name } in connectorOpts" :label="name" :value="name" :key="name" />
   </el-select>
 </template>
 
