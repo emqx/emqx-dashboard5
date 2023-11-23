@@ -478,13 +478,13 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // IoT
+  // Rule
   {
     path: '/rule',
     component: Layout,
     redirect: '/rule/rules',
     meta: {
-      hideKey: 'iot',
+      hideKey: 'rule',
       authRequired: true,
       subMenu: true,
       showSubMenuInFirstLevel: true,
@@ -492,19 +492,19 @@ export const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'rules',
-        name: 'iot',
-        component: () => import('@/views/RuleEngine/IoT/IoT.vue'),
+        name: 'rule',
+        component: () => import('@/views/RuleEngine/Rule/Rule.vue'),
       },
       {
         path: 'rules/create',
-        name: 'iot-create',
-        component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
+        name: 'rule-create',
+        component: () => import('@/views/RuleEngine/Rule/RuleCreate.vue'),
         meta: { hideInMenu: true },
       },
       {
         path: 'rules/:id',
-        name: 'iot-detail',
-        component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
+        name: 'rule-detail',
+        component: () => import('@/views/RuleEngine/Rule/RuleDetail.vue'),
         meta: { hideInMenu: true },
       },
       {

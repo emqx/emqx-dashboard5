@@ -271,10 +271,6 @@ export default {
     zh: 'Topic Metrics',
     en: 'Topic Metrics',
   },
-  iot: {
-    zh: '规则',
-    en: 'Rules',
-  },
   actions: {
     zh: '动作',
     en: 'Actions',

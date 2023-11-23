@@ -132,7 +132,7 @@ export default defineComponent({
         type: 'success',
       })
         .then(() => {
-          router.push({ name: 'iot-create', query: { bridgeId } })
+          router.push({ name: 'rule-create', query: { bridgeId } })
         })
         .catch(() => ({}))
     }

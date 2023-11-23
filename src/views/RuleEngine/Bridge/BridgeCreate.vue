@@ -234,7 +234,7 @@ export default defineComponent({
 
     const formCom = ref()
 
-    const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+    const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 
     const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
 
@@ -361,7 +361,7 @@ export default defineComponent({
             type: 'success',
           })
             .then(() => {
-              router.push({ name: 'iot-create', query: { bridgeId } })
+              router.push({ name: 'rule-create', query: { bridgeId } })
             })
             .catch(() => {
               router.push({ name: 'actions' })

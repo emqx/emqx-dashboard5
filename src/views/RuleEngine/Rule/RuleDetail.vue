@@ -1,7 +1,7 @@
 <template>
-  <div class="iot-detail">
+  <div class="rule-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'iot' }) }" />
+      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'rule' }) }" />
       <div class="section-header">
         <div>
           <span class="title-n-status">
@@ -43,7 +43,7 @@
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
           <el-card class="detail-card overview-visible app-card" v-loading="infoLoading">
-            <iotform
+            <rule-form
               ref="formCom"
               v-model="ruleInfo"
               is-edit
@@ -74,7 +74,7 @@ import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
-import iotform from '../components/IoTForm.vue'
+import RuleForm from '../components/RuleForm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 
@@ -105,7 +105,7 @@ if (queryTab.value) {
 
 const { tl } = useI18nTl('RuleEngine')
 
-const { getBackRoute } = useReceiveParams('iot')
+const { getBackRoute } = useReceiveParams('rule')
 const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
 useDataNotSaveConfirm(countIsRuleRecordChanged)
 
@@ -146,7 +146,7 @@ const deleteRule = async () => {
   await deleteRules(id)
   ElMessage.success(t('Base.deleteSuccess'))
   rawRuleInfo = ruleInfo.value
-  router.push({ name: 'iot' })
+  router.push({ name: 'rule' })
 }
 
 const { getRuleDataForUpdate } = useRuleForm()
@@ -157,7 +157,7 @@ const submitUpdateRules = async () => {
     await updateRules(id, getRuleDataForUpdate(ruleInfo.value))
     ElMessage.success(t('Base.updateSuccess'))
     rawRuleInfo = ruleInfo.value
-    router.push({ name: 'iot' })
+    router.push({ name: 'rule' })
   } catch (error) {
     console.error(error)
   } finally {
@@ -181,7 +181,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.iot-detail {
+.rule-detail {
   .el-card.detail-card {
     > .el-card__body {
       padding: 0px;
