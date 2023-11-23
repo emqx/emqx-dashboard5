@@ -187,7 +187,7 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 if (isFromRule.value && props.bridgeId) {
   activeTab.value = Tab.Setting
 }
@@ -341,7 +341,7 @@ const createRuleWithBridge = () => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'iot-create', query: { bridgeId: bridgeInfo.value.id } })
+      router.push({ name: 'rule-create', query: { bridgeId: bridgeInfo.value.id } })
     })
     .catch(() => ({}))
 }

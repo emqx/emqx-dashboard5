@@ -60,7 +60,7 @@ const route = useRoute()
 const router = useRouter()
 const { tl } = useI18nTl('RuleEngine')
 
-const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 
 const { connectorTypeList } = useConnectorTypeValue()
 const selectedType = ref<BridgeType>(connectorTypeList[0].value)

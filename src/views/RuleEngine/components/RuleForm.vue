@@ -1,5 +1,5 @@
 <template>
-  <div class="iot-form">
+  <div class="rule-form">
     <el-row class="editor-row">
       <el-col :span="15" class="sql-col">
         <el-form
@@ -79,7 +79,7 @@
     </el-row>
     <el-row class="oper-row">
       <el-col :span="24">
-        <el-button @click="$router.push({ name: 'iot' })">
+        <el-button @click="$router.push({ name: 'rule' })">
           {{ $t('Base.cancel') }}
         </el-button>
         <el-button type="primary" plain @click="saveAsCopy" v-if="isEdit">
@@ -99,7 +99,7 @@ import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: 'iot-form',
+  name: 'rule-form',
 })
 </script>
 
@@ -352,9 +352,9 @@ const handleTestLoadng = (val: boolean) => {
   testLoading.value = val
 }
 
-// const eventDoNotNeedInIoTForm = '$events/message_publish'
+// const eventDoNotNeedInRuleForm = '$events/message_publish'
 // const eventListForFromSelect = computed(() => {
-//   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
+//   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInRuleForm)
 // })
 const loadRuleEvents = async () => {
   try {
@@ -421,7 +421,7 @@ defineExpose({ validate })
 </style>
 
 <style lang="scss">
-.iot-form {
+.rule-form {
   .sql-col {
     padding: 24px;
     border-right: 1px solid var(--color-border-normal);

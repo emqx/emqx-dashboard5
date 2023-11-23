@@ -115,7 +115,7 @@ const confirmAfterCreatedBridge = (id: string) => {
       type: 'success',
     })
       .then(() => {
-        router.push({ name: 'iot-create', query: { bridgeId: id } })
+        router.push({ name: 'rule-create', query: { bridgeId: id } })
       })
       .catch(() => {
         router.push({ name: 'actions' })
@@ -145,7 +145,7 @@ const submit = async () => {
     const res = await submitFunc()
     ElMessage.success(t('Base.createSuccess'))
     if (isRule.value) {
-      router.push({ name: 'iot' })
+      router.push({ name: 'rule' })
     } else if (props.target.type === 'bridge') {
       confirmAfterCreatedBridge(res.id)
     } else if (props.target.type === 'connector') {
