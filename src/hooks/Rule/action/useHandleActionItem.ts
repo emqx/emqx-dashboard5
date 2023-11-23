@@ -15,6 +15,7 @@ import {
 import { getTypeAndNameFromKey } from '@/common/tools'
 import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Action, BridgeItem } from '@/types/rule'
+import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 
 type NowAction = Action | BridgeItem
 
@@ -33,14 +34,30 @@ export default (): {
     return func(id) as Promise<T>
   }
 
+  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+  const { handleActionDataBeforeUpdate } = useActionDataHandler()
+
   const addAction = async <T = NowAction>(data: T): Promise<T> => {
     const request = isConnectorSupported((data as NowAction).type) ? postAction : createBridge
     return request(data as any) as Promise<T>
   }
 
   const updateAction = async <T = NowAction>(data: T): Promise<T> => {
-    const func = isConnectorSupported((data as NowAction).type) ? putAction : updateBridge
-    return func((data as NowAction).id, data as any) as Promise<T>
+    try {
+      const { id, type } = data as NowAction
+
+      const isTrueAction = isConnectorSupported(type)
+      const func = isTrueAction ? putAction : updateBridge
+      const dataHandler = isTrueAction ? handleActionDataBeforeUpdate : handleBridgeDataBeforeSubmit
+
+      Reflect.deleteProperty(data as NowAction, 'id')
+      const dataToSubmit = await dataHandler(data)
+
+      return func(id, dataToSubmit as any) as Promise<T>
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(error)
+    }
   }
 
   const deleteAction = async (id: string): Promise<void> => {

@@ -215,8 +215,7 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
-  useBridgeDataHandler()
+const { handleBridgeDataAfterLoaded, handleBridgeDataForSaveAsCopy } = useBridgeDataHandler()
 const { getDetail, updateAction, toggleActionEnable } = useHandleActionItem()
 
 const loadBridgeInfo = async () => {
@@ -248,7 +247,7 @@ const setBridgeInfoFromSchemaForm = () => {
 
 const getDataForSubmit = () => {
   setBridgeInfoFromSchemaForm()
-  return handleBridgeDataBeforeSubmit(_.cloneDeep(bridgeInfo.value))
+  return bridgeInfo.value
 }
 
 const showNameInputDialog = ref(false)
