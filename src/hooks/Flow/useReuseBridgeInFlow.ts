@@ -1,5 +1,4 @@
 import { getBridgeList } from '@/api/ruleengine'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import {
   typesWithProducerAndConsumer,
   useBridgeDirection,
@@ -12,6 +11,7 @@ import { BridgeItem } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep, groupBy } from 'lodash'
 import { ComputedRef, Ref, computed, ref } from 'vue'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 
 type GroupedBridgeMap = { [key in BridgeType]?: Array<BridgeItem> }
 
@@ -79,7 +79,7 @@ export default (
 
   const isBridgeSelected = ref(false)
 
-  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataAfterLoaded } = useHandleActionItem()
   const handleSchemaForReuse = async ({
     components,
     rules,
@@ -100,7 +100,7 @@ export default (
           const bridge = !!val && getBridgeByName(val)
           if (bridge) {
             isBridgeSelected.value = true
-            record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
+            record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
           } else {
             isBridgeSelected.value = false
           }
@@ -114,7 +114,7 @@ export default (
     const bridge = !!name && getBridgeByName(name)
     if (bridge) {
       isBridgeSelected.value = true
-      record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
+      record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
     } else {
       isBridgeSelected.value = false
     }
