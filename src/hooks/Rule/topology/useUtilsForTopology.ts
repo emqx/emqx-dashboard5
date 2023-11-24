@@ -21,7 +21,7 @@ import {
   EdgeItem,
 } from './topologyType'
 import { escapeRegExp } from 'lodash'
-import { useBridgeTypeOptions } from '../bridge/useBridgeTypeValue'
+import { useBridgeTypeValue } from '../bridge/useBridgeTypeValue'
 
 export const LABEL_FONT_SIZE = 14
 
@@ -152,10 +152,10 @@ export default (): {
   const getBridgeIDFromInputting = (inputting: string) =>
     inputting.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const getBridgeTypeFromId = (id: string): BridgeType => {
     const type = id.slice(0, id.indexOf(':'))
-    return getBridgeType(type)
+    return getBridgeGeneralType(type)
   }
 
   const getBridgeIcon = (bridgeId: string) => {

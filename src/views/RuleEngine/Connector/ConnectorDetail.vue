@@ -34,7 +34,7 @@
               class="bridge-config"
               :is="formCom"
               v-model="connectorData"
-              :type="type"
+              :type="generalType"
               edit
             />
           </div>
@@ -70,7 +70,10 @@
 <script setup lang="ts">
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useBridgeTypeValue, {
+  useBridgeTypeIcon,
+  useConnectorTypeValue,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
@@ -106,14 +109,15 @@ const id = computed(() => {
   return route.params.id as string
 })
 
-const type = computed(() => {
-  const type = id.value.slice(0, id.value.indexOf(':'))
-  return type as BridgeType
+const { getBridgeGeneralType } = useBridgeTypeValue()
+const generalType = computed(() => {
+  const rawType = id.value.slice(0, id.value.indexOf(':'))
+  return getBridgeGeneralType(rawType) as BridgeType
 })
 
 const FormCom = ref()
 
-const { formCom } = useConnectorFormComponent(type)
+const { formCom } = useConnectorFormComponent(generalType)
 
 const connectorData = ref<Connector>({} as Connector)
 

@@ -3,7 +3,7 @@ import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import {
   typesWithProducerAndConsumer,
   useBridgeDirection,
-  useBridgeTypeOptions,
+  useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { FormRules } from '@/types/common'
@@ -37,13 +37,13 @@ export default (
     () => props.isUsingInFlow && !props.edit && !props.readonly,
   )
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
 
   const getBridges = async () => {
     try {
       getBridgeRequest = getBridgeList()
       const bridges = await getBridgeRequest
-      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeType(type))
+      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeGeneralType(type))
     } catch (error) {
       console.error(error)
     }

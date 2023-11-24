@@ -29,6 +29,9 @@ export default (
     [BridgeType.Pulsar, BridgePulsarConfig],
   ])
   const formCom = computed<Component | null>(() => {
+    if (!type.value) {
+      return null
+    }
     if (SUPPORTED_CONNECTOR_TYPES.includes(type.value)) {
       return connectorComMap.get(type.value) || ConnectorSchemaForm
     }

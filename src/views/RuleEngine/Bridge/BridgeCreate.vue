@@ -239,9 +239,9 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const { t } = useI18n()
-    const { bridgeTypeOptions, getBridgeType, searchQuery, getFilterBridgeOptions } =
-      useBridgeTypeOptions()
-    const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+    const { bridgeTypeOptions, searchQuery, getFilterBridgeOptions } = useBridgeTypeOptions()
+    const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
+
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
     const isTesting = ref(false)
@@ -301,8 +301,8 @@ export default defineComponent({
       }
       try {
         const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
-        if (currentType && getBridgeType(currentType as BridgeType)) {
-          chosenBridgeType.value = getBridgeType(currentType as BridgeType)
+        if (currentType && getBridgeGeneralType(currentType as BridgeType)) {
+          chosenBridgeType.value = getBridgeGeneralType(currentType as BridgeType)
         }
         step.value = 1
         targetLoading.value = true

@@ -5,7 +5,7 @@ import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
 import useI18nTl from '../useI18nTl'
-import { useBridgeTypeOptions } from './bridge/useBridgeTypeValue'
+import { useBridgeTypeValue } from './bridge/useBridgeTypeValue'
 
 const keysDoNotNeedForAPI = [
   'node_status',
@@ -173,7 +173,7 @@ export const useBridgeDataHandler = (): {
 } => {
   const { tl } = useI18nTl('RuleEngine')
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     handleDataBeforeSubmit,
     likePasswordFieldKeys,
@@ -233,7 +233,7 @@ export const useBridgeDataHandler = (): {
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
       let ret = cloneDeep(bridgeData)
-      const bridgeType = getBridgeType(bridgeData.type)
+      const bridgeType = getBridgeGeneralType(bridgeData.type)
       const handler = specialDataHandlerBeforeSubmit.get(bridgeType)
       if (handler) {
         ret = await handler(ret)

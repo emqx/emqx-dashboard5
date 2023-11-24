@@ -9,7 +9,7 @@
             <div class="info-tags">
               <TargetItemStatus :target="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
-                {{ getTypeStr(bridgeInfo) }}
+                {{ getGeneralTypeLabel(bridgeInfo.type) }}
               </el-tag>
             </div>
           </div>
@@ -165,7 +165,7 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
@@ -217,7 +217,7 @@ if (queryTab.value) {
   activeTab.value = queryTab.value
 }
 
-const { getTypeStr, getBridgeType } = useBridgeTypeOptions()
+const { getBridgeGeneralType, getGeneralTypeLabel } = useBridgeTypeValue()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
@@ -245,7 +245,7 @@ watch(id, (val) => {
  */
 const bridgeType = computed(() => {
   const type = id.value.slice(0, id.value.indexOf(':'))
-  return getBridgeType(type)
+  return getBridgeGeneralType(type)
 })
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
