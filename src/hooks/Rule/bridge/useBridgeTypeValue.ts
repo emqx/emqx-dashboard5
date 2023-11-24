@@ -1,4 +1,4 @@
-import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
+import { INGRESS_BRIDGE_TYPES, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -178,6 +178,8 @@ export const useBridgeDirection = (): {
       } else if (withIngress) {
         return BridgeDirection.Ingress
       }
+      return BridgeDirection.Egress
+    } else if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
       return BridgeDirection.Egress
     }
 
