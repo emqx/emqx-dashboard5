@@ -100,6 +100,8 @@ export default function useSchemaForm(
       } else if (property.format === 'file') {
         property.type = 'file'
       }
+    } else if (property.type === 'integer') {
+      property.type = 'number'
     }
     return property
   }
@@ -172,13 +174,15 @@ export default function useSchemaForm(
               property.items.path = property.path
               property.items.properties = transComponents(component, property.items.path)
             }
-          } else if (oneOf && oneOf.find(({ $ref, type }) => $ref || type === 'object')) {
+          } else if (oneOf) {
             property.oneOf = oneOf.map((item) => {
               if (item.$ref) {
                 const component = getComponentByRef(schema, item.$ref)
                 item.properties = transComponents(component, property.path)
               } else if (item.type === 'object' && item.properties) {
                 return transComponents(item as Component, property.path)
+              } else {
+                setTypeForProperty(item)
               }
               return item
             }) as Property[]
