@@ -156,7 +156,7 @@ const switchProxy: WritableComputedRef<string | boolean> = computed({
     if (val === oneOfInfo.value.valueDisabled) {
       valueProxy.value = oneOfInfo.value.valueDisabled
     } else {
-      valueProxy.value = propEnabled?.type === 'number' ? 0 : ''
+      valueProxy.value = propEnabled?.type === 'number' ? undefined : ''
     }
   },
 })
