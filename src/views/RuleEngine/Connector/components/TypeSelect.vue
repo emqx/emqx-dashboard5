@@ -59,8 +59,10 @@ const { getBridgeIcon } = useBridgeTypeIcon()
   margin-bottom: 16px;
 }
 .target-type-select.is-connector {
-  .title {
-    margin-bottom: 0;
+  .el-radio__label {
+    .title {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

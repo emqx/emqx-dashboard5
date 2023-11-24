@@ -1,12 +1,13 @@
 <template>
   <OverviewMetrics
-    total="matched"
+    :total="showEgressStats ? 'matched' : ''"
     :title="lowerCase(tl('dataBridge'))"
     :request-metrics="getBridgeMetrics"
     :request-reset="resetMetrics"
-    :type-metrics-map="typeMetricsMap"
+    :type-metrics-map="getTypeMetricsMap()"
     :text-map="textMap"
     :rate-metrics="rateData"
+    :show-rate="showEgressStats"
   >
     <template #table="{ data }">
       <el-table :data="nodeStatusTableData(data)">
@@ -90,8 +91,6 @@ const emit = defineEmits(['reconnect'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const { typeMetricsMap, textMap, rateData } = useBridgeMetrics()
-
 const getBridgeMetrics = async () => {
   try {
     if (!props.bridgeId) {
@@ -130,8 +129,18 @@ const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
 const { judgeBridgeDirection } = useBridgeDirection()
 const bridgeDirection = computed(() => judgeBridgeDirection(props.bridgeMsg))
 const showEgressStats = computed(() => bridgeDirection.value !== BridgeDirection.Ingress)
-const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
 const showIngressStats = computed(() => bridgeDirection.value !== BridgeDirection.Egress)
+
+const { ingressTypeMetricsMap, egressTypeMetricsMap, textMap, rateData } = useBridgeMetrics()
+
+const getTypeMetricsMap = () => {
+  if (showIngressStats.value && !showEgressStats.value) {
+    return ingressTypeMetricsMap
+  }
+  return egressTypeMetricsMap
+}
+
+const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 type NodeStatusData = { node: string; status: ConnectionStatus }

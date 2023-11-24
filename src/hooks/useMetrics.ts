@@ -319,12 +319,13 @@ interface Rate {
   right2: string
 }
 export const useBridgeMetrics = (): {
-  typeMetricsMap: TypeMapData
+  egressTypeMetricsMap: TypeMapData
+  ingressTypeMetricsMap: TypeMapData
   textMap: Record<string, { label: string; desc?: string }>
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
-  const typeMetricsMap = {
+  const egressTypeMetricsMap = {
     [MetricType.Green]: { title: tl('success'), contains: ['success'] },
     [MetricType.Blue]: { title: tl('processing'), contains: ['queuing', 'inflight'] },
     [MetricType.Red]: { title: tl('sqlFailed'), contains: ['failed'] },
@@ -338,6 +339,9 @@ export const useBridgeMetrics = (): {
         'dropped.other',
       ],
     },
+  }
+  const ingressTypeMetricsMap = {
+    [MetricType.Green]: { title: tl('received'), contains: ['received'] },
   }
   const textMap = {
     matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
@@ -359,6 +363,7 @@ export const useBridgeMetrics = (): {
     },
     queuing: { label: tl('queuing'), desc: tl('queuingDesc') },
     retried: { label: tl('retried'), desc: tl('retriedDesc') },
+    received: { label: tl('received'), desc: tl('receivedDesc') },
     rate: { label: t('Base.rateNow'), desc: tl('rateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
@@ -371,7 +376,8 @@ export const useBridgeMetrics = (): {
     right2: 'rate_max',
   }
   return {
-    typeMetricsMap,
+    egressTypeMetricsMap,
+    ingressTypeMetricsMap,
     textMap,
     rateData,
   }

@@ -21,14 +21,15 @@
           </el-tooltip>
         </div>
       </div>
-      <!-- Number Stats -->
+      <!-- Stats -->
       <div class="block-bd">
-        <!-- Pie Chart -->
+        <!-- Pie Chart Stats -->
         <el-card v-if="total" class="metric-pie">
           <p class="metric-name">{{ getMetricItemLabel(total) }}</p>
           <p class="metric-num">{{ formatNumber(currentMetrics[total]) }}</p>
           <div class="pie-container" :id="createRandomString()" ref="ChartEle"></div>
         </el-card>
+        <!-- Number Stats -->
         <div class="metric-types">
           <el-row :gutter="24">
             <el-col :span="12" v-for="item in typeMetricsData" :key="item.type">
@@ -40,7 +41,7 @@
       </div>
     </div>
     <!-- Rate Stats -->
-    <div class="metric-block">
+    <div v-show="showRate" class="metric-block">
       <div class="block-hd">
         <p class="block-title">{{ t('Base.rateIndicators') }}</p>
       </div>
@@ -137,6 +138,7 @@ const props = defineProps<{
   requestMetrics: () => any
   requestReset?: () => any
   textMap: Record<string, { label: string; desc?: string }>
+  showRate?: boolean
   /**
    * metric key for get total
    * Data chart will only be displayed if 'total' is provided.
@@ -344,7 +346,6 @@ const { syncPolling } = useSyncPolling()
   }
   .metric-types {
     flex-grow: 1;
-    height: $pie-card-side-length;
     .el-row {
       height: 100%;
     }
