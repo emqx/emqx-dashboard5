@@ -304,14 +304,6 @@ export default {
     zh: '数据处理',
     en: 'Function',
   },
-  sqlPassed: {
-    zh: '通过',
-    en: 'Passed',
-  },
-  sqlPassedDesc: {
-    zh: '成功执行并输出结果',
-    en: 'Executes successfully and outputs the result',
-  },
   matched: {
     zh: '命中',
     en: 'Matched',
@@ -323,10 +315,6 @@ export default {
   bridgeMatchedDesc: {
     zh: 'Bridge 被匹配到（被请求）的次数',
     en: 'Count of this bridge is matched and queried',
-  },
-  sqlFailed: {
-    zh: '失败',
-    en: 'Failed',
   },
   sqlFailedDesc: {
     zh: '因语法或函数调用失败导致执行失败',
@@ -957,5 +945,77 @@ export default {
   droppedOtherDesc: {
     zh: '由于其他未知原因而丢弃的消息',
     en: 'Messages dropped due to other unknown reasons',
+  },
+  passed: {
+    zh: '通过',
+    en: 'Passed',
+  },
+  passedDesc: {
+    zh: '成功执行规则并生成输出结果的次数',
+    en: 'Number of successful rule executions and output results',
+  },
+  failedNoResult: {
+    zh: '未通过',
+    en: 'No Result',
+  },
+  failedNoResultDesc: {
+    zh: '成功执行规则，但由于过滤条件不满足而没有生成输出结果的次数',
+    en: 'Number of successful rule executions but no outputs due to unmet filtering conditions',
+  },
+  failedException: {
+    zh: '执行失败',
+    en: 'Failed',
+  },
+  failedExceptionDesc: {
+    zh: '由于SQL语法错误或函数调用错误导致的执行失败次数',
+    en: 'Number of failed executions due to SQL syntax errors or function call errors',
+  },
+  ruleExecutionRate: {
+    zh: '规则执行速度',
+    en: 'Rule execution rate',
+  },
+  actionsTotal: {
+    zh: '动作执行总数',
+    en: 'Actions Total',
+  },
+  actionsTotalDesc: {
+    zh: '所有动作调用总次数',
+    en: 'Total number of action calls',
+  },
+  actionsSuccess: {
+    zh: '成功',
+    en: 'Success',
+  },
+  actionsSuccessDesc: {
+    zh: '动作成功调用次数',
+    en: 'Number of successful action calls',
+  },
+  actionsFailed: {
+    zh: '失败',
+    en: 'Failed',
+  },
+  actionsFailedDesc: {
+    zh: '动作执调用失败次数',
+    en: 'Number of failed action calls',
+  },
+  actionsFailedOutOfService: {
+    zh: '服务停止',
+    en: 'Out of service',
+  },
+  actionsFailedOutOfServiceDesc: {
+    zh: '因动作停止引起的错误',
+    en: 'Errors due to action stopping',
+  },
+  actionsFailedUnknown: {
+    zh: '未知',
+    en: 'Unknown',
+  },
+  actionsFailedUnknownDesc: {
+    zh: '未知的错误',
+    en: 'Unknown errors',
+  },
+  ruleRateBarDesc: {
+    zh: '过去一分钟内规则匹配速度的趋势',
+    en: 'Trend of rule matching speed in the last minute',
   },
 }

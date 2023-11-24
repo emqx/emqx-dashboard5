@@ -200,11 +200,11 @@ const updateRateData = (metrics: Metrics) => {
 }
 
 const { ChartEle: BarChartEle, updateBarData } = useRateChart()
-const { ChartEle, updateRingData } = usePieChart()
+const { ChartEle, updatePieData } = usePieChart()
 const updateToView = () => {
   const data = currentMetrics.value
   pieData = generatePieData(data, typeMetricsMaps.value)
-  updateRingData(pieData)
+  updatePieData(pieData)
 
   const { x, y } = updateRateData(data)
   updateBarData(x, y)
