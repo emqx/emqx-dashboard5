@@ -269,7 +269,7 @@ export const useBridgeDataHandler = (): {
     [BridgeType.Redis, handleRedisDataAfterLoaded],
   ])
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
-    const bridgeType = getBridgeType(bridgeData.type)
+    const bridgeType = getBridgeGeneralType(bridgeData.type)
     const handler = specialHandlerAfterLoaded.get(bridgeType)
     if (handler) {
       handler(bridgeData)

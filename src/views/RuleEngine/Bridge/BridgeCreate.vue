@@ -312,7 +312,7 @@ export default defineComponent({
             ...handleBridgeDataForCopy(bridgeInfo),
             name: countDuplicationName(bridgeInfo.name),
           }
-          chosenBridgeType.value = getBridgeType(bridgeInfo.type)
+          chosenBridgeType.value = getBridgeGeneralType(bridgeInfo.type)
         }
       } catch (error) {
         //
