@@ -19,6 +19,9 @@ export default (
    */
   const bridgeComMap = new Map([[BridgeType.MQTT, BridgeMqttConfig]])
   const formCom = computed<Component | null>(() => {
+    if (!type.value) {
+      return null
+    }
     if (SUPPORTED_CONNECTOR_TYPES.includes(type.value)) {
       return connectorComMap.get(type.value) || null
     }

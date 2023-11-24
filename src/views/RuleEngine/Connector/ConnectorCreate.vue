@@ -89,7 +89,7 @@ const goPreStep = () => {
   handleBack()
 }
 
-const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const { getBridgeLabelByTypeValue, getBridgeGeneralType } = useBridgeTypeValue()
 const goNextStep = () => {
   if (step.value === 0) {
     initConnectorData()
@@ -134,8 +134,9 @@ const checkClipStatus = async () => {
     return
   }
   try {
-    const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
-    selectedType.value = currentType as BridgeType
+    const currentType =
+      route.query.target?.slice(0, route.query.target?.indexOf(':'))?.toString() || ''
+    selectedType.value = getBridgeGeneralType(currentType)
     step.value = 1
     targetLoading.value = true
     const connectorData = await getConnectorDetail<Connector>(route.query.target as string)
@@ -144,7 +145,6 @@ const checkClipStatus = async () => {
         ...handleDataForCopy(connectorData),
         name: countDuplicationName(connectorData.name),
       }
-      selectedType.value = connectorData.type
     }
   } catch (error) {
     //

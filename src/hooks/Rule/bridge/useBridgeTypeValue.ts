@@ -19,6 +19,8 @@ type TypeItem = {
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<TypeItem>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
+  getBridgeGeneralType: (typeStr: string) => BridgeType
+  getGeneralTypeLabel: (type: string) => string
 } => {
   const { t } = useI18nTl('RuleEngine')
 
@@ -31,9 +33,41 @@ export const useBridgeTypeValue = (): {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
   }
 
+  /**
+   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
+   */
+  const typesWithMultiSpecificType = [
+    BridgeType.InfluxDB,
+    BridgeType.Redis,
+    BridgeType.MongoDB,
+    ...typesWithProducerAndConsumer,
+  ]
+  /**
+   * diff from specific type, for example, influxdb v1 v2 are all influxdb
+   */
+  const getBridgeGeneralType = (typeStr: string): BridgeType => {
+    if (!typeStr) {
+      return typeStr as BridgeType
+    }
+    const withMultiSpecificTypeIndex = typesWithMultiSpecificType.findIndex(
+      (item) => typeStr.indexOf(item) > -1,
+    )
+    if (withMultiSpecificTypeIndex > -1) {
+      return typesWithMultiSpecificType[withMultiSpecificTypeIndex]
+    }
+    return typeStr as BridgeType
+  }
+
+  const getGeneralTypeLabel = (rawType: string): string => {
+    const type = getBridgeGeneralType(rawType)
+    return getBridgeLabelByTypeValue(type) || ''
+  }
+
   return {
     bridgeTypeList,
     getBridgeLabelByTypeValue,
+    getBridgeGeneralType,
+    getGeneralTypeLabel,
   }
 }
 
@@ -44,12 +78,11 @@ export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
   getTypeStr: (type: string) => string
 } => {
-  const { bridgeTypeList } = useBridgeTypeValue()
+  const { bridgeTypeList, getGeneralTypeLabel } = useBridgeTypeValue()
 
   const connectorTypeList = bridgeTypeList
 
-  const getTypeStr = (type: string) =>
-    getLabelFromValueInOptionList(type, connectorTypeList) || type
+  const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
 
   return {
     connectorTypeList,
@@ -75,8 +108,6 @@ export const typesWithProducerAndConsumer = [
 ]
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
-  getBridgeType: (typeStr: string) => BridgeType
-  getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { tl } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
@@ -91,39 +122,8 @@ export const useBridgeTypeOptions = (): {
     desc: descMap.get(item.value) || '',
   }))
 
-  const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
-
-  /**
-   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
-   */
-  const typesWithMultiSpecificType = [
-    BridgeType.InfluxDB,
-    BridgeType.Redis,
-    BridgeType.MongoDB,
-    ...typesWithProducerAndConsumer,
-  ]
-  const getBridgeType = (typeStr: string): BridgeType => {
-    if (!typeStr) {
-      return typeStr as BridgeType
-    }
-    const withMultiSpecificTypeIndex = typesWithMultiSpecificType.findIndex(
-      (item) => typeStr.indexOf(item) > -1,
-    )
-    if (withMultiSpecificTypeIndex > -1) {
-      return typesWithMultiSpecificType[withMultiSpecificTypeIndex]
-    }
-    return typeStr as BridgeType
-  }
-
-  const getTypeStr = (bridge: BridgeItem): string => {
-    const type = getBridgeType(bridge.type)
-    return getBridgeLabelByTypeValue(type) || ''
-  }
-
   return {
     bridgeTypeOptions,
-    getBridgeType,
-    getTypeStr,
   }
 }
 
@@ -135,9 +135,9 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.Webhook]: 'http',
   }
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const getBridgeIconKey = (value: string) => {
-    const ret = getBridgeType(value)
+    const ret = getBridgeGeneralType(value)
     if (ret && ret in specialIconMap) {
       return specialIconMap[ret as keyof typeof specialIconMap]
     }
@@ -164,10 +164,10 @@ export const useBridgeTypeIcon = (): {
 export const useBridgeDirection = (): {
   judgeBridgeDirection: (bridge: BridgeItem) => BridgeDirection
 } => {
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const judgeBridgeDirection = (bridge: BridgeItem): BridgeDirection => {
     const { type: rawType } = bridge
-    const type = getBridgeType(rawType)
+    const type = getBridgeGeneralType(rawType)
     // FOR MQTT
     if (type === BridgeType.MQTT) {
       const { ingress, egress } = bridge as MQTTBridge
