@@ -8,6 +8,7 @@ import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -40,12 +41,12 @@ export default (): {
     }
   }
 
-  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
       const list: Array<BridgeItem> = await getBridgeList()
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
-        m.set(item.id, handleBridgeDataAfterLoaded(item))
+        m.set(item.id, handleActionDataAfterLoaded(item))
         return m
       }, new Map())
       return Promise.resolve()

@@ -24,6 +24,7 @@ type NowConnector = Connector | BridgeItem
 
 export default (): {
   getConnectorDetail: <T = NowConnector>(id: string) => Promise<T>
+  handleConnectorDataAfterLoaded: <T = NowConnector>(data: T) => T
   addConnector: <T = NowConnector>(data: T) => Promise<T>
   updateConnector: <T = NowConnector>(data: T) => Promise<T>
   deleteConnector: (id: string) => Promise<void>
@@ -32,19 +33,33 @@ export default (): {
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
 } => {
-  const getConnectorDetail = async <T = NowConnector>(id: string): Promise<T> => {
-    const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
-      ? requestConnectorDetail
-      : getBridgeInfo
-    return func(id) as Promise<T>
-  }
-
-  const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
+  const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded, handleBridgeDataForCopy } =
+    useBridgeDataHandler()
   const {
     handleConnectorDataBeforeSubmit,
     handleConnectorDataBeforeUpdate,
     handleConnectorDataForCopy,
+    handleConnectorDataAfterLoaded,
   } = useConnectorDataHandler()
+
+  const handleDataAfterLoaded = <T = NowConnector>(data: T): T => {
+    const dataHandler = isConnectorSupported((data as NowConnector).type)
+      ? handleConnectorDataAfterLoaded
+      : handleBridgeDataAfterLoaded
+    return dataHandler(data as any)
+  }
+
+  const getConnectorDetail = async <T = NowConnector>(id: string): Promise<T> => {
+    try {
+      const isTrueConnector = isConnectorSupported(getTypeAndNameFromKey(id).type)
+      const func = isTrueConnector ? requestConnectorDetail : getBridgeInfo
+      const data = await func(id)
+      return handleDataAfterLoaded(data) as Promise<T>
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(error)
+    }
+  }
 
   const handleDataForCopy = <T = NowConnector>(data: T): T => {
     try {
@@ -116,6 +131,7 @@ export default (): {
 
   return {
     getConnectorDetail,
+    handleConnectorDataAfterLoaded: handleDataAfterLoaded,
     addConnector,
     updateConnector,
     deleteConnector,
