@@ -180,7 +180,7 @@ export const useBridgeDirection = (): {
       }
       return BridgeDirection.Egress
     } else if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
-      return BridgeDirection.Egress
+      return BridgeDirection.Ingress
     }
 
     return BridgeDirection.Egress
