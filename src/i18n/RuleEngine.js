@@ -814,6 +814,10 @@ export default {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
   },
+  backConnectorList: {
+    zh: '返回连接器列表',
+    en: 'Back To Connector List',
+  },
   headers: {
     zh: '请求头',
     en: 'Headers',
