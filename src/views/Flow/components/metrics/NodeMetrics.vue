@@ -144,7 +144,7 @@ const metricsData: Ref<MetricsData> = ref({ metrics: {}, node_metrics: [] as Arr
 const currentMetrics = computed(() => metricsData.value.metrics)
 
 const {
-  typeMetricsMap: bridgeTypeMetricsMap,
+  typeMetricsMaps: bridgeTypeMetricsMap,
   textMap: bridgeTextMap,
   rateData: bridgeRateData,
 } = useBridgeMetrics()
@@ -160,7 +160,7 @@ const requestMetrics = () => {
 }
 // TODO:
 const totalKey = computed(() => (isRuleMetrics.value ? 'TODO:' : 'matched'))
-const typeMetricsMap = computed(() => (isRuleMetrics.value ? {} : bridgeTypeMetricsMap))
+const typeMetricsMaps = computed(() => (isRuleMetrics.value ? {} : bridgeTypeMetricsMap))
 const textMap: ComputedRef<Record<string, { label: string; desc?: string }>> = computed(() =>
   isRuleMetrics.value ? {} : bridgeTextMap,
 )
@@ -179,7 +179,7 @@ const {
 
 /* TYPE METRICS */
 const initTypeMetricsData = (): Array<TypeMetricDataItem> =>
-  generateEmptyMetricTypeData(typeMetricsMap.value)
+  generateEmptyMetricTypeData(typeMetricsMaps.value)
 const typeMetricsData: Ref<Array<TypeMetricDataItem>> = ref(initTypeMetricsData())
 const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData) => {
   return generateMetricTypeDataFunc(metrics, typeMapData, textMap.value)
@@ -203,13 +203,13 @@ const { ChartEle: BarChartEle, updateBarData } = useRateChart()
 const { ChartEle, updateRingData } = usePieChart()
 const updateToView = () => {
   const data = currentMetrics.value
-  pieData = generatePieData(data, typeMetricsMap.value)
+  pieData = generatePieData(data, typeMetricsMaps.value)
   updateRingData(pieData)
 
   const { x, y } = updateRateData(data)
   updateBarData(x, y)
 
-  typeMetricsData.value = generateMetricTypeData(data, typeMetricsMap.value)
+  typeMetricsData.value = generateMetricTypeData(data, typeMetricsMaps.value)
 }
 
 const getMetrics = async (toggleInit = false) => {

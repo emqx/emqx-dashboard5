@@ -1,10 +1,12 @@
 <template>
   <OverviewMetrics
-    :total="showEgressStats ? 'matched' : ''"
+    :totals="{
+      egress: 'matched',
+    }"
     :title="lowerCase(tl('dataBridge'))"
     :request-metrics="getBridgeMetrics"
     :request-reset="resetMetrics"
-    :type-metrics-map="getTypeMetricsMap()"
+    :type-metrics-maps="getTypeMetricsMap()"
     :text-map="textMap"
     :rate-metrics="rateData"
     :show-rate="showEgressStats"
@@ -133,10 +135,21 @@ const showIngressStats = computed(() => bridgeDirection.value !== BridgeDirectio
 const { ingressTypeMetricsMap, egressTypeMetricsMap, textMap, rateData } = useBridgeMetrics()
 
 const getTypeMetricsMap = () => {
-  if (showIngressStats.value && !showEgressStats.value) {
-    return ingressTypeMetricsMap
+  const ingressData = {
+    name: 'ingress',
+    data: ingressTypeMetricsMap,
   }
-  return egressTypeMetricsMap
+  const egressData = {
+    name: 'egress',
+    data: egressTypeMetricsMap,
+  }
+  if (showIngressStats.value && showEgressStats.value) {
+    return [egressData, ingressData]
+  }
+  if (showIngressStats.value && !showEgressStats.value) {
+    return [ingressData]
+  }
+  return [egressData]
 }
 
 const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
