@@ -1,6 +1,6 @@
 import { getBridgeList } from '@/api/ruleengine'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
-import { useBridgeDirection, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { cloneDeep, groupBy } from 'lodash'
@@ -26,13 +26,13 @@ export default (
     () => props.isUsingInFlow && !props.edit && !props.readonly,
   )
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
 
   const getBridges = async () => {
     try {
       getBridgeRequest = getBridgeList()
       const bridges = await getBridgeRequest
-      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeType(type))
+      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeGeneralType(type))
     } catch (error) {
       console.error(error)
     }

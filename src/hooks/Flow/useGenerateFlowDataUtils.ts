@@ -7,7 +7,7 @@ import {
 import { getKeyPartsFromSQL, isForeachReg, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
 import {
   typesWithProducerAndConsumer,
-  useBridgeTypeOptions,
+  useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
@@ -68,7 +68,7 @@ export default (): {
 } => {
   const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
     useFlowNode()
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
 
@@ -86,7 +86,7 @@ export default (): {
    * Check only those bridge types that have direction
    */
   const typeSpecifiesTheDirection = (type: string): BridgeDirection | undefined => {
-    const generalType = getBridgeType(type)
+    const generalType = getBridgeGeneralType(type)
     if (typesWithProducerAndConsumer.includes(generalType)) {
       return type.includes('consumer') ? BridgeDirection.Ingress : BridgeDirection.Egress
     }
@@ -105,11 +105,11 @@ export default (): {
 
     const direction = typeSpecifiesTheDirection(bridgeType)
     if (direction !== undefined) {
-      const generalType = getBridgeType(bridgeType)
+      const generalType = getBridgeGeneralType(bridgeType)
       return getSpecificTypeWithDirection(generalType, direction)
     }
 
-    return getBridgeType(bridgeType)
+    return getBridgeGeneralType(bridgeType)
   }
 
   /* FIELDS */

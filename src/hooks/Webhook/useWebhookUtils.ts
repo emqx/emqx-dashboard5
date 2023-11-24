@@ -1,5 +1,5 @@
 import { WEBHOOK_SUFFIX } from '@/common/constants'
-import { useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OtherNodeType } from '@/hooks/Rule/topology/topologyType'
 import useUtilsForTopology from '@/hooks/Rule/topology/useUtilsForTopology'
 import { BridgeType } from '@/types/enum'
@@ -23,7 +23,7 @@ export default (): {
   const webhookTargetReg = new RegExp(`${WEBHOOK_SUFFIX}$`)
 
   const { judgeOutputType } = useUtilsForTopology()
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
 
   const judgeIsWebhookBridge = (bridge: BridgeItem) => {
     const { type, name } = bridge
@@ -38,7 +38,7 @@ export default (): {
           return (
             judgeOutputType(item) === OtherNodeType.Bridge &&
             typeof item === 'string' &&
-            getBridgeType(item.slice(0, item?.indexOf(':'))) === BridgeType.Webhook
+            getBridgeGeneralType(item.slice(0, item?.indexOf(':'))) === BridgeType.Webhook
           )
         })) ||
       false

@@ -9,7 +9,7 @@
               <span class="name-data">
                 {{ row.name }}
               </span>
-              <span class="type-data">{{ getTypeStr(row) }}</span>
+              <span class="type-data">{{ getGeneralTypeLabel(row.type) }}</span>
             </div>
           </router-link>
         </template>
@@ -69,7 +69,7 @@ import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { useBridgeTypeOptions, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeValue, useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
@@ -86,7 +86,7 @@ export default defineComponent({
     const router = useRouter()
     const reconnectingMap: Ref<Map<string, boolean>> = ref(new Map())
     const { t } = useI18n()
-    const { getTypeStr } = useBridgeTypeOptions()
+    const { getGeneralTypeLabel } = useBridgeTypeValue()
     const { getBridgeIcon } = useBridgeTypeIcon()
 
     const initReconnectingMap = () => {
@@ -163,7 +163,7 @@ export default defineComponent({
     return {
       Plus,
       tl: (key: string) => t('RuleEngine.' + key),
-      getTypeStr,
+      getGeneralTypeLabel,
       bridgeTb,
       tbLoading,
       getBridgeIcon,
