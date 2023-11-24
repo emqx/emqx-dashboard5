@@ -1,9 +1,12 @@
 <template>
   <div class="resource-item-overview">
     <OverviewMetrics
-      total="total"
+      :totals="{
+        authn: 'total',
+        authz: 'total',
+      }"
       :request-metrics="getAuthMetrics"
-      :type-metrics-map="isAuthn ? authnTypeMetricsMap : authzTypeMetricsMap"
+      :type-metrics-maps="getMetricsTypes()"
       :text-map="isAuthn ? authnTextMap : authzTextMap"
       :rate-metrics="rateData"
       show-rate
@@ -128,6 +131,21 @@ const setNodeConnectingStatusMap = () => {
 }
 
 watch(() => props.metrics, setNodeConnectingStatusMap)
+
+const getMetricsTypes = () =>
+  isAuthn.value
+    ? [
+        {
+          name: 'authn',
+          data: authnTypeMetricsMap,
+        },
+      ]
+    : [
+        {
+          name: 'authz',
+          data: authzTypeMetricsMap,
+        },
+      ]
 </script>
 
 <style lang="scss" scoped>
