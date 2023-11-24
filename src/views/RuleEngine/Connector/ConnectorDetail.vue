@@ -181,8 +181,7 @@ const submit = async () => {
   try {
     await customValidate(FormCom.value)
     // TODO: some confirm when submit in bridge/rule page
-    // TODO: confirm update
-    await operationWarning(tl('updateBridgeTip'))
+    await operationWarning(tl('updateConnectorTip'))
     isSubmitting.value = true
     const res = await updateConnector(connectorData.value)
     if (!isFromRule.value) {
