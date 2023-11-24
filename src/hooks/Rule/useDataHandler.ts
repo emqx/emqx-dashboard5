@@ -2,7 +2,7 @@ import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { cloneDeep, omit, set, get } from 'lodash'
-import { useBridgeTypeOptions } from './bridge/useBridgeTypeValue'
+import { useBridgeTypeValue } from './bridge/useBridgeTypeValue'
 import { Connector } from '@/types/rule'
 
 const keysDoNotNeedForAPI = [
@@ -105,7 +105,7 @@ export const useBridgeDataHandler = (): {
   handleBridgeDataForCopy: (bridgeData: any) => any
   handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     handleDataBeforeSubmit,
     likePasswordFieldKeys,
@@ -126,7 +126,7 @@ export const useBridgeDataHandler = (): {
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
       let ret = cloneDeep(bridgeData)
-      const bridgeType = getBridgeType(bridgeData.type)
+      const bridgeType = getBridgeGeneralType(bridgeData.type)
       if (bridgeType === BridgeType.MQTT) {
         ret = await handleMQTTBridgeData(ret)
       }
