@@ -103,7 +103,7 @@ const getBridgeMetrics = async () => {
   }
 }
 
-const resetMetrics = async () => {
+const resetMetrics = () => {
   if (!props.bridgeId) {
     return
   }
