@@ -224,7 +224,7 @@ let pieData = []
 const setChartId = (name: string) => {
   return `pie-chart-${name}`
 }
-const { updateRingData } = usePieChart()
+const { updatePieData } = usePieChart()
 
 /* RATE */
 const rateDataLength = 20
@@ -242,7 +242,7 @@ const updateToView = () => {
   props.typeMetricsMaps.forEach((typeMapData) => {
     if (props.totals && props.totals[typeMapData.name]) {
       pieData = generatePieData(data, typeMapData.data)
-      updateRingData(`pie-chart-${typeMapData.name}`, pieData)
+      updatePieData(`pie-chart-${typeMapData.name}`, pieData)
     }
     typeMetricsDataSets.value.push({
       name: typeMapData.name,
