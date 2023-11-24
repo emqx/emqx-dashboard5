@@ -22,19 +22,23 @@
         </div>
       </div>
       <!-- Stats -->
-      <div class="block-bd">
+      <div
+        class="block-bd stats-numbers"
+        v-for="(typeMetricsData, index) in typeMetricsDataSets"
+        :key="index"
+      >
         <!-- Pie Chart Stats -->
-        <el-card v-if="total" class="metric-pie">
-          <p class="metric-name">{{ getMetricItemLabel(total) }}</p>
-          <p class="metric-num">{{ formatNumber(currentMetrics[total]) }}</p>
-          <div class="pie-container" :id="createRandomString()" ref="ChartEle"></div>
+        <el-card v-if="totals && totals[typeMetricsData.name]" class="metric-pie">
+          <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
+          <p class="metric-num">{{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}</p>
+          <div class="pie-container" :id="setChartId(typeMetricsData.name)"></div>
         </el-card>
         <!-- Number Stats -->
         <div class="metric-types">
           <el-row :gutter="24">
-            <el-col :span="12" v-for="item in typeMetricsData" :key="item.type">
+            <el-col :span="12" v-for="stat in typeMetricsData.stats" :key="stat.type">
               <!-- set key to eliminate the diff when change node -->
-              <TypeMetrics :data="item" :type="item.type" :key="selectedNode" />
+              <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
             </el-col>
           </el-row>
         </div>
@@ -61,7 +65,7 @@
             </div>
             <div class="metric-bar-bd">
               <!-- Bar Chart -->
-              <div class="bar-container" :id="createRandomString()" ref="BarChartEle"></div>
+              <div class="bar-container" id="bar-chart-rate"></div>
               <p class="bar-desc tip">{{ getMetricItemDesc(rateMetrics.current) }}</p>
             </div>
           </el-card>
@@ -108,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, formatNumber } from '@/common/tools'
+import { formatNumber } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import {
   TypeMapData,
@@ -118,7 +122,7 @@ import {
   useRateChart,
 } from '@/hooks/useMetrics'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { Metrics, MetricsDataWithExtraData } from '@/types/common'
+import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ComputedRef, Ref, computed, defineProps, ref } from 'vue'
@@ -143,8 +147,11 @@ const props = defineProps<{
    * metric key for get total
    * Data chart will only be displayed if 'total' is provided.
    */
-  total?: string
-  typeMetricsMap: TypeMapData
+  totals?: Record<string, string>
+  typeMetricsMaps: {
+    name: string
+    data: TypeMapData
+  }[]
   rateMetrics: Rate
   /**
    * for confirm dialog
@@ -172,6 +179,14 @@ const handleNodeChange = () => {
 const getMetricItemLabel = (key: string) => props.textMap[key]?.label || key
 const getMetricItemDesc = (key: string) => props.textMap[key]?.desc || ''
 
+const {
+  generatePieData,
+  createEmptyRateData,
+  addRateDataItem,
+  generateMetricTypeData: generateMetricTypeDataFunc,
+  generateEmptyMetricTypeData,
+} = useChartDataUtils()
+
 /**
  * base on selectedNode
  */
@@ -183,27 +198,37 @@ const currentMetrics: ComputedRef<Metrics> = computed(() => {
   return node_metrics.find(({ node }) => node === selectedNode.value)?.metrics || {}
 })
 
-const {
-  generatePieData,
-  createEmptyRateData,
-  addRateDataItem,
-  generateMetricTypeData: generateMetricTypeDataFunc,
-  generateEmptyMetricTypeData,
-} = useChartDataUtils()
-
 /* TYPE METRICS */
-const initTypeMetricsData = (): Array<TypeMetricDataItem> =>
-  generateEmptyMetricTypeData(props.typeMetricsMap)
-const typeMetricsData: Ref<Array<TypeMetricDataItem>> = ref(initTypeMetricsData())
+const initTypeMetricsData = (typeMapData: TypeMapData): Array<TypeMetricDataItem> =>
+  generateEmptyMetricTypeData(typeMapData)
+// const typeMetricsData: Ref<Array<TypeMetricDataItem>> = ref(initTypeMetricsData())
 const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData) => {
   return generateMetricTypeDataFunc(metrics, typeMapData, props.textMap)
 }
+const typeMetricsDataSets: Ref<SetItem[]> = ref([
+  {
+    name: '',
+    stats: [],
+  },
+])
+const handleInitTypeMetricsData = () => {
+  return props.typeMetricsMaps.map((typeMapData) => ({
+    name: typeMapData.name,
+    stats: initTypeMetricsData(typeMapData.data),
+  }))
+}
+typeMetricsDataSets.value = handleInitTypeMetricsData()
 
 /* PIE */
 let pieData = []
+const setChartId = (name: string) => {
+  return `pie-chart-${name}`
+}
+const { updateRingData } = usePieChart()
 
 /* RATE */
 const rateDataLength = 20
+const { updateBarData } = useRateChart()
 const getInitRateData = () => createEmptyRateData(rateDataLength)
 let rateData = getInitRateData()
 const updateRateData = (metrics: Metrics) => {
@@ -211,20 +236,24 @@ const updateRateData = (metrics: Metrics) => {
   return addRateDataItem(rate, rateData, rateDataLength)
 }
 
-const { ChartEle: BarChartEle, updateBarData } = useRateChart()
-const { ChartEle, updateRingData } = usePieChart()
 const updateToView = () => {
   const data = currentMetrics.value
-  if (props.total) {
-    pieData = generatePieData(data, props.typeMetricsMap)
-    updateRingData(pieData)
-  }
+  typeMetricsDataSets.value = []
+  props.typeMetricsMaps.forEach((typeMapData) => {
+    if (props.totals && props.totals[typeMapData.name]) {
+      pieData = generatePieData(data, typeMapData.data)
+      console.log(pieData)
+      updateRingData(`pie-chart-${typeMapData.name}`, pieData)
+    }
+    typeMetricsDataSets.value.push({
+      name: typeMapData.name,
+      stats: generateMetricTypeData(data, typeMapData.data),
+    })
+  })
   if (props.rateMetrics) {
     const { x, y } = updateRateData(data)
-    updateBarData(x, y)
+    updateBarData('bar-chart-rate', x, y)
   }
-
-  typeMetricsData.value = generateMetricTypeData(data, props.typeMetricsMap)
 }
 
 const getMetrics = async () => {
@@ -238,7 +267,7 @@ const getMetrics = async () => {
 
 const initMetrics = () => {
   rateData = getInitRateData()
-  typeMetricsData.value = initTypeMetricsData()
+  typeMetricsDataSets.value = handleInitTypeMetricsData()
 }
 
 const handleRefresh = () => {
@@ -267,6 +296,12 @@ const { syncPolling } = useSyncPolling()
 @use 'sass:math';
 
 .overview-metrics {
+  .stats-numbers {
+    margin-bottom: 24px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
   p {
     margin: 0;
   }
