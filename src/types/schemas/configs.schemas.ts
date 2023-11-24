@@ -377,20 +377,20 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
-export type EmqxConfSchemaLogFileHandlerFormatter =
-  typeof EmqxConfSchemaLogFileHandlerFormatter[keyof typeof EmqxConfSchemaLogFileHandlerFormatter]
+export type EmqxLogFileHandlerFormatter =
+  typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaLogFileHandlerFormatter = {
+export const EmqxLogFileHandlerFormatter = {
   text: 'text',
   json: 'json',
 } as const
 
-export type EmqxConfSchemaLogFileHandlerLevel =
-  typeof EmqxConfSchemaLogFileHandlerLevel[keyof typeof EmqxConfSchemaLogFileHandlerLevel]
+export type EmqxLogFileHandlerLevel =
+  typeof EmqxLogFileHandlerLevel[keyof typeof EmqxLogFileHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaLogFileHandlerLevel = {
+export const EmqxLogFileHandlerLevel = {
   debug: 'debug',
   info: 'info',
   notice: 'notice',
@@ -402,38 +402,38 @@ export const EmqxConfSchemaLogFileHandlerLevel = {
   all: 'all',
 } as const
 
-export type EmqxConfSchemaLogFileHandlerRotationSize = string | 'infinity'
+export type EmqxLogFileHandlerRotationSize = string | 'infinity'
 
-export interface EmqxConfSchemaLogFileHandler {
+export interface EmqxLogFileHandler {
   path?: string
   rotation_count?: number
-  rotation_size?: EmqxConfSchemaLogFileHandlerRotationSize
-  level?: EmqxConfSchemaLogFileHandlerLevel
+  rotation_size?: EmqxLogFileHandlerRotationSize
+  level?: EmqxLogFileHandlerLevel
   enable?: boolean
-  formatter?: EmqxConfSchemaLogFileHandlerFormatter
+  formatter?: EmqxLogFileHandlerFormatter
   time_offset?: string
 }
 
-export type EmqxConfSchemaLogFileOneOf = {
-  $handler_name?: EmqxConfSchemaLogFileHandler
+export type EmqxLogFileOneOf = {
+  $handler_name?: EmqxLogFileHandler
 }
 
-export type EmqxConfSchemaLogFile = EmqxConfSchemaLogFileOneOf | EmqxConfSchemaLogFileHandler
+export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
 
-export type EmqxConfSchemaConsoleHandlerFormatter =
-  typeof EmqxConfSchemaConsoleHandlerFormatter[keyof typeof EmqxConfSchemaConsoleHandlerFormatter]
+export type EmqxConsoleHandlerFormatter =
+  typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaConsoleHandlerFormatter = {
+export const EmqxConsoleHandlerFormatter = {
   text: 'text',
   json: 'json',
 } as const
 
-export type EmqxConfSchemaConsoleHandlerLevel =
-  typeof EmqxConfSchemaConsoleHandlerLevel[keyof typeof EmqxConfSchemaConsoleHandlerLevel]
+export type EmqxConsoleHandlerLevel =
+  typeof EmqxConsoleHandlerLevel[keyof typeof EmqxConsoleHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxConfSchemaConsoleHandlerLevel = {
+export const EmqxConsoleHandlerLevel = {
   debug: 'debug',
   info: 'info',
   notice: 'notice',
@@ -445,16 +445,16 @@ export const EmqxConfSchemaConsoleHandlerLevel = {
   all: 'all',
 } as const
 
-export interface EmqxConfSchemaConsoleHandler {
-  level?: EmqxConfSchemaConsoleHandlerLevel
+export interface EmqxConsoleHandler {
+  level?: EmqxConsoleHandlerLevel
   enable?: boolean
-  formatter?: EmqxConfSchemaConsoleHandlerFormatter
+  formatter?: EmqxConsoleHandlerFormatter
   time_offset?: string
 }
 
-export interface EmqxConfSchemaLog {
-  console?: EmqxConfSchemaConsoleHandler
-  file?: EmqxConfSchemaLogFile
+export interface EmqxLog {
+  console?: EmqxConsoleHandler
+  file?: EmqxLogFile
 }
 
 export type DashboardSslOptionsLogLevel =

@@ -135,7 +135,7 @@ export type PutAuthorizationSourcesTypeBody =
   | AuthzHttpPost
   | AuthzHttpGet
   | AuthzBuiltinDb
-  | EmqxAuthzFileSchemaApiFile
+  | AuthzApiFile
 
 export type GetAuthorizationSourcesType404Code =
   typeof GetAuthorizationSourcesType404Code[keyof typeof GetAuthorizationSourcesType404Code]
@@ -163,7 +163,7 @@ export type GetAuthorizationSourcesType200 =
   | AuthzHttpPost
   | AuthzHttpGet
   | AuthzBuiltinDb
-  | EmqxAuthzFileSchemaApiFile
+  | AuthzApiFile
 
 export type DeleteAuthorizationSourcesType400Code =
   typeof DeleteAuthorizationSourcesType400Code[keyof typeof DeleteAuthorizationSourcesType400Code]
@@ -295,7 +295,7 @@ export type PostAuthorizationSourcesBody =
   | AuthzHttpPost
   | AuthzHttpGet
   | AuthzBuiltinDb
-  | EmqxAuthzFileSchemaApiFile
+  | AuthzApiFile
 
 export type GetAuthorizationSourcesTypeStatus404Code =
   typeof GetAuthorizationSourcesTypeStatus404Code[keyof typeof GetAuthorizationSourcesTypeStatus404Code]
@@ -565,20 +565,6 @@ export interface EmqxAuthzSchemaMetricsStatusFields {
   node_error?: EmqxAuthzSchemaNodeError[]
 }
 
-export type EmqxAuthzFileSchemaApiFileType =
-  typeof EmqxAuthzFileSchemaApiFileType[keyof typeof EmqxAuthzFileSchemaApiFileType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzFileSchemaApiFileType = {
-  file: 'file',
-} as const
-
-export interface EmqxAuthzFileSchemaApiFile {
-  type: EmqxAuthzFileSchemaApiFileType
-  enable?: boolean
-  rules: string
-}
-
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
   | AuthzLdap
   | AuthzMongoSharded
@@ -592,7 +578,7 @@ export type EmqxAuthzApiSourcesSourcesSourcesItem =
   | AuthzHttpPost
   | AuthzHttpGet
   | AuthzBuiltinDb
-  | EmqxAuthzFileSchemaApiFile
+  | AuthzApiFile
 
 export interface EmqxAuthzApiSourcesSources {
   sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
@@ -602,23 +588,9 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
-export interface EmqxAuthzApiMnesiaRulesForUsername {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  username: string
-}
-
 export interface EmqxAuthzApiMnesiaUsernameResponseData {
   data?: EmqxAuthzApiMnesiaRulesForUsername[]
   meta?: PublicMeta
-}
-
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  clientid: string
-}
-
-export interface EmqxAuthzApiMnesiaRules {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
 export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
@@ -648,6 +620,20 @@ export interface EmqxAuthzApiMnesiaRuleItem {
   action: EmqxAuthzApiMnesiaRuleItemAction
   qos?: number[]
   retain?: EmqxAuthzApiMnesiaRuleItemRetain
+}
+
+export interface EmqxAuthzApiMnesiaRulesForUsername {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  username: string
+}
+
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  clientid: string
+}
+
+export interface EmqxAuthzApiMnesiaRules {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
 export interface EmqxAuthzApiMnesiaClientidResponseData {
@@ -1142,4 +1128,17 @@ export const AuthzBuiltinDbType = {
 export interface AuthzBuiltinDb {
   type: AuthzBuiltinDbType
   enable?: boolean
+}
+
+export type AuthzApiFileType = typeof AuthzApiFileType[keyof typeof AuthzApiFileType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzApiFileType = {
+  file: 'file',
+} as const
+
+export interface AuthzApiFile {
+  type: AuthzApiFileType
+  enable?: boolean
+  rules: string
 }
