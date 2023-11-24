@@ -242,7 +242,6 @@ const updateToView = () => {
   props.typeMetricsMaps.forEach((typeMapData) => {
     if (props.totals && props.totals[typeMapData.name]) {
       pieData = generatePieData(data, typeMapData.data)
-      console.log(pieData)
       updateRingData(`pie-chart-${typeMapData.name}`, pieData)
     }
     typeMetricsDataSets.value.push({
