@@ -1,10 +1,10 @@
 import { getBridgeList } from '@/api/ruleengine'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { cloneDeep, groupBy } from 'lodash'
 import { ComputedRef, Ref, computed, ref } from 'vue'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 
 type GroupedBridgeMap = { [key in BridgeType]?: Array<BridgeItem> }
 
@@ -64,13 +64,13 @@ export default (
 
   const isBridgeSelected = ref(false)
 
-  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataAfterLoaded } = useHandleActionItem()
 
   const handleNameChange = (name: string) => {
     const bridge = !!name && getBridgeByName(name)
     if (bridge) {
       isBridgeSelected.value = true
-      record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
+      record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
     } else {
       isBridgeSelected.value = false
     }

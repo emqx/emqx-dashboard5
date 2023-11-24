@@ -70,6 +70,7 @@ export const useConnectorDataHandler = (): {
   handleConnectorDataBeforeUpdate: (data: Connector) => Connector
   handleConnectorDataForCopy: ConnectorDataHandler
   handleConnectorDataForSaveAsCopy: ConnectorDataHandler
+  handleConnectorDataAfterLoaded: ConnectorDataHandler
 } => {
   const {
     handleDataBeforeSubmit,
@@ -89,12 +90,15 @@ export const useConnectorDataHandler = (): {
 
   const handleConnectorDataForSaveAsCopy = handleDataForSaveAsCopy
 
+  const handleConnectorDataAfterLoaded = <T>(data: T): T => data
+
   return {
     likePasswordFieldKeys,
     handleConnectorDataBeforeSubmit,
     handleConnectorDataBeforeUpdate,
     handleConnectorDataForCopy,
     handleConnectorDataForSaveAsCopy,
+    handleConnectorDataAfterLoaded,
   }
 }
 

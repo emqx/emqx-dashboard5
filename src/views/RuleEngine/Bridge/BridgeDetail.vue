@@ -123,7 +123,6 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -200,14 +199,12 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
 const { getDetail, updateAction, toggleActionEnable } = useHandleActionItem()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    const data = await getDetail(id.value)
-    bridgeInfo.value = handleBridgeDataAfterLoaded(data)
+    bridgeInfo.value = await getDetail(id.value)
     rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
   } catch (error) {
     console.error(error)
