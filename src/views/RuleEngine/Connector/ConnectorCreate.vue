@@ -14,7 +14,13 @@
         <TypeSelect v-model="selectedType" />
       </div>
       <div class="form-container bridge-config" v-else-if="step === 1">
-        <component ref="FormCom" :is="formCom" v-model="formData" :type="selectedType" />
+        <component
+          ref="FormCom"
+          :is="formCom"
+          v-model="formData"
+          :type="selectedType"
+          :copy="isCopy"
+        />
       </div>
       <div class="form-ft">
         <template v-if="step === 0">
@@ -51,6 +57,7 @@ import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
+import { ElMessageBox } from 'element-plus'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
@@ -58,7 +65,7 @@ import useConnectorFormComponent from './components/useConnectorFormComponent'
 
 const route = useRoute()
 const router = useRouter()
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 
@@ -96,12 +103,23 @@ const cancel = () => router.push({ name: 'connector' })
 const isSubmitting = ref(false)
 const { getConnectorDetail, addConnector, handleDataForCopy, isTesting, testConnectivity } =
   useHandleConnectorItem()
+
 const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
     await addConnector(formData.value)
-    router.push({ name: 'connector' })
+    ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+      confirmButtonText: tl('createRule'),
+      cancelButtonText: tl('backConnectorList'),
+      type: 'success',
+    })
+      .then(() => {
+        router.push({ name: 'rule-create' })
+      })
+      .catch(() => {
+        router.push({ name: 'connector' })
+      })
   } catch (error) {
     //
   } finally {

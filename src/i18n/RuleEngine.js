@@ -7,9 +7,13 @@ export default {
     zh: '创建连接',
     en: 'Create Connector',
   },
-  updateBridgeTip: {
-    zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
-    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
+  updateConnectorTip: {
+    zh: '更新配置会导致连接中断，进而可能导致关联动作消息丢失。',
+    en: 'Updating the configuration can cause a connection interruption, which may result in the loss of associated action messages.',
+  },
+  updateActionTip: {
+    zh: '更新配置会导致动作重启，动作中缓冲的消息和新接收的消息将被丢弃。',
+    en: 'Updating configuration will cause the action to restart. The buffered messages, and newly received messages during the restart will be lost.',
   },
   create: {
     zh: '创建',
@@ -805,6 +809,10 @@ export default {
   backBridgeList: {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
+  },
+  backConnectorList: {
+    zh: '返回连接器列表',
+    en: 'Back To Connector List',
   },
   headers: {
     zh: '请求头',

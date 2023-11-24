@@ -126,9 +126,6 @@
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
-              <el-button :disabled="!$hasPermission('post')" @click="saveAsCopy">
-                {{ tl('saveAsCopy') }}
-              </el-button>
               <el-button
                 v-if="bridgeInfo.type"
                 type="primary"
@@ -153,7 +150,6 @@
         </el-tab-pane>
       </div>
     </el-tabs>
-    <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
     <DeleteBridgeSecondConfirm
       v-model="showSecondConfirm"
       :rule-list="usingBridgeRules"
@@ -181,19 +177,8 @@ import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfi
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import {
-  ComputedRef,
-  Ref,
-  computed,
-  defineExpose,
-  defineProps,
-  onActivated,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+import { Ref, computed, defineExpose, defineProps, onActivated, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
@@ -265,7 +250,7 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { handleBridgeDataAfterLoaded, handleBridgeDataForSaveAsCopy } = useBridgeDataHandler()
+const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
 const { getDetail, updateAction, toggleActionEnable } = useHandleActionItem()
 
 const loadBridgeInfo = async () => {
@@ -300,28 +285,7 @@ const getDataForSubmit = () => {
   return bridgeInfo.value
 }
 
-const showNameInputDialog = ref(false)
-/**
- * diff form bridge info, data for copy
- */
-const bridgeData = ref({} as BridgeItem)
-const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(() => ({
-  type: 'bridge',
-  obj: bridgeData.value,
-}))
-
-const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
-const saveAsCopy = async () => {
-  try {
-    await customValidate(formCom.value)
-    const bridge = await getDataForSubmit()
-    await checkLikePwdField(bridge)
-    bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
-    showNameInputDialog.value = true
-  } catch (error) {
-    //
-  }
-}
+const { pwdErrorWhenCoping } = useCheckBeforeSaveAsCopy()
 
 const testConnection = async () => {
   try {
@@ -347,7 +311,8 @@ const updateBridgeInfo = async () => {
     if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
-    await ElMessageBox.confirm(tl('updateBridgeTip'), {
+
+    await ElMessageBox.confirm(tl('updateActionTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',

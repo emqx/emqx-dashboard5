@@ -84,3 +84,7 @@ export type MetricsDataWithExtraData<ExtraMetricsData = Record<string, never>> =
   metrics: Metrics
   node_metrics: Array<NodeMetrics>
 } & ExtraMetricsData
+export interface SetItem {
+  name: string
+  stats: TypeMetricDataItem[]
+}
