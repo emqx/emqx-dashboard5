@@ -115,7 +115,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getBridgeList, getRuleEvents } from '@/api/ruleengine'
+import { getMixedActionList, getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import {
   checkIsValidArr,
@@ -169,7 +169,7 @@ const {
   replaceTargetPartInSQL,
 } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
-const bridgeList = ref([])
+const bridgeList = ref<Array<any>>([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
@@ -318,7 +318,7 @@ const transformSQL = () => {
 const loadBridgeList = async () => {
   outputLoading.value = true
   try {
-    const res = await getBridgeList()
+    const res = await getMixedActionList()
     bridgeList.value = res
   } catch (error) {
     console.error(error)

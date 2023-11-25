@@ -88,7 +88,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getBridgeList } from '@/api/ruleengine'
+import { getMixedActionList } from '@/api/ruleengine'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
@@ -212,7 +212,7 @@ const setFormDataWhenOpenDialog = async () => {
 const { judgeBridgeDirection } = useBridgeDirection()
 const loadEgressBridgeList = async () => {
   try {
-    bridgeList.value = await getBridgeList()
+    bridgeList.value = await getMixedActionList()
     egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
       const direction = judgeBridgeDirection(v)
       return direction !== BridgeDirection.Ingress

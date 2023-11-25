@@ -55,8 +55,14 @@ export const getActionDetail = async (id: string): Promise<Action> => {
   }
 }
 
-export const putAction = (id: string, data: Action): Promise<Action> => {
-  return http.put(`/actions/${encodeURIComponent(id)}`, data)
+export const putAction = async (id: string, data: Action): Promise<Action> => {
+  if (!id) return Promise.reject()
+  try {
+    const ret = await http.put(`/actions/${encodeURIComponent(id)}`, data)
+    return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const reconnectActionForNode = (node: string, id: string): Promise<void> => {

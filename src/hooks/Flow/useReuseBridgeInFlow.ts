@@ -1,4 +1,4 @@
-import { getBridgeList } from '@/api/ruleengine'
+import { getMixedActionList } from '@/api/ruleengine'
 import {
   typesWithProducerAndConsumer,
   useBridgeDirection,
@@ -41,7 +41,7 @@ export default (
 
   const getBridges = async () => {
     try {
-      getBridgeRequest = getBridgeList()
+      getBridgeRequest = getMixedActionList()
       const bridges = await getBridgeRequest
       groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeGeneralType(type))
     } catch (error) {
