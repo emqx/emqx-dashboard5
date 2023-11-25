@@ -48,11 +48,11 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteBridge } from '@/api/ruleengine'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useI18nTl from '@/hooks/useI18nTl'
+import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
-import { WarningFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
@@ -77,12 +77,14 @@ const showDialog = computed({
   },
 })
 
+const { deleteAction } = useHandleActionItem()
+
 const isSubmitting = ref(false)
 const submit = async () => {
   if (!props.id) {
     return
   }
-  await deleteBridge(props.id, true)
+  await deleteAction(props.id, true)
   emit('submitted')
   showDialog.value = false
 }

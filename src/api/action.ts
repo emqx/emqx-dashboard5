@@ -38,11 +38,10 @@ export const getActionTypes = (): Promise<Array<string>> => {
   return http.get(`/action_types`)
 }
 
-export const deleteAction = (
-  id: string,
-  params?: { also_delete_dep_actions?: boolean },
-): Promise<void> => {
-  return http.delete(`/actions/${encodeURIComponent(id)}`, { params })
+export const deleteAction = (id: string, withDependency = false): Promise<void> => {
+  return http.delete(`/actions/${encodeURIComponent(id)}`, {
+    params: withDependency ? { also_delete_dep_actions: withDependency } : undefined,
+  })
 }
 
 export const getActionDetail = async (id: string): Promise<Action> => {
