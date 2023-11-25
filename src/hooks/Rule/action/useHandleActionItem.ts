@@ -4,11 +4,15 @@ import {
   putAction,
   putActionEnable,
   deleteAction as requestDelAction,
+  reconnectAction as requestReconnectAction,
+  reconnectActionForNode as requestReconnectActionForNode,
 } from '@/api/action'
 import {
   createBridge,
   deleteBridge,
   getBridgeInfo,
+  reconnectBridge,
+  reconnectBridgeForNode,
   startStopBridge,
   updateBridge,
 } from '@/api/ruleengine'
@@ -27,6 +31,8 @@ export default (): {
   deleteAction: (id: string, withDependency?: boolean) => Promise<void>
   getMetrics: (id: string) => Promise<any>
   toggleActionEnable: (id: string, isEnable: boolean) => Promise<void>
+  reconnectAction: (id: string) => Promise<void>
+  reconnectActionForNode: (node: string, id: string) => Promise<void>
 } => {
   const isTrueActionId = (id: string) => isConnectorSupported(getTypeAndNameFromKey(id).type)
 
@@ -86,6 +92,16 @@ export default (): {
     return func(id, isEnable)
   }
 
+  const reconnectAction = async (id: string): Promise<void> => {
+    const func = isTrueActionId(id) ? requestReconnectAction : reconnectBridge
+    return func(id)
+  }
+
+  const reconnectActionForNode = async (node: string, id: string): Promise<void> => {
+    const func = isTrueActionId(id) ? requestReconnectActionForNode : reconnectBridgeForNode
+    return func(node, id)
+  }
+
   return {
     getDetail,
     handleActionDataAfterLoaded: handleDataAfterLoaded,
@@ -94,5 +110,7 @@ export default (): {
     deleteAction,
     getMetrics,
     toggleActionEnable,
+    reconnectAction,
+    reconnectActionForNode,
   }
 }

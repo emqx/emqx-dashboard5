@@ -69,7 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getMixedActionList, reconnectBridge } from '@/api/ruleengine'
+import { getMixedActionList } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -111,7 +111,7 @@ export default defineComponent({
       }
     }
 
-    const { toggleActionEnable } = useHandleActionItem()
+    const { toggleActionEnable, reconnectAction } = useHandleActionItem()
     const enableOrDisableBridge = async (row: BridgeItem) => {
       const { enable } = row
       const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
@@ -154,7 +154,7 @@ export default defineComponent({
     const reconnect = async ({ id }: BridgeItem) => {
       try {
         reconnectingMap.value.set(id, true)
-        await reconnectBridge(id)
+        await reconnectAction(id)
         listBridge()
       } catch (error) {
         //
