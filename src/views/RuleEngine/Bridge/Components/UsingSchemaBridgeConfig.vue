@@ -85,7 +85,11 @@ const actionTypeRefKeyMap = {
 const props = withDefaults(
   defineProps<{
     modelValue: Record<string, any>
-    type?: UseSchemaBridgeType
+    /**
+     * in fact, type is UseSchemaBridgeType, but use it will trigger
+     * https://github.com/vuejs/core/issues/6252
+     */
+    type?: string
     edit?: boolean
     copy?: boolean
     isLoading?: boolean
