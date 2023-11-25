@@ -46,6 +46,19 @@ const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   timescale: 'pgsql',
 }
 
+export const useSymbolLabel = (): {
+  getOptLabel: (key: string) => string
+} => {
+  const { t, te } = useI18n()
+  const getOptLabel = (key: string) => {
+    const textKey = `SchemaSymbolLabel.${key}`
+    return te(textKey) ? t(textKey) : key.toString()
+  }
+  return {
+    getOptLabel,
+  }
+}
+
 export default (
   props: any,
 ): {
