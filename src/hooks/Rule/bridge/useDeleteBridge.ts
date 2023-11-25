@@ -1,8 +1,8 @@
-import { deleteBridge } from '@/api/ruleengine'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
-import { ref, Ref } from 'vue'
+import { Ref, ref } from 'vue'
+import useHandleActionItem from '../action/useHandleActionItem'
 
 const getRuleArrFromErrorMsg = (msg: string) => {
   const reg = /Cannot delete bridge while active rules are depending on it: /
@@ -37,6 +37,7 @@ export default (
     showSecondConfirm.value = true
   }
 
+  const { deleteAction } = useHandleActionItem()
   const handleDeleteBridge = async (id: string) => {
     await ElMessageBox.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
@@ -45,7 +46,7 @@ export default (
       type: 'warning',
     })
     try {
-      await deleteBridge(id)
+      await deleteAction(id)
       handleDeleteSuc()
     } catch (error: any) {
       const { status, data } = error?.response || {}

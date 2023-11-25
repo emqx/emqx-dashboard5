@@ -24,7 +24,7 @@ export default (): {
   handleActionDataAfterLoaded: <T = NowAction>(data: T) => T
   addAction: <T = NowAction>(data: T) => Promise<T>
   updateAction: <T = NowAction>(data: T) => Promise<T>
-  deleteAction: (id: string) => Promise<void>
+  deleteAction: (id: string, withDependency?: boolean) => Promise<void>
   getMetrics: (id: string) => Promise<any>
   toggleActionEnable: (id: string, isEnable: boolean) => Promise<void>
 } => {
@@ -70,9 +70,9 @@ export default (): {
     }
   }
 
-  const deleteAction = async (id: string): Promise<void> => {
+  const deleteAction = async (id: string, withDependency = false): Promise<void> => {
     const func = isTrueActionId(id) ? requestDelAction : deleteBridge
-    return func(id)
+    return func(id, withDependency)
   }
 
   // TODO: type of ret; request action metrics
