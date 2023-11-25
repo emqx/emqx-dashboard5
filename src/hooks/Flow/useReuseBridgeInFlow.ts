@@ -1,4 +1,4 @@
-import { getBridgeList } from '@/api/ruleengine'
+import { getMixedActionList } from '@/api/ruleengine'
 import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -30,7 +30,7 @@ export default (
 
   const getBridges = async () => {
     try {
-      getBridgeRequest = getBridgeList()
+      getBridgeRequest = getMixedActionList()
       const bridges = await getBridgeRequest
       groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeGeneralType(type))
     } catch (error) {
