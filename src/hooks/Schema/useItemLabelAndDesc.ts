@@ -62,7 +62,7 @@ export const useSymbolLabel = (): {
   const { t, te } = useI18n()
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key.toString()
+    return te(textKey) ? t(textKey) : key?.toString()
   }
   return {
     getOptLabel,
@@ -205,7 +205,7 @@ export default (
       case 'enable':
         return { label: t('Base.enable'), desc: '' }
       case 'type':
-        return { label: t('RuleEngine.bridgeType'), desc: '' }
+        return { label: t('RuleEngine.actionType'), desc: '' }
       case 'redis_type':
         return { label: t('Auth.redisType'), desc: '' }
       case 'mongo_type':
