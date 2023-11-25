@@ -451,7 +451,7 @@ const formRules = computed<any>(() => {
 const formData: Ref<OtherBridge> = ref(createRawKafkaConsumerForm())
 
 const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(BridgeType.Kafka, props, formData, BridgeDirection.Ingress)
+  useReuseBridgeInFlow(BridgeType.KafkaConsumer, props, formData, BridgeDirection.Ingress)
 const nameOptions = computed(() => getBridgesInSameType()?.map(({ name }) => name))
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
