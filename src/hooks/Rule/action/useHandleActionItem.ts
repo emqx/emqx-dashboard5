@@ -60,8 +60,8 @@ export default (): {
       const func = isTrueAction ? putAction : updateBridge
       const dataHandler = isTrueAction ? handleActionDataBeforeUpdate : handleBridgeDataBeforeSubmit
 
-      Reflect.deleteProperty(data as NowAction, 'id')
       const dataToSubmit = await dataHandler(data)
+      Reflect.deleteProperty(dataToSubmit as NowAction, 'id')
 
       return func(id, dataToSubmit as any) as Promise<T>
     } catch (error) {
