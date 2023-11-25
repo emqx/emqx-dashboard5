@@ -101,7 +101,7 @@ export function reconnectBridge(bridgeID: string): Promise<void> {
   return http.post(`/bridges/${bridgeID}/start`)
 }
 
-export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
+export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<void> {
   return http.post(`/nodes/${node}/bridges/${bridgeID}/start`)
 }
 
