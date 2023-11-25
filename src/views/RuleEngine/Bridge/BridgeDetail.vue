@@ -160,7 +160,6 @@
 </template>
 
 <script lang="ts" setup>
-import { testConnect } from '@/api/ruleengine'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
@@ -200,7 +199,6 @@ const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
-const isTesting = ref(false)
 const props = defineProps({
   bridgeId: {
     type: String,
@@ -249,7 +247,8 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { getDetail, updateAction, toggleActionEnable } = useHandleActionItem()
+const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
+  useHandleActionItem()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -289,7 +288,7 @@ const testConnection = async () => {
     await customValidate(formCom.value)
     isTesting.value = true
     const data = await getDataForSubmit()
-    await testConnect(_.omit(data, 'id'))
+    await testConnectivity(_.omit(data, 'id'))
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
