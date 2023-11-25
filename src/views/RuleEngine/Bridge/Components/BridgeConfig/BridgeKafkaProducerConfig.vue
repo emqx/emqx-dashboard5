@@ -29,15 +29,18 @@
     <el-divider />
 
     <el-row :gutter="26">
-      <el-col :span="colSpan" v-if="formData.local_topic">
-        <CustomFormItem prop="local_topic" :readonly="readonly">
-          <template #label>
-            <span>{{ getText('mqtt_topic.label') }}</span>
-            <InfoTooltip :content="getText('mqtt_topic.desc')" />
-          </template>
-          <el-input v-model="formData.local_topic" />
-        </CustomFormItem>
-      </el-col>
+      <template v-if="formData.local_topic">
+        <el-col :span="colSpan">
+          <CustomFormItem prop="local_topic" :readonly="readonly">
+            <template #label>
+              <span>{{ getText('mqtt_topic.label') }}</span>
+              <InfoTooltip :content="getText('mqtt_topic.desc')" />
+            </template>
+            <el-input v-model="formData.local_topic" />
+          </CustomFormItem>
+        </el-col>
+        <el-col :span="colSpan" />
+      </template>
       <el-col :span="colSpan">
         <CustomFormItem prop="parameters.topic" :readonly="readonly">
           <template #label>
@@ -47,7 +50,7 @@
           <el-input v-model="formData.parameters.topic" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="colSpan"></el-col>
+      <el-col :span="colSpan" />
       <el-col :span="colSpan">
         <CustomFormItem prop="parameters.kafka_headers" :readonly="readonly">
           <template #label>
@@ -373,7 +376,7 @@ import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType, KafkaType, Role } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual } from 'lodash'
@@ -432,8 +435,6 @@ const addLabel = async () => {
 }
 addLabel()
 
-const role = ref<Role>(Role.Producer)
-
 const { createRawKafkaProducerForm } = useBridgeFormCreator()
 
 const getDefaultForm = createRawKafkaProducerForm
@@ -444,6 +445,7 @@ const { ruleWhenEditing } = useSpecialRuleForPassword(props)
 const formRules = computed<any>(() => {
   const ret = {
     name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
+    connector: createRequiredRule(t('components.connector'), 'select'),
     authentication: {
       mechanism: createRequiredRule(tl('mechanism')),
       username: createRequiredRule(tl('username')),
@@ -460,12 +462,7 @@ const formRules = computed<any>(() => {
 const formData: Ref<OtherBridge> = ref(getDefaultForm())
 
 const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(
-    BridgeType.Kafka,
-    props,
-    formData,
-    role.value === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
-  )
+  useReuseBridgeInFlow(BridgeType.KafkaProducer, props, formData, BridgeDirection.Egress)
 const nameOptions = computed(() => getBridgesInSameType()?.map(({ name }) => name))
 watch(isBridgeSelected, async (nVal, oVal) => {
   if (!nVal && oVal) {
@@ -489,7 +486,6 @@ const initFormData = async () => {
     return
   }
   if (props.edit || props.copy) {
-    role.value = props.modelValue.type === KafkaType.Consumer ? Role.Consumer : Role.Producer
     formData.value = fillEmptyValueToUndefinedField(
       props.modelValue as Record<string, any>,
       getDefaultForm(),
