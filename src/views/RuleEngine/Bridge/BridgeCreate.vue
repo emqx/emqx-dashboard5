@@ -121,7 +121,6 @@ import { computed, defineComponent, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
-import { testConnect } from '@/api/ruleengine'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import _ from 'lodash'
 import { useRoute, useRouter } from 'vue-router'
@@ -154,7 +153,6 @@ export default defineComponent({
     const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
     const submitLoading = ref(false)
     const bridgeData: Ref<any> = ref(createBridgeData())
-    const isTesting = ref(false)
     const { getBridgeIcon } = useBridgeTypeIcon()
 
     const formCom = ref()
@@ -202,7 +200,7 @@ export default defineComponent({
 
     const cancel = () => router.push({ name: 'actions' })
 
-    const { getDetail, addAction } = useHandleActionItem()
+    const { getDetail, addAction, isTesting, testConnectivity } = useHandleActionItem()
 
     const targetLoading = ref(false)
     const checkBridgeClipStatus = async () => {
@@ -255,7 +253,7 @@ export default defineComponent({
       try {
         isTesting.value = true
         const data = await getDataForSubmit()
-        await testConnect(data)
+        await testConnectivity(data)
         ElMessage.success(tl('connectionSuccessful'))
       } catch (error) {
         //
