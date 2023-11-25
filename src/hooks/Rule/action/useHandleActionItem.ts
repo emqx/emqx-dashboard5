@@ -6,6 +6,7 @@ import {
   deleteAction as requestDelAction,
   reconnectAction as requestReconnectAction,
   reconnectActionForNode as requestReconnectActionForNode,
+  testActionConnectivity as requestTestActionConnectivity,
 } from '@/api/action'
 import {
   createBridge,
@@ -14,11 +15,14 @@ import {
   reconnectBridge,
   reconnectBridgeForNode,
   startStopBridge,
+  testConnect,
   updateBridge,
 } from '@/api/ruleengine'
 import { getTypeAndNameFromKey } from '@/common/tools'
 import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Action, BridgeItem } from '@/types/rule'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 
 type NowAction = Action | BridgeItem
@@ -33,6 +37,8 @@ export default (): {
   toggleActionEnable: (id: string, isEnable: boolean) => Promise<void>
   reconnectAction: (id: string) => Promise<void>
   reconnectActionForNode: (node: string, id: string) => Promise<void>
+  isTesting: Ref<boolean>
+  testConnectivity: (data: NowAction) => Promise<void>
 } => {
   const isTrueActionId = (id: string) => isConnectorSupported(getTypeAndNameFromKey(id).type)
 
@@ -55,7 +61,8 @@ export default (): {
 
   const addAction = async <T = NowAction>(data: T): Promise<T> => {
     const request = isConnectorSupported((data as NowAction).type) ? postAction : createBridge
-    return request(data as any) as Promise<T>
+    const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
+    return request(dataForSubmit as any) as Promise<T>
   }
 
   const updateAction = async <T = NowAction>(data: T): Promise<T> => {
@@ -102,6 +109,22 @@ export default (): {
     return func(node, id)
   }
 
+  const isTesting = ref(false)
+  const testConnectivity = async (data: NowAction): Promise<void> => {
+    try {
+      isTesting.value = true
+      const isTrueAction = isConnectorSupported((data as NowAction).type)
+      const request = isTrueAction ? requestTestActionConnectivity : testConnect
+      const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
+      await request(dataForSubmit)
+      isTesting.value = false
+      return Promise.resolve()
+    } catch (error) {
+      isTesting.value = false
+      return Promise.reject(error)
+    }
+  }
+
   return {
     getDetail,
     handleActionDataAfterLoaded: handleDataAfterLoaded,
@@ -112,5 +135,7 @@ export default (): {
     toggleActionEnable,
     reconnectAction,
     reconnectActionForNode,
+    isTesting,
+    testConnectivity,
   }
 }
