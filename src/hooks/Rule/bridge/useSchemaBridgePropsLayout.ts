@@ -138,6 +138,7 @@ export default (
         [
           'mongo_type',
           'srv_record',
+          'server',
           'servers',
           'database',
           'replica_set_name',
