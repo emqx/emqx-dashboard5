@@ -5,8 +5,12 @@
  -->
 <template>
   <el-col :span="colSpan" v-bind="$attrs">
-    <el-form-item :label="getLabel(property)">
-      <el-select v-model="typeIndex" v-if="!readonly" @change="handleTypeChanged">
+    <CustomFormItem
+      :label="getLabel(property)"
+      :readonly="readonly"
+      :value="getLabelFromValueInOptionList(typeIndex, typeOpts)"
+    >
+      <el-select v-model="typeIndex" @change="handleTypeChanged">
         <el-option
           v-for="{ value, label } in typeOpts"
           :key="value"
@@ -14,8 +18,7 @@
           :label="label"
         />
       </el-select>
-      <p class="value" v-else>{{ typeIndex }}</p>
-    </el-form-item>
+    </CustomFormItem>
   </el-col>
   <template v-for="(oneOfItem, $index) in items" :key="$index">
     <template v-if="oneOfItem.$ref && typeIndex === $index">
@@ -25,7 +28,7 @@
         :key="$key"
         v-bind="$attrs"
       >
-        <el-form-item :prop="getFormItemProp($key)">
+        <CustomFormItem :prop="getFormItemProp($key)" :readonly="readonly">
           <template #label>
             <FormItemLabel :label="getLabel(item)" :desc="getDesc(item)" desc-marked />
           </template>
@@ -35,18 +38,20 @@
             :symbols="item.symbols"
             :format="item.format"
           />
-        </el-form-item>
+        </CustomFormItem>
       </el-col>
     </template>
   </template>
 </template>
 
 <script setup lang="ts">
+import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { Properties, Property } from '@/types/schemaForm'
 import { get, isEqual, isFunction, snakeCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'
 

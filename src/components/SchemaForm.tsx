@@ -231,7 +231,10 @@ const SchemaForm = defineComponent({
     }
 
     const isComplexOneof = (prop: Property) =>
-      prop.type === 'oneof' && prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
+      prop.type === 'oneof' &&
+      prop.oneOf?.length &&
+      prop.oneOf?.length > 2 &&
+      prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
 
     const { getText, getOptLabel } = useItemLabelAndDesc(props)
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
@@ -410,7 +413,7 @@ const SchemaForm = defineComponent({
               <OneofRefs
                 {...props}
                 property={property}
-                span={getColSpan(property)}
+                colSpan={getColSpan(property)}
                 getText={getText}
               />
             )
@@ -458,12 +461,12 @@ const SchemaForm = defineComponent({
       'byteSize',
       'percent',
       'comma_separated_string',
-      'oneof',
       'file',
     ]
     const getEleForReadonly = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
+
       const { path, type } = property
 
       /**
@@ -474,6 +477,7 @@ const SchemaForm = defineComponent({
       if (typesShowValueDirectly.includes(type)) {
         return <p class="value">{modelValue}</p>
       }
+
       switch (type) {
         case 'enum':
           return <p class="value">{getOptLabel(modelValue)}</p>
@@ -487,6 +491,21 @@ const SchemaForm = defineComponent({
             ele.props.readonly = true
           }
           return ele
+        }
+        case 'oneof': {
+          const props = { modelValue, items: property.oneOf }
+          if (isComplexOneof(property)) {
+            return (
+              <OneofRefs
+                {...props}
+                property={property}
+                colSpan={getColSpan(property)}
+                getText={getText}
+                readonly
+              />
+            )
+          }
+          return <p class="value">{modelValue}</p>
         }
         case 'ssl': {
           const ele = switchComponent({ ...property, readOnly: true })

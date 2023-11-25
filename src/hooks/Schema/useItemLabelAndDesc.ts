@@ -134,7 +134,7 @@ export default (
 
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key.toString()
+    return te(textKey) ? t(textKey) : key?.toString()
   }
 
   const getText = (prop: Property) => {
