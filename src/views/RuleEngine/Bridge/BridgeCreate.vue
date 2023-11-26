@@ -138,7 +138,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, INGRESS_BRIDGE_TYPES } from '@/common/constants'
 
 export default defineComponent({
   name: 'BridgeCreate',
@@ -170,12 +170,11 @@ export default defineComponent({
     const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
 
     const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
-      if (
-        isFromRule.value &&
-        bridgeType.externalConfig &&
-        'direction' in bridgeType.externalConfig
-      ) {
-        return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
+      if (isFromRule.value) {
+        if (bridgeType.externalConfig && 'direction' in bridgeType.externalConfig) {
+          return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
+        }
+        return !INGRESS_BRIDGE_TYPES.includes(bridgeType.value)
       }
       return true
     }
