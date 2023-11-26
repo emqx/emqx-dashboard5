@@ -1,11 +1,12 @@
 <template>
-  <div class="connector-create" :class="[!isFromRule ? 'app-wrapper' : '', 'action-create']">
+  <div class="connector-create" :class="[isInSinglePage ? 'app-wrapper' : '', 'action-create']">
     <DetailHeader
-      v-if="!isFromRule"
+      v-if="isInSinglePage"
       :item="{ name: tl('createConnector'), routeName: 'connector' }"
     />
     <el-card class="app-card">
       <GuideBar
+        v-if="isInSinglePage"
         :guide-list="[tl('connectorType'), tl('configuration')]"
         :active-guide-index-list="activeGuidesIndex"
         :desc-list="guideDescList"
@@ -23,16 +24,14 @@
         />
       </div>
       <div class="form-ft">
-        <template v-if="step === 0">
-          <el-button @click="cancel">
-            {{ $t('Base.cancel') }}
-          </el-button>
-          <el-button type="primary" :disabled="isSubmitting" @click="goNextStep">
-            {{ $t('Base.nextStep') }}
-          </el-button>
-        </template>
+        <el-button v-if="(isInSinglePage && step === 0) || !isInSinglePage" @click="cancel">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button v-if="step === 0" type="primary" :disabled="isSubmitting" @click="goNextStep">
+          {{ $t('Base.nextStep') }}
+        </el-button>
         <template v-else-if="step === 1">
-          <el-button :disabled="isSubmitting" @click="goPreStep">
+          <el-button v-if="isInSinglePage" :disabled="isSubmitting" @click="goPreStep">
             {{ $t('Base.backStep') }}
           </el-button>
           <el-button type="primary" plain :loading="isTesting" @click="handleTest">
@@ -58,16 +57,30 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ElMessageBox } from 'element-plus'
-import { computed, ref } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
+
+/**
+ * props and emit is for use this component in drawer
+ */
+const props = defineProps<{
+  type?: string
+}>()
+const emit = defineEmits<{
+  (e: 'submitted', name: string): void
+  (e: 'cancel'): void
+}>()
 
 const route = useRoute()
 const router = useRouter()
 const { t, tl } = useI18nTl('RuleEngine')
 
-const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
+/**
+ * diff from in component
+ */
+const isInSinglePage = computed(() => route.name === 'connector-create')
 
 const { connectorTypeList } = useConnectorTypeValue()
 const selectedType = ref<BridgeType>(connectorTypeList[0].value)
@@ -98,7 +111,13 @@ const goNextStep = () => {
   handleNext()
 }
 
-const cancel = () => router.push({ name: 'connector' })
+const cancel = () => {
+  if (isInSinglePage.value) {
+    router.push({ name: 'connector' })
+  } else {
+    emit('cancel')
+  }
+}
 
 const isSubmitting = ref(false)
 const { getConnectorDetail, addConnector, handleDataForCopy, isTesting, testConnectivity } =
@@ -108,18 +127,22 @@ const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
-    await addConnector(formData.value)
-    ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
-      confirmButtonText: tl('createRule'),
-      cancelButtonText: tl('backConnectorList'),
-      type: 'success',
-    })
-      .then(() => {
-        router.push({ name: 'rule-create' })
+    const ret = await addConnector(formData.value)
+    if (isInSinglePage.value) {
+      ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+        confirmButtonText: tl('createRule'),
+        cancelButtonText: tl('backConnectorList'),
+        type: 'success',
       })
-      .catch(() => {
-        router.push({ name: 'connector' })
-      })
+        .then(() => {
+          router.push({ name: 'rule-create' })
+        })
+        .catch(() => {
+          router.push({ name: 'connector' })
+        })
+    } else {
+      emit('submitted', ret.name)
+    }
   } catch (error) {
     //
   } finally {
@@ -127,17 +150,30 @@ const submit = async () => {
   }
 }
 
+const handleTest = async () => {
+  try {
+    await customValidate(FormCom.value)
+    testConnectivity(formData.value)
+  } catch (error) {
+    //
+  }
+}
+
+const setTypeAndGoStepConf = (type: BridgeType) => {
+  selectedType.value = type
+  step.value = 1
+}
+
 const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
 const targetLoading = ref(false)
 const checkClipStatus = async () => {
-  if (!isCopy.value) {
+  if (!isCopy.value || !isInSinglePage.value) {
     return
   }
   try {
     const currentType =
       route.query.target?.slice(0, route.query.target?.indexOf(':'))?.toString() || ''
-    selectedType.value = getBridgeGeneralType(currentType)
-    step.value = 1
+    setTypeAndGoStepConf(getBridgeGeneralType(currentType))
     targetLoading.value = true
     const connectorData = await getConnectorDetail<Connector>(route.query.target as string)
     if (connectorData) {
@@ -152,17 +188,14 @@ const checkClipStatus = async () => {
     targetLoading.value = false
   }
 }
-
 checkClipStatus()
 
-const handleTest = async () => {
-  try {
-    await customValidate(FormCom.value)
-    testConnectivity(formData.value)
-  } catch (error) {
-    //
+const checkProps = () => {
+  if (!isInSinglePage.value && props.type) {
+    setTypeAndGoStepConf(props.type as BridgeType)
   }
 }
+checkProps()
 
 /**
  * TODO:TODO:TODO:
