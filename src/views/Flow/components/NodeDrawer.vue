@@ -361,7 +361,8 @@ watch(showDrawer, (val) => {
     .el-form-item__content,
     .oneof-item {
       > .el-input:not(.el-input-group--append),
-      > .el-select {
+      > .el-select,
+      .connector-select {
         width: calc(100% - #{$input-append-width});
       }
     }
