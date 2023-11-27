@@ -92,9 +92,13 @@ const actionOpts = computed(() => {
   if (!props.type) {
     return []
   }
-  return totalActionList.value.filter(
-    (item) => item.type === props.type && judgeBridgeDirection(item) === props.direction,
-  )
+  return totalActionList.value.filter((item) => {
+    const direction = judgeBridgeDirection(item)
+    return (
+      item.type === props.type &&
+      (direction === props.direction || direction === BridgeDirection.Both)
+    )
+  })
 })
 
 const { tl } = useI18nTl('RuleEngine')
