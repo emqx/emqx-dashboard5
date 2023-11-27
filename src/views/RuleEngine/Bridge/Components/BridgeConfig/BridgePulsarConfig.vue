@@ -7,6 +7,7 @@
     class="bridge-config bridge-pulsar-config"
     :rules="formRules"
     :model="formData"
+    :disabled="disabled"
     :validate-on-rule-change="false"
   >
     <el-row :gutter="26">
@@ -332,6 +333,9 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false,
+  },
+  disabled: {
+    type: Boolean,
   },
   isRoleHidden: {
     type: Boolean,

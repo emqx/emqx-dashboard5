@@ -94,6 +94,7 @@ const props = withDefaults(
     copy?: boolean
     isLoading?: boolean
     readonly?: boolean
+    disabled?: boolean
     /**
      * bind to el-form component
      */
@@ -140,6 +141,7 @@ const formBindProps = {
   labelWidth: undefined,
   labelPosition: 'top',
   requireAsteriskPosition: 'right',
+  disabled: props.disabled,
   class: '',
   ...props.formProps,
 }
