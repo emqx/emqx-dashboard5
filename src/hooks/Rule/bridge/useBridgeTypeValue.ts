@@ -18,6 +18,7 @@ type TypeItem = {
 
 export const useBridgeTypeValue = (): {
   bridgeTypeList: Array<TypeItem>
+  egressBridgeTypeList: Array<TypeItem>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
   getBridgeGeneralType: (typeStr: string) => BridgeType
   getGeneralTypeLabel: (type: string) => string
@@ -28,6 +29,13 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
   ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
+
+  /**
+   * use it in add action to rule
+   */
+  const egressBridgeTypeList = bridgeTypeList.filter(
+    ({ value }) => !INGRESS_BRIDGE_TYPES.includes(value),
+  )
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
@@ -65,6 +73,7 @@ export const useBridgeTypeValue = (): {
 
   return {
     bridgeTypeList,
+    egressBridgeTypeList,
     getBridgeLabelByTypeValue,
     getBridgeGeneralType,
     getGeneralTypeLabel,

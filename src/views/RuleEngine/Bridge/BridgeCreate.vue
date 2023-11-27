@@ -83,25 +83,6 @@
       </el-card>
     </div>
     <div v-else>
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <label>{{ tl('actionType') }}</label>
-          <el-select class="bridge-select" v-model="chosenBridgeType" @change="handleTypeSelected">
-            <el-option
-              v-for="item in bridgeTypeOptions.filter(isBridgeTypeDisabled)"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value"
-            >
-              <div class="option-content">
-                <img :src="getBridgeIcon(item.value)" width="30" height="34" />
-                <span>{{ item.label }}</span>
-              </div>
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-      <el-divider />
       <bridge-http-config
         v-if="chosenBridgeType === BridgeType.Webhook"
         v-model="bridgeData"
@@ -134,11 +115,18 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { computed, ref, Ref } from 'vue'
+import { Ref, computed, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+
+/**
+ * props and emit is for use this component in drawer
+ */
+const props = defineProps<{
+  type?: string
+}>()
 
 const { tl } = useI18nTl('RuleEngine')
 const createBridgeData = () => ({})
@@ -158,7 +146,7 @@ const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.
 const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
 
 const chosenBridgeType: Ref<BridgeType> = ref(
-  isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
+  isFromRule.value ? (props.type as BridgeType) : bridgeTypeOptions[0].value,
 )
 
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
