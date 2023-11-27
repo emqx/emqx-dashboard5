@@ -48,7 +48,7 @@
       <!-- Setting key is to refresh the component -->
       <div class="output-content" v-if="!isCreatingAction">
         <p class="detail-title">{{ tl('confPreview') }}</p>
-        <BridgeDetail ref="BridgeDetailRef" :bridge-id="bridgeForm.id" />
+        <BridgeDetail ref="BridgeDetailRef" :bridge-id="bridgeForm.id" :disabled="!isEdit" />
       </div>
       <BridgeCreate
         v-else
@@ -68,7 +68,7 @@
       >
         {{ tl('testTheConnection') }}
       </el-button>
-      <el-button @click="cancel()">
+      <el-button class="btn-cancel" @click="cancel">
         {{ $t('Base.cancel') }}
       </el-button>
       <el-button
@@ -320,5 +320,9 @@ watch(showDrawer, (val) => {
 }
 .payload-desc {
   color: var(--color-text-secondary);
+}
+
+.btn-cancel {
+  margin-left: 28px;
 }
 </style>

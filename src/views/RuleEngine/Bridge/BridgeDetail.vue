@@ -72,6 +72,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
@@ -79,6 +80,7 @@
                 ref="formCom"
                 v-model="bridgeInfo"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
             </div>
@@ -153,6 +155,13 @@ const props = defineProps({
   bridgeId: {
     type: String,
     default: '',
+  },
+  /**
+   * for viewing data
+   */
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 const formCom = ref()
@@ -356,6 +365,7 @@ defineExpose({
   height: 600px;
 }
 .app-inline-card {
+  min-height: 300px;
   :deep(> .el-card__body) {
     padding: 0px;
   }
