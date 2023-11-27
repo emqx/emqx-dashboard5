@@ -1,88 +1,77 @@
 <template>
   <div class="resource-item-overview">
-    <div class="overview-header">
-      <p class="block-title">{{ tl('executionStatistics') }}</p>
-      <div>
-        <el-tooltip :content="$t('Base.refresh')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Refresh" @click="getRuleMetricsData">
-          </el-button>
-        </el-tooltip>
-        <el-tooltip :content="tl('resetStatistics')" placement="top">
-          <el-button
-            class="icon-button"
-            :icon="Close"
-            :disabled="!$hasPermission('put')"
-            @click="resetStatistics"
-          >
-          </el-button>
-        </el-tooltip>
-      </div>
-    </div>
-    <div class="overview-sub-block">
-      <!-- <p class="card-sub-desc">{{ tl('lastResetTime') }}: TODO:</p> -->
-      <TargetDetailMetrics class="rule-statistic" :metrics="runningStatistics" />
-    </div>
-    <div class="overview-sub-block">
-      <div class="card-hd">
-        <p class="block-title">{{ tl('actionsStatistics') }}</p>
-      </div>
-      <TargetDetailMetrics class="rule-statistic" :metrics="actionStatistics" />
-    </div>
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p class="vertical-align-center">
-          {{ tl('nodeStatus') }}
-          <InfoTooltip :content="tl('nodeStatusRuleDesc')" />
-        </p>
-      </div>
-      <el-table :data="nodeMetrics">
-        <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column prop="metrics.matched">
-          <template #header>
-            <span>{{ tl('matched') }}</span>
-            <InfoTooltip :content="tl('sqlMatchedDesc')" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="metrics.passed">
-          <template #header>
-            <span>{{ tl('sqlPassed') }}</span>
-            <InfoTooltip :content="tl('sqlPassedDesc')" />
-          </template>
-        </el-table-column>
+    <OverviewMetrics
+      :totals="{
+        rule: 'matched',
+        action: 'actions.total',
+      }"
+      :title="lowerCase(tl('rule'))"
+      :request-metrics="getRuleMetricsData"
+      :request-reset="resetMetrics"
+      :type-metrics-maps="[
+        {
+          name: 'rule',
+          data: ruleTypeMetricsMap,
+        },
+        {
+          name: 'action',
+          data: actionTypeMetricsMap,
+        },
+      ]"
+      :text-map="textMap"
+      :rate-metrics="rateData"
+      show-rate
+    >
+      <template #table="{ data }">
+        <el-table :data="data.node_metrics">
+          <el-table-column prop="node" :label="tl('name')" />
+          <el-table-column prop="metrics.matched">
+            <template #header>
+              <span>{{ tl('matched') }}</span>
+              <InfoTooltip :content="tl('sqlMatchedDesc')" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="metrics.passed">
+            <template #header>
+              <span>{{ tl('passed') }}</span>
+              <InfoTooltip :content="tl('passedDesc')" />
+            </template>
+          </el-table-column>
 
-        <el-table-column prop="metrics['failed.exception']">
-          <template #header>
-            <span>{{ tl('sqlFailed') }}</span>
-            <InfoTooltip :content="tl('sqlFailedDesc')" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="metrics['failed.no_result']">
-          <template #header>
-            <span>{{ tl('sqlNoResult') }}</span>
-            <InfoTooltip :content="tl('sqlNoResultDesc')" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="metrics['matched.rate']">
-          <template #header>
-            <p>{{ t('Base.rate') }}</p>
-            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
-          </template>
-        </el-table-column>
+          <el-table-column prop="metrics['failed.exception']">
+            <template #header>
+              <span>{{ $t('Base.failed') }}</span>
+              <InfoTooltip :content="tl('sqlFailedDesc')" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="metrics['failed.no_result']">
+            <template #header>
+              <span>{{ tl('sqlNoResult') }}</span>
+              <InfoTooltip :content="tl('sqlNoResultDesc')" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="metrics['matched.rate']">
+            <template #header>
+              <p>{{ $t('Base.rate') }}</p>
+              <p>({{ $t('RuleEngine.rateUnit', 0) }})</p>
+            </template>
+          </el-table-column>
 
-        <el-table-column prop="metrics['matched.rate.last5m']">
-          <template #header>
-            <p>{{ tl('rateLast5M') }}</p>
-            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
-          </template>
-        </el-table-column>
-        <el-table-column prop="metrics['matched.rate.max']">
-          <template #header>
-            <p>{{ tl('rateMax') }}</p>
-            <p>({{ t('RuleEngine.rateUnit', 0) }})</p>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+          <el-table-column prop="metrics['matched.rate.last5m']">
+            <template #header>
+              <p>{{ $t('Base.rateLast5M') }}</p>
+              <p>({{ $t('RuleEngine.rateUnit', 0) }})</p>
+            </template>
+          </el-table-column>
+          <el-table-column prop="metrics['matched.rate.max']">
+            <template #header>
+              <p>{{ $t('Base.rateMax') }}</p>
+              <p>({{ $t('RuleEngine.rateUnit', 0) }})</p>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+    </OverviewMetrics>
   </div>
 </template>
 
@@ -95,14 +84,14 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, onMounted, ref, Ref } from 'vue'
-import { Close, Refresh } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
-import { RuleItem, RuleMetrics } from '@/types/rule'
+import { defineProps, PropType, onMounted } from 'vue'
+import { RuleItem } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { queryRuleMetrics, resetRuleMetrics } from '@/api/ruleengine'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
+import { lowerCase } from 'lodash'
+import { useRuleMetrics } from '@/hooks/useMetrics'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   ruleMsg: {
@@ -114,121 +103,26 @@ const props = defineProps({
   },
 })
 
-const ruleMetrics: Ref<RuleMetrics> = ref({
-  id: '',
-  metrics: {},
-  node_metrics: [],
-})
+const { ruleTypeMetricsMap, actionTypeMetricsMap, textMap, rateData } = useRuleMetrics()
 
-const runningStatistics = computed(() => [
-  {
-    label: tl('matched'),
-    desc: tl('sqlMatchedDesc'),
-    value: ruleMetrics.value.metrics['matched'],
-    className: 'success-bg',
-  },
-  {
-    label: tl('sqlPassed'),
-    desc: tl('sqlPassedDesc'),
-    value: ruleMetrics.value.metrics['passed'],
-    className: 'matched-bg',
-  },
-  {
-    label: tl('sqlFailed'),
-    desc: tl('sqlFailedDesc'),
-    value: ruleMetrics.value.metrics['failed.exception'],
-    className: 'failed-bg',
-  },
-  {
-    label: tl('sqlNoResult'),
-    desc: tl('sqlNoResultDesc'),
-    value: ruleMetrics.value.metrics['failed.no_result'],
-    className: 'no-result-bg',
-  },
-  {
-    label: t('Base.rate'),
-    value: ruleMetrics.value.metrics['matched.rate'],
-    className: 'rate-bg',
-    unit: t('RuleEngine.rateUnit', 0),
-  },
-  {
-    label: tl('rateLast5M'),
-    value: ruleMetrics.value.metrics['matched.rate.last5m'],
-    className: 'last-five-rate-bg',
-    unit: t('RuleEngine.rateUnit', 0),
-  },
-  {
-    label: tl('rateMax'),
-    value: ruleMetrics.value.metrics['matched.rate.max'],
-    className: 'max-rate-bg',
-    unit: t('RuleEngine.rateUnit', 0),
-  },
-])
-
-const actionStatistics = computed(() => [
-  {
-    label: tl('success'),
-    desc: tl('actionSuccessDesc'),
-    value: ruleMetrics.value.metrics['actions.success'],
-    className: 'success-bg',
-  },
-  {
-    label: tl('ErrNum'),
-    desc: tl('actionFailedDesc'),
-    value: ruleMetrics.value.metrics['actions.failed'],
-    className: 'failed-bg',
-  },
-  {
-    label: tl('total'),
-    desc: tl('actionTotalDesc'),
-    value: ruleMetrics.value.metrics['actions.total'],
-    className: 'rate-bg',
-  },
-  {
-    label: tl('outOfService'),
-    desc: tl('actionOutOfServiceDesc'),
-    value: ruleMetrics.value.metrics['actions.failed.out_of_service'],
-    className: 'failed-bg',
-  },
-  {
-    label: tl('unknown'),
-    desc: tl('actionUnknownDesc'),
-    value: ruleMetrics.value.metrics['actions.failed.unknown'],
-    className: 'max-rate-bg',
-  },
-])
-
-const nodeMetrics = computed(() => {
-  const nodeMetricsData = ruleMetrics.value.node_metrics
-  return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
-})
-
-const { t } = useI18n()
-const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
+const { tl } = useI18nTl('RuleEngine')
 
 const getRuleMetricsData = async () => {
   try {
     if (!props.ruleId) {
       return
     }
-    ruleMetrics.value = await queryRuleMetrics(props.ruleId)
+    return queryRuleMetrics(props.ruleId)
   } catch (error) {
     //
   }
 }
 
-const resetStatistics = async () => {
+const resetMetrics = () => {
   if (!props.ruleId) {
     return
   }
-  try {
-    await ElMessageBox.confirm(t('RuleEngine.resetMetricsConfirm', { target: tl('rule') }))
-    await resetRuleMetrics(props.ruleId)
-    ElMessage.success(tl('resetSuccessfully'))
-    getRuleMetricsData()
-  } catch (error) {
-    //
-  }
+  return resetRuleMetrics(props.ruleId)
 }
 
 onMounted(getRuleMetricsData)

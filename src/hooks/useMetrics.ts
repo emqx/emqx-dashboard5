@@ -60,10 +60,10 @@ const useChart = (): {
 
 // Pie Chart
 export const usePieChart = (): {
-  updateRingData: (chartId: string, data: Array<PieDataItem>) => void
+  updatePieData: (chartId: string, data: Array<PieDataItem>) => void
 } => {
   const { initChart } = useChart()
-  let chartInstance: undefined | ECharts = undefined
+  const chartInstances = new Map<string, ECharts>()
 
   const getChartOpts = (chartData: PieConfData): EChartsOption => ({
     tooltip: {
@@ -114,14 +114,16 @@ export const usePieChart = (): {
     return [...data.map(getPieDataItem), getTransparentPart(data)]
   }
 
-  const updateRingData = (chartId: string, data: Array<PieDataItem>) => {
-    if (!chartInstance) {
-      chartInstance = initChart(chartId)
+  const updatePieData = (chartId: string, data: Array<PieDataItem>) => {
+    let currChartInstance = chartInstances.get(chartId)
+    if (!currChartInstance) {
+      currChartInstance = initChart(chartId)
+      chartInstances.set(chartId, currChartInstance)
     }
-    chartInstance?.setOption(getChartOpts(getDataForChart(data)))
+    currChartInstance?.setOption(getChartOpts(getDataForChart(data)))
   }
   return {
-    updateRingData,
+    updatePieData,
   }
 }
 
@@ -322,7 +324,7 @@ export const useBridgeMetrics = (): {
   const egressTypeMetricsMap = {
     [MetricType.Green]: { title: tl('success'), contains: ['success'] },
     [MetricType.Blue]: { title: tl('processing'), contains: ['queuing', 'inflight'] },
-    [MetricType.Red]: { title: tl('sqlFailed'), contains: ['failed'] },
+    [MetricType.Red]: { title: t('Base.failed'), contains: ['failed'] },
     [MetricType.Gray]: {
       title: tl('dropped'),
       contains: [
@@ -425,6 +427,61 @@ export const useAuthMetrics = (): {
     authzTypeMetricsMap,
     authnTextMap,
     authzTextMap,
+    rateData,
+  }
+}
+
+export const useRuleMetrics = (): {
+  ruleTypeMetricsMap: TypeMapData
+  actionTypeMetricsMap: TypeMapData
+  textMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('RuleEngine')
+  const ruleTypeMetricsMap = {
+    [MetricType.Green]: { title: tl('passed'), contains: ['passed'] },
+    [MetricType.Red]: {
+      title: t('Base.failed'),
+      contains: ['failed.exception', 'failed.no_result'],
+    },
+  }
+  const actionTypeMetricsMap = {
+    [MetricType.Green]: { title: tl('actionsSuccess'), contains: ['actions.success'] },
+    [MetricType.Red]: {
+      title: tl('actionsFailed'),
+      contains: ['actions.failed.out_of_service', 'actions.failed.unknown'],
+    },
+  }
+  const textMap = {
+    matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
+    passed: { label: tl('passed'), desc: tl('passedDesc') },
+    'actions.total': { label: tl('actionsTotal'), desc: tl('actionsTotalDesc') },
+    'failed.exception': { label: tl('failedException'), desc: tl('failedExceptionDesc') },
+    'failed.no_result': { label: tl('failedNoResult'), desc: tl('failedNoResultDesc') },
+    'actions.success': { label: tl('actionsSuccess'), desc: tl('actionsSuccessDesc') },
+    'actions.failed.out_of_service': {
+      label: tl('actionsFailedOutOfService'),
+      desc: tl('actionsFailedOutOfServiceDesc'),
+    },
+    'actions.failed.unknown': {
+      label: tl('actionsFailedUnknown'),
+      desc: tl('actionsFailedUnknownDesc'),
+    },
+    'matched.rate': { label: t('Base.rateNow'), desc: tl('ruleRateBarDesc') },
+    'matched.rate.last5m': { label: t('Base.rateMax') },
+    'matched.rate.max': { label: t('Base.rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'matched.rate',
+    right1: 'matched.rate.last5m',
+    right2: 'matched.rate.max',
+  }
+  return {
+    ruleTypeMetricsMap,
+    actionTypeMetricsMap,
+    textMap,
     rateData,
   }
 }

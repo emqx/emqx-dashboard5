@@ -190,235 +190,191 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, Ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
-import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+<script lang="ts" setup>
+import { BRIDGE_TYPES_NOT_USE_SCHEMA, INGRESS_BRIDGE_TYPES } from '@/common/constants'
+import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
+import GuideBar from '@/components/GuideBar.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import _ from 'lodash'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  useBridgeTypeOptions,
   BridgeTypeOptions,
   useBridgeTypeIcon,
+  useBridgeTypeOptions,
   useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
-import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
-import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
-import { BRIDGE_TYPES_NOT_USE_SCHEMA, INGRESS_BRIDGE_TYPES } from '@/common/constants'
-import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
+import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import _ from 'lodash'
+import { computed, ref, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
+import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
+import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
-export default defineComponent({
-  name: 'BridgeCreate',
-  components: {
-    BridgeHttpConfig,
-    BridgeMqttConfig,
-    DetailHeader,
-    GuideBar,
-    UsingSchemaBridgeConfig,
-    BridgeInfluxdbConfig,
-    BridgePulsarConfig,
-    BridgeKafkaProducerConfig,
-    BridgeKafkaConsumerConfig,
-  },
-  setup() {
-    const { tl } = useI18nTl('RuleEngine')
-    const createBridgeData = () => ({})
-    const router = useRouter()
-    const route = useRoute()
-    const { t } = useI18n()
-    const { bridgeTypeOptions, searchQuery, getFilterBridgeOptions } = useBridgeTypeOptions()
-    const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const { tl } = useI18nTl('RuleEngine')
+const createBridgeData = () => ({})
+const router = useRouter()
+const route = useRoute()
+const { t } = useI18n()
+const { bridgeTypeOptions, searchQuery, getFilterBridgeOptions } = useBridgeTypeOptions()
+const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
-    const submitLoading = ref(false)
-    const bridgeData: Ref<any> = ref(createBridgeData())
-    const { getBridgeIcon } = useBridgeTypeIcon()
+const submitLoading = ref(false)
+const bridgeData: Ref<any> = ref(createBridgeData())
+const { getBridgeIcon } = useBridgeTypeIcon()
 
-    const formCom = ref()
+const formCom = ref()
 
-    const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
+const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 
-    const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
+const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
 
-    const chosenBridgeType: Ref<BridgeType> = ref(
-      isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
-    )
+const chosenBridgeType: Ref<BridgeType> = ref(
+  isFromRule.value ? ('' as BridgeType) : bridgeTypeOptions[0].value,
+)
 
-    const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
+const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
-    const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
+const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
 
-    const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
-      if (isFromRule.value) {
-        if (bridgeType.externalConfig && 'direction' in bridgeType.externalConfig) {
-          return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
-        }
-        return !INGRESS_BRIDGE_TYPES.includes(bridgeType.value)
-      }
-      return true
+const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
+  if (isFromRule.value) {
+    if (bridgeType.externalConfig && 'direction' in bridgeType.externalConfig) {
+      return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
     }
+    return !INGRESS_BRIDGE_TYPES.includes(bridgeType.value)
+  }
+  return true
+}
 
-    const handleTypeSelected = () => {
-      bridgeData.value = createBridgeData()
+const handleTypeSelected = () => {
+  bridgeData.value = createBridgeData()
+}
+
+const goPreStep = () => {
+  bridgeData.value = createBridgeData()
+  guideDescList.value.pop()
+  handleBack()
+}
+
+const goNextStep = () => {
+  if (step.value === 0) {
+    handleTypeSelected()
+    guideDescList.value.push(getBridgeLabelByTypeValue(chosenBridgeType.value) || '')
+  }
+  handleNext()
+}
+
+const cancel = () => router.push({ name: 'actions' })
+
+const { getDetail, addAction, isTesting, testConnectivity } = useHandleActionItem()
+
+const targetLoading = ref(false)
+const checkBridgeClipStatus = async () => {
+  if (!isCopy.value) {
+    return
+  }
+  try {
+    const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
+    if (currentType && getBridgeGeneralType(currentType as BridgeType)) {
+      chosenBridgeType.value = getBridgeGeneralType(currentType as BridgeType)
     }
-
-    const goPreStep = () => {
-      bridgeData.value = createBridgeData()
-      guideDescList.value.pop()
-      handleBack()
+    step.value = 1
+    targetLoading.value = true
+    const bridgeInfo = await getDetail(route.query.target as string)
+    if (bridgeInfo) {
+      bridgeData.value = {
+        ...handleBridgeDataForCopy(bridgeInfo),
+        name: countDuplicationName(bridgeInfo.name),
+      }
+      chosenBridgeType.value = getBridgeGeneralType(bridgeInfo.type)
     }
+  } catch (error) {
+    //
+  } finally {
+    targetLoading.value = false
+  }
+}
 
-    const goNextStep = () => {
-      if (step.value === 0) {
-        handleTypeSelected()
-        guideDescList.value.push(getBridgeLabelByTypeValue(chosenBridgeType.value) || '')
-      }
-      handleNext()
+const getDataForSubmit = () => {
+  let dataToSubmit = {}
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
+    dataToSubmit = _.cloneDeep(formCom.value.getFormRecord())
+  } else {
+    dataToSubmit = {
+      type: chosenBridgeType.value,
+      ..._.cloneDeep(bridgeData.value),
     }
+  }
+  return handleBridgeDataBeforeSubmit(dataToSubmit)
+}
 
-    const cancel = () => router.push({ name: 'actions' })
+const testConnection = async () => {
+  try {
+    await formCom.value.validate()
+  } catch (error) {
+    jumpToErrorFormItem()
+    return
+  }
 
-    const { getDetail, addAction, isTesting, testConnectivity } = useHandleActionItem()
+  try {
+    isTesting.value = true
+    const data = await getDataForSubmit()
+    await testConnectivity(data)
+    ElMessage.success(tl('connectionSuccessful'))
+  } catch (error) {
+    //
+  } finally {
+    isTesting.value = false
+  }
+}
 
-    const targetLoading = ref(false)
-    const checkBridgeClipStatus = async () => {
-      if (!isCopy.value) {
-        return
-      }
-      try {
-        const currentType = route.query.target?.slice(0, route.query.target?.indexOf(':'))
-        if (currentType && getBridgeGeneralType(currentType as BridgeType)) {
-          chosenBridgeType.value = getBridgeGeneralType(currentType as BridgeType)
-        }
-        step.value = 1
-        targetLoading.value = true
-        const bridgeInfo = await getDetail(route.query.target as string)
-        if (bridgeInfo) {
-          bridgeData.value = {
-            ...handleBridgeDataForCopy(bridgeInfo),
-            name: countDuplicationName(bridgeInfo.name),
-          }
-          chosenBridgeType.value = getBridgeGeneralType(bridgeInfo.type)
-        }
-      } catch (error) {
-        //
-      } finally {
-        targetLoading.value = false
-      }
+const submitCreateBridge = async () => {
+  try {
+    await formCom.value.validate()
+  } catch (error) {
+    jumpToErrorFormItem()
+    return
+  }
+  submitLoading.value = true
+  let res = undefined
+
+  try {
+    const data = await getDataForSubmit()
+    res = await addAction(data)
+
+    const bridgeId = res?.id
+    if (!isFromRule.value) {
+      ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+        confirmButtonText: tl('createRule'),
+        cancelButtonText: tl('backBridgeList'),
+        type: 'success',
+      })
+        .then(() => {
+          router.push({ name: 'rule-create', query: { bridgeId } })
+        })
+        .catch(() => {
+          router.push({ name: 'actions' })
+        })
+    } else {
+      return Promise.resolve(bridgeId)
     }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    submitLoading.value = false
+  }
+}
 
-    const getDataForSubmit = () => {
-      let dataToSubmit = {}
-      if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
-        dataToSubmit = _.cloneDeep(formCom.value.getFormRecord())
-      } else {
-        dataToSubmit = {
-          type: chosenBridgeType.value,
-          ..._.cloneDeep(bridgeData.value),
-        }
-      }
-      return handleBridgeDataBeforeSubmit(dataToSubmit)
-    }
-
-    const testConnection = async () => {
-      try {
-        await formCom.value.validate()
-      } catch (error) {
-        jumpToErrorFormItem()
-        return
-      }
-
-      try {
-        isTesting.value = true
-        const data = await getDataForSubmit()
-        await testConnectivity(data)
-        ElMessage.success(tl('connectionSuccessful'))
-      } catch (error) {
-        //
-      } finally {
-        isTesting.value = false
-      }
-    }
-
-    const submitCreateBridge = async () => {
-      try {
-        await formCom.value.validate()
-      } catch (error) {
-        jumpToErrorFormItem()
-        return
-      }
-      submitLoading.value = true
-      let res = undefined
-
-      try {
-        const data = await getDataForSubmit()
-        res = await addAction(data)
-
-        const bridgeId = res?.id
-        if (!isFromRule.value) {
-          ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
-            confirmButtonText: tl('createRule'),
-            cancelButtonText: tl('backBridgeList'),
-            type: 'success',
-          })
-            .then(() => {
-              router.push({ name: 'rule-create', query: { bridgeId } })
-            })
-            .catch(() => {
-              router.push({ name: 'actions' })
-            })
-        } else {
-          return Promise.resolve(bridgeId)
-        }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        submitLoading.value = false
-      }
-    }
-
-    checkBridgeClipStatus()
-
-    return {
-      tl,
-      isFromRule,
-      step,
-      activeGuidesIndex,
-      guideDescList,
-      BRIDGE_TYPES_NOT_USE_SCHEMA,
-      goPreStep,
-      goNextStep,
-      bridgeTypeOptions,
-      chosenBridgeType,
-      targetLoading,
-      submitLoading,
-      isCopy,
-      bridgeData,
-      formCom,
-      BridgeType,
-      isBridgeTypeDisabled,
-      cancel,
-      submitCreateBridge,
-      isTesting,
-      testConnection,
-      handleTypeSelected,
-      getBridgeIcon,
-      searchQuery,
-      getFilterBridgeOptions,
-    }
-  },
-})
+checkBridgeClipStatus()
 </script>
 
 <style lang="scss">
