@@ -7,6 +7,7 @@
       :model="mqttBridgeVal"
       :rules="formRules"
       :validate-on-rule-change="false"
+      :disabled="disabled"
     >
       <el-row :gutter="26">
         <el-col :span="12">
@@ -201,6 +202,9 @@ const props = defineProps({
     default: false,
   },
   copy: {
+    type: Boolean,
+  },
+  disabled: {
     type: Boolean,
   },
 })

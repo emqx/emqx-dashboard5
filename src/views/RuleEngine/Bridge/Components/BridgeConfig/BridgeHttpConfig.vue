@@ -6,6 +6,7 @@
     require-asterisk-position="right"
     :rules="formRules"
     :model="httpBridgeVal"
+    :disabled="disabled"
     v-bind="$attrs"
   >
     <el-row :gutter="26">
@@ -184,7 +185,14 @@ export default defineComponent({
     copy: {
       type: Boolean,
     },
+    /**
+     * readonly and disabled are both for viewing data are used in different places
+     */
     readonly: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
