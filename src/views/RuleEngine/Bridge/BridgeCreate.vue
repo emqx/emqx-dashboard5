@@ -172,13 +172,12 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA, INGRESS_BRIDGE_TYPES } from '@/common/constants'
+import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import {
-  BridgeTypeOptions,
   useBridgeTypeIcon,
   useBridgeTypeOptions,
   useBridgeTypeValue,
@@ -186,14 +185,14 @@ import {
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType, MQTTBridgeDirection } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { Ref, computed, defineProps, ref } from 'vue'
+import { Ref, computed, defineProps, ref, defineExpose } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
@@ -232,16 +231,6 @@ const chosenBridgeType: Ref<BridgeType> = ref(
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
 const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
-
-const isBridgeTypeDisabled = (bridgeType: BridgeTypeOptions) => {
-  if (isFromRule.value) {
-    if (bridgeType.externalConfig && 'direction' in bridgeType.externalConfig) {
-      return bridgeType.externalConfig.direction !== MQTTBridgeDirection.In
-    }
-    return !INGRESS_BRIDGE_TYPES.includes(bridgeType.value)
-  }
-  return true
-}
 
 const handleTypeSelected = () => {
   bridgeData.value = createBridgeData()
@@ -310,7 +299,7 @@ const testConnection = async () => {
     await formCom.value.validate()
   } catch (error) {
     jumpToErrorFormItem()
-    return
+    return Promise.reject(error)
   }
 
   try {
@@ -318,10 +307,11 @@ const testConnection = async () => {
     const data = await getDataForSubmit()
     await testConnectivity(data)
     ElMessage.success(tl('connectionSuccessful'))
-  } catch (error) {
-    //
-  } finally {
     isTesting.value = false
+    return Promise.resolve()
+  } catch (error) {
+    isTesting.value = false
+    return Promise.reject()
   }
 }
 
@@ -361,6 +351,8 @@ const submitCreateBridge = async () => {
     submitLoading.value = false
   }
 }
+
+defineExpose({ testConnection, submitCreateBridge })
 
 checkBridgeClipStatus()
 </script>

@@ -29,7 +29,11 @@
         </el-col>
         <el-col :span="12" v-if="isOutputToBridge">
           <el-form-item :label="$tc('RuleEngine.dataBridge')">
-            <ActionSelect v-model="bridgeForm.id" :type="outputForm.type" />
+            <ActionSelect
+              v-model="bridgeForm.id"
+              :type="outputForm.type"
+              :disable-list="outputDisableList"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -57,11 +61,11 @@
     <template #footer>
       <el-button
         v-if="isOutputToBridge && isCreatingAction"
-        type="primary"
         plain
+        type="primary"
+        :loading="isTesting"
         @click="testConnection"
       >
-        <!-- :loading="isTesting" -->
         {{ tl('testTheConnection') }}
       </el-button>
       <el-button @click="cancel()">
@@ -99,14 +103,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getMixedActionList } from '@/api/ruleengine'
-import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
-import { BridgeDirection, RuleOutput } from '@/types/enum'
-import { BridgeItem, OutputItemObj } from '@/types/rule'
+import { RuleOutput } from '@/types/enum'
+import { OutputItemObj } from '@/types/rule'
 import {
   PropType,
-  Ref,
   WritableComputedRef,
   computed,
   defineEmits,
@@ -163,8 +165,6 @@ const createRawOutputForm = (): OutputForm => ({
 const formCom = ref()
 const RePubFormCom = ref()
 const submitLoading = ref(false)
-const bridgeList: Ref<Array<BridgeItem>> = ref([])
-const egressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const outputForm = ref(createRawOutputForm())
 const bridgeForm = ref<Record<string, any>>({})
 
@@ -199,7 +199,7 @@ const isOutputToBridge = computed(
  * is creating true action
  */
 const isCreatingAction = computed(() => !bridgeForm.value.id)
-const BridgeCreateRef = ref()
+const BridgeCreateCom = ref()
 
 const isOutputTypeDisabled = (type: string) => {
   switch (type) {
@@ -235,25 +235,26 @@ const setFormDataWhenOpenDialog = async () => {
   formCom.value.clearValidate()
 }
 
-const { judgeBridgeDirection } = useBridgeDirection()
-const loadEgressBridgeList = async () => {
+const isTesting = ref(false)
+const testConnection = async () => {
+  isTesting.value = true
   try {
-    bridgeList.value = await getMixedActionList()
-    egressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-      const direction = judgeBridgeDirection(v)
-      return direction !== BridgeDirection.Ingress
-    })
+    await BridgeCreateCom.value.testConnection()
   } catch (error) {
-    console.error(error)
+    // ignore error
+  } finally {
+    isTesting.value = false
   }
 }
 
-const isDisabledBridge = ({ id }: BridgeItem) => {
-  return props.outputDisableList.includes(id) && id !== props.output
-}
-
-const testConnection = () => {
-  // TODO::TODO::TODO::TODO::
+const submitNewAction = async () => {
+  try {
+    const actionId = await BridgeCreateCom.value.submitCreateBridge()
+    return Promise.resolve(actionId)
+  } catch (error) {
+    return Promise.reject(error)
+    // ignore error
+  }
 }
 
 const submitOutput = async () => {
@@ -273,7 +274,7 @@ const submitOutput = async () => {
       }
     } else {
       if (isCreatingAction.value) {
-        // TODO: submit new action
+        opObj = await submitNewAction()
       } else {
         opObj = bridgeForm.value.id
       }
@@ -300,7 +301,6 @@ const cancel = () => {
 
 watch(showDrawer, (val) => {
   if (val) {
-    loadEgressBridgeList()
     setFormDataWhenOpenDialog()
   } else {
     outputForm.value = createRawOutputForm()
