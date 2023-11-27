@@ -6,6 +6,7 @@
     class="bridge-config bridge-kafka-config"
     :rules="formRules"
     :model="formData"
+    :disabled="disabled"
     :validate-on-rule-change="false"
   >
     <el-row :gutter="26">
@@ -390,6 +391,9 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false,
+  },
+  disabled: {
+    type: Boolean,
   },
   isUsingInFlow: {
     type: Boolean,

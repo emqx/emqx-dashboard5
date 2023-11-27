@@ -96,6 +96,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-kafka-producer-config
@@ -103,6 +104,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-kafka-consumer-config
@@ -110,6 +112,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-pulsar-config
@@ -117,6 +120,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <using-schema-bridge-config
@@ -125,6 +129,7 @@
                 :type="bridgeType"
                 v-model="bridgeInfo"
                 ref="formCom"
+                :disabled="disabled"
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
