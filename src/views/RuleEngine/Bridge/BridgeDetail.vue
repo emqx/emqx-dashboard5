@@ -128,7 +128,7 @@ import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { Ref, computed, defineExpose, defineProps, onActivated, onMounted, ref, watch } from 'vue'
+import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
@@ -322,19 +322,8 @@ const handleDelete = async () => {
   handleDeleteBridge(id.value)
 }
 
-const setActiveTab = () => {
-  const { params } = route
-  if (params.activeTab && params.activeTab === 'Setting') {
-    activeTab.value = Tab.Setting
-  }
-}
-
 onMounted(() => {
   loadBridgeInfo()
-})
-
-onActivated(() => {
-  setActiveTab()
 })
 
 defineExpose({
@@ -367,7 +356,7 @@ defineExpose({
   height: 600px;
 }
 .app-inline-card {
-  :deep(.el-card__body) {
+  :deep(> .el-card__body) {
     padding: 0px;
   }
 }

@@ -16,35 +16,20 @@
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
-            <el-select v-model="outputForm.type">
+            <el-select v-model="outputForm.type" filterable>
               <el-option
-                :value="RuleOutput.Republish"
-                :disabled="isDisabledRepublish"
-                :label="tl('republish')"
+                v-for="{ value, label } in actionTypeOpts"
+                :key="value"
+                :value="value"
+                :disabled="isOutputTypeDisabled(value)"
+                :label="label"
               />
-              <el-option
-                :value="RuleOutput.Console"
-                :disabled="isDisabledConsole"
-                :label="tl('consoleOutput')"
-              />
-              <el-option :value="RuleOutput.DataBridge" :label="tl('useDataBridge')" />
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="outputForm.type === RuleOutput.DataBridge">
+        <el-col :span="12" v-if="isOutputToBridge">
           <el-form-item :label="$tc('RuleEngine.dataBridge')">
-            <div class="form-item-content">
-              <el-select v-model="bridgeForm.id">
-                <el-option
-                  v-for="bridge in egressBridgeList"
-                  :key="bridge.id"
-                  :value="bridge.id"
-                  :label="bridge.id"
-                  :disabled="isDisabledBridge(bridge)"
-                />
-              </el-select>
-              <el-icon class="btn-handler" @click="addBridge"><plus /></el-icon>
-            </div>
+            <ActionSelect v-model="bridgeForm.id" :type="outputForm.type" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -55,21 +40,45 @@
     <div class="output-content" v-else-if="outputForm.type === RuleOutput.Console">
       {{ tl('console') }}
     </div>
-    <BridgeDetail
-      v-else-if="isOutputToBridge && bridgeForm.id"
-      ref="BridgeDetailRef"
-      class="output-content"
-      :bridge-id="bridgeForm.id"
-    />
+    <template v-else-if="isOutputToBridge">
+      <!-- Setting key is to refresh the component -->
+      <div class="output-content" v-if="!isCreatingAction">
+        <p class="detail-title">{{ tl('confPreview') }}</p>
+        <BridgeDetail ref="BridgeDetailRef" :bridge-id="bridgeForm.id" />
+      </div>
+      <BridgeCreate
+        v-else
+        ref="BridgeCreateCom"
+        class="output-content"
+        :key="outputForm.type"
+        :type="outputForm.type"
+      />
+    </template>
     <template #footer>
+      <el-button
+        v-if="isOutputToBridge && isCreatingAction"
+        type="primary"
+        plain
+        @click="testConnection"
+      >
+        <!-- :loading="isTesting" -->
+        {{ tl('testTheConnection') }}
+      </el-button>
       <el-button @click="cancel()">
         {{ $t('Base.cancel') }}
       </el-button>
-      <el-button type="primary" @click="submitOutput(isEdit)" :loading="submitLoading">
+      <el-button
+        v-if="isOutputToBridge && isCreatingAction"
+        type="primary"
+        @click="submitOutput"
+        :loading="submitLoading"
+      >
+        {{ tl('create') }}
+      </el-button>
+      <el-button v-else type="primary" @click="submitOutput" :loading="submitLoading">
         {{ isEdit ? $t('Base.update') : $t('Base.add') }}
       </el-button>
     </template>
-    <AddBridgeOnRule v-model="showAddBridgeDrawer" @added="handleAddedBridge" />
   </el-drawer>
 </template>
 
@@ -84,11 +93,10 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getMixedActionList } from '@/api/ruleengine'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { BridgeItem, OutputItemObj } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import {
   PropType,
   Ref,
@@ -97,13 +105,12 @@ import {
   defineEmits,
   defineProps,
   nextTick,
-  onActivated,
   ref,
   watch,
 } from 'vue'
-import { useRoute } from 'vue-router'
+import BridgeCreate from '../Bridge/BridgeCreate.vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
-import AddBridgeOnRule from './AddBridgeOnRule.vue'
+import ActionSelect from '../Rule/components/ActionSelect.vue'
 import RePubForm from './RePubForm.vue'
 
 type OutputForm = {
@@ -146,7 +153,6 @@ const createRawOutputForm = (): OutputForm => ({
   },
 })
 
-const route = useRoute()
 const formCom = ref()
 const RePubFormCom = ref()
 const submitLoading = ref(false)
@@ -171,21 +177,39 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 
 const isEdit = computed(() => !!props.output && props.edit)
 
-const isDisabledConsole = computed(() => {
-  const isEditingConsole =
-    typeof props.output === 'object' && RuleOutput.Console !== props.output?.function
-  return props.outputDisableList.includes(RuleOutput.Console) && !isEditingConsole
-})
+const { egressBridgeTypeList } = useBridgeTypeValue()
+const actionTypeOpts: Array<{ value: string; label: string }> = [
+  { value: RuleOutput.Republish, label: tl('republish') },
+  { value: RuleOutput.Console, label: tl('consoleOutput') },
+  ...egressBridgeTypeList,
+]
 
-const isDisabledRepublish = computed(() => {
-  const isEditingRepublish =
-    typeof props.output === 'object' && RuleOutput.Republish !== props.output?.function
-  return props.outputDisableList.includes(RuleOutput.Republish) && !isEditingRepublish
-})
+const typesNotAction: Array<string> = [RuleOutput.Republish, RuleOutput.Console]
+const isOutputToBridge = computed(
+  () => outputForm.value.type && !typesNotAction.includes(outputForm.value.type),
+)
+/**
+ * is creating true action
+ */
+const isCreatingAction = computed(() => !bridgeForm.value.id)
+const BridgeCreateRef = ref()
 
-const isOutputToBridge = computed(() => {
-  return outputForm.value.type === RuleOutput.DataBridge && bridgeForm.value.id
-})
+const isOutputTypeDisabled = (type: string) => {
+  switch (type) {
+    case RuleOutput.Republish: {
+      const isEditingRepublish =
+        typeof props.output === 'object' && RuleOutput.Republish !== props.output?.function
+      return props.outputDisableList.includes(RuleOutput.Republish) && !isEditingRepublish
+    }
+    case RuleOutput.Console: {
+      const isEditingConsole =
+        typeof props.output === 'object' && RuleOutput.Console !== props.output?.function
+      return props.outputDisableList.includes(RuleOutput.Console) && !isEditingConsole
+    }
+    default:
+      return false
+  }
+}
 
 const setFormDataWhenOpenDialog = async () => {
   const { output } = props
@@ -221,39 +245,33 @@ const isDisabledBridge = ({ id }: BridgeItem) => {
   return props.outputDisableList.includes(id) && id !== props.output
 }
 
-const showAddBridgeDrawer = ref(false)
-const addBridge = () => {
-  showAddBridgeDrawer.value = true
+const testConnection = () => {
+  // TODO::TODO::TODO::TODO::
 }
 
-const handleAddedBridge = (bridgeId: string) => {
-  showAddBridgeDrawer.value = false
-  outputForm.value.type = RuleOutput.DataBridge
-  bridgeForm.value.id = bridgeId
-}
-
-const submitOutput = async (edit = false) => {
+const submitOutput = async () => {
   try {
     await formCom.value?.validate()
     submitLoading.value = true
     let opObj
-    switch (outputForm.value.type) {
-      case RuleOutput.Console:
-        opObj = { function: outputForm.value.type }
-        break
-      case RuleOutput.Republish:
+    const { type } = outputForm.value
+    if (!isOutputToBridge.value) {
+      if (type === RuleOutput.Console) {
+        opObj = { function: type }
+      } else if (type === RuleOutput.Republish) {
         await RePubFormCom.value?.validate()
-        opObj = {
-          function: outputForm.value.type,
-          args: { ...outputForm.value.args },
-        }
-        break
-      case RuleOutput.DataBridge:
+        opObj = { function: type, args: { ...outputForm.value.args } }
+      } else {
+        console.error('can not handle output form')
+      }
+    } else {
+      if (isCreatingAction.value) {
+        // TODO: submit new action
+      } else {
         opObj = bridgeForm.value.id
-        break
-      default:
-        opObj = outputForm.value.type
+      }
     }
+    // TODO: change the logic
     if (outputForm.value.type === RuleOutput.DataBridge) {
       const res = await BridgeDetailRef.value?.updateBridgeInfo()
       if (!res) {
@@ -282,48 +300,23 @@ watch(showDrawer, (val) => {
     bridgeForm.value = {}
   }
 })
-
-onActivated(async () => {
-  if (!props.modelValue) {
-    return
-  }
-  const { params } = route
-  if (params.bridgeId) {
-    await loadEgressBridgeList()
-    outputForm.value.type = params.bridgeId as string
-  }
-})
 </script>
 
 <style lang="scss" scoped>
-.form-item-content {
-  display: flex;
-  width: 100%;
-  .btn-handler {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--color-border-primary);
-    border-radius: var(--el-border-radius-base);
-    cursor: pointer;
-    margin-left: 8px;
-    &.is-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-}
-
 .output-content {
   margin-top: 16px;
   padding-top: 20px;
   border-top: 1px solid var(--color-border-primary);
-  :deep(.el-card) {
+  :deep(.el-tab-pane > .el-card) {
     border: none;
   }
+}
+.detail-title {
+  padding: 0 4px;
+  margin: 4px 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
 }
 .payload-desc {
   color: var(--color-text-secondary);
