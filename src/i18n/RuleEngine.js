@@ -192,6 +192,10 @@ export default {
     zh: '控制台输出',
     en: 'Console Output',
   },
+  confPreview: {
+    zh: '配置预览',
+    en: 'Configuration Preview',
+  },
   outputResult: {
     zh: '输出结果',
     en: 'Output Result',
