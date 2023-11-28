@@ -18,26 +18,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('registry')">
-            <el-input v-model="jValue.proto.registry" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('authentication')">
-            <el-input v-model="jValue.proto.authentication" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('upTopic')">
-            <el-input v-model="jValue.proto.up_topic" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('dnTopic')">
-            <el-input v-model="jValue.proto.dn_topic" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
             <TimeInputWithUnitSelect
               v-model="jValue.retry_interval"
@@ -75,14 +55,35 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('allowAnonymous')">
-            <el-switch v-model="jValue.proto.allow_anonymous" />
-          </el-form-item>
-        </el-col>
         <el-col :span="24">
           <el-form-item :label="tl('useLog')">
             <el-switch v-model="jValue.enable_stats" />
+          </el-form-item>
+        </el-col>
+        <!-- Proto -->
+        <el-col :span="12">
+          <el-form-item :label="tl('registry')">
+            <el-input v-model="jValue.proto.registry" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('authentication')">
+            <el-input v-model="jValue.proto.authentication" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('upTopic')">
+            <el-input v-model="jValue.proto.up_topic" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('dnTopic')">
+            <el-input v-model="jValue.proto.dn_topic" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('allowAnonymous')">
+            <el-switch v-model="jValue.proto.allow_anonymous" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -113,8 +114,8 @@ const createDefault = () => ({
   },
   proto: {
     allow_anonymous: true,
-    registry: '',
-    authentication: '',
+    registry: undefined,
+    authentication: undefined,
     up_topic: 'jt808/${clientid}/${phone}/up',
     dn_topic: 'jt808/${clientid}/${phone}/dn',
   },

@@ -361,8 +361,8 @@ export default {
     en: 'Registry',
   },
   authentication: {
-    zh: '认证',
-    en: 'Authentication',
+    zh: '认证 URL',
+    en: 'Authentication URL',
   },
   upTopic: {
     zh: '上行主题',
