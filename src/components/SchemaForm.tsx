@@ -33,8 +33,10 @@ interface FormItemMeta {
   levelName?: string
 }
 
-const typesDoNotNeedGroups = ['bridge']
-const typesNeedConciseSSL = ['bridge']
+const typesDoNotShowSkeleton = ['bridge', 'connector']
+
+const typesDoNotNeedGroups = ['bridge', 'connector']
+const typesNeedConciseSSL = ['bridge', 'connector']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
 
@@ -857,7 +859,7 @@ const SchemaForm = defineComponent({
         // Initialize with an empty object, do not modify the loading variable at this point.
         formEle = null
       } else {
-        formLoading.value = false
+        isSchemaLoading.value = false
         ctx.emit('schema-loaded')
         formEle = renderLayout(getComponents(properties))
       }
@@ -933,12 +935,16 @@ const SchemaForm = defineComponent({
       ctx.emit('update', configForm.value)
     })
 
-    const formLoading = ref(true)
+    const isSchemaLoading = ref(true)
     const showSkeleton = computed(
-      () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        !typesDoNotShowSkeleton.includes(props.type),
     )
     const showLoading = computed(
-      () => (formLoading.value || props.recordLoading) && props.type === 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        typesDoNotShowSkeleton.includes(props.type),
     )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
