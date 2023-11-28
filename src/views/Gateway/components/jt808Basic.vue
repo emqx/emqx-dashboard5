@@ -63,11 +63,21 @@
         <!-- Proto -->
         <el-col :span="12">
           <el-form-item :label="tl('registry')">
+            <template #label>
+              <FormItemLabel :label="tl('registry')" :desc="tl('registryDesc')" desc-marked />
+            </template>
             <el-input v-model="jValue.proto.registry" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('authentication')">
+          <el-form-item :label="tl('authenticationUrl')">
+            <template #label>
+              <FormItemLabel
+                :label="tl('authenticationUrl')"
+                :desc="tl('authenticationUrlDesc')"
+                desc-marked
+              />
+            </template>
             <el-input v-model="jValue.proto.authentication" />
           </el-form-item>
         </el-col>
@@ -92,11 +102,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watch, defineProps, defineEmits } from 'vue'
+import { onMounted, reactive, watch, defineProps, defineEmits, computed } from 'vue'
 import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   value: {
