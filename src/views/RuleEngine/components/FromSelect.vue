@@ -39,8 +39,8 @@
     </el-option-group>
     <el-option-group
       v-if="bridgeOptions && bridgeOptions.length"
-      :key="tl('dataBridge')"
-      :label="tl('dataBridge')"
+      :key="tl('action')"
+      :label="tl('action')"
     >
       <el-option
         v-for="item in bridgeOptions"

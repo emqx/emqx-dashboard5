@@ -3,7 +3,7 @@
     :totals="{
       egress: 'matched',
     }"
-    :title="lowerCase(tl('dataBridge'))"
+    :title="lowerCase(tl('action'))"
     :request-metrics="getBridgeMetrics"
     :request-reset="resetMetrics"
     :type-metrics-maps="getTypeMetricsMap()"

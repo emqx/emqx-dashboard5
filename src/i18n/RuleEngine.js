@@ -144,10 +144,6 @@ export default {
     zh: '连接超时',
     en: 'Connect Timeout',
   },
-  reqTimeout: {
-    zh: 'HTTP 请求超时',
-    en: 'HTTP Request Timeout',
-  },
   name: {
     zh: '名称',
     en: 'Name',
@@ -263,10 +259,6 @@ export default {
   messages: {
     zh: '消息',
     en: 'Messages',
-  },
-  changeSqlMethod: {
-    zh: '切换 SQL 编辑',
-    en: 'Switch SQL Edit',
   },
   changeFormMethod: {
     zh: '切换表单编辑',
@@ -562,10 +554,6 @@ export default {
     The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
     Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`, where \`n\` represents the client's number in the connection pool.`,
   },
-  bridgeUsage: {
-    zh: '如何使用桥接',
-    en: 'How to use Bridge',
-  },
   localTopic: {
     zh: '本地主题',
     en: 'Local Topic',
@@ -778,9 +766,9 @@ export default {
     zh: '当取消终端订阅成功时触发规则',
     en: `Triggered when the terminal subscription is cancelled successfully`,
   },
-  useBridge: {
-    zh: '使用桥接',
-    en: 'Use bridge',
+  useAction: {
+    zh: '使用动作',
+    en: 'Use action',
   },
   bridgeForInputDesc: {
     zh: '当桥接从外部服务接收到消息时触发规则。',
@@ -814,9 +802,9 @@ export default {
     zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",
     en: "Supports extracting data concatenated URLs using the ${'{'}field{'}'} syntax",
   },
-  useBridgeCreateRule: {
-    zh: '是否使用该数据桥接创建规则？',
-    en: 'Would you like to create a Rule using this Data Bridge?',
+  useConnectorCreateRule: {
+    zh: '是否使用该连接器创建规则？',
+    en: 'Would you like to create a rule using this connector?',
   },
   console: {
     zh: '打印结果输出到控制台',
@@ -854,9 +842,9 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
-  deleteBridgeSecondConfirm: {
-    zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',
-    en: 'Deleting this bridge will affect the data flow for the rules listed below. If the bridge has been added to the actions of any rules, it will be removed immediately, continue?',
+  deleteActionSecondConfirm: {
+    zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
+    en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   rateUnit: {
     zh: '条/秒 | 条/秒',
