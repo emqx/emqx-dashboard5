@@ -4,7 +4,7 @@
     v-model="showDrawer"
     :lock-scroll="false"
     custom-class="connector-create-drawer"
-    size="50%"
+    size="60%"
     destroy-on-close
     append-to-body
   >

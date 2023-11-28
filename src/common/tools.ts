@@ -424,6 +424,15 @@ export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): boole
   return false
 }
 
+export const scrollToTop = () => {
+  try {
+    const body = document.querySelector('.main-content > .el-scrollbar > .el-scrollbar__wrap')
+    body?.scrollTo({ top: 0 })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const findExtensionByName = (name: string): string => {
   const reg = /.+\.(.+)/
   const matchResult = name.match(reg)

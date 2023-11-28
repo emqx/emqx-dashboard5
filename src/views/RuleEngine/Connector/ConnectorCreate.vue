@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { countDuplicationName, customValidate } from '@/common/tools'
+import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import { useBridgeTypeValue, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -100,6 +100,7 @@ const goPreStep = () => {
   // TODO:init connector data
   guideDescList.value.pop()
   handleBack()
+  scrollToTop()
 }
 
 const { getBridgeLabelByTypeValue, getBridgeGeneralType } = useBridgeTypeValue()
@@ -107,6 +108,7 @@ const goNextStep = () => {
   if (step.value === 0) {
     initConnectorData()
     guideDescList.value.push(getBridgeLabelByTypeValue(selectedType.value) || '')
+    scrollToTop()
   }
   handleNext()
 }
