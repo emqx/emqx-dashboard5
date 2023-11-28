@@ -18,11 +18,13 @@ export const resourceOptFields = [
 
 type PropsType = Readonly<{
   modelValue: Record<string, any>
-  type?: Exclude<BridgeType, BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB>
+  type?: string
   edit?: boolean
   copy?: boolean
   isLoading?: boolean
   readonly?: boolean
+  disabled?: boolean
+  hideName?: boolean
   formProps?: Record<string, any>
   hiddenFields?: string[]
   isUsingInFlow?: boolean
@@ -347,14 +349,31 @@ export default (
     return [...commonAdvancedFields, ...externalFields]
   })
 
+  const singleFieldInFirstRowClass = 'dividing-line-below col-need-row'
+  const getFirstRowClass = () => {
+    let connectorClass = ''
+    let nameClass = ''
+    if (isConnectorSupported(props.type as BridgeType)) {
+      if (props.hideName) {
+        connectorClass = singleFieldInFirstRowClass
+        nameClass = 'col-hidden'
+      } else {
+        nameClass = singleFieldInFirstRowClass
+      }
+    } else {
+      nameClass = props.hideName ? 'col-hidden' : singleFieldInFirstRowClass
+    }
+    return { connectorClass, nameClass }
+  }
+
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
   const customColClass = computed(() => {
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    const { nameClass, connectorClass } = getFirstRowClass()
     return {
       ...syncEtcFieldsClassMap.value,
-      name: `dividing-line-below ${
-        !isConnectorSupported(props.type as BridgeType) && `col-need-row`
-      }`,
+      name: nameClass,
+      connector: connectorClass,
       direction: 'col-hidden',
       type: 'col-hidden',
       enable: 'col-hidden',
