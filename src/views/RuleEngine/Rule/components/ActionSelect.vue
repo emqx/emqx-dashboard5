@@ -11,7 +11,6 @@
       <div class="action-opt-item space-between">
         <p class="action-name">{{ name }}</p>
         <div class="action-status vertical-align-center">
-          <!-- TODO: class -->
           <i class="node-status-dot" :class="`is-${getStatusClass(status)}`"></i>
           <span class="text-status" :class="getStatusClass(status)">
             {{ getStatusLabel(status) }}
@@ -110,6 +109,9 @@ const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
 .action-opt-popper {
   p {
     margin: 0;
+  }
+  .node-status-dot {
+    margin-right: 4px;
   }
 }
 </style>
