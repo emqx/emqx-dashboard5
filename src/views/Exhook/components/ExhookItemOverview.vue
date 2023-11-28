@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-// import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MetricsData } from '@/types/common'
