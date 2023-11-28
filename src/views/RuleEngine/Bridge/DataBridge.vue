@@ -121,7 +121,7 @@ export default defineComponent({
     }
 
     const createRuleWithBridge = (bridgeId: string) => {
-      ElMessageBox.confirm(t('RuleEngine.useBridgeCreateRule'), {
+      ElMessageBox.confirm(t('RuleEngine.useConnectorCreateRule'), {
         confirmButtonText: t('Base.confirm'),
         cancelButtonText: t('Base.cancel'),
         type: 'success',

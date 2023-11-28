@@ -39,10 +39,6 @@ export default {
     zh: '批量加载数量',
     en: 'Batch Read Number',
   },
-  batchDeliverNumber: {
-    zh: '批量发布数量',
-    en: 'Batch Deliver Number',
-  },
   msgExpiryInterval: {
     en: 'Message Expiry Interval',
     zh: '消息过期间隔',
@@ -294,10 +290,6 @@ export default {
   batchReadNumberDesc: {
     en: 'Size of the batch when reading messages from storage, 0 means reading all at once',
     zh: '从存储后端批量加载时的每批数量上限，0 代表一次性读取',
-  },
-  batchDeliverNumberDesc: {
-    en: 'The number of retained messages can be delivered per batch, 0 means delivering all at once.',
-    zh: '批量派发时每批的数量，0 代表一次性全部派发',
   },
   sysMsgIntervalDesc: {
     en: `Time interval for publishing following system messages:
