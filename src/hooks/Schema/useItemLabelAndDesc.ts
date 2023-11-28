@@ -64,11 +64,13 @@ export default (
 ): {
   getText: (prop: Property) => {
     label: any
-    desc: string
+    desc?: string
   }
   getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
+
+  const typesUseBridgeText = ['bridge', 'connector']
 
   /**
    * zone is first level
@@ -135,7 +137,7 @@ export default (
   }
 
   const getTextKey = (prop: Property) => {
-    return props.type !== 'bridge'
+    return !typesUseBridgeText.includes(props.type)
       ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
       : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
   }
@@ -163,7 +165,7 @@ export default (
         desc: te(descKey) ? t(descKey) : '',
       }
     }
-    return { label: '', desc: '' }
+    return { label: '' }
   }
 
   return {
