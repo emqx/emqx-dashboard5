@@ -27,6 +27,10 @@ export default {
     zh: '连接类型',
     en: 'Type of Connector',
   },
+  connectorName: {
+    zh: '连接器名称',
+    en: 'Connector Name',
+  },
   dataBridge: {
     zh: '数据桥接',
     en: 'Data bridge',
