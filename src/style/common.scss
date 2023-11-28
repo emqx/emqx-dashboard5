@@ -782,11 +782,18 @@ code {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  &.is-running {
+  &.is-running,
+  &.is-success {
     background: var(--color-primary);
   }
   &.is-stopped {
     background: var(--color-text-placeholder);
+  }
+  &.is-danger {
+    background: var(--el-color-danger);
+  }
+  &.is-warning {
+    background: var(--el-color-warning);
   }
 }
 /* FLOW */
