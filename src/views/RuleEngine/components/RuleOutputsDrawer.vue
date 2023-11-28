@@ -16,7 +16,7 @@
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
-            <el-select v-model="outputForm.type" filterable>
+            <el-select v-model="outputForm.type" filterable @change="handleTypeChanged">
               <el-option
                 v-for="{ value, label } in actionTypeOpts"
                 :key="value"
@@ -129,7 +129,7 @@ const props = defineProps({
     type: Boolean,
   },
   output: {
-    type: Object as PropType<OutputItemObj>,
+    type: Object as PropType<OutputItemObj | string>,
     required: false,
   },
   outputDisableList: {
@@ -194,6 +194,10 @@ const isOutputToBridge = computed(
  */
 const isCreatingAction = computed(() => !bridgeForm.value.id)
 const BridgeCreateRef = ref()
+
+const handleTypeChanged = () => {
+  bridgeForm.value.id = ''
+}
 
 const isOutputTypeDisabled = (type: string) => {
   switch (type) {
