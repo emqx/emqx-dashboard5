@@ -320,8 +320,8 @@ export default {
     en: 'Receive a Base64-encoded string',
   },
   nodeStatusDesc: {
-    zh: '每个节点上{target}状态和执行情况',
-    en: '{target} status and execution on each node',
+    zh: '每个节点上{target}的资源状况和执行效率',
+    en: `Resource condition and execution efficiency of {target} on each node`,
   },
   noDatabasePlaceholder: {
     zh: '无可用的数据库供此类型网关选择',
@@ -386,6 +386,10 @@ export default {
   authn: {
     zh: '认证',
     en: 'authentication',
+  },
+  authz: {
+    zh: '授权',
+    en: 'authorization',
   },
   authzCheck: {
     zh: '鉴权检查',
