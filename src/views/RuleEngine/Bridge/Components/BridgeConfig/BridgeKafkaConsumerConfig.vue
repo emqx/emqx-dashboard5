@@ -9,21 +9,22 @@
     :disabled="disabled"
     :validate-on-rule-change="false"
   >
-    <el-row :gutter="26">
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="formData.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="formData.name" :disabled="edit" />
-        </CustomFormItem>
-      </el-col>
-    </el-row>
-
-    <el-divider />
+    <template v-if="!hideName">
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
+            <InputSelect
+              v-if="isCreateBridgeInFlow"
+              v-model="formData.name"
+              :options="nameOptions"
+              @change="handleNameChange"
+            />
+            <el-input v-else v-model="formData.name" :disabled="edit" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+      <el-divider />
+    </template>
 
     <el-row :gutter="26">
       <el-col :span="colSpan">
@@ -394,6 +395,13 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
+    type: Boolean,
+    default: false,
   },
   isUsingInFlow: {
     type: Boolean,

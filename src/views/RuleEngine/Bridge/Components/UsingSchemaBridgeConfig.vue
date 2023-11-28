@@ -96,6 +96,10 @@ const props = withDefaults(
     readonly?: boolean
     disabled?: boolean
     /**
+     * for rule
+     */
+    hideName?: boolean
+    /**
      * bind to el-form component
      */
     formProps?: Record<string, any>

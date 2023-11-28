@@ -97,6 +97,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-kafka-producer-config
@@ -105,6 +106,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-kafka-consumer-config
@@ -113,6 +115,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-pulsar-config
@@ -121,6 +124,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <using-schema-bridge-config
@@ -130,6 +134,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :disabled="disabled"
+                :hide-name="hideName"
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">

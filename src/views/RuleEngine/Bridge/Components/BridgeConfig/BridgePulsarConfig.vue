@@ -10,36 +10,39 @@
     :disabled="disabled"
     :validate-on-rule-change="false"
   >
-    <el-row :gutter="26">
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="formData.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="formData.name" :disabled="edit" />
-        </CustomFormItem>
-      </el-col>
-      <el-col :span="colSpan" v-if="!isRoleHidden">
-        <el-form-item>
-          <template #label>
-            <span>{{ tl('role') }}</span>
-          </template>
-          <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
-            <el-option
-              v-for="{ value, label } in roleMap"
-              :key="value"
-              :value="value"
-              :label="label"
+    <template v-if="!hideName">
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
+            <InputSelect
+              v-if="isCreateBridgeInFlow"
+              v-model="formData.name"
+              :options="nameOptions"
+              @change="handleNameChange"
             />
-          </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
+            <el-input v-else v-model="formData.name" :disabled="edit" />
+          </CustomFormItem>
+        </el-col>
+        <!-- FIXME: maybe remove in new design? -->
+        <el-col :span="colSpan" v-if="!isRoleHidden">
+          <el-form-item>
+            <template #label>
+              <span>{{ tl('role') }}</span>
+            </template>
+            <el-select v-model="role" :disabled="edit" @change="handleRoleChanged">
+              <el-option
+                v-for="{ value, label } in roleMap"
+                :key="value"
+                :value="value"
+                :label="label"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <el-divider />
+      <el-divider />
+    </template>
 
     <el-row :gutter="26">
       <el-col :span="colSpan">
@@ -336,6 +339,13 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
+    type: Boolean,
+    default: false,
   },
   isRoleHidden: {
     type: Boolean,

@@ -10,7 +10,7 @@
     :validate-on-rule-change="false"
   >
     <el-row :gutter="26">
-      <el-col :span="colSpan">
+      <el-col :span="colSpan" v-if="!hideName">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
           <InputSelect
             v-if="isCreateBridgeInFlow"
@@ -400,6 +400,13 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
+    type: Boolean,
+    default: false,
   },
   isUsingInFlow: {
     type: Boolean,
