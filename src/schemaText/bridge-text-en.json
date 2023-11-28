@@ -5,7 +5,7 @@
       "label": "Deprecated. Auto Reconnect Database"
     },
     "password": {
-      "desc": "The password associated with the bridge, used for authentication with the external database.",
+      "desc": "Password used for authentication with the external database.",
       "label": "Password"
     },
     "pool_size": {
@@ -161,10 +161,6 @@
     }
   },
   "emqx_ee_bridge_hstreamdb": {
-    "direction": {
-      "desc": "The direction of this bridge, MUST be 'egress'",
-      "label": "Bridge Direction"
-    },
     "payload": {
       "desc": "The payload to be forwarded to the HStreamDB. Placeholders supported.",
       "label": "Payload"

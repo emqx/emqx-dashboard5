@@ -5,7 +5,7 @@
       "label": "已弃用。自动重连数据库"
     },
     "password": {
-      "desc": "与此数据桥接相关联的外部数据库中，用于认证或识别的密码。",
+      "desc": "相关联的外部数据库中，用于认证或识别的密码。",
       "label": "密码"
     },
     "pool_size": {
@@ -161,10 +161,6 @@
     }
   },
   "emqx_ee_bridge_hstreamdb": {
-    "direction": {
-      "desc": "桥接的方向， 必须是 egress",
-      "label": "桥接方向"
-    },
     "payload": {
       "desc": "要转发到 HStreamDB 的数据内容，支持占位符",
       "label": "消息内容"
