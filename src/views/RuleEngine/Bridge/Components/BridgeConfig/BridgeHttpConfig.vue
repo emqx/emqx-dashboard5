@@ -9,20 +9,22 @@
     :disabled="disabled"
     v-bind="$attrs"
   >
-    <el-row :gutter="26">
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="httpBridgeVal.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
-        </CustomFormItem>
-      </el-col>
-    </el-row>
-    <el-divider />
+    <template v-if="!hideName">
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
+            <InputSelect
+              v-if="isCreateBridgeInFlow"
+              v-model="httpBridgeVal.name"
+              :options="nameOptions"
+              @change="handleNameChange"
+            />
+            <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+      <el-divider />
+    </template>
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <el-form-item :label="tl('method')" required prop="method">
@@ -193,6 +195,13 @@ export default defineComponent({
       default: false,
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * for rule
+     */
+    hideName: {
       type: Boolean,
       default: false,
     },
