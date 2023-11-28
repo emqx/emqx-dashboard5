@@ -337,6 +337,7 @@ onMounted(() => {
 
 defineExpose({
   updateBridgeInfo,
+  testConnection,
 })
 </script>
 
