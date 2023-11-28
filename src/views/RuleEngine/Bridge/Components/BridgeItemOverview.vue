@@ -10,6 +10,7 @@
     :text-map="textMap"
     :rate-metrics="rateData"
     :show-rate="showEgressStats"
+    :node-status-desc="tl('nodeStatusBridgeDesc')"
   >
     <template #table="{ data }">
       <el-table :data="nodeStatusTableData(data)">

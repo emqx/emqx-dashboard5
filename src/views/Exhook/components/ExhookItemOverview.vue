@@ -1,43 +1,48 @@
 <template>
   <div class="resource-item-overview exhook-item-overview">
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p class="block-title">{{ tl('metricsData') }}</p>
-      </div>
-      <TargetDetailMetrics class="rule-statistic" :metrics="metricsData" />
-    </div>
-    <div class="overview-sub-block">
-      <div class="overview-header">
-        <p class="vertical-align-center">
-          {{ tl('nodeMetricsData') }}
-          <InfoTooltip :content="tl('nodeStatusDesc')" />
-        </p>
-      </div>
-      <el-table :data="nodeMetricsTableData">
-        <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column :label="tl('success')" prop="metrics.succeed" />
-        <el-table-column :label="tl('failure')" prop="metrics.failed" />
-        <el-table-column :label="tl('currentRate')" prop="metrics.rate" />
-        <el-table-column :label="t('Base.status')">
-          <template #default="{ row }">
-            <span class="text-status" :class="statusTextClass(row.status)">
-              {{ statusText(row.status) }}
-            </span>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+    <OverviewMetrics
+      :request-metrics="getHooksMetricsData"
+      :type-metrics-maps="[
+        {
+          name: 'exhook',
+          data: exHooksTypeMetricsMap,
+        },
+      ]"
+      :text-map="textMap"
+      :rate-metrics="rateData"
+      show-rate
+      :node-status-desc="tl('nodeStatusDesc')"
+    >
+      <template #table="{ data }">
+        <el-table :data="nodeStatusTableData(data)">
+          <el-table-column :label="tl('name')" prop="node" />
+          <el-table-column :label="t('Base.success')" prop="metrics.succeed" />
+          <el-table-column :label="t('Base.failed')" prop="metrics.failed" />
+          <el-table-column :label="t('Base.rateNow')" prop="metrics.rate" />
+          <el-table-column :label="t('Base.rateMax')" prop="metrics.max_rate" />
+          <el-table-column :label="t('Base.status')">
+            <template #default="{ row }">
+              <span class="text-status" :class="statusTextClass(row.status)">
+                {{ statusText(row.status) }}
+              </span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+    </OverviewMetrics>
   </div>
 </template>
 
 <script setup lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import TargetDetailMetrics from '@/components/TargetDetailMetrics.vue'
 import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { NodeMetrics } from '@/types/common'
+import { MetricsData } from '@/types/common'
 import { Exhook } from '@/types/systemModule'
-import { computed, defineProps, PropType, ComputedRef } from 'vue'
+import { defineProps, PropType } from 'vue'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
+import { useExHooksMetrics } from '@/hooks/useMetrics'
+import { queryExhookDetail } from '@/api/exhook'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 
 const props = defineProps({
   exhook: {
@@ -45,23 +50,20 @@ const props = defineProps({
   },
 })
 
+const { textMap, exHooksTypeMetricsMap, rateData } = useExHooksMetrics()
+
 const { tl, t } = useI18nTl('Exhook')
 
-const metricsData = computed(() => [
-  { label: tl('registeredHooks'), value: props.exhook?.hooks?.length, className: 'matched-bg' },
-  { label: tl('success'), value: props.exhook?.metrics?.succeed, className: 'success-bg' },
-  { label: tl('failure'), value: props.exhook?.metrics?.failed, className: 'failed-bg' },
-  { label: tl('currentRate'), value: props.exhook?.metrics?.rate, className: 'rate-bg' },
-])
-
-const nodeMetrics: ComputedRef<Array<NodeMetrics>> = computed(() => {
-  const nodeMetricsData = props.exhook?.node_metrics
-  return Array.isArray(nodeMetricsData) ? nodeMetricsData : []
-})
-
-const nodeMetricsTableData: ComputedRef<Array<NodeMetrics & { status: string }>> = computed(() => {
+const nodeStatusTableData = (data: MetricsData) => {
+  if (!data) {
+    return []
+  }
+  const { node_metrics } = data
+  if (isEmptyObj(node_metrics)) {
+    return []
+  }
   const nodeStatus = props.exhook?.node_status || []
-  return nodeMetrics.value.map(({ node, metrics }) => {
+  return node_metrics.map(({ node, metrics }) => {
     const status = nodeStatus.find((item) => item.node === node)?.status || 'disabled'
     return {
       node,
@@ -69,7 +71,18 @@ const nodeMetricsTableData: ComputedRef<Array<NodeMetrics & { status: string }>>
       status,
     }
   })
-})
+}
 
 const { statusText, statusTextClass } = useExhookItemStatus()
+
+const getHooksMetricsData = () => {
+  try {
+    if (!props.exhook?.name) {
+      return
+    }
+    return queryExhookDetail(props.exhook.name)
+  } catch (error) {
+    //
+  }
+}
 </script>

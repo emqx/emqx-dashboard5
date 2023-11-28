@@ -16,7 +16,7 @@
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="$tc('RuleEngine.action')" prop="type">
-            <el-select v-model="outputForm.type" filterable>
+            <el-select v-model="outputForm.type" filterable @change="handleTypeChanged">
               <el-option
                 v-for="{ value, label } in actionTypeOpts"
                 :key="value"
@@ -52,7 +52,7 @@
       </div>
       <BridgeCreate
         v-else
-        ref="BridgeCreateCom"
+        ref="BridgeCreateRef"
         class="output-content"
         :key="outputForm.type"
         :type="outputForm.type"
@@ -60,7 +60,7 @@
     </template>
     <template #footer>
       <el-button
-        v-if="isOutputToBridge && isCreatingAction"
+        v-if="isOutputToBridge"
         plain
         type="primary"
         :loading="isTesting"
@@ -136,7 +136,7 @@ const props = defineProps({
     type: Boolean,
   },
   output: {
-    type: Object as PropType<OutputItemObj>,
+    type: Object as PropType<OutputItemObj | string>,
     required: false,
   },
   outputDisableList: {
@@ -200,7 +200,11 @@ const isOutputToBridge = computed(
  * is creating true action
  */
 const isCreatingAction = computed(() => !bridgeForm.value.id)
-const BridgeCreateCom = ref()
+const BridgeCreateRef = ref()
+
+const handleTypeChanged = () => {
+  bridgeForm.value.id = ''
+}
 
 const isOutputTypeDisabled = (type: string) => {
   switch (type) {
@@ -242,7 +246,8 @@ const isTesting = ref(false)
 const testConnection = async () => {
   isTesting.value = true
   try {
-    await BridgeCreateCom.value.testConnection()
+    const com = isCreatingAction.value ? BridgeCreateRef.value : BridgeDetailRef.value
+    await com?.testConnection?.()
   } catch (error) {
     // ignore error
   } finally {
@@ -252,7 +257,7 @@ const testConnection = async () => {
 
 const submitNewAction = async () => {
   try {
-    const actionId = await BridgeCreateCom.value.submitCreateBridge()
+    const actionId = await BridgeCreateRef.value.submitCreateBridge()
     return Promise.resolve(actionId)
   } catch (error) {
     return Promise.reject(error)
@@ -273,20 +278,16 @@ const submitOutput = async () => {
         await RePubFormCom.value?.validate()
         opObj = { function: type, args: { ...outputForm.value.args } }
       } else {
-        console.error('can not handle output form')
+        throw new Error('can not handle output form')
       }
     } else {
-      if (isCreatingAction.value) {
-        opObj = await submitNewAction()
+      if (isEdit.value) {
+        opObj = await BridgeDetailRef.value?.updateBridgeInfo()
+        if (!opObj) {
+          return
+        }
       } else {
-        opObj = bridgeForm.value.id
-      }
-    }
-    // TODO: change the logic
-    if (outputForm.value.type === RuleOutput.DataBridge) {
-      const res = await BridgeDetailRef.value?.updateBridgeInfo()
-      if (!res) {
-        return
+        opObj = isCreatingAction.value ? await submitNewAction() : bridgeForm.value.id
       }
     }
     emit('submit', opObj, isEdit.value)

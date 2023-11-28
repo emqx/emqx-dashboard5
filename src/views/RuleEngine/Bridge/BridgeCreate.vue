@@ -320,7 +320,7 @@ const submitCreateBridge = async () => {
     await formCom.value.validate()
   } catch (error) {
     jumpToErrorFormItem()
-    return
+    return Promise.reject(error)
   }
   submitLoading.value = true
   let res = undefined
@@ -342,13 +342,13 @@ const submitCreateBridge = async () => {
         .catch(() => {
           router.push({ name: 'actions' })
         })
-    } else {
-      return Promise.resolve(bridgeId)
     }
+    submitLoading.value = false
+    return Promise.resolve(bridgeId)
   } catch (error) {
     console.error(error)
-  } finally {
     submitLoading.value = false
+    return Promise.reject(error)
   }
 }
 

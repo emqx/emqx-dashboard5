@@ -10,6 +10,9 @@
       :text-map="isAuthn ? authnTextMap : authzTextMap"
       :rate-metrics="rateData"
       show-rate
+      :node-status-desc="
+        $t('Auth.nodeStatusDesc', { target: isAuthn ? $t('Auth.authn') : $t('Auth.authz') })
+      "
     >
       <template #table="{ data }">
         <el-table :data="nodeStatusTableData(data)">
