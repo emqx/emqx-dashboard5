@@ -73,6 +73,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
@@ -81,6 +82,7 @@
                 v-model="bridgeInfo"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
             </div>
@@ -160,6 +162,13 @@ const props = defineProps({
    * for viewing data
    */
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
     type: Boolean,
     default: false,
   },
@@ -367,6 +376,7 @@ defineExpose({
 }
 .app-inline-card {
   min-height: 300px;
+  overflow: visible;
   :deep(> .el-card__body) {
     padding: 0px;
   }
