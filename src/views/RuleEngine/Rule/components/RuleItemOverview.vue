@@ -21,6 +21,7 @@
       :text-map="textMap"
       :rate-metrics="rateData"
       show-rate
+      :node-status-desc="tl('nodeStatusRuleDesc')"
     >
       <template #table="{ data }">
         <el-table :data="data.node_metrics">

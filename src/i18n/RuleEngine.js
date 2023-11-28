@@ -497,8 +497,8 @@ export default {
     en: 'Last reset time',
   },
   nodeStatusBridgeDesc: {
-    zh: '每个节点上数据桥接状态和执行情况',
-    en: 'Data Bridge status and execution on each node',
+    zh: '每个节点上动作的状态和执行情况',
+    en: 'Actions status and execution on each node',
   },
   nodeStatusRuleDesc: {
     zh: '每个节点上规则状态和执行情况',
