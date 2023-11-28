@@ -251,7 +251,7 @@ const submitCreateBridge = async () => {
 
     const bridgeId = res?.id
     if (!isFromRule.value) {
-      ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+      ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
         confirmButtonText: tl('createRule'),
         cancelButtonText: tl('backBridgeList'),
         type: 'success',

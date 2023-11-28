@@ -40,10 +40,10 @@
           </div>
         </div>
       </el-collapse-item>
-      <el-collapse-item name="bridges" :title="tl('dataBridge')">
+      <el-collapse-item name="bridges" :title="tl('action')">
         <template #title>
           <div class="custom-collapse-item-hd">
-            <p>{{ tl('dataBridge') }}</p>
+            <p>{{ tl('action') }}</p>
           </div>
         </template>
         <div class="collapse-item-bd">
@@ -68,7 +68,7 @@
                 text
                 @click.prevent="useEvent(item.idForRuleFrom)"
               >
-                {{ tl('useBridge') }}
+                {{ tl('useAction') }}
               </el-button>
             </li>
           </ul>

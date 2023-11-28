@@ -131,7 +131,7 @@ const submit = async () => {
     isSubmitting.value = true
     const ret = await addConnector(formData.value)
     if (isInSinglePage.value) {
-      ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+      ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
         confirmButtonText: tl('createRule'),
         cancelButtonText: tl('backConnectorList'),
         type: 'success',

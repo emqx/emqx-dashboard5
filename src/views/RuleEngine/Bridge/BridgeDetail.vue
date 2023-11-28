@@ -312,7 +312,7 @@ const enableOrDisableBridge = async () => {
 }
 
 const createRuleWithBridge = () => {
-  ElMessageBox.confirm(tl('useBridgeCreateRule'), {
+  ElMessageBox.confirm(tl('useConnectorCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
