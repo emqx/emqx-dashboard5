@@ -35,12 +35,12 @@
                 {{ stringifyObjSafely(row.params) }}
               </template>
             </el-table-column>
-            <el-table-column :label="tl('success')">
+            <el-table-column :label="t('Base.success')">
               <template #default="{ row }">
                 {{ row.metrics?.succeed }}
               </template>
             </el-table-column>
-            <el-table-column :label="tl('failure')">
+            <el-table-column :label="t('Base.failed')">
               <template #default="{ row }">
                 {{ row.metrics?.failed }}
               </template>

@@ -468,8 +468,8 @@ export const useRuleMetrics = (): {
       desc: tl('actionsFailedUnknownDesc'),
     },
     'matched.rate': { label: t('Base.rateNow'), desc: tl('ruleRateBarDesc') },
-    'matched.rate.last5m': { label: t('Base.rateMax') },
-    'matched.rate.max': { label: t('Base.rateLast5M') },
+    'matched.rate.last5m': { label: t('Base.rateLast5M') },
+    'matched.rate.max': { label: t('Base.rateMax') },
   }
 
   const rateData = {
@@ -481,6 +481,37 @@ export const useRuleMetrics = (): {
   return {
     ruleTypeMetricsMap,
     actionTypeMetricsMap,
+    textMap,
+    rateData,
+  }
+}
+
+export const useExHooksMetrics = (): {
+  exHooksTypeMetricsMap: TypeMapData
+  textMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('Exhook')
+  const exHooksTypeMetricsMap = {
+    [MetricType.Green]: { title: t('Base.success'), contains: ['succeed'] },
+    [MetricType.Red]: {
+      title: t('Base.failed'),
+      contains: ['failed'],
+    },
+  }
+  const textMap = {
+    rate: { label: t('Base.rateNow'), desc: tl('rateBarDesc') },
+    max_rate: { label: t('Base.rateMax') },
+  }
+
+  const rateData = {
+    unitKey: 'Exhook.rateUnit',
+    current: 'rate',
+    right1: '',
+    right2: 'max_rate',
+  }
+  return {
+    exHooksTypeMetricsMap,
     textMap,
     rateData,
   }

@@ -7,14 +7,6 @@ export default {
     zh: '钩子数量',
     en: 'Number of hooks',
   },
-  success: {
-    zh: '成功',
-    en: 'Success',
-  },
-  failure: {
-    zh: '失败',
-    en: 'Failure',
-  },
   rate: {
     zh: '速度',
     en: 'Rate',
@@ -79,10 +71,6 @@ export default {
     zh: '指标数据',
     en: 'Metrics Data',
   },
-  currentRate: {
-    zh: '当前速率',
-    en: 'Current Rate',
-  },
   params: {
     zh: '参数',
     en: 'Params',
@@ -118,5 +106,9 @@ export default {
   nodeStatusDesc: {
     zh: '每个节点上钩子执行指标数据',
     en: 'Hook execution metrics data on each node',
+  },
+  rateBarDesc: {
+    zh: '近一分钟内钩子的执行速度趋势',
+    en: 'Trend of hooks execution speed in the past minute',
   },
 }
