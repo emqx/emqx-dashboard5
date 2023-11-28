@@ -79,7 +79,7 @@
         </el-col>
         <el-col :span="isFlowNode ? 24 : 13">
           <el-card class="metric-rate">
-            <div class="metric-rate-item">
+            <div v-if="rateMetrics.right1" class="metric-rate-item">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right1) }}</p>
               <p class="metric-num-s">
                 <span class="num">
@@ -90,7 +90,7 @@
                 </span>
               </p>
             </div>
-            <div class="metric-rate-item">
+            <div v-if="rateMetrics.right2" class="metric-rate-item">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right2) }}</p>
               <p class="metric-num-s">
                 <span class="num">
@@ -108,7 +108,7 @@
     <div class="metric-block" v-if="$slots.table && !isFlowNode">
       <div class="block-hd">
         <p class="block-title">
-          {{ tl('nodeStatus') }} <InfoTooltip :content="tl('nodeStatusBridgeDesc')" />
+          {{ tl('nodeStatus') }} <InfoTooltip v-if="nodeStatusDesc" :content="nodeStatusDesc" />
         </p>
       </div>
       <div class="block-bd">
@@ -165,6 +165,7 @@ const props = defineProps<{
    */
   title?: string
   tableData?: Array<string>
+  nodeStatusDesc?: string
 }>()
 
 // Special handling of metric styles under Flow nodes
