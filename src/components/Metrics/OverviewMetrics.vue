@@ -22,35 +22,42 @@
         </div>
       </div>
       <!-- Stats -->
-      <div
-        class="block-bd stats-numbers"
+      <el-row
+        :gutter="24"
+        :class="['block-bd', 'stats-numbers', { 'flow-node-row': isFlowNode }]"
         v-for="(typeMetricsData, index) in typeMetricsDataSets"
         :key="index"
       >
         <!-- Pie Chart Stats -->
-        <el-card v-if="totals && totals[typeMetricsData.name]" class="metric-pie">
-          <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
-          <p class="metric-num">{{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}</p>
-          <div class="pie-container" :id="setChartId(typeMetricsData.name)"></div>
-        </el-card>
+        <el-col v-if="totals && totals[typeMetricsData.name]" :span="isFlowNode ? 24 : 8">
+          <el-card class="metric-pie">
+            <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
+            <p class="metric-num">
+              {{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}
+            </p>
+            <div class="pie-container" :id="setChartId(typeMetricsData.name)"></div>
+          </el-card>
+        </el-col>
         <!-- Number Stats -->
-        <div class="metric-types">
-          <el-row :gutter="24">
-            <el-col :span="12" v-for="stat in typeMetricsData.stats" :key="stat.type">
-              <!-- set key to eliminate the diff when change node -->
-              <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
-            </el-col>
-          </el-row>
-        </div>
-      </div>
+        <el-col :span="isFlowNode ? 24 : 16">
+          <div class="metric-types">
+            <el-row :gutter="24">
+              <el-col :span="12" v-for="stat in typeMetricsData.stats" :key="stat.type">
+                <!-- set key to eliminate the diff when change node -->
+                <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
+              </el-col>
+            </el-row>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <!-- Rate Stats -->
     <div v-show="showRate" class="metric-block">
       <div class="block-hd">
         <p class="block-title">{{ t('Base.rateIndicators') }}</p>
       </div>
-      <el-row class="block-bd" :gutter="24">
-        <el-col :span="11">
+      <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="24">
+        <el-col :span="isFlowNode ? 24 : 11">
           <el-card class="metric-bar">
             <div class="metric-bar-hd">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.current) }}</p>
@@ -70,7 +77,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :span="13">
+        <el-col :span="isFlowNode ? 24 : 13">
           <el-card class="metric-rate">
             <div class="metric-rate-item">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right1) }}</p>
@@ -98,7 +105,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="metric-block" v-if="$slots.table">
+    <div class="metric-block" v-if="$slots.table && !isFlowNode">
       <div class="block-hd">
         <p class="block-title">
           {{ tl('nodeStatus') }} <InfoTooltip :content="tl('nodeStatusBridgeDesc')" />
@@ -125,7 +132,7 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { ComputedRef, Ref, computed, defineProps, ref } from 'vue'
+import { ComputedRef, Ref, computed, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
@@ -159,6 +166,9 @@ const props = defineProps<{
   title?: string
   tableData?: Array<string>
 }>()
+
+// Special handling of metric styles under Flow nodes
+const isFlowNode = inject('isFlowNode', false)
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -349,6 +359,11 @@ const { syncPolling } = useSyncPolling()
   .block-bd {
     display: flex;
     align-items: stretch;
+    &.flow-node-row {
+      & > .el-col:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
   }
   .metric-block {
     margin-bottom: 24px;
@@ -356,9 +371,8 @@ const { syncPolling } = useSyncPolling()
   $pie-card-side-length: 300px;
   $column-gap: 24px;
   .metric-pie {
-    width: $pie-card-side-length;
+    min-width: $pie-card-side-length;
     height: $pie-card-side-length;
-    margin-right: $column-gap;
     flex-shrink: 0;
     .el-card__body {
       display: flex;

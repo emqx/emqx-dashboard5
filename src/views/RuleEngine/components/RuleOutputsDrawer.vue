@@ -103,10 +103,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { getTypeAndNameFromKey } from '@/common/tools'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { RuleOutput } from '@/types/enum'
-import { OutputItemObj } from '@/types/rule'
+import { OutputItemObj, RePub } from '@/types/rule'
 import {
   PropType,
   WritableComputedRef,
@@ -124,7 +125,7 @@ import RePubForm from './RePubForm.vue'
 
 type OutputForm = {
   type: string
-  args?: Record<string, unknown>
+  args?: RePub
 }
 
 const { tl, t } = useI18nTl('RuleEngine')
@@ -218,15 +219,17 @@ const isOutputTypeDisabled = (type: string) => {
   }
 }
 
+const { getBridgeGeneralType } = useBridgeTypeValue()
 const setFormDataWhenOpenDialog = async () => {
   const { output } = props
   if (output) {
     if (typeof output === 'string') {
-      outputForm.value.type = RuleOutput.DataBridge
+      const { type } = getTypeAndNameFromKey(output)
+      outputForm.value.type = getBridgeGeneralType(type)
       bridgeForm.value.id = output
     } else if (typeof output === 'object') {
       outputForm.value.type = output.function || ''
-      if (output.function === RuleOutput.Republish) {
+      if (output.function === RuleOutput.Republish && output.args) {
         outputForm.value.args = output.args
       }
     }
