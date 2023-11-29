@@ -97,13 +97,14 @@ export default (
       name.type = 'string'
       name.componentProps = {
         onChange: (val: string) => {
-          const bridge = !!val && getBridgeByName(val)
-          if (bridge) {
-            isBridgeSelected.value = true
-            record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
-          } else {
-            isBridgeSelected.value = false
-          }
+          return
+          // const bridge = !!val && getBridgeByName(val)
+          // if (bridge) {
+          //   isBridgeSelected.value = true
+          //   record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
+          // } else {
+          //   isBridgeSelected.value = false
+          // }
         },
       }
     }
