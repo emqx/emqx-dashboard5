@@ -28,7 +28,7 @@ export const useBridgeTypeValue = (): {
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
-  ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
+  ].sort((a, b) => (bridgeOrderIndex[a.value] || 99) - (bridgeOrderIndex[b.value] || 99))
 
   /**
    * use it in add action to rule
@@ -213,8 +213,12 @@ export const useBridgeSchema = (): {
   const getSchemaRefByType = (type: string) => refPrefix + type + refSuffix
 
   const getTypeBySchemaRef = (ref: string) => {
-    const matchRet = ref.match(typeReg)
-    return matchRet ? matchRet[1] : ''
+    // 1. remove path 2. remove prefix 3. remove suffix
+    const ret = ref
+      .replace(/^.+\//, '')
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`${refSuffix}\\w*`), '')
+    return ret
   }
   return {
     getSchemaRefByType,
