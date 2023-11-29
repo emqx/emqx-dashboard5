@@ -21,7 +21,7 @@
       "label": "启用SSL"
     },
     "username": {
-      "desc": "与此数据桥接相关联的外部数据库中，用于认证或识别的用户名。",
+      "desc": "相关联的外部数据库中，用于认证或识别的用户名。",
       "label": "用户名"
     },
     "database": {
@@ -90,18 +90,6 @@
     "connect_timeout": {
       "desc": "连接 HTTP 服务器的超时时间。",
       "label": "连接超时"
-    },
-    "desc_config": {
-      "desc": "GCP PubSub 桥接配置",
-      "label": "GCP PubSub 桥接配置"
-    },
-    "desc_name": {
-      "desc": "桥接名字，可读描述",
-      "label": "桥接名字"
-    },
-    "desc_type": {
-      "desc": "桥接类型",
-      "label": "桥接类型"
     },
     "max_retries": {
       "desc": "请求出错时的最大重试次数。",
@@ -245,10 +233,6 @@
     "connect_timeout": {
       "desc": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
       "label": "连接超时"
-    },
-    "producer_opts": {
-      "desc": "本地 MQTT 数据源和 Kafka 桥接的配置。",
-      "label": "MQTT 到 Kafka"
     },
     "min_metadata_refresh_interval": {
       "desc": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
@@ -863,10 +847,6 @@
     }
   },
   "emqx_ee_bridge_pulsar": {
-    "pulsar_producer_struct": {
-      "desc": "Pulsar 桥接配置",
-      "label": "Pulsar 桥接配置"
-    },
     "servers": {
       "desc": "以逗号分隔的 <code>scheme://host[:port]</code> 格式的 Pulsar URL 列表，支持的 scheme 有 <code>pulsar://</code> （默认）和<code>pulsar+ssl://</code>。默认端口：6650。",
       "label": "服务器地址"
