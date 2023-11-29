@@ -49,6 +49,7 @@ const COMMON_CONNECTOR_KEY = [
 const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   matrix: 'pgsql',
   timescale: 'pgsql',
+  confluent: 'kafka',
 }
 
 const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {

@@ -260,6 +260,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.Webhook,
   BridgeType.KafkaProducer,
   BridgeType.AzureEventHubs,
+  BridgeType.Confluent,
 ]
 
 export const COPY_SUFFIX = '_duplication'

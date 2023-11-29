@@ -99,6 +99,26 @@ export default (
     'socket_opts.nodelay',
   ]
 
+  const azurePropsOrderMap = {
+    ...createOrderObj(
+      [
+        'bootstrap_hosts',
+        'authentication.password',
+        'ssl',
+        'parameters.topic',
+        'parameters.kafka_headers',
+        'parameters.kafka_header_value_encode_mode',
+        'parameters.kafka_ext_headers',
+        'parameters.message',
+        'parameters.message.key',
+        'parameters.message.value',
+        'parameters.message.timestamp',
+        'parameters.partition_strategy',
+      ],
+      1,
+    ),
+    ...createOrderObj(azureAdvancedProps, 150),
+  }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MySQL]: {
       ...createOrderObj(['server', 'database', 'username', 'password', 'ssl', 'sql'], 1),
@@ -246,26 +266,8 @@ export default (
         1,
       ),
     },
-    [BridgeType.AzureEventHubs]: {
-      ...createOrderObj(
-        [
-          'bootstrap_hosts',
-          'authentication.password',
-          'ssl',
-          'parameters.topic',
-          'parameters.kafka_headers',
-          'parameters.kafka_header_value_encode_mode',
-          'parameters.kafka_ext_headers',
-          'parameters.message',
-          'parameters.message.key',
-          'parameters.message.value',
-          'parameters.message.timestamp',
-          'parameters.partition_strategy',
-        ],
-        1,
-      ),
-      ...createOrderObj(azureAdvancedProps, 150),
-    },
+    [BridgeType.AzureEventHubs]: azurePropsOrderMap,
+    [BridgeType.Confluent]: azurePropsOrderMap,
     [BridgeType.AmazonKinesis]: {
       ...createOrderObj(
         [
@@ -295,6 +297,7 @@ export default (
     return ret
   })
 
+  const azureColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCP]: {
       name: 'dividing-line-below',
@@ -319,9 +322,8 @@ export default (
     [BridgeType.OracleDatabase]: {
       password: 'dividing-line-below',
     },
-    [BridgeType.AzureEventHubs]: {
-      'parameters.topic': 'col-need-row',
-    },
+    [BridgeType.AzureEventHubs]: azureColClassMap,
+    [BridgeType.Confluent]: azureColClassMap,
     [BridgeType.AmazonKinesis]: {
       partition_key: 'dividing-line-below',
     },
@@ -342,6 +344,7 @@ export default (
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCP]: ['pipelining'],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
+    [BridgeType.Confluent]: azureAdvancedProps,
   }
 
   const advancedFields = computed(() => {
@@ -358,7 +361,7 @@ export default (
         connectorClass = singleFieldInFirstRowClass
         nameClass = 'col-hidden'
       } else {
-        nameClass = singleFieldInFirstRowClass
+        nameClass = 'dividing-line-below'
       }
     } else {
       nameClass = props.hideName ? 'col-hidden' : singleFieldInFirstRowClass
