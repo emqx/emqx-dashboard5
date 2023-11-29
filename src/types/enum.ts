@@ -130,6 +130,7 @@ export enum BridgeType {
   AzureEventHubs = 'azure_event_hub_producer',
   AmazonKinesis = 'kinesis',
   GreptimeDB = 'greptimedb',
+  Confluent = 'confluent_producer',
 }
 
 export enum KafkaType {
