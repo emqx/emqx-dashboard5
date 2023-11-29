@@ -270,7 +270,7 @@
       "desc": "Kafka 生产者参数。",
       "label": "生产者参数"
     },
-    "kafka_topic": {
+    "topic": {
       "desc": "Kafka 主题名称",
       "label": "Kafka 主题名称"
     },
@@ -290,7 +290,7 @@
       "desc": "生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。",
       "label": "消息的时间戳"
     },
-    "buffer_mode": {
+    "mode": {
       "desc": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
       "label": "缓存模式"
     },
@@ -350,7 +350,7 @@
       "desc": "认证参数。",
       "label": "认证"
     },
-    "buffer_memory_overload_protection": {
+    "memory_overload_protection": {
       "desc": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
       "label": "内存过载保护"
     },
@@ -374,7 +374,7 @@
       "desc": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的 Value 使用 base-64 编码。",
       "label": "Value 编码模式"
     },
-    "buffer_per_partition_limit": {
+    "per_partition_limit": {
       "desc": "为每个 Kafka 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。",
       "label": "Kafka 分区缓存上限"
     },
@@ -386,7 +386,7 @@
       "desc": "消费组成员允许重新加入小组的最大次数。如超过该配置次数后仍未能成功加入消费组，则会在等待一段时间后重试。",
       "label": "最大的重新加入尝试"
     },
-    "kafka_message_key": {
+    "key": {
       "desc": "生成 Kafka 消息键的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
       "label": "消息的键"
     },
@@ -398,7 +398,7 @@
       "desc": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
       "label": "MQTT 主题"
     },
-    "kafka_message_value": {
+    "value": {
       "desc": "生成 Kafka 消息的值的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
       "label": "消息的值"
     },
@@ -406,7 +406,7 @@
       "desc": "设置消息发布时应该如何选择 Kafka 分区。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
       "label": "分区选择策略"
     },
-    "buffer_segment_bytes": {
+    "segment_bytes": {
       "desc": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
       "label": "缓存文件大小"
     },

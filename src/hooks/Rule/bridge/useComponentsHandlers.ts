@@ -327,6 +327,7 @@ export default (
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
     [BridgeType.AzureEventHubs]: azureEventHubsHandler,
+    [BridgeType.Confluent]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
     [BridgeType.GreptimeDB]: greptimeDBHandler,
   }

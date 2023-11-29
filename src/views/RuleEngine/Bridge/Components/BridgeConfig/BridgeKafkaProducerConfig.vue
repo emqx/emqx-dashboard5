@@ -45,8 +45,8 @@
       <el-col :span="colSpan">
         <CustomFormItem prop="parameters.topic" :readonly="readonly">
           <template #label>
-            <span>{{ getText('kafka_topic.label') }}</span>
-            <InfoTooltip :content="getText('kafka_topic.desc')" />
+            <span>{{ getText('topic.label') }}</span>
+            <InfoTooltip :content="getText('topic.desc')" />
           </template>
           <el-input v-model="formData.parameters.topic" />
         </CustomFormItem>
@@ -113,11 +113,7 @@
       <el-col :span="colSpan">
         <CustomFormItem prop="parameters.message.key" :readonly="readonly">
           <template #label>
-            <FormItemLabel
-              :label="getText('kafka_message_key.label')"
-              :desc="getText('kafka_message_key.desc')"
-              desc-marked
-            />
+            <FormItemLabel :label="getText('key.label')" :desc="getText('key.desc')" desc-marked />
           </template>
           <el-input type="textarea" rows="4" v-model="formData.parameters.message.key" />
         </CustomFormItem>
@@ -126,8 +122,8 @@
         <CustomFormItem prop="parameters.message.value" :readonly="readonly">
           <template #label>
             <FormItemLabel
-              :label="getText('kafka_message_value.label')"
-              :desc="getText('kafka_message_value.desc')"
+              :label="getText('value.label')"
+              :desc="getText('value.desc')"
               desc-marked
             />
           </template>
@@ -278,10 +274,10 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="parameters.buffer.mode" :readonly="readonly">
             <template #label>
-              <span>{{ getText('buffer_mode.label') }}</span>
+              <span>{{ getText('mode.label') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getText('buffer_mode.desc')" />
+                  <MarkdownContent :content="getText('mode.desc')" />
                 </template>
               </InfoTooltip>
             </template>
@@ -298,8 +294,8 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="parameters.buffer.per_partition_limit" :readonly="readonly">
             <template #label>
-              <span>{{ getText('buffer_per_partition_limit.label') }}</span>
-              <InfoTooltip :content="getText('buffer_per_partition_limit.desc')" />
+              <span>{{ getText('per_partition_limit.label') }}</span>
+              <InfoTooltip :content="getText('per_partition_limit.desc')" />
             </template>
             <InputWithUnit
               v-model="formData.parameters.buffer.per_partition_limit"
@@ -310,10 +306,10 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="parameters.buffer.segment_bytes" :readonly="readonly">
             <template #label>
-              <span>{{ getText('buffer_segment_bytes.label') }}</span>
+              <span>{{ getText('segment_bytes.label') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getText('buffer_segment_bytes.desc')" />
+                  <MarkdownContent :content="getText('segment_bytes.desc')" />
                 </template>
               </InfoTooltip>
             </template>
@@ -326,10 +322,10 @@
         <el-col :span="colSpan">
           <el-form-item prop="parameters.buffer.memory_overload_protection">
             <template #label>
-              <span>{{ getText('buffer_memory_overload_protection.label') }}</span>
+              <span>{{ getText('memory_overload_protection.label') }}</span>
               <InfoTooltip>
                 <template #content>
-                  <MarkdownContent :content="getText('buffer_memory_overload_protection.desc')" />
+                  <MarkdownContent :content="getText('memory_overload_protection.desc')" />
                 </template>
               </InfoTooltip>
             </template>

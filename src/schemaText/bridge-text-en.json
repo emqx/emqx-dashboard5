@@ -270,7 +270,7 @@
       "desc": "Kafka producer configs.",
       "label": "Kafka Producer"
     },
-    "kafka_topic": {
+    "topic": {
       "desc": "Kafka topic",
       "label": "Kafka Topic"
     },
@@ -290,7 +290,7 @@
       "desc": "Which timestamp to use. The timestamp is expected to be a millisecond precision Unix epoch which can be in string format, e.g. <code>1661326462115</code> or <code>'1661326462115'</code>. When the desired data field for this template is not found, or if the found data is not a valid integer, the current system timestamp will be used.",
       "label": "Message Timestamp"
     },
-    "buffer_mode": {
+    "mode": {
       "desc": "Message buffer mode.<br/><code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart<br/><code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.<br/><code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
       "label": "Buffer Mode"
     },
@@ -350,7 +350,7 @@
       "desc": "Authentication configs.",
       "label": "Authentication"
     },
-    "buffer_memory_overload_protection": {
+    "memory_overload_protection": {
       "desc": "Applicable when buffer mode is set to <code>memory</code><br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
     },
@@ -374,7 +374,7 @@
       "desc": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
       "label": "Value Encoding Mode"
     },
-    "buffer_per_partition_limit": {
+    "per_partition_limit": {
       "desc": "Number of bytes allowed to buffer for each Kafka partition. When this limit is exceeded, old messages will be dropped in a trade for credits for new messages to be buffered.",
       "label": "Per-partition Buffer Limit"
     },
@@ -386,7 +386,7 @@
       "desc": "Maximum number of times allowed for a member to re-join the group. If the consumer group can not reach balance after this configured number of attempts, the consumer group member will restart after a delay.",
       "label": "Max Rejoin Attempts"
     },
-    "kafka_message_key": {
+    "key": {
       "desc": "Template to render Kafka message key. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
       "label": "Message Key"
     },
@@ -398,7 +398,7 @@
       "desc": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
       "label": "MQTT Topic"
     },
-    "kafka_message_value": {
+    "value": {
       "desc": "Template to render Kafka message value. If the template is rendered into a NULL value (i.e. there is no such data field in Rule Engine context) then Kafka's <code>NULL</code> (but not empty string) is used.",
       "label": "Message Value"
     },
@@ -406,7 +406,7 @@
       "desc": "Partition strategy is to tell the producer how to dispatch messages to Kafka partitions.<br/><code>random</code>: Randomly pick a partition for each message<br/><code>key_dispatch</code>: Hash Kafka message key to a partition number",
       "label": "Partition Strategy"
     },
-    "buffer_segment_bytes": {
+    "segment_bytes": {
       "desc": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.<br/>This value is to specify the size of each on-disk buffer file.",
       "label": "Segment File Bytes"
     },

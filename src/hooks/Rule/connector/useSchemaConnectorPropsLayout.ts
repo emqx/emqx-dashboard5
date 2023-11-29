@@ -90,6 +90,7 @@ export default (
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
+    [BridgeType.Confluent]: azureAdvancedProps,
   }
 
   const advancedFields = computed(() => {
