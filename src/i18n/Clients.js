@@ -159,10 +159,6 @@ export default {
     zh: '会话信息',
     en: 'Session Info',
   },
-  isBridge: {
-    zh: '桥接标识',
-    en: 'Bridge',
-  },
   protocolType: {
     zh: '协议类型',
     en: 'Protocol Type',
