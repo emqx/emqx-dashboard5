@@ -50,6 +50,7 @@
         <KeyAndValueEditor
           :model-value="tagMap"
           :readonly="readonly"
+          :disabled="disabled"
           @update:model-value="handleTabMapChanged"
         />
       </el-form-item>
@@ -84,6 +85,9 @@ const props = defineProps({
     type: String,
   },
   readonly: {
+    type: Boolean,
+  },
+  disabled: {
     type: Boolean,
   },
 })
