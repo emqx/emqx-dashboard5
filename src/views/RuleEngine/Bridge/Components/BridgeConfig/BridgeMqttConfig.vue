@@ -55,6 +55,7 @@
                     path="ingress.local"
                     :direction="MQTTBridgeDirection.In"
                     :topic-desc="tl('ingressLocalTopicDesc')"
+                    :disabled="disabled"
                   />
                 </el-col>
               </el-row>
@@ -92,6 +93,7 @@
                     path="egress.remote"
                     :direction="MQTTBridgeDirection.Out"
                     :topic-desc="tl('egressRemoteTopicDesc')"
+                    :disabled="disabled"
                   />
                 </el-col>
                 <el-col :span="12">

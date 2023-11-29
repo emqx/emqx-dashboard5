@@ -136,6 +136,10 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     formProps: {
       type: Object as PropType<Record<string, any>>,
       default: () => ({}),
@@ -352,7 +356,7 @@ const SchemaForm = defineComponent({
               <array-editor
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
-                disabled={isPropertyDisabled}
+                disabled={isPropertyDisabled || props.disabled}
                 type={property.items.type}
                 default={property.default}
                 {...customProps}
@@ -368,6 +372,7 @@ const SchemaForm = defineComponent({
                 propKey={property.items.path}
                 editMode={editMode}
                 {...customProps}
+                disabled={props.disabled}
               />
             )
           }
@@ -439,7 +444,7 @@ const SchemaForm = defineComponent({
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 lang="sql"
-                disabled={isPropertyDisabled}
+                disabled={isPropertyDisabled || props.disabled}
               />
             </div>
           )
@@ -628,7 +633,11 @@ const SchemaForm = defineComponent({
     }
 
     const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
-    const getFormProps = () => ({ ...defaultFormProps, ...(props.formProps || {}) })
+    const getFormProps = () => ({
+      ...defaultFormProps,
+      disabled: props.disabled,
+      ...(props.formProps || {}),
+    })
     const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))
 
     const renderLayout = (contents: JSX.Element[]) => {
