@@ -35,7 +35,7 @@
               v-model="config.payload"
               lang="json"
               json-without-validate
-              :disabled="readonly"
+              :disabled="readonly || disabled"
             />
           </div>
         </el-form-item>
@@ -71,6 +71,9 @@ const props = defineProps({
     default: false,
   },
   readonly: {
+    type: Boolean,
+  },
+  disabled: {
     type: Boolean,
   },
 })

@@ -25,7 +25,7 @@
         </template>
       </template>
     </el-table-column>
-    <el-table-column width="100px">
+    <el-table-column width="100px" v-if="!disabled">
       <template #header>
         <a href="javascript:;" @click="addItem">
           {{ $t('Base.add') }}
@@ -57,12 +57,12 @@
             />
           </CustomFormItem>
         </div>
-        <el-button v-if="!readonly" link class="btn-del" @click="deleteItem($index)">
+        <el-button v-if="!readonly && !disabled" link class="btn-del" @click="deleteItem($index)">
           <el-icon :size="16" class="icon-del"><Delete /></el-icon>
         </el-button>
       </li>
     </ul>
-    <el-button v-if="!readonly" link type="primary" :icon="Plus" @click="addItem">
+    <el-button v-if="!readonly && !disabled" link type="primary" :icon="Plus" @click="addItem">
       {{ tl('add') }}
     </el-button>
   </div>
@@ -97,6 +97,9 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false,
+  },
+  disabled: {
+    type: Boolean,
   },
   editMode: {
     type: String as PropType<'table' | 'list'>,
