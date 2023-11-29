@@ -81,6 +81,7 @@
                 ref="formCom"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
@@ -89,6 +90,7 @@
                 v-model="bridgeInfo"
                 :edit="true"
                 :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-influxdb-config
@@ -220,6 +222,13 @@ const props = defineProps({
    * for viewing data
    */
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
     type: Boolean,
     default: false,
   },
@@ -364,7 +373,7 @@ const enableOrDisableBridge = async () => {
 }
 
 const createRuleWithBridge = () => {
-  ElMessageBox.confirm(tl('useBridgeCreateRule'), {
+  ElMessageBox.confirm(tl('useConnectorCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
@@ -428,6 +437,7 @@ defineExpose({
 }
 .app-inline-card {
   min-height: 300px;
+  overflow: visible;
   :deep(> .el-card__body) {
     padding: 0px;
   }

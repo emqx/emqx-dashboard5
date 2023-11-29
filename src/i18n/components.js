@@ -275,10 +275,6 @@ export default {
     zh: '动作',
     en: 'Actions',
   },
-  bridge: {
-    zh: '数据桥接',
-    en: 'Data Bridges',
-  },
   schema: {
     zh: '编解码',
     en: 'Schema',
@@ -330,10 +326,6 @@ export default {
   'log-trace': {
     zh: '日志追踪',
     en: 'Log Trace',
-  },
-  dataBridge: {
-    zh: '数据桥接',
-    en: 'Data Bridges',
   },
   connector: {
     zh: '连接器',

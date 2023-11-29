@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { getMixedActionList } from '@/api/ruleengine'
 import { createRandomString } from '@/common/tools'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useBridgeTypeValue, { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -86,6 +86,7 @@ const isItemDisabled = (value: string) => {
   return props.disableList.includes(value) && value !== props.modelValue
 }
 
+const { getBridgeGeneralType } = useBridgeTypeValue()
 const { judgeBridgeDirection } = useBridgeDirection()
 const actionOpts = computed(() => {
   if (!props.type) {
@@ -94,7 +95,7 @@ const actionOpts = computed(() => {
   return totalActionList.value.filter((item) => {
     const direction = judgeBridgeDirection(item)
     return (
-      item.type === props.type &&
+      getBridgeGeneralType(item.type) === props.type &&
       (direction === props.direction || direction === BridgeDirection.Both)
     )
   })

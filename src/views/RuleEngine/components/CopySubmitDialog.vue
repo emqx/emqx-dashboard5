@@ -114,7 +114,7 @@ const submitConnector = () => {
 const confirmAfterCreatedBridge = (id: string) => {
   if (id) {
     showDialog.value = false
-    ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+    ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
       confirmButtonText: tl('createRule'),
       cancelButtonText: tl('backBridgeList'),
       type: 'success',

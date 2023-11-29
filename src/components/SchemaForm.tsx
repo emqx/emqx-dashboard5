@@ -35,8 +35,10 @@ interface FormItemMeta {
   levelName?: string
 }
 
-const typesDoNotNeedGroups = ['bridge', 'file-trans']
-const typesNeedConciseSSL = ['bridge']
+const typesDoNotShowSkeleton = ['bridge', 'connector']
+
+const typesDoNotNeedGroups = ['bridge', 'connector', 'file-trans']
+const typesNeedConciseSSL = ['bridge', 'connector']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
 const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/
@@ -965,10 +967,14 @@ const SchemaForm = defineComponent({
 
     const isSchemaLoading = ref(true)
     const showSkeleton = computed(
-      () => (isSchemaLoading.value || props.recordLoading) && props.type !== 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        !typesDoNotShowSkeleton.includes(props.type),
     )
     const showLoading = computed(
-      () => (isSchemaLoading.value || props.recordLoading) && props.type === 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        typesDoNotShowSkeleton.includes(props.type),
     )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {

@@ -9,14 +9,16 @@
       :validate-on-rule-change="false"
       :disabled="disabled"
     >
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <el-form-item :label="tl('name')" required prop="name">
-            <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-divider />
+      <template v-if="!hideName">
+        <el-row :gutter="26">
+          <el-col :span="12">
+            <el-form-item :label="tl('name')" required prop="name">
+              <el-input v-model="mqttBridgeVal.name" :disabled="edit" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-divider />
+      </template>
       <el-row :gutter="26">
         <el-col :span="24">
           <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" :copy="copy" />
@@ -206,6 +208,13 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
+    type: Boolean,
+    default: false,
   },
 })
 const emit = defineEmits(['update:modelValue', 'init'])

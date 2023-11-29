@@ -15,7 +15,7 @@
     >
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="$tc('RuleEngine.action')" prop="type">
+          <el-form-item :label="$tc('RuleEngine.actionType')" prop="type">
             <el-select v-model="outputForm.type" filterable @change="handleTypeChanged">
               <el-option
                 v-for="{ value, label } in actionTypeOpts"
@@ -28,7 +28,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="isOutputToBridge">
-          <el-form-item :label="$tc('RuleEngine.dataBridge')">
+          <el-form-item :label="$tc('RuleEngine.action')">
             <ActionSelect
               v-model="bridgeForm.id"
               :type="outputForm.type"
@@ -48,7 +48,12 @@
       <!-- Setting key is to refresh the component -->
       <div class="output-content" v-if="!isCreatingAction">
         <p class="detail-title">{{ tl('confPreview') }}</p>
-        <BridgeDetail ref="BridgeDetailRef" :bridge-id="bridgeForm.id" :disabled="!isEdit" />
+        <BridgeDetail
+          ref="BridgeDetailRef"
+          :bridge-id="bridgeForm.id"
+          :disabled="!isEdit"
+          hide-name
+        />
       </div>
       <BridgeCreate
         v-else

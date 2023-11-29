@@ -76,11 +76,13 @@ export default (
 ): {
   getText: (prop: Property) => {
     label: any
-    desc: string
+    desc?: string
   }
   getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
+
+  const typesUseBridgeText = ['bridge', 'connector']
 
   const getSSLPropKey = ({ key, path }: Property): string | false => {
     if (path && SSL_CONF_REG.test(path) && key && SSL_CONFIG_KEYS.includes(key)) {
@@ -185,7 +187,7 @@ export default (
   }
 
   const getTextKey = (prop: Property) => {
-    return props.type !== 'bridge'
+    return !typesUseBridgeText.includes(props.type)
       ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
       : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
   }
@@ -232,7 +234,7 @@ export default (
         desc: te(descKey) ? t(descKey) : '',
       }
     }
-    return { label: '', desc: '' }
+    return { label: '' }
   }
 
   return {

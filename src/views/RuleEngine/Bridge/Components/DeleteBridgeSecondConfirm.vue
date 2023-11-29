@@ -12,7 +12,7 @@
           <WarningFilled />
         </i>
         <div class="el-message-box__message">
-          {{ tl('deleteBridgeSecondConfirm') }}
+          {{ tl('deleteActionSecondConfirm') }}
         </div>
       </div>
       <ul class="rule-list">
