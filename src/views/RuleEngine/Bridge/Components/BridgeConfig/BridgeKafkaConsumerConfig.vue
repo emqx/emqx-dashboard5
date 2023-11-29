@@ -193,6 +193,7 @@
             :properties="consumerComponents?.topic_mapping?.items?.properties"
             :edit-mode="colSpan === 12 ? 'table' : 'list'"
             :readonly="readonly"
+            :disabled="disabled"
           />
         </CustomFormItem>
       </el-col>

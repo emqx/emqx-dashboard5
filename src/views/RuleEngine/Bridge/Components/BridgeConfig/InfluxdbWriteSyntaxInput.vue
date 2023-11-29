@@ -26,11 +26,21 @@
         </InfoTooltip>
       </template>
       <div class="monaco-container">
-        <Monaco :id="createRandomString()" v-model="lineProtocol" lang="sql" :disabled="readonly" />
+        <Monaco
+          :id="createRandomString()"
+          v-model="lineProtocol"
+          lang="sql"
+          :disabled="readonly || disabled"
+        />
       </div>
     </el-form-item>
     <el-card class="app-card json-form-card" shadow="never" v-else>
-      <InfluxdbLineProtocolForm v-model="lineProtocol" ref="protocolFormCom" :readonly="readonly" />
+      <InfluxdbLineProtocolForm
+        v-model="lineProtocol"
+        ref="protocolFormCom"
+        :readonly="readonly"
+        :disabled="disabled"
+      />
     </el-card>
   </div>
 </template>
@@ -56,6 +66,9 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false,
+  },
+  disabled: {
+    type: Boolean,
   },
 })
 

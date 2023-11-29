@@ -159,6 +159,7 @@
             ref="writeSyntaxInputCom"
             :write-syntax-prop-item="getPropItem('write_syntax')"
             :readonly="readonly"
+            :disabled="disabled"
           />
         </el-form-item>
       </el-col>
