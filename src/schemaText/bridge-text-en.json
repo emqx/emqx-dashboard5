@@ -21,7 +21,7 @@
       "label": "Enable SSL"
     },
     "username": {
-      "desc": "The username associated with the bridge in the external database used for authentication or identification purposes.",
+      "desc": "The username in the external database used for authentication or identification purposes.",
       "label": "Username"
     },
     "database": {
@@ -90,18 +90,6 @@
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
-    },
-    "desc_config": {
-      "desc": "Configuration for a GCP PubSub bridge.",
-      "label": "GCP PubSub Bridge Configuration"
-    },
-    "desc_name": {
-      "desc": "Bridge name, used as a human-readable description of the bridge.",
-      "label": "Bridge Name"
-    },
-    "desc_type": {
-      "desc": "The Bridge Type",
-      "label": "Bridge Type"
     },
     "max_retries": {
       "desc": "Max retry times if an error occurs when sending a request.",
@@ -245,10 +233,6 @@
     "connect_timeout": {
       "desc": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
       "label": "Connect Timeout"
-    },
-    "producer_opts": {
-      "desc": "Local MQTT data source and Kafka bridge configs.",
-      "label": "MQTT to Kafka"
     },
     "min_metadata_refresh_interval": {
       "desc": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
@@ -956,10 +940,6 @@
     "message_value": {
       "desc": "Template to render Pulsar message value.",
       "label": "Message Value"
-    },
-    "pulsar_producer_struct": {
-      "desc": "Configuration for a Pulsar bridge.",
-      "label": "Pulsar Bridge Configuration"
     },
     "servers": {
       "desc": "Specify the Pulsar Server URL in the format of <code>scheme://host[:port]</code> for the client to connect to. Multiple servers should be added as a comma-separated list. The supported schemes are <code>pulsar://</code> (default) and <code>pulsar+ssl://</code>. The default port is 6650.",
