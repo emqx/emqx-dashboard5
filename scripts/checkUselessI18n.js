@@ -11,7 +11,7 @@ const scanFile = (filePath) => {
 
   Object.keys(json_data).forEach((key) => {
     try {
-      execSync(`grep -r --exclude-dir=i18n '${key}' ./src`, {
+      execSync(`grep -r --exclude-dir=i18n -E '${key}[^\\w]' ./src`, {
         encoding: 'utf-8',
       })
     } catch (error) {
