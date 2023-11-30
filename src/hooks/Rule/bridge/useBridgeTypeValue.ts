@@ -8,8 +8,8 @@ import type { ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
 
 const bridgesOrder = [
-  BridgeType.Webhook,
   BridgeType.MQTT,
+  BridgeType.Webhook,
   BridgeType.KafkaProducer,
   BridgeType.KafkaConsumer,
   BridgeType.Confluent,
@@ -84,7 +84,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
-  ].sort((a, b) => (bridgeOrderIndex[a.value] || 99) - (bridgeOrderIndex[b.value] || 99))
+  ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
    * use it in add action to rule

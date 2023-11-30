@@ -109,12 +109,13 @@
   .item-desc {
     width: 100%;
   }
-  .common-tls-config {
-    flex-grow: 1;
-    .TLS-input {
-      width: 100%;
+    .common-tls-config,
+    .TLS-enable-config {
+      flex-grow: 1;
+      .TLS-input {
+        width: 100%;
+      }
     }
-  }
   .textarea-with-uploader {
     width: 100%;
   }

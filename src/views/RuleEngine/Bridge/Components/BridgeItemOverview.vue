@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { queryBridgeMetrics, resetBridgeMetrics } from '@/api/ruleengine'
+import { resetBridgeMetrics } from '@/api/ruleengine'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -95,12 +95,14 @@ const emit = defineEmits(['reconnect'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
+const { reconnectActionForNode, getActionMetrics } = useHandleActionItem()
+
 const getBridgeMetrics = async () => {
   try {
     if (!props.bridgeId) {
       return
     }
-    return queryBridgeMetrics(props.bridgeId)
+    return getActionMetrics(props.bridgeId)
   } catch (error) {
     //
   }
@@ -167,7 +169,6 @@ const setNodeConnectingStatusMap = () => {
     {},
   )
 }
-const { reconnectActionForNode } = useHandleActionItem()
 const reconnect = async ({ node }: NodeMetrics) => {
   try {
     nodeConnectingStatusMap.value[node] = true

@@ -8,6 +8,7 @@ import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
@@ -244,6 +245,14 @@ const SchemaForm = defineComponent({
       return readOnly || (propsDisabled && path && propsDisabled.includes(path))
     }
 
+    const getSSLComponent = (property: Property) => {
+      if (property?.properties?.enable) {
+        return CommonTLSConfig
+      }
+      // for confluent...
+      return TLSEnableConfig
+    }
+
     const isComplexOneof = (prop: Property) =>
       prop.type === 'oneof' &&
       prop.oneOf?.length &&
@@ -446,15 +455,18 @@ const SchemaForm = defineComponent({
           }
           return <oneof {...props} />
         }
-        case 'ssl':
+        case 'ssl': {
+          const ConfComponent = getSSLComponent(property)
           return (
-            <CommonTLSConfig
+            <ConfComponent
               modelValue={modelValue}
               isEdit={!!props.form}
               {...handleUpdateModelValue}
               {...customProps}
             />
           )
+        }
+
         case 'sql':
           return (
             <div class="monaco-container">

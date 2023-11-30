@@ -19,7 +19,7 @@ import ConnectorCreate from '../ConnectorCreate.vue'
 
 const props = defineProps<{
   modelValue: boolean
-  type: string
+  type?: string
 }>()
 
 const emit = defineEmits<{
