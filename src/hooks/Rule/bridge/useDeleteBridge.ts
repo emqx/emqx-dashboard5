@@ -6,7 +6,7 @@ import useHandleActionItem from '../action/useHandleActionItem'
 
 const getRuleArrFromErrorMsg = (msg: string) => {
   const reg = /Cannot delete bridge while active rules are depending on it: /
-  const ruleStr = msg.replace(reg, '')
+  const ruleStr = msg.replace(/\n.+/, '').replace(/,/g, '').replace(reg, '')
   return ruleStr.split(' ').filter(Boolean)
 }
 
