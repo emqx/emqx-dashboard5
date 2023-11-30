@@ -149,4 +149,12 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '导出间隔',
     en: 'Export Interval',
   },
+  enableBasicAuth: {
+    zh: '启用基本认证',
+    en: 'Enable Basic Auth',
+  },
+  enableBasicAuthDesc: {
+    zh: '启用或禁用 Prometheus 抓取 API 的基本认证，不适用于 Pushgateway',
+    en: 'Enable or disable basic authentication for Prometheus scrape API, not for Pushgateway',
+  },
 }

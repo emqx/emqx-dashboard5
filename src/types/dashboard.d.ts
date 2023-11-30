@@ -42,11 +42,24 @@ export interface NodeInfo {
 }
 
 export interface Prometheus {
-  enable: boolean
-  interval: string
-  push_gateway_server: string
-  job_name: string
-  headers: Record<string, string>
+  collectors: {
+    mnesia: string
+    vm_dist: string
+    vm_memory: string
+    vm_msacc: string
+    vm_statistics: string
+    vm_system_info: string
+  }
+  enable_basic_auth: boolean
+  push_gateway: {
+    headers: {
+      Authorization: string
+    }
+    interval: string
+    job_name: string
+    url: string
+    enable: boolean
+  }
 }
 
 export interface StatsD {
