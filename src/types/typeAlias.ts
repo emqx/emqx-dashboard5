@@ -5,11 +5,11 @@ import {
   GetAuditFrom,
   GetAuditOperationResult,
 } from './schemas/audit.schemas'
-import { EmqxEnterpriseSchemaLog } from './schemas/configs.schemas'
+import { EmqxLog } from './schemas/configs.schemas'
 
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer
-export type LogConf = EmqxEnterpriseSchemaLog
+export type LogConf = EmqxLog
 
 /* AUDIT */
 export type GetAuditParams = GetAuditParamsType
