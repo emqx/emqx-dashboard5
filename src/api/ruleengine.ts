@@ -39,13 +39,11 @@ export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
   try {
     const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
     // FIXME:FIXME:FIXME: KAFKA
-    const actionData = actionList.reduce((map: Map<string, Action>, actionItem: Action) => {
-      map.set(actionItem.id, actionItem)
-      return map
-    }, new Map())
-    for (let index = 0; index < bridgeList.length; index++) {
-      if (actionData.get(bridgeList[index].id)) {
-        bridgeList.splice(index, 1, actionData.get(bridgeList[index].id))
+    for (let index = 0; index < actionList.length; index++) {
+      const actionId = actionList[index].id
+      const bridgeIndex = bridgeList.findIndex((item: BridgeItem) => item.id === actionId)
+      if (bridgeIndex > -1) {
+        bridgeList.splice(bridgeIndex, 1)
       }
     }
     return Promise.resolve(actionList.concat(bridgeList))

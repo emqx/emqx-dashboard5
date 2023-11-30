@@ -112,13 +112,14 @@ export default (
   }
 
   const handleNameChange = (name: string) => {
-    const bridge = !!name && getBridgeByName(name)
-    if (bridge) {
-      isBridgeSelected.value = true
-      record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
-    } else {
-      isBridgeSelected.value = false
-    }
+    return
+    // const bridge = !!name && getBridgeByName(name)
+    // if (bridge) {
+    //   isBridgeSelected.value = true
+    //   record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
+    // } else {
+    //   isBridgeSelected.value = false
+    // }
   }
 
   if (isCreateBridgeInFlow.value) {

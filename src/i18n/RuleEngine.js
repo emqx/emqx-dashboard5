@@ -31,10 +31,6 @@ export default {
     zh: '连接器名称',
     en: 'Connector Name',
   },
-  dataBridge: {
-    zh: '数据桥接',
-    en: 'Data bridge',
-  },
   direction: {
     zh: '方向',
     en: 'Direction',
@@ -829,10 +825,6 @@ export default {
   outOfService: {
     zh: '服务中止',
     en: 'Out of Service',
-  },
-  actionOutOfServiceDesc: {
-    zh: '由于操作停止服务而导致规则调用操作失败的次数。 例如，数据桥接被禁用或停止。',
-    en: 'The number of times the rule calling action failed due to the action being out of service. For example, a bridge is disabled or stopped.',
   },
   unknown: {
     zh: '未知',

@@ -57,6 +57,7 @@
             class="kv-editor"
             :fixed-keys="readonly"
             :readonly="readonly"
+            :disabled="disabled"
           />
         </el-form-item>
       </el-col>
@@ -85,7 +86,7 @@
               v-model="httpBridgeVal.body"
               lang="json"
               json-without-validate
-              :disabled="readonly"
+              :disabled="readonly || disabled"
               :id="createRandomString()"
             />
           </div>
