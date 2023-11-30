@@ -84,6 +84,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
+    { value: BridgeType.Confluent, label: 'Confluent' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -264,6 +265,7 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.AzureEventHubs]: 'azure_event_hub',
     [BridgeType.KafkaProducer]: 'kafka',
     [BridgeType.KafkaConsumer]: 'kafka',
+    [BridgeType.Confluent]: 'confluent',
   }
 
   const { getBridgeGeneralType } = useBridgeTypeValue()
