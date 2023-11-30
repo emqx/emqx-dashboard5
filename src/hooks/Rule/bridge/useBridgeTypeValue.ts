@@ -12,6 +12,7 @@ const bridgesOrder = [
   BridgeType.MQTT,
   BridgeType.KafkaProducer,
   BridgeType.KafkaConsumer,
+  BridgeType.Confluent,
   BridgeType.Pulsar,
   BridgeType.RocketMQ,
   BridgeType.RabbitMQ,
