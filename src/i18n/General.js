@@ -387,4 +387,20 @@ export default {
     zh: '上传',
     en: 'Upload',
   },
+  createBackupSuccess: {
+    zh: '成功创建当前备份',
+    en: 'Successfully created current backup',
+  },
+  uploadSuccess: {
+    zh: '上传成功',
+    en: 'Upload successfully',
+  },
+  confirmRestore: {
+    zh: '确认使用当前备份恢复?',
+    en: 'Confirm to restore with current backup?',
+  },
+  restoreSuccess: {
+    zh: '恢复成功',
+    en: 'Restore successfully',
+  },
 }
