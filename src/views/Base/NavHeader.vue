@@ -141,7 +141,6 @@ export default defineComponent({
             ElNotification.success(t('components.loggedOut'))
             done()
           } catch (error) {
-            console.error('Logout failed:', error)
             instance.confirmButtonLoading = false
             instance.confirmButtonText = t('components.signOut')
             done()

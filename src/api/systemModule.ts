@@ -2,7 +2,13 @@ import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
 import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
+import {
+  EmqxMgmtApiDataBackupFilesResponse,
+  EmqxMgmtApiDataBackupBackupFileInfo,
+  EmqxMgmtApiDataBackupImportRequestBody,
+} from '@/types/schemas/dataBackup.schemas'
 
+// API key
 export const loadAPIKeyList = async (): Promise<Array<APIKey>> => {
   try {
     const data: Array<APIKey> = await http.get('/api_key')
@@ -18,28 +24,57 @@ export const loadAPIKeyList = async (): Promise<Array<APIKey>> => {
     return Promise.reject(error)
   }
 }
-
 export const queryAPIKeyDetail = (name: string): Promise<APIKey> => {
   return http.get(`/api_key/${name}`)
 }
-
 export const createAPIKey = (data: APIKeyFormWhenCreating): Promise<APIKey> => {
   return http.post('/api_key', data)
 }
-
 export const updateAPIKey = (
   name: string,
   data: Pick<APIKeyFormWhenEditing, 'desc' | 'enable' | 'expired_at'>,
 ): Promise<APIKey> => {
   return http.put(`/api_key/${name}`, data)
 }
-
 export const deleteAPIKey = (name: string): Promise<void> => {
   return http.delete(`/api_key/${name}`)
 }
 
+// Audit log
 export const queryAuditLogs = (
   params: GetAuditParams,
 ): Promise<ListDataWithPagination<AuditLogItem>> => {
   return http.get('/audit', { params })
+}
+
+// Data Backup
+export const getBackups = (
+  params = { page: 1, limit: 1000 },
+): Promise<EmqxMgmtApiDataBackupFilesResponse> => {
+  return http.get('/data/files', { params })
+}
+export const createBackup = (): Promise<EmqxMgmtApiDataBackupBackupFileInfo> => {
+  return http.post('/data/export')
+}
+export const deleteBackup = (fileName: string): Promise<void> => {
+  return http.delete(`/data/files/${fileName}`)
+}
+export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): Promise<void> => {
+  return http.post(`/data/import`, payload)
+}
+export const downloadBackup = (
+  fileName: string,
+): Promise<{
+  data: Blob
+}> => {
+  return http.get(`/data/files/${fileName}`, { responseType: 'blob' })
+}
+export const uploadBackup = (file: File): Promise<void> => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return http.post(`/data/files`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
 }
