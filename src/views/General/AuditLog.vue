@@ -122,8 +122,7 @@
               <template
                 v-if="row.from !== AuditLogFrom.cli && row.from !== AuditLogFrom.erlang_console"
               >
-                {{ getLabelFromOpts(row.operation_type, opTypeList) || row.operation_type }}:
-                {{ getLabelFromOpts(row.operation_id, opNameList) || row.operation_id }}
+                {{ getLogInfo(row) }}
               </template>
               <template v-else>
                 {{ Array.isArray(row.args) ? row.args.join(' ') : row.args }}
@@ -197,6 +196,18 @@ import { Ref, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import resourceDict from './resource_dict.json'
 
+interface LabelItem {
+  en: string
+  zh: string
+}
+
+interface ResourceDictItem {
+  label: LabelItem
+  // typeLabel: LabelItem
+}
+
+const METHOD_PATH_CONNECTOR = ':'
+
 const { t, tl } = useI18nTl('General')
 const { state } = useStore()
 
@@ -214,13 +225,9 @@ const requestResultOpt = [
   { value: AuditLogOperationResult.failure, label: t('Exhook.failure') },
 ]
 const langKey = state.lang === 'zh' ? 'zh' : 'en'
-const opTypeList = Object.entries(resourceDict.types).map(([key, value]) => ({
+const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
   value: key,
-  label: value[langKey],
-}))
-const opNameList = Object.entries(resourceDict.names).map(([key, value]) => ({
-  value: key,
-  label: value[langKey],
+  label: label[langKey],
 }))
 
 const filterParams: Partial<GetAuditParams> = reactive({
@@ -250,12 +257,22 @@ const confirmAuditLogEnabled = async () => {
   }
 }
 const handleTimeStr = (time: string | number) => new Date(time).getTime()
+const splitter = new RegExp(`${METHOD_PATH_CONNECTOR}(.*)`)
+const getIdAndMethodFromOperationId = (operationId: string) => {
+  const [method, id]: Array<any> = operationId.split(splitter)
+  return { method, id }
+}
 const handleParams = (params: GetAuditParams) => {
   if (params.gte_created_at) {
     params.gte_created_at = handleTimeStr(params.gte_created_at)
   }
   if (params.lte_created_at) {
     params.lte_created_at = handleTimeStr(params.lte_created_at)
+  }
+  if (params.operation_id) {
+    const { method, id } = getIdAndMethodFromOperationId(params.operation_id)
+    params.http_method = method
+    params.operation_id = id
   }
   return params
 }
@@ -311,6 +328,14 @@ const getSourceData = (row: AuditLogItem) => {
   return `${label}: ${source}`
 }
 
+const getLogInfo = ({ operation_id, http_method, operation_type }: AuditLogItem) => {
+  const key = `${http_method}${METHOD_PATH_CONNECTOR}${operation_id}`
+  if (key in resourceDict) {
+    return getLabelFromOpts(key, opNameList)
+  }
+  return `${operation_type}: ${operation_id}`
+}
+
 const enableModule = async () => {
   try {
     isEnabling.value = true
@@ -360,6 +385,16 @@ init()
         padding: 0 4px;
       }
     }
+  }
+}
+.code-popper.el-popper {
+  padding: 0;
+  .code-view {
+    margin: 0;
+  }
+  .hljs {
+    padding: 12px;
+    border: none;
   }
 }
 </style>
