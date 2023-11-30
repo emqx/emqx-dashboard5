@@ -92,6 +92,7 @@
         v-else-if="chosenBridgeType === BridgeType.MQTT"
         v-model="bridgeData"
         ref="formCom"
+        :single-direction="BridgeDirection.Egress"
       />
     </div>
   </div>
@@ -111,10 +112,10 @@ import {
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { Ref, computed, defineProps, ref, defineExpose } from 'vue'
+import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
