@@ -90,7 +90,7 @@ import {
 } from '@/api/systemModule'
 // import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
-import { formatSizeUnit } from '@emqx/shared-ui-utils'
+import { formatSizeUnit, createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import moment from 'moment'
 import { useStore } from 'vuex'
 
@@ -187,14 +187,7 @@ const handleDeleteBackup = async ({ filename }: BackupItem) => {
 
 const handleDownloadBackup = async ({ filename }: BackupItem) => {
   const res = await downloadBackup(filename)
-  const url = window.URL.createObjectURL(new Blob([res.data]))
-  const link = document.createElement('a')
-  link.style.display = 'none'
-  link.href = url
-  link.download = filename
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  createDownloadBlobLink(res.data, filename)
 }
 
 const handleUploadSuccess = () => {
