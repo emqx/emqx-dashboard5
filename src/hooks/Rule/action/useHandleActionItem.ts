@@ -4,6 +4,7 @@ import {
   putAction,
   putActionEnable,
   deleteAction as requestDelAction,
+  getActionMetrics as requestGetActionMetrics,
   reconnectAction as requestReconnectAction,
   reconnectActionForNode as requestReconnectActionForNode,
   testActionConnectivity as requestTestActionConnectivity,
@@ -12,6 +13,7 @@ import {
   createBridge,
   deleteBridge,
   getBridgeInfo,
+  queryBridgeMetrics,
   reconnectBridge,
   reconnectBridgeForNode,
   startStopBridge,
@@ -33,7 +35,7 @@ export default (): {
   addAction: <T = NowAction>(data: T) => Promise<T>
   updateAction: <T = NowAction>(data: T) => Promise<T>
   deleteAction: (id: string, withDependency?: boolean) => Promise<void>
-  getMetrics: (id: string) => Promise<any>
+  getActionMetrics: (id: string) => Promise<any>
   toggleActionEnable: (id: string, isEnable: boolean) => Promise<void>
   reconnectAction: (id: string) => Promise<void>
   reconnectActionForNode: (node: string, id: string) => Promise<void>
@@ -89,8 +91,8 @@ export default (): {
   }
 
   // TODO: type of ret; request action metrics
-  const getMetrics = async (id: string): Promise<any> => {
-    const func = isTrueActionId(id) ? requestDelAction : deleteBridge
+  const getActionMetrics = async (id: string): Promise<any> => {
+    const func = isTrueActionId(id) ? requestGetActionMetrics : queryBridgeMetrics
     return func(id)
   }
 
@@ -131,7 +133,7 @@ export default (): {
     addAction,
     updateAction,
     deleteAction,
-    getMetrics,
+    getActionMetrics,
     toggleActionEnable,
     reconnectAction,
     reconnectActionForNode,
