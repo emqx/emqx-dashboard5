@@ -2568,7 +2568,7 @@ export const BridgeMongodbPutSingleMongoType = {
 } as const
 
 export interface BridgeMongodbPutSingle {
-  mongo_type?: BridgeMongodbPutSingleMongoType
+  mongo_type: BridgeMongodbPutSingleMongoType
   server: string
   w_mode?: BridgeMongodbPutSingleWMode
   srv_record?: boolean
@@ -2614,7 +2614,7 @@ export const BridgeMongodbPutShardedMongoType = {
 } as const
 
 export interface BridgeMongodbPutSharded {
-  mongo_type?: BridgeMongodbPutShardedMongoType
+  mongo_type: BridgeMongodbPutShardedMongoType
   servers: string
   w_mode?: BridgeMongodbPutShardedWMode
   srv_record?: boolean
@@ -2669,7 +2669,7 @@ export const BridgeMongodbPutRsMongoType = {
 } as const
 
 export interface BridgeMongodbPutRs {
-  mongo_type?: BridgeMongodbPutRsMongoType
+  mongo_type: BridgeMongodbPutRsMongoType
   servers: string
   w_mode?: BridgeMongodbPutRsWMode
   r_mode?: BridgeMongodbPutRsRMode
@@ -2725,7 +2725,7 @@ export const BridgeMongodbPostSingleMongoType = {
 } as const
 
 export interface BridgeMongodbPostSingle {
-  mongo_type?: BridgeMongodbPostSingleMongoType
+  mongo_type: BridgeMongodbPostSingleMongoType
   server: string
   w_mode?: BridgeMongodbPostSingleWMode
   srv_record?: boolean
@@ -2781,7 +2781,7 @@ export const BridgeMongodbPostShardedMongoType = {
 } as const
 
 export interface BridgeMongodbPostSharded {
-  mongo_type?: BridgeMongodbPostShardedMongoType
+  mongo_type: BridgeMongodbPostShardedMongoType
   servers: string
   w_mode?: BridgeMongodbPostShardedWMode
   srv_record?: boolean
@@ -2846,7 +2846,7 @@ export const BridgeMongodbPostRsMongoType = {
 } as const
 
 export interface BridgeMongodbPostRs {
-  mongo_type?: BridgeMongodbPostRsMongoType
+  mongo_type: BridgeMongodbPostRsMongoType
   servers: string
   w_mode?: BridgeMongodbPostRsWMode
   r_mode?: BridgeMongodbPostRsRMode
@@ -2918,7 +2918,7 @@ export interface BridgeMongodbGetSingle {
   status?: BridgeMongodbGetSingleStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
-  mongo_type?: BridgeMongodbGetSingleMongoType
+  mongo_type: BridgeMongodbGetSingleMongoType
   server: string
   w_mode?: BridgeMongodbGetSingleWMode
   srv_record?: boolean
@@ -2988,7 +2988,7 @@ export interface BridgeMongodbGetSharded {
   status?: BridgeMongodbGetShardedStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
-  mongo_type?: BridgeMongodbGetShardedMongoType
+  mongo_type: BridgeMongodbGetShardedMongoType
   servers: string
   w_mode?: BridgeMongodbGetShardedWMode
   srv_record?: boolean
@@ -3067,7 +3067,7 @@ export interface BridgeMongodbGetRs {
   status?: BridgeMongodbGetRsStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
-  mongo_type?: BridgeMongodbGetRsMongoType
+  mongo_type: BridgeMongodbGetRsMongoType
   servers: string
   w_mode?: BridgeMongodbGetRsWMode
   r_mode?: BridgeMongodbGetRsRMode
@@ -3380,7 +3380,7 @@ export interface BridgeKafkaPutProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -3538,7 +3538,7 @@ export interface BridgeKafkaPostProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -3642,7 +3642,7 @@ export interface BridgeKafkaGetProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -4913,7 +4913,7 @@ export interface BridgeAzureEventHubPutProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -4974,7 +4974,7 @@ export interface BridgeAzureEventHubPostProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeAzureEventHubSslClientOpts
   local_topic?: string
-  parameters: BridgeAzureEventHubProducerKafkaOpts
+  kafka: BridgeAzureEventHubProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 
@@ -5041,7 +5041,7 @@ export interface BridgeAzureEventHubGetProducer {
   socket_opts?: BridgeKafkaSocketOpts
   ssl?: BridgeKafkaSslClientOpts
   local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
 }
 

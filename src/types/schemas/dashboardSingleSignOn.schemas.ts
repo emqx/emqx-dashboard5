@@ -10,9 +10,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = EmqxDashboardSsoSamlSaml | SsoLdap
+export type PutSsoBackend200 = DashboardSaml | SsoLdap
 
-export type PutSsoBackendBody = EmqxDashboardSsoSamlSaml | SsoLdap
+export type PutSsoBackendBody = DashboardSaml | SsoLdap
 
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
@@ -26,7 +26,7 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = EmqxDashboardSsoSamlSaml | SsoLdap
+export type GetSsoBackend200 = DashboardSaml | SsoLdap
 
 export type DeleteSsoBackend404Code =
   typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
@@ -189,7 +189,7 @@ export interface SsoLogin {
   password?: string
 }
 
-export type PostSsoLoginBackendBody = EmqxDashboardSsoSamlLogin | SsoLogin
+export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin
 
 export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
@@ -257,17 +257,16 @@ export interface LdapSsl {
   server_name_indication?: LdapSslServerNameIndication
 }
 
-export type EmqxDashboardSsoSamlSamlBackend =
-  typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
+export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoSamlSamlBackend = {
+export const DashboardSamlBackend = {
   saml: 'saml',
 } as const
 
-export interface EmqxDashboardSsoSamlSaml {
+export interface DashboardSaml {
   enable?: boolean
-  backend: EmqxDashboardSsoSamlSamlBackend
+  backend: DashboardSamlBackend
   dashboard_addr?: string
   idp_metadata_url?: string
   sp_sign_request?: boolean
@@ -275,16 +274,15 @@ export interface EmqxDashboardSsoSamlSaml {
   sp_private_key?: string
 }
 
-export type EmqxDashboardSsoSamlLoginBackend =
-  typeof EmqxDashboardSsoSamlLoginBackend[keyof typeof EmqxDashboardSsoSamlLoginBackend]
+export type DashboardLoginBackend = typeof DashboardLoginBackend[keyof typeof DashboardLoginBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoSamlLoginBackend = {
+export const DashboardLoginBackend = {
   saml: 'saml',
 } as const
 
-export interface EmqxDashboardSsoSamlLogin {
-  backend: EmqxDashboardSsoSamlLoginBackend
+export interface DashboardLogin {
+  backend: DashboardLoginBackend
 }
 
 export type DashboardSsoBackendStatusBackend =

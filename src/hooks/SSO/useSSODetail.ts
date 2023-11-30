@@ -2,7 +2,7 @@ import { checkNOmitFromObj } from '@/common/tools'
 import {
   DashboardSsoBackendStatusBackend,
   SsoLdapBackend,
-  EmqxDashboardSsoSamlSamlBackend,
+  DashboardSamlBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import useSSL from '../useSSL'
 
@@ -24,7 +24,7 @@ export default (): {
   })
   const createRawSAMLForm = (): any => ({
     enable: true,
-    backend: EmqxDashboardSsoSamlSamlBackend.saml,
+    backend: DashboardSamlBackend.saml,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     idp_metadata_url: '',
     sp_sign_request: false,

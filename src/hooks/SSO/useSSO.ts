@@ -3,7 +3,7 @@ import { API_BASE_URL } from '@/common/constants'
 import {
   DashboardSsoBackendStatusBackend,
   SsoLogin,
-  EmqxDashboardSsoSamlLoginBackend,
+  DashboardSamlBackend,
   PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ComputedRef, Ref, computed, reactive, ref } from 'vue'
@@ -46,7 +46,7 @@ export default function useSSO(): {
   const currentLoginBackend = ref<LoginBackend>('local')
 
   const samlLoginUrl = `${API_BASE_URL}/sso/login/saml`
-  const samlBackend = ref(EmqxDashboardSsoSamlLoginBackend.saml)
+  const samlBackend = ref(DashboardSamlBackend.saml)
 
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 

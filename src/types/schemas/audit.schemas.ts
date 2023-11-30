@@ -1,3 +1,15 @@
+export type GetAudit400Code = typeof GetAudit400Code[keyof typeof GetAudit400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAudit400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetAudit400 = {
+  code?: GetAudit400Code
+  message?: string
+}
+
 export type GetAuditHttpMethod = typeof GetAuditHttpMethod[keyof typeof GetAuditHttpMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -24,7 +36,6 @@ export const GetAuditFrom = {
   rest_api: 'rest_api',
   cli: 'cli',
   erlang_console: 'erlang_console',
-  event: 'event',
 } as const
 
 export type PublicPageParameter = number
@@ -110,7 +121,6 @@ export const AuditAuditFrom = {
   rest_api: 'rest_api',
   cli: 'cli',
   erlang_console: 'erlang_console',
-  event: 'event',
 } as const
 
 export type AuditAuditCreatedAt = number | string

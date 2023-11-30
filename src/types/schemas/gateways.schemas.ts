@@ -25,6 +25,24 @@ export type PutGatewaysName400 = {
   message?: string
 }
 
+export type PutGatewaysNameBody =
+  | EmqxGatewayApiUpdateLwm2m
+  | EmqxGatewayApiUpdateMqttsn
+  | EmqxGatewayApiUpdateStomp
+  | EmqxGatewayApiUpdateOcpp
+  | EmqxGatewayApiUpdateGbt32960
+  | EmqxGatewayApiUpdateJt808
+  | EmqxGatewayApiUpdateExproto
+  | EmqxGatewayApiUpdateCoap
+  | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiStomp
+  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiGbt32960
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiExproto
+  | EmqxGatewayApiCoap
+
 export type GetGatewaysName404Code =
   typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
 
@@ -40,11 +58,14 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiExproto
   | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiCoap
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiStomp
+  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiGbt32960
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiExproto
+  | EmqxGatewayApiCoap
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
@@ -85,12 +106,131 @@ export type PutGatewaysNameEnableEnable404 = {
   message?: string
 }
 
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
+
+export type GatewayWebsocketPiggyback =
+  typeof GatewayWebsocketPiggyback[keyof typeof GatewayWebsocketPiggyback]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayWebsocketPiggyback = {
+  single: 'single',
+  multiple: 'multiple',
+} as const
+
+export interface GatewayWebsocket {
+  path?: string
+  piggyback?: GatewayWebsocketPiggyback
+  compress?: boolean
+  idle_timeout?: string
+  max_frame_size?: GatewayWebsocketMaxFrameSize
+  fail_if_no_subprotocol?: boolean
+  supported_subprotocols?: string
+  check_origin_enable?: boolean
+  allow_origin_absence?: boolean
+  check_origins?: string
+  proxy_address_header?: string
+  proxy_port_header?: string
+  deflate_opts?: BrokerDeflateOpts
+}
+
 export interface GatewayUdpOpts {
   active_n?: number
   recbuf?: string
   sndbuf?: string
   buffer?: string
   reuseaddr?: boolean
+}
+
+export interface GatewayTranslator {
+  topic: string
+  qos?: number
+}
+
+export interface GatewayStompFrame {
+  max_headers?: number
+  max_headers_length?: number
+  max_body_length?: number
+}
+
+export type GatewaySslServerOptsLogLevel =
+  typeof GatewaySslServerOptsLogLevel[keyof typeof GatewaySslServerOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewaySslServerOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type GatewaySslServerOptsVerify =
+  typeof GatewaySslServerOptsVerify[keyof typeof GatewaySslServerOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewaySslServerOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface GatewaySslServerOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: GatewaySslServerOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: GatewaySslServerOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+}
+
+export interface GatewayMqttsnPredefined {
+  id: number
+  topic: string
+}
+
+export interface GatewayLwm2mTranslators {
+  command: GatewayTranslator
+  response: GatewayTranslator
+  notify: GatewayTranslator
+  register: GatewayTranslator
+  update: GatewayTranslator
+}
+
+export interface GatewayExprotoGrpcServer {
+  bind: string
+  ssl_options?: GatewaySslServerOpts
+}
+
+export type GatewayExprotoGrpcHandlerServiceName =
+  typeof GatewayExprotoGrpcHandlerServiceName[keyof typeof GatewayExprotoGrpcHandlerServiceName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayExprotoGrpcHandlerServiceName = {
+  ConnectionUnaryHandler: 'ConnectionUnaryHandler',
+  ConnectionHandler: 'ConnectionHandler',
+} as const
+
+export interface GatewayExprotoGrpcHandler {
+  address: string
+  service_name: GatewayExprotoGrpcHandlerServiceName
+  ssl_options?: BrokerSslClientOpts
 }
 
 export type GatewayDtlsOptsLogLevel =
@@ -149,33 +289,122 @@ export interface GatewayClientinfoOverride {
   clientid?: string
 }
 
-export interface EmqxStompSchemaStompFrame {
-  max_headers?: number
-  max_headers_length?: number
-  max_body_length?: number
+export type EmqxOcppSchemaUpstreamTopicOverrideMapping = {
+  $name?: string
 }
 
-export interface EmqxMqttsnSchemaMqttsnPredefined {
-  id: number
+export interface EmqxOcppSchemaUpstream {
   topic: string
+  topic_override_mapping?: EmqxOcppSchemaUpstreamTopicOverrideMapping
+  reply_topic: string
+  error_topic: string
 }
 
-export interface EmqxLwm2mSchemaTranslator {
+export interface EmqxOcppSchemaDnstream {
   topic: string
-  qos?: number
+  max_mqueue_len?: number
 }
 
-export interface EmqxLwm2mSchemaLwm2mTranslators {
-  command: EmqxLwm2mSchemaTranslator
-  response: EmqxLwm2mSchemaTranslator
-  notify: EmqxLwm2mSchemaTranslator
-  register: EmqxLwm2mSchemaTranslator
-  update: EmqxLwm2mSchemaTranslator
+export interface EmqxJt808SchemaJt808Proto {
+  allow_anonymous?: boolean
+  registry?: string
+  authentication?: string
+  up_topic: string
+  dn_topic: string
+}
+
+export interface EmqxJt808SchemaJt808Frame {
+  max_length?: number
+}
+
+export type EmqxGatewayApiWssListenerMaxConnections = 'infinity' | number
+
+export type EmqxGatewayApiWssListenerType =
+  typeof EmqxGatewayApiWssListenerType[keyof typeof EmqxGatewayApiWssListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiWssListenerType = {
+  wss: 'wss',
+} as const
+
+export interface EmqxGatewayApiWssListener {
+  id?: string
+  type?: EmqxGatewayApiWssListenerType
+  name?: string
+  running?: boolean
+  acceptors?: number
+  tcp_options?: BrokerTcpOpts
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  enable?: boolean
+  bind?: string
+  max_connections?: EmqxGatewayApiWssListenerMaxConnections
+  max_conn_rate?: number
+  enable_authn?: boolean
+  mountpoint?: string
+  access_rules?: string[]
+  ssl_options?: BrokerListenerWssOpts
+  websocket?: GatewayWebsocket
+}
+
+export type EmqxGatewayApiWsListenerMaxConnections = 'infinity' | number
+
+export type EmqxGatewayApiWsListenerType =
+  typeof EmqxGatewayApiWsListenerType[keyof typeof EmqxGatewayApiWsListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiWsListenerType = {
+  ws: 'ws',
+} as const
+
+export interface EmqxGatewayApiWsListener {
+  id?: string
+  type?: EmqxGatewayApiWsListenerType
+  name?: string
+  running?: boolean
+  acceptors?: number
+  tcp_options?: BrokerTcpOpts
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  enable?: boolean
+  bind?: string
+  max_connections?: EmqxGatewayApiWsListenerMaxConnections
+  max_conn_rate?: number
+  enable_authn?: boolean
+  mountpoint?: string
+  access_rules?: string[]
+  websocket?: GatewayWebsocket
 }
 
 export interface EmqxGatewayApiUpdateStomp {
-  frame?: EmqxStompSchemaStompFrame
+  frame?: GatewayStompFrame
   mountpoint?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
+export type EmqxGatewayApiUpdateOcppMessageFormatChecking =
+  typeof EmqxGatewayApiUpdateOcppMessageFormatChecking[keyof typeof EmqxGatewayApiUpdateOcppMessageFormatChecking]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiUpdateOcppMessageFormatChecking = {
+  disable: 'disable',
+  dnstream_only: 'dnstream_only',
+  upstream_only: 'upstream_only',
+  all: 'all',
+} as const
+
+export interface EmqxGatewayApiUpdateOcpp {
+  mountpoint?: string
+  default_heartbeat_interval: string
+  heartbeat_checking_times_backoff?: number
+  upstream?: EmqxOcppSchemaUpstream
+  dnstream?: EmqxOcppSchemaDnstream
+  message_format_checking?: EmqxGatewayApiUpdateOcppMessageFormatChecking
+  json_schema_dir?: string
+  json_schema_id_prefix?: string
   enable?: boolean
   enable_stats?: boolean
   idle_timeout?: string
@@ -187,7 +416,7 @@ export interface EmqxGatewayApiUpdateMqttsn {
   broadcast?: boolean
   enable_qos3?: boolean
   subs_resume?: boolean
-  predefined?: EmqxMqttsnSchemaMqttsnPredefined[]
+  predefined?: GatewayMqttsnPredefined[]
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
@@ -211,8 +440,32 @@ export interface EmqxGatewayApiUpdateLwm2m {
   qmode_time_window?: string
   auto_observe?: boolean
   update_msg_publish_condition?: EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition
-  translators: EmqxLwm2mSchemaLwm2mTranslators
+  translators: GatewayLwm2mTranslators
   mountpoint?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
+export interface EmqxGatewayApiUpdateJt808 {
+  frame?: EmqxJt808SchemaJt808Frame
+  proto?: EmqxJt808SchemaJt808Proto
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
+export interface EmqxGatewayApiUpdateGbt32960 {
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
   enable?: boolean
   enable_stats?: boolean
   idle_timeout?: string
@@ -220,26 +473,14 @@ export interface EmqxGatewayApiUpdateLwm2m {
 }
 
 export interface EmqxGatewayApiUpdateExproto {
-  server: EmqxExprotoSchemaExprotoGrpcServer
-  handler: EmqxExprotoSchemaExprotoGrpcHandler
+  server: GatewayExprotoGrpcServer
+  handler: GatewayExprotoGrpcHandler
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
   idle_timeout?: string
   clientinfo_override?: GatewayClientinfoOverride
 }
-
-export type PutGatewaysNameBody =
-  | EmqxGatewayApiUpdateExproto
-  | EmqxGatewayApiUpdateLwm2m
-  | EmqxGatewayApiUpdateCoap
-  | EmqxGatewayApiUpdateMqttsn
-  | EmqxGatewayApiUpdateStomp
-  | EmqxGatewayApiExproto
-  | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiCoap
-  | EmqxGatewayApiMqttsn
-  | EmqxGatewayApiStomp
 
 export type EmqxGatewayApiUpdateCoapPublishQos =
   typeof EmqxGatewayApiUpdateCoapPublishQos[keyof typeof EmqxGatewayApiUpdateCoapPublishQos]
@@ -339,8 +580,6 @@ export interface EmqxGatewayApiTcpListener {
   access_rules?: string[]
 }
 
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
-
 export type EmqxGatewayApiStompName =
   typeof EmqxGatewayApiStompName[keyof typeof EmqxGatewayApiStompName]
 
@@ -351,7 +590,7 @@ export const EmqxGatewayApiStompName = {
 
 export interface EmqxGatewayApiStomp {
   name?: EmqxGatewayApiStompName
-  frame?: EmqxStompSchemaStompFrame
+  frame?: GatewayStompFrame
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
@@ -369,6 +608,65 @@ export type EmqxGatewayApiSslListenerType =
 export const EmqxGatewayApiSslListenerType = {
   ssl: 'ssl',
 } as const
+
+export interface EmqxGatewayApiSslListener {
+  id?: string
+  type?: EmqxGatewayApiSslListenerType
+  name?: string
+  running?: boolean
+  acceptors?: number
+  tcp_options?: BrokerTcpOpts
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  enable?: boolean
+  bind?: string
+  max_connections?: EmqxGatewayApiSslListenerMaxConnections
+  max_conn_rate?: number
+  enable_authn?: boolean
+  mountpoint?: string
+  access_rules?: string[]
+  ssl_options?: BrokerListenerSslOpts
+}
+
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
+export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWssListener | EmqxGatewayApiWsListener
+
+export type EmqxGatewayApiOcppMessageFormatChecking =
+  typeof EmqxGatewayApiOcppMessageFormatChecking[keyof typeof EmqxGatewayApiOcppMessageFormatChecking]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiOcppMessageFormatChecking = {
+  disable: 'disable',
+  dnstream_only: 'dnstream_only',
+  upstream_only: 'upstream_only',
+  all: 'all',
+} as const
+
+export type EmqxGatewayApiOcppName =
+  typeof EmqxGatewayApiOcppName[keyof typeof EmqxGatewayApiOcppName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiOcppName = {
+  ocpp: 'ocpp',
+} as const
+
+export interface EmqxGatewayApiOcpp {
+  name?: EmqxGatewayApiOcppName
+  mountpoint?: string
+  default_heartbeat_interval: string
+  heartbeat_checking_times_backoff?: number
+  upstream?: EmqxOcppSchemaUpstream
+  dnstream?: EmqxOcppSchemaDnstream
+  message_format_checking?: EmqxGatewayApiOcppMessageFormatChecking
+  json_schema_dir?: string
+  json_schema_id_prefix?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+  listeners?: EmqxGatewayApiOcppListenersItem[]
+}
 
 export type EmqxGatewayApiMqttsnListenersItem =
   | EmqxGatewayApiDtlsListener
@@ -388,7 +686,7 @@ export interface EmqxGatewayApiMqttsn {
   broadcast?: boolean
   enable_qos3?: boolean
   subs_resume?: boolean
-  predefined?: EmqxMqttsnSchemaMqttsnPredefined[]
+  predefined?: GatewayMqttsnPredefined[]
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
@@ -426,13 +724,63 @@ export interface EmqxGatewayApiLwm2m {
   qmode_time_window?: string
   auto_observe?: boolean
   update_msg_publish_condition?: EmqxGatewayApiLwm2mUpdateMsgPublishCondition
-  translators: EmqxLwm2mSchemaLwm2mTranslators
+  translators: GatewayLwm2mTranslators
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
   idle_timeout?: string
   clientinfo_override?: GatewayClientinfoOverride
   listeners?: EmqxGatewayApiLwm2mListenersItem[]
+}
+
+export type EmqxGatewayApiJt808ListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
+export type EmqxGatewayApiJt808Name =
+  typeof EmqxGatewayApiJt808Name[keyof typeof EmqxGatewayApiJt808Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiJt808Name = {
+  jt808: 'jt808',
+} as const
+
+export interface EmqxGatewayApiJt808 {
+  name?: EmqxGatewayApiJt808Name
+  frame?: EmqxJt808SchemaJt808Frame
+  proto?: EmqxJt808SchemaJt808Proto
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+  listeners?: EmqxGatewayApiJt808ListenersItem[]
+}
+
+export type EmqxGatewayApiGbt32960ListenersItem =
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+
+export type EmqxGatewayApiGbt32960Name =
+  typeof EmqxGatewayApiGbt32960Name[keyof typeof EmqxGatewayApiGbt32960Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiGbt32960Name = {
+  gbt32960: 'gbt32960',
+} as const
+
+export interface EmqxGatewayApiGbt32960 {
+  name?: EmqxGatewayApiGbt32960Name
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+  listeners?: EmqxGatewayApiGbt32960ListenersItem[]
 }
 
 export type EmqxGatewayApiGatewayOverviewStatus =
@@ -509,8 +857,8 @@ export const EmqxGatewayApiExprotoName = {
 
 export interface EmqxGatewayApiExproto {
   name?: EmqxGatewayApiExprotoName
-  server: EmqxExprotoSchemaExprotoGrpcServer
-  handler: EmqxExprotoSchemaExprotoGrpcHandler
+  server: GatewayExprotoGrpcServer
+  handler: GatewayExprotoGrpcHandler
   mountpoint?: string
   enable?: boolean
   enable_stats?: boolean
@@ -609,68 +957,6 @@ export interface EmqxGatewayApiCoap {
   listeners?: EmqxGatewayApiCoapListenersItem[]
 }
 
-export type EmqxExprotoSchemaSslServerOptsLogLevel =
-  typeof EmqxExprotoSchemaSslServerOptsLogLevel[keyof typeof EmqxExprotoSchemaSslServerOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxExprotoSchemaSslServerOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type EmqxExprotoSchemaSslServerOptsVerify =
-  typeof EmqxExprotoSchemaSslServerOptsVerify[keyof typeof EmqxExprotoSchemaSslServerOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxExprotoSchemaSslServerOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface EmqxExprotoSchemaSslServerOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: EmqxExprotoSchemaSslServerOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: EmqxExprotoSchemaSslServerOptsLogLevel
-  hibernate_after?: string
-  dhfile?: string
-  fail_if_no_peer_cert?: boolean
-  honor_cipher_order?: boolean
-  client_renegotiation?: boolean
-  handshake_timeout?: string
-}
-
-export interface EmqxExprotoSchemaExprotoGrpcServer {
-  bind: string
-  ssl_options?: EmqxExprotoSchemaSslServerOpts
-}
-
-export type EmqxExprotoSchemaExprotoGrpcHandlerServiceName =
-  typeof EmqxExprotoSchemaExprotoGrpcHandlerServiceName[keyof typeof EmqxExprotoSchemaExprotoGrpcHandlerServiceName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxExprotoSchemaExprotoGrpcHandlerServiceName = {
-  ConnectionUnaryHandler: 'ConnectionUnaryHandler',
-  ConnectionHandler: 'ConnectionHandler',
-} as const
-
 export interface BrokerTcpOpts {
   active_n?: number
   backlog?: number
@@ -732,18 +1018,60 @@ export interface BrokerSslClientOpts {
   server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
-export interface EmqxExprotoSchemaExprotoGrpcHandler {
-  address: string
-  service_name: EmqxExprotoSchemaExprotoGrpcHandlerServiceName
-  ssl_options?: BrokerSslClientOpts
-}
-
 export interface BrokerOcsp {
   enable_ocsp_stapling?: boolean
   responder_url?: string
   issuer_pem?: string
   refresh_interval?: string
   refresh_http_timeout?: string
+}
+
+export type BrokerListenerWssOptsLogLevel =
+  typeof BrokerListenerWssOptsLogLevel[keyof typeof BrokerListenerWssOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerListenerWssOptsVerify =
+  typeof BrokerListenerWssOptsVerify[keyof typeof BrokerListenerWssOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerListenerWssOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerListenerWssOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerListenerWssOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
 }
 
 export type BrokerListenerSslOptsLogLevel =
@@ -797,21 +1125,52 @@ export interface BrokerListenerSslOpts {
   enable_crl_check?: boolean
 }
 
-export interface EmqxGatewayApiSslListener {
-  id?: string
-  type?: EmqxGatewayApiSslListenerType
-  name?: string
-  running?: boolean
-  acceptors?: number
-  tcp_options?: BrokerTcpOpts
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  enable?: boolean
-  bind?: string
-  max_connections?: EmqxGatewayApiSslListenerMaxConnections
-  max_conn_rate?: number
-  enable_authn?: boolean
-  mountpoint?: string
-  access_rules?: string[]
-  ssl_options?: BrokerListenerSslOpts
+export type BrokerDeflateOptsClientContextTakeover =
+  typeof BrokerDeflateOptsClientContextTakeover[keyof typeof BrokerDeflateOptsClientContextTakeover]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsClientContextTakeover = {
+  takeover: 'takeover',
+  no_takeover: 'no_takeover',
+} as const
+
+export type BrokerDeflateOptsServerContextTakeover =
+  typeof BrokerDeflateOptsServerContextTakeover[keyof typeof BrokerDeflateOptsServerContextTakeover]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsServerContextTakeover = {
+  takeover: 'takeover',
+  no_takeover: 'no_takeover',
+} as const
+
+export type BrokerDeflateOptsStrategy =
+  typeof BrokerDeflateOptsStrategy[keyof typeof BrokerDeflateOptsStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsStrategy = {
+  default: 'default',
+  filtered: 'filtered',
+  huffman_only: 'huffman_only',
+  rle: 'rle',
+} as const
+
+export type BrokerDeflateOptsLevel =
+  typeof BrokerDeflateOptsLevel[keyof typeof BrokerDeflateOptsLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsLevel = {
+  none: 'none',
+  default: 'default',
+  best_compression: 'best_compression',
+  best_speed: 'best_speed',
+} as const
+
+export interface BrokerDeflateOpts {
+  level?: BrokerDeflateOptsLevel
+  mem_level?: number
+  strategy?: BrokerDeflateOptsStrategy
+  server_context_takeover?: BrokerDeflateOptsServerContextTakeover
+  client_context_takeover?: BrokerDeflateOptsClientContextTakeover
+  server_max_window_bits?: number
+  client_max_window_bits?: number
 }
