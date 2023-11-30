@@ -32,7 +32,7 @@ export default {
     en: 'Automatically switch between Light and Night themes when your system does.',
   },
   mqttStudy: {
-    zh: 'MQTT 协议入门与进阶',
+    zh: 'MQTT 协议入门',
     en: 'The Easy-to-understand Guide to MQTT Protocol',
   },
   findMQTTClient: {
@@ -55,9 +55,9 @@ export default {
     zh: '如何进行访问控制',
     en: 'How to implement Access Control',
   },
-  howDataBridge: {
-    zh: '如何使用数据桥接',
-    en: 'How to use Data Bridge',
+  howDataIntegration: {
+    zh: '如何使用数据集成',
+    en: 'How to use Data Integration',
   },
   howRuleEngine: {
     zh: '如何使用规则引擎',
