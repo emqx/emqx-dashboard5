@@ -1,47 +1,57 @@
 <template>
-  <div class="mqtt-bridge-trans-configuration">
-    <CustomFormItem :prop="getProp('topic')" :readonly="readonly">
-      <template #label>
-        <label>{{ t('Base.topic') }}</label>
-        <InfoTooltip :content="topicDesc" />
-      </template>
-      <el-input v-model="config.topic" />
-    </CustomFormItem>
-    <CustomFormItem label="QoS" :readonly="readonly">
-      <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
-        <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
-      </el-select>
-    </CustomFormItem>
-    <CustomFormItem label="Retain" :readonly="readonly">
-      <el-select v-model="config.retain" :placeholder="tl('selectOrInput')" filterable allow-create>
-        <el-option label="true" :value="true" />
-        <el-option label="false" :value="false" />
-        <el-option label="${flags.retain}" value="${flags.retain}" />
-      </el-select>
-    </CustomFormItem>
-    <el-row :gutter="26">
-      <el-col :span="24">
-        <el-form-item>
-          <template #label>
-            <label>{{ tl('payload') }}</label>
-            <InfoTooltip
-              :content="`${putDescInTooltip ? tl('payloadDesc') + ' ' : ''}${tl('payloadExample')}`"
-            />
-            <p class="payload-desc" v-if="!putDescInTooltip">{{ tl('payloadDesc') }}</p>
-          </template>
-          <div class="monaco-container">
-            <Monaco
-              :id="createRandomString()"
-              v-model="config.payload"
-              lang="json"
-              json-without-validate
-              :disabled="readonly || disabled"
-            />
-          </div>
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </div>
+  <el-row class="mqtt-bridge-trans-configuration" :gutter="26">
+    <el-col :span="colSpan">
+      <CustomFormItem :prop="getProp('topic')" :readonly="readonly">
+        <template #label>
+          <label>{{ t('Base.topic') }}</label>
+          <InfoTooltip :content="topicDesc" />
+        </template>
+        <el-input v-model="config.topic" />
+      </CustomFormItem>
+    </el-col>
+    <el-col :span="colSpan">
+      <CustomFormItem label="QoS" :readonly="readonly">
+        <el-select v-model="config.qos" :placeholder="tl('selectOrInput')" filterable allow-create>
+          <el-option v-for="qos in QoSOptions" :key="qos" :value="qos" />
+        </el-select>
+      </CustomFormItem>
+    </el-col>
+    <el-col :span="colSpan">
+      <CustomFormItem label="Retain" :readonly="readonly">
+        <el-select
+          v-model="config.retain"
+          :placeholder="tl('selectOrInput')"
+          filterable
+          allow-create
+        >
+          <el-option label="true" :value="true" />
+          <el-option label="false" :value="false" />
+          <el-option label="${flags.retain}" value="${flags.retain}" />
+        </el-select>
+      </CustomFormItem>
+    </el-col>
+    <el-col :span="12" />
+    <el-col :span="colSpan">
+      <el-form-item>
+        <template #label>
+          <label>{{ tl('payload') }}</label>
+          <InfoTooltip
+            :content="`${putDescInTooltip ? tl('payloadDesc') + ' ' : ''}${tl('payloadExample')}`"
+          />
+          <p class="payload-desc" v-if="!putDescInTooltip">{{ tl('payloadDesc') }}</p>
+        </template>
+        <div class="monaco-container">
+          <Monaco
+            :id="createRandomString()"
+            v-model="config.payload"
+            lang="json"
+            json-without-validate
+            :disabled="readonly || disabled"
+          />
+        </div>
+      </el-form-item>
+    </el-col>
+  </el-row>
 </template>
 
 <script setup lang="ts">
@@ -75,6 +85,10 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  colSpan: {
+    type: Number,
+    default: 24,
   },
 })
 

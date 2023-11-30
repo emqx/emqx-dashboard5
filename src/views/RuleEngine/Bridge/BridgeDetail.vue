@@ -83,6 +83,7 @@
                 :edit="true"
                 :disabled="disabled"
                 :hide-name="hideName"
+                :single-direction="isFromRule ? BridgeDirection.Egress : false"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
             </div>
@@ -127,7 +128,7 @@ import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBr
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
