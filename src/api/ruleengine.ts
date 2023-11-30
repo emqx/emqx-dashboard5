@@ -103,7 +103,7 @@ export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<
   return http.post(`/nodes/${node}/bridges/${bridgeID}/start`)
 }
 
-export async function resetBridgeMetrics(bridgeId: string): Promise<string> {
+export async function resetBridgeMetrics(bridgeId: string): Promise<void> {
   return http.put(`/bridges/${bridgeId}/metrics/reset`)
 }
 
