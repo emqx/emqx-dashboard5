@@ -69,12 +69,3 @@ export const downloadBackup = (
 }> => {
   return http.get(`/data/files/${fileName}`, { responseType: 'blob' })
 }
-export const uploadBackup = (file: File): Promise<void> => {
-  const formData = new FormData()
-  formData.append('file', file)
-  return http.post(`/data/files`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  })
-}
