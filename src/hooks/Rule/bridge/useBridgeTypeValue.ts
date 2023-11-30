@@ -5,7 +5,7 @@ import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
 
-const bridgesOrder = [BridgeType.Webhook, BridgeType.MQTT]
+const bridgesOrder = [BridgeType.MQTT, BridgeType.Webhook]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
   {},
@@ -28,7 +28,7 @@ export const useBridgeTypeValue = (): {
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
-  ].sort((a, b) => (bridgeOrderIndex[a.value] || 99) - (bridgeOrderIndex[b.value] || 99))
+  ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
    * use it in add action to rule
