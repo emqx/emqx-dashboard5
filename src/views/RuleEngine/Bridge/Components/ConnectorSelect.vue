@@ -24,7 +24,7 @@ import { computed, defineEmits, defineProps, ref } from 'vue'
 import ConnectorCreateDrawer from '../../Connector/components/ConnectorCreateDrawer.vue'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue?: string
   type: BridgeType
 }>()
 const emit = defineEmits<{

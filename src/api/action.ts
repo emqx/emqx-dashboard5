@@ -1,6 +1,6 @@
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
-import { Action } from '@/types/rule'
+import { Action, BridgeMetricsData } from '@/types/rule'
 
 export const reconnectAction = (id: string): Promise<void> => {
   return http.post(`/actions/${encodeURIComponent(id)}/start`)
@@ -66,4 +66,8 @@ export const putAction = async (id: string, data: Action): Promise<Action> => {
 
 export const reconnectActionForNode = (node: string, id: string): Promise<void> => {
   return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`)
+}
+
+export const getActionMetrics = (id: string): Promise<BridgeMetricsData> => {
+  return http.get(`/actions/${id}/metrics`)
 }
