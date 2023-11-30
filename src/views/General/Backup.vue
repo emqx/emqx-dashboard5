@@ -187,7 +187,9 @@ const handleDeleteBackup = async ({ filename }: BackupItem) => {
 
 const handleDownloadBackup = async ({ filename }: BackupItem) => {
   const res = await downloadBackup(filename)
-  createDownloadBlobLink(res.data, filename)
+  if (res.data) {
+    createDownloadBlobLink(res.data, filename)
+  }
 }
 
 const handleUploadSuccess = () => {
