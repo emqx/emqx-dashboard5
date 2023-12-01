@@ -99,6 +99,18 @@ export default {
     zh: '最大 Body 长度',
     en: 'Max Body Length',
   },
+  msgQueueLen: {
+    zh: '最大消息队列长度',
+    en: 'Max message queue length',
+  },
+  maxRetryTimes: {
+    zh: '最大重试次数',
+    en: 'Max Retry Times',
+  },
+  retryInterval: {
+    zh: '重试间隔',
+    en: 'Retry Interval',
+  },
   idleTime: {
     zh: '空闲超时时间',
     en: 'Idle Timeout',
@@ -335,5 +347,89 @@ export default {
   showLimiter: {
     zh: '速率配置（可选）',
     en: 'Limiter (Optional)',
+  },
+  maxLenOfFrame: {
+    zh: '最大帧长度',
+    en: 'Max Length of Frame',
+  },
+  allowAnonymous: {
+    zh: '允许匿名',
+    en: 'Allow Anonymous',
+  },
+  registry: {
+    zh: '注册表',
+    en: 'Registry',
+  },
+  registryDesc: {
+    zh: 'JT/T 808 设备注册中心。如果 `allow_anonymous=false`，则必需。当网关收到 JT/T 808 注册报文后，会将注册消息以 HTTP 请求的方式发往该地址。',
+    en: 'The JT/T 808 device registry central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 registration message, it will send the registration message to this address as an HTTP request.',
+  },
+  authenticationUrl: {
+    zh: '认证 URL',
+    en: 'Authentication URL',
+  },
+  authenticationUrlDesc: {
+    zh: 'JT/T 808 设备认证中心。如果 `allow_anonymous=false`，则必需。当网关收到 JT/T 808 认证报文后，会将认证消息以 HTTP 请求的方式发往该地址。',
+    en: 'The JT/T 808 device authentication central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 authentication message, it will send the authentication message to this address as an HTTP request.',
+  },
+  upTopic: {
+    zh: '上行主题',
+    en: 'Up Topic',
+  },
+  dnTopic: {
+    zh: '下行主题',
+    en: 'Down Topic',
+  },
+  defaultHeartbeatInterval: {
+    zh: '默认心跳间隔',
+    en: 'Default Heartbeat Interval',
+  },
+  heartbeatCheckingTimesBackoff: {
+    zh: '心跳检查退避次数',
+    en: 'Heartbeat Checking Times Backoff',
+  },
+  upstream: {
+    zh: '上行数据流',
+    en: 'Upstream',
+  },
+  upstreamTopic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  topicOverrideMapping: {
+    zh: '主题映射',
+    en: 'Topic Override Mapping',
+  },
+  upstreamReplyTopic: {
+    zh: '回复主题',
+    en: 'Reply Topic',
+  },
+  upstreamErrorTopic: {
+    zh: '错误主题',
+    en: 'Error Topic',
+  },
+  dnstream: {
+    zh: '下行数据流',
+    en: 'Downstream',
+  },
+  dnstreamTopic: {
+    zh: '主题',
+    en: 'Topic',
+  },
+  dnstreamMaxMqueueLen: {
+    zh: '最大消息队列长度',
+    en: 'Max Message Queue Length',
+  },
+  messageFormatChecking: {
+    zh: '消息格式检查',
+    en: 'Message Format Checking',
+  },
+  jsonSchemaDir: {
+    zh: 'JSON Schema 文件目录',
+    en: 'JSON Schema Directory',
+  },
+  jsonSchemaIdPrefix: {
+    zh: 'JSON Schema ID 前缀',
+    en: 'JSON Schema ID Prefix',
   },
 }

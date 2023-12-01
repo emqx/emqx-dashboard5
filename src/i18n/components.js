@@ -196,12 +196,16 @@ export default {
     en: 'Flapping Detect',
   },
   backup: {
-    zh: '备份',
+    zh: '备份与恢复',
     en: 'Backup',
   },
   users: {
     zh: '用户',
     en: 'Users',
+  },
+  'audit-log': {
+    zh: '审计日志',
+    en: 'Audit Log',
   },
   system: {
     zh: '系统设置',
@@ -259,17 +263,17 @@ export default {
     zh: '延迟发布',
     en: 'Delayed Publish',
   },
+  'file-transfer': {
+    zh: '文件传输',
+    en: 'File Transfer',
+  },
   topicMetrics: {
     zh: 'Topic Metrics',
     en: 'Topic Metrics',
   },
-  iot: {
-    zh: '规则',
-    en: 'Rules',
-  },
-  bridge: {
-    zh: '数据桥接',
-    en: 'Data Bridges',
+  actions: {
+    zh: '动作',
+    en: 'Actions',
   },
   schema: {
     zh: '编解码',
@@ -323,12 +327,8 @@ export default {
     zh: '日志追踪',
     en: 'Log Trace',
   },
-  dataBridge: {
-    zh: '数据桥接',
-    en: 'Data Bridges',
-  },
   connector: {
-    zh: '连接配置',
+    zh: '连接器',
     en: 'Connector',
   },
   extensions: {

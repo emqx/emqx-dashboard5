@@ -1,23 +1,5 @@
 <template>
-  <el-select
-    class="input-select"
-    ref="SelectCom"
-    v-model="value"
-    filterable
-    allow-create
-    default-first-option
-    :placeholder="tl('pleaseInputOrSelect')"
-    :popper-class="popperClass"
-    @change="handleChange"
-  >
-    <el-option
-      v-for="item in options"
-      v-show="options?.includes(item)"
-      :key="item"
-      :label="item"
-      :value="item"
-    />
-  </el-select>
+  <el-input v-model="value" @change="handleChange" />
 </template>
 
 <script setup lang="ts">

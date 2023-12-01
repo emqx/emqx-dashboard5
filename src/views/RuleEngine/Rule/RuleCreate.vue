@@ -1,12 +1,12 @@
 <template>
-  <div class="iot-create app-wrapper">
-    <detail-header :item="{ name: $t('RuleEngine.createRule'), path: '/rules' }" />
-    <el-card class="iot-form-card overview-visible app-card">
-      <iotform
+  <div class="rule-create app-wrapper">
+    <detail-header :item="{ name: $t('RuleEngine.createRule'), routeName: 'rule' }" />
+    <el-card class="rule-form-card overview-visible app-card">
+      <rule-form
         ref="formCom"
         v-model="ruleValue"
         :submit-loading="submitLoading"
-        @save="submitCreateIoT"
+        @save="submitCreateRule"
       />
     </el-card>
   </div>
@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IoTCreate',
+  name: 'RuleCreate',
 })
 </script>
 
@@ -32,7 +32,7 @@ import { cloneDeep, isEqual, pick } from 'lodash'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import iotform from '../components/IoTForm.vue'
+import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()
 
@@ -63,7 +63,7 @@ const checkRuleClipStatus = async () => {
   }
 }
 
-const submitCreateIoT = async () => {
+const submitCreateRule = async () => {
   await formCom.value.validate()
 
   submitLoading.value = true
@@ -72,7 +72,7 @@ const submitCreateIoT = async () => {
     await createRules({ ...ruleValue.value })
     rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))
-    router.push({ name: 'iot' })
+    router.push({ name: 'rule' })
   } catch (error) {
     //
   } finally {
@@ -84,8 +84,8 @@ checkRuleClipStatus()
 </script>
 
 <style lang="scss">
-.iot-create {
-  .iot-form-card {
+.rule-create {
+  .rule-form-card {
     > .el-card__body {
       padding: 0px;
     }

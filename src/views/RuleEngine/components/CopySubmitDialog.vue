@@ -24,17 +24,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, defineEmits, ref, watch, PropType } from 'vue'
-import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { createRules, createBridge } from '@/api/ruleengine'
-import { useRouter } from 'vue-router'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj } from '@/common/tools'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeItem, Connector, RuleItem } from '@/types/rule'
+import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
+import { PropType, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface CopyTarget {
-  type: 'bridge' | 'rule'
-  obj: BridgeItem | RuleItem
+  type: 'bridge' | 'rule' | 'connector'
+  obj: BridgeItem | RuleItem | Connector
 }
 
 const props = defineProps({
@@ -93,9 +95,18 @@ const submitRule = async () => {
   return createRules({ sql, enable, description, actions, id: inputValue.value })
 }
 
+const { addAction } = useHandleActionItem()
 const submitBridge = () => {
-  return createBridge({
+  return addAction({
     ...checkNOmitFromObj(props.target.obj as BridgeItem),
+    name: inputValue.value,
+  })
+}
+
+const { addConnector } = useHandleConnectorItem()
+const submitConnector = () => {
+  return addConnector({
+    ...(checkNOmitFromObj(props.target.obj) as Connector),
     name: inputValue.value,
   })
 }
@@ -103,22 +114,27 @@ const submitBridge = () => {
 const confirmAfterCreatedBridge = (id: string) => {
   if (id) {
     showDialog.value = false
-    ElMessageBox.confirm(tl('useBridgeCreateRule'), t('Base.createSuccess'), {
+    ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
       confirmButtonText: tl('createRule'),
       cancelButtonText: tl('backBridgeList'),
       type: 'success',
     })
       .then(() => {
-        router.push({ name: 'iot-create', query: { bridgeId: id } })
+        router.push({ name: 'rule-create', query: { bridgeId: id } })
       })
       .catch(() => {
-        router.push({ name: 'data-bridge' })
+        router.push({ name: 'actions' })
       })
   } else {
-    router.push({ name: 'data-bridge' })
+    router.push({ name: 'actions' })
   }
 }
 
+const submitFuncMap = new Map([
+  ['rule', submitRule],
+  ['bridge', submitBridge],
+  ['connector', submitConnector],
+])
 const submit = async () => {
   if (!checkName()) {
     return
@@ -126,13 +142,19 @@ const submit = async () => {
 
   try {
     isSubmitting.value = true
-    const submitFunc = isRule.value ? submitRule : submitBridge
+    const submitFunc = submitFuncMap.get(props.target.type)
+    if (!submitFunc) {
+      console.error('can not find func to submit')
+      return
+    }
     const res = await submitFunc()
     ElMessage.success(t('Base.createSuccess'))
     if (isRule.value) {
-      router.push({ name: 'iot' })
-    } else {
+      router.push({ name: 'rule' })
+    } else if (props.target.type === 'bridge') {
       confirmAfterCreatedBridge(res.id)
+    } else if (props.target.type === 'connector') {
+      router.push({ name: 'connector' })
     }
   } catch (error) {
     //

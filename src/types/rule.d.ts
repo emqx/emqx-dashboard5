@@ -1,4 +1,4 @@
-import { BackendI18n, SSL, PageParams } from './common'
+import { BackendI18n, MetricsData, MetricsDataWithExtraData, PageParams, SSL } from './common'
 import {
   BridgeType,
   ConnectionStatus,
@@ -8,13 +8,6 @@ import {
   SchemaRegistryType,
 } from './enum'
 import { Merge } from 'type-fest'
-
-export type Metrics = Record<string, number>
-
-export interface NodeMetrics {
-  node: string
-  metrics: Metrics
-}
 
 export interface NodeStatus {
   node: string
@@ -93,6 +86,7 @@ export interface BridgeBaseData {
     status: ConnectionStatus
   }>
   status: ConnectionStatus
+  status_reason?: string
   type: BridgeType
   local_topic?: string
   enable: boolean
@@ -170,10 +164,39 @@ export type OtherBridge = Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
-export interface BridgeMetricsData {
-  metrics: Metrics
-  node_metrics: Array<NodeMetrics>
+export type Connector = {
+  type: BridgeType
+  name: string
+  description: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
+  id: string
+  status: ConnectionStatus
+  status_reason?: string
+  enable: boolean
+  resource_opts: ResourceOpt
+  [key: any]: any
 }
+
+export interface Action {
+  type: BridgeType
+  name: string
+  /**
+   * After getting the data, concat the type and the name
+   * {type}:{name}
+   */
+  id: string
+  status: ConnectionStatus
+  status_reason?: string
+  enable: boolean
+  connector: string
+  resource_opts: ResourceOpt
+  [key: any]: any
+}
+
+export type BridgeMetricsData = MetricsData
 
 export type BridgeItemWithMetrics = BridgeItem & BridgeMetricsData
 
@@ -235,13 +258,7 @@ export type RuleItem = {
   description?: string
 }
 
-export interface RuleMetrics {
-  id: string
-  metrics: Metrics
-  node_metrics: Array<Merge<{ node: string }, Metrics>>
-}
-
-export type RuleDataItemWithMetrics = Merge<RuleItem, { metrics: Metrics }>
+export type RuleMetrics = MetricsDataWithExtraData<{ id: string }>
 
 export interface SchemaRegistry {
   name: string

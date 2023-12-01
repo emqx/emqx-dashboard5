@@ -1,3 +1,4 @@
+import { SSL_FIELDS } from '@/common/constants'
 import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
@@ -15,6 +16,7 @@ const TYPE_ZONE_MAP: Record<string, Array<string>> = {
   emqx_schema: ['mqtt', 'session', 'sysmon'],
   emqx_conf_schema: ['log'],
   emqx_limiter_schema: ['limiter'],
+  file_trans: ['file-trans'],
 }
 
 /**
@@ -41,11 +43,13 @@ const COMMON_CONNECTOR_KEY = [
   'ssl',
   'username',
   'database',
+  'description',
 ]
 
 const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   matrix: 'pgsql',
   timescale: 'pgsql',
+  confluent: 'kafka',
 }
 
 const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
@@ -59,23 +63,34 @@ export const useSymbolLabel = (): {
   const { t, te } = useI18n()
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key.toString()
+    return te(textKey) ? t(textKey) : key?.toString()
   }
   return {
     getOptLabel,
   }
 }
+const SSL_CONF_REG = /ssl|tls/i
+const SSL_CONFIG_KEYS = SSL_FIELDS
 
 export default (
   props: any,
 ): {
   getText: (prop: Property) => {
     label: any
-    desc: string
+    desc?: string
   }
   getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
+
+  const typesUseBridgeText = ['bridge', 'connector']
+
+  const getSSLPropKey = ({ key, path }: Property): string | false => {
+    if (path && SSL_CONF_REG.test(path) && key && SSL_CONFIG_KEYS.includes(key)) {
+      return `ssl_opts.${key}`
+    }
+    return false
+  }
 
   /**
    * zone is first level
@@ -100,12 +115,26 @@ export default (
 
   const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
 
+  const getFileTransTextKey = (propItem: Property) => {
+    const sslPropKey = getSSLPropKey(propItem)
+    if (sslPropKey) {
+      return sslPropKey
+    }
+    const { key, path } = propItem
+    let textKey = key
+    if (key === 'enable' || key === 'root') {
+      textKey = snakeCase(path)
+    }
+    return `${getConfigurationTextZone()}.${textKey}`
+  }
+
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
     session: getMQTTAndSessionItemTextKey,
     log: getLogItemTextKey,
     sysmon: getSysMonTextKey,
     limiter: getLimiterTextKey,
+    'file-trans': getFileTransTextKey,
   }
 
   const getConfigurationItemTextKey = (prop: Property) => {
@@ -113,7 +142,7 @@ export default (
     if (func && isFunction(func)) {
       return func(prop)
     }
-    return undefined
+    return prop.path
   }
 
   const { getTypeBySchemaRef } = useBridgeSchema()
@@ -159,7 +188,7 @@ export default (
   }
 
   const getTextKey = (prop: Property) => {
-    return props.type !== 'bridge'
+    return !typesUseBridgeText.includes(props.type)
       ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
       : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
   }
@@ -172,12 +201,14 @@ export default (
     switch (prop.path) {
       case 'name':
         return { label: t('RuleEngine.name'), desc: '' }
+      case 'connector':
+        return { label: t('components.connector'), desc: '' }
       case 'role':
         return { label: t('RuleEngine.role'), desc: '' }
       case 'enable':
         return { label: t('Base.enable'), desc: '' }
       case 'type':
-        return { label: t('RuleEngine.bridgeType'), desc: '' }
+        return { label: t('RuleEngine.actionType'), desc: '' }
       case 'redis_type':
         return { label: t('Auth.redisType'), desc: '' }
       case 'mongo_type':
@@ -188,7 +219,7 @@ export default (
 
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key.toString()
+    return te(textKey) ? t(textKey) : key?.toString()
   }
 
   const getText = (prop: Property) => {
@@ -204,7 +235,7 @@ export default (
         desc: te(descKey) ? t(descKey) : '',
       }
     }
-    return { label: '', desc: '' }
+    return { label: '' }
   }
 
   return {

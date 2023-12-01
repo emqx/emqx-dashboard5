@@ -316,8 +316,8 @@ export default {
     en: 'Receive a Base64-encoded string',
   },
   nodeStatusDesc: {
-    zh: '每个节点上{target}状态和执行情况',
-    en: '{target} status and execution on each node',
+    zh: '每个节点上{target}的资源状况和执行效率',
+    en: `Resource condition and execution efficiency of {target} on each node`,
   },
   noDatabasePlaceholder: {
     zh: '无可用的数据库供此类型网关选择',
@@ -383,33 +383,13 @@ export default {
     zh: '认证',
     en: 'authentication',
   },
+  authz: {
+    zh: '授权',
+    en: 'authorization',
+  },
   authzCheck: {
     zh: '鉴权检查',
     en: 'authorizations',
-  },
-  allow: {
-    zh: '允许',
-    en: 'Allow',
-  },
-  allowDesc: {
-    zh: '{type}通过次数',
-    en: 'Number of {type} passed',
-  },
-  deny: {
-    zh: '拒绝',
-    en: 'Deny',
-  },
-  denyDesc: {
-    zh: '{type}失败次数',
-    en: 'Number of {type} failed',
-  },
-  noMatchAuthnDesc: {
-    zh: '未查找到客户端认证数据次数',
-    en: 'Number of times client authentication data not found',
-  },
-  noMatchAuthzDesc: {
-    zh: '未查找到客户端权限数据次数',
-    en: 'Number of times client authorizations data not found',
   },
   publish: {
     zh: '发布时',
@@ -451,6 +431,18 @@ export default {
     zh: '基本 DN',
     en: 'Base DN',
   },
+  pwdMethod: {
+    zh: '密码认证方式',
+    en: 'Password Authentication Method',
+  },
+  bind_password: {
+    zh: '绑定密码',
+    en: 'Bind Password',
+  },
+  bind_password_desc: {
+    zh: '用于绑定密码的模板',
+    en: 'The template for password to bind.',
+  },
   password_attribute: {
     zh: '密码属性名',
     en: 'Password Hash Attribute',
@@ -466,5 +458,65 @@ export default {
   is_superuser_attribute_desc: {
     zh: '存储客户端超级用户角色的 LDAP 属性名称',
     en: "The LDAP attribute that indicates a client's superuser role.",
+  },
+  methodHashLabel: {
+    zh: '本地密码比对',
+    en: 'Local Password Comparison',
+  },
+  methodHashDesc: {
+    zh: 'EMQX 查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
+    en: "EMQX queries LDAP to retrieve the client's password and then compares it locally.",
+  },
+  methodBindLabel: {
+    zh: 'LDAP绑定验证',
+    en: 'LDAP Bind Authentication',
+  },
+  methodBindDesc: {
+    zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
+    en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
+  },
+  authnTotalDesc: {
+    zh: '认证器被触发执行的总次数',
+    en: 'Total number of authenticator triggers',
+  },
+  authnSuccessDesc: {
+    zh: '认证成功允许连接的次数',
+    en: 'Number of successful authentications allowed for connection',
+  },
+  authnFailedDesc: {
+    zh: '认证失败拒绝连接次数，通常是密码错误导致',
+    en: 'Number of failed authentications resulting in connection denied, typically due to password errors',
+  },
+  authnNomatchDesc: {
+    zh: '未找到客户端认证数据的次数。如果认证器执行失败也会增加此计数',
+    en: 'Number of times client authentication data is not found. If the authenticator execution fails, the count will also increase',
+  },
+  authzTotalDesc: {
+    zh: '授权器被触发执行的总次数',
+    en: 'Total number of authorizer triggers',
+  },
+  authzSuccessDesc: {
+    zh: '授权成功的次数',
+    en: 'Number of successful authorizations',
+  },
+  authzFailedDesc: {
+    zh: '授权失败的次数',
+    en: 'Number of authorization failures.Number of successful authorizations',
+  },
+  authzNomatchDesc: {
+    zh: '未找到客户端权限数据的次数。如果授权器执行失败也会增加此计数',
+    en: 'Number of times client authorization data is not found. If the authorizer execution fails, the count will also increase',
+  },
+  rateUnit: {
+    zh: '次/秒 | 次/秒',
+    en: 'time/sec | times/sec',
+  },
+  authnRateBarDesc: {
+    zh: '近一分钟内认证次数趋势',
+    en: 'Trend of authentication counts in the past minute',
+  },
+  authzRateBarDesc: {
+    zh: '近一分钟内授权次数趋势',
+    en: 'Trend of authorization counts in the past minute',
   },
 }

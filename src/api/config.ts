@@ -9,6 +9,7 @@ import {
   Zone,
   Zones,
 } from '@/types/config'
+import { FileTransferConf } from '@/types/typeAlias'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -47,3 +48,9 @@ export const getSysMon = (): Promise<AlarmSettings> => http.get('/configs/sysmon
 
 export const updateSysMon = (data: AlarmSettings): Promise<AlarmSettings> =>
   http.put('/configs/sysmon', data)
+
+export const getFileTransConfigs = (): Promise<FileTransferConf> =>
+  http.get('/configs/file_transfer')
+
+export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTransferConf> =>
+  http.put('/configs/file_transfer', data)

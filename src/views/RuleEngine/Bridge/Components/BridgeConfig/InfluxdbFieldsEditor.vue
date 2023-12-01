@@ -27,16 +27,16 @@
         <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
-    <el-table-column width="100" v-if="!readonly">
+    <el-table-column width="100" v-if="!readonly && !disabled">
       <template #header>
-        <a href="javascript:;" class="btn" @click="addColumn">
+        <el-button link type="primary" class="btn" @click="addColumn">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ row }">
-        <a href="javascript:;" class="btn" @click="deleteItem(row)">
+        <el-button link type="primary" class="btn" @click="deleteItem(row)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -68,6 +68,9 @@ export default defineComponent({
       default: null,
     },
     readonly: {
+      type: Boolean,
+    },
+    disabled: {
       type: Boolean,
     },
   },

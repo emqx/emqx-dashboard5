@@ -6,10 +6,11 @@
     class="bridge-influxdb-config bridge-config"
     :rules="formRules"
     :model="formData"
+    :disabled="disabled"
     :validate-on-rule-change="false"
   >
     <el-row :gutter="26">
-      <el-col :span="colSpan">
+      <el-col :span="colSpan" v-if="!hideName">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
           <InputSelect
             v-if="isCreateBridgeInFlow"
@@ -158,6 +159,7 @@
             ref="writeSyntaxInputCom"
             :write-syntax-prop-item="getPropItem('write_syntax')"
             :readonly="readonly"
+            :disabled="disabled"
           />
         </el-form-item>
       </el-col>
@@ -213,6 +215,16 @@ const props = defineProps({
     type: Boolean,
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
     type: Boolean,
     default: false,
   },

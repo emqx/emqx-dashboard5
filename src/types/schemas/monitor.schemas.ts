@@ -13,82 +13,246 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
-export type PrometheusPrometheusVmMsaccCollector =
-  typeof PrometheusPrometheusVmMsaccCollector[keyof typeof PrometheusPrometheusVmMsaccCollector]
+export type GetPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusVmMsaccCollector = {
-  enabled: 'enabled',
-  disabled: 'disabled',
-} as const
+export type PrometheusPushGatewayHeaders = { [key: string]: any }
 
-export type PrometheusPrometheusVmMemoryCollector =
-  typeof PrometheusPrometheusVmMemoryCollector[keyof typeof PrometheusPrometheusVmMemoryCollector]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusVmMemoryCollector = {
-  enabled: 'enabled',
-  disabled: 'disabled',
-} as const
-
-export type PrometheusPrometheusVmSystemInfoCollector =
-  typeof PrometheusPrometheusVmSystemInfoCollector[keyof typeof PrometheusPrometheusVmSystemInfoCollector]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusVmSystemInfoCollector = {
-  enabled: 'enabled',
-  disabled: 'disabled',
-} as const
-
-export type PrometheusPrometheusVmStatisticsCollector =
-  typeof PrometheusPrometheusVmStatisticsCollector[keyof typeof PrometheusPrometheusVmStatisticsCollector]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusVmStatisticsCollector = {
-  enabled: 'enabled',
-  disabled: 'disabled',
-} as const
-
-export type PrometheusPrometheusMnesiaCollector =
-  typeof PrometheusPrometheusMnesiaCollector[keyof typeof PrometheusPrometheusMnesiaCollector]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusMnesiaCollector = {
-  enabled: 'enabled',
-  disabled: 'disabled',
-} as const
-
-export type PrometheusPrometheusVmDistCollector =
-  typeof PrometheusPrometheusVmDistCollector[keyof typeof PrometheusPrometheusVmDistCollector]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PrometheusPrometheusVmDistCollector = {
-  disabled: 'disabled',
-  enabled: 'enabled',
-} as const
-
-export type PrometheusPrometheusHeaders = { [key: string]: any }
-
-export interface PrometheusPrometheus {
-  push_gateway_server: string
-  interval: string
-  headers?: PrometheusPrometheusHeaders
-  job_name: string
+export interface PrometheusPushGateway {
   enable: boolean
-  vm_dist_collector: PrometheusPrometheusVmDistCollector
-  mnesia_collector: PrometheusPrometheusMnesiaCollector
-  vm_statistics_collector: PrometheusPrometheusVmStatisticsCollector
-  vm_system_info_collector: PrometheusPrometheusVmSystemInfoCollector
-  vm_memory_collector: PrometheusPrometheusVmMemoryCollector
-  vm_msacc_collector: PrometheusPrometheusVmMsaccCollector
+  url?: string
+  interval?: string
+  headers?: PrometheusPushGatewayHeaders
+  job_name?: string
 }
 
-export interface OpentelemetryExporter {
-  endpoint?: string
+export interface PrometheusRecommendSetting {
+  enable_basic_auth: boolean
+  push_gateway?: PrometheusPushGateway
+  collectors?: PrometheusCollectors
+}
+
+export type PutPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+
+export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
+  typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingVmMsaccCollector = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingVmMemoryCollector =
+  typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingVmMemoryCollector = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
+  typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingVmSystemInfoCollector = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingVmStatisticsCollector =
+  typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingVmStatisticsCollector = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingMnesiaCollector =
+  typeof PrometheusLegacyDeprecatedSettingMnesiaCollector[keyof typeof PrometheusLegacyDeprecatedSettingMnesiaCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingMnesiaCollector = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingVmDistCollector =
+  typeof PrometheusLegacyDeprecatedSettingVmDistCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmDistCollector]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusLegacyDeprecatedSettingVmDistCollector = {
+  disabled: 'disabled',
+  enabled: 'enabled',
+} as const
+
+export type PrometheusLegacyDeprecatedSettingHeaders = { [key: string]: any }
+
+export interface PrometheusLegacyDeprecatedSetting {
+  push_gateway_server: string
   interval: string
+  headers?: PrometheusLegacyDeprecatedSettingHeaders
+  job_name: string
+  enable: boolean
+  vm_dist_collector: PrometheusLegacyDeprecatedSettingVmDistCollector
+  mnesia_collector: PrometheusLegacyDeprecatedSettingMnesiaCollector
+  vm_statistics_collector: PrometheusLegacyDeprecatedSettingVmStatisticsCollector
+  vm_system_info_collector: PrometheusLegacyDeprecatedSettingVmSystemInfoCollector
+  vm_memory_collector: PrometheusLegacyDeprecatedSettingVmMemoryCollector
+  vm_msacc_collector: PrometheusLegacyDeprecatedSettingVmMsaccCollector
+}
+
+export type PrometheusCollectorsVmMsacc =
+  typeof PrometheusCollectorsVmMsacc[keyof typeof PrometheusCollectorsVmMsacc]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsVmMsacc = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusCollectorsVmMemory =
+  typeof PrometheusCollectorsVmMemory[keyof typeof PrometheusCollectorsVmMemory]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsVmMemory = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusCollectorsVmSystemInfo =
+  typeof PrometheusCollectorsVmSystemInfo[keyof typeof PrometheusCollectorsVmSystemInfo]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsVmSystemInfo = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusCollectorsVmStatistics =
+  typeof PrometheusCollectorsVmStatistics[keyof typeof PrometheusCollectorsVmStatistics]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsVmStatistics = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusCollectorsMnesia =
+  typeof PrometheusCollectorsMnesia[keyof typeof PrometheusCollectorsMnesia]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsMnesia = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+} as const
+
+export type PrometheusCollectorsVmDist =
+  typeof PrometheusCollectorsVmDist[keyof typeof PrometheusCollectorsVmDist]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusCollectorsVmDist = {
+  disabled: 'disabled',
+  enabled: 'enabled',
+} as const
+
+export interface PrometheusCollectors {
+  vm_dist: PrometheusCollectorsVmDist
+  mnesia: PrometheusCollectorsMnesia
+  vm_statistics: PrometheusCollectorsVmStatistics
+  vm_system_info: PrometheusCollectorsVmSystemInfo
+  vm_memory: PrometheusCollectorsVmMemory
+  vm_msacc: PrometheusCollectorsVmMsacc
+}
+
+export type OpentelemetrySslOptsServerNameIndication = string | 'disable'
+
+export type OpentelemetrySslOptsLogLevel =
+  typeof OpentelemetrySslOptsLogLevel[keyof typeof OpentelemetrySslOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetrySslOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type OpentelemetrySslOptsVerify =
+  typeof OpentelemetrySslOptsVerify[keyof typeof OpentelemetrySslOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetrySslOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface OpentelemetrySslOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: OpentelemetrySslOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: OpentelemetrySslOptsLogLevel
+  hibernate_after?: string
+  server_name_indication?: OpentelemetrySslOptsServerNameIndication
+}
+
+export interface OpentelemetryOtelMetricsExporter {
+  endpoint?: string
+  ssl_options?: OpentelemetrySslOpts
+  interval: string
+}
+
+export interface OpentelemetryOtelMetrics {
+  enable: boolean
+  exporter?: OpentelemetryOtelMetricsExporter
+}
+
+export interface OpentelemetryOtelLogsExporter {
+  endpoint?: string
+  ssl_options?: OpentelemetrySslOpts
+}
+
+export type OpentelemetryOtelLogsLevel =
+  typeof OpentelemetryOtelLogsLevel[keyof typeof OpentelemetryOtelLogsLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOtelLogsLevel = {
+  debug: 'debug',
+  info: 'info',
+  notice: 'notice',
+  warning: 'warning',
+  error: 'error',
+  critical: 'critical',
+  alert: 'alert',
+  emergency: 'emergency',
+  all: 'all',
+} as const
+
+export interface OpentelemetryOtelLogs {
+  level?: OpentelemetryOtelLogsLevel
+  enable?: boolean
+  exporter?: OpentelemetryOtelLogsExporter
 }
 
 export interface OpentelemetryOpentelemetry {
-  exporter?: OpentelemetryExporter
-  enable: boolean
+  metrics?: OpentelemetryOtelMetrics
+  logs?: OpentelemetryOtelLogs
 }

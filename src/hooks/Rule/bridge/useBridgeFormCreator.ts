@@ -87,24 +87,13 @@ export default (): {
   // Common parts of producers and consumers
   const createKafkaDefaultValCommonPart = () => ({
     name: '',
-    bootstrap_hosts: '',
-    connect_timeout: '5s',
-    min_metadata_refresh_interval: '3s',
-    metadata_request_timeout: '5s',
-    authentication: 'none',
-    socket_opts: {
-      sndbuf: '1024KB',
-      recbuf: '1024KB',
-      tcp_keepalive: 'none',
-      nodelay: true,
-    },
-    ssl: createSSLForm(),
     resource_opts: { health_check_interval: '15s' },
   })
   const createRawKafkaProducerForm = () => ({
-    type: KafkaType.Producer,
+    type: BridgeType.KafkaProducer,
+    connector: '',
     ...createKafkaDefaultValCommonPart(),
-    kafka: {
+    parameters: {
       topic: '',
       message: {
         key: '${.clientid}',
@@ -131,6 +120,18 @@ export default (): {
   const createRawKafkaConsumerForm = () => ({
     type: KafkaType.Consumer,
     ...createKafkaDefaultValCommonPart(),
+    bootstrap_hosts: '',
+    connect_timeout: '5s',
+    min_metadata_refresh_interval: '3s',
+    metadata_request_timeout: '5s',
+    authentication: 'none',
+    socket_opts: {
+      sndbuf: '1024KB',
+      recbuf: '1024KB',
+      tcp_keepalive: 'none',
+      nodelay: true,
+    },
+    ssl: createSSLForm(),
     topic_mapping: [],
     kafka: {
       max_batch_bytes: '896KB',

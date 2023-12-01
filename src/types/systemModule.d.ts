@@ -11,6 +11,7 @@ export interface APIKeyFormWhenCreating {
   desc: string
   enable: boolean
   api_key?: string
+  role: string
 }
 
 export interface APIKey extends APIKeyFormWhenCreating {

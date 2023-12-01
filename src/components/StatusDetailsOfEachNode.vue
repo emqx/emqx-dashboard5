@@ -11,7 +11,7 @@
       </span>
     </span>
     <template #content>
-      <div class="status-detail">
+      <div class="status-detail" v-if="showStatusDetail">
         <ul class="node-status-list" v-if="Array.isArray(statusData.details)">
           <li
             class="node-status-item"
@@ -24,6 +24,10 @@
             <span class="node-name">{{ node }}</span>
           </li>
         </ul>
+      </div>
+      <!-- for connector/bridge/action -->
+      <div class="extra-content">
+        <slot name="extra-content"> </slot>
       </div>
     </template>
   </el-tooltip>
@@ -38,7 +42,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed } from 'vue'
+import { defineProps, PropType, computed, useSlots } from 'vue'
 import { TargetStatusWithDetail } from '@/types/common'
 import { NodeStatusClass, CheckStatus } from '@/types/enum'
 import CheckIcon from '@/components/CheckIcon.vue'
@@ -57,11 +61,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * for connector/bridge/action
+   */
+  showStatusDetail: {
+    type: Boolean,
+    default: true,
+  },
 })
 
+const slots = useSlots()
 const isTooltipDisabled = computed(() => {
   const { statusData } = props
-  return !(statusData.details && Array.isArray(statusData.details) && statusData.details.length > 0)
+  return (
+    !(statusData.details && Array.isArray(statusData.details) && statusData.details.length > 0) ||
+    (!props.showStatusDetail && !slots['extra-content'])
+  )
 })
 
 const statusForIcon = computed(() => {
@@ -108,6 +123,9 @@ const statusForIcon = computed(() => {
   &.tooltip-node-status-list {
     padding-top: 4px;
     padding-bottom: 4px;
+    .extra-content {
+      padding: 4px 0;
+    }
   }
 
   .node-status-list {

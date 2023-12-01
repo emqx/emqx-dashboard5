@@ -37,22 +37,37 @@
                 <el-form-item>
                   <template #label>
                     <FormItemLabel
+                      :label="tl('enableBasicAuth')"
+                      :desc="tl('enableBasicAuthDesc')"
+                    />
+                  </template>
+                  <el-switch v-model="prometheusFormData.enable_basic_auth" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="21" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel
                       :label="tl('enablePushgateway')"
                       :desc="tl('enablePushgatewayDesc')"
                     />
                   </template>
-                  <el-switch v-model="prometheusFormData.enable" />
+                  <el-switch v-model="prometheusFormData.push_gateway.enable" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-collapse-transition>
-              <el-row v-show="prometheusFormData.enable">
+              <el-row v-show="prometheusFormData.push_gateway.enable">
                 <el-col :span="21" class="custom-col">
                   <el-form-item>
                     <template #label>
                       <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
                     </template>
-                    <TimeInputWithUnitSelectVue v-model="prometheusFormData.interval" />
+                    <TimeInputWithUnitSelectVue
+                      v-model="prometheusFormData.push_gateway.interval"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="21" class="custom-col">
@@ -72,7 +87,7 @@
                         </template>
                       </InfoTooltip>
                     </template>
-                    <el-input v-model="prometheusFormData.push_gateway_server" />
+                    <el-input v-model="prometheusFormData.push_gateway.url" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="21" class="custom-col">
@@ -80,7 +95,7 @@
                     <template #label>
                       <FormItemLabel :label="tl('jobName')" :desc="tl('jobNameDesc')" desc-marked />
                     </template>
-                    <el-input v-model="prometheusFormData.job_name" />
+                    <el-input v-model="prometheusFormData.push_gateway.job_name" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="21" class="custom-col">
@@ -92,7 +107,7 @@
                         desc-marked
                       />
                     </template>
-                    <KeyAndValueEditor v-model="prometheusFormData.headers" />
+                    <KeyAndValueEditor v-model="prometheusFormData.push_gateway.headers" />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -182,11 +197,24 @@ const platformOpts = [
 const selectedPlatform = ref(platformOpts[0].value)
 const showPromSetup = ref(false)
 const prometheusFormData: Ref<Prometheus> = ref({
-  enable: false,
-  interval: '15s',
-  push_gateway_server: '',
-  job_name: '',
-  headers: {},
+  collectors: {
+    mnesia: 'disabled',
+    vm_dist: 'disabled',
+    vm_memory: 'disabled',
+    vm_msacc: 'disabled',
+    vm_statistics: 'disabled',
+    vm_system_info: 'disabled',
+  },
+  enable_basic_auth: false,
+  push_gateway: {
+    headers: {
+      Authorization: '',
+    },
+    interval: '15s',
+    job_name: '',
+    url: '',
+    enable: false,
+  },
 })
 const opentelemetryFormData: Ref<OpenTelemetry> = ref({
   enable: false,

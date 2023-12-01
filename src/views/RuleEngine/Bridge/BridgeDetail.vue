@@ -1,18 +1,15 @@
 <template>
   <div class="bridge-detail">
     <div class="detail-top">
-      <detail-header
-        v-if="!isFromRule"
-        :item="{ name: bridgeInfo.name, routeName: 'data-bridge' }"
-      />
+      <detail-header v-if="!isFromRule" :item="{ name: bridgeInfo.name, routeName: 'actions' }" />
       <div v-if="!isFromRule" class="section-header">
         <div>
           <img :src="getBridgeIcon(bridgeInfo.type)" />
           <div class="title-n-status">
             <div class="info-tags">
-              <BridgeItemStatus :bridge="bridgeInfo" is-tag />
+              <TargetItemStatus :target="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
-                {{ getTypeStr(bridgeInfo) }}
+                {{ getGeneralTypeLabel(bridgeInfo.type) }}
               </el-tag>
             </div>
           </div>
@@ -56,7 +53,7 @@
     </div>
     <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
       <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">
-        <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+        <el-tab-pane v-if="!isFromRule" :label="tl('overview')" :name="Tab.Overview">
           <div
             class="overview-container"
             :class="{ 'is-loading': infoLoading }"
@@ -80,10 +77,11 @@
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-http-config
                 v-if="bridgeType === BridgeType.Webhook"
-                v-model:tls="bridgeInfo.ssl"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-mqtt-config
@@ -91,6 +89,8 @@
                 ref="formCom"
                 v-model="bridgeInfo"
                 :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-influxdb-config
@@ -98,13 +98,26 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
-              <bridge-kafka-config
-                v-else-if="bridgeType === BridgeType.Kafka"
+              <bridge-kafka-producer-config
+                v-else-if="bridgeType === BridgeType.KafkaProducer"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
+                @init="resetRawBridgeInfoAfterComponentInit"
+              />
+              <bridge-kafka-consumer-config
+                v-else-if="bridgeType === BridgeType.KafkaConsumer"
+                v-model="bridgeInfo"
+                ref="formCom"
+                :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <bridge-pulsar-config
@@ -112,6 +125,8 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :disabled="disabled"
+                :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
               <using-schema-bridge-config
@@ -120,12 +135,11 @@
                 :type="bridgeType"
                 v-model="bridgeInfo"
                 ref="formCom"
+                :disabled="disabled"
+                :hide-name="hideName"
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
-              <el-button :disabled="!$hasPermission('post')" @click="saveAsCopy">
-                {{ tl('saveAsCopy') }}
-              </el-button>
               <el-button
                 v-if="bridgeInfo.type"
                 type="primary"
@@ -150,7 +164,6 @@
         </el-tab-pane>
       </div>
     </el-tabs>
-    <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
     <DeleteBridgeSecondConfirm
       v-model="showSecondConfirm"
       :rule-list="usingBridgeRules"
@@ -161,12 +174,11 @@
 </template>
 
 <script lang="ts" setup>
-import { getBridgeInfo, startStopBridge, testConnect, updateBridge } from '@/api/ruleengine'
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
-import { useBridgeTypeIcon, useBridgeTypeOptions } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -177,26 +189,16 @@ import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfi
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import {
-  ComputedRef,
-  Ref,
-  computed,
-  defineExpose,
-  defineProps,
-  onActivated,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
-import BridgeKafkaConfig from './Components/BridgeConfig/BridgeKafkaConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
-import BridgeItemStatus from './Components/BridgeItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import BridgeKafkaProducerConfig from './Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
+import BridgeKafkaConsumerConfig from './Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -211,11 +213,24 @@ const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
-const isTesting = ref(false)
 const props = defineProps({
   bridgeId: {
     type: String,
     default: '',
+  },
+  /**
+   * for viewing data
+   */
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * for rule
+   */
+  hideName: {
+    type: Boolean,
+    default: false,
   },
 })
 const formCom = ref()
@@ -227,12 +242,12 @@ if (queryTab.value) {
   activeTab.value = queryTab.value
 }
 
-const { getTypeStr, getBridgeType } = useBridgeTypeOptions()
+const { getBridgeGeneralType, getGeneralTypeLabel } = useBridgeTypeValue()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const isFromRule = computed(() => ['iot-detail', 'iot-create'].includes(route.name as string))
+const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 if (isFromRule.value && props.bridgeId) {
   activeTab.value = Tab.Setting
 }
@@ -255,19 +270,18 @@ watch(id, (val) => {
  */
 const bridgeType = computed(() => {
   const type = id.value.slice(0, id.value.indexOf(':'))
-  return getBridgeType(type)
+  return getBridgeGeneralType(type)
 })
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { handleBridgeDataAfterLoaded, handleBridgeDataBeforeSubmit, handleBridgeDataForSaveAsCopy } =
-  useBridgeDataHandler()
+const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
+  useHandleActionItem()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    const data = await getBridgeInfo(id.value)
-    bridgeInfo.value = handleBridgeDataAfterLoaded(data)
+    bridgeInfo.value = await getDetail(id.value)
     rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
   } catch (error) {
     console.error(error)
@@ -292,38 +306,17 @@ const setBridgeInfoFromSchemaForm = () => {
 
 const getDataForSubmit = () => {
   setBridgeInfoFromSchemaForm()
-  return handleBridgeDataBeforeSubmit(_.cloneDeep(bridgeInfo.value))
+  return bridgeInfo.value
 }
 
-const showNameInputDialog = ref(false)
-/**
- * diff form bridge info, data for copy
- */
-const bridgeData = ref({} as BridgeItem)
-const copyTarget: ComputedRef<{ type: 'bridge'; obj: BridgeItem }> = computed(() => ({
-  type: 'bridge',
-  obj: bridgeData.value,
-}))
-
-const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
-const saveAsCopy = async () => {
-  try {
-    await customValidate(formCom.value)
-    const bridge = await getDataForSubmit()
-    await checkLikePwdField(bridge)
-    bridgeData.value = handleBridgeDataForSaveAsCopy(bridge)
-    showNameInputDialog.value = true
-  } catch (error) {
-    //
-  }
-}
+const { pwdErrorWhenCoping } = useCheckBeforeSaveAsCopy()
 
 const testConnection = async () => {
   try {
     await customValidate(formCom.value)
     isTesting.value = true
     const data = await getDataForSubmit()
-    await testConnect(_.omit(data, 'id'))
+    await testConnectivity(_.omit(data, 'id'))
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -342,7 +335,8 @@ const updateBridgeInfo = async () => {
     if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
-    await ElMessageBox.confirm(tl('updateBridgeTip'), {
+
+    await ElMessageBox.confirm(tl('updateActionTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',
@@ -350,10 +344,10 @@ const updateBridgeInfo = async () => {
 
     updateLoading.value = true
     const data = await getDataForSubmit()
-    const res = await updateBridge(bridgeInfo.value.id, data)
+    const res = await updateAction(data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
-      router.push({ name: 'data-bridge' })
+      router.push({ name: 'actions' })
     }
     return Promise.resolve(res.id)
   } catch (error) {
@@ -365,11 +359,10 @@ const updateBridgeInfo = async () => {
 
 const enableOrDisableBridge = async () => {
   infoLoading.value = true
-  bridgeInfo.value.enable = !bridgeInfo.value.enable
-  const statusToSend = bridgeInfo.value.enable ? 'disable' : 'enable'
-  const sucMessage = bridgeInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'
+  const { enable } = bridgeInfo.value
+  const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await startStopBridge(bridgeInfo.value.id, statusToSend)
+    await toggleActionEnable(bridgeInfo.value.id, enable)
     ElMessage.success(t(sucMessage))
     loadBridgeInfo()
   } catch (error) {
@@ -380,19 +373,19 @@ const enableOrDisableBridge = async () => {
 }
 
 const createRuleWithBridge = () => {
-  ElMessageBox.confirm(tl('useBridgeCreateRule'), {
+  ElMessageBox.confirm(tl('useConnectorCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'iot-create', query: { bridgeId: bridgeInfo.value.id } })
+      router.push({ name: 'rule-create', query: { bridgeId: bridgeInfo.value.id } })
     })
     .catch(() => ({}))
 }
 
 const goBack = () => {
-  router.push({ name: 'data-bridge' })
+  router.push({ name: 'actions' })
 }
 const {
   showSecondConfirm,
@@ -408,23 +401,13 @@ const handleDelete = async () => {
   handleDeleteBridge(id.value)
 }
 
-const setActiveTab = () => {
-  const { params } = route
-  if (params.activeTab && params.activeTab === 'Setting') {
-    activeTab.value = Tab.Setting
-  }
-}
-
 onMounted(() => {
   loadBridgeInfo()
 })
 
-onActivated(() => {
-  setActiveTab()
-})
-
 defineExpose({
   updateBridgeInfo,
+  testConnection,
 })
 </script>
 
@@ -433,26 +416,6 @@ defineExpose({
 </style>
 
 <style lang="scss" scoped>
-.section-header img {
-  height: 64px;
-  vertical-align: top;
-}
-.title-n-status {
-  vertical-align: top;
-}
-.section-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 22px;
-}
-.info-tags {
-  .el-tag,
-  :deep(.node-status) {
-    margin-right: 8px;
-  }
-}
 .setting-area {
   width: 75%;
   min-height: 400px;
@@ -469,17 +432,13 @@ defineExpose({
     display: none;
   }
 }
-
-.el-alert {
-  width: 75%;
-  margin-bottom: 12px;
-}
-
 .overview-container.is-loading {
   height: 600px;
 }
 .app-inline-card {
-  :deep(.el-card__body) {
+  min-height: 300px;
+  overflow: visible;
+  :deep(> .el-card__body) {
     padding: 0px;
   }
 }

@@ -1,9 +1,8 @@
-import { getBridgeList } from '@/api/ruleengine'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
+import { getMixedActionList } from '@/api/ruleengine'
 import {
   typesWithProducerAndConsumer,
   useBridgeDirection,
-  useBridgeTypeOptions,
+  useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { FormRules } from '@/types/common'
@@ -12,6 +11,7 @@ import { BridgeItem } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep, groupBy } from 'lodash'
 import { ComputedRef, Ref, computed, ref } from 'vue'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 
 type GroupedBridgeMap = { [key in BridgeType]?: Array<BridgeItem> }
 
@@ -37,13 +37,13 @@ export default (
     () => props.isUsingInFlow && !props.edit && !props.readonly,
   )
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
 
   const getBridges = async () => {
     try {
-      getBridgeRequest = getBridgeList()
+      getBridgeRequest = getMixedActionList()
       const bridges = await getBridgeRequest
-      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeType(type))
+      groupedBridgeMap.value = groupBy(bridges, ({ type }) => getBridgeGeneralType(type))
     } catch (error) {
       console.error(error)
     }
@@ -79,7 +79,7 @@ export default (
 
   const isBridgeSelected = ref(false)
 
-  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataAfterLoaded } = useHandleActionItem()
   const handleSchemaForReuse = async ({
     components,
     rules,
@@ -97,13 +97,14 @@ export default (
       name.type = 'string'
       name.componentProps = {
         onChange: (val: string) => {
-          const bridge = !!val && getBridgeByName(val)
-          if (bridge) {
-            isBridgeSelected.value = true
-            record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
-          } else {
-            isBridgeSelected.value = false
-          }
+          return
+          // const bridge = !!val && getBridgeByName(val)
+          // if (bridge) {
+          //   isBridgeSelected.value = true
+          //   record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
+          // } else {
+          //   isBridgeSelected.value = false
+          // }
         },
       }
     }
@@ -111,13 +112,14 @@ export default (
   }
 
   const handleNameChange = (name: string) => {
-    const bridge = !!name && getBridgeByName(name)
-    if (bridge) {
-      isBridgeSelected.value = true
-      record.value = handleBridgeDataAfterLoaded(cloneDeep(bridge))
-    } else {
-      isBridgeSelected.value = false
-    }
+    return
+    // const bridge = !!name && getBridgeByName(name)
+    // if (bridge) {
+    //   isBridgeSelected.value = true
+    //   record.value = handleActionDataAfterLoaded(cloneDeep(bridge))
+    // } else {
+    //   isBridgeSelected.value = false
+    // }
   }
 
   if (isCreateBridgeInFlow.value) {

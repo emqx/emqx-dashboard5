@@ -1,13 +1,13 @@
-import { getBridgeList, getRules } from '@/api/ruleengine'
+import { getMixedActionList, getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
 import useGenerateFlowDataUtils, { GroupedNode } from '@/hooks/Flow/useGenerateFlowDataUtils'
-import useBridgeDataHandler from '@/hooks/Rule/bridge/useBridgeDataHandler'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -40,12 +40,12 @@ export default (): {
     }
   }
 
-  const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
-      const list: Array<BridgeItem> = await getBridgeList()
+      const list: Array<BridgeItem> = await getMixedActionList()
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
-        m.set(item.id, handleBridgeDataAfterLoaded(item))
+        m.set(item.id, handleActionDataAfterLoaded(item))
         return m
       }, new Map())
       return Promise.resolve()

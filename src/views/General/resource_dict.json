@@ -1,0 +1,941 @@
+{
+  "put:/rules/:id": {
+    "label": {
+      "en": "Update a rule",
+      "zh": "更新规则"
+    }
+  },
+  "delete:/rules/:id": {
+    "label": {
+      "en": "Delete a rule",
+      "zh": "删除规则"
+    }
+  },
+  "put:/bridges/:id": {
+    "label": {
+      "en": "Update a bridge",
+      "zh": "更新数据桥接"
+    }
+  },
+  "put:/actions/:id": {
+    "label": {
+      "en": "Update a action",
+      "zh": "更新动作"
+    }
+  },
+  "delete:/bridges/:id": {
+    "label": {
+      "en": "Delete a bridge",
+      "zh": "删除数据桥接"
+    }
+  },
+  "delete:/actions/:id": {
+    "label": {
+      "en": "Delete a action",
+      "zh": "删除动作"
+    }
+  },
+  "delete:/trace/:name": {
+    "label": {
+      "en": "Delete trace",
+      "zh": "删除日志追踪"
+    }
+  },
+  "put:/sso/:backend": {
+    "label": {
+      "en": "Update single sign-on config",
+      "zh": "更新单点登录配置"
+    }
+  },
+  "delete:/sso/:backend": {
+    "label": {
+      "en": "Delete single sign-on config",
+      "zh": "删除单点登录配置"
+    }
+  },
+  "put:/exhooks/:name": {
+    "label": {
+      "en": "Update the ExHook",
+      "zh": "更新 Exhook"
+    }
+  },
+  "put:/api_key/:name": {
+    "label": {
+      "en": "Update the specific API Key",
+      "zh": "更新 API 密钥"
+    }
+  },
+  "put:/listeners/:id": {
+    "label": {
+      "en": "Update the listener",
+      "zh": "更新监听器"
+    }
+  },
+  "delete:/plugins/:name": {
+    "label": {
+      "en": "Uninstalls plugin",
+      "zh": "卸载插件"
+    }
+  },
+  "delete:/exhooks/:name": {
+    "label": {
+      "en": "Delete the ExHook",
+      "zh": "删除 ExHook"
+    }
+  },
+  "delete:/api_key/:name": {
+    "label": {
+      "en": "Delete the specific API Key",
+      "zh": "删除 API 密钥"
+    }
+  },
+  "delete:/listeners/:id": {
+    "label": {
+      "en": "Delete a listener",
+      "zh": "删除监听器"
+    }
+  },
+  "put:/connectors/:id": {
+    "label": {
+      "en": "Update the specified connector",
+      "zh": "更新指定连接器"
+    }
+  },
+  "put:/gateways/:name": {
+    "label": {
+      "en": "Update the gateway",
+      "zh": "更新网关"
+    }
+  },
+  "delete:/connectors/:id": {
+    "label": {
+      "en": "Delete the specified connector",
+      "zh": "删除指定连接器"
+    }
+  },
+  "put:/users/:username": {
+    "label": {
+      "en": "Update dashboard user",
+      "zh": "更新 Dashboard 用户"
+    }
+  },
+  "delete:/users/:username": {
+    "label": {
+      "en": "Delete dashboard user",
+      "zh": "删除 Dashboard 用户"
+    }
+  },
+  "delete:/banned/:as/:who": {
+    "label": {
+      "en": "Delete the specific banned data",
+      "zh": "删除黑名单"
+    }
+  },
+  "put:/trace/:name/stop": {
+    "label": {
+      "en": "Stop trace by name",
+      "zh": "停止指定的日志追踪"
+    }
+  },
+  "delete:/clients/:clientid": {
+    "label": {
+      "en": "Kick out client",
+      "zh": "断开客户端"
+    }
+  },
+  "post:/listeners/:id/stop": {
+    "label": {
+      "en": "Stop the listener on all nodes.",
+      "zh": "在所有节点上停止指定 ID的监听器"
+    }
+  },
+  "post:/plugins/:name/move": {
+    "label": {
+      "en": "Setting the boot order of plugins",
+      "zh": "调整插件启动顺序"
+    }
+  },
+  "post:/sso/login/:backend": {
+    "label": {}
+  },
+  "post:/exhooks/:name/move": {
+    "label": {
+      "en": "Move ExHook position",
+      "zh": "调整 ExHook 顺序"
+    }
+  },
+  "put:/authentication/:id": {
+    "label": {
+      "en": "Update authenticator",
+      "zh": "更新认证器。"
+    }
+  },
+  "delete:/authentication/:id": {
+    "label": {
+      "en": "Delete authenticator",
+      "zh": "删除认证器。"
+    }
+  },
+  "post:/listeners/:id/start": {
+    "label": {
+      "en": "Start the listener",
+      "zh": "启动监听器"
+    }
+  },
+  "put:/cluster/:node/invite": {
+    "label": {
+      "en": "Invite node to cluster",
+      "zh": "邀请节点加入集群"
+    }
+  },
+  "post:/listeners/:id/restart": {
+    "label": {
+      "en": "Restart listener",
+      "zh": "重启监听器"
+    }
+  },
+  "put:/plugins/:name/:action": {
+    "label": {
+      "en": "Start or Stop plugin",
+      "zh": "停启插件"
+    }
+  },
+  "put:/schema_registry/:name": {
+    "label": {
+      "en": "Update a schema",
+      "zh": "更新 Schema"
+    }
+  },
+  "put:/gcp_devices/:deviceid": {
+    "label": {
+      "en": "Update GCP IoT Core device",
+      "zh": "更新 GCP IoT Core 设备"
+    }
+  },
+  "delete:/schema_registry/:name": {
+    "label": {
+      "en": "Delete a schema",
+      "zh": "删除 Schema"
+    }
+  },
+  "delete:/gcp_devices/:deviceid": {
+    "label": {
+      "en": "Remove GCP IoT Core device",
+      "zh": "删除 GCP IoT Core 设备"
+    }
+  },
+  "post:/actions/:id/:operation": {
+    "label": {
+      "en": "Start/Stop action",
+      "zh": "停止或启动动作"
+    }
+  },
+  "post:/bridges/:id/:operation": {
+    "label": {
+      "en": "Stop/Restart the bridge",
+      "zh": "停启数据桥接"
+    }
+  },
+  "post:/configs_reset/:rootname": {
+    "label": {
+      "en": "Reset the specific config to default value",
+      "zh": "重置指定配置为默认值"
+    }
+  },
+  "put:/rules/:id/metrics/reset": {
+    "label": {
+      "en": "Reset rule metrics",
+      "zh": "重置规则指标"
+    }
+  },
+  "post:/gateways/:name/listeners": {
+    "label": {
+      "en": "Create the gateway listener",
+      "zh": "为网关添加监听器"
+    }
+  },
+  "post:/authentication/:id/users": {
+    "label": {
+      "en": "Add client authentication credentials",
+      "zh": "添加客户端认证凭证"
+    }
+  },
+  "post:/connectors/:id/:operation": {
+    "label": {
+      "en": "Start connector",
+      "zh": "启动连接器"
+    }
+  },
+  "post:/load_rebalance/:node/stop": {
+    "label": {
+      "en": "Stop rebalance process",
+      "zh": "停止重平衡任务"
+    }
+  },
+  "put:/bridges/:id/metrics/reset": {
+    "label": {
+      "en": "Reset metrics for the bridge",
+      "zh": "重置指定数据桥接的指标"
+    }
+  },
+  "delete:/cluster/:node/force_leave": {
+    "label": {
+      "en": "Force leave node from cluster",
+      "zh": "强制节点离开集群"
+    }
+  },
+  "delete:/mqtt/topic_metrics/:topic": {
+    "label": {
+      "en": "Delete topic metrics",
+      "zh": "删除主题监控"
+    }
+  },
+  "post:/load_rebalance/:node/start": {
+    "label": {
+      "en": "Start rebalance process",
+      "zh": "启动重平衡任务"
+    }
+  },
+  "post:/users/:username/change_pwd": {
+    "label": {
+      "en": "Change dashboard user password",
+      "zh": "更改 Dashboard 用户密码"
+    }
+  },
+  "put:/actions/:id/enable/:enable": {
+    "label": {
+      "en": "Enable or Disable action",
+      "zh": "停启动作"
+    }
+  },
+  "put:/bridges/:id/enable/:enable": {
+    "label": {
+      "en": "Enable/Disable the data bridge",
+      "zh": "停启数据桥接"
+    }
+  },
+  "post:/clients/:clientid/subscribe": {
+    "label": {
+      "en": "Subscribe",
+      "zh": "订阅"
+    }
+  },
+  "put:/authorization/sources/:type": {
+    "label": {
+      "en": "Update Authorizer",
+      "zh": "更新授权检查器"
+    }
+  },
+  "delete:/authorization/sources/:type": {
+    "label": {
+      "en": "Delete Authorizer",
+      "zh": "删除授权检查器"
+    }
+  },
+  "put:/gateways/:name/listeners/:id": {
+    "label": {
+      "en": "Update the gateway listener",
+      "zh": "更新指定监听器"
+    }
+  },
+  "delete:/gateways/:name/listeners/:id": {
+    "label": {
+      "en": "Delete the gateway listener",
+      "zh": "删除指定监听器"
+    }
+  },
+  "delete:/mqtt/retainer/message/:topic": {
+    "label": {
+      "en": "Delete the specific retainer message of the topic",
+      "zh": "删除指定主题的保留消息"
+    }
+  },
+  "post:/gateways/:name/authentication": {
+    "label": {
+      "en": "Create the gateway authenticator",
+      "zh": "为网关创建认证器"
+    }
+  },
+  "post:/clients/:clientid/unsubscribe": {
+    "label": {
+      "en": "Unsubscribe",
+      "zh": "取消订阅"
+    }
+  },
+  "put:/gateways/:name/enable/:enable": {
+    "label": {
+      "en": "Enable/Disable the gateway",
+      "zh": "停启指定网关"
+    }
+  },
+  "put:/gateways/:name/authentication": {
+    "label": {
+      "en": "Update the gateway authenticator",
+      "zh": "更新指网关认证器"
+    }
+  },
+  "put:/connectors/:id/enable/:enable": {
+    "label": {
+      "en": "Enable/Disable connector",
+      "zh": "停启连接器"
+    }
+  },
+  "delete:/gateways/:name/authentication": {
+    "label": {
+      "en": "Delete the gateway authenticator",
+      "zh": "删除网关的认证器"
+    }
+  },
+  "post:/authentication/:id/import_users": {
+    "label": {
+      "en": "Import client authentication credentials",
+      "zh": "导入客户端认证凭证"
+    }
+  },
+  "post:/clients/:clientid/subscribe/bulk": {
+    "label": {
+      "en": "Subscribe bulk",
+      "zh": "批量订阅"
+    }
+  },
+  "post:/authorization/sources/:type/move": {
+    "label": {
+      "en": "Change the exection order of authorizers",
+      "zh": "更新授权器的执行顺序"
+    }
+  },
+  "delete:/gateways/:name/clients/:clientid": {
+    "label": {
+      "en": "Kick out the client",
+      "zh": "断开客户端"
+    }
+  },
+  "put:/authentication/:id/users/:user_id": {
+    "label": {
+      "en": "Update client authentication credentials",
+      "zh": "更新客户端认证凭证"
+    }
+  },
+  "delete:/authentication/:id/users/:user_id": {
+    "label": {
+      "en": "Delete client authentication credentials",
+      "zh": "删除客户端认证凭证"
+    }
+  },
+  "post:/nodes/:node/bridges/:id/:operation": {
+    "label": {
+      "en": "Stop/Restart bridges on a specific node",
+      "zh": "停启指定节点的桥接"
+    }
+  },
+  "post:/clients/:clientid/unsubscribe/bulk": {
+    "label": {
+      "en": "Unsubscribe bulk",
+      "zh": "批量取消订阅"
+    }
+  },
+  "post:/nodes/:node/actions/:id/:operation": {
+    "label": {
+      "en": "Start action on a specific node",
+      "zh": "启动指定节点上的动作"
+    }
+  },
+  "delete:/mqtt/delayed/messages/:node/:msgid": {
+    "label": {
+      "en": "Delete delayed message",
+      "zh": "删除延迟消息"
+    }
+  },
+  "post:/gateways/:name/authentication/users": {
+    "label": {
+      "en": "Add client authentication credentials",
+      "zh": "添加客户端认证凭证"
+    }
+  },
+  "post:/load_rebalance/:node/evacuation/stop": {
+    "label": {
+      "en": "Stop evacuation process",
+      "zh": "停止疏散任务"
+    }
+  },
+  "post:/load_rebalance/:node/evacuation/start": {
+    "label": {
+      "en": "Start node evacuation",
+      "zh": "启动节点疏散"
+    }
+  },
+  "post:/nodes/:node/connectors/:id/:operation": {
+    "label": {
+      "en": "Start connector on a specific node",
+      "zh": "启动指定节点上的连接器"
+    }
+  },
+  "post:/gateways/lwm2m/clients/:clientid/read": {
+    "label": {
+      "en": "Send a read command to a client",
+      "zh": "发送读指令到客户端"
+    }
+  },
+  "put:/authentication/:id/position/:position": {
+    "label": {
+      "en": "Move authenticator position",
+      "zh": "调整认证器的顺序。"
+    }
+  },
+  "delete:/clients/:clientid/authorization/cache": {
+    "label": {
+      "en": "Clean the specified client's authorization cache",
+      "zh": "清除指定客户端的授权缓存"
+    }
+  },
+  "post:/gateways/lwm2m/clients/:clientid/write": {
+    "label": {
+      "en": "Send a write command to a client",
+      "zh": "发送写指令到某客户端"
+    }
+  },
+  "post:/gateways/coap/clients/:clientid/request": {
+    "label": {
+      "en": "Send a CoAP request message to the client",
+      "zh": "发送 CoAP 消息到指定客户端"
+    }
+  },
+  "post:/gateways/lwm2m/clients/:clientid/observe": {
+    "label": {
+      "en": "Observe or Cancel observe LwM2M resource",
+      "zh": "Observe/Un-Observe LwM2M 资源"
+    }
+  },
+  "put:/gateways/:name/authentication/users/:uid": {
+    "label": {
+      "en": "Update client authentication credentials",
+      "zh": "更新客户端认证凭证"
+    }
+  },
+  "delete:/gateways/:name/authentication/users/:uid": {
+    "label": {
+      "en": "Delete client authentication credentials",
+      "zh": "删除客户端认证凭证"
+    }
+  },
+  "post:/gateways/:name/authentication/import_users": {
+    "label": {
+      "en": "Import client authentication credentials",
+      "zh": "导入客户端认证凭证"
+    }
+  },
+  "post:/gateways/:name/listeners/:id/authentication": {
+    "label": {
+      "en": "Add authenticator for the listener",
+      "zh": "为指定监听器添加认证器"
+    }
+  },
+  "put:/gateways/:name/listeners/:id/authentication": {
+    "label": {
+      "en": "Update authenticator configs for the listener",
+      "zh": "更新指定监听器的认证器配置"
+    }
+  },
+  "delete:/gateways/:name/listeners/:id/authentication": {
+    "label": {
+      "en": "Remove authenticator for the listener",
+      "zh": "移除监听器的认证器"
+    }
+  },
+  "post:/gateways/:name/clients/:clientid/subscriptions": {
+    "label": {
+      "en": "Create a subscription membership",
+      "zh": "为某客户端新增订阅关系"
+    }
+  },
+  "post:/gateways/:name/listeners/:id/authentication/users": {
+    "label": {
+      "en": "Add client authentication credentials",
+      "zh": "添加客户端认证凭证"
+    }
+  },
+  "delete:/gateways/:name/clients/:clientid/subscriptions/:topic": {
+    "label": {
+      "en": "Unsubscribe for client",
+      "zh": "客户端取消订阅"
+    }
+  },
+  "put:/gateways/:name/listeners/:id/authentication/users/:uid": {
+    "label": {
+      "en": "Update the client authentication credentials",
+      "zh": "更新监听器客户端认证凭证"
+    }
+  },
+  "delete:/gateways/:name/listeners/:id/authentication/users/:uid": {
+    "label": {
+      "en": "Delete the client authentication credentials",
+      "zh": "删除监听器客户端认证凭证"
+    }
+  },
+  "post:/gateways/:name/listeners/:id/authentication/import_users": {
+    "label": {
+      "en": "Import client authentication credentials",
+      "zh": "导入客户端认证凭证"
+    }
+  },
+  "put:/authorization/sources/built_in_database/rules/users/:username": {
+    "label": {
+      "en": "Set rule for 'username'",
+      "zh": "更新内置数据库中指定用户名的授权规则"
+    }
+  },
+  "delete:/authorization/sources/built_in_database/rules/users/:username": {
+    "label": {
+      "en": "Delete rule for 'username'",
+      "zh": "删除内置数据库中指定用户名的授权规则"
+    }
+  },
+  "put:/authorization/sources/built_in_database/rules/clients/:clientid": {
+    "label": {
+      "en": "Set rule for clientid",
+      "zh": "设置指定客户端 ID 的授权规则"
+    }
+  },
+  "delete:/authorization/sources/built_in_database/rules/clients/:clientid": {
+    "label": {
+      "en": "Delete rule for clientid",
+      "zh": "删除指定客户端 ID 的授权规则"
+    }
+  },
+  "put:/prometheus": {
+    "label": {
+      "en": "Update Prometheus config",
+      "zh": "更新 Prometheus 配置"
+    }
+  },
+  "put:/opentelemetry": {
+    "label": {
+      "en": "Update OpenTelmetry config",
+      "zh": "更新 OpenTelemetry 配置"
+    }
+  },
+  "post:/clients/kickout/bulk": {
+    "label": {
+      "en": "Batch kickout client",
+      "zh": "批量断开客户端"
+    }
+  },
+  "post:/publish": {
+    "label": {
+      "en": "Publish message",
+      "zh": "发布消息"
+    }
+  },
+  "post:/publish/bulk": {
+    "label": {
+      "en": "Batch publish messages",
+      "zh": "批量发布消息"
+    }
+  },
+  "post:/authentication": {
+    "label": {
+      "en": "Create authenticator",
+      "zh": "创建认证器。"
+    }
+  },
+  "delete:/authorization/cache": {
+    "label": {
+      "en": "Clean all authorization cache",
+      "zh": "清除所有授权缓存"
+    }
+  },
+  "post:/authorization/sources": {
+    "label": {
+      "en": "Add a new authorization",
+      "zh": "添加授权器"
+    }
+  },
+  "put:/authorization/settings": {
+    "label": {
+      "en": "Update authorization config",
+      "zh": "更新授权配置"
+    }
+  },
+  "delete:/authorization/sources/built_in_database/rules": {
+    "label": {
+      "en": "Delete all authorization rules in the built-in database",
+      "zh": "清除内置数据库中的所有授权规则"
+    }
+  },
+  "post:/authorization/sources/built_in_database/rules/all": {
+    "label": {
+      "en": "Create/Update global authorization rules",
+      "zh": "创建/更新全局授权规则"
+    }
+  },
+  "delete:/authorization/sources/built_in_database/rules/all": {
+    "label": {
+      "en": "Delete global authorization rules",
+      "zh": "删除全局授权规则"
+    }
+  },
+  "post:/authorization/sources/built_in_database/rules/users": {
+    "label": {
+      "en": "Adding username-based authorization rules",
+      "zh": "添加基于用户名的授权规则"
+    }
+  },
+  "post:/authorization/sources/built_in_database/rules/clients": {
+    "label": {
+      "en": "Add Client ID based authorization rules",
+      "zh": "添加基于客户端 ID 的授权规则"
+    }
+  },
+  "post:/gcp_devices": {
+    "label": {
+      "en": "Import GCP IoT Core data",
+      "zh": "从 GCP IoT Core 导入认证和配置数据"
+    }
+  },
+  "post:/banned": {
+    "label": {
+      "en": "Add client blacklist",
+      "zh": "添加客户端黑名单"
+    }
+  },
+  "delete:/banned": {
+    "label": {
+      "en": "Clear all banned data",
+      "zh": "清除全部客户端黑名单数据"
+    }
+  },
+  "post:/rules": {
+    "label": {
+      "en": "Create a new rule",
+      "zh": "创建规则"
+    }
+  },
+  "post:/rule_test": {
+    "label": {
+      "en": "Test a rule",
+      "zh": "测试规则"
+    }
+  },
+  "put:/rule_engine": {
+    "label": {
+      "en": "Update rule engine config",
+      "zh": "更新规则引擎配置。"
+    }
+  },
+  "post:/connectors": {
+    "label": {
+      "en": "Create a new connector",
+      "zh": "创建连接器"
+    }
+  },
+  "post:/connectors_probe": {
+    "label": {
+      "en": "Test creating a new connector",
+      "zh": "测试连接器"
+    }
+  },
+  "post:/actions": {
+    "label": {
+      "en": "Create a new action",
+      "zh": "创建动作"
+    }
+  },
+  "post:/actions_probe": {
+    "label": {
+      "en": "Test action",
+      "zh": "测试动作"
+    }
+  },
+  "post:/bridges": {
+    "label": {
+      "en": "Create a new data bridge",
+      "zh": "创建数据桥接"
+    }
+  },
+  "post:/bridges_probe": {
+    "label": {
+      "en": "Test data bridge",
+      "zh": "测试数据桥接"
+    }
+  },
+  "post:/schema_registry": {
+    "label": {
+      "en": "Create a new schema",
+      "zh": "创建新的 Schema"
+    }
+  },
+  "put:/mqtt/delayed": {
+    "label": {
+      "en": "Update delayed publish",
+      "zh": "更新延迟发布配置"
+    }
+  },
+  "post:/mqtt/topic_metrics": {
+    "label": {
+      "en": "Create topic metrics",
+      "zh": "添加主题监控"
+    }
+  },
+  "put:/mqtt/topic_rewrite": {
+    "label": {
+      "en": "Update rewrite rules",
+      "zh": "更新主题重写规则"
+    }
+  },
+  "put:/mqtt/topic_metrics": {
+    "label": {
+      "en": "Reset all topic metrics",
+      "zh": "重置所有主题监控指标"
+    }
+  },
+  "put:/mqtt/retainer": {
+    "label": {
+      "en": "Update retainer config",
+      "zh": "更新保留消息配置"
+    }
+  },
+  "put:/mqtt/auto_subscribe": {
+    "label": {
+      "en": "Update auto subscribe topic list",
+      "zh": "更新自动订阅主题列表"
+    }
+  },
+  "delete:/slow_subscriptions": {
+    "label": {
+      "en": "Clear all slow subscriptions",
+      "zh": "清除慢订阅列表"
+    }
+  },
+  "put:/slow_subscriptions/settings": {
+    "label": {
+      "en": "Update slow subscriptions config",
+      "zh": "更新慢订阅配置"
+    }
+  },
+  "put:/file_transfer": {
+    "label": {
+      "en": "Update file transfer config",
+      "zh": "更新文件传输配置。"
+    }
+  },
+  "post:/plugins/install": {
+    "label": {
+      "en": "Upload and install plugin",
+      "zh": "上传并安装插件"
+    }
+  },
+  "post:/exhooks": {
+    "label": {
+      "en": "Add a ExHook",
+      "zh": "添加 ExHook"
+    }
+  },
+  "put:/configs": {
+    "label": {
+      "en": "Update configs",
+      "zh": "更新配置"
+    }
+  },
+  "put:/configs/log": {
+    "label": {
+      "en": "Update the log config",
+      "zh": "更新日志配置"
+    }
+  },
+  "put:/configs/alarm": {
+    "label": {
+      "en": "Update alarm config",
+      "zh": "更新告警配置"
+    }
+  },
+  "put:/configs/sysmon": {
+    "label": {
+      "en": "Update sysmon config",
+      "zh": "更新 sysmon 配置"
+    }
+  },
+  "put:/configs/dashboard": {
+    "label": {
+      "en": "Update dashboard config",
+      "zh": "更新 Dashboard 配置"
+    }
+  },
+  "put:/configs/sys_topics": {
+    "label": {
+      "en": "Update sys_topics config",
+      "zh": "更新系统主题配置"
+    }
+  },
+  "put:/configs/global_zone": {
+    "label": {
+      "en": "Update global zone config",
+      "zh": "更新全局 zone 配置"
+    }
+  },
+  "post:/listeners": {
+    "label": {
+      "en": "Create a listener",
+      "zh": "创建监听器"
+    }
+  },
+  "post:/license": {
+    "label": {
+      "en": "Update License key",
+      "zh": "更新 License"
+    }
+  },
+  "put:/license/setting": {
+    "label": {
+      "en": "Update license",
+      "zh": "更新 License"
+    }
+  },
+  "post:/trace": {
+    "label": {
+      "en": "Create new trace",
+      "zh": "创建日志追踪"
+    }
+  },
+  "delete:/trace": {
+    "label": {
+      "en": "Clear all traces",
+      "zh": "清除所有日志追踪"
+    }
+  },
+  "delete:/alarms": {
+    "label": {
+      "en": "Remove all historical alarms.",
+      "zh": "删除所有历史告警。"
+    }
+  },
+  "post:/users": {
+    "label": {
+      "en": "Create dashboard user",
+      "zh": "创建 Dashboard 用户"
+    }
+  },
+  "post:/login": {
+    "label": {
+      "en": "Dashboard user login",
+      "zh": "Dashboard 用户登录"
+    }
+  },
+  "post:/logout": {
+    "label": {
+      "en": "Dashboard user logout",
+      "zh": "Dashboard 用户退出登录"
+    }
+  },
+  "post:/sso/saml/acs": {
+    "label": {
+      "en": "SAML SSO ACS Callback",
+      "zh": "SAML SSO ACS 回调"
+    }
+  },
+  "post:/api_key": {
+    "label": {
+      "en": "Create new API Key",
+      "zh": "创建 API 密钥"
+    }
+  }
+}

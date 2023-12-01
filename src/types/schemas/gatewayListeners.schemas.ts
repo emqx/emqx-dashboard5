@@ -166,12 +166,16 @@ export type PutGatewaysNameListenersId400 = {
 }
 
 export type PutGatewaysNameListenersId200 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
 
 export type PutGatewaysNameListenersIdBody =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
@@ -205,6 +209,8 @@ export type GetGatewaysNameListenersId400 = {
 }
 
 export type GetGatewaysNameListenersId200 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
@@ -265,12 +271,16 @@ export type PostGatewaysNameListeners400 = {
 }
 
 export type PostGatewaysNameListeners201 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
 
 export type PostGatewaysNameListenersBody =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
@@ -338,7 +348,7 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 
 export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnGcpDevice
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -357,7 +367,7 @@ export type PutGatewaysNameListenersIdAuthentication200 =
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
   | AuthnGcpDevice
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -403,7 +413,7 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 
 export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnGcpDevice
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -422,7 +432,7 @@ export type PostGatewaysNameListenersIdAuthentication201 =
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
   | AuthnGcpDevice
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -468,7 +478,7 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 
 export type GetGatewaysNameListenersIdAuthentication200 =
   | AuthnGcpDevice
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -585,6 +595,33 @@ export interface LdapSsl {
   server_name_indication?: LdapSslServerNameIndication
 }
 
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
+
+export type GatewayWebsocketPiggyback =
+  typeof GatewayWebsocketPiggyback[keyof typeof GatewayWebsocketPiggyback]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayWebsocketPiggyback = {
+  single: 'single',
+  multiple: 'multiple',
+} as const
+
+export interface GatewayWebsocket {
+  path?: string
+  piggyback?: GatewayWebsocketPiggyback
+  compress?: boolean
+  idle_timeout?: string
+  max_frame_size?: GatewayWebsocketMaxFrameSize
+  fail_if_no_subprotocol?: boolean
+  supported_subprotocols?: string
+  check_origin_enable?: boolean
+  allow_origin_absence?: boolean
+  check_origins?: string
+  proxy_address_header?: string
+  proxy_port_header?: string
+  deflate_opts?: BrokerDeflateOpts
+}
+
 export interface GatewayUdpOpts {
   active_n?: number
   recbuf?: string
@@ -641,6 +678,65 @@ export interface GatewayDtlsOpts {
   gc_after_handshake?: boolean
   ocsp?: BrokerOcsp
   enable_crl_check?: boolean
+}
+
+export type EmqxGatewayApiWssListenerMaxConnections = 'infinity' | number
+
+export type EmqxGatewayApiWssListenerType =
+  typeof EmqxGatewayApiWssListenerType[keyof typeof EmqxGatewayApiWssListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiWssListenerType = {
+  wss: 'wss',
+} as const
+
+export interface EmqxGatewayApiWssListener {
+  id?: string
+  type?: EmqxGatewayApiWssListenerType
+  name?: string
+  running?: boolean
+  acceptors?: number
+  tcp_options?: BrokerTcpOpts
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  enable?: boolean
+  bind?: string
+  max_connections?: EmqxGatewayApiWssListenerMaxConnections
+  max_conn_rate?: number
+  enable_authn?: boolean
+  mountpoint?: string
+  access_rules?: string[]
+  ssl_options?: BrokerListenerWssOpts
+  websocket?: GatewayWebsocket
+}
+
+export type EmqxGatewayApiWsListenerMaxConnections = 'infinity' | number
+
+export type EmqxGatewayApiWsListenerType =
+  typeof EmqxGatewayApiWsListenerType[keyof typeof EmqxGatewayApiWsListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiWsListenerType = {
+  ws: 'ws',
+} as const
+
+export interface EmqxGatewayApiWsListener {
+  id?: string
+  type?: EmqxGatewayApiWsListenerType
+  name?: string
+  running?: boolean
+  acceptors?: number
+  tcp_options?: BrokerTcpOpts
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  enable?: boolean
+  bind?: string
+  max_connections?: EmqxGatewayApiWsListenerMaxConnections
+  max_conn_rate?: number
+  enable_authn?: boolean
+  mountpoint?: string
+  access_rules?: string[]
+  websocket?: GatewayWebsocket
 }
 
 export type EmqxGatewayApiUdpListenerMaxConnections = 'infinity' | number
@@ -965,6 +1061,54 @@ export interface BrokerOcsp {
   refresh_http_timeout?: string
 }
 
+export type BrokerListenerWssOptsLogLevel =
+  typeof BrokerListenerWssOptsLogLevel[keyof typeof BrokerListenerWssOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerListenerWssOptsVerify =
+  typeof BrokerListenerWssOptsVerify[keyof typeof BrokerListenerWssOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerListenerWssOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerListenerWssOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerListenerWssOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+}
+
 export type BrokerListenerSslOptsLogLevel =
   typeof BrokerListenerSslOptsLogLevel[keyof typeof BrokerListenerSslOptsLogLevel]
 
@@ -1014,6 +1158,56 @@ export interface BrokerListenerSslOpts {
   gc_after_handshake?: boolean
   ocsp?: BrokerOcsp
   enable_crl_check?: boolean
+}
+
+export type BrokerDeflateOptsClientContextTakeover =
+  typeof BrokerDeflateOptsClientContextTakeover[keyof typeof BrokerDeflateOptsClientContextTakeover]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsClientContextTakeover = {
+  takeover: 'takeover',
+  no_takeover: 'no_takeover',
+} as const
+
+export type BrokerDeflateOptsServerContextTakeover =
+  typeof BrokerDeflateOptsServerContextTakeover[keyof typeof BrokerDeflateOptsServerContextTakeover]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsServerContextTakeover = {
+  takeover: 'takeover',
+  no_takeover: 'no_takeover',
+} as const
+
+export type BrokerDeflateOptsStrategy =
+  typeof BrokerDeflateOptsStrategy[keyof typeof BrokerDeflateOptsStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsStrategy = {
+  default: 'default',
+  filtered: 'filtered',
+  huffman_only: 'huffman_only',
+  rle: 'rle',
+} as const
+
+export type BrokerDeflateOptsLevel =
+  typeof BrokerDeflateOptsLevel[keyof typeof BrokerDeflateOptsLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerDeflateOptsLevel = {
+  none: 'none',
+  default: 'default',
+  best_compression: 'best_compression',
+  best_speed: 'best_speed',
+} as const
+
+export interface BrokerDeflateOpts {
+  level?: BrokerDeflateOptsLevel
+  mem_level?: number
+  strategy?: BrokerDeflateOptsStrategy
+  server_context_takeover?: BrokerDeflateOptsServerContextTakeover
+  client_context_takeover?: BrokerDeflateOptsClientContextTakeover
+  server_max_window_bits?: number
+  client_max_window_bits?: number
 }
 
 export type AuthnRedisSingleRedisType =
@@ -1283,7 +1477,7 @@ export interface AuthnMongoSingle {
   is_superuser_field?: string
   password_hash_algorithm?: AuthnMongoSinglePasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoSingleMongoType
+  mongo_type: AuthnMongoSingleMongoType
   server: string
   w_mode?: AuthnMongoSingleWMode
   srv_record?: boolean
@@ -1357,7 +1551,7 @@ export interface AuthnMongoSharded {
   is_superuser_field?: string
   password_hash_algorithm?: AuthnMongoShardedPasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoShardedMongoType
+  mongo_type: AuthnMongoShardedMongoType
   servers: string
   w_mode?: AuthnMongoShardedWMode
   srv_record?: boolean
@@ -1432,7 +1626,7 @@ export interface AuthnMongoRs {
   is_superuser_field?: string
   password_hash_algorithm?: AuthnMongoRsPasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoRsMongoType
+  mongo_type: AuthnMongoRsMongoType
   servers: string
   w_mode?: AuthnMongoRsWMode
   r_mode?: AuthnMongoRsRMode
@@ -1448,24 +1642,25 @@ export interface AuthnMongoRs {
   ssl?: BrokerSslClientOpts
 }
 
-export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+export type AuthnLdapDeprecatedBackend =
+  typeof AuthnLdapDeprecatedBackend[keyof typeof AuthnLdapDeprecatedBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapBindBackend = {
-  ldap_bind: 'ldap_bind',
+export const AuthnLdapDeprecatedBackend = {
+  ldap: 'ldap',
 } as const
 
-export type AuthnLdapBindMechanism =
-  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+export type AuthnLdapDeprecatedMechanism =
+  typeof AuthnLdapDeprecatedMechanism[keyof typeof AuthnLdapDeprecatedMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapBindMechanism = {
+export const AuthnLdapDeprecatedMechanism = {
   password_based: 'password_based',
 } as const
 
-export interface AuthnLdapBind {
-  mechanism: AuthnLdapBindMechanism
-  backend: AuthnLdapBindBackend
+export interface AuthnLdapDeprecated {
+  mechanism: AuthnLdapDeprecatedMechanism
+  backend: AuthnLdapDeprecatedBackend
   query_timeout?: string
   enable?: boolean
   server: string
@@ -1476,8 +1671,11 @@ export interface AuthnLdapBind {
   filter?: string
   request_timeout?: string
   ssl?: LdapSsl
-  bind_password?: string
+  password_attribute?: string
+  is_superuser_attribute?: string
 }
+
+export type AuthnLdapMethod = AuthnBindMethod | AuthnHashMethod
 
 export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
 
@@ -1496,8 +1694,6 @@ export const AuthnLdapMechanism = {
 export interface AuthnLdap {
   mechanism: AuthnLdapMechanism
   backend: AuthnLdapBackend
-  password_attribute?: string
-  is_superuser_attribute?: string
   query_timeout?: string
   enable?: boolean
   server: string
@@ -1508,6 +1704,7 @@ export interface AuthnLdap {
   filter?: string
   request_timeout?: string
   ssl?: LdapSsl
+  method?: AuthnLdapMethod
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
@@ -1709,6 +1906,19 @@ export interface AuthnHttpGet {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashMethodType = {
+  hash: 'hash',
+} as const
+
+export interface AuthnHashMethod {
+  type?: AuthnHashMethodType
+  password_attribute?: string
+  is_superuser_attribute?: string
+}
+
 export type AuthnGcpDeviceMechanism =
   typeof AuthnGcpDeviceMechanism[keyof typeof AuthnGcpDeviceMechanism]
 
@@ -1746,12 +1956,29 @@ export const AuthnBuiltinDbMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
+
 export interface AuthnBuiltinDb {
   password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
   enable?: boolean
+}
+
+export type AuthnBindMethodType = typeof AuthnBindMethodType[keyof typeof AuthnBindMethodType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBindMethodType = {
+  bind: 'bind',
+} as const
+
+export interface AuthnBindMethod {
+  type?: AuthnBindMethodType
+  bind_password?: string
 }
 
 export type AuthnHashSimpleSaltPosition =
@@ -1819,11 +2046,6 @@ export interface AuthnHashBcryptRw {
   name: AuthnHashBcryptRwName
   salt_rounds?: number
 }
-
-export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcryptRw
 
 export type AuthnHashBcryptName = typeof AuthnHashBcryptName[keyof typeof AuthnHashBcryptName]
 

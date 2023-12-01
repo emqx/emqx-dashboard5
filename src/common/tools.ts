@@ -123,14 +123,6 @@ export const downloadBlobData = (
   window.URL.revokeObjectURL(url)
 }
 
-export const parseJSONSafely = (str: any): Record<string, any> | void => {
-  try {
-    return JSON.parse(str)
-  } catch (error) {
-    console.error('An error occurred while parsing the JSON string')
-  }
-}
-
 export const stringifyObjSafely = (obj: Record<string, any>, tabSpaces?: number): string => {
   try {
     if (typeof obj === 'string') {
@@ -340,6 +332,22 @@ export const getBridgeKey = ({
   name,
 }: { type: BridgeType; name: string } & unknown): string => `${type}:${name}`
 
+const keyReg = /^(?<type>\w+):(?<name>.+)$/
+/**
+ * for connector, action and bridge
+ */
+export const getTypeAndNameFromKey = (key: string): { type: BridgeType; name: string } => {
+  const matchResult = key.match(keyReg)
+  if (!matchResult) {
+    throw new Error('invalid key')
+  }
+  const { type, name } = matchResult.groups || {}
+  return {
+    type: type as BridgeType,
+    name,
+  }
+}
+
 export const usefulMemoryUnit = ['KB', 'MB', 'GB']
 
 const ONE_KB = 1024
@@ -414,6 +422,15 @@ export const jumpToErrorFormItem = (className = '.el-form-item.is-error'): boole
     return true
   }
   return false
+}
+
+export const scrollToTop = () => {
+  try {
+    const body = document.querySelector('.main-content > .el-scrollbar > .el-scrollbar__wrap')
+    body?.scrollTo({ top: 0 })
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export const findExtensionByName = (name: string): string => {
@@ -494,43 +511,6 @@ export const checkNSetToNullFromObj = (obj: Record<string, any>): Record<string,
   }
   checkALevel(obj)
   return obj
-}
-
-// { a: { b: c: 1 } } => { 'a.b.c': 1 }
-export const flattenObject = (
-  obj: { [key: string]: any },
-  prefix: any[] = [],
-  current: { [key: string]: any } = {},
-) => {
-  if (typeof obj === 'object' && !Array.isArray(obj) && obj !== null) {
-    for (const key of Object.keys(obj)) {
-      flattenObject(obj[key], prefix.concat(key), current)
-    }
-  } else {
-    current[prefix.join('.')] = obj
-  }
-  return current
-}
-// { 'a.b.c': 1 } => { a: { b: { c: 1 } } }
-export const unflattenObject = (obj: { [key: string]: any }) => {
-  if (Object(obj) !== obj && !Array.isArray(obj)) return obj
-  const regex = /\.?([^.[\]]+)|\[(\d+)\]/g
-  const resultholder: { [key: string]: any } = {}
-  try {
-    for (const p in obj) {
-      let current = resultholder
-      let prop = ''
-      let m: any
-      while ((m = regex.exec(p))) {
-        current = current[prop] || (current[prop] = m[2] ? [] : {})
-        prop = m[2] || m[1]
-      }
-      current[prop] = obj[p]
-    }
-  } catch (error) {
-    console.error(error)
-  }
-  return resultholder[''] || resultholder
 }
 
 export const replaceSpaceForHTML = (str: string): string => {
@@ -651,18 +631,6 @@ export const countDuplicationName = (rawName: string): string => {
     })
   }
   return `${rawName}${COPY_SUFFIX}`
-}
-
-export const isEmptyObj = (obj: Record<any, any>) => Object.keys(obj).length === 0
-
-export const isJSONString = (str: string): boolean => {
-  if (typeof str !== 'string') return false
-  try {
-    const obj = JSON.parse(str)
-    return typeof obj === 'object' && obj !== null
-  } catch (e) {
-    return false
-  }
 }
 
 export const createOrderObj = (keyArr: Array<string>, beginning: number) =>

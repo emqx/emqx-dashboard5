@@ -21,8 +21,8 @@
         </template>
       </el-table-column>
       <el-table-column :label="tl('numberOfHooks')" :min-width="144" prop="hooks.length" />
-      <el-table-column :label="tl('success')" :min-width="100" prop="metrics.succeed" />
-      <el-table-column :label="tl('failure')" :min-width="100" prop="metrics.failed" />
+      <el-table-column :label="t('Base.success')" :min-width="100" prop="metrics.succeed" />
+      <el-table-column :label="t('Base.failed')" :min-width="100" prop="metrics.failed" />
       <el-table-column
         :label="`${tl('rate')}(${tl('second')})`"
         :min-width="136"

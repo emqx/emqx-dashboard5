@@ -56,7 +56,7 @@
         </el-col> -->
         <el-col :span="24"><el-divider /></el-col>
       </el-row>
-      <el-row v-if="showWSConfig" :gutter="20">
+      <el-row v-if="showWSConfig && !gatewayName" :gutter="20">
         <el-col :span="12">
           <el-form-item label="MQTT Path">
             <template #label>
@@ -64,6 +64,17 @@
               <InfoTooltip :content="$t('BasicConfig.mqttPath')" />
             </template>
             <el-input v-model="listenerRecord.websocket.mqtt_path" placeholder="/mqtt" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"><el-divider /></el-col>
+      </el-row>
+      <el-row v-else-if="showWSConfig && gatewayName" :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="Path">
+            <el-input
+              v-model="listenerRecord.websocket.path"
+              :placeholder="gatewayName === GatewayName.OCPP ? '/ocpp' : ''"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="24"><el-divider /></el-col>

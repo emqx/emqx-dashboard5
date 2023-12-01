@@ -30,7 +30,7 @@ export const SourceType = {
   Message: 'message',
   Event: 'event',
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
-  Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Ingress),
+  Kafka: BridgeType.KafkaConsumer,
   GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Ingress),
 }
 
@@ -42,7 +42,7 @@ export const enum ProcessingType {
 export const SinkType = {
   HTTP: BridgeType.Webhook,
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
-  Kafka: getSpecificTypeWithDirection(BridgeType.Kafka, BridgeDirection.Egress),
+  Kafka: BridgeType.KafkaProducer,
   GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Egress),
   MySQL: BridgeType.MySQL,
   Redis: BridgeType.Redis,

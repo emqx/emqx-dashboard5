@@ -1,27 +1,35 @@
 export default {
-  createBridge: {
-    zh: '创建数据桥接',
-    en: 'Create Data Bridge',
+  createAction: {
+    zh: '创建动作',
+    en: 'Create Action',
   },
-  updateBridgeTip: {
-    zh: '更新桥接配置将会导致桥接重启，重启期间缓冲区内的消息和新收到的消息将不会被桥接，是否继续？',
-    en: 'Updating bridge configuration will cause the bridge to restart. The buffered messages, and newly received messages during the restart will not be bridged, continue?',
+  createConnector: {
+    zh: '创建连接',
+    en: 'Create Connector',
+  },
+  updateConnectorTip: {
+    zh: '更新配置会导致连接中断，进而可能导致关联动作消息丢失。',
+    en: 'Updating the configuration can cause a connection interruption, which may result in the loss of associated action messages.',
+  },
+  updateActionTip: {
+    zh: '更新配置会导致动作重启，动作中缓冲的消息和新接收的消息将被丢弃。',
+    en: 'Updating configuration will cause the action to restart. The buffered messages, and newly received messages during the restart will be lost.',
   },
   create: {
     zh: '创建',
     en: 'Create',
   },
-  bridgeType: {
-    zh: '数据桥接类型',
-    en: 'Type of Data Bridge',
+  actionType: {
+    zh: '动作类型',
+    en: 'Type of Action',
   },
-  dataBridge: {
-    zh: '数据桥接',
-    en: 'Data bridge',
+  connectorType: {
+    zh: '连接类型',
+    en: 'Type of Connector',
   },
-  useDataBridge: {
-    zh: '使用数据桥接转发',
-    en: 'Forwarding with Data Bridge',
+  connectorName: {
+    zh: '连接器名称',
+    en: 'Connector Name',
   },
   direction: {
     zh: '方向',
@@ -39,17 +47,21 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  no_compression: {
-    zh: '不压缩',
-    en: 'No compression',
-  },
-  rateNow: {
-    zh: '当前速率',
-    en: 'Rate',
-  },
   status: {
     zh: '资源状态',
     en: 'Resource Status',
+  },
+  connectionStatus: {
+    zh: '连接状态',
+    en: 'Connection Status',
+  },
+  statusReason: {
+    zh: '状态原因',
+    en: 'Status Reason',
+  },
+  associativeDataBridge: {
+    zh: '关联数据桥接',
+    en: 'Associative Data Bridge',
   },
   configuration: {
     zh: '配置信息',
@@ -128,10 +140,6 @@ export default {
     zh: '连接超时',
     en: 'Connect Timeout',
   },
-  reqTimeout: {
-    zh: 'HTTP 请求超时',
-    en: 'HTTP Request Timeout',
-  },
   name: {
     zh: '名称',
     en: 'Name',
@@ -143,14 +151,6 @@ export default {
   topology: {
     zh: '拓扑图',
     en: ' Topology',
-  },
-  bridgeNotExistTip: {
-    zh: '该数据桥接不存在，请检查并更新规则的 SQL 语句',
-    en: 'The data bridge does not exist, please check and update the SQL of the rule',
-  },
-  createdAt: {
-    zh: '创建时间',
-    en: 'Created At',
   },
   note: {
     zh: '备注',
@@ -179,6 +179,10 @@ export default {
   consoleOutput: {
     zh: '控制台输出',
     en: 'Console Output',
+  },
+  confPreview: {
+    zh: '配置预览',
+    en: 'Configuration Preview',
   },
   outputResult: {
     zh: '输出结果',
@@ -252,10 +256,6 @@ export default {
     zh: '消息',
     en: 'Messages',
   },
-  changeSqlMethod: {
-    zh: '切换 SQL 编辑',
-    en: 'Switch SQL Edit',
-  },
   changeFormMethod: {
     zh: '切换表单编辑',
     en: 'Switch Form Edit',
@@ -288,14 +288,6 @@ export default {
     zh: '数据处理',
     en: 'Function',
   },
-  sqlPassed: {
-    zh: '通过',
-    en: 'Passed',
-  },
-  sqlPassedDesc: {
-    zh: '成功执行并输出结果',
-    en: 'Executes successfully and outputs the result',
-  },
   matched: {
     zh: '命中',
     en: 'Matched',
@@ -308,10 +300,6 @@ export default {
     zh: 'Bridge 被匹配到（被请求）的次数',
     en: 'Count of this bridge is matched and queried',
   },
-  sqlFailed: {
-    zh: '失败',
-    en: 'Failed',
-  },
   sqlFailedDesc: {
     zh: '因语法或函数调用失败导致执行失败',
     en: 'Execution failed due to syntax or function call failure',
@@ -323,10 +311,6 @@ export default {
   sqlNoResultDesc: {
     zh: '成功执行但没有输出结果',
     en: 'Executes Successfully But No Output Results',
-  },
-  rateLast5M: {
-    zh: '最近 5 分钟速率',
-    en: 'Rate in Last 5 Min',
   },
   sent: {
     zh: '已发送',
@@ -357,8 +341,8 @@ export default {
     en: 'Queuing',
   },
   queuingDesc: {
-    zh: '当前被缓存到磁盘队列的消息个数',
-    en: 'Count of messages that are currently queuing',
+    zh: '已经缓冲但等待发送到外部数据系统的消息数',
+    en: 'Number of messages buffered but awaiting to be sent to the external data system',
   },
   sentSuccessfully: {
     zh: '发送成功',
@@ -381,8 +365,8 @@ export default {
     en: 'Sent Inflight',
   },
   sentInflightDesc: {
-    zh: '已异步地发送但没有收到 ACK 的消息个数',
-    en: 'Count of messages that were sent asynchronously but ACKs are not received',
+    zh: '正在发送到外部数据系统并等待响应的消息数',
+    en: 'Number of messages being sent to the external data system and awaiting response',
   },
   lateReply: {
     zh: '超期回复',
@@ -399,10 +383,6 @@ export default {
   receivedDesc: {
     zh: '从远程系统收到的消息个数',
     en: 'Count of messages that is received from the remote system',
-  },
-  rateMax: {
-    zh: '最大速率',
-    en: 'Maximum Rate',
   },
   activated: {
     zh: '已启用',
@@ -497,8 +477,8 @@ export default {
     en: 'Last reset time',
   },
   nodeStatusBridgeDesc: {
-    zh: '每个节点上数据桥接状态和执行情况',
-    en: 'Data Bridge status and execution on each node',
+    zh: '每个节点上动作的状态和执行情况',
+    en: 'Actions status and execution on each node',
   },
   nodeStatusRuleDesc: {
     zh: '每个节点上规则状态和执行情况',
@@ -569,10 +549,6 @@ export default {
     en: `The size of the MQTT client connection pool for ingress. <br/>
     The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
     Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`, where \`n\` represents the client's number in the connection pool.`,
-  },
-  bridgeUsage: {
-    zh: '如何使用桥接',
-    en: 'How to use Bridge',
   },
   localTopic: {
     zh: '本地主题',
@@ -786,9 +762,9 @@ export default {
     zh: '当取消终端订阅成功时触发规则',
     en: `Triggered when the terminal subscription is cancelled successfully`,
   },
-  useBridge: {
-    zh: '使用桥接',
-    en: 'Use bridge',
+  useAction: {
+    zh: '使用动作',
+    en: 'Use action',
   },
   bridgeForInputDesc: {
     zh: '当桥接从外部服务接收到消息时触发规则。',
@@ -806,6 +782,10 @@ export default {
     zh: '返回 Bridge 列表',
     en: 'Back To Bridge List',
   },
+  backConnectorList: {
+    zh: '返回连接器列表',
+    en: 'Back To Connector List',
+  },
   headers: {
     zh: '请求头',
     en: 'Headers',
@@ -818,9 +798,9 @@ export default {
     zh: "支持使用 ${'{'}field{'}'} 语法提取数据拼接 URL",
     en: "Supports extracting data concatenated URLs using the ${'{'}field{'}'} syntax",
   },
-  useBridgeCreateRule: {
-    zh: '是否使用该数据桥接创建规则？',
-    en: 'Would you like to create a Rule using this Data Bridge?',
+  useConnectorCreateRule: {
+    zh: '是否使用该连接器创建规则？',
+    en: 'Would you like to create a rule using this connector?',
   },
   console: {
     zh: '打印结果输出到控制台',
@@ -846,10 +826,6 @@ export default {
     zh: '服务中止',
     en: 'Out of Service',
   },
-  actionOutOfServiceDesc: {
-    zh: '由于操作停止服务而导致规则调用操作失败的次数。 例如，数据桥接被禁用或停止。',
-    en: 'The number of times the rule calling action failed due to the action being out of service. For example, a bridge is disabled or stopped.',
-  },
   unknown: {
     zh: '未知',
     en: 'Unknown',
@@ -858,12 +834,12 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
-  deleteBridgeSecondConfirm: {
-    zh: '删除该桥接会影响下方规则的数据流。如果该桥接已被添加到规则的动作中，则会立即删除。是否确认继续？',
-    en: 'Deleting this bridge will affect the data flow for the rules listed below. If the bridge has been added to the actions of any rules, it will be removed immediately, continue?',
+  deleteActionSecondConfirm: {
+    zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
+    en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   rateUnit: {
-    zh: 'message/sec | messages/sec',
+    zh: '条/秒 | 条/秒',
     en: 'message/sec | messages/sec',
   },
   influxDBLabel: {
@@ -1070,6 +1046,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '基础认证',
     en: 'Basic auth',
   },
+  rateBarDesc: {
+    zh: '近一分钟内消息发出速度趋势',
+    en: 'Trend of message sending speed in the past minute',
+  },
   poolType: {
     zh: '连接池类型',
     en: 'Pool Type',
@@ -1181,5 +1161,121 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   topicMappingRequired: {
     zh: '请添加至少一个主题映射关系',
     en: 'Please add at least one topic mapping',
+  },
+  processing: {
+    zh: '处理中',
+    en: 'Processing',
+  },
+  droppedExpired: {
+    zh: '过期',
+    en: 'Expired',
+  },
+  droppedExpiredDesc: {
+    zh: '在排队等待发送之前，消息的有效期（TTL）已经到期',
+    en: 'The message time-to-live (TTL) was reached during queuing before it got a chance to be sent',
+  },
+  droppedQueueFull: {
+    zh: '队列已满',
+    en: 'Queue full',
+  },
+  droppedQueueFullDesc: {
+    zh: '达到了最大队列大小，为防止内存溢出而丢弃消息',
+    en: 'The maximum queue size was reached and the message was dropped to prevent memory overflow',
+  },
+  droppedResourceStopped: {
+    zh: '资源已停止',
+    en: 'Resource stopped',
+  },
+  droppedResourceStoppedDesc: {
+    zh: '在桥接已停止的情况下，仍然尝试发送消息',
+    en: 'The message being attempted for delivery when the bridge was already stopped',
+  },
+  droppedResourceNotFound: {
+    zh: '未找到资源',
+    en: 'Resource not found',
+  },
+  droppedResourceNotFoundDesc: {
+    zh: '在桥接不再存在时尝试发送消息。这种情况非常罕见，通常是由于在移除桥接时出现竞争条件',
+    en: 'The message was attempted to be sent when the bridge was no longer found. It occurs rarely and usually due to race conditions during the removal of a bridge',
+  },
+  droppedOther: {
+    zh: '其他丢弃',
+    en: 'Other dropped',
+  },
+  droppedOtherDesc: {
+    zh: '由于其他未知原因而丢弃的消息',
+    en: 'Messages dropped due to other unknown reasons',
+  },
+  passed: {
+    zh: '通过',
+    en: 'Passed',
+  },
+  passedDesc: {
+    zh: '成功执行规则并生成输出结果的次数',
+    en: 'Number of successful rule executions and output results',
+  },
+  failedNoResult: {
+    zh: '未通过',
+    en: 'No Result',
+  },
+  failedNoResultDesc: {
+    zh: '成功执行规则，但由于过滤条件不满足而没有生成输出结果的次数',
+    en: 'Number of successful rule executions but no outputs due to unmet filtering conditions',
+  },
+  failedException: {
+    zh: '执行失败',
+    en: 'Failed',
+  },
+  failedExceptionDesc: {
+    zh: '由于SQL语法错误或函数调用错误导致的执行失败次数',
+    en: 'Number of failed executions due to SQL syntax errors or function call errors',
+  },
+  ruleExecutionRate: {
+    zh: '规则执行速度',
+    en: 'Rule execution rate',
+  },
+  actionsTotal: {
+    zh: '动作执行总数',
+    en: 'Actions Total',
+  },
+  actionsTotalDesc: {
+    zh: '所有动作调用总次数',
+    en: 'Total number of action calls',
+  },
+  actionsSuccess: {
+    zh: '成功',
+    en: 'Success',
+  },
+  actionsSuccessDesc: {
+    zh: '动作成功调用次数',
+    en: 'Number of successful action calls',
+  },
+  actionsFailed: {
+    zh: '失败',
+    en: 'Failed',
+  },
+  actionsFailedDesc: {
+    zh: '动作执调用失败次数',
+    en: 'Number of failed action calls',
+  },
+  actionsFailedOutOfService: {
+    zh: '服务停止',
+    en: 'Out of service',
+  },
+  actionsFailedOutOfServiceDesc: {
+    zh: '因动作停止引起的错误',
+    en: 'Errors due to action stopping',
+  },
+  actionsFailedUnknown: {
+    zh: '未知',
+    en: 'Unknown',
+  },
+  actionsFailedUnknownDesc: {
+    zh: '未知的错误',
+    en: 'Unknown errors',
+  },
+  ruleRateBarDesc: {
+    zh: '过去一分钟内规则匹配速度的趋势',
+    en: 'Trend of rule matching speed in the last minute',
   },
 }

@@ -38,12 +38,16 @@ const tagArr = [
   'Slow Subscriptions',
   'API Keys',
   'Banned',
+  'Connectors',
+  'Actions',
   /* ⬇ just for ee */
   'File Transfer',
   'License',
   'Schema Registry',
   'GCP Devices',
   'Dashboard Single Sign-On',
+  'Audit',
+  'Data Backup',
 ]
 
 const typesFolder = './src/types/schemas/'

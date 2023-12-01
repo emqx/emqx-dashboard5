@@ -448,13 +448,21 @@
       "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
       "label": "事务日志传输协议"
     },
-    "audit_handler_path":{
+    "audit_handler_path": {
       "desc": "审计日志文件名称",
       "label": "审计日志文件"
     },
-    "audit_handler_level":{
+    "audit_handler_level": {
       "desc": "审计日志处理程序的日志级别。<br/>- 处理时间超过 3 秒的请求将记录为<code>警告</code>日志。<br/>- 使用 HTTP 的 GET 请求 200-300 之间的状态代码将记录为 <code>debug</code> 日志。<br/>- HTTP 状态代码在 200-300 之间的非 GET 请求将记录为 <code>info</code> 日志。< br/>- HTTP 状态代码在 300-400 之间的请求将记录为<code>警告</code>日志。<br/>- HTTP 状态代码在 400-500 之间的请求将记录为<code>错误</code > 日志。<br/>- 默认为信息。",
       "label": "日志级别"
+    },
+    "common_handler_max_filter_size": {
+      "desc": "在数据库中存储最新的 N 条日志条目，以允许 `/audit` HTTP API 进行日志数据的过滤和检索。",
+      "label": "最大过滤器大小"
+    },
+    "common_handler_ignore_high_frequency_request": {
+      "desc": "忽略高频请求以避免淹没审计日志，例如被忽略的发布/订阅踢出 http api 请求。",
+      "label": "忽略高频请求"
     }
   },
   "emqx_limiter_schema": {
@@ -521,10 +529,6 @@
     },
     "mqtt_max_topic_alias": {
       "label": "最大主题别名数"
-    },
-    "common_ssl_opts_schema_user_lookup_fun": {
-      "desc": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
-      "label": "SSL PSK 用户回调"
     },
     "fields_listeners_wss": {
       "desc": "HTTPS websocket 监听器。",
@@ -627,10 +631,6 @@
       "desc": "监听器接收池的大小。",
       "label": "接收器数量"
     },
-    "common_ssl_opts_schema_cacertfile": {
-      "desc": "受信任的PEM格式 CA  证书捆绑文件<br/>\n此文件中的证书用于验证TLS对等方的证书。\n如果要信任新 CA，请将新证书附加到文件中。\n无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/>\n注意：从文件中失效（删除）证书不会影响已建立的连接。",
-      "label": "CA 证书文件"
-    },
     "fields_ws_opts_mqtt_path": {
       "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
       "label": "WS MQTT 路径"
@@ -662,10 +662,6 @@
     "fields_deflate_opts_server_max_window_bits": {
       "desc": "指定服务器压缩上下文的大小。",
       "label": "服务器压缩窗口大小"
-    },
-    "client_ssl_opts_schema_server_name_indication": {
-      "desc": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/>\n例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，\n例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/>\n如果未指定，它将默认为使用的主机名字符串\n建立连接，除非使用 IP 地址<br/>\n然后，主机名也用于对等机的主机名验证证书<br/>\n特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
-      "label": "服务器名称指示"
     },
     "fields_mqtt_quic_listener_retry_memory_limit": {
       "desc": "在使用无状态重试之前，可用于握手连接的可用内存的百分比。计算为`N/65535`。默认值：65",
@@ -865,10 +861,6 @@
       "desc": "对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。",
       "label": "最大 PUBREL 等待时长"
     },
-    "common_ssl_opts_schema_verify": {
-      "desc": "启用或禁用对等验证。",
-      "label": "对等验证"
-    },
     "fields_listeners_ssl": {
       "desc": "SSL 监听器。",
       "label": "SSL 监听器"
@@ -876,10 +868,6 @@
     "fields_deflate_opts_client_max_window_bits": {
       "desc": "指定客户端压缩上下文的大小。",
       "label": "压缩窗口大小"
-    },
-    "common_ssl_opts_schema_keyfile": {
-      "desc": "PEM格式的私钥文件。",
-      "label": "私钥文件"
     },
     "sysmon_os_cpu_high_watermark": {
       "desc": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
@@ -892,10 +880,6 @@
     "mqtt_mqueue_default_priority": {
       "desc": "默认的主题优先级，不在 <code>主题优先级</code>（<code>mqueue_priorities</code>） 中的主题将会使用该优先级。",
       "label": "默认主题优先级"
-    },
-    "client_ssl_opts_schema_enable": {
-      "desc": "启用 TLS。",
-      "label": "启用 TLS"
     },
     "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
       "desc": "在任何时候都可以在一个绑定上排队的无状态操作的最大数量。默认值：3",
@@ -951,10 +935,6 @@
     "mqtt_ignore_loop_deliver": {
       "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。",
       "label": "忽略循环投递"
-    },
-    "common_ssl_opts_schema_certfile": {
-      "desc": "PEM格式证书链文件<br/>\n此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，\n然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。\n根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
-      "label": "证书文件"
     },
     "mqtt_exclusive_subscription": {
       "label": "允许排它订阅"
@@ -1097,14 +1077,6 @@
       "desc": "开启客户端地址迁移功能。需要一个支持的负载平衡器，或者没有负载平衡器。默认值：1（已启用）",
       "label": "启用地址迁移"
     },
-    "common_ssl_opts_schema_password": {
-      "desc": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
-      "label": "密钥文件密码"
-    },
-    "common_ssl_opts_schema_hibernate_after": {
-      "desc": "在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
-      "label": "闲置多久后休眠"
-    },
     "fields_mqtt_quic_listener_send_buffering_enabled": {
       "desc": "缓冲发送数据，而不是保留应用缓冲区，直到发送数据被确认。默认值：1（启用）",
       "label": "启用发送缓冲功能"
@@ -1198,10 +1170,6 @@
       "desc": "If <code>false</code> and <code>check_origin_enable</code> is <code>true</code>, the server will reject requests that don't have <code>origin</code> HTTP header.",
       "label": "允许 origin 缺失"
     },
-    "common_ssl_opts_schema_versions": {
-      "desc": "支持所有TLS/DTLS版本<br/>\n注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
-      "label": "SSL 版本"
-    },
     "mqtt_listener_proxy_protocol_timeout": {
       "desc": "代理协议超时。如果在超时时间内未收到代理协议数据包，EMQX将关闭TCP连接。",
       "label": "Proxy protocol 超时时间"
@@ -1209,10 +1177,6 @@
     "fields_mqtt_quic_listener_idle_timeout": {
       "desc": "一个连接在被关闭之前可以空闲多长时间。0表示禁用。",
       "label": "空闲超时时间"
-    },
-    "common_ssl_opts_schema_secure_renegotiate": {
-      "desc": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。\nRFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
-      "label": "SSL 重新协商"
     },
     "sysmon_vm_busy_port": {
       "desc": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
@@ -1228,14 +1192,6 @@
     "mqtt_max_packet_size": {
       "desc": "允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。",
       "label": "最大报文大小"
-    },
-    "common_ssl_opts_schema_reuse_sessions": {
-      "desc": "启用 TLS 会话重用。",
-      "label": "TLS 会话重用"
-    },
-    "common_ssl_opts_schema_depth": {
-      "desc": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。\n因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/>\n如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/>\n如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
-      "label": "CA 证书深度"
     },
     "sysmon_vm_long_gc": {
       "desc": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
@@ -1270,10 +1226,6 @@
     "overload_protection_backoff_delay": {
       "desc": "高负载时，一些不重要的任务可能会延迟执行，在这里设置允许延迟的时间。",
       "label": "延迟时间"
-    },
-    "ciphers_schema_common": {
-      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-      "label": ""
     },
     "sys_event_client_disconnected": {
       "desc": "是否开启客户端已断开连接事件消息。"
@@ -1342,6 +1294,167 @@
     "mqtt_shared_subscription_strategy": {
       "label": "共享订阅策略",
       "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过客户端 ID 的哈希值选择订阅者。"
+    }
+  },
+  "ssl_opts": {
+    "user_lookup_fun": {
+      "desc": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
+      "label": "SSL PSK 用户回调"
+    },
+    "cacertfile": {
+      "label": "CA Cert"
+    },
+    "verify": {
+      "label": "验证服务器证书"
+    },
+    "keyfile": {
+      "desc": "PEM 格式的私钥文件。",
+      "label": "Keyfile"
+    },
+    "certfile": {
+      "desc": "PEM格式证书链文件<br/>\n此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，\n然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。\n根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
+      "label": "Certfile"
+    },
+    "password": {
+      "desc": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
+      "label": "密钥文件密码"
+    },
+    "hibernate_after": {
+      "desc": "在空闲一定时间后休眠 SSL 进程，减少其内存占用。",
+      "label": "空闲多久后休眠"
+    },
+    "versions": {
+      "desc": "支持所有TLS/DTLS版本<br/>\n注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
+      "label": "SSL 版本"
+    },
+    "secure_renegotiate": {
+      "desc": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。\nRFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
+      "label": "SSL 重新协商"
+    },
+    "reuse_sessions": {
+      "desc": "启用 TLS 会话重用。",
+      "label": "TLS 会话重用"
+    },
+    "depth": {
+      "desc": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。\n因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/>\n如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/>\n如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
+      "label": "CA 证书深度"
+    },
+    "server_name_indication": {
+      "desc": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/>\n例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，\n例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/>\n如果未指定，它将默认为使用的主机名字符串\n建立连接，除非使用 IP 地址<br/>\n然后，主机名也用于对等机的主机名验证证书<br/>\n特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
+      "label": "SNI"
+    },
+    "enable": {
+      "desc": "启用 TLS。",
+      "label": "启用 TLS"
+    },
+    "ciphers": {
+      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
+      "label": "加密套件"
+    },
+    "log_level": {
+      "desc": "SSL 通信的日志级别。默认为 '通知'。设置为 'debug' 可检查 TLS 握手信息",
+      "label": "SSL 日志级别"
+    }
+  },
+  "file_trans": {
+    "enable": {
+      "label": "是否启用文件传输"
+    },
+    "init_timeout": {
+      "desc": "当 `init` 指令超时时（例如由于系统过载），消息 PUBACK 将包含错误代码（0x80）。",
+      "label": "初始化超时时间"
+    },
+    "store_segment_timeout": {
+      "desc": "当 `segment` 指令超时时（例如由于系统过载），消息 PUBACK 将包含错误代码（0x80）。",
+      "label": "分片存储超时时间"
+    },
+    "assemble_timeout": {
+      "desc": "当 `fin` 指令超时时（例如由于系统过载），消息 PUBACK 将包含错误代码（0x80）。",
+      "label": "文件拼接超时时间"
+    },
+    "storage_local_segments_root": {
+      "desc": "已上传的分片临时存储路径，绝对路径，建议优先设置到高 I/O 性能的磁盘上。",
+      "label": "分片存储目录"
+    },
+    "interval": {
+      "desc": "定期垃圾回收的间隔时间。",
+      "label": "存储垃圾回收间隔"
+    },
+    "minimum_segments_ttl": {
+      "desc": "分片存储最小有效期，达到有效期之前，分片将不会被清理，即使某些文件指定的 TTL 小于此值，或分片已经被合并。",
+      "label": "分片存储最小有效期"
+    },
+    "maximum_segments_ttl": {
+      "desc": "分片存储最大有效期，达到有效期之后，分片将被清理，即使某些文件指定的 TTL 大于此值，或分片未被合并。",
+      "label": "分片存储最大有效期"
+    },
+    "storage_local_exporter_local_enable": {
+      "desc": "在文件上传完成后拼接分片并存储到本地指定目录。",
+      "label": "是否启用本地存储"
+    },
+    "storage_local_exporter_local_root": {
+      "desc": "已上传完成，拼接成功的文件存储路径，绝对路径。",
+      "label": "文件存储目录"
+    },
+    "storage_local_exporter_s_3_enable": {
+      "desc": "在文件上传完成后拼接分片并存储到 S3 指定 Bucket。",
+      "label": "是否启用 S3 存储"
+    },
+    "host": {
+      "label": "地址"
+    },
+    "port": {
+      "label": "端口"
+    },
+    "access_key_id": {
+      "label": "访问密钥 ID"
+    },
+    "secret_access_key": {
+      "label": "访问密钥"
+    },
+    "bucket": {
+      "label": "存储桶"
+    },
+    "url_expire_time": {
+      "desc": "生成的 URL 的过期时间。",
+      "label": "URL 过期时间"
+    },
+    "min_part_size": {
+      "label": "最小分片大小"
+    },
+    "max_part_size": {
+      "label": "最大分片大小"
+    },
+    "acl": {
+      "desc": "上传对象使用的 ACL。",
+      "label": "ACL"
+    },
+    "ipv6_probe": {
+      "desc": "是否探测 IPv6 支持。",
+      "label": "IPv6 探针"
+    },
+    "headers": {
+      "label": "请求头"
+    },
+    "max_retries": {
+      "desc": "请求出错时的最大重试次数。",
+      "label": "最大重试次数"
+    },
+    "request_timeout": {
+      "label": "HTTP 请求超时"
+    },
+    "connect_timeout": {
+      "label": "连接超时"
+    },
+    "pool_type": {
+      "desc": "连接池的类型。可以是`random`、`hash`之一。",
+      "label": "连接池类型"
+    },
+    "pool_size": {
+      "label": "连接池大小"
+    },
+    "enable_pipelining": {
+      "label": "HTTP 管道"
     }
   }
 }

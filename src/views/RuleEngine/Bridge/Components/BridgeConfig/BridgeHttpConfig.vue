@@ -6,22 +6,25 @@
     require-asterisk-position="right"
     :rules="formRules"
     :model="httpBridgeVal"
+    :disabled="disabled"
     v-bind="$attrs"
   >
-    <el-row :gutter="26">
-      <el-col :span="colSpan">
-        <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="httpBridgeVal.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
-        </CustomFormItem>
-      </el-col>
-    </el-row>
-    <el-divider />
+    <template v-if="!hideName">
+      <el-row :gutter="26">
+        <el-col :span="colSpan">
+          <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
+            <InputSelect
+              v-if="isCreateBridgeInFlow"
+              v-model="httpBridgeVal.name"
+              :options="nameOptions"
+              @change="handleNameChange"
+            />
+            <el-input v-else v-model="httpBridgeVal.name" :disabled="edit" />
+          </CustomFormItem>
+        </el-col>
+      </el-row>
+      <el-divider />
+    </template>
     <el-row :gutter="26">
       <el-col :span="colSpan">
         <el-form-item :label="tl('method')" required prop="method">
@@ -54,6 +57,7 @@
             class="kv-editor"
             :fixed-keys="readonly"
             :readonly="readonly"
+            :disabled="disabled"
           />
         </el-form-item>
       </el-col>
@@ -82,7 +86,7 @@
               v-model="httpBridgeVal.body"
               lang="json"
               json-without-validate
-              :disabled="readonly"
+              :disabled="readonly || disabled"
               :id="createRandomString()"
             />
           </div>
@@ -184,7 +188,21 @@ export default defineComponent({
     copy: {
       type: Boolean,
     },
+    /**
+     * readonly and disabled are both for viewing data are used in different places
+     */
     readonly: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * for rule
+     */
+    hideName: {
       type: Boolean,
       default: false,
     },

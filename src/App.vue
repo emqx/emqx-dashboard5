@@ -8,7 +8,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import useGetInfoFromQuery from '@/hooks/useGetInfoFromQuery'
 import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
-import { EmqxDashboardSsoSamlLoginBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 const store = useStore()
 const lang = computed(() => {
@@ -68,7 +68,7 @@ const handleQuery = () => {
   const info = getInfoFromQuery()
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
-    updateBaseInfo(info.username, info, EmqxDashboardSsoSamlLoginBackend.saml)
+    updateBaseInfo(info.username, info, DashboardSamlBackend.saml)
     router.push({ name: 'overview' })
   }
 }

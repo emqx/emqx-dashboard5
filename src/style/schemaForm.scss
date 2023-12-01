@@ -61,6 +61,9 @@
       padding: 8px;
     }
   }
+  .is-hidden {
+    display: none;
+  }
   .btn-col {
     position: sticky;
     background: var(--color-bg-content);
@@ -106,12 +109,13 @@
   .item-desc {
     width: 100%;
   }
-  .common-tls-config {
-    flex-grow: 1;
-    .TLS-input {
-      width: 100%;
+    .common-tls-config,
+    .TLS-enable-config {
+      flex-grow: 1;
+      .TLS-input {
+        width: 100%;
+      }
     }
-  }
   .textarea-with-uploader {
     width: 100%;
   }
@@ -130,6 +134,9 @@
       >.el-textarea {
         width: $base-input-width;
       }
+      >.textarea-with-uploader {
+        width: $base-input-width * 1.5;
+      }
       >.input-with-unit {
         width: $base-number-input-width + $input-append-width;
       }
@@ -139,4 +146,86 @@
 .read-only-tooltip.el-popper {
   width: 210px;
   line-height: 1.5;
+}
+
+.schema-form-integration {
+  min-height: 320px;
+
+  .col-need-row {
+    // To squeeze the next column down
+    margin-right: 40%;
+  }
+
+  .col-hidden {
+    display: none !important;
+  }
+
+  .custom-col-24 {
+    width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+
+  // hide first label
+  .col-ssl {
+    >.el-form-item {
+      >.el-form-item__label {
+        display: none;
+      }
+    }
+  }
+
+  .el-form-item {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
+
+  .el-col-12.dividing-line-below,
+  .el-col-24.dividing-line-below {
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background-color: var(--color-border-card);
+    }
+  }
+
+  .el-col-12:not(.custom-col-24).dividing-line-below {
+    &::after {
+      width: calc(200% + 24px);
+      margin-top: 24px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .el-col-24.dividing-line-below,
+  .custom-col-24.dividing-line-below {
+    &::after {
+      width: 100%;
+      margin-top: 6px;
+      margin-bottom: 24px;
+    }
+  }
+
+  .custom-col-24.dividing-line-above,
+  .el-col-24.dividing-line-above {
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      margin-bottom: 24px;
+      height: 1px;
+      background-color: var(--color-border-card);
+    }
+  }
+
+  .schema-form .el-form-item__label {
+    font-size: var(--el-form-label-font-size);
+    color: var(--el-text-color-regular);
+  }
 }

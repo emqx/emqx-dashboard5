@@ -11,13 +11,9 @@ export type PutSchemaRegistryName404 = {
   message?: string
 }
 
-export type PutSchemaRegistryName200 =
-  | EmqxSchemaRegistrySchemaProtobuf
-  | EmqxSchemaRegistrySchemaAvro
+export type PutSchemaRegistryName200 = SchemaRegistryProtobuf | SchemaRegistryAvro
 
-export type PutSchemaRegistryNameBody =
-  | EmqxSchemaRegistrySchemaProtobuf
-  | EmqxSchemaRegistrySchemaAvro
+export type PutSchemaRegistryNameBody = SchemaRegistryProtobuf | SchemaRegistryAvro
 
 export type GetSchemaRegistryName404Code =
   typeof GetSchemaRegistryName404Code[keyof typeof GetSchemaRegistryName404Code]
@@ -32,9 +28,7 @@ export type GetSchemaRegistryName404 = {
   message?: string
 }
 
-export type GetSchemaRegistryName200 =
-  | EmqxSchemaRegistrySchemaGetProtobuf
-  | EmqxSchemaRegistrySchemaGetAvro
+export type GetSchemaRegistryName200 = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
 
 export type DeleteSchemaRegistryName404Code =
   typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
@@ -62,72 +56,66 @@ export type PostSchemaRegistry400 = {
   message?: string
 }
 
-export type PostSchemaRegistry201 =
-  | EmqxSchemaRegistrySchemaGetProtobuf
-  | EmqxSchemaRegistrySchemaGetAvro
+export type PostSchemaRegistry201 = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
 
-export type GetSchemaRegistry200Item =
-  | EmqxSchemaRegistrySchemaGetProtobuf
-  | EmqxSchemaRegistrySchemaGetAvro
+export type GetSchemaRegistry200Item = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
 
-export type EmqxSchemaRegistrySchemaProtobufType =
-  typeof EmqxSchemaRegistrySchemaProtobufType[keyof typeof EmqxSchemaRegistrySchemaProtobufType]
+export type SchemaRegistryProtobufType =
+  typeof SchemaRegistryProtobufType[keyof typeof SchemaRegistryProtobufType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSchemaRegistrySchemaProtobufType = {
+export const SchemaRegistryProtobufType = {
   protobuf: 'protobuf',
 } as const
 
-export interface EmqxSchemaRegistrySchemaProtobuf {
-  type: EmqxSchemaRegistrySchemaProtobufType
+export interface SchemaRegistryProtobuf {
+  type: SchemaRegistryProtobufType
   source: string
   description?: string
 }
 
-export type EmqxSchemaRegistrySchemaGetProtobufType =
-  typeof EmqxSchemaRegistrySchemaGetProtobufType[keyof typeof EmqxSchemaRegistrySchemaGetProtobufType]
+export type SchemaRegistryGetProtobufType =
+  typeof SchemaRegistryGetProtobufType[keyof typeof SchemaRegistryGetProtobufType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSchemaRegistrySchemaGetProtobufType = {
+export const SchemaRegistryGetProtobufType = {
   protobuf: 'protobuf',
 } as const
 
-export interface EmqxSchemaRegistrySchemaGetProtobuf {
+export interface SchemaRegistryGetProtobuf {
   name: string
-  type: EmqxSchemaRegistrySchemaGetProtobufType
+  type: SchemaRegistryGetProtobufType
   source: string
   description?: string
 }
 
-export type EmqxSchemaRegistrySchemaGetAvroType =
-  typeof EmqxSchemaRegistrySchemaGetAvroType[keyof typeof EmqxSchemaRegistrySchemaGetAvroType]
+export type SchemaRegistryGetAvroType =
+  typeof SchemaRegistryGetAvroType[keyof typeof SchemaRegistryGetAvroType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSchemaRegistrySchemaGetAvroType = {
+export const SchemaRegistryGetAvroType = {
   avro: 'avro',
 } as const
 
-export interface EmqxSchemaRegistrySchemaGetAvro {
+export interface SchemaRegistryGetAvro {
   name: string
-  type: EmqxSchemaRegistrySchemaGetAvroType
+  type: SchemaRegistryGetAvroType
   source: string
   description?: string
 }
 
-export type PostSchemaRegistryBody =
-  | EmqxSchemaRegistrySchemaGetProtobuf
-  | EmqxSchemaRegistrySchemaGetAvro
+export type PostSchemaRegistryBody = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
 
-export type EmqxSchemaRegistrySchemaAvroType =
-  typeof EmqxSchemaRegistrySchemaAvroType[keyof typeof EmqxSchemaRegistrySchemaAvroType]
+export type SchemaRegistryAvroType =
+  typeof SchemaRegistryAvroType[keyof typeof SchemaRegistryAvroType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSchemaRegistrySchemaAvroType = {
+export const SchemaRegistryAvroType = {
   avro: 'avro',
 } as const
 
-export interface EmqxSchemaRegistrySchemaAvro {
-  type: EmqxSchemaRegistrySchemaAvroType
+export interface SchemaRegistryAvro {
+  type: SchemaRegistryAvroType
   source: string
   description?: string
 }

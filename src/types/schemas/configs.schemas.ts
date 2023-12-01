@@ -439,11 +439,6 @@ export interface SsoLdap {
   ssl?: LdapSsl
 }
 
-export interface SsoSso {
-  ldap?: SsoLdap
-  saml?: EmqxDashboardSsoSamlSaml
-}
-
 export type S3TransportOptionsHeaders = { [key: string]: any }
 
 export type S3TransportOptionsPoolType =
@@ -512,6 +507,10 @@ export interface LdapSsl {
   server_name_indication?: LdapSslServerNameIndication
 }
 
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
+}
+
 export type FileTransferS3ExporterAcl =
   typeof FileTransferS3ExporterAcl[keyof typeof FileTransferS3ExporterAcl]
 
@@ -566,35 +565,68 @@ export interface FileTransferLocalStorage {
   enable?: boolean
 }
 
-export interface FileTransferStorageBackend {
-  local?: FileTransferLocalStorage
-}
+export type EmqxLogFileHandlerFormatter =
+  typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
-export type EmqxEnterpriseSchemaLogAuditHandlerRotationSize = string | 'infinity'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogFileHandlerFormatter = {
+  text: 'text',
+  json: 'json',
+} as const
 
-export interface EmqxEnterpriseSchemaLogAuditHandler {
+export type EmqxLogFileHandlerLevel =
+  typeof EmqxLogFileHandlerLevel[keyof typeof EmqxLogFileHandlerLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogFileHandlerLevel = {
+  debug: 'debug',
+  info: 'info',
+  notice: 'notice',
+  warning: 'warning',
+  error: 'error',
+  critical: 'critical',
+  alert: 'alert',
+  emergency: 'emergency',
+  all: 'all',
+} as const
+
+export type EmqxLogFileHandlerRotationSize = string | 'infinity'
+
+export interface EmqxLogFileHandler {
   path?: string
   rotation_count?: number
-  rotation_size?: EmqxEnterpriseSchemaLogAuditHandlerRotationSize
+  rotation_size?: EmqxLogFileHandlerRotationSize
+  level?: EmqxLogFileHandlerLevel
+  enable?: boolean
+  formatter?: EmqxLogFileHandlerFormatter
+  time_offset?: string
+}
+
+export type EmqxLogAuditHandlerRotationSize = string | 'infinity'
+
+export interface EmqxLogAuditHandler {
+  path?: string
+  rotation_count?: number
+  rotation_size?: EmqxLogAuditHandlerRotationSize
+  max_filter_size?: number
+  ignore_high_frequency_request?: boolean
   enable?: boolean
   time_offset?: string
 }
 
-export type EmqxEnterpriseSchemaLogFileOneOf = {
-  $handler_name?: EmqxConfSchemaLogFileHandler
+export type EmqxLogFileOneOf = {
+  $handler_name?: EmqxLogFileHandler
 }
 
-export type EmqxEnterpriseSchemaLogFile =
-  | EmqxEnterpriseSchemaLogFileOneOf
-  | EmqxConfSchemaLogFileHandler
+export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
 
-export interface EmqxEnterpriseSchemaLog {
-  console?: EmqxConfSchemaConsoleHandler
-  file?: EmqxEnterpriseSchemaLogFile
-  audit?: EmqxEnterpriseSchemaLogAuditHandler
+export interface EmqxLog {
+  console?: EmqxConsoleHandler
+  file?: EmqxLogFile
+  audit?: EmqxLogAuditHandler
 }
 
-export interface EmqxEnterpriseSchemaFileTransfer {
+export interface EmqxFileTransfer {
   enable?: boolean
   init_timeout?: string
   store_segment_timeout?: string
@@ -602,8 +634,8 @@ export interface EmqxEnterpriseSchemaFileTransfer {
   storage?: FileTransferStorageBackend
 }
 
-export type EmqxDashboardSsoSamlSamlBackend =
-  typeof EmqxDashboardSsoSamlSamlBackend[keyof typeof EmqxDashboardSsoSamlSamlBackend]
+export type EmqxConsoleHandlerFormatter =
+  typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDashboardSsoSamlSamlBackend = {
@@ -736,6 +768,23 @@ export interface DashboardSslOptions {
   handshake_timeout?: string
 }
 
+export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSamlBackend = {
+  saml: 'saml',
+} as const
+
+export interface DashboardSaml {
+  enable?: boolean
+  backend: DashboardSamlBackend
+  dashboard_addr?: string
+  idp_metadata_url?: string
+  sp_sign_request?: boolean
+  sp_public_key?: string
+  sp_private_key?: string
+}
+
 export interface DashboardHttps {
   bind?: string
   ssl_options: DashboardSslOptions
@@ -768,7 +817,7 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
-  sso?: SsoSso
+  sso?: DashboardSso
 }
 
 export type BrokerSysmonVmLargeHeap = string | 'disabled'

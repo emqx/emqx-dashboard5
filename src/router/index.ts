@@ -1,11 +1,8 @@
 import store from '@/store'
-import i18n from '@/i18n'
-import { ElNotification } from 'element-plus'
 import { Component } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
-const BridgeCreate = (): Promise<Component> => import('@/views/RuleEngine/Bridge/BridgeCreate.vue')
 // const Cluster =()=> import('@/views/Config/BasicConfig/Cluster.vue')
 // const Dashboard =()=> import('@/views/Config/BasicConfig/Dashboard.vue')
 // const Limiter =()=> import('@/views/Config/BasicConfig/Limiter.vue')
@@ -183,6 +180,23 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'users',
         component: () => import('@/views/General/Users.vue'),
+      },
+    ],
+  },
+
+  // Audit Log
+  {
+    path: '/audit-log',
+    component: Layout,
+    meta: {
+      hideKey: 'audit-log',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'audit-log',
+        component: () => import('@/views/General/AuditLog.vue'),
       },
     ],
   },
@@ -370,6 +384,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Users
+  {
+    path: '/backup',
+    component: Layout,
+    meta: {
+      hideKey: 'backup',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'backup',
+        component: () => import('@/views/General/Backup.vue'),
+      },
+    ],
+  },
   // Plugins
   {
     path: '/plugins',
@@ -448,92 +478,78 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // IoT
+  // Rule
   {
-    path: '/rules',
+    path: '/rule',
+    component: Layout,
+    redirect: '/rule/rules',
+    meta: {
+      hideKey: 'rule',
+      authRequired: true,
+      subMenu: true,
+      showSubMenuInFirstLevel: true,
+    },
+    children: [
+      {
+        path: 'rules',
+        name: 'rule',
+        component: () => import('@/views/RuleEngine/Rule/Rule.vue'),
+      },
+      {
+        path: 'rules/create',
+        name: 'rule-create',
+        component: () => import('@/views/RuleEngine/Rule/RuleCreate.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'rules/:id',
+        name: 'rule-detail',
+        component: () => import('@/views/RuleEngine/Rule/RuleDetail.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'actions',
+        name: 'actions',
+        component: () => import('@/views/RuleEngine/Bridge/DataBridge.vue'),
+      },
+      {
+        path: 'actions/:id',
+        name: 'action-detail',
+        component: () => import('@/views/RuleEngine/Bridge/BridgeDetail.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'actions/create',
+        name: 'action-create',
+        component: () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue'),
+        meta: { hideInMenu: true },
+      },
+    ],
+  },
+  // Connector
+  {
+    path: '/connector',
     component: Layout,
     meta: {
-      hideKey: 'iot',
+      hideKey: 'connectors',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'iot',
-        component: () => import('@/views/RuleEngine/IoT/IoT.vue'),
+        name: 'connector',
+        component: () => import('@/views/RuleEngine/Connector/Connector.vue'),
       },
       {
         path: 'create',
-        component: () => import('@/views/Base/KeepAliveChildren.vue'),
-        redirect: '/iot/create/form',
-        children: [
-          {
-            path: 'form',
-            name: 'iot-create',
-            component: () => import('@/views/RuleEngine/IoT/IoTCreate.vue'),
-          },
-        ],
+        name: 'connector-create',
+        component: () => import('@/views/RuleEngine/Connector/ConnectorCreate.vue'),
       },
       {
-        path: 'detail/:id',
-        component: () => import('@/views/Base/KeepAliveChildren.vue'),
-        redirect: '/rules/detail/:id/info',
-        children: [
-          {
-            path: 'info',
-            name: 'iot-detail',
-            component: () => import('@/views/RuleEngine/IoT/IoTDetail.vue'),
-          },
-          {
-            path: 'bridge',
-            name: 'create-bridge-for-edit-iot',
-            component: BridgeCreate,
-          },
-        ],
+        path: ':id',
+        name: 'connector-detail',
+        component: () => import('@/views/RuleEngine/Connector/ConnectorDetail.vue'),
       },
-    ],
-  },
-  // Bridge
-  {
-    path: '/bridge',
-    component: Layout,
-    redirect: '/bridge/dataBridge',
-    meta: {
-      hideKey: 'bridge',
-      authRequired: true,
-      // subMenu: true,
-      // showSubMenuInFirstLevel: true,
-    },
-    children: [
-      {
-        path: 'dataBridge',
-        name: 'data-bridge',
-        component: () => import('@/views/RuleEngine/Bridge/DataBridge.vue'),
-        children: [
-          {
-            path: 'create',
-            name: 'bridge-create',
-            component: BridgeCreate,
-          },
-          {
-            path: 'detail/:id',
-            name: 'bridge-detail',
-            component: () => import('@/views/RuleEngine/Bridge/BridgeDetail.vue'),
-          },
-        ],
-      },
-      // {
-      //   path: 'connector',
-      //   name: 'bridge-connector',
-      //   component: Connector,
-      //   children: [
-      //     {
-      //       path: 'create',
-      //       name: 'connector-create',
-      //       component: ConnectorCreate,
-      //     },
-      //   ],
-      // },
     ],
   },
   // Flow
@@ -669,6 +685,21 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'delayed-pub-configuration',
         component: () => import('@/views/AdvancedMQTT/DelayedPub.vue'),
+      },
+    ],
+  },
+  {
+    path: '/file-transfer',
+    component: Layout,
+    meta: {
+      hideKey: 'file-transfer',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'file-transfer',
+        component: () => import('@/views/Config/FileTransfer.vue'),
       },
     ],
   },

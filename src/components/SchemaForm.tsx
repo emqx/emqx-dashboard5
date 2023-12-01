@@ -1,5 +1,6 @@
 import { SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, getAPIPath, isEmptyObj, waitAMoment } from '@/common/tools'
+import { createRandomString, getAPIPath, waitAMoment } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -7,6 +8,7 @@ import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
@@ -15,6 +17,7 @@ import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
+import ConnectorSelect from '@/views/RuleEngine/Bridge/Components/ConnectorSelect.vue'
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
@@ -24,18 +27,22 @@ import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
+import OneofRefs from './OneofRefs.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import CertFileInput from './TLSConfig/CertFileInput.vue'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 interface FormItemMeta {
-  col: number
   levelName?: string
 }
 
-const typesDoNotNeedGroups = ['bridge']
-const typesNeedConciseSSL = ['bridge']
+const typesDoNotShowSkeleton = ['bridge', 'connector']
+
+const typesDoNotNeedGroups = ['bridge', 'connector', 'file-trans']
+const typesNeedConciseSSL = ['bridge', 'connector']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
+const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -55,6 +62,7 @@ const SchemaForm = defineComponent({
     CustomInputNumber,
     InputSelect,
     AdvancedSettingContainer,
+    CertFileInput,
   },
   props: {
     accordingTo: {
@@ -133,6 +141,10 @@ const SchemaForm = defineComponent({
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     formProps: {
       type: Object as PropType<Record<string, any>>,
       default: () => ({}),
@@ -142,7 +154,10 @@ const SchemaForm = defineComponent({
      * https://www.figma.com/file/NJrNmLEpcZfYkDv381iGNG/EMQX-Dashboard?node-id=6202%3A76959&mode=dev
      */
     advancedFields: {
-      type: Array as PropType<Array<string>>,
+      type: Array as PropType<Array<string | RegExp>>,
+    },
+    defaultTab: {
+      type: String,
     },
   },
   setup(props, ctx) {
@@ -196,7 +211,7 @@ const SchemaForm = defineComponent({
     const currentGroup = ref(groups.value[0] || tl('basic'))
 
     const initCurrentGroup = () => {
-      currentGroup.value = groups.value[0] || tl('basic')
+      currentGroup.value = props.defaultTab || groups.value[0] || tl('basic')
     }
 
     const validate = () => {
@@ -229,6 +244,20 @@ const SchemaForm = defineComponent({
       const { propsDisabled } = props
       return readOnly || (propsDisabled && path && propsDisabled.includes(path))
     }
+
+    const getSSLComponent = (property: Property) => {
+      if (property?.properties?.enable) {
+        return CommonTLSConfig
+      }
+      // for confluent...
+      return TLSEnableConfig
+    }
+
+    const isComplexOneof = (prop: Property) =>
+      prop.type === 'oneof' &&
+      prop.oneOf?.length &&
+      prop.oneOf?.length > 2 &&
+      prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
 
     const { getText, getOptLabel } = useItemLabelAndDesc(props)
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
@@ -275,7 +304,26 @@ const SchemaForm = defineComponent({
               />
             )
           }
+          if (property.key && CERT_FIELDS_REG.test(property.key)) {
+            return (
+              <CertFileInput
+                modelValue={modelValue}
+                isEdit={true}
+                {...handleUpdateModelValue}
+                {...customProps}
+              />
+            )
+          }
           return stringInput
+        case 'connector':
+          return (
+            <ConnectorSelect
+              modelValue={modelValue}
+              type={configForm.value.type}
+              {...handleUpdateModelValue}
+              {...customProps}
+            />
+          )
         case 'number':
           return (
             <CustomInputNumber
@@ -308,6 +356,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
+              {...customProps}
             />
           )
         case 'array':
@@ -335,7 +384,7 @@ const SchemaForm = defineComponent({
               <array-editor
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
-                disabled={isPropertyDisabled}
+                disabled={isPropertyDisabled || props.disabled}
                 type={property.items.type}
                 default={property.default}
                 {...customProps}
@@ -351,6 +400,7 @@ const SchemaForm = defineComponent({
                 propKey={property.items.path}
                 editMode={editMode}
                 {...customProps}
+                disabled={props.disabled}
               />
             )
           }
@@ -386,24 +436,37 @@ const SchemaForm = defineComponent({
           )
         case 'comma_separated_string':
           return stringInput
-        case 'oneof':
+        case 'oneof': {
+          const props = {
+            modelValue,
+            ...handleUpdateModelValue,
+            items: property.oneOf,
+            disabled: isPropertyDisabled,
+          }
+          if (isComplexOneof(property)) {
+            return (
+              <OneofRefs
+                {...props}
+                property={property}
+                colSpan={getColSpan(property)}
+                getText={getText}
+              />
+            )
+          }
+          return <oneof {...props} />
+        }
+        case 'ssl': {
+          const ConfComponent = getSSLComponent(property)
           return (
-            <oneof
-              modelValue={modelValue}
-              {...handleUpdateModelValue}
-              items={property.oneOf}
-              disabled={isPropertyDisabled}
-            />
-          )
-        case 'ssl':
-          return (
-            <CommonTLSConfig
+            <ConfComponent
               modelValue={modelValue}
               isEdit={!!props.form}
               {...handleUpdateModelValue}
               {...customProps}
             />
           )
+        }
+
         case 'sql':
           return (
             <div class="monaco-container">
@@ -412,7 +475,7 @@ const SchemaForm = defineComponent({
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 lang="sql"
-                disabled={isPropertyDisabled}
+                disabled={isPropertyDisabled || props.disabled}
               />
             </div>
           )
@@ -436,12 +499,12 @@ const SchemaForm = defineComponent({
       'byteSize',
       'percent',
       'comma_separated_string',
-      'oneof',
       'file',
     ]
     const getEleForReadonly = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
       property.path = replaceVarPath(property.path)
+
       const { path, type } = property
 
       /**
@@ -452,6 +515,7 @@ const SchemaForm = defineComponent({
       if (typesShowValueDirectly.includes(type)) {
         return <p class="value">{modelValue}</p>
       }
+
       switch (type) {
         case 'enum':
           return <p class="value">{getOptLabel(modelValue)}</p>
@@ -465,6 +529,21 @@ const SchemaForm = defineComponent({
             ele.props.readonly = true
           }
           return ele
+        }
+        case 'oneof': {
+          const props = { modelValue, items: property.oneOf }
+          if (isComplexOneof(property)) {
+            return (
+              <OneofRefs
+                {...props}
+                property={property}
+                colSpan={getColSpan(property)}
+                getText={getText}
+                readonly
+              />
+            )
+          }
+          return <p class="value">{modelValue}</p>
         }
         case 'ssl': {
           const ele = switchComponent({ ...property, readOnly: true })
@@ -507,13 +586,10 @@ const SchemaForm = defineComponent({
      * if property with special col span, return it, else return undefined
      */
     const getColSpan = ({ path, format, type }: Property): number | undefined => {
-      if (!path) {
-        return
-      }
-      if (SSL_PATH_REG.test(path) || format === 'sql' || type === 'array') {
+      if ((path && SSL_PATH_REG.test(path)) || format === 'sql' || type === 'array') {
         return 24
       }
-      return
+      return props.formItemSpan
     }
 
     const getColClass = ({ path }: Property) => {
@@ -523,16 +599,22 @@ const SchemaForm = defineComponent({
       return props.customColClass[path]
     }
 
-    const getColFormItem = (property: Properties[string], { col, levelName }: FormItemMeta) => {
+    const getColFormItem = (property: Properties[string], { levelName }: FormItemMeta = {}) => {
       const labelSlot = getLabelSlot(property)
-      const colSpan = getColSpan(property) || col
+      const colSpan = getColSpan(property)
       const colClass = getColClass(property)
-      const bindProps = {
-        label: property.label,
-        prop: property.path,
-      }
+      const bindProps = { label: property.label, prop: property.path }
+      const formItemContent = setControl(property)
 
-      const colItem = (
+      /**
+       * Because there may be several fields that need to be arranged in order,
+       * there is no need to wrap them with el-col
+       */
+      const doNotNeedWrap = isComplexOneof(property)
+
+      const colItem = doNotNeedWrap ? (
+        formItemContent || <div></div>
+      ) : (
         <el-col span={colSpan} class={colClass} key={property.path}>
           {property.readOnly ? (
             <el-tooltip
@@ -542,12 +624,12 @@ const SchemaForm = defineComponent({
               effect="dark"
             >
               <el-form-item v-slots={labelSlot} {...bindProps}>
-                {setControl(property)}
+                {formItemContent}
               </el-form-item>
             </el-tooltip>
           ) : (
             <el-form-item v-slots={labelSlot} {...bindProps}>
-              {setControl(property)}
+              {formItemContent}
             </el-form-item>
           )}
         </el-col>
@@ -559,7 +641,7 @@ const SchemaForm = defineComponent({
           return (
             <>
               {colItem}
-              <el-col span={col}>{ctx.slots['invite-node']?.()}</el-col>
+              <el-col span={colSpan}>{ctx.slots['invite-node']?.()}</el-col>
             </>
           )
         }
@@ -582,7 +664,11 @@ const SchemaForm = defineComponent({
     }
 
     const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
-    const getFormProps = () => ({ ...defaultFormProps, ...(props.formProps || {}) })
+    const getFormProps = () => ({
+      ...defaultFormProps,
+      disabled: props.disabled,
+      ...(props.formProps || {}),
+    })
     const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))
 
     const renderLayout = (contents: JSX.Element[]) => {
@@ -693,10 +779,9 @@ const SchemaForm = defineComponent({
         }
       }
       ret.sort((pre, next) => {
-        if (pre in propsOrderMap && next in propsOrderMap) {
-          return propsOrderMap[pre] - propsOrderMap[next]
-        }
-        return 0
+        const preOrder = propsOrderMap[pre] ?? 999
+        const nextOrder = propsOrderMap[next] ?? 999
+        return preOrder - nextOrder
       })
       return ret
     }
@@ -726,7 +811,7 @@ const SchemaForm = defineComponent({
       )
     }
     // Get the components to render form by Properties
-    const getComponents = (properties: Properties, meta: FormItemMeta) => {
+    const getComponents = (properties: Properties, meta: FormItemMeta = {}) => {
       let [levelName, oldLevelName] = [meta.levelName || '', '']
       const elements: JSX.Element[] = []
       /**
@@ -766,6 +851,7 @@ const SchemaForm = defineComponent({
         propKeys.forEach((key) => {
           const property = properties[key]
           const propKey = property.key as string
+          const propPath = property.path as string
           // for concise SSL
           // TODO: can delete it after check
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
@@ -791,11 +877,16 @@ const SchemaForm = defineComponent({
             let elFormItem = <></>
             if (levelName !== oldLevelName) {
               oldLevelName = levelName
-              elFormItem = getColFormItem(property, { levelName, col: meta.col })
+              elFormItem = getColFormItem(property, { levelName })
             } else if (levelName === oldLevelName) {
-              elFormItem = getColFormItem(property, { col: meta.col })
+              elFormItem = getColFormItem(property)
             }
-            if (props.advancedFields?.length && props.advancedFields.includes(key)) {
+            const isAdvancedField = props.advancedFields?.some(
+              (field) =>
+                (typeof field === 'string' && field === propPath) ||
+                (_.isRegExp(field) && field.test(propPath)),
+            )
+            if (isAdvancedField) {
               advancedFieldElement.push(elFormItem)
             } else {
               elements.push(elFormItem)
@@ -818,8 +909,9 @@ const SchemaForm = defineComponent({
         // Initialize with an empty object, do not modify the loading variable at this point.
         formEle = null
       } else {
-        formEle = renderLayout(getComponents(properties, { col: props.formItemSpan }))
-        formLoading.value = false
+        formEle = renderLayout(getComponents(properties))
+        ctx.emit('schema-loaded')
+        isSchemaLoading.value = false
       }
       if (props.needFooter) {
         addObserverToFooter()
@@ -862,6 +954,7 @@ const SchemaForm = defineComponent({
       },
     )
 
+    // WARNING: If the parent component modifies the object pointed to by `components`, it will cause a dead loop
     watch(components, init)
 
     watch(
@@ -893,21 +986,22 @@ const SchemaForm = defineComponent({
       ctx.emit('update', configForm.value)
     })
 
-    const formLoading = ref(true)
+    const isSchemaLoading = ref(true)
     const showSkeleton = computed(
-      () => (formLoading.value || props.recordLoading) && props.type !== 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        !typesDoNotShowSkeleton.includes(props.type),
     )
     const showLoading = computed(
-      () => (formLoading.value || props.recordLoading) && props.type === 'bridge',
+      () =>
+        (isSchemaLoading.value || props.recordLoading) &&
+        typesDoNotShowSkeleton.includes(props.type),
     )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
       }
       init()
-      // window.setTimeout(() => {
-      //   formLoading.value = false
-      // }, 400)
     })()
 
     ctx.expose({ configForm, validate, clearValidate, getInitRecord })

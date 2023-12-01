@@ -1,14 +1,18 @@
+import { INGRESS_BRIDGE_TYPES, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { escapeRegExp } from 'lodash'
-import { Ref, ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const bridgesOrder = [
-  BridgeType.Webhook,
   BridgeType.MQTT,
-  BridgeType.Kafka,
+  BridgeType.Webhook,
+  BridgeType.KafkaProducer,
+  BridgeType.KafkaConsumer,
+  BridgeType.Confluent,
   BridgeType.Pulsar,
   BridgeType.RocketMQ,
   BridgeType.RabbitMQ,
@@ -38,19 +42,25 @@ export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   {},
 )
 
+type TypeItem = {
+  value: BridgeType
+  label: string
+}
+
 export const useBridgeTypeValue = (): {
-  bridgeTypeList: Array<{
-    value: BridgeType
-    label: string
-  }>
+  bridgeTypeList: Array<TypeItem>
+  egressBridgeTypeList: Array<TypeItem>
   getBridgeLabelByTypeValue: (typeValue: BridgeType) => string | undefined
+  getBridgeGeneralType: (typeStr: string) => BridgeType
+  getGeneralTypeLabel: (type: string) => string
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
-    { value: BridgeType.Kafka, label: tl('kafka') },
+    { value: BridgeType.KafkaProducer, label: `${tl('kafka')} ${tl('producer')}` },
+    { value: BridgeType.KafkaConsumer, label: `${tl('kafka')} ${tl('consumer')}` },
     { value: BridgeType.GCP, label: tl('gcpPubSub') },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.PgSQL, label: tl('pgSql') },
@@ -74,15 +84,93 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
-  ].sort((a, b) => (bridgeOrderIndex[a.value] || 0) - (bridgeOrderIndex[b.value] || 0))
+    { value: BridgeType.Confluent, label: 'Confluent' },
+  ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
+
+  /**
+   * use it in add action to rule
+   */
+  const egressBridgeTypeList = bridgeTypeList.filter(
+    ({ value }) => !INGRESS_BRIDGE_TYPES.includes(value),
+  )
 
   const getBridgeLabelByTypeValue = (typeValue: BridgeType) => {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
   }
 
+  /**
+   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
+   */
+  const typesWithMultiSpecificType = [
+    BridgeType.InfluxDB,
+    BridgeType.Redis,
+    BridgeType.MongoDB,
+    ...typesWithProducerAndConsumer,
+  ]
+  /**
+   * diff from specific type, for example, influxdb v1 v2 are all influxdb
+   */
+  const getBridgeGeneralType = (typeStr: string): BridgeType => {
+    if (!typeStr) {
+      return typeStr as BridgeType
+    }
+    const withMultiSpecificTypeIndex = typesWithMultiSpecificType.findIndex(
+      (item) => typeStr.indexOf(item) > -1,
+    )
+    if (withMultiSpecificTypeIndex > -1) {
+      return typesWithMultiSpecificType[withMultiSpecificTypeIndex]
+    }
+    return typeStr as BridgeType
+  }
+
+  const getGeneralTypeLabel = (rawType: string): string => {
+    const type = getBridgeGeneralType(rawType)
+    return getBridgeLabelByTypeValue(type) || ''
+  }
+
   return {
     bridgeTypeList,
+    egressBridgeTypeList,
     getBridgeLabelByTypeValue,
+    getBridgeGeneralType,
+    getGeneralTypeLabel,
+  }
+}
+
+export const isConnectorSupported = (type: string): boolean =>
+  SUPPORTED_CONNECTOR_TYPES.includes(type as BridgeType)
+
+export const useConnectorTypeValue = (): {
+  connectorTypeList: TypeItem[]
+  getTypeStr: (type: string) => string
+  searchQuery: Ref<string>
+  filteredConnectorTypeList: ComputedRef<TypeItem[]>
+} => {
+  const { bridgeTypeList, getGeneralTypeLabel } = useBridgeTypeValue()
+
+  // const connectorTypeLabel = new Map([
+  //   [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
+  // ])
+
+  const connectorTypeList = bridgeTypeList
+
+  const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
+
+  const searchQuery = ref('')
+
+  const filteredConnectorTypeList = computed(() => {
+    if (searchQuery.value.trim() === '') {
+      return connectorTypeList
+    }
+    const reg = new RegExp(searchQuery.value.trim(), 'i')
+    return connectorTypeList.filter((option) => reg.test(option.label))
+  })
+
+  return {
+    connectorTypeList,
+    getTypeStr,
+    searchQuery,
+    filteredConnectorTypeList,
   }
 }
 
@@ -96,7 +184,6 @@ export interface BridgeTypeOptions {
 }
 
 export const typesWithProducerAndConsumer = [
-  BridgeType.Kafka,
   BridgeType.Pulsar,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
@@ -109,8 +196,6 @@ export const useBridgeTypeOptions = (): {
   searchQuery: Ref<string>
   getFilterBridgeOptions: () => BridgeTypeOptions[]
   bridgeTypeOptions: BridgeTypeOptions[]
-  getBridgeType: (typeStr: string) => BridgeType
-  getTypeStr: (bridge: BridgeItem) => string
 } => {
   const { tl, t } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
@@ -163,41 +248,10 @@ export const useBridgeTypeOptions = (): {
     )
   }
 
-  const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
-
-  /**
-   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
-   */
-  const typesWithMultiSpecificType = [
-    BridgeType.InfluxDB,
-    BridgeType.Redis,
-    BridgeType.MongoDB,
-    ...typesWithProducerAndConsumer,
-  ]
-  const getBridgeType = (typeStr: string): BridgeType => {
-    if (!typeStr) {
-      return typeStr as BridgeType
-    }
-    const withMultiSpecificTypeIndex = typesWithMultiSpecificType.findIndex(
-      (item) => typeStr.indexOf(item) > -1,
-    )
-    if (withMultiSpecificTypeIndex > -1) {
-      return typesWithMultiSpecificType[withMultiSpecificTypeIndex]
-    }
-    return typeStr as BridgeType
-  }
-
-  const getTypeStr = (bridge: BridgeItem): string => {
-    const type = getBridgeType(bridge.type)
-    return getBridgeLabelByTypeValue(type) || ''
-  }
-
   return {
     searchQuery,
     bridgeTypeOptions,
     getFilterBridgeOptions,
-    getBridgeType,
-    getTypeStr,
   }
 }
 
@@ -208,11 +262,15 @@ export const useBridgeTypeIcon = (): {
   const specialIconMap = {
     [BridgeType.Webhook]: 'http',
     [BridgeType.PgSQL]: 'postgresql',
+    [BridgeType.AzureEventHubs]: 'azure_event_hub',
+    [BridgeType.KafkaProducer]: 'kafka',
+    [BridgeType.KafkaConsumer]: 'kafka',
+    [BridgeType.Confluent]: 'confluent',
   }
 
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const getBridgeIconKey = (value: string) => {
-    const ret = getBridgeType(value)
+    const ret = getBridgeGeneralType(value)
     if (ret && ret in specialIconMap) {
       return specialIconMap[ret as keyof typeof specialIconMap]
     }
@@ -239,10 +297,10 @@ export const useBridgeTypeIcon = (): {
 export const useBridgeDirection = (): {
   judgeBridgeDirection: (bridge: BridgeItem) => BridgeDirection
 } => {
-  const { getBridgeType } = useBridgeTypeOptions()
+  const { getBridgeGeneralType } = useBridgeTypeValue()
   const judgeBridgeDirection = (bridge: BridgeItem): BridgeDirection => {
     const { type: rawType } = bridge
-    const type = getBridgeType(rawType)
+    const type = getBridgeGeneralType(rawType)
     // FOR MQTT
     if (type === BridgeType.MQTT) {
       const { ingress, egress } = bridge as MQTTBridge
@@ -254,6 +312,8 @@ export const useBridgeDirection = (): {
         return BridgeDirection.Ingress
       }
       return BridgeDirection.Egress
+    } else if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
+      return BridgeDirection.Ingress
     }
     if (typesWithProducerAndConsumer.includes(type)) {
       return consumerReg.test(rawType) ? BridgeDirection.Ingress : BridgeDirection.Egress
@@ -282,6 +342,34 @@ export const useBridgeSchema = (): {
       .map(escapeRegExp)
       .join('|')})`,
   )
+
+  const getSchemaRefByType = (type: string, suffix?: string) => {
+    const finalSuffix = `${refSuffix}${suffix || ''}`
+    return refPrefix + type + finalSuffix
+  }
+
+  const getTypeBySchemaRef = (ref: string) => {
+    // 1. remove path 2. remove prefix 3. remove suffix
+    const ret = ref
+      .replace(/^.+\//, '')
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`${refSuffix}\\w*`), '')
+    return ret
+  }
+
+  return {
+    getSchemaRefByType,
+    getTypeBySchemaRef,
+  }
+}
+
+export const useActionSchema = (): {
+  getSchemaRefByType: (type: string, suffix?: string) => string
+  getTypeBySchemaRef: (ref: string) => string
+} => {
+  const refPrefix = 'bridge_'
+  const refSuffix = '.post_bridge_v2'
+  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)})`)
 
   const getSchemaRefByType = (type: string, suffix?: string) => {
     const finalSuffix = `${refSuffix}${suffix || ''}`

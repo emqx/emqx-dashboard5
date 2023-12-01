@@ -1,6 +1,7 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
+import { ListDataWithPagination } from '@/types/common'
 import {
   BridgeItem,
   BridgeMetricsData,
@@ -9,7 +10,7 @@ import {
   RuleMetrics,
   SchemaRegistry,
 } from '@/types/rule'
-import { ListDataWithPagination } from '@/types/common'
+import { getActions } from './action'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -25,6 +26,26 @@ export async function getBridgeList(): Promise<any> {
         }
       }),
     )
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+/**
+ * bridge + action list
+ */
+export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
+  try {
+    const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
+    // FIXME:FIXME:FIXME: KAFKA
+    for (let index = 0; index < actionList.length; index++) {
+      const actionId = actionList[index].id
+      const bridgeIndex = bridgeList.findIndex((item: BridgeItem) => item.id === actionId)
+      if (bridgeIndex > -1) {
+        bridgeList.splice(bridgeIndex, 1)
+      }
+    }
+    return Promise.resolve(actionList.concat(bridgeList))
   } catch (error) {
     return Promise.reject(error)
   }
@@ -49,9 +70,8 @@ export async function updateBridge(id: string, body: BridgeItem): Promise<any> {
   }
 }
 
-export function startStopBridge(id: string, op: 'enable' | 'disable'): Promise<any> {
+export function startStopBridge(id: string, isEnable: boolean): Promise<any> {
   if (!id) return Promise.reject()
-  const isEnable = op === 'enable'
   return http.put(`/bridges/${encodeURIComponent(id)}/enable/${isEnable}`)
 }
 
@@ -75,11 +95,11 @@ export function deleteBridge(id: string, withDependency = false): Promise<any> {
   )
 }
 
-export function reconnectBridge(bridgeID: string): Promise<number> {
+export function reconnectBridge(bridgeID: string): Promise<void> {
   return http.post(`/bridges/${bridgeID}/start`)
 }
 
-export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<number> {
+export function reconnectBridgeForNode(node: string, bridgeID: string): Promise<void> {
   return http.post(`/nodes/${node}/bridges/${bridgeID}/start`)
 }
 

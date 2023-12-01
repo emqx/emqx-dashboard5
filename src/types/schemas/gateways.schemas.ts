@@ -52,11 +52,14 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiExproto
   | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiCoap
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiStomp
+  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiGbt32960
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiExproto
+  | EmqxGatewayApiCoap
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
@@ -95,6 +98,33 @@ export const PutGatewaysNameEnableEnable404Code = {
 export type PutGatewaysNameEnableEnable404 = {
   code?: PutGatewaysNameEnableEnable404Code
   message?: string
+}
+
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
+
+export type GatewayWebsocketPiggyback =
+  typeof GatewayWebsocketPiggyback[keyof typeof GatewayWebsocketPiggyback]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayWebsocketPiggyback = {
+  single: 'single',
+  multiple: 'multiple',
+} as const
+
+export interface GatewayWebsocket {
+  path?: string
+  piggyback?: GatewayWebsocketPiggyback
+  compress?: boolean
+  idle_timeout?: string
+  max_frame_size?: GatewayWebsocketMaxFrameSize
+  fail_if_no_subprotocol?: boolean
+  supported_subprotocols?: string
+  check_origin_enable?: boolean
+  allow_origin_absence?: boolean
+  check_origins?: string
+  proxy_address_header?: string
+  proxy_port_header?: string
+  deflate_opts?: BrokerDeflateOpts
 }
 
 export interface GatewayUdpOpts {
@@ -262,6 +292,32 @@ export interface EmqxGatewayApiUpdateStomp {
   clientinfo_override?: GatewayClientinfoOverride
 }
 
+export type EmqxGatewayApiUpdateOcppMessageFormatChecking =
+  typeof EmqxGatewayApiUpdateOcppMessageFormatChecking[keyof typeof EmqxGatewayApiUpdateOcppMessageFormatChecking]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiUpdateOcppMessageFormatChecking = {
+  disable: 'disable',
+  dnstream_only: 'dnstream_only',
+  upstream_only: 'upstream_only',
+  all: 'all',
+} as const
+
+export interface EmqxGatewayApiUpdateOcpp {
+  mountpoint?: string
+  default_heartbeat_interval: string
+  heartbeat_checking_times_backoff?: number
+  upstream?: EmqxOcppSchemaUpstream
+  dnstream?: EmqxOcppSchemaDnstream
+  message_format_checking?: EmqxGatewayApiUpdateOcppMessageFormatChecking
+  json_schema_dir?: string
+  json_schema_id_prefix?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
 export interface EmqxGatewayApiUpdateMqttsn {
   gateway_id: number
   broadcast?: boolean
@@ -293,6 +349,30 @@ export interface EmqxGatewayApiUpdateLwm2m {
   update_msg_publish_condition?: EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition
   translators: GatewayLwm2mTranslators
   mountpoint?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
+export interface EmqxGatewayApiUpdateJt808 {
+  frame?: EmqxJt808SchemaJt808Frame
+  proto?: EmqxJt808SchemaJt808Proto
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
+export interface EmqxGatewayApiUpdateGbt32960 {
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
   enable?: boolean
   enable_stats?: boolean
   idle_timeout?: string
@@ -504,6 +584,56 @@ export interface EmqxGatewayApiLwm2m {
   listeners?: EmqxGatewayApiLwm2mListenersItem[]
 }
 
+export type EmqxGatewayApiJt808ListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
+export type EmqxGatewayApiJt808Name =
+  typeof EmqxGatewayApiJt808Name[keyof typeof EmqxGatewayApiJt808Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiJt808Name = {
+  jt808: 'jt808',
+} as const
+
+export interface EmqxGatewayApiJt808 {
+  name?: EmqxGatewayApiJt808Name
+  frame?: EmqxJt808SchemaJt808Frame
+  proto?: EmqxJt808SchemaJt808Proto
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+  listeners?: EmqxGatewayApiJt808ListenersItem[]
+}
+
+export type EmqxGatewayApiGbt32960ListenersItem =
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+
+export type EmqxGatewayApiGbt32960Name =
+  typeof EmqxGatewayApiGbt32960Name[keyof typeof EmqxGatewayApiGbt32960Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiGbt32960Name = {
+  gbt32960: 'gbt32960',
+} as const
+
+export interface EmqxGatewayApiGbt32960 {
+  name?: EmqxGatewayApiGbt32960Name
+  mountpoint?: string
+  retry_interval?: string
+  max_retry_times?: number
+  message_queue_len?: number
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+  listeners?: EmqxGatewayApiGbt32960ListenersItem[]
+}
+
 export type EmqxGatewayApiGatewayOverviewStatus =
   typeof EmqxGatewayApiGatewayOverviewStatus[keyof typeof EmqxGatewayApiGatewayOverviewStatus]
 
@@ -529,7 +659,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@1721702': 'emqx@172.17.0.2',
+  'emqx@127001': 'emqx@127.0.0.1',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {
@@ -763,6 +893,54 @@ export interface BrokerOcsp {
   issuer_pem?: string
   refresh_interval?: string
   refresh_http_timeout?: string
+}
+
+export type BrokerListenerWssOptsLogLevel =
+  typeof BrokerListenerWssOptsLogLevel[keyof typeof BrokerListenerWssOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerListenerWssOptsVerify =
+  typeof BrokerListenerWssOptsVerify[keyof typeof BrokerListenerWssOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerListenerWssOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerListenerWssOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerListenerWssOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerListenerWssOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
 }
 
 export type BrokerListenerSslOptsLogLevel =

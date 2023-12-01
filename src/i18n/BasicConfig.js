@@ -31,10 +31,6 @@ export default {
     zh: 'WebSocket 连接的路径，例如 /mqtt，作用是指定 WebSocket 连接的路径，以便在服务器上找到正确的 WebSocket 端点',
     en: 'The path of the WebSocket connection, such as /mqtt, is used to specify the path of the WebSocket connection so that the correct WebSocket endpoint can be found on the server.',
   },
-  confirmRemove: {
-    zh: '此操作将移除 {name}，是否继续？',
-    en: 'This will remove {name}, continue?',
-  },
   readOnlyTip: {
     zh: '此配置项不支持热配置，请到配置文件内修改并重启服务',
     en: 'This configuration does not support online-reload. Please update the config file and restart EMQX.',
@@ -95,30 +91,6 @@ export default {
     zh: '基础',
     en: 'Basic',
   },
-  newBucket: {
-    zh: '新建桶',
-    en: 'New Bucket',
-  },
-  bucketName: {
-    zh: '桶名称',
-    en: 'Bucket Name',
-  },
-  duplicateBucket: {
-    zh: '复制桶',
-    en: 'Duplicate Bucket',
-  },
-  bucketNameRequired: {
-    zh: '请输入桶名称',
-    en: 'Bucket name is required',
-  },
-  bucketNameExist: {
-    zh: '桶已存在',
-    en: 'Bucket already exists',
-  },
-  dashboardHttpTip: {
-    zh: '部分参数修改后，可能需要重新启动 EMQX Dashboard ！',
-    en: 'Some parameters need to be restarted EMQX Dashboard to take effect!',
-  },
   limierNameRegError: {
     zh: '请输入由字母和数字组成的名称',
     en: 'Please enter a name composed of letters and numbers',
@@ -171,5 +143,17 @@ export default {
   rateMatchError: {
     zh: '请输入格式正确的速率配置',
     en: 'Please enter a properly formatted rate configuration',
+  },
+  fileStorage: {
+    zh: '文件存储',
+    en: 'File Storage',
+  },
+  localStorage: {
+    zh: '本地存储',
+    en: 'Local Storage',
+  },
+  s3Storage: {
+    zh: 'S3 存储',
+    en: 'S3 Storage',
   },
 }

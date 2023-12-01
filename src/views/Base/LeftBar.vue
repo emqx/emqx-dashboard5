@@ -115,6 +115,7 @@ export default defineComponent({
           { title: 'topic-rewrite', path: '/topic-rewrite' },
           { title: 'auto-sub', path: '/auto-sub' },
           { title: 'delayed-pub', path: '/delayed-pub-configuration' },
+          { title: 'file-transfer', path: '/file-transfer' },
         ],
       },
       {
@@ -130,8 +131,8 @@ export default defineComponent({
     const integration = [
       { title: 'webhook', path: '/webhook' },
       { title: 'flowDesigner', path: '/flow' },
-      { title: 'rules', path: '/rules' },
-      { title: 'bridge', path: '/bridge' },
+      { title: 'rules', path: '/rule' },
+      { title: 'connector', path: '/connector' },
       { title: 'schema', path: '/schema' },
     ]
 
@@ -144,9 +145,11 @@ export default defineComponent({
 
     const system = [
       { title: 'users', path: '/users' },
+      { title: 'audit-log', path: '/audit-log' },
       { title: 'api-key', path: '/api-key' },
       { title: 'license', path: '/license' },
       { title: 'sso', path: '/sso' },
+      { title: 'backup', path: '/backup' },
     ]
 
     menus.value = [

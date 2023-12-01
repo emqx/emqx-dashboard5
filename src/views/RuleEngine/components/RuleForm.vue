@@ -1,5 +1,5 @@
 <template>
-  <div class="iot-form">
+  <div class="rule-form">
     <el-row class="editor-row">
       <el-col :span="15" class="sql-col">
         <el-form
@@ -79,7 +79,7 @@
     </el-row>
     <el-row class="oper-row">
       <el-col :span="24">
-        <el-button @click="$router.push({ name: 'iot' })">
+        <el-button @click="$router.push({ name: 'rule' })">
           {{ $t('Base.cancel') }}
         </el-button>
         <el-button
@@ -110,12 +110,12 @@ import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: 'iot-form',
+  name: 'rule-form',
 })
 </script>
 
 <script lang="ts" setup>
-import { getBridgeInfo, getBridgeList, getRuleEvents } from '@/api/ruleengine'
+import { getMixedActionList, getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import {
   checkIsValidArr,
@@ -126,6 +126,7 @@ import {
 } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
@@ -134,7 +135,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleSQLKeyword } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { defineEmits, defineExpose, defineProps, onMounted, ref, Ref, watch } from 'vue'
+import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import EventsSelect from './EventsSelect.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -168,7 +169,7 @@ const {
   replaceTargetPartInSQL,
 } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
-const bridgeList = ref([])
+const bridgeList = ref<Array<any>>([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const outputLoading = ref(false)
@@ -226,7 +227,7 @@ const { completionProvider, hoverProvider, setExtDepData } = useProvidersForMona
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
-  (val) => {
+  () => {
     syncData()
   },
 )
@@ -262,12 +263,13 @@ const addBridgeToAction = (bridgeID: string) => {
 }
 
 const { judgeBridgeDirection } = useBridgeDirection()
+const { getDetail } = useHandleActionItem()
 const handleBridgeDataFromQuery = async () => {
   const bridgeId = route.query.bridgeId?.toString()
   if (!bridgeId) {
     return
   }
-  const bridgeInfo = await getBridgeInfo(bridgeId)
+  const bridgeInfo = await getDetail(bridgeId)
   const direction = judgeBridgeDirection(bridgeInfo)
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
     addBridgeToAction(bridgeInfo.id)
@@ -316,7 +318,7 @@ const transformSQL = () => {
 const loadBridgeList = async () => {
   outputLoading.value = true
   try {
-    const res = await getBridgeList()
+    const res = await getMixedActionList()
     bridgeList.value = res
   } catch (error) {
     console.error(error)
@@ -361,9 +363,9 @@ const handleTestLoadng = (val: boolean) => {
   testLoading.value = val
 }
 
-// const eventDoNotNeedInIoTForm = '$events/message_publish'
+// const eventDoNotNeedInRuleForm = '$events/message_publish'
 // const eventListForFromSelect = computed(() => {
-//   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInIoTForm)
+//   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInRuleForm)
 // })
 const loadRuleEvents = async () => {
   try {
@@ -430,7 +432,7 @@ defineExpose({ validate })
 </style>
 
 <style lang="scss">
-.iot-form {
+.rule-form {
   .sql-col {
     padding: 24px;
     border-right: 1px solid var(--color-border-normal);

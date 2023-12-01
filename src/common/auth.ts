@@ -1,7 +1,8 @@
-import { createRandomString, parseJSONSafely, stringifyObjSafely } from './tools'
+import { createRandomString } from './tools'
 import AES from 'crypto-js/aes'
 import encUTF8 from 'crypto-js/enc-utf8'
 import { UserInfo } from '@/types/common'
+import { parseJSONSafely, stringifyObjSafely } from '@emqx/shared-ui-utils'
 
 /**
  * key for set/get local storage

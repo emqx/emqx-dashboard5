@@ -6,7 +6,7 @@ import { Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
 
-const CONNECTOR_KEY = 'connector'
+const CONNECTOR_CONF_KEYS = 'connector'
 
 const keysNeedRemove = ['label', 'description', 'summary']
 const removeUselessKey = (obj: any) => {
@@ -99,6 +99,8 @@ export default function useSchemaForm(
         property.type = 'sql'
       } else if (property.format === 'file') {
         property.type = 'file'
+      } else if (property.path === CONNECTOR_CONF_KEYS) {
+        property.type = 'connector'
       }
     } else if (property.type === 'integer') {
       property.type = 'number'
@@ -126,18 +128,6 @@ export default function useSchemaForm(
           }
           property.path = path ? `${path}.${key}` : key
           property.key = key
-
-          // special handling for connector in bridge
-          const isTargetConnectorProp =
-            key === CONNECTOR_KEY &&
-            'oneOf' in property &&
-            property.oneOf?.some(({ type }) => type === 'string') &&
-            property.oneOf.some(({ $ref }) => !!$ref)
-          if (isTargetConnectorProp) {
-            const refValue = property.oneOf?.find(({ $ref }) => !!$ref)?.$ref
-            property.$ref = refValue
-            Reflect.deleteProperty(property, 'oneOf')
-          }
 
           // If the length of `oneof` is 1, replace it directly
           if (property.oneOf && property.oneOf.length === 1) {

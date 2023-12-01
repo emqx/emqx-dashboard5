@@ -1,4 +1,5 @@
 import { ComponentPublicInstance } from 'vue'
+import { LogConf } from './typeAlias'
 
 export interface SubTabComponent extends ComponentPublicInstance {
   index: number
@@ -70,27 +71,7 @@ export interface K8s {
   suffix: string
 }
 
-export interface Log {
-  console_handler: ConsoleHandler
-  file_handlers: FileHandlers
-  error_logger: string
-}
-
-export interface ConsoleHandler {
-  enable: boolean
-  level: string
-  time_offset: string
-  chars_limit: string
-  formatter: string
-  single_line: boolean
-  sync_mode_qlen: number
-  drop_mode_qlen: number
-  flush_qlen: number
-  overload_kill: OverloadKill
-  burst_limit: BurstLimit
-  supervisor_reports: string
-  max_depth: number
-}
+export type Log = LogConf
 
 export interface OverloadKill {
   enable: boolean
@@ -103,10 +84,6 @@ export interface BurstLimit {
   enable: boolean
   max_count: number
   window_time: string
-}
-
-export interface FileHandlers {
-  [key: string]: Name
 }
 
 export interface Name {

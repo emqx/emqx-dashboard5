@@ -1,5 +1,5 @@
 import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
-import { isEmptyObj } from '@/common/tools'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
@@ -7,8 +7,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, Role } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
-import { pick } from 'lodash'
-import { useRedisCommandCheck } from './useBridgeDataHandler'
+import { useRedisCommandCheck } from '../useDataHandler'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -21,9 +20,11 @@ type Handler = ({ components, rules }: { components: Properties; rules: SchemaRu
  * or changing the type of a form item if the data given by the backend is incorrect,
  * etc. This can be defined here.
  */
-export default (props: {
-  type: string
-}): {
+export default (
+  props: {
+    type?: string
+  } & unknown,
+): {
   getComponentsHandler: () => Handler
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
@@ -269,48 +270,25 @@ export default (props: {
     return { components, rules }
   }
 
-  const neededSSLConfig = [
-    'enable',
-    'verify',
-    'server_name_indication',
-    'cacertfile',
-    'certfile',
-    'keyfile',
-  ]
   const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
-    const { kafka, authentication, ssl, description } = components
-
-    if (description) {
-      Reflect.deleteProperty(components, 'description')
-    }
+    const { parameters } = components
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
-      kafka?.properties?.kafka_ext_headers?.items?.properties || {}
+      parameters?.properties?.kafka_ext_headers?.items?.properties || {}
     const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_azure_event_hub.'
     kafka_ext_header_key &&
       setLabelAndDesc(kafka_ext_header_key, `${i18nPrefix}kafka_ext_header_key`)
     kafka_ext_header_value &&
       setLabelAndDesc(kafka_ext_header_value, `${i18nPrefix}kafka_ext_header_value`)
 
-    const { key, value } = kafka?.properties?.message?.properties || {}
+    const { key, value } = parameters?.properties?.message?.properties || {}
     if (key?.type === 'string') {
       key.componentProps = { type: 'textarea', rows: 3 }
     }
     if (value?.type === 'string') {
       value.componentProps = { type: 'textarea', rows: 3 }
-    }
-
-    const { password } = authentication?.properties || {}
-    if (password?.type === 'string') {
-      password.format = 'password'
-      password.labelKey = 'connection_string'
-    }
-
-    if (ssl) {
-      ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
-      ssl.componentProps = { disabledBaseConfig: true, disabledVerify: true }
     }
 
     return { components, rules }
@@ -349,12 +327,13 @@ export default (props: {
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
     [BridgeType.AzureEventHubs]: azureEventHubsHandler,
+    [BridgeType.Confluent]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
     [BridgeType.GreptimeDB]: greptimeDBHandler,
   }
 
   const getComponentsHandler = () => {
-    if (props.type in specialBridgeHandlerMap) {
+    if (props.type && props.type in specialBridgeHandlerMap) {
       return specialBridgeHandlerMap[props.type]
     }
     return commonHandler

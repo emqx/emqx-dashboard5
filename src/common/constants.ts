@@ -64,8 +64,24 @@ export const GATEWAY_DISABLED_MECHANISM_MAP = {
   [GatewayName.ExProto]: [AuthnMechanismType.SCRAM],
   [GatewayName.MQTT_SN]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
   [GatewayName.LwM2M]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
+  [GatewayName.GBT32960]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
+  [GatewayName.JT808]: [
+    AuthnMechanismType.PasswordBased,
+    AuthnMechanismType.SCRAM,
+    AuthnMechanismType.JWT,
+  ],
+  [GatewayName.OCPP]: [AuthnMechanismType.SCRAM],
 }
 
+/*
+  | Gateway | Built-In Database | MySQL | MongoDB | PostgreSQL | Redis | Ldap |
+  | ------- | ----------------- | ----- | ------- | ---------- | ----- | ---- |
+  | STOMP   | ✔︎                 | ✔︎     | ✔︎       | ✔︎          | ✔︎     | ✔︎    |
+  | CoAP    | ✔︎                 | ✔︎     | ✔︎       | ✔︎          | ✔︎     | ✔︎    |
+  | ExProto | ✔︎                 | ✔︎     | ✔︎       | ✔︎          | ✔︎     | ✔︎    |
+  | MQTT-SN |                   |       |         |            |       |      |
+  | LwM2M   |                   |       |         |            |       |      |
+*/
 export const GATEWAY_DISABLED_DATABASES_MAP = {
   [GatewayName.STOMP]: [],
   [GatewayName.CoAP]: [],
@@ -76,6 +92,7 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
     DatabasesType.MongoDB,
     DatabasesType.PostgreSQL,
     DatabasesType.Redis,
+    DatabasesType.Ldap,
   ],
   [GatewayName.LwM2M]: [
     DatabasesType.BuiltInDatabase,
@@ -83,23 +100,43 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
     DatabasesType.MongoDB,
     DatabasesType.PostgreSQL,
     DatabasesType.Redis,
+    DatabasesType.Ldap,
+  ],
+  [GatewayName.GBT32960]: [
+    DatabasesType.BuiltInDatabase,
+    DatabasesType.MySQL,
+    DatabasesType.MongoDB,
+    DatabasesType.PostgreSQL,
+    DatabasesType.Redis,
+    DatabasesType.Ldap,
   ],
 }
 
 /* 
-  |         | TCP  | UDP  | SSL  | DTLS |
-  | ------- | ---- | ---- | ---- | ---- |
-  | CoAP    |      | ✔︎    |      | ✔︎    |
-  | ExProto | ✔︎    | ✔︎    | ✔︎    | ✔︎    |
-  | LwM2M   |      | ✔︎    |      | ✔︎    |
-  | MQTT-SN |      | ✔︎    |      | ✔︎    |
-  | STOMP   | ✔︎    |      | ✔︎    |      |
+  |         | TCP  | UDP  | SSL  | DTLS | WS  | WSS |
+  | ------- | ---- | ---- | ---- | ---- | --- | --- |
+  | CoAP    |      | ✔︎    |      | ✔︎    |     |     |
+  | ExProto | ✔︎    | ✔︎    | ✔︎    | ✔︎    |     |     |
+  | LwM2M   |      | ✔︎    |      | ✔︎    |     |     |
+  | MQTT-SN |      | ✔︎    |      | ✔︎    |     |     |
+  | STOMP   | ✔︎    |      | ✔︎    |      |     |     |
+  | OCPP    |      |      |      |      | ✔︎   | ✔︎   |
+  | JT808   | ✔︎    |      | ✔︎    |      |     |     |
+  | GB32960 | ✔︎    |      | ✔︎    |      |     |     |
 */
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.LwM2M]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.MQTT_SN]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.GBT32960]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.JT808]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.OCPP]: [
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+  ],
 }
 
 export const DEFAULT_ZONE = 'default'
@@ -210,11 +247,21 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
-  BridgeType.Kafka,
+  BridgeType.KafkaProducer,
+  BridgeType.KafkaConsumer,
   BridgeType.Pulsar,
 ]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
+
+export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer]
+
+export const SUPPORTED_CONNECTOR_TYPES = [
+  BridgeType.Webhook,
+  BridgeType.KafkaProducer,
+  BridgeType.AzureEventHubs,
+  BridgeType.Confluent,
+]
 
 export const COPY_SUFFIX = '_duplication'
 
@@ -238,6 +285,25 @@ export const INFINITY_VALUE = 'infinity'
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
+
+export const SSL_FIELDS = [
+  'user_lookup_fun',
+  'cacertfile',
+  'verify',
+  'keyfile',
+  'certfile',
+  'cacerts',
+  'password',
+  'hibernate_after',
+  'versions',
+  'secure_renegotiate',
+  'reuse_sessions',
+  'depth',
+  'server_name_indication',
+  'enable',
+  'ciphers',
+  'log_level',
+]
 
 export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
 

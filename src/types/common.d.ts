@@ -70,3 +70,21 @@ export interface FormItemRule extends FormItemRule {
 }
 
 export type FormRules = Record<string, Array<FormItemRule>>
+
+export type Metrics = Record<string, number>
+export interface NodeMetrics {
+  node: string
+  metrics: Metrics
+}
+export type MetricsData = {
+  metrics: Metrics
+  node_metrics: Array<NodeMetrics>
+}
+export type MetricsDataWithExtraData<ExtraMetricsData = Record<string, never>> = {
+  metrics: Metrics
+  node_metrics: Array<NodeMetrics>
+} & ExtraMetricsData
+export interface SetItem {
+  name: string
+  stats: TypeMetricDataItem[]
+}

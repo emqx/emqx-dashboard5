@@ -1,8 +1,8 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <div class="pull-right">
-      <el-button class="go-link" @click="downloadEnterprise" v-if="!IS_ENTERPRISE">
-        {{ $t('Base.upgrade') }}<el-icon><right /></el-icon>
+      <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
+        {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
       </el-button>
 
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
@@ -107,6 +107,8 @@ export default defineComponent({
           )}`
         : t('components.noWarning')
     })
+    const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
+
     const visibilityChangeFunc = () => {
       return document.visibilityState === 'visible' && loadData()
     }
@@ -139,7 +141,6 @@ export default defineComponent({
             ElNotification.success(t('components.loggedOut'))
             done()
           } catch (error) {
-            console.error('Logout failed:', error)
             instance.confirmButtonLoading = false
             instance.confirmButtonText = t('components.signOut')
             done()
@@ -158,8 +159,8 @@ export default defineComponent({
       router.currentRoute.value.name !== command && router.push({ name: command })
     }
     const { docMap } = useDocLink()
-    const downloadEnterprise = () => {
-      const windowUrl = window.open(docMap.upgrade)
+    const routeToContactUs = () => {
+      const windowUrl = window.open(docMap.contactUs)
       if (windowUrl) {
         windowUrl.opener = null
       }
@@ -186,7 +187,8 @@ export default defineComponent({
       alertCount,
       alertText,
       user,
-      downloadEnterprise,
+      isEvaluationLicense,
+      routeToContactUs,
       handleDropdownCommand,
       logout,
       visibilityChangeFunc,

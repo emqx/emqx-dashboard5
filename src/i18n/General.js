@@ -49,7 +49,7 @@ export default {
   },
   user: {
     zh: '用户',
-    en: 'Users',
+    en: 'User',
   },
   username: {
     zh: '用户名',
@@ -326,5 +326,81 @@ export default {
   metaDataUrl: {
     zh: '元数据地址',
     en: 'Metadata Address',
+  },
+  publisher: {
+    zh: '消息发布者',
+    en: 'Publisher',
+  },
+  sourceType: {
+    zh: '操作方式',
+    en: 'Source Type',
+  },
+  auditLogDesc: {
+    zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
+    en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
+  },
+  opSource: {
+    zh: '操作者',
+    en: 'Operator',
+  },
+  operationResult: {
+    zh: '操作结果',
+    en: 'Operation Result',
+  },
+  opName: {
+    zh: '操作名称',
+    en: 'Operation Name',
+  },
+  opTime: {
+    zh: '操作时间',
+    en: 'Operation Time',
+  },
+  info: {
+    zh: '信息',
+    en: 'Info',
+  },
+  console: {
+    zh: '控制台',
+    en: 'Erlang Console',
+  },
+  event: {
+    zh: '事件',
+    en: 'Event',
+  },
+  filename: {
+    zh: '文件名称',
+    en: 'File Name',
+  },
+  createdAt: {
+    zh: '创建时间',
+    en: 'Created At',
+  },
+  fileSize: {
+    zh: '文件大小',
+    en: 'File Size',
+  },
+  restore: {
+    zh: '恢复',
+    en: 'Restore',
+  },
+  upload: {
+    zh: '上传',
+    en: 'Upload',
+  },
+  createBackupSuccess: {
+    zh: '成功创建当前备份',
+    en: 'Successfully created current backup',
+  },
+  uploadSuccess: {
+    zh: '上传成功',
+    en: 'Upload successfully',
+  },
+  confirmRestore: {
+    zh: '确认使用当前备份恢复?',
+    en: 'Confirm to restore with current backup?',
+  },
+  restoreSuccess: {
+    zh: '恢复成功',
+    en: 'Restore successfully',
   },
 }

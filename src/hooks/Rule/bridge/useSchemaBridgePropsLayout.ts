@@ -1,5 +1,6 @@
 import { BridgeType } from '@/types/enum'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
+import { isConnectorSupported } from './useBridgeTypeValue'
 import useSyncConfiguration from './useSyncConfiguration'
 
 export const resourceOptFields = [
@@ -15,18 +16,19 @@ export const resourceOptFields = [
   'inflight_window',
 ].map((item) => `resource_opts.${item}`)
 
-type PropsType = Readonly<
-  {
-    modelValue?: unknown
-    type?: unknown
-    edit?: unknown
-  } & {
-    edit: boolean
-  } & {
-    modelValue?: Record<string, any> | undefined
-    type?: BridgeType.MySQL | BridgeType.Redis | BridgeType.GCP | BridgeType.MongoDB | undefined
-  }
->
+type PropsType = Readonly<{
+  modelValue: Record<string, any>
+  type?: string
+  edit?: boolean
+  copy?: boolean
+  isLoading?: boolean
+  readonly?: boolean
+  disabled?: boolean
+  hideName?: boolean
+  formProps?: Record<string, any>
+  hiddenFields?: string[]
+  isUsingInFlow?: boolean
+}>
 
 /**
  * props order and class name
@@ -36,14 +38,7 @@ export default (
   bridgeRecord: WritableComputedRef<Record<string, any>>,
 ): {
   propsOrderMap: ComputedRef<Record<string, number>>
-  customColClass: ComputedRef<{
-    name: string
-    direction: string
-    type: string
-    enable: string
-    local_topic: string
-    ssl: string
-  }>
+  customColClass: ComputedRef<Record<string, string>>
   advancedFields: ComputedRef<Array<string>>
 } => {
   const createOrderObj = (keyArr: Array<string>, beginning: number) =>
@@ -59,6 +54,7 @@ export default (
 
   const baseOrderMap = {
     name: 0,
+    connector: 1,
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
@@ -82,13 +78,17 @@ export default (
   const azureAdvancedProps = [
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
-    'kafka.max_batch_bytes',
-    'kafka.required_acks',
-    'kafka.partition_count_refresh_interval',
-    'kafka.max_inflight',
-    'kafka.query_mode',
-    'kafka.sync_query_timeout',
-    'kafka.buffer',
+    'parameters.max_batch_bytes',
+    'parameters.required_acks',
+    'parameters.partition_count_refresh_interval',
+    'parameters.max_inflight',
+    'parameters.query_mode',
+    'parameters.sync_query_timeout',
+    'parameters.buffer',
+    'parameters.buffer.mode',
+    'parameters.buffer.per_partition_limit',
+    'parameters.buffer.segment_bytes',
+    'parameters.buffer.memory_overload_protection',
     'mode',
     'per_partition_limit',
     'segment_bytes',
@@ -99,6 +99,26 @@ export default (
     'socket_opts.nodelay',
   ]
 
+  const azurePropsOrderMap = {
+    ...createOrderObj(
+      [
+        'bootstrap_hosts',
+        'authentication.password',
+        'ssl',
+        'parameters.topic',
+        'parameters.kafka_headers',
+        'parameters.kafka_header_value_encode_mode',
+        'parameters.kafka_ext_headers',
+        'parameters.message',
+        'parameters.message.key',
+        'parameters.message.value',
+        'parameters.message.timestamp',
+        'parameters.partition_strategy',
+      ],
+      1,
+    ),
+    ...createOrderObj(azureAdvancedProps, 150),
+  }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MySQL]: {
       ...createOrderObj(['server', 'database', 'username', 'password', 'ssl', 'sql'], 1),
@@ -140,6 +160,7 @@ export default (
         [
           'mongo_type',
           'srv_record',
+          'server',
           'servers',
           'database',
           'replica_set_name',
@@ -245,26 +266,8 @@ export default (
         1,
       ),
     },
-    [BridgeType.AzureEventHubs]: {
-      ...createOrderObj(
-        [
-          'bootstrap_hosts',
-          'authentication.password',
-          'ssl',
-          'kafka.topic',
-          'kafka.kafka_headers',
-          'kafka.kafka_header_value_encode_mode',
-          'kafka.kafka_ext_headers',
-          'kafka.message',
-          'kafka.message.key',
-          'kafka.message.value',
-          'kafka.message.timestamp',
-          'kafka.partition_strategy',
-        ],
-        1,
-      ),
-      ...createOrderObj(azureAdvancedProps, 150),
-    },
+    [BridgeType.AzureEventHubs]: azurePropsOrderMap,
+    [BridgeType.Confluent]: azurePropsOrderMap,
     [BridgeType.AmazonKinesis]: {
       ...createOrderObj(
         [
@@ -294,6 +297,7 @@ export default (
     return ret
   })
 
+  const azureColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCP]: {
       name: 'dividing-line-below',
@@ -318,9 +322,8 @@ export default (
     [BridgeType.OracleDatabase]: {
       password: 'dividing-line-below',
     },
-    [BridgeType.AzureEventHubs]: {
-      'kafka.topic': 'col-need-row',
-    },
+    [BridgeType.AzureEventHubs]: azureColClassMap,
+    [BridgeType.Confluent]: azureColClassMap,
     [BridgeType.AmazonKinesis]: {
       partition_key: 'dividing-line-below',
     },
@@ -341,6 +344,7 @@ export default (
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCP]: ['pipelining'],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
+    [BridgeType.Confluent]: azureAdvancedProps,
   }
 
   const advancedFields = computed(() => {
@@ -348,12 +352,31 @@ export default (
     return [...commonAdvancedFields, ...externalFields]
   })
 
+  const singleFieldInFirstRowClass = 'dividing-line-below col-need-row'
+  const getFirstRowClass = () => {
+    let connectorClass = ''
+    let nameClass = ''
+    if (isConnectorSupported(props.type as BridgeType)) {
+      if (props.hideName) {
+        connectorClass = singleFieldInFirstRowClass
+        nameClass = 'col-hidden'
+      } else {
+        nameClass = 'dividing-line-below'
+      }
+    } else {
+      nameClass = props.hideName ? 'col-hidden' : singleFieldInFirstRowClass
+    }
+    return { connectorClass, nameClass }
+  }
+
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
   const customColClass = computed(() => {
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    const { nameClass, connectorClass } = getFirstRowClass()
     return {
       ...syncEtcFieldsClassMap.value,
-      name: 'col-need-row dividing-line-below',
+      name: nameClass,
+      connector: connectorClass,
       direction: 'col-hidden',
       type: 'col-hidden',
       enable: 'col-hidden',

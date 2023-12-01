@@ -242,6 +242,15 @@ p.description {
 .g-exproto::before {
   background-image: url('~@/assets/gateway/exproto.png');
 }
+.g-gbt32960::before {
+  background-image: url('~@/assets/gateway/gbt32960.png');
+}
+.g-ocpp::before {
+  background-image: url('~@/assets/gateway/ocpp.png');
+}
+.g-jt808::before {
+  background-image: url('~@/assets/gateway/jt808.png');
+}
 
 .section-header {
   font-size: 18px;
@@ -282,12 +291,6 @@ p.description {
 
   .title-n-status {
     margin-left: 10px;
-  }
-
-  .section-title {
-    font-size: 14px;
-    font-weight: 700;
-    flex-grow: 1;
   }
 }
 
@@ -789,11 +792,18 @@ code {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  &.is-running {
+  &.is-running,
+  &.is-success {
     background: var(--color-primary);
   }
   &.is-stopped {
     background: var(--color-text-placeholder);
+  }
+  &.is-danger {
+    background: var(--el-color-danger);
+  }
+  &.is-warning {
+    background: var(--el-color-warning);
   }
 }
 /* FLOW */

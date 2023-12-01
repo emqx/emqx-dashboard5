@@ -5,13 +5,13 @@ export function getGatewayList() {
   return http.get('/gateways')
 }
 
-export async function getGatewayListeners(name: string, id: string) {
+export async function getGatewayListeners(name: string, listenerId?: string) {
   if (!name) return Promise.reject()
   return http.get(
     '/gateways/' +
       encodeURIComponent(name) +
       '/listeners' +
-      ((id && '/' + encodeURIComponent(id)) || ''),
+      ((listenerId && '/' + encodeURIComponent(listenerId)) || ''),
   )
 }
 
@@ -21,20 +21,20 @@ export function addGatewayListener(name: string, body: { [key: string]: any }) {
 
 export async function updateGatewayListener(
   name: string,
-  id: string,
+  listenerId: string,
   body: { [key: string]: any },
 ) {
-  if (!name || !id) return Promise.reject()
+  if (!name || !listenerId) return Promise.reject()
   return http.put(
-    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
+    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(listenerId),
     body,
   )
 }
 
-export async function deleteGatewayListener(name: string, id: string) {
-  if (!name || !id) return Promise.reject()
+export async function deleteGatewayListener(name: string, listenerId: string) {
+  if (!name || !listenerId) return Promise.reject()
   return http.delete(
-    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(id),
+    '/gateways/' + encodeURIComponent(name) + '/listeners/' + encodeURIComponent(listenerId),
   )
 }
 
@@ -60,15 +60,15 @@ export async function getGatewayClients(name: string, params = {}) {
   })
 }
 
-export async function getGatewayClientDetail(name: string, id: string) {
-  if (!name || !id) return Promise.reject()
-  return http.get(`/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}`)
+export async function getGatewayClientDetail(name: string, listenerId: string) {
+  if (!name || !listenerId) return Promise.reject()
+  return http.get(`/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(listenerId)}`)
 }
 
-export async function getGatewayClientSubs(name: string, id: string) {
-  if (!name || !id) return Promise.reject()
+export async function getGatewayClientSubs(name: string, listenerId: string) {
+  if (!name || !listenerId) return Promise.reject()
   return http.get(
-    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(id)}/subscriptions`,
+    `/gateways/${encodeURIComponent(name)}/clients/${encodeURIComponent(listenerId)}/subscriptions`,
   )
 }
 

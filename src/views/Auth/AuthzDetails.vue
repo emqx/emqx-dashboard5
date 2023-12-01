@@ -48,12 +48,7 @@
     <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
       <div class="app-wrapper">
         <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
-          <AuthItemOverview
-            :metrics="authMetrics"
-            type="authz"
-            :refresh-loading="refreshLoading"
-            @refresh="handleRefresh"
-          />
+          <AuthItemOverview :metrics="authMetrics" type="authz" />
         </el-tab-pane>
         <el-tab-pane
           v-if="type === 'built_in_database'"
@@ -150,7 +145,7 @@ export default defineComponent({
       ssl: { enable: false },
       topology: {},
     })
-    const authMetrics = ref(undefined)
+    const authMetrics = ref({})
     const formCom = ref()
     const currTab = ref('overview')
     const queryTab = computed(() => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="iot">
+  <div class="rule">
     <RuleFilterForm class="search-wrapper" :initial-value="filterParams" @search="searchRule" />
     <div class="app-wrapper">
       <div class="section-header">
@@ -7,9 +7,9 @@
         <div>
           <el-button
             type="primary"
-            :disabled="!$hasPermission('post')"
             :icon="Plus"
-            @click="$router.push({ name: 'iot-create' })"
+            :disabled="!$hasPermission('post')"
+            @click="$router.push({ name: 'rule-create' })"
           >
             {{ tl('create', 'Base') }}
           </el-button>
@@ -18,11 +18,11 @@
           </el-button>
         </div>
       </div>
-      <el-table :data="ruleTable" v-loading="iotLoading">
+      <el-table :data="ruleTable" v-loading="ruleLoading">
         <el-table-column label="ID" show-overflow-tooltip>
           <template #default="{ row }">
             <router-link
-              :to="{ name: 'iot-detail', params: { id: row.id } }"
+              :to="{ name: 'rule-detail', params: { id: row.id } }"
               class="table-data-without-break"
             >
               {{ row.id }}
@@ -64,7 +64,7 @@
               size="small"
               @click="
                 $router.push({
-                  name: 'iot-detail',
+                  name: 'rule-detail',
                   params: { id: row.id },
                   query: { tab: 'settings' },
                 })
@@ -106,12 +106,12 @@ import RuleFilterForm from './components/RuleFilterForm.vue'
 const { t } = useI18n()
 const router = useRouter()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
-const iotLoading: Ref<boolean> = ref(false)
+const ruleLoading: Ref<boolean> = ref(false)
 
 const { resetPageNum } = usePagination()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 let filterParams: Ref<FilterParamsForQueryRules> = ref({})
-const { updateParams, checkParamsInQuery } = usePaginationRemember('iot-detail')
+const { updateParams, checkParamsInQuery } = usePaginationRemember('rule-detail')
 const getParamsFormQuery = () => {
   const { pageParams, filterParams: f } = checkParamsInQuery()
   pageMeta.value = { ...pageMeta.value, ...pageParams }
@@ -122,7 +122,7 @@ getParamsFormQuery()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
 const getRulesList = async () => {
-  iotLoading.value = true
+  ruleLoading.value = true
   try {
     const { data = [], meta } = await getRules({ ...pageParams.value, ...filterParams.value })
     ruleTable.value = data
@@ -132,7 +132,7 @@ const getRulesList = async () => {
     ruleTable.value = []
     initPageMeta()
   } finally {
-    iotLoading.value = false
+    ruleLoading.value = false
   }
 }
 
@@ -153,7 +153,7 @@ const startOrStopRule = async (row: RuleItem) => {
 }
 
 const copyRuleItem = (rule: RuleItem) => {
-  router.push({ name: 'iot-create', query: { target: rule.id, action: 'copy' } })
+  router.push({ name: 'rule-create', query: { target: rule.id, action: 'copy' } })
 }
 
 const submitDeleteRules = async ({ id }: RuleItem) => {
@@ -164,7 +164,7 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
     confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
-  iotLoading.value = true
+  ruleLoading.value = true
 
   try {
     await deleteRules(id)
@@ -174,7 +174,7 @@ const submitDeleteRules = async ({ id }: RuleItem) => {
   } catch (error) {
     console.error(error)
   } finally {
-    iotLoading.value = false
+    ruleLoading.value = false
   }
 }
 

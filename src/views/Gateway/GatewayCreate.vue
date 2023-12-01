@@ -2,7 +2,7 @@
   <div class="app-wrapper gateway-create">
     <el-card>
       <div class="section-header">
-        {{ `${tl('initial')} ${transGatewayName(name)}` }}
+        {{ `${tl('initial')} ${transGatewayName(gname)}` }}
       </div>
       <el-row>
         <el-col :span="16">
@@ -15,27 +15,36 @@
       </el-row>
       <el-row class="config-main">
         <el-col :span="18" v-if="stepActive === 0" class="config-basic">
-          <template v-if="name === 'stomp'">
+          <template v-if="gname === 'stomp'">
             <stomp-basic v-model:value="basicData" />
           </template>
-          <template v-else-if="name === 'mqttsn'">
+          <template v-else-if="gname === 'mqttsn'">
             <mqttsn-basic v-model:value="basicData"></mqttsn-basic>
           </template>
-          <template v-else-if="name === 'coap'">
+          <template v-else-if="gname === 'coap'">
             <coap-basic v-model:value="basicData"></coap-basic>
           </template>
-          <template v-else-if="name === 'lwm2m'">
+          <template v-else-if="gname === 'lwm2m'">
             <lw-basic v-model:value="basicData"></lw-basic>
           </template>
-          <template v-else-if="name === 'exproto'">
+          <template v-else-if="gname === 'exproto'">
             <exproto-basic v-model:value="basicData"></exproto-basic>
+          </template>
+          <template v-else-if="gname === 'gbt32960'">
+            <gbt32960-basic v-model:value="basicData"></gbt32960-basic>
+          </template>
+          <template v-else-if="gname === 'jt808'">
+            <jt808-basic v-model:value="basicData"></jt808-basic>
+          </template>
+          <template v-else-if="gname === 'ocpp'">
+            <ocpp-basic v-model:value="basicData"></ocpp-basic>
           </template>
         </el-col>
 
         <el-col :span="24" v-else-if="stepActive === 1">
           <listeners
             :integration="true"
-            :gateway-name="name"
+            :gateway-name="gname"
             v-model:list="listenerList"
           ></listeners>
         </el-col>
@@ -77,24 +86,27 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, onMounted, ref } from 'vue'
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
 import CoapBasic from './components/coapBasic.vue'
 import Listeners from './components/listeners.vue'
 import LwBasic from './components/lwm2mBasic.vue'
 import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
+import Gbt32960Basic from './components/gbt32960Basic.vue'
+import Jt808Basic from './components/jt808Basic.vue'
+import OcppBasic from './components/ocppBasic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
-import router from '@/router'
 import { ElMessage as M } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
+import { useRoute, useRouter } from 'vue-router'
+import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
 import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
+import useI18nTl from '@/hooks/useI18nTl'
 
-const STATIC_LISTENER = {
+const STATIC_LISTENER: Record<GatewayName, any> = {
   exproto: {
     type: 'tcp',
     name: 'default',
@@ -131,116 +143,116 @@ const STATIC_LISTENER = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
+  gbt32960: {
+    type: 'tcp',
+    name: 'default',
+    bind: '7325',
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
+  jt808: {
+    type: 'tcp',
+    name: 'default',
+    bind: '6207',
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
+  ocpp: {
+    type: 'ws',
+    name: 'default',
+    bind: '33033',
+    websocket: {
+      path: '/ocpp',
+    },
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
 }
 
-export default defineComponent({
-  components: {
-    stompBasic,
-    Listeners,
-    MqttsnBasic,
-    LwBasic,
-    CoapBasic,
-    ExprotoBasic,
-  },
-  name: 'GatewayCreate',
+const router = useRouter()
+const route = useRoute()
+const { tl } = useI18nTl('Gateway')
+const { t } = useI18n()
+const { handleExprotoData } = useHandleGatewayData()
+const { transGatewayName } = useTransName()
 
-  setup() {
-    let stepActive = ref(0)
-    let basicData = ref({})
-    let listenerList = ref([])
-    let submitLoading = ref(false)
+const stepActive = ref(0)
+const basicData = ref<any>({})
+const listenerList = ref<any[]>([])
+const submitLoading = ref(false)
 
-    const { t } = useI18n()
-    const route = useRoute()
-    const gname = String(route.params.name).toLowerCase()
-    const { transGatewayName } = useTransName()
+const gname = (route.params.name as string).toLowerCase() as GatewayName
 
-    const gotoList = function () {
-      router.push({ name: 'gateway' })
+const gotoList = () => {
+  router.push({ name: 'gateway' })
+}
+
+const createGateway = async () => {
+  let data: any = {
+    ...basicData.value,
+    listeners: [...listenerList.value],
+    name: gname,
+  }
+  if (gname === GatewayName.ExProto) {
+    data = handleExprotoData(data)
+  }
+  try {
+    submitLoading.value = true
+    await updateGateway(gname, data)
+    M.success(t('Base.createSuccess'))
+    gotoList()
+  } catch (error) {
+    // ignore error
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const gatewayStatus = async () => {
+  if (!gname) {
+    gotoList()
+  }
+
+  try {
+    const { status } = await getGateway(gname)
+    if (status !== 'unloaded') {
+      M.error(t('Gateway.alreadyLoad'))
+      gotoList()
     }
+  } catch (error) {
+    // ignore error
+  }
+}
 
-    const { handleExprotoData } = useHandleExprotoData()
-    const createGateway = async () => {
-      let data = {
-        ...basicData.value,
-        listeners: [...listenerList.value],
-        name: gname,
-      }
-      if (gname === GatewayName.ExProto) {
-        data = handleExprotoData(data)
-      }
-      try {
-        submitLoading.value = true
-        await updateGateway(gname, data)
-        M.success(t('Base.createSuccess'))
-        gotoList()
-      } catch (error) {
-        //
-      } finally {
-        submitLoading.value = false
-      }
+const validNext = () => {
+  if (
+    gname === 'exproto' &&
+    stepActive.value === 0 &&
+    basicData.value.server?.ssl_options?.enable
+  ) {
+    const { certfile, keyfile } = basicData.value.server.ssl_options
+    if (!certfile || !keyfile) {
+      M.warning(t('Gateway.missinggRPCTLSFile'))
+      return false
     }
+  }
+  return true
+}
 
-    const gatewayStatus = async () => {
-      if (!gname) {
-        gotoList()
-      }
+const handleNextStep = () => {
+  if (!validNext()) {
+    return
+  }
+  stepActive.value += 1
+}
 
-      try {
-        let { status } = await getGateway(gname)
-        if (status !== 'unloaded') {
-          M.error(t('Gateway.alreadyLoad'))
-          gotoList()
-        }
-      } catch (error) {
-        //
-      }
-    }
+onMounted(() => {
+  gatewayStatus()
 
-    const validNext = () => {
-      //  Check SSL Cert & Key for ExProto
-      if (
-        gname === 'exproto' &&
-        stepActive.value === 0 &&
-        basicData.value.server.ssl_options.enable
-      ) {
-        const { certfile, keyfile } = basicData.value.server.ssl_options
-        if (!certfile || !keyfile) {
-          M.warning(t('Gateway.missinggRPCTLSFile'))
-          return false
-        }
-      }
-      return true
-    }
-
-    const handleNextStep = () => {
-      const valid = validNext()
-      if (!valid) {
-        return
-      }
-      stepActive.value += 1
-    }
-
-    onMounted(() => {
-      gatewayStatus()
-
-      let staticListener = STATIC_LISTENER[gname]
-      staticListener && listenerList.value.push({ ...staticListener })
-    })
-
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      stepActive,
-      basicData,
-      gotoList,
-      listenerList,
-      submitLoading,
-      createGateway,
-      name: gname,
-      handleNextStep,
-      transGatewayName,
-    }
-  },
+  const staticListener = STATIC_LISTENER[gname]
+  if (staticListener) {
+    listenerList.value.push({ ...staticListener } as unknown as any)
+  }
 })
 </script>
 

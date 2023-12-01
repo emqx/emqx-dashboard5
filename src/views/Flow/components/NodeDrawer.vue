@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="showDrawer"
-    custom-class="node-drawer drawer-with-divider"
+    :custom-class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''}`"
     :size="width"
     :title="title"
     :z-index="1999"
@@ -12,16 +12,23 @@
     <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
     <RemovedBridgeTip v-if="isRemovedBridge" />
     <template v-else-if="getFormComponent(type)">
+      <el-tabs v-if="showTabs" v-model="activeTab">
+        <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" />
+        <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" />
+      </el-tabs>
       <component
+        v-if="activeTab === DetailTab.Setting"
         ref="FormCom"
         :is="getFormComponent(type)"
         v-model="record"
         v-bind="getFormComponentProps(type)"
         :readonly="readonly"
         :edit="isEdit"
+        :class="{ 'in-tab': showTabs }"
         @save="save"
         @init="resetRawRecord"
       />
+      <NodeMetrics v-else-if="activeTab === DetailTab.Overview" :node="node" />
     </template>
     <template #footer>
       <div class="space-between" v-if="!readonly">
@@ -84,6 +91,7 @@ import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import NameInputForCopyBridgeDialog from './NameInputForCopyBridgeDialog.vue'
+import NodeMetrics from './metrics/NodeMetrics.vue'
 
 const props = defineProps({
   modelValue: {
@@ -163,6 +171,25 @@ const existedTopics = computed(() => {
 
 const { isBridgerNode, removeDirectionFromSpecificType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
+const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
+  [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
+  [FlowNodeType.Default]: [ProcessingType.Filter],
+  [FlowNodeType.Output]: [SinkType.Console, SinkType.RePub],
+}
+const withMetrics = computed(() => {
+  const { node } = props
+  if (!node || !node.type || !node.data.specificType) {
+    return false
+  }
+  const withOutMetricsTypesArr = withOutMetricsTypes[node.type as FlowNodeType] || []
+  return !withOutMetricsTypesArr.includes(node.data.specificType)
+})
+const showTabs = computed(() => withMetrics.value && props.readonly)
+const enum DetailTab {
+  Setting,
+  Overview,
+}
+const activeTab = ref(DetailTab.Setting)
 
 const bridgeFormProps = {
   colSpan: 24,
@@ -322,6 +349,7 @@ const edit = () => emit('edit')
 
 watch(showDrawer, (val) => {
   if (!val) {
+    activeTab.value = DetailTab.Setting
     return
   }
 
@@ -335,6 +363,17 @@ watch(showDrawer, (val) => {
 
 <style lang="scss">
 .node-drawer {
+  &.with-tabs {
+    .el-drawer__header {
+      margin-bottom: 24px;
+    }
+    .el-drawer__body {
+      padding-top: 0;
+    }
+  }
+  .in-tab {
+    padding-top: 24px;
+  }
   .bridge-config {
     .el-form-item {
       margin-top: 0;
@@ -353,7 +392,8 @@ watch(showDrawer, (val) => {
     .el-form-item__content,
     .oneof-item {
       > .el-input:not(.el-input-group--append),
-      > .el-select {
+      > .el-select,
+      .connector-select {
         width: calc(100% - #{$input-append-width});
       }
     }

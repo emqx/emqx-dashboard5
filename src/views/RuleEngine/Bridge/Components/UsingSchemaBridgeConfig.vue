@@ -1,11 +1,11 @@
 <template>
-  <div class="schema-bridge bridge-config">
+  <div class="schema-form-integration bridge-config">
     <schema-form
       v-if="getRefKey"
       ref="formCom"
       type="bridge"
       need-rules
-      :schema-file-path="getAPIPath(`/schemas/bridges`)"
+      :schema-file-path="schemaFilePath"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="bridgeRecord"
@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
+import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getAPIPath, waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
-import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
@@ -47,7 +48,7 @@ import { BridgeDirection, BridgeType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
 type UseSchemaBridgeType = Exclude<
   BridgeType,
@@ -55,7 +56,7 @@ type UseSchemaBridgeType = Exclude<
 >
 
 const { getSchemaRefByType } = useBridgeSchema()
-const typeRefKeyMap = {
+const bridgeTypeRefKeyMap = {
   [BridgeType.MySQL]: getSchemaRefByType('mysql'),
   [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
   [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
@@ -71,46 +72,58 @@ const typeRefKeyMap = {
   [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
   [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
   [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
-  [BridgeType.AzureEventHubs]: getSchemaRefByType('azure_event_hub', '_producer'),
   [BridgeType.AmazonKinesis]: getSchemaRefByType('kinesis', '_producer'),
   [BridgeType.GreptimeDB]: getSchemaRefByType('greptimedb', '_grpc_v1'),
 }
 
-const props = defineProps({
-  modelValue: {
-    type: Object,
-    default: undefined,
+const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
+const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
+const actionTypeRefKeyMap = {
+  [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
+  [BridgeType.Confluent]: 'confluent.post_bridge_v2',
+}
+
+const props = withDefaults(
+  defineProps<{
+    modelValue: Record<string, any>
+    /**
+     * in fact, type is UseSchemaBridgeType, but use it will trigger
+     * https://github.com/vuejs/core/issues/6252
+     */
+    type?: string
+    edit?: boolean
+    copy?: boolean
+    isLoading?: boolean
+    readonly?: boolean
+    disabled?: boolean
+    /**
+     * for rule
+     */
+    hideName?: boolean
+    /**
+     * bind to el-form component
+     */
+    formProps?: Record<string, any>
+    // for flow, hide `role`
+    hiddenFields?: Array<string>
+    isUsingInFlow?: boolean
+  }>(),
+  {
+    modelValue: undefined,
+    formProps: () => ({}),
   },
-  type: {
-    type: String as PropType<UseSchemaBridgeType>,
-  },
-  edit: {
-    type: Boolean,
-  },
-  copy: {
-    type: Boolean,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
-  formProps: {
-    type: Object as PropType<Properties>,
-    default: () => ({}),
-  },
-  // for flow, hide `role`
-  hiddenFields: {
-    type: Array as PropType<Array<string>>,
-  },
-  isUsingInFlow: {
-    type: Boolean,
-  },
-})
+)
 const emit = defineEmits(['update:modelValue', 'init'])
+
+/**
+ * different from is bridge
+ */
+const isAction = computed(() => SUPPORTED_CONNECTOR_TYPES.includes(props.type as BridgeType))
+
+const schemaFilePath = computed(() => {
+  const schemaType = isAction.value ? 'actions' : 'bridges'
+  return getAPIPath(`/schemas/${schemaType}`)
+})
 
 const bridgeRecord = computed({
   get() {
@@ -133,6 +146,7 @@ const formBindProps = {
   labelWidth: undefined,
   labelPosition: 'top',
   requireAsteriskPosition: 'right',
+  disabled: props.disabled,
   class: '',
   ...props.formProps,
 }
@@ -205,10 +219,13 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
+  if (isAction.value) {
+    return actionTypeRefKeyMap[props.type as keyof typeof actionTypeRefKeyMap] || undefined
+  }
   if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
     return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
-  return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
+  return bridgeTypeRefKeyMap[props.type as keyof typeof bridgeTypeRefKeyMap] || undefined
 })
 
 const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)
@@ -256,75 +273,3 @@ const getFormRecord = () => handleSyncEtcFormData(cloneDeep(formCom.value.config
 
 defineExpose({ getFormRecord, validate })
 </script>
-
-<style lang="scss">
-.schema-bridge {
-  min-height: 320px;
-  .col-need-row {
-    // To squeeze the next column down
-    margin-right: 40%;
-  }
-  .col-hidden {
-    display: none !important;
-  }
-  .custom-col-24 {
-    width: 100%;
-    max-width: 100%;
-    flex-basis: 100%;
-  }
-  // hide first label
-  .col-ssl {
-    > .el-form-item {
-      > .el-form-item__label {
-        display: none;
-      }
-    }
-  }
-  .el-form-item {
-    margin-top: 0;
-    margin-bottom: 18px;
-  }
-  .el-col-12.dividing-line-below,
-  .el-col-24.dividing-line-below {
-    position: relative;
-    &::after {
-      content: '';
-      display: block;
-      height: 1px;
-      background-color: var(--color-border-card);
-    }
-  }
-  .el-col-12:not(.custom-col-24).dividing-line-below {
-    &::after {
-      width: calc(200% + 24px);
-      margin-top: 24px;
-      margin-bottom: 24px;
-    }
-  }
-  .el-col-24.dividing-line-below,
-  .custom-col-24.dividing-line-below {
-    &::after {
-      width: 100%;
-      margin-top: 6px;
-      margin-bottom: 24px;
-    }
-  }
-  .custom-col-24.dividing-line-above,
-  .el-col-24.dividing-line-above {
-    position: relative;
-    &::before {
-      content: '';
-      display: block;
-      width: 100%;
-      margin-top: 6px;
-      margin-bottom: 24px;
-      height: 1px;
-      background-color: var(--color-border-card);
-    }
-  }
-  .schema-form .el-form-item__label {
-    font-size: var(--el-form-label-font-size);
-    color: var(--el-text-color-regular);
-  }
-}
-</style>

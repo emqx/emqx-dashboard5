@@ -105,7 +105,10 @@ export enum BridgeType {
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
+  // TODO: remove this type
   Kafka = 'kafka',
+  KafkaProducer = 'kafka_producer',
+  KafkaConsumer = 'kafka_consumer',
   Redis = 'redis',
   GCP = 'gcp_pubsub',
   MongoDB = 'mongodb',
@@ -124,9 +127,10 @@ export enum BridgeType {
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
   HStream = 'hstreamdb',
-  AzureEventHubs = 'azure_event_hub',
+  AzureEventHubs = 'azure_event_hub_producer',
   AmazonKinesis = 'kinesis',
   GreptimeDB = 'greptimedb',
+  Confluent = 'confluent_producer',
 }
 
 export enum KafkaType {
@@ -226,6 +230,9 @@ export enum GatewayName {
   LwM2M = 'lwm2m',
   MQTT_SN = 'mqttsn',
   STOMP = 'stomp',
+  GBT32960 = 'gbt32960',
+  JT808 = 'jt808',
+  OCPP = 'ocpp',
 }
 
 /**
@@ -244,6 +251,8 @@ export enum ListenerTypeForGateway {
   UDP = 'udp',
   SSL = 'ssl',
   DTLS = 'dtls',
+  WS = 'ws',
+  WSS = 'wss',
 }
 
 export enum ListenerAction {
@@ -324,6 +333,13 @@ export const enum TraceEncodeType {
   Hidden = 'hidden',
 }
 
+export const enum LDAPAuthMethod {
+  Bind = 'bind',
+  Hash = 'hash',
+}
+
+/* EE exclusive 👇🏻 */
+
 export enum LicenseCustomerType {
   Small = 0,
   Medium,
@@ -339,6 +355,7 @@ export enum Role {
 export const enum UserRole {
   Admin = 'administrator',
   Readonly = 'viewer',
+  Publisher = 'publisher',
 }
 
 export const enum DetailTab {
