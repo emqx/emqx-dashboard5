@@ -116,7 +116,6 @@ import { BridgeDirection, BridgeType } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
@@ -128,11 +127,10 @@ const props = defineProps<{
   type?: string
 }>()
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 const createBridgeData = () => ({})
 const router = useRouter()
 const route = useRoute()
-const { t } = useI18n()
 const { bridgeTypeOptions } = useBridgeTypeOptions()
 const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
 const submitLoading = ref(false)
