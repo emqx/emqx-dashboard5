@@ -24,14 +24,18 @@
           <ConnectorMqttConfig v-model="mqttBridgeVal" :edit="edit" :copy="copy" />
         </el-col>
       </el-row>
-      <div class="direction">
+      <div class="direction" v-if="showIngress">
         <label>{{ tl('ingress') }}</label>
         <InfoTooltip :content="tl('ingressHelp')" />
         <p class="payload-desc">{{ tl('ingressDesc') }}</p>
-        <el-switch v-model="enableIngress" @change="handleIngressChanged" />
+        <el-switch
+          v-if="showDirectionSwitch"
+          v-model="enableIngress"
+          @change="handleIngressChanged"
+        />
         <el-collapse-transition>
           <div v-show="enableIngress">
-            <el-card class="with-border" shadow="never">
+            <el-card class="with-border" shadow="never" v-if="showIngressLocalTopic">
               <el-row class="direction-body" :gutter="52">
                 <el-col :span="12">
                   <label>{{ tl('remoteBroker') }}</label>
@@ -60,6 +64,24 @@
                 </el-col>
               </el-row>
             </el-card>
+            <el-row :gutter="26" v-else>
+              <el-col :span="12">
+                <el-form-item label="QoS">
+                  <el-select v-model="mqttBridgeVal.ingress.remote.qos">
+                    <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :prop="['ingress', 'remote', 'topic']" :required="enableIngress">
+                  <template #label>
+                    <label>{{ t('Base.topic') }}</label>
+                    <InfoTooltip :content="tl('ingressRemoteTopicDesc')" />
+                  </template>
+                  <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-row :gutter="26">
               <el-col :span="12">
                 <el-form-item :prop="['ingress', 'pool_size']">
@@ -77,14 +99,18 @@
           </div>
         </el-collapse-transition>
       </div>
-      <div class="direction">
+      <div class="direction" v-if="showEgress">
         <label>{{ tl('egress') }}</label>
         <InfoTooltip :content="tl('egressHelp')" />
         <p class="payload-desc">{{ tl('egressDesc') }}</p>
-        <el-switch v-model="enableEgress" @change="handleEgressChanged" />
+        <el-switch
+          v-if="showDirectionSwitch"
+          v-model="enableEgress"
+          @change="handleEgressChanged"
+        />
         <el-collapse-transition>
           <div v-show="enableEgress">
-            <el-card class="with-border" shadow="never">
+            <el-card class="with-border" shadow="never" v-if="showEgressTopic">
               <el-row class="direction-body" :gutter="52">
                 <el-col :span="12">
                   <label>{{ tl('remoteBroker') }}</label>
@@ -108,6 +134,15 @@
                 </el-col>
               </el-row>
             </el-card>
+            <MQTTBridgeTransConfiguration
+              v-else
+              v-model="mqttBridgeVal.egress.remote"
+              path="egress.remote"
+              :direction="MQTTBridgeDirection.Out"
+              :topic-desc="tl('egressRemoteTopicDesc')"
+              :disabled="disabled"
+              :col-span="12"
+            />
             <el-row :gutter="26">
               <el-col :span="12">
                 <el-form-item :prop="['egress', 'pool_size']">
@@ -176,7 +211,7 @@ import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MQTTBridgeDirection } from '@/types/enum'
+import { BridgeDirection, MQTTBridgeDirection } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import _ from 'lodash'
@@ -218,13 +253,27 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  singleDirection: {
+    type: [Boolean, Number] as PropType<boolean | BridgeDirection>,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:modelValue', 'init'])
 
+const showIngress = computed(
+  () => props.singleDirection === false || props.singleDirection === BridgeDirection.Ingress,
+)
+const showIngressLocalTopic = computed(() => mqttBridgeVal.value?.ingress?.local?.topic)
+const showEgress = computed(
+  () => props.singleDirection === false || props.singleDirection === BridgeDirection.Egress,
+)
+const showEgressTopic = computed(() => mqttBridgeVal.value?.egress?.local?.topic)
+const showDirectionSwitch = computed(() => props.singleDirection === false)
+
 const { createRawMQTTForm: createMQTTBridgeDefaultVal } = useBridgeFormCreator()
 const mqttBridgeVal: Ref<MQTTBridge> = ref(createMQTTBridgeDefaultVal() as any)
-const enableIngress = ref(false)
-const enableEgress = ref(false)
+const enableIngress = ref(showDirectionSwitch.value ? false : showIngress.value)
+const enableEgress = ref(showDirectionSwitch.value ? false : showEgress.value)
 
 /**
  * If the ingress/egress configuration was enabled before and then turned off,
@@ -366,8 +415,10 @@ defineExpose({ validate, clearValidate })
     margin: 12px 0 14px 0;
     line-height: 1.6;
   }
+  .el-switch {
+    margin-bottom: 12px;
+  }
   .el-card {
-    margin-top: 12px;
     margin-bottom: 16px;
 
     :deep(.el-card__body) {

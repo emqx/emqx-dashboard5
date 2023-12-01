@@ -71,3 +71,7 @@ export const reconnectActionForNode = (node: string, id: string): Promise<void> 
 export const getActionMetrics = (id: string): Promise<BridgeMetricsData> => {
   return http.get(`/actions/${id}/metrics`)
 }
+
+export const resetActionMetrics = (id: string): Promise<void> => {
+  return http.put(`/actions/${id}/metrics/reset`)
+}

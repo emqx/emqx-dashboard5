@@ -7,7 +7,6 @@ import {
   QoSLevel,
   SchemaRegistryType,
 } from './enum'
-import { Merge } from 'type-fest'
 
 export interface NodeStatus {
   node: string
