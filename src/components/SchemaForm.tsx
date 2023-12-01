@@ -438,6 +438,11 @@ const SchemaForm = defineComponent({
         }
         case 'ssl': {
           const ConfComponent = getSSLComponent(property)
+          // do not show component is record is loading
+          // otherwise will influent the component to judge which component should be displaed
+          if (props.recordLoading) {
+            return <></>
+          }
           return (
             <ConfComponent
               modelValue={modelValue}
