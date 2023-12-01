@@ -179,21 +179,21 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import {
-  useBridgeTypeIcon,
-  useBridgeTypeOptions,
-  useBridgeTypeValue,
+useBridgeTypeIcon,
+useBridgeTypeOptions,
+useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection,BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { Ref, computed, defineProps, ref, defineExpose } from 'vue'
+import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
@@ -206,11 +206,10 @@ const props = defineProps<{
   type?: string
 }>()
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 const createBridgeData = () => ({})
 const router = useRouter()
 const route = useRoute()
-const { t } = useI18n()
 const { bridgeTypeOptions, searchQuery, getFilterBridgeOptions } = useBridgeTypeOptions()
 const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
