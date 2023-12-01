@@ -68,9 +68,12 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <div class="emq-table-footer">
-      <commonPagination :meta-data="pageMeta" @load-page="loadBackupFiles" />
-    </div> -->
+    <div class="emq-table-footer">
+      <common-pagination
+        @loadPage="loadBackupFiles"
+        v-model:metaData="pageMeta"
+      ></common-pagination>
+    </div>
   </div>
 </template>
 
@@ -80,7 +83,7 @@ import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
 import { ref } from 'vue'
 import { Upload, Plus } from '@element-plus/icons-vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-// import commonPagination from '@/components/commonPagination.vue'
+import commonPagination from '@/components/commonPagination.vue'
 import {
   getBackups,
   createBackup,
@@ -88,7 +91,7 @@ import {
   restoreBackup,
   downloadBackup,
 } from '@/api/systemModule'
-// import { PageData } from '@/types/common'
+import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { formatSizeUnit, createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import moment from 'moment'
@@ -104,33 +107,38 @@ const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
 
 const store = useStore()
-const { pageParams } = usePaginationWithHasNext()
+const { pageParams, pageMeta, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { t, tl } = useI18nTl('General')
 
-const loadBackupFiles = async (
-  params = {
-    limit: 1000,
-  },
-) => {
+const loadBackupFiles = async (params = {}) => {
   isTableLoading.value = true
   const sendParams = { ...pageParams.value, ...params }
   try {
-    const { data } = await getBackups(sendParams)
+    const { data, meta } = await getBackups(sendParams)
     backupList.value = data as BackupItem[]
+    if (meta) {
+      setPageMeta(meta as PageData)
+    }
   } catch (error) {
     // ignore error
+    initPageMeta()
   } finally {
     isTableLoading.value = false
   }
 }
 loadBackupFiles()
 
+const refreshListData = () => {
+  initPageMeta()
+  loadBackupFiles()
+}
+
 const handleCreateBackup = async () => {
   createLoading.value = true
   try {
     await createBackup()
     ElMessage.success(tl('createBackupSuccess'))
-    loadBackupFiles()
+    refreshListData()
   } catch (error) {
     // error
   } finally {
@@ -173,7 +181,7 @@ const handleDeleteBackup = async ({ filename }: BackupItem) => {
         try {
           await deleteBackup(filename)
           ElMessage.success(t('Base.deleteSuccess'))
-          loadBackupFiles()
+          refreshListData()
           done()
         } catch (error) {
           done()

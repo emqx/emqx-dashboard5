@@ -179,9 +179,9 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import {
-useBridgeTypeIcon,
-useBridgeTypeOptions,
-useBridgeTypeValue,
+  useBridgeTypeIcon,
+  useBridgeTypeOptions,
+  useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
