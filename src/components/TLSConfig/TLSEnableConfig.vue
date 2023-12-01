@@ -1,6 +1,6 @@
 <template>
   <div class="TLS-enable-config">
-    <el-form-item :label="verifyLabel || $t('Base.tlsVerify')">
+    <el-form-item v-if="!hideVerify" :label="verifyLabel || $t('Base.tlsVerify')">
       <el-switch
         v-model="record.verify"
         :disabled="readonly || disabledVerify"
@@ -143,6 +143,10 @@ const props = defineProps({
     default: false,
   },
   disabledVerify: {
+    type: Boolean,
+    default: false,
+  },
+  hideVerify: {
     type: Boolean,
     default: false,
   },

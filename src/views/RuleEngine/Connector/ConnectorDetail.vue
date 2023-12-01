@@ -35,6 +35,7 @@
               :is="formCom"
               v-model="connectorData"
               :type="generalType"
+              :is-loading="isLoading"
               edit
             />
           </div>
