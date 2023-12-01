@@ -424,7 +424,14 @@ const addLabelForProps = (props: Properties) => {
     if (value.key === 'mqtt_topic') {
       value.description = getText('consumer_mqtt_topic.desc')
     }
-    value.label = getText(`${value.key}.label`)
+    if (value.key === 'kafka_topic') {
+      value.description = getText('topic.desc')
+    }
+    if (value.key === 'kafka_topic') {
+      value.label = getText('topic.label')
+    } else {
+      value.label = getText(`${value.key}.label`)
+    }
   })
   return props
 }

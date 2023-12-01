@@ -43,6 +43,7 @@ export const SinkType = {
   HTTP: BridgeType.Webhook,
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
   Kafka: BridgeType.KafkaProducer,
+  Confluent: BridgeType.Confluent,
   GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Egress),
   MySQL: BridgeType.MySQL,
   Redis: BridgeType.Redis,
