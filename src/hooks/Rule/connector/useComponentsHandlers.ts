@@ -82,9 +82,7 @@ export default (
     'certfile',
     'keyfile',
   ]
-  const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-
+  const azureEventHubsHandler: Handler = ({ components, rules }) => {
     const { authentication, ssl } = components
 
     const { password } = authentication?.properties || {}
@@ -101,9 +99,21 @@ export default (
     return { components, rules }
   }
 
+  const confluentHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+
+    if (components?.ssl) {
+      components.ssl.properties = pick(components.ssl.properties, neededSSLConfig) as Properties
+      components.ssl.componentProps = { hideVerify: true }
+    }
+
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.KafkaProducer, kafkaProducerHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
+    [BridgeType.Confluent, confluentHandler],
   ])
 
   const getComponentsHandler = () => {
