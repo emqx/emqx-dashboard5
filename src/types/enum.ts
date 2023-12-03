@@ -101,7 +101,7 @@ export enum BridgeDirection {
 }
 
 export enum BridgeType {
-  Webhook = 'webhook',
+  Webhook = 'http',
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
