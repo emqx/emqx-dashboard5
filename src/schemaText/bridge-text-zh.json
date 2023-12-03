@@ -1,0 +1,72 @@
+{
+  "emqx_connector_schema_lib": {
+    "auto_reconnect": {
+      "desc": "已弃用。自动重连数据库。",
+      "label": "已弃用。自动重连数据库"
+    },
+    "password": {
+      "desc": "相关联的外部数据库中，用于认证或识别的密码。",
+      "label": "密码"
+    },
+    "pool_size": {
+      "desc": "桥接远端服务时使用的连接池大小。",
+      "label": "连接池大小"
+    },
+    "prepare_statement": {
+      "desc": "SQL 预处理语句列表。",
+      "label": "SQL 预处理语句列表"
+    },
+    "ssl": {
+      "desc": "启用 SSL 连接。",
+      "label": "启用SSL"
+    },
+    "username": {
+      "desc": "相关联的外部数据库中，用于认证或识别的用户名。",
+      "label": "用户名"
+    },
+    "database": {
+      "desc": "数据库名字。",
+      "label": "数据库名字"
+    },
+    "description": {
+      "label": "描述"
+    }
+  },
+  "emqx_ee_bridge_http": {
+    "url": {
+      "label": "URL",
+      "desc": ""
+    },
+    "headers": {
+      "label": "请求头",
+      "desc": ""
+    },
+    "enable_pipelining": {
+      "label": "HTTP 管道"
+    },
+    "pool_size": {
+      "label": "连接池大小"
+    },
+    "pool_type": {
+      "label": "连接池类型"
+    },
+    "connect_timeout": {
+      "label": "连接超时"
+    },
+    "body": {
+      "label": "请求体",
+      "desc": ""
+    },
+    "method": {
+      "label": "请求方法"
+    },
+    "path": {
+      "label": "URL 路径",
+      "desc": ""
+    },
+    "max_retries": {
+      "label": "最大重试次数",
+      "desc": ""
+    }
+  }
+}
