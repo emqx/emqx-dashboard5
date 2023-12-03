@@ -16,7 +16,7 @@
     <el-form-item prop="rule.sql" :label="tl('trigger')" class="item-trigger">
       <Trigger ref="TriggerCom" v-model="formData.rule.sql" />
     </el-form-item>
-    <el-form-item :label="tl('method')" prop="bridge.method">
+    <el-form-item :label="getLabel('method')" prop="bridge.method">
       <el-select v-model="formData.bridge.method">
         <el-option
           v-for="item in ['post', 'get', 'put', 'delete']"
@@ -49,7 +49,7 @@
       <div v-if="isAdvancedShow">
         <BridgeResourceOpt v-model="formData.bridge.resource_opts" :col-span="24" />
         <CommonTLSConfig class="tls-config-form" v-model="formData.bridge.ssl" :is-edit="isEdit" />
-        <el-form-item :label="tl('connTimeout')">
+        <el-form-item :label="getLabel('connect_timeout')">
           <TimeInputWithUnitSelect
             v-model="formData.bridge.connect_timeout"
             :enabled-units="['s']"
@@ -58,12 +58,12 @@
         <el-form-item :label="tl('connectionPoolSize')" required prop="bridge.pool_size">
           <el-input v-model.number="formData.bridge.pool_size" />
         </el-form-item>
-        <el-form-item :label="tl('poolType')" prop="bridge.pool_type">
+        <el-form-item :label="getLabel('pool_type')" prop="bridge.pool_type">
           <el-select v-model="formData.bridge.pool_type">
             <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="tl('httpPipeline')">
+        <el-form-item :label="getLabel('enable_pipelining')">
           <CustomInputNumber v-model="formData.bridge.enable_pipelining" />
         </el-form-item>
       </div>
@@ -118,6 +118,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
+const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_http.${key}`)
+const getLabel = (key: string) => getText(`${key}.label`)
 const FormCom = ref()
 const TriggerCom = ref()
 
