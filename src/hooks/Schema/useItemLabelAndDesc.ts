@@ -39,20 +39,15 @@ const COMMON_CONNECTOR_KEY = [
   'ssl',
   'username',
   'database',
+  'description',
 ]
-
-const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
-  matrix: 'pgsql',
-  timescale: 'pgsql',
-}
-
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
 } => {
   const { t, te } = useI18n()
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key.toString()
+    return te(textKey) ? t(textKey) : key?.toString()
   }
   return {
     getOptLabel,
@@ -84,8 +79,8 @@ export default (
 
   const getLogItemTextKey = ({ key, path }: Property) => {
     const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(([, value]) =>
-        value.includes(key as string),
+      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(
+        ([, value]) => value.includes(path as string) || value.includes(key as string),
       )?.[0] || LOG_DEFAULT_PREFIX
     return `${getConfigurationTextZone()}.${prefix}${key}`
   }
@@ -108,7 +103,7 @@ export default (
     if (func && isFunction(func)) {
       return func(prop)
     }
-    return undefined
+    return prop.path
   }
 
   const { getTypeBySchemaRef } = useBridgeSchema()
@@ -122,18 +117,19 @@ export default (
     if (prop.path && prop.path.indexOf('resource_opt') > -1) {
       return `emqx_resource_schema`
     }
-    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key)) {
+    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
     }
-    let type = getTypeBySchemaRef(props.accordingTo.ref)
-    if (type in BRIDGE_SPECIAL_TYPE_MAP) {
-      type = BRIDGE_SPECIAL_TYPE_MAP[type]
-    }
+    const type = getTypeBySchemaRef(props.accordingTo.ref)
     return `emqx_ee_bridge_${type}`
   }
 
+  const getBridgeTextKey = (prop: Property) => {
+    return prop.labelKey || prop.key
+  }
+
   const getBridgeFormItemTextKey = (prop: Property) => {
-    return `${getBridgeTextZone(prop)}.${prop.key}`
+    return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`
   }
 
   const getTextKey = (prop: Property) => {
@@ -144,6 +140,19 @@ export default (
 
   const specialProcess = (prop: Property) => {
     // Some special handling for the enterprise version
+    if (props.type !== 'bridge') {
+      return undefined
+    }
+    switch (prop.path) {
+      case 'name':
+        return { label: t('RuleEngine.name'), desc: '' }
+      case 'connector':
+        return { label: t('components.connector'), desc: '' }
+      case 'enable':
+        return { label: t('Base.enable'), desc: '' }
+      case 'type':
+        return { label: t('RuleEngine.actionType'), desc: '' }
+    }
     return undefined
   }
 

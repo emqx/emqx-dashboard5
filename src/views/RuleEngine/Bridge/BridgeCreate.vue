@@ -36,17 +36,19 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-http-config
-                v-if="chosenBridgeType === BridgeType.Webhook"
+              <bridge-mqtt-config
+                v-if="chosenBridgeType === BridgeType.MQTT"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
               />
-              <bridge-mqtt-config
-                v-else-if="chosenBridgeType === BridgeType.MQTT"
+              <using-schema-bridge-config
+                v-else-if="
+                  chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
+                "
+                :type="chosenBridgeType"
                 v-model="bridgeData"
                 ref="formCom"
-                :copy="isCopy"
               />
             </div>
           </template>
@@ -83,16 +85,17 @@
       </el-card>
     </div>
     <div v-else>
-      <bridge-http-config
-        v-if="chosenBridgeType === BridgeType.Webhook"
-        v-model="bridgeData"
-        ref="formCom"
-      />
       <bridge-mqtt-config
-        v-else-if="chosenBridgeType === BridgeType.MQTT"
+        v-if="chosenBridgeType === BridgeType.MQTT"
         v-model="bridgeData"
         ref="formCom"
         :single-direction="BridgeDirection.Egress"
+      />
+      <using-schema-bridge-config
+        v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
+        :type="chosenBridgeType"
+        v-model="bridgeData"
+        ref="formCom"
       />
     </div>
   </div>
@@ -117,8 +120,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 /**
  * props and emit is for use this component in drawer
