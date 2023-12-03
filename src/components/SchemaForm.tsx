@@ -25,9 +25,11 @@ import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import KeyAndValueEditorVue from './KeyAndValueEditor.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
+import CertFileInput from './TLSConfig/CertFileInput.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
 interface FormItemMeta {
@@ -40,6 +42,7 @@ const typesDoNotNeedGroups = ['bridge', 'connector']
 const typesNeedConciseSSL = ['bridge', 'connector']
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
+const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/
 
 const SchemaForm = defineComponent({
   name: 'SchemaForm',
@@ -59,6 +62,7 @@ const SchemaForm = defineComponent({
     CustomInputNumber,
     InputSelect,
     AdvancedSettingContainer,
+    CertFileInput,
   },
   props: {
     accordingTo: {
@@ -150,7 +154,10 @@ const SchemaForm = defineComponent({
      * https://www.figma.com/file/NJrNmLEpcZfYkDv381iGNG/EMQX-Dashboard?node-id=6202%3A76959&mode=dev
      */
     advancedFields: {
-      type: Array as PropType<Array<string>>,
+      type: Array as PropType<Array<string | RegExp>>,
+    },
+    defaultTab: {
+      type: String,
     },
   },
   setup(props, ctx) {
@@ -203,7 +210,7 @@ const SchemaForm = defineComponent({
     const currentGroup = ref(groups.value[0] || tl('basic'))
 
     const initCurrentGroup = () => {
-      currentGroup.value = groups.value[0] || tl('basic')
+      currentGroup.value = props.defaultTab || groups.value[0] || tl('basic')
     }
 
     const validate = () => {
@@ -296,6 +303,16 @@ const SchemaForm = defineComponent({
               />
             )
           }
+          if (property.key && CERT_FIELDS_REG.test(property.key)) {
+            return (
+              <CertFileInput
+                modelValue={modelValue}
+                isEdit={true}
+                {...handleUpdateModelValue}
+                {...customProps}
+              />
+            )
+          }
           return stringInput
         case 'connector':
           return (
@@ -338,6 +355,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
+              {...customProps}
             />
           )
         case 'array':
@@ -473,6 +491,14 @@ const SchemaForm = defineComponent({
               {...customProps}
             />
           )
+        case 'object':
+          return (
+            <KeyAndValueEditorVue
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
+              {...customProps}
+            />
+          )
         default:
           return stringInput
       }
@@ -572,7 +598,12 @@ const SchemaForm = defineComponent({
      * if property with special col span, return it, else return undefined
      */
     const getColSpan = ({ path, format, type }: Property): number | undefined => {
-      if ((path && SSL_PATH_REG.test(path)) || format === 'sql' || type === 'array') {
+      if (
+        (path && SSL_PATH_REG.test(path)) ||
+        format === 'sql' ||
+        type === 'array' ||
+        type === 'object'
+      ) {
         return 24
       }
       return props.formItemSpan
@@ -760,10 +791,9 @@ const SchemaForm = defineComponent({
         }
       }
       ret.sort((pre, next) => {
-        if (pre in propsOrderMap && next in propsOrderMap) {
-          return propsOrderMap[pre] - propsOrderMap[next]
-        }
-        return 0
+        const preOrder = propsOrderMap[pre] ?? 999
+        const nextOrder = propsOrderMap[next] ?? 999
+        return preOrder - nextOrder
       })
       return ret
     }
@@ -833,6 +863,7 @@ const SchemaForm = defineComponent({
         propKeys.forEach((key) => {
           const property = properties[key]
           const propKey = property.key as string
+          const propPath = property.path as string
           // for concise SSL
           // TODO: can delete it after check
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
@@ -862,7 +893,12 @@ const SchemaForm = defineComponent({
             } else if (levelName === oldLevelName) {
               elFormItem = getColFormItem(property)
             }
-            if (props.advancedFields?.length && props.advancedFields.includes(key)) {
+            const isAdvancedField = props.advancedFields?.some(
+              (field) =>
+                (typeof field === 'string' && field === propPath) ||
+                (_.isRegExp(field) && field.test(propPath)),
+            )
+            if (isAdvancedField) {
               advancedFieldElement.push(elFormItem)
             } else {
               elements.push(elFormItem)
@@ -885,12 +921,9 @@ const SchemaForm = defineComponent({
         // Initialize with an empty object, do not modify the loading variable at this point.
         formEle = null
       } else {
-        isSchemaLoading.value = false
-        ctx.emit('schema-loaded')
         formEle = renderLayout(getComponents(properties))
-      }
-      if (props.needFooter) {
-        addObserverToFooter()
+        ctx.emit('schema-loaded')
+        isSchemaLoading.value = false
       }
       if (props.needFooter) {
         addObserverToFooter()
@@ -933,6 +966,7 @@ const SchemaForm = defineComponent({
       },
     )
 
+    // WARNING: If the parent component modifies the object pointed to by `components`, it will cause a dead loop
     watch(components, init)
 
     watch(
