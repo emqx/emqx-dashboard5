@@ -1,0 +1,72 @@
+{
+  "emqx_connector_schema_lib": {
+    "auto_reconnect": {
+      "desc": "Deprecated. Enable automatic reconnect to the database.",
+      "label": "Deprecated. Auto Reconnect Database"
+    },
+    "password": {
+      "desc": "Password used for authentication with the external database.",
+      "label": "Password"
+    },
+    "pool_size": {
+      "desc": "Size of the connection pool towards the bridge target service.",
+      "label": "Connection Pool Size"
+    },
+    "prepare_statement": {
+      "desc": "Key-value list of SQL prepared statements.",
+      "label": "SQL Prepared Statements List"
+    },
+    "ssl": {
+      "desc": "SSL connection settings.",
+      "label": "Enable SSL"
+    },
+    "username": {
+      "desc": "The username in the external database used for authentication or identification purposes.",
+      "label": "Username"
+    },
+    "database": {
+      "desc": "Database name.",
+      "label": "Database Name"
+    },
+    "description": {
+      "label": "Description"
+    }
+  },
+  "emqx_ee_bridge_http": {
+    "url": {
+      "label": "URL",
+      "desc": "The"
+    },
+    "headers": {
+      "label": "Headers",
+      "desc": ""
+    },
+    "enable_pipelining": {
+      "label": "HTTP Pipelining"
+    },
+    "pool_size": {
+      "label": "Connection Pool Size"
+    },
+    "pool_type": {
+      "label": "Pool Type"
+    },
+    "connect_timeout": {
+      "label": "Connect Timeout"
+    },
+    "body": {
+      "label": "Body",
+      "desc": ""
+    },
+    "method": {
+      "label": "Method"
+    },
+    "path": {
+      "label": "URL Path",
+      "desc": ""
+    },
+    "max_retries": {
+      "label": "Max Retries",
+      "desc": ""
+    }
+  }
+}
