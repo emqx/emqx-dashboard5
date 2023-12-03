@@ -26,7 +26,7 @@ export default (): {
       'cacertfile',
       'server_name_indication',
     ]
-    if (!ret.enable) {
+    if (ret.enable === false) {
       ret = omit(ret, checkFields)
     } else {
       checkFields.forEach((key) => {
