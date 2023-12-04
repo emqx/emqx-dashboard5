@@ -1,6 +1,8 @@
-import { getBridgeList as queryBridgeList, getRules as queryRules } from '@/api/ruleengine'
+import { getActions as queryActions } from '@/api/action'
+import { getConnectors as queryConnectors } from '@/api/connector'
+import { getRules as queryRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
-import { BridgeItem, HTTPBridge, RuleItem } from '@/types/rule'
+import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import { Ref, ref } from 'vue'
 import useWebhookUtils from './useWebhookUtils'
@@ -11,18 +13,34 @@ export default (): {
   isEmpty: Ref<boolean>
   getWebhookList: () => Promise<void>
 } => {
-  let bridgeList: Array<HTTPBridge> = []
+  let connectorList: Array<Connector> = []
+  let actionList: Array<HTTPBridge> = []
   let ruleList: Array<RuleItem> = []
   const webhookList: Ref<Array<WebhookItem>> = ref([])
   const isLoading = ref(false)
   const isEmpty = ref(false)
 
-  const { judgeIsWebhookBridge, judgeIsWebhookRule, joiningDataToWebhookList } = useWebhookUtils()
+  const {
+    judgeIsWebhookConnector,
+    judgeIsWebhookAction,
+    judgeIsWebhookRule,
+    joiningDataToWebhookList,
+  } = useWebhookUtils()
 
-  const getBridgeList = async () => {
+  const getConnectors = async () => {
     try {
-      const data: Array<BridgeItem> = await queryBridgeList()
-      bridgeList = data.filter((item) => judgeIsWebhookBridge(item)) as Array<HTTPBridge>
+      const data: Array<Connector> = await queryConnectors()
+      connectorList = data.filter((item) => judgeIsWebhookConnector(item))
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  const getActions = async () => {
+    try {
+      const data: Array<BridgeItem> = await queryActions()
+      actionList = data.filter((item) => judgeIsWebhookAction(item)) as Array<HTTPBridge>
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)
@@ -40,11 +58,11 @@ export default (): {
   }
 
   const getRequiredData = () => {
-    return Promise.all([getBridgeList(), getRuleList()])
+    return Promise.all([getConnectors(), getActions(), getRuleList()])
   }
 
   const joiningData = () => {
-    webhookList.value = joiningDataToWebhookList(bridgeList, ruleList)
+    webhookList.value = joiningDataToWebhookList(connectorList, actionList, ruleList)
     if (!webhookList.value.length) {
       isEmpty.value = true
     }

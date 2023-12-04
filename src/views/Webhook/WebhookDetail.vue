@@ -35,8 +35,8 @@
           <div class="overview-container" v-loading="infoLoading">
             <BridgeItemOverview
               v-if="!infoLoading"
-              :bridge-id="webhookData.bridge.id"
-              :bridge-msg="webhookData.bridge"
+              :bridge-id="webhookData.action.id"
+              :bridge-msg="webhookData.action"
               @reconnect="getWebhookData"
             />
           </div>
@@ -57,7 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { getBridgeInfo, getRuleInfo, updateBridge, updateRules } from '@/api/ruleengine'
+import { getActionDetail, putAction } from '@/api/action'
+import { getConnectorDetail, putConnector } from '@/api/connector'
+import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, getBridgeKey } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
@@ -68,6 +70,7 @@ import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, DetailTab } from '@/types/enum'
+import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -84,16 +87,16 @@ const { t, tl } = useI18nTl('Base')
 const FormCom = ref()
 
 const webhookName = computed(() => route.params.name.toString())
-const bridgeId = computed(() => {
-  const bridgeName = getBridgeNameByName(webhookName.value)
-  return getBridgeKey({ type: BridgeType.Webhook, name: bridgeName })
+const actionId = computed(() => {
+  const actionName = getActionNameByName(webhookName.value)
+  return getBridgeKey({ type: BridgeType.Webhook, name: actionName })
 })
 const ruleId = computed(() => getRuleIdByName(webhookName.value))
 
 const tab = computed(() => route.query.tab && Number(route.query.tab))
 const activeTab = ref(tab.value || DetailTab.Overview)
 
-const { createRawWebhookForm, getRuleIdByName, getBridgeNameByName } = useWebhookForm()
+const { createRawWebhookForm, getRuleIdByName, getActionNameByName } = useWebhookForm()
 const infoLoading = ref(false)
 const webhookData: Ref<WebhookItem> = ref({ ...createRawWebhookForm(), enable: false })
 const isSubmitting = ref(false)
@@ -106,15 +109,18 @@ const getWebhookData = async () => {
   }
   infoLoading.value = true
   try {
-    const [bridgeData, ruleData] = await Promise.all([
-      getBridgeInfo(bridgeId.value),
+    const [connectorData, actionData, ruleData] = await Promise.all([
+      getConnectorDetail(actionId.value),
+      getActionDetail(actionId.value),
       getRuleInfo(ruleId.value),
     ])
+    const action = actionData as HTTPBridge
     webhookData.value = {
       name: webhookName.value,
       rule: ruleData,
-      bridge: bridgeData,
-      enable: getEnableStatus(bridgeData, ruleData),
+      action,
+      connector: connectorData,
+      enable: getEnableStatus(action, ruleData),
     }
   } catch (error) {
     //
@@ -157,8 +163,8 @@ const submit = async () => {
     await FormCom.value.validate()
     const data: any = checkNOmitFromObj(webhookData.value)
     isSubmitting.value = true
-    // Because it is easier to report errors when creating bridge, put it in the front..
-    await updateBridge(bridgeId.value, data.bridge)
+    await putConnector(actionId.value, data.connector)
+    await putAction(actionId.value, data.action)
     await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))
     router.push({ name: 'webhook' })

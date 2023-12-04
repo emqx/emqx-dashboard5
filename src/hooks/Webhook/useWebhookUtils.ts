@@ -3,7 +3,7 @@ import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OtherNodeType } from '@/hooks/Rule/topology/topologyType'
 import useUtilsForTopology from '@/hooks/Rule/topology/useUtilsForTopology'
 import { BridgeType } from '@/types/enum'
-import { BridgeItem, HTTPBridge, RuleItem } from '@/types/rule'
+import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 
 /* 
@@ -12,11 +12,13 @@ import { WebhookItem } from '@/types/webhook'
  */
 
 export default (): {
-  judgeIsWebhookBridge: (bridge: BridgeItem) => boolean
+  judgeIsWebhookConnector: (connector: Connector) => boolean
+  judgeIsWebhookAction: (action: BridgeItem) => boolean
   judgeIsWebhookRule: ({ id }: RuleItem) => boolean
-  getEnableStatus: (bridge: HTTPBridge, rule: RuleItem) => boolean
+  getEnableStatus: (action: HTTPBridge, rule: RuleItem) => boolean
   joiningDataToWebhookList: (
-    httpBridgeList: Array<HTTPBridge>,
+    httpConnectorList: Array<Connector>,
+    httpActionList: Array<HTTPBridge>,
     ruleList: Array<RuleItem>,
   ) => Array<WebhookItem>
 } => {
@@ -25,9 +27,17 @@ export default (): {
   const { judgeOutputType } = useUtilsForTopology()
   const { getBridgeGeneralType } = useBridgeTypeValue()
 
-  const judgeIsWebhookBridge = (bridge: BridgeItem) => {
-    const { type, name } = bridge
+  const judgeIsWebhookConnector = (connector: Connector) => {
+    const { type, name } = connector
     return type === BridgeType.Webhook && webhookTargetReg.test(name)
+  }
+
+  const judgeIsWebhookAction = (action: BridgeItem) => {
+    const { type, name, connector } = action
+    if (!(type === BridgeType.Webhook && webhookTargetReg.test(name))) {
+      return false
+    }
+    return name === connector
   }
 
   const judgeOutputsContainWebhook = (rule: RuleItem) => {
@@ -52,26 +62,33 @@ export default (): {
 
   const getWebhookName = (bridgeName: string) => bridgeName.replace(webhookTargetReg, '')
 
-  const getEnableStatus = (bridge: HTTPBridge, rule: RuleItem) => bridge.enable && rule.enable
+  const getEnableStatus = (action: HTTPBridge, rule: RuleItem) => action.enable && rule.enable
 
   const joiningDataToWebhookList = (
-    httpBridgeList: Array<HTTPBridge>,
+    httpConnectorList: Array<Connector>,
+    httpActionList: Array<HTTPBridge>,
     ruleList: Array<RuleItem>,
   ): Array<WebhookItem> => {
-    const bridgeArr = [...httpBridgeList]
+    const actionArr = [...httpActionList]
     const ruleArr = [...ruleList]
-    return bridgeArr.reduce((arr: Array<WebhookItem>, bridgeItem) => {
-      const { id: bridgeId } = bridgeItem
+    return actionArr.reduce((arr: Array<WebhookItem>, actionItem) => {
+      const { id: actionId } = actionItem
       const ruleIndex = ruleArr.findIndex(
-        ({ actions }) => Array.isArray(actions) && actions.includes(bridgeId),
+        ({ actions }) => Array.isArray(actions) && actions.includes(actionId),
       )
       const rule = ruleIndex !== -1 ? ruleArr.splice(ruleIndex, 1)[0] : undefined
+      const connectorIndex = httpConnectorList.findIndex(
+        ({ name }) => name === actionItem.connector,
+      )
+      const connector =
+        connectorIndex !== -1 ? httpConnectorList.splice(connectorIndex, 1)[0] : undefined
       return arr.concat(
-        rule
+        rule && connector
           ? {
-              name: getWebhookName(bridgeItem.name),
-              enable: getEnableStatus(bridgeItem, rule),
-              bridge: bridgeItem,
+              name: getWebhookName(actionItem.name),
+              enable: getEnableStatus(actionItem, rule),
+              action: actionItem,
+              connector,
               rule,
             }
           : [],
@@ -80,7 +97,8 @@ export default (): {
   }
 
   return {
-    judgeIsWebhookBridge,
+    judgeIsWebhookConnector,
+    judgeIsWebhookAction,
     judgeIsWebhookRule,
     getEnableStatus,
     joiningDataToWebhookList,
