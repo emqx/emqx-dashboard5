@@ -1,4 +1,6 @@
-import { deleteBridge, deleteRules, startStopBridge, updateRules } from '@/api/ruleengine'
+import { deleteAction, putActionEnable } from '@/api/action'
+import { deleteConnector } from '@/api/connector'
+import { deleteRules, updateRules } from '@/api/ruleengine'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { Ref, ref } from 'vue'
@@ -9,7 +11,7 @@ export default (): {
   deleteLoading: Ref<boolean>
   deleteWebhook: (webhook: WebhookItem) => Promise<void>
 } => {
-  const toggleBridgeEnableStatus = startStopBridge
+  const toggleBridgeEnableStatus = putActionEnable
 
   const toggleRuleEnableStatus = async (id: string, enable: boolean) => {
     return updateRules(id, { enable })
@@ -18,7 +20,7 @@ export default (): {
   const toggleWebhookEnableStatus = async (webhook: WebhookItem) => {
     const enable = webhook.enable
     return await Promise.all([
-      toggleBridgeEnableStatus(webhook.bridge.id, enable),
+      toggleBridgeEnableStatus(webhook.action.id, enable),
       toggleRuleEnableStatus(webhook.rule.id, enable),
     ])
   }
@@ -26,7 +28,7 @@ export default (): {
   const { t } = useI18n()
   const deleteLoading = ref(false)
   const deleteWebhook = async (webhook: WebhookItem) => {
-    if (!webhook.bridge.id || !webhook.rule.id) return
+    if (!webhook.action.id || !webhook.rule.id) return
 
     await MB.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
@@ -40,7 +42,8 @@ export default (): {
       // Delete the RuleID
       await deleteRules(webhook.rule.id)
       // Once rule is deleted, delete the Data Bridge
-      await deleteBridge(webhook.bridge.id)
+      await deleteAction(webhook.action.id)
+      await deleteConnector(webhook.connector.id)
       M.success(t('Base.deleteSuccess'))
     } catch (error) {
       // ignore error

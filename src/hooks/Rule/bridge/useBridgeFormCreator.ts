@@ -18,19 +18,16 @@ export default (): {
   const createRawHTTPForm = (): HTTPBridge =>
     ({
       name: '',
-      method: 'post',
-      url: 'http://',
-      headers: { 'content-type': 'application/json' },
-      body: '',
-      pool_type: 'hash',
-      pool_size: 8,
-      enable_pipelining: 100,
-      connect_timeout: '15s',
+      parameters: {
+        method: 'post',
+        path: '',
+        headers: {},
+        body: '${.}',
+      },
       resource_opts: createDefaultResourceOptsForm({
         inflight: true,
         withoutRequestTimeout: false,
       }),
-      ssl: createSSLForm(),
       type: BridgeType.Webhook,
     } as HTTPBridge)
 
