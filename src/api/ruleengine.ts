@@ -1,7 +1,8 @@
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { BRIDGE_OLD_TYPES_MAP, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
 import { ListDataWithPagination } from '@/types/common'
+import { BridgeType } from '@/types/enum'
 import {
   Action,
   BridgeItem,
@@ -38,9 +39,12 @@ export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
   try {
     const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
     // FIXME:FIXME:FIXME: KAFKA
-    for (let index = 0; index < actionList.length; index++) {
-      const actionId = actionList[index].id
-      const bridgeIndex = bridgeList.findIndex((item: BridgeItem) => item.id === actionId)
+    for (const { id: actionId, type: actionType } of actionList) {
+      const bridgeIndex = bridgeList.findIndex(({ id, name }: BridgeItem) => {
+        const oldType = BRIDGE_OLD_TYPES_MAP.get(actionType)
+        const oldId = oldType ? getBridgeKey({ type: oldType as BridgeType, name }) : null
+        return id === actionId || id === oldId
+      })
       if (bridgeIndex > -1) {
         bridgeList.splice(bridgeIndex, 1)
       }
