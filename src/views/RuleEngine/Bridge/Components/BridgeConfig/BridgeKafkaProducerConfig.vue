@@ -26,6 +26,11 @@
           <ConnectorSelect v-model="formData.connector" :type="BridgeType.KafkaProducer" />
         </CustomFormItem>
       </el-col>
+      <el-col :span="colSpan">
+        <CustomFormItem :label="t('Flow.description')" prop="description" :readonly="readonly">
+          <el-input v-model="formData.description" />
+        </CustomFormItem>
+      </el-col>
     </el-row>
     <el-divider />
 

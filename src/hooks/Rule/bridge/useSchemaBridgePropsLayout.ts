@@ -55,6 +55,7 @@ export default (
   const baseOrderMap = {
     name: 0,
     connector: 1,
+    description: 2,
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
@@ -352,31 +353,33 @@ export default (
     return [...commonAdvancedFields, ...externalFields]
   })
 
-  const singleFieldInFirstRowClass = 'dividing-line-below col-need-row'
+  const singleFieldWithLineBelow = 'dividing-line-below col-need-row'
   const getFirstRowClass = () => {
     let connectorClass = ''
     let nameClass = ''
+    let descClass = ''
     if (isConnectorSupported(props.type as BridgeType)) {
       if (props.hideName) {
-        connectorClass = singleFieldInFirstRowClass
+        connectorClass = 'dividing-line-below'
         nameClass = 'col-hidden'
       } else {
-        nameClass = 'dividing-line-below'
+        descClass = singleFieldWithLineBelow
       }
     } else {
-      nameClass = props.hideName ? 'col-hidden' : singleFieldInFirstRowClass
+      nameClass = props.hideName ? 'col-hidden' : singleFieldWithLineBelow
     }
-    return { connectorClass, nameClass }
+    return { nameClass, connectorClass, descClass }
   }
 
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
   const customColClass = computed(() => {
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
-    const { nameClass, connectorClass } = getFirstRowClass()
+    const { nameClass, connectorClass, descClass } = getFirstRowClass()
     return {
       ...syncEtcFieldsClassMap.value,
       name: nameClass,
       connector: connectorClass,
+      description: descClass,
       direction: 'col-hidden',
       type: 'col-hidden',
       enable: 'col-hidden',
