@@ -757,24 +757,73 @@ export interface AuthnMysql {
   ssl?: BrokerSslClientOpts
 }
 
-export interface EmqxAuthnMongodbSchemaMongoSingle {
-  mechanism: EmqxAuthnMongodbSchemaMongoSingleMechanism
-  backend: EmqxAuthnMongodbSchemaMongoSingleBackend
+export type AuthnMongoSingleUseLegacyProtocol =
+  typeof AuthnMongoSingleUseLegacyProtocol[keyof typeof AuthnMongoSingleUseLegacyProtocol]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleUseLegacyProtocol = {
+  auto: 'auto',
+  true: 'true',
+  false: 'false',
+} as const
+
+export type AuthnMongoSingleWMode = typeof AuthnMongoSingleWMode[keyof typeof AuthnMongoSingleWMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleWMode = {
+  unsafe: 'unsafe',
+  safe: 'safe',
+} as const
+
+export type AuthnMongoSingleMongoType =
+  typeof AuthnMongoSingleMongoType[keyof typeof AuthnMongoSingleMongoType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleMongoType = {
+  single: 'single',
+} as const
+
+export type AuthnMongoSinglePasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnMongoSingleFilter = { [key: string]: any }
+
+export type AuthnMongoSingleBackend =
+  typeof AuthnMongoSingleBackend[keyof typeof AuthnMongoSingleBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleBackend = {
+  mongodb: 'mongodb',
+} as const
+
+export type AuthnMongoSingleMechanism =
+  typeof AuthnMongoSingleMechanism[keyof typeof AuthnMongoSingleMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnMongoSingle {
+  mechanism: AuthnMongoSingleMechanism
+  backend: AuthnMongoSingleBackend
   collection: string
-  filter?: EmqxAuthnMongodbSchemaMongoSingleFilter
+  filter?: AuthnMongoSingleFilter
   password_hash_field?: string
   salt_field?: string
   is_superuser_field?: string
-  password_hash_algorithm?: EmqxAuthnMongodbSchemaMongoSinglePasswordHashAlgorithm
+  password_hash_algorithm?: AuthnMongoSinglePasswordHashAlgorithm
   enable?: boolean
   mongo_type: AuthnMongoSingleMongoType
   server: string
-  w_mode?: EmqxAuthnMongodbSchemaMongoSingleWMode
+  w_mode?: AuthnMongoSingleWMode
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: EmqxAuthnMongodbSchemaMongoSingleUseLegacyProtocol
+  use_legacy_protocol?: AuthnMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: MongoTopology

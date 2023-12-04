@@ -606,17 +606,6 @@ export interface ConnectorMqttEgress {
   remote: ConnectorMqttEgressRemote
 }
 
-export type ConnectorHttpRequestHeaders = { [key: string]: any }
-
-export interface ConnectorHttpRequest {
-  method?: string
-  path?: string
-  body?: string
-  headers?: ConnectorHttpRequestHeaders
-  max_retries?: number
-  request_timeout?: string
-}
-
 export type BrokerSslClientOptsServerNameIndication = string | 'disable'
 
 export type BrokerSslClientOptsLogLevel =

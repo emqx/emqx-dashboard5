@@ -388,12 +388,6 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-  like_clientid?: string
-}
-
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -423,6 +417,12 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers400 = {
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  like_clientid?: string
+}
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   page?: PublicPageParameter
@@ -524,11 +524,6 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   metrics?: EmqxAuthzSchemaResourceMetrics
 }
 
-export interface EmqxAuthzSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthzSchemaMetrics
-}
-
 export interface EmqxAuthzSchemaNodeError {
   node?: string
   error?: string
@@ -553,6 +548,11 @@ export interface EmqxAuthzSchemaMetrics {
   rate?: number
   rate_max?: number
   rate_last5m?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaMetrics
 }
 
 export interface EmqxAuthzSchemaMetricsStatusFields {
