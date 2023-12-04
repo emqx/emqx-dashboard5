@@ -10,11 +10,11 @@ export type PostBridges400 = {
   message?: string
 }
 
-export type PostBridges201 = BridgeWebhookGet | BridgeMqttGet
+export type PostBridges201 = BridgeHttpGet | BridgeMqttGet
 
-export type PostBridgesBody = BridgeWebhookPost | BridgeMqttPost
+export type PostBridgesBody = BridgeHttpPost | BridgeMqttPost
 
-export type GetBridges200Item = BridgeWebhookGet | BridgeMqttGet
+export type GetBridges200Item = BridgeHttpGet | BridgeMqttGet
 
 export type PostBridgesIdOperation503Code =
   typeof PostBridgesIdOperation503Code[keyof typeof PostBridgesIdOperation503Code]
@@ -92,9 +92,9 @@ export type PutBridgesId400 = {
   message?: string
 }
 
-export type PutBridgesId200 = BridgeWebhookGet | BridgeMqttGet
+export type PutBridgesId200 = BridgeHttpGet | BridgeMqttGet
 
-export type PutBridgesIdBody = BridgeWebhookPut | BridgeMqttPut
+export type PutBridgesIdBody = BridgeHttpPut | BridgeMqttPut
 
 export type GetBridgesId404Code = typeof GetBridgesId404Code[keyof typeof GetBridgesId404Code]
 
@@ -108,7 +108,7 @@ export type GetBridgesId404 = {
   message?: string
 }
 
-export type GetBridgesId200 = BridgeWebhookGet | BridgeMqttGet
+export type GetBridgesId200 = BridgeHttpGet | BridgeMqttGet
 
 export type DeleteBridgesId503Code =
   typeof DeleteBridgesId503Code[keyof typeof DeleteBridgesId503Code]
@@ -219,7 +219,7 @@ export type PostBridgesProbe400 = {
   message?: string
 }
 
-export type PostBridgesProbeBody = BridgeWebhookPost | BridgeMqttPost
+export type PostBridgesProbeBody = BridgeHttpPost | BridgeMqttPost
 
 export type PostNodesNodeBridgesIdOperation503Code =
   typeof PostNodesNodeBridgesIdOperation503Code[keyof typeof PostNodesNodeBridgesIdOperation503Code]
@@ -329,17 +329,6 @@ export interface ConnectorMqttEgress {
   remote: ConnectorMqttEgressRemote
 }
 
-export type ConnectorHttpRequestHeaders = { [key: string]: any }
-
-export interface ConnectorHttpRequest {
-  method?: string
-  path?: string
-  body?: string
-  headers?: ConnectorHttpRequestHeaders
-  max_retries?: number
-  request_timeout?: string
-}
-
 export type BrokerSslClientOptsServerNameIndication = string | 'disable'
 
 export type BrokerSslClientOptsLogLevel =
@@ -425,237 +414,6 @@ export interface BridgeMetrics {
 export interface BridgeNodeMetrics {
   node?: string
   metrics?: BridgeMetrics
-}
-
-export type BridgeWebhookPutHeaders = { [key: string]: any }
-
-export type BridgeWebhookPutMethod =
-  typeof BridgeWebhookPutMethod[keyof typeof BridgeWebhookPutMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPutMethod = {
-  post: 'post',
-  put: 'put',
-  get: 'get',
-  delete: 'delete',
-} as const
-
-/**
- * @deprecated
- */
-export type BridgeWebhookPutDirection =
-  typeof BridgeWebhookPutDirection[keyof typeof BridgeWebhookPutDirection]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPutDirection = {
-  egress: 'egress',
-} as const
-
-export type BridgeWebhookPutPoolType =
-  typeof BridgeWebhookPutPoolType[keyof typeof BridgeWebhookPutPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPutPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
-export interface BridgeWebhookPut {
-  enable?: boolean
-  resource_opts?: BridgeWebhookCreationOpts
-  connect_timeout?: string
-  /** @deprecated */
-  retry_interval?: string
-  pool_type?: BridgeWebhookPutPoolType
-  pool_size?: number
-  enable_pipelining?: number
-  request?: ConnectorHttpRequest
-  ssl?: BrokerSslClientOpts
-  url: string
-  /** @deprecated */
-  direction?: BridgeWebhookPutDirection
-  local_topic?: string
-  method?: BridgeWebhookPutMethod
-  headers?: BridgeWebhookPutHeaders
-  body?: string
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-}
-
-export type BridgeWebhookPostHeaders = { [key: string]: any }
-
-export type BridgeWebhookPostMethod =
-  typeof BridgeWebhookPostMethod[keyof typeof BridgeWebhookPostMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPostMethod = {
-  post: 'post',
-  put: 'put',
-  get: 'get',
-  delete: 'delete',
-} as const
-
-/**
- * @deprecated
- */
-export type BridgeWebhookPostDirection =
-  typeof BridgeWebhookPostDirection[keyof typeof BridgeWebhookPostDirection]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPostDirection = {
-  egress: 'egress',
-} as const
-
-export type BridgeWebhookPostPoolType =
-  typeof BridgeWebhookPostPoolType[keyof typeof BridgeWebhookPostPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPostPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
-export type BridgeWebhookPostType = typeof BridgeWebhookPostType[keyof typeof BridgeWebhookPostType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookPostType = {
-  webhook: 'webhook',
-} as const
-
-export type BridgeWebhookGetHeaders = { [key: string]: any }
-
-export type BridgeWebhookGetMethod =
-  typeof BridgeWebhookGetMethod[keyof typeof BridgeWebhookGetMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookGetMethod = {
-  post: 'post',
-  put: 'put',
-  get: 'get',
-  delete: 'delete',
-} as const
-
-/**
- * @deprecated
- */
-export type BridgeWebhookGetDirection =
-  typeof BridgeWebhookGetDirection[keyof typeof BridgeWebhookGetDirection]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookGetDirection = {
-  egress: 'egress',
-} as const
-
-export type BridgeWebhookGetPoolType =
-  typeof BridgeWebhookGetPoolType[keyof typeof BridgeWebhookGetPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookGetPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
-export type BridgeWebhookGetType = typeof BridgeWebhookGetType[keyof typeof BridgeWebhookGetType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookGetType = {
-  webhook: 'webhook',
-} as const
-
-export type BridgeWebhookGetStatus =
-  typeof BridgeWebhookGetStatus[keyof typeof BridgeWebhookGetStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookGetStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeWebhookGet {
-  status?: BridgeWebhookGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeWebhookGetType
-  name: string
-  enable?: boolean
-  resource_opts?: BridgeWebhookCreationOpts
-  connect_timeout?: string
-  /** @deprecated */
-  retry_interval?: string
-  pool_type?: BridgeWebhookGetPoolType
-  pool_size?: number
-  enable_pipelining?: number
-  request?: ConnectorHttpRequest
-  ssl?: BrokerSslClientOpts
-  url: string
-  /** @deprecated */
-  direction?: BridgeWebhookGetDirection
-  local_topic?: string
-  method?: BridgeWebhookGetMethod
-  headers?: BridgeWebhookGetHeaders
-  body?: string
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-}
-
-export type BridgeWebhookCreationOptsRequestTtl = 'infinity' | string
-
-export type BridgeWebhookCreationOptsQueryMode =
-  typeof BridgeWebhookCreationOptsQueryMode[keyof typeof BridgeWebhookCreationOptsQueryMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeWebhookCreationOptsQueryMode = {
-  sync: 'sync',
-  async: 'async',
-} as const
-
-/**
- * @deprecated
- */
-export type BridgeWebhookCreationOptsAutoRestartInterval = string | 'infinity'
-
-export interface BridgeWebhookCreationOpts {
-  worker_pool_size?: number
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-  /** @deprecated */
-  auto_restart_interval?: BridgeWebhookCreationOptsAutoRestartInterval
-  query_mode?: BridgeWebhookCreationOptsQueryMode
-  request_ttl?: BridgeWebhookCreationOptsRequestTtl
-  inflight_window?: number
-  /** @deprecated */
-  enable_queue?: boolean
-  max_buffer_bytes?: string
-}
-
-export interface BridgeWebhookPost {
-  type: BridgeWebhookPostType
-  name: string
-  enable?: boolean
-  resource_opts?: BridgeWebhookCreationOpts
-  connect_timeout?: string
-  /** @deprecated */
-  retry_interval?: string
-  pool_type?: BridgeWebhookPostPoolType
-  pool_size?: number
-  enable_pipelining?: number
-  request?: ConnectorHttpRequest
-  ssl?: BrokerSslClientOpts
-  url: string
-  /** @deprecated */
-  direction?: BridgeWebhookPostDirection
-  local_topic?: string
-  method?: BridgeWebhookPostMethod
-  headers?: BridgeWebhookPostHeaders
-  body?: string
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
 }
 
 export type BridgeMqttPutProtoVer = typeof BridgeMqttPutProtoVer[keyof typeof BridgeMqttPutProtoVer]
@@ -833,4 +591,252 @@ export interface BridgeMqttCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeHttpResourceOptsQueryMode =
+  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
+
+export interface BridgeHttpResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+  /** @deprecated */
+  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
+  query_mode?: BridgeHttpResourceOptsQueryMode
+  request_ttl?: BridgeHttpResourceOptsRequestTtl
+  inflight_window?: number
+  /** @deprecated */
+  enable_queue?: boolean
+  max_buffer_bytes?: string
+}
+
+export type BridgeHttpPutHeaders = { [key: string]: any }
+
+export type BridgeHttpPutMethod = typeof BridgeHttpPutMethod[keyof typeof BridgeHttpPutMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPutMethod = {
+  post: 'post',
+  put: 'put',
+  get: 'get',
+  delete: 'delete',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPutDirection =
+  typeof BridgeHttpPutDirection[keyof typeof BridgeHttpPutDirection]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPutDirection = {
+  egress: 'egress',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPutRequest = { [key: string]: any }
+
+export type BridgeHttpPutPoolType = typeof BridgeHttpPutPoolType[keyof typeof BridgeHttpPutPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPutPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export interface BridgeHttpPut {
+  enable?: boolean
+  description?: string
+  resource_opts?: BridgeHttpResourceOpts
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpPutPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpPutRequest
+  ssl?: BrokerSslClientOpts
+  url: string
+  /** @deprecated */
+  direction?: BridgeHttpPutDirection
+  local_topic?: string
+  method?: BridgeHttpPutMethod
+  headers?: BridgeHttpPutHeaders
+  body?: string
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+}
+
+export type BridgeHttpPostHeaders = { [key: string]: any }
+
+export type BridgeHttpPostMethod = typeof BridgeHttpPostMethod[keyof typeof BridgeHttpPostMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostMethod = {
+  post: 'post',
+  put: 'put',
+  get: 'get',
+  delete: 'delete',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPostDirection =
+  typeof BridgeHttpPostDirection[keyof typeof BridgeHttpPostDirection]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostDirection = {
+  egress: 'egress',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPostRequest = { [key: string]: any }
+
+export type BridgeHttpPostPoolType =
+  typeof BridgeHttpPostPoolType[keyof typeof BridgeHttpPostPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type BridgeHttpPostType = typeof BridgeHttpPostType[keyof typeof BridgeHttpPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostType = {
+  webhook: 'webhook',
+  http: 'http',
+} as const
+
+export interface BridgeHttpPost {
+  type: BridgeHttpPostType
+  name: string
+  enable?: boolean
+  description?: string
+  resource_opts?: BridgeHttpResourceOpts
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpPostPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpPostRequest
+  ssl?: BrokerSslClientOpts
+  url: string
+  /** @deprecated */
+  direction?: BridgeHttpPostDirection
+  local_topic?: string
+  method?: BridgeHttpPostMethod
+  headers?: BridgeHttpPostHeaders
+  body?: string
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+}
+
+export type BridgeHttpGetHeaders = { [key: string]: any }
+
+export type BridgeHttpGetMethod = typeof BridgeHttpGetMethod[keyof typeof BridgeHttpGetMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetMethod = {
+  post: 'post',
+  put: 'put',
+  get: 'get',
+  delete: 'delete',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpGetDirection =
+  typeof BridgeHttpGetDirection[keyof typeof BridgeHttpGetDirection]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetDirection = {
+  egress: 'egress',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpGetRequest = { [key: string]: any }
+
+export type BridgeHttpGetPoolType = typeof BridgeHttpGetPoolType[keyof typeof BridgeHttpGetPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type BridgeHttpGetType = typeof BridgeHttpGetType[keyof typeof BridgeHttpGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetType = {
+  webhook: 'webhook',
+  http: 'http',
+} as const
+
+export type BridgeHttpGetStatus = typeof BridgeHttpGetStatus[keyof typeof BridgeHttpGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeHttpGet {
+  status?: BridgeHttpGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetType
+  name: string
+  enable?: boolean
+  description?: string
+  resource_opts?: BridgeHttpResourceOpts
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpGetPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpGetRequest
+  ssl?: BrokerSslClientOpts
+  url: string
+  /** @deprecated */
+  direction?: BridgeHttpGetDirection
+  local_topic?: string
+  method?: BridgeHttpGetMethod
+  headers?: BridgeHttpGetHeaders
+  body?: string
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
 }
