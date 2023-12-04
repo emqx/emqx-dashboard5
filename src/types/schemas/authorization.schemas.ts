@@ -388,12 +388,6 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-  like_clientid?: string
-}
-
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -423,6 +417,12 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers400 = {
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+  like_clientid?: string
+}
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   page?: PublicPageParameter
@@ -524,11 +524,6 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   metrics?: EmqxAuthzSchemaResourceMetrics
 }
 
-export interface EmqxAuthzSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthzSchemaMetrics
-}
-
 export interface EmqxAuthzSchemaNodeError {
   node?: string
   error?: string
@@ -553,6 +548,11 @@ export interface EmqxAuthzSchemaMetrics {
   rate?: number
   rate_max?: number
   rate_last5m?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaMetrics
 }
 
 export interface EmqxAuthzSchemaMetricsStatusFields {
@@ -884,7 +884,7 @@ export interface AuthzMongoSingle {
   enable?: boolean
   collection: string
   filter?: AuthzMongoSingleFilter
-  mongo_type?: AuthzMongoSingleMongoType
+  mongo_type: AuthzMongoSingleMongoType
   server: string
   w_mode?: AuthzMongoSingleWMode
   srv_record?: boolean
@@ -939,7 +939,7 @@ export interface AuthzMongoSharded {
   enable?: boolean
   collection: string
   filter?: AuthzMongoShardedFilter
-  mongo_type?: AuthzMongoShardedMongoType
+  mongo_type: AuthzMongoShardedMongoType
   servers: string
   w_mode?: AuthzMongoShardedWMode
   srv_record?: boolean
@@ -1000,7 +1000,7 @@ export interface AuthzMongoRs {
   enable?: boolean
   collection: string
   filter?: AuthzMongoRsFilter
-  mongo_type?: AuthzMongoRsMongoType
+  mongo_type: AuthzMongoRsMongoType
   servers: string
   w_mode?: AuthzMongoRsWMode
   r_mode?: AuthzMongoRsRMode

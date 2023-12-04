@@ -230,7 +230,7 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -248,7 +248,7 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameAuthenticationBody =
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -293,7 +293,7 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthentication201 =
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -311,7 +311,7 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -356,7 +356,7 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
-  | AuthnLdapBind
+  | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
@@ -544,10 +544,201 @@ export interface BrokerSslClientOpts {
   server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
-export interface EmqxAuthnMysqlSchemaMysql {
-  mechanism: EmqxAuthnMysqlSchemaMysqlMechanism
-  backend: EmqxAuthnMysqlSchemaMysqlBackend
-  password_hash_algorithm?: EmqxAuthnMysqlSchemaMysqlPasswordHashAlgorithm
+export type AuthnRedisSingleRedisType =
+  typeof AuthnRedisSingleRedisType[keyof typeof AuthnRedisSingleRedisType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSingleRedisType = {
+  single: 'single',
+} as const
+
+export type AuthnRedisSinglePasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnRedisSingleBackend =
+  typeof AuthnRedisSingleBackend[keyof typeof AuthnRedisSingleBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSingleBackend = {
+  redis: 'redis',
+} as const
+
+export type AuthnRedisSingleMechanism =
+  typeof AuthnRedisSingleMechanism[keyof typeof AuthnRedisSingleMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSingleMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnRedisSingle {
+  mechanism: AuthnRedisSingleMechanism
+  backend: AuthnRedisSingleBackend
+  cmd: string
+  password_hash_algorithm?: AuthnRedisSinglePasswordHashAlgorithm
+  enable?: boolean
+  server: string
+  redis_type?: AuthnRedisSingleRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
+
+export type AuthnRedisSentinelRedisType =
+  typeof AuthnRedisSentinelRedisType[keyof typeof AuthnRedisSentinelRedisType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSentinelRedisType = {
+  sentinel: 'sentinel',
+} as const
+
+export type AuthnRedisSentinelPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnRedisSentinelBackend =
+  typeof AuthnRedisSentinelBackend[keyof typeof AuthnRedisSentinelBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSentinelBackend = {
+  redis: 'redis',
+} as const
+
+export type AuthnRedisSentinelMechanism =
+  typeof AuthnRedisSentinelMechanism[keyof typeof AuthnRedisSentinelMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisSentinelMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnRedisSentinel {
+  mechanism: AuthnRedisSentinelMechanism
+  backend: AuthnRedisSentinelBackend
+  cmd: string
+  password_hash_algorithm?: AuthnRedisSentinelPasswordHashAlgorithm
+  enable?: boolean
+  servers: string
+  redis_type?: AuthnRedisSentinelRedisType
+  sentinel: string
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
+
+export type AuthnRedisClusterRedisType =
+  typeof AuthnRedisClusterRedisType[keyof typeof AuthnRedisClusterRedisType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisClusterRedisType = {
+  cluster: 'cluster',
+} as const
+
+export type AuthnRedisClusterPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnRedisClusterBackend =
+  typeof AuthnRedisClusterBackend[keyof typeof AuthnRedisClusterBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisClusterBackend = {
+  redis: 'redis',
+} as const
+
+export type AuthnRedisClusterMechanism =
+  typeof AuthnRedisClusterMechanism[keyof typeof AuthnRedisClusterMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnRedisClusterMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnRedisCluster {
+  mechanism: AuthnRedisClusterMechanism
+  backend: AuthnRedisClusterBackend
+  cmd: string
+  password_hash_algorithm?: AuthnRedisClusterPasswordHashAlgorithm
+  enable?: boolean
+  servers: string
+  redis_type?: AuthnRedisClusterRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
+
+export type AuthnPostgresqlPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnPostgresqlBackend =
+  typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnPostgresqlBackend = {
+  postgresql: 'postgresql',
+} as const
+
+export type AuthnPostgresqlMechanism =
+  typeof AuthnPostgresqlMechanism[keyof typeof AuthnPostgresqlMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnPostgresqlMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnPostgresql {
+  mechanism: AuthnPostgresqlMechanism
+  backend: AuthnPostgresqlBackend
+  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
+  query: string
+  enable?: boolean
+  server: string
+  database: string
+  pool_size?: number
+  username: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
+
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+
+export type AuthnMysqlBackend = typeof AuthnMysqlBackend[keyof typeof AuthnMysqlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMysqlBackend = {
+  mysql: 'mysql',
+} as const
+
+export type AuthnMysqlMechanism = typeof AuthnMysqlMechanism[keyof typeof AuthnMysqlMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMysqlMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnMysql {
+  mechanism: AuthnMysqlMechanism
+  backend: AuthnMysqlBackend
+  password_hash_algorithm?: AuthnMysqlPasswordHashAlgorithm
   query: string
   query_timeout?: string
   enable?: boolean
@@ -561,24 +752,73 @@ export interface EmqxAuthnMysqlSchemaMysql {
   ssl?: BrokerSslClientOpts
 }
 
-export interface EmqxAuthnMongodbSchemaMongoSingle {
-  mechanism: EmqxAuthnMongodbSchemaMongoSingleMechanism
-  backend: EmqxAuthnMongodbSchemaMongoSingleBackend
+export type AuthnMongoSingleUseLegacyProtocol =
+  typeof AuthnMongoSingleUseLegacyProtocol[keyof typeof AuthnMongoSingleUseLegacyProtocol]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleUseLegacyProtocol = {
+  auto: 'auto',
+  true: 'true',
+  false: 'false',
+} as const
+
+export type AuthnMongoSingleWMode = typeof AuthnMongoSingleWMode[keyof typeof AuthnMongoSingleWMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleWMode = {
+  unsafe: 'unsafe',
+  safe: 'safe',
+} as const
+
+export type AuthnMongoSingleMongoType =
+  typeof AuthnMongoSingleMongoType[keyof typeof AuthnMongoSingleMongoType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleMongoType = {
+  single: 'single',
+} as const
+
+export type AuthnMongoSinglePasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
+
+export type AuthnMongoSingleFilter = { [key: string]: any }
+
+export type AuthnMongoSingleBackend =
+  typeof AuthnMongoSingleBackend[keyof typeof AuthnMongoSingleBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleBackend = {
+  mongodb: 'mongodb',
+} as const
+
+export type AuthnMongoSingleMechanism =
+  typeof AuthnMongoSingleMechanism[keyof typeof AuthnMongoSingleMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMongoSingleMechanism = {
+  password_based: 'password_based',
+} as const
+
+export interface AuthnMongoSingle {
+  mechanism: AuthnMongoSingleMechanism
+  backend: AuthnMongoSingleBackend
   collection: string
-  filter?: EmqxAuthnMongodbSchemaMongoSingleFilter
+  filter?: AuthnMongoSingleFilter
   password_hash_field?: string
   salt_field?: string
   is_superuser_field?: string
-  password_hash_algorithm?: EmqxAuthnMongodbSchemaMongoSinglePasswordHashAlgorithm
+  password_hash_algorithm?: AuthnMongoSinglePasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: EmqxAuthnMongodbSchemaMongoSingleMongoType
+  mongo_type: AuthnMongoSingleMongoType
   server: string
-  w_mode?: EmqxAuthnMongodbSchemaMongoSingleWMode
+  w_mode?: AuthnMongoSingleWMode
   srv_record?: boolean
   pool_size?: number
   username?: string
   password?: string
-  use_legacy_protocol?: EmqxAuthnMongodbSchemaMongoSingleUseLegacyProtocol
+  use_legacy_protocol?: AuthnMongoSingleUseLegacyProtocol
   auth_source?: string
   database: string
   topology?: MongoTopology
@@ -645,7 +885,7 @@ export interface AuthnMongoSharded {
   is_superuser_field?: string
   password_hash_algorithm?: AuthnMongoShardedPasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoShardedMongoType
+  mongo_type: AuthnMongoShardedMongoType
   servers: string
   w_mode?: AuthnMongoShardedWMode
   srv_record?: boolean
@@ -720,7 +960,7 @@ export interface AuthnMongoRs {
   is_superuser_field?: string
   password_hash_algorithm?: AuthnMongoRsPasswordHashAlgorithm
   enable?: boolean
-  mongo_type?: AuthnMongoRsMongoType
+  mongo_type: AuthnMongoRsMongoType
   servers: string
   w_mode?: AuthnMongoRsWMode
   r_mode?: AuthnMongoRsRMode
@@ -736,24 +976,25 @@ export interface AuthnMongoRs {
   ssl?: BrokerSslClientOpts
 }
 
-export type AuthnLdapBindBackend = typeof AuthnLdapBindBackend[keyof typeof AuthnLdapBindBackend]
+export type AuthnLdapDeprecatedBackend =
+  typeof AuthnLdapDeprecatedBackend[keyof typeof AuthnLdapDeprecatedBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapBindBackend = {
-  ldap_bind: 'ldap_bind',
+export const AuthnLdapDeprecatedBackend = {
+  ldap: 'ldap',
 } as const
 
-export type AuthnLdapBindMechanism =
-  typeof AuthnLdapBindMechanism[keyof typeof AuthnLdapBindMechanism]
+export type AuthnLdapDeprecatedMechanism =
+  typeof AuthnLdapDeprecatedMechanism[keyof typeof AuthnLdapDeprecatedMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapBindMechanism = {
+export const AuthnLdapDeprecatedMechanism = {
   password_based: 'password_based',
 } as const
 
-export interface AuthnLdapBind {
-  mechanism: AuthnLdapBindMechanism
-  backend: AuthnLdapBindBackend
+export interface AuthnLdapDeprecated {
+  mechanism: AuthnLdapDeprecatedMechanism
+  backend: AuthnLdapDeprecatedBackend
   query_timeout?: string
   enable?: boolean
   server: string
@@ -764,8 +1005,11 @@ export interface AuthnLdapBind {
   filter?: string
   request_timeout?: string
   ssl?: LdapSsl
-  bind_password?: string
+  password_attribute?: string
+  is_superuser_attribute?: string
 }
+
+export type AuthnLdapMethod = AuthnBindMethod | AuthnHashMethod
 
 export type AuthnLdapBackend = typeof AuthnLdapBackend[keyof typeof AuthnLdapBackend]
 
@@ -784,8 +1028,6 @@ export const AuthnLdapMechanism = {
 export interface AuthnLdap {
   mechanism: AuthnLdapMechanism
   backend: AuthnLdapBackend
-  password_attribute?: string
-  is_superuser_attribute?: string
   query_timeout?: string
   enable?: boolean
   server: string
@@ -796,6 +1038,7 @@ export interface AuthnLdap {
   filter?: string
   request_timeout?: string
   ssl?: LdapSsl
+  method?: AuthnLdapMethod
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]
@@ -997,6 +1240,19 @@ export interface AuthnHttpGet {
   ssl?: BrokerSslClientOpts
 }
 
+export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashMethodType = {
+  hash: 'hash',
+} as const
+
+export interface AuthnHashMethod {
+  type?: AuthnHashMethodType
+  password_attribute?: string
+  is_superuser_attribute?: string
+}
+
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]
 
@@ -1021,12 +1277,29 @@ export const AuthnBuiltinDbMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
+
 export interface AuthnBuiltinDb {
   password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
   enable?: boolean
+}
+
+export type AuthnBindMethodType = typeof AuthnBindMethodType[keyof typeof AuthnBindMethodType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBindMethodType = {
+  bind: 'bind',
+} as const
+
+export interface AuthnBindMethod {
+  type?: AuthnBindMethodType
+  bind_password?: string
 }
 
 export type AuthnHashSimpleSaltPosition =
@@ -1094,11 +1367,6 @@ export interface AuthnHashBcryptRw {
   name: AuthnHashBcryptRwName
   salt_rounds?: number
 }
-
-export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcryptRw
 
 export type AuthnHashBcryptName = typeof AuthnHashBcryptName[keyof typeof AuthnHashBcryptName]
 

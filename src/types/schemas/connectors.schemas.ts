@@ -230,3 +230,197 @@ export type PostConnectorsProbe400 = {
   code?: PostConnectorsProbe400Code
   message?: string
 }
+
+export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+
+export type BrokerSslClientOptsLogLevel =
+  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerSslClientOptsVerify =
+  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: BrokerSslClientOptsServerNameIndication
+}
+
+export type BridgeNodeStatusStatus =
+  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeNodeStatusStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeNodeStatus {
+  node?: string
+  status?: BridgeNodeStatusStatus
+  status_reason?: string
+}
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPutConnectorRequest = { [key: string]: any }
+
+export type BridgeHttpPutConnectorPoolType =
+  typeof BridgeHttpPutConnectorPoolType[keyof typeof BridgeHttpPutConnectorPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPutConnectorPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type BridgeHttpPutConnectorHeaders = { [key: string]: any }
+
+export interface BridgeHttpPutConnector {
+  enable?: boolean
+  description?: string
+  url: string
+  headers?: BridgeHttpPutConnectorHeaders
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpPutConnectorPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpPutConnectorRequest
+  ssl?: BrokerSslClientOpts
+}
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpPostConnectorRequest = { [key: string]: any }
+
+export type BridgeHttpPostConnectorPoolType =
+  typeof BridgeHttpPostConnectorPoolType[keyof typeof BridgeHttpPostConnectorPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostConnectorPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type BridgeHttpPostConnectorHeaders = { [key: string]: any }
+
+export type BridgeHttpPostConnectorType =
+  typeof BridgeHttpPostConnectorType[keyof typeof BridgeHttpPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostConnectorType = {
+  http: 'http',
+} as const
+
+export interface BridgeHttpPostConnector {
+  type: BridgeHttpPostConnectorType
+  name: string
+  enable?: boolean
+  description?: string
+  url: string
+  headers?: BridgeHttpPostConnectorHeaders
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpPostConnectorPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpPostConnectorRequest
+  ssl?: BrokerSslClientOpts
+}
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpGetConnectorRequest = { [key: string]: any }
+
+export type BridgeHttpGetConnectorPoolType =
+  typeof BridgeHttpGetConnectorPoolType[keyof typeof BridgeHttpGetConnectorPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetConnectorPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type BridgeHttpGetConnectorHeaders = { [key: string]: any }
+
+export type BridgeHttpGetConnectorType =
+  typeof BridgeHttpGetConnectorType[keyof typeof BridgeHttpGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetConnectorType = {
+  http: 'http',
+} as const
+
+export type BridgeHttpGetConnectorStatus =
+  typeof BridgeHttpGetConnectorStatus[keyof typeof BridgeHttpGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeHttpGetConnector {
+  status?: BridgeHttpGetConnectorStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetConnectorType
+  name: string
+  enable?: boolean
+  description?: string
+  url: string
+  headers?: BridgeHttpGetConnectorHeaders
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeHttpGetConnectorPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  /** @deprecated */
+  request?: BridgeHttpGetConnectorRequest
+  ssl?: BrokerSslClientOpts
+}

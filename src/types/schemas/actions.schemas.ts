@@ -50,6 +50,24 @@ export type PostNodesNodeActionsIdOperation400 = {
   message?: string
 }
 
+export type GetActionsIdMetrics404Code =
+  typeof GetActionsIdMetrics404Code[keyof typeof GetActionsIdMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetActionsIdMetrics404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetActionsIdMetrics404 = {
+  code?: GetActionsIdMetrics404Code
+  message?: string
+}
+
+export type GetActionsIdMetrics200 = {
+  metrics?: BridgeMetrics
+  node_metrics?: BridgeNodeMetrics[]
+}
+
 export type PutActionsId404Code = typeof PutActionsId404Code[keyof typeof PutActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -133,7 +151,7 @@ export type GetActionTypes200Item = typeof GetActionTypes200Item[keyof typeof Ge
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetActionTypes200Item = {
-  '': '',
+  http: 'http',
 } as const
 
 export type PostActionsProbe400Code =
@@ -237,4 +255,169 @@ export const PostActionsIdOperation400Code = {
 export type PostActionsIdOperation400 = {
   code?: PostActionsIdOperation400Code
   message?: string
+}
+
+export type PutActionsIdMetricsReset404Code =
+  typeof PutActionsIdMetricsReset404Code[keyof typeof PutActionsIdMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutActionsIdMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutActionsIdMetricsReset404 = {
+  code?: PutActionsIdMetricsReset404Code
+  message?: string
+}
+
+export type BridgeNodeStatusStatus =
+  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeNodeStatusStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeNodeStatus {
+  node?: string
+  status?: BridgeNodeStatusStatus
+  status_reason?: string
+}
+
+export interface BridgeMetrics {
+  dropped?: number
+  'dropped.other'?: number
+  'dropped.queue_full'?: number
+  'dropped.resource_not_found'?: number
+  'dropped.resource_stopped'?: number
+  matched?: number
+  queuing?: number
+  retried?: number
+  failed?: number
+  inflight?: number
+  success?: number
+  rate?: number
+  rate_max?: number
+  rate_last5m?: number
+  received?: number
+}
+
+export interface BridgeNodeMetrics {
+  node?: string
+  metrics?: BridgeMetrics
+}
+
+export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeHttpResourceOptsQueryMode =
+  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
+
+export interface BridgeHttpResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+  /** @deprecated */
+  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
+  query_mode?: BridgeHttpResourceOptsQueryMode
+  request_ttl?: BridgeHttpResourceOptsRequestTtl
+  inflight_window?: number
+  /** @deprecated */
+  enable_queue?: boolean
+  max_buffer_bytes?: string
+}
+
+export interface BridgeHttpPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
+}
+
+export type BridgeHttpPostBridgeV2Type =
+  typeof BridgeHttpPostBridgeV2Type[keyof typeof BridgeHttpPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostBridgeV2Type = {
+  http: 'http',
+} as const
+
+export type BridgeHttpParametersOptsHeaders = { [key: string]: any }
+
+export type BridgeHttpParametersOptsMethod =
+  typeof BridgeHttpParametersOptsMethod[keyof typeof BridgeHttpParametersOptsMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpParametersOptsMethod = {
+  post: 'post',
+  put: 'put',
+  get: 'get',
+  delete: 'delete',
+} as const
+
+export interface BridgeHttpParametersOpts {
+  path?: string
+  method?: BridgeHttpParametersOptsMethod
+  headers?: BridgeHttpParametersOptsHeaders
+  body?: string
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+}
+
+export interface BridgeHttpPostBridgeV2 {
+  type: BridgeHttpPostBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
+}
+
+export type BridgeHttpGetBridgeV2Type =
+  typeof BridgeHttpGetBridgeV2Type[keyof typeof BridgeHttpGetBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetBridgeV2Type = {
+  http: 'http',
+} as const
+
+export type BridgeHttpGetBridgeV2Status =
+  typeof BridgeHttpGetBridgeV2Status[keyof typeof BridgeHttpGetBridgeV2Status]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetBridgeV2Status = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeHttpGetBridgeV2 {
+  status?: BridgeHttpGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
 }
