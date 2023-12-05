@@ -251,7 +251,7 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.KafkaProducer, ['kafka']],
   /* not supported in dashboard ⬇️ */
   ['redis', ['redis_sentinel', 'redis_cluster', 'redis_single']],
-  ['gcp_pubsub', ['gcp_pubsub_producer']],
+  ['gcp_pubsub_producer', ['gcp_pubsub']],
   ['mongodb', ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
 ])
 
