@@ -51,14 +51,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('useLog')">
-            <el-select v-model="lValue.enable_stats">
-              <el-option :value="true" label="true" />
-              <el-option :value="false" label="false" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
             <TimeInputWithUnitSelect
               v-model="lValue.idle_timeout"
@@ -113,6 +105,11 @@
               :placeholder="lValueDefault.translators.update.topic"
               v-model="lValue.translators.update.topic"
             />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item :label="tl('useLog')">
+            <el-switch v-model="lValue.enable_stats" />
           </el-form-item>
         </el-col>
       </el-row>

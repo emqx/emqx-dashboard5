@@ -4,11 +4,8 @@
       <div>
         <el-row :gutter="30">
           <el-col :span="12">
-            <el-form-item :label="tl('useLog')">
-              <el-select v-model="eValue.enable_stats">
-                <el-option :value="true" label="true" />
-                <el-option :value="false" label="false" />
-              </el-select>
+            <el-form-item :label="tl('mountPoint')">
+              <el-input v-model="eValue.mountpoint" :placeholder="eValueDefault.mountpoint" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -20,15 +17,9 @@
               />
             </el-form-item>
           </el-col>
-        </el-row>
-      </div>
-
-      <!-- Mount Setting -->
-      <div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('mountPoint')">
-              <el-input v-model="eValue.mountpoint" :placeholder="eValueDefault.mountpoint" />
+          <el-col :span="24">
+            <el-form-item :label="tl('useLog')">
+              <el-switch v-model="eValue.enable_stats" />
             </el-form-item>
           </el-col>
         </el-row>

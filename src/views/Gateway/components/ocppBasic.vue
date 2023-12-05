@@ -28,7 +28,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('messageFormatChecking')">
-            <el-input v-model="oValue.message_format_checking" />
+            <el-select v-model="oValue.message_format_checking">
+              <el-option label="All" value="all"></el-option>
+              <el-option label="Upstream Only" value="upstream_only"></el-option>
+              <el-option label="Downstream Only" value="dnstream_only"></el-option>
+              <el-option label="Disable" value="disable"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
