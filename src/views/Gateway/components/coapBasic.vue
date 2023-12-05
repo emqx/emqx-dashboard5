@@ -32,14 +32,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('useLog')">
-            <el-select v-model="cValue.enable_stats">
-              <el-option :value="true" label="true" />
-              <el-option :value="false" label="false" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item :label="tl('subQos')">
             <el-select v-model="cValue.subscribe_qos">
               <el-option value="coap" />
@@ -62,6 +54,11 @@
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
             <el-input v-model="cValue.mountpoint" :placeholder="cValueDefault.mountpoint" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item :label="tl('useLog')">
+            <el-switch v-model="cValue.enable_stats" />
           </el-form-item>
         </el-col>
       </el-row>
