@@ -9,13 +9,6 @@ import { Action, BridgeItem, Connector } from '@/types/rule'
 export default (): {
   getMixedConnectorList: () => Promise<Array<Connector | BridgeItem>>
 } => {
-  const oldNewTypeMap = new Map(
-    [...BRIDGE_OLD_TYPES_MAP].reduce((map, [key, value]) => {
-      map.set(value, key)
-      return map
-    }, new Map([])),
-  )
-
   const getMixedConnectorList = async (): Promise<Array<Connector | BridgeItem>> => {
     try {
       const [connectorList, actionList, bridgeList] = await Promise.all([
@@ -24,15 +17,33 @@ export default (): {
         getBridgeList(),
       ])
       const actionIdArr = actionList.map(({ id }: Action) => id)
-      const bridgeListRemovedAction = bridgeList.filter(({ id, name, type }: Action) => {
-        const newType = oldNewTypeMap.get(type)
-        const isIdIncluded = !actionIdArr.includes(id)
-        const isNewActionIdIncluded = !newType
-          ? false
-          : !actionIdArr.includes(getBridgeKey({ type: newType as BridgeType, name }))
-        return isIdIncluded && isNewActionIdIncluded
-      })
-      return Promise.resolve(connectorList.concat(bridgeListRemovedAction))
+      const bridgeIdArr = bridgeList.map(({ id }: BridgeItem) => id)
+      /**
+       * Supported for v2
+       * When adding a bridge
+       * action + connector is created
+       *
+       * The dashboard will use the bridge item
+       * so you need to remove these connectors
+       */
+      const connectorListRemovedBridge = connectorList.filter(
+        ({ id, type: newType, name }: Connector) => {
+          const oldTypeArr = BRIDGE_OLD_TYPES_MAP.get(newType)
+          const isActionIdIncluded = actionIdArr.includes(id)
+          let isCreatedFromBridge = false
+          if (oldTypeArr) {
+            const oldIdArr = oldTypeArr.map((oldType) =>
+              getBridgeKey({ type: oldType as BridgeType, name }),
+            )
+            isCreatedFromBridge = oldIdArr.some((oldId) => bridgeIdArr.includes(oldId))
+          } else {
+            isCreatedFromBridge = bridgeIdArr.includes(id)
+          }
+
+          return !isCreatedFromBridge && isActionIdIncluded
+        },
+      )
+      return Promise.resolve(connectorListRemovedBridge.concat(bridgeList))
     } catch (error) {
       return Promise.reject(error)
     }
