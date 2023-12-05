@@ -117,7 +117,8 @@ export default (): {
   const testBridgeConnectivity = async (bridge: BridgeItem) => {
     try {
       isTesting.value = true
-      await testConnect(handleBridgeDataBeforeSubmit(bridge))
+      const data = await handleBridgeDataBeforeSubmit(bridge)
+      await testConnect(data)
     } catch (error) {
       //
     } finally {
