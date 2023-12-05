@@ -201,11 +201,6 @@ interface LabelItem {
   zh: string
 }
 
-interface ResourceDictItem {
-  label: LabelItem
-  // typeLabel: LabelItem
-}
-
 const METHOD_PATH_CONNECTOR = ':'
 
 const { t, tl } = useI18nTl('General')
@@ -221,8 +216,8 @@ const sourceTypeOpt = [
   { value: AuditLogFrom.erlang_console, label: tl('console') },
 ]
 const requestResultOpt = [
-  { value: AuditLogOperationResult.success, label: t('Exhook.success') },
-  { value: AuditLogOperationResult.failure, label: t('Exhook.failure') },
+  { value: AuditLogOperationResult.success, label: t('Base.success') },
+  { value: AuditLogOperationResult.failure, label: t('Base.failed') },
 ]
 const langKey = state.lang === 'zh' ? 'zh' : 'en'
 const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
@@ -331,7 +326,8 @@ const getSourceData = (row: AuditLogItem) => {
 const getLogInfo = ({ operation_id, http_method, operation_type }: AuditLogItem) => {
   const key = `${http_method}${METHOD_PATH_CONNECTOR}${operation_id}`
   if (key in resourceDict) {
-    return getLabelFromOpts(key, opNameList)
+    const { label, typeLabel } = resourceDict[key as keyof typeof resourceDict]
+    return `${typeLabel[langKey]}: ${label[langKey]}`
   }
   return `${operation_type}: ${operation_id}`
 }
