@@ -462,7 +462,7 @@ const SchemaForm = defineComponent({
           // do not show component is record is loading
           // otherwise will influent the component to judge which component should be displaed
           if (props.recordLoading) {
-            return <></>
+            return stringInput
           }
           return (
             <ConfComponent

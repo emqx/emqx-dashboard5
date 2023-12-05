@@ -15,6 +15,7 @@ const keysDoNotNeedForAPI = [
   'role',
   'idForRuleFrom',
   'actions',
+  'id',
 ]
 
 const keysNeedDel = {

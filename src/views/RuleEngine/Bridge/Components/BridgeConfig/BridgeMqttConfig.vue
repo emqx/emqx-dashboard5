@@ -66,19 +66,19 @@
             </el-card>
             <el-row :gutter="26" v-else>
               <el-col :span="12">
-                <el-form-item label="QoS">
-                  <el-select v-model="mqttBridgeVal.ingress.remote.qos">
-                    <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
                 <el-form-item :prop="['ingress', 'remote', 'topic']" :required="enableIngress">
                   <template #label>
                     <label>{{ t('Base.topic') }}</label>
                     <InfoTooltip :content="tl('ingressRemoteTopicDesc')" />
                   </template>
                   <el-input v-model="mqttBridgeVal.ingress.remote.topic" placeholder="t/#" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="QoS">
+                  <el-select v-model="mqttBridgeVal.ingress.remote.qos">
+                    <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
