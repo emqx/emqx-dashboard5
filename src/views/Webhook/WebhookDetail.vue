@@ -10,10 +10,15 @@
         </div>
         <div>
           <el-tooltip
-            :content="webhookData.enable ? $t('Base.disable') : $t('Base.enable')"
+            :content="webhookData?.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="webhookData.enable" @change="toggleEnabled" />
+            <el-switch
+              v-if="webhookData"
+              class="enable-btn"
+              v-model="webhookData.enable"
+              @change="toggleEnabled"
+            />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
@@ -34,7 +39,7 @@
         <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview">
           <div class="overview-container" v-loading="infoLoading">
             <BridgeItemOverview
-              v-if="!infoLoading"
+              v-if="!infoLoading && webhookData"
               :bridge-id="webhookData.action.id"
               :bridge-msg="webhookData.action"
               @reconnect="getWebhookData"
@@ -43,7 +48,7 @@
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" lazy>
           <el-card class="detail-card webhook-create-card app-card" v-loading="infoLoading">
-            <WebhookFormCom ref="FormCom" v-model="webhookData" is-edit />
+            <WebhookFormCom v-if="webhookData" ref="FormCom" v-model="webhookData" is-edit />
             <div class="card-ft">
               <el-button :loading="isSubmitting" type="primary" @click="submit">
                 {{ tl('save') }}
@@ -96,9 +101,9 @@ const ruleId = computed(() => getRuleIdByName(webhookName.value))
 const tab = computed(() => route.query.tab && Number(route.query.tab))
 const activeTab = ref(tab.value || DetailTab.Overview)
 
-const { createRawWebhookForm, getRuleIdByName, getActionNameByName } = useWebhookForm()
+const { getRuleIdByName, getActionNameByName } = useWebhookForm()
 const infoLoading = ref(false)
-const webhookData: Ref<WebhookItem> = ref({ ...createRawWebhookForm(), enable: false })
+const webhookData: Ref<WebhookItem | undefined> = ref(undefined)
 const isSubmitting = ref(false)
 
 const { getEnableStatus } = useWebhookUtils()
@@ -132,13 +137,16 @@ const getWebhookData = async () => {
 const { getStatusLabel, getStatusClass } = useRuleStatus()
 const statusData = computed(() => ({
   details: [],
-  statusLabel: getStatusLabel(webhookData.value.enable),
-  statusClass: getStatusClass(webhookData.value.enable),
+  statusLabel: getStatusLabel(webhookData.value?.enable),
+  statusClass: getStatusClass(webhookData.value?.enable),
 }))
 
 const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookItem()
 const toggleEnabled = async () => {
-  const sucMessage = webhookData.value.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
+  if (!webhookData.value) {
+    return
+  }
+  const sucMessage = webhookData.value?.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
     await toggleWebhookEnableStatus(webhookData.value)
     ElMessage.success(t(sucMessage))
@@ -149,6 +157,9 @@ const toggleEnabled = async () => {
 }
 
 const handleDeleteWebhook = async () => {
+  if (!webhookData.value) {
+    return
+  }
   try {
     await deleteWebhook(webhookData.value)
     router.push({ name: 'webhook' })
@@ -159,6 +170,9 @@ const handleDeleteWebhook = async () => {
 
 const { getRuleDataForUpdate } = useRuleForm()
 const submit = async () => {
+  if (!webhookData.value) {
+    return
+  }
   try {
     await FormCom.value.validate()
     const data: any = checkNOmitFromObj(webhookData.value)

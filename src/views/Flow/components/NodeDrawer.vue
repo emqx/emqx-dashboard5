@@ -163,6 +163,8 @@ const existedTopics = computed(() => {
   }, [])
 })
 
+const { isBridgerNode, removeDirectionFromSpecificType } = useFlowNode()
+const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
   [FlowNodeType.Default]: [ProcessingType.Filter],
@@ -183,15 +185,28 @@ const enum DetailTab {
 }
 const activeTab = ref(DetailTab.Setting)
 
-const { isBridgerNode } = useFlowNode()
-const { getFormDataByType, checkFormIsEmpty } = useNodeForm()
-
 const bridgeFormProps = {
   colSpan: 24,
   labelPosition: 'right',
   requireAsteriskPosition: 'left',
   isUsingInFlow: true,
 }
+const schemaProps = {
+  formProps: {
+    labelWidth: '180px',
+    labelPosition: 'right',
+    requireAsteriskPosition: 'left',
+  },
+}
+
+const getSchemaBridgeProps = (type: string) => ({
+  ...bridgeFormProps,
+  ...schemaProps,
+  isUsingInFlow: true,
+  labelWidth: '180px',
+  hiddenFields: ['role'],
+  type: removeDirectionFromSpecificType(type),
+})
 
 const formComponentPropsMap = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
@@ -199,9 +214,14 @@ const formComponentPropsMap = computed(() => ({
   [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },
 }))
-const getFormComponentProps = (type: string) => formComponentPropsMap.value[type] || {}
+const getFormComponentProps = (type: string) => {
+  const ret = formComponentPropsMap.value[type]
+  if (!ret && isUsingSchemaBridgeType(type)) {
+    return getSchemaBridgeProps(type)
+  }
+  return ret || {}
+}
 
 const record: Ref<Record<string, any>> = ref({})
 

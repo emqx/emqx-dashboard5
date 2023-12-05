@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createWebhook'), routeName: 'webhook' }" />
     <el-card class="webhook-create-card app-card">
-      <WebhookFormCom ref="FormCom" v-model="webhook" />
+      <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
       <div class="card-ft">
         <el-button :loading="isSubmitting" type="primary" @click="submit">
           {{ tl('save') }}
@@ -33,7 +33,12 @@ const FormCom = ref()
 
 const { createRawWebhookForm, getRuleIdByName, getActionNameByName } = useWebhookForm()
 
-const webhook: Ref<WebhookForm> = ref(createRawWebhookForm())
+const webhook: Ref<WebhookForm | undefined> = ref(undefined)
+const initForm = async () => {
+  webhook.value = await createRawWebhookForm()
+}
+initForm()
+
 const isSubmitting = ref(false)
 
 const setName = (data: WebhookForm) => {
