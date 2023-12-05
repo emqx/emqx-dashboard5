@@ -1,35 +1,13 @@
 import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSSL from '@/hooks/useSSL'
 import { BridgeDirection, BridgeType } from '@/types/enum'
-import {
-  HTTPBridge,
-  MQTTBridgeEgress,
-  MQTTBridgeIngress,
-  MQTTBridgeTransConfiguration,
-} from '@/types/rule'
+import { MQTTBridgeEgress, MQTTBridgeIngress, MQTTBridgeTransConfiguration } from '@/types/rule'
 
 export default (): {
-  createRawHTTPForm: () => HTTPBridge
   createRawMQTTForm: (direction?: BridgeDirection) => any
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
   const { createSSLForm } = useSSL()
-
-  const createRawHTTPForm = (): HTTPBridge =>
-    ({
-      name: '',
-      parameters: {
-        method: 'post',
-        path: '',
-        headers: {},
-        body: '${.}',
-      },
-      resource_opts: createDefaultResourceOptsForm({
-        inflight: true,
-        withoutRequestTimeout: false,
-      }),
-      type: BridgeType.Webhook,
-    } as HTTPBridge)
 
   const createRawMQTTTransDefaultVal = (): MQTTBridgeTransConfiguration => ({
     topic: '',
@@ -77,7 +55,6 @@ export default (): {
   }
 
   return {
-    createRawHTTPForm,
     createRawMQTTForm,
   }
 }
