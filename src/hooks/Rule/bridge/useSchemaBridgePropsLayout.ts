@@ -110,11 +110,12 @@ export default (
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
   const customColClass = computed(() => {
     const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
-    const { nameClass, connectorClass } = getFirstRowClass()
+    const { nameClass, connectorClass, descClass } = getFirstRowClass()
     return {
       ...syncEtcFieldsClassMap.value,
       name: nameClass,
       connector: connectorClass,
+      description: descClass,
       direction: 'col-hidden',
       type: 'col-hidden',
       enable: 'col-hidden',
