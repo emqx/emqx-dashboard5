@@ -682,3 +682,7 @@ export const arraysAreEqual = <T>(arr1: T[], arr2: T[]): boolean => {
  * add base url
  */
 export const getAPIPath = (url: string) => `${API_BASE_URL}${url}`
+
+export const omitArr = <T>(objectArray: Array<T>, indexArray: Array<number>): Array<T> => {
+  return objectArray.filter((obj, index) => !indexArray.includes(index))
+}

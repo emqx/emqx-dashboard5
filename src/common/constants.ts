@@ -207,11 +207,15 @@ const { VUE_APP_VERSION } = process.env
 export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
 /**
- * Map<oldType, newType>
+ * Map<newType, oldType>
  */
-export const BRIDGE_OLD_TYPES_MAP: Map<BridgeType, string> = new Map([
-  [BridgeType.Webhook, 'webhook'],
-  [BridgeType.KafkaProducer, 'kafka'],
+export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
+  [BridgeType.Webhook, ['webhook']],
+  [BridgeType.KafkaProducer, ['kafka']],
+  /* not supported in dashboard ⬇️ */
+  ['redis', ['redis_sentinel', 'redis_cluster', 'redis_single']],
+  ['gcp_pubsub', ['gcp_pubsub_producer']],
+  ['mongodb', ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
