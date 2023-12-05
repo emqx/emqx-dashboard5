@@ -142,6 +142,7 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
 const { createRequiredRule, createCommonIdRule, createIntFieldRule } = useFormRules()
 const rules: FormRules = {
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
+  'connector.url': createRequiredRule(t('URL')),
   'rule.sql': [
     {
       validator(rules, value) {
@@ -153,6 +154,7 @@ const rules: FormRules = {
       trigger: 'blur',
     },
   ],
+
   'connector.pool_size': [...createIntFieldRule(1)],
 }
 
