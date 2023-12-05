@@ -1038,10 +1038,6 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '近一分钟内消息发出速度趋势',
     en: 'Trend of message sending speed in the past minute',
   },
-  saveAsCopy: {
-    zh: '保存为副本',
-    en: 'Save as copy',
-  },
   connectionPoolSize: {
     zh: '连接池大小',
     en: 'Connection Pool Size',
