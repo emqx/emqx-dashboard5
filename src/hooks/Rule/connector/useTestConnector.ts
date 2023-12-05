@@ -15,10 +15,11 @@ export default (): {
     try {
       isTesting.value = true
       await testConnectorConnectivity(handleConnectorDataBeforeSubmit(connector))
-    } catch (error) {
-      //
-    } finally {
       isTesting.value = false
+      return Promise.resolve()
+    } catch (error) {
+      isTesting.value = false
+      return Promise.reject()
     }
   }
 

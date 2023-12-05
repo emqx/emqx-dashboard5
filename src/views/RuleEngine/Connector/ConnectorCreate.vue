@@ -56,7 +56,7 @@ import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
@@ -155,7 +155,8 @@ const submit = async () => {
 const handleTest = async () => {
   try {
     await customValidate(FormCom.value)
-    testConnectivity(formData.value)
+    await testConnectivity(formData.value)
+    ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
   }

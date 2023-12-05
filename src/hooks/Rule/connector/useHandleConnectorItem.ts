@@ -119,10 +119,11 @@ export default (): {
       isTesting.value = true
       const data = await handleBridgeDataBeforeSubmit(bridge)
       await testConnect(data)
-    } catch (error) {
-      //
-    } finally {
       isTesting.value = false
+      return Promise.resolve()
+    } catch (error) {
+      isTesting.value = false
+      return Promise.reject()
     }
   }
   const testConnectivity = async (data: NowConnector): Promise<void> =>
