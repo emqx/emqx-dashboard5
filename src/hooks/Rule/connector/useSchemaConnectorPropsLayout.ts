@@ -56,6 +56,8 @@ export default (
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
+  const httpAdvancedProps = ['pool_type', 'pool_size', 'connect_timeout', 'enable_pipelining']
+
   const azureAdvancedProps = [
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
@@ -73,6 +75,10 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
+    [BridgeType.Webhook]: {
+      ...createOrderObj(['url', 'headers'], fieldStartIndex),
+      ...createOrderObj(httpAdvancedProps, 150),
+    },
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: azureOrderMap,
   }

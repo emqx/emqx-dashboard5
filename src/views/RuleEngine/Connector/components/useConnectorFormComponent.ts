@@ -18,7 +18,7 @@ export default (
   /**
    * Already supported connector
    */
-  const connectorComMap = new Map([[BridgeType.Webhook, HTTPConfig]])
+  const connectorComMap: Map<string, Component> = new Map([])
   /**
    * do not supported connector
    */

@@ -75,17 +75,8 @@
             :shadow="isFromRule ? 'never' : undefined"
           >
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
-              <bridge-http-config
-                v-if="bridgeType === BridgeType.Webhook"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                :disabled="disabled"
-                :hide-name="hideName"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
               <bridge-mqtt-config
-                v-else-if="bridgeType === BridgeType.MQTT"
+                v-if="bridgeType === BridgeType.MQTT"
                 ref="formCom"
                 v-model="bridgeInfo"
                 :edit="true"
@@ -193,7 +184,6 @@ import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
-import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'

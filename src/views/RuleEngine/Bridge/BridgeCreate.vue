@@ -41,14 +41,8 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-http-config
-                v-if="chosenBridgeType === BridgeType.Webhook"
-                v-model="bridgeData"
-                ref="formCom"
-                :copy="isCopy"
-              />
               <bridge-mqtt-config
-                v-else-if="chosenBridgeType === BridgeType.MQTT"
+                v-if="chosenBridgeType === BridgeType.MQTT"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
@@ -129,13 +123,8 @@
     </div>
     <!-- In the Create/Settings Rule page -->
     <div v-else>
-      <bridge-http-config
-        v-if="chosenBridgeType === BridgeType.Webhook"
-        v-model="bridgeData"
-        ref="formCom"
-      />
       <bridge-mqtt-config
-        v-else-if="chosenBridgeType === BridgeType.MQTT"
+        v-if="chosenBridgeType === BridgeType.MQTT"
         v-model="bridgeData"
         ref="formCom"
         :single-direction="BridgeDirection.Egress"
@@ -195,7 +184,6 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BridgeHttpConfig from './Components/BridgeConfig/BridgeHttpConfig.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 

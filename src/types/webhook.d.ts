@@ -1,8 +1,9 @@
-import { BasicRule, HTTPBridge } from './rule'
+import { BasicRule, ConnectorForm, HTTPBridge } from './rule'
 
 export interface WebhookForm {
-  bridge: HTTPBridge
+  action: HTTPBridge
   rule: BasicRule
+  connector: ConnectorForm
   name: string
 }
 

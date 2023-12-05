@@ -221,7 +221,6 @@ const formComponentPropsMap = computed(() => ({
   [SinkType.RePub]: { isUsingInFlow: true },
   [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
   [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
-  [SinkType.HTTP]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Producer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '152px', isRoleHidden: true },

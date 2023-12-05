@@ -353,22 +353,21 @@ export default (
     return [...commonAdvancedFields, ...externalFields]
   })
 
-  const singleFieldWithLineBelow = 'dividing-line-below col-need-row'
+  const singleFieldInFirstRowClass = 'dividing-line-below col-need-row'
   const getFirstRowClass = () => {
     let connectorClass = ''
     let nameClass = ''
-    let descClass = ''
     if (isConnectorSupported(props.type as BridgeType)) {
       if (props.hideName) {
-        connectorClass = 'dividing-line-below'
+        connectorClass = singleFieldInFirstRowClass
         nameClass = 'col-hidden'
       } else {
-        descClass = singleFieldWithLineBelow
+        nameClass = 'dividing-line-below'
       }
     } else {
-      nameClass = props.hideName ? 'col-hidden' : singleFieldWithLineBelow
+      nameClass = props.hideName ? 'col-hidden' : singleFieldInFirstRowClass
     }
-    return { nameClass, connectorClass, descClass }
+    return { connectorClass, nameClass }
   }
 
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)

@@ -252,7 +252,6 @@ export const BRIDGE_OLD_TYPES_MAP: Map<BridgeType, string> = new Map([
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
-  BridgeType.Webhook,
   BridgeType.MQTT,
   BridgeType.InfluxDB,
   BridgeType.KafkaProducer,

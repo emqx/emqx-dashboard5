@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <detail-header :item="{ name: $t('RuleEngine.createWebhook'), routeName: 'webhook' }" />
     <el-card class="webhook-create-card app-card">
-      <WebhookFormCom ref="FormCom" v-model="webhook" />
+      <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
       <div class="card-ft">
         <el-button
           :loading="isSubmitting"
@@ -18,7 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { createBridge, createRules } from '@/api/ruleengine'
+import { postAction } from '@/api/action'
+import { postConnector } from '@/api/connector'
+import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, customValidate, getBridgeKey } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
@@ -34,16 +36,24 @@ const router = useRouter()
 
 const FormCom = ref()
 
-const { createRawWebhookForm, getRuleIdByName, getBridgeNameByName } = useWebhookForm()
+const { createRawWebhookForm, getRuleIdByName, getActionNameByName } = useWebhookForm()
 
-const webhook: Ref<WebhookForm> = ref(createRawWebhookForm())
+const webhook: Ref<WebhookForm | undefined> = ref(undefined)
+const initForm = async () => {
+  webhook.value = await createRawWebhookForm()
+}
+initForm()
+
 const isSubmitting = ref(false)
 
 const setName = (data: WebhookForm) => {
   const { name } = data
-  data.bridge.name = getBridgeNameByName(name)
+  const actionAndConnectorName = getActionNameByName(name)
+  data.action.name = actionAndConnectorName
+  data.action.connector = actionAndConnectorName
+  data.connector.name = actionAndConnectorName
   data.rule.id = getRuleIdByName(name)
-  data.rule.actions = [getBridgeKey(data.bridge)]
+  data.rule.actions = [getBridgeKey(data.action)]
   return data
 }
 
@@ -53,7 +63,8 @@ const submit = async () => {
     const data: any = checkNOmitFromObj(setName(webhook.value))
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
-    await createBridge(data.bridge)
+    await postConnector(data.connector)
+    await postAction(data.action)
     await createRules(data.rule)
     ElMessage.success(tl('createSuccess'))
     router.push({ name: 'webhook' })

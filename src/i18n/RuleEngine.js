@@ -79,10 +79,6 @@ export default {
     zh: '使用 MQTT 桥接数据',
     en: 'Using MQTT to bridge data',
   },
-  method: {
-    zh: '请求方法',
-    en: 'Method',
-  },
   trigger: {
     zh: '触发器',
     en: 'Trigger',
@@ -131,14 +127,6 @@ export default {
   bridgeModeDesc: {
     zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。开启后，远端服务器将识别当前连接为一个桥接，消息回环检测更高效，收到的保留消息标志位会透传给本地。',
     en: 'This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature. After being enabled, the remote broker will recognize the current connection as a bridge, that loop detection will be more effective and that retained messages will be propagated correctly.',
-  },
-  httpPipeline: {
-    zh: 'HTTP 管道',
-    en: 'HTTP Pipelining',
-  },
-  connTimeout: {
-    zh: '连接超时',
-    en: 'Connect Timeout',
   },
   name: {
     zh: '名称',
@@ -1050,9 +1038,9 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '近一分钟内消息发出速度趋势',
     en: 'Trend of message sending speed in the past minute',
   },
-  poolType: {
-    zh: '连接池类型',
-    en: 'Pool Type',
+  saveAsCopy: {
+    zh: '保存为副本',
+    en: 'Save as copy',
   },
   connectionPoolSize: {
     zh: '连接池大小',

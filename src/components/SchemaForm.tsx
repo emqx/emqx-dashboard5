@@ -25,9 +25,11 @@ import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import KeyAndValueEditorVue from './KeyAndValueEditor.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
+import CertFileInput from './TLSConfig/CertFileInput.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
 import { usePerms } from '@/plugins/permissionsPlugin'
@@ -492,6 +494,14 @@ const SchemaForm = defineComponent({
               {...customProps}
             />
           )
+        case 'object':
+          return (
+            <KeyAndValueEditorVue
+              modelValue={modelValue}
+              {...handleUpdateModelValue}
+              {...customProps}
+            />
+          )
         default:
           return stringInput
       }
@@ -591,7 +601,12 @@ const SchemaForm = defineComponent({
      * if property with special col span, return it, else return undefined
      */
     const getColSpan = ({ path, format, type }: Property): number | undefined => {
-      if ((path && SSL_PATH_REG.test(path)) || format === 'sql' || type === 'array') {
+      if (
+        (path && SSL_PATH_REG.test(path)) ||
+        format === 'sql' ||
+        type === 'array' ||
+        type === 'object'
+      ) {
         return 24
       }
       return props.formItemSpan

@@ -80,6 +80,7 @@ export interface BridgeBaseData {
    */
   idForRuleFrom: string
   name: string
+  connector?: string
   node_status: Array<{
     node: string
     status: ConnectionStatus
@@ -94,17 +95,14 @@ export interface BridgeBaseData {
 
 export interface HTTPBridge extends BridgeBaseData {
   clean_start: boolean
-  body: string
-  connect_timeout: string
-  enable_pipelining: number
-  headers: Headers
+  parameters: {
+    method: string
+    body?: string
+    headers?: Headers
+    path?: string
+  }
   max_retries: number
-  method: string
-  pool_type: 'random' | 'hash'
-  pool_size: number
   request_timeout: string
-  ssl: SSL
-  url: string
 }
 
 export interface MQTTBridgeTransConfiguration {
@@ -163,10 +161,14 @@ export type OtherBridge = Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
-export type Connector = {
+export interface ConnectorForm {
   type: BridgeType
   name: string
   description: string
+  [key: string]: any
+}
+
+export interface Connector extends ConnectorForm {
   /**
    * After getting the data, concat the type and the name
    * {type}:{name}
@@ -175,8 +177,6 @@ export type Connector = {
   status: ConnectionStatus
   status_reason?: string
   enable: boolean
-  resource_opts: ResourceOpt
-  [key: any]: any
 }
 
 export interface Action {

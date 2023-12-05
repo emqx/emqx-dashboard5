@@ -14,7 +14,7 @@ type Handler = ({ components, rules }: { components: Properties; rules: SchemaRu
  * Set the format for the password field to control the
  * password input box configuration field on the page.
  */
-const setPwdFormat = (prop: Property) => {
+export const setPwdFormat = (prop: Property) => {
   prop.format = 'password'
   return prop
 }
@@ -59,6 +59,9 @@ export default (
     }
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
+    }
+    if (comRet.resource_opts?.properties?.start_after_created) {
+      Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
     }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }

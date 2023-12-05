@@ -47,6 +47,7 @@ type UseConnectorBridgeType = Exclude<
 >
 
 const typeRefKeyMap = {
+  [BridgeType.Webhook]: 'bridge_http.post_connector',
   [BridgeType.KafkaProducer]: 'bridge_kafka.post_connector',
   [BridgeType.AzureEventHubs]: 'bridge_azure_event_hub.post_connector',
   [BridgeType.Confluent]: 'confluent.post_connector',

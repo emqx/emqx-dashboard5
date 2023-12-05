@@ -32,6 +32,43 @@
       "label": "Description"
     }
   },
+  "emqx_ee_bridge_http": {
+    "url": {
+      "label": "URL",
+      "desc": "The"
+    },
+    "headers": {
+      "label": "Headers",
+      "desc": ""
+    },
+    "enable_pipelining": {
+      "label": "HTTP Pipelining"
+    },
+    "pool_size": {
+      "label": "Connection Pool Size"
+    },
+    "pool_type": {
+      "label": "Pool Type"
+    },
+    "connect_timeout": {
+      "label": "Connect Timeout"
+    },
+    "body": {
+      "label": "Body",
+      "desc": ""
+    },
+    "method": {
+      "label": "Method"
+    },
+    "path": {
+      "label": "URL Path",
+      "desc": ""
+    },
+    "max_retries": {
+      "label": "Max Retries",
+      "desc": ""
+    }
+  },
   "emqx_ee_bridge_cassa": {
     "keyspace": {
       "desc": "Keyspace name to connect to.",

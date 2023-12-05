@@ -78,7 +78,6 @@ export default (): {
 } => {
   const {
     createRawMQTTForm,
-    createRawHTTPForm,
     createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
     createRawInfluxDBForm,
@@ -103,7 +102,6 @@ export default (): {
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
-    [SinkType.HTTP]: createRawHTTPForm,
     [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,

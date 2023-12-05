@@ -32,6 +32,43 @@
       "label": "描述"
     }
   },
+  "emqx_ee_bridge_http": {
+    "url": {
+      "label": "URL",
+      "desc": ""
+    },
+    "headers": {
+      "label": "请求头",
+      "desc": ""
+    },
+    "enable_pipelining": {
+      "label": "HTTP 管道"
+    },
+    "pool_size": {
+      "label": "连接池大小"
+    },
+    "pool_type": {
+      "label": "连接池类型"
+    },
+    "connect_timeout": {
+      "label": "连接超时"
+    },
+    "body": {
+      "label": "请求体",
+      "desc": ""
+    },
+    "method": {
+      "label": "请求方法"
+    },
+    "path": {
+      "label": "URL 路径",
+      "desc": ""
+    },
+    "max_retries": {
+      "label": "最大重试次数",
+      "desc": ""
+    }
+  },
   "emqx_ee_bridge_cassa": {
     "keyspace": {
       "desc": "要连接到的 Keyspace 名称。",

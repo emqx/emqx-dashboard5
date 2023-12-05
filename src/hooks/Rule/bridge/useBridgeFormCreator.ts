@@ -2,7 +2,6 @@ import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import useSSL from '@/hooks/useSSL'
 import { BridgeDirection, BridgeType, InfluxDBType, KafkaType } from '@/types/enum'
 import {
-  HTTPBridge,
   MQTTBridgeEgress,
   MQTTBridgeIngress,
   MQTTBridgeTransConfiguration,
@@ -10,7 +9,6 @@ import {
 } from '@/types/rule'
 
 export default (): {
-  createRawHTTPForm: () => HTTPBridge
   createRawMQTTForm: (direction?: BridgeDirection) => any
   createKafkaDefaultValCommonPart: () => any
   createRawKafkaProducerForm: () => OtherBridge
@@ -19,25 +17,6 @@ export default (): {
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
   const { createSSLForm } = useSSL()
-
-  const createRawHTTPForm = (): HTTPBridge =>
-    ({
-      name: '',
-      method: 'post',
-      url: 'http://',
-      headers: { 'content-type': 'application/json' },
-      body: '',
-      pool_type: 'hash',
-      pool_size: 8,
-      enable_pipelining: 100,
-      connect_timeout: '15s',
-      resource_opts: createDefaultResourceOptsForm({
-        inflight: true,
-        withoutRequestTimeout: false,
-      }),
-      ssl: createSSLForm(),
-      type: BridgeType.Webhook,
-    } as HTTPBridge)
 
   const createRawMQTTTransDefaultVal = (): MQTTBridgeTransConfiguration => ({
     topic: '',
@@ -159,7 +138,6 @@ export default (): {
   })
 
   return {
-    createRawHTTPForm,
     createRawMQTTForm,
     createKafkaDefaultValCommonPart,
     createRawKafkaProducerForm,

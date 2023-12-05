@@ -16,8 +16,8 @@
     <el-form-item prop="rule.sql" :label="tl('trigger')" class="item-trigger">
       <Trigger ref="TriggerCom" v-model="formData.rule.sql" />
     </el-form-item>
-    <el-form-item :label="tl('method')" prop="bridge.method">
-      <el-select v-model="formData.bridge.method">
+    <el-form-item :label="getLabel('method')" prop="action.action.parameters.method">
+      <el-select v-model="formData.action.parameters.method">
         <el-option
           v-for="item in ['post', 'get', 'put', 'delete']"
           :value="item"
@@ -26,12 +26,12 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item :label="'URL'" prop="bridge.url">
+    <el-form-item :label="'URL'" prop="connector.url">
       <template #label>
         <label>URL</label>
         <InfoTooltip :content="tl('httpBridgeURLFieldDesc')" />
       </template>
-      <el-input v-model="formData.bridge.url" />
+      <el-input v-model="formData.connector.url" />
       <el-button
         link
         class="btn-test"
@@ -44,28 +44,32 @@
       </el-button>
     </el-form-item>
     <el-form-item :label="tl('headers')" class="item-headers">
-      <KeyAndValueEditor v-model="formData.bridge.headers" type="list" />
+      <KeyAndValueEditor v-model="formData.connector.headers" type="list" />
     </el-form-item>
     <el-collapse-transition>
       <div v-if="isAdvancedShow">
-        <BridgeResourceOpt v-model="formData.bridge.resource_opts" :col-span="24" />
-        <CommonTLSConfig class="tls-config-form" v-model="formData.bridge.ssl" :is-edit="isEdit" />
-        <el-form-item :label="tl('connTimeout')">
+        <BridgeResourceOpt v-model="formData.action.resource_opts" :col-span="24" />
+        <CommonTLSConfig
+          class="tls-config-form"
+          v-model="formData.connector.ssl"
+          :is-edit="isEdit"
+        />
+        <el-form-item :label="getLabel('connect_timeout')">
           <TimeInputWithUnitSelect
-            v-model="formData.bridge.connect_timeout"
+            v-model="formData.connector.connect_timeout"
             :enabled-units="['s']"
           />
         </el-form-item>
-        <el-form-item :label="tl('connectionPoolSize')" required prop="bridge.pool_size">
-          <el-input v-model.number="formData.bridge.pool_size" />
+        <el-form-item :label="tl('connectionPoolSize')" prop="connector.pool_size">
+          <el-input v-model.number="formData.connector.pool_size" />
         </el-form-item>
-        <el-form-item :label="tl('poolType')" prop="bridge.pool_type">
-          <el-select v-model="formData.bridge.pool_type">
+        <el-form-item :label="getLabel('pool_type')" prop="connector.pool_type">
+          <el-select v-model="formData.connector.pool_type">
             <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="tl('httpPipeline')">
-          <CustomInputNumber v-model="formData.bridge.enable_pipelining" />
+        <el-form-item :label="getLabel('enable_pipelining')">
+          <CustomInputNumber v-model="formData.connector.enable_pipelining" />
         </el-form-item>
       </div>
     </el-collapse-transition>
@@ -119,6 +123,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
+const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_http.${key}`)
+const getLabel = (key: string) => getText(`${key}.label`)
 const FormCom = ref()
 const TriggerCom = ref()
 
@@ -148,7 +154,7 @@ const rules: FormRules = {
       trigger: 'blur',
     },
   ],
-  'bridge.pool_size': [...createRequiredRule(tl('connectionPoolSize')), ...createIntFieldRule(1)],
+  'connector.pool_size': [...createIntFieldRule(1)],
 }
 
 watch(
@@ -164,13 +170,13 @@ const validate = () => {
 
 const isTesting = ref(false)
 const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
-const { getBridgeNameByName } = useWebhookForm()
+const { getActionNameByName } = useWebhookForm()
 const testConnectivity = async () => {
   try {
     await FormCom.value.validate()
     isTesting.value = true
-    const data = await handleBridgeDataBeforeSubmit(formData.value.bridge)
-    data.name = getBridgeNameByName(formData.value.name)
+    const data = await handleBridgeDataBeforeSubmit(formData.value.action)
+    data.name = getActionNameByName(formData.value.name)
     await testConnect(omit(data, 'id'))
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {

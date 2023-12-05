@@ -79,6 +79,7 @@ const bridgeTypeRefKeyMap = {
 const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
 const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
 const actionTypeRefKeyMap = {
+  [BridgeType.Webhook]: getActionTypeRefKey(BridgeType.Webhook),
   [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
   [BridgeType.Confluent]: 'confluent.post_bridge_v2',
 }

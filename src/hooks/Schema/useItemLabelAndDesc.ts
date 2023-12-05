@@ -159,10 +159,7 @@ export default (
     if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
     }
-    let type = getTypeBySchemaRef(props.accordingTo.ref)
-    if (type in BRIDGE_SPECIAL_TYPE_MAP) {
-      type = BRIDGE_SPECIAL_TYPE_MAP[type]
-    }
+    const type = getTypeBySchemaRef(props.accordingTo.ref)
     return `emqx_ee_bridge_${type}`
   }
 
