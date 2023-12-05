@@ -156,10 +156,13 @@ export default (
     if (prop.path && prop.path.indexOf('resource_opt') > -1) {
       return `emqx_resource_schema`
     }
-    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
+    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key)) {
       return COMMON_CONNECTOR_ZONE
     }
-    const type = getTypeBySchemaRef(props.accordingTo.ref)
+    let type = getTypeBySchemaRef(props.accordingTo.ref)
+    if (type in BRIDGE_SPECIAL_TYPE_MAP) {
+      type = BRIDGE_SPECIAL_TYPE_MAP[type]
+    }
     return `emqx_ee_bridge_${type}`
   }
 
