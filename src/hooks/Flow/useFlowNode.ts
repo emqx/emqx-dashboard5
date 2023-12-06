@@ -153,7 +153,7 @@ export default (): {
     [SourceType.Message]: t('RuleEngine.messages'),
     [SourceType.Event]: t('RuleEngine.event'),
     [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
-    [ProcessingType.Function]: tl('function'),
+    [ProcessingType.Function]: t('RuleEngine.function'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
