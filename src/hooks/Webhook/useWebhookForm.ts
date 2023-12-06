@@ -43,7 +43,7 @@ export default (): {
     await Promise.all([connectorSchemaLoadPromise, actionSchemaLoadPromise])
     return {
       action: { ...createRawHTTPAction(), type: BridgeType.Webhook },
-      connector: createRawHTTPConnector(),
+      connector: { ...createRawHTTPConnector(), url: 'http://' },
       rule: createRawRuleForm('#'),
       name: '',
     }

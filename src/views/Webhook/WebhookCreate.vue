@@ -53,6 +53,9 @@ const setName = (data: WebhookForm) => {
 }
 
 const submit = async () => {
+  if (!webhook.value) {
+    return
+  }
   try {
     await customValidate(FormCom.value)
     const data: any = checkNOmitFromObj(setName(webhook.value))
