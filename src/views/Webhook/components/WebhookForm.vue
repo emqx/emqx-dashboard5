@@ -37,7 +37,7 @@
         class="btn-test"
         type="primary"
         :loading="isTesting"
-        @click="testConnectivity"
+        @click="handleTestConnectivity"
       >
         {{ tl('testConnectivity') }}
       </el-button>
@@ -80,14 +80,13 @@
 </template>
 
 <script setup lang="ts">
-import { testConnect } from '@/api/ruleengine'
 import { getKeywordsFromSQL } from '@/common/tools'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -95,7 +94,6 @@ import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import { ElMessage } from 'element-plus'
-import { omit } from 'lodash'
 import {
   PropType,
   WritableComputedRef,
@@ -170,15 +168,15 @@ const validate = () => {
 }
 
 const isTesting = ref(false)
-const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
 const { getActionNameByName } = useWebhookForm()
-const testConnectivity = async () => {
+const { testConnectivity } = useHandleConnectorItem()
+const handleTestConnectivity = async () => {
   try {
     await FormCom.value.validate()
     isTesting.value = true
-    const data = await handleBridgeDataBeforeSubmit(formData.value.action)
+    const data = formData.value.connector
     data.name = getActionNameByName(formData.value.name)
-    await testConnect(omit(data, 'id'))
+    await testConnectivity(data)
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
