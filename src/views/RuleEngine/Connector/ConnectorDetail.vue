@@ -162,7 +162,8 @@ const handleDelete = async () => {
 const handleTest = async () => {
   try {
     await customValidate(FormCom.value)
-    testConnectivity(connectorData.value)
+    await testConnectivity(connectorData.value)
+    ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
   }

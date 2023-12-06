@@ -67,6 +67,14 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
+  const httpHandler: Handler = ({ components, rules }) => {
+    const comRet = components
+    if (comRet.url && !comRet.url.default) {
+      comRet.url.default = 'http://'
+    }
+    return { components: comRet, rules }
+  }
+
   const kafkaProducerHandler: Handler = ({ components, rules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
@@ -114,6 +122,7 @@ export default (
   }
 
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
+    [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
     [BridgeType.Confluent, confluentHandler],
