@@ -58,9 +58,11 @@ export default (
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
+  const httpAdvancedFields = [`parameters.max_retries`]
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.MySQL]: {
-      ...createOrderObj(['server', 'database', 'username', 'password', 'ssl', 'sql'], 1),
+    [BridgeType.Webhook]: {
+      ...baseOrderMap,
+      ...createOrderObj(httpAdvancedFields, 70),
     },
   }
 
@@ -72,16 +74,10 @@ export default (
     return ret
   })
 
-  const typeColClassMap: Record<string, Record<string, string>> = {
-    [BridgeType.GCP]: {
-      name: 'dividing-line-below',
-      pubsub_topic: 'col-need-row',
-      service_account_json: 'custom-col-24',
-    },
-  }
+  const typeColClassMap: Record<string, Record<string, string>> = {}
 
   const advancedFieldsMap: Record<string, Array<string>> = {
-    [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
+    [BridgeType.Webhook]: [`parameters.max_retries`],
   }
 
   const advancedFields = computed(() => {

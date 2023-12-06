@@ -35,11 +35,10 @@
   "emqx_ee_bridge_http": {
     "url": {
       "label": "URL",
-      "desc": ""
+      "desc": "HTTP 连接器的 URL。<br/>路径中支持占位符，但在主机或端口部分中不能使用占位符。<br/>例如，`http://localhost:9901/${'{'}topic{'}'}` 是允许的，但是 `http://${'{'}host{'}'}:9901/message` 或 `http://localhost:${'{'}port{'}'}/message `不允许。"
     },
     "headers": {
-      "label": "请求头",
-      "desc": ""
+      "label": "请求头"
     },
     "enable_pipelining": {
       "label": "HTTP 管道"
@@ -55,18 +54,17 @@
     },
     "body": {
       "label": "请求体",
-      "desc": ""
+      "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用动作的业务需求来选择字段，置空则原样转发消息。"
     },
     "method": {
       "label": "请求方法"
     },
     "path": {
       "label": "URL 路径",
-      "desc": ""
+      "desc": "此操作的 URL 路径。<br/>此路径将附加到连接器的 <code>url</code> 配置中，以形成完整的 URL 地址。此选项中允许使用带有变量的模板。 例如，<code>/room/{'{'}$room_no{'}'}</code>"
     },
     "max_retries": {
-      "label": "最大重试次数",
-      "desc": ""
+      "label": "最大重试次数"
     }
   }
 }

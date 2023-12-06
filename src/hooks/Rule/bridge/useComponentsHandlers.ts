@@ -1,6 +1,7 @@
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
+import { BridgeType } from '@/types/enum'
 import { Properties } from '@/types/schemaForm'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -56,7 +57,18 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
-  const specialBridgeHandlerMap: Record<string, Handler> = {}
+  const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components
+    if (parameters?.properties?.body?.type === 'string') {
+      parameters.properties.body.format = 'sql'
+    }
+    return { components, rules }
+  }
+
+  const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.Webhook]: httpHandler,
+  }
 
   const getComponentsHandler = () => {
     if (props.type && props.type in specialBridgeHandlerMap) {
