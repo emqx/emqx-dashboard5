@@ -52,14 +52,14 @@
       </el-col>
       <el-col :span="9" class="action-col">
         <el-tabs v-model="rightBlockActiveTab">
-          <el-tab-pane :label="tl('events')" :name="RightTab.Events">
+          <el-tab-pane :label="tl('dataInput')" :name="RightTab.Events">
             <EventsSelect
               :event-list="ruleEventsList"
               :ingress-bridge-list="ingressBridgeList"
               @use-event="addEvent"
             />
           </el-tab-pane>
-          <el-tab-pane :label="tl('actions')" :name="RightTab.Actions">
+          <el-tab-pane :label="tl('actionOutputs')" :name="RightTab.Actions">
             <RuleOutputs v-model="ruleValue" />
           </el-tab-pane>
         </el-tabs>

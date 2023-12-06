@@ -694,6 +694,14 @@ export default {
     zh: '事件',
     en: 'Events',
   },
+  dataInput: {
+    zh: '数据输入',
+    en: 'Data Input',
+  },
+  actionOutputs: {
+    zh: '动作输出',
+    en: 'Action Outputs',
+  },
   allMsgsAndEvents: {
     zh: '所有消息和事件',
     en: 'All Message and Events',
