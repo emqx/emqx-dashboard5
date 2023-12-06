@@ -696,7 +696,7 @@ export default {
   },
   dataInput: {
     zh: '数据输入',
-    en: 'Data Input',
+    en: 'Data Inputs',
   },
   actionOutputs: {
     zh: '动作输出',
