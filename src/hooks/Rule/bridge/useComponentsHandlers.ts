@@ -88,6 +88,15 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
+  const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components
+    if (parameters?.properties?.body?.type === 'string') {
+      parameters.properties.body.format = 'sql'
+    }
+    return { components, rules }
+  }
+
   const { commandReg } = useRedisCommandCheck()
   const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
@@ -319,6 +328,7 @@ export default (
   }
 
   const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCP]: GCPComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,

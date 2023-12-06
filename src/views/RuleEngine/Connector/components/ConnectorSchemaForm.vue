@@ -3,7 +3,7 @@
     <schema-form
       v-if="getRefKey"
       ref="formCom"
-      type="bridge"
+      type="connector"
       need-rules
       schema-file-path="api/v5/schemas/connectors"
       :need-footer="false"

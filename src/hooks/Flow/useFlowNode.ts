@@ -181,7 +181,7 @@ export default (): {
     [SourceType.Event]: t('RuleEngine.event'),
     [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
     [SourceType.Kafka]: t('RuleEngine.kafka'),
-    [ProcessingType.Function]: tl('function'),
+    [ProcessingType.Function]: t('RuleEngine.function'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
@@ -260,10 +260,10 @@ export default (): {
     return `${num} ${t('Flow.condition', num)}`
   }
 
-  const getFunctionInfo = (func: FunctionForm) => {
-    const num = func?.form?.length
-    return num ? `${num} ${t('Flow.functionNum', num)}` : ''
-  }
+  // const getFunctionInfo = (func: FunctionForm) => {
+  //   const num = func?.form?.length
+  //   return num ? `${num} ${t('Flow.functionNum', num)}` : ''
+  // }
 
   const getNodeInfo = (node: Node): string => {
     const { specificType, formData } = node.data
@@ -276,7 +276,7 @@ export default (): {
       case SourceType.Event:
         return `${t('RuleEngine.event')}: ${getEventLabelFromVal(formData.event)}`
       case ProcessingType.Function:
-        return getFunctionInfo(formData)
+        return ''
       case ProcessingType.Filter:
         return getFilterInfo(formData)
       case SinkType.Console:

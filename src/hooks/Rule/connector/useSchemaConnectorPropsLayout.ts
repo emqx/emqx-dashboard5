@@ -77,7 +77,7 @@ export default (
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
-      ...createOrderObj(httpAdvancedProps, 150),
+      ...createOrderObj(httpAdvancedProps, 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: azureOrderMap,
@@ -94,6 +94,7 @@ export default (
   const typeColClassMap: Record<string, Record<string, string>> = {}
 
   const advancedFieldsMap: Record<string, Array<string>> = {
+    [BridgeType.Webhook]: httpAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,

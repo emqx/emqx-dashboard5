@@ -59,6 +59,8 @@ export default (
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
+  const httpAdvancedFields = [`parameters.max_retries`]
+
   const pgSqlOrderMap = {
     ...createOrderObj(['server', 'database', 'username', 'password', 'pool_size', 'ssl'], 1),
   }
@@ -121,8 +123,9 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.MySQL]: {
-      ...createOrderObj(['server', 'database', 'username', 'password', 'ssl', 'sql'], 1),
+    [BridgeType.Webhook]: {
+      ...baseOrderMap,
+      ...createOrderObj(httpAdvancedFields, 70),
     },
     [BridgeType.Redis]: {
       ...createOrderObj(
@@ -337,6 +340,7 @@ export default (
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
+    [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
     [BridgeType.RabbitMQ]: ['heartbeat', 'publish_confirmation_timeout', 'timeout'],
     [BridgeType.MongoDB]: ['w_mode', ...mongoTopologyProps],

@@ -195,24 +195,28 @@ export default (
 
   const specialProcess = (prop: Property) => {
     // Some special handling for the enterprise version
-    if (props.type !== 'bridge') {
+    if (!typesUseBridgeText.includes(props.type)) {
       return undefined
     }
     switch (prop.path) {
-      case 'name':
-        return { label: t('RuleEngine.name'), desc: '' }
+      case 'name': {
+        if (props.type === 'connector') {
+          return { label: t('RuleEngine.connectorName') }
+        }
+        return { label: t('RuleEngine.name') }
+      }
       case 'connector':
-        return { label: t('components.connector'), desc: '' }
+        return { label: t('components.connector') }
       case 'role':
-        return { label: t('RuleEngine.role'), desc: '' }
+        return { label: t('RuleEngine.role') }
       case 'enable':
-        return { label: t('Base.enable'), desc: '' }
+        return { label: t('Base.enable') }
       case 'type':
-        return { label: t('RuleEngine.actionType'), desc: '' }
+        return { label: t('RuleEngine.actionType') }
       case 'redis_type':
-        return { label: t('Auth.redisType'), desc: '' }
+        return { label: t('Auth.redisType') }
       case 'mongo_type':
-        return { label: t('Auth.mongoType'), desc: '' }
+        return { label: t('Auth.mongoType') }
     }
     return undefined
   }

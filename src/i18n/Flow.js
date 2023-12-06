@@ -39,10 +39,6 @@ export default {
     zh: '拖拽多个节点以输出数据到外部数据集成',
     en: 'Drag in multiple nodes to output data to external integrations',
   },
-  function: {
-    zh: '函数',
-    en: 'Function',
-  },
   filter: {
     zh: '过滤器',
     en: 'Filter',
