@@ -61,7 +61,7 @@ export default (
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
-      ...createOrderObj(httpAdvancedProps, 150),
+      ...createOrderObj(httpAdvancedProps, 70),
     },
   }
 
@@ -75,7 +75,9 @@ export default (
 
   const typeColClassMap: Record<string, Record<string, string>> = {}
 
-  const advancedFieldsMap: Record<string, Array<string>> = {}
+  const advancedFieldsMap: Record<string, Array<string>> = {
+    [BridgeType.Webhook]: httpAdvancedProps,
+  }
 
   const advancedFields = computed(() => {
     const externalFields = props.type ? advancedFieldsMap[props.type] || [] : []
