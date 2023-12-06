@@ -566,6 +566,9 @@ const SchemaForm = defineComponent({
           }
           return ele
         }
+        case 'object':
+          return <KeyAndValueEditorVue modelValue={modelValue} readonly />
+
         default:
           return <p class="value">{modelValue}</p>
       }
