@@ -8,7 +8,6 @@ import { getBridgeKey, omitArr } from '@/common/tools'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import {
-  Action,
   BridgeItem,
   BridgeMetricsData,
   ParamsForQueryRules,
