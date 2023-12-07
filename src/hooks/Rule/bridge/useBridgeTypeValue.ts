@@ -329,7 +329,7 @@ export const useBridgeDirection = (): {
 
 export const useBridgeSchema = (): {
   getSchemaRefByType: (type: string, suffix?: string) => string
-  getTypeBySchemaRef: (ref: string) => string
+  getTypeByBridgeSchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
   const refSuffix = '.post'
@@ -348,7 +348,7 @@ export const useBridgeSchema = (): {
     return refPrefix + type + finalSuffix
   }
 
-  const getTypeBySchemaRef = (ref: string) => {
+  const getTypeByBridgeSchemaRef = (ref: string) => {
     // 1. remove path 2. remove prefix 3. remove suffix
     const ret = ref
       .replace(/^.+\//, '')
@@ -359,7 +359,40 @@ export const useBridgeSchema = (): {
 
   return {
     getSchemaRefByType,
-    getTypeBySchemaRef,
+    getTypeByBridgeSchemaRef,
+  }
+}
+
+export const useConnectorSchema = (): {
+  typeRefKeyMap: Map<string, string>
+  getTypeByConnectorSchemaRef: (ref: string) => string
+} => {
+  const refPrefix = `bridge_`
+  const refSuffix = 'post_connector'
+
+  const getRef = (type: string, prefix?: string) => `${prefix ?? refPrefix}${type}.${refSuffix}`
+
+  const typeRefKeyMap = new Map([
+    [BridgeType.Webhook, getRef(BridgeType.Webhook)],
+    [BridgeType.KafkaProducer, getRef('kafka')],
+    [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
+    [BridgeType.Confluent, getRef('confluent', '')],
+    [BridgeType.PgSQL, getRef('postgres', 'connector_')],
+  ])
+
+  const getTypeByConnectorSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of typeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
+    return ''
+  }
+
+  return {
+    typeRefKeyMap,
+    getTypeByConnectorSchemaRef,
   }
 }
 

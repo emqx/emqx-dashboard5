@@ -272,6 +272,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.KafkaProducer,
   BridgeType.AzureEventHubs,
   BridgeType.Confluent,
+  BridgeType.PgSQL,
 ]
 
 export const COPY_SUFFIX = '_duplication'
