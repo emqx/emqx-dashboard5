@@ -70,6 +70,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useRuleStatus from '@/hooks/Rule/rule/useRuleStatus'
+import { useActionDataHandler, useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
@@ -169,6 +170,8 @@ const handleDeleteWebhook = async () => {
 }
 
 const { getRuleDataForUpdate } = useRuleForm()
+const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
+const { handleActionDataBeforeUpdate } = useActionDataHandler()
 const submit = async () => {
   if (!webhookData.value) {
     return
@@ -177,8 +180,12 @@ const submit = async () => {
     await FormCom.value.validate()
     const data: any = checkNOmitFromObj(webhookData.value)
     isSubmitting.value = true
-    await putConnector(actionId.value, data.connector)
-    await putAction(actionId.value, data.action)
+    const [connectorData, actionData] = await Promise.all([
+      handleConnectorDataBeforeUpdate(data.connector),
+      handleActionDataBeforeUpdate(data.action),
+    ])
+    await putConnector(actionId.value, connectorData)
+    await putAction(actionId.value, actionData)
     await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))
     router.push({ name: 'webhook' })
