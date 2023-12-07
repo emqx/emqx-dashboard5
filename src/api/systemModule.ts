@@ -56,8 +56,9 @@ export const getBackups = (
 export const createBackup = (): Promise<EmqxMgmtApiDataBackupBackupFileInfo> => {
   return http.post('/data/export')
 }
-export const deleteBackup = (fileName: string): Promise<void> => {
-  return http.delete(`/data/files/${fileName}`)
+export const deleteBackup = (fileName: string, node?: string): Promise<void> => {
+  const params = node ? { node } : undefined
+  return http.delete(`/data/files/${fileName}`, { params })
 }
 export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): Promise<void> => {
   return http.post(`/data/import`, payload)

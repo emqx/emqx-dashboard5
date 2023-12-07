@@ -169,7 +169,7 @@ const handleRestoreBackup = async (backup: BackupItem) => {
   })
 }
 
-const handleDeleteBackup = async ({ filename }: BackupItem) => {
+const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
   ElMessageBox.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -179,7 +179,7 @@ const handleDeleteBackup = async ({ filename }: BackupItem) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         try {
-          await deleteBackup(filename)
+          await deleteBackup(filename, node)
           ElMessage.success(t('Base.deleteSuccess'))
           refreshListData()
           done()
