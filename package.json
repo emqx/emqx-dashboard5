@@ -11,6 +11,7 @@
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
     "escape": "node ./scripts/escapeI18N.js",
+    "checkPermission": "node ./scripts/checkPermission.js",
     "checkI18n": "node ./scripts/checkUselessI18n.js",
     "remove-orval-client": "node ./scripts/removeOrvalClient.js",
     "orval:api": "source ./.env.development.local && yarn orval --input $HOST_URL\\api-docs/swagger.json",
