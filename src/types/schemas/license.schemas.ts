@@ -42,6 +42,8 @@ export type GetLicenseSetting200 = {
   connection_high_watermark?: string
 }
 
+export type LicenseHttpApiKeyLicenseKey = string | 'default'
+
 export interface LicenseHttpApiKeyLicense {
-  key: string
+  key: LicenseHttpApiKeyLicenseKey
 }

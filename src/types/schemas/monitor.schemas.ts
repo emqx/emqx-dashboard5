@@ -168,6 +168,10 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
 }
 
+export interface OpentelemetryTraceFilter {
+  trace_all?: boolean
+}
+
 export type OpentelemetrySslOptsServerNameIndication = string | 'disable'
 
 export type OpentelemetrySslOptsLogLevel =
@@ -214,20 +218,13 @@ export interface OpentelemetrySslOpts {
   server_name_indication?: OpentelemetrySslOptsServerNameIndication
 }
 
-export interface OpentelemetryOtelMetricsExporter {
-  endpoint?: string
-  ssl_options?: OpentelemetrySslOpts
-  interval: string
+export interface OpentelemetryOtelTraces {
+  enable?: boolean
+  filter?: OpentelemetryTraceFilter
 }
 
 export interface OpentelemetryOtelMetrics {
   enable: boolean
-  exporter?: OpentelemetryOtelMetricsExporter
-}
-
-export interface OpentelemetryOtelLogsExporter {
-  endpoint?: string
-  ssl_options?: OpentelemetrySslOpts
 }
 
 export type OpentelemetryOtelLogsLevel =
@@ -249,10 +246,16 @@ export const OpentelemetryOtelLogsLevel = {
 export interface OpentelemetryOtelLogs {
   level?: OpentelemetryOtelLogsLevel
   enable?: boolean
-  exporter?: OpentelemetryOtelLogsExporter
+}
+
+export interface OpentelemetryOtelExporter {
+  endpoint?: string
+  ssl_options?: OpentelemetrySslOpts
 }
 
 export interface OpentelemetryOpentelemetry {
   metrics?: OpentelemetryOtelMetrics
   logs?: OpentelemetryOtelLogs
+  traces?: OpentelemetryOtelTraces
+  exporter?: OpentelemetryOtelExporter
 }

@@ -100,6 +100,7 @@ export type PutActionsId200 =
   | BridgeMongodbGetBridgeV2
   | BridgeMatrixGetBridgeV2
   | BridgeKafkaGetBridgeV2
+  | BridgeHttpGetBridgeV2
   | GcpPubsubProducerGetBridgeV2
   | ConfluentGetBridgeV2
   | BridgeAzureEventHubGetBridgeV2
@@ -112,6 +113,7 @@ export type PutActionsIdBody =
   | BridgeMongodbPutBridgeV2
   | BridgeMatrixPutBridgeV2
   | BridgeKafkaPutBridgeV2
+  | BridgeHttpPutBridgeV2
   | GcpPubsubProducerPutBridgeV2
   | ConfluentPutBridgeV2
   | BridgeAzureEventHubPutBridgeV2
@@ -136,6 +138,7 @@ export type GetActionsId200 =
   | BridgeMongodbGetBridgeV2
   | BridgeMatrixGetBridgeV2
   | BridgeKafkaGetBridgeV2
+  | BridgeHttpGetBridgeV2
   | GcpPubsubProducerGetBridgeV2
   | ConfluentGetBridgeV2
   | BridgeAzureEventHubGetBridgeV2
@@ -175,6 +178,7 @@ export const DeleteActionsId400Code = {
 } as const
 
 export type DeleteActionsId400 = {
+  rules?: string[]
   code?: DeleteActionsId400Code
   message?: string
 }
@@ -187,6 +191,7 @@ export type GetActionTypes200Item = typeof GetActionTypes200Item[keyof typeof Ge
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetActionTypes200Item = {
+  http: 'http',
   azure_event_hub_producer: 'azure_event_hub_producer',
   confluent_producer: 'confluent_producer',
   gcp_pubsub_producer: 'gcp_pubsub_producer',
@@ -220,6 +225,7 @@ export type PostActionsProbeBody =
   | BridgeMongodbPostBridgeV2
   | BridgeMatrixPostBridgeV2
   | BridgeKafkaPostBridgeV2
+  | BridgeHttpPostBridgeV2
   | GcpPubsubProducerPostBridgeV2
   | ConfluentPostBridgeV2
   | BridgeAzureEventHubPostBridgeV2
@@ -244,6 +250,7 @@ export type PostActions201 =
   | BridgeMongodbGetBridgeV2
   | BridgeMatrixGetBridgeV2
   | BridgeKafkaGetBridgeV2
+  | BridgeHttpGetBridgeV2
   | GcpPubsubProducerGetBridgeV2
   | ConfluentGetBridgeV2
   | BridgeAzureEventHubGetBridgeV2
@@ -256,6 +263,7 @@ export type PostActionsBody =
   | BridgeMongodbPostBridgeV2
   | BridgeMatrixPostBridgeV2
   | BridgeKafkaPostBridgeV2
+  | BridgeHttpPostBridgeV2
   | GcpPubsubProducerPostBridgeV2
   | ConfluentPostBridgeV2
   | BridgeAzureEventHubPostBridgeV2
@@ -268,6 +276,7 @@ export type GetActions200Item =
   | BridgeMongodbGetBridgeV2
   | BridgeMatrixGetBridgeV2
   | BridgeKafkaGetBridgeV2
+  | BridgeHttpGetBridgeV2
   | GcpPubsubProducerGetBridgeV2
   | ConfluentGetBridgeV2
   | BridgeAzureEventHubGetBridgeV2
@@ -416,6 +425,20 @@ export const SyskeeperGetBridgeV2Status = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface SyskeeperGetBridgeV2 {
+  status?: SyskeeperGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: SyskeeperGetBridgeV2Type
+  name: string
+  enable?: boolean
+  description?: string
+  connector: string
+  parameters: SyskeeperParameters
+  local_topic?: string
+  resource_opts?: SyskeeperCreationOpts
+}
+
 export type SyskeeperCreationOptsRequestTtl = 'infinity' | string
 
 export type SyskeeperCreationOptsQueryMode =
@@ -447,20 +470,6 @@ export interface SyskeeperCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface SyskeeperGetBridgeV2 {
-  status?: SyskeeperGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: SyskeeperGetBridgeV2Type
-  name: string
-  enable?: boolean
-  description?: string
-  connector: string
-  parameters: SyskeeperParameters
-  local_topic?: string
-  resource_opts?: SyskeeperCreationOpts
 }
 
 export type RedisResourceOptsRequestTtl = 'infinity' | string
@@ -588,17 +597,7 @@ export interface RedisGetBridgeV2 {
   resource_opts: RedisResourceOpts
 }
 
-export type GcpPubsubProducerPostBridgeV2Type =
-  typeof GcpPubsubProducerPostBridgeV2Type[keyof typeof GcpPubsubProducerPostBridgeV2Type]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerPostBridgeV2Type = {
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-} as const
-
-export interface GcpPubsubProducerPostBridgeV2 {
-  type: GcpPubsubProducerPostBridgeV2Type
-  name: string
+export interface GcpPubsubProducerPutBridgeV2 {
   local_topic?: string
   enable?: boolean
   connector: string
@@ -606,6 +605,14 @@ export interface GcpPubsubProducerPostBridgeV2 {
   parameters: GcpPubsubProducerActionParameters
   resource_opts?: ActionsResourceOpts
 }
+
+export type GcpPubsubProducerPostBridgeV2Type =
+  typeof GcpPubsubProducerPostBridgeV2Type[keyof typeof GcpPubsubProducerPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerPostBridgeV2Type = {
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+} as const
 
 export type GcpPubsubProducerGetBridgeV2Type =
   typeof GcpPubsubProducerGetBridgeV2Type[keyof typeof GcpPubsubProducerGetBridgeV2Type]
@@ -631,6 +638,48 @@ export interface GcpPubsubProducerActionParameters {
   ordering_key_template?: string
   payload_template?: string
   pubsub_topic: string
+}
+
+export interface GcpPubsubProducerPostBridgeV2 {
+  type: GcpPubsubProducerPostBridgeV2Type
+  name: string
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: GcpPubsubProducerActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
+export interface GcpPubsubProducerGetBridgeV2 {
+  status?: GcpPubsubProducerGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: GcpPubsubProducerGetBridgeV2Type
+  name: string
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: GcpPubsubProducerActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
+export interface ConfluentProducerKafkaOpts {
+  topic: string
+  message?: ConfluentKafkaMessage
+  max_batch_bytes?: string
+  compression?: ConfluentProducerKafkaOptsCompression
+  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
+  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: ConfluentProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
 }
 
 export interface ConfluentPutBridgeV2 {
@@ -713,23 +762,6 @@ export interface ConfluentKafkaMessage {
   value?: string
 }
 
-export interface ConfluentProducerKafkaOpts {
-  topic: string
-  message?: ConfluentKafkaMessage
-  max_batch_bytes?: string
-  compression?: ConfluentProducerKafkaOptsCompression
-  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
-  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
-  kafka_headers?: string
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
-  partition_count_refresh_interval?: string
-  max_inflight?: number
-  buffer?: BridgeKafkaProducerBuffer
-  query_mode?: ConfluentProducerKafkaOptsQueryMode
-  sync_query_timeout?: string
-}
-
 export type ConfluentGetBridgeV2Type =
   typeof ConfluentGetBridgeV2Type[keyof typeof ConfluentGetBridgeV2Type]
 
@@ -780,20 +812,6 @@ export interface BridgeNodeStatus {
   status_reason?: string
 }
 
-export interface GcpPubsubProducerGetBridgeV2 {
-  status?: GcpPubsubProducerGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: GcpPubsubProducerGetBridgeV2Type
-  name: string
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: GcpPubsubProducerActionParameters
-  resource_opts?: ActionsResourceOpts
-}
-
 export interface BridgeMetrics {
   dropped?: number
   'dropped.other'?: number
@@ -817,6 +835,25 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
+export type BridgeTimescalePostBridgeV2Type =
+  typeof BridgeTimescalePostBridgeV2Type[keyof typeof BridgeTimescalePostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeTimescalePostBridgeV2Type = {
+  timescale: 'timescale',
+} as const
+
+export interface BridgeTimescalePostBridgeV2 {
+  type: BridgeTimescalePostBridgeV2Type
+  name: string
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgePgsqlActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
 export interface BridgeTimescaleGetBridgeV2 {
   local_topic?: string
   enable?: boolean
@@ -830,6 +867,14 @@ export interface BridgeRedisActionParameters {
   command_template: string[]
 }
 
+export type BridgePgsqlPostBridgeV2Type =
+  typeof BridgePgsqlPostBridgeV2Type[keyof typeof BridgePgsqlPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgePgsqlPostBridgeV2Type = {
+  pgsql: 'pgsql',
+} as const
+
 export type BridgePgsqlActionParametersPrepareStatement = { [key: string]: any }
 
 export interface BridgePgsqlActionParameters {
@@ -838,15 +883,6 @@ export interface BridgePgsqlActionParameters {
 }
 
 export interface BridgeTimescalePutBridgeV2 {
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: BridgePgsqlActionParameters
-  resource_opts?: ActionsResourceOpts
-}
-
-export interface BridgeTimescalePostBridgeV2 {
   local_topic?: string
   enable?: boolean
   connector: string
@@ -865,6 +901,8 @@ export interface BridgePgsqlPutBridgeV2 {
 }
 
 export interface BridgePgsqlPostBridgeV2 {
+  type: BridgePgsqlPostBridgeV2Type
+  name: string
   local_topic?: string
   enable?: boolean
   connector: string
@@ -882,15 +920,6 @@ export interface BridgePgsqlGetBridgeV2 {
   resource_opts?: ActionsResourceOpts
 }
 
-export interface BridgeMongodbPutBridgeV2 {
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: BridgeMongodbActionParameters
-  resource_opts?: ActionsResourceOpts
-}
-
 export type BridgeMongodbPostBridgeV2Type =
   typeof BridgeMongodbPostBridgeV2Type[keyof typeof BridgeMongodbPostBridgeV2Type]
 
@@ -898,17 +927,6 @@ export type BridgeMongodbPostBridgeV2Type =
 export const BridgeMongodbPostBridgeV2Type = {
   mongodb: 'mongodb',
 } as const
-
-export interface BridgeMongodbPostBridgeV2 {
-  type: BridgeMongodbPostBridgeV2Type
-  name: string
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: BridgeMongodbActionParameters
-  resource_opts?: ActionsResourceOpts
-}
 
 export type BridgeMongodbGetBridgeV2Type =
   typeof BridgeMongodbGetBridgeV2Type[keyof typeof BridgeMongodbGetBridgeV2Type]
@@ -934,6 +952,40 @@ export interface BridgeMongodbActionParameters {
   payload_template?: string
 }
 
+export interface BridgeMongodbPutBridgeV2 {
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeMongodbActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
+export interface BridgeMongodbPostBridgeV2 {
+  type: BridgeMongodbPostBridgeV2Type
+  name: string
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeMongodbActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
+export interface BridgeMongodbGetBridgeV2 {
+  status?: BridgeMongodbGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeMongodbGetBridgeV2Type
+  name: string
+  local_topic?: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeMongodbActionParameters
+  resource_opts?: ActionsResourceOpts
+}
+
 export interface BridgeMatrixPutBridgeV2 {
   local_topic?: string
   enable?: boolean
@@ -943,7 +995,17 @@ export interface BridgeMatrixPutBridgeV2 {
   resource_opts?: ActionsResourceOpts
 }
 
+export type BridgeMatrixPostBridgeV2Type =
+  typeof BridgeMatrixPostBridgeV2Type[keyof typeof BridgeMatrixPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMatrixPostBridgeV2Type = {
+  matrix: 'matrix',
+} as const
+
 export interface BridgeMatrixPostBridgeV2 {
+  type: BridgeMatrixPostBridgeV2Type
+  name: string
   local_topic?: string
   enable?: boolean
   connector: string
@@ -963,6 +1025,15 @@ export interface BridgeMatrixGetBridgeV2 {
 
 export interface BridgeKafkaResourceOpts {
   health_check_interval?: string
+}
+
+export interface BridgeKafkaPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  description?: string
+  local_topic?: string
+  parameters: BridgeKafkaProducerKafkaOpts
+  resource_opts?: BridgeKafkaResourceOpts
 }
 
 export type BridgeKafkaProducerKafkaOptsQueryMode =
@@ -1017,23 +1088,6 @@ export interface BridgeKafkaProducerKafkaExtHeaders {
   kafka_ext_header_value: string
 }
 
-export type BridgeKafkaProducerBufferMode =
-  typeof BridgeKafkaProducerBufferMode[keyof typeof BridgeKafkaProducerBufferMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerBufferMode = {
-  memory: 'memory',
-  disk: 'disk',
-  hybrid: 'hybrid',
-} as const
-
-export interface BridgeKafkaProducerBuffer {
-  mode?: BridgeKafkaProducerBufferMode
-  per_partition_limit?: string
-  segment_bytes?: string
-  memory_overload_protection?: boolean
-}
-
 export interface BridgeKafkaProducerKafkaOpts {
   topic: string
   message?: BridgeKafkaKafkaMessage
@@ -1051,13 +1105,21 @@ export interface BridgeKafkaProducerKafkaOpts {
   sync_query_timeout?: string
 }
 
-export interface BridgeKafkaPutBridgeV2 {
-  enable?: boolean
-  connector: string
-  description?: string
-  local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
-  resource_opts?: BridgeKafkaResourceOpts
+export type BridgeKafkaProducerBufferMode =
+  typeof BridgeKafkaProducerBufferMode[keyof typeof BridgeKafkaProducerBufferMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaProducerBufferMode = {
+  memory: 'memory',
+  disk: 'disk',
+  hybrid: 'hybrid',
+} as const
+
+export interface BridgeKafkaProducerBuffer {
+  mode?: BridgeKafkaProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
+  memory_overload_protection?: boolean
 }
 
 export type BridgeKafkaPostBridgeV2Type =
@@ -1116,6 +1178,118 @@ export interface BridgeKafkaGetBridgeV2 {
   local_topic?: string
   parameters: BridgeKafkaProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
+}
+
+export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeHttpResourceOptsQueryMode =
+  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
+
+export interface BridgeHttpResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+  /** @deprecated */
+  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
+  query_mode?: BridgeHttpResourceOptsQueryMode
+  request_ttl?: BridgeHttpResourceOptsRequestTtl
+  inflight_window?: number
+  /** @deprecated */
+  enable_queue?: boolean
+  max_buffer_bytes?: string
+}
+
+export type BridgeHttpPostBridgeV2Type =
+  typeof BridgeHttpPostBridgeV2Type[keyof typeof BridgeHttpPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpPostBridgeV2Type = {
+  http: 'http',
+} as const
+
+export type BridgeHttpParametersOptsHeaders = { [key: string]: any }
+
+export type BridgeHttpParametersOptsMethod =
+  typeof BridgeHttpParametersOptsMethod[keyof typeof BridgeHttpParametersOptsMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpParametersOptsMethod = {
+  post: 'post',
+  put: 'put',
+  get: 'get',
+  delete: 'delete',
+} as const
+
+export interface BridgeHttpParametersOpts {
+  path?: string
+  method?: BridgeHttpParametersOptsMethod
+  headers?: BridgeHttpParametersOptsHeaders
+  body?: string
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+}
+
+export interface BridgeHttpPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
+}
+
+export interface BridgeHttpPostBridgeV2 {
+  type: BridgeHttpPostBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
+}
+
+export type BridgeHttpGetBridgeV2Type =
+  typeof BridgeHttpGetBridgeV2Type[keyof typeof BridgeHttpGetBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetBridgeV2Type = {
+  http: 'http',
+} as const
+
+export type BridgeHttpGetBridgeV2Status =
+  typeof BridgeHttpGetBridgeV2Status[keyof typeof BridgeHttpGetBridgeV2Status]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpGetBridgeV2Status = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface BridgeHttpGetBridgeV2 {
+  status?: BridgeHttpGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpResourceOpts
 }
 
 export interface BridgeGcpPubsubKeyValuePair {
@@ -1272,27 +1446,4 @@ export interface ActionsResourceOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface GcpPubsubProducerPutBridgeV2 {
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: GcpPubsubProducerActionParameters
-  resource_opts?: ActionsResourceOpts
-}
-
-export interface BridgeMongodbGetBridgeV2 {
-  status?: BridgeMongodbGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeMongodbGetBridgeV2Type
-  name: string
-  local_topic?: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: BridgeMongodbActionParameters
-  resource_opts?: ActionsResourceOpts
 }
