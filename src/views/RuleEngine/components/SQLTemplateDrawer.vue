@@ -19,7 +19,7 @@
               <!-- <el-button size="small" @click="testSQL(item)">
                 {{ tl('testsql') }}
               </el-button> -->
-              <el-button size="small" @click="useSQL(item.sql)">
+              <el-button size="small" :disabled="!$hasPermission('put')" @click="useSQL(item.sql)">
                 {{ tl('useSQL') }}
               </el-button>
             </div>

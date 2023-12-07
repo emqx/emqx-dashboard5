@@ -21,7 +21,12 @@
               <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="small" plain @click="deleteOutput(index)">
+              <el-button
+                size="small"
+                plain
+                :disabled="!$hasPermission('put')"
+                @click="deleteOutput(index)"
+              >
                 {{ $t('Base.delete') }}
               </el-button>
             </span>

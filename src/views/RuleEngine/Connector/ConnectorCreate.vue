@@ -34,10 +34,21 @@
           <el-button v-if="isInSinglePage" :disabled="isSubmitting" @click="goPreStep">
             {{ $t('Base.backStep') }}
           </el-button>
-          <el-button type="primary" plain :loading="isTesting" @click="handleTest">
+          <el-button
+            type="primary"
+            plain
+            :loading="isTesting"
+            :disabled="!$hasPermission('post')"
+            @click="handleTest"
+          >
             {{ tl('testTheConnection') }}
           </el-button>
-          <el-button type="primary" :loading="isSubmitting" @click="submit">
+          <el-button
+            type="primary"
+            :loading="isSubmitting"
+            :disabled="!$hasPermission('post')"
+            @click="submit"
+          >
             {{ $t('Base.create') }}
           </el-button>
         </template>

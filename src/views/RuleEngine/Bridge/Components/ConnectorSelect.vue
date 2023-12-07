@@ -4,7 +4,12 @@
       <el-option v-for="{ name } in connectorOpts" :label="name" :value="name" :key="name" />
     </el-select>
     <el-tooltip :content="tl('createConnector')" placement="top">
-      <el-button class="btn-add" :icon="Plus" @click="addConnector"></el-button>
+      <el-button
+        class="btn-add"
+        :icon="Plus"
+        :disabled="!$hasPermission('post')"
+        @click="addConnector"
+      ></el-button>
     </el-tooltip>
     <ConnectorCreateDrawer
       v-model="showDrawer"
