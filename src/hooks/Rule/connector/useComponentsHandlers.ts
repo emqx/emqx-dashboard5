@@ -3,6 +3,7 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
+import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -70,6 +71,9 @@ export default (
     const comRet = components
     if (comRet.url && !comRet.url.default) {
       comRet.url.default = 'http://'
+    }
+    if (comRet?.headers?.default) {
+      comRet.headers.default = pick(comRet.headers.default, 'content-type')
     }
     return { components: comRet, rules }
   }

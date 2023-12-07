@@ -3,6 +3,7 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
 import { Properties } from '@/types/schemaForm'
+import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -62,6 +63,12 @@ export default (
     const { parameters } = components
     if (parameters?.properties?.body?.type === 'string') {
       parameters.properties.body.format = 'sql'
+    }
+    if (parameters?.properties?.headers?.default) {
+      parameters.properties.headers.default = pick(
+        parameters.properties.headers.default,
+        'content-type',
+      )
     }
     return { components, rules }
   }
