@@ -307,21 +307,29 @@ export default {
     zh: '更新 License',
     en: 'update license',
   },
+  resetLicense: {
+    zh: '重置 License',
+    en: 'Reset License',
+  },
+  resetLicenseConfirm: {
+    zh: '重置为默认 License 后，当前已超出限额的连接可以继续保持，但无法建立新的连接。输入 ”default“ 以确认。',
+    en: 'After resetting to default license, the current connections that have exceeded the limit can continue to be maintained, but new connections cannot be established. Enter "default" to confirm.',
+  },
   licenseSettings: {
     zh: 'License 设置',
     en: 'License Settings',
   },
   connection_low_watermark: {
-    zh: '使用量低水位线',
-    en: 'Usage Low Watermark',
+    zh: '当使用量低于此值时清除警报',
+    en: 'Clear Alarm when usage is below:',
   },
   connection_low_watermark_desc: {
     zh: '当低于此限制时，License 的连接配额使用警报将被停用',
     en: 'Low watermark limit below which license connection quota usage alarms are deactivated.',
   },
   connection_high_watermark: {
-    zh: '使用量高水位线',
-    en: 'Usage High Watermark',
+    zh: '当使用量达到此值时触发警报',
+    en: 'Raise Alarm when usage reaches',
   },
   connection_high_watermark_desc: {
     en: 'High watermark limit above which license connection quota usage alarms are activated.',
