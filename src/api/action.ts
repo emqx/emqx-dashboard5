@@ -41,6 +41,7 @@ export const getActionTypes = (): Promise<Array<string>> => {
 export const deleteAction = (id: string, withDependency = false): Promise<void> => {
   return http.delete(`/actions/${encodeURIComponent(id)}`, {
     params: withDependency ? { also_delete_dep_actions: withDependency } : undefined,
+    errorsHandleCustom: [400],
   })
 }
 

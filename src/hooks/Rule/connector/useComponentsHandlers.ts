@@ -72,6 +72,9 @@ export default (
     if (comRet.url && !comRet.url.default) {
       comRet.url.default = 'http://'
     }
+    if (comRet?.headers?.default) {
+      comRet.headers.default = pick(comRet.headers.default, 'content-type')
+    }
     return { components: comRet, rules }
   }
 

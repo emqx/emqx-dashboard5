@@ -8,6 +8,7 @@ import { BridgeType, Role } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { useRedisCommandCheck } from '../useDataHandler'
+import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -93,6 +94,12 @@ export default (
     const { parameters } = components
     if (parameters?.properties?.body?.type === 'string') {
       parameters.properties.body.format = 'sql'
+    }
+    if (parameters?.properties?.headers?.default) {
+      parameters.properties.headers.default = pick(
+        parameters.properties.headers.default,
+        'content-type',
+      )
     }
     return { components, rules }
   }

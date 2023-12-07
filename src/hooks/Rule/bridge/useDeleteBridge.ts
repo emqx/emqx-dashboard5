@@ -4,12 +4,6 @@ import { isFunction } from 'lodash'
 import { Ref, ref } from 'vue'
 import useHandleActionItem from '../action/useHandleActionItem'
 
-const getRuleArrFromErrorMsg = (msg: string) => {
-  const reg = /Cannot delete bridge while active rules are depending on it: /
-  const ruleStr = msg.replace(/\n.+/, '').replace(/,/g, '').replace(reg, '')
-  return ruleStr.split(' ').filter(Boolean)
-}
-
 export default (
   deletedCallBack: () => void,
 ): {
@@ -32,8 +26,8 @@ export default (
     }
   }
 
-  const secondConfirmToDelete = async (msg: string) => {
-    usingBridgeRules.value = getRuleArrFromErrorMsg(msg)
+  const secondConfirmToDelete = async (ruleList: Array<string>) => {
+    usingBridgeRules.value = ruleList
     showSecondConfirm.value = true
   }
 
@@ -52,7 +46,7 @@ export default (
       const { status, data } = error?.response || {}
       if (status === 400) {
         currentDeleteBridgeId.value = id
-        secondConfirmToDelete(data?.message || '')
+        secondConfirmToDelete(data?.rules || [])
       } else {
         console.error(error)
       }
