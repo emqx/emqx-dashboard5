@@ -78,8 +78,7 @@ const submit = async () => {
 .webhook-create-card {
   padding: 12px 104px;
   .card-ft {
-    display: flex;
-    justify-content: flex-end;
+    padding-top: 36px;
   }
 }
 </style>
