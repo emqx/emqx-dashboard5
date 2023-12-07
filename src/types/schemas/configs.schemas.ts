@@ -638,61 +638,6 @@ export type EmqxConsoleHandlerFormatter =
   typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxDashboardSsoSamlSamlBackend = {
-  saml: 'saml',
-} as const
-
-export interface EmqxDashboardSsoSamlSaml {
-  enable?: boolean
-  backend: EmqxDashboardSsoSamlSamlBackend
-  dashboard_addr?: string
-  idp_metadata_url?: string
-  sp_sign_request?: boolean
-  sp_public_key?: string
-  sp_private_key?: string
-}
-
-export type EmqxConfSchemaLogFileHandlerFormatter =
-  typeof EmqxConfSchemaLogFileHandlerFormatter[keyof typeof EmqxConfSchemaLogFileHandlerFormatter]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLogFileHandlerFormatter = {
-  text: 'text',
-  json: 'json',
-} as const
-
-export type EmqxLogFileHandlerLevel =
-  typeof EmqxLogFileHandlerLevel[keyof typeof EmqxLogFileHandlerLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxLogFileHandlerLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export type EmqxLogFileHandlerRotationSize = string | 'infinity'
-
-export interface EmqxLogFileHandler {
-  path?: string
-  rotation_count?: number
-  rotation_size?: EmqxLogFileHandlerRotationSize
-  level?: EmqxLogFileHandlerLevel
-  enable?: boolean
-  formatter?: EmqxLogFileHandlerFormatter
-  time_offset?: string
-}
-
-export type EmqxConfSchemaConsoleHandlerFormatter =
-  typeof EmqxConfSchemaConsoleHandlerFormatter[keyof typeof EmqxConfSchemaConsoleHandlerFormatter]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerFormatter = {
   text: 'text',
   json: 'json',
@@ -719,6 +664,11 @@ export interface EmqxConsoleHandler {
   enable?: boolean
   formatter?: EmqxConsoleHandlerFormatter
   time_offset?: string
+}
+
+export interface DashboardSso {
+  ldap?: SsoLdap
+  saml?: DashboardSaml
 }
 
 export type DashboardSslOptionsLogLevel =
