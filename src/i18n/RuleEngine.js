@@ -4,7 +4,7 @@ export default {
     en: 'Create Action',
   },
   createConnector: {
-    zh: '创建连接',
+    zh: '创建连接器',
     en: 'Create Connector',
   },
   updateConnectorTip: {
@@ -24,7 +24,7 @@ export default {
     en: 'Type of Action',
   },
   connectorType: {
-    zh: '连接类型',
+    zh: '连接器类型',
     en: 'Type of Connector',
   },
   connectorName: {
@@ -796,6 +796,10 @@ export default {
   },
   useConnectorCreateRule: {
     zh: '是否使用该连接器创建规则？',
+    en: 'Would you like to create a rule using this connector?',
+  },
+  useActionCreateRule: {
+    zh: '是否使用该动作创建规则',
     en: 'Would you like to create a rule using this connector?',
   },
   console: {
