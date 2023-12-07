@@ -64,8 +64,10 @@ export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): 
 }
 export const downloadBackup = (
   fileName: string,
+  node?: string,
 ): Promise<{
   data: Blob
 }> => {
-  return http.get(`/data/files/${fileName}`, { responseType: 'blob' })
+  const params = node ? { node } : undefined
+  return http.get(`/data/files/${fileName}`, { responseType: 'blob', params })
 }

@@ -193,8 +193,8 @@ const handleDeleteBackup = async ({ filename }: BackupItem) => {
   })
 }
 
-const handleDownloadBackup = async ({ filename }: BackupItem) => {
-  const res = await downloadBackup(filename)
+const handleDownloadBackup = async ({ filename, node }: BackupItem) => {
+  const res = await downloadBackup(filename, node)
   if (res.data) {
     createDownloadBlobLink(res.data, filename)
   }
