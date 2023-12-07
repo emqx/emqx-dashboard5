@@ -28,6 +28,7 @@
                   type="primary"
                   size="small"
                   text
+                  :disabled="!$hasPermission('put')"
                   @click.prevent="useEvent(item.event)"
                 >
                   {{ tl('useEvent') }}
@@ -66,6 +67,7 @@
                 type="primary"
                 size="small"
                 text
+                :disabled="!$hasPermission('put')"
                 @click.prevent="useEvent(item.idForRuleFrom)"
               >
                 {{ tl('useAction') }}

@@ -3,7 +3,13 @@
     <div v-if="!isInitializing && !isAuditEnabled" class="no-log-tip">
       <img src="@/assets/img/log_disabled.png" alt="" width="375" />
       <p>{{ tl('auditLogDesc') }}</p>
-      <el-button class="confirm-btn" type="primary" :loading="isEnabling" @click="enableModule">
+      <el-button
+        class="confirm-btn"
+        type="primary"
+        :loading="isEnabling"
+        :disabled="!$hasPermission('put')"
+        @click="enableModule"
+      >
         {{ t('Base.enable') }}
       </el-button>
     </div>

@@ -3,7 +3,12 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'connector-create' })">
+        <el-button
+          type="primary"
+          :icon="Plus"
+          :disabled="!$hasPermission('post')"
+          @click="$router.push({ name: 'connector-create' })"
+        >
           {{ tl('create') }}
         </el-button>
       </div>
@@ -34,6 +39,7 @@
             <el-button
               size="small"
               v-if="isErrorStatus(row)"
+              :disabled="!$hasPermission('post')"
               :loading="reconnectingMap.get(row.id)"
               @click="reconnect(row)"
             >
