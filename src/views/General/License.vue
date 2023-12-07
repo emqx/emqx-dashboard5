@@ -1,3 +1,4 @@
+ysf
 <template>
   <div class="license app-wrapper">
     <el-card class="license-card">
@@ -91,6 +92,15 @@
         >
           {{ startCase(tl('updateLicense')) }}
         </el-button>
+        <el-button
+          v-if="licenseData.deployment !== 'default'"
+          type="primary"
+          plain
+          :disabled="!$hasPermission('post')"
+          @click="showResetDialog = true"
+        >
+          {{ tl('resetLicense') }}
+        </el-button>
       </div>
       <!-- Config -->
       <div class="license-config">
@@ -99,7 +109,7 @@
           ref="licenseConfigForm"
           :model="licenseConfig"
           label-position="right"
-          :label-width="store.state.lang === 'zh' ? 132 : 178"
+          :label-width="store.state.lang === 'zh' ? 216 : 245"
           :rules="rules"
           hide-required-asterisk
         >
@@ -133,6 +143,7 @@
       </div>
     </el-card>
     <LicenseUpdateDialog v-model="showUpdateDialog" @updated="loadLicenseData" />
+    <LicenseResetDialog v-model="showResetDialog" @updated="loadLicenseData" />
   </div>
 </template>
 
@@ -147,6 +158,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ref, ComputedRef, computed, onMounted, onUnmounted } from 'vue'
 import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
+import LicenseResetDialog from './components/LicenseResetDialog.vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
@@ -170,6 +182,7 @@ const { docMap } = useDocLink()
 const progressBarOuterWidth = ref(0)
 
 const showUpdateDialog = ref(false)
+const showResetDialog = ref(false)
 const saveLoading = ref(false)
 const showTooltip = ref(false)
 
@@ -279,6 +292,9 @@ const handleUpdate = async () => {
     saveLoading.value = false
   }
 }
+
+const handleReset = () => {}
+
 loadLicenseData()
 </script>
 
