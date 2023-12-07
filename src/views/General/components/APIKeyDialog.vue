@@ -46,7 +46,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('role', 'Dashboard')" prop="role">
-            <el-select v-model="formData.role">
+            <el-select v-model="formData.role" :disabled="operationType === 'view'">
               <el-option
                 v-for="{ label, value } in apiKeyRoleOptions"
                 :key="value"
