@@ -31,6 +31,7 @@
 import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
+import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
 import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
@@ -41,17 +42,12 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-type UseConnectorBridgeType = Exclude<
-  BridgeType,
-  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
->
+// type UseConnectorBridgeType = Exclude<
+//   BridgeType,
+//   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
+// >
 
-const typeRefKeyMap = {
-  [BridgeType.Webhook]: 'bridge_http.post_connector',
-  [BridgeType.KafkaProducer]: 'bridge_kafka.post_connector',
-  [BridgeType.AzureEventHubs]: 'bridge_azure_event_hub.post_connector',
-  [BridgeType.Confluent]: 'confluent.post_connector',
-}
+const { typeRefKeyMap } = useConnectorSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -137,7 +133,7 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
+  return typeRefKeyMap.get(props.type)
 })
 
 const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)

@@ -1,5 +1,5 @@
 import { SSL_FIELDS } from '@/common/constants'
-import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeSchema, useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
@@ -145,7 +145,16 @@ export default (
     return prop.path
   }
 
-  const { getTypeBySchemaRef } = useBridgeSchema()
+  const { getTypeByBridgeSchemaRef } = useBridgeSchema()
+  const { getTypeByConnectorSchemaRef } = useConnectorSchema()
+  const getTypeBySchemaRef = () => {
+    const { ref } = props.accordingTo
+    if (props.type === 'bridge') {
+      return getTypeByBridgeSchemaRef(ref)
+    }
+    return getTypeByConnectorSchemaRef(ref)
+  }
+
   /**
    * zone is first level
    */
@@ -159,7 +168,7 @@ export default (
     if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
     }
-    let type = getTypeBySchemaRef(props.accordingTo.ref)
+    let type = getTypeBySchemaRef()
     if (type in BRIDGE_SPECIAL_TYPE_MAP) {
       type = BRIDGE_SPECIAL_TYPE_MAP[type]
     }
@@ -167,7 +176,7 @@ export default (
   }
 
   const getBridgeTextKey = (prop: Property) => {
-    const type = getTypeBySchemaRef(props.accordingTo.ref)
+    const type = getTypeBySchemaRef()
     let key = prop.key
     if (!key) {
       return

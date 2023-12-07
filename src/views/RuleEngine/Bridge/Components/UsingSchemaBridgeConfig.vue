@@ -50,10 +50,10 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-type UseSchemaBridgeType = Exclude<
-  BridgeType,
-  BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
->
+// type UseSchemaBridgeType = Exclude<
+//   BridgeType,
+//   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
+// >
 
 const { getSchemaRefByType } = useBridgeSchema()
 const bridgeTypeRefKeyMap = {
@@ -82,6 +82,7 @@ const actionTypeRefKeyMap = {
   [BridgeType.Webhook]: getActionTypeRefKey(BridgeType.Webhook),
   [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
   [BridgeType.Confluent]: 'confluent.post_bridge_v2',
+  [BridgeType.PgSQL]: getActionTypeRefKey(BridgeType.PgSQL),
 }
 
 const props = withDefaults(
