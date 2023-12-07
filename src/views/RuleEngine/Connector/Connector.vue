@@ -57,7 +57,11 @@
 </template>
 
 <script setup lang="ts">
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  isConnectorSupported,
+  useBridgeTypeIcon,
+  useConnectorTypeValue,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -65,6 +69,7 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
@@ -77,7 +82,7 @@ const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const { getMixedConnectorList } = useMixedConnectorList()
 const getList = async () => {
@@ -123,15 +128,45 @@ const copyConnectorItem = ({ id }: Connector) => {
   router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
 }
 
+const deleteTrueConnector = async (id: string) => {
+  return confirmDel(() => deleteConnector(id))
+}
+
+const deleteBridge = async (id: string) => {
+  try {
+    await confirmDel(() => deleteConnector(id))
+  } catch (error: any) {
+    const { status, data } = error?.response || {}
+    if (status === 400 && data?.rules?.length) {
+      await ElMessageBox.confirm(tl('deleteFakeConnectorConfirm'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        confirmButtonClass: 'confirm-danger',
+        type: 'warning',
+      })
+      await deleteConnector(id, true)
+      return Promise.resolve()
+    } else {
+      console.error(error)
+    }
+    return Promise.reject()
+  }
+}
+
 // TODO:TODO:TODO:
 const { confirmDel } = useOperationConfirm()
-const handleDeleteConnector = async ({ id }: Connector) => {
+isConnectorSupported
+const handleDeleteConnector = async ({ id, type }: Connector) => {
   // TODO:can not delete connector which associated with action
   // if (XXXXX) {
   //   return
   // }
   try {
-    await confirmDel(() => deleteConnector(id))
+    if (isConnectorSupported(type)) {
+      await deleteTrueConnector(id)
+    } else {
+      await deleteBridge(id)
+    }
     getList()
   } catch (error) {
     //

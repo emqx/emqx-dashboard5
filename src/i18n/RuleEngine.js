@@ -834,6 +834,10 @@ export default {
     zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
     en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
   },
+  deleteFakeConnectorConfirm: {
+    zh: '该连接器被动作使用，继续操作将删除其相关动作。是否确认继续？',
+    en: 'This connector is used by action, and continuing the operation will remove its associated action, continue?',
+  },
   rateUnit: {
     zh: '条/秒 | 条/秒',
     en: 'message/sec | messages/sec',
