@@ -50,6 +50,9 @@ const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
   matrix: 'pgsql',
   timescale: 'pgsql',
   confluent: 'kafka',
+  confluent_producer: 'kafka',
+  kafka_producer: 'kafka',
+  azure_event_hub_producer: 'azure_event_hub',
 }
 
 const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
