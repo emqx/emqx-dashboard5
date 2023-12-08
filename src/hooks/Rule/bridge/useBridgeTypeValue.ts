@@ -1,4 +1,8 @@
-import { INGRESS_BRIDGE_TYPES, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
+import {
+  BRIDGE_OLD_TYPES_MAP,
+  INGRESS_BRIDGE_TYPES,
+  SUPPORTED_CONNECTOR_TYPES,
+} from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -77,6 +81,24 @@ export const useBridgeTypeValue = (): {
     getBridgeLabelByTypeValue,
     getBridgeGeneralType,
     getGeneralTypeLabel,
+  }
+}
+
+export const useOldNewType = (): {
+  BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>>
+  getNewType: (oldType: string) => string | undefined
+} => {
+  const getNewType = (oldType: string) => {
+    for (const [newType, oldTypeArr] of BRIDGE_OLD_TYPES_MAP.entries()) {
+      if (oldTypeArr.includes(oldType)) {
+        return newType
+      }
+    }
+    return undefined
+  }
+  return {
+    BRIDGE_OLD_TYPES_MAP,
+    getNewType,
   }
 }
 

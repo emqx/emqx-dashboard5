@@ -104,7 +104,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getMixedActionList, getRuleEvents } from '@/api/ruleengine'
+import { getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import {
   checkIsValidArr,
@@ -116,6 +116,7 @@ import {
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
@@ -304,6 +305,7 @@ const transformSQL = () => {
   return transSQLFormDataToSQL(select, from, where)
 }
 
+const { getMixedActionList } = useMixedActionList()
 const loadBridgeList = async () => {
   outputLoading.value = true
   try {

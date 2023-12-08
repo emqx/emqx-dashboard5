@@ -327,10 +327,8 @@ export const splitOnComma = (input: string): string[] => {
 export const trimSpacesAndLFs = (input: string): string =>
   input.replace(/(^\s+)|(\s+$)/g, '').replace(/(^\n+)|(\n+$)/g, '')
 
-export const getBridgeKey = ({
-  type,
-  name,
-}: { type: BridgeType; name: string } & unknown): string => `${type}:${name}`
+export const getBridgeKey = ({ type, name }: { type: string; name: string } & unknown): string =>
+  `${type}:${name}`
 
 const keyReg = /^(?<type>\w+):(?<name>.+)$/
 /**

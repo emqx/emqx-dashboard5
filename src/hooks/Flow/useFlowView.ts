@@ -1,4 +1,4 @@
-import { getMixedActionList, getRules } from '@/api/ruleengine'
+import { getRules } from '@/api/ruleengine'
 import { getAllListData } from '@/common/tools'
 import useGenerateFlowDataUtils, { GroupedNode } from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
@@ -6,8 +6,9 @@ import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
-import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
+import useMixedActionList from '../Rule/action/useMixedActionList'
+import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -40,10 +41,11 @@ export default (): {
     }
   }
 
+  const { getMixedActionListForRule } = useMixedActionList()
   const { handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
-      const list: Array<BridgeItem> = await getMixedActionList()
+      const list: Array<BridgeItem> = await getMixedActionListForRule()
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
         m.set(item.id, handleActionDataAfterLoaded(item))
         return m

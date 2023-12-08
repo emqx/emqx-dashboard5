@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import { getMixedActionList } from '@/api/ruleengine'
 import { createRandomString } from '@/common/tools'
+import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import useBridgeTypeValue, { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -69,10 +69,10 @@ const selected = computed({
 })
 
 const totalActionList = ref<Array<BridgeItem>>([])
-
+const { getMixedActionListForRule } = useMixedActionList()
 const getTotalList = async () => {
   try {
-    totalActionList.value = await getMixedActionList()
+    totalActionList.value = await getMixedActionListForRule()
   } catch (error) {
     //
   }
