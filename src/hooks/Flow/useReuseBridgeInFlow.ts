@@ -1,10 +1,10 @@
-import { getMixedActionList } from '@/api/ruleengine'
 import { useBridgeDirection, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { cloneDeep, groupBy } from 'lodash'
+import { groupBy } from 'lodash'
 import { ComputedRef, Ref, computed, ref } from 'vue'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
+import useMixedActionList from '../Rule/action/useMixedActionList'
 
 type GroupedBridgeMap = { [key in BridgeType]?: Array<BridgeItem> }
 
@@ -27,7 +27,7 @@ export default (
   )
 
   const { getBridgeGeneralType } = useBridgeTypeValue()
-
+  const { getMixedActionList } = useMixedActionList()
   const getBridges = async () => {
     try {
       getBridgeRequest = getMixedActionList()
