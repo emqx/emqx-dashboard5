@@ -131,3 +131,28 @@
     align-items: center;
   }
 }
+
+.delete-second-confirm {
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    padding-top: 20px;
+    padding-bottom: 0px;
+  }
+  .el-dialog__footer {
+    padding-bottom: 12px;
+  }
+  ul {
+    list-style: none;
+    padding-left: 36px;
+    margin-bottom: 0;
+  }
+  li {
+    margin-right: 4px;
+  }
+  .data-item {
+    display: inline-block;
+    padding: 4px 0;
+  }
+}
