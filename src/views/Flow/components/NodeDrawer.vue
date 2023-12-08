@@ -167,7 +167,7 @@ const { isBridgerNode, removeDirectionFromSpecificType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
-  [FlowNodeType.Default]: [ProcessingType.Filter],
+  [FlowNodeType.Default]: [ProcessingType.Filter, ProcessingType.Function],
   [FlowNodeType.Output]: [SinkType.Console, SinkType.RePub],
 }
 const withMetrics = computed(() => {
