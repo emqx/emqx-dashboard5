@@ -58,9 +58,6 @@ import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefau
 const { getSchemaRefByType } = useBridgeSchema()
 const bridgeTypeRefKeyMap = {
   [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-  [BridgeType.PgSQL]: getSchemaRefByType('pgsql'),
-  [BridgeType.TimescaleDB]: getSchemaRefByType('timescale'),
-  [BridgeType.MatrixDB]: getSchemaRefByType('matrix'),
   [BridgeType.TDengine]: getSchemaRefByType('tdengine'),
   [BridgeType.ClickHouse]: getSchemaRefByType('clickhouse'),
   [BridgeType.DynamoDB]: getSchemaRefByType('dynamo'),
@@ -83,6 +80,8 @@ const actionTypeRefKeyMap = {
   [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
   [BridgeType.Confluent]: 'confluent.post_bridge_v2',
   [BridgeType.PgSQL]: getActionTypeRefKey(BridgeType.PgSQL),
+  [BridgeType.TimescaleDB]: getActionTypeRefKey(BridgeType.TimescaleDB),
+  [BridgeType.MatrixDB]: getActionTypeRefKey(BridgeType.MatrixDB),
 }
 
 const props = withDefaults(

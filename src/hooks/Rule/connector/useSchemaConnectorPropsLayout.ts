@@ -74,6 +74,10 @@ export default (
     ),
     ...createOrderObj(azureAdvancedProps, 150),
   }
+  const pgSqlOrderMap = createOrderObj(
+    ['server', 'database', 'username', 'password', 'ssl'],
+    fieldStartIndex,
+  )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
@@ -81,6 +85,9 @@ export default (
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: azureOrderMap,
+    [BridgeType.PgSQL]: pgSqlOrderMap,
+    [BridgeType.TimescaleDB]: pgSqlOrderMap,
+    [BridgeType.MatrixDB]: pgSqlOrderMap,
   }
 
   const propsOrderMap = computed(() => {
