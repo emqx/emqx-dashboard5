@@ -88,6 +88,7 @@ export interface BridgeBaseData {
   status: ConnectionStatus
   status_reason?: string
   type: BridgeType
+  realType?: string
   local_topic?: string
   enable: boolean
   resource_opts: ResourceOpt

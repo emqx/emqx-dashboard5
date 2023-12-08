@@ -69,7 +69,6 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue'
-import { getMixedActionList } from '@/api/ruleengine'
 import { useI18n } from 'vue-i18n'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage as M, ElMessageBox } from 'element-plus'
@@ -82,6 +81,7 @@ import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vu
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import { ConnectionStatus } from '@/types/enum'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 
 export default defineComponent({
   components: { TargetItemStatus, TableItemDropDown, DeleteBridgeSecondConfirm },
@@ -99,6 +99,7 @@ export default defineComponent({
       bridgeTb.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
     }
 
+    const { getMixedActionList } = useMixedActionList()
     const listBridge = async function () {
       tbLoading.value = true
       try {

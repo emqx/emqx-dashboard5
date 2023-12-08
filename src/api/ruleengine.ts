@@ -1,12 +1,7 @@
-import {
-  BRIDGE_OLD_TYPES_MAP,
-  RULE_INPUT_BRIDGE_TYPE_PREFIX,
-  SUPPORTED_CONNECTOR_TYPES,
-} from '@/common/constants'
+import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
-import { getBridgeKey, omitArr } from '@/common/tools'
+import { getBridgeKey } from '@/common/tools'
 import { ListDataWithPagination } from '@/types/common'
-import { BridgeType } from '@/types/enum'
 import {
   BridgeItem,
   BridgeMetricsData,
@@ -15,7 +10,6 @@ import {
   RuleMetrics,
   SchemaRegistry,
 } from '@/types/rule'
-import { getActions } from './action'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -31,53 +25,6 @@ export async function getBridgeList(): Promise<any> {
         }
       }),
     )
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-/**
- * bridge + action list
- */
-export const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
-  try {
-    const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
-    /**
-     * Supported v2 type
-     * When creating a bridge
-     * An action will be created at the same time
-     *
-     * Here, when deduplicating, you need to consider the compatibility of the dashboard
-     *
-     * The dashboard supports v2, remove the part in bridge
-     * If the dashboard does not support it yet, remove the action.
-     */
-    const bridgeIdArr: Array<string> = bridgeList.map(({ id }: BridgeItem) => id)
-    const actionIndexArrNeedRemoved: Array<number> = []
-    const bridgeIndexArrNeedRemoved: Array<number> = []
-    actionList.forEach(({ id: actionId, name, type: newType }, actionIndex) => {
-      const oldTypeArr = BRIDGE_OLD_TYPES_MAP.get(newType)
-      let bridgeIndex = -1
-      if (oldTypeArr) {
-        const oldIdArr = oldTypeArr.map((oldType) =>
-          getBridgeKey({ type: oldType as BridgeType, name }),
-        )
-        bridgeIndex = bridgeIdArr.findIndex((id) => oldIdArr.includes(id))
-      } else {
-        bridgeIndex = bridgeIdArr.findIndex((id) => id === actionId)
-      }
-      if (bridgeIndex > -1) {
-        if (SUPPORTED_CONNECTOR_TYPES.includes(newType)) {
-          bridgeIndexArrNeedRemoved.push(bridgeIndex)
-        } else {
-          actionIndexArrNeedRemoved.push(actionIndex)
-        }
-      }
-    })
-
-    const filteredActionList: Array<BridgeItem> = omitArr(actionList, actionIndexArrNeedRemoved)
-    const filteredBridgeList: Array<BridgeItem> = omitArr(bridgeList, bridgeIndexArrNeedRemoved)
-    return Promise.resolve(filteredActionList.concat(filteredBridgeList))
   } catch (error) {
     return Promise.reject(error)
   }

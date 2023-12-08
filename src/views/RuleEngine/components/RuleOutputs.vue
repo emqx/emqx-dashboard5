@@ -99,7 +99,7 @@ const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
 const { getBridgeIconKey } = useBridgeTypeIcon()
-const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const { getGeneralTypeLabel } = useBridgeTypeValue()
 
 const calcDisableList = () => {
   outputDisableList.value = []
@@ -214,9 +214,7 @@ const getOutputTypeLabel = (item: OutputItem) => {
   const itemType = judgeOutputType(item)
   switch (itemType) {
     case RuleOutput.DataBridge:
-      return getBridgeLabelByTypeValue(
-        (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType,
-      )
+      return getGeneralTypeLabel((item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType)
     case RuleOutput.Console:
       return tl('consoleOutput')
     case RuleOutput.Republish:

@@ -1,22 +1,17 @@
 import { getActions } from '@/api/action'
 import { getConnectors } from '@/api/connector'
 import { getBridgeList } from '@/api/ruleengine'
-import { BRIDGE_OLD_TYPES_MAP, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
+import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getBridgeKey, omitArr } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
+import { useOldNewType } from '../bridge/useBridgeTypeValue'
 
 export default (): {
   getMixedConnectorList: () => Promise<Array<Connector | BridgeItem>>
 } => {
-  const getNewType = (oldType: string) => {
-    for (const [newType, oldTypeArr] of BRIDGE_OLD_TYPES_MAP.entries()) {
-      if (oldTypeArr.includes(oldType)) {
-        return newType
-      }
-    }
-    return undefined
-  }
+  const { getNewType } = useOldNewType()
+
   const getMixedConnectorList = async (): Promise<Array<Connector | BridgeItem>> => {
     try {
       const [connectorList, actionList, bridgeList] = await Promise.all([
