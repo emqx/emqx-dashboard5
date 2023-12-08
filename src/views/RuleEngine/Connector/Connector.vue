@@ -54,6 +54,11 @@
       </el-table>
     </div>
   </div>
+  <DelConnectorTip
+    v-model="showDelTip"
+    :action-list="associatedActionList"
+    :connector-type="currentDelType"
+  />
 </template>
 
 <script setup lang="ts">
@@ -74,6 +79,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+import DelConnectorTip from './components/DelConnectorTip.vue'
 
 const router = useRouter()
 
@@ -153,14 +159,18 @@ const deleteBridge = async (id: string) => {
   }
 }
 
-// TODO:TODO:TODO:
+const showDelTip = ref(false)
+const associatedActionList = ref<Array<string>>([])
+const currentDelType = ref('')
+
 const { confirmDel } = useOperationConfirm()
-isConnectorSupported
-const handleDeleteConnector = async ({ id, type }: Connector) => {
-  // TODO:can not delete connector which associated with action
-  // if (XXXXX) {
-  //   return
-  // }
+const handleDeleteConnector = async ({ id, type, actions }: Connector) => {
+  if (actions && actions.length) {
+    showDelTip.value = true
+    associatedActionList.value = actions
+    currentDelType.value = type
+    return
+  }
   try {
     if (isConnectorSupported(type)) {
       await deleteTrueConnector(id)
@@ -178,5 +188,3 @@ const { getTypeStr } = useConnectorTypeValue()
 
 getList()
 </script>
-
-<style lang="scss"></style>
