@@ -378,6 +378,8 @@ export const useConnectorSchema = (): {
     [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.PgSQL, getRef('postgres', 'connector_')],
+    [BridgeType.TimescaleDB, getRef(BridgeType.TimescaleDB)],
+    [BridgeType.MatrixDB, getRef(BridgeType.MatrixDB)],
   ])
 
   const getTypeByConnectorSchemaRef = (ref: string) => {

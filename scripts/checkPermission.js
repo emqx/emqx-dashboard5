@@ -27,8 +27,11 @@ const doNotCheckKeyword = [
   'loadMetricsFromTopic',
   'routeToContactUs',
   ' disabled',
+  'Advanced',
+  'checkPayload',
+  'toggleEditedWay',
 ]
-const doNotCheckReg = new RegExp(doNotCheckKeyword.map((item) => item.source).join('|'), 'i')
+const doNotCheckReg = new RegExp(doNotCheckKeyword.map((item) => item).join('|'), 'i')
 const fileExclude = [
   'WebSocketItem.vue',
   'WebSocket.vue',
@@ -38,6 +41,8 @@ const fileExclude = [
   'InviteNode.vue',
   'Login.vue',
   'FlowList.vue',
+  'ObjectArrayEditor.vue',
+  'KeyAndValueEditor.vue',
 ]
 const excludeConf = fileExclude.map((item) => `--exclude=${item}`).join(' ')
 const check = () => {

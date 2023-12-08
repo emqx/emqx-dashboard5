@@ -52,17 +52,17 @@ export default (
     ...resourceOptFields,
   ]
 
+  const baseFields = ['name', 'connector', 'description']
+  const fieldStartIndex = baseFields.length
   const baseOrderMap = {
-    name: 0,
-    connector: 1,
-    description: 2,
+    ...createOrderObj(baseFields, 0),
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
   const httpAdvancedFields = [`parameters.max_retries`]
 
   const pgSqlOrderMap = {
-    ...createOrderObj(['server', 'database', 'username', 'password', 'pool_size', 'ssl'], 1),
+    ...createOrderObj(['parameters.sql', 'parameters.prepare_statement'], fieldStartIndex),
   }
 
   const mongoTopologyProps = [
@@ -118,7 +118,7 @@ export default (
         'parameters.message.timestamp',
         'parameters.partition_strategy',
       ],
-      1,
+      fieldStartIndex,
     ),
     ...createOrderObj(azureAdvancedProps, 150),
   }
@@ -140,7 +140,7 @@ export default (
           'ssl',
           'command_template',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.GCP]: {
@@ -156,7 +156,7 @@ export default (
           'consumer.topic_mapping',
           'consumer.pull_max_messages',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.MongoDB]: {
@@ -178,29 +178,32 @@ export default (
           'payload_template',
           ...mongoTopologyProps,
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
     [BridgeType.TDengine]: {
-      ...createOrderObj(['server', 'database', 'username', 'password'], 1),
+      ...createOrderObj(['server', 'database', 'username', 'password'], fieldStartIndex),
     },
     [BridgeType.ClickHouse]: {
       ...createOrderObj(
         ['url', 'database', 'username', 'password', 'batch_value_separator', 'sql'],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.DynamoDB]: {
       ...createOrderObj(
         ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'template'],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.Cassandra]: {
-      ...createOrderObj(['keyspace', 'servers', 'username', 'password', 'ssl', 'cql'], 1),
+      ...createOrderObj(
+        ['keyspace', 'servers', 'username', 'password', 'ssl', 'cql'],
+        fieldStartIndex,
+      ),
     },
     [BridgeType.RocketMQ]: {
       ...createOrderObj(
@@ -214,11 +217,14 @@ export default (
           'send_buffer',
           'template',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.MicrosoftSQLServer]: {
-      ...createOrderObj(['server', 'database', 'username', 'password', 'driver', 'sql'], 1),
+      ...createOrderObj(
+        ['server', 'database', 'username', 'password', 'driver', 'sql'],
+        fieldStartIndex,
+      ),
     },
     [BridgeType.IoTDB]: {
       ...createOrderObj(
@@ -233,14 +239,17 @@ export default (
           'enable_pipelining',
           'ssl',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.OpenTSDB]: {
-      ...createOrderObj(['server', 'summary', 'details'], 1),
+      ...createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
     },
     [BridgeType.OracleDatabase]: {
-      ...createOrderObj(['server', 'service_name', 'sid', 'username', 'password', 'sql'], 1),
+      ...createOrderObj(
+        ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
+        fieldStartIndex,
+      ),
     },
     [BridgeType.RabbitMQ]: {
       ...createOrderObj(
@@ -261,13 +270,13 @@ export default (
           'ssl',
           'payload_template',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.HStream]: {
       ...createOrderObj(
         ['url', 'stream', 'partition_key', 'grpc_timeout', 'ssl', 'record_template'],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.AzureEventHubs]: azurePropsOrderMap,
@@ -282,13 +291,13 @@ export default (
           'partition_key',
           'payload_template',
         ],
-        1,
+        fieldStartIndex,
       ),
     },
     [BridgeType.GreptimeDB]: {
       ...createOrderObj(
         ['server', 'dbname', 'username', 'password', 'precision', 'ssl', 'write_syntax'],
-        1,
+        fieldStartIndex,
       ),
     },
   }

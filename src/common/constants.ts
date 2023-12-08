@@ -273,6 +273,8 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.AzureEventHubs,
   BridgeType.Confluent,
   BridgeType.PgSQL,
+  BridgeType.TimescaleDB,
+  BridgeType.MatrixDB,
 ]
 
 export const COPY_SUFFIX = '_duplication'
