@@ -147,6 +147,7 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     type: 'tcp',
     name: 'default',
     bind: '7325',
+    acceptors: 16,
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
@@ -154,6 +155,7 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     type: 'tcp',
     name: 'default',
     bind: '6207',
+    acceptors: 16,
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
@@ -161,6 +163,7 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     type: 'ws',
     name: 'default',
     bind: '33033',
+    acceptors: 16,
     websocket: {
       path: '/ocpp',
     },
