@@ -254,9 +254,13 @@ const handleFieldVerifySchema = (schema: Property) => {
   return schema
 }
 
+const getFieldPath = (key: string, prePath?: string): string => `${prePath}${prePath && '.'}${key}`
+
+const localPartPath = 'storage.local.exporter.local'
+const s3PartPath = 'storage.local.exporter.s3'
 const enableField = {
-  [StorageType.Local]: 'storage.local.exporter.local.enable',
-  [StorageType.S3]: 'storage.local.exporter.s3.enable',
+  [StorageType.Local]: getFieldPath('enable', localPartPath),
+  [StorageType.S3]: getFieldPath('enable', s3PartPath),
 }
 const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
   const { components, rules } = data
@@ -307,14 +311,16 @@ const handleTypeChanged = (val: StorageType | any) => {
 
 /**
  * If there are some parameters that do not have a value set,
- * set a default value for them.
+ * set a default value for them.(because these parameters are advanced settings but required too)
  */
 const setDefaultValue = (conf: FileTransferConf) => {
-  if (!conf.storage?.local?.exporter?.s3?.min_part_size) {
-    set(conf, 'storage.local.exporter.s3.min_part_size', '5MB')
+  const minSizePath = getFieldPath('min_part_size', s3PartPath)
+  const maxSizePath = getFieldPath('max_part_size', s3PartPath)
+  if (!get(conf, minSizePath)) {
+    set(conf, minSizePath, '5MB')
   }
-  if (!conf.storage?.local?.exporter?.s3?.max_part_size) {
-    set(conf, 'storage.local.exporter.s3.max_part_size', '5MB')
+  if (!get(conf, maxSizePath)) {
+    set(conf, maxSizePath, '5MB')
   }
   return conf
 }
@@ -352,15 +358,14 @@ const reloading = () => {
 const handleSave = async (val: FileTransferConf) => {
   try {
     await customValidate(BasicFormCom.value)
-    const storageFormCom =
-      selectedStorageType.value === StorageType.Local
-        ? LocalStorageFormCom.value
-        : S3StorageFormCom.value
+    const isLocal = selectedStorageType.value === StorageType.Local
+    const storageFormCom = isLocal ? LocalStorageFormCom.value : S3StorageFormCom.value
     await customValidate(storageFormCom)
     saveLoading.value = true
     // When saving, the form data comes from the storage conf form component;
     // this component does not have basic conf data and needs to be processed.
-    const storageFormData = val
+    const partNeedBeOmitted = isLocal ? s3PartPath : localPartPath
+    const storageFormData = omit(cloneDeep(val), partNeedBeOmitted)
     const basicFormData = BasicFormCom.value.configForm
     const data = checkNOmitFromObj(merge(storageFormData, pick(basicFormData, basicConfFields)))
 
