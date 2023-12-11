@@ -23,7 +23,7 @@
             plain
             size="small"
             @click="deleteConfirm(row)"
-            v-if="currentUser.username !== row.username"
+            v-if="currentUser.username !== row.username && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
           </el-button>
