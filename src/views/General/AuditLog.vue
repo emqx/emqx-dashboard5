@@ -200,11 +200,16 @@ import { pickBy } from 'lodash'
 import moment from 'moment'
 import { Ref, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
-import resourceDict from './resource_dict.json'
+import resourceDictArr from './resource_dict.json'
 
 interface LabelItem {
   en: string
   zh: string
+}
+
+interface DictItem {
+  label: LabelItem
+  typeLabel: LabelItem
 }
 
 const METHOD_PATH_CONNECTOR = ':'
@@ -225,6 +230,13 @@ const requestResultOpt = [
   { value: AuditLogOperationResult.success, label: t('Base.success') },
   { value: AuditLogOperationResult.failure, label: t('Base.failed') },
 ]
+
+const resourceDict = resourceDictArr.reduce((obj: Record<string, DictItem>, dictItem) => {
+  const { method, path, operation_name_label: label, operation_label: typeLabel } = dictItem
+  obj[`${method}:${path}`] = { label, typeLabel }
+  return obj
+}, {})
+
 const langKey = state.lang === 'zh' ? 'zh' : 'en'
 const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
   value: key,
