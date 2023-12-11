@@ -140,6 +140,7 @@ const STATIC_LISTENER: Record<GatewayName, any> = {
     type: 'tcp',
     name: 'default',
     bind: '61613',
+    acceptors: 16,
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
