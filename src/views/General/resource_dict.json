@@ -715,8 +715,8 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Start/Stop action",
-      "zh": "停止或启动动作"
+      "en": "Start action",
+      "zh": "启动动作"
     }
   },
   {
@@ -728,7 +728,7 @@
     },
     "operation_name_label": {
       "en": "Enable or Disable action",
-      "zh": "停启动作"
+      "zh": "启用或禁用动作"
     }
   },
   {
@@ -741,6 +741,18 @@
     "operation_name_label": {
       "en": "Start action on a specific node",
       "zh": "启动指定节点上的动作"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/actions/:id/metrics/reset",
+    "operation_label": {
+      "en": "Actions",
+      "zh": "动作"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics for the action",
+      "zh": "重置指定动作的指标"
     }
   },
   {
@@ -799,8 +811,8 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Stop/Restart the bridge",
-      "zh": "停启数据桥接"
+      "en": "Stop/start or restart the bridge",
+      "zh": "停止/启动或重启数据桥接"
     }
   },
   {
@@ -835,8 +847,8 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Stop/Restart bridges on a specific node",
-      "zh": "停启指定节点的桥接"
+      "en": "Stop/start or restart bridge on a specific node",
+      "zh": "停止/启动或重启指定节点的桥接"
     }
   },
   {
@@ -1453,6 +1465,18 @@
   },
   {
     "method": "put",
+    "path": "/configs/file_transfer",
+    "operation_label": {
+      "en": "Configs",
+      "zh": "配置"
+    },
+    "operation_name_label": {
+      "en": "Update file transfer config",
+      "zh": "更新文件传输配置"
+    }
+  },
+  {
+    "method": "put",
     "path": "/configs/alarm",
     "operation_label": {
       "en": "Configs",
@@ -1615,8 +1639,8 @@
       "zh": "License"
     },
     "operation_name_label": {
-      "en": "Update license",
-      "zh": "更新 License"
+      "en": "Update license config",
+      "zh": "更新 License 配置"
     }
   },
   {
@@ -1881,6 +1905,54 @@
     "operation_name_label": {
       "en": "Delete the specific API Key",
       "zh": "删除 API 密钥"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/data/files/:filename",
+    "operation_label": {
+      "en": "Data Backup",
+      "zh": "数据备份"
+    },
+    "operation_name_label": {
+      "en": "Delete backup file",
+      "zh": "删除备份文件"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/data/export",
+    "operation_label": {
+      "en": "Data Backup",
+      "zh": "数据备份"
+    },
+    "operation_name_label": {
+      "en": "Create a new backup file",
+      "zh": "创建备份文件"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/data/import",
+    "operation_label": {
+      "en": "Data Backup",
+      "zh": "数据备份"
+    },
+    "operation_name_label": {
+      "en": "Restore from specified backup file",
+      "zh": "从指定备份文件恢复"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/data/files",
+    "operation_label": {
+      "en": "Data Backup",
+      "zh": "数据备份"
+    },
+    "operation_name_label": {
+      "en": "Upload backup file",
+      "zh": "上传备份文件"
     }
   }
 ]

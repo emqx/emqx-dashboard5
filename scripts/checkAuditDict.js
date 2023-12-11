@@ -22,8 +22,11 @@ const check = async () => {
   const { paths } = swaggerJSON
   Object.entries(paths).forEach(([rawPathItem, requestMap]) => {
     const pathItem = replacePlaceholder(rawPathItem)
-    const requestMethods = Object.keys(requestMap)
-    requestMethods.forEach((method) => {
+    const requestMethods = Object.entries(requestMap)
+    requestMethods.forEach(([method, info]) => {
+      if (info.deprecated) {
+        return
+      }
       if (method === 'get') {
         return
       }
