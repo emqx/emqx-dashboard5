@@ -1,4 +1,3 @@
-ysf
 <template>
   <div class="license app-wrapper">
     <el-card class="license-card">
@@ -292,8 +291,6 @@ const handleUpdate = async () => {
     saveLoading.value = false
   }
 }
-
-const handleReset = () => {}
 
 loadLicenseData()
 </script>
