@@ -73,7 +73,7 @@ const props = defineProps({
 const emit = defineEmits(['update:value'])
 
 const createDefault = () => ({
-  mountpoint: '',
+  mountpoint: 'gbt32960/${clientid}/',
   retry_interval: '8s',
   max_retry_times: 3,
   message_queue_len: 10,
