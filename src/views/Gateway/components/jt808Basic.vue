@@ -1,6 +1,6 @@
 <template>
   <div class="jt808-basic">
-    <el-form label-position="top" v-model="jValue">
+    <el-form ref="refForm" label-position="top" :model="jValue" :rules="rules">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -62,7 +62,7 @@
         </el-col>
         <!-- Proto -->
         <el-col :span="12">
-          <el-form-item :label="tl('registry')">
+          <el-form-item :label="tl('registry')" prop="proto.registry">
             <template #label>
               <FormItemLabel :label="tl('registry')" :desc="tl('registryDesc')" desc-marked />
             </template>
@@ -70,7 +70,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('authenticationUrl')">
+          <el-form-item :label="tl('authenticationUrl')" prop="proto.authentication">
             <template #label>
               <FormItemLabel
                 :label="tl('authenticationUrl')"
@@ -102,7 +102,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watch, defineProps, defineEmits } from 'vue'
+import {
+  onMounted,
+  reactive,
+  watch,
+  defineProps,
+  defineEmits,
+  computed,
+  ref,
+  defineExpose,
+} from 'vue'
 import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
@@ -118,6 +127,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:value'])
+
+const refForm = ref()
 
 const createDefault = () => ({
   frame: {
@@ -140,7 +151,34 @@ const createDefault = () => ({
 
 const jValue = reactive(_.merge(createDefault(), props.value))
 
+const rules: any = computed(() => {
+  const rules = {
+    proto: {},
+  }
+  if (!jValue.proto.allow_anonymous) {
+    rules.proto = {
+      registry: [{ required: true, message: tl('registryRequired'), trigger: 'blur' }],
+      authentication: [{ required: true, message: tl('authenticationRequired'), trigger: 'blur' }],
+    }
+  } else {
+    refForm.value?.clearValidate()
+  }
+  return rules
+})
+
 const { tl } = useI18nTl('Gateway')
+
+const getFormRuleValide = () => {
+  return new Promise((resolve) => {
+    refForm.value?.validate((valid: boolean) => {
+      resolve(valid)
+    })
+  })
+}
+
+defineExpose({
+  getFormRuleValide,
+})
 
 watch(jValue, (v) => {
   emit('update:value', v)
