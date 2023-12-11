@@ -210,11 +210,6 @@ const checkProps = () => {
   }
 }
 checkProps()
-
-/**
- * TODO:TODO:TODO:
- * `isBridgeTypeDisabled` bridge create
- */
 </script>
 
 <style lang="scss">

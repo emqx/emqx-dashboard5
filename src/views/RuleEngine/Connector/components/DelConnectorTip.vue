@@ -12,14 +12,18 @@
           <WarningFilled />
         </i>
         <div class="el-message-box__message">
-          {{ tl('deleteActionSecondConfirm') }}
+          {{ tl('deleteActionTip') }}
         </div>
       </div>
       <ul class="data-list">
-        <li v-for="item in ruleList" :key="item" class="data-item">
+        <li v-for="item in actionList" :key="item" class="data-item">
           <el-tag size="large">
             <router-link
-              :to="{ name: 'rule-detail', params: { id: item }, query: { tab: 'settings' } }"
+              :to="{
+                name: 'action-detail',
+                params: { id: getBridgeKey({ name: item, type: connectorType }) },
+                query: { tab: 'settings' },
+              }"
               target="_blank"
             >
               {{ item }}
@@ -33,40 +37,24 @@
         <el-button @click="showDialog = false">
           {{ $t('Base.cancel') }}
         </el-button>
-        <el-button
-          type="danger"
-          :disabled="!$hasPermission('delete')"
-          plain
-          @click="submit"
-          :loading="isSubmitting"
-        >
-          {{ $t('Base.confirm') }}
-        </el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import { getBridgeKey } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  id: {
-    type: String,
-  },
-  ruleList: {
-    type: Array as PropType<Array<string>>,
-  },
-})
-const emit = defineEmits(['update:modelValue', 'submitted'])
+const props = defineProps<{
+  modelValue: boolean
+  connectorType: string
+  actionList: Array<string>
+}>()
+const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -76,18 +64,6 @@ const showDialog = computed({
     emit('update:modelValue', val)
   },
 })
-
-const { deleteAction } = useHandleActionItem()
-
-const isSubmitting = ref(false)
-const submit = async () => {
-  if (!props.id) {
-    return
-  }
-  await deleteAction(props.id, true)
-  emit('submitted')
-  showDialog.value = false
-}
 </script>
 
 <style lang="scss">
