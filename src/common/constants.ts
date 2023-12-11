@@ -129,8 +129,18 @@ export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTy
   [GatewayName.LwM2M]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.MQTT_SN]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
-  [GatewayName.GBT32960]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
-  [GatewayName.JT808]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.GBT32960]: [
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
+  [GatewayName.JT808]: [
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
   [GatewayName.OCPP]: [
     ListenerTypeForGateway.UDP,
     ListenerTypeForGateway.DTLS,
