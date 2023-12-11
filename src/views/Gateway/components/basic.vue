@@ -22,6 +22,9 @@
       <template v-else-if="name === 'jt808'">
         <jt808-basic v-model:value="basicData" :key="iKey" is-edit />
       </template>
+      <template v-else-if="name === 'ocpp'">
+        <ocpp-basic v-model:value="basicData" :key="iKey" is-edit />
+      </template>
       <el-button
         type="primary"
         :loading="updateLoading"
@@ -43,6 +46,7 @@ import stompBasic from './stompBasic.vue'
 import ExprotoBasic from './exprotoBasic.vue'
 import Gbt32960Basic from './gbt32960Basic.vue'
 import Jt808Basic from './jt808Basic.vue'
+import OcppBasic from './ocppBasic.vue'
 import { updateGateway, getGateway } from '@/api/gateway'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -58,6 +62,7 @@ export default defineComponent({
     ExprotoBasic,
     Gbt32960Basic,
     Jt808Basic,
+    OcppBasic,
   },
   name: 'GatewayDetailBasic',
 

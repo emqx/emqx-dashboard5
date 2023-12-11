@@ -1,6 +1,6 @@
 <template>
   <div class="gbt32960-basic">
-    <el-form label-position="top" v-model="gbtValue">
+    <el-form label-position="top" :model="gbtValue">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">

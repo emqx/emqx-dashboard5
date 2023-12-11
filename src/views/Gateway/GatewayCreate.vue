@@ -34,7 +34,7 @@
             <gbt32960-basic v-model:value="basicData"></gbt32960-basic>
           </template>
           <template v-else-if="gname === 'jt808'">
-            <jt808-basic v-model:value="basicData"></jt808-basic>
+            <jt808-basic ref="jt808BasicRef" v-model:value="basicData"></jt808-basic>
           </template>
           <template v-else-if="gname === 'ocpp'">
             <ocpp-basic v-model:value="basicData"></ocpp-basic>
@@ -175,6 +175,7 @@ const { tl } = useI18nTl('Gateway')
 const { t } = useI18n()
 const { handleExprotoData } = useHandleGatewayData()
 const { transGatewayName } = useTransName()
+const jt808BasicRef = ref()
 
 const stepActive = ref(0)
 const basicData = ref<any>({})
@@ -224,7 +225,7 @@ const gatewayStatus = async () => {
   }
 }
 
-const validNext = () => {
+const validNext = async () => {
   if (
     gname === 'exproto' &&
     stepActive.value === 0 &&
@@ -233,14 +234,18 @@ const validNext = () => {
     const { certfile, keyfile } = basicData.value.server.ssl_options
     if (!certfile || !keyfile) {
       M.warning(t('Gateway.missinggRPCTLSFile'))
-      return false
+      return Promise.resolve(false)
     }
   }
-  return true
+  if (gname === 'jt808' && stepActive.value === 0) {
+    return await jt808BasicRef.value?.getFormRuleValide()
+  }
+  return Promise.resolve(true)
 }
 
-const handleNextStep = () => {
-  if (!validNext()) {
+const handleNextStep = async () => {
+  const isValid = await validNext()
+  if (!isValid) {
     return
   }
   stepActive.value += 1

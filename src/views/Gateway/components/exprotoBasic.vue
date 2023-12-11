@@ -26,44 +26,44 @@
       </div>
 
       <!-- Adapter -->
-      <div>
-        <div class="part-header">{{ tl('grpcListener') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="tl('lAddress')">
-              <el-input v-model="eValue.server.bind" :placeholder="eValueDefault.server.bind" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div class="tls-config-form">
-          <TLSEnableConfig
-            v-model="eValue.server.ssl_options"
-            :is-edit="isEdit"
-            :show-sni="false"
-            :verify-label="tl('tlsVerifyClient', 'Base')"
-          />
-        </div>
+      <el-row :gutter="30">
+        <el-col :span="24">
+          <el-divider>{{ tl('grpcListener') }}</el-divider>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('lAddress')">
+            <el-input v-model="eValue.server.bind" :placeholder="eValueDefault.server.bind" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div class="tls-config-form">
+        <TLSEnableConfig
+          v-model="eValue.server.ssl_options"
+          :is-edit="isEdit"
+          :show-sni="false"
+          :verify-label="tl('tlsVerifyClient', 'Base')"
+        />
       </div>
 
       <!-- Handler -->
-      <div>
-        <div class="part-header">{{ tl('grpcConnection') }}</div>
-        <el-row :gutter="30">
-          <el-col :span="12">
-            <el-form-item :label="'Server'">
-              <el-input
-                v-model="eValue.handler.address"
-                :placeholder="eValueDefault.handler.address"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <CommonTLSConfig
-          class="tls-config-form"
-          v-model="eValue.handler.ssl_options"
-          :is-edit="isEdit"
-        />
-      </div>
+      <el-row :gutter="30">
+        <el-col :span="24">
+          <el-divider>{{ tl('grpcConnection') }}</el-divider>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'Server'">
+            <el-input
+              v-model="eValue.handler.address"
+              :placeholder="eValueDefault.handler.address"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <CommonTLSConfig
+        class="tls-config-form"
+        v-model="eValue.handler.ssl_options"
+        :is-edit="isEdit"
+      />
     </el-form>
   </div>
 </template>
