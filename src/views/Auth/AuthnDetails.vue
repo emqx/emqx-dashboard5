@@ -115,8 +115,9 @@ import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
-import { isFunction } from 'lodash'
+import { isFunction, isUndefined, omit } from 'lodash'
 import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
+import { LDAPAuthMethod } from '@/types/enum'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools.ts'
 import useI18nTl from '@/hooks/useI18nTl'
 import useAuth from '@/hooks/Auth/useAuth'
@@ -215,6 +216,29 @@ export default defineComponent({
       }
     }
 
+    const handlingDataCompatible = (data) => {
+      if (currBackend.value === 'ldap') {
+        const { password_attribute, is_superuser_attribute, bind_password } = data
+        if (!isUndefined(password_attribute) && !isUndefined(is_superuser_attribute)) {
+          data.method = {
+            password_attribute,
+            is_superuser_attribute,
+            type: LDAPAuthMethod.Hash,
+          }
+          return omit(data, ['password_attribute', 'is_superuser_attribute'])
+        }
+        if (!isUndefined(bind_password)) {
+          data.method = { bind_password, type: LDAPAuthMethod.Bind }
+          return omit(data, 'bind_password')
+        }
+        if (isUndefined(data.method)) {
+          data.method = { type: LDAPAuthMethod.Hash }
+          return data
+        }
+      }
+      return data
+    }
+
     const loadData = async function () {
       try {
         authnDetailLock.value = true
@@ -223,7 +247,7 @@ export default defineComponent({
           return
         }
         currBackend.value = res.backend || res.mechanism
-        configData.value = res
+        configData.value = handlingDataCompatible(res)
         setRawSetting(configData.value)
         setPassWordBasedFieldsDefaultValue()
       } catch (error) {

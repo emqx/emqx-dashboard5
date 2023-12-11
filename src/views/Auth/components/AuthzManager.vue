@@ -318,8 +318,8 @@ export default defineComponent({
     ]
 
     const permissionOpts = [
-      { value: 'allow', label: t('Auth.allow') },
-      { value: 'deny', label: t('Auth.deny') },
+      { value: 'allow', label: t('Base.allow') },
+      { value: 'deny', label: t('Base.deny') },
     ]
 
     const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()

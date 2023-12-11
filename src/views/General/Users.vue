@@ -48,7 +48,7 @@
             size="small"
             :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
-            v-if="!isCurrentUser(row.username)"
+            v-if="!isCurrentUser(row.username) && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
           </el-button>
