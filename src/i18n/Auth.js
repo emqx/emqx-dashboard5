@@ -505,7 +505,7 @@ export default {
   },
   authzFailedDesc: {
     zh: '授权失败的次数',
-    en: 'Number of authorization failures.Number of successful authorizations',
+    en: 'Number of authorization failures',
   },
   authzNomatchDesc: {
     zh: '未找到客户端权限数据的次数。如果授权器执行失败也会增加此计数',
