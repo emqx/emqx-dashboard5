@@ -231,8 +231,18 @@ const requestResultOpt = [
   { value: AuditLogOperationResult.failure, label: t('Base.failed') },
 ]
 
+const gatewayPathReg = /\/gateway/
+const addBlockToLabel = (nameLabel: LabelItem, typeLabel: LabelItem): LabelItem => {
+  return (Object.keys(nameLabel) as Array<keyof LabelItem>).reduce((result: LabelItem, key) => {
+    result[key] = `(${typeLabel[key]})${nameLabel[key]}`
+    return result
+  }, {} as LabelItem)
+}
 const resourceDict = resourceDictArr.reduce((obj: Record<string, DictItem>, dictItem) => {
-  const { method, path, operation_name_label: label, operation_label: typeLabel } = dictItem
+  const { method, path, operation_name_label, operation_label: typeLabel } = dictItem
+  const label = gatewayPathReg.test(path)
+    ? addBlockToLabel(operation_name_label, typeLabel)
+    : operation_name_label
   obj[`${method}:${path}`] = { label, typeLabel }
   return obj
 }, {})
