@@ -127,6 +127,12 @@ export default (
       ...baseOrderMap,
       ...createOrderObj(httpAdvancedFields, 70),
     },
+    [BridgeType.MySQL]: {
+      ...createOrderObj(
+        ['server', 'database', 'username', 'password', 'ssl', 'sql'],
+        fieldStartIndex,
+      ),
+    },
     [BridgeType.Redis]: {
       ...createOrderObj(
         [
