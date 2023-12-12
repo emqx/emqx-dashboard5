@@ -31,7 +31,7 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!bridgeInfo.enable || !$hasPermission('post')"
+              :disabled="!$hasPermission('post')"
               plain
               @click="createRuleWithBridge"
             >

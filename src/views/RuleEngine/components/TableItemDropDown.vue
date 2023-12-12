@@ -14,11 +14,7 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item
-          command="createRule"
-          v-if="isBridge"
-          :disabled="!rowData.enable || !$hasPermission('post')"
-        >
+        <el-dropdown-item command="createRule" v-if="isBridge" :disabled="!$hasPermission('post')">
           <el-icon><DocumentAdd /></el-icon>
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>
