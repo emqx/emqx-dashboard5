@@ -1,4 +1,4 @@
-import { LicenseType, NodeStatus } from './enum'
+import { NodeStatus } from './enum'
 
 export interface CounterItem {
   count: number

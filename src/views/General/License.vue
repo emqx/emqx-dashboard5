@@ -248,9 +248,9 @@ const watermarkValidator = (comparison: () => string, isHigher: boolean): Valida
     const targetValue = parseInt(value.replace('%', ''))
     const comparisonValue = parseInt(comparison().replace('%', ''))
     if (isHigher && targetValue <= comparisonValue) {
-      callback(new Error(tl('highWatermarkLessThanLow')))
+      callback(new Error(tl('highWatermarkGreaterThanLow')))
     } else if (!isHigher && targetValue >= comparisonValue) {
-      callback(new Error(tl('lowWatermarkGreaterThanHigh')))
+      callback(new Error(tl('lowWatermarkLessThanHigh')))
     } else {
       callback()
     }
