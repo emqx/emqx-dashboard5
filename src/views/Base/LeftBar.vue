@@ -8,7 +8,12 @@
         :collapse-transition="false"
       >
         <template v-for="(menu, i) in menus" :key="menu.title">
-          <el-sub-menu v-if="menu.children" :index="'' + i" :key="i" popper-class="sub-menu-popper">
+          <el-sub-menu
+            v-if="menu.children"
+            :index="'' + i"
+            :key="i"
+            :popper-class="needFixedHeight(menu) ? 'sub-menu-popper' : ''"
+          >
             <template #title>
               <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
@@ -83,6 +88,20 @@ export default defineComponent({
       const { path } = route
       return `/${path.split('/')[1]}`
     })
+
+    const headerHeight = 62
+    const menuItemHeight = 56
+    const needFixedHeight = ({ children }: Menu) => {
+      const totalH =
+        children?.reduce((totalHeight, { children }) => {
+          if (children) {
+            return (totalHeight += headerHeight + children.length * menuItemHeight)
+          }
+          return (totalHeight += menuItemHeight)
+        }, 0) || 0
+      // 740 is the max height of window to fixed height
+      return totalH > 740
+    }
 
     const monitoring = [
       { title: 'dashboard', path: '/dashboard' },
@@ -186,6 +205,7 @@ export default defineComponent({
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
+      needFixedHeight,
     }
   },
 })
@@ -240,7 +260,7 @@ export default defineComponent({
     padding-right: 20px;
   }
 }
-@media screen and (max-height: 800px) {
+@media screen and (max-height: 740px) {
   .sub-menu-popper {
     .el-menu {
       height: 90vh;
