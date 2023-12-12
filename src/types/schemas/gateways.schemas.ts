@@ -26,6 +26,7 @@ export type PutGatewaysName400 = {
 }
 
 export type PutGatewaysNameBody =
+  | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiUpdateLwm2m
   | EmqxGatewayApiUpdateGbt32960
   | EmqxGatewayApiUpdateMqttsn
@@ -58,6 +59,7 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
+  | EmqxGatewayApiStomp
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiGbt32960
   | EmqxGatewayApiMqttsn

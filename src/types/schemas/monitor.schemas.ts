@@ -13,7 +13,7 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
-export type GetPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusPushGatewayHeaders = { [key: string]: any }
 
@@ -30,10 +30,6 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
-
-export type PutPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
