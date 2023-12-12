@@ -295,6 +295,37 @@ export interface BridgeNodeStatus {
   status_reason?: string
 }
 
+export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeHttpResourceOptsQueryMode =
+  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+/**
+ * @deprecated
+ */
+export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
+
+export interface BridgeHttpResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+  /** @deprecated */
+  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
+  query_mode?: BridgeHttpResourceOptsQueryMode
+  request_ttl?: BridgeHttpResourceOptsRequestTtl
+  inflight_window?: number
+  /** @deprecated */
+  enable_queue?: boolean
+  max_buffer_bytes?: string
+}
+
 /**
  * @deprecated
  */
@@ -325,6 +356,7 @@ export interface BridgeHttpPutConnector {
   /** @deprecated */
   request?: BridgeHttpPutConnectorRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
 }
 
 /**
@@ -367,6 +399,7 @@ export interface BridgeHttpPostConnector {
   /** @deprecated */
   request?: BridgeHttpPostConnectorRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
 }
 
 /**
@@ -423,4 +456,5 @@ export interface BridgeHttpGetConnector {
   /** @deprecated */
   request?: BridgeHttpGetConnectorRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
 }

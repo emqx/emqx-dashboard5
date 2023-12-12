@@ -139,6 +139,7 @@ export const DeleteActionsId400Code = {
 } as const
 
 export type DeleteActionsId400 = {
+  rules?: string[]
   code?: DeleteActionsId400Code
   message?: string
 }
