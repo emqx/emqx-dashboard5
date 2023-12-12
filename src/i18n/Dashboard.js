@@ -343,13 +343,13 @@ export default {
     zh: '需要填写使用量低水位线',
     en: 'Usage Low Watermark is required',
   },
-  highWatermarkLessThanLow: {
-    zh: '使用量高水位线不能低于使用量低水位线',
-    en: 'Usage High Watermark should not be less than Usage Low Watermark',
+  highWatermarkGreaterThanLow: {
+    zh: '使用量高水位线必须高于使用量低水位线',
+    en: 'Usage High Watermark must be greater than Usage Low Watermark',
   },
-  lowWatermarkGreaterThanHigh: {
-    zh: '使用量低水位线不能高于使用量高水位线',
-    en: 'Usage Low Watermark should not be greater than Usage High Watermark',
+  lowWatermarkLessThanHigh: {
+    zh: '使用量低水位线必须低于使用量高水位线',
+    en: 'Usage Low Watermark must be less than Usage High Watermark',
   },
   usageWarning: {
     zh: '当连接数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
