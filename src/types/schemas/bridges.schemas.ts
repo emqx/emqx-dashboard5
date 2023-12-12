@@ -145,6 +145,7 @@ export const DeleteBridgesId400Code = {
 } as const
 
 export type DeleteBridgesId400 = {
+  rules?: string[]
   code?: DeleteBridgesId400Code
   message?: string
 }
@@ -663,7 +664,6 @@ export const BridgeHttpPutPoolType = {
 export interface BridgeHttpPut {
   enable?: boolean
   description?: string
-  resource_opts?: BridgeHttpResourceOpts
   connect_timeout?: string
   /** @deprecated */
   retry_interval?: string
@@ -673,6 +673,7 @@ export interface BridgeHttpPut {
   /** @deprecated */
   request?: BridgeHttpPutRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPutDirection
@@ -735,7 +736,6 @@ export interface BridgeHttpPost {
   name: string
   enable?: boolean
   description?: string
-  resource_opts?: BridgeHttpResourceOpts
   connect_timeout?: string
   /** @deprecated */
   retry_interval?: string
@@ -745,6 +745,7 @@ export interface BridgeHttpPost {
   /** @deprecated */
   request?: BridgeHttpPostRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPostDirection
@@ -819,7 +820,6 @@ export interface BridgeHttpGet {
   name: string
   enable?: boolean
   description?: string
-  resource_opts?: BridgeHttpResourceOpts
   connect_timeout?: string
   /** @deprecated */
   retry_interval?: string
@@ -829,6 +829,7 @@ export interface BridgeHttpGet {
   /** @deprecated */
   request?: BridgeHttpGetRequest
   ssl?: BrokerSslClientOpts
+  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpGetDirection

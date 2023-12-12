@@ -13,7 +13,7 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
-export type GetPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusPushGatewayHeaders = { [key: string]: any }
 
@@ -30,10 +30,6 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
-
-export type PutPrometheus200 = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
@@ -168,6 +164,10 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
 }
 
+export interface OpentelemetryTraceFilter {
+  trace_all?: boolean
+}
+
 export type OpentelemetrySslOptsServerNameIndication = string | 'disable'
 
 export type OpentelemetrySslOptsLogLevel =
@@ -214,20 +214,13 @@ export interface OpentelemetrySslOpts {
   server_name_indication?: OpentelemetrySslOptsServerNameIndication
 }
 
-export interface OpentelemetryOtelMetricsExporter {
-  endpoint?: string
-  ssl_options?: OpentelemetrySslOpts
-  interval: string
+export interface OpentelemetryOtelTraces {
+  enable?: boolean
+  filter?: OpentelemetryTraceFilter
 }
 
 export interface OpentelemetryOtelMetrics {
   enable: boolean
-  exporter?: OpentelemetryOtelMetricsExporter
-}
-
-export interface OpentelemetryOtelLogsExporter {
-  endpoint?: string
-  ssl_options?: OpentelemetrySslOpts
 }
 
 export type OpentelemetryOtelLogsLevel =
@@ -249,10 +242,16 @@ export const OpentelemetryOtelLogsLevel = {
 export interface OpentelemetryOtelLogs {
   level?: OpentelemetryOtelLogsLevel
   enable?: boolean
-  exporter?: OpentelemetryOtelLogsExporter
+}
+
+export interface OpentelemetryOtelExporter {
+  endpoint?: string
+  ssl_options?: OpentelemetrySslOpts
 }
 
 export interface OpentelemetryOpentelemetry {
   metrics?: OpentelemetryOtelMetrics
   logs?: OpentelemetryOtelLogs
+  traces?: OpentelemetryOtelTraces
+  exporter?: OpentelemetryOtelExporter
 }
