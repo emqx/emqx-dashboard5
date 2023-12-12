@@ -8,38 +8,40 @@
         :collapse-transition="false"
       >
         <template v-for="(menu, i) in menus" :key="menu.title">
-          <el-sub-menu v-if="menu.children" :index="'' + i" :key="i">
+          <el-sub-menu v-if="menu.children" :index="'' + i" :key="i" popper-class="sub-menu-popper">
             <template #title>
               <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
             </template>
-            <template v-for="item in menu.children" :key="item.title">
-              <el-menu-item v-if="!item.children" :index="item.path">
-                <template #title>
-                  <p class="menu-item-title">
-                    {{ $t(`components.${item.title}`) }}
-                  </p>
-                </template>
-              </el-menu-item>
-              <el-menu-item-group v-else>
-                <template #title>
-                  <p class="menu-item-title group-name">{{ $t(`components.${item.title}`) }}</p>
-                </template>
-                <el-menu-item
-                  v-for="level3Item in item.children"
-                  :index="level3Item.path"
-                  :key="level3Item.title"
-                >
+            <el-scrollbar>
+              <template v-for="item in menu.children" :key="item.title">
+                <el-menu-item v-if="!item.children" :index="item.path">
                   <template #title>
                     <p class="menu-item-title">
-                      {{ $t(`components.${level3Item.title}`) }}
+                      {{ $t(`components.${item.title}`) }}
                     </p>
                   </template>
                 </el-menu-item>
-              </el-menu-item-group>
-            </template>
+                <el-menu-item-group v-else>
+                  <template #title>
+                    <p class="menu-item-title group-name">{{ $t(`components.${item.title}`) }}</p>
+                  </template>
+                  <el-menu-item
+                    v-for="level3Item in item.children"
+                    :index="level3Item.path"
+                    :key="level3Item.title"
+                  >
+                    <template #title>
+                      <p class="menu-item-title">
+                        {{ $t(`components.${level3Item.title}`) }}
+                      </p>
+                    </template>
+                  </el-menu-item>
+                </el-menu-item-group>
+              </template>
+            </el-scrollbar>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
             <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
@@ -230,6 +232,19 @@ export default defineComponent({
   .icon.menu-icon {
     font-size: 24px;
     flex-shrink: 0;
+  }
+}
+.sub-menu-popper {
+  // set padding right when collapsing
+  .el-menu-item-group__title {
+    padding-right: 20px;
+  }
+}
+@media screen and (max-height: 800px) {
+  .sub-menu-popper {
+    .el-menu {
+      height: 90vh;
+    }
   }
 }
 </style>
