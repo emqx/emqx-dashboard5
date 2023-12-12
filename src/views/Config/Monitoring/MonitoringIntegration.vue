@@ -117,25 +117,71 @@
           <template v-if="selectedPlatform === 'OpenTelemetry'">
             <el-row>
               <el-col :span="21" class="custom-col">
-                <el-form-item :label="tl('enableOpentelemetry')">
-                  <el-switch v-model="opentelemetryFormData.enable" />
+                <el-form-item :label="tl('featureSelection')">
+                  <el-checkbox
+                    v-if="opentelemetryFormData.metrics"
+                    v-model="opentelemetryFormData.metrics.enable"
+                    :label="tl('metricsEnable')"
+                    size="large"
+                    border
+                  />
+                  <el-checkbox
+                    v-if="opentelemetryFormData.traces"
+                    v-model="opentelemetryFormData.traces.enable"
+                    :label="tl('tracesEnable')"
+                    size="large"
+                    border
+                  />
+                  <el-checkbox
+                    v-if="opentelemetryFormData.logs"
+                    v-model="opentelemetryFormData.logs.enable"
+                    :label="tl('logsEnable')"
+                    size="large"
+                    border
+                  />
+                </el-form-item>
+              </el-col>
+              <!-- Exporter -->
+              <el-col v-if="opentelemetryFormData.exporter" :span="21" class="custom-col">
+                <el-form-item :label="tl('endpoint')">
+                  <el-input v-model="opentelemetryFormData.exporter.endpoint" />
+                </el-form-item>
+              </el-col>
+              <!-- Exporter SSL Options -->
+              <!-- Traces -->
+              <el-col v-if="opentelemetryFormData.traces?.enable" :span="21">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel
+                      :label="tl('tracesFilterTracesAll')"
+                      :desc="tl('tracesFilterTracesAllDesc')"
+                    >
+                    </FormItemLabel>
+                  </template>
+                  <el-switch
+                    v-if="opentelemetryFormData.traces?.filter"
+                    v-model="opentelemetryFormData.traces.filter.trace_all"
+                  ></el-switch>
+                </el-form-item>
+              </el-col>
+              <!-- Logs -->
+              <el-col v-if="opentelemetryFormData.logs?.enable" :span="21">
+                <el-form-item :label="tl('logsLevel')">
+                  <el-select
+                    v-if="opentelemetryFormData.logs"
+                    v-model="opentelemetryFormData.logs.level"
+                  >
+                    <el-option
+                      v-for="level in openTelemetryLogLevels"
+                      :key="level"
+                      :label="level"
+                      :value="level"
+                    >
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-collapse-transition>
-              <el-row v-show="opentelemetryFormData.enable">
-                <el-col :span="21" class="custom-col">
-                  <el-form-item :label="tl('endpoint')">
-                    <el-input v-model="opentelemetryFormData.exporter.endpoint" />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="21" class="custom-col">
-                  <el-form-item :label="tl('exportInterval')">
-                    <TimeInputWithUnitSelectVue v-model="opentelemetryFormData.exporter.interval" />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-collapse-transition>
           </template>
           <el-col class="btn-col" :span="24">
             <el-button type="primary" :loading="isSubmitting" @click="submit">
@@ -211,13 +257,37 @@ const prometheusFormData: Ref<Prometheus> = ref({
     enable: false,
   },
 })
-const opentelemetryFormData: Ref<OpenTelemetry> = ref({
-  enable: false,
+const opentelemetryFormData = ref<OpenTelemetry>({
+  metrics: {
+    enable: false,
+  },
+  logs: {
+    level: 'warning',
+    enable: false,
+  },
+  traces: {
+    enable: false,
+    filter: {
+      trace_all: false,
+    },
+  },
   exporter: {
-    endpoint: '',
-    interval: '10s',
+    endpoint: 'http://localhost:4317',
+    ssl_options: {},
   },
 })
+
+const openTelemetryLogLevels = [
+  'debug',
+  'info',
+  'notice',
+  'warning',
+  'error',
+  'critical',
+  'alert',
+  'emergency',
+  'all',
+]
 
 const isDataLoading = ref(false)
 
