@@ -25,7 +25,7 @@
             v-model="fuzzyParams.match_topic"
             type="text"
             clearable
-            placeholder="Topic"
+            :placeholder="$t('Clients.topic')"
             class="topic-input"
             @clear="handleSearch"
           >
