@@ -157,8 +157,8 @@ export default {
     en: 'Action Count',
   },
   actionDesc: {
-    zh: '将处理结果输出到数据桥接或内置函数中。',
-    en: 'Output the processing result to a data bridge or built-in function.',
+    zh: '将处理结果输出到动作和外部数据系统中。',
+    en: 'Output processing results to an action and external data system.',
   },
   addAction: {
     zh: '添加动作',
@@ -253,8 +253,8 @@ export default {
     en: 'Data Source',
   },
   dataSourceDesc: {
-    zh: '选择一个消息事件或数据桥接作为测试数据源，确保它与规则的 SQL 保持一致。',
-    en: `Select a message event or data bridge as the data source for testing, ensuring that it is consistent with the rule's SQL.`,
+    zh: '选择一个事件或 Source 作为测试数据源，确保它与规则中指定的来源保持一致。',
+    en: "Select a message event or source as the data source for testing, ensuring that it is consistent with the rule's SQL.",
   },
   addDataSource: {
     zh: '添加数据来源',
@@ -285,8 +285,8 @@ export default {
     en: 'The number of executions after the rule is enabled',
   },
   bridgeMatchedDesc: {
-    zh: 'Bridge 被匹配到（被请求）的次数',
-    en: 'Count of this bridge is matched and queried',
+    zh: '动作执行的次数',
+    en: 'Counts of actions executed',
   },
   sqlFailedDesc: {
     zh: '因语法或函数调用失败导致执行失败',
@@ -305,8 +305,8 @@ export default {
     en: 'Sent',
   },
   sentDesc: {
-    zh: '已经发送出去的消息个数',
-    en: 'Count of messages that are sent by this bridge',
+    zh: '已发出的消息数',
+    en: 'Count of messages sent',
   },
   dropped: {
     zh: '已丢弃',
@@ -497,16 +497,16 @@ export default {
     en: 'Remote MQTT Broker',
   },
   ingressDesc: {
-    zh: '支持从外部的远程 MQTT 服务桥接消息到本地服务，可用于规则的数据源。',
-    en: 'Bridges messages from remote MQTT broker to local, can be used as data source for rule.',
+    zh: '从外部 MQTT 服务桥接消息到本地服务，用于规则的 Source。',
+    en: 'Bridges messages from external MQTT broker to local for the Source of the rule.',
   },
   ingressHelp: {
     zh: '开启后，远程服务将作为数据源，本地服务将作为数据目的地接收消息，当出口配置启用后，该配置可选。',
     en: "When enabled, remote broker will be the data source, local broker will be the data destination to received messages, it's optional when egress is enabled.",
   },
   egressDesc: {
-    zh: '支持将本地服务消息桥接至外部的远程 MQTT 服务，可用于规则的动作中。',
-    en: 'Bridges local messages to remote MQTT broker, can be used as action for rule.',
+    zh: '将本地消息桥接至外部的 MQTT 服务，用于规则的动作中。',
+    en: 'Bridges local messages to external MQTT broker for use in the action of a rule.',
   },
   egressHelp: {
     zh: '开启后，远程服务将作为数据目的地接收本地服务的消息，当入口配置启用后，该配置可选。',
@@ -555,8 +555,8 @@ export default {
     en: 'Message Retry Interval',
   },
   retryIntervalDesc: {
-    en: 'Delay for the MQTT bridge to retry sending the QoS1/QoS2 messages in case of ACK not received.',
-    zh: 'MQTT 桥接在未收到 ACK 的情况下，延迟重发 QoS1/QoS2 消息的时间间隔。',
+    en: 'Retry interval for QoS1/QoS2 messages if no ACK is received.',
+    zh: '在未收到 ACK 的情况下，QoS1/QoS2 消息的重试间隔。',
   },
   tip: {
     zh: '提示：',
@@ -707,8 +707,8 @@ export default {
     en: 'All Message and Events',
   },
   eventsDesc: {
-    zh: '规则可以通过 MQTT 消息、事件或数据桥来触发。在 SQL 中，多个数据源可以使用逗号分隔。',
-    en: 'Rules can be triggered by MQTT messages, events, or data bridges. In SQL, multiple data sources can be separated with commas.',
+    zh: '规则可以通过 MQTT 消息、事件或 Source 触发，规则 SQL 中支持通过逗号分隔指定多个触发来源。',
+    en: 'Rules can be triggered by MQTT messages, events, or Sources. In SQL, multiple trigger sources can be separated with commas.',
   },
   useEvent: {
     zh: '使用事件',
@@ -763,8 +763,8 @@ export default {
     en: 'Use action',
   },
   bridgeForInputDesc: {
-    zh: '当桥接从外部服务接收到消息时触发规则。',
-    en: 'Triggered when a message is received from remote server.',
+    zh: '从外部服务器收到信息时触发。',
+    en: 'Triggered when a message is received from external server.',
   },
   clientEvent: {
     zh: '客户端事件',
@@ -907,16 +907,16 @@ export default {
     en: 'Resource stopped',
   },
   droppedResourceStoppedDesc: {
-    zh: '在桥接已停止的情况下，仍然尝试发送消息',
-    en: 'The message being attempted for delivery when the bridge was already stopped',
+    zh: '尝试向已停止的动作发送消息',
+    en: 'Trying to send messages to stopped actions',
   },
   droppedResourceNotFound: {
     zh: '未找到资源',
     en: 'Resource not found',
   },
   droppedResourceNotFoundDesc: {
-    zh: '在桥接不再存在时尝试发送消息。这种情况非常罕见，通常是由于在移除桥接时出现竞争条件',
-    en: 'The message was attempted to be sent when the bridge was no longer found. It occurs rarely and usually due to race conditions during the removal of a bridge',
+    zh: '尝试向不存在的动作发送消息。这种情况非常罕见，通常是删除动作时存在竞态条件导致的',
+    en: 'Trying to send messages to a non-existent action. It occurs rarely and usually due to race conditions during the removal of a action',
   },
   droppedOther: {
     zh: '其他丢弃',
