@@ -643,8 +643,8 @@
       "zh": "连接器"
     },
     "operation_name_label": {
-      "en": "Enable/Disable connector",
-      "zh": "停启连接器"
+      "en": "Disable/Enable connector",
+      "zh": "禁用或启用连接器"
     }
   },
   {
@@ -727,8 +727,8 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Enable or Disable action",
-      "zh": "启用或禁用动作"
+      "en": "Disable/Enable action",
+      "zh": "禁用或启用动作"
     }
   },
   {
@@ -835,8 +835,8 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Enable/Disable the data bridge",
-      "zh": "停启数据桥接"
+      "en": "Disable/Enable the data bridge",
+      "zh": "禁用或启用数据桥接"
     }
   },
   {
@@ -1099,8 +1099,8 @@
       "zh": "网关"
     },
     "operation_name_label": {
-      "en": "Enable/Disable the gateway",
-      "zh": "停启指定网关"
+      "en": "Disable/Enable the gateway",
+      "zh": "禁用或启用指定网关"
     }
   },
   {
