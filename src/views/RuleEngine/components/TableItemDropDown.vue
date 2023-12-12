@@ -14,7 +14,7 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="createRule" v-if="isBridge" :disabled="!rowData.enable">
+        <el-dropdown-item command="createRule" v-if="isBridge">
           <el-icon><DocumentAdd /></el-icon>
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>

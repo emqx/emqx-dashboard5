@@ -30,7 +30,6 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!bridgeInfo.enable"
               plain
               @click="createRuleWithBridge"
             >
