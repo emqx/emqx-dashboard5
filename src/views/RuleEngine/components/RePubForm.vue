@@ -66,7 +66,7 @@
       </el-col>
       <el-col :span="getColSpan(24)">
         <CustomFormItem :label="tl('pubProp')">
-          <el-switch v-model="showPubProps" @change="togglePubPropsEnabled" />
+          <el-switch v-model="showPubProps" @change="togglePubPropsEnabled" :disabled="readonly" />
         </CustomFormItem>
       </el-col>
     </el-row>
