@@ -201,6 +201,7 @@ import moment from 'moment'
 import { Ref, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import resourceDictArr from './resource_dict.json'
+import { ElMessage } from 'element-plus'
 
 interface LabelItem {
   en: string
@@ -299,10 +300,19 @@ const handleParams = (params: GetAuditParams) => {
   }
   return params
 }
+const checkParams = (params: GetAuditParams): Promise<boolean> => {
+  const { gte_created_at, lte_created_at } = params
+  if (gte_created_at && lte_created_at && gte_created_at > lte_created_at) {
+    ElMessage.warning(tl('timeRangeError'))
+    return Promise.reject(false)
+  }
+  return Promise.resolve(true)
+}
 const getData = async () => {
   const filters = pickBy(filterParams, Boolean)
   const params = handleParams({ ...pageParams.value, ...filters })
   try {
+    await checkParams(params)
     // if is initializing, do not set isTableLoading
     isTableLoading.value = !isInitializing.value
     const { data, meta } = await queryAuditLogs(params)
