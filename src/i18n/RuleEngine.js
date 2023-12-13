@@ -272,9 +272,9 @@ export default {
     zh: '类型',
     en: 'Type',
   },
-  function: {
+  dataProcessing: {
     zh: '数据处理',
-    en: 'Function',
+    en: 'Data Processing',
   },
   matched: {
     zh: '命中',
@@ -800,7 +800,7 @@ export default {
   },
   useActionCreateRule: {
     zh: '是否使用该动作创建规则',
-    en: 'Would you like to create a rule using this connector?',
+    en: 'Would you like to create a rule using this action?',
   },
   canNotViewConnectorTip: {
     zh: '暂不支持通过 Dashboard 管理此连接器',
