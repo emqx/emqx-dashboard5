@@ -438,6 +438,7 @@ export const BridgeMqttPutMode = {
 
 export interface BridgeMqttPut {
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttPutMode
@@ -489,6 +490,7 @@ export interface BridgeMqttPost {
   type: BridgeMqttPostType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttPostMode
@@ -543,6 +545,7 @@ export interface BridgeMqttGet {
   status_reason?: string
   node_status?: BridgeNodeStatus[]
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttGetMode
