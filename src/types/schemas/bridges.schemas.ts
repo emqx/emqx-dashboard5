@@ -1057,6 +1057,7 @@ export const BridgeRedisPutSingleRedisType = {
 
 export interface BridgeRedisPutSingle {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSingle
@@ -1081,6 +1082,7 @@ export const BridgeRedisPutSentinelRedisType = {
 
 export interface BridgeRedisPutSentinel {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
@@ -1106,6 +1108,7 @@ export const BridgeRedisPutClusterRedisType = {
 
 export interface BridgeRedisPutCluster {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisCluster
@@ -1137,6 +1140,7 @@ export const BridgeRedisPostSingleRedisType = {
 
 export interface BridgeRedisPostSingle {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSingle
@@ -1171,6 +1175,7 @@ export const BridgeRedisPostSentinelRedisType = {
 
 export interface BridgeRedisPostSentinel {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
@@ -1206,6 +1211,7 @@ export const BridgeRedisPostClusterRedisType = {
 
 export interface BridgeRedisPostCluster {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisCluster
@@ -1304,6 +1310,7 @@ export const BridgeRedisGetClusterRedisType = {
 
 export interface BridgeRedisGetCluster {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisCluster
@@ -1357,6 +1364,7 @@ export interface BridgeRedisCreationOptsRedisSingle {
 
 export interface BridgeRedisGetSingle {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSingle
@@ -1411,6 +1419,7 @@ export interface BridgeRedisCreationOptsRedisSentinel {
 
 export interface BridgeRedisGetSentinel {
   enable?: boolean
+  description?: string
   local_topic?: string
   command_template: string[]
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
@@ -2143,6 +2152,7 @@ export const BridgeMqttPutMode = {
 
 export interface BridgeMqttPut {
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttPutMode
@@ -2194,6 +2204,7 @@ export interface BridgeMqttPost {
   type: BridgeMqttPostType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttPostMode
@@ -2248,6 +2259,7 @@ export interface BridgeMqttGet {
   status_reason?: string
   node_status?: BridgeNodeStatus[]
   enable?: boolean
+  description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
   mode?: BridgeMqttGetMode
@@ -2958,6 +2970,7 @@ export interface BridgeMatrixGet {
 
 export interface BridgeKinesisPutProducer {
   enable?: boolean
+  description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
   aws_secret_access_key: string
@@ -2982,6 +2995,7 @@ export interface BridgeKinesisPostProducer {
   type: BridgeKinesisPostProducerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
   aws_secret_access_key: string
@@ -3053,6 +3067,7 @@ export interface BridgeKinesisGetProducer {
   type: BridgeKinesisGetProducerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
   aws_secret_access_key: string
@@ -3717,6 +3732,7 @@ export const BridgeInfluxdbPutApiV2Precision = {
 
 export interface BridgeInfluxdbPutApiV2 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -3741,6 +3757,7 @@ export const BridgeInfluxdbPutApiV1Precision = {
 
 export interface BridgeInfluxdbPutApiV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -3773,6 +3790,7 @@ export const BridgeInfluxdbPostApiV2Precision = {
 
 export interface BridgeInfluxdbPostApiV2 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -3807,6 +3825,7 @@ export const BridgeInfluxdbPostApiV1Precision = {
 
 export interface BridgeInfluxdbPostApiV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -3852,6 +3871,7 @@ export const BridgeInfluxdbGetApiV2Precision = {
 
 export interface BridgeInfluxdbGetApiV2 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -3900,6 +3920,7 @@ export const BridgeInfluxdbGetApiV1Precision = {
 
 export interface BridgeInfluxdbGetApiV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -4174,6 +4195,7 @@ export const BridgeHstreamdbPutDirection = {
 
 export interface BridgeHstreamdbPut {
   enable?: boolean
+  description?: string
   direction?: BridgeHstreamdbPutDirection
   local_topic?: string
   record_template?: string
@@ -4204,6 +4226,7 @@ export const BridgeHstreamdbPostDirection = {
 
 export interface BridgeHstreamdbPost {
   enable?: boolean
+  description?: string
   direction?: BridgeHstreamdbPostDirection
   local_topic?: string
   record_template?: string
@@ -4247,6 +4270,7 @@ export const BridgeHstreamdbGetDirection = {
 
 export interface BridgeHstreamdbGet {
   enable?: boolean
+  description?: string
   direction?: BridgeHstreamdbGetDirection
   local_topic?: string
   record_template?: string
@@ -4277,6 +4301,7 @@ export const BridgeGreptimedbPutGrpcV1Precision = {
 
 export interface BridgeGreptimedbPutGrpcV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -4309,6 +4334,7 @@ export const BridgeGreptimedbPostGrpcV1Precision = {
 
 export interface BridgeGreptimedbPostGrpcV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -4354,6 +4380,7 @@ export const BridgeGreptimedbGetGrpcV1Precision = {
 
 export interface BridgeGreptimedbGetGrpcV1 {
   enable?: boolean
+  description?: string
   local_topic?: string
   write_syntax: string
   resource_opts?: ResourceSchemaCreationOpts
@@ -4374,6 +4401,7 @@ export type BridgeGcpPubsubPutProducerServiceAccountJson = { [key: string]: any 
 
 export interface BridgeGcpPubsubPutProducer {
   enable?: boolean
+  description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
   pool_size?: number
@@ -4393,6 +4421,7 @@ export type BridgeGcpPubsubPutConsumerServiceAccountJson = { [key: string]: any 
 
 export interface BridgeGcpPubsubPutConsumer {
   enable?: boolean
+  description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
   pool_size?: number
@@ -4418,6 +4447,7 @@ export interface BridgeGcpPubsubPostProducer {
   type: BridgeGcpPubsubPostProducerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
   pool_size?: number
@@ -4447,6 +4477,7 @@ export interface BridgeGcpPubsubPostConsumer {
   type: BridgeGcpPubsubPostConsumerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
   pool_size?: number
@@ -4491,6 +4522,7 @@ export interface BridgeGcpPubsubGetProducer {
   type: BridgeGcpPubsubGetProducerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
   pool_size?: number
@@ -4553,6 +4585,7 @@ export interface BridgeGcpPubsubGetConsumer {
   type: BridgeGcpPubsubGetConsumerType
   name: string
   enable?: boolean
+  description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
   pool_size?: number

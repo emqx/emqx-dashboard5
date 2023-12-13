@@ -168,59 +168,15 @@ export interface OpentelemetryTraceFilter {
   trace_all?: boolean
 }
 
-export type OpentelemetrySslOptsServerNameIndication = string | 'disable'
-
-export type OpentelemetrySslOptsLogLevel =
-  typeof OpentelemetrySslOptsLogLevel[keyof typeof OpentelemetrySslOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetrySslOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type OpentelemetrySslOptsVerify =
-  typeof OpentelemetrySslOptsVerify[keyof typeof OpentelemetrySslOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetrySslOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface OpentelemetrySslOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: OpentelemetrySslOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: OpentelemetrySslOptsLogLevel
-  hibernate_after?: string
-  server_name_indication?: OpentelemetrySslOptsServerNameIndication
-}
-
 export interface OpentelemetryOtelTraces {
   enable?: boolean
+  scheduled_delay?: string
   filter?: OpentelemetryTraceFilter
 }
 
 export interface OpentelemetryOtelMetrics {
   enable: boolean
+  interval?: string
 }
 
 export type OpentelemetryOtelLogsLevel =
@@ -242,11 +198,12 @@ export const OpentelemetryOtelLogsLevel = {
 export interface OpentelemetryOtelLogs {
   level?: OpentelemetryOtelLogsLevel
   enable?: boolean
+  scheduled_delay?: string
 }
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
-  ssl_options?: OpentelemetrySslOpts
+  ssl_options?: BrokerSslClientOpts
 }
 
 export interface OpentelemetryOpentelemetry {
@@ -254,4 +211,51 @@ export interface OpentelemetryOpentelemetry {
   logs?: OpentelemetryOtelLogs
   traces?: OpentelemetryOtelTraces
   exporter?: OpentelemetryOtelExporter
+}
+
+export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+
+export type BrokerSslClientOptsLogLevel =
+  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerSslClientOptsVerify =
+  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
