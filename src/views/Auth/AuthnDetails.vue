@@ -77,7 +77,7 @@
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>
-            <el-button type="primary" @click="handleUpdate">
+            <el-button type="primary" :loading="isSubmitting" @click="handleUpdate">
               {{ $t('Base.update') }}
             </el-button>
             <!-- <el-button @click="handleTest">
@@ -163,6 +163,7 @@ export default defineComponent({
     const router = useRouter()
     const { t, tl } = useI18nTl('Auth')
     const refreshLoading = ref(false)
+    const isSubmitting = ref(false)
     const authnDetailLock = ref(false)
     const currTab = ref(props.gateway ? 'settings' : 'overview')
     const id = computed(function () {
@@ -309,6 +310,7 @@ export default defineComponent({
         if (!isVerified) {
           return
         }
+        isSubmitting.value = true
         const { create } = useAuthnCreate()
         const { id } = configData.value
         const data = create(configData.value, configData.value.backend, configData.value.mechanism)
@@ -330,6 +332,8 @@ export default defineComponent({
         }
       } catch (error) {
         //
+      } finally {
+        isSubmitting.value = false
       }
     }
     const handleDelete = async function () {
@@ -374,6 +378,7 @@ export default defineComponent({
       authMetrics,
       authnDetailLock,
       formCom,
+      isSubmitting,
       handleUpdate,
       handleDelete,
       getAuthnMetrics,
