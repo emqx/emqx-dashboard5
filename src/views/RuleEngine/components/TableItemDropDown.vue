@@ -3,8 +3,9 @@
     @command="handleCommand(rowData, $event)"
     @visible-change="dropdownVisibleChanged"
     popper-class="table-dropdown-popper"
+    :disabled="disabled"
   >
-    <el-button class="table-dropdown-btn" size="small">
+    <el-button class="table-dropdown-btn" size="small" :disabled="disabled">
       <span>
         {{ $t('Base.more') }}
       </span>
@@ -54,6 +55,10 @@ defineProps({
     type: Object as PropType<PluginItem>,
   },
   isBridge: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },

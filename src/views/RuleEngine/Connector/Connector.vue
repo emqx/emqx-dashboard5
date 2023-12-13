@@ -10,15 +10,29 @@
       <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
         <el-table-column :label="tl('name')" :min-width="120">
           <template #default="{ row }">
-            <router-link :to="getDetailPageRoute(row)" class="first-column-with-icon-type">
-              <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
-              <div class="name-type-block">
-                <span class="name-data">
-                  {{ row.name }}
-                </span>
-                <span class="type-data">{{ getTypeStr(row.type) }}</span>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              placement="top"
+              :disabled="!row.canNotView"
+              :content="tl('canNotViewConnectorTip')"
+            >
+              <div class="tooltip-content">
+                <router-link
+                  :to="row.canNotView ? '' : getDetailPageRoute(row)"
+                  class="first-column-with-icon-type link-detail"
+                  :class="{ 'is-disabled': row.canNotView }"
+                >
+                  <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
+                  <div class="name-type-block">
+                    <span class="name-data">
+                      {{ row.name }}
+                    </span>
+                    <span class="type-data">{{ getTypeStr(row.type) }}</span>
+                  </div>
+                </router-link>
               </div>
-            </router-link>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column :label="tl('connectionStatus')">
@@ -31,24 +45,40 @@
         </el-table-column> -->
         <el-table-column :label="$t('Base.operation')" :min-width="168">
           <template #default="{ row }">
-            <el-button
-              size="small"
-              v-if="isErrorStatus(row)"
-              :loading="reconnectingMap.get(row.id)"
-              @click="reconnect(row)"
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              placement="top-start"
+              :disabled="!row.canNotView"
+              :content="tl('canNotViewConnectorTip')"
             >
-              {{ $t('RuleEngine.reconnect') }}
-            </el-button>
-            <el-button size="small" @click="$router.push(getDetailPageRoute(row))">
-              {{ $t('Base.setting') }}
-            </el-button>
-            <!-- TODO:disable del -->
-            <!-- :disable-del="row.XXXXXX" -->
-            <TableItemDropDown
-              :row-data="row"
-              @copy="copyConnectorItem(row)"
-              @delete="handleDeleteConnector(row)"
-            />
+              <div class="tooltip-content">
+                <el-button
+                  size="small"
+                  v-if="isErrorStatus(row)"
+                  :disabled="row.canNotView"
+                  :loading="reconnectingMap.get(row.id)"
+                  @click="reconnect(row)"
+                >
+                  {{ $t('RuleEngine.reconnect') }}
+                </el-button>
+                <el-button
+                  size="small"
+                  :disabled="row.canNotView"
+                  @click="$router.push(getDetailPageRoute(row))"
+                >
+                  {{ $t('Base.setting') }}
+                </el-button>
+                <!-- TODO:disable del -->
+                <!-- :disable-del="row.XXXXXX" -->
+                <TableItemDropDown
+                  :row-data="row"
+                  :disabled="row.canNotView"
+                  @copy="copyConnectorItem(row)"
+                  @delete="handleDeleteConnector(row)"
+                />
+              </div>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -188,3 +218,19 @@ const { getTypeStr } = useConnectorTypeValue()
 
 getList()
 </script>
+
+<style lang="scss">
+.connectors {
+  .tooltip-content {
+    width: -webkit-fit-content;
+    width: fit-content;
+  }
+  .link-detail {
+    &.is-disabled {
+      .name-data {
+        color: var(--color-text-primary);
+      }
+    }
+  }
+}
+</style>
