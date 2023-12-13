@@ -47,7 +47,7 @@
             is-bridge
             :row-data="row"
             :can-copy="false"
-            @delete="handleDeleteBridge(row.id)"
+            @delete="handleDeleteBridge(row)"
             @create-rule="createRuleWithBridge(row.id)"
           />
         </template>
@@ -58,6 +58,7 @@
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"
     :id="currentDeleteBridgeId"
+    :direction="delBridgeDirection"
     @submitted="handleDeleteSuc"
   />
 </template>
@@ -138,6 +139,7 @@ export default defineComponent({
       usingBridgeRules,
       currentDeleteBridgeId,
       handleDeleteSuc,
+      delBridgeDirection,
       handleDeleteBridge,
     } = useDeleteBridge(listBridge)
 
@@ -174,6 +176,7 @@ export default defineComponent({
       currentDeleteBridgeId,
       handleDeleteSuc,
       handleDeleteBridge,
+      delBridgeDirection,
       reconnectingMap,
       ConnectionStatus,
       reconnect,

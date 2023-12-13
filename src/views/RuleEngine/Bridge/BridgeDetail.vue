@@ -113,6 +113,7 @@
       v-model="showSecondConfirm"
       :rule-list="usingBridgeRules"
       :id="currentDeleteBridgeId"
+      :direction="delBridgeDirection"
       @submitted="handleDeleteSuc"
     />
   </div>
@@ -331,13 +332,14 @@ const {
   usingBridgeRules,
   currentDeleteBridgeId,
   handleDeleteSuc,
+  delBridgeDirection,
   handleDeleteBridge,
 } = useDeleteBridge(goBack)
 const handleDelete = async () => {
   if (!id.value) {
     return
   }
-  handleDeleteBridge(id.value)
+  handleDeleteBridge(bridgeInfo.value)
 }
 
 onMounted(() => {

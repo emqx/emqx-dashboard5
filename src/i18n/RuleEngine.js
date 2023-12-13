@@ -842,9 +842,13 @@ export default {
     zh: '请先移除使用该连接器的下列动作，然后再删除该连接器。',
     en: 'Please remove the following actions that use this connector before deleting the connector.',
   },
-  deleteActionSecondConfirm: {
+  deleteEgressActionSecondConfirm: {
     zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
     en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
+  },
+  deleteIngressActionSecondConfirm: {
+    zh: '下方规则使用了此动作，是否确认继续？',
+    en: 'The rule below uses this action. Are you sure you want to continue?',
   },
   deleteFakeConnectorConfirm: {
     zh: '该连接器被动作使用，继续操作将删除其相关动作。是否确认继续？',

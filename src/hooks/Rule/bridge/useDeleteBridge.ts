@@ -1,8 +1,11 @@
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeDirection } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
 import { Ref, ref } from 'vue'
 import useHandleActionItem from '../action/useHandleActionItem'
+import { useBridgeDirection } from './useBridgeTypeValue'
 
 export default (
   deletedCallBack: () => void,
@@ -11,7 +14,8 @@ export default (
   usingBridgeRules: Ref<string[]>
   currentDeleteBridgeId: Ref<string>
   handleDeleteSuc: () => void
-  handleDeleteBridge: (id: string) => Promise<void>
+  delBridgeDirection: Ref<number>
+  handleDeleteBridge: (data: BridgeItem) => Promise<void>
 } => {
   const { t } = useI18nTl('RuleEngine')
 
@@ -31,8 +35,11 @@ export default (
     showSecondConfirm.value = true
   }
 
+  const delBridgeDirection = ref(BridgeDirection.Egress)
+  const { judgeBridgeDirection } = useBridgeDirection()
   const { deleteAction } = useHandleActionItem()
-  const handleDeleteBridge = async (id: string) => {
+  const handleDeleteBridge = async (item: BridgeItem) => {
+    const { id } = item
     await ElMessageBox.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
@@ -40,6 +47,7 @@ export default (
       type: 'warning',
     })
     try {
+      delBridgeDirection.value = judgeBridgeDirection(item)
       await deleteAction(id)
       handleDeleteSuc()
     } catch (error: any) {
@@ -58,6 +66,7 @@ export default (
     usingBridgeRules,
     currentDeleteBridgeId,
     handleDeleteSuc,
+    delBridgeDirection,
     handleDeleteBridge,
   }
 }
