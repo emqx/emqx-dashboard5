@@ -278,6 +278,7 @@ const getDataForSubmit = () => {
       ..._.cloneDeep(bridgeData.value),
     }
   }
+  // TODO: remove handleBridgeDataBeforeSubmit
   return handleBridgeDataBeforeSubmit(dataToSubmit)
 }
 
