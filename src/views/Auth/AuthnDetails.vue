@@ -204,6 +204,15 @@ export default defineComponent({
       }
     }
 
+    const { factory } = useAuthnCreate()
+    const fillDefaultValue = (data) => {
+      if (currBackend.value === 'ldap') {
+        const { method: defaultMethod } = factory('password_based', 'ldap')
+        data.method = { ...defaultMethod, ...data.method }
+      }
+      return data
+    }
+
     const handlingDataCompatible = (data) => {
       if (currBackend.value === 'ldap') {
         const { password_attribute, is_superuser_attribute, bind_password } = data
@@ -235,7 +244,7 @@ export default defineComponent({
           return
         }
         currBackend.value = res.backend || res.mechanism
-        configData.value = handlingDataCompatible(res)
+        configData.value = fillDefaultValue(handlingDataCompatible(res))
         setRawSetting(configData.value)
         setPassWordBasedFieldsDefaultValue()
       } catch (error) {
