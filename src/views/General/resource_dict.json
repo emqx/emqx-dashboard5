@@ -176,7 +176,7 @@
     },
     "operation_name_label": {
       "en": "Create authenticator",
-      "zh": "创建认证器。"
+      "zh": "创建认证器"
     }
   },
   {
@@ -188,7 +188,7 @@
     },
     "operation_name_label": {
       "en": "Update authenticator",
-      "zh": "更新认证器。"
+      "zh": "更新认证器"
     }
   },
   {
@@ -200,7 +200,7 @@
     },
     "operation_name_label": {
       "en": "Delete authenticator",
-      "zh": "删除认证器。"
+      "zh": "删除认证器"
     }
   },
   {
@@ -284,7 +284,7 @@
     },
     "operation_name_label": {
       "en": "Move authenticator position",
-      "zh": "调整认证器的顺序。"
+      "zh": "调整认证器的顺序"
     }
   },
   {
@@ -560,7 +560,7 @@
     },
     "operation_name_label": {
       "en": "Update rule engine config",
-      "zh": "更新规则引擎配置。"
+      "zh": "更新规则引擎配置"
     }
   },
   {
@@ -1028,7 +1028,7 @@
     },
     "operation_name_label": {
       "en": "Update file transfer config",
-      "zh": "更新文件传输配置。"
+      "zh": "更新文件传输配置"
     }
   },
   {
@@ -1591,7 +1591,7 @@
       "zh": "监听器"
     },
     "operation_name_label": {
-      "en": "Stop the listener on all nodes.",
+      "en": "Stop the listener on all nodes",
       "zh": "在所有节点上停止指定 ID的监听器"
     }
   },
@@ -1699,8 +1699,8 @@
       "zh": "告警"
     },
     "operation_name_label": {
-      "en": "Remove all historical alarms.",
-      "zh": "删除所有历史告警。"
+      "en": "Remove all historical alarms",
+      "zh": "删除所有历史告警"
     }
   },
   {
