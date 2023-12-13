@@ -802,6 +802,10 @@ export default {
     zh: '是否使用该动作创建规则',
     en: 'Would you like to create a rule using this connector?',
   },
+  canNotViewConnectorTip: {
+    zh: '暂不支持通过 Dashboard 管理此连接器',
+    en: 'This connector cannot be managed through the dashboard at the moment',
+  },
   console: {
     zh: '打印结果输出到控制台',
     en: 'Print the result to the Console',
