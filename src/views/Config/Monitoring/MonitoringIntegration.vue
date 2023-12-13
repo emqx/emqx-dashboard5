@@ -65,9 +65,7 @@
                     <template #label>
                       <FormItemLabel :label="tl('interval')" :desc="tl('dataReportingInterval')" />
                     </template>
-                    <TimeInputWithUnitSelectVue
-                      v-model="prometheusFormData.push_gateway.interval"
-                    />
+                    <TimeInputWithUnitSelect v-model="prometheusFormData.push_gateway.interval" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="21" class="custom-col">
@@ -148,39 +146,64 @@
                 </el-form-item>
               </el-col>
               <!-- Exporter SSL Options -->
+              <el-col v-if="opentelemetryFormData.exporter" :span="21" class="custom-col">
+                <CommonTLSConfig
+                  v-model="opentelemetryFormData.exporter.ssl_options"
+                  :show-sni="false"
+                />
+              </el-col>
+              <!-- Metrics -->
+              <el-col :span="21" v-if="opentelemetryFormData.metrics?.enable">
+                <el-form-item :label="`${tl('metricsEnable')}${tl('exportInterval')}`">
+                  <TimeInputWithUnitSelect v-model="opentelemetryFormData.metrics.interval" />
+                </el-form-item>
+              </el-col>
               <!-- Traces -->
-              <el-col v-if="opentelemetryFormData.traces?.enable" :span="21">
-                <el-form-item>
-                  <template #label>
-                    <FormItemLabel
-                      :label="tl('tracesFilterTracesAll')"
-                      :desc="tl('tracesFilterTracesAllDesc')"
-                    >
-                    </FormItemLabel>
-                  </template>
-                  <el-switch
-                    v-if="opentelemetryFormData.traces?.filter"
-                    v-model="opentelemetryFormData.traces.filter.trace_all"
-                  ></el-switch>
-                </el-form-item>
-              </el-col>
+              <template v-if="opentelemetryFormData.traces?.enable">
+                <el-col :span="21">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel
+                        :label="tl('tracesFilterTracesAll')"
+                        :desc="tl('tracesFilterTracesAllDesc')"
+                      >
+                      </FormItemLabel>
+                    </template>
+                    <el-switch
+                      v-if="opentelemetryFormData.traces?.filter"
+                      v-model="opentelemetryFormData.traces.filter.trace_all"
+                    ></el-switch>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21">
+                  <el-form-item :label="`${tl('tracesEnable')}${tl('exportInterval')}`">
+                    <TimeInputWithUnitSelect
+                      v-model="opentelemetryFormData.traces.scheduled_delay"
+                    />
+                  </el-form-item>
+                </el-col>
+              </template>
               <!-- Logs -->
-              <el-col v-if="opentelemetryFormData.logs?.enable" :span="21">
-                <el-form-item :label="tl('logsLevel')">
-                  <el-select
-                    v-if="opentelemetryFormData.logs"
-                    v-model="opentelemetryFormData.logs.level"
-                  >
-                    <el-option
-                      v-for="level in openTelemetryLogLevels"
-                      :key="level"
-                      :label="level"
-                      :value="level"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
+              <template v-if="opentelemetryFormData.logs?.enable">
+                <el-col :span="21">
+                  <el-form-item :label="tl('logsLevel')">
+                    <el-select v-model="opentelemetryFormData.logs.level">
+                      <el-option
+                        v-for="level in openTelemetryLogLevels"
+                        :key="level"
+                        :label="level"
+                        :value="level"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="21">
+                  <el-form-item :label="`${tl('logsEnable')}${tl('exportInterval')}`">
+                    <TimeInputWithUnitSelect v-model="opentelemetryFormData.logs.scheduled_delay" />
+                  </el-form-item>
+                </el-col>
+              </template>
             </el-row>
           </template>
           <el-col class="btn-col" :span="24">
@@ -205,7 +228,7 @@ import promImg from '@/assets/img/prom.png'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import TimeInputWithUnitSelectVue from '@/components/TimeInputWithUnitSelect.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -215,12 +238,15 @@ import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
+import useSSL from '@/hooks/useSSL'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
+const { createSSLForm } = useSSL()
 
 const platformOpts = [
   {
@@ -260,20 +286,23 @@ const prometheusFormData: Ref<Prometheus> = ref({
 const opentelemetryFormData = ref<OpenTelemetry>({
   metrics: {
     enable: false,
+    interval: '10s',
   },
   logs: {
     level: 'warning',
     enable: false,
+    scheduled_delay: '1s',
   },
   traces: {
     enable: false,
     filter: {
       trace_all: false,
     },
+    scheduled_delay: '5s',
   },
   exporter: {
     endpoint: 'http://localhost:4317',
-    ssl_options: {},
+    ssl_options: createSSLForm(),
   },
 })
 

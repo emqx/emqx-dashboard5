@@ -1,5 +1,7 @@
 import { NodeStatus } from './enum'
 import { OpentelemetryOpentelemetry } from './schemas/monitor.schemas'
+import { SSL } from './common'
+
 export interface CounterItem {
   count: number
   timestamp: number
@@ -69,7 +71,12 @@ export interface StatsD {
   server: string
 }
 
-export type OpenTelemetry = OpentelemetryOpentelemetry
+export type OpenTelemetry = Omit<OpentelemetryOpentelemetry, 'exporter'> & {
+  exporter?: {
+    endpoint?: string
+    ssl_options?: SSL
+  }
+}
 
 export interface Alarm {
   node: string
