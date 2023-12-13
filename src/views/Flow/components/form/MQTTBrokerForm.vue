@@ -94,7 +94,7 @@
         <template #label>
           <FormItemLabel :label="tl('bridgeMode')" :desc="tl('bridgeModeDesc')" />
         </template>
-        <el-switch v-model="record.bridge_mode" />
+        <el-switch v-model="record.bridge_mode" :disabled="readonly" />
       </el-form-item>
       <BridgeResourceOpt v-model="record.resource_opts" :col-span="24" :readonly="readonly" />
     </AdvancedSettingContainer>
