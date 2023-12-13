@@ -12,7 +12,11 @@
           <WarningFilled />
         </i>
         <div class="el-message-box__message">
-          {{ tl('deleteActionSecondConfirm') }}
+          {{
+            direction === BridgeDirection.Egress
+              ? tl('deleteEgressActionSecondConfirm')
+              : tl('deleteIngressActionSecondConfirm')
+          }}
         </div>
       </div>
       <ul class="data-list">
@@ -44,6 +48,7 @@
 <script lang="ts" setup>
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeDirection } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
@@ -52,6 +57,10 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true,
+  },
+  direction: {
+    type: Number,
+    default: BridgeDirection.Egress,
   },
   id: {
     type: String,
