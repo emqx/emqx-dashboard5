@@ -23,6 +23,7 @@ export default (): {
     const addedIds: string[] = []
     for (const data of bridges) {
       try {
+        // TODO: remove handleBridgeDataBeforeSubmit
         const bridge = await handleBridgeDataBeforeSubmit(data)
         const { id } = await addAction(bridge)
         addedIds.push(id)

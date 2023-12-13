@@ -209,9 +209,12 @@ export const useBridgeDataHandler = (): {
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
-      bridgeData.command_template = await splitBySpace(bridgeData.command_template)
+      if (bridgeData.command_template && typeof bridgeData.command_template === 'string') {
+        bridgeData.command_template = await splitBySpace(bridgeData.command_template)
+      }
       return bridgeData
     } catch (error) {
+      console.error(error)
       return Promise.reject()
     }
   }
