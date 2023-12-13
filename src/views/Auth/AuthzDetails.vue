@@ -75,7 +75,7 @@
             <el-button @click="$router.push('/authorization')">
               {{ $t('Base.cancel') }}
             </el-button>
-            <el-button type="primary" @click="handleUpdate">
+            <el-button type="primary" :loading="isSubmitting" @click="handleUpdate">
               {{ $t('Base.update') }}
             </el-button>
             <!-- <el-button @click="handleTest">
@@ -127,6 +127,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const refreshLoading = ref(false)
+    const isSubmitting = ref(false)
     const authzDetailLock = ref(false)
     const { titleMap } = useAuth()
     const configData = ref({
@@ -201,6 +202,7 @@ export default defineComponent({
         if (!isVerified) {
           return
         }
+        isSubmitting.value = true
         const { create } = useAuthzCreate()
         const data = checkNOmitFromObj(create(configData.value, type.value))
         if (enable !== undefined) {
@@ -213,6 +215,8 @@ export default defineComponent({
         enable === undefined ? router.push({ name: 'authorization' }) : loadData()
       } catch (error) {
         //
+      } finally {
+        isSubmitting.value = false
       }
     }
 
@@ -251,6 +255,7 @@ export default defineComponent({
       formCom,
       refreshLoading,
       handleDelete,
+      isSubmitting,
       handleUpdate,
       handleRefresh,
       updateEnable,
