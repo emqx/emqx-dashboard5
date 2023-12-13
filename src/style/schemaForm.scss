@@ -143,6 +143,12 @@
     }
   }
 }
+.info-tooltip.height-fixed {
+  padding-right: 0;
+  .el-scrollbar__view {
+    padding-right: 12px;
+  }
+}
 .read-only-tooltip.el-popper {
   width: 210px;
   line-height: 1.5;
