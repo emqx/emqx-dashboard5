@@ -1,11 +1,10 @@
 import { getActions } from '@/api/action'
 import { getConnectors } from '@/api/connector'
 import { getBridgeList } from '@/api/ruleengine'
-import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getBridgeKey, omitArr } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
-import { useOldNewType } from '../bridge/useBridgeTypeValue'
+import { isConnectorSupported, useOldNewType } from '../bridge/useBridgeTypeValue'
 
 export default (): {
   getMixedConnectorList: () => Promise<Array<Connector | BridgeItem>>
@@ -47,8 +46,8 @@ export default (): {
           const connectorIndex = connectorList.findIndex(({ id }) => id === associatedConnectorId)
           if (connectorIndex !== -1) {
             if (
-              SUPPORTED_CONNECTOR_TYPES.includes(oldType) ||
-              (newType && SUPPORTED_CONNECTOR_TYPES.includes(newType as BridgeType))
+              isConnectorSupported(oldType) ||
+              (newType && isConnectorSupported(newType as BridgeType))
             ) {
               bridgeIndexArrNeedRemoved.push(bridgeIndex)
             } else {
@@ -61,6 +60,11 @@ export default (): {
         connectorList,
         connectorIndexArrNeedRemoved,
       )
+      connectorListRemovedBridge.forEach((item) => {
+        if (!isConnectorSupported(item.type)) {
+          item.canNotView = true
+        }
+      })
       const bridgeListRemovedConnector: Array<BridgeItem> = omitArr(
         bridgeList,
         bridgeIndexArrNeedRemoved,
