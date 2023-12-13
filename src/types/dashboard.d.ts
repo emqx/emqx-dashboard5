@@ -1,5 +1,5 @@
 import { NodeStatus } from './enum'
-
+import { OpentelemetryOpentelemetry } from './schemas/monitor.schemas'
 export interface CounterItem {
   count: number
   timestamp: number
@@ -69,13 +69,7 @@ export interface StatsD {
   server: string
 }
 
-export interface OpenTelemetry {
-  enable: boolean
-  exporter: {
-    endpoint: string
-    interval: string
-  }
-}
+export type OpenTelemetry = OpentelemetryOpentelemetry
 
 export interface Alarm {
   node: string

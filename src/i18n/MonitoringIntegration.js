@@ -157,4 +157,32 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '启用或禁用 Prometheus 抓取 API 的基本认证，不适用于 Pushgateway',
     en: 'Enable or disable basic authentication for Prometheus scrape API, not for Pushgateway',
   },
+  featureSelection: {
+    zh: '功能选择',
+    en: 'Feature Selection',
+  },
+  metricsEnable: {
+    zh: '指标',
+    en: 'Metrics',
+  },
+  tracesEnable: {
+    zh: '追踪',
+    en: 'Traces',
+  },
+  tracesFilterTracesAll: {
+    zh: '追踪全部消息',
+    en: 'Traces All Messages',
+  },
+  tracesFilterTracesAllDesc: {
+    zh: '当启用时，EMQX 将追踪所有发布的消息，如果无法从消息中提取追踪ID，则会生成一个新的追踪ID。当禁用时，只有在发布时带有追踪上下文（Trace context）的消息才会被追踪。',
+    en: 'When enabled, the EMQX will trace all published messages. If a trace ID cannot be extracted from the message, a new trace ID will be generated. When disabled, only messages with trace context at the time of publishing will be traced.',
+  },
+  logsEnable: {
+    zh: '日志',
+    en: 'Logs',
+  },
+  logsLevel: {
+    zh: '日志级别',
+    en: 'Logs Level',
+  },
 }
