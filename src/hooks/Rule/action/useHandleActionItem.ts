@@ -22,12 +22,14 @@ import {
   testConnect,
   updateBridge,
 } from '@/api/ruleengine'
-import { getTypeAndNameFromKey } from '@/common/tools'
+import { BRIDGE_OLD_TYPES_MAP } from '@/common/constants'
+import { getBridgeKey, getTypeAndNameFromKey } from '@/common/tools'
 import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Action, BridgeItem } from '@/types/rule'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
+import useMixedActionList from './useMixedActionList'
 
 type NowAction = Action | BridgeItem
 
@@ -54,10 +56,33 @@ export default (): {
     return handleBridgeDataAfterLoaded(data)
   }
 
+  const { getMixedActionListForRule } = useMixedActionList()
+  // Extracted logic for handling non-true action IDs
+  const handleNonTrueActionId = async (id: string): Promise<string> => {
+    const { type, name } = getTypeAndNameFromKey(id)
+
+    if (BRIDGE_OLD_TYPES_MAP.get(type)) {
+      const actionList = await getMixedActionListForRule()
+      const actionItem = actionList.find(
+        ({ id: actionId, realType }) => actionId === id && realType,
+      )
+
+      if (actionItem) {
+        return getBridgeKey({ type: actionItem.realType, name })
+      }
+    }
+
+    return id
+  }
   const getDetail = async <T = NowAction>(id: string): Promise<T> => {
     try {
-      const func = isTrueActionId(id) ? getActionDetail : getBridgeInfo
-      const data = await func(id)
+      let idForRequest = id
+      const isTrueAction = isTrueActionId(id)
+      if (!isTrueAction) {
+        idForRequest = await handleNonTrueActionId(id)
+      }
+      const func = isTrueAction ? getActionDetail : getBridgeInfo
+      const data = await func(idForRequest)
       return handleDataAfterLoaded(data) as Promise<T>
     } catch (error) {
       return Promise.reject(error)

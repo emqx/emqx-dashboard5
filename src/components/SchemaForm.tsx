@@ -583,7 +583,7 @@ const SchemaForm = defineComponent({
     const getLabelSlot = (property: Property) => {
       const { label, desc } = getText(property)
       // if field is SQL-like field, tooltip can be wider for show SQL template.
-      const popperClass = property.format === 'sql' ? 'is-wider' : ''
+      const popperClass = `${property.format === 'sql' ? 'is-wider' : ''} height-fixed`
       // FIXME: remove popperClass hack
       const labelSlot: any = {
         label: () => (
@@ -594,7 +594,11 @@ const SchemaForm = defineComponent({
         ),
       }
       const tooltipSlots = {
-        content: () => <MarkdownContent content={desc} gutter={0} />,
+        content: () => (
+          <el-scrollbar max-height="256px">
+            <MarkdownContent content={desc} gutter={0} />
+          </el-scrollbar>
+        ),
       }
       return labelSlot
     }
