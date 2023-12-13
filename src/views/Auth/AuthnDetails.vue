@@ -89,7 +89,12 @@
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>
-            <el-button type="primary" :disabled="!$hasPermission('put')" @click="handleUpdate">
+            <el-button
+              type="primary"
+              :loading="isSubmitting"
+              :disabled="!$hasPermission('put')"
+              @click="handleUpdate"
+            >
               {{ $t('Base.update') }}
             </el-button>
             <!-- <el-button @click="handleTest">
@@ -175,6 +180,7 @@ export default defineComponent({
     const router = useRouter()
     const { t, tl } = useI18nTl('Auth')
     const refreshLoading = ref(false)
+    const isSubmitting = ref(false)
     const authnDetailLock = ref(false)
     const currTab = ref(props.gateway ? 'settings' : 'overview')
     const id = computed(function () {
@@ -216,6 +222,15 @@ export default defineComponent({
       }
     }
 
+    const { factory } = useAuthnCreate()
+    const fillDefaultValue = (data) => {
+      if (currBackend.value === 'ldap') {
+        const { method: defaultMethod } = factory('password_based', 'ldap')
+        data.method = { ...defaultMethod, ...data.method }
+      }
+      return data
+    }
+
     const handlingDataCompatible = (data) => {
       if (currBackend.value === 'ldap') {
         const { password_attribute, is_superuser_attribute, bind_password } = data
@@ -247,7 +262,7 @@ export default defineComponent({
           return
         }
         currBackend.value = res.backend || res.mechanism
-        configData.value = handlingDataCompatible(res)
+        configData.value = fillDefaultValue(handlingDataCompatible(res))
         setRawSetting(configData.value)
         setPassWordBasedFieldsDefaultValue()
       } catch (error) {
@@ -312,6 +327,7 @@ export default defineComponent({
         if (!isVerified) {
           return
         }
+        isSubmitting.value = true
         const { create } = useAuthnCreate()
         const { id } = configData.value
         const data = create(configData.value, configData.value.backend, configData.value.mechanism)
@@ -333,6 +349,8 @@ export default defineComponent({
         }
       } catch (error) {
         //
+      } finally {
+        isSubmitting.value = false
       }
     }
     const handleDelete = async function () {
@@ -377,6 +395,7 @@ export default defineComponent({
       authMetrics,
       authnDetailLock,
       formCom,
+      isSubmitting,
       handleUpdate,
       handleDelete,
       getAuthnMetrics,
