@@ -28,6 +28,7 @@ export const setPwdFormat = (prop: Property) => {
 export default (
   props: {
     type?: string
+    edit?: boolean
   } & unknown,
 ): {
   getComponentsHandler: () => Handler
@@ -56,6 +57,9 @@ export default (
     const comRet = components
     if (comRet.enable) {
       Reflect.deleteProperty(comRet, 'enable')
+    }
+    if (props.edit && comRet.name) {
+      comRet.name.componentProps = { disabled: true }
     }
     if (comRet.resource_opts?.properties?.batch_time) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'batch_time')
