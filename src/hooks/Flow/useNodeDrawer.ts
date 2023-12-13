@@ -28,7 +28,7 @@ export default (): {
   const drawerTitleMap: Record<string, string> = {
     [SourceType.Message]: tl('message'),
     [SourceType.Event]: tl('event'),
-    [ProcessingType.Function]: tl('function'),
+    [ProcessingType.Function]: tl('dataProcessing'),
     [ProcessingType.Filter]: t('Flow.filter'),
     [SinkType.RePub]: tl('republish'),
     [SinkType.Console]: tl('consoleOutput'),
