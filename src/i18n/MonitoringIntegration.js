@@ -147,7 +147,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
   },
   exportInterval: {
     zh: '导出间隔',
-    en: 'Export Interval',
+    // Must have a space at the beginning
+    en: ' Export Interval',
   },
   enableBasicAuth: {
     zh: '启用基本认证',
