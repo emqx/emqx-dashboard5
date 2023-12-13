@@ -474,7 +474,7 @@
       "label": "同步查询超时时间"
     },
     "tcp_keepalive": {
-      "desc": "启用 Kafka 桥接连接的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
+      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
       "label": "TCP Keepalive"
     },
     "kafka_headers": {
@@ -985,7 +985,7 @@
   },
   "emqx_ee_bridge_azure_event_hub": {
     "bootstrap_hosts": {
-      "desc": "用于引导客户端的 Azure Event Hub Kafka <code>host[:port]</code>命名空间端点的逗号分隔列表。默认端口号为9093。",
+      "desc": "用于引导客户端的 Azure Event Hubs Kafka <code>host[:port]</code>命名空间端点的逗号分隔列表。默认端口号为9093。",
       "label": "引导主机"
     },
     "connect_timeout": {
@@ -993,15 +993,15 @@
       "label": "连接超时"
     },
     "min_metadata_refresh_interval": {
-      "desc": "客户端在刷新 Azure Event Hub Kafka 代理和主题元数据之前必须等待的最小时间间隔。设置太小的值可能会对 Azure Event Hub 造成额外的负载。",
+      "desc": "客户端在刷新 Azure Event Hubs Kafka 代理和主题元数据之前必须等待的最小时间间隔。设置太小的值可能会对 Azure Event Hubs 造成额外的负载。",
       "label": "最小元数据刷新间隔"
     },
     "metadata_request_timeout": {
-      "desc": "从 Azure Event Hub 获取元数据时的最大等待时间。",
+      "desc": "从 Azure Event Hubs 获取元数据时的最大等待时间。",
       "label": "元数据请求超时"
     },
     "connection_string": {
-      "desc": "用于连接到 Azure Event Hub 的连接字符串。应为命名空间共享访问策略的 “连接字符串 - 主键”。",
+      "desc": "用于连接到 Azure Event Hubs 的连接字符串。应为命名空间共享访问策略的 “连接字符串 - 主键”。",
       "label": "连接字符串"
     },
     "sndbuf": {
@@ -1013,7 +1013,7 @@
       "label": "套接字接收缓冲区大小"
     },
     "tcp_keepalive": {
-      "desc": "启用 Azure Event Hub 桥接连接的 TCP 保活。\n该值是以“Idle，Interval，Probes”格式的三个逗号分隔数字\n - Idle：连接在开始发送保活探测之前需要处于空闲状态的秒数（Linux默认为7200）。\n - Interval：TCP保活探测之间的秒数（Linux默认为75）。\n - Probes：在未从另一端获得响应的情况下发送的最大TCP保活探测次数（Linux默认为9）。\n例如，“240，30，5”表示：在连接空闲240秒后，发送TCP保活探测，并且在连续5次未获得响应时，应关闭连接。\n默认值：“none”",
+      "desc": "启用 Azure Event Hubs 桥接连接的 TCP 保活。\n该值是以“Idle，Interval，Probes”格式的三个逗号分隔数字\n - Idle：连接在开始发送保活探测之前需要处于空闲状态的秒数（Linux默认为7200）。\n - Interval：TCP保活探测之间的秒数（Linux默认为75）。\n - Probes：在未从另一端获得响应的情况下发送的最大TCP保活探测次数（Linux默认为9）。\n例如，“240，30，5”表示：在连接空闲240秒后，发送TCP保活探测，并且在连续5次未获得响应时，应关闭连接。\n默认值：“none”",
       "label": "TCP保活选项"
     },
     "topic": {
@@ -1021,35 +1021,35 @@
       "label": "事件中心名称"
     },
     "max_batch_bytes": {
-      "desc": "在Azure Event Hub消息批次中收集的最大字节数。大多数 Kafka 代理的默认限制为 1MB 批次大小。EMQX 的默认值小于1 MB，以补偿Kafka消息编码开销（特别是当每个单独消息非常小时）。当单个消息超过限制时，仍然会发送（作为单个元素批次）。",
+      "desc": "在 Azure Event Hubs 消息批次中收集的最大字节数。大多数 Azure Event Hubs 代理的默认限制为 1MB 批次大小。EMQX 的默认值小于1 MB，以补偿 Azure Event Hubs 消息编码开销（特别是当每个单独消息非常小时）。当单个消息超过限制时，仍然会发送（作为单个元素批次）。",
       "label": "最大批次字节数"
     },
     "partition_strategy": {
-      "desc": "分区策略用于告诉生产者如何将消息分派到 Azure Event Hub 分区。\n\n<code>random</code>：随机选择每个消息的分区\n<code>key_dispatch</code>：将 Azure Event Hub 消息键哈希到分区号",
+      "desc": "分区策略用于告诉生产者如何将消息分派到 Azure Event Hubs 分区。\n\n<code>random</code>：随机选择每个消息的分区\n<code>key_dispatch</code>：将 Azure Event Hubs 消息键哈希到分区号",
       "label": "分区策略"
     },
     "required_acks": {
-      "desc": "Azure Event Hub 分区领导者在向其追随者发送确认之前必须等待的所需确认\n\n<code>all_isr</code>：要求所有同步副本进行确认。\n<code>leader_only</code>：仅需要分区领导者的确认。",
+      "desc": "Azure Event Hubs 分区领导者在向其追随者发送确认之前必须等待的所需确认\n\n<code>all_isr</code>：要求所有同步副本进行确认。\n<code>leader_only</code>：仅需要分区领导者的确认。",
       "label": "所需确认"
     },
     "kafka_headers": {
-      "desc": "请提供一个占位符用于用作 Azure Event Hub 头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>",
-      "label": "Azure Event Hub 头部"
+      "desc": "请提供一个占位符用于用作 Azure Event Hubs 头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>",
+      "label": "Azure Event Hubs 头部"
     },
     "kafka_ext_headers": {
-      "desc": "请为 Azure Event Hub 提供更多的键值对头部信息<br/>此处的键值对将在发送到 Azure Event Hub 之前与 <code>kafka_headers</code> 字段的值进行组合。",
-      "label": "额外的 Azure Event Hub 头部信息"
+      "desc": "请为 Azure Event Hubs 提供更多的键值对头部信息<br/>此处的键值对将在发送到 Azure Event Hubs 之前与 <code>kafka_headers</code> 字段的值进行组合。",
+      "label": "额外的 Azure Event Hubs 头部信息"
     },
     "kafka_header_value_encode_mode": {
-      "desc": "Azure Event Hub 头部值编码模式<br/>\n - NONE：仅将二进制值添加到 Azure Event Hub 头部；<br/>\n - JSON：仅将JSON值添加到Azure Event Hub头部，并在发送前将其编码为JSON字符串。",
-      "label": "Azure Event Hub 头部值编码模式"
+      "desc": "Azure Event Hubs 头部值编码模式<br/>\n - NONE：仅将二进制值添加到 Azure Event Hubs 头部；<br/>\n - JSON：仅将JSON值添加到Azure Event Hubs 头部，并在发送前将其编码为JSON字符串。",
+      "label": "Azure Event Hubs 头部值编码模式"
     },
     "partition_count_refresh_interval": {
-      "desc": "Azure Event Hub 生产者用于发现增加的分区数的时间间隔。\n在Azure Event Hub 中增加分区数后，EMQX将在根据<code>partition_strategy</code>分派消息时考虑已发现的分区。",
+      "desc": "Azure Event Hubs 生产者用于发现增加的分区数的时间间隔。\n在 Azure Event Hubs 中增加分区数后，EMQX将在根据<code>partition_strategy</code>分派消息时考虑已发现的分区。",
       "label": "分区数刷新间隔"
     },
     "max_inflight": {
-      "desc": "Azure Event Hub 生产者（每个分区）允许发送的最大批次数，然后从Azure Event Hub接收确认。较大的值通常意味着更高的吞吐量。但是，当该值大于1时，可能会有消息重新排序的风险。",
+      "desc": "Azure Event Hubs 生产者（每个分区）允许发送的最大批次数，然后从 Azure Event Hubs 接收确认。较大的值通常意味着更高的吞吐量。但是，当该值大于1时，可能会有消息重新排序的风险。",
       "label": "最大传输数"
     },
     "query_mode": {
@@ -1061,11 +1061,11 @@
       "label": "同步查询超时"
     },
     "key": {
-      "desc": "用于呈现 Azure Event Hub 消息键的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hub的<code>NULL</code>（而不是空字符串）。",
+      "desc": "用于呈现 Azure Event Hubs 消息键的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hubs 的<code>NULL</code>（而不是空字符串）。",
       "label": "消息键"
     },
     "value": {
-      "desc": "用于呈现 Azure Event Hub 消息值的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hub的<code>NULL</code>（而不是空字符串）。",
+      "desc": "用于呈现 Azure Event Hubs 消息值的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hubs 的<code>NULL</code>（而不是空字符串）。",
       "label": "消息值"
     },
     "timestamp": {
@@ -1073,11 +1073,11 @@
       "label": "消息时间戳"
     },
     "kafka_ext_header_key": {
-      "desc": "Azure Event Hub头部的键。支持格式为${'{'}var{'}'}的占位符。",
+      "desc": "Azure Event Hubs头部的键。支持格式为${'{'}var{'}'}的占位符。",
       "label": "键"
     },
     "kafka_ext_header_value": {
-      "desc": "Azure Event Hub头部的值。支持格式为${'{'}var{'}'}的占位符。",
+      "desc": "Azure Event Hubs头部的值。支持格式为${'{'}var{'}'}的占位符。",
       "label": "值"
     },
     "mode": {
@@ -1085,7 +1085,7 @@
       "label": "缓冲区模式"
     },
     "per_partition_limit": {
-      "desc": "每个 Azure Event Hub 分区允许缓冲的字节数。当超过此限制时，旧消息将被删除以获得新消息的缓冲区配额。",
+      "desc": "每个 Azure Event Hubs 分区允许缓冲的字节数。当超过此限制时，旧消息将被删除以获得新消息的缓冲区配额。",
       "label": "每个分区缓冲限制"
     },
     "segment_bytes": {
