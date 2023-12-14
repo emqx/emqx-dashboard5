@@ -109,13 +109,13 @@
   .item-desc {
     width: 100%;
   }
-    .common-tls-config,
-    .TLS-enable-config {
-      flex-grow: 1;
-      .TLS-input {
-        width: 100%;
-      }
+  .common-tls-config,
+  .TLS-enable-config {
+    flex-grow: 1;
+    .TLS-input {
+      width: 100%;
     }
+  }
   .textarea-with-uploader {
     width: 100%;
   }
@@ -126,20 +126,23 @@
     $input-append-width: 120px;
     .el-form-item__content,
     .oneof-item {
-      >.el-select,
-      >.el-input-number {
+      > .el-select,
+      > .el-input-number {
         width: $base-number-input-width;
       }
-      >.el-input,
-      >.el-textarea {
+      > .el-input,
+      > .el-textarea {
         width: $base-input-width;
       }
-      >.textarea-with-uploader {
+      > .textarea-with-uploader {
         width: $base-input-width * 1.5;
       }
-      >.input-with-unit {
+      > .input-with-unit {
         width: $base-number-input-width + $input-append-width;
       }
+    }
+    .el-table {
+      width: 50%;
     }
   }
 }
@@ -174,8 +177,8 @@
 
   // hide first label
   .col-ssl {
-    >.el-form-item {
-      >.el-form-item__label {
+    > .el-form-item {
+      > .el-form-item__label {
         display: none;
       }
     }
@@ -191,7 +194,7 @@
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       height: 1px;
       background-color: var(--color-border-card);
@@ -220,7 +223,7 @@
     position: relative;
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       width: 100%;
       margin-top: 6px;
