@@ -1,6 +1,12 @@
 <template>
   <div class="app-wrapper data-bridge">
-    <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
+    <el-table
+      class="bridge-table"
+      :data="bridgeTb"
+      :empty-text="tl('actionsEmptyTip')"
+      v-loading="tbLoading"
+      row-key="id"
+    >
       <el-table-column :label="tl('name')" :min-width="120">
         <template #default="{ row }">
           <router-link :to="getBridgeDetailPageRoute(row.id)" class="first-column-with-icon-type">
@@ -14,7 +20,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" :min-width="120">
+      <el-table-column :label="t('Base.status')" :min-width="120">
         <template #default="{ row }">
           <TargetItemStatus :target="row" />
         </template>
@@ -170,6 +176,7 @@ export default defineComponent({
 
     return {
       Plus,
+      t,
       tl: (key: string) => t('RuleEngine.' + key),
       getGeneralTypeLabel,
       bridgeTb,

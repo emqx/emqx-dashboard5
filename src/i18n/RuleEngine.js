@@ -47,10 +47,6 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  status: {
-    zh: '资源状态',
-    en: 'Resource Status',
-  },
   connectionStatus: {
     zh: '连接状态',
     en: 'Connection Status',
@@ -151,6 +147,10 @@ export default {
   actions: {
     zh: '动作',
     en: 'Actions',
+  },
+  actionsEmptyTip: {
+    zh: '请在规则或者 Flow 设计器中添加动作',
+    en: 'Please add actions in rules or flow designer',
   },
   actionsCount: {
     zh: '动作数量',

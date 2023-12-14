@@ -2,11 +2,12 @@ import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { BridgeType } from '@/types/enum'
+import { ConnectorForm, HTTPBridge } from '@/types/rule'
 import { WebhookForm } from '@/types/webhook'
+import { pick } from 'lodash'
 import { useActionSchema } from '../Rule/bridge/useBridgeTypeValue'
 import useSchemaForm from '../Schema/useSchemaForm'
 import useSchemaRecord from '../Schema/useSchemaRecord'
-import { ConnectorForm, HTTPBridge } from '@/types/rule'
 
 export default (): {
   createRawWebhookForm: () => Promise<WebhookForm>
@@ -31,7 +32,11 @@ export default (): {
     )
 
   const createRawHTTPConnector = () => {
-    return initRecordByComponents(httpConnectorComponents.value) as ConnectorForm
+    const ret = initRecordByComponents(httpConnectorComponents.value) as ConnectorForm
+    if (ret.headers && typeof ret.headers === 'object') {
+      ret.headers = pick(ret.headers, 'content-type')
+    }
+    return ret
   }
   const createRawHTTPAction = () => {
     return initRecordByComponents(httpActionComponents.value) as HTTPBridge
