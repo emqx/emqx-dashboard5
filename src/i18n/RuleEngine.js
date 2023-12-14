@@ -152,6 +152,10 @@ export default {
     zh: '动作',
     en: 'Actions',
   },
+  actionsEmptyTip: {
+    zh: '请在规则或者 Flow 设计器中添加动作',
+    en: 'Please add actions in rules or flow designer',
+  },
   actionsCount: {
     zh: '动作数量',
     en: 'Action Count',

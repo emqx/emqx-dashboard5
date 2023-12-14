@@ -1,6 +1,12 @@
 <template>
   <div class="app-wrapper data-bridge">
-    <el-table class="bridge-table" :data="bridgeTb" v-loading="tbLoading" row-key="id">
+    <el-table
+      class="bridge-table"
+      :data="bridgeTb"
+      :empty-text="tl('actionsEmptyTip')"
+      v-loading="tbLoading"
+      row-key="id"
+    >
       <el-table-column :label="tl('name')" :min-width="120">
         <template #default="{ row }">
           <router-link :to="getBridgeDetailPageRoute(row.id)" class="first-column-with-icon-type">
