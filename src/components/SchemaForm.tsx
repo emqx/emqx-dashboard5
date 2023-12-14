@@ -389,6 +389,21 @@ const SchemaForm = defineComponent({
                 {...customProps}
               />
             )
+          } else if (property.items.type === 'enum') {
+            return (
+              <el-select
+                disabled={isPropertyDisabled}
+                modelValue={modelValue}
+                clearable={clearableValue}
+                {...handleUpdateModelValue}
+                {...customProps}
+                multiple
+              >
+                {property.symbols?.map((opt) => (
+                  <el-option value={opt} label={getOptLabel(opt)} />
+                ))}
+              </el-select>
+            )
           } else if (property.items.path && property.items.properties) {
             const editMode = props.formProps?.labelPosition === 'right' ? 'list' : 'table'
             return (
