@@ -286,6 +286,13 @@ const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
 
     const fieldKeyFileSchema = get(components, getFieldSchemaPath(getSSLConfPath('keyfile')))
     fieldKeyFileSchema.componentProps = { placeholder: t('Base.keyFilePlaceholder') }
+
+    const fieldCiphersSchema = get(components, getFieldSchemaPath(getSSLConfPath('ciphers')))
+    fieldCiphersSchema.items.component = 'input'
+
+    const fieldVersionsSchema = get(components, getFieldSchemaPath(getSSLConfPath('versions')))
+    fieldVersionsSchema.items.type = 'enum'
+    fieldVersionsSchema.symbols = ['tlsv1', 'tlsv1.1', 'tlsv1.2', 'tlsv1.3']
   }
 
   return { components, rules }
