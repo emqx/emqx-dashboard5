@@ -1,6 +1,10 @@
 {
   "async": "Async",
   "sync": "Sync",
+  "get": "GET",
+  "post": "POST",
+  "delete": "DELETE",
+  "put": "PUT",
   "producer": "Producer",
   "consumer": "Consumer",
   "ns": "nanosecond",
