@@ -256,8 +256,8 @@ export default {
     en: 'Topic Metrics',
   },
   actions: {
-    zh: '动作',
-    en: 'Actions',
+    zh: '动作(Sink)',
+    en: 'Actions(Sink)',
   },
   setting: {
     zh: '设置',

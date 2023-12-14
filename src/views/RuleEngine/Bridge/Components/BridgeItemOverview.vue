@@ -15,7 +15,7 @@
     <template #table="{ data }">
       <el-table :data="nodeStatusTableData(data)">
         <el-table-column prop="node" :label="tl('name')" />
-        <el-table-column :label="tl('status')" :width="230">
+        <el-table-column :label="t('Base.status')" :width="230">
           <template #default="{ row }">
             <span class="text-status" :class="getStatusClass(row.status)">
               {{ getLabelByStatusValue(row.status) }}
