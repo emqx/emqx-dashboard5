@@ -181,7 +181,7 @@ export default (): {
     [SourceType.Event]: t('RuleEngine.event'),
     [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
     [SourceType.Kafka]: t('RuleEngine.kafka'),
-    [ProcessingType.Function]: t('RuleEngine.function'),
+    [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
