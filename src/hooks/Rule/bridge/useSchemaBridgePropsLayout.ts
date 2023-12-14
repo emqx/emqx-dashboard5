@@ -99,6 +99,7 @@ export default (
       }
     } else {
       nameClass = props.hideName ? 'col-hidden' : singleFieldWithLineBelow
+      descClass = 'col-hidden'
     }
     return { nameClass, connectorClass, descClass }
   }
