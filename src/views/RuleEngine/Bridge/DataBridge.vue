@@ -20,7 +20,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('status')" :min-width="120">
+      <el-table-column :label="t('Base.status')" :min-width="120">
         <template #default="{ row }">
           <TargetItemStatus :target="row" />
         </template>
@@ -171,6 +171,7 @@ export default defineComponent({
 
     return {
       Plus,
+      t,
       tl: (key: string) => t('RuleEngine.' + key),
       getGeneralTypeLabel,
       bridgeTb,

@@ -47,10 +47,6 @@ export default {
     zh: '不匹配',
     en: 'No match',
   },
-  status: {
-    zh: '资源状态',
-    en: 'Resource Status',
-  },
   connectionStatus: {
     zh: '连接状态',
     en: 'Connection Status',
