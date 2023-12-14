@@ -88,7 +88,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureEventHubs, label: tl('azureEventHubs') },
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
-    { value: BridgeType.Confluent, label: 'Confluent' },
+    { value: BridgeType.Confluent, label: `Confluent ${tl('producer')}` },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
