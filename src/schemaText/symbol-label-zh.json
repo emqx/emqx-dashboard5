@@ -1,1 +1,8 @@
-{}
+{
+  "async": "异步",
+  "sync": "同步",
+  "get": "GET",
+  "post": "POST",
+  "delete": "DELETE",
+  "put": "PUT"
+}
