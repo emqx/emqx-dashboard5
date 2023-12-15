@@ -120,9 +120,6 @@ const configLoading = ref(true)
 const isSchemaLoading = ref(false)
 const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
 
-const checkDataIsChanged = () => !isEqual(S3StorageFormCom.value?.configForm, rawData)
-useDataNotSaveConfirm(checkDataIsChanged)
-
 const labelWidth = computed(() => (state.lang === 'zh' ? 200 : 230))
 
 const propsOrderMap = {
@@ -350,8 +347,8 @@ const setSelectedStorageType = async () => {
 const loadData = async () => {
   try {
     configs.value = await getFileTransConfigs()
-    setDefaultValue(configs.value)
     rawData = cloneDeep(configs.value)
+    setDefaultValue(configs.value)
     setSelectedStorageType()
   } catch (error) {
     //
@@ -362,21 +359,28 @@ const loadData = async () => {
 const reloading = () => {
   loadData()
 }
-const handleSave = async (val: FileTransferConf) => {
+const getDataToSubmit = () => {
+  const basicFormData = BasicFormCom.value.configForm
+
+  const isLocal = selectedStorageType.value === StorageType.Local
+
+  const storageFormCom = isLocal ? LocalStorageFormCom.value : S3StorageFormCom.value
+  const partNeedBeOmitted = isLocal ? s3PartPath : localPartPath
+  const storageFormData = omit(cloneDeep(storageFormCom.configForm), partNeedBeOmitted)
+
+  // When saving, the form data comes from the storage conf form component;
+  // this component does not have basic conf data and needs to be processed.
+  return checkNOmitFromObj(merge(storageFormData, pick(basicFormData, basicConfFields)))
+}
+const handleSave = async () => {
   try {
     await customValidate(BasicFormCom.value)
     const isLocal = selectedStorageType.value === StorageType.Local
     const storageFormCom = isLocal ? LocalStorageFormCom.value : S3StorageFormCom.value
     await customValidate(storageFormCom)
     saveLoading.value = true
-    // When saving, the form data comes from the storage conf form component;
-    // this component does not have basic conf data and needs to be processed.
-    const partNeedBeOmitted = isLocal ? s3PartPath : localPartPath
-    const storageFormData = omit(cloneDeep(val), partNeedBeOmitted)
-    const basicFormData = BasicFormCom.value.configForm
-    const data = checkNOmitFromObj(merge(storageFormData, pick(basicFormData, basicConfFields)))
 
-    await updateFileTransConfigs(data)
+    await updateFileTransConfigs(getDataToSubmit())
     ElMessage.success(t('Base.updateSuccess'))
     reloading()
   } catch (error) {
@@ -385,6 +389,10 @@ const handleSave = async (val: FileTransferConf) => {
     saveLoading.value = false
   }
 }
+
+const checkDataIsChanged = () => !isEqual(getDataToSubmit(), rawData)
+useDataNotSaveConfirm(checkDataIsChanged)
+
 loadData()
 </script>
 
