@@ -850,6 +850,9 @@
 .el-divider--horizontal {
   border-top: 1px solid var(--color-border-card);
 }
+.el-divider__text {
+  background: var(--color-bg-content);
+}
 
 /* Drawer */
 .el-drawer__header {
