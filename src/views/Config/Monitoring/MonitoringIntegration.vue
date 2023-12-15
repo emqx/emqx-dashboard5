@@ -339,7 +339,6 @@ const updateRawDataForCompare = () => {
 const loadIntegration = async function () {
   isDataLoading.value = true
   prometheusFormData.value = await getPrometheus()
-  updateRawDataForCompare()
   isDataLoading.value = false
 }
 const isSubmitting = ref(false)
@@ -384,6 +383,7 @@ const submit = async () => {
 const { addObserverToFooter } = useConfFooterStyle()
 ;(async () => {
   await Promise.allSettled([loadIntegration(), loadOpentelemetry()])
+  updateRawDataForCompare()
   addObserverToFooter()
 })()
 </script>
