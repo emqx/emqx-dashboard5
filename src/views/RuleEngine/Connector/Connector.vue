@@ -42,7 +42,7 @@
         </el-table-column>
         <el-table-column :label="tl('connectionStatus')">
           <template #default="{ row }">
-            <TargetItemStatus :target="row" />
+            <TargetItemStatus type="connector" :target="row" />
           </template>
         </el-table-column>
         <!-- <el-table-column :label="tl('associativeDataBridge')">

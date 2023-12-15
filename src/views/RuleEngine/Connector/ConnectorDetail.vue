@@ -7,7 +7,7 @@
           <img :src="getBridgeIcon(connectorData.type)" />
           <div class="title-n-status">
             <div class="info-tags">
-              <TargetItemStatus :target="connectorData" is-tag />
+              <TargetItemStatus type="connector" :target="connectorData" is-tag />
               <el-tag type="info" class="section-status">
                 {{ getTypeStr(connectorData.type) }}
               </el-tag>

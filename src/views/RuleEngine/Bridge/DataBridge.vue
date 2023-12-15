@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column :label="t('Base.status')" :min-width="120">
         <template #default="{ row }">
-          <TargetItemStatus :target="row" />
+          <TargetItemStatus type="action" :target="row" />
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
