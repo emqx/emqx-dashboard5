@@ -449,7 +449,7 @@ export const useRuleMetrics = (): {
     [MetricType.Green]: { title: tl('actionsSuccess'), contains: ['actions.success'] },
     [MetricType.Red]: {
       title: tl('actionsFailed'),
-      contains: ['actions.failed.out_of_service', 'actions.failed.unknown'],
+      contains: ['actions.failed'],
     },
   }
   const textMap = {
@@ -459,14 +459,6 @@ export const useRuleMetrics = (): {
     'failed.exception': { label: tl('failedException'), desc: tl('failedExceptionDesc') },
     'failed.no_result': { label: tl('failedNoResult'), desc: tl('failedNoResultDesc') },
     'actions.success': { label: tl('actionsSuccess'), desc: tl('actionsSuccessDesc') },
-    'actions.failed.out_of_service': {
-      label: tl('actionsFailedOutOfService'),
-      desc: tl('actionsFailedOutOfServiceDesc'),
-    },
-    'actions.failed.unknown': {
-      label: tl('actionsFailedUnknown'),
-      desc: tl('actionsFailedUnknownDesc'),
-    },
     'matched.rate': { label: t('Base.rateNow'), desc: tl('ruleRateBarDesc') },
     'matched.rate.last5m': { label: t('Base.rateLast5M') },
     'matched.rate.max': { label: t('Base.rateMax') },
