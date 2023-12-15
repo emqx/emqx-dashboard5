@@ -146,10 +146,9 @@ export default (): {
       return
     }
     const argIndex = getArgIndex(funcItem, funcGroup)
-    let funcArgs = expression
-      .slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
-      .split(',')
-      .map((item) => item.trim())
+    const argsContent = expression.slice(expression.indexOf('(') + 1, expression.lastIndexOf(')'))
+    let funcArgs = splitOnComma(argsContent).map((item) => item.trim())
+
     if (funcName === 'subbits') {
       funcArgs = countActualArgsForSubbits(funcArgs)
     }
@@ -162,7 +161,7 @@ export default (): {
     return { func: { name: funcName, args }, field: args[argIndex].toString() }
   }
 
-  const funcExpressionReg = /^(\w|_)+\(.|\n+\)/
+  const funcExpressionReg = /^\w+\((.|\n)+\)$/
   const aliasPartReg = /\sas\s(\S+)/
   const aliasReg = new RegExp(`.+${aliasPartReg.source}`)
   const generateFunctionFormItemFromExpression = (expressionItem: string): FunctionItem => {
