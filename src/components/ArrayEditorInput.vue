@@ -23,7 +23,8 @@ const inputData = computed({
     return (props.modelValue || []).join(SEPARATOR)
   },
   set(val) {
-    emit('update:modelValue', val.split(SEPARATOR))
+    const arr = val.split(SEPARATOR).map((item) => item.trim())
+    emit('update:modelValue', arr)
   },
 })
 </script>
