@@ -152,6 +152,18 @@ export default {
     zh: '请在规则或者 Flow 设计器中添加动作',
     en: 'Please add actions in rules or flow designer',
   },
+  actionAvailable: {
+    zh: '可用',
+    en: 'Available',
+  },
+  actionUnavailable: {
+    zh: '不可用',
+    en: 'Unavailable',
+  },
+  actionDisabled: {
+    zh: '已禁用',
+    en: 'Disabled',
+  },
   actionsCount: {
     zh: '动作数量',
     en: 'Action Count',

@@ -24,6 +24,9 @@ const props = defineProps({
   target: {
     type: Object as PropType<BridgeItem>,
   },
+  type: {
+    type: String as PropType<'connector' | 'action'>,
+  },
   isTag: {
     type: Boolean,
     default: false,
@@ -32,19 +35,39 @@ const props = defineProps({
 
 const { tl } = useI18nTl('RuleEngine')
 
-const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
+const { getStatusLabel: getConnectorStatusLabel, getStatusClass } = useCommonConnectionStatus()
+const getActionStatusLabel = (status?: ConnectionStatus) => {
+  const statusLabelMap = {
+    [ConnectionStatus.Connected]: tl('actionAvailable'),
+    [ConnectionStatus.Disconnected]: tl('actionUnavailable'),
+    [ConnectionStatus.Connecting]: tl('connecting'),
+    [ConnectionStatus.Inconsistent]: tl('inconsistent'),
+    [ConnectionStatus.Stopped]: tl('stopped'),
+  }
+  return status ? statusLabelMap[status] || tl('disconnected') : ''
+}
 const statusData = computed(() => {
   const { target } = props
   const details =
     target?.node_status && Array.isArray(target?.node_status)
       ? target?.node_status.map(({ node, status }) => ({
           node,
-          statusLabel: getStatusLabel(status),
+          statusLabel: getConnectorStatusLabel(status),
           statusClass: getStatusClass(status),
         }))
       : []
 
-  const statusLabel = getStatusLabel(target?.status)
+  let statusLabel = ''
+  if (props.type === 'connector') {
+    statusLabel = getConnectorStatusLabel(target?.status)
+  } else {
+    if (!target?.enable) {
+      statusLabel = tl('actionDisabled')
+    } else {
+      statusLabel = getActionStatusLabel(target?.status)
+    }
+  }
+
   const statusClass = getStatusClass(target?.status)
   return { details, statusLabel, statusClass }
 })
