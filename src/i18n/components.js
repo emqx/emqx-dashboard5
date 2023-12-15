@@ -197,7 +197,7 @@ export default {
   },
   backup: {
     zh: '备份与恢复',
-    en: 'Backup',
+    en: 'Backup & Restore',
   },
   users: {
     zh: '用户',
