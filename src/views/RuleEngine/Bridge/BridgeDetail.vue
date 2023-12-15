@@ -7,7 +7,7 @@
           <img :src="getBridgeIcon(bridgeInfo.type)" />
           <div class="title-n-status">
             <div class="info-tags">
-              <TargetItemStatus :target="bridgeInfo" is-tag />
+              <TargetItemStatus type="action" :target="bridgeInfo" is-tag />
               <el-tag type="info" class="section-status">
                 {{ getGeneralTypeLabel(bridgeInfo.type) }}
               </el-tag>
