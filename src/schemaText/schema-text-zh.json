@@ -721,10 +721,6 @@
       "desc": "为每个会话指定未收到 PUBREL 且未超时的最大 QoS 2 消息数量。超过限制后，新的 QoS 2 消息发布会被拒绝，并返回 147(0x93) 错误。",
       "label": "最大待发 PUBREL 数量"
     },
-    "ciphers_schema_quic": {
-      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件，<code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注：QUIC 监听器不支持 tlsv1.3 的 ciphers",
-      "label": ""
-    },
     "fields_mqtt_quic_listener_max_bytes_per_key": {
       "desc": "在启动密钥更新之前，用单个 1-RTT 加密密钥加密的最大字节数。默认值：274877906944",
       "label": "每个密钥的最大字节数"
@@ -1348,7 +1344,7 @@
       "label": "启用 TLS"
     },
     "ciphers": {
-      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
+      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称。例如\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
       "label": "加密套件"
     },
     "log_level": {
