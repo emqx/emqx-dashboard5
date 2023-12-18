@@ -85,7 +85,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, onMounted } from 'vue'
+import { defineProps, PropType } from 'vue'
 import { RuleItem } from '@/types/rule'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { queryRuleMetrics, resetRuleMetrics } from '@/api/ruleengine'
@@ -125,6 +125,4 @@ const resetMetrics = () => {
   }
   return resetRuleMetrics(props.ruleId)
 }
-
-onMounted(getRuleMetricsData)
 </script>

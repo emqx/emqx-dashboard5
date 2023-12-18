@@ -48,6 +48,9 @@ const props = defineProps({
   exhook: {
     type: Object as PropType<Exhook>,
   },
+  exhookName: {
+    type: String,
+  },
 })
 
 const { textMap, exHooksTypeMetricsMap, rateData } = useExHooksMetrics()
@@ -77,10 +80,11 @@ const { statusText, statusTextClass } = useExhookItemStatus()
 
 const getHooksMetricsData = () => {
   try {
-    if (!props.exhook?.name) {
+    console.log(props.exhookName)
+    if (!props.exhookName) {
       return
     }
-    return queryExhookDetail(props.exhook.name)
+    return queryExhookDetail(props.exhookName)
   } catch (error) {
     //
   }
