@@ -12,7 +12,7 @@
             <el-switch
               class="enable-btn"
               v-model="exhookData.enable"
-              @change="updateExhookStatus"
+              @change="(val) => updateExhookStatus(val as boolean)"
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
@@ -25,7 +25,7 @@
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
         <el-tab-pane :label="tl('overview')" name="overview">
-          <ExhookItemOverview :exhook="exhookData" />
+          <ExhookItemOverview :exhook="exhookData" :exhook-name="exhookName" />
         </el-tab-pane>
         <el-tab-pane :label="tl('registeredHooks')" name="hooks">
           <el-table :data="registeredHooks">
