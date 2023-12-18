@@ -393,8 +393,12 @@ export default {
     en: 'Default Heartbeat Interval',
   },
   heartbeatCheckingTimesBackoff: {
-    zh: '心跳检查退避次数',
-    en: 'Heartbeat Checking Times Backoff',
+    zh: '心跳定时器检查退避',
+    en: 'Heartbeat Timer Check Backoff',
+  },
+  heartbeatCheckingTimesBackoffDesc: {
+    zh: '设置心跳定时器用于检查客户端心跳时的，最大退避倍数；0 表示不退避；1 表示在原间隔上允许额外一个周期，即允许 1 个周期中无心跳产生。',
+    en: 'Set the maximum backoff factor for the heartbeat timer to check the client heartbeat; 0 means no backoff; 1 means an additional cycle is allowed on the original interval, that is, no heartbeat is allowed to be generated in 1 cycle.',
   },
   upstream: {
     zh: '上行数据流',
