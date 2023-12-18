@@ -80,7 +80,6 @@ const { statusText, statusTextClass } = useExhookItemStatus()
 
 const getHooksMetricsData = () => {
   try {
-    console.log(props.exhookName)
     if (!props.exhookName) {
       return
     }

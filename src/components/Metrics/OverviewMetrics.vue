@@ -269,7 +269,6 @@ const updateToView = () => {
 const getMetrics = async () => {
   try {
     metricsData.value = await props.requestMetrics()
-    console.log(metricsData.value)
     updateToView()
   } catch (error) {
     //
