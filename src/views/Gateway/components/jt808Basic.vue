@@ -62,15 +62,15 @@
         </el-col>
         <!-- Proto -->
         <el-col :span="12">
-          <el-form-item :label="tl('registry')" prop="proto.registry">
+          <el-form-item :label="tl('registry')" prop="proto.auth.registry">
             <template #label>
               <FormItemLabel :label="tl('registry')" :desc="tl('registryDesc')" desc-marked />
             </template>
-            <el-input v-model="jValue.proto.registry" />
+            <el-input v-model="jValue.proto.auth.registry" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('authenticationUrl')" prop="proto.authentication">
+          <el-form-item :label="tl('authenticationUrl')" prop="proto.auth.authentication">
             <template #label>
               <FormItemLabel
                 :label="tl('authenticationUrl')"
@@ -78,7 +78,7 @@
                 desc-marked
               />
             </template>
-            <el-input v-model="jValue.proto.authentication" />
+            <el-input v-model="jValue.proto.auth.authentication" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -93,7 +93,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('allowAnonymous')">
-            <el-switch v-model="jValue.proto.allow_anonymous" />
+            <el-switch v-model="jValue.proto.auth.allow_anonymous" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -135,9 +135,11 @@ const createDefault = () => ({
     max_length: 8192,
   },
   proto: {
-    allow_anonymous: true,
-    registry: undefined,
-    authentication: undefined,
+    auth: {
+      allow_anonymous: true,
+      registry: undefined,
+      authentication: undefined,
+    },
     up_topic: 'jt808/${clientid}/${phone}/up',
     dn_topic: 'jt808/${clientid}/${phone}/dn',
   },
@@ -152,13 +154,13 @@ const createDefault = () => ({
 const jValue = reactive(_.merge(createDefault(), props.value))
 
 const rules: any = computed(() => {
-  const rules = {
-    proto: {},
-  }
-  if (!jValue.proto.allow_anonymous) {
-    rules.proto = {
-      registry: [{ required: true, message: tl('registryRequired'), trigger: 'blur' }],
-      authentication: [{ required: true, message: tl('authenticationRequired'), trigger: 'blur' }],
+  let rules = {}
+  if (!jValue.proto.auth.allow_anonymous) {
+    rules = {
+      'proto.auth.registry': [{ required: true, message: tl('registryRequired'), trigger: 'blur' }],
+      'proto.auth.authentication': [
+        { required: true, message: tl('authenticationRequired'), trigger: 'blur' },
+      ],
     }
   } else {
     refForm.value?.clearValidate()
