@@ -180,14 +180,14 @@ export default (): {
     [SourceType.Message]: t('RuleEngine.messages'),
     [SourceType.Event]: t('RuleEngine.event'),
     [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
-    [SourceType.Kafka]: t('RuleEngine.kafka'),
+    [SourceType.Kafka]: `${t('RuleEngine.kafka')} ${t('RuleEngine.consumer')}`,
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
     [SinkType.RePub]: t('RuleEngine.republish'),
-    [SinkType.Kafka]: t('RuleEngine.kafka'),
+    [SinkType.Kafka]: `${t('RuleEngine.kafka')} ${t('RuleEngine.producer')}`,
   }
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
   const getTypeLabel = (specificType: string): string => {
