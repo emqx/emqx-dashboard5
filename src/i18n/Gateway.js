@@ -357,19 +357,19 @@ export default {
     en: 'Allow Anonymous',
   },
   registry: {
-    zh: '注册表',
-    en: 'Registry',
+    zh: '注册 URL',
+    en: 'Registry URL',
   },
   registryDesc: {
     zh: 'JT/T 808 设备注册中心。如果 `allow_anonymous=false`，则必需。当网关收到 JT/T 808 注册报文后，会将注册消息以 HTTP 请求的方式发往该地址。',
     en: 'The JT/T 808 device registry central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 registration message, it will send the registration message to this address as an HTTP request.',
   },
   registryRequired: {
-    zh: '请输入注册表地址',
-    en: 'Registry is required',
+    zh: '请输入注册 URL',
+    en: 'Registry URL is required',
   },
   authenticationUrl: {
-    zh: '认证 URL',
+    zh: '鉴权 URL',
     en: 'Authentication URL',
   },
   authenticationUrlDesc: {
@@ -377,7 +377,7 @@ export default {
     en: 'The JT/T 808 device authentication central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 authentication message, it will send the authentication message to this address as an HTTP request.',
   },
   authenticationRequired: {
-    zh: '请输入认证地址',
+    zh: '请输入认证 URL',
     en: 'Authentication URL is required',
   },
   upTopic: {
