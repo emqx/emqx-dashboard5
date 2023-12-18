@@ -18,6 +18,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('heartbeatCheckingTimesBackoff')">
+            <template #label>
+              <FormItemLabel
+                :label="tl('heartbeatCheckingTimesBackoff')"
+                :desc="tl('heartbeatCheckingTimesBackoffDesc')"
+              />
+            </template>
             <CustomInputNumber
               v-model.number="oValue.heartbeat_checking_times_backoff"
               :min="0"
@@ -115,6 +121,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   value: {
