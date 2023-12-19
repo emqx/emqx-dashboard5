@@ -1,4 +1,4 @@
-import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
+import { REDIS_TYPE } from '@/common/constants'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
@@ -128,23 +128,10 @@ export default (
 
   const mongoComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { mongo_type, payload_template, servers } = components
-    if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
-      mongo_type.symbols = MONGO_TYPE
-      mongo_type.componentProps = { clearable: false }
-    }
-    if (payload_template?.type === 'string') {
-      payload_template.format = 'sql'
-    }
-    if (
-      servers?.type === 'string' ||
-      (servers?.type === 'array' && servers?.items?.type === 'string')
-    ) {
-      servers.type = 'string'
-      servers.componentProps = {
-        type: 'textarea',
-        rows: 3,
-      }
+
+    const { parameters } = components
+    if (parameters?.properties?.payload_template) {
+      parameters.properties.payload_template.format = 'sql'
     }
 
     return { components, rules }

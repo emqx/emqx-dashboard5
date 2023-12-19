@@ -16,5 +16,8 @@
   "json": "JSON",
   "authentication_auth_gssapi_kerberos": "Kerberos",
   "authentication_auth_username_password": "基础认证",
-  "authentication_none": "无"
+  "authentication_none": "无",
+  "parameters_connector_single": "single",
+  "parameters_connector_rs": "rs",
+  "parameters_connector_sharded": "sharded"
 }

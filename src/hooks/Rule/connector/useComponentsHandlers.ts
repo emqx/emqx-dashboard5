@@ -11,6 +11,12 @@ type Handler = ({ components, rules }: { components: Properties; rules: SchemaRu
   rules: SchemaRules
 }
 
+const enum MongoType {
+  Single = 'single',
+  RS = 'rs',
+  Sharded = 'sharded',
+}
+
 /**
  * Set the format for the password field to control the
  * password input box configuration field on the page.
@@ -163,6 +169,37 @@ export default (
     return { components, rules }
   }
 
+  const mongoTypeOrder = [MongoType.Single, MongoType.RS, MongoType.Sharded]
+  const getMongoTypeOrder = (ref: string) => mongoTypeOrder.findIndex((type) => ref.includes(type))
+  const mongoHandler: Handler = ({ components, rules }) => {
+    const { parameters } = components
+
+    if (parameters) {
+      parameters.oneOf?.sort(
+        (a, b) => getMongoTypeOrder(a.$ref || '') - getMongoTypeOrder(b.$ref || ''),
+      )
+
+      const oneOf = parameters.oneOf || []
+      const singleOne = oneOf?.find((item) => item.$ref?.includes(MongoType.Single))
+      if (singleOne) {
+        parameters.default = { mongo_type: singleOne?.properties?.mongo_type?.symbols?.[0] }
+      }
+
+      const rsOne = oneOf?.find((item) => item.$ref?.includes(MongoType.RS))
+      const { servers: rsServers } = rsOne?.properties || {}
+      if (rsServers) {
+        rsServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+
+      const shardedOne = oneOf?.find((item) => item.$ref?.includes(MongoType.Sharded))
+      const { servers: shardedServers } = shardedOne?.properties || {}
+      if (shardedServers) {
+        shardedServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
@@ -170,6 +207,7 @@ export default (
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.GCPProducer, GCPProducerHandler],
+    [BridgeType.MongoDB, mongoHandler],
   ])
 
   const getComponentsHandler = () => {

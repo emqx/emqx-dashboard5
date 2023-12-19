@@ -287,6 +287,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.MatrixDB,
   BridgeType.MySQL,
   BridgeType.GCPProducer,
+  BridgeType.MongoDB,
 ]
 
 export const COPY_SUFFIX = '_duplication'
@@ -332,8 +333,6 @@ export const SSL_FIELDS = [
 ]
 
 export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
-
-export const MONGO_TYPE = ['single', 'rs', 'sharded']
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**

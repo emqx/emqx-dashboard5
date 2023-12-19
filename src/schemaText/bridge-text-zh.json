@@ -503,18 +503,6 @@
       "desc": "数据将被存储到的集合",
       "label": "集合 (Collection) "
     },
-    "mongodb_rs_conf": {
-      "desc": "MongoDB（Replica Set）配置",
-      "label": "MongoDB（Replica Set）配置"
-    },
-    "mongodb_sharded_conf": {
-      "desc": "MongoDB (Sharded)配置",
-      "label": "MongoDB (Sharded)配置"
-    },
-    "mongodb_single_conf": {
-      "desc": "MongoDB（独立）配置",
-      "label": "MongoDB（独立）配置"
-    },
     "payload_template": {
       "desc": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
       "label": "有效载荷模板"
@@ -526,22 +514,6 @@
     "connect_timeout": {
       "desc": "超时重连的等待时间。",
       "label": "连接超时"
-    },
-    "desc_rs": {
-      "desc": "配置 Replica Set",
-      "label": "配置 Replica Set"
-    },
-    "desc_sharded": {
-      "desc": "配置 Sharded Cluster",
-      "label": "配置 Sharded Cluster"
-    },
-    "desc_single": {
-      "desc": "配置 Single 模式",
-      "label": "配置 Single 模式"
-    },
-    "desc_topology": {
-      "desc": "配置 Topology",
-      "label": "配置 Topology"
     },
     "heartbeat_period": {
       "desc": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
@@ -618,6 +590,12 @@
     "use_legacy_protocol": {
       "desc": "是否使用 MongoDB 的旧协议与数据库通信。默认情况下，系统会尝试自动确定是否支持新协议。",
       "label": "使用旧协议"
+    },
+    "mongo_type": {
+      "label": "部署模式"
+    },
+    "parameters": {
+      "label": "部署模式"
     }
   },
   "emqx_ee_bridge_mysql": {
