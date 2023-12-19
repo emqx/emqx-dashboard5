@@ -147,9 +147,12 @@
               </el-col>
               <!-- Exporter SSL Options -->
               <el-col v-if="opentelemetryFormData.exporter" :span="21" class="custom-col">
+                <!-- Setting the key is to refresh the certificate content to the certificate path after updating the configuration. -->
                 <CommonTLSConfig
+                  :key="isDataLoading.toString()"
                   v-model="opentelemetryFormData.exporter.ssl_options"
                   :show-sni="false"
+                  is-edit
                 />
               </el-col>
               <!-- Metrics -->
@@ -230,6 +233,7 @@
 import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from '@/api/common'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
+import { checkNOmitFromObj } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -337,9 +341,14 @@ const updateRawDataForCompare = () => {
 }
 
 const loadIntegration = async function () {
-  isDataLoading.value = true
-  prometheusFormData.value = await getPrometheus()
-  isDataLoading.value = false
+  try {
+    isDataLoading.value = true
+    prometheusFormData.value = await getPrometheus()
+  } catch (error) {
+    //
+  } finally {
+    isDataLoading.value = false
+  }
 }
 const isSubmitting = ref(false)
 
@@ -350,24 +359,32 @@ const updatePrometheus = async function () {
     updateRawDataForCompare()
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
-    loadIntegration()
+    //
   } finally {
+    loadIntegration()
     isSubmitting.value = false
   }
 }
 
 const loadOpentelemetry = async function () {
-  opentelemetryFormData.value = await getOpenTelemetry()
+  try {
+    isDataLoading.value = true
+    opentelemetryFormData.value = await getOpenTelemetry()
+  } catch (error) {
+    //
+  } finally {
+    isDataLoading.value = false
+  }
 }
 
 const updateOpentelemetry = async function () {
   try {
-    isSubmitting.value = true
-    await setOpenTelemetry(opentelemetryFormData.value)
+    await setOpenTelemetry(checkNOmitFromObj(opentelemetryFormData.value))
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
-    loadOpentelemetry()
+    //
   } finally {
+    loadOpentelemetry()
     isSubmitting.value = false
   }
 }
