@@ -33,16 +33,16 @@ const props = defineProps({
   },
 })
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const { getStatusLabel: getConnectorStatusLabel, getStatusClass } = useCommonConnectionStatus()
 const getActionStatusLabel = (status?: ConnectionStatus) => {
   const statusLabelMap = {
     [ConnectionStatus.Connected]: tl('actionAvailable'),
     [ConnectionStatus.Disconnected]: tl('actionUnavailable'),
-    [ConnectionStatus.Connecting]: tl('connecting'),
-    [ConnectionStatus.Inconsistent]: tl('inconsistent'),
-    [ConnectionStatus.Stopped]: tl('stopped'),
+    [ConnectionStatus.Connecting]: tl('Base.connecting'),
+    [ConnectionStatus.Inconsistent]: tl('Base.inconsistent'),
+    [ConnectionStatus.Stopped]: t('Base.stopped'),
   }
   return status ? statusLabelMap[status] || tl('disconnected') : ''
 }
