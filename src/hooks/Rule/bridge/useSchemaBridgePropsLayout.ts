@@ -65,19 +65,6 @@ export default (
     ...createOrderObj(['parameters.sql', 'parameters.prepare_statement'], fieldStartIndex),
   }
 
-  const mongoTopologyProps = [
-    'max_overflow',
-    'overflow_ttl',
-    'overflow_check_period',
-    'local_threshold_ms',
-    'connect_timeout_ms',
-    'socket_timeout_ms',
-    'server_selection_timeout_ms',
-    'wait_queue_timeout_ms',
-    'heartbeat_frequency_ms',
-    'min_heartbeat_frequency_ms',
-  ].map((item) => `topology.${item}`)
-
   const azureAdvancedProps = [
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
@@ -105,9 +92,6 @@ export default (
   const azurePropsOrderMap = {
     ...createOrderObj(
       [
-        'bootstrap_hosts',
-        'authentication.password',
-        'ssl',
         'parameters.topic',
         'parameters.kafka_headers',
         'parameters.kafka_header_value_encode_mode',
@@ -166,28 +150,7 @@ export default (
       ],
       fieldStartIndex,
     ),
-    [BridgeType.MongoDB]: {
-      ...createOrderObj(
-        [
-          'mongo_type',
-          'srv_record',
-          'server',
-          'servers',
-          'database',
-          'replica_set_name',
-          'username',
-          'password',
-          'auth_source',
-          'w_mode',
-          'r_mode',
-          'collection',
-          'ssl',
-          'payload_template',
-          ...mongoTopologyProps,
-        ],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.MongoDB]: createOrderObj(['collection', 'payload_template'], fieldStartIndex),
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
@@ -360,7 +323,6 @@ export default (
     [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
     [BridgeType.RabbitMQ]: ['heartbeat', 'publish_confirmation_timeout', 'timeout'],
-    [BridgeType.MongoDB]: ['w_mode', ...mongoTopologyProps],
     [BridgeType.IoTDB]: ['enable_pipelining'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],

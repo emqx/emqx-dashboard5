@@ -36,7 +36,7 @@ export default (
 ): {
   propsOrderMap: ComputedRef<Record<string, number>>
   customColClass: ComputedRef<Record<string, string>>
-  advancedFields: ComputedRef<Array<string>>
+  advancedFields: ComputedRef<Array<string | RegExp>>
 } => {
   const createOrderObj = (keyArr: Array<string>, beginning: number) =>
     keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
@@ -78,6 +78,19 @@ export default (
     ['server', 'database', 'username', 'password', 'ssl'],
     fieldStartIndex,
   )
+
+  const mongoTopologyProps = [
+    'max_overflow',
+    'overflow_ttl',
+    'overflow_check_period',
+    'local_threshold_ms',
+    'connect_timeout_ms',
+    'socket_timeout_ms',
+    'server_selection_timeout_ms',
+    'wait_queue_timeout_ms',
+    'heartbeat_frequency_ms',
+    'min_heartbeat_frequency_ms',
+  ].map((item) => `topology.${item}`)
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
@@ -93,6 +106,29 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GCPProducer]: createOrderObj(['pipelining'], fieldStartIndex),
+    [BridgeType.MongoDB]: {
+      ...createOrderObj(
+        [
+          'parameters',
+          'mongo_type',
+          'server',
+          'servers',
+          'replica_set_name',
+          'w_mode',
+          'r_mode',
+          'database',
+          'username',
+          'password',
+          'auth_source',
+          'use_legacy_protocol',
+          'srv_record',
+          'ssl',
+          ...mongoTopologyProps,
+        ],
+        fieldStartIndex,
+      ),
+      ...createOrderObj(httpAdvancedProps, 70),
+    },
   }
 
   const propsOrderMap = computed(() => {
@@ -105,14 +141,16 @@ export default (
 
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCPProducer]: { service_account_json: 'custom-col-24' },
+    [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
   }
 
-  const advancedFieldsMap: Record<string, Array<string>> = {
+  const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.Webhook]: httpAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
     [BridgeType.GCPProducer]: ['pipelining'],
+    [BridgeType.MongoDB]: ['w_mode', /topology/],
   }
 
   const advancedFields = computed(() => {

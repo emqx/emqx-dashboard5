@@ -503,18 +503,6 @@
       "desc": "The collection where data will be stored into",
       "label": "Collection"
     },
-    "mongodb_rs_conf": {
-      "desc": "MongoDB (Replica Set) configuration",
-      "label": "MongoDB (Replica Set) Configuration"
-    },
-    "mongodb_sharded_conf": {
-      "desc": "MongoDB (Sharded) configuration",
-      "label": "MongoDB (Sharded) Configuration"
-    },
-    "mongodb_single_conf": {
-      "desc": "MongoDB (Standalone) configuration",
-      "label": "MongoDB (Standalone) Configuration"
-    },
     "payload_template": {
       "desc": "The template for formatting the outgoing messages.  If undefined, rule engine will use JSON format to serialize all visible inputs, such as clientid, topic, payload etc.",
       "label": "Payload template"
@@ -526,22 +514,6 @@
     "connect_timeout": {
       "desc": "The duration to attempt a connection before timing out.",
       "label": "Connect Timeout"
-    },
-    "desc_rs": {
-      "desc": "Settings for replica set.",
-      "label": "Setting Replica Set"
-    },
-    "desc_sharded": {
-      "desc": "Settings for sharded cluster.",
-      "label": "Setting Sharded Cluster"
-    },
-    "desc_single": {
-      "desc": "Settings for a single MongoDB instance.",
-      "label": "Setting Single MongoDB"
-    },
-    "desc_topology": {
-      "desc": "Topology of MongoDB.",
-      "label": "Setting Topology"
     },
     "heartbeat_period": {
       "desc": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one. If the number of connections is increased (which will happen, for example, if you increase the pool size), you may need to increase this period as well to avoid creating too many log entries in the MongoDB log file.",
@@ -618,6 +590,12 @@
     "use_legacy_protocol": {
       "desc": "Whether to use MongoDB's legacy protocol for communicating with the database. The default is to attempt to automatically determine if the newer protocol is supported.",
       "label": "Use Legacy Protocol"
+    },
+    "mongo_type": {
+      "label": "MongoDB Mode"
+    },
+    "parameters": {
+      "label": "MongoDB Mode"
     }
   },
   "emqx_ee_bridge_mysql": {

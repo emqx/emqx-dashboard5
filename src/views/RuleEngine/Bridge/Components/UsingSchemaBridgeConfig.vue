@@ -38,7 +38,6 @@ import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeT
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
-  useMongoSecondTypeControl,
   useRedisSecondTypeControl,
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
@@ -135,16 +134,12 @@ const customColClass = computed(() => {
 
 const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)
-const { currentType: mongoFormType, keyField: mongoSecondTypeControlField } =
-  useMongoSecondTypeControl(bridgeRecord)
 
 const typesWithSecondControlMap = {
   [BridgeType.Redis]: redisFormType,
-  [BridgeType.MongoDB]: mongoFormType,
 }
 const typesWithSecondControlKeyMap = {
   [BridgeType.Redis]: redisSecondTypeControlField,
-  [BridgeType.MongoDB]: mongoSecondTypeControlField,
 }
 
 const direction = computed(() =>
