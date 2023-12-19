@@ -134,7 +134,8 @@
       > .el-textarea {
         width: $base-input-width;
       }
-      > .textarea-with-uploader {
+      > .textarea-with-uploader,
+      > .config-item-data-look {
         width: $base-input-width * 1.5;
       }
       > .input-with-unit {
