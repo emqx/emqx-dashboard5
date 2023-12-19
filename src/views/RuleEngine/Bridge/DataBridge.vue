@@ -39,8 +39,9 @@
           <el-button
             size="small"
             v-if="
-              row.status === ConnectionStatus.Disconnected ||
-              row.status === ConnectionStatus.Inconsistent
+              row.enable &&
+              (row.status === ConnectionStatus.Disconnected ||
+                row.status === ConnectionStatus.Inconsistent)
             "
             :disabled="!$hasPermission('post')"
             :loading="reconnectingMap.get(row.id)"
