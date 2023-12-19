@@ -35,8 +35,9 @@
           <el-button
             size="small"
             v-if="
-              row.status === ConnectionStatus.Disconnected ||
-              row.status === ConnectionStatus.Inconsistent
+              row.enable &&
+              (row.status === ConnectionStatus.Disconnected ||
+                row.status === ConnectionStatus.Inconsistent)
             "
             :loading="reconnectingMap.get(row.id)"
             @click="reconnect(row)"
