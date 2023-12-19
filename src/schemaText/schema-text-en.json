@@ -462,7 +462,7 @@
     },
     "common_handler_max_filter_size": {
       "desc": "Store the latest N log entries in a database for allow `/audit` HTTP API to filter and retrieval of log data.",
-      "label": "Max Filter Size"
+      "label": "Max Dashboard Record Size"
     },
     "common_handler_ignore_high_frequency_request": {
       "desc": "Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.",
