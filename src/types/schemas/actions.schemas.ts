@@ -311,43 +311,12 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
-export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
-
-export type BridgeHttpResourceOptsQueryMode =
-  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeHttpResourceOptsQueryMode = {
-  sync: 'sync',
-  async: 'async',
-} as const
-
-/**
- * @deprecated
- */
-export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
-
-export interface BridgeHttpResourceOpts {
-  worker_pool_size?: number
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-  /** @deprecated */
-  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
-  query_mode?: BridgeHttpResourceOptsQueryMode
-  request_ttl?: BridgeHttpResourceOptsRequestTtl
-  inflight_window?: number
-  /** @deprecated */
-  enable_queue?: boolean
-  max_buffer_bytes?: string
-}
-
 export interface BridgeHttpPutBridgeV2 {
   enable?: boolean
   connector: string
   description?: string
   parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpResourceOpts
+  resource_opts?: BridgeHttpActionResourceOpts
 }
 
 export type BridgeHttpPostBridgeV2Type =
@@ -357,6 +326,16 @@ export type BridgeHttpPostBridgeV2Type =
 export const BridgeHttpPostBridgeV2Type = {
   http: 'http',
 } as const
+
+export interface BridgeHttpPostBridgeV2 {
+  type: BridgeHttpPostBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
 
 export type BridgeHttpParametersOptsHeaders = { [key: string]: any }
 
@@ -379,16 +358,6 @@ export interface BridgeHttpParametersOpts {
   max_retries?: number
   /** @deprecated */
   request_timeout?: string
-}
-
-export interface BridgeHttpPostBridgeV2 {
-  type: BridgeHttpPostBridgeV2Type
-  name: string
-  enable?: boolean
-  connector: string
-  description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpResourceOpts
 }
 
 export type BridgeHttpGetBridgeV2Type =
@@ -420,5 +389,25 @@ export interface BridgeHttpGetBridgeV2 {
   connector: string
   description?: string
   parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpResourceOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
+
+export type BridgeHttpActionResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeHttpActionResourceOptsQueryMode =
+  typeof BridgeHttpActionResourceOptsQueryMode[keyof typeof BridgeHttpActionResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpActionResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+export interface BridgeHttpActionResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  query_mode?: BridgeHttpActionResourceOptsQueryMode
+  request_ttl?: BridgeHttpActionResourceOptsRequestTtl
+  inflight_window?: number
+  max_buffer_bytes?: string
 }
