@@ -3939,11 +3939,11 @@ export interface BridgeInfluxdbGetApiV1 {
 
 export type BridgeHttpResourceOptsRequestTtl = 'infinity' | string
 
-export type BridgeHttpResourceOptsQueryMode =
-  typeof BridgeHttpResourceOptsQueryMode[keyof typeof BridgeHttpResourceOptsQueryMode]
+export type BridgeHttpV1ResourceOptsQueryMode =
+  typeof BridgeHttpV1ResourceOptsQueryMode[keyof typeof BridgeHttpV1ResourceOptsQueryMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeHttpResourceOptsQueryMode = {
+export const BridgeHttpV1ResourceOptsQueryMode = {
   sync: 'sync',
   async: 'async',
 } as const
@@ -3951,17 +3951,17 @@ export const BridgeHttpResourceOptsQueryMode = {
 /**
  * @deprecated
  */
-export type BridgeHttpResourceOptsAutoRestartInterval = string | 'infinity'
+export type BridgeHttpV1ResourceOptsAutoRestartInterval = string | 'infinity'
 
-export interface BridgeHttpResourceOpts {
+export interface BridgeHttpV1ResourceOpts {
   worker_pool_size?: number
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
   /** @deprecated */
-  auto_restart_interval?: BridgeHttpResourceOptsAutoRestartInterval
-  query_mode?: BridgeHttpResourceOptsQueryMode
-  request_ttl?: BridgeHttpResourceOptsRequestTtl
+  auto_restart_interval?: BridgeHttpV1ResourceOptsAutoRestartInterval
+  query_mode?: BridgeHttpV1ResourceOptsQueryMode
+  request_ttl?: BridgeHttpV1ResourceOptsRequestTtl
   inflight_window?: number
   /** @deprecated */
   enable_queue?: boolean
@@ -4016,7 +4016,6 @@ export interface BridgeHttpPut {
   /** @deprecated */
   request?: BridgeHttpPutRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPutDirection
@@ -4027,6 +4026,7 @@ export interface BridgeHttpPut {
   max_retries?: number
   /** @deprecated */
   request_timeout?: string
+  resource_opts?: BridgeHttpV1ResourceOpts
 }
 
 export type BridgeHttpPostHeaders = { [key: string]: any }
@@ -4088,7 +4088,6 @@ export interface BridgeHttpPost {
   /** @deprecated */
   request?: BridgeHttpPostRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPostDirection
@@ -4099,6 +4098,7 @@ export interface BridgeHttpPost {
   max_retries?: number
   /** @deprecated */
   request_timeout?: string
+  resource_opts?: BridgeHttpV1ResourceOpts
 }
 
 export type BridgeHttpGetHeaders = { [key: string]: any }
@@ -4172,7 +4172,6 @@ export interface BridgeHttpGet {
   /** @deprecated */
   request?: BridgeHttpGetRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpGetDirection
@@ -4183,6 +4182,7 @@ export interface BridgeHttpGet {
   max_retries?: number
   /** @deprecated */
   request_timeout?: string
+  resource_opts?: BridgeHttpV1ResourceOpts
 }
 
 export type BridgeHstreamdbPutDirection =

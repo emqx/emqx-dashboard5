@@ -365,7 +365,7 @@ export default {
   },
   stopped: {
     zh: '已停止',
-    en: 'stopped',
+    en: 'Stopped',
   },
   overview: {
     zh: '概览',

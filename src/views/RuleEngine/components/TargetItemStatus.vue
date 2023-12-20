@@ -40,8 +40,8 @@ const getActionStatusLabel = (status?: ConnectionStatus) => {
   const statusLabelMap = {
     [ConnectionStatus.Connected]: tl('actionAvailable'),
     [ConnectionStatus.Disconnected]: tl('actionUnavailable'),
-    [ConnectionStatus.Connecting]: tl('Base.connecting'),
-    [ConnectionStatus.Inconsistent]: tl('Base.inconsistent'),
+    [ConnectionStatus.Connecting]: t('Base.connecting'),
+    [ConnectionStatus.Inconsistent]: t('Base.inconsistent'),
     [ConnectionStatus.Stopped]: t('Base.stopped'),
   }
   return status ? statusLabelMap[status] || tl('disconnected') : ''

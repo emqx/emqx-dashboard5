@@ -1753,7 +1753,7 @@ export interface BridgeHttpPutConnector {
   /** @deprecated */
   request?: BridgeHttpPutConnectorRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
+  resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
 /**
@@ -1796,7 +1796,7 @@ export interface BridgeHttpPostConnector {
   /** @deprecated */
   request?: BridgeHttpPostConnectorRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
+  resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
 /**
@@ -1834,6 +1834,12 @@ export const BridgeHttpGetConnectorStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeHttpConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface BridgeHttpGetConnector {
   status?: BridgeHttpGetConnectorStatus
   status_reason?: string
@@ -1853,7 +1859,7 @@ export interface BridgeHttpGetConnector {
   /** @deprecated */
   request?: BridgeHttpGetConnectorRequest
   ssl?: BrokerSslClientOpts
-  resource_opts?: BridgeHttpResourceOpts
+  resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
 export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'disable' | 'auto'
