@@ -45,16 +45,8 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-const { getSchemaRefByType } = useBridgeSchema()
-const bridgeTypeRefKeyMap = {
-  [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-}
-
-const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
-const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
-const actionTypeRefKeyMap = {
-  [BridgeType.Webhook]: getActionTypeRefKey(BridgeType.Webhook),
-}
+const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
+const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -160,9 +152,9 @@ const getRefKey = computed(() => {
     return
   }
   if (isAction.value) {
-    return actionTypeRefKeyMap[props.type as keyof typeof actionTypeRefKeyMap] || undefined
+    return getActionTypeRefKey(props.type)
   }
-  return bridgeTypeRefKeyMap[props.type as keyof typeof bridgeTypeRefKeyMap] || undefined
+  return getBridgeTypeRefKey(props.type)
 })
 
 const { getComponentsHandler } = useComponentsHandlers(props)
