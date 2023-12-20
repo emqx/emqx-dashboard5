@@ -1,12 +1,13 @@
 import { createRandomString } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import { computed, PropType, SetupContext, defineComponent } from 'vue'
+import { Properties } from '@/types/schemaForm'
+import { PropType, SetupContext, computed, defineComponent } from 'vue'
 import ArrayEditor from './ArrayEditor.vue'
+import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import OneOf from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
-import { Properties } from '@/types/schemaForm'
 
 type FormItemType =
   | 'string'
@@ -30,6 +31,7 @@ export default defineComponent({
     OneOf,
     CommonTLSConfig,
     Monaco,
+    CustomInputNumber,
   },
   props: {
     modelValue: {
@@ -83,6 +85,9 @@ export default defineComponent({
     isEdit: {
       type: Boolean,
     },
+    customProps: {
+      type: Object,
+    },
   },
   setup(props, ctx: SetupContext) {
     const formItemValue = computed({
@@ -104,6 +109,8 @@ export default defineComponent({
        */
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
+      const showPassword = inputType === 'password'
+      const customProps = props.customProps || {}
       const stringInput = (
         <el-input
           disabled={isDisabled}
@@ -111,6 +118,8 @@ export default defineComponent({
           v-model={formItemValue.value}
           type={inputType}
           autocomplete={autocomplete}
+          showPassword={showPassword}
+          {...customProps}
           clearable
         />
       )
@@ -119,12 +128,12 @@ export default defineComponent({
           return stringInput
         case 'number':
           return (
-            <el-input-number
-              controls-position="right"
+            <CustomInputNumber
               disabled={isDisabled}
               v-model={formItemValue.value}
               placeholder={props.placeholder}
               min={0}
+              {...customProps}
             />
           )
         case 'enum':
