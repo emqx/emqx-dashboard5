@@ -1,4 +1,8 @@
-import { useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  useActionSchema,
+  useBridgeSchema,
+  useConnectorSchema,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
@@ -106,7 +110,18 @@ export default (
     return prop.path
   }
 
-  const { getTypeBySchemaRef } = useBridgeSchema()
+  const { getTypeByBridgeSchemaRef } = useBridgeSchema()
+  const { getTypeByConnectorSchemaRef } = useConnectorSchema()
+  const { getTypeByActionSchemaRef } = useActionSchema()
+  const actionRefReg = /post_bridge_v2/
+  const getTypeBySchemaRef = () => {
+    const { ref } = props.accordingTo
+    if (props.type === 'bridge') {
+      return actionRefReg.test(ref) ? getTypeByActionSchemaRef(ref) : getTypeByBridgeSchemaRef(ref)
+    }
+    return getTypeByConnectorSchemaRef(ref)
+  }
+
   /**
    * zone is first level
    */
@@ -120,7 +135,7 @@ export default (
     if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
       return COMMON_CONNECTOR_ZONE
     }
-    const type = getTypeBySchemaRef(props.accordingTo.ref)
+    const type = getTypeBySchemaRef()
     return `emqx_ee_bridge_${type}`
   }
 
