@@ -7,9 +7,9 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
-import { escapeRegExp } from 'lodash'
 
 const bridgesOrder = [BridgeType.MQTT, BridgeType.Webhook]
+
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
   {},
@@ -27,7 +27,7 @@ export const useBridgeTypeValue = (): {
   getBridgeGeneralType: (typeStr: string) => BridgeType
   getGeneralTypeLabel: (type: string) => string
 } => {
-  const { t } = useI18nTl('RuleEngine')
+  const { t, tl } = useI18nTl('RuleEngine')
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
@@ -131,11 +131,9 @@ export interface BridgeTypeOptions {
 }
 
 export const typesWithProducerAndConsumer = [
-  BridgeType.Kafka,
   BridgeType.Pulsar,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
-  BridgeType.GCP,
 ]
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
@@ -223,51 +221,111 @@ export const useBridgeDirection = (): {
 }
 
 export const useBridgeSchema = (): {
-  getSchemaRefByType: (type: string) => string
-  getTypeBySchemaRef: (ref: string) => string
+  getSchemaRefByType: (type: string, suffix?: string) => string
+  getTypeByBridgeSchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
   const refSuffix = '.post'
-  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)${escapeRegExp(refSuffix)}`)
-  /**
-   * @param type The 'type' here is not the same as the 'type' field data in the bridge data. It is used to concatenate a string to obtain `ref`, and longer ones are usually abbreviated.
-   */
-  const getSchemaRefByType = (type: string) => refPrefix + type + refSuffix
 
-  const getTypeBySchemaRef = (ref: string) => {
+  const getRef = (type: string, suffix?: string) => {
+    const finalSuffix = `${refSuffix}${suffix || ''}`
+    return refPrefix + type + finalSuffix
+  }
+
+  const specialBridgeTypeRefKeyMap: Map<string, string> = new Map([])
+
+  const getSchemaRefByType = (type: string) => {
+    const ref = specialBridgeTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
+  const getTypeByBridgeSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialBridgeTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
     // 1. remove path 2. remove prefix 3. remove suffix
-    const ret = ref
-      .replace(/^.+\//, '')
+    const ret = refKey
       .replace(new RegExp(`${refPrefix}`), '')
       .replace(new RegExp(`${refSuffix}\\w*`), '')
     return ret
   }
+
   return {
     getSchemaRefByType,
-    getTypeBySchemaRef,
+    getTypeByBridgeSchemaRef,
+  }
+}
+
+export const useConnectorSchema = (): {
+  getTypeRefKey: (type: string) => string
+  getTypeByConnectorSchemaRef: (ref: string) => string
+} => {
+  const refPrefix = `bridge_`
+  const refSuffix = 'post_connector'
+  const getRef = (type: string, prefix?: string) => `${prefix ?? refPrefix}${type}.${refSuffix}`
+
+  const specialTypeRefKeyMap: Map<string, string> = new Map([])
+
+  const getTypeRefKey = (type: string): string => {
+    const ref = specialTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
+  const getTypeByConnectorSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
+    return refKey
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`\\.${refSuffix}\\w*`), '')
+  }
+
+  return {
+    getTypeRefKey,
+    getTypeByConnectorSchemaRef,
   }
 }
 
 export const useActionSchema = (): {
   getSchemaRefByType: (type: string, suffix?: string) => string
-  getTypeBySchemaRef: (ref: string) => string
+  getTypeByActionSchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
   const refSuffix = '.post_bridge_v2'
-  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)})`)
 
-  const getSchemaRefByType = (type: string, suffix?: string) => {
+  const getRef = (type: string, prefix?: string, suffix?: string) => {
     const finalSuffix = `${refSuffix}${suffix || ''}`
-    return refPrefix + type + finalSuffix
+    return (prefix ?? refPrefix) + type + finalSuffix
   }
 
-  const getTypeBySchemaRef = (ref: string) => {
-    const matchRet = ref.match(typeReg)
-    return matchRet ? matchRet[1] : ''
+  const specialActionTypeRefKeyMap: Map<string, string> = new Map([])
+  const getSchemaRefByType = (type: string) => {
+    const ref = specialActionTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
+  const getTypeByActionSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialActionTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
+    // 1. remove path 2. remove prefix 3. remove suffix
+    const ret = refKey
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`${refSuffix}\\w*`), '')
+    return ret
   }
 
   return {
     getSchemaRefByType,
-    getTypeBySchemaRef,
+    getTypeByActionSchemaRef,
   }
 }

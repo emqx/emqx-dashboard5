@@ -31,6 +31,7 @@
 import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
+import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
 import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
@@ -41,9 +42,7 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-const typeRefKeyMap = {
-  [BridgeType.Webhook]: 'bridge_http.post_connector',
-}
+const { getTypeRefKey } = useConnectorSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -121,7 +120,7 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  return typeRefKeyMap[props.type as keyof typeof typeRefKeyMap] || undefined
+  return getTypeRefKey(props.type)
 })
 
 const { getComponentsHandler } = useComponentsHandlers(props)
