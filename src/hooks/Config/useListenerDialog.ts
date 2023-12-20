@@ -187,7 +187,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
     try {
       if (isEdit.value) {
-        await ElMessageBox.confirm(t('Gateway.updateListenerTip'), '', {
+        const confirmMsg = props.gatewayName
+          ? t('Gateway.updateGatewayListenerTip')
+          : t('BasicConfig.updateListenerTip')
+        await ElMessageBox.confirm(confirmMsg, '', {
           type: 'warning',
         })
       }
