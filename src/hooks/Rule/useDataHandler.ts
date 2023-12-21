@@ -235,7 +235,8 @@ export const useBridgeDataHandler = (): {
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.MQTT, handleMQTTBridgeData],
     [BridgeType.Redis, handleRedisBridgeData],
-    [BridgeType.GCP, handleGCPBridgeData],
+    [BridgeType.GCPProducer, handleGCPBridgeData],
+    [BridgeType.GCPConsumer, handleGCPBridgeData],
     [BridgeType.InfluxDB, handleInfluxDBBridgeData],
   ])
 
@@ -270,7 +271,8 @@ export const useBridgeDataHandler = (): {
   }
 
   const specialHandlerAfterLoaded = new Map([
-    [BridgeType.GCP, handleGCPDataAfterLoaded],
+    [BridgeType.GCPProducer, handleGCPDataAfterLoaded],
+    [BridgeType.GCPConsumer, handleGCPDataAfterLoaded],
     [BridgeType.Redis, handleRedisDataAfterLoaded],
   ])
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {

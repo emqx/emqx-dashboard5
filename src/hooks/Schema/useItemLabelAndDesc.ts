@@ -1,5 +1,9 @@
 import { SSL_FIELDS } from '@/common/constants'
-import { useBridgeSchema, useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  useActionSchema,
+  useBridgeSchema,
+  useConnectorSchema,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
@@ -150,10 +154,12 @@ export default (
 
   const { getTypeByBridgeSchemaRef } = useBridgeSchema()
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
+  const { getTypeByActionSchemaRef } = useActionSchema()
+  const actionRefReg = /post_bridge_v2/
   const getTypeBySchemaRef = () => {
     const { ref } = props.accordingTo
     if (props.type === 'bridge') {
-      return getTypeByBridgeSchemaRef(ref)
+      return actionRefReg.test(ref) ? getTypeByActionSchemaRef(ref) : getTypeByBridgeSchemaRef(ref)
     }
     return getTypeByConnectorSchemaRef(ref)
   }

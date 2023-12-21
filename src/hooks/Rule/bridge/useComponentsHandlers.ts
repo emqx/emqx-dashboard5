@@ -337,7 +337,8 @@ export default (
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
-    [BridgeType.GCP]: GCPComponentsHandler,
+    [BridgeType.GCPConsumer]: GCPComponentsHandler,
+    [BridgeType.GCPProducer]: GCPComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,

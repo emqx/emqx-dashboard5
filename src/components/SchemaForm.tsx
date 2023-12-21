@@ -260,6 +260,27 @@ const SchemaForm = defineComponent({
       prop.oneOf?.length > 2 &&
       prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
 
+    const sortOneofProperties = (oneOfArr: Property['oneOf']): Property['oneOf'] => {
+      if (!Array.isArray(oneOfArr)) {
+        return oneOfArr
+      }
+
+      return oneOfArr.map((item) => {
+        if (!item.properties || typeof item.properties !== 'object') {
+          return item
+        }
+        const sortedKeys = sortPropKeys(Object.keys(item.properties))
+        item.properties = sortedKeys.reduce((obj: Properties, key) => {
+          if (!item.properties) {
+            return obj
+          }
+          obj[key] = item.properties[key]
+          return obj
+        }, {})
+        return item
+      })
+    }
+
     const { getText, getOptLabel } = useItemLabelAndDesc(props)
     const switchComponent = (property: Properties[string]): JSX.Element | undefined => {
       if (!property.path) return
@@ -453,23 +474,29 @@ const SchemaForm = defineComponent({
         case 'comma_separated_string':
           return stringInput
         case 'oneof': {
-          const props = {
+          const bindProps = {
             modelValue,
             ...handleUpdateModelValue,
             items: property.oneOf,
             disabled: isPropertyDisabled,
           }
           if (isComplexOneof(property)) {
+            const propToBind = _.cloneDeep(property)
+            if (isComplexOneof(property)) {
+              propToBind.oneOf = sortOneofProperties(propToBind.oneOf)
+              bindProps.items = propToBind.oneOf
+            }
             return (
               <OneofRefs
-                {...props}
-                property={property}
+                {...bindProps}
+                property={propToBind}
                 colSpan={getColSpan(property)}
                 getText={getText}
+                customColClass={props.customColClass}
               />
             )
           }
-          return <oneof {...props} />
+          return <oneof {...bindProps} />
         }
         case 'ssl': {
           const ConfComponent = getSSLComponent(property)

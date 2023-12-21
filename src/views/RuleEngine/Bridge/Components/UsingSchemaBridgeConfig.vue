@@ -38,7 +38,6 @@ import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeT
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import {
-  useGCPSecondTypeControl,
   useMongoSecondTypeControl,
   useRedisSecondTypeControl,
 } from '@/hooks/Rule/bridge/useSecondTypeControl'
@@ -50,39 +49,8 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-// type UseSchemaBridgeType = Exclude<
-//   BridgeType,
-//   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB | BridgeType.Kafka
-// >
-
-const { getSchemaRefByType } = useBridgeSchema()
-const bridgeTypeRefKeyMap = {
-  [BridgeType.MySQL]: getSchemaRefByType('mysql'),
-  [BridgeType.TDengine]: getSchemaRefByType('tdengine'),
-  [BridgeType.ClickHouse]: getSchemaRefByType('clickhouse'),
-  [BridgeType.DynamoDB]: getSchemaRefByType('dynamo'),
-  [BridgeType.Cassandra]: getSchemaRefByType('cassa'),
-  [BridgeType.RocketMQ]: getSchemaRefByType('rocketmq'),
-  [BridgeType.MicrosoftSQLServer]: getSchemaRefByType('sqlserver'),
-  [BridgeType.IoTDB]: getSchemaRefByType('iotdb'),
-  [BridgeType.OpenTSDB]: getSchemaRefByType('opents'),
-  [BridgeType.OracleDatabase]: getSchemaRefByType('oracle'),
-  [BridgeType.RabbitMQ]: getSchemaRefByType('rabbitmq'),
-  [BridgeType.HStream]: getSchemaRefByType('hstreamdb'),
-  [BridgeType.AmazonKinesis]: getSchemaRefByType('kinesis', '_producer'),
-  [BridgeType.GreptimeDB]: getSchemaRefByType('greptimedb', '_grpc_v1'),
-}
-
-const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
-const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
-const actionTypeRefKeyMap = {
-  [BridgeType.Webhook]: getActionTypeRefKey(BridgeType.Webhook),
-  [BridgeType.AzureEventHubs]: getActionTypeRefKey('azure_event_hub'),
-  [BridgeType.Confluent]: 'confluent.post_bridge_v2',
-  [BridgeType.PgSQL]: getActionTypeRefKey(BridgeType.PgSQL),
-  [BridgeType.TimescaleDB]: getActionTypeRefKey(BridgeType.TimescaleDB),
-  [BridgeType.MatrixDB]: getActionTypeRefKey(BridgeType.MatrixDB),
-}
+const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
+const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -169,18 +137,14 @@ const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
   useRedisSecondTypeControl(bridgeRecord)
 const { currentType: mongoFormType, keyField: mongoSecondTypeControlField } =
   useMongoSecondTypeControl(bridgeRecord)
-const { currentType: GCPFormType, keyField: GCPSecondTypeControlField } =
-  useGCPSecondTypeControl(bridgeRecord)
 
 const typesWithSecondControlMap = {
   [BridgeType.Redis]: redisFormType,
   [BridgeType.MongoDB]: mongoFormType,
-  [BridgeType.GCP]: GCPFormType,
 }
 const typesWithSecondControlKeyMap = {
   [BridgeType.Redis]: redisSecondTypeControlField,
   [BridgeType.MongoDB]: mongoSecondTypeControlField,
-  [BridgeType.GCP]: GCPSecondTypeControlField,
 }
 
 const direction = computed(() =>
@@ -221,12 +185,12 @@ const getRefKey = computed(() => {
     return
   }
   if (isAction.value) {
-    return actionTypeRefKeyMap[props.type as keyof typeof actionTypeRefKeyMap] || undefined
+    return getActionTypeRefKey(props.type)
   }
   if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
     return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
-  return bridgeTypeRefKeyMap[props.type as keyof typeof bridgeTypeRefKeyMap] || undefined
+  return getBridgeTypeRefKey(props.type) || undefined
 })
 
 const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)

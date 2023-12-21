@@ -31,7 +31,7 @@ export const SourceType = {
   Event: 'event',
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
   Kafka: BridgeType.KafkaConsumer,
-  GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Ingress),
+  GCP: BridgeType.GCPConsumer,
 }
 
 export const enum ProcessingType {
@@ -44,7 +44,7 @@ export const SinkType = {
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
   Kafka: BridgeType.KafkaProducer,
   Confluent: BridgeType.Confluent,
-  GCP: getSpecificTypeWithDirection(BridgeType.GCP, BridgeDirection.Egress),
+  GCP: BridgeType.GCPProducer,
   MySQL: BridgeType.MySQL,
   Redis: BridgeType.Redis,
   MongoDB: BridgeType.MongoDB,

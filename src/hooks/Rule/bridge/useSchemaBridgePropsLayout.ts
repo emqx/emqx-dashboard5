@@ -149,7 +149,7 @@ export default (
         fieldStartIndex,
       ),
     },
-    [BridgeType.GCP]: {
+    [BridgeType.GCPConsumer]: {
       ...createOrderObj(
         [
           'role',
@@ -318,7 +318,7 @@ export default (
 
   const azureColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
-    [BridgeType.GCP]: {
+    [BridgeType.GCPConsumer]: {
       name: 'dividing-line-below',
       pubsub_topic: 'col-need-row',
       service_account_json: 'custom-col-24',
@@ -362,7 +362,7 @@ export default (
     [BridgeType.IoTDB]: ['enable_pipelining'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
-    [BridgeType.GCP]: ['pipelining'],
+    [BridgeType.GCPConsumer]: ['pipelining'],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
   }
