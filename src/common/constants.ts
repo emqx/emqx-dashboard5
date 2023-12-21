@@ -285,6 +285,8 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.PgSQL,
   BridgeType.TimescaleDB,
   BridgeType.MatrixDB,
+  BridgeType.MySQL,
+  BridgeType.GCPProducer,
 ]
 
 export const COPY_SUFFIX = '_duplication'

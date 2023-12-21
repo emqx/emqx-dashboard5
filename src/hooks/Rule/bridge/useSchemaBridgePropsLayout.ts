@@ -127,12 +127,7 @@ export default (
       ...baseOrderMap,
       ...createOrderObj(httpAdvancedFields, 70),
     },
-    [BridgeType.MySQL]: {
-      ...createOrderObj(
-        ['server', 'database', 'username', 'password', 'ssl', 'sql'],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
     [BridgeType.Redis]: {
       ...createOrderObj(
         [
@@ -149,22 +144,28 @@ export default (
         fieldStartIndex,
       ),
     },
-    [BridgeType.GCPConsumer]: {
-      ...createOrderObj(
-        [
-          'role',
-          'pubsub_topic',
-          'pipelining',
-          'service_account_json',
-          'payload_template',
-          'attributes_template',
-          'ordering_key_template',
-          'consumer.topic_mapping',
-          'consumer.pull_max_messages',
-        ],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.GCPProducer]: createOrderObj(
+      [
+        'parameters.pubsub_topic',
+        'parameters.payload_template',
+        'parameters.attributes_template',
+        'parameters.ordering_key_template',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.GCPConsumer]: createOrderObj(
+      [
+        'pubsub_topic',
+        'pipelining',
+        'service_account_json',
+        'payload_template',
+        'attributes_template',
+        'ordering_key_template',
+        'consumer.topic_mapping',
+        'consumer.pull_max_messages',
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.MongoDB]: {
       ...createOrderObj(
         [
@@ -318,6 +319,7 @@ export default (
 
   const azureColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
+    [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
     [BridgeType.GCPConsumer]: {
       name: 'dividing-line-below',
       pubsub_topic: 'col-need-row',

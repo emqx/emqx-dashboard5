@@ -88,6 +88,11 @@ export default (
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
+    [BridgeType.MySQL]: createOrderObj(
+      ['server', 'database', 'username', 'password', 'ssl'],
+      fieldStartIndex,
+    ),
+    [BridgeType.GCPProducer]: createOrderObj(['pipelining'], fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
@@ -98,13 +103,16 @@ export default (
     return ret
   })
 
-  const typeColClassMap: Record<string, Record<string, string>> = {}
+  const typeColClassMap: Record<string, Record<string, string>> = {
+    [BridgeType.GCPProducer]: { service_account_json: 'custom-col-24' },
+  }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: httpAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
+    [BridgeType.GCPProducer]: ['pipelining'],
   }
 
   const advancedFields = computed(() => {

@@ -1,6 +1,7 @@
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
@@ -33,6 +34,8 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
+  const { t, tl } = useI18nTl('RuleEngine')
+
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -128,11 +131,45 @@ export default (
     return { components, rules }
   }
 
+  const GCPProducerHandler: Handler = ({ components, rules }) => {
+    const { service_account_json } = components
+    /* Common */
+    if (service_account_json?.type === 'string') {
+      // The backend does not give data indicating that it is possible to upload files here, add it manually
+      service_account_json.format = 'file'
+      service_account_json.componentProps = {
+        accept: '.json',
+        tip: t('Base.uploadTip', { format: 'JSON' }),
+      }
+    }
+    if (rules && !rules.service_account_json) {
+      rules.service_account_json = []
+    }
+    if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
+      rules.service_account_json.push({
+        validator(rule, value: string): any {
+          return new Promise((resolve, reject) => {
+            try {
+              JSON.parse(value)
+              resolve(true)
+            } catch (error) {
+              reject(tl('accountJSONError'))
+            }
+          })
+        },
+        trigger: 'blur',
+      })
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
     [BridgeType.Confluent, confluentHandler],
+    [BridgeType.Confluent, confluentHandler],
+    [BridgeType.GCPProducer, GCPProducerHandler],
   ])
 
   const getComponentsHandler = () => {

@@ -67,7 +67,7 @@
       "label": "Max Retries"
     }
   },
-  "emqx_ee_bridge_cassa": {
+  "emqx_ee_bridge_cassandra": {
     "keyspace": {
       "desc": "Keyspace name to connect to.",
       "label": "Keyspace"
