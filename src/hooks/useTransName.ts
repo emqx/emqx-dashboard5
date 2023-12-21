@@ -11,7 +11,7 @@ export default function useTransName(): {
       [GatewayName.MQTT_SN]: 'MQTT-SN',
       [GatewayName.STOMP]: 'STOMP',
       [GatewayName.GBT32960]: 'GB/T 32960',
-      [GatewayName.JT808]: 'JT/T808',
+      [GatewayName.JT808]: 'JT/T 808',
       [GatewayName.OCPP]: 'OCPP',
     }
     return gatewayName[name]
