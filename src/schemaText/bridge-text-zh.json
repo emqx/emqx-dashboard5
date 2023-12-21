@@ -650,6 +650,12 @@
     "single": {
       "desc": "单机模式。当 Redis 服务运行在单机模式下，该配置必须设置为 'single'。",
       "label": "单机模式"
+    },
+    "parameters": {
+      "label": "部署模式"
+    },
+    "redis_type": {
+      "label": "部署模式"
     }
   },
   "emqx_ee_bridge_rocketmq": {

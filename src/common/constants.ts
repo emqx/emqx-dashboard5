@@ -261,8 +261,8 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.KafkaProducer, ['kafka']],
   /* not supported in dashboard ⬇️ */
   ['redis', ['redis_sentinel', 'redis_cluster', 'redis_single']],
-  ['gcp_pubsub_producer', ['gcp_pubsub']],
-  ['mongodb', ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
+  [BridgeType.GCPProducer, ['gcp_pubsub']],
+  [BridgeType.MongoDB, ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
@@ -288,6 +288,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.MySQL,
   BridgeType.GCPProducer,
   BridgeType.MongoDB,
+  BridgeType.Redis,
 ]
 
 export const COPY_SUFFIX = '_duplication'
