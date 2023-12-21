@@ -112,22 +112,7 @@ export default (
       ...createOrderObj(httpAdvancedFields, 70),
     },
     [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
-    [BridgeType.Redis]: {
-      ...createOrderObj(
-        [
-          'redis_type',
-          'servers',
-          'server',
-          'username',
-          'password',
-          'database',
-          'sentinel',
-          'ssl',
-          'command_template',
-        ],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.Redis]: createOrderObj(['sentinel', 'command_template'], fieldStartIndex),
     [BridgeType.GCPProducer]: createOrderObj(
       [
         'parameters.pubsub_topic',

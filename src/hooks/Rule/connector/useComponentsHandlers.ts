@@ -17,6 +17,12 @@ const enum MongoType {
   Sharded = 'sharded',
 }
 
+const enum RedisType {
+  Single = 'single',
+  Sentinel = 'sentinel',
+  Cluster = 'cluster',
+}
+
 /**
  * Set the format for the password field to control the
  * password input box configuration field on the page.
@@ -200,6 +206,37 @@ export default (
     return { components, rules }
   }
 
+  const redisTypeOrder = [RedisType.Single, RedisType.Sentinel, RedisType.Cluster]
+  const getRedisTypeOrder = (ref: string) => redisTypeOrder.findIndex((type) => ref.includes(type))
+  const redisHandler: Handler = ({ components, rules }) => {
+    const { parameters } = components
+
+    if (parameters) {
+      parameters.oneOf?.sort(
+        (a, b) => getRedisTypeOrder(a.$ref || '') - getRedisTypeOrder(b.$ref || ''),
+      )
+
+      const oneOf = parameters.oneOf || []
+      const singleOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Single))
+      if (singleOne) {
+        parameters.default = { redis_type: singleOne?.properties?.redis_type?.symbols?.[0] }
+      }
+
+      const sentinelOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Sentinel))
+      const { servers: sentinelServers } = sentinelOne?.properties || {}
+      if (sentinelServers) {
+        sentinelServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+
+      const clusterOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Cluster))
+      const { servers: clusterServers } = clusterOne?.properties || {}
+      if (clusterServers) {
+        clusterServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
@@ -208,6 +245,7 @@ export default (
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.GCPProducer, GCPProducerHandler],
     [BridgeType.MongoDB, mongoHandler],
+    [BridgeType.Redis, redisHandler],
   ])
 
   const getComponentsHandler = () => {

@@ -37,9 +37,6 @@ import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
-import {
-  useRedisSecondTypeControl,
-} from '@/hooks/Rule/bridge/useSecondTypeControl'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { BridgeDirection, BridgeType, Role } from '@/types/enum'
@@ -132,16 +129,6 @@ const customColClass = computed(() => {
   return ret
 })
 
-const { currentType: redisFormType, keyField: redisSecondTypeControlField } =
-  useRedisSecondTypeControl(bridgeRecord)
-
-const typesWithSecondControlMap = {
-  [BridgeType.Redis]: redisFormType,
-}
-const typesWithSecondControlKeyMap = {
-  [BridgeType.Redis]: redisSecondTypeControlField,
-}
-
 const direction = computed(() =>
   props.modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
 )
@@ -164,13 +151,6 @@ const propsDisabled = computed(() => {
   const ret = []
   if (props.edit) {
     ret.push('name')
-    if (props.type && props.type in typesWithSecondControlKeyMap) {
-      ret.push(
-        typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap],
-      )
-    }
-  } else if (isCreateBridgeInFlow.value && isBridgeSelected.value) {
-    ret.push(typesWithSecondControlKeyMap[props.type as keyof typeof typesWithSecondControlKeyMap])
   }
   return ret
 })
@@ -181,9 +161,6 @@ const getRefKey = computed(() => {
   }
   if (isAction.value) {
     return getActionTypeRefKey(props.type)
-  }
-  if (Object.keys(typesWithSecondControlMap).includes(props.type)) {
-    return typesWithSecondControlMap[props.type as keyof typeof typesWithSecondControlMap].value
   }
   return getBridgeTypeRefKey(props.type) || undefined
 })

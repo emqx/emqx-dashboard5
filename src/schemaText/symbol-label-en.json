@@ -19,5 +19,8 @@
   "authentication_none": "None",
   "parameters_connector_single": "single",
   "parameters_connector_rs": "rs",
-  "parameters_connector_sharded": "sharded"
+  "parameters_connector_sharded": "sharded",
+  "parameters_redis_single_connector": "single",
+  "parameters_redis_sentinel_connector": "rs",
+  "parameters_redis_cluster_connector": "sharded"
 }

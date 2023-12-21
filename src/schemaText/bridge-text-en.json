@@ -650,6 +650,12 @@
     "single": {
       "desc": "Single mode. Must be set to 'single' when Redis server is running in single mode.",
       "label": "Single Mode"
+    },
+    "parameters": {
+      "label": "Redis Mode"
+    },
+    "redis_type": {
+      "label": "Redis Mode"
     }
   },
   "emqx_ee_bridge_rocketmq": {

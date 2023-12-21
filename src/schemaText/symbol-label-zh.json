@@ -19,5 +19,8 @@
   "authentication_none": "无",
   "parameters_connector_single": "single",
   "parameters_connector_rs": "rs",
-  "parameters_connector_sharded": "sharded"
+  "parameters_connector_sharded": "sharded",
+  "parameters_redis_connector_single": "single",
+  "parameters_redis_connector_rs": "rs",
+  "parameters_redis_connector_sharded": "sharded"
 }

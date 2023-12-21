@@ -129,6 +129,20 @@ export default (
       ),
       ...createOrderObj(httpAdvancedProps, 70),
     },
+    [BridgeType.Redis]: createOrderObj(
+      [
+        'parameters',
+        'servers',
+        'server',
+        'username',
+        'password',
+        'database',
+        'sentinel',
+        'pool_size',
+        'ssl',
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -142,6 +156,7 @@ export default (
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCPProducer]: { service_account_json: 'custom-col-24' },
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
+    [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {

@@ -408,6 +408,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.PgSQL, getRef('postgres', 'connector_')],
     [BridgeType.GCPProducer, getRef(BridgeType.GCPProducer, '')],
+    [BridgeType.Redis, getRef(BridgeType.Redis, '')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -449,6 +450,7 @@ export const useActionSchema = (): {
     [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.GCPProducer, getRef('gcp_pubsub_producer', '')],
+    [BridgeType.Redis, getRef(BridgeType.Redis, '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
