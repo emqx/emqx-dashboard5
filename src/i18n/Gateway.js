@@ -361,7 +361,7 @@ export default {
     en: 'Registry URL',
   },
   registryDesc: {
-    zh: 'JT/T 808 设备注册中心。如果 `allow_anonymous=false`，则必需。当网关收到 JT/T 808 注册报文后，会将注册消息以 HTTP 请求的方式发往该地址。',
+    zh: 'JT/T 808 设备注册中心。如果 `allow_anonymous=false`，则必填。当网关收到 JT/T 808 注册报文后，会将注册消息以 HTTP 请求的方式发往该地址。',
     en: 'The JT/T 808 device registry central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 registration message, it will send the registration message to this address as an HTTP request.',
   },
   registryRequired: {
@@ -373,8 +373,8 @@ export default {
     en: 'Authentication URL',
   },
   authenticationUrlDesc: {
-    zh: 'JT/T 808 设备认证中心。如果 `allow_anonymous=false`，则必需。当网关收到 JT/T 808 认证报文后，会将认证消息以 HTTP 请求的方式发往该地址。',
-    en: 'The JT/T 808 device authentication central. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 authentication message, it will send the authentication message to this address as an HTTP request.',
+    zh: 'JT/T 808 设备鉴权中心。如果 `allow_anonymous=false`，则必填。当网关收到 JT/T 808 鉴权报文后，会将鉴权消息以 HTTP 请求的方式发往该地址。',
+    en: 'The JT/T 808 device authentication center. It is necessary if `allow_anonymous=false`. When the gateway receives a JT/T 808 authentication message, it will send the authentication message to this address as an HTTP request.',
   },
   authenticationRequired: {
     zh: '请输入认证 URL',
