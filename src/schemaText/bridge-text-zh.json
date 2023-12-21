@@ -67,7 +67,7 @@
       "label": "最大重试次数"
     }
   },
-  "emqx_ee_bridge_cassa": {
+  "emqx_ee_bridge_cassandra": {
     "keyspace": {
       "desc": "要连接到的 Keyspace 名称。",
       "label": "Keyspace"

@@ -50,14 +50,15 @@ const COMMON_CONNECTOR_KEY = [
   'description',
 ]
 
-const BRIDGE_SPECIAL_TYPE_MAP: Record<string, string> = {
-  matrix: 'pgsql',
-  timescale: 'pgsql',
-  confluent: 'kafka',
-  confluent_producer: 'kafka',
-  kafka_producer: 'kafka',
-  azure_event_hub_producer: 'azure_event_hub',
-}
+const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
+  [BridgeType.MatrixDB, 'pgsql'],
+  [BridgeType.TimescaleDB, 'pgsql'],
+  [BridgeType.Confluent, 'kafka'],
+  [BridgeType.KafkaProducer, 'kafka'],
+  [BridgeType.GCPProducer, 'gcp_pubsub'],
+  [BridgeType.GCPConsumer, 'gcp_pubsub'],
+  [BridgeType.AzureEventHubs, 'azure_event_hub'],
+])
 
 const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
   heartbeat_frequency: 'heartbeat_period',
@@ -178,8 +179,9 @@ export default (
       return COMMON_CONNECTOR_ZONE
     }
     let type = getTypeBySchemaRef()
-    if (type in BRIDGE_SPECIAL_TYPE_MAP) {
-      type = BRIDGE_SPECIAL_TYPE_MAP[type]
+    const specifiedType = BRIDGE_SPECIAL_TYPE_MAP.get(type)
+    if (specifiedType) {
+      type = specifiedType
     }
     return `emqx_ee_bridge_${type}`
   }
