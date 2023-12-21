@@ -78,7 +78,7 @@ const useCommonDataHandler = () => {
 type ConnectorDataHandler = (connector: Connector) => Connector
 export const useConnectorDataHandler = (): {
   likePasswordFieldKeys: string[]
-  handleConnectorDataBeforeSubmit: ConnectorDataHandler
+  handleConnectorDataBeforeSubmit: (connector: Connector) => Promise<Connector>
   handleConnectorDataBeforeUpdate: (data: Connector) => Connector
   handleConnectorDataForCopy: ConnectorDataHandler
   handleConnectorDataForSaveAsCopy: ConnectorDataHandler
@@ -91,7 +91,36 @@ export const useConnectorDataHandler = (): {
     handleDataForSaveAsCopy,
   } = useCommonDataHandler()
 
-  const handleConnectorDataBeforeSubmit = handleDataBeforeSubmit
+  const { tl } = useI18nTl('RuleEngine')
+  const handleGCPBridgeData = (bridgeData: any) => {
+    if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
+      try {
+        bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
+        return bridgeData
+      } catch (error) {
+        ElMessage.error(tl('accountJSONError'))
+        return Promise.reject()
+      }
+    }
+    return bridgeData
+  }
+
+  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.GCPProducer, handleGCPBridgeData]])
+
+  const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
+    try {
+      let ret = cloneDeep(data)
+      const type = data.type
+      const handler = specialDataHandlerBeforeSubmit.get(type)
+      if (handler) {
+        ret = await handler(ret)
+      }
+      return Promise.resolve(handleDataBeforeSubmit(ret))
+    } catch (error) {
+      console.error(error)
+      return Promise.reject()
+    }
+  }
 
   const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
     const ret = handleConnectorDataBeforeSubmit(data)
@@ -235,7 +264,6 @@ export const useBridgeDataHandler = (): {
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.MQTT, handleMQTTBridgeData],
     [BridgeType.Redis, handleRedisBridgeData],
-    [BridgeType.GCPProducer, handleGCPBridgeData],
     [BridgeType.GCPConsumer, handleGCPBridgeData],
     [BridgeType.InfluxDB, handleInfluxDBBridgeData],
   ])

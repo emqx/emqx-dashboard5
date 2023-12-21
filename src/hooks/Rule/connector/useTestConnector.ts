@@ -14,7 +14,8 @@ export default (): {
   const testConnectivity = async (connector: Connector) => {
     try {
       isTesting.value = true
-      await testConnectorConnectivity(handleConnectorDataBeforeSubmit(connector))
+      const data = await handleConnectorDataBeforeSubmit(connector)
+      await testConnectorConnectivity(data)
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {
