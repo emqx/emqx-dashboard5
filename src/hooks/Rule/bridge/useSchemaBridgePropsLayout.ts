@@ -61,9 +61,10 @@ export default (
 
   const httpAdvancedFields = [`parameters.max_retries`]
 
-  const pgSqlOrderMap = {
-    ...createOrderObj(['parameters.sql', 'parameters.prepare_statement'], fieldStartIndex),
-  }
+  const pgSqlOrderMap = createOrderObj(
+    ['parameters.sql', 'parameters.prepare_statement'],
+    fieldStartIndex,
+  )
 
   const azureAdvancedProps = [
     'min_metadata_refresh_interval',
@@ -107,12 +108,9 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.Webhook]: {
-      ...baseOrderMap,
-      ...createOrderObj(httpAdvancedFields, 70),
-    },
+    [BridgeType.Webhook]: createOrderObj(httpAdvancedFields, 70),
     [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
-    [BridgeType.Redis]: createOrderObj(['sentinel', 'command_template'], fieldStartIndex),
+    [BridgeType.Redis]: createOrderObj(['command_template'], fieldStartIndex),
     [BridgeType.GCPProducer]: createOrderObj(
       [
         'parameters.pubsub_topic',

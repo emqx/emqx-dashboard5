@@ -333,8 +333,6 @@ export const SSL_FIELDS = [
   'log_level',
 ]
 
-export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
-
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'

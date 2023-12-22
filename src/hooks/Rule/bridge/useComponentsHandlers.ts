@@ -1,4 +1,3 @@
-import { REDIS_TYPE } from '@/common/constants'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
@@ -89,31 +88,17 @@ export default (
   const { commandReg } = useRedisCommandCheck()
   const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { redis_type, servers, command_template } = components
-    if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-      redis_type.symbols = REDIS_TYPE
-      redis_type.componentProps = { clearable: false }
-    }
-    if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-      redis_type.symbols = REDIS_TYPE
-    }
-    if (
-      servers?.type === 'string' ||
-      (servers?.type === 'array' && servers?.items?.type === 'string')
-    ) {
-      servers.type = 'string'
-      servers.componentProps = {
-        type: 'textarea',
-        rows: 3,
-      }
-    }
+    const { command_template } = components?.parameters?.properties || {}
     if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
       command_template.type = 'string'
       command_template.format = 'sql'
       command_template.default = ''
     }
-    if (rules?.command_template && Array.isArray(rules.command_template)) {
-      rules.command_template.push({
+    if (
+      rules?.['parameters.command_template'] &&
+      Array.isArray(rules['parameters.command_template'])
+    ) {
+      rules['parameters.command_template'].push({
         validator(rules: FormItemRule, value: string) {
           if (!commandReg.test(value.replace(/\n/g, ' ').trim())) {
             return Promise.reject(tl('redisCommandError'))
