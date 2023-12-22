@@ -366,7 +366,14 @@ const getDataToSubmit = () => {
 
   const storageFormCom = isLocal ? LocalStorageFormCom.value : S3StorageFormCom.value
   const partNeedBeOmitted = isLocal ? s3PartPath : localPartPath
-  const storageFormData = omit(cloneDeep(storageFormCom.configForm), partNeedBeOmitted)
+  let storageFormData = omit(cloneDeep(storageFormCom.configForm), partNeedBeOmitted)
+  if (!isLocal) {
+    const keyPath = getFieldPath('secret_access_key', s3PartPath)
+    const keyValue = get(storageFormData, keyPath)
+    if (/^\*{6}$/.test(keyValue)) {
+      storageFormData = omit(storageFormData, getFieldPath('secret_access_key', s3PartPath))
+    }
+  }
 
   // When saving, the form data comes from the storage conf form component;
   // this component does not have basic conf data and needs to be processed.
