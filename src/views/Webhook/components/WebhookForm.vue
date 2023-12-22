@@ -47,7 +47,20 @@
     </el-form-item>
     <el-collapse-transition>
       <div v-if="isAdvancedShow">
-        <BridgeResourceOpt v-model="formData.action.resource_opts" :col-span="24" />
+        <el-form-item prop="connector.resource_opts.start_timeout">
+          <template #label>
+            <FormItemLabel
+              :label="t('BridgeSchema.emqx_resource_schema.start_timeout.label')"
+              :desc="t('BridgeSchema.emqx_resource_schema.start_timeout.desc')"
+            />
+          </template>
+          <TimeInputWithUnitSelect v-model="formData.connector.resource_opts.start_timeout" />
+        </el-form-item>
+        <BridgeResourceOpt
+          v-model="formData.action.resource_opts"
+          :col-span="24"
+          :with-start-timeout-config="false"
+        />
         <CommonTLSConfig
           class="tls-config-form"
           v-model="formData.connector.ssl"
@@ -82,6 +95,7 @@
 <script setup lang="ts">
 import { getKeywordsFromSQL } from '@/common/tools'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
