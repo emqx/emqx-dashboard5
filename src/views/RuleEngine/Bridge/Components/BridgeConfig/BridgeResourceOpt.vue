@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="colSpan">
+  <el-col :span="colSpan" v-if="withStartTimeoutConfig">
     <CustomFormItem prop="resource_opts.start_timeout" :readonly="readonly">
       <template #label>
         <FormItemLabel :label="tl('start_timeout.label')" :desc="tl('start_timeout.desc')" />
@@ -102,6 +102,10 @@ const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
+  },
+  withStartTimeoutConfig: {
+    type: Boolean,
+    default: true,
   },
   withBatchConfig: {
     type: Boolean,
