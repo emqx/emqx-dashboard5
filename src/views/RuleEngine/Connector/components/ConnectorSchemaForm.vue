@@ -28,9 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
@@ -40,7 +38,7 @@ import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getTypeRefKey } = useConnectorSchema()
 
@@ -104,16 +102,6 @@ const customColClass = computed(() => {
     props.hiddenFields.forEach((key) => (ret[key] = 'col-hidden'))
   }
   return ret
-})
-
-const { isBridgeSelected } = useReuseBridgeInFlow(props.type as BridgeType, props, connectorRecord)
-
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal && formCom.value?.getInitRecord) {
-    connectorRecord.value = formCom.value.getInitRecord()
-    await waitAMoment()
-    formCom.value.clearValidate?.()
-  }
 })
 
 const getRefKey = computed(() => {

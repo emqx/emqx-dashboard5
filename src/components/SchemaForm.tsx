@@ -4,7 +4,6 @@ import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -60,7 +59,6 @@ const SchemaForm = defineComponent({
     TextareaWithUploader,
     MarkdownContent,
     CustomInputNumber,
-    InputSelect,
     AdvancedSettingContainer,
     CertFileInput,
   },
@@ -314,16 +312,6 @@ const SchemaForm = defineComponent({
       // TODO: use SchemaFormItem
       switch (property.type) {
         case 'string':
-          if (property.key === 'name' && property.symbols) {
-            return (
-              <InputSelect
-                modelValue={modelValue}
-                {...handleUpdateModelValue}
-                options={property.symbols}
-                {...customProps}
-              />
-            )
-          }
           if (property.key && CERT_FIELDS_REG.test(property.key)) {
             return (
               <CertFileInput
