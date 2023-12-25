@@ -1,3 +1,4 @@
+import { accAdd } from '@/common/tools'
 import useEchartResize from '@/hooks/useEchartResize'
 import { Metrics } from '@/types/common'
 import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
@@ -248,7 +249,7 @@ export const useChartDataUtils = (): {
           label: getMetricItemLabel(key, textMap),
           desc: getMetricItemDesc(key, textMap),
         }
-        typeCount += metrics[key]
+        typeCount = accAdd(typeCount, metrics[key])
         ret.push(item)
         return ret
       }, [] as Array<{ value: number; label: string; desc?: string }>)
@@ -279,7 +280,7 @@ export const useChartDataUtils = (): {
         return arr
       }
       const { title, contains: values } = dataItem
-      const value = values.reduce((sum, item) => sum + (metrics[item] || 0), 0)
+      const value = values.reduce((sum, item) => accAdd(sum, metrics[item] || 0), 0)
       return [...arr, { type: Number(key) as MetricType, name: title, value }]
     }, [] as Array<PieDataItem>)
   }
