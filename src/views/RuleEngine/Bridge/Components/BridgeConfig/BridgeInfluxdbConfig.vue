@@ -12,20 +12,14 @@
     <el-row :gutter="26">
       <el-col :span="colSpan" v-if="!hideName">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="formData.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="formData.name" :disabled="edit" />
+          <el-input v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
         <el-form-item :label="tl('influxDBVersion')">
           <el-select
             v-model="formData.type"
-            :disabled="edit || isBridgeSelected"
+            :disabled="edit"
             @change="handleVersionChanged"
             v-if="!readonly"
           >
@@ -182,22 +176,19 @@ import {
   fillEmptyValueToUndefinedField,
   getAPIPath,
   getLabelFromValueInOptionList,
-  waitAMoment,
 } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputSelect from '@/components/InputSelect.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType, InfluxDBType } from '@/types/enum'
+import { InfluxDBType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
@@ -279,17 +270,6 @@ const formRules = computed(() => ({
 }))
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
-
-const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(BridgeType.InfluxDB, props, formData)
-const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal) {
-    formData.value = Object.assign(createDefaultValue(), { name: formData.value.name })
-    await waitAMoment()
-    formCom.value?.clearValidate?.()
-  }
-})
 
 const initFormData = async () => {
   if (!props.modelValue) {

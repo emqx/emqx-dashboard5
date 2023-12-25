@@ -14,13 +14,7 @@
       <el-row :gutter="26">
         <el-col :span="colSpan">
           <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-            <InputSelect
-              v-if="isCreateBridgeInFlow"
-              v-model="formData.name"
-              :options="nameOptions"
-              @change="handleNameChange"
-            />
-            <el-input v-else v-model="formData.name" :disabled="edit" />
+            <el-input v-model="formData.name" :disabled="edit" />
           </CustomFormItem>
         </el-col>
         <!-- FIXME: maybe remove in new design? -->
@@ -290,24 +284,20 @@ import {
   getAPIPath,
   getLabelFromValueInOptionList,
   usefulMemoryUnit,
-  waitAMoment,
 } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputSelect from '@/components/InputSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { isEqual, snakeCase } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
@@ -417,17 +407,6 @@ const formData: Ref<OtherBridge> = ref({
 })
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
-
-const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(BridgeType.Pulsar, props, formData)
-const nameOptions = computed(() => getBridgesInSameType().map(({ name }) => name))
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal) {
-    formData.value = Object.assign(createRawFormData(), { name: formData.value.name })
-    await waitAMoment()
-    formCom.value?.clearValidate?.()
-  }
-})
 
 const updateParentBridgeData = () => {
   emit('update:modelValue', formData.value)

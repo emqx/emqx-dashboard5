@@ -12,13 +12,7 @@
     <el-row :gutter="26">
       <el-col :span="colSpan" v-if="!hideName">
         <CustomFormItem :label="tl('name')" prop="name" :readonly="readonly">
-          <InputSelect
-            v-if="isCreateBridgeInFlow"
-            v-model="formData.name"
-            :options="nameOptions"
-            @change="handleNameChange"
-          />
-          <el-input v-else v-model="formData.name" :disabled="edit" />
+          <el-input v-model="formData.name" :disabled="edit" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
@@ -355,22 +349,15 @@
 </template>
 
 <script setup lang="ts">
-import {
-  fillEmptyValueToUndefinedField,
-  getAPIPath,
-  usefulMemoryUnit,
-  waitAMoment,
-} from '@/common/tools'
+import { fillEmptyValueToUndefinedField, getAPIPath, usefulMemoryUnit } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputSelect from '@/components/InputSelect.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
@@ -378,7 +365,7 @@ import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { isEqual } from 'lodash'
@@ -472,18 +459,6 @@ const formRules = computed<any>(() => {
 })
 
 const formData: Ref<OtherBridge> = ref(getDefaultForm())
-
-const { isCreateBridgeInFlow, isBridgeSelected, getBridgesInSameType, handleNameChange } =
-  useReuseBridgeInFlow(BridgeType.KafkaProducer, props, formData, BridgeDirection.Egress)
-const nameOptions = computed(() => getBridgesInSameType()?.map(({ name }) => name))
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal) {
-    const name = formData.value.name
-    formData.value = Object.assign(getDefaultForm(), { name })
-    await waitAMoment()
-    formCom.value?.clearValidate?.()
-  }
-})
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 
