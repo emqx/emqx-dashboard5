@@ -22,7 +22,8 @@ const bridgesOrder = [
   BridgeType.RabbitMQ,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
-  BridgeType.GCP,
+  BridgeType.GCPProducer,
+  BridgeType.GCPConsumer,
   BridgeType.MySQL,
   BridgeType.Redis,
   BridgeType.MongoDB,
@@ -65,7 +66,8 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
     { value: BridgeType.KafkaProducer, label: `${tl('kafka')} ${tl('producer')}` },
     { value: BridgeType.KafkaConsumer, label: `${tl('kafka')} ${tl('consumer')}` },
-    { value: BridgeType.GCP, label: tl('gcpPubSub') },
+    { value: BridgeType.GCPProducer, label: `${tl('gcpPubSub')}  ${tl('producer')}` },
+    { value: BridgeType.GCPConsumer, label: `${tl('gcpPubSub')}  ${tl('consumer')}` },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.PgSQL, label: tl('pgSql') },
     { value: BridgeType.MongoDB, label: tl('mongoDB') },
@@ -209,7 +211,6 @@ export const typesWithProducerAndConsumer = [
   BridgeType.Pulsar,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
-  BridgeType.GCP,
 ]
 
 export const consumerReg = /consumer/i
@@ -225,11 +226,9 @@ export const useBridgeTypeOptions = (): {
   const descMap = new Map([
     [BridgeType.Webhook, tl('bridgeDescHTTP')],
     [BridgeType.MQTT, tl('bridgeDescMQTT')],
-    [BridgeType.Kafka, t('RuleEngine.bridgeDataToDesc', { name: tl('kafka') })],
     [BridgeType.InfluxDB, t('RuleEngine.egressDataBaseDesc', { name: tl('influxDBLabel') })],
     [BridgeType.MySQL, t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') })],
     [BridgeType.Redis, t('RuleEngine.egressDataBaseDesc', { name: tl('redis') })],
-    [BridgeType.GCP, t('RuleEngine.bridgeDataToDesc', { name: tl('gcpPubSub') })],
     [BridgeType.MongoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('mongoDB') })],
     [BridgeType.PgSQL, t('RuleEngine.egressDataBaseDesc', { name: tl('pgSql') })],
     [BridgeType.TimescaleDB, t('RuleEngine.egressDataBaseDesc', { name: tl('timescaleDB') })],
@@ -287,6 +286,8 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.AzureEventHubs]: 'azure_event_hub',
     [BridgeType.KafkaProducer]: 'kafka',
     [BridgeType.KafkaConsumer]: 'kafka',
+    [BridgeType.GCPProducer]: 'gcp_pubsub',
+    [BridgeType.GCPConsumer]: 'gcp_pubsub',
     [BridgeType.Confluent]: 'confluent',
   }
 
@@ -355,25 +356,33 @@ export const useBridgeSchema = (): {
 } => {
   const refPrefix = 'bridge_'
   const refSuffix = '.post'
-  const refSuffixMap: Record<string, string> = {
-    producer: `${refSuffix}_producer`,
-    consumer: `${refSuffix}_consumer`,
-  }
-  const typeReg = new RegExp(
-    `${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)}|${Object.values(refSuffixMap)
-      .map(escapeRegExp)
-      .join('|')})`,
-  )
 
-  const getSchemaRefByType = (type: string, suffix?: string) => {
+  const getRef = (type: string, suffix?: string) => {
     const finalSuffix = `${refSuffix}${suffix || ''}`
     return refPrefix + type + finalSuffix
   }
 
+  const specialBridgeTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.Cassandra, getRef('cassa')],
+    [BridgeType.AmazonKinesis, getRef('kinesis', '_producer')],
+    [BridgeType.GCPConsumer, getRef('gcp_pubsub', '_consumer')],
+    [BridgeType.GreptimeDB, getRef('greptimedb', '_grpc_v1')],
+  ])
+
+  const getSchemaRefByType = (type: string) => {
+    const ref = specialBridgeTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
   const getTypeByBridgeSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialBridgeTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
     // 1. remove path 2. remove prefix 3. remove suffix
-    const ret = ref
-      .replace(/^.+\//, '')
+    const ret = refKey
       .replace(new RegExp(`${refPrefix}`), '')
       .replace(new RegExp(`${refSuffix}\\w*`), '')
     return ret
@@ -386,60 +395,84 @@ export const useBridgeSchema = (): {
 }
 
 export const useConnectorSchema = (): {
-  typeRefKeyMap: Map<string, string>
+  getTypeRefKey: (type: string) => string
   getTypeByConnectorSchemaRef: (ref: string) => string
 } => {
   const refPrefix = `bridge_`
   const refSuffix = 'post_connector'
-
   const getRef = (type: string, prefix?: string) => `${prefix ?? refPrefix}${type}.${refSuffix}`
 
-  const typeRefKeyMap = new Map([
-    [BridgeType.Webhook, getRef(BridgeType.Webhook)],
+  const specialTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.KafkaProducer, getRef('kafka')],
     [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.PgSQL, getRef('postgres', 'connector_')],
-    [BridgeType.TimescaleDB, getRef(BridgeType.TimescaleDB)],
-    [BridgeType.MatrixDB, getRef(BridgeType.MatrixDB)],
+    [BridgeType.GCPProducer, getRef(BridgeType.GCPProducer, '')],
+    [BridgeType.Redis, getRef(BridgeType.Redis, '')],
   ])
+
+  const getTypeRefKey = (type: string): string => {
+    const ref = specialTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
 
   const getTypeByConnectorSchemaRef = (ref: string) => {
     const refKey = ref.replace(/^.+\//, '')
-    for (const [type, refValue] of typeRefKeyMap.entries()) {
+    for (const [type, refValue] of specialTypeRefKeyMap.entries()) {
       if (refValue === refKey) {
         return type
       }
     }
-    return ''
+    return refKey
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`\\.${refSuffix}\\w*`), '')
   }
 
   return {
-    typeRefKeyMap,
+    getTypeRefKey,
     getTypeByConnectorSchemaRef,
   }
 }
 
 export const useActionSchema = (): {
   getSchemaRefByType: (type: string, suffix?: string) => string
-  getTypeBySchemaRef: (ref: string) => string
+  getTypeByActionSchemaRef: (ref: string) => string
 } => {
   const refPrefix = 'bridge_'
   const refSuffix = '.post_bridge_v2'
-  const typeReg = new RegExp(`${escapeRegExp(refPrefix)}(.+)(?:${escapeRegExp(refSuffix)})`)
 
-  const getSchemaRefByType = (type: string, suffix?: string) => {
+  const getRef = (type: string, prefix?: string, suffix?: string) => {
     const finalSuffix = `${refSuffix}${suffix || ''}`
-    return refPrefix + type + finalSuffix
+    return (prefix ?? refPrefix) + type + finalSuffix
   }
 
-  const getTypeBySchemaRef = (ref: string) => {
-    const matchRet = ref.match(typeReg)
-    return matchRet ? matchRet[1] : ''
+  const specialActionTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
+    [BridgeType.Confluent, getRef('confluent', '')],
+    [BridgeType.GCPProducer, getRef('gcp_pubsub_producer', '')],
+    [BridgeType.Redis, getRef(BridgeType.Redis, '')],
+  ])
+  const getSchemaRefByType = (type: string) => {
+    const ref = specialActionTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
+  const getTypeByActionSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialActionTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
+    // 1. remove path 2. remove prefix 3. remove suffix
+    const ret = refKey
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`${refSuffix}\\w*`), '')
+    return ret
   }
 
   return {
     getSchemaRefByType,
-    getTypeBySchemaRef,
+    getTypeByActionSchemaRef,
   }
 }

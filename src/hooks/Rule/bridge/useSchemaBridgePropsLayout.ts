@@ -61,22 +61,10 @@ export default (
 
   const httpAdvancedFields = [`parameters.max_retries`]
 
-  const pgSqlOrderMap = {
-    ...createOrderObj(['parameters.sql', 'parameters.prepare_statement'], fieldStartIndex),
-  }
-
-  const mongoTopologyProps = [
-    'max_overflow',
-    'overflow_ttl',
-    'overflow_check_period',
-    'local_threshold_ms',
-    'connect_timeout_ms',
-    'socket_timeout_ms',
-    'server_selection_timeout_ms',
-    'wait_queue_timeout_ms',
-    'heartbeat_frequency_ms',
-    'min_heartbeat_frequency_ms',
-  ].map((item) => `topology.${item}`)
+  const pgSqlOrderMap = createOrderObj(
+    ['parameters.sql', 'parameters.prepare_statement'],
+    fieldStartIndex,
+  )
 
   const azureAdvancedProps = [
     'min_metadata_refresh_interval',
@@ -105,9 +93,6 @@ export default (
   const azurePropsOrderMap = {
     ...createOrderObj(
       [
-        'bootstrap_hosts',
-        'authentication.password',
-        'ssl',
         'parameters.topic',
         'parameters.kafka_headers',
         'parameters.kafka_header_value_encode_mode',
@@ -123,70 +108,32 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.Webhook]: {
-      ...baseOrderMap,
-      ...createOrderObj(httpAdvancedFields, 70),
-    },
-    [BridgeType.MySQL]: {
-      ...createOrderObj(
-        ['server', 'database', 'username', 'password', 'ssl', 'sql'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.Redis]: {
-      ...createOrderObj(
-        [
-          'redis_type',
-          'servers',
-          'server',
-          'username',
-          'password',
-          'database',
-          'sentinel',
-          'ssl',
-          'command_template',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.GCP]: {
-      ...createOrderObj(
-        [
-          'role',
-          'pubsub_topic',
-          'pipelining',
-          'service_account_json',
-          'payload_template',
-          'attributes_template',
-          'ordering_key_template',
-          'consumer.topic_mapping',
-          'consumer.pull_max_messages',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.MongoDB]: {
-      ...createOrderObj(
-        [
-          'mongo_type',
-          'srv_record',
-          'server',
-          'servers',
-          'database',
-          'replica_set_name',
-          'username',
-          'password',
-          'auth_source',
-          'w_mode',
-          'r_mode',
-          'collection',
-          'ssl',
-          'payload_template',
-          ...mongoTopologyProps,
-        ],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.Webhook]: createOrderObj(httpAdvancedFields, 70),
+    [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
+    [BridgeType.Redis]: createOrderObj(['command_template'], fieldStartIndex),
+    [BridgeType.GCPProducer]: createOrderObj(
+      [
+        'parameters.pubsub_topic',
+        'parameters.payload_template',
+        'parameters.attributes_template',
+        'parameters.ordering_key_template',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.GCPConsumer]: createOrderObj(
+      [
+        'pubsub_topic',
+        'pipelining',
+        'service_account_json',
+        'payload_template',
+        'attributes_template',
+        'ordering_key_template',
+        'consumer.topic_mapping',
+        'consumer.pull_max_messages',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.MongoDB]: createOrderObj(['collection', 'payload_template'], fieldStartIndex),
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
@@ -318,7 +265,8 @@ export default (
 
   const azureColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
-    [BridgeType.GCP]: {
+    [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
+    [BridgeType.GCPConsumer]: {
       name: 'dividing-line-below',
       pubsub_topic: 'col-need-row',
       service_account_json: 'custom-col-24',
@@ -358,11 +306,10 @@ export default (
     [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
     [BridgeType.RabbitMQ]: ['heartbeat', 'publish_confirmation_timeout', 'timeout'],
-    [BridgeType.MongoDB]: ['w_mode', ...mongoTopologyProps],
     [BridgeType.IoTDB]: ['enable_pipelining'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
-    [BridgeType.GCP]: ['pipelining'],
+    [BridgeType.GCPConsumer]: ['pipelining'],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
   }

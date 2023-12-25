@@ -1,10 +1,8 @@
-import { MONGO_TYPE, REDIS_TYPE } from '@/common/constants'
-import { isEmptyObj } from '@emqx/shared-ui-utils'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType, Role } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { useRedisCommandCheck } from '../useDataHandler'
@@ -30,15 +28,6 @@ export default (
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
 
-  const roleProp = {
-    type: 'enum',
-    symbols: [Role.Producer, Role.Consumer],
-    path: 'role',
-    key: 'role',
-    label: '',
-    description: '',
-  } as Property
-
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -57,14 +46,6 @@ export default (
       rules.name.push(...createCommonIdRule())
     }
     return rules
-  }
-
-  const addRoleProp = (components: Properties, defaultValue: Role) => {
-    if (!components || isEmptyObj(components)) {
-      return
-    }
-    components.role = { ...roleProp, default: defaultValue }
-    return components
   }
 
   const setLabelAndDesc = (prop: Property, path: string) => {
@@ -107,31 +88,17 @@ export default (
   const { commandReg } = useRedisCommandCheck()
   const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { redis_type, servers, command_template } = components
-    if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-      redis_type.symbols = REDIS_TYPE
-      redis_type.componentProps = { clearable: false }
-    }
-    if (redis_type?.symbols && Array.isArray(redis_type.symbols)) {
-      redis_type.symbols = REDIS_TYPE
-    }
-    if (
-      servers?.type === 'string' ||
-      (servers?.type === 'array' && servers?.items?.type === 'string')
-    ) {
-      servers.type = 'string'
-      servers.componentProps = {
-        type: 'textarea',
-        rows: 3,
-      }
-    }
+    const { command_template } = components?.parameters?.properties || {}
     if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
       command_template.type = 'string'
       command_template.format = 'sql'
       command_template.default = ''
     }
-    if (rules?.command_template && Array.isArray(rules.command_template)) {
-      rules.command_template.push({
+    if (
+      rules?.['parameters.command_template'] &&
+      Array.isArray(rules['parameters.command_template'])
+    ) {
+      rules['parameters.command_template'].push({
         validator(rules: FormItemRule, value: string) {
           if (!commandReg.test(value.replace(/\n/g, ' ').trim())) {
             return Promise.reject(tl('redisCommandError'))
@@ -146,39 +113,38 @@ export default (
 
   const mongoComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { mongo_type, payload_template, servers } = components
-    if (mongo_type?.symbols && Array.isArray(mongo_type.symbols)) {
-      mongo_type.symbols = MONGO_TYPE
-      mongo_type.componentProps = { clearable: false }
-    }
-    if (payload_template?.type === 'string') {
-      payload_template.format = 'sql'
-    }
-    if (
-      servers?.type === 'string' ||
-      (servers?.type === 'array' && servers?.items?.type === 'string')
-    ) {
-      servers.type = 'string'
-      servers.componentProps = {
-        type: 'textarea',
-        rows: 3,
-      }
+
+    const { parameters } = components
+    if (parameters?.properties?.payload_template) {
+      parameters.properties.payload_template.format = 'sql'
     }
 
     return { components, rules }
   }
 
-  const GCPComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const GCPProducerComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
+    const { parameters } = components
 
-    const { service_account_json, payload_template, type, consumer, attributes_template } =
-      components
-    if (type && type?.symbols?.[0]?.indexOf) {
-      const isConsumer = type.symbols[0].indexOf('consumer') > -1
-      addRoleProp(components, isConsumer ? Role.Consumer : Role.Producer)
+    if (parameters?.properties?.payload_template?.type === 'string') {
+      parameters.properties.payload_template.format = 'sql'
     }
 
-    /* Common */
+    if (parameters?.properties?.attributes_template) {
+      const attTemp = parameters.properties.attributes_template
+      const i18nPrefix = 'components.'
+      const { key, value } = attTemp?.items?.properties || {}
+      const properties = { key, value }
+      Object.entries(properties).forEach(([key, value]) => (value.label = t(`${i18nPrefix}${key}`)))
+    }
+
+    return { components, rules }
+  }
+
+  const GCPConsumerComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { service_account_json, consumer } = components
+
     if (service_account_json?.type === 'string') {
       // The backend does not give data indicating that it is possible to upload files here, add it manually
       service_account_json.format = 'file'
@@ -186,10 +152,6 @@ export default (
         accept: '.json',
         tip: t('Base.uploadTip', { format: 'JSON' }),
       }
-    }
-    /* Producer */
-    if (payload_template?.type === 'string') {
-      payload_template.format = 'sql'
     }
     if (rules && !rules.service_account_json) {
       rules.service_account_json = []
@@ -209,14 +171,7 @@ export default (
         trigger: 'blur',
       })
     }
-    if (attributes_template) {
-      const i18nPrefix = 'components.'
-      const { key, value } = attributes_template?.items?.properties || {}
-      const properties = { key, value }
-      Object.entries(properties).forEach(([key, value]) => (value.label = t(`${i18nPrefix}${key}`)))
-    }
 
-    /* Consumer */
     if (consumer) {
       const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_gcp_pubsub.'
       const { pubsub_topic, mqtt_topic, qos, payload_template } =
@@ -337,7 +292,8 @@ export default (
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
-    [BridgeType.GCP]: GCPComponentsHandler,
+    [BridgeType.GCPProducer]: GCPProducerComponentsHandler,
+    [BridgeType.GCPConsumer]: GCPConsumerComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,

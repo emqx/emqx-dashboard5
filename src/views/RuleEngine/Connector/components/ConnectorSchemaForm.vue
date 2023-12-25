@@ -42,12 +42,7 @@ import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
 
-// type UseConnectorBridgeType = Exclude<
-//   BridgeType,
-//   BridgeType.MQTT | BridgeType.Webhook | BridgeType.InfluxDB
-// >
-
-const { typeRefKeyMap } = useConnectorSchema()
+const { getTypeRefKey } = useConnectorSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -133,7 +128,7 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  return typeRefKeyMap.get(props.type)
+  return getTypeRefKey(props.type)
 })
 
 const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)

@@ -27,6 +27,7 @@
         :span="colSpan"
         :key="$key"
         v-bind="$attrs"
+        :class="getColClass(item)"
       >
         <CustomFormItem :prop="getFormItemProp($key)" :readonly="readonly">
           <template #label>
@@ -37,6 +38,7 @@
             :type="(item.type as any)"
             :symbols="item.symbols"
             :format="item.format"
+            :customProps="item.componentProps"
           />
         </CustomFormItem>
       </el-col>
@@ -85,6 +87,9 @@ const props = defineProps({
   },
   getText: {
     type: Function as PropType<(property: Property) => { label: string; desc: string }>,
+  },
+  customColClass: {
+    type: Object as PropType<Record<string, string>>,
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -136,14 +141,23 @@ const judgeTypeIndexByValue = (value: FieldValue, items: Array<OneOfItem>): numb
     return 0
   }
   const ret = items.findIndex((item) => {
-    if (typeof value === 'string') {
+    if (typeof value !== 'object') {
       return item.$ref ? false : isFixedEnum(item) && (item.symbols as Symbols)[0] === value
     }
     if (!item.$ref || !item.properties) {
       return false
     }
-    const propKeys = Object.keys(item.properties)
-    return Object.keys(value).every((key) => propKeys.includes(key))
+    const keyValuePairs = Object.entries(value)
+    return keyValuePairs.every(([key, value]) => {
+      if (!item.properties || !(key in item.properties)) {
+        return false
+      }
+      const prop = (item.properties as Properties)[key]
+      if (isFixedEnum(prop)) {
+        return value === undefined || value === '' || value === prop.symbols?.[0]
+      }
+      return prop
+    })
   })
   return ret < -1 ? 0 : ret
 }
@@ -165,6 +179,13 @@ const getLocalizedValue = (property: Property, field: 'label' | 'desc') => {
 
 const getLabel = (property: Property) => getLocalizedValue(property, 'label')
 const getDesc = (property: Property) => getLocalizedValue(property, 'desc')
+
+const getColClass = ({ path }: Property) => {
+  if (!props.customColClass || !path || !(path in props.customColClass)) {
+    return ''
+  }
+  return props.customColClass[path]
+}
 
 watch(
   () => props.modelValue,

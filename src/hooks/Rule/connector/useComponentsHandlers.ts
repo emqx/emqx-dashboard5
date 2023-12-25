@@ -1,6 +1,7 @@
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
+import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
@@ -8,6 +9,18 @@ import { pick } from 'lodash'
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
   rules: SchemaRules
+}
+
+const enum MongoType {
+  Single = 'single',
+  RS = 'rs',
+  Sharded = 'sharded',
+}
+
+const enum RedisType {
+  Single = 'single',
+  Sentinel = 'sentinel',
+  Cluster = 'cluster',
 }
 
 /**
@@ -33,6 +46,8 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
+  const { t, tl } = useI18nTl('RuleEngine')
+
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -128,11 +143,109 @@ export default (
     return { components, rules }
   }
 
+  const GCPProducerHandler: Handler = ({ components, rules }) => {
+    const { service_account_json } = components
+    /* Common */
+    if (service_account_json?.type === 'string') {
+      // The backend does not give data indicating that it is possible to upload files here, add it manually
+      service_account_json.format = 'file'
+      service_account_json.componentProps = {
+        accept: '.json',
+        tip: t('Base.uploadTip', { format: 'JSON' }),
+      }
+    }
+    if (rules && !rules.service_account_json) {
+      rules.service_account_json = []
+    }
+    if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
+      rules.service_account_json.push({
+        validator(rule, value: string): any {
+          return new Promise((resolve, reject) => {
+            try {
+              JSON.parse(value)
+              resolve(true)
+            } catch (error) {
+              reject(tl('accountJSONError'))
+            }
+          })
+        },
+        trigger: 'blur',
+      })
+    }
+    return { components, rules }
+  }
+
+  const mongoTypeOrder = [MongoType.Single, MongoType.RS, MongoType.Sharded]
+  const getMongoTypeOrder = (ref: string) => mongoTypeOrder.findIndex((type) => ref.includes(type))
+  const mongoHandler: Handler = ({ components, rules }) => {
+    const { parameters } = components
+
+    if (parameters) {
+      parameters.oneOf?.sort(
+        (a, b) => getMongoTypeOrder(a.$ref || '') - getMongoTypeOrder(b.$ref || ''),
+      )
+
+      const oneOf = parameters.oneOf || []
+      const singleOne = oneOf?.find((item) => item.$ref?.includes(MongoType.Single))
+      if (singleOne) {
+        parameters.default = { mongo_type: singleOne?.properties?.mongo_type?.symbols?.[0] }
+      }
+
+      const rsOne = oneOf?.find((item) => item.$ref?.includes(MongoType.RS))
+      const { servers: rsServers } = rsOne?.properties || {}
+      if (rsServers) {
+        rsServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+
+      const shardedOne = oneOf?.find((item) => item.$ref?.includes(MongoType.Sharded))
+      const { servers: shardedServers } = shardedOne?.properties || {}
+      if (shardedServers) {
+        shardedServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+    }
+    return { components, rules }
+  }
+
+  const redisTypeOrder = [RedisType.Single, RedisType.Sentinel, RedisType.Cluster]
+  const getRedisTypeOrder = (ref: string) => redisTypeOrder.findIndex((type) => ref.includes(type))
+  const redisHandler: Handler = ({ components, rules }) => {
+    const { parameters } = components
+
+    if (parameters) {
+      parameters.oneOf?.sort(
+        (a, b) => getRedisTypeOrder(a.$ref || '') - getRedisTypeOrder(b.$ref || ''),
+      )
+
+      const oneOf = parameters.oneOf || []
+      const singleOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Single))
+      if (singleOne) {
+        parameters.default = { redis_type: singleOne?.properties?.redis_type?.symbols?.[0] }
+      }
+
+      const sentinelOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Sentinel))
+      const { servers: sentinelServers } = sentinelOne?.properties || {}
+      if (sentinelServers) {
+        sentinelServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+
+      const clusterOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Cluster))
+      const { servers: clusterServers } = clusterOne?.properties || {}
+      if (clusterServers) {
+        clusterServers.componentProps = { type: 'textarea', rows: 3 }
+      }
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
     [BridgeType.Confluent, confluentHandler],
+    [BridgeType.Confluent, confluentHandler],
+    [BridgeType.GCPProducer, GCPProducerHandler],
+    [BridgeType.MongoDB, mongoHandler],
+    [BridgeType.Redis, redisHandler],
   ])
 
   const getComponentsHandler = () => {

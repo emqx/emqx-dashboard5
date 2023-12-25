@@ -261,8 +261,8 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.KafkaProducer, ['kafka']],
   /* not supported in dashboard ⬇️ */
   ['redis', ['redis_sentinel', 'redis_cluster', 'redis_single']],
-  ['gcp_pubsub_producer', ['gcp_pubsub']],
-  ['mongodb', ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
+  [BridgeType.GCPProducer, ['gcp_pubsub']],
+  [BridgeType.MongoDB, ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
@@ -285,6 +285,10 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.PgSQL,
   BridgeType.TimescaleDB,
   BridgeType.MatrixDB,
+  BridgeType.MySQL,
+  BridgeType.GCPProducer,
+  BridgeType.MongoDB,
+  BridgeType.Redis,
 ]
 
 export const COPY_SUFFIX = '_duplication'
@@ -328,10 +332,6 @@ export const SSL_FIELDS = [
   'ciphers',
   'log_level',
 ]
-
-export const REDIS_TYPE = ['single', 'sentinel', 'cluster']
-
-export const MONGO_TYPE = ['single', 'rs', 'sharded']
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
