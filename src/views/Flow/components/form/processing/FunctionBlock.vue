@@ -10,29 +10,25 @@
     :hide-required-asterisk="readonly"
   >
     <CustomFormItem :readonly="readonly" :label="t('components.field')" prop="field">
-      <CommonFields v-model="record.field" @change="handleFieldChanged" />
+      <el-autocomplete
+        v-model="record.field"
+        :fetch-suggestions="getFieldList"
+        clearable
+        class="common-fields"
+        popper-class="is-wider"
+        @change="handleFieldChanged"
+        @select="handleFieldChanged($event.value)"
+      />
     </CustomFormItem>
     <CustomFormItem :readonly="readonly" :label="t('Flow.transform')" prop="func.name">
-      <el-select
-        filterable
-        clearable
+      <el-cascader
         v-model="record.func.name"
+        filterable
         class="select-func"
-        @change="handleSelectFunc"
-      >
-        <el-option-group
-          v-for="group in funcOptList"
-          :key="group.groupLabel"
-          :label="tl(group.groupLabel)"
-        >
-          <el-option
-            v-for="item in group.list"
-            :key="item.name"
-            :label="item.name"
-            :value="item.name"
-          />
-        </el-option-group>
-      </el-select>
+        :show-all-levels="false"
+        :options="(funcOptList as any)"
+        :props="cascaderProps"
+      />
     </CustomFormItem>
     <div class="args-block" v-if="showArgsBlock">
       <CustomFormItem
@@ -77,8 +73,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useRuleFunc, { ArgumentType, FuncItem } from '@/hooks/useRuleFunc'
 import { FormRules } from '@/types/common'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
-import CommonFields from '../CommonFields.vue'
+import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -89,12 +84,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  availableFields: {
+    type: Array as PropType<Array<string>>,
+    default: () => [],
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('Function')
 
 const { funcOptList, getFuncItemByName, getFuncGroupByName, getArgIndex } = useRuleFunc()
+const cascaderProps = { value: 'name', label: 'name', children: 'list', emitPath: false }
 
 const FormCom = ref()
 
@@ -143,6 +143,15 @@ const handleSelectFunc = (funcName: string) => {
   } else {
     record.value.func.args = [record.value.field]
   }
+}
+
+const totalList = computed(() => props.availableFields.map((value) => ({ value })))
+const getFieldList = (queryString: string, cb: any) => {
+  if (!queryString) {
+    cb(totalList.value)
+  }
+  const ret = totalList.value.filter(({ value }) => value.includes(queryString))
+  cb(ret)
 }
 
 const handleFieldChanged = (val: string) => {

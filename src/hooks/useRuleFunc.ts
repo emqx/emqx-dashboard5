@@ -1,4 +1,5 @@
 import RuleFunc from '@/hooks/Rule/RuleFunc.json'
+import useI18nTl from './useI18nTl'
 
 export const enum ArgumentType {
   Number = 'number',
@@ -31,6 +32,8 @@ export interface FuncItem {
 
 interface GroupFuncData {
   groupLabel: string
+  name: string
+  value: string
   list: Array<FuncItem>
 }
 
@@ -42,8 +45,12 @@ export default (): {
   getFuncGroupByName: (name: string) => string | null
   getArgIndex: (func: FuncItem, groupLabel: string) => number
 } => {
+  const { tl } = useI18nTl('Function')
+
   const funcOptList: FuncData = (RuleFunc as FuncData).map(({ groupLabel, list }) => ({
     groupLabel,
+    name: tl(groupLabel),
+    value: groupLabel,
     list: list.filter((item) => item.args.length) as Array<FuncItem>,
   }))
 
