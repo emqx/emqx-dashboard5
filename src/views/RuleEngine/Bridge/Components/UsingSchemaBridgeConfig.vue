@@ -31,9 +31,8 @@
 
 <script setup lang="ts">
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
-import { getAPIPath, waitAMoment } from '@/common/tools'
+import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useActionSchema, useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
@@ -43,7 +42,7 @@ import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
@@ -127,16 +126,6 @@ const customColClass = computed(() => {
     props.hiddenFields.forEach((key) => (ret[key] = 'col-hidden'))
   }
   return ret
-})
-
-const { isBridgeSelected } = useReuseBridgeInFlow(props.type as BridgeType, props, bridgeRecord)
-
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal && formCom.value?.getInitRecord) {
-    bridgeRecord.value = formCom.value.getInitRecord()
-    await waitAMoment()
-    formCom.value.clearValidate?.()
-  }
 })
 
 const propsDisabled = computed(() => {
