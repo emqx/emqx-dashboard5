@@ -31,19 +31,18 @@
 
 <script setup lang="ts">
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
-import { getAPIPath, waitAMoment } from '@/common/tools'
+import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
-import { useBridgeSchema, useActionSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useActionSchema, useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeDirection, BridgeType, Role } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
@@ -129,24 +128,6 @@ const customColClass = computed(() => {
   return ret
 })
 
-const direction = computed(() =>
-  props.modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
-)
-const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
-  props.type as BridgeType,
-  props,
-  bridgeRecord,
-  direction.value,
-)
-
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal && formCom.value?.getInitRecord) {
-    bridgeRecord.value = formCom.value.getInitRecord()
-    await waitAMoment()
-    formCom.value.clearValidate?.()
-  }
-})
-
 const propsDisabled = computed(() => {
   const ret = []
   if (props.edit) {
@@ -165,18 +146,7 @@ const getRefKey = computed(() => {
   return getBridgeTypeRefKey(props.type) || undefined
 })
 
-const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)
-const getComponentsHandler = () => {
-  if (!isCreateBridgeInFlow.value) {
-    return getTypeComponentsHandler()
-  }
-  return async (data: any) => {
-    // To clear a validation error triggered by a change in the type of the name
-    const ret = await handleSchemaForReuse(getTypeComponentsHandler()(data))
-    window.setTimeout(() => formCom.value.clearValidate?.(), 16)
-    return ret
-  }
-}
+const { getComponentsHandler } = useComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

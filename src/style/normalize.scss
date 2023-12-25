@@ -575,7 +575,7 @@
 .el-popper {
   font-size: 13px;
   line-height: 1.6;
-  &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider) {
+  &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown) {
     max-width: 320px;
   }
   &.is-wider {

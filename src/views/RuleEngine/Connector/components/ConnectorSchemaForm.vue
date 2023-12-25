@@ -28,19 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { waitAMoment } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import useReuseBridgeInFlow from '@/hooks/Flow/useReuseBridgeInFlow'
 import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
 import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeDirection, BridgeType, Role } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch, withDefaults } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getTypeRefKey } = useConnectorSchema()
 
@@ -106,24 +103,6 @@ const customColClass = computed(() => {
   return ret
 })
 
-const direction = computed(() =>
-  props.modelValue?.role === Role.Consumer ? BridgeDirection.Ingress : BridgeDirection.Egress,
-)
-const { isCreateBridgeInFlow, isBridgeSelected, handleSchemaForReuse } = useReuseBridgeInFlow(
-  props.type as BridgeType,
-  props,
-  connectorRecord,
-  direction.value,
-)
-
-watch(isBridgeSelected, async (nVal, oVal) => {
-  if (!nVal && oVal && formCom.value?.getInitRecord) {
-    connectorRecord.value = formCom.value.getInitRecord()
-    await waitAMoment()
-    formCom.value.clearValidate?.()
-  }
-})
-
 const getRefKey = computed(() => {
   if (!props.type) {
     return
@@ -131,18 +110,7 @@ const getRefKey = computed(() => {
   return getTypeRefKey(props.type)
 })
 
-const { getComponentsHandler: getTypeComponentsHandler } = useComponentsHandlers(props)
-const getComponentsHandler = () => {
-  if (!isCreateBridgeInFlow.value) {
-    return getTypeComponentsHandler()
-  }
-  return async (data: any) => {
-    // To clear a validation error triggered by a change in the type of the name
-    const ret = await handleSchemaForReuse(getTypeComponentsHandler()(data))
-    window.setTimeout(() => formCom.value.clearValidate?.(), 16)
-    return ret
-  }
-}
+const { getComponentsHandler } = useComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

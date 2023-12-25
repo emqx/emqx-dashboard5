@@ -684,3 +684,21 @@ export const getAPIPath = (url: string) => `${API_BASE_URL}${url}`
 export const omitArr = <T>(objectArray: Array<T>, indexArray: Array<number>): Array<T> => {
   return objectArray.filter((obj, index) => !indexArray.includes(index))
 }
+
+const getDecimalLength = (num: number): number => {
+  const [, decimal] = String(num).split('.')
+  return decimal ? decimal.length : 0
+}
+
+export const accAdd = (arg1: number, arg2: number): number => {
+  const decimalLength1 = getDecimalLength(arg1)
+  const decimalLength2 = getDecimalLength(arg2)
+
+  const maxLength = Math.max(decimalLength1, decimalLength2)
+  const multiplier = 10 ** maxLength
+
+  const adjustedArg1 = arg1 * multiplier
+  const adjustedArg2 = arg2 * multiplier
+  return (adjustedArg1 + adjustedArg2) / multiplier
+}
+
