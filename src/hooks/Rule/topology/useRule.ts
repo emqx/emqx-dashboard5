@@ -1,4 +1,4 @@
-import { RULE_FROM_SEPARATOR } from '@/common/constants'
+import { RULE_FROM_SEPARATOR, TOPIC_EVENT } from '@/common/constants'
 import { BridgeType, RuleInputType, RuleSQLKeyword, EventForRule } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -30,8 +30,6 @@ export const useRuleUtils = (): {
   isMsgPubEvent: (event: string) => boolean
   replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
 } => {
-  const TOPIC_EVENT = '$events/message_publish'
-
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
 

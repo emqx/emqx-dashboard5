@@ -37,6 +37,8 @@ export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
 
 export const RULE_INPUT_EVENT_PREFIX = '$events/'
 
+export const TOPIC_EVENT = '$events/message_publish'
+
 export const MULTI_LEVEL_WILDCARD = '#'
 
 export const RULE_TOPOLOGY_ID = 'rule-topology'

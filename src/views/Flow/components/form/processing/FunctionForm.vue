@@ -7,6 +7,7 @@
             v-model="record.form[$index]"
             :ref="(el) => setFormCom(el, $index)"
             :readonly="readonly"
+            :available-fields="availableFields"
             @vnode-before-unmount="delFormCom($index)"
           />
           <el-button
@@ -49,18 +50,31 @@
 </template>
 
 <script setup lang="ts">
-import { DEFAULT_SELECT } from '@/common/constants'
+import { DEFAULT_SELECT, TOPIC_EVENT } from '@/common/constants'
 import { createRandomString, trimSpacesAndLFs } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
-import { FunctionForm, EditedWay } from '@/hooks/Flow/useFlowNode'
+import { EditedWay, FunctionForm, SourceType } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
 import { createFunctionItem } from '@/hooks/Flow/useNodeForm'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
+import { Node } from '@vue-flow/core'
 import { isFunction } from 'lodash'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+import {
+  ComputedRef,
+  PropType,
+  Ref,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  ref,
+  watch,
+} from 'vue'
 import FunctionBlock from './FunctionBlock.vue'
 
 const props = defineProps({
@@ -72,6 +86,39 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  sourceNodes: {
+    type: Array as PropType<Array<Node>>,
+  },
+})
+
+const getSource = (node: Node) => {
+  const {
+    data: { specificType, formData },
+  } = node
+  switch (specificType) {
+    case SourceType.Message:
+      return TOPIC_EVENT
+    case SourceType.Event:
+      return formData.event
+  }
+  console.error('cannot find source')
+}
+const addedSources: ComputedRef<Array<string>> = computed(() => {
+  return props.sourceNodes?.map(getSource).filter(Boolean) || []
+})
+
+const { getEventList } = useRuleEvents()
+const eventList: Ref<Array<RuleEvent>> = ref([])
+;(async () => (eventList.value = await getEventList()))()
+const getSourceFields = (source: string) => {
+  const event = eventList.value.find(({ event }) => event === source)
+  return event?.columns || []
+}
+
+const availableFields: ComputedRef<Array<string>> = computed(() => {
+  return addedSources.value.reduce((arr: Array<string>, source) => {
+    return [...arr, ...getSourceFields(source)]
+  }, [])
 })
 
 const emit = defineEmits(['update:modelValue'])
