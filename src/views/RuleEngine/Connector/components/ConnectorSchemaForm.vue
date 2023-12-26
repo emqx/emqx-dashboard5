@@ -5,7 +5,7 @@
       ref="formCom"
       type="connector"
       need-rules
-      schema-file-path="api/v5/schemas/connectors"
+      :schema-file-path="getAPIPath(`/schemas/connectors`)"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="connectorRecord"
@@ -28,13 +28,13 @@
 </template>
 
 <script setup lang="ts">
+import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
 import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
