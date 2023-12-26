@@ -15,6 +15,7 @@ export type PutConfigsLog400Code = typeof PutConfigsLog400Code[keyof typeof PutC
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsLog400 = {
@@ -193,6 +194,7 @@ export type PutConfigsDashboard400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsDashboard400 = {
@@ -232,6 +234,7 @@ export type PutConfigsAlarm400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsAlarm400 = {
@@ -318,6 +321,7 @@ export type PutConfigsSysmon400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsSysmon400 = {
@@ -357,6 +361,7 @@ export type PutConfigsSysTopics400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsSysTopics400 = {

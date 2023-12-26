@@ -10,11 +10,6 @@ export type GetClients400 = {
   message?: string
 }
 
-export type GetClients200 = {
-  data?: EmqxMgmtApiClientsClient[]
-  meta?: PublicMeta
-}
-
 export type GetClientsConnState = typeof GetClientsConnState[keyof typeof GetClientsConnState]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -106,19 +101,6 @@ export type PostClientsClientidUnsubscribeBulk404 = {
   message?: string
 }
 
-export type GetClientsClientid404Code =
-  typeof GetClientsClientid404Code[keyof typeof GetClientsClientid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientid404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
-} as const
-
-export type GetClientsClientid404 = {
-  code?: GetClientsClientid404Code
-  message?: string
-}
-
 export type DeleteClientsClientid404Code =
   typeof DeleteClientsClientid404Code[keyof typeof DeleteClientsClientid404Code]
 
@@ -132,16 +114,16 @@ export type DeleteClientsClientid404 = {
   message?: string
 }
 
-export type GetClientsClientidAuthorizationCache404Code =
-  typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
+export type GetClientsClientid404Code =
+  typeof GetClientsClientid404Code[keyof typeof GetClientsClientid404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidAuthorizationCache404Code = {
+export const GetClientsClientid404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type GetClientsClientidAuthorizationCache404 = {
-  code?: GetClientsClientidAuthorizationCache404Code
+export type GetClientsClientid404 = {
+  code?: GetClientsClientid404Code
   message?: string
 }
 
@@ -155,6 +137,19 @@ export const DeleteClientsClientidAuthorizationCache404Code = {
 
 export type DeleteClientsClientidAuthorizationCache404 = {
   code?: DeleteClientsClientidAuthorizationCache404Code
+  message?: string
+}
+
+export type GetClientsClientidAuthorizationCache404Code =
+  typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidAuthorizationCache404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+} as const
+
+export type GetClientsClientidAuthorizationCache404 = {
+  code?: GetClientsClientidAuthorizationCache404Code
   message?: string
 }
 
@@ -246,6 +241,11 @@ export interface EmqxMgmtApiClientsClient {
   subscriptions_max?: number
   username?: string
   mountpoint?: string
+}
+
+export interface EmqxMgmtApiClientsClients {
+  data?: EmqxMgmtApiClientsClient[]
+  meta?: PublicMeta
 }
 
 export type EmqxMgmtApiClientsAuthzCacheResult =

@@ -282,8 +282,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   dropped_msg_rate?: number
-  received_msg_rate?: number
   sent_msg_rate?: number
+  received_msg_rate?: number
   subscriptions?: number
   topics?: number
   connections?: number

@@ -140,45 +140,6 @@ export type PostConnectorsIdOperation400 = {
   message?: string
 }
 
-export type PutConnectorsId404Code =
-  typeof PutConnectorsId404Code[keyof typeof PutConnectorsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutConnectorsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutConnectorsId404 = {
-  code?: PutConnectorsId404Code
-  message?: string
-}
-
-export type PutConnectorsId400Code =
-  typeof PutConnectorsId400Code[keyof typeof PutConnectorsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutConnectorsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutConnectorsId400 = {
-  code?: PutConnectorsId400Code
-  message?: string
-}
-
-export type GetConnectorsId404Code =
-  typeof GetConnectorsId404Code[keyof typeof GetConnectorsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetConnectorsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetConnectorsId404 = {
-  code?: GetConnectorsId404Code
-  message?: string
-}
-
 export type DeleteConnectorsId503Code =
   typeof DeleteConnectorsId503Code[keyof typeof DeleteConnectorsId503Code]
 
@@ -215,6 +176,45 @@ export const DeleteConnectorsId400Code = {
 
 export type DeleteConnectorsId400 = {
   code?: DeleteConnectorsId400Code
+  message?: string
+}
+
+export type PutConnectorsId404Code =
+  typeof PutConnectorsId404Code[keyof typeof PutConnectorsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConnectorsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutConnectorsId404 = {
+  code?: PutConnectorsId404Code
+  message?: string
+}
+
+export type PutConnectorsId400Code =
+  typeof PutConnectorsId400Code[keyof typeof PutConnectorsId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConnectorsId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutConnectorsId400 = {
+  code?: PutConnectorsId400Code
+  message?: string
+}
+
+export type GetConnectorsId404Code =
+  typeof GetConnectorsId404Code[keyof typeof GetConnectorsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetConnectorsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetConnectorsId404 = {
+  code?: GetConnectorsId404Code
   message?: string
 }
 
