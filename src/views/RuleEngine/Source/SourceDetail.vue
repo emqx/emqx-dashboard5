@@ -70,6 +70,7 @@
                 :type="sourceType"
                 :disabled="disabled"
                 :hide-name="hideName"
+                v-bind="formComProps"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
             </div>
@@ -183,6 +184,13 @@ const formComMap: Map<string, Component> = new Map([
 const formCom = computed(() => {
   const com = formComMap.get(sourceType.value)
   return com || UsingSchemaBridgeConfig
+})
+const formComPropsMap: Map<string, Record<string, any>> = new Map([
+  [BridgeType.MQTT, { singleDirection: BridgeDirection.Ingress }],
+])
+const formComProps = computed(() => {
+  const props = formComPropsMap.get(sourceType.value)
+  return props || {}
 })
 
 const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))

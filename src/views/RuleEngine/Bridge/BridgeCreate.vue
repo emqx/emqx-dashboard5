@@ -40,6 +40,7 @@
                 v-if="chosenBridgeType === BridgeType.MQTT"
                 v-model="bridgeData"
                 ref="formCom"
+                :single-direction="BridgeDirection.Egress"
                 :copy="isCopy"
               />
               <using-schema-bridge-config
