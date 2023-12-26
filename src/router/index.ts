@@ -454,6 +454,17 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue'),
         meta: { hideInMenu: true },
       },
+      {
+        path: 'source',
+        name: 'source',
+        component: () => import('@/views/RuleEngine/Source/Source.vue'),
+      },
+      {
+        path: 'source/:id',
+        name: 'source-detail',
+        component: () => import('@/views/RuleEngine/Source/SourceDetail.vue'),
+        meta: { hideInMenu: true },
+      },
     ],
   },
   // Connector
