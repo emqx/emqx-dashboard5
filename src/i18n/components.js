@@ -259,6 +259,10 @@ export default {
     zh: '动作(Sink)',
     en: 'Actions(Sink)',
   },
+  source: {
+    zh: 'Source',
+    en: 'Source',
+  },
   setting: {
     zh: '设置',
     en: 'Settings',
