@@ -26,22 +26,22 @@ export type PutGatewaysName400 = {
 }
 
 export type PutGatewaysNameBody =
-  | EmqxGatewayApiUpdateGbt32960
-  | EmqxGatewayApiUpdateJt808
-  | EmqxGatewayApiUpdateOcpp
+  | EmqxGatewayApiUpdateStomp
+  | EmqxGatewayApiUpdateExproto
   | EmqxGatewayApiUpdateLwm2m
   | EmqxGatewayApiUpdateMqttsn
   | EmqxGatewayApiUpdateCoap
-  | EmqxGatewayApiUpdateExproto
-  | EmqxGatewayApiUpdateStomp
-  | EmqxGatewayApiGbt32960
-  | EmqxGatewayApiJt808
-  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiUpdateJt808
+  | EmqxGatewayApiUpdateOcpp
+  | EmqxGatewayApiUpdateGbt32960
+  | EmqxGatewayApiStomp
+  | EmqxGatewayApiExproto
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiExproto
-  | EmqxGatewayApiStomp
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiGbt32960
 
 export type GetGatewaysName404Code =
   typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
@@ -58,14 +58,14 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiGbt32960
-  | EmqxGatewayApiJt808
-  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiStomp
+  | EmqxGatewayApiExproto
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiExproto
-  | EmqxGatewayApiStomp
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiOcpp
+  | EmqxGatewayApiGbt32960
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
@@ -305,16 +305,30 @@ export interface GatewayOcppDnstream {
   max_mqueue_len?: number
 }
 
-export interface EmqxJt808SchemaJt808Proto {
-  allow_anonymous?: boolean
-  registry?: string
-  authentication?: string
-  up_topic: string
-  dn_topic: string
-}
-
 export interface EmqxJt808SchemaJt808Frame {
   max_length?: number
+}
+
+export interface EmqxJt808SchemaAnonymousTrue {
+  allow_anonymous: 'true'
+  registry?: string
+  authentication?: string
+}
+
+export interface EmqxJt808SchemaAnonymousFalse {
+  allow_anonymous: 'false'
+  registry: string
+  authentication: string
+}
+
+export type EmqxJt808SchemaJt808ProtoAuth =
+  | EmqxJt808SchemaAnonymousFalse
+  | EmqxJt808SchemaAnonymousTrue
+
+export interface EmqxJt808SchemaJt808Proto {
+  auth?: EmqxJt808SchemaJt808ProtoAuth
+  up_topic: string
+  dn_topic: string
 }
 
 export type EmqxGatewayApiWssListenerMaxConnections = 'infinity' | number

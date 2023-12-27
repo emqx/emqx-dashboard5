@@ -31,6 +31,36 @@ export type PostDataImport400 = {
   message?: string
 }
 
+export type DeleteDataFilesFilename404Code =
+  typeof DeleteDataFilesFilename404Code[keyof typeof DeleteDataFilesFilename404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteDataFilesFilename404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteDataFilesFilename404 = {
+  code?: DeleteDataFilesFilename404Code
+  message?: string
+}
+
+export type DeleteDataFilesFilename400Code =
+  typeof DeleteDataFilesFilename400Code[keyof typeof DeleteDataFilesFilename400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteDataFilesFilename400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteDataFilesFilename400 = {
+  code?: DeleteDataFilesFilename400Code
+  message?: string
+}
+
+export type DeleteDataFilesFilenameParams = {
+  node?: string
+}
+
 export type GetDataFilesFilename404Code =
   typeof GetDataFilesFilename404Code[keyof typeof GetDataFilesFilename404Code]
 
@@ -66,36 +96,6 @@ export const GetDataFilesFilename200 = {
 } as const
 
 export type GetDataFilesFilenameParams = {
-  node?: string
-}
-
-export type DeleteDataFilesFilename404Code =
-  typeof DeleteDataFilesFilename404Code[keyof typeof DeleteDataFilesFilename404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteDataFilesFilename404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteDataFilesFilename404 = {
-  code?: DeleteDataFilesFilename404Code
-  message?: string
-}
-
-export type DeleteDataFilesFilename400Code =
-  typeof DeleteDataFilesFilename400Code[keyof typeof DeleteDataFilesFilename400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteDataFilesFilename400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteDataFilesFilename400 = {
-  code?: DeleteDataFilesFilename400Code
-  message?: string
-}
-
-export type DeleteDataFilesFilenameParams = {
   node?: string
 }
 

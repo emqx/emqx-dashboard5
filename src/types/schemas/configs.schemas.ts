@@ -236,6 +236,7 @@ export type PutConfigsFileTransfer400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsFileTransfer400Code = {
   UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
 } as const
 
 export type PutConfigsFileTransfer400 = {
