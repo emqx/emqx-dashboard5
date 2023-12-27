@@ -1,23 +1,23 @@
 <template>
-  <div class="rule-outputs">
+  <div class="rule-outputs rule-io">
     <div class="sub-block-desc">
       <span>{{ tl('actionDesc') }}</span>
     </div>
     <el-row>
       <el-col :span="24">
         <template v-for="(item, index) in ruleValue.actions" :key="item">
-          <div class="outputs-item">
+          <div class="io-item">
             <img :src="getOutputImage(item)" />
-            <div class="outputs-item-bd">
+            <div class="io-item-bd">
               <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
                 {{ (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[1] }}
               </div>
-              <div class="output-desc">
+              <div class="io-desc">
                 {{ getOutputTypeLabel(item) }}
               </div>
             </div>
 
-            <span class="output-op">
+            <span class="io-op">
               <el-button size="small" @click="openOutputDialog(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
@@ -214,72 +214,5 @@ const getOutputTypeLabel = (item: OutputItem) => {
 </script>
 
 <style lang="scss" scoped>
-.outputs-item {
-  height: 64px;
-  border: 1px solid var(--color-border-primary);
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: var(--el-border-radius-base);
-  padding: 0 6px;
-  margin-bottom: 12px;
-  $img-width: 48px;
-  $img-margin-right: 12px;
-  $op-width: 136px;
-  img {
-    width: $img-width;
-    flex-shrink: 0;
-    margin-right: $img-margin-right;
-  }
-
-  .outputs-item-bd {
-    flex-grow: 1;
-    max-width: calc(100% - $img-width - $img-margin-right - 12px);
-    div {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      line-height: 1.6;
-    }
-    .output-desc {
-      color: var(--color-text-secondary);
-    }
-  }
-
-  .output-op {
-    display: none;
-    flex-basis: $op-width;
-    flex-shrink: 0;
-    padding: 0 10px;
-    text-align: right;
-  }
-  &:hover {
-    border-color: var(--el-color-primary);
-    cursor: pointer;
-    .output-op {
-      display: block;
-      color: var(--el-color-primary);
-    }
-    .outputs-item-bd {
-      max-width: calc(100% - $img-width - $img-margin-right - $op-width);
-    }
-  }
-}
-
-.btn-add {
-  margin-top: 24px;
-  :deep(span) {
-    display: flex;
-    align-items: center;
-  }
-  .el-icon {
-    font-size: 16px;
-  }
-}
-
-.edit-output {
-  color: var(--el-color-primary);
-  line-height: 50px;
-  cursor: pointer;
-}
+@import '~@/style/rule.scss';
 </style>

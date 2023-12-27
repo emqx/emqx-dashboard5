@@ -132,6 +132,69 @@
   }
 }
 
+// rule inputs and rule outputs
+.rule-io {
+  .io-item {
+    height: 64px;
+    border: 1px solid var(--color-border-primary);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: var(--el-border-radius-base);
+    padding: 0 6px;
+    margin-bottom: 12px;
+    $img-width: 48px;
+    $img-margin-right: 12px;
+    $op-width: 136px;
+    img {
+      width: $img-width;
+      flex-shrink: 0;
+      margin-right: $img-margin-right;
+    }
+    .io-item-bd {
+      flex-grow: 1;
+      max-width: calc(100% - $img-width - $img-margin-right - 12px);
+      div {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1.6;
+      }
+      .io-desc {
+        color: var(--color-text-secondary);
+      }
+    }
+    .io-op {
+      display: none;
+      flex-basis: $op-width;
+      flex-shrink: 0;
+      padding: 0 10px;
+      text-align: right;
+    }
+    &:hover {
+      border-color: var(--el-color-primary);
+      cursor: pointer;
+      .io-op {
+        display: block;
+        color: var(--el-color-primary);
+      }
+      .io-item-bd {
+        max-width: calc(100% - $img-width - $img-margin-right - $op-width);
+      }
+    }
+  }
+  .btn-add {
+    margin-top: 24px;
+    :deep(span) {
+      display: flex;
+      align-items: center;
+    }
+    .el-icon {
+      font-size: 16px;
+    }
+  }
+}
+
 .delete-second-confirm {
   .el-dialog__header {
     display: none;
