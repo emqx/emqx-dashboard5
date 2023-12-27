@@ -1,6 +1,6 @@
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, RuleItem } from '@/types/rule'
 
 export default (): {

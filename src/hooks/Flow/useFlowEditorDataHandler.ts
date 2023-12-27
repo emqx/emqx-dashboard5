@@ -4,7 +4,7 @@
 import { DEFAULT_SELECT, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { getBridgeKey } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElementData, GraphEdge } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
