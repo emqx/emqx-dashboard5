@@ -60,7 +60,7 @@ import {
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
 import { getKeyPartsFromSQL, arraysAreEqual } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'

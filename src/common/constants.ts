@@ -41,8 +41,6 @@ export const TOPIC_EVENT = '$events/message_publish'
 
 export const MULTI_LEVEL_WILDCARD = '#'
 
-export const RULE_TOPOLOGY_ID = 'rule-topology'
-
 export const QoSOptions = [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2]
 
 export const MQTTingressRemoteQoS = QoSOptions.filter((item) => item !== QoSLevel.QoS2)

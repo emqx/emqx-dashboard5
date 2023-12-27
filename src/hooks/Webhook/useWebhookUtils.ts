@@ -1,10 +1,15 @@
 import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { OtherNodeType } from '@/hooks/Rule/topology/topologyType'
-import useUtilsForTopology from '@/hooks/Rule/topology/useUtilsForTopology'
-import { BridgeType } from '@/types/enum'
-import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
+import { BridgeType, RuleOutput } from '@/types/enum'
+import { BridgeItem, Connector, HTTPBridge, OutputItem, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
+
+const enum OtherNodeType {
+  Bridge = 'bridge',
+  Event = 'event',
+  Rule = 'rule',
+  Topic = 'topic',
+}
 
 /* 
   The naming convention for rules created for webhooks
@@ -24,8 +29,17 @@ export default (): {
 } => {
   const webhookTargetReg = new RegExp(`${WEBHOOK_SUFFIX}$`)
 
-  const { judgeOutputType } = useUtilsForTopology()
   const { getBridgeGeneralType } = useBridgeTypeValue()
+
+  const judgeOutputType = (output: OutputItem): string => {
+    if (typeof output === 'string') {
+      return OtherNodeType.Bridge
+    }
+    if (output.function === RuleOutput.Console) {
+      return RuleOutput.Console
+    }
+    return RuleOutput.Republish
+  }
 
   const judgeIsWebhookConnector = (connector: Connector) => {
     const { type, name } = connector
