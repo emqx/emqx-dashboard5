@@ -2,14 +2,14 @@
   <div class="app-wrapper data-bridge">
     <el-table
       class="bridge-table"
-      :data="bridgeTb"
+      :data="sourceList"
       :empty-text="tl('actionsEmptyTip')"
-      v-loading="tbLoading"
+      v-loading="isLoading"
       row-key="id"
     >
       <el-table-column :label="tl('name')" :min-width="120">
         <template #default="{ row }">
-          <router-link :to="getBridgeDetailPageRoute(row.id)" class="first-column-with-icon-type">
+          <router-link :to="getDetailPageRoute(row.id)" class="first-column-with-icon-type">
             <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
             <div class="name-type-block">
               <span class="name-data">
@@ -27,11 +27,7 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
-          <el-switch
-            v-model="row.enable"
-            :disabled="!$hasPermission('put')"
-            @change="enableOrDisableBridge(row)"
-          />
+          <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="168">
@@ -43,16 +39,12 @@
               (row.status === ConnectionStatus.Disconnected ||
                 row.status === ConnectionStatus.Inconsistent)
             "
-            :disabled="!$hasPermission('post')"
             :loading="reconnectingMap.get(row.id)"
             @click="reconnect(row)"
           >
             {{ $t('RuleEngine.reconnect') }}
           </el-button>
-          <el-button
-            size="small"
-            @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
-          >
+          <el-button size="small" @click="$router.push(getDetailPageRoute(row.id, 'settings'))">
             {{ $t('Base.setting') }}
           </el-button>
           <TableItemDropDown
@@ -60,7 +52,7 @@
             :row-data="row"
             :can-copy="false"
             @delete="handleDeleteBridge(row)"
-            @create-rule="createRuleWithBridge(row.id)"
+            @create-rule="createRuleWithSource(row.id)"
           />
         </template>
       </el-table-column>
@@ -70,29 +62,30 @@
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"
     :id="currentDeleteBridgeId"
-    :direction="delBridgeDirection"
+    :direction="BridgeDirection.Ingress"
     @submitted="handleDeleteSuc"
   />
 </template>
 
 <script lang="ts" setup>
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
+import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
+import useSourceList from '@/hooks/Rule/action/useSourceList'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { ElMessageBox, ElMessage as M } from 'element-plus'
-import { Ref, onMounted, ref } from 'vue'
+import { Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
-import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 
-const bridgeTb = ref<Array<BridgeItem>>([])
-const tbLoading = ref(false)
 const router = useRouter()
+
+const sourceList = ref<Array<BridgeItem>>([])
+const isLoading = ref(false)
 const reconnectingMap: Ref<Map<string, boolean>> = ref(new Map())
 
 const { t, tl } = useI18nTl('RuleEngine')
@@ -101,37 +94,37 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
 const initReconnectingMap = () => {
   reconnectingMap.value = new Map()
-  bridgeTb.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
+  sourceList.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
 }
 
-const { getMixedActionList } = useMixedActionList()
-const listBridge = async function () {
-  tbLoading.value = true
+const { getSourceList } = useSourceList()
+const getList = async function () {
+  isLoading.value = true
   try {
-    bridgeTb.value = await getMixedActionList()
+    sourceList.value = await getSourceList()
     initReconnectingMap()
   } catch (error) {
     console.error(error)
   } finally {
-    tbLoading.value = false
+    isLoading.value = false
   }
 }
 
-const { toggleActionEnable, reconnectAction } = useHandleActionItem()
-const enableOrDisableBridge = async (row: BridgeItem) => {
+const { toggleSourceEnable, reconnectSource } = useHandleSourceItem()
+const toggleEnable = async (row: BridgeItem) => {
   const { enable } = row
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await toggleActionEnable(row.id, enable)
+    await toggleSourceEnable(row.id, enable)
     M.success(t(sucMessage))
-    listBridge()
+    getList()
   } catch (error) {
     console.error(error)
     row.enable = !row.enable
   }
 }
 
-const createRuleWithBridge = (bridgeId: string) => {
+const createRuleWithSource = (bridgeId: string) => {
   ElMessageBox.confirm(t('RuleEngine.useActionCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -148,12 +141,11 @@ const {
   usingBridgeRules,
   currentDeleteBridgeId,
   handleDeleteSuc,
-  delBridgeDirection,
   handleDeleteBridge,
-} = useDeleteBridge(listBridge)
+} = useDeleteBridge(getList)
 
-const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
-  name: 'action-detail',
+const getDetailPageRoute = (id: string, tab?: string) => ({
+  name: 'source-detail',
   params: { id },
   query: { tab },
 })
@@ -161,8 +153,8 @@ const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
 const reconnect = async ({ id }: BridgeItem) => {
   try {
     reconnectingMap.value.set(id, true)
-    await reconnectAction(id)
-    listBridge()
+    await reconnectSource(id)
+    getList()
   } catch (error) {
     //
   } finally {
@@ -170,5 +162,5 @@ const reconnect = async ({ id }: BridgeItem) => {
   }
 }
 
-onMounted(listBridge)
+getList()
 </script>

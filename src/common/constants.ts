@@ -277,7 +277,7 @@ export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
-export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer]
+export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
 export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.Webhook,

@@ -279,6 +279,10 @@ export default {
     zh: '编解码',
     en: 'Schema',
   },
+  source: {
+    zh: 'Source',
+    en: 'Source',
+  },
   setting: {
     zh: '设置',
     en: 'Settings',

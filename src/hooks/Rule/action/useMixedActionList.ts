@@ -2,19 +2,30 @@ import { getActions } from '@/api/action'
 import { getBridgeList } from '@/api/ruleengine'
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getBridgeKey, omitArr } from '@/common/tools'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { useOldNewType } from '../bridge/useBridgeTypeValue'
+import { useBridgeDirection, useOldNewType } from '../bridge/useBridgeTypeValue'
 
-export default () => {
+export default (): {
+  getMixedActionList: () => Promise<Array<BridgeItem>>
+  getMixedActionListForRule: () => Promise<Array<BridgeItem>>
+} => {
   const { BRIDGE_OLD_TYPES_MAP, getNewType } = useOldNewType()
 
+  const { judgeBridgeDirection } = useBridgeDirection()
   /**
    * bridge + action list
    */
   const getMixedActionList = async (): Promise<Array<BridgeItem>> => {
     try {
-      const [actionList, bridgeList] = await Promise.all([getActions(), getBridgeList()])
+      const [actionList, rawBridgeList]: Array<Array<BridgeItem>> = await Promise.all([
+        getActions(),
+        getBridgeList(),
+      ])
+      // filter source
+      const bridgeList = rawBridgeList.filter(
+        (item) => judgeBridgeDirection(item) !== BridgeDirection.Ingress,
+      )
       /**
        * Supported v2 type
        * When creating a bridge
