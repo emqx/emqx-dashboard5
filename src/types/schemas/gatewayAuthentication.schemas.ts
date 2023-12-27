@@ -202,71 +202,6 @@ export type PostGatewaysNameAuthenticationImportUsersBody = {
   filename?: Blob
 }
 
-export type PutGatewaysNameAuthentication404Code =
-  typeof PutGatewaysNameAuthentication404Code[keyof typeof PutGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PutGatewaysNameAuthentication404 = {
-  code?: PutGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication400Code =
-  typeof PutGatewaysNameAuthentication400Code[keyof typeof PutGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutGatewaysNameAuthentication400 = {
-  code?: PutGatewaysNameAuthentication400Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication200 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameAuthenticationBody =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type PostGatewaysNameAuthentication404Code =
   typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
 
@@ -293,6 +228,25 @@ export type PostGatewaysNameAuthentication400 = {
   code?: PostGatewaysNameAuthentication400Code
   message?: string
 }
+
+export type PostGatewaysNameAuthentication201 =
+  | AuthnGcpDevice
+  | AuthnLdapDeprecated
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
   | AuthnGcpDevice
@@ -368,6 +322,7 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -386,6 +341,7 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameAuthenticationBody =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -736,41 +692,6 @@ export type AuthnPostgresqlPasswordHashAlgorithm =
   | AuthnHashPbkdf2
   | AuthnHashBcrypt
 
-export interface AuthnPostgresql {
-  mechanism: AuthnPostgresqlMechanism
-  backend: AuthnPostgresqlBackend
-  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
-  query: string
-  enable?: boolean
-  server: string
-  database: string
-  pool_size?: number
-  username: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
-}
-
-export type PostGatewaysNameAuthentication201 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type AuthnPostgresqlBackend =
   typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
 
@@ -786,6 +707,22 @@ export type AuthnPostgresqlMechanism =
 export const AuthnPostgresqlMechanism = {
   password_based: 'password_based',
 } as const
+
+export interface AuthnPostgresql {
+  mechanism: AuthnPostgresqlMechanism
+  backend: AuthnPostgresqlBackend
+  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
+  query: string
+  enable?: boolean
+  server: string
+  database: string
+  pool_size?: number
+  username: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: BrokerSslClientOpts
+}
 
 export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
