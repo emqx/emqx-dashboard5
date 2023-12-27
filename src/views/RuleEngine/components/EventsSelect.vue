@@ -84,7 +84,7 @@
 import { formatSQL } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem, RuleEvent } from '@/types/rule'

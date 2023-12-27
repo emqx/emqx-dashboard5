@@ -4,7 +4,7 @@ import { EventForRule } from '@/types/enum'
 import { camelCase } from 'lodash'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRuleUtils } from '../topology/useRule'
+import { useRuleUtils } from './useRule'
 
 export default (): {
   eventDoNotNeedShow: string[]

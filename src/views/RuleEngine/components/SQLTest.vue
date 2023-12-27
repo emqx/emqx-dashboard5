@@ -118,7 +118,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import FromSelect from '../components/FromSelect.vue'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { RuleInputType } from '@/types/enum'
 import CodeView from '@/components/CodeView.vue'
 

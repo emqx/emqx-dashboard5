@@ -106,6 +106,7 @@
 </template>
 
 <script lang="ts">
+import useSourceList from '@/hooks/Rule/action/useSourceList'
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -127,9 +128,8 @@ import {
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleUtils } from '@/hooks/Rule/topology/useRule'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
@@ -170,10 +170,8 @@ const {
   replaceTargetPartInSQL,
 } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
-const bridgeList = ref<Array<any>>([])
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
-const outputLoading = ref(false)
 const briefEditType = ref(false)
 const testSQLRef = ref()
 const testLoading = ref(false)
@@ -316,25 +314,9 @@ const transformSQL = () => {
   return transSQLFormDataToSQL(select, from, where)
 }
 
-const { getMixedActionList } = useMixedActionList()
-const loadBridgeList = async () => {
-  outputLoading.value = true
-  try {
-    const res = await getMixedActionList()
-    bridgeList.value = res
-  } catch (error) {
-    console.error(error)
-  } finally {
-    outputLoading.value = false
-  }
-}
-
+const { getSourceList } = useSourceList()
 const loadIngressBridgeList = async () => {
-  await loadBridgeList()
-  ingressBridgeList.value = bridgeList.value.filter((v: BridgeItem) => {
-    const direction = judgeBridgeDirection(v)
-    return direction !== BridgeDirection.Egress
-  })
+  ingressBridgeList.value = await getSourceList()
 }
 
 const addEvent = (event: string) => {

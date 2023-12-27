@@ -132,10 +132,6 @@ export default {
     zh: '创建规则',
     en: 'Create Rule',
   },
-  topology: {
-    zh: '拓扑图',
-    en: ' Topology',
-  },
   note: {
     zh: '备注',
     en: 'Note',
