@@ -4,7 +4,13 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { getKeyPartsFromSQL, isForeachReg, splitOnComma, trimSpacesAndLFs } from '@/common/tools'
+import {
+  getKeyPartsFromSQL,
+  getTypeAndNameFromKey,
+  isForeachReg,
+  splitOnComma,
+  trimSpacesAndLFs,
+} from '@/common/tools'
 import {
   typesWithProducerAndConsumer,
   useBridgeTypeValue,
@@ -54,6 +60,8 @@ export type GroupedNode = {
 }
 
 export default (): {
+  getBridgeIdFromInput: (input: string) => string
+  detectInputType: (from: string) => string
   detectFieldsExpressionsEditedWay: (functionForm: Array<FunctionItem>) => EditedWay
   detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
   generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
@@ -75,12 +83,9 @@ export default (): {
   const isTwoDirectionBridge = (bridgeType: string): boolean =>
     BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
 
-  const getBridgeNameFromId = (id: string): string => id.slice(id.indexOf(':') + 1)
+  const getBridgeNameFromId = (id: string): string => getTypeAndNameFromKey(id).name
 
-  const getBridgeTypeFromId = (id: string): string => {
-    const type = id.slice(0, id.indexOf(':'))
-    return type
-  }
+  const getBridgeTypeFromId = (id: string): string => getTypeAndNameFromKey(id).type
 
   /**
    * Check only those bridge types that have direction
@@ -236,16 +241,17 @@ export default (): {
     const bridgeId = getBridgeIdFromInput(value)
     return { name: getBridgeNameFromId(bridgeId), id: bridgeId }
   }
+  const eventInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
+  const bridgeInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
   /**
    * @returns If the returned type is a bridge type, it is a specific bridge type
    */
   const detectInputType = (from: string): string => {
-    if (from.indexOf(RULE_INPUT_EVENT_PREFIX) > -1) {
+    if (eventInputReg.test(from)) {
       return SourceType.Event
     }
     // now has mqtt & http
-    const reg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
-    if (reg.test(from)) {
+    if (bridgeInputReg.test(from)) {
       return getBridgeTypeFromId(from.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, ''))
     }
     return SourceType.Message
@@ -557,6 +563,8 @@ export default (): {
   }
 
   return {
+    getBridgeIdFromInput,
+    detectInputType,
     detectFieldsExpressionsEditedWay,
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
