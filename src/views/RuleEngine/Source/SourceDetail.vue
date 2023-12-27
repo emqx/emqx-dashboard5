@@ -19,20 +19,33 @@
             :content="sourceInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="sourceInfo.enable" @change="toggleEnable" />
+            <el-switch
+              class="enable-btn"
+              v-model="sourceInfo.enable"
+              :disabled="!$hasPermission('put')"
+              @change="toggleEnable"
+            />
           </el-tooltip>
           <el-tooltip :content="tl('createRule')" placement="top">
             <el-button
               class="icon-button"
               type="primary"
               :icon="Share"
+              :disabled="!$hasPermission('post')"
               plain
               @click="createRuleWithSource"
             >
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              :disabled="!$hasPermission('delete')"
+              type="danger"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
@@ -78,6 +91,7 @@
               <el-button
                 v-if="sourceInfo.type"
                 type="primary"
+                :disabled="!$hasPermission('put')"
                 plain
                 :loading="isTesting"
                 @click="testConnection"
@@ -87,6 +101,7 @@
               <el-button
                 type="primary"
                 v-if="sourceInfo.type"
+                :disabled="!$hasPermission('put')"
                 :loading="updateLoading"
                 @click="updateSourceInfo()"
               >
@@ -123,6 +138,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Component, Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import BridgeKafkaConsumerConfig from '../Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import BridgeMqttConfig from '../Bridge/Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
@@ -180,6 +196,7 @@ const { tl, t } = useI18nTl('RuleEngine')
 
 const formComMap: Map<string, Component> = new Map([
   [BridgeType.MQTT, BridgeMqttConfig as Component],
+  [BridgeType.KafkaConsumer, BridgeKafkaConsumerConfig],
 ])
 const formCom = computed(() => {
   const com = formComMap.get(sourceType.value)
