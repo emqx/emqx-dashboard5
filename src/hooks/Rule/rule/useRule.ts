@@ -124,7 +124,8 @@ export const useRuleUtils = (): {
   const transSQLFormDataToSQL = (select: string, from: Array<string>, where?: string): string => {
     const rawSelectStr = `${!/^FOREACH/i.test(select.trim()) ? 'SELECT\n  ' : ''}${select}`
     const selectStr = addNewlineAfterComma(rawSelectStr)
-    const fromStr = `\nFROM\n  ${transFromDataArrToStr(from)}`
+    const firstCharInFromStr = selectStr.slice(-1) === '\n' ? '' : '\n'
+    const fromStr = `${firstCharInFromStr}FROM\n  ${transFromDataArrToStr(from)}`
     let ret = selectStr + fromStr
     if (where) {
       ret += `\nWHERE ${where}`
