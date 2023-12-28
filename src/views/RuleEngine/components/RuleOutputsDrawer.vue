@@ -135,7 +135,7 @@ const props = defineProps({
     type: Boolean,
   },
   output: {
-    type: Object as PropType<OutputItemObj | string>,
+    type: [Object, String] as PropType<OutputItemObj | string>,
     required: false,
   },
   outputDisableList: {
