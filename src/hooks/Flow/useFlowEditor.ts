@@ -7,9 +7,7 @@ import useFlowNode, {
   NodeType,
   ProcessingType,
   SinkType,
-  SourceType,
 } from './useFlowNode'
-import { bridgeOrderIndex } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 export const enum MsgKey {
   // This type of node is an input or output or normal
@@ -41,43 +39,29 @@ interface Ret {
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
-  const { getNodeClass, getFlowNodeHookPosition, getTypeLabel, removeDirectionFromSpecificType } =
-    useFlowNode()
+  const {
+    sourceNodeList,
+    processingNodeList,
+    sinkNodeList,
+    getNodeClass,
+    getFlowNodeHookPosition,
+  } = useFlowNode()
 
-  const generateNodeByType = (type: string): NodeItem => ({
-    name: getTypeLabel(type),
-    specificType: type,
-  })
-
-  const sinkOrderIndex = {
-    [SinkType.RePub]: -2,
-    [SinkType.Console]: -1,
-    ...bridgeOrderIndex,
-  }
   const nodeArr: Array<NodeTypeItem> = [
     {
       type: NodeType.Source,
       typeLabel: 'Source',
-      nodeList: Object.entries(SourceType).map(([, value]) => generateNodeByType(value)),
+      nodeList: sourceNodeList,
     },
     {
       type: NodeType.Processing,
       typeLabel: 'Processing',
-      nodeList: [
-        generateNodeByType(ProcessingType.Function),
-        generateNodeByType(ProcessingType.Filter),
-      ],
+      nodeList: processingNodeList,
     },
     {
       type: NodeType.Sink,
       typeLabel: 'Sink',
-      nodeList: Object.entries(SinkType)
-        .sort(
-          (a, b) =>
-            (sinkOrderIndex[removeDirectionFromSpecificType(a[1])] || 0) -
-            (sinkOrderIndex[removeDirectionFromSpecificType(b[1])] || 0),
-        )
-        .map(([, value]) => generateNodeByType(value)),
+      nodeList: sinkNodeList,
     },
   ]
 

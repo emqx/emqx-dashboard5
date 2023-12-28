@@ -33,7 +33,7 @@ export default (): {
       if (callback && isFunction(callback)) {
         await callback()
       }
-      ElMessage.success(sucText)
+      sucText ?? ElMessage.success(sucText)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)
