@@ -1,0 +1,57 @@
+<template>
+  <el-select v-model="selected">
+    <el-option
+      v-for="item in eventOptList"
+      :key="item.event"
+      :value="item.event"
+      :label="startCase(getEventLabel(item.title))"
+      :disabled="isEventDisabled ? isEventDisabled(item.event) : false"
+    />
+  </el-select>
+</template>
+
+<script setup lang="ts">
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
+import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
+import { RuleEvent } from '@/types/rule'
+import { pick, startCase } from 'lodash'
+import { computed, defineEmits, defineProps, ref } from 'vue'
+import type { Ref } from 'vue'
+
+type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
+
+const props = defineProps<{
+  modelValue: string
+  isEventDisabled?: (event: string) => boolean
+}>()
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void
+}>()
+
+const selected = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
+
+const eventOptList: Ref<Array<EventOpt>> = ref([])
+const { getEventList } = useRuleEvents()
+const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel } = useRuleSourceEvents()
+const getEventOpt = async () => {
+  try {
+    const eventList: Array<RuleEvent> = await getEventList()
+    eventOptList.value = eventList.reduce((arr: Array<EventOpt>, item) => {
+      if (eventDoNotNeedShow.includes(item.event) || isMsgPubEvent(item.event)) {
+        return arr
+      }
+      return [...arr, pick(item, ['description', 'event', 'sql_example', 'title'])]
+    }, [])
+  } catch (error) {
+    //
+  }
+}
+getEventOpt()
+</script>
