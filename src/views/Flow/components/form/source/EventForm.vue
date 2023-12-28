@@ -12,15 +12,11 @@
     @submit.prevent
   >
     <el-form-item :label="tl('event')" prop="event">
-      <el-select v-if="!readonly" v-model="record.event">
-        <el-option
-          v-for="item in eventOptList"
-          :key="item.event"
-          :value="item.event"
-          :label="startCase(getEventLabel(item.title))"
-          :disabled="isEventDisabled(item.event)"
-        />
-      </el-select>
+      <RuleInputEventSelect
+        v-if="!readonly"
+        v-model="record.event"
+        :is-event-disabled="isEventDisabled"
+      />
       <p v-else class="tip value">{{ getLabelByVal(record.event) }}</p>
     </el-form-item>
   </el-form>
@@ -32,10 +28,9 @@ import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
-import { pick, startCase } from 'lodash'
+import RuleInputEventSelect from '@/views/RuleEngine/components/RuleInputEventSelect.vue'
+import { startCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
-
-type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
 
 const props = defineProps({
   modelValue: {
@@ -68,9 +63,9 @@ const record = computed({
 const { createRequiredRule } = useFormRules()
 const rules = { event: createRequiredRule(tl('event'), 'select') }
 
-const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel } = useRuleSourceEvents()
+const { getEventLabel } = useRuleSourceEvents()
 const { getEventList } = useRuleEvents()
-const eventOptList: Ref<Array<EventOpt>> = ref([])
+const eventList: Ref<Array<RuleEvent>> = ref([])
 
 const isEventDisabled = (event: string) => {
   if (!props.selectedEvents || !props.selectedEvents.length || record.value.event === event) {
@@ -80,7 +75,7 @@ const isEventDisabled = (event: string) => {
 }
 
 const getLabelByVal = (val: string) => {
-  const item = eventOptList.value.find((item) => item.event === val)
+  const item = eventList.value.find((item) => item.event === val)
   return item ? startCase(getEventLabel(item.title)) : ''
 }
 
@@ -90,13 +85,7 @@ const saveConfig = () => {
 
 const getEventOpt = async () => {
   try {
-    const eventList: Array<RuleEvent> = await getEventList()
-    eventOptList.value = eventList.reduce((arr: Array<EventOpt>, item) => {
-      if (eventDoNotNeedShow.includes(item.event) || isMsgPubEvent(item.event)) {
-        return arr
-      }
-      return [...arr, pick(item, ['description', 'event', 'sql_example', 'title'])]
-    }, [])
+    eventList.value = await getEventList()
   } catch (error) {
     //
   }
