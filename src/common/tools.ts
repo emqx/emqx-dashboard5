@@ -701,4 +701,3 @@ export const accAdd = (arg1: number, arg2: number): number => {
   const adjustedArg2 = arg2 * multiplier
   return (adjustedArg1 + adjustedArg2) / multiplier
 }
-

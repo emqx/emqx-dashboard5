@@ -53,11 +53,7 @@
       <el-col :span="9" class="action-col">
         <el-tabs v-model="rightBlockActiveTab">
           <el-tab-pane :label="tl('dataInput')" :name="RightTab.Events">
-            <EventsSelect
-              :event-list="ruleEventsList"
-              :ingress-bridge-list="ingressBridgeList"
-              @use-event="addEvent"
-            />
+            <RuleInputs v-model="ruleValue.sql" :source-list="ingressBridgeList" />
           </el-tab-pane>
           <el-tab-pane :label="tl('actionOutputs')" :name="RightTab.Actions">
             <RuleOutputs v-model="ruleValue" />
@@ -138,7 +134,7 @@ import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
 import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import EventsSelect from './EventsSelect.vue'
+import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import SQLTest from './SQLTest.vue'
