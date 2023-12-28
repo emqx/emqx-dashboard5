@@ -277,6 +277,7 @@ export const addNewlineAfterComma = (input: string): string => {
 
   for (let i = 0; i < input.length; i++) {
     const currentChar = input[i]
+    const nextChar = input[i + 1]
 
     if (currentChar === '(') {
       bracketStack.push(currentChar)
@@ -286,7 +287,13 @@ export const addNewlineAfterComma = (input: string): string => {
       }
     } else if (currentChar === "'") {
       quoteFlag = !quoteFlag
-    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+    } else if (
+      currentChar === ',' &&
+      bracketStack.length === 0 &&
+      !quoteFlag &&
+      nextChar &&
+      nextChar !== '\n'
+    ) {
       output += currentChar + '\n'
       continue
     }

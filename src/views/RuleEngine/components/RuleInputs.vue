@@ -29,6 +29,7 @@
       </el-col>
     </el-row>
   </div>
+  <RuleInputsDrawer v-model="showInputDrawer" :input="currentEditInput" @submit="handleSubmit" />
 </template>
 
 <script setup lang="ts">
@@ -39,10 +40,12 @@ import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { ComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import RuleInputsDrawer from './RuleInputsDrawer.vue'
 
 interface InputItem {
   value: string
@@ -136,16 +139,45 @@ const handleInputListChanged = (val: Array<InputItem>) => {
 }
 
 /* Handle CUD */
+const showInputDrawer = ref(false)
+/**
+ * If it is -1, it means adding input
+ */
+const currentEditIndex = ref(-1)
+const currentEditInput: ComputedRef<undefined | string> = computed(() =>
+  currentEditIndex.value < 0 ? undefined : inputList.value[currentEditIndex.value].value,
+)
+
 const editInput = (index: number) => {
-  // TODO:
+  currentEditIndex.value = index
+  showInputDrawer.value = true
 }
 
+const { confirmDel } = useOperationConfirm()
 const deleteInput = (index: number) => {
-  // TODO:
+  confirmDel(
+    () => {
+      inputList.value.splice(index, 1)
+      handleInputListChanged(inputList.value)
+      return Promise.resolve()
+    },
+    undefined,
+    undefined,
+  )
 }
 
 const addInput = () => {
-  // TODO:
+  currentEditIndex.value = -1
+  showInputDrawer.value = true
+}
+
+const handleSubmit = (data: string) => {
+  if (currentEditIndex.value < 0) {
+    inputList.value.push(processToInputItem(data))
+  } else {
+    inputList.value[currentEditIndex.value] = processToInputItem(data)
+  }
+  handleInputListChanged(inputList.value)
 }
 
 watch(

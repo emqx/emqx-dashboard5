@@ -207,7 +207,7 @@ enum RightTab {
   Events,
   Actions,
 }
-const rightBlockActiveTab = ref(RightTab.Actions)
+const rightBlockActiveTab = ref(RightTab.Events)
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
