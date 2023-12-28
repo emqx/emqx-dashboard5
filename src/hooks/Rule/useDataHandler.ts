@@ -79,7 +79,7 @@ type ConnectorDataHandler = (connector: Connector) => Connector
 export const useConnectorDataHandler = (): {
   likePasswordFieldKeys: string[]
   handleConnectorDataBeforeSubmit: (connector: Connector) => Promise<Connector>
-  handleConnectorDataBeforeUpdate: (data: Connector) => Connector
+  handleConnectorDataBeforeUpdate: (data: Connector) => Promise<Connector>
   handleConnectorDataForCopy: ConnectorDataHandler
   handleConnectorDataForSaveAsCopy: ConnectorDataHandler
   handleConnectorDataAfterLoaded: ConnectorDataHandler
@@ -122,8 +122,8 @@ export const useConnectorDataHandler = (): {
     }
   }
 
-  const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
-    const ret = handleConnectorDataBeforeSubmit(data)
+  const handleConnectorDataBeforeUpdate = async (data: Connector): Promise<Connector> => {
+    const ret = await handleConnectorDataBeforeSubmit(data)
     return omit(ret, keysNeedRemovedForUpdate) as Connector
   }
 
