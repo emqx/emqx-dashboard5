@@ -1,4 +1,5 @@
 import useBridgeTypeValue, {
+  bridgeOrderIndex,
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -66,6 +67,11 @@ export interface FunctionItem {
   alias: string
 }
 
+interface NodeItem {
+  name: string
+  specificType: string
+}
+
 export const enum EditedWay {
   Form,
   SQL,
@@ -99,6 +105,9 @@ type PositionData =
 export default (): {
   nodeWidth: number
   nodeHeight: number
+  sourceNodeList: Array<NodeItem>
+  processingNodeList: Array<NodeItem>
+  sinkNodeList: Array<NodeItem>
   getNodeClass: (type: NodeType) => string
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
@@ -312,9 +321,38 @@ export default (): {
     return isTypeUsingNewIcon(adjustedType) ? '' : 'is-scaled-up'
   }
 
+  const generateNodeByType = (type: string): NodeItem => ({
+    name: getTypeLabel(type),
+    specificType: type,
+  })
+
+  const sinkOrderIndex = {
+    [SinkType.RePub]: -2,
+    [SinkType.Console]: -1,
+    ...bridgeOrderIndex,
+  }
+
+  const sourceNodeList: Array<NodeItem> = Object.entries(SourceType).map(([, value]) =>
+    generateNodeByType(value),
+  )
+  const processingNodeList: Array<NodeItem> = [
+    generateNodeByType(ProcessingType.Function),
+    generateNodeByType(ProcessingType.Filter),
+  ]
+  const sinkNodeList: Array<NodeItem> = Object.entries(SinkType)
+    .sort(
+      (a, b) =>
+        (sinkOrderIndex[removeDirectionFromSpecificType(a[1])] || 0) -
+        (sinkOrderIndex[removeDirectionFromSpecificType(b[1])] || 0),
+    )
+    .map(([, value]) => generateNodeByType(value))
+
   return {
     nodeWidth,
     nodeHeight,
+    sourceNodeList,
+    processingNodeList,
+    sinkNodeList,
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
