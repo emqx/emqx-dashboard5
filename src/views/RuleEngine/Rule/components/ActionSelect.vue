@@ -24,7 +24,8 @@
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
 import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
-import useBridgeTypeValue, { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useSourceList from '@/hooks/Rule/action/useSourceList'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -68,11 +69,16 @@ const selected = computed({
   },
 })
 
-const totalActionList = ref<Array<BridgeItem>>([])
+const totalList = ref<Array<BridgeItem>>([])
 const { getMixedActionListForRule } = useMixedActionList()
+const { getSourceList } = useSourceList()
 const getTotalList = async () => {
   try {
-    totalActionList.value = await getMixedActionListForRule()
+    if (props.direction === BridgeDirection.Ingress) {
+      totalList.value = await getSourceList()
+    } else {
+      totalList.value = await getMixedActionListForRule()
+    }
   } catch (error) {
     //
   }
@@ -87,17 +93,12 @@ const isItemDisabled = (value: string) => {
 }
 
 const { getBridgeGeneralType } = useBridgeTypeValue()
-const { judgeBridgeDirection } = useBridgeDirection()
 const actionOpts = computed(() => {
   if (!props.type) {
     return []
   }
-  return totalActionList.value.filter((item) => {
-    const direction = judgeBridgeDirection(item)
-    return (
-      getBridgeGeneralType(item.type) === props.type &&
-      (direction === props.direction || direction === BridgeDirection.Both)
-    )
+  return totalList.value.filter((item) => {
+    return getBridgeGeneralType(item.type) === props.type
   })
 })
 
