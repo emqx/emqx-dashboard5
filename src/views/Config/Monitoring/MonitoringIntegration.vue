@@ -379,7 +379,9 @@ const loadOpentelemetry = async function () {
 
 const updateOpentelemetry = async function () {
   try {
+    isSubmitting.value = true
     await setOpenTelemetry(checkNOmitFromObj(opentelemetryFormData.value))
+    updateRawDataForCompare()
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     //
