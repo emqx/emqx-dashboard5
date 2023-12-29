@@ -331,11 +331,11 @@ const updateBridgeInfo = async () => {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
     }
+    updateLoading.value = false
     return Promise.resolve(res.id)
   } catch (error) {
-    // ignore error
-  } finally {
     updateLoading.value = false
+    return Promise.reject(error)
   }
 }
 

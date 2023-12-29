@@ -41,8 +41,10 @@ import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
+import { startCase } from 'lodash'
 import { ComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import RuleInputsDrawer from './RuleInputsDrawer.vue'
@@ -89,7 +91,7 @@ const initEventList = async () => {
 initEventList()
 const getEventLabel = (event: string) => {
   const item = eventList.value.find((item) => item.event === event)
-  return item?.title[lang.value]
+  return startCase(item?.title[lang.value])
 }
 
 /* Process Input String to Input Item */
@@ -104,12 +106,13 @@ const processToInputItem = (input: string): InputItem => {
   switch (type) {
     case SourceType.Message: {
       title = tl('message')
-      info = input
+      info = `${t('Base.topic')}: ${input}`
       break
     }
     case SourceType.Event: {
       title = tl('event')
-      info = getEventLabel(input) || ''
+      const eventLabel = getEventLabel(input)
+      info = eventLabel ? `${t('RuleEngine.event')}: ${eventLabel}` : ''
       break
     }
     // default is bridge
@@ -124,16 +127,16 @@ const processToInputItem = (input: string): InputItem => {
 }
 
 /* SQL ↔ Input List */
-const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
+const { transFromStrToFromArr, transFromDataArrToStr, replaceTargetPartInSQL } = useRuleUtils()
 const updateInputListBySql = () => {
   sqlCache = props.modelValue
   const { fromStr } = keyParts.value
   inputList.value = transFromStrToFromArr(fromStr).map(processToInputItem)
 }
 const handleInputListChanged = (val: Array<InputItem>) => {
-  const { fieldStr, whereStr } = keyParts.value
   const fromStrArr = val.map(({ value }) => value)
-  const sql = transSQLFormDataToSQL(fieldStr, fromStrArr, whereStr)
+  const newFromStr = transFromDataArrToStr(fromStrArr)
+  const sql = replaceTargetPartInSQL(props.modelValue, RuleSQLKeyword.From, newFromStr)
   sqlCache = sql
   emit('update:modelValue', sql)
 }

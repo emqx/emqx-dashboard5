@@ -51,11 +51,11 @@
         </el-form>
       </el-col>
       <el-col :span="9" class="action-col">
-        <el-tabs v-model="rightBlockActiveTab">
-          <el-tab-pane :label="tl('dataInput')" :name="RightTab.Events">
+        <el-tabs class="io-tabs" v-model="rightBlockActiveTab">
+          <el-tab-pane class="io-tab-pane" :label="tl('dataInput')" :name="RightTab.Events">
             <RuleInputs v-model="ruleValue.sql" :source-list="ingressBridgeList" />
           </el-tab-pane>
-          <el-tab-pane :label="tl('actionOutputs')" :name="RightTab.Actions">
+          <el-tab-pane class="io-tab-pane" :label="tl('actionOutputs')" :name="RightTab.Actions">
             <RuleOutputs v-model="ruleValue" />
           </el-tab-pane>
         </el-tabs>
@@ -114,13 +114,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
-import {
-  checkIsValidArr,
-  createRandomString,
-  getKeywordsFromSQL,
-  handleSQLFromPartStatement,
-  sortedUniq,
-} from '@/common/tools'
+import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
@@ -129,7 +123,7 @@ import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
-import { BridgeDirection, RuleSQLKeyword } from '@/types/enum'
+import { BridgeDirection } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
 import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
@@ -158,13 +152,7 @@ const emit = defineEmits(['update:modelValue', 'save', 'save-as-copy'])
 
 const { t } = useI18n()
 const route = useRoute()
-const {
-  transFromStrToFromArr,
-  transFromDataArrToStr,
-  transSQLFormDataToSQL,
-  getSQLPart,
-  replaceTargetPartInSQL,
-} = useRuleUtils()
+const { transFromStrToFromArr, transSQLFormDataToSQL } = useRuleUtils()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
@@ -315,14 +303,6 @@ const loadIngressBridgeList = async () => {
   ingressBridgeList.value = await getSourceList()
 }
 
-const addEvent = (event: string) => {
-  const fromStr = handleSQLFromPartStatement(getSQLPart(ruleValue.value.sql, RuleSQLKeyword.From))
-  const fromArr = fromStr.trim() === '' ? [] : transFromStrToFromArr(fromStr)
-  fromArr.push(event)
-  const newFromStr = transFromDataArrToStr(sortedUniq(fromArr))
-  ruleValue.value.sql = replaceTargetPartInSQL(ruleValue.value.sql, RuleSQLKeyword.From, newFromStr)
-}
-
 const useSQLTemplate = (SQLTemp: string) => {
   ruleValue.value.sql = SQLTemp
   syncSQLDataToForm()
@@ -420,14 +400,14 @@ defineExpose({ validate })
   .action-col {
     padding: 12px 24px;
     height: 640px;
-    .el-tabs {
+    .io-tabs {
       display: flex;
       flex-direction: column;
       max-height: 100%;
-    }
-    .el-tabs__content {
-      padding: 4px;
-      overflow-y: scroll;
+      > .el-tabs__content {
+        padding: 4px;
+        overflow-y: scroll;
+      }
     }
     .el-tabs__nav {
       width: 100%;
