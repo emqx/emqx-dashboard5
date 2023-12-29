@@ -11,18 +11,23 @@
       require-asterisk-position="right"
       :model="inputForm"
       :rules="rules"
-      ref="formCom"
+      ref="FormCom"
     >
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="$tc('RuleEngine.actionType')" prop="type">
+          <el-form-item :label="tl('inputType')" prop="type">
             <el-select v-model="inputForm.type" filterable @change="handleTypeChanged">
               <el-option
-                v-for="{ value, label } in inputTypeOpts"
+                v-for="{ value, label, icon } in inputTypeOpts"
                 :key="value"
                 :value="value"
                 :label="label"
-              />
+              >
+                <div class="type-opt-content vertical-align-center">
+                  <img class="img-type-opt" width="20" :src="icon" />
+                  <span>{{ label }}</span>
+                </div>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -38,7 +43,7 @@
           <el-form-item
             v-else-if="inputForm.type === SourceType.Message"
             :label="t('Base.topic')"
-            prop="event"
+            prop="topic"
           >
             <el-input v-model="inputForm.topic" />
           </el-form-item>
@@ -55,11 +60,11 @@
     </el-form>
     <template v-if="isInputFromSource">
       <!-- Setting key is to refresh the component -->
-      <div class="source-content" v-if="!isCreateSource">
+      <div class="source-content" v-if="!isCreatingSource">
         <p class="detail-title">{{ tl('confPreview') }}</p>
         <SourceDetail
           ref="SourceDetailRef"
-          :bridge-id="inputForm.sourceId"
+          :source-id="inputForm.sourceId"
           :disabled="!isEdit"
           hide-name
         />
@@ -81,7 +86,7 @@
       </el-button>
 
       <el-button
-        v-if="isInputFromSource && isCreateSource"
+        v-if="isInputFromSource && isCreatingSource"
         type="primary"
         @click="addSource"
         :loading="isSubmitting"
@@ -107,6 +112,7 @@ import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import SourceDetail from '../Source/SourceDetail.vue'
 import RuleInputEventSelect from './RuleInputEventSelect.vue'
+import useFormRules from '@/hooks/useFormRules'
 
 const props = defineProps<{
   modelValue: boolean
@@ -136,8 +142,13 @@ const { getBridgeIdFromInput, detectInputType } = useGenerateFlowDataUtils()
 
 const isEdit = computed(() => !!props.input)
 
+const initInputForm = () => {
+  inputForm.value = { type: inputForm.value.type, event: '', sourceId: '', topic: '' }
+}
+
 const initData = () => {
-  inputForm.value = { type: SourceType.Message, event: '', sourceId: '', topic: '' }
+  initInputForm()
+  inputForm.value.type = SourceType.Message
 }
 
 const setFormWhenOpening = () => {
@@ -165,10 +176,11 @@ watch(showDrawer, (val) => {
   }
 })
 
-const { sourceNodeList, removeDirectionFromSpecificType } = useFlowNode()
+const { sourceNodeList, removeDirectionFromSpecificType, getNodeIcon } = useFlowNode()
 const inputTypeOpts = sourceNodeList.map(({ name, specificType }) => ({
   value: specificType,
   label: name,
+  icon: getNodeIcon(specificType),
 }))
 
 const inputForm = ref({
@@ -177,11 +189,14 @@ const inputForm = ref({
   topic: '',
   sourceId: '',
 })
-const rules = {}
-
-const handleTypeChanged = () => {
-  initData()
+const { createRequiredRule } = useFormRules()
+const rules = {
+  type: createRequiredRule(tl('inputType'), 'select'),
+  event: createRequiredRule(tl('event'), 'select'),
+  topic: createRequiredRule(t('Base.topic')),
 }
+
+const handleTypeChanged = initInputForm
 
 // TODO:
 const disabledSourceList = computed(() => [])
@@ -192,7 +207,7 @@ const isInputFromSource = computed(() => {
   return type && !notSourceType.includes(type)
 })
 
-const isCreateSource = computed(() => !inputForm.value.sourceId)
+const isCreatingSource = computed(() => !inputForm.value.sourceId)
 
 const SourceDetailRef = ref()
 
@@ -202,25 +217,56 @@ const cancel = () => {
 
 const isTesting = ref(false)
 const testConnection = async () => {
-  // TODO:
+  isTesting.value = true
+  try {
+    // TODO:
+    const com = isCreatingSource.value ? SourceDetailRef.value : SourceDetailRef.value
+    await com?.testConnection?.()
+  } catch (error) {
+    // ignore error
+  } finally {
+    isTesting.value = false
+  }
 }
 
+const FormCom = ref()
 const isSubmitting = ref(false)
 const addSource = async () => {
   // TODO:
 }
-const submit = () => {
-  // TODO: validate
-  const { type, event, sourceId, topic } = inputForm.value
-  if (type === SourceType.Message) {
-    emit('submit', topic)
-  } else if (type === SourceType.Event) {
-    emit('submit', event)
-  } else {
-    const id = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${sourceId}`
-    emit('submit', id)
+const updateSource = async () => {
+  try {
+    const id = await SourceDetailRef.value?.updateSourceInfo()
+    return Promise.resolve(id)
+  } catch (error) {
+    return Promise.reject(error)
   }
-  showDrawer.value = false
+}
+const submit = async () => {
+  try {
+    await FormCom.value?.validate?.()
+    isSubmitting.value = true
+    const { type, event, sourceId, topic } = inputForm.value
+    if (type === SourceType.Message) {
+      emit('submit', topic)
+    } else if (type === SourceType.Event) {
+      emit('submit', event)
+    } else {
+      let selectedSourceId = sourceId
+      if (isCreatingSource.value) {
+        // TODO: selectedSourceId = await addSource()
+      } else {
+        selectedSourceId = await updateSource()
+      }
+      const id = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${selectedSourceId}`
+      emit('submit', id)
+    }
+    showDrawer.value = false
+  } catch (error) {
+    //
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -243,5 +289,10 @@ const submit = () => {
 
 .btn-cancel {
   margin-left: 28px;
+}
+.type-opt-content {
+  .img-type-opt {
+    margin-right: 12px;
+  }
 }
 </style>

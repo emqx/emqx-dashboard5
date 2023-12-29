@@ -706,6 +706,10 @@ export default {
     zh: '数据输入',
     en: 'Data Inputs',
   },
+  inputType: {
+    zh: '输入类型',
+    en: 'Input Type',
+  },
   actionOutputs: {
     zh: '动作输出',
     en: 'Action Outputs',
