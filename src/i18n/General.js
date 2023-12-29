@@ -339,6 +339,10 @@ export default {
     zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
     en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
   },
+  httpFilterParamsDesc: {
+    zh: 'Dashboard/REST API 筛选条件',
+    en: 'Dashboard/REST API Filter',
+  },
   timeRangeError: {
     zh: '起始时间不得晚于结束时间',
     en: 'Start time cannot be later than end time',
