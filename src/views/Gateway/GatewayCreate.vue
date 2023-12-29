@@ -52,8 +52,11 @@
           <div class="part-header">
             {{ tl('clientAuth') }}
           </div>
-          <div class="config-auth">
+          <div v-if="gname !== 'jt808'" class="config-auth">
             {{ tl('clientAuthDesc') }}
+          </div>
+          <div v-else>
+            <MarkdownContent :content="tl('jt808AuthDesc')" />
           </div>
         </el-col>
       </el-row>
@@ -105,6 +108,7 @@ import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
 import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
 import useI18nTl from '@/hooks/useI18nTl'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 
 const STATIC_LISTENER: Record<GatewayName, any> = {
   exproto: {

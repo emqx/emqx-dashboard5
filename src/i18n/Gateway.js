@@ -143,6 +143,10 @@ export default {
     zh: '您可以在启用网关之后，进入详情页面进行配置。配置并启用客户端认证后未通过认证的客户端无法连接到集群中。',
     en: 'You can configure authentication after enable the gateway.When client authentication is enabled, clients that fail to pass authentication cannot connect to the cluster.',
   },
+  jt808AuthDesc: {
+    zh: 'JT/T 808 通过设备注册中心进行认证，请在**基础参数** -> **注册 URL** 中进行配置。',
+    en: 'JT/T 808 certification is conducted through the Device Registration Center. Please configure it in the **Basic Configuration** -> **Registry URL**.',
+  },
   predefinedTopic: {
     zh: '预设 Topic 列表',
     en: 'Predefined Topic List',
