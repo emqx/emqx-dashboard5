@@ -70,6 +70,13 @@ const presetAuthnDataMap = {
       data: { body: { endpoint_name: '${endpoint_name}' } },
     },
   ],
+  [GatewayName.GBT32960]: [
+    {
+      mechanism: AuthnMechanismType.PasswordBased,
+      subtype: 'http',
+      data: { body: { vin: '${clientid}' } },
+    },
+  ],
 }
 
 let createDialog = ref(false)
@@ -168,8 +175,7 @@ getAuthInfo()
 <style lang="scss">
 .gateway-auth-dialog {
   .el-dialog__body {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 12px;
     .authn-create {
       padding-top: 8px;
     }
