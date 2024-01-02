@@ -323,10 +323,13 @@ watch(showDrawer, (val) => {
 <style lang="scss" scoped>
 .output-content {
   margin-top: 16px;
-  padding-top: 20px;
+  padding-top: 24px;
   border-top: 1px solid var(--color-border-primary);
   :deep(.el-tab-pane > .el-card) {
     border: none;
+  }
+  :deep(.el-row + .el-divider) {
+    margin-top: 8px;
   }
 }
 .detail-title {

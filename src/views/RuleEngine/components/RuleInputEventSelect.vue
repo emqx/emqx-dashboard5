@@ -5,7 +5,7 @@
       :key="item.event"
       :value="item.event"
       :label="startCase(getEventLabel(item.title))"
-      :disabled="isEventDisabled ? isEventDisabled(item.event) : false"
+      :disabled="isEventItemDisabled(item.event)"
     />
   </el-select>
 </template>
@@ -14,9 +14,9 @@
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import { RuleEvent } from '@/types/rule'
-import { pick, startCase } from 'lodash'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { isFunction, pick, startCase } from 'lodash'
 import type { Ref } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
 type EventOpt = Pick<RuleEvent, 'description' | 'event' | 'sql_example' | 'title'>
 
@@ -54,4 +54,11 @@ const getEventOpt = async () => {
   }
 }
 getEventOpt()
+
+const isEventItemDisabled = (event: string) => {
+  if (!props.isEventDisabled || !isFunction(props.isEventDisabled)) {
+    return false
+  }
+  return props.isEventDisabled(event) && event !== props.modelValue
+}
 </script>

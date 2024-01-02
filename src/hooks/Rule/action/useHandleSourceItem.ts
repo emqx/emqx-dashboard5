@@ -10,18 +10,18 @@ import {
   testConnect,
   updateBridge,
 } from '@/api/ruleengine'
-import { Action, BridgeItem } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useBridgeDataHandler } from '../useDataHandler'
 
-type NowAction = Action | BridgeItem
+type Source = BridgeItem
 
 export default (): {
-  getSourceDetail: <T = NowAction>(id: string) => Promise<T>
-  handleDataAfterLoaded: <T = NowAction>(data: T) => T
-  addSource: <T = NowAction>(data: T) => Promise<T>
-  updateSource: <T = NowAction>(data: T) => Promise<T>
+  getSourceDetail: <T = Source>(id: string) => Promise<T>
+  handleDataAfterLoaded: <T = Source>(data: T) => T
+  addSource: <T = Source>(data: T) => Promise<T>
+  updateSource: <T = Source>(data: T) => Promise<T>
   deleteSource: (id: string, withDependency?: boolean) => Promise<void>
   getSourceMetrics: (id: string) => Promise<any>
   resetSourceMetrics: (id: string) => Promise<void>
@@ -29,15 +29,15 @@ export default (): {
   reconnectSource: (id: string) => Promise<void>
   reconnectSourceForNode: (node: string, id: string) => Promise<void>
   isTesting: Ref<boolean>
-  testConnectivity: (data: NowAction) => Promise<void>
+  testConnectivity: (data: Source) => Promise<void>
 } => {
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
 
-  const handleDataAfterLoaded = <T = NowAction>(data: T): T => {
+  const handleDataAfterLoaded = <T = Source>(data: T): T => {
     return handleBridgeDataAfterLoaded(data)
   }
 
-  const getSourceDetail = async <T = NowAction>(id: string): Promise<T> => {
+  const getSourceDetail = async <T = Source>(id: string): Promise<T> => {
     try {
       const data = await getBridgeInfo(id)
       return handleDataAfterLoaded(data) as Promise<T>
@@ -46,21 +46,21 @@ export default (): {
     }
   }
 
-  const addSource = async <T = NowAction>(data: T): Promise<T> => {
+  const addSource = async <T = Source>(data: T): Promise<T> => {
     const request = createBridge
     const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
     return request(dataForSubmit as any) as Promise<T>
   }
 
-  const updateSource = async <T = NowAction>(data: T): Promise<T> => {
+  const updateSource = async <T = Source>(data: T): Promise<T> => {
     try {
-      const { id } = data as NowAction
+      const { id } = data as Source
 
       const func = updateBridge
       const dataHandler = handleBridgeDataBeforeSubmit
 
       const dataToSubmit = await dataHandler(data)
-      Reflect.deleteProperty(dataToSubmit as NowAction, 'id')
+      Reflect.deleteProperty(dataToSubmit as Source, 'id')
 
       return func(id, dataToSubmit as any) as Promise<T>
     } catch (error) {
@@ -101,7 +101,7 @@ export default (): {
   }
 
   const isTesting = ref(false)
-  const testConnectivity = async (data: NowAction): Promise<void> => {
+  const testConnectivity = async (data: Source): Promise<void> => {
     try {
       isTesting.value = true
       const request = testConnect

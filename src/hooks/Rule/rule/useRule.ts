@@ -2,7 +2,7 @@ import { RULE_FROM_SEPARATOR, TOPIC_EVENT } from '@/common/constants'
 import { BridgeType, RuleInputType, RuleSQLKeyword, EventForRule } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { addNewlineAfterComma } from '@/common/tools'
+import { addNewlineAfterComma, splitOnComma } from '@/common/tools'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
@@ -114,8 +114,16 @@ export const useRuleUtils = (): {
     }
   }
 
-  const transFromStrToFromArr = (fromStr: string): Array<string> =>
-    fromStr.split(RULE_FROM_SEPARATOR).map((item) => item.trim())
+  const transFromStrToFromArr = (fromStr: string): Array<string> => {
+    const rawArr = splitOnComma(fromStr)
+    return rawArr.map((item) =>
+      item
+        .trim()
+        .replace(/^\n|\n$/g, '')
+        .trim()
+        .replace(/^("|')|("|')$/g, ''),
+    )
+  }
 
   const transFromDataArrToStr = (from: Array<string>): string => {
     return from.map((item) => `"${item}"`).join(`${RULE_FROM_SEPARATOR}\n  `)

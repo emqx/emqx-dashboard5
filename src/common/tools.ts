@@ -211,17 +211,6 @@ interface SQLKeywords {
   whereStr: string
 }
 
-export const handleSQLFromPartStatement = (fromStr: string): string => {
-  return fromStr
-    .trim()
-    .split(',')
-    .map((item) => {
-      const ret = item.trim()
-      return ret.replace(/'|"/g, '')
-    })
-    .join(', ')
-}
-
 /**
  * Compared with the `getKeywordsFromSQL` below, the difference is that when a value cannot be obtained here, it returns undefined.
  * TODO: Merge the function below.
@@ -245,7 +234,7 @@ export const getKeyPartsFromSQL = (sqlStr: string) => {
     const { groups } = matchResult
     const { foreach = '', select = '', from = '', where = '' } = groups || {}
     fieldStr = foreach ? foreach : select.trim()
-    fromStr = handleSQLFromPartStatement(from)
+    fromStr = from.trim()
     if (where) {
       whereStr = where.trim()
     }
@@ -307,6 +296,7 @@ export const addNewlineAfterComma = (input: string): string => {
 export const splitOnComma = (input: string): string[] => {
   const bracketStack: Array<string> = []
   let quoteFlag = false
+  let doubleQuoteFlag = false
   const output = ['']
 
   for (let i = 0; i < input.length; i++) {
@@ -320,7 +310,9 @@ export const splitOnComma = (input: string): string[] => {
       }
     } else if (currentChar === "'") {
       quoteFlag = !quoteFlag
-    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag) {
+    } else if (currentChar === '"') {
+      doubleQuoteFlag = !doubleQuoteFlag
+    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag && !doubleQuoteFlag) {
       output.push('')
       continue
     }

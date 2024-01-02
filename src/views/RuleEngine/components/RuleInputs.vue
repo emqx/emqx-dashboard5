@@ -1,7 +1,7 @@
 <template>
   <div class="rule-inputs rule-io">
     <div class="sub-block-desc">
-      <span>{{ tl('actionDesc') }}</span>
+      <span>{{ tl('dataInputDesc') }}</span>
     </div>
     <el-row>
       <el-col :span="24">
@@ -24,12 +24,17 @@
         </template>
         <el-button class="btn-add" type="primary" @click="addInput()">
           <el-icon><plus /></el-icon>
-          <span>{{ tl('addAction') }}</span>
+          <span>{{ tl('addInput') }}</span>
         </el-button>
       </el-col>
     </el-row>
   </div>
-  <RuleInputsDrawer v-model="showInputDrawer" :input="currentEditInput" @submit="handleSubmit" />
+  <RuleInputsDrawer
+    v-model="showInputDrawer"
+    :input="currentEditInput"
+    :added-list="addedInputList"
+    @submit="handleSubmit"
+  />
 </template>
 
 <script setup lang="ts">
@@ -82,6 +87,8 @@ let sqlCache = ''
 
 const inputList = ref<Array<InputItem>>([])
 
+const addedInputList = computed(() => inputList.value.map(({ value }) => value))
+
 /* Event List */
 const eventList = ref<Array<RuleEvent>>([])
 const { getEventList } = useRuleEvents()
@@ -131,7 +138,9 @@ const { transFromStrToFromArr, transFromDataArrToStr, replaceTargetPartInSQL } =
 const updateInputListBySql = () => {
   sqlCache = props.modelValue
   const { fromStr } = keyParts.value
-  inputList.value = transFromStrToFromArr(fromStr).map(processToInputItem)
+  inputList.value = !fromStr
+    ? []
+    : transFromStrToFromArr(fromStr).filter(Boolean).map(processToInputItem)
 }
 const handleInputListChanged = (val: Array<InputItem>) => {
   const fromStrArr = val.map(({ value }) => value)

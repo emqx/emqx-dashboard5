@@ -706,6 +706,18 @@ export default {
     zh: '数据输入',
     en: 'Data Inputs',
   },
+  dataInputDesc: {
+    zh: '规则可以通过消息，客户端事件以及 Source 触发。',
+    en: 'Rules can be triggered by message, event, and source.',
+  },
+  addInput: {
+    zh: '添加输入',
+    en: 'Add Input',
+  },
+  editInput: {
+    zh: '编辑输入',
+    en: 'Edit Input',
+  },
   inputType: {
     zh: '输入类型',
     en: 'Input Type',
