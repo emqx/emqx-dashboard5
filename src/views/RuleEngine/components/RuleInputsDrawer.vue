@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :title="!isEdit ? tl('addAction') : tl('editAction')"
+    :title="!isEdit ? tl('addInput') : tl('editInput')"
     v-model="showDrawer"
     :lock-scroll="false"
     size="60%"
@@ -37,8 +37,7 @@
             :label="tl('event')"
             prop="event"
           >
-            <!-- TODO::disabled="isEventDisabled(item.event)" -->
-            <RuleInputEventSelect v-model="inputForm.event" />
+            <RuleInputEventSelect v-model="inputForm.event" :is-event-disabled="isEventDisabled" />
           </el-form-item>
           <el-form-item
             v-else-if="inputForm.type === SourceType.Message"
@@ -47,10 +46,10 @@
           >
             <el-input v-model="inputForm.topic" />
           </el-form-item>
-          <el-form-item v-if="isInputFromSource" :label="$tc('RuleEngine.action')">
+          <el-form-item v-if="isInputFromSource" label="Source">
             <ActionSelect
               v-model="inputForm.sourceId"
-              :type="removeDirectionFromSpecificType(inputForm.type)"
+              :type="inputForm.type"
               :disable-list="disabledSourceList"
               :direction="BridgeDirection.Ingress"
             />
@@ -58,9 +57,8 @@
         </el-col>
       </el-row>
     </el-form>
-    <template v-if="isInputFromSource">
-      <!-- Setting key is to refresh the component -->
-      <div class="source-content" v-if="!isCreatingSource">
+    <div class="source-content" v-if="isInputFromSource">
+      <template v-if="!isCreatingSource">
         <p class="detail-title">{{ tl('confPreview') }}</p>
         <SourceDetail
           ref="SourceDetailRef"
@@ -68,9 +66,9 @@
           :disabled="!isEdit"
           hide-name
         />
-      </div>
-      <!-- TODO:Create Source -->
-    </template>
+      </template>
+      <SourceCreate v-else ref="SourceCreateRef" :type="inputForm.type" />
+    </div>
     <template #footer>
       <el-button
         v-if="isInputFromSource"
@@ -84,18 +82,8 @@
       <el-button class="btn-cancel" @click="cancel">
         {{ $t('Base.cancel') }}
       </el-button>
-
-      <el-button
-        v-if="isInputFromSource && isCreatingSource"
-        type="primary"
-        @click="addSource"
-        :loading="isSubmitting"
-      >
-        {{ tl('create') }}
-      </el-button>
-
-      <el-button v-else type="primary" @click="submit" :loading="isSubmitting">
-        {{ isEdit ? $t('Base.update') : $t('Base.add') }}
+      <el-button type="primary" @click="submit" :loading="isSubmitting">
+        {{ submitBtnText }}
       </el-button>
     </template>
   </el-drawer>
@@ -105,14 +93,15 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
+import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import type { WritableComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import SourceDetail from '../Source/SourceDetail.vue'
+import SourceCreate from '../Source/components/SourceCreate.vue'
 import RuleInputEventSelect from './RuleInputEventSelect.vue'
-import useFormRules from '@/hooks/useFormRules'
 
 const props = defineProps<{
   modelValue: boolean
@@ -121,6 +110,7 @@ const props = defineProps<{
    * if there is no value, it is a new one
    */
   input?: string
+  addedList: Array<string>
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -178,7 +168,7 @@ watch(showDrawer, (val) => {
 
 const { sourceNodeList, removeDirectionFromSpecificType, getNodeIcon } = useFlowNode()
 const inputTypeOpts = sourceNodeList.map(({ name, specificType }) => ({
-  value: specificType,
+  value: removeDirectionFromSpecificType(specificType),
   label: name,
   icon: getNodeIcon(specificType),
 }))
@@ -193,13 +183,32 @@ const { createRequiredRule } = useFormRules()
 const rules = {
   type: createRequiredRule(tl('inputType'), 'select'),
   event: createRequiredRule(tl('event'), 'select'),
-  topic: createRequiredRule(t('Base.topic')),
+  topic: [
+    ...createRequiredRule(t('Base.topic')),
+    {
+      validator(rules: any, value: string) {
+        if (props.addedList?.includes(value)) {
+          return [new Error(t('Flow.topicExistedError'))]
+        }
+        return []
+      },
+    },
+  ],
 }
 
 const handleTypeChanged = initInputForm
 
-// TODO:
-const disabledSourceList = computed(() => [])
+const disabledSourceList = computed(() => {
+  return props.addedList.reduce((arr: Array<string>, item) => {
+    const type = detectInputType(item)
+    if (type === SourceType.Message || type === SourceType.Event) {
+      return arr
+    }
+    return [...arr, getBridgeIdFromInput(item)]
+  }, [])
+})
+const isEventDisabled = (event: string) =>
+  Array.isArray(props.addedList) && props.addedList.includes(event)
 
 const notSourceType = [SourceType.Message, SourceType.Event]
 const isInputFromSource = computed(() => {
@@ -210,6 +219,7 @@ const isInputFromSource = computed(() => {
 const isCreatingSource = computed(() => !inputForm.value.sourceId)
 
 const SourceDetailRef = ref()
+const SourceCreateRef = ref()
 
 const cancel = () => {
   showDrawer.value = false
@@ -219,8 +229,7 @@ const isTesting = ref(false)
 const testConnection = async () => {
   isTesting.value = true
   try {
-    // TODO:
-    const com = isCreatingSource.value ? SourceDetailRef.value : SourceDetailRef.value
+    const com = isCreatingSource.value ? SourceCreateRef.value : SourceDetailRef.value
     await com?.testConnection?.()
   } catch (error) {
     // ignore error
@@ -229,10 +238,22 @@ const testConnection = async () => {
   }
 }
 
+const submitBtnText = computed(() => {
+  if (isInputFromSource.value && isCreatingSource.value) {
+    return tl('create')
+  }
+  return isEdit.value ? t('Base.update') : t('Base.add')
+})
+
 const FormCom = ref()
 const isSubmitting = ref(false)
 const addSource = async () => {
-  // TODO:
+  try {
+    const id = await SourceCreateRef.value?.submitNewSource()
+    return Promise.resolve(id)
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 const updateSource = async () => {
   try {
@@ -254,7 +275,7 @@ const submit = async () => {
     } else {
       let selectedSourceId = sourceId
       if (isCreatingSource.value) {
-        // TODO: selectedSourceId = await addSource()
+        selectedSourceId = await addSource()
       } else {
         selectedSourceId = await updateSource()
       }
@@ -273,10 +294,13 @@ const submit = async () => {
 <style lang="scss" scoped>
 .source-content {
   margin-top: 16px;
-  padding-top: 20px;
+  padding-top: 24px;
   border-top: 1px solid var(--color-border-primary);
   :deep(.el-tab-pane > .el-card) {
     border: none;
+  }
+  :deep(.el-row + .el-divider) {
+    margin-top: 8px;
   }
 }
 .detail-title {

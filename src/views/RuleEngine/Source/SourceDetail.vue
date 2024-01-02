@@ -131,19 +131,17 @@ import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBr
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
-import { Component, Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
+import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BridgeKafkaConsumerConfig from '../Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
-import BridgeMqttConfig from '../Bridge/Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
-import UsingSchemaBridgeConfig from '../Bridge/Components/UsingSchemaBridgeConfig.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+import useSourceFormComponent from './components/useSourceFormComponent'
 
 // TODO: split mqtt, add source overview, add DeleteBridgeSecondConfirm
 
@@ -194,22 +192,6 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const formComMap: Map<string, Component> = new Map([
-  [BridgeType.MQTT, BridgeMqttConfig as Component],
-  [BridgeType.KafkaConsumer, BridgeKafkaConsumerConfig],
-])
-const formCom = computed(() => {
-  const com = formComMap.get(sourceType.value)
-  return com || UsingSchemaBridgeConfig
-})
-const formComPropsMap: Map<string, Record<string, any>> = new Map([
-  [BridgeType.MQTT, { singleDirection: BridgeDirection.Ingress }],
-])
-const formComProps = computed(() => {
-  const props = formComPropsMap.get(sourceType.value)
-  return props || {}
-})
-
 const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
 if (isFromRule.value && props.sourceId) {
   activeTab.value = Tab.Setting
@@ -232,6 +214,7 @@ const sourceType = computed(() => {
   const type = id.value.slice(0, id.value.indexOf(':'))
   return type
 })
+const { formCom, formComProps } = useSourceFormComponent(sourceType)
 const isUsingSchemaForm = computed(() => {
   return !(BRIDGE_TYPES_NOT_USE_SCHEMA as Array<string>).includes(sourceType.value)
 })
