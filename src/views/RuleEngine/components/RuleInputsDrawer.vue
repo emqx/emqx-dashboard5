@@ -187,7 +187,7 @@ const rules = {
     ...createRequiredRule(t('Base.topic')),
     {
       validator(rules: any, value: string) {
-        if (props.addedList?.includes(value)) {
+        if (props.addedList?.includes(value) && value !== props.input) {
           return [new Error(t('Flow.topicExistedError'))]
         }
         return []
