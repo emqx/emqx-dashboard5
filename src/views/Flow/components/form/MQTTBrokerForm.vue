@@ -8,7 +8,7 @@
     :model="record"
     :validate-on-rule-change="false"
   >
-    <CustomFormItem :label="tl('name')" required prop="name" :readonly="readonly">
+    <CustomFormItem v-if="!hideName" :label="tl('name')" required prop="name" :readonly="readonly">
       <el-input v-model="record.name" :disabled="edit" />
     </CustomFormItem>
     <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
@@ -128,6 +128,9 @@ const props = defineProps({
   isUsingInFlow: {
     type: Boolean,
     default: true,
+  },
+  hideName: {
+    type: Boolean,
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
