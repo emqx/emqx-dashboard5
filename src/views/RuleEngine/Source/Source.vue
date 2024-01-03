@@ -3,7 +3,7 @@
     <el-table
       class="bridge-table"
       :data="sourceList"
-      :empty-text="tl('actionsEmptyTip')"
+      :empty-text="tl('sourceEmptyTip')"
       v-loading="isLoading"
       row-key="id"
     >

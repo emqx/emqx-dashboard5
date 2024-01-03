@@ -148,6 +148,10 @@ export default {
     zh: '请在规则或者 Flow 设计器中添加动作',
     en: 'Please add actions in rules or flow designer',
   },
+  sourceEmptyTip: {
+    zh: '请在规则或者 Flow 设计器中添加数据源',
+    en: 'Please add data source in rules or flow designer',
+  },
   actionAvailable: {
     zh: '可用',
     en: 'Available',

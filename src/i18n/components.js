@@ -272,16 +272,16 @@ export default {
     en: 'Topic Metrics',
   },
   actions: {
-    zh: '动作(Sink)',
-    en: 'Actions(Sink)',
+    zh: '动作 (Sink)',
+    en: 'Actions (Sink)',
   },
   schema: {
     zh: '编解码',
     en: 'Schema',
   },
   source: {
-    zh: 'Source',
-    en: 'Source',
+    zh: '数据源',
+    en: 'Sources',
   },
   setting: {
     zh: '设置',
