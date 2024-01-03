@@ -18,7 +18,7 @@
             </div>
 
             <span class="io-op">
-              <el-button size="small" @click="openOutputDialog(true, index)">
+              <el-button size="small" @click="openOutputDrawer(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
               <el-button size="small" plain @click="deleteOutput(index)">
@@ -27,9 +27,8 @@
             </span>
           </div>
         </template>
-        <el-button class="btn-add" type="primary" @click="openOutputDialog(false)">
-          <el-icon><plus /></el-icon>
-          <span>{{ tl('addAction') }}</span>
+        <el-button class="btn-add" type="primary" :icon="Plus" @click="openOutputDrawer(false)">
+          {{ tl('addAction') }}
         </el-button>
       </el-col>
     </el-row>
@@ -107,7 +106,7 @@ const calcDisableList = () => {
   })
 }
 
-const openOutputDialog: (edit: boolean, itemIndex?: number | undefined) => void = async (
+const openOutputDrawer: (edit: boolean, itemIndex?: number | undefined) => void = async (
   edit = false,
   itemIndex,
 ) => {
