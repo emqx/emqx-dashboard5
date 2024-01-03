@@ -62,6 +62,9 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import { computed, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import { usePerms } from '@/plugins/permissionsPlugin'
+
+const { hasPermission } = usePerms()
 
 const { tl, t } = useI18nTl('Extension')
 const store = useStore()
@@ -88,6 +91,9 @@ const delayedRules: Record<string, any> = {
 }
 
 const updateDelayedConfig = async function () {
+  if (!hasPermission('put')) {
+    return
+  }
   try {
     await delayedForm.value?.validate()
     saveLoading.value = true

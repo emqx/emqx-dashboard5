@@ -93,6 +93,9 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { nextTick, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { usePerms } from '@/plugins/permissionsPlugin'
+
+const { hasPermission } = usePerms()
 
 const { t } = useI18n()
 const { tl } = useI18nTl('Extension')
@@ -144,6 +147,12 @@ const openOpDialog = async (editIndex?: number) => {
 const initForm = () => (rewriteInput.value = createRawRewriteForm())
 
 const submitRewrite = async function (edit = false) {
+  if (edit && !hasPermission('put')) {
+    return
+  }
+  if (!edit && !hasPermission('post')) {
+    return
+  }
   await rewriteForm.value?.validate()
   try {
     let pendingTbData = [...rewriteTbData.value]
