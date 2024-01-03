@@ -396,6 +396,10 @@ export default {
     zh: '输入',
     en: 'Source',
   },
+  createSource: {
+    zh: '创建 Source',
+    en: 'Create Source',
+  },
   success: {
     zh: '成功',
     en: 'Success',

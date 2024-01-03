@@ -16,6 +16,17 @@
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" />
         <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" />
       </el-tabs>
+      <template v-if="isBridgeType(type) && !readonly">
+        <el-form-item :label-width="actionLabelWidth" :label="actionLabel">
+          <ActionSelect
+            v-model="selectedAction"
+            :type="actionType"
+            :direction="actionDirection"
+            @change="processSelectedActionChange"
+          />
+        </el-form-item>
+        <el-divider />
+      </template>
       <component
         v-if="activeTab === DetailTab.Setting"
         ref="FormCom"
@@ -25,6 +36,7 @@
         :readonly="readonly"
         :edit="isEdit"
         :class="{ 'in-tab': showTabs }"
+        :hide-name="!!selectedAction"
         @save="save"
         @init="resetRawRecord"
       />
@@ -79,6 +91,8 @@ import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
+import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
@@ -163,7 +177,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgerNode, removeDirectionFromSpecificType } = useFlowNode()
+const { isBridgerNode, removeDirectionFromSpecificType, isBridgeType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
@@ -230,6 +244,23 @@ const getFormComponentProps = (type: string) => {
   }
   return ret || {}
 }
+
+/* For Reuse Action */
+const selectedAction = ref('')
+const actionType = computed(() => removeDirectionFromSpecificType(type.value))
+const actionDirection = computed(() => {
+  const isExistedInSource = Object.entries(SourceType).some(([, value]) => value === type.value)
+  return isExistedInSource ? BridgeDirection.Ingress : BridgeDirection.Egress
+})
+const processSelectedActionChange = (action: BridgeItem) => {
+  record.value = action
+}
+const actionLabel = computed(() =>
+  actionDirection.value === BridgeDirection.Ingress ? 'Source' : tl('action'),
+)
+const actionLabelWidth = computed(() =>
+  [SourceType.MQTTBroker, SinkType.MQTTBroker].includes(type.value) ? 152 : 180,
+)
 
 const record: Ref<Record<string, any>> = ref({})
 
@@ -353,6 +384,9 @@ watch(showDrawer, (val) => {
   const { node } = props
   const { formData, specificType: type } = node?.data || {}
   record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
+  if (isBridgeType(type)) {
+    selectedAction.value = record.value.id ? record.value.id : ''
+  }
   rawRecord = cloneDeep(record.value)
   pwdErrorWhenCoping.value = ''
 })
@@ -370,6 +404,9 @@ watch(showDrawer, (val) => {
   }
   .in-tab {
     padding-top: 24px;
+  }
+  .action-select {
+    width: calc(100% - 120px);
   }
   .bridge-config {
     .el-form-item {
