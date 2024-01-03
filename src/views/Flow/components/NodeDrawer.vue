@@ -9,7 +9,6 @@
     :destroy-on-close="true"
     :close-on-press-escape="false"
   >
-    <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
     <RemovedBridgeTip v-if="isRemovedBridge" />
     <template v-else-if="getFormComponent(type)">
       <el-tabs v-if="showTabs" v-model="activeTab">
@@ -56,9 +55,6 @@
         </div>
         <div>
           <el-button @click="cancel">{{ tl('cancel') }}</el-button>
-          <el-button v-if="isBridgeSelected" type="primary" plain @click="saveAsNew">
-            {{ t('Flow.saveAsDuplication', { target: targetForSaveAsNew }) }}
-          </el-button>
           <el-button
             :disabled="isSaveDisabled"
             :type="isSaveDisabled ? 'info' : 'primary'"
@@ -73,7 +69,6 @@
       </el-button>
     </template>
   </el-drawer>
-  <NameInputForCopyBridgeDialog v-model="showNameInputDialog" @save="handleNameSave" />
 </template>
 
 <script setup lang="ts">
@@ -88,7 +83,6 @@ import useFlowNode, {
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
-import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -98,7 +92,6 @@ import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
-import NameInputForCopyBridgeDialog from './NameInputForCopyBridgeDialog.vue'
 import NodeMetrics from './metrics/NodeMetrics.vue'
 
 const props = defineProps({
@@ -177,7 +170,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgerNode, removeDirectionFromSpecificType, isBridgeType } = useFlowNode()
+const { removeDirectionFromSpecificType, isBridgeType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
@@ -293,14 +286,6 @@ const toggleEditedWay = async () => {
   }
 }
 
-const isBridgeSelected = computed(() => {
-  if (!props.node) {
-    return false
-  }
-  return isBridgerNode(props.node) && !!record.value.id
-})
-const showNameInputDialog = ref(false)
-
 /**
  * When clicking the cancel / close button, it's used to compare the
  * current record's value to determine whether to pop up a window or not.
@@ -348,25 +333,6 @@ const save = async () => {
   }
 }
 
-const targetForSaveAsNew = computed(() =>
-  props.node?.type === FlowNodeType.Input ? 'source' : 'sink',
-)
-const { pwdErrorWhenCoping, checkLikePwdField } = useCheckBeforeSaveAsCopy()
-const saveAsNew = async () => {
-  try {
-    if (FormCom.value.validate && isFunction(FormCom.value.validate)) {
-      await customValidate(FormCom.value)
-    }
-    await checkLikePwdField(
-      record.value,
-      t('Flow.saveAsNewWarning', { target: targetForSaveAsNew.value }),
-    )
-    showNameInputDialog.value = true
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 const handleNameSave = (name: string) => {
   record.value.name = name
   Reflect.deleteProperty(record.value, 'id')
@@ -388,7 +354,6 @@ watch(showDrawer, (val) => {
     selectedAction.value = record.value.id ? record.value.id : ''
   }
   rawRecord = cloneDeep(record.value)
-  pwdErrorWhenCoping.value = ''
 })
 </script>
 
