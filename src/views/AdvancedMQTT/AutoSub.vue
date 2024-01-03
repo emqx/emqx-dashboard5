@@ -134,6 +134,9 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { nextTick, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { usePerms } from '@/plugins/permissionsPlugin'
+
+const { hasPermission } = usePerms()
 
 const createRawSubForm = (): AutoSubscribe => ({
   topic: '',
@@ -179,6 +182,12 @@ let openOpDialog = async (editIndex?: number) => {
 }
 
 const submitSubs = async function (edit = false) {
+  if (edit && !hasPermission('put')) {
+    return
+  }
+  if (!edit && !hasPermission('post')) {
+    return
+  }
   try {
     await subsForm.value?.validate()
     submitLoading.value = true

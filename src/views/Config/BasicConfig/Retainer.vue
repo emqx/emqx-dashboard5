@@ -148,6 +148,9 @@ import { Retainer } from '@/types/extension'
 import { ElMessage } from 'element-plus'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { usePerms } from '@/plugins/permissionsPlugin'
+
+const { hasPermission } = usePerms()
 
 const { tl, t } = useI18nTl('Extension')
 const store = useStore()
@@ -228,6 +231,9 @@ const loadConfigData = async () => {
 }
 
 const updateConfigData = async function () {
+  if (!hasPermission('put')) {
+    return
+  }
   let valid = await retainerForm.value?.validate().catch(() => {
     // ignore error
   })
