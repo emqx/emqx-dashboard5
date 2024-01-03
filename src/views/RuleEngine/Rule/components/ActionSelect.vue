@@ -1,6 +1,11 @@
 <template>
-  <el-select class="action-select" popper-class="action-opt-popper" v-model="selected">
-    <el-option :value="newActionValue" :label="tl('createAction')" />
+  <el-select
+    class="action-select"
+    popper-class="action-opt-popper"
+    v-model="selected"
+    @change="handleSelectedChange"
+  >
+    <el-option :value="newTargetValue" :label="newTargetLabel" />
     <el-option
       v-for="{ name, id, status } in actionOpts"
       :key="id"
@@ -32,7 +37,10 @@ import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { computed, defineEmits, defineProps, ref, withDefaults } from 'vue'
 
-const newActionValue = createRandomString()
+/**
+ * do not selecting exiting one, create a new one
+ */
+const newTargetValue = createRandomString()
 
 const props = withDefaults(
   defineProps<{
@@ -41,7 +49,7 @@ const props = withDefaults(
     /**
      * for disabled added item
      */
-    disableList: Array<string>
+    disableList?: Array<string>
     direction?: BridgeDirection
   }>(),
   {
@@ -51,17 +59,18 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'change', value: BridgeItem): void
 }>()
 
 const selected = computed({
   get() {
     if (!props.modelValue) {
-      return newActionValue
+      return newTargetValue
     }
     return props.modelValue || ''
   },
   set(val) {
-    if (val === newActionValue) {
+    if (val === newTargetValue) {
       emit('update:modelValue', '')
     } else {
       emit('update:modelValue', val)
@@ -104,7 +113,21 @@ const actionOpts = computed(() => {
 
 const { tl } = useI18nTl('RuleEngine')
 
+const newTargetLabel = computed(() =>
+  props.direction === BridgeDirection.Egress ? tl('createAction') : tl('createSource'),
+)
+
 const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
+
+const handleSelectedChange = (id: string) => {
+  if (!id) {
+    return
+  }
+  const action = actionOpts.value.find((item) => item.id === id)
+  if (action) {
+    emit('change', action)
+  }
+}
 </script>
 
 <style lang="scss">
