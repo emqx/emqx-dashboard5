@@ -92,7 +92,8 @@ import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import NodeMetrics from './metrics/NodeMetrics.vue'
 
 const props = defineProps({
@@ -223,13 +224,13 @@ const getSchemaBridgeProps = (type: string) => ({
   type: removeDirectionFromSpecificType(type),
 })
 
-const formComponentPropsMap = computed(() => ({
+const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
-  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress, labelWidth: '152px' },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
-  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
+  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress, labelWidth: '152px' },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
@@ -258,9 +259,10 @@ const processSelectedActionChange = (action: BridgeItem | undefined) => {
 const actionLabel = computed(() =>
   actionDirection.value === BridgeDirection.Ingress ? 'Source' : tl('action'),
 )
-const actionLabelWidth = computed(() =>
-  [SourceType.MQTTBroker, SinkType.MQTTBroker].includes(type.value) ? 152 : 180,
-)
+const actionLabelWidth = computed(() => {
+  const setWidth = getFormComponentProps(type.value)?.labelWidth
+  return setWidth || 180
+})
 
 const record: Ref<Record<string, any>> = ref({})
 
