@@ -1,7 +1,6 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="152px"
     class="mqtt-broker-form bridge-config"
     label-position="right"
     :rules="rules"
