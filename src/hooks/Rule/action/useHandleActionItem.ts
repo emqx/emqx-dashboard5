@@ -30,8 +30,16 @@ import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 import useMixedActionList from './useMixedActionList'
+import { useRoute } from 'vue-router'
+import { BridgeType } from '@/types/enum'
 
 type NowAction = Action | BridgeItem
+
+type HandleDirectionCallback = (
+  direction?: number,
+  connName?: string,
+  connType?: BridgeType,
+) => void
 
 export default (): {
   getDetail: <T = NowAction>(id: string) => Promise<T>
@@ -46,7 +54,10 @@ export default (): {
   reconnectActionForNode: (node: string, id: string) => Promise<void>
   isTesting: Ref<boolean>
   testConnectivity: (data: NowAction) => Promise<void>
+  handleConnDirection: (callback: HandleDirectionCallback) => void
 } => {
+  const route = useRoute()
+
   const isTrueActionId = (id: string) => isConnectorSupported(getTypeAndNameFromKey(id).type)
 
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
@@ -160,6 +171,16 @@ export default (): {
     }
   }
 
+  const handleConnDirection = (callback: HandleDirectionCallback) => {
+    if (!route.query.direction) {
+      return
+    }
+    const direction = parseInt(route.query.direction as string, 10)
+    const connName = route.query.connName?.toString()
+    const connType = route.query.connType?.toString() as BridgeType
+    callback(direction, connName, connType)
+  }
+
   return {
     getDetail,
     handleActionDataAfterLoaded: handleDataAfterLoaded,
@@ -173,5 +194,6 @@ export default (): {
     reconnectActionForNode,
     isTesting,
     testConnectivity,
+    handleConnDirection,
   }
 }
