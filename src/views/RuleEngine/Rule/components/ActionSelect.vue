@@ -59,7 +59,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
-  (e: 'change', value: BridgeItem): void
+  (e: 'change', value?: BridgeItem): void
 }>()
 
 const selected = computed({
@@ -121,6 +121,10 @@ const { getStatusLabel, getStatusClass } = useCommonConnectionStatus()
 
 const handleSelectedChange = (id: string) => {
   if (!id) {
+    return
+  }
+  if (id === newTargetValue) {
+    emit('change')
     return
   }
   const action = actionOpts.value.find((item) => item.id === id)

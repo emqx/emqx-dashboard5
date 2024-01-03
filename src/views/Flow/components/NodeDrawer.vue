@@ -83,6 +83,7 @@ import useFlowNode, {
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -245,8 +246,14 @@ const actionDirection = computed(() => {
   const isExistedInSource = Object.entries(SourceType).some(([, value]) => value === type.value)
   return isExistedInSource ? BridgeDirection.Ingress : BridgeDirection.Egress
 })
-const processSelectedActionChange = (action: BridgeItem) => {
-  record.value = action
+const { handleActionDataAfterLoaded } = useHandleActionItem()
+const processSelectedActionChange = (action: BridgeItem | undefined) => {
+  // select create a new one
+  if (!action) {
+    record.value = getFormDataByType(type.value)
+  } else {
+    record.value = handleActionDataAfterLoaded(cloneDeep(action))
+  }
 }
 const actionLabel = computed(() =>
   actionDirection.value === BridgeDirection.Ingress ? 'Source' : tl('action'),
@@ -331,12 +338,6 @@ const save = async () => {
   } catch (error) {
     console.error(error)
   }
-}
-
-const handleNameSave = (name: string) => {
-  record.value.name = name
-  Reflect.deleteProperty(record.value, 'id')
-  emit(isEdit.value ? 'saveAsNew' : 'save', record.value)
 }
 
 const edit = () => emit('edit')
