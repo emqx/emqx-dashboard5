@@ -363,3 +363,9 @@ export const enum DetailTab {
   Overview,
   Setting,
 }
+
+export const enum BatchSettingDatabaseType {
+  InfluxDB = 'influxdb',
+  IoTDB = 'iotdb',
+  TDEngine = 'tdengine',
+}
