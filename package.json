@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
+    "@emqx/shared-ui-i18n": "0.0.3",
     "@emqx/shared-ui-utils": "^0.0.11",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@vue-flow/core": "^1.20.1",
@@ -39,6 +40,7 @@
     "monaco-editor": "^0.30.0",
     "mqtt": "^4.2.8",
     "nprogress": "^0.2.0",
+    "papaparse": "^5.4.1",
     "sortablejs": "^1.14.0",
     "terser-webpack-plugin": "^1.4.5",
     "vue": "^3.2.16",
@@ -46,14 +48,14 @@
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "webpack-bundle-analyzer": "^4.8.0",
-    "xss": "^1.0.14",
-    "@emqx/shared-ui-i18n": "0.0.3"
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.4",
     "@types/lodash": "^4.14.191",
     "@types/marked": "^4.0.1",
+    "@types/papaparse": "^5.3.14",
     "@types/sortablejs": "^1.10.7",
     "@types/utf8": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",

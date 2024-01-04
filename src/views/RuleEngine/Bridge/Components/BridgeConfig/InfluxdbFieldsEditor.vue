@@ -27,11 +27,14 @@
         <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
-    <el-table-column width="100" v-if="!readonly && !disabled">
+    <el-table-column width="180" v-if="!readonly && !disabled">
       <template #header>
-        <el-button link type="primary" class="btn" @click="addColumn">
-          {{ $t('Base.add') }}
-        </el-button>
+        <div class="header-settings">
+          <batch-settings :type="dbType" @uploaded-data="handleUploadedData" />
+          <el-button link type="primary" class="btn" @click="addColumn">
+            {{ $t('Base.add') }}
+          </el-button>
+        </div>
       </template>
       <template #default="{ row }">
         <el-button link type="primary" class="btn" @click="deleteItem(row)">
@@ -50,6 +53,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Warning } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
 import { computed, defineComponent, ref, Ref, watch } from 'vue'
+import BatchSettings from '@/components/BatchSettings.vue'
+import { BatchSettingDatabaseType } from '@/types/enum'
 
 type kvRow = {
   key: string
@@ -57,7 +62,7 @@ type kvRow = {
 }
 
 export default defineComponent({
-  components: { Warning },
+  components: { Warning, BatchSettings },
   emits: ['update:modelValue', 'add'],
   props: {
     modelValue: {
@@ -75,6 +80,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
+    let dbType: BatchSettingDatabaseType = BatchSettingDatabaseType.InfluxDB
     const rowData: kvRow = {
       key: '',
       value: '',
@@ -144,6 +150,11 @@ export default defineComponent({
       emit('add')
     }
 
+    function handleUploadedData(newTableData: kvRow[]) {
+      tableData.value = newTableData
+      atInputChange()
+    }
+
     const getTooltipContent = (value: string) => {
       return t('RuleEngine.specifiedTypeTip', {
         type: getTypeLabel(
@@ -172,12 +183,20 @@ export default defineComponent({
       deleteItem,
       addColumn,
       keyValueLabel,
+      dbType,
+      handleUploadedData,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
+.influxdb-fields-editor {
+  .header-settings {
+    display: flex;
+    justify-content: space-around;
+  }
+}
 .key-and-value-editor {
   min-width: 200px;
 }

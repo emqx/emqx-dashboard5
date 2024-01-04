@@ -619,4 +619,32 @@ export default {
     zh: '最大速率',
     en: 'Maximum Rate',
   },
+  batchSetting: {
+    zh: '批量设置',
+    en: 'Batch Setting',
+  },
+  importBatchSetting: {
+    zh: '导入批量设置',
+    en: 'Import Batch Setting',
+  },
+  downloadTemplatePrompt: {
+    zh: '为保证设置顺利，请您下载设置导入模板',
+    en: 'To ensure smooth settings, please download the settings import template',
+  },
+  batchSettingDownloadFirst: {
+    zh: '批量设置需先下载导入模版',
+    en: 'Batch setting requires downloading the import template first',
+  },
+  moreImportInstructions: {
+    zh: '更多导入说明和示例，请查看帮助文档',
+    en: 'For more import instructions and examples, please check the help documentation',
+  },
+  uploadFile: {
+    zh: '上传文件',
+    en: 'Upload File',
+  },
+  csvFileLimit: {
+    zh: '支持 1M 以内的 csv 格式文件，文件中数据不能超过 2000 行',
+    en: 'Supports csv format files within 1M, and the data in the file cannot exceed 2000 lines',
+  },
 }
