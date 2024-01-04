@@ -2,7 +2,7 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType } from '@/types/enum'
+import { BridgeType, InfluxDBType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
 
@@ -27,7 +27,7 @@ const enum RedisType {
  * Set the format for the password field to control the
  * password input box configuration field on the page.
  */
-export const setPwdFormat = (prop: Property) => {
+export const setPwdFormat = (prop: Property): Property => {
   prop.format = 'password'
   return prop
 }
@@ -237,6 +237,19 @@ export default (
     return { components, rules }
   }
 
+  const influxDbHandler: Handler = ({ components, rules }) => {
+    const { parameters } = components
+
+    if (parameters) {
+      const oneOf = parameters.oneOf || []
+      const v2One = oneOf?.find((item) => item.$ref?.includes(InfluxDBType.v2))
+      if (v2One) {
+        parameters.default = { influxdb_type: v2One?.properties?.influxdb_type?.symbols?.[0] }
+      }
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
@@ -246,6 +259,7 @@ export default (
     [BridgeType.GCPProducer, GCPProducerHandler],
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
+    [BridgeType.InfluxDB, influxDbHandler],
   ])
 
   const getComponentsHandler = () => {

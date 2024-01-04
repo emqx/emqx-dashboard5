@@ -262,6 +262,12 @@
     "username": {
       "desc": "InfluxDB username.",
       "label": "Username"
+    },
+    "parameters": {
+      "label": "Version of InfluxDB"
+    },
+    "influxdb_type": {
+      "label": "Version of InfluxDB"
     }
   },
   "emqx_ee_bridge_kafka": {

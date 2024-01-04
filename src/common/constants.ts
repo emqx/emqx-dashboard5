@@ -255,14 +255,15 @@ export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
 /**
  * Map<newType, oldType>
+ * for deduplicate
  */
 export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.Webhook, ['webhook']],
   [BridgeType.KafkaProducer, ['kafka']],
-  /* not supported in dashboard ⬇️ */
-  ['redis', ['redis_sentinel', 'redis_cluster', 'redis_single']],
+  [BridgeType.Redis, ['redis_sentinel', 'redis_cluster', 'redis_single']],
   [BridgeType.GCPProducer, ['gcp_pubsub']],
   [BridgeType.MongoDB, ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
+  [BridgeType.InfluxDB, ['influxdb_api_v1', 'influxdb_api_v2']],
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
@@ -291,6 +292,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.Redis,
   BridgeType.SysKeeperForwarder,
   BridgeType.SysKeeperProxy,
+  BridgeType.InfluxDB,
 ]
 
 export const COPY_SUFFIX = '_duplication'

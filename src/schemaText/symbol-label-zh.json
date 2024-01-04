@@ -22,5 +22,7 @@
   "parameters_connector_sharded": "sharded",
   "parameters_redis_single_connector": "single",
   "parameters_redis_sentinel_connector": "sentinel",
-  "parameters_redis_cluster_connector": "cluster"
+  "parameters_redis_cluster_connector": "cluster",
+  "parameters_connector_influxdb_api_v_1": "v1",
+  "parameters_connector_influxdb_api_v_2": "v2"
 }
