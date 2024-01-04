@@ -115,7 +115,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { Ref, defineEmits, defineExpose, defineProps, nextTick, onMounted, ref, watch } from 'vue'
+import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -184,7 +184,7 @@ enum RightTab {
   Sources,
   Actions,
 }
-const rightBlockActiveTab = ref(RightTab.Sources)
+const rightBlockActiveTab = ref(RightTab.Actions)
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
@@ -242,8 +242,6 @@ const processBridge = async (bridgeId: string) => {
   const direction = judgeBridgeDirection(bridgeInfo)
 
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
-    rightBlockActiveTab.value = RightTab.Actions
-    await nextTick()
     addBridgeToAction(bridgeInfo.id)
   }
 
@@ -262,8 +260,6 @@ const processConnector = async (
   }
 
   if (direction === BridgeDirection.Egress) {
-    rightBlockActiveTab.value = RightTab.Actions
-    await nextTick()
     // Fix: Remove when no longer using v1 bridge API
     if (!SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
       const bridgeInfo = await getDetail(`${connType}:${connName}`)
