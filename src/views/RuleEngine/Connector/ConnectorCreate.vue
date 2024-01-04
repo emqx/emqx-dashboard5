@@ -15,6 +15,13 @@
         <TypeSelect v-model="selectedType" />
       </div>
       <div class="form-container bridge-config" v-else-if="step === 1">
+        <el-alert
+          v-if="isSysKeeperProxy"
+          show-icon
+          type="info"
+          :closable="false"
+          :title="tl('sysKeeperProxyDesc')"
+        />
         <component
           ref="FormCom"
           :is="formCom"
@@ -125,6 +132,8 @@ const goNextStep = () => {
   handleNext()
 }
 
+const isSysKeeperProxy = computed(() => selectedType.value === BridgeType.SysKeeperProxy)
+
 const cancel = () => {
   if (isInSinglePage.value) {
     router.push({ name: 'connector' })
@@ -145,6 +154,10 @@ const submit = async () => {
     isSubmitting.value = true
     const ret = await addConnector(formData.value)
     if (isInSinglePage.value) {
+      if (isSysKeeperProxy.value) {
+        router.push({ name: 'connector' })
+        return
+      }
       const direction = judgeBridgeDirection(ret)
       const { name, type } = ret
       ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
@@ -223,6 +236,11 @@ checkProps()
   .type-select-container,
   .form-container {
     width: 75%;
+  }
+
+  .el-alert {
+    margin-bottom: 24px;
+    --color-bg-info: var(--color-bg-split);
   }
 
   .form-ft {

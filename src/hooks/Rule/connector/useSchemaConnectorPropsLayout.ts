@@ -143,6 +143,14 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.SysKeeperProxy]: createOrderObj(
+      ['listen', 'acceptors', 'handshake_timeout'],
+      fieldStartIndex,
+    ),
+    [BridgeType.SysKeeperForwarder]: createOrderObj(
+      ['server', 'ack_mode', 'ack_timeout'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

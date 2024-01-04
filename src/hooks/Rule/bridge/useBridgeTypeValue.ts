@@ -7,7 +7,6 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem, MQTTBridge } from '@/types/rule'
-import { escapeRegExp } from 'lodash'
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
 
@@ -91,6 +90,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AmazonKinesis, label: tl('amazonKinesis') },
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
     { value: BridgeType.Confluent, label: `Confluent ${tl('producer')}` },
+    { value: BridgeType.SysKeeperForwarder, label: tl('sysKeeperForwarder') },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -170,13 +170,18 @@ export const useConnectorTypeValue = (): {
   searchQuery: Ref<string>
   filteredConnectorTypeList: ComputedRef<TypeItem[]>
 } => {
+  const { tl } = useI18nTl('RuleEngine')
+
   const { bridgeTypeList, getGeneralTypeLabel } = useBridgeTypeValue()
 
   // const connectorTypeLabel = new Map([
   //   [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
   // ])
 
-  const connectorTypeList = bridgeTypeList
+  const connectorTypeList = [
+    ...bridgeTypeList,
+    { value: BridgeType.SysKeeperProxy, label: tl('sysKeeperProxy') },
+  ]
 
   const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
 
@@ -289,6 +294,8 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.GCPProducer]: 'gcp_pubsub',
     [BridgeType.GCPConsumer]: 'gcp_pubsub',
     [BridgeType.Confluent]: 'confluent',
+    [BridgeType.SysKeeperForwarder]: 'syskeeper',
+    [BridgeType.SysKeeperProxy]: 'syskeeper',
   }
 
   const { getBridgeGeneralType } = useBridgeTypeValue()
@@ -400,7 +407,8 @@ export const useConnectorSchema = (): {
 } => {
   const refPrefix = `bridge_`
   const refSuffix = 'post_connector'
-  const getRef = (type: string, prefix?: string) => `${prefix ?? refPrefix}${type}.${refSuffix}`
+  const getRef = (type: string, prefix?: string, suffix?: string) =>
+    `${prefix ?? refPrefix}${type}.${suffix ?? refSuffix}`
 
   const specialTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.KafkaProducer, getRef('kafka')],
@@ -409,6 +417,8 @@ export const useConnectorSchema = (): {
     [BridgeType.PgSQL, getRef('postgres', 'connector_')],
     [BridgeType.GCPProducer, getRef(BridgeType.GCPProducer, '')],
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
+    [BridgeType.SysKeeperForwarder, getRef(BridgeType.SysKeeperForwarder, '', 'post')],
+    [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -451,6 +461,7 @@ export const useActionSchema = (): {
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.GCPProducer, getRef('gcp_pubsub_producer', '')],
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
+    [BridgeType.SysKeeperForwarder, getRef('syskeeper', '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

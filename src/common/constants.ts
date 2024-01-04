@@ -289,6 +289,8 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.GCPProducer,
   BridgeType.MongoDB,
   BridgeType.Redis,
+  BridgeType.SysKeeperForwarder,
+  BridgeType.SysKeeperProxy,
 ]
 
 export const COPY_SUFFIX = '_duplication'

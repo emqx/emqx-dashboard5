@@ -289,6 +289,15 @@ export default (
     return { components, rules }
   }
 
+  const syskeeperDbHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components
+    if (parameters?.properties?.template) {
+      parameters.properties.template.format = 'sql'
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
@@ -303,6 +312,7 @@ export default (
     [BridgeType.Confluent]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
     [BridgeType.GreptimeDB]: greptimeDBHandler,
+    [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
   }
 
   const getComponentsHandler = () => {
