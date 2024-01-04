@@ -83,6 +83,7 @@ import useFlowNode, {
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, Role } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -91,7 +92,8 @@ import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import NodeMetrics from './metrics/NodeMetrics.vue'
 
 const props = defineProps({
@@ -222,14 +224,14 @@ const getSchemaBridgeProps = (type: string) => ({
   type: removeDirectionFromSpecificType(type),
 })
 
-const formComponentPropsMap = computed(() => ({
+const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
-  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress },
+  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress, labelWidth: '152px' },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
-  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress },
+  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress, labelWidth: '152px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Producer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '152px', isRoleHidden: true },
@@ -249,15 +251,22 @@ const actionDirection = computed(() => {
   const isExistedInSource = Object.entries(SourceType).some(([, value]) => value === type.value)
   return isExistedInSource ? BridgeDirection.Ingress : BridgeDirection.Egress
 })
-const processSelectedActionChange = (action: BridgeItem) => {
-  record.value = action
+const { handleActionDataAfterLoaded } = useHandleActionItem()
+const processSelectedActionChange = (action: BridgeItem | undefined) => {
+  // select create a new one
+  if (!action) {
+    record.value = getFormDataByType(type.value)
+  } else {
+    record.value = handleActionDataAfterLoaded(cloneDeep(action))
+  }
 }
 const actionLabel = computed(() =>
   actionDirection.value === BridgeDirection.Ingress ? 'Source' : tl('action'),
 )
-const actionLabelWidth = computed(() =>
-  [SourceType.MQTTBroker, SinkType.MQTTBroker].includes(type.value) ? 152 : 180,
-)
+const actionLabelWidth = computed(() => {
+  const setWidth = getFormComponentProps(type.value)?.labelWidth
+  return setWidth || 180
+})
 
 const record: Ref<Record<string, any>> = ref({})
 
@@ -335,12 +344,6 @@ const save = async () => {
   } catch (error) {
     console.error(error)
   }
-}
-
-const handleNameSave = (name: string) => {
-  record.value.name = name
-  Reflect.deleteProperty(record.value, 'id')
-  emit(isEdit.value ? 'saveAsNew' : 'save', record.value)
 }
 
 const edit = () => emit('edit')

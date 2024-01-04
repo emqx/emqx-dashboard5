@@ -341,7 +341,7 @@ const submitCreateBridge = async () => {
   }
 }
 
-defineExpose({ testConnection, submitCreateBridge })
+defineExpose({ testConnection, submitCreateBridge, bridgeData })
 
 checkBridgeClipStatus()
 </script>

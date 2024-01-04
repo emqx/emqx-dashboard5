@@ -59,7 +59,7 @@ export const useBridgeTypeValue = (): {
   getBridgeGeneralType: (typeStr: string) => BridgeType
   getGeneralTypeLabel: (type: string) => string
 } => {
-  const { t, tl } = useI18nTl('RuleEngine')
+  const { t } = useI18nTl('RuleEngine')
 
   const bridgeTypeList = [
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },

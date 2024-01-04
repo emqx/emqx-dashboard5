@@ -72,6 +72,7 @@ import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
+import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 /**
  * props and emit is for use this component in drawer
@@ -136,19 +137,23 @@ const isSubmitting = ref(false)
 const { getConnectorDetail, addConnector, handleDataForCopy, isTesting, testConnectivity } =
   useHandleConnectorItem()
 
+const { judgeBridgeDirection } = useBridgeDirection()
+
 const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
     const ret = await addConnector(formData.value)
     if (isInSinglePage.value) {
+      const direction = judgeBridgeDirection(ret)
+      const { name, type } = ret
       ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
         confirmButtonText: tl('createRule'),
         cancelButtonText: tl('backConnectorList'),
         type: 'success',
       })
         .then(() => {
-          router.push({ name: 'rule-create' })
+          router.push({ name: 'rule-create', query: { direction, connName: name, connType: type } })
         })
         .catch(() => {
           router.push({ name: 'connector' })

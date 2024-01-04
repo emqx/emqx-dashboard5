@@ -52,7 +52,7 @@
       </el-col>
       <el-col :span="9" class="action-col">
         <el-tabs class="io-tabs" v-model="rightBlockActiveTab">
-          <el-tab-pane class="io-tab-pane" :label="tl('dataInput')" :name="RightTab.Events">
+          <el-tab-pane class="io-tab-pane" :label="tl('dataInput')" :name="RightTab.Sources">
             <RuleInputs v-model="ruleValue.sql" :source-list="ingressBridgeList" />
           </el-tab-pane>
           <el-tab-pane class="io-tab-pane" :label="tl('actionOutputs')" :name="RightTab.Actions">
@@ -113,7 +113,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { getRuleEvents } from '@/api/ruleengine'
-import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
+import { DEFAULT_FROM, DEFAULT_SELECT, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -123,10 +123,10 @@ import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
-import { BridgeDirection } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
+import { Ref, defineEmits, defineExpose, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -192,10 +192,10 @@ const payloadForTest = ref('')
 const showSQLTemplateDrawer = ref(false)
 
 enum RightTab {
-  Events,
+  Sources,
   Actions,
 }
-const rightBlockActiveTab = ref(RightTab.Events)
+const rightBlockActiveTab = ref(RightTab.Sources)
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formCom = ref()
@@ -246,19 +246,58 @@ const addBridgeToAction = (bridgeID: string) => {
 }
 
 const { judgeBridgeDirection } = useBridgeDirection()
-const { getDetail } = useHandleActionItem()
-const handleBridgeDataFromQuery = async () => {
-  const bridgeId = route.query.bridgeId?.toString()
-  if (!bridgeId) {
-    return
-  }
+const { handleConnDirection, getDetail } = useHandleActionItem()
+
+const processBridge = async (bridgeId: string) => {
   const bridgeInfo = await getDetail(bridgeId)
   const direction = judgeBridgeDirection(bridgeInfo)
+
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
+    rightBlockActiveTab.value = RightTab.Actions
+    await nextTick()
     addBridgeToAction(bridgeInfo.id)
   }
+
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Ingress) {
     replaceSQLFrom(`$bridges/${bridgeInfo.id}`)
+  }
+}
+
+const processConnector = async (
+  direction: BridgeDirection,
+  connName: string,
+  connType: BridgeType,
+) => {
+  if (!connName || !connType) {
+    return
+  }
+
+  if (direction === BridgeDirection.Egress) {
+    rightBlockActiveTab.value = RightTab.Actions
+    await nextTick()
+    // Fix: Remove when no longer using v1 bridge API
+    if (!SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
+      const bridgeInfo = await getDetail(`${connType}:${connName}`)
+      addBridgeToAction(bridgeInfo.id)
+    }
+  } else if (direction === BridgeDirection.Ingress) {
+    replaceSQLFrom(`$bridges/${connType}:${connName}`)
+  }
+}
+
+/**
+ * Handles the data from the query.
+ * If `bridgeId` is provided in the route query, it processes the bridge(old actions) with the given `bridgeId`.
+ * Otherwise, it handles the connection direction using the `processConnector` function.
+ * @returns {Promise<void>} A promise that resolves when the data is handled.
+ */
+const handleDataFromQuery = async () => {
+  const bridgeId = route.query.bridgeId?.toString()
+
+  if (bridgeId) {
+    await processBridge(bridgeId)
+  } else {
+    await handleConnDirection(processConnector as any)
   }
 }
 
@@ -381,7 +420,7 @@ onMounted(async () => {
   setRuleValue()
   await loadRuleEvents()
   setExtDepData({ events: ruleEventsList.value, bridges: ingressBridgeList.value })
-  handleBridgeDataFromQuery()
+  handleDataFromQuery()
 })
 
 defineExpose({ validate })
