@@ -132,6 +132,8 @@ export enum BridgeType {
   AmazonKinesis = 'kinesis',
   GreptimeDB = 'greptimedb',
   Confluent = 'confluent_producer',
+  SysKeeperProxy = 'syskeeper_proxy',
+  SysKeeperForwarder = 'syskeeper_forwarder',
 }
 
 export enum KafkaType {
