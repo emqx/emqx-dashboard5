@@ -151,6 +151,10 @@ export default (
       ['server', 'ack_mode', 'ack_timeout'],
       fieldStartIndex,
     ),
+    [BridgeType.InfluxDB]: createOrderObj(
+      ['server', 'parameters', 'token', 'org', 'bucket', 'database', 'username', 'password', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -165,6 +169,7 @@ export default (
     [BridgeType.GCPProducer]: { service_account_json: 'custom-col-24' },
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
+    [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {

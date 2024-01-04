@@ -262,6 +262,12 @@
     "username": {
       "desc": "InfluxDB 用户名。",
       "label": "用户名"
+    },
+    "parameters": {
+      "label": "InfluxDB 版本"
+    },
+    "influxdb_type": {
+      "label": "InfluxDB 版本"
     }
   },
   "emqx_ee_bridge_kafka": {
