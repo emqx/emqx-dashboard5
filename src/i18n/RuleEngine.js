@@ -990,6 +990,18 @@ export default {
     zh: 'GreptimeDB',
     en: 'GreptimeDB',
   },
+  sysKeeperProxy: {
+    zh: 'SysKeeper 接收器',
+    en: 'SysKeeper Proxy',
+  },
+  sysKeeperProxyDesc: {
+    zh: 'SysKeeper 接收器用于创建监听器并接收转发器的连接，消息将按照转发配置发布到 EMQX 本地主题，请配套转发器使用。',
+    en: 'The SysKeeper Proxy is used to create a listener and receive connections from the Forwarder. The messages will be published to the local topics of EMQX according to the forwarding configuration. Please use it together with the Forwarder.',
+  },
+  sysKeeperForwarder: {
+    zh: 'SysKeeper 转发器',
+    en: 'SysKeeper Forwarder',
+  },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',

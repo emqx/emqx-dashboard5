@@ -1150,5 +1150,44 @@
       "desc": "GreptimeDB's protocol. gRPC API.",
       "label": "Protocol"
     }
+  },
+  "emqx_ee_bridge_syskeeper_proxy": {
+    "listen": {
+      "label": "Listen Address",
+      "desc": "The listening address for this Syskeeper proxy server"
+    },
+    "acceptors": {
+      "label": "Acceptors",
+      "desc": "The number of the acceptors"
+    },
+    "handshake_timeout": {
+      "label": "Handshake Timeout",
+      "desc": "The maximum to wait for the handshake when a connection is created"
+    }
+  },
+  "emqx_ee_bridge_syskeeper_forwarder": {
+    "server": {
+      "label": "Server",
+      "desc": "The address of the Syskeeper proxy server"
+    },
+    "ack_mode": {
+      "label": "Acknowledgement Mode",
+      "desc": "Specify whether the proxy server should reply with an acknowledgement for the message forwarding, can be:<br>- need_ack <br>- no_ack <br>"
+    },
+    "ack_timeout": {
+      "label": "Acknowledgement Timeout",
+      "desc": "The maximum time to wait for an acknowledgement from the proxy server"
+    },
+    "target_topic": {
+      "desc": "The topic for the forwarded message",
+      "label": "Target Topic"
+    },
+    "target_qos": {
+      "desc": "The QoS for the forwarded message, -1 is for the original topic",
+      "label": "Target QoS"
+    },
+    "template": {
+      "label": "Template"
+    }
   }
 }

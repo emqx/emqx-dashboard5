@@ -137,122 +137,103 @@ export default (
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
-    [BridgeType.TDengine]: {
-      ...createOrderObj(['server', 'database', 'username', 'password'], fieldStartIndex),
-    },
-    [BridgeType.ClickHouse]: {
-      ...createOrderObj(
-        ['url', 'database', 'username', 'password', 'batch_value_separator', 'sql'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.DynamoDB]: {
-      ...createOrderObj(
-        ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'template'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.Cassandra]: {
-      ...createOrderObj(
-        ['keyspace', 'servers', 'username', 'password', 'ssl', 'cql'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.RocketMQ]: {
-      ...createOrderObj(
-        [
-          'servers',
-          'access_key',
-          'secret_key',
-          'security_token',
-          'topic',
-          'refresh_interval',
-          'send_buffer',
-          'template',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.MicrosoftSQLServer]: {
-      ...createOrderObj(
-        ['server', 'database', 'username', 'password', 'driver', 'sql'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.IoTDB]: {
-      ...createOrderObj(
-        [
-          'base_url',
-          'iotdb_version',
-          'authentication.username',
-          'authentication.password',
-          'device_id',
-          'is_aligned',
-          'retry_interval',
-          'enable_pipelining',
-          'ssl',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.OpenTSDB]: {
-      ...createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
-    },
-    [BridgeType.OracleDatabase]: {
-      ...createOrderObj(
-        ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.RabbitMQ]: {
-      ...createOrderObj(
-        [
-          'server',
-          'port',
-          'username',
-          'password',
-          'exchange',
-          'routing_key',
-          'virtual_host',
-          'heartbeat',
-          'auto_reconnect',
-          'delivery_mode',
-          'wait_for_publish_confirmations',
-          'publish_confirmation_timeout',
-          'timeout',
-          'ssl',
-          'payload_template',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.HStream]: {
-      ...createOrderObj(
-        ['url', 'stream', 'partition_key', 'grpc_timeout', 'ssl', 'record_template'],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.TDengine]: createOrderObj(
+      ['server', 'database', 'username', 'password'],
+      fieldStartIndex,
+    ),
+    [BridgeType.ClickHouse]: createOrderObj(
+      ['url', 'database', 'username', 'password', 'batch_value_separator', 'sql'],
+      fieldStartIndex,
+    ),
+    [BridgeType.DynamoDB]: createOrderObj(
+      ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'template'],
+      fieldStartIndex,
+    ),
+    [BridgeType.Cassandra]: createOrderObj(
+      ['keyspace', 'servers', 'username', 'password', 'ssl', 'cql'],
+      fieldStartIndex,
+    ),
+    [BridgeType.RocketMQ]: createOrderObj(
+      [
+        'servers',
+        'access_key',
+        'secret_key',
+        'security_token',
+        'topic',
+        'refresh_interval',
+        'send_buffer',
+        'template',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.MicrosoftSQLServer]: createOrderObj(
+      ['server', 'database', 'username', 'password', 'driver', 'sql'],
+      fieldStartIndex,
+    ),
+    [BridgeType.IoTDB]: createOrderObj(
+      [
+        'base_url',
+        'iotdb_version',
+        'authentication.username',
+        'authentication.password',
+        'device_id',
+        'is_aligned',
+        'retry_interval',
+        'enable_pipelining',
+        'ssl',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
+    [BridgeType.OracleDatabase]: createOrderObj(
+      ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
+      fieldStartIndex,
+    ),
+    [BridgeType.RabbitMQ]: createOrderObj(
+      [
+        'server',
+        'port',
+        'username',
+        'password',
+        'exchange',
+        'routing_key',
+        'virtual_host',
+        'heartbeat',
+        'auto_reconnect',
+        'delivery_mode',
+        'wait_for_publish_confirmations',
+        'publish_confirmation_timeout',
+        'timeout',
+        'ssl',
+        'payload_template',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.HStream]: createOrderObj(
+      ['url', 'stream', 'partition_key', 'grpc_timeout', 'ssl', 'record_template'],
+      fieldStartIndex,
+    ),
     [BridgeType.AzureEventHubs]: azurePropsOrderMap,
     [BridgeType.Confluent]: azurePropsOrderMap,
-    [BridgeType.AmazonKinesis]: {
-      ...createOrderObj(
-        [
-          'aws_access_key_id',
-          'aws_secret_access_key',
-          'endpoint',
-          'stream_name',
-          'partition_key',
-          'payload_template',
-        ],
-        fieldStartIndex,
-      ),
-    },
-    [BridgeType.GreptimeDB]: {
-      ...createOrderObj(
-        ['server', 'dbname', 'username', 'password', 'precision', 'ssl', 'write_syntax'],
-        fieldStartIndex,
-      ),
-    },
+    [BridgeType.AmazonKinesis]: createOrderObj(
+      [
+        'aws_access_key_id',
+        'aws_secret_access_key',
+        'endpoint',
+        'stream_name',
+        'partition_key',
+        'payload_template',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.GreptimeDB]: createOrderObj(
+      ['server', 'dbname', 'username', 'password', 'precision', 'ssl', 'write_syntax'],
+      fieldStartIndex,
+    ),
+    [BridgeType.SysKeeperForwarder]: createOrderObj(
+      ['parameters.target_topic', 'parameters.target_qos', 'parameters.template'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
