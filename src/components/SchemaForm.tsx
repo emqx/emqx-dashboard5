@@ -375,7 +375,7 @@ const SchemaForm = defineComponent({
               {...customProps}
             >
               {property.symbols?.map((opt) => (
-                <el-option value={opt} label={getOptLabel(opt)} />
+                <el-option value={opt} label={getOptLabel(opt.toString())} />
               ))}
             </el-select>
           )
@@ -430,7 +430,7 @@ const SchemaForm = defineComponent({
                 multiple
               >
                 {property.symbols?.map((opt) => (
-                  <el-option value={opt} label={getOptLabel(opt)} />
+                  <el-option value={opt} label={getOptLabel(opt.toString())} />
                 ))}
               </el-select>
             )
