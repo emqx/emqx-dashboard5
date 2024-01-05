@@ -1170,28 +1170,28 @@
   },
   "emqx_ee_bridge_syskeeper_forwarder": {
     "server": {
-      "label": "服务器",
+      "label": "服务器地址",
       "desc": "Syskeeper 代理服务器的地址"
     },
     "ack_mode": {
-      "label": "确认模式",
-      "desc": "指定代理服务器是否应该回复消息转发的确认，可以是：<br>- need_ack <br>- no_ack <br>"
+      "label": "ACK 模式",
+      "desc": "指定代理服务器是否应该回复确认消息，可以是：<br>- need_ack <br>- no_ack <br>"
     },
     "ack_timeout": {
-      "label": "确认超时",
-      "desc": "从代理服务器等待确认的最长时间"
+      "label": "ACK 超时",
+      "desc": "等待回复确认消息的最长时间"
     },
     "target_topic": {
       "desc": "转发消息的主题",
-      "label": "目标主题"
+      "label": "主题"
     },
     "target_qos": {
-      "desc": "转发消息的服务质量(QoS)，-1 表示使用原始主题的 QoS",
-      "label": "目标 QoS"
+      "desc": "转发消息的服务质量(QoS)，留空表示使用原始主题的 QoS",
+      "label": "QoS"
     },
     "template": {
-      "desc": "模板, 支持占位符",
-      "label": "模板"
+      "desc": "消息模板, 支持占位符",
+      "label": "消息模板"
     }
   }
 }
