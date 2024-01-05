@@ -1187,6 +1187,7 @@
       "label": "Target QoS"
     },
     "template": {
+      "desc": "Template. Placeholders supported.",
       "label": "Template"
     }
   }

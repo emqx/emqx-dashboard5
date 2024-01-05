@@ -1184,6 +1184,7 @@
       "label": "目标 QoS"
     },
     "template": {
+      "desc": "模板, 支持占位符",
       "label": "模板"
     }
   }
