@@ -16,7 +16,7 @@
         </el-radio-group>
       </el-form-item>
     </div>
-    <el-form-item prop="write_syntax" v-if="activeTab === Tab.Raw">
+    <el-form-item prop="parameters.write_syntax" v-if="activeTab === Tab.Raw">
       <template #label>
         <span>{{ getText('write_syntax.label') }}</span>
         <InfoTooltip popper-class="is-wider">

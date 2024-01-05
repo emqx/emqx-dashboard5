@@ -136,11 +136,6 @@ export enum BridgeType {
   SysKeeperForwarder = 'syskeeper_forwarder',
 }
 
-export enum KafkaType {
-  Producer = 'kafka',
-  Consumer = 'kafka_consumer',
-}
-
 export enum PulsarType {
   Producer = 'pulsar_producer',
 }
@@ -306,11 +301,6 @@ export enum TimeUnit {
   Minute,
   Hour,
   Day,
-}
-
-export enum InfluxDBType {
-  v1 = 'influxdb_api_v1',
-  v2 = 'influxdb_api_v2',
 }
 
 export enum LicenseType {

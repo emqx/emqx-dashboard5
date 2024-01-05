@@ -2,7 +2,7 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType, InfluxDBType } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
 
@@ -21,6 +21,11 @@ const enum RedisType {
   Single = 'single',
   Sentinel = 'sentinel',
   Cluster = 'cluster',
+}
+
+const enum InfluxDBType {
+  v1 = 'influxdb_api_v1',
+  v2 = 'influxdb_api_v2',
 }
 
 /**

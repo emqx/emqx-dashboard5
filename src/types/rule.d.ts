@@ -63,7 +63,7 @@ export interface ResourceOpt {
   health_check_interval: string
   query_mode: 'async' | 'sync'
   inflight_window?: number
-  start_timeout: string
+  start_timeout?: string
 
   max_buffer_bytes: string
 
