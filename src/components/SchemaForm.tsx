@@ -30,7 +30,9 @@ import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
+import BatchSettings from './BatchSettings.vue'
 import { usePerms } from '@/plugins/permissionsPlugin'
+import { BatchSettingDatabaseType } from '@/types/enum'
 
 interface FormItemMeta {
   levelName?: string
@@ -62,6 +64,7 @@ const SchemaForm = defineComponent({
     CustomInputNumber,
     AdvancedSettingContainer,
     CertFileInput,
+    BatchSettings,
   },
   props: {
     accordingTo: {
@@ -158,6 +161,16 @@ const SchemaForm = defineComponent({
     defaultTab: {
       type: String,
     },
+    /**
+     * Support batch settings configs
+     * Such as data template import for databases like influxdb, iotdb, tdengine, etc.
+     */
+    batchSettingConfigs: {
+      type: Object as PropType<{ dbType: BatchSettingDatabaseType }>,
+      default: () => ({
+        dbType: '',
+      }),
+    },
   },
   setup(props, ctx) {
     const { hasPermission } = usePerms()
@@ -237,6 +250,9 @@ const SchemaForm = defineComponent({
         _.set(configForm.value, _path, event)
       }
     }
+    const handleBatchSettingChange = (val: string) => {
+      _.set(configForm.value, 'sql', val)
+    }
 
     const confirmPropertyDisabled = (property: Property) => {
       const { readOnly, path } = property
@@ -292,6 +308,7 @@ const SchemaForm = defineComponent({
        */
       const modelValue = _.get(configForm.value, path)
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
+      const handleUpdateUploadedValue: any = { onUploadedData: handleBatchSettingChange }
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const showPassword = inputType === 'password'
@@ -394,7 +411,7 @@ const SchemaForm = defineComponent({
               )
             }
             return (
-              <array-editor
+              <ArrayEditor
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 disabled={isPropertyDisabled || props.disabled}
@@ -516,6 +533,12 @@ const SchemaForm = defineComponent({
                 lang="sql"
                 disabled={isPropertyDisabled || props.disabled}
               />
+              {props.batchSettingConfigs.dbType && (
+                <BatchSettings
+                  type={props.batchSettingConfigs.dbType}
+                  {...handleUpdateUploadedValue}
+                />
+              )}
             </div>
           )
         case 'file':

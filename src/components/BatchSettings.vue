@@ -77,12 +77,27 @@ const fileList = ref<any[]>([])
 const importLoading = ref(false)
 
 function downloadTemplate() {
-  let downloadFile = ''
-  if (props.type === BatchSettingDatabaseType.InfluxDB) {
-    downloadFile = 'InfluxDB'
+  const fileNames: { [key in BatchSettingDatabaseType]: string } = {
+    [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
+    [BatchSettingDatabaseType.TDengine]: 'TDengine',
+    [BatchSettingDatabaseType.IoTDB]: 'IoTDB',
+    // Add more mappings here if needed
   }
-  downloadByURL(`static/templates/EMQX_${downloadFile}_Template.csv`)
+
+  const downloadFile = fileNames[props.type]
+
+  if (downloadFile) {
+    downloadByURL(`static/templates/EMQX_${downloadFile}_Template.csv`)
+  } else {
+    console.error(`Unsupported type: ${props.type}`)
+  }
 }
+
+/**
+ * Processes the InfluxDB data and returns a promise that resolves to an array of key-value pairs.
+ * @param {string[][]} data - The InfluxDB data to be processed.
+ * @returns {Promise<{ key: string; value: string }[]>} - A promise that resolves to an array of key-value pairs.
+ */
 function processInfluxDBData(data: string[][]): Promise<{ key: string; value: string }[]> {
   return new Promise((resolve, reject) => {
     try {
@@ -97,6 +112,38 @@ function processInfluxDBData(data: string[][]): Promise<{ key: string; value: st
     }
   })
 }
+/**
+ * Processes TDengine data and returns a promise that resolves to a string.
+ *
+ * @param {string[][]} data - The TDengine data to be processed.
+ * @returns {Promise<string>} - A promise that resolves to the generated SQL insert string.
+ */
+function processTDengineData(data: string[][]): Promise<string> {
+  return new Promise((resolve, reject) => {
+    try {
+      const tableName = '<table>'
+      const fields = []
+      const values = []
+      for (let i = 1; i < data.length; i++) {
+        const [field, value, isChar] = data[i]
+        if (!field || !value) continue
+        fields.push(field)
+        const isCharValue = isChar && ['true', 'TRUE', '1'].includes(isChar.trim())
+        values.push(isCharValue ? `'${value}'` : value)
+      }
+      const result = `insert into ${tableName}(${fields.join(', ')}) values (${values.join(', ')})`
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+/**
+ * Reads and parses a CSV file.
+ * @param file The file to be read and parsed.
+ * @returns A promise that resolves to a 2D array representing the CSV data.
+ */
 async function readFileAndParse(file: File): Promise<string[][]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -127,9 +174,12 @@ async function importData() {
     if (fileList.value.length > 0) {
       const file = fileList.value[0].raw
       const data = await readFileAndParse(file)
-      let res: any[] = []
+      let res: any
       if (props.type === BatchSettingDatabaseType.InfluxDB) {
-        res = await processInfluxDBData(data)
+        res = (await processInfluxDBData(data)) as { key: string; value: string }[]
+      }
+      if (props.type === BatchSettingDatabaseType.TDengine) {
+        res = (await processTDengineData(data)) as string
       }
       emits('uploadedData', res)
       fileList.value = []

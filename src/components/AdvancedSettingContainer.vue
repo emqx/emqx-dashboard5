@@ -17,6 +17,9 @@ const showAdvancedSettings = ref(false)
 </script>
 
 <style lang="scss" scoped>
+.btn-container {
+  margin-top: 14px;
+}
 .advanced-settings {
   width: 100%;
 }
