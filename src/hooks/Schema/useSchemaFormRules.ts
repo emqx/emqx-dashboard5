@@ -34,7 +34,10 @@ export default (): {
       const pathToSet = getPathToSet(key)
       const propItem = properties[key]
       const { type, minimum, maximum } = propItem
-      if (type === 'number' && (minimum !== undefined || maximum !== undefined)) {
+      if (
+        (type === 'number' || type === 'integer') &&
+        (minimum !== undefined || maximum !== undefined)
+      ) {
         const currentRule = rules.value[pathToSet]
         const ruleArr = createNumRangeRule(minimum, maximum)
         if (currentRule && Array.isArray(currentRule)) {

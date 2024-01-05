@@ -334,17 +334,20 @@ const SchemaForm = defineComponent({
               {...customProps}
             />
           )
-        case 'number':
+        case 'number': {
+          const { minimum: min = 0, maximum: max = Number.POSITIVE_INFINITY } = property
+          const rangeLimit = { min, max }
           return (
             <CustomInputNumber
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
               placeholder={property.default?.toString()}
-              min={0}
+              {...rangeLimit}
               {...customProps}
             />
           )
+        }
         case 'enum':
           return (
             <el-select
