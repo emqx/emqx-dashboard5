@@ -179,6 +179,7 @@ export default (
     [BridgeType.Confluent]: azureAdvancedProps,
     [BridgeType.GCPProducer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
+    [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
   }
 
   const advancedFields = computed(() => {

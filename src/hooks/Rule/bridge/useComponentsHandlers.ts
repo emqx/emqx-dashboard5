@@ -295,6 +295,10 @@ export default (
     if (parameters?.properties?.template) {
       parameters.properties.template.format = 'sql'
     }
+    if (parameters?.properties?.target_qos && parameters.properties.target_qos.type === 'number') {
+      parameters.properties.target_qos.type = 'enum'
+      parameters.properties.target_qos.symbols = [0, 1, 2]
+    }
     return { components, rules }
   }
 

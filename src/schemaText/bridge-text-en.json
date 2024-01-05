@@ -1177,24 +1177,24 @@
       "desc": "The address of the Syskeeper proxy server"
     },
     "ack_mode": {
-      "label": "Acknowledgement Mode",
+      "label": "ACK Mode",
       "desc": "Specify whether the proxy server should reply with an acknowledgement for the message forwarding, can be:<br>- need_ack <br>- no_ack <br>"
     },
     "ack_timeout": {
-      "label": "Acknowledgement Timeout",
+      "label": "ACK Timeout",
       "desc": "The maximum time to wait for an acknowledgement from the proxy server"
     },
     "target_topic": {
       "desc": "The topic for the forwarded message",
-      "label": "Target Topic"
+      "label": "Topic"
     },
     "target_qos": {
-      "desc": "The QoS for the forwarded message, -1 is for the original topic",
-      "label": "Target QoS"
+      "desc": "The QoS for the forwarded message, left blank for the original topic",
+      "label": "QoS"
     },
     "template": {
-      "desc": "Template. Placeholders supported.",
-      "label": "Template"
+      "desc": "Message template. Placeholders supported.",
+      "label": "Message Template"
     }
   }
 }
