@@ -115,7 +115,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { Ref, defineEmits, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
+import { Ref, defineEmits, defineExpose, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -247,6 +247,8 @@ const processBridge = async (bridgeId: string) => {
 
   if (direction === BridgeDirection.Both || direction === BridgeDirection.Ingress) {
     replaceSQLFrom(`$bridges/${bridgeInfo.id}`)
+    await nextTick()
+    rightBlockActiveTab.value = RightTab.Sources
   }
 }
 
@@ -267,6 +269,8 @@ const processConnector = async (
     }
   } else if (direction === BridgeDirection.Ingress) {
     replaceSQLFrom(`$bridges/${connType}:${connName}`)
+    await nextTick()
+    rightBlockActiveTab.value = RightTab.Sources
   }
 }
 
