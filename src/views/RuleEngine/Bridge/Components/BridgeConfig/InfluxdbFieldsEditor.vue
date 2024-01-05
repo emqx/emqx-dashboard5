@@ -80,7 +80,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let dbType: BatchSettingDatabaseType = BatchSettingDatabaseType.InfluxDB
+    const dbType: BatchSettingDatabaseType = BatchSettingDatabaseType.InfluxDB
     const rowData: kvRow = {
       key: '',
       value: '',

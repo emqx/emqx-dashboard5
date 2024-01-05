@@ -21,6 +21,7 @@
       :data-handler="getComponentsHandler()"
       :form-props="formBindProps"
       :advanced-fields="advancedFields"
+      :batch-setting-configs="batchSettingConfigs"
       @update="handleRecordChanged"
       @component-change="handleComponentChange"
       @init="handleRecordInit"
@@ -38,7 +39,7 @@ import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeType } from '@/types/enum'
+import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
@@ -144,6 +145,29 @@ const getRefKey = computed(() => {
     return getActionTypeRefKey(props.type)
   }
   return getBridgeTypeRefKey(props.type) || undefined
+})
+
+const batchSettingDBs = ['tdengine', 'iotdb' /* add more db types here if needed */]
+const batchSettingDBMaps: Record<string, string> = {
+  tdengine: 'TDengine',
+  iotdb: 'IoTDB',
+}
+const batchSettingConfigs = computed(() => {
+  if (!getRefKey.value) {
+    return
+  }
+  /**
+   * Finds the database type based on the reference key and returns an object with the corresponding database type.
+   * @returns {Object} An object with the database type.
+   */
+  const dbType = batchSettingDBs.find((type) => getRefKey.value?.includes(type))
+  if (dbType) {
+    const typeKey = batchSettingDBMaps[dbType] as keyof typeof BatchSettingDatabaseType
+    return {
+      dbType: BatchSettingDatabaseType[typeKey],
+    }
+  }
+  return undefined
 })
 
 const { getComponentsHandler } = useComponentsHandlers(props)

@@ -1,0 +1,7 @@
+Field,Value,Char Value,Remarks (Optional)
+ts,${ts},false,Example Remark
+msgid,${id},true,
+mqtt_topic,${topic},true,
+qos,${qos},false,
+payload,${payload},true,
+arrived,${timestamp},false,

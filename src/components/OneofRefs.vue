@@ -86,7 +86,7 @@ const props = defineProps({
     type: Boolean,
   },
   getText: {
-    type: Function as PropType<(property: Property) => { label: string; desc: string }>,
+    type: Function as PropType<(property: Property) => { label: string; desc?: string }>,
   },
   customColClass: {
     type: Object as PropType<Record<string, string>>,
