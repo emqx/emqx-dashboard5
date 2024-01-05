@@ -3728,10 +3728,10 @@ export interface BridgeInfluxdbPutApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV2Precision
+  ssl?: BrokerSslClientOpts
   bucket: string
   org: string
   token: string
-  ssl?: BrokerSslClientOpts
 }
 
 export type BridgeInfluxdbPutApiV1Precision =
@@ -3753,10 +3753,10 @@ export interface BridgeInfluxdbPutApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV1Precision
+  ssl?: BrokerSslClientOpts
   database: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
 }
 
 export type BridgeInfluxdbPostApiV2Type =
@@ -3786,10 +3786,10 @@ export interface BridgeInfluxdbPostApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV2Precision
+  ssl?: BrokerSslClientOpts
   bucket: string
   org: string
   token: string
-  ssl?: BrokerSslClientOpts
   type: BridgeInfluxdbPostApiV2Type
   name: string
 }
@@ -3821,10 +3821,10 @@ export interface BridgeInfluxdbPostApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV1Precision
+  ssl?: BrokerSslClientOpts
   database: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
   type: BridgeInfluxdbPostApiV1Type
   name: string
 }
@@ -3867,10 +3867,10 @@ export interface BridgeInfluxdbGetApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV2Precision
+  ssl?: BrokerSslClientOpts
   bucket: string
   org: string
   token: string
-  ssl?: BrokerSslClientOpts
   type: BridgeInfluxdbGetApiV2Type
   name: string
   status?: BridgeInfluxdbGetApiV2Status
@@ -3916,10 +3916,10 @@ export interface BridgeInfluxdbGetApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV1Precision
+  ssl?: BrokerSslClientOpts
   database: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
   type: BridgeInfluxdbGetApiV1Type
   name: string
   status?: BridgeInfluxdbGetApiV1Status
