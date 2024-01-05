@@ -6,6 +6,7 @@ export default (): {
     inflight?: boolean
     batch?: boolean
     withoutRequestTimeout?: boolean
+    withoutStartTimeout?: boolean
   }) => ResourceOpt
 } => {
   const createCommonForm = (): ResourceOpt => ({
@@ -18,7 +19,12 @@ export default (): {
   })
 
   const createDefaultResourceOptsForm = (
-    config: { inflight?: boolean; batch?: boolean; withoutRequestTimeout?: boolean } = {},
+    config: {
+      inflight?: boolean
+      batch?: boolean
+      withoutRequestTimeout?: boolean
+      withoutStartTimeout?: boolean
+    } = {},
   ): ResourceOpt => {
     let formData: ResourceOpt = createCommonForm()
     if (config.inflight) {
@@ -35,6 +41,9 @@ export default (): {
     }
     if (config.withoutRequestTimeout) {
       formData = omit(formData, 'request_ttl')
+    }
+    if (config.withoutStartTimeout) {
+      formData = omit(formData, 'start_timeout')
     }
     return formData
   }

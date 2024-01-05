@@ -1,6 +1,6 @@
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType, InfluxDBType, Role } from '@/types/enum'
+import { BridgeType, Role } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
@@ -226,15 +226,6 @@ export const useBridgeDataHandler = (): {
     return bridgeData
   }
 
-  const handleInfluxDBBridgeData = (bridgeData: any) => {
-    if (bridgeData.type === InfluxDBType.v1) {
-      bridgeData = omit(bridgeData, ['token', 'org', 'bucket'])
-    } else {
-      bridgeData = omit(bridgeData, ['database', 'username', 'password'])
-    }
-    return bridgeData
-  }
-
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
@@ -265,7 +256,6 @@ export const useBridgeDataHandler = (): {
     [BridgeType.MQTT, handleMQTTBridgeData],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.GCPConsumer, handleGCPBridgeData],
-    [BridgeType.InfluxDB, handleInfluxDBBridgeData],
   ])
 
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
