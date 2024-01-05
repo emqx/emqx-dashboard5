@@ -46,7 +46,11 @@ const useChart = (): {
 } => {
   const { addListener } = useEchartResize()
   const initChart = (chartId: string) => {
-    const chartInstance = echarts.init(document.getElementById(chartId), null, {
+    const el = document.getElementById(chartId)
+    if (!el) {
+      return
+    }
+    const chartInstance = echarts.init(el, null, {
       renderer: 'canvas',
       useDirtyRect: false,
     })
