@@ -13,12 +13,14 @@
             :content="webhookData?.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch
-              v-if="webhookData"
-              class="enable-btn"
-              v-model="webhookData.enable"
-              @change="toggleEnabled"
-            />
+            <span>
+              <el-switch
+                v-if="webhookData"
+                class="enable-btn"
+                v-model="webhookData.enable"
+                @change="toggleEnabled"
+              />
+            </span>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
@@ -36,7 +38,7 @@
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
-        <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview">
+        <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" lazy>
           <div class="overview-container" v-loading="infoLoading">
             <BridgeItemOverview
               v-if="!infoLoading && webhookData"
