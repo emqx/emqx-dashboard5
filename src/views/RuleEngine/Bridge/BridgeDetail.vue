@@ -53,7 +53,7 @@
     </div>
     <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
       <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">
-        <el-tab-pane v-if="!isFromRule" :label="tl('overview')" :name="Tab.Overview">
+        <el-tab-pane v-if="!isFromRule" :label="tl('overview')" :name="Tab.Overview" lazy>
           <div
             class="overview-container"
             :class="{ 'is-loading': infoLoading }"

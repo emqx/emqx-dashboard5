@@ -32,7 +32,7 @@
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
-        <el-tab-pane :label="tl('overview')" name="overview">
+        <el-tab-pane :label="tl('overview')" name="overview" lazy>
           <ExhookItemOverview :exhook="exhookData" :exhook-name="exhookName" />
         </el-tab-pane>
         <el-tab-pane :label="tl('registeredHooks')" name="hooks">

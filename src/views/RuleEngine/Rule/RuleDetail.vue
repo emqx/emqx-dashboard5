@@ -36,7 +36,7 @@
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
-        <el-tab-pane :label="tl('overview')" :name="Tab.Overview">
+        <el-tab-pane :label="tl('overview')" :name="Tab.Overview" lazy>
           <div v-loading="infoLoading">
             <RuleItemOverview :rule-id="id" />
           </div>

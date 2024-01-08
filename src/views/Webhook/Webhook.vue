@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column label="URL">
           <template #default="{ row }">
-            {{ row.bridge?.url }}
+            {{ row.connector?.url }}
           </template>
         </el-table-column>
         <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
