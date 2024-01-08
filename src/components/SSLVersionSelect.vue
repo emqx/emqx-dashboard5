@@ -4,14 +4,6 @@
   </el-select>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'SSLVersionSelect',
-})
-</script>
-
 <script setup lang="ts">
 import { defineProps, computed, PropType, WritableComputedRef, defineEmits } from 'vue'
 

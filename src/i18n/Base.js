@@ -603,4 +603,12 @@ export default {
     zh: '最大速率',
     en: 'Maximum Rate',
   },
+  sslVersion: {
+    zh: 'SSL 版本',
+    en: 'SSL Versions',
+  },
+  sslCiphers: {
+    zh: 'SSL 加密套件',
+    en: 'SSL Ciphers',
+  },
 }

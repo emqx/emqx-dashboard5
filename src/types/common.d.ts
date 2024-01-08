@@ -40,6 +40,8 @@ export interface SSL {
   certfile?: string
   keyfile?: string
   cacertfile?: string
+  versions: Array<string>
+  ciphers: Array<string>
 }
 
 export interface BackendI18n {

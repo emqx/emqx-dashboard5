@@ -221,7 +221,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" v-else-if="!isQUIC">
-            <el-form-item :label="tl('sslversion')">
+            <el-form-item :label="t('Base.sslVersion')">
               <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
             </el-form-item>
           </el-col>
@@ -366,8 +366,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { PropType, computed, defineEmits, defineProps } from 'vue'
+import SSLVersionSelect from '../SSLVersionSelect.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
-import SSLVersionSelect from './SSLVersionSelect.vue'
 
 const props = defineProps({
   modelValue: {

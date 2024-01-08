@@ -86,6 +86,18 @@
       </template>
       <p class="value" v-else>{{ record.cacertfile }}</p>
     </el-form-item>
+    <el-form-item class="w-50-p" :prop="getFormItemProp(`versions`)" :label="t('Base.sslVersion')">
+      <template v-if="!readonly">
+        <SSLVersionSelect v-model="record.versions" />
+      </template>
+      <p class="value" v-else>{{ record.versions?.join?.(', ') }}</p>
+    </el-form-item>
+    <el-form-item class="w-50-p" :prop="getFormItemProp(`ciphers`)" :label="t('Base.sslCiphers')">
+      <template v-if="!readonly">
+        <ArrayEditorInput v-model="record.ciphers" />
+      </template>
+      <p class="value" v-else>{{ record.ciphers?.join?.(', ') }}</p>
+    </el-form-item>
   </div>
 </template>
 
@@ -103,7 +115,9 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
 import { PropType, Ref, WritableComputedRef, computed, defineEmits, defineProps, ref } from 'vue'
+import ArrayEditorInput from '../ArrayEditorInput.vue'
 import CustomFormItem from '../CustomFormItem.vue'
+import SSLVersionSelect from '../SSLVersionSelect.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 
@@ -154,6 +168,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+const { t } = useI18nTl('Base')
+
 const record: WritableComputedRef<SSL> = computed({
   get() {
     return props.modelValue
@@ -185,5 +201,8 @@ const getFormItemProp = (key: string) => {
 <style lang="scss">
 .TLS-input {
   width: 100%;
+}
+.w-50-p {
+  width: 50%;
 }
 </style>

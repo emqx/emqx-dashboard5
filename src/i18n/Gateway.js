@@ -227,10 +227,6 @@ export default {
     zh: '关闭发送超时连接',
     en: 'Send Timeout Close',
   },
-  sslversion: {
-    zh: 'SSL 版本',
-    en: 'SSL Versions',
-  },
   dtlsversion: {
     zh: 'DTLS 版本',
     en: 'DTLS Versions',
