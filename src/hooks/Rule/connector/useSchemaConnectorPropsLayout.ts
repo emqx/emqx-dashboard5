@@ -155,6 +155,16 @@ export default (
       ['server', 'parameters', 'token', 'org', 'bucket', 'database', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
+    [BridgeType.IoTDB]: createOrderObj(
+      [
+        'base_url',
+        'authentication.username',
+        'authentication.password',
+        'ssl',
+        'enable_pipelining',
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -180,6 +190,7 @@ export default (
     [BridgeType.GCPProducer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
+    [BridgeType.IoTDB]: ['enable_pipelining'],
   }
 
   const advancedFields = computed(() => {

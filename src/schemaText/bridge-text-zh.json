@@ -777,6 +777,24 @@
     "connect_timeout": {
       "desc": "连接到 HTTP 服务器时的超时时间。",
       "label": "连接超时"
+    },
+    "data": {
+      "label": "数据"
+    },
+    "timestamp": {
+      "label": "Timestamp",
+      "desc": "时间戳。支持占位符，最终值可以是：</br>- now: 使用有效负载中包含的 `now_ms` 作为时间戳- now_ms: 与上述相同- now_us: 使用有效负载中包含的 `now_us` 作为时间戳- now_ns: 使用有效负载中包含的 `now_ns` 作为时间戳- 其他任何值: 直接使用该值作为时间戳"
+    },
+    "measurement": {
+      "label": "Measurement",
+      "desc": "Measurement。 支持占位符"
+    },
+    "data_type": {
+      "label": "数据类型"
+    },
+    "value": {
+      "label": "值",
+      "desc": "值"
     }
   },
   "emqx_ee_bridge_opents": {

@@ -778,6 +778,24 @@
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
+    },
+    "data": {
+      "label": "Data"
+    },
+    "timestamp": {
+      "label": "Timestamp",
+      "desc": "Timestamp. Placeholders in format of ${var} is supported, the final value can be:</br>- now: use the `now_ms` which is contained in the payload as timestamp- now_ms: same as above- now_us: use the `now_us` which is contained in the payload as timestamp- now_ns: use the `now_ns` which is contained in the payload as timestamp- any other: use the value directly as the timestamp"
+    },
+    "measurement": {
+      "label": "Measurement",
+      "desc": "Measurement. Placeholders in format of ${var} is supported"
+    },
+    "data_type": {
+      "label": "Data Type"
+    },
+    "value": {
+      "label": "Value",
+      "desc": "Value. Placeholders in format of ${var} is supported"
     }
   },
   "emqx_ee_bridge_opents": {

@@ -26,7 +26,7 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
-  const { t, tl } = useI18nTl('RuleEngine')
+  const { t, tl, te } = useI18nTl('RuleEngine')
 
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
@@ -51,7 +51,9 @@ export default (
   const setLabelAndDesc = (prop: Property, path: string) => {
     if (prop) {
       prop.label = t(`${path}.label`)
-      prop.description = t(`${path}.desc`)
+      if (te(`${path}.desc`)) {
+        prop.description = t(`${path}.desc`)
+      }
     }
   }
 
@@ -302,6 +304,23 @@ export default (
     return { components, rules }
   }
 
+  const IoTDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const dataProps = components?.parameters?.properties?.data?.items?.properties
+    if (dataProps) {
+      if (dataProps.data_type && dataProps.data_type.type === 'string') {
+        dataProps.data_type.type = 'enum'
+        dataProps.data_type.symbols = ['TEXT', 'BOOLEAN', 'INT32', 'INT64', 'FLOAT', 'DOUBLE']
+        dataProps.data_type.default ??= ''
+      }
+      const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_iotdb.'
+      Object.entries(dataProps).forEach(([key, value]) =>
+        setLabelAndDesc(value, `${i18nPrefix}${key}`),
+      )
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
@@ -317,6 +336,7 @@ export default (
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
     [BridgeType.GreptimeDB]: greptimeDBHandler,
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
+    [BridgeType.IoTDB]: IoTDBHandler,
   }
 
   const getComponentsHandler = () => {

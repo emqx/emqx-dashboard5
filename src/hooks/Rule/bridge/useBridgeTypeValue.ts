@@ -419,6 +419,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
     [BridgeType.SysKeeperForwarder, getRef(BridgeType.SysKeeperForwarder, '', 'post')],
     [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
+    [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {
