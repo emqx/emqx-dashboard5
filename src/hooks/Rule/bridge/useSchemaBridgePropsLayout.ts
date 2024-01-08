@@ -171,17 +171,9 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.IoTDB]: createOrderObj(
-      [
-        'base_url',
-        'iotdb_version',
-        'authentication.username',
-        'authentication.password',
-        'device_id',
-        'is_aligned',
-        'retry_interval',
-        'enable_pipelining',
-        'ssl',
-      ],
+      ['iotdb_version', 'device_id', 'max_retries', 'is_aligned', 'data'].map(
+        (k) => `parameters.${k}`,
+      ),
       fieldStartIndex,
     ),
     [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
@@ -278,16 +270,12 @@ export default (
     [BridgeType.GreptimeDB]: {
       username: 'dividing-line-below',
     },
-    [BridgeType.IoTDB]: {
-      ssl: 'col-ssl col-need-row',
-    },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
     [BridgeType.RabbitMQ]: ['heartbeat', 'publish_confirmation_timeout', 'timeout'],
-    [BridgeType.IoTDB]: ['enable_pipelining'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCPConsumer]: ['pipelining'],
