@@ -41,69 +41,79 @@
               />
             </el-select>
           </el-col>
-          <el-col v-bind="colProps">
-            <el-input v-model="filterParams.source" :placeholder="tl('opSource')" />
-          </el-col>
-          <el-col v-bind="colProps">
-            <el-input v-model="filterParams.source_ip" placeholder="IP" />
-          </el-col>
-          <el-col v-bind="colProps">
-            <el-select
-              v-model="filterParams.operation_id"
-              filterable
-              clearable
-              allow-create
-              :placeholder="tl('opName')"
-            >
-              <el-option
-                v-for="{ value, label } in opNameList"
-                :key="value"
-                :label="label"
-                :value="value"
-              />
-            </el-select>
-          </el-col>
-          <template class="more" v-if="showMoreQuery">
-            <el-col v-bind="colProps">
-              <el-select
-                v-model="filterParams.operation_result"
-                class="comparator"
-                :placeholder="tl('operationResult')"
-                clearable
-              >
-                <el-option
-                  v-for="{ value, label } in requestResultOpt"
-                  :key="value"
-                  :label="label"
-                  :value="value"
-                />
-              </el-select>
-            </el-col>
-          </template>
-          <el-col
-            v-bind="showMoreQuery ? { sm: 24, md: 24, lg: 12 } : { ...colProps, lg: 18 }"
-            class="col-oper"
-          >
+          <el-col v-if="notSupportHTTPFilter" v-bind="{ ...colProps, lg: 12 }" class="col-oper">
             <el-button type="primary" plain :icon="Search" @click="search">
               {{ t('Base.search') }}
             </el-button>
             <el-button :icon="RefreshLeft" @click="resetFilter">
               {{ t('Base.reset') }}
             </el-button>
-            <el-tooltip
-              :content="!showMoreQuery ? t('Base.showMore') : $t('Base.lessMore')"
-              placement="top"
-            >
-              <el-button
-                class="icon-button"
-                plain
-                :icon="showMoreQuery ? ArrowUp : ArrowDown"
-                @click="showMoreQuery = !showMoreQuery"
-              >
-              </el-button>
-            </el-tooltip>
           </el-col>
         </el-row>
+        <div class="http-filter" v-if="!notSupportHTTPFilter">
+          <p class="tip http-filter-desc">{{ tl('httpFilterParamsDesc') }}</p>
+          <el-row :gutter="20">
+            <el-col v-bind="colProps">
+              <el-input v-model="filterParams.source" :placeholder="tl('opSource')" />
+            </el-col>
+            <el-col v-bind="colProps">
+              <el-select
+                v-model="filterParams.operation_id"
+                filterable
+                clearable
+                allow-create
+                :placeholder="tl('opName')"
+              >
+                <el-option
+                  v-for="{ value, label } in opNameList"
+                  :key="value"
+                  :label="label"
+                  :value="value"
+                />
+              </el-select>
+            </el-col>
+            <el-col v-bind="colProps">
+              <el-input v-model="filterParams.source_ip" placeholder="IP" />
+            </el-col>
+            <template class="more" v-if="showMoreQuery">
+              <el-col v-bind="colProps">
+                <el-select
+                  v-model="filterParams.operation_result"
+                  class="comparator"
+                  :placeholder="tl('operationResult')"
+                  clearable
+                >
+                  <el-option
+                    v-for="{ value, label } in requestResultOpt"
+                    :key="value"
+                    :label="label"
+                    :value="value"
+                  />
+                </el-select>
+              </el-col>
+            </template>
+            <el-col v-bind="showMoreQuery ? { sm: 24, md: 24, lg: 24 } : colProps" class="col-oper">
+              <el-button type="primary" plain :icon="Search" @click="search">
+                {{ t('Base.search') }}
+              </el-button>
+              <el-button :icon="RefreshLeft" @click="resetFilter">
+                {{ t('Base.reset') }}
+              </el-button>
+              <el-tooltip
+                :content="!showMoreQuery ? t('Base.showMore') : $t('Base.lessMore')"
+                placement="top"
+              >
+                <el-button
+                  class="icon-button"
+                  plain
+                  :icon="showMoreQuery ? ArrowUp : ArrowDown"
+                  @click="showMoreQuery = !showMoreQuery"
+                >
+                </el-button>
+              </el-tooltip>
+            </el-col>
+          </el-row>
+        </div>
       </el-form>
       <div class="app-wrapper" v-loading="isTableLoading">
         <div class="section-header">
@@ -198,7 +208,7 @@ import {
 import { ArrowDown, ArrowUp, RefreshLeft, Search, Setting } from '@element-plus/icons-vue'
 import { pickBy } from 'lodash'
 import moment from 'moment'
-import { Ref, reactive, ref } from 'vue'
+import { Ref, computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import resourceDictArr from './resource_dict.json'
 import { ElMessage } from 'element-plus'
@@ -266,6 +276,11 @@ const filterParams: Partial<GetAuditParams> = reactive({
   operation_result: undefined,
 })
 const showMoreQuery = ref(false)
+
+const notHTTPType: Array<string> = [AuditLogFrom.cli, AuditLogFrom.erlang_console]
+const notSupportHTTPFilter = computed(() => {
+  return filterParams.from && notHTTPType.includes(filterParams.from)
+})
 
 const isInitializing = ref(false)
 const isTableLoading = ref(false)
@@ -419,6 +434,13 @@ init()
         padding: 0 4px;
       }
     }
+  }
+  .http-filter {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  .http-filter-desc {
+    opacity: 0.8;
   }
 }
 .code-popper.el-popper {

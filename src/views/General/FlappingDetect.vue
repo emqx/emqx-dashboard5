@@ -86,7 +86,9 @@ import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import { usePerms } from '@/plugins/permissionsPlugin'
 
+const { hasPermission } = usePerms()
 const { t, tl } = useI18nTl('General')
 
 const configLoading = ref(false)
@@ -112,6 +114,9 @@ const loadData = async () => {
 }
 
 const updateConfigData = async () => {
+  if (!hasPermission('put')) {
+    return
+  }
   saveLoading.value = true
   try {
     const zoneData: Zone = await getDefaultZoneConfigs()

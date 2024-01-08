@@ -679,7 +679,7 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Update a action",
+      "en": "Update an action",
       "zh": "更新动作"
     }
   },
@@ -691,7 +691,7 @@
       "zh": "动作"
     },
     "operation_name_label": {
-      "en": "Delete a action",
+      "en": "Delete an action",
       "zh": "删除动作"
     }
   },
@@ -1291,8 +1291,8 @@
       "zh": "网关"
     },
     "operation_name_label": {
-      "en": "Add client authentication credentials",
-      "zh": "添加客户端认证凭证"
+      "en": "Add authentication for the listener",
+      "zh": "为指定监听器添加认证器"
     }
   },
   {
@@ -1471,8 +1471,8 @@
       "zh": "配置"
     },
     "operation_name_label": {
-      "en": "Update file transfer config",
-      "zh": "更新文件传输配置"
+      "en": "(Configs)Update file transfer config",
+      "zh": "(配置)更新文件传输配置"
     }
   },
   {
@@ -1875,7 +1875,7 @@
     "method": "post",
     "path": "/api_key",
     "operation_label": {
-      "en": "API Keys",
+      "en": "API Key",
       "zh": "API 密钥"
     },
     "operation_name_label": {
@@ -1887,7 +1887,7 @@
     "method": "put",
     "path": "/api_key/:name",
     "operation_label": {
-      "en": "API Keys",
+      "en": "API Key",
       "zh": "API 密钥"
     },
     "operation_name_label": {
@@ -1899,7 +1899,7 @@
     "method": "delete",
     "path": "/api_key/:name",
     "operation_label": {
-      "en": "API Keys",
+      "en": "API Key",
       "zh": "API 密钥"
     },
     "operation_name_label": {
