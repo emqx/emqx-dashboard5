@@ -101,7 +101,7 @@ export default {
   },
   msgQueueLen: {
     zh: '最大消息队列长度',
-    en: 'Max message queue length',
+    en: 'Max Message Queue Length',
   },
   maxRetryTimes: {
     zh: '最大重试次数',
