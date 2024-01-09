@@ -229,8 +229,13 @@ export const useBridgeDataHandler = (): {
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
-      if (bridgeData.command_template && typeof bridgeData.command_template === 'string') {
-        bridgeData.command_template = await splitBySpace(bridgeData.command_template)
+      if (
+        bridgeData?.parameters?.command_template &&
+        typeof bridgeData.parameters.command_template === 'string'
+      ) {
+        bridgeData.parameters.command_template = await splitBySpace(
+          bridgeData.parameters.command_template,
+        )
       }
       return bridgeData
     } catch (error) {
@@ -282,8 +287,8 @@ export const useBridgeDataHandler = (): {
   }
 
   const handleRedisDataAfterLoaded = (data: any) => {
-    if ('command_template' in data && Array.isArray(data.command_template)) {
-      data.command_template = transCommandArrToStr(data.command_template)
+    if (data?.parameters?.command_template && Array.isArray(data.parameters.command_template)) {
+      data.parameters.command_template = transCommandArrToStr(data.parameters.command_template)
     }
     return data
   }
