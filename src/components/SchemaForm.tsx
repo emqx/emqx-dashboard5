@@ -446,6 +446,7 @@ const SchemaForm = defineComponent({
                 {...customProps}
                 disabled={props.disabled}
                 rules={rules.value}
+                dbType={props.batchSettingConfigs.dbType}
               />
             )
           }
@@ -533,7 +534,7 @@ const SchemaForm = defineComponent({
                 lang="sql"
                 disabled={isPropertyDisabled || props.disabled}
               />
-              {props.batchSettingConfigs.dbType && (
+              {props.batchSettingConfigs.dbType === BatchSettingDatabaseType.TDengine && (
                 <BatchSettings
                   type={props.batchSettingConfigs.dbType}
                   {...handleUpdateUploadedValue}
