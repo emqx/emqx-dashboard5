@@ -260,7 +260,7 @@ export default {
     en: 'Actions (Sink)',
   },
   source: {
-    zh: '数据源',
+    zh: 'Sources',
     en: 'Sources',
   },
   setting: {

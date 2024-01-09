@@ -427,6 +427,7 @@ const SchemaForm = defineComponent({
                 editMode={editMode}
                 {...customProps}
                 disabled={props.disabled}
+                rules={rules.value}
               />
             )
           }
