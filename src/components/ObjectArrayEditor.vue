@@ -8,7 +8,9 @@
   >
     <el-table-column v-for="(value, key) in properties" :key="key">
       <template #header>
-        {{ value.label }}
+        <label :class="getFormItemRules(key) && 'is-required'">
+          {{ value.label }}
+        </label>
         <InfoTooltip v-if="value.description">
           <template #content>
             <MarkdownContent :content="value.description" />
@@ -17,11 +19,13 @@
       </template>
       <template #default="{ $index }">
         <template v-if="arr[$index] !== undefined">
-          <SchemaFormItem
-            v-model="arr[$index][key]"
-            :type="(value.type as any)"
-            :symbols="value.symbols"
-          />
+          <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
+            <SchemaFormItem
+              v-model="arr[$index][key]"
+              :type="(value.type as any)"
+              :symbols="value.symbols"
+            />
+          </CustomFormItem>
         </template>
       </template>
     </el-table-column>
@@ -48,6 +52,8 @@
             :key="key"
             :readonly="readonly"
             :label="value.label"
+            :prop="getProp($index, key)"
+            :rules="getFormItemRules(key)"
             label-width="118px"
           >
             <SchemaFormItem
@@ -73,8 +79,9 @@ import { createRandomString } from '@/common/tools'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
+import { FormRules } from '@/types/common'
 import { Properties } from '@/types/schemaForm'
-import { Plus, Delete } from '@element-plus/icons-vue'
+import { Delete, Plus } from '@element-plus/icons-vue'
 import { cloneDeep, get, isFunction } from 'lodash'
 import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
@@ -105,6 +112,12 @@ const props = defineProps({
     type: String as PropType<'table' | 'list'>,
     default: 'table',
   },
+  /**
+   * for bind rules to form item
+   */
+  rules: {
+    type: Object as PropType<FormRules>,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -133,6 +146,15 @@ const addItem = () => {
 
 const deleteItem = (index: number) => {
   arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+}
+
+const getProp = (index: number, key: string | number) => `${props.propKey}.${index}.${key}`
+const getFormItemRules = (key: string | number) => {
+  if (!props.rules) {
+    return undefined
+  }
+  const fullPath = `${props.propKey}.${key}`
+  return props.rules[fullPath]
 }
 
 onMounted(async () => {
@@ -174,6 +196,11 @@ onMounted(async () => {
       flex-basis: 22px;
       margin-left: 8px;
     }
+  }
+  label.is-required::after {
+    content: '*';
+    color: var(--el-color-danger);
+    margin-left: 4px;
   }
 }
 </style>

@@ -162,6 +162,10 @@ export default function useSchemaForm(
             } else if (property.items.$ref) {
               const component = getComponentByRef(schema, property.items.$ref)
               property.items.path = property.path
+              /**
+               * Here's a bug that could be exploited
+               * The rule set for array type items is wrong.
+               */
               property.items.properties = transComponents(component, property.items.path)
             }
           } else if (oneOf) {
