@@ -11,6 +11,7 @@ import useSchemaRecord from '../Schema/useSchemaRecord'
 
 export default (): {
   createRawWebhookForm: () => Promise<WebhookForm>
+  getWebhookName: (bridgeName: string) => string
   getRuleIdByName: (name: string) => string
   getActionNameByName: (name: string) => string
 } => {
@@ -54,11 +55,15 @@ export default (): {
     }
   }
 
+  const webhookTargetReg = new RegExp(`${WEBHOOK_SUFFIX}$`)
+  const getWebhookName = (bridgeName: string) => bridgeName.replace(webhookTargetReg, '')
+
   const getRuleIdByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
   const getActionNameByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
 
   return {
     createRawWebhookForm,
+    getWebhookName,
     getRuleIdByName,
     getActionNameByName,
   }
