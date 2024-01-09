@@ -23,17 +23,20 @@
             <SchemaFormItem
               v-model="arr[$index][key]"
               :type="(value.type as any)"
-              :symbols="value.symbols"
+              :symbols="(value.symbols as string[] | number[] | undefined)"
             />
           </CustomFormItem>
         </template>
       </template>
     </el-table-column>
-    <el-table-column width="100px" v-if="!disabled">
+    <el-table-column :width="dbType ? '170px' : '100px'" v-if="!disabled">
       <template #header>
-        <a href="javascript:;" @click="addItem">
-          {{ $t('Base.add') }}
-        </a>
+        <div class="header-settings">
+          <batch-settings v-if="dbType" :type="dbType" @uploaded-data="handleUploadedData" />
+          <a href="javascript:;" @click="addItem">
+            {{ $t('Base.add') }}
+          </a>
+        </div>
       </template>
       <template #default="{ $index }">
         <a href="javascript:;" @click="deleteItem($index)">
@@ -59,7 +62,7 @@
             <SchemaFormItem
               v-model="item[key]"
               :type="(value.type as any)"
-              :symbols="value.symbols"
+              :symbols="(value.symbols as string[] | number[] | undefined)"
             />
           </CustomFormItem>
         </div>
@@ -87,6 +90,8 @@ import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref 
 import CustomFormItem from './CustomFormItem.vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
+import BatchSettings from '@/components/BatchSettings.vue'
+import { BatchSettingDatabaseType } from '@/types/enum'
 
 const props = defineProps({
   modelValue: {
@@ -117,6 +122,9 @@ const props = defineProps({
    */
   rules: {
     type: Object as PropType<FormRules>,
+  },
+  dbType: {
+    type: String as PropType<BatchSettingDatabaseType>,
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -155,6 +163,10 @@ const getFormItemRules = (key: string | number) => {
   }
   const fullPath = `${props.propKey}.${key}`
   return props.rules[fullPath]
+}
+
+const handleUploadedData = (val: Array<Record<string, any>>) => {
+  arr.value = val
 }
 
 onMounted(async () => {
@@ -201,6 +213,11 @@ onMounted(async () => {
     content: '*';
     color: var(--el-color-danger);
     margin-left: 4px;
+  }
+  .header-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 }
 </style>

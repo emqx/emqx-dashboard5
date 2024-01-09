@@ -140,6 +140,43 @@ function processTDengineData(data: string[][]): Promise<string> {
 }
 
 /**
+ * Processes IoTDB data and returns an array of records.
+ * @param {string[][]} data - The IoTDB data to be processed.
+ * @returns {Promise<Array<Record<string, any>>>} - A promise that resolves to an array of records.
+ * @throws {Error} - If an invalid data type is encountered.
+ */
+function processIoTDBData(data: string[][]): Promise<Array<Record<string, any>>> {
+  return new Promise((resolve, reject) => {
+    try {
+      const validDataTypes = ['BOOLEAN', 'INT32', 'INT64', 'FLOAT', 'DOUBLE', 'TEXT']
+
+      const result = data
+        .slice(1)
+        .filter(
+          (row) => row.length >= 4 && row.slice(0, 4).every((item) => item && item.trim() !== ''),
+        )
+        .map((row) => {
+          const [timestamp, measurement, data_type, value] = row
+          // Check if data_type is valid
+          if (!validDataTypes.includes(data_type)) {
+            throw new Error(`Invalid data type: ${data_type}`)
+          }
+          return {
+            timestamp,
+            measurement,
+            data_type,
+            value,
+          }
+        })
+
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+/**
  * Reads and parses a CSV file.
  * @param file The file to be read and parsed.
  * @returns A promise that resolves to a 2D array representing the CSV data.
@@ -177,9 +214,10 @@ async function importData() {
       let res: any
       if (props.type === BatchSettingDatabaseType.InfluxDB) {
         res = (await processInfluxDBData(data)) as { key: string; value: string }[]
-      }
-      if (props.type === BatchSettingDatabaseType.TDengine) {
+      } else if (props.type === BatchSettingDatabaseType.TDengine) {
         res = (await processTDengineData(data)) as string
+      } else if (props.type === BatchSettingDatabaseType.IoTDB) {
+        res = await processIoTDBData(data)
       }
       emits('uploadedData', res)
       fileList.value = []
