@@ -280,7 +280,7 @@ export default {
     en: 'Schema',
   },
   source: {
-    zh: '数据源',
+    zh: 'Sources',
     en: 'Sources',
   },
   setting: {
