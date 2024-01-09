@@ -7,18 +7,18 @@
   >
     <el-option :value="newTargetValue" :label="newTargetLabel" />
     <el-option
-      v-for="{ name, id, status } in actionOpts"
-      :key="id"
-      :value="id"
-      :label="name"
-      :disabled="isItemDisabled(id)"
+      v-for="action in actionOpts"
+      :key="action.id"
+      :value="action.id"
+      :label="action.name"
+      :disabled="isItemDisabled(action)"
     >
       <div class="action-opt-item space-between">
-        <p class="action-name">{{ name }}</p>
+        <p class="action-name">{{ action.name }}</p>
         <div class="action-status vertical-align-center">
-          <i class="node-status-dot" :class="`is-${getStatusClass(status)}`"></i>
-          <span class="text-status" :class="getStatusClass(status)">
-            {{ getStatusLabel(status) }}
+          <i class="node-status-dot" :class="`is-${getStatusClass(action.status)}`"></i>
+          <span class="text-status" :class="getStatusClass(action.status)">
+            {{ getStatusLabel(action.status) }}
           </span>
         </div>
       </div>
@@ -31,6 +31,7 @@ import { createRandomString } from '@/common/tools'
 import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -51,9 +52,15 @@ const props = withDefaults(
      */
     disableList?: Array<string>
     direction?: BridgeDirection
+    /**
+     * Actions related to webhook are not
+     * allowed to be used elsewhere by default.
+     */
+    webhookActionDisabled?: boolean
   }>(),
   {
     direction: BridgeDirection.Egress,
+    webhookActionDisabled: true,
   },
 )
 
@@ -94,11 +101,20 @@ const getTotalList = async () => {
 }
 getTotalList()
 
-const isItemDisabled = (value: string) => {
-  if (!props.disableList) {
+const { judgeIsWebhookAction } = useWebhookUtils()
+const isItemDisabled = (action: BridgeItem) => {
+  if (!props.disableList && !props.webhookActionDisabled) {
     return false
   }
-  return props.disableList.includes(value) && value !== props.modelValue
+  const { id } = action
+  let ret = false
+  if (props.webhookActionDisabled) {
+    ret = judgeIsWebhookAction(action)
+  }
+  if (props.disableList) {
+    ret = ret || (props.disableList.includes(id) && id !== props.modelValue)
+  }
+  return ret
 }
 
 const { getBridgeGeneralType } = useBridgeTypeValue()
