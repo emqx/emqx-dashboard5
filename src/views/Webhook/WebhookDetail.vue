@@ -1,7 +1,7 @@
 <template>
   <div class="webhook-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: webhookName, routeName: 'webhook' }" />
+      <detail-header :item="{ name: fullName, routeName: 'webhook' }" />
       <div class="section-header">
         <div>
           <span class="title-n-status">
@@ -94,17 +94,17 @@ const { t, tl } = useI18nTl('Base')
 
 const FormCom = ref()
 
-const webhookName = computed(() => route.params.name.toString())
+const fullName = computed(() => route.params.name.toString())
 const actionId = computed(() => {
-  const actionName = getActionNameByName(webhookName.value)
+  const actionName = fullName.value
   return getBridgeKey({ type: BridgeType.Webhook, name: actionName })
 })
-const ruleId = computed(() => getRuleIdByName(webhookName.value))
+const ruleId = computed(() => fullName.value)
 
 const tab = computed(() => route.query.tab && Number(route.query.tab))
 const activeTab = ref(tab.value || DetailTab.Overview)
 
-const { getRuleIdByName, getActionNameByName } = useWebhookForm()
+const { getWebhookName } = useWebhookForm()
 const infoLoading = ref(false)
 const webhookData: Ref<WebhookItem | undefined> = ref(undefined)
 const isSubmitting = ref(false)
@@ -112,7 +112,7 @@ const isSubmitting = ref(false)
 const { getEnableStatus } = useWebhookUtils()
 
 const getWebhookData = async () => {
-  if (!webhookName.value) {
+  if (!fullName.value) {
     return
   }
   infoLoading.value = true
@@ -124,7 +124,7 @@ const getWebhookData = async () => {
     ])
     const action = actionData as HTTPBridge
     webhookData.value = {
-      name: webhookName.value,
+      name: getWebhookName(fullName.value),
       rule: ruleData,
       action,
       connector: connectorData,

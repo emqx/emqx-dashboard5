@@ -74,8 +74,6 @@ export default (): {
     return webhookTargetReg.test(id) && judgeOutputsContainWebhook(rule)
   }
 
-  const getWebhookName = (bridgeName: string) => bridgeName.replace(webhookTargetReg, '')
-
   const getEnableStatus = (action: HTTPBridge, rule: RuleItem) => action.enable && rule.enable
 
   const joiningDataToWebhookList = (
@@ -99,7 +97,7 @@ export default (): {
       return arr.concat(
         rule && connector
           ? {
-              name: getWebhookName(actionItem.name),
+              name: actionItem.name,
               enable: getEnableStatus(actionItem, rule),
               action: actionItem,
               connector,
