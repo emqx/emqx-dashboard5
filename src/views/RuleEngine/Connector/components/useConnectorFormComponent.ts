@@ -8,7 +8,6 @@ import BridgeKafkaConsumerConfig from '../../Bridge/Components/BridgeConfig/Brid
 import BridgePulsarConfig from '../../Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import UsingSchemaBridgeConfig from '../../Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConnectorSchemaForm from './ConnectorSchemaForm.vue'
-import HTTPConfig from './HTTPConfig.vue'
 
 export default (
   type: Ref<BridgeType>,
