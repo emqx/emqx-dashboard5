@@ -226,16 +226,36 @@
             />
           </el-col>
           <!-- Version of SSL/DTLS -->
-          <el-col :span="12" v-if="isDTLS">
-            <el-form-item :label="tl('dtlsversion')">
-              <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" v-else-if="!isQUIC">
-            <el-form-item :label="tl('sslversion')">
-              <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
-            </el-form-item>
-          </el-col>
+          <template v-if="isDTLS">
+            <el-col :span="12">
+              <el-form-item :label="tl('dtlsversion')">
+                <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item>
+                <template #label>
+                  <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
+                </template>
+                <array-editor-input v-model="listenerRecord.dtls_options.ciphers" />
+              </el-form-item>
+            </el-col>
+          </template>
+          <template v-else-if="!isQUIC">
+            <el-col :span="12">
+              <el-form-item :label="tl('sslversion')">
+                <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item>
+                <template #label>
+                  <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
+                </template>
+                <array-editor-input v-model="listenerRecord.ssl_options.ciphers" />
+              </el-form-item>
+            </el-col>
+          </template>
 
           <template v-if="!isQUIC">
             <el-col :span="12">
@@ -262,14 +282,13 @@
 
           <!-- OCSP -->
           <template v-if="!gatewayName && !isWSS && !isQUIC">
-            <el-col :span="12">
+            <el-col :span="24">
               <el-form-item :label="tl('enableOcspStapling')">
                 <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
               </el-form-item>
             </el-col>
-            <el-col :span="12" />
             <template v-if="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling">
-              <el-col :span="12">
+              <el-col :span="24">
                 <el-form-item :label="tl('responderUrl')" prop="ssl_options.ocsp.responder_url">
                   <el-input v-model="listenerRecord.ssl_options.ocsp.responder_url" />
                 </el-form-item>
@@ -390,6 +409,8 @@ import { Listener } from '@/types/listener'
 import { PropType, computed, defineEmits, defineProps } from 'vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
+import ArrayEditorInput from '../ArrayEditorInput.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {

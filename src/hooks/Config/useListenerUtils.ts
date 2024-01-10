@@ -189,10 +189,12 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     udp_options: createRawUDPParams(),
     dtls_options: {
       versions: ['dtlsv1.2', 'dtlsv1'],
+      ciphers: [],
       ...createRawSSLParams(),
     },
     ssl_options: {
       versions: ['tlsv1.3', 'tlsv1.2', 'tlsv1.1', 'tlsv1'],
+      ciphers: [],
       ...createRawSSLParams(),
     },
     websocket: {
