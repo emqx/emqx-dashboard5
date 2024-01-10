@@ -130,7 +130,7 @@ const toggleEnable = async (row: BridgeItem) => {
 }
 
 const createRuleWithSource = (bridgeId: string) => {
-  ElMessageBox.confirm(t('RuleEngine.useActionCreateRule'), {
+  ElMessageBox.confirm(t('RuleEngine.useSourceCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',

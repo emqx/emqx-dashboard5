@@ -280,7 +280,7 @@ const updateSourceInfo = async () => {
       return Promise.resolve(sourceInfo.value.id)
     }
 
-    await ElMessageBox.confirm(tl('updateActionTip'), {
+    await ElMessageBox.confirm(tl('updateSourceTip'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',
@@ -317,7 +317,7 @@ const toggleEnable = async () => {
 }
 
 const createRuleWithSource = () => {
-  ElMessageBox.confirm(tl('useActionCreateRule'), {
+  ElMessageBox.confirm(tl('useSourceCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',

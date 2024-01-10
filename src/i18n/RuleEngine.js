@@ -13,7 +13,11 @@ export default {
   },
   updateActionTip: {
     zh: '更新配置会导致动作重启，动作中缓冲的消息和新接收的消息将被丢弃。',
-    en: 'Updating configuration will cause the action to restart. The buffered messages, and newly received messages during the restart will be lost.',
+    en: 'Updating configuration will cause the Action to restart. The buffered messages, and newly received messages during the restart will be lost.',
+  },
+  updateSourceTip: {
+    zh: '更新配置会导致 Source 重启。',
+    en: 'Updating configuration will cause the Source to restart.',
   },
   create: {
     zh: '创建',
@@ -833,6 +837,10 @@ export default {
   useActionCreateRule: {
     zh: '是否使用该动作创建规则',
     en: 'Would you like to create a rule using this action?',
+  },
+  useSourceCreateRule: {
+    zh: '是否使用该 Source 创建规则',
+    en: 'Would you like to create a rule using this source?',
   },
   canNotViewConnectorTip: {
     zh: '暂不支持通过 Dashboard 管理此连接器',
