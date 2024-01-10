@@ -1,7 +1,8 @@
 <template>
   <el-select
+    v-if="mode === 'select'"
     class="array-editor"
-    v-model="selected"
+    v-model="selectedValue"
     multiple
     filterable
     allow-create
@@ -11,6 +12,14 @@
   >
     <el-option v-for="item in options" :key="item" :value="item" :label="item" />
   </el-select>
+  <el-input
+    v-else-if="mode === 'input'"
+    v-model="inputValue"
+    class="array-editor"
+    type="textarea"
+    :rows="2"
+    :disabled="disabled"
+  />
 </template>
 
 <script lang="ts">
@@ -25,6 +34,10 @@ export default defineComponent({
 import { defineProps, computed, PropType, WritableComputedRef, defineEmits } from 'vue'
 
 const props = defineProps({
+  mode: {
+    type: String as PropType<'select' | 'input'>,
+    default: 'select',
+  },
   modelValue: {
     type: Array as PropType<Array<string>>,
   },
@@ -45,12 +58,26 @@ const options = computed(() => {
   return props.modelValue
 })
 
-const selected: WritableComputedRef<Array<string>> = computed({
+const selectedValue: WritableComputedRef<Array<string>> = computed({
   get() {
     return props.modelValue || []
   },
   set(val) {
     emit('update:modelValue', val)
+  },
+})
+
+const inputValue: WritableComputedRef<string | undefined> = computed({
+  get() {
+    if (props.mode === 'input') {
+      return props.modelValue?.join(',')
+    }
+    return '' // default value
+  },
+  set(val) {
+    if (props.mode === 'input') {
+      emit('update:modelValue', val?.split(','))
+    }
   },
 })
 </script>
