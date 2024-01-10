@@ -143,6 +143,7 @@ export default defineComponent({
               placeholder={props.placeholder}
               v-model={formItemValue.value}
               clearable
+              {...customProps}
             >
               {(props.symbols as any)?.map((opt: any) => (
                 <el-option value={opt} label={opt} />
