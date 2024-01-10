@@ -7,16 +7,16 @@ import { Ref, ref } from 'vue'
 import useHandleActionItem from '../action/useHandleActionItem'
 import { useBridgeDirection } from './useBridgeTypeValue'
 
-export default (
-  deletedCallBack: () => void,
-): {
+interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>
   usingBridgeRules: Ref<string[]>
   currentDeleteBridgeId: Ref<string>
   handleDeleteSuc: () => void
   delBridgeDirection: Ref<number>
   handleDeleteBridge: (data: BridgeItem) => Promise<void>
-} => {
+}
+
+export default (deletedCallBack: () => void): DeleteBridgeResult => {
   const { t } = useI18nTl('RuleEngine')
 
   const showSecondConfirm = ref(false)

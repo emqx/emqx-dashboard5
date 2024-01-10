@@ -16,13 +16,16 @@ import {
 import { getTypeAndNameFromKey } from '@/common/tools'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
 import { BridgeItem, Connector } from '@/types/rule'
-import type { Ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useBridgeDataHandler, useConnectorDataHandler } from '../useDataHandler'
+import { ElMessageBox } from 'element-plus'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { useI18n } from 'vue-i18n'
 
 type NowConnector = Connector | BridgeItem
 
-export default (): {
+interface ConnectorHandlerResult {
   getConnectorDetail: <T = NowConnector>(id: string) => Promise<T>
   handleConnectorDataAfterLoaded: <T = NowConnector>(data: T) => T
   addConnector: <T = NowConnector>(data: T) => Promise<T>
@@ -32,7 +35,14 @@ export default (): {
   handleDataForCopy: <T = NowConnector>(data: T) => T
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
-} => {
+  showDelTip: Ref<boolean>
+  associatedActionList: Ref<string[]>
+  currentDelType: Ref<string>
+  handleDeleteConnector: (data: Connector, callback: () => void | Promise<void>) => Promise<void>
+}
+
+export default (): ConnectorHandlerResult => {
+  const { t } = useI18n()
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded, handleBridgeDataForCopy } =
     useBridgeDataHandler()
   const {
@@ -132,6 +142,59 @@ export default (): {
       ? testConnectorConnectivity(data as Connector)
       : testBridgeConnectivity(data)
 
+  const showDelTip = ref(false)
+  const associatedActionList = ref<Array<string>>([])
+  const currentDelType = ref('')
+
+  const { confirmDel } = useOperationConfirm()
+
+  const deleteTrueConnector = async (id: string) => {
+    return confirmDel(() => deleteConnector(id))
+  }
+
+  const deleteFakeConnector = async (id: string) => {
+    try {
+      await confirmDel(() => deleteConnector(id))
+    } catch (error: any) {
+      const { status, data } = error?.response || {}
+      if (status === 400 && data?.rules?.length) {
+        await ElMessageBox.confirm(t('RuleEngine.deleteFakeConnectorConfirm'), {
+          confirmButtonText: t('Base.confirm'),
+          cancelButtonText: t('Base.cancel'),
+          confirmButtonClass: 'confirm-danger',
+          type: 'warning',
+        })
+        await deleteConnector(id, true)
+        return Promise.resolve()
+      } else {
+        console.error(error)
+      }
+      return Promise.reject()
+    }
+  }
+
+  const handleDeleteConnector = async (
+    { id, type, actions }: Connector,
+    callback: () => void | Promise<void>,
+  ) => {
+    if (actions && actions.length) {
+      showDelTip.value = true
+      associatedActionList.value = actions
+      currentDelType.value = type
+      return
+    }
+    try {
+      if (isConnectorSupported(type)) {
+        await deleteTrueConnector(id)
+      } else {
+        await deleteFakeConnector(id)
+      }
+      callback()
+    } catch (error) {
+      //
+    }
+  }
+
   return {
     getConnectorDetail,
     handleConnectorDataAfterLoaded: handleDataAfterLoaded,
@@ -142,5 +205,9 @@ export default (): {
     handleDataForCopy,
     isTesting,
     testConnectivity,
+    showDelTip,
+    associatedActionList,
+    currentDelType,
+    handleDeleteConnector,
   }
 }
