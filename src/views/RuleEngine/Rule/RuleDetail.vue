@@ -45,12 +45,18 @@
     </el-tabs>
     <CopySubmitDialog :target="copyTarget" v-model="showNameInputDialog" />
   </div>
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="rule"
+    :name="currentDelId"
+  />
 </template>
 
 <script lang="ts" setup>
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
@@ -62,6 +68,7 @@ import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import RuleForm from '../components/RuleForm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
@@ -124,7 +131,16 @@ const enableOrDisableRule = async () => {
   }
 }
 
+const currentDelId = ref('')
+const showDeleteWebhookAssociatedTip = ref(false)
+const { judgeIsWebhookRule } = useWebhookUtils()
+
 const deleteRule = async () => {
+  if (judgeIsWebhookRule(ruleInfo.value)) {
+    currentDelId.value = id
+    showDeleteWebhookAssociatedTip.value = true
+    return
+  }
   await ElMessageBox.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),

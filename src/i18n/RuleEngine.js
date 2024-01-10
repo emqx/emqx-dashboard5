@@ -220,6 +220,14 @@ export default {
     zh: '创建 Webhook',
     en: 'Create Webhook',
   },
+  deleteWebhookAssociatedTip: {
+    zh: '该{target}被用于 Webhook，无法进行{operation}，请通过{page}管理',
+    en: 'The {target} is used for Webhook and cannot be {operation}. Please manage it through the {page}',
+  },
+  page: {
+    zh: '页面',
+    en: 'page',
+  },
   resetMetricsConfirm: {
     zh: '是否确认重置该{target}统计数据？',
     en: 'Are you sure you want to reset this {target} statistic?',

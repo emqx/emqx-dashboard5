@@ -15,13 +15,14 @@ import {
 } from '@/api/ruleengine'
 import { getTypeAndNameFromKey } from '@/common/tools'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
-import { ref, Ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
+import { Ref, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useBridgeDataHandler, useConnectorDataHandler } from '../useDataHandler'
-import { ElMessageBox } from 'element-plus'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
-import { useI18n } from 'vue-i18n'
 
 type NowConnector = Connector | BridgeItem
 
@@ -36,6 +37,8 @@ interface ConnectorHandlerResult {
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
   showDelTip: Ref<boolean>
+  currentDelName: Ref<string>
+  showDeleteWebhookAssociatedTip: Ref<boolean>
   associatedActionList: Ref<string[]>
   currentDelType: Ref<string>
   handleDeleteConnector: (data: Connector, callback: () => void | Promise<void>) => Promise<void>
@@ -173,10 +176,20 @@ export default (): ConnectorHandlerResult => {
     }
   }
 
+  const currentDelName = ref('')
+  const showDeleteWebhookAssociatedTip = ref(false)
+  const { judgeIsWebhookConnector } = useWebhookUtils()
+
   const handleDeleteConnector = async (
-    { id, type, actions }: Connector,
+    connector: Connector,
     callback: () => void | Promise<void>,
   ) => {
+    const { id, type, actions, name } = connector
+    if (judgeIsWebhookConnector(connector)) {
+      currentDelName.value = name
+      showDeleteWebhookAssociatedTip.value = true
+      return
+    }
     if (actions && actions.length) {
       showDelTip.value = true
       associatedActionList.value = actions
@@ -206,6 +219,8 @@ export default (): ConnectorHandlerResult => {
     isTesting,
     testConnectivity,
     showDelTip,
+    currentDelName,
+    showDeleteWebhookAssociatedTip,
     associatedActionList,
     currentDelType,
     handleDeleteConnector,
