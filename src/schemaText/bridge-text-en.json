@@ -780,22 +780,22 @@
       "label": "Connect Timeout"
     },
     "data": {
-      "label": "Data"
+      "label": "Write Data"
     },
     "timestamp": {
       "label": "Timestamp",
-      "desc": "Timestamp. Placeholders in format of ${var} is supported, the final value can be:</br>- now: use the `now_ms` which is contained in the payload as timestamp- now_ms: same as above- now_us: use the `now_us` which is contained in the payload as timestamp- now_ns: use the `now_ns` which is contained in the payload as timestamp- any other: use the value directly as the timestamp"
+      "desc": "Supports the use of ${var} format as a placeholder, which should be in timestamp format. You can also use the following special characters to insert system time:</br>- now: Current second-level timestamp</br>- now_ms: Current millisecond-level timestamp</br>- now_us: Current microsecond-level timestamp</br>- now_us: Current nanosecond-level timestamp"
     },
     "measurement": {
       "label": "Measurement",
-      "desc": "Measurement. Placeholders in format of ${var} is supported"
+      "desc": "Supports the use of ${var} format as a placeholder."
     },
     "data_type": {
       "label": "Data Type"
     },
     "value": {
       "label": "Value",
-      "desc": "Value. Placeholders in format of ${var} is supported"
+      "desc": "The value to be inserted, supports the use of ${var} format as a placeholder."
     }
   },
   "emqx_ee_bridge_opents": {

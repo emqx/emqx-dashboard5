@@ -779,22 +779,22 @@
       "label": "连接超时"
     },
     "data": {
-      "label": "数据"
+      "label": "写入数据"
     },
     "timestamp": {
-      "label": "Timestamp",
-      "desc": "时间戳。支持占位符，最终值可以是：</br>- now: 使用有效负载中包含的 `now_ms` 作为时间戳- now_ms: 与上述相同- now_us: 使用有效负载中包含的 `now_us` 作为时间戳- now_ns: 使用有效负载中包含的 `now_ns` 作为时间戳- 其他任何值: 直接使用该值作为时间戳"
+      "label": "时间戳",
+      "desc": "支持使用 ${var} 格式的占位符，要求是时间戳格式。也可以使用以下特殊字符插入系统时间：</br>- now: 当前秒级时间戳</br>- now_ms: 当前毫秒级时间戳</br>- now_us: 当前微秒级时间戳</br>- `now_us`: 当前纳秒级时间戳"
     },
     "measurement": {
-      "label": "Measurement",
-      "desc": "Measurement。 支持占位符"
+      "label": "字段",
+      "desc": "也称 Measurement，支持使用 ${var} 格式的占位符。"
     },
     "data_type": {
       "label": "数据类型"
     },
     "value": {
       "label": "值",
-      "desc": "值"
+      "desc": "要插入的值，支持使用 ${var} 格式的占位符。"
     }
   },
   "emqx_ee_bridge_opents": {
