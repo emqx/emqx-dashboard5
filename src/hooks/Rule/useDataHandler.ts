@@ -131,7 +131,24 @@ export const useConnectorDataHandler = (): {
 
   const handleConnectorDataForSaveAsCopy = handleDataForSaveAsCopy
 
-  const handleConnectorDataAfterLoaded = <T>(data: T): T => data
+  const handleGCPDataAfterLoaded = (data: any) => {
+    if ('service_account_json' in data && typeof data.service_account_json === 'object') {
+      data.service_account_json = stringifyObjSafely(data.service_account_json, 2)
+    }
+    data.role = data.type.indexOf('consumer') > -1 ? Role.Consumer : Role.Producer
+    return data
+  }
+
+  const specialHandlerAfterLoaded = new Map([[BridgeType.GCPProducer, handleGCPDataAfterLoaded]])
+
+  const handleConnectorDataAfterLoaded = (data: Connector): Connector => {
+    const { type } = data
+    const handler = specialHandlerAfterLoaded.get(type)
+    if (handler) {
+      handler(data)
+    }
+    return data
+  }
 
   return {
     likePasswordFieldKeys,
