@@ -251,10 +251,7 @@ const SchemaForm = defineComponent({
     }
 
     const isComplexOneof = (prop: Property) =>
-      prop.type === 'oneof' &&
-      prop.oneOf?.length &&
-      prop.oneOf?.length > 2 &&
-      prop.oneOf?.some(({ $ref, symbols }) => $ref || symbols)
+      prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
 
     const sortOneofProperties = (oneOfArr: Property['oneOf']): Property['oneOf'] => {
       if (!Array.isArray(oneOfArr)) {
