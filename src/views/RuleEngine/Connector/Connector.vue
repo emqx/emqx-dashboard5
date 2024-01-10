@@ -89,6 +89,11 @@
     :action-list="associatedActionList"
     :connector-type="currentDelType"
   />
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="connector"
+    :name="currentDelName"
+  />
 </template>
 
 <script setup lang="ts">
@@ -101,6 +106,7 @@ import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
@@ -112,7 +118,7 @@ const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
-const { t, tl } = useI18nTl('RuleEngine')
+const { tl } = useI18nTl('RuleEngine')
 
 const { getMixedConnectorList } = useMixedConnectorList()
 const getList = async () => {
@@ -139,6 +145,8 @@ const {
   handleDeleteConnector,
   reconnectConnector,
   showDelTip,
+  currentDelName,
+  showDeleteWebhookAssociatedTip,
   associatedActionList,
   currentDelType,
 } = useHandleConnectorItem()

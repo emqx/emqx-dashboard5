@@ -81,6 +81,11 @@
     :action-list="associatedActionList"
     :connector-type="currentDelType"
   />
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="connector"
+    :name="connectorData.name"
+  />
 </template>
 
 <script setup lang="ts">
@@ -102,6 +107,7 @@ import { ElMessage } from 'element-plus'
 import { computed, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
 import DelConnectorTip from './components/DelConnectorTip.vue'
@@ -152,11 +158,11 @@ const { getTypeStr } = useConnectorTypeValue()
 const {
   getConnectorDetail,
   updateConnector,
-  deleteConnector,
   isTesting,
   testConnectivity,
   handleDeleteConnector,
   showDelTip,
+  showDeleteWebhookAssociatedTip,
   associatedActionList,
   currentDelType,
 } = useHandleConnectorItem()
