@@ -23,7 +23,8 @@
             <SchemaFormItem
               v-model="arr[$index][key]"
               :type="(value.type as any)"
-              :symbols="value.symbols"
+              :symbols="(value.symbols as string[] | number[] | undefined)"
+              :custom-props="value.componentProps"
             />
           </CustomFormItem>
         </template>
@@ -59,7 +60,7 @@
             <SchemaFormItem
               v-model="item[key]"
               :type="(value.type as any)"
-              :symbols="value.symbols"
+              :symbols="(value.symbols  as string[] | number[] | undefined)"
             />
           </CustomFormItem>
         </div>
