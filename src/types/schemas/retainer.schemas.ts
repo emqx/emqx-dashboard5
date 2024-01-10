@@ -95,6 +95,7 @@ export type GetMqttRetainerMessages200 = {
 }
 
 export type GetMqttRetainerMessagesParams = {
+  topic?: string
   page?: number
   limit?: number
 }

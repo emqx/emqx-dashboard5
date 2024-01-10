@@ -58,6 +58,32 @@ export type PutMqttTopicMetrics404 = {
   message?: string
 }
 
+export type DeleteMqttDelayedMessagesTopic404Code =
+  typeof DeleteMqttDelayedMessagesTopic404Code[keyof typeof DeleteMqttDelayedMessagesTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttDelayedMessagesTopic404Code = {
+  MESSAGE_NOT_FOUND: 'MESSAGE_NOT_FOUND',
+} as const
+
+export type DeleteMqttDelayedMessagesTopic404 = {
+  code?: DeleteMqttDelayedMessagesTopic404Code
+  message?: string
+}
+
+export type DeleteMqttDelayedMessagesTopic400Code =
+  typeof DeleteMqttDelayedMessagesTopic400Code[keyof typeof DeleteMqttDelayedMessagesTopic400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttDelayedMessagesTopic400Code = {
+  INVALID_TOPIC_NAME: 'INVALID_TOPIC_NAME',
+} as const
+
+export type DeleteMqttDelayedMessagesTopic400 = {
+  code?: DeleteMqttDelayedMessagesTopic400Code
+  message?: string
+}
+
 export type DeleteMqttTopicMetricsTopic404Code =
   typeof DeleteMqttTopicMetricsTopic404Code[keyof typeof DeleteMqttTopicMetricsTopic404Code]
 
