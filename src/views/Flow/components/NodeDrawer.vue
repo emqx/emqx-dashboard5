@@ -26,10 +26,12 @@
         </el-form-item>
         <el-divider />
       </template>
+      <!-- Setting key is to refresh the component after changing the selection  -->
       <component
         v-if="activeTab === DetailTab.Setting"
         ref="FormCom"
         :is="getFormComponent(type)"
+        :key="selectedAction"
         v-model="record"
         v-bind="getFormComponentProps(type)"
         :readonly="readonly"
