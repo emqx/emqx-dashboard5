@@ -24,6 +24,7 @@
               v-model="arr[$index][key]"
               :type="(value.type as any)"
               :symbols="(value.symbols as string[] | number[] | undefined)"
+              :custom-props="value.componentProps"
             />
           </CustomFormItem>
         </template>
