@@ -276,7 +276,7 @@ const updateSourceInfo = async () => {
     const res = await updateSource(data)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
-      router.push({ name: 'actions' })
+      router.push({ name: 'source' })
     }
     updateLoading.value = false
     return Promise.resolve(res.id)
