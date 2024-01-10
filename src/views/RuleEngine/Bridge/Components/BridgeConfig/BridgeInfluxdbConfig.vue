@@ -92,6 +92,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
+import { Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual } from 'lodash'
 import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import ConnectorSelect from '../ConnectorSelect.vue'
@@ -133,7 +134,7 @@ const { tl, t } = useI18nTl('RuleEngine')
 const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
 
 const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
-  ref: '#/components/schemas/bridge_influxdb.post_api_v2',
+  ref: '#/components/schemas/bridge_influxdb.post_bridge_v2',
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
@@ -185,7 +186,7 @@ watch(
 )
 
 const getPrecisionOpts = () => {
-  const rawPrecisionOpts: Array<string> = getPropItem('precision').symbols || []
+  const rawPrecisionOpts: Property['symbols'] = getPropItem('parameters.precision').symbols || []
   return rawPrecisionOpts.map((item) => ({
     value: item,
     label: t(`General.${item === 's' ? 'sec' : item}`),
