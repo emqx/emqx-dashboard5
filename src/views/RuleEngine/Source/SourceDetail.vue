@@ -314,7 +314,7 @@ const createRuleWithSource = () => {
 }
 
 const goBack = () => {
-  router.push({ name: 'actions' })
+  router.push({ name: 'source' })
 }
 const {
   showSecondConfirm,

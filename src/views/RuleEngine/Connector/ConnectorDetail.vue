@@ -16,7 +16,17 @@
         </div>
         <div>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :icon="Delete"
+              @click="
+                handleDeleteConnector(connectorData, () => {
+                  $router.push({ name: 'connector' })
+                })
+              "
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
@@ -66,6 +76,11 @@
     </div>
   </div>
   <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
+  <DelConnectorTip
+    v-model="showDelTip"
+    :action-list="associatedActionList"
+    :connector-type="currentDelType"
+  />
 </template>
 
 <script setup lang="ts">
@@ -89,6 +104,7 @@ import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
+import DelConnectorTip from './components/DelConnectorTip.vue'
 
 const props = defineProps<{
   /**
@@ -133,8 +149,17 @@ const connectorName = computed(() => connectorData.value.name)
 const { getBridgeIcon } = useBridgeTypeIcon()
 const { getTypeStr } = useConnectorTypeValue()
 
-const { getConnectorDetail, updateConnector, deleteConnector, isTesting, testConnectivity } =
-  useHandleConnectorItem()
+const {
+  getConnectorDetail,
+  updateConnector,
+  deleteConnector,
+  isTesting,
+  testConnectivity,
+  handleDeleteConnector,
+  showDelTip,
+  associatedActionList,
+  currentDelType,
+} = useHandleConnectorItem()
 
 const isLoading = ref(false)
 const getDetail = async () => {
@@ -149,15 +174,7 @@ const getDetail = async () => {
 }
 getDetail()
 
-const { operationWarning, confirmDel } = useOperationConfirm()
-const handleDelete = async () => {
-  try {
-    await confirmDel(() => deleteConnector(connectorData.value.id))
-    router.push({ name: 'connector' })
-  } catch (error) {
-    //
-  }
-}
+const { operationWarning } = useOperationConfirm()
 
 const handleTest = async () => {
   try {

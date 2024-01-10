@@ -75,7 +75,7 @@
                   :row-data="row"
                   :disabled="row.canNotView"
                   @copy="copyConnectorItem(row)"
-                  @delete="handleDeleteConnector(row)"
+                  @delete="handleDeleteConnector(row, getList)"
                 />
               </div>
             </el-tooltip>
@@ -92,19 +92,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  isConnectorSupported,
-  useBridgeTypeIcon,
-  useConnectorTypeValue,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
@@ -141,7 +135,13 @@ const initReconnectingMap = () => {
 const isErrorStatus = ({ status }: Connector) =>
   status === ConnectionStatus.Disconnected || status === ConnectionStatus.Inconsistent
 
-const { deleteConnector, reconnectConnector } = useHandleConnectorItem()
+const {
+  handleDeleteConnector,
+  reconnectConnector,
+  showDelTip,
+  associatedActionList,
+  currentDelType,
+} = useHandleConnectorItem()
 
 const reconnect = async ({ id }: Connector) => {
   try {
@@ -162,55 +162,6 @@ const getDetailPageRoute = ({ id }: Connector) => ({
 
 const copyConnectorItem = ({ id }: Connector) => {
   router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
-}
-
-const deleteTrueConnector = async (id: string) => {
-  return confirmDel(() => deleteConnector(id))
-}
-
-const deleteBridge = async (id: string) => {
-  try {
-    await confirmDel(() => deleteConnector(id))
-  } catch (error: any) {
-    const { status, data } = error?.response || {}
-    if (status === 400 && data?.rules?.length) {
-      await ElMessageBox.confirm(tl('deleteFakeConnectorConfirm'), {
-        confirmButtonText: t('Base.confirm'),
-        cancelButtonText: t('Base.cancel'),
-        confirmButtonClass: 'confirm-danger',
-        type: 'warning',
-      })
-      await deleteConnector(id, true)
-      return Promise.resolve()
-    } else {
-      console.error(error)
-    }
-    return Promise.reject()
-  }
-}
-
-const showDelTip = ref(false)
-const associatedActionList = ref<Array<string>>([])
-const currentDelType = ref('')
-
-const { confirmDel } = useOperationConfirm()
-const handleDeleteConnector = async ({ id, type, actions }: Connector) => {
-  if (actions && actions.length) {
-    showDelTip.value = true
-    associatedActionList.value = actions
-    currentDelType.value = type
-    return
-  }
-  try {
-    if (isConnectorSupported(type)) {
-      await deleteTrueConnector(id)
-    } else {
-      await deleteBridge(id)
-    }
-    getList()
-  } catch (error) {
-    //
-  }
 }
 
 const { getBridgeIcon } = useBridgeTypeIcon()
