@@ -226,7 +226,7 @@
                 <template #label>
                   <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
                 </template>
-                <array-editor mode="input" v-model="listenerRecord.dtls_options.ciphers" />
+                <array-editor-input v-model="listenerRecord.dtls_options.ciphers" />
               </el-form-item>
             </el-col>
           </template>
@@ -241,7 +241,7 @@
                 <template #label>
                   <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
                 </template>
-                <array-editor mode="input" v-model="listenerRecord.ssl_options.ciphers" />
+                <array-editor-input v-model="listenerRecord.ssl_options.ciphers" />
               </el-form-item>
             </el-col>
           </template>
@@ -387,7 +387,7 @@ import { Listener } from '@/types/listener'
 import { PropType, computed, defineEmits, defineProps } from 'vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
-import ArrayEditor from '../ArrayEditor.vue'
+import ArrayEditorInput from '../ArrayEditorInput.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
