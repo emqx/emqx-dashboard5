@@ -305,14 +305,34 @@ export default (
     return { components, rules }
   }
 
+  const getSymbolsFromOneOfArr = (oneof: Property['oneOf']): Property['symbols'] => {
+    if (!oneof) {
+      return []
+    }
+    return oneof.reduce((arr: Array<string | number>, item) => {
+      if (item.type === 'enum' && item.symbols) {
+        arr.push(...item.symbols)
+      }
+      return arr
+    }, [])
+  }
+
   const IoTDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const dataProps = components?.parameters?.properties?.data?.items?.properties
     if (dataProps) {
-      if (dataProps.data_type && dataProps.data_type.type === 'string') {
-        dataProps.data_type.type = 'enum'
-        dataProps.data_type.symbols = ['TEXT', 'BOOLEAN', 'INT32', 'INT64', 'FLOAT', 'DOUBLE']
-        dataProps.data_type.default ??= ''
+      const { data_type, timestamp } = dataProps
+      if (data_type && data_type.type === 'oneof') {
+        data_type.type = 'enum'
+        data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
+        data_type.default ??= ''
+        data_type.componentProps = { filterable: true, allowCreate: true }
+      }
+      if (timestamp && timestamp.type === 'oneof') {
+        timestamp.type = 'enum'
+        timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
+        timestamp.default ??= ''
+        timestamp.componentProps = { filterable: true, allowCreate: true }
       }
       const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_iotdb.'
       Object.entries(dataProps).forEach(([key, value]) =>
