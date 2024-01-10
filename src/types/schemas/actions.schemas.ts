@@ -1069,6 +1069,15 @@ export interface BridgeKafkaResourceOpts {
   health_check_interval?: string
 }
 
+export interface BridgeKafkaPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  description?: string
+  local_topic?: string
+  parameters: BridgeKafkaProducerKafkaOpts
+  resource_opts?: BridgeKafkaResourceOpts
+}
+
 export type BridgeKafkaProducerKafkaOptsQueryMode =
   typeof BridgeKafkaProducerKafkaOptsQueryMode[keyof typeof BridgeKafkaProducerKafkaOptsQueryMode]
 
@@ -1121,23 +1130,6 @@ export interface BridgeKafkaProducerKafkaExtHeaders {
   kafka_ext_header_value: string
 }
 
-export type BridgeKafkaProducerBufferMode =
-  typeof BridgeKafkaProducerBufferMode[keyof typeof BridgeKafkaProducerBufferMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerBufferMode = {
-  memory: 'memory',
-  disk: 'disk',
-  hybrid: 'hybrid',
-} as const
-
-export interface BridgeKafkaProducerBuffer {
-  mode?: BridgeKafkaProducerBufferMode
-  per_partition_limit?: string
-  segment_bytes?: string
-  memory_overload_protection?: boolean
-}
-
 export interface BridgeKafkaProducerKafkaOpts {
   topic: string
   message?: BridgeKafkaKafkaMessage
@@ -1155,13 +1147,21 @@ export interface BridgeKafkaProducerKafkaOpts {
   sync_query_timeout?: string
 }
 
-export interface BridgeKafkaPutBridgeV2 {
-  enable?: boolean
-  connector: string
-  description?: string
-  local_topic?: string
-  parameters: BridgeKafkaProducerKafkaOpts
-  resource_opts?: BridgeKafkaResourceOpts
+export type BridgeKafkaProducerBufferMode =
+  typeof BridgeKafkaProducerBufferMode[keyof typeof BridgeKafkaProducerBufferMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaProducerBufferMode = {
+  memory: 'memory',
+  disk: 'disk',
+  hybrid: 'hybrid',
+} as const
+
+export interface BridgeKafkaProducerBuffer {
+  mode?: BridgeKafkaProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
+  memory_overload_protection?: boolean
 }
 
 export type BridgeKafkaPostBridgeV2Type =
@@ -1303,10 +1303,26 @@ export interface BridgeIotdbActionResourceOpts {
   max_buffer_bytes?: string
 }
 
+export type BridgeIotdbActionParametersDataDataType =
+  | string
+  | 'double'
+  | 'float'
+  | 'int64'
+  | 'int32'
+  | 'boolean'
+  | 'text'
+
+export type BridgeIotdbActionParametersDataTimestamp =
+  | string
+  | 'now_us'
+  | 'now_ns'
+  | 'now_ms'
+  | 'now'
+
 export interface BridgeIotdbActionParametersData {
-  timestamp?: string
+  timestamp?: BridgeIotdbActionParametersDataTimestamp
   measurement: string
-  data_type: string
+  data_type: BridgeIotdbActionParametersDataDataType
   value: string
 }
 
