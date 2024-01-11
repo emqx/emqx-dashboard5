@@ -98,7 +98,12 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
   [GatewayName.LwM2M]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
-  [GatewayName.MQTT_SN]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
+  [GatewayName.MQTT_SN]: [
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
   [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
 }
 
