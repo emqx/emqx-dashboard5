@@ -141,7 +141,7 @@ export default {
     en: 'Please enter a properly formatted rate configuration',
   },
   updateListenerTip: {
-    zh: '注意：端口变更或更新 QUIC 类型的监听器配置将断开所有连接，是否继续？',
-    en: 'Note: Port changes or updating QUIC listener configuration will disconnect all connections. Continue?',
+    zh: '注意：如果监听器端口变更将断开所有连接，是否继续？',
+    en: 'Note: If the port changes, all connections will be disconnected. Continue?',
   },
 }
