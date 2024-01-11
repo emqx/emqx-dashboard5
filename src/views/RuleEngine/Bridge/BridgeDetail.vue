@@ -65,6 +65,25 @@
             :class="['app-card', isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
+            <el-alert
+              v-if="isWebhookAction"
+              class="webhook-tip-alert"
+              show-icon
+              type="info"
+              :closable="false"
+            >
+              <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
+                <template #target>
+                  <span>{{ t('RuleEngine.action') }}</span>
+                </template>
+                <template #operation>
+                  <span>{{ _.lowerCase(t('Base.edit')) }}</span>
+                </template>
+                <template #page>
+                  <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
+                </template>
+              </i18n-t>
+            </el-alert>
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-mqtt-config
                 v-if="bridgeType === BridgeType.MQTT"
@@ -84,6 +103,7 @@
                 :type="bridgeType"
                 :disabled="disabled"
                 :hide-name="hideName"
+                :form-props="formProps"
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
@@ -100,6 +120,7 @@
                 type="primary"
                 v-if="bridgeInfo.type"
                 :loading="updateLoading"
+                :disabled="isWebhookAction"
                 @click="updateBridgeInfo()"
               >
                 {{ $t('Base.update') }}
@@ -132,8 +153,9 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -224,6 +246,16 @@ const isSettingCardLoading = computed(
 )
 const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
   useHandleActionItem()
+
+/* Webhook associated */
+const { judgeIsWebhookAction } = useWebhookUtils()
+const isWebhookAction = computed(() => judgeIsWebhookAction(bridgeInfo.value))
+const formProps = computed(() => (isWebhookAction.value ? { disabled: true } : {}))
+const webhookRoute = computed(() => ({
+  name: 'webhook-detail',
+  params: { name: bridgeInfo.value.name },
+  query: { tab: DetailTab.Setting },
+}))
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true

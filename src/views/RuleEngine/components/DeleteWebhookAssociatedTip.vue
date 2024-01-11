@@ -1,6 +1,6 @@
 <template>
   <el-dialog class="del-webhook-dialog" v-model="showDialog" :width="400">
-    <i18n-t keypath="RuleEngine.deleteWebhookAssociatedTip" tag="p">
+    <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
       <template #target>
         <span>{{ targetLabel }}</span>
       </template>
@@ -28,7 +28,7 @@ import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean
-  name: string
+  name?: string
   type: 'connector' | 'action' | 'rule'
 }>()
 const emit = defineEmits(['update:modelValue'])

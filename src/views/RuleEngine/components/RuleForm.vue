@@ -6,6 +6,7 @@
           ref="formCom"
           :model="ruleValue"
           :rules="formRules"
+          :disabled="disabled"
           label-position="top"
           hide-required-asterisk
         >
@@ -35,6 +36,7 @@
                     :id="createRandomString()"
                     :completion-provider="completionProvider"
                     :hover-provider="hoverProvider"
+                    :disabled="disabled"
                     v-model="ruleValue.sql"
                     lang="sql"
                     @change="validate"
@@ -53,10 +55,14 @@
       <el-col :span="9" class="action-col">
         <el-tabs class="io-tabs" v-model="rightBlockActiveTab">
           <el-tab-pane class="io-tab-pane" :label="tl('dataInput')" :name="RightTab.Sources">
-            <RuleInputs v-model="ruleValue.sql" :source-list="ingressBridgeList" />
+            <RuleInputs
+              v-model="ruleValue.sql"
+              :disabled="disabled"
+              :source-list="ingressBridgeList"
+            />
           </el-tab-pane>
           <el-tab-pane class="io-tab-pane" :label="tl('actionOutputs')" :name="RightTab.Actions">
-            <RuleOutputs v-model="ruleValue" />
+            <RuleOutputs v-model="ruleValue" :disabled="disabled" />
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -81,7 +87,12 @@
         <el-button type="primary" plain @click="saveAsCopy" v-if="isEdit">
           {{ tl('saveAsCopy') }}
         </el-button>
-        <el-button type="primary" :loading="submitLoading" @click="$emit('save')">
+        <el-button
+          type="primary"
+          :disabled="disabled"
+          :loading="submitLoading"
+          @click="$emit('save')"
+        >
           {{ isEdit ? $t('Base.update') : $t('Base.create') }}
         </el-button>
       </el-col>
@@ -133,6 +144,10 @@ const prop = defineProps({
     default: false,
   },
   isEdit: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },

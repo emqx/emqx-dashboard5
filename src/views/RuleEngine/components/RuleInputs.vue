@@ -13,16 +13,16 @@
               <div class="io-desc">{{ item.info }}</div>
             </div>
             <span class="io-op">
-              <el-button size="small" @click="editInput($index)">
+              <el-button size="small" :disabled="disabled" @click="editInput($index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="small" plain @click="deleteInput($index)">
+              <el-button size="small" plain :disabled="disabled" @click="deleteInput($index)">
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
           </div>
         </template>
-        <el-button class="btn-add" type="primary" @click="addInput()">
+        <el-button class="btn-add" type="primary" :disabled="disabled" @click="addInput()">
           <el-icon><plus /></el-icon>
           <span>{{ tl('addInput') }}</span>
         </el-button>
@@ -71,6 +71,7 @@ const props = defineProps<{
    * ingress bridge list
    */
   sourceList: Array<BridgeItem>
+  disabled: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void

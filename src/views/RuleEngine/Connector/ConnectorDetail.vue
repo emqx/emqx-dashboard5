@@ -38,6 +38,25 @@
           :class="['app-card', isFromRule && 'app-inline-card']"
           :shadow="isFromRule ? 'never' : undefined"
         >
+          <el-alert
+            v-if="isWebhookConnector"
+            class="webhook-tip-alert"
+            show-icon
+            type="info"
+            :closable="false"
+          >
+            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
+              <template #target>
+                <span>{{ t('components.connector') }}</span>
+              </template>
+              <template #operation>
+                <span>{{ lowerCase(t('Base.edit')) }}</span>
+              </template>
+              <template #page>
+                <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
+              </template>
+            </i18n-t>
+          </el-alert>
           <div class="form-container">
             <component
               ref="FormCom"
@@ -46,7 +65,9 @@
               v-model="connectorData"
               :type="generalType"
               :is-loading="isLoading"
+              :disabled="isWebhookConnector"
               edit
+              v-bind="fromComProps"
             />
           </div>
           <div class="btn-area">
@@ -66,6 +87,7 @@
               type="primary"
               v-if="connectorData.type"
               :loading="isSubmitting"
+              :disabled="isWebhookConnector"
               @click="submit"
             >
               {{ $t('Base.update') }}
@@ -98,19 +120,21 @@ import useBridgeTypeValue, {
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
-import { BridgeType } from '@/types/enum'
+import { BridgeType, DetailTab } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { lowerCase } from 'lodash'
 import { computed, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
-import useConnectorFormComponent from './components/useConnectorFormComponent'
 import DelConnectorTip from './components/DelConnectorTip.vue'
+import useConnectorFormComponent from './components/useConnectorFormComponent'
 
 const props = defineProps<{
   /**
@@ -166,6 +190,18 @@ const {
   associatedActionList,
   currentDelType,
 } = useHandleConnectorItem()
+
+/* Webhook associated */
+const { judgeIsWebhookConnector } = useWebhookUtils()
+const isWebhookConnector = computed(() => judgeIsWebhookConnector(connectorData.value))
+const fromComProps = computed(() => {
+  return isWebhookConnector.value ? { formProps: { disabled: true } } : {}
+})
+const webhookRoute = computed(() => ({
+  name: 'webhook-detail',
+  params: { name: connectorName.value },
+  query: { tab: DetailTab.Setting },
+}))
 
 const isLoading = ref(false)
 const getDetail = async () => {
