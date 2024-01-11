@@ -603,4 +603,8 @@ export default {
     zh: '最大速率',
     en: 'Maximum Rate',
   },
+  enterToCreate: {
+    zh: '输入后创建新的自定义条目',
+    en: 'Enter to create a new custom item',
+  },
 }

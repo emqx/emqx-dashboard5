@@ -523,4 +523,12 @@ export default {
     zh: '近一分钟内授权次数趋势',
     en: 'Trend of authorization counts in the past minute',
   },
+  excludedTopics: {
+    zh: '排除主题',
+    en: 'Excluded Topics',
+  },
+  excludedTopicsDesc: {
+    zh: '指定列表内的主题不会生成授权缓存。',
+    en: 'The topics specified in the list will not generate an authorization cache.',
+  },
 }

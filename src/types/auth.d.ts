@@ -6,6 +6,7 @@ export interface AuthzSetting {
   no_match: 'allow' | 'deny'
   cache: {
     enable: boolean
+    excludes: string[]
     ttl?: string
     max_size?: number
   }

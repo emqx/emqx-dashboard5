@@ -8,6 +8,7 @@
     default-first-option
     :reserve-keyword="false"
     :disabled="disabled"
+    :placeholder="$t('Base.enterToCreate')"
   >
     <el-option v-for="item in options" :key="item" :value="item" :label="item" />
   </el-select>
