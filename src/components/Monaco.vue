@@ -187,6 +187,15 @@ watch(
     initEditor()
   },
 )
+
+watch(
+  () => prop.disabled,
+  () => {
+    editor.updateOptions({
+      readOnly: prop.disabled,
+    })
+  },
+)
 </script>
 
 <style lang="scss">
