@@ -20,14 +20,14 @@
     </el-table-column>
     <el-table-column v-if="!disabled && !fixedKeys && !readonly" width="100">
       <template #header>
-        <a href="javascript:;" class="btn" @click="addColumn">
+        <el-button link type="primary" @click="addColumn">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ row }">
-        <a href="javascript:;" class="btn" @click="deleteItem(row)">
+        <el-button link type="primary" @click="deleteItem(row)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>

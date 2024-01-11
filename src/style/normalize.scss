@@ -421,6 +421,12 @@
   --el-button-hover-link-text-color: var(--color-primary);
   --el-button-active-color: var(--color-primary);
 }
+.el-button.is-link.is-disabled,
+.el-button.is-link.is-disabled:hover,
+.el-button.is-link.is-disabled:focus,
+.el-button.is-link.is-disabled:active {
+  --el-color-primary-light-5: #86dbc1;
+}
 
 /* Dropdown */
 .el-dropdown-menu {
