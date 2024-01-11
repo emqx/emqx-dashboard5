@@ -156,9 +156,8 @@
               <el-button
                 type="primary"
                 v-if="bridgeInfo.type"
-                :disabled="!$hasPermission('put')"
+                :disabled="!$hasPermission('put') || isWebhookAction"
                 :loading="updateLoading"
-                :disabled="isWebhookAction"
                 @click="updateBridgeInfo()"
               >
                 {{ $t('Base.update') }}
