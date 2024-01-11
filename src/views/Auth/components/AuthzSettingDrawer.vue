@@ -19,6 +19,15 @@
                     number-placeholder="1"
                   />
                 </el-form-item>
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel
+                      :label="$t('Auth.excludedTopics')"
+                      :desc="$t('Auth.excludedTopicsDesc')"
+                    />
+                  </template>
+                  <ArrayEditor v-model="record.cache.excludes" />
+                </el-form-item>
               </template>
             </section>
             <section>
@@ -70,6 +79,8 @@ import { AuthzSetting } from '@/types/auth'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Ref, WritableComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import ArrayEditor from '@/components/ArrayEditor.vue'
 
 const props = defineProps({
   modelValue: {
@@ -110,9 +121,9 @@ const timeUnits = [
 const loadData = async () => {
   try {
     isLoading.value = true
-    const res = await listAuthzSetting()
+    const res: AuthzSetting = await listAuthzSetting()
     if (res.cache === undefined) {
-      res.cache = { enable: false }
+      res.cache = { enable: false, excludes: [] }
     }
     record.value = res
   } catch (error) {
