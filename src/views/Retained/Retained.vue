@@ -3,11 +3,18 @@
     <div class="section-header">
       <div></div>
       <template v-if="isEnabledRetainer">
-        <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
+        <el-button
+          :icon="Setting"
+          :disabled="tbData.length === 0"
+          @click="$router.push({ name: 'mqtt-retainer' })"
+        >
           {{ $t('Base.setting') }}
         </el-button>
         <el-button type="primary" :icon="RefreshRight" @click="refresh">
           {{ $t('Base.refresh') }}
+        </el-button>
+        <el-button type="danger" plain :icon="Remove" @click="handleDeleteAll">
+          {{ $t('General.clearAll') }}
         </el-button>
       </template>
       <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
@@ -100,7 +107,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { delRetainerTopic, getRetainer, getRetainerList, getRetainerTopic } from '@/api/extension'
+import {
+  delRetainerTopic,
+  getRetainer,
+  getRetainerList,
+  getRetainerTopic,
+  delAllRetainerMessages,
+} from '@/api/extension'
 import { dateFormat } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
@@ -111,8 +124,8 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { PayloadShowByType } from '@/types/enum'
 import { RetainerMessage } from '@/types/extension'
-import { RefreshRight, Setting } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox as MB } from 'element-plus'
+import { RefreshRight, Setting, Remove } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
 const { copyText } = useCopy()
@@ -207,6 +220,31 @@ const loadConfigData = async () => {
   } catch (error) {
     //
   }
+}
+
+const handleDeleteAll = () => {
+  ElMessageBox.confirm(t('General.clearAllRetainedConfirm'), {
+    confirmButtonText: t('Base.confirm'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+    beforeClose: async (action, instance, done) => {
+      if (action !== 'confirm') {
+        done()
+        return
+      }
+      instance.confirmButtonLoading = true
+      try {
+        await delAllRetainerMessages()
+        ElMessage.success(t('Base.deleteSuccess'))
+        loadTbData()
+        done()
+      } catch (error) {
+        instance.confirmButtonLoading = false
+        instance.confirmButtonText = t('base.confirm')
+        done()
+      }
+    },
+  })
 }
 
 loadTbData()

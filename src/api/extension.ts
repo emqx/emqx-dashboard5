@@ -57,6 +57,10 @@ export function delRetainerTopic(topic: string): Promise<any> | undefined {
   return http.delete('/mqtt/retainer/message/' + encodeURIComponent(topic))
 }
 
+export function delAllRetainerMessages(): Promise<void> {
+  return http.delete('/mqtt/retainer/messages')
+}
+
 /* System Topics */
 export function getSystemTopicsConfig(): Promise<SysTopics> {
   return http.get('/configs/sys_topics')
