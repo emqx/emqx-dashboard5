@@ -83,13 +83,13 @@ const saveLoading = ref(false)
 
 const formCom = ref()
 
-const formBindProps = {
+const formBindProps = computed(() => ({
   labelWidth: undefined,
   labelPosition: 'top',
   requireAsteriskPosition: 'right',
   class: '',
   ...props.formProps,
-}
+}))
 
 const {
   propsOrderMap,

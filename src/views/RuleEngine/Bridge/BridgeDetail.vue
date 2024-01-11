@@ -74,6 +74,25 @@
             :class="['app-card', isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
+            <el-alert
+              v-if="isWebhookAction"
+              class="webhook-tip-alert"
+              show-icon
+              type="info"
+              :closable="false"
+            >
+              <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
+                <template #target>
+                  <span>{{ t('RuleEngine.action') }}</span>
+                </template>
+                <template #operation>
+                  <span>{{ _.lowerCase(t('Base.edit')) }}</span>
+                </template>
+                <template #page>
+                  <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
+                </template>
+              </i18n-t>
+            </el-alert>
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-mqtt-config
                 v-if="bridgeType === BridgeType.MQTT"
@@ -120,6 +139,7 @@
                 ref="formCom"
                 :disabled="disabled"
                 :hide-name="hideName"
+                :form-props="formProps"
               />
             </div>
             <div v-if="!isFromRule" class="btn-area">
@@ -138,6 +158,7 @@
                 v-if="bridgeInfo.type"
                 :disabled="!$hasPermission('put')"
                 :loading="updateLoading"
+                :disabled="isWebhookAction"
                 @click="updateBridgeInfo()"
               >
                 {{ $t('Base.update') }}
@@ -154,6 +175,11 @@
       :direction="delBridgeDirection"
       @submitted="handleDeleteSuc"
     />
+    <DeleteWebhookAssociatedTip
+      v-model="showDeleteWebhookAssociatedTip"
+      type="action"
+      :name="currentDelName"
+    />
   </div>
 </template>
 
@@ -165,8 +191,9 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
@@ -175,6 +202,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -259,6 +287,16 @@ const isSettingCardLoading = computed(
 )
 const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
   useHandleActionItem()
+
+/* Webhook associated */
+const { judgeIsWebhookAction } = useWebhookUtils()
+const isWebhookAction = computed(() => judgeIsWebhookAction(bridgeInfo.value))
+const formProps = computed(() => (isWebhookAction.value ? { disabled: true } : {}))
+const webhookRoute = computed(() => ({
+  name: 'webhook-detail',
+  params: { name: bridgeInfo.value.name },
+  query: { tab: DetailTab.Setting },
+}))
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
@@ -373,6 +411,8 @@ const {
   showSecondConfirm,
   usingBridgeRules,
   currentDeleteBridgeId,
+  showDeleteWebhookAssociatedTip,
+  currentDelName,
   handleDeleteSuc,
   delBridgeDirection,
   handleDeleteBridge,

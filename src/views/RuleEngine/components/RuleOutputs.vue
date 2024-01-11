@@ -18,13 +18,13 @@
             </div>
 
             <span class="io-op">
-              <el-button size="small" @click="openOutputDrawer(true, index)">
+              <el-button size="small" :disabled="disabled" @click="openOutputDrawer(true, index)">
                 {{ $t('Base.edit') }}
               </el-button>
               <el-button
                 size="small"
                 plain
-                :disabled="!$hasPermission('put')"
+                :disabled="!$hasPermission('put') || disabled"
                 @click="deleteOutput(index)"
               >
                 {{ $t('Base.delete') }}
@@ -34,7 +34,7 @@
         </template>
         <el-button
           class="btn-add"
-          :disabled="!$hasPermission('post')"
+          :disabled="!$hasPermission('post') || disabled"
           type="primary"
           :icon="Plus"
           @click="openOutputDrawer(false)"
@@ -77,6 +77,9 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<RuleItem | BasicRule>,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
   },
 })
 

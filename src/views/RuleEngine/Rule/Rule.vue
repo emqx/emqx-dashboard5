@@ -85,12 +85,18 @@
       </div>
     </div>
   </div>
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="rule"
+    :name="currentDelId"
+  />
 </template>
 
 <script lang="ts" setup>
 import { deleteRules, getRules, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
 import commonPagination from '@/components/commonPagination.vue'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import usePagination from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
@@ -100,6 +106,7 @@ import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import RuleFilterForm from './components/RuleFilterForm.vue'
 
@@ -156,8 +163,20 @@ const copyRuleItem = (rule: RuleItem) => {
   router.push({ name: 'rule-create', query: { target: rule.id, action: 'copy' } })
 }
 
-const submitDeleteRules = async ({ id }: RuleItem) => {
-  if (!id) return
+const currentDelId = ref('')
+const showDeleteWebhookAssociatedTip = ref(false)
+const { judgeIsWebhookRule } = useWebhookUtils()
+
+const submitDeleteRules = async (rule: RuleItem) => {
+  const { id } = rule || {}
+  if (!id) {
+    return
+  }
+  if (judgeIsWebhookRule(rule)) {
+    currentDelId.value = id
+    showDeleteWebhookAssociatedTip.value = true
+    return
+  }
   await MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),

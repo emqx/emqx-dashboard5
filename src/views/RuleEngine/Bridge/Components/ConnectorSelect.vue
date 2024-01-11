@@ -1,7 +1,13 @@
 <template>
   <div class="connector-select">
     <el-select v-model="selected">
-      <el-option v-for="{ name } in connectorOpts" :label="name" :value="name" :key="name" />
+      <el-option
+        v-for="connector in connectorOpts"
+        :label="connector.name"
+        :value="connector.name"
+        :key="connector.name"
+        :disabled="isConnectorDisabled(connector)"
+      />
     </el-select>
     <el-tooltip :content="tl('createConnector')" placement="top">
       <el-button
@@ -21,17 +27,28 @@
 
 <script lang="ts" setup>
 import { getConnectors } from '@/api/connector'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineProps, ref, withDefaults } from 'vue'
 import ConnectorCreateDrawer from '../../Connector/components/ConnectorCreateDrawer.vue'
 
-const props = defineProps<{
-  modelValue?: string
-  type: BridgeType
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string
+    type: BridgeType
+    /**
+     * Connectors related to webhook are not
+     * allowed to be used elsewhere by default.
+     */
+    webhookConnectorDisabled?: boolean
+  }>(),
+  {
+    webhookConnectorDisabled: true,
+  },
+)
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
@@ -61,6 +78,14 @@ const connectorOpts = computed(() => {
   }
   return totalConnectorList.value.filter((item) => item.type === props.type)
 })
+
+const { judgeIsWebhookConnector } = useWebhookUtils()
+const isConnectorDisabled = (connector: Connector) => {
+  if (!props.webhookConnectorDisabled) {
+    return false
+  }
+  return judgeIsWebhookConnector(connector)
+}
 
 const { tl } = useI18nTl('RuleEngine')
 const showDrawer = ref<boolean>(false)

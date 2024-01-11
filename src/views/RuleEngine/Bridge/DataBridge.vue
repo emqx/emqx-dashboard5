@@ -73,6 +73,11 @@
     :direction="delBridgeDirection"
     @submitted="handleDeleteSuc"
   />
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="action"
+    :name="currentDelName"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -86,6 +91,7 @@ import { BridgeItem } from '@/types/rule'
 import { ElMessageBox, ElMessage as M } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -147,6 +153,8 @@ const {
   showSecondConfirm,
   usingBridgeRules,
   currentDeleteBridgeId,
+  currentDelName,
+  showDeleteWebhookAssociatedTip,
   handleDeleteSuc,
   delBridgeDirection,
   handleDeleteBridge,

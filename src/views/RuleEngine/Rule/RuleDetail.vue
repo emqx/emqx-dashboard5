@@ -42,12 +42,32 @@
           </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
+          <el-alert
+            v-if="isWebhookRule"
+            class="webhook-tip-alert"
+            show-icon
+            type="info"
+            :closable="false"
+          >
+            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
+              <template #target>
+                <span>{{ tl('rule') }}</span>
+              </template>
+              <template #operation>
+                <span>{{ lowerCase(t('Base.edit')) }}</span>
+              </template>
+              <template #page>
+                <router-link :to="webhookRoute">Webhook {{ tl('page') }}</router-link>
+              </template>
+            </i18n-t>
+          </el-alert>
           <el-card class="detail-card overview-visible app-card" v-loading="infoLoading">
             <rule-form
               ref="formCom"
               v-model="ruleInfo"
               is-edit
               :submit-loading="submitLoading"
+              :disabled="isWebhookRule"
               @save="submitUpdateRules"
               @save-as-copy="saveAsCopy"
             />
@@ -57,23 +77,31 @@
     </el-tabs>
     <CopySubmitDialog :target="copyTarget" v-model="showNameInputDialog" />
   </div>
+  <DeleteWebhookAssociatedTip
+    v-model="showDeleteWebhookAssociatedTip"
+    type="rule"
+    :name="currentDelId"
+  />
 </template>
 
 <script lang="ts" setup>
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
+import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
+import { cloneDeep, isEqual, lowerCase } from 'lodash'
 import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import RuleForm from '../components/RuleForm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
@@ -136,7 +164,24 @@ const enableOrDisableRule = async () => {
   }
 }
 
+const currentDelId = ref('')
+const showDeleteWebhookAssociatedTip = ref(false)
+const { judgeIsWebhookRule } = useWebhookUtils()
+
+/* Webhook associated */
+const isWebhookRule = computed(() => judgeIsWebhookRule(ruleInfo.value))
+const webhookRoute = computed(() => ({
+  name: 'webhook-detail',
+  params: { name: id },
+  query: { tab: DetailTab.Setting },
+}))
+
 const deleteRule = async () => {
+  if (isWebhookRule.value) {
+    currentDelId.value = id
+    showDeleteWebhookAssociatedTip.value = true
+    return
+  }
   await ElMessageBox.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -181,6 +226,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@import '~@/style/rule.scss';
+
 .rule-detail {
   .el-card.detail-card {
     > .el-card__body {

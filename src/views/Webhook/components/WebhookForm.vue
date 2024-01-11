@@ -8,7 +8,9 @@
     :model="formData"
   >
     <el-form-item prop="name" :label="tl('name')">
-      <el-input v-model="formData.name" :disabled="isEdit" />
+      <el-input class="name-input" v-model="formData.name" :disabled="isEdit">
+        <template #append>{{ WEBHOOK_SUFFIX }}</template>
+      </el-input>
     </el-form-item>
     <el-form-item prop="rule.description" :label="tl('note')">
       <el-input v-model="formData.rule.description" />
@@ -94,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getKeywordsFromSQL } from '@/common/tools'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
@@ -236,6 +239,12 @@ defineExpose({ validate })
     top: 50%;
     right: -16px;
     transform: translate(100%, -50%);
+  }
+  .name-input {
+    .el-input-group__append {
+      justify-content: flex-start;
+      padding: 0 12px;
+    }
   }
 }
 </style>
