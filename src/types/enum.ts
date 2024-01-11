@@ -242,6 +242,8 @@ export enum ListenerTypeForGateway {
   UDP = 'udp',
   SSL = 'ssl',
   DTLS = 'dtls',
+  WS = 'ws',
+  WSS = 'wss',
 }
 
 export enum ListenerAction {
