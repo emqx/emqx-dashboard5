@@ -56,6 +56,19 @@
   }
 }
 
+.el-alert.webhook-tip-alert {
+  margin-bottom: 12px;
+  .el-icon {
+    font-size: 16px;
+  }
+  .el-alert__content {
+    padding-left: 0;
+  }
+  p {
+    margin: 8px 0;
+  }
+}
+
 /* Type Select */
 .target-type-select {
   width: 100%;
