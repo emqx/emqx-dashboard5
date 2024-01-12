@@ -5,6 +5,7 @@ import { cloneDeep, get } from 'lodash'
 import { Ref, ref } from 'vue'
 import { useStore } from 'vuex'
 import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
+import useSchemaRecord from './useSchemaRecord'
 
 const CONNECTOR_CONF_KEYS = 'connector'
 
@@ -47,6 +48,7 @@ export default function useSchemaForm(
   })
   let schema: any = {}
   const { rules, countRules } = useSchemaFormRules()
+  const { initRecordByComponents } = useSchemaRecord()
   /**
    * for get component
    */
@@ -173,6 +175,11 @@ export default function useSchemaForm(
               if (item.$ref) {
                 const component = getComponentByRef(schema, item.$ref)
                 item.properties = transComponents(component, property.path)
+                if (property.path) {
+                  // Because when oneof refs takes the default, it does not take the default of the fields in sequence,
+                  // but the default of the ref, so it needs to be processed here.
+                  item.default = get(initRecordByComponents(item.properties), property.path)
+                }
               } else if (item.type === 'object' && item.properties) {
                 return transComponents(item as Component, property.path)
               } else {
