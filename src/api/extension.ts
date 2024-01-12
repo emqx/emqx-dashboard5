@@ -44,6 +44,7 @@ export function updateRetainer(body: Retainer): Promise<any> {
 export function getRetainerList(
   params: PageParams,
 ): Promise<ListDataWithPagination<RetainerMessage>> {
+  params.topic = params.topic || undefined
   return http.get('/mqtt/retainer/messages', { params })
 }
 
