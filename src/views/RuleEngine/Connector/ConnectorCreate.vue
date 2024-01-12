@@ -50,7 +50,7 @@
 import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
-import { useBridgeTypeValue, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeDirection, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -61,7 +61,6 @@ import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 
 /**
  * props and emit is for use this component in drawer
@@ -104,11 +103,11 @@ const goPreStep = () => {
   scrollToTop()
 }
 
-const { getBridgeLabelByTypeValue, getBridgeGeneralType } = useBridgeTypeValue()
+const { getTypeStr } = useConnectorTypeValue()
 const goNextStep = () => {
   if (step.value === 0) {
     initConnectorData()
-    guideDescList.value.push(getBridgeLabelByTypeValue(selectedType.value) || '')
+    guideDescList.value.push(getTypeStr(selectedType.value) || '')
     scrollToTop()
   }
   handleNext()
@@ -181,7 +180,10 @@ const checkClipStatus = async () => {
   try {
     const currentType =
       route.query.target?.slice(0, route.query.target?.indexOf(':'))?.toString() || ''
-    setTypeAndGoStepConf(getBridgeGeneralType(currentType))
+    if (!currentType) {
+      return
+    }
+    setTypeAndGoStepConf(currentType as BridgeType)
     targetLoading.value = true
     const connectorData = await getConnectorDetail<Connector>(route.query.target as string)
     if (connectorData) {
