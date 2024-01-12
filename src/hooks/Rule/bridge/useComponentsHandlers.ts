@@ -1,12 +1,13 @@
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
+import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
+import { get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
-import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -30,6 +31,7 @@ export default (
 
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
+  const { initRecordByComponents } = useSchemaRecord()
   const addRuleForPassword = (rules: any) => {
     // TODO:consider the path
     if (!rules.password) {
@@ -342,6 +344,29 @@ export default (
     return { components, rules }
   }
 
+  const elasticsearchHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components || {}
+    const oneOfArr = parameters?.oneOf
+    if (oneOfArr) {
+      oneOfArr.forEach((item) => {
+        if (item.properties) {
+          Reflect.deleteProperty(item.properties, 'require_alias')
+          if (parameters.path) {
+            // Because the properties of oneof have been modified,
+            // the default needs to be recalculated...
+            item.default = get(initRecordByComponents(item.properties), parameters.path)
+          }
+        }
+      })
+      const createOne = oneOfArr.find((item) => item.$ref && /create/.test(item.$ref))
+      if (createOne) {
+        parameters.default = createOne.default
+      }
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
@@ -358,6 +383,7 @@ export default (
     [BridgeType.GreptimeDB]: greptimeDBHandler,
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
     [BridgeType.IoTDB]: IoTDBHandler,
+    [BridgeType.Elasticsearch]: elasticsearchHandler,
   }
 
   const getComponentsHandler = () => {

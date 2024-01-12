@@ -40,6 +40,7 @@ const bridgesOrder = [
   BridgeType.MicrosoftSQLServer,
   BridgeType.OracleDatabase,
   BridgeType.HStream,
+  BridgeType.Elasticsearch,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
@@ -91,6 +92,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.GreptimeDB, label: tl('greptimeDB') },
     { value: BridgeType.Confluent, label: `Confluent ${tl('producer')}` },
     { value: BridgeType.SysKeeperForwarder, label: tl('sysKeeperForwarder') },
+    { value: BridgeType.Elasticsearch, label: 'Elasticsearch' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -178,10 +180,12 @@ export const useConnectorTypeValue = (): {
   //   [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
   // ])
 
-  const connectorTypeList = [
-    ...bridgeTypeList,
+  const connectorTypeList = [...bridgeTypeList]
+  connectorTypeList.splice(
+    connectorTypeList.findIndex(({ value }) => value === BridgeType.SysKeeperForwarder),
+    0,
     { value: BridgeType.SysKeeperProxy, label: tl('sysKeeperProxy') },
-  ]
+  )
 
   const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
 
@@ -420,6 +424,7 @@ export const useConnectorSchema = (): {
     [BridgeType.SysKeeperForwarder, getRef(BridgeType.SysKeeperForwarder, '', 'post')],
     [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
     [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
+    [BridgeType.Elasticsearch, getRef(BridgeType.Elasticsearch, '', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {
