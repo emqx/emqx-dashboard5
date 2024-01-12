@@ -4,7 +4,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { pick } from 'lodash'
+import { cloneDeep, pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -193,7 +193,7 @@ export default (
       const oneOf = parameters.oneOf || []
       const singleOne = oneOf?.find((item) => item.$ref?.includes(MongoType.Single))
       if (singleOne) {
-        parameters.default = { mongo_type: singleOne?.properties?.mongo_type?.symbols?.[0] }
+        parameters.default = cloneDeep(singleOne.default)
       }
 
       const rsOne = oneOf?.find((item) => item.$ref?.includes(MongoType.RS))
@@ -224,7 +224,7 @@ export default (
       const oneOf = parameters.oneOf || []
       const singleOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Single))
       if (singleOne) {
-        parameters.default = { redis_type: singleOne?.properties?.redis_type?.symbols?.[0] }
+        parameters.default = cloneDeep(singleOne.default)
       }
 
       const sentinelOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Sentinel))
@@ -249,7 +249,7 @@ export default (
       const oneOf = parameters.oneOf || []
       const v2One = oneOf?.find((item) => item.$ref?.includes(InfluxDBType.v2))
       if (v2One) {
-        parameters.default = { influxdb_type: v2One?.properties?.influxdb_type?.symbols?.[0] }
+        parameters.default = cloneDeep(v2One.default)
       }
     }
     return { components, rules }
