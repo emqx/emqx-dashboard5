@@ -106,15 +106,7 @@ export const useBridgeTypeValue = (): {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
   }
 
-  /**
-   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
-   */
-  const typesWithMultiSpecificType = [
-    BridgeType.InfluxDB,
-    BridgeType.Redis,
-    BridgeType.MongoDB,
-    ...typesWithProducerAndConsumer,
-  ]
+  const typesWithMultiSpecificType = typesWithProducerAndConsumer
   /**
    * diff from specific type, for example, influxdb v1 v2 are all influxdb
    */
@@ -174,7 +166,7 @@ export const useConnectorTypeValue = (): {
 } => {
   const { tl } = useI18nTl('RuleEngine')
 
-  const { bridgeTypeList, getGeneralTypeLabel } = useBridgeTypeValue()
+  const { bridgeTypeList } = useBridgeTypeValue()
 
   // const connectorTypeLabel = new Map([
   //   [BridgeType.KafkaProducer, `${tl('kafka')} ${tl('producer')}`],
@@ -187,7 +179,7 @@ export const useConnectorTypeValue = (): {
     { value: BridgeType.SysKeeperProxy, label: tl('sysKeeperProxy') },
   )
 
-  const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
+  const getTypeStr = (type: string) => getLabelFromValueInOptionList(type, connectorTypeList)
 
   const searchQuery = ref('')
 
