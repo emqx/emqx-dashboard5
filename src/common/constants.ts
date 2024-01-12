@@ -226,7 +226,8 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.MQTT,
   BridgeType.InfluxDB,
-  BridgeType.Kafka,
+  BridgeType.KafkaConsumer,
+  BridgeType.KafkaProducer,
   BridgeType.Pulsar,
 ]
 
