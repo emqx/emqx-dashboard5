@@ -105,8 +105,6 @@ export enum BridgeType {
   MQTT = 'mqtt',
   InfluxDB = 'influxdb',
   MySQL = 'mysql',
-  // TODO: remove this type
-  Kafka = 'kafka',
   KafkaProducer = 'kafka_producer',
   KafkaConsumer = 'kafka_consumer',
   Redis = 'redis',
@@ -134,6 +132,7 @@ export enum BridgeType {
   Confluent = 'confluent_producer',
   SysKeeperProxy = 'syskeeper_proxy',
   SysKeeperForwarder = 'syskeeper_forwarder',
+  Elasticsearch = 'elasticsearch',
 }
 
 export enum PulsarType {

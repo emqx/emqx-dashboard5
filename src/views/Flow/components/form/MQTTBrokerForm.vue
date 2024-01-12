@@ -12,27 +12,31 @@
     </CustomFormItem>
     <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
     <div v-if="direction === BridgeDirection.Ingress">
-      <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
-      <CustomFormItem :prop="['ingress', 'remote', 'topic']" :readonly="readonly">
-        <template #label>
-          <FormItemLabel :label="t('Base.topic')" :desc="tl('ingressRemoteTopicDesc')" />
-        </template>
-        <el-input v-model="record.ingress.remote.topic" placeholder="t/#" />
-      </CustomFormItem>
-      <CustomFormItem label="QoS" :readonly="readonly">
-        <el-select v-model="record.ingress.remote.qos">
-          <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
-        </el-select>
-      </CustomFormItem>
-      <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
-      <MQTTBridgeTransConfiguration
-        v-model="record.ingress.local"
-        put-desc-in-tooltip
-        path="ingress.local"
-        :direction="MQTTBridgeDirection.In"
-        :topic-desc="tl('ingressLocalTopicDesc')"
-        :readonly="readonly"
-      />
+      <div>
+        <p class="sub-block-title tip">{{ tl('ingress') }}</p>
+        <CustomFormItem :prop="['ingress', 'remote', 'topic']" :readonly="readonly">
+          <template #label>
+            <FormItemLabel :label="t('Base.topic')" :desc="tl('ingressRemoteTopicDesc')" />
+          </template>
+          <el-input v-model="record.ingress.remote.topic" placeholder="t/#" />
+        </CustomFormItem>
+        <CustomFormItem label="QoS" :readonly="readonly">
+          <el-select v-model="record.ingress.remote.qos">
+            <el-option v-for="qos in MQTTingressRemoteQoS" :key="qos" :value="qos" />
+          </el-select>
+        </CustomFormItem>
+      </div>
+      <div v-if="record.ingress.local.topic">
+        <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
+        <MQTTBridgeTransConfiguration
+          v-model="record.ingress.local"
+          put-desc-in-tooltip
+          path="ingress.local"
+          :direction="MQTTBridgeDirection.In"
+          :topic-desc="tl('ingressLocalTopicDesc')"
+          :readonly="readonly"
+        />
+      </div>
       <CustomFormItem :prop="['ingress', 'pool_size']" :readonly="readonly">
         <template #label>
           <FormItemLabel
@@ -45,22 +49,26 @@
       </CustomFormItem>
     </div>
     <div v-if="direction === BridgeDirection.Egress">
-      <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
-      <MQTTBridgeTransConfiguration
-        v-model="record.egress.remote"
-        put-desc-in-tooltip
-        path="egress.remote"
-        :direction="MQTTBridgeDirection.Out"
-        :topic-desc="tl('egressRemoteTopicDesc')"
-        :readonly="readonly"
-      />
-      <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
-      <CustomFormItem :prop="['egress', 'local', 'topic']" :readonly="readonly">
-        <template #label>
-          <FormItemLabel :label="t('Base.topic')" :desc="tl('egressLocalTopicDesc')" />
-        </template>
-        <el-input v-model="record.egress.local.topic" placeholder="t/#" />
-      </CustomFormItem>
+      <div>
+        <p class="sub-block-title tip">{{ tl('egress') }}</p>
+        <MQTTBridgeTransConfiguration
+          v-model="record.egress.remote"
+          put-desc-in-tooltip
+          path="egress.remote"
+          :direction="MQTTBridgeDirection.Out"
+          :topic-desc="tl('egressRemoteTopicDesc')"
+          :readonly="readonly"
+        />
+      </div>
+      <div v-if="record.egress.local.topic">
+        <p class="sub-block-title tip">{{ tl('localBroker') }}</p>
+        <CustomFormItem :prop="['egress', 'local', 'topic']" :readonly="readonly">
+          <template #label>
+            <FormItemLabel :label="t('Base.topic')" :desc="tl('egressLocalTopicDesc')" />
+          </template>
+          <el-input v-model="record.egress.local.topic" placeholder="t/#" />
+        </CustomFormItem>
+      </div>
       <CustomFormItem :prop="['egress', 'pool_size']" :readonly="readonly">
         <template #label>
           <FormItemLabel

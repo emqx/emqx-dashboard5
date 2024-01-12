@@ -15,7 +15,12 @@ export default (): {
 
   const { likePasswordFieldKeys } = useBridgeDataHandler()
   const getPwdValues = (bridge: any) => {
-    return likePasswordFieldKeys.map((key) => get(bridge, key)).filter(Boolean)
+    return likePasswordFieldKeys
+      .reduce((arr: Array<string>, key) => {
+        const ret = get(bridge, key) || get(bridge, `parameters.${key}`)
+        return ret ? [...arr, ret] : arr
+      }, [])
+      .filter(Boolean)
   }
 
   const tryToViewPwdInput = () => {
