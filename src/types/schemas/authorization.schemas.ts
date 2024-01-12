@@ -703,6 +703,7 @@ export interface BrokerAuthzCache {
   enable: boolean
   max_size?: number
   ttl?: string
+  excludes?: string[]
 }
 
 export type AuthzRedisSingleRedisType =

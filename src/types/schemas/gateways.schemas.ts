@@ -26,16 +26,16 @@ export type PutGatewaysName400 = {
 }
 
 export type PutGatewaysNameBody =
-  | EmqxGatewayApiUpdateStomp
-  | EmqxGatewayApiUpdateExproto
-  | EmqxGatewayApiUpdateLwm2m
-  | EmqxGatewayApiUpdateMqttsn
   | EmqxGatewayApiUpdateCoap
-  | EmqxGatewayApiStomp
-  | EmqxGatewayApiExproto
-  | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiUpdateMqttsn
+  | EmqxGatewayApiUpdateLwm2m
+  | EmqxGatewayApiUpdateExproto
+  | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiCoap
+  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiExproto
+  | EmqxGatewayApiStomp
 
 export type GetGatewaysName404Code =
   typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
@@ -52,11 +52,11 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiStomp
-  | EmqxGatewayApiExproto
-  | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiMqttsn
   | EmqxGatewayApiCoap
+  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiExproto
+  | EmqxGatewayApiStomp
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
