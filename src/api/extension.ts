@@ -10,7 +10,7 @@ import {
   Rewrite,
   SysTopics,
 } from '@/types/extension'
-import { ListDataWithPagination, PageParams } from '@/types/common'
+import { ListDataWithPagination } from '@/types/common'
 
 /* Retainer */
 export async function getRetainer(): Promise<Retainer> {
@@ -42,8 +42,9 @@ export function updateRetainer(body: Retainer): Promise<any> {
 }
 
 export function getRetainerList(
-  params: PageParams,
+  params: Record<string, any>,
 ): Promise<ListDataWithPagination<RetainerMessage>> {
+  params.topic = params.topic || undefined
   return http.get('/mqtt/retainer/messages', { params })
 }
 

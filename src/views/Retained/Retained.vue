@@ -1,114 +1,147 @@
 <template>
-  <div class="app-wrapper retained">
-    <div class="section-header">
-      <div></div>
-      <template v-if="isEnabledRetainer">
-        <el-button
-          :icon="Setting"
-          :disabled="!$hasPermission('put')"
-          @click="$router.push({ name: 'mqtt-retainer' })"
-        >
-          {{ $t('Base.setting') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('get')"
-          :icon="RefreshRight"
-          @click="refresh"
-        >
-          {{ $t('Base.refresh') }}
-        </el-button>
-        <el-button type="danger" plain :icon="Remove" @click="handleDeleteAll">
-          {{ $t('General.clearAll') }}
-        </el-button>
-      </template>
-      <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('put')"
-          @click="$router.push({ name: 'mqtt-retainer' })"
-        >
-          {{ $t('Base.enable') }}
-        </el-button>
-      </el-tooltip>
-    </div>
-    <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
-      <el-table-column :label="$t('Base.topic')" prop="topic" min-width="100" show-overflow-tooltip>
-        <template #default="{ row }">
-          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
-        </template>
-      </el-table-column>
-      <el-table-column :label="'QoS'" prop="qos" min-width="30" />
-      <el-table-column :label="$t('Base.clientid')" prop="from_clientid" />
-      <el-table-column
-        :label="tl('createDate')"
-        prop="publish_at"
-        :sort-by="(row: any) => new Date(row.publish_at).getTime()"
-      >
-        <template #default="{ row }">
-          {{ row.publish_at && dateFormat(row.publish_at) }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <el-button size="small" @click="checkPayload(row)">
-            {{ tl('openPayload') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteRetainerTopic(row)"
-          >
-            {{ $t('Base.delete') }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="emq-table-footer">
-      <CommonPagination @loadPage="loadTbData" v-model:metaData="pageMeta" />
-    </div>
-    <el-dialog v-model="payloadDialog" class="payload-dialog" :title="tl('view')">
-      <el-row v-loading="payloadLoading">
-        <el-col :span="24">
-          <el-row>
-            <el-col :span="2">
-              <label>{{ $t('Base.topic') }}</label>
-            </el-col>
-            <el-col :span="21">
-              <p class="topic-text">{{ currentTopic }}</p>
-            </el-col>
-          </el-row>
+  <div class="retained">
+    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+      <el-row :gutter="28">
+        <el-col :span="8">
+          <el-input
+            v-model="searchValue"
+            :placeholder="$t('Topics.topic')"
+            clearable
+            @clear="handleSearch"
+          />
         </el-col>
-        <el-col :span="24">
-          <label class="label-top">Payload</label>
-          <div class="monaco-container">
-            <Monaco
-              disabled
-              id="payload"
-              v-model="payloadForShow"
-              :lang="plaintextShow ? 'plaintext' : 'json'"
-              :jsonWithoutValidate="payloadShowBy !== PayloadShowByType.JSON"
-            />
-          </div>
+        <el-col :span="8">
+          <el-button type="primary" plain :icon="Search" @click="handleSearch">
+            {{ $t('Base.search') }}
+          </el-button>
+          <el-button :icon="RefreshLeft" @click="handleReset">
+            {{ $t('Base.reset') }}
+          </el-button>
         </el-col>
       </el-row>
-      <template #footer>
-        <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-          <el-select v-model="payloadShowBy">
-            <el-option
-              v-for="item in payloadShowByOptions"
-              :key="item"
-              :label="item"
-              :value="item"
-            />
-          </el-select>
-          <el-button @click="copyText(payloadForShow)">
-            {{ $t('Base.copy') }}
+    </el-form>
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <template v-if="isEnabledRetainer">
+          <el-button
+            :icon="Setting"
+            :disabled="!$hasPermission('put')"
+            @click="$router.push({ name: 'mqtt-retainer' })"
+          >
+            {{ $t('Base.setting') }}
           </el-button>
-        </div>
-      </template>
-    </el-dialog>
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('get')"
+            :icon="RefreshRight"
+            @click="refresh"
+          >
+            {{ $t('Base.refresh') }}
+          </el-button>
+          <el-button
+            type="danger"
+            plain
+            :icon="Remove"
+            :disabled="tbData.length === 0 || !$hasPermission('delete')"
+            @click="handleDeleteAll"
+          >
+            {{ $t('General.clearAll') }}
+          </el-button>
+        </template>
+        <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('put')"
+            @click="$router.push({ name: 'mqtt-retainer' })"
+          >
+            {{ $t('Base.enable') }}
+          </el-button>
+        </el-tooltip>
+      </div>
+      <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
+        <el-table-column
+          :label="$t('Base.topic')"
+          prop="topic"
+          min-width="100"
+          show-overflow-tooltip
+        >
+          <template #default="{ row }">
+            <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+          </template>
+        </el-table-column>
+        <el-table-column :label="'QoS'" prop="qos" min-width="30" />
+        <el-table-column :label="$t('Base.clientid')" prop="from_clientid" />
+        <el-table-column
+          :label="tl('createDate')"
+          prop="publish_at"
+          :sort-by="(row: any) => new Date(row.publish_at).getTime()"
+        >
+          <template #default="{ row }">
+            {{ row.publish_at && dateFormat(row.publish_at) }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Base.operation')">
+          <template #default="{ row }">
+            <el-button size="small" @click="checkPayload(row)">
+              {{ tl('openPayload') }}
+            </el-button>
+            <el-button
+              size="small"
+              :disabled="!$hasPermission('delete')"
+              plain
+              @click="deleteRetainerTopic(row)"
+            >
+              {{ $t('Base.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="emq-table-footer">
+        <CommonPagination @loadPage="loadTbData" v-model:metaData="pageMeta" />
+      </div>
+      <el-dialog v-model="payloadDialog" class="payload-dialog" :title="tl('view')">
+        <el-row v-loading="payloadLoading">
+          <el-col :span="24">
+            <el-row>
+              <el-col :span="2">
+                <label>{{ $t('Base.topic') }}</label>
+              </el-col>
+              <el-col :span="21">
+                <p class="topic-text">{{ currentTopic }}</p>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="24">
+            <label class="label-top">Payload</label>
+            <div class="monaco-container">
+              <Monaco
+                disabled
+                id="payload"
+                v-model="payloadForShow"
+                :lang="plaintextShow ? 'plaintext' : 'json'"
+                :jsonWithoutValidate="payloadShowBy !== PayloadShowByType.JSON"
+              />
+            </div>
+          </el-col>
+        </el-row>
+        <template #footer>
+          <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
+            <el-select v-model="payloadShowBy">
+              <el-option
+                v-for="item in payloadShowByOptions"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
+            </el-select>
+            <el-button @click="copyText(payloadForShow)">
+              {{ $t('Base.copy') }}
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -138,7 +171,7 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { PayloadShowByType } from '@/types/enum'
 import { RetainerMessage } from '@/types/extension'
-import { RefreshRight, Setting, Remove } from '@element-plus/icons-vue'
+import { RefreshRight, Setting, Remove, Search, RefreshLeft } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
@@ -152,6 +185,8 @@ const currentTopic = ref('')
 const payloadDetail = ref('')
 const payloadLoading = ref(false)
 const isEnabledRetainer = ref(true)
+const searchValue = ref('')
+const params = ref<Record<string, any>>({})
 
 const plaintextShow = computed(() => {
   return (
@@ -160,10 +195,11 @@ const plaintextShow = computed(() => {
   )
 })
 
-const loadTbData = async (reload?: boolean) => {
+const loadTbData = async (_params = {}) => {
   tbLoading.value = true
+  const sendParams = { ...params.value, ...pageParams.value, ..._params }
   try {
-    const { data, meta } = await getRetainerList(pageParams.value)
+    const { data = [], meta } = await getRetainerList(sendParams)
     tbData.value = data
     setPageMeta(meta)
   } catch (error) {
@@ -259,6 +295,18 @@ const handleDeleteAll = () => {
       }
     },
   })
+}
+
+const handleSearch = () => {
+  const topic = searchValue.value.trim()
+  params.value.topic = topic
+  loadTbData({ page: 1 })
+}
+
+const handleReset = () => {
+  searchValue.value = ''
+  params.value = {}
+  loadTbData({ page: 1 })
 }
 
 loadTbData()
