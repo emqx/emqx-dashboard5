@@ -647,4 +647,8 @@ export default {
     zh: '支持 1M 以内的 csv 格式文件，文件中数据不能超过 2000 行',
     en: 'Supports csv format files within 1M, and the data in the file cannot exceed 2000 lines',
   },
+  enterToCreate: {
+    zh: '输入后创建新的自定义条目',
+    en: 'Enter to create a new custom item',
+  },
 }

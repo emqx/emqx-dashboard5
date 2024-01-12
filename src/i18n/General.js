@@ -259,7 +259,7 @@ export default {
     zh: '清除全部',
     en: 'Clear All',
   },
-  clearAllConfirm: {
+  clearAllBannedConfirm: {
     zh: '是否确定要清除全部黑名单？',
     en: 'Confirm to clear all banned clients?',
   },
@@ -410,5 +410,9 @@ export default {
   restoreSuccess: {
     zh: '恢复成功',
     en: 'Restore successfully',
+  },
+  clearAllRetainedConfirm: {
+    zh: '是否确定要清除全部保留消息？',
+    en: 'Confirm to clear all retained messages?',
   },
 }

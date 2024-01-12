@@ -115,7 +115,7 @@ const deleteConfirm = async (item: Banned) => {
 
 const clearAllConfirm = async () => {
   try {
-    await ElMessageBox.confirm(tl('clearAllConfirm'), {
+    await ElMessageBox.confirm(tl('clearAllBannedConfirm'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',
