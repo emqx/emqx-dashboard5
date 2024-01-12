@@ -45,15 +45,7 @@ export const useBridgeTypeValue = (): {
     return getLabelFromValueInOptionList(typeValue, bridgeTypeList)
   }
 
-  /**
-   * Not a specific type, but a general type, such as influxdb v1 v2 are all influxdb
-   */
-  const typesWithMultiSpecificType = [
-    BridgeType.InfluxDB,
-    BridgeType.Redis,
-    BridgeType.MongoDB,
-    ...typesWithProducerAndConsumer,
-  ]
+  const typesWithMultiSpecificType = typesWithProducerAndConsumer
   /**
    * diff from specific type, for example, influxdb v1 v2 are all influxdb
    */
@@ -109,11 +101,11 @@ export const useConnectorTypeValue = (): {
   connectorTypeList: TypeItem[]
   getTypeStr: (type: string) => string
 } => {
-  const { bridgeTypeList, getGeneralTypeLabel } = useBridgeTypeValue()
+  const { bridgeTypeList } = useBridgeTypeValue()
 
   const connectorTypeList = bridgeTypeList
 
-  const getTypeStr = (type: string) => getGeneralTypeLabel(type) || type
+  const getTypeStr = (type: string) => getLabelFromValueInOptionList(type, connectorTypeList)
 
   return {
     connectorTypeList,
