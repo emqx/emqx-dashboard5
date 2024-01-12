@@ -259,7 +259,7 @@ const processSelectedActionChange = (action: BridgeItem | undefined) => {
   }
 }
 const actionLabel = computed(() =>
-  actionDirection.value === BridgeDirection.Ingress ? 'Source' : tl('action'),
+  actionDirection.value === BridgeDirection.Ingress ? 'Source' : t('RuleEngine.action'),
 )
 const actionLabelWidth = computed(() => {
   const setWidth = getFormComponentProps(type.value)?.labelWidth
