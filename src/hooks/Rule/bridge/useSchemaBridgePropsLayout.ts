@@ -245,7 +245,6 @@ export default (
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
     [BridgeType.GCPConsumer]: {
-      name: 'dividing-line-below',
       pubsub_topic: 'col-need-row',
       service_account_json: 'custom-col-24',
     },
