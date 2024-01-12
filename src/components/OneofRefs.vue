@@ -49,9 +49,8 @@
 <script setup lang="ts">
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import { Properties, Property } from '@/types/schemaForm'
-import { get, isEqual, isFunction, snakeCase } from 'lodash'
+import { cloneDeep, isEqual, isFunction, snakeCase } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
@@ -121,12 +120,10 @@ const typeOpts = computed(() => {
     label: getOptLabel(getLabelKey(item)),
   }))
 })
-const { initRecordByComponents } = useSchemaRecord()
 const handleTypeChanged = (value: number) => {
   const newProps = props.items[value]
   if (newProps.$ref) {
-    const newRecord = initRecordByComponents(newProps.properties as Properties)
-    fieldValue.value = get(newRecord, propertyPath.value)
+    fieldValue.value = cloneDeep(newProps.default)
   } else if (isFixedEnum(newProps)) {
     fieldValue.value = (newProps.symbols as Symbols)[0]
   }
