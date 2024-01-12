@@ -68,6 +68,7 @@ export const SinkType = {
   AmazonKinesis: BridgeType.AmazonKinesis,
   GreptimeDB: BridgeType.GreptimeDB,
   Pulsar: getSpecificTypeWithDirection(BridgeType.Pulsar, BridgeDirection.Egress),
+  Elasticsearch: BridgeType.Elasticsearch,
   SysKeeperForwarder: BridgeType.SysKeeperForwarder,
   RePub: 'republish',
   Console: 'console',

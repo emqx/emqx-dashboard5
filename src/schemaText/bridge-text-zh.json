@@ -783,18 +783,18 @@
     },
     "timestamp": {
       "label": "时间戳",
-      "desc": "支持使用 ${var} 格式的占位符，要求是时间戳格式。也可以使用以下特殊字符插入系统时间：</br>- now: 当前秒级时间戳</br>- now_ms: 当前毫秒级时间戳</br>- now_us: 当前微秒级时间戳</br>- `now_us`: 当前纳秒级时间戳"
+      "desc": "支持使用 ${'{'}var{'}'} 格式的占位符，要求是时间戳格式。也可以使用以下特殊字符插入系统时间：</br>- `now`: 当前秒级时间戳</br>- `now_ms`: 当前毫秒级时间戳</br>- `now_us`: 当前微秒级时间戳</br>- `now_us`: 当前纳秒级时间戳"
     },
     "measurement": {
       "label": "字段",
-      "desc": "也称 Measurement，支持使用 ${var} 格式的占位符。"
+      "desc": "也称 Measurement，支持使用 ${'{'}var{'}'} 格式的占位符。"
     },
     "data_type": {
       "label": "数据类型"
     },
     "value": {
       "label": "值",
-      "desc": "要插入的值，支持使用 ${var} 格式的占位符。"
+      "desc": "要插入的值，支持使用 ${'{'}var{'}'} 格式的占位符。"
     }
   },
   "emqx_ee_bridge_opents": {
@@ -1210,6 +1210,46 @@
     "template": {
       "desc": "消息模板, 支持占位符",
       "label": "消息模板"
+    }
+  },
+  "emqx_ee_bridge_elasticsearch": {
+    "base_url": {
+      "desc": "ElasticSearch 服务的 REST 接口 URL。",
+      "label": "URL"
+    },
+    "routing": {
+      "desc": "指定应将文档存储在索引的哪个分片中，留空则由 Elasticsearch 决定。",
+      "label": "路由"
+    },
+    "parameters": {
+      "label": "操作"
+    },
+    "action": {
+      "label": "操作"
+    },
+    "wait_for_active_shards": {
+      "desc": "在继续操作之前必须激活的分片副本数。\n设置为all或任何正整数，最多为索引中的总分片数（number_of_replicas+1）。\n默认值：1，即主分片。",
+      "label": "等待激活分片数"
+    },
+    "index": {
+      "desc": "要执行操作的索引或索引别名的名称，支持 ${'{'}var{'}'} 格式的占位符。",
+      "label": "索引名称"
+    },
+    "id": {
+      "desc": "索引内文档的唯一标识符，支持 ${'{'}var{'}'} 格式的占位符。如果未指定 ID，则由 Elasticsearch 自动生成。",
+      "label": "文档 ID"
+    },
+    "doc": {
+      "desc": "自定义文档模板，支持 ${'{'}var{'}'} 格式的占位符，要求必须可以被转换为 JSON 对象。\n 例如 `{'{'} \"field\": \"${'{'}payload.field{'}'}\" {'}'}`，或 `${'{'}payload{'}'}`。",
+      "label": "文档模板"
+    },
+    "overwrite": {
+      "desc": "当文档已经存在时覆盖文档，否则文档将写入失败。",
+      "label": "是否覆盖文档"
+    },
+    "max_retries": {
+      "desc": "请求出错时的最大重试次数。",
+      "label": "最大重试次数"
     }
   }
 }

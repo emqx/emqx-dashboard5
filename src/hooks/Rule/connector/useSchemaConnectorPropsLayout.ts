@@ -67,6 +67,8 @@ export default (
     'socket_opts.nodelay',
   ]
 
+  const IoTDBAdvancedProps = ['enable_pipelining']
+
   const azureOrderMap = {
     ...createOrderObj(
       ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl'],
@@ -76,6 +78,10 @@ export default (
   }
   const pgSqlOrderMap = createOrderObj(
     ['server', 'database', 'username', 'password', 'ssl'],
+    fieldStartIndex,
+  )
+  const IoTDBOrderMap = createOrderObj(
+    ['base_url', 'authentication.username', 'authentication.password', 'ssl', 'enable_pipelining'],
     fieldStartIndex,
   )
 
@@ -155,16 +161,8 @@ export default (
       ['server', 'parameters', 'token', 'org', 'bucket', 'database', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
-    [BridgeType.IoTDB]: createOrderObj(
-      [
-        'base_url',
-        'authentication.username',
-        'authentication.password',
-        'ssl',
-        'enable_pipelining',
-      ],
-      fieldStartIndex,
-    ),
+    [BridgeType.IoTDB]: IoTDBOrderMap,
+    [BridgeType.Elasticsearch]: IoTDBOrderMap,
   }
 
   const propsOrderMap = computed(() => {
@@ -190,7 +188,8 @@ export default (
     [BridgeType.GCPProducer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
-    [BridgeType.IoTDB]: ['enable_pipelining'],
+    [BridgeType.IoTDB]: IoTDBAdvancedProps,
+    [BridgeType.Elasticsearch]: IoTDBAdvancedProps,
   }
 
   const advancedFields = computed(() => {

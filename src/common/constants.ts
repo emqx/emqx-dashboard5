@@ -299,6 +299,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.SysKeeperProxy,
   BridgeType.InfluxDB,
   BridgeType.IoTDB,
+  BridgeType.Elasticsearch,
 ]
 
 export const COPY_SUFFIX = '_duplication'

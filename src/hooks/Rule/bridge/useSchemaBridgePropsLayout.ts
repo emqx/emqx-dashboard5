@@ -49,6 +49,7 @@ export default (
     'pool_size',
     'connect_timeout',
     'max_retries',
+    'parameters.max_retries',
     ...resourceOptFields,
   ]
 
@@ -226,6 +227,10 @@ export default (
       ['parameters.target_topic', 'parameters.target_qos', 'parameters.template'],
       fieldStartIndex,
     ),
+    [BridgeType.Elasticsearch]: createOrderObj(
+      ['index', 'id', 'doc', 'routing', 'overwrite', 'max_retries'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -270,6 +275,7 @@ export default (
     [BridgeType.GreptimeDB]: {
       username: 'dividing-line-below',
     },
+    [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
