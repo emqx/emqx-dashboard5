@@ -13,7 +13,7 @@
     <ConnectorMqttConfig v-model="record" :edit="edit" :col-span="24" :readonly="readonly" />
     <div v-if="direction === BridgeDirection.Ingress">
       <div>
-        <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
+        <p class="sub-block-title tip">{{ tl('ingress') }}</p>
         <CustomFormItem :prop="['ingress', 'remote', 'topic']" :readonly="readonly">
           <template #label>
             <FormItemLabel :label="t('Base.topic')" :desc="tl('ingressRemoteTopicDesc')" />
@@ -50,7 +50,7 @@
     </div>
     <div v-if="direction === BridgeDirection.Egress">
       <div>
-        <p class="sub-block-title tip">{{ tl('remoteBroker') }}</p>
+        <p class="sub-block-title tip">{{ tl('egress') }}</p>
         <MQTTBridgeTransConfiguration
           v-model="record.egress.remote"
           put-desc-in-tooltip
