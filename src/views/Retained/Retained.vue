@@ -3,17 +3,19 @@
     <div class="section-header">
       <div></div>
       <template v-if="isEnabledRetainer">
-        <el-button
-          :icon="Setting"
-          :disabled="tbData.length === 0"
-          @click="$router.push({ name: 'mqtt-retainer' })"
-        >
+        <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
           {{ $t('Base.setting') }}
         </el-button>
         <el-button type="primary" :icon="RefreshRight" @click="refresh">
           {{ $t('Base.refresh') }}
         </el-button>
-        <el-button type="danger" plain :icon="Remove" @click="handleDeleteAll">
+        <el-button
+          type="danger"
+          plain
+          :icon="Remove"
+          :disabled="tbData.length === 0"
+          @click="handleDeleteAll"
+        >
           {{ $t('General.clearAll') }}
         </el-button>
       </template>
