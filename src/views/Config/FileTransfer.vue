@@ -307,7 +307,9 @@ const handleTypeChanged = (val: StorageType | any) => {
   // set value to enable
   set(storageForm, enableField[StorageType.Local], isLocal)
   set(storageForm, enableField[StorageType.S3], !isLocal)
-  configs.value = { ...merge(configs.value, omit(storageForm, basicConfFields)) }
+
+  const basicConfig = pick(BasicFormCom.value.configForm, basicConfFields)
+  configs.value = { ...merge(basicConfig, omit(storageForm, basicConfFields)) }
   if (!isLocal) {
     getRecordInS3Form()
   }
