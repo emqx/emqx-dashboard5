@@ -171,7 +171,7 @@ onUnmounted(() => {
 watch(
   () => prop.modelValue,
   (val) => {
-    if (val !== editor.getValue() && val) {
+    if (val !== editor.getValue() && typeof val === 'string') {
       editor.setValue(val)
     }
   },
