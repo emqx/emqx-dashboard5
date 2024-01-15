@@ -15,7 +15,7 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="createRule" v-if="isBridge">
+        <el-dropdown-item command="createRule" v-if="canCreateRule">
           <el-icon><DocumentAdd /></el-icon>
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>
@@ -54,7 +54,7 @@ defineProps({
     required: true,
     type: Object as PropType<PluginItem>,
   },
-  isBridge: {
+  canCreateRule: {
     type: Boolean,
     default: false,
   },

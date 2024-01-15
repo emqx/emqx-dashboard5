@@ -51,7 +51,7 @@
             {{ $t('Base.setting') }}
           </el-button>
           <TableItemDropDown
-            is-bridge
+            can-create-rule
             :row-data="row"
             :can-copy="false"
             @delete="handleDeleteBridge(row)"
