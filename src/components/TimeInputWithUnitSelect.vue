@@ -1,28 +1,34 @@
 <template>
+  <CustomInputNumber v-if="showNumInput" class="time-input-with-unit-select" v-model="inputValue" />
   <InputWithUnit
+    v-else
     class="time-input-with-unit-select"
-    v-model="inputValue"
+    :modelValue="(inputValue as string)"
     :units="unitList"
     :disabled="disabled"
     :default-unit="defaultUnit"
     :number-placeholder="numberPlaceholder"
+    @update:model-value="handleInputUpdated"
     @change="$emit('change')"
   />
 </template>
 
 <script lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineComponent, PropType, computed } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed, defineComponent } from 'vue'
+import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 
 export default defineComponent({
   name: 'TimeInputWithUnitSelect',
   components: {
     InputWithUnit,
+    CustomInputNumber,
   },
   props: {
     modelValue: {
-      type: String,
+      type: [String, Number] as PropType<string | number>,
       default: '',
     },
     disabled: {
@@ -51,20 +57,31 @@ export default defineComponent({
       { value: 'd', label: t('Base.day', 1) },
     ]
 
-    const inputValue = computed({
+    const inputValue: WritableComputedRef<string | number> = computed({
       get() {
         return props.modelValue
       },
-      set(val: string) {
+      set(val) {
         context.emit('update:modelValue', val)
       },
     })
+
+    const handleInputUpdated = (val: string | number) => {
+      inputValue.value = val
+    }
 
     const unitList = computed(() => {
       return totalUnitList.filter(({ value }) => props.enabledUnits.includes(value))
     })
 
-    return { inputValue, unitList }
+    /**
+     * Make sure the config can be displayed
+     */
+    const showNumInput = computed(() => {
+      return inputValue.value !== undefined && typeof inputValue.value === 'number'
+    })
+
+    return { inputValue, unitList, showNumInput, handleInputUpdated }
   },
 })
 </script>
