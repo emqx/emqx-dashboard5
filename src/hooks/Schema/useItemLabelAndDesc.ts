@@ -1,3 +1,4 @@
+import { INTEGRATION_SCHEMA_TYPES } from '@/common/constants'
 import {
   useActionSchema,
   useBridgeSchema,
@@ -69,7 +70,7 @@ export default (
 } => {
   const { t, te } = useI18n()
 
-  const typesUseBridgeText = ['bridge', 'connector']
+  const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
   /**
    * zone is first level
@@ -113,11 +114,13 @@ export default (
   const { getTypeByBridgeSchemaRef } = useBridgeSchema()
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
   const { getTypeByActionSchemaRef } = useActionSchema()
-  const actionRefReg = /post_bridge_v2/
   const getTypeBySchemaRef = () => {
     const { ref } = props.accordingTo
     if (props.type === 'bridge') {
-      return actionRefReg.test(ref) ? getTypeByActionSchemaRef(ref) : getTypeByBridgeSchemaRef(ref)
+      return getTypeByBridgeSchemaRef(ref)
+    }
+    if (props.type === 'action') {
+      return getTypeByActionSchemaRef(ref)
     }
     return getTypeByConnectorSchemaRef(ref)
   }
