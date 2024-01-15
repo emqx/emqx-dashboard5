@@ -790,7 +790,8 @@
       "desc": "也称 Measurement，支持使用 ${'{'}var{'}'} 格式的占位符。"
     },
     "data_type": {
-      "label": "数据类型"
+      "label": "数据类型",
+      "desc": "数据类型，支持使用 ${'{'}var{'}'} 格式的占位符。"
     },
     "value": {
       "label": "值",

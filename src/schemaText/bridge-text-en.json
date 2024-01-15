@@ -791,7 +791,8 @@
       "desc": "Supports the use of ${'{'}var{'}'} format as a placeholder."
     },
     "data_type": {
-      "label": "Data Type"
+      "label": "Data Type",
+      "desc": "Data Type, supports the use of ${'{'}var{'}'} format as a placeholder."
     },
     "value": {
       "label": "Value",
