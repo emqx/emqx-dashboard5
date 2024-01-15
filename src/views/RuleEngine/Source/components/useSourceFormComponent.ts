@@ -23,7 +23,7 @@ export default (
   ])
   const formComProps = computed(() => {
     const props = formComPropsMap.get(type.value)
-    return props || {}
+    return props || { isSource: true }
   })
   return { formCom, formComProps }
 }

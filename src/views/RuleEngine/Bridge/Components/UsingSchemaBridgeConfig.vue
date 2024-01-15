@@ -3,7 +3,7 @@
     <schema-form
       v-if="getRefKey"
       ref="formCom"
-      type="bridge"
+      :type="schemaType"
       need-rules
       :schema-file-path="schemaFilePath"
       :need-footer="false"
@@ -33,7 +33,11 @@
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import { useActionSchema, useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  isConnectorSupported,
+  useActionSchema,
+  useBridgeSchema,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
@@ -71,6 +75,7 @@ const props = withDefaults(
     // for flow, hide `role`
     hiddenFields?: Array<string>
     isUsingInFlow?: boolean
+    isSource?: boolean
   }>(),
   {
     modelValue: undefined,
@@ -87,6 +92,13 @@ const isAction = computed(() => SUPPORTED_CONNECTOR_TYPES.includes(props.type as
 const schemaFilePath = computed(() => {
   const schemaType = isAction.value ? 'actions' : 'bridges'
   return getAPIPath(`/schemas/${schemaType}`)
+})
+
+const schemaType = computed(() => {
+  if (!props.type || !isConnectorSupported(props.type)) {
+    return 'bridge'
+  }
+  return props.isSource ? 'source' : 'action'
 })
 
 const bridgeRecord = computed({

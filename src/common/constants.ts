@@ -263,3 +263,8 @@ export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'
+
+/**
+ * Schema types related to data integration
+ */
+export const INTEGRATION_SCHEMA_TYPES = ['bridge', 'connector', 'action', 'source']
