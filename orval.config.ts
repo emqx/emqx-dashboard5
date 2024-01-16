@@ -40,6 +40,7 @@ const tagArr = [
   'Banned',
   'Connectors',
   'Actions',
+  'Sources',
 ]
 
 const typesFolder = './src/types/schemas/'
