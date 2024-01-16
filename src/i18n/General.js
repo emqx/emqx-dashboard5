@@ -403,4 +403,8 @@ export default {
     zh: '是否确定要清除全部保留消息？',
     en: 'Confirm to clear all retained messages?',
   },
+  pleaseUploadFile: {
+    zh: '请先上传文件',
+    en: 'Please upload file first',
+  },
 }
