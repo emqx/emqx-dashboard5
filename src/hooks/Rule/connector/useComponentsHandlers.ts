@@ -82,8 +82,17 @@ export default (
     return { components: comRet, rules }
   }
 
+  const mqttHandler: Handler = ({ components, rules }) => {
+    const comRet = components
+    if (comRet?.server) {
+      comRet.server.componentProps = { placeholder: 'broker.emqx.io:1883' }
+    }
+    return { components: comRet, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.Webhook, httpHandler],
+    [BridgeType.MQTT, mqttHandler],
   ])
 
   const getComponentsHandler = () => {

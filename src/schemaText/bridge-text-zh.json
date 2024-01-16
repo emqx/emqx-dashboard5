@@ -66,5 +66,54 @@
     "max_retries": {
       "label": "最大重试次数"
     }
+  },
+  "emqx_ee_bridge_mqtt": {
+    "server": {
+      "label": "MQTT 服务地址"
+    },
+    "proto_ver": {
+      "label": "MQTT 协议版本"
+    },
+    "bridge_mode": {
+      "label": "桥接模式",
+      "desc": "该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。开启后，远端服务器将识别当前连接为一个桥接，消息回环检测更高效，收到的保留消息标志位会透传给本地。"
+    },
+    "clean_start": {
+      "label": "清除会话",
+      "desc": "当重新连接到远程服务，该 MQTT 服务作为入口桥接时，是否启动一个干净的会话。"
+    },
+    "keepalive": {
+      "label": "Keep Alive"
+    },
+    "retry_interval": {
+      "label": "消息重发间隔",
+      "desc": "在未收到 ACK 的情况下，QoS1/QoS2 消息的重试间隔。"
+    },
+    "clientid_prefix": {
+      "label": "客户端 ID 前缀",
+      "desc": "连接器随机生成客户端 ID 时所使用的前缀。"
+    },
+    "max_inflight": {
+      "label": "飞行窗口",
+      "desc": "消息发布时，可以同时等待确认的未确认消息数量，用以提高消息传递效率和吞吐量。"
+    },
+    "topic": {
+      "label": "主题",
+      "desc": "本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。"
+    },
+    "source_topic": {
+      "label": "主题",
+      "desc": "本地服务将订阅该主题以从远程 MQTT 服务接收消息。当 EMQX 配置为集群或启用了 ingress 连接池时，必须使用共享订阅来避免消息重复。"
+    },
+    "qos": {
+      "label": "QoS"
+    },
+    "retain": {
+      "label": "Retain"
+    },
+    "payload": {
+      "label": "消息模板",
+      "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用动作的业务需求来选择字段，置空则原样转发消息。支持使用 ${'{'}field{'}'} 语法读取数据。"
+    }
   }
 }

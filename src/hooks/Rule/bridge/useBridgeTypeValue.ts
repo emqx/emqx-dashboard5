@@ -259,7 +259,9 @@ export const useConnectorSchema = (): {
   const refSuffix = 'post_connector'
   const getRef = (type: string, prefix?: string) => `${prefix ?? refPrefix}${type}.${refSuffix}`
 
-  const specialTypeRefKeyMap: Map<string, string> = new Map([])
+  const specialTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.MQTT, getRef(BridgeType.MQTT, 'connector_')],
+  ])
 
   const getTypeRefKey = (type: string): string => {
     const ref = specialTypeRefKeyMap.get(type)
@@ -291,12 +293,11 @@ export const useActionSchema = (): {
   const refPrefix = 'bridge_'
   const refSuffix = '.post_bridge_v2'
 
-  const getRef = (type: string, prefix?: string, suffix?: string) => {
-    const finalSuffix = `${refSuffix}${suffix || ''}`
-    return (prefix ?? refPrefix) + type + finalSuffix
-  }
+  const getRef = (type: string, prefix?: string) => (prefix ?? refPrefix) + type + refSuffix
 
-  const specialActionTypeRefKeyMap: Map<string, string> = new Map([])
+  const specialActionTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.MQTT, getRef('mqtt_publisher')],
+  ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
     return ref ?? getRef(type)
@@ -319,5 +320,44 @@ export const useActionSchema = (): {
   return {
     getSchemaRefByType,
     getTypeByActionSchemaRef,
+  }
+}
+
+export const useSourceSchema = (): {
+  getSchemaRefByType: (type: string, suffix?: string) => string
+  getTypeBySourceSchemaRef: (ref: string) => string
+} => {
+  const refPrefix = 'bridge_'
+  const refSuffix = '.post_source'
+
+  const getRef = (type: string, prefix?: string, suffix?: string) => {
+    return (prefix ?? refPrefix) + type + (suffix ?? refSuffix)
+  }
+
+  const specialActionTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.MQTT, getRef('mqtt_publisher')],
+  ])
+  const getSchemaRefByType = (type: string) => {
+    const ref = specialActionTypeRefKeyMap.get(type)
+    return ref ?? getRef(type)
+  }
+
+  const getTypeBySourceSchemaRef = (ref: string) => {
+    const refKey = ref.replace(/^.+\//, '')
+    for (const [type, refValue] of specialActionTypeRefKeyMap.entries()) {
+      if (refValue === refKey) {
+        return type
+      }
+    }
+    // 1. remove path 2. remove prefix 3. remove suffix
+    const ret = refKey
+      .replace(new RegExp(`${refPrefix}`), '')
+      .replace(new RegExp(`${refSuffix}\\w*`), '')
+    return ret
+  }
+
+  return {
+    getSchemaRefByType,
+    getTypeBySourceSchemaRef,
   }
 }
