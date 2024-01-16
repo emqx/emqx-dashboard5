@@ -11,7 +11,7 @@ export interface Property {
   label: string
   labelKey?: string
   default: any
-  symbols?: Array<string | number>
+  symbols?: Array<string | number | boolean>
   type: string
   maximum?: number
   minimum?: number

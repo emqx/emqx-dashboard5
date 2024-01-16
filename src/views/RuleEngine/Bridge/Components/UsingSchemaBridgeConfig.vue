@@ -30,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import {
   isConnectorSupported,
   useActionSchema,
   useBridgeSchema,
+  useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
@@ -50,6 +50,7 @@ import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } f
 
 const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
+const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -85,12 +86,12 @@ const props = withDefaults(
 const emit = defineEmits(['update:modelValue', 'init'])
 
 /**
- * different from is bridge
+ * different from is source/action
  */
-const isAction = computed(() => SUPPORTED_CONNECTOR_TYPES.includes(props.type as BridgeType))
+const isBridge = computed(() => !isConnectorSupported(props.type as BridgeType))
 
 const schemaFilePath = computed(() => {
-  const schemaType = isAction.value ? 'actions' : 'bridges'
+  const schemaType = isBridge.value ? 'bridges' : 'actions'
   return getAPIPath(`/schemas/${schemaType}`)
 })
 
@@ -152,10 +153,11 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  if (isAction.value) {
-    return getActionTypeRefKey(props.type)
+  if (isBridge.value) {
+    return getBridgeTypeRefKey(props.type)
   }
-  return getBridgeTypeRefKey(props.type)
+
+  return props.isSource ? getSourceTypeRefKey(props.type) : getActionTypeRefKey(props.type)
 })
 
 const { getComponentsHandler } = useComponentsHandlers(props)

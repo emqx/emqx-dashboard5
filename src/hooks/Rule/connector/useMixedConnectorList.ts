@@ -1,6 +1,7 @@
 import { getActions } from '@/api/action'
 import { getConnectors } from '@/api/connector'
 import { getBridgeList } from '@/api/ruleengine'
+import { getSources } from '@/api/sources'
 import { getBridgeKey, omitArr } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
@@ -13,12 +14,17 @@ export default (): {
 
   const getMixedConnectorList = async (): Promise<Array<Connector | BridgeItem>> => {
     try {
-      const [connectorList, actionList, bridgeList] = await Promise.all([
+      const [connectorList, actionList, bridgeList, sourceList] = await Promise.all([
         getConnectors(),
         getActions(),
         getBridgeList(),
+        getSources(),
       ])
       const actionIdDataMap = actionList.reduce((map, item) => {
+        map.set(item.id, item)
+        return map
+      }, new Map())
+      const sourceIdDataMap = sourceList.reduce((map, item) => {
         map.set(item.id, item)
         return map
       }, new Map())
@@ -53,6 +59,20 @@ export default (): {
             } else {
               connectorIndexArrNeedRemoved.push(connectorIndex)
             }
+          }
+        }
+
+        const sameIdSource = sourceIdDataMap.get(id)
+        if (sameIdSource) {
+          const associatedConnectorName = sameIdSource.connector
+          const { type } = sameIdSource
+          const associatedConnectorId = getBridgeKey({
+            type: type as BridgeType,
+            name: associatedConnectorName,
+          })
+          const connectorIndex = connectorList.findIndex(({ id }) => id === associatedConnectorId)
+          if (connectorIndex !== -1) {
+            connectorIndexArrNeedRemoved.push(connectorIndex)
           }
         }
       })

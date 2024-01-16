@@ -44,6 +44,10 @@ export default (
   const createOrderObj = (keyArr: Array<string>, beginning: number) =>
     keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
 
+  const getPathInParameters = (key: string) => `parameters.${key}`
+  const getPathArrInParameters = (keyArr: Array<string>): Array<string> =>
+    keyArr.map(getPathInParameters)
+
   const commonAdvancedFields = [
     'pool_type',
     'pool_size',
@@ -52,18 +56,24 @@ export default (
     ...resourceOptFields,
   ]
 
+  const basicInfoFields = ['name', 'connector', 'description']
+  const baseIndex = basicInfoFields.length
+
   const baseOrderMap = {
-    name: 0,
-    connector: 1,
+    ...createOrderObj(basicInfoFields, 0),
     ...createOrderObj(commonAdvancedFields, 99),
   }
 
   const httpAdvancedFields = [`parameters.max_retries`]
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
-      ...baseOrderMap,
+      ...createOrderObj(getPathArrInParameters(['path', 'method', 'headers', 'body']), baseIndex),
       ...createOrderObj(httpAdvancedFields, 70),
     },
+    [BridgeType.MQTT]: createOrderObj(
+      getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
+      baseIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

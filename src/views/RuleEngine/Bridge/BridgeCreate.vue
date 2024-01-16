@@ -36,17 +36,7 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-mqtt-config
-                v-if="chosenBridgeType === BridgeType.MQTT"
-                v-model="bridgeData"
-                ref="formCom"
-                :single-direction="BridgeDirection.Egress"
-                :copy="isCopy"
-              />
               <using-schema-bridge-config
-                v-else-if="
-                  chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
-                "
                 :type="chosenBridgeType"
                 v-model="bridgeData"
                 ref="formCom"
@@ -86,18 +76,7 @@
       </el-card>
     </div>
     <div v-else>
-      <bridge-mqtt-config
-        v-if="chosenBridgeType === BridgeType.MQTT"
-        v-model="bridgeData"
-        ref="formCom"
-        :single-direction="BridgeDirection.Egress"
-      />
-      <using-schema-bridge-config
-        v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
-        :type="chosenBridgeType"
-        v-model="bridgeData"
-        ref="formCom"
-      />
+      <using-schema-bridge-config :type="chosenBridgeType" v-model="bridgeData" ref="formCom" />
     </div>
   </div>
 </template>

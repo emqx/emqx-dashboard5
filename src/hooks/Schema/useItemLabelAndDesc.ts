@@ -3,6 +3,7 @@ import {
   useActionSchema,
   useBridgeSchema,
   useConnectorSchema,
+  useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
@@ -114,6 +115,7 @@ export default (
   const { getTypeByBridgeSchemaRef } = useBridgeSchema()
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
   const { getTypeByActionSchemaRef } = useActionSchema()
+  const { getTypeBySourceSchemaRef } = useSourceSchema()
   const getTypeBySchemaRef = () => {
     const { ref } = props.accordingTo
     if (props.type === 'bridge') {
@@ -121,6 +123,9 @@ export default (
     }
     if (props.type === 'action') {
       return getTypeByActionSchemaRef(ref)
+    }
+    if (props.type === 'source') {
+      return getTypeBySourceSchemaRef(ref)
     }
     return getTypeByConnectorSchemaRef(ref)
   }
