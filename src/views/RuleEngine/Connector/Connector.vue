@@ -77,9 +77,11 @@
                 <!-- TODO:disable del -->
                 <!-- :disable-del="row.XXXXXX" -->
                 <TableItemDropDown
+                  can-create-rule
                   :row-data="row"
                   :disabled="row.canNotView"
                   @copy="copyConnectorItem(row)"
+                  @create-rule="createRuleWithConnector(row)"
                   @delete="handleDeleteConnector(row, getList)"
                 />
               </div>
@@ -102,13 +104,18 @@
 </template>
 
 <script setup lang="ts">
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  useBridgeDirection,
+  useBridgeTypeIcon,
+  useConnectorTypeValue,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
@@ -123,7 +130,7 @@ const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const { getMixedConnectorList } = useMixedConnectorList()
 const getList = async () => {
@@ -172,6 +179,24 @@ const getDetailPageRoute = ({ id }: Connector) => ({
   name: 'connector-detail',
   params: { id },
 })
+
+const { judgeBridgeDirection } = useBridgeDirection()
+const createRuleWithConnector = async (connector: Connector) => {
+  try {
+    await ElMessageBox.confirm(tl('useConnectorCreateRule'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'success',
+    })
+    const direction = judgeBridgeDirection(connector)
+    router.push({
+      name: 'rule-create',
+      query: { direction, connName: connector.name, connType: connector.type },
+    })
+  } catch (error) {
+    //
+  }
+}
 
 const copyConnectorItem = ({ id }: Connector) => {
   router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
