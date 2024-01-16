@@ -63,6 +63,22 @@ export default (
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
       ...createOrderObj(httpAdvancedProps, 70),
     },
+    [BridgeType.MQTT]: createOrderObj(
+      [
+        'server',
+        'clientid_prefix',
+        'username',
+        'password',
+        'keepalive',
+        'proto_ver',
+        'clean_start',
+        'ssl',
+        'retry_interval',
+        'bridge_mode',
+        'max_inflight',
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -77,6 +93,7 @@ export default (
 
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: httpAdvancedProps,
+    [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight'],
   }
 
   const advancedFields = computed(() => {

@@ -224,7 +224,6 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
-  BridgeType.MQTT,
   BridgeType.InfluxDB,
   BridgeType.KafkaConsumer,
   BridgeType.KafkaProducer,
@@ -235,7 +234,7 @@ export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
-export const SUPPORTED_CONNECTOR_TYPES = [BridgeType.Webhook]
+export const SUPPORTED_CONNECTOR_TYPES = [BridgeType.MQTT, BridgeType.Webhook]
 
 export const COPY_SUFFIX = '_duplication'
 
