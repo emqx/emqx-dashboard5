@@ -65,10 +65,10 @@ export const testSourceConnectivity = (source: Source): Promise<Source> => {
   return http.post(`/sources_probe`, source)
 }
 
-export const reconnectSourceForNode = (node: string, id: string): Promise<Source> => {
+export const reconnectSourceForNode = (node: string, id: string): Promise<void> => {
   return http.post(`/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`)
 }
 
-export const reconnectSource = (id: string): Promise<Source> => {
+export const reconnectSource = (id: string): Promise<void> => {
   return http.post(`/sources/${encodeURIComponent(id)}/start`)
 }

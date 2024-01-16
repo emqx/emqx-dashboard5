@@ -2,7 +2,7 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
-import { Properties } from '@/types/schemaForm'
+import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -43,6 +43,18 @@ export default (
     return rules
   }
 
+  const getSymbolsFromOneOfArr = (oneof: Property['oneOf']): Property['symbols'] => {
+    if (!oneof) {
+      return []
+    }
+    return oneof.reduce((arr: Array<string | number | boolean>, item) => {
+      if (item.type === 'enum' && item.symbols) {
+        arr.push(...item.symbols)
+      }
+      return arr
+    }, [])
+  }
+
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -73,8 +85,32 @@ export default (
     return { components, rules }
   }
 
+  const mqttHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { qos, retain, payload, topic } = components?.parameters?.properties || {}
+    if (qos?.type === 'oneof') {
+      qos.type = 'enum'
+      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
+      qos.componentProps = { filterable: true, allowCreate: true }
+    }
+    if (retain?.type === 'oneof') {
+      retain.type = 'enum'
+      retain.symbols = [true, false, '${flags.retain}']
+      retain.componentProps = { filterable: true, allowCreate: true }
+    }
+    // for detect whether it is source or action
+    if (topic && !payload) {
+      topic.labelKey = 'source_topic'
+    }
+    if (payload?.type === 'string') {
+      payload.format = 'sql'
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.Webhook]: httpHandler,
+    [BridgeType.MQTT]: mqttHandler,
   }
 
   const getComponentsHandler = () => {
