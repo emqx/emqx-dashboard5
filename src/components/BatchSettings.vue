@@ -66,7 +66,7 @@ import { ElMessage } from 'element-plus'
 import { downloadByURL } from '@/common/tools'
 import { ElUpload } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BATCH_UPLOAD_CSV_ROWS } from '@/common/constants'
+import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
@@ -134,8 +134,15 @@ function processTDengineData(data: string[][]): Promise<string> {
         const [field, value, isChar] = data[i]
         if (!field || !value) continue
         fields.push(field)
-        const isCharValue = isChar && ['true', 'TRUE', '1'].includes(isChar.trim())
-        values.push(isCharValue ? `'${value}'` : value)
+        const isCharValue = ['true', 'TRUE', '1', '', undefined].includes(isChar?.trim())
+        const isNotCharValue = ['false', 'FALSE', '0'].includes(isChar?.trim())
+        if (isCharValue) {
+          values.push(`'${value}'`)
+        } else if (isNotCharValue) {
+          values.push(value)
+        } else {
+          throw new Error(tl('invalidIsCharFlag', { isChar }))
+        }
       }
       const result = `insert into ${tableName}(${fields.join(', ')}) values (${values.join(', ')})`
       resolve(result)
@@ -199,8 +206,8 @@ async function readFileAndParse(file: File): Promise<string[][]> {
       if (results.errors.length > 0) {
         reject(new Error('Failed to parse CSV data: ' + results.errors[0].message))
       }
-      if (results.data.length > BATCH_UPLOAD_CSV_ROWS + 1) {
-        reject(new Error(tl('uploadMaxRowsError', { max: BATCH_UPLOAD_CSV_ROWS })))
+      if (results.data.length > BATCH_UPLOAD_CSV_MAX_ROWS + 1) {
+        reject(new Error(tl('uploadMaxRowsError', { max: BATCH_UPLOAD_CSV_MAX_ROWS })))
       } else {
         resolve(results.data)
       }

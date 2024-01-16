@@ -411,4 +411,8 @@ export default {
     zh: 'CSV 文件行数超过限制，除表头外，最多支持 {max} 行数据',
     en: 'The number of rows in the CSV file exceeds the limit. Up to {max} rows of data are supported except for the header',
   },
+  invalidIsCharFlag: {
+    zh: '无效的字符标识符值：{isChar}',
+    en: 'Invalid Char Value field: {isChar}',
+  },
 }
