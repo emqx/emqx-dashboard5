@@ -1,12 +1,4 @@
 export default {
-  confirmDelete: {
-    zh: '确认删除应用?',
-    en: 'Confirm delete?',
-  },
-  application: {
-    zh: '应用',
-    en: 'Application',
-  },
   expireAt: {
     zh: '到期时间',
     en: 'Expire At',
@@ -18,10 +10,6 @@ export default {
   enabled: {
     zh: '启用',
     en: 'Enabled',
-  },
-  createApp: {
-    zh: '创建应用',
-    en: 'Create App',
   },
   secret: {
     zh: '密钥',

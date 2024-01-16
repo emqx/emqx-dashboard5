@@ -171,10 +171,6 @@ export default {
     zh: '系统主题',
     en: 'System Topic',
   },
-  application: {
-    zh: '应用',
-    en: 'Application',
-  },
   gateway: {
     zh: '网关',
     en: 'Gateways',
