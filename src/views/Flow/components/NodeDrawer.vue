@@ -130,7 +130,7 @@ const { t, tl } = useI18nTl('Base')
  * eg. SourceType.Message etc.
  */
 const type = computed(() => props.node?.data?.specificType)
-const isEdit = computed(() => props.node?.data?.isCreated)
+const isEdit = computed(() => record.value.id)
 
 const FormCom = ref()
 
