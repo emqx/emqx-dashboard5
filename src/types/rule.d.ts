@@ -189,6 +189,8 @@ export interface Action {
   [key: any]: any
 }
 
+export type Source = Action
+
 export type BridgeMetricsData = MetricsData
 
 export type BridgeItemWithMetrics = BridgeItem & BridgeMetricsData
