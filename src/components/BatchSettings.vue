@@ -236,6 +236,7 @@ async function importData() {
 
 <style lang="scss">
 .batch-settings {
+  line-height: 0;
   .el-button.is-link {
     font-weight: normal;
   }
