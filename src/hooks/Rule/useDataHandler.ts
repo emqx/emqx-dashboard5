@@ -52,7 +52,7 @@ const useCommonDataHandler = () => {
     'aws_secret_access_key',
     'token',
     'security_token',
-  ]
+  ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
