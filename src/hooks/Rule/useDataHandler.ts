@@ -42,7 +42,10 @@ const useCommonDataHandler = () => {
 
   // When copying, set to empty value.
   // When saving as a copy, check if it has been modified.
-  const likePasswordFieldKeys = ['password']
+  const likePasswordFieldKeys = ['password'].reduce(
+    (arr: Array<string>, key) => [...arr, key, `parameters.${key}`],
+    [],
+  )
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
@@ -84,7 +87,7 @@ export const useConnectorDataHandler = (): {
   const handleConnectorDataBeforeSubmit = handleDataBeforeSubmit
 
   const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
-    const ret = handleConnectorDataBeforeSubmit(data)
+    const ret: Connector = handleConnectorDataBeforeSubmit(data)
     return omit(ret, keysNeedRemovedForUpdate) as Connector
   }
 
