@@ -102,16 +102,19 @@ function processInfluxDBData(data: string[][]): Promise<{ key: string; value: st
   return new Promise((resolve, reject) => {
     try {
       // Skip the first row and map each row to an object
-      const result = data.slice(1).map((row) => ({
-        key: row[0],
-        value: row[1],
-      }))
+      const result = [] as { key: string; value: string }[]
+      for (let i = 1; i < data.length; i++) {
+        const [key, value] = data[i]
+        if (!key || !value) continue
+        result.push({ key, value })
+      }
       resolve(result)
     } catch (error) {
       reject(error)
     }
   })
 }
+
 /**
  * Processes TDengine data and returns a promise that resolves to a string.
  *
