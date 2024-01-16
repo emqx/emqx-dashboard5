@@ -407,4 +407,8 @@ export default {
     zh: '请先上传文件',
     en: 'Please upload file first',
   },
+  uploadMaxRowsError: {
+    zh: 'CSV 文件行数超过限制，除表头外，最多支持 {max} 行数据',
+    en: 'The number of rows in the CSV file exceeds the limit. Up to {max} rows of data are supported except for the header',
+  },
 }

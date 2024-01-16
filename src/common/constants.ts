@@ -347,3 +347,5 @@ export const SSL_FIELDS = [
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'
+
+export const BATCH_UPLOAD_CSV_ROWS = 2000

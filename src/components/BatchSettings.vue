@@ -66,6 +66,7 @@ import { ElMessage } from 'element-plus'
 import { downloadByURL } from '@/common/tools'
 import { ElUpload } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BATCH_UPLOAD_CSV_ROWS } from '@/common/constants'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
@@ -198,7 +199,11 @@ async function readFileAndParse(file: File): Promise<string[][]> {
       if (results.errors.length > 0) {
         reject(new Error('Failed to parse CSV data: ' + results.errors[0].message))
       }
-      resolve(results.data)
+      if (results.data.length > BATCH_UPLOAD_CSV_ROWS + 1) {
+        reject(new Error(tl('uploadMaxRowsError', { max: BATCH_UPLOAD_CSV_ROWS })))
+      } else {
+        resolve(results.data)
+      }
     }
     reader.onerror = () => {
       reject(new Error('An error occurred while reading the file'))
