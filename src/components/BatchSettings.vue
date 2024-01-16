@@ -65,11 +65,13 @@ import Papa from 'papaparse'
 import { ElMessage } from 'element-plus'
 import { downloadByURL } from '@/common/tools'
 import { ElUpload } from 'element-plus'
+import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
 }>()
 const emits = defineEmits(['uploadedData'])
+const { tl } = useI18nTl('General')
 
 const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
@@ -226,6 +228,8 @@ async function importData() {
       fileList.value = []
       UploadRef.value?.clearFiles()
       dialogVisible.value = false
+    } else {
+      ElMessage.warning(tl('pleaseUploadFile'))
     }
   } catch (error) {
     if (error instanceof Error) {
