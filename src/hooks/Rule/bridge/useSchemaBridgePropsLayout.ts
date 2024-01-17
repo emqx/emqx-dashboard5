@@ -44,6 +44,10 @@ export default (
   const createOrderObj = (keyArr: Array<string>, beginning: number) =>
     keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
 
+  const getPathInParameters = (key: string) => `parameters.${key}`
+  const getPathArrInParameters = (keyArr: Array<string>): Array<string> =>
+    keyArr.map(getPathInParameters)
+
   const commonAdvancedFields = [
     'pool_type',
     'pool_size',
@@ -109,7 +113,17 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.Webhook]: createOrderObj(httpAdvancedFields, 70),
+    [BridgeType.Webhook]: {
+      ...createOrderObj(
+        getPathArrInParameters(['path', 'method', 'headers', 'body']),
+        fieldStartIndex,
+      ),
+      ...createOrderObj(httpAdvancedFields, 70),
+    },
+    [BridgeType.MQTT]: createOrderObj(
+      getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
+      fieldStartIndex,
+    ),
     [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
     [BridgeType.Redis]: createOrderObj(['command_template'], fieldStartIndex),
     [BridgeType.GCPProducer]: createOrderObj(

@@ -1,7 +1,7 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
-import { BridgeDirection, BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
+import { BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
 import useFlowNode, {
@@ -76,12 +76,8 @@ export default (): {
   isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const {
-    createRawMQTTForm,
-    createRawKafkaProducerForm,
-    createRawKafkaConsumerForm,
-    createRawInfluxDBForm,
-  } = useBridgeFormCreator()
+  const { createRawKafkaProducerForm, createRawKafkaConsumerForm, createRawInfluxDBForm } =
+    useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
    */
@@ -94,14 +90,12 @@ export default (): {
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
-    [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
     [SourceType.Kafka]: createRawKafkaConsumerForm,
     [SourceType.GCP]: () => ({ role: Role.Consumer }),
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
-    [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
     [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,

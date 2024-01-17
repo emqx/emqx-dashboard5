@@ -3,7 +3,7 @@
     <schema-form
       v-if="getRefKey"
       ref="formCom"
-      type="bridge"
+      :type="schemaType"
       need-rules
       :schema-file-path="schemaFilePath"
       :need-footer="false"
@@ -31,10 +31,14 @@
 </template>
 
 <script setup lang="ts">
-import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import { useActionSchema, useBridgeSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  isConnectorSupported,
+  useActionSchema,
+  useBridgeSchema,
+  useSourceSchema,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
@@ -47,6 +51,7 @@ import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } f
 
 const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
+const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()
 
 const props = withDefaults(
   defineProps<{
@@ -72,6 +77,7 @@ const props = withDefaults(
     // for flow, hide `role`
     hiddenFields?: Array<string>
     isUsingInFlow?: boolean
+    isSource?: boolean
   }>(),
   {
     modelValue: undefined,
@@ -81,13 +87,20 @@ const props = withDefaults(
 const emit = defineEmits(['update:modelValue', 'init'])
 
 /**
- * different from is bridge
+ * different from is source/action
  */
-const isAction = computed(() => SUPPORTED_CONNECTOR_TYPES.includes(props.type as BridgeType))
+const isBridge = computed(() => !isConnectorSupported(props.type as BridgeType))
 
 const schemaFilePath = computed(() => {
-  const schemaType = isAction.value ? 'actions' : 'bridges'
+  const schemaType = isBridge.value ? 'bridges' : 'actions'
   return getAPIPath(`/schemas/${schemaType}`)
+})
+
+const schemaType = computed(() => {
+  if (!props.type || !isConnectorSupported(props.type)) {
+    return 'bridge'
+  }
+  return props.isSource ? 'source' : 'action'
 })
 
 const bridgeRecord = computed({
@@ -141,10 +154,10 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  if (isAction.value) {
-    return getActionTypeRefKey(props.type)
+  if (isBridge.value) {
+    return getBridgeTypeRefKey(props.type)
   }
-  return getBridgeTypeRefKey(props.type) || undefined
+  return props.isSource ? getSourceTypeRefKey(props.type) : getActionTypeRefKey(props.type)
 })
 
 const batchSettingDBs = ['tdengine', 'iotdb' /* add more db types here if needed */]

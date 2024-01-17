@@ -94,18 +94,8 @@
               </i18n-t>
             </el-alert>
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
-              <bridge-mqtt-config
-                v-if="bridgeType === BridgeType.MQTT"
-                ref="formCom"
-                v-model="bridgeInfo"
-                :edit="true"
-                :disabled="disabled"
-                :hide-name="hideName"
-                :single-direction="isFromRule ? BridgeDirection.Egress : false"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
               <bridge-influxdb-config
-                v-else-if="bridgeType === BridgeType.InfluxDB"
+                v-if="bridgeType === BridgeType.InfluxDB"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
@@ -192,7 +182,7 @@ import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCo
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType, DetailTab } from '@/types/enum'
+import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
@@ -203,7 +193,6 @@ import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 
 import { useRoute, useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
-import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'

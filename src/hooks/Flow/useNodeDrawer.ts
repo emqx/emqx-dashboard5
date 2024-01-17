@@ -1,5 +1,4 @@
 import { BridgeType } from '@/types/enum'
-import MQTTBrokerForm from '@/views/Flow/components/form/MQTTBrokerForm.vue'
 import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
@@ -53,13 +52,13 @@ export default (): {
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
-    [SourceType.MQTTBroker]: MQTTBrokerForm,
+    [SourceType.MQTTBroker]: UsingSchemaBridgeConfig,
     [SourceType.Kafka]: BridgeKafkaConsumerConfig,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
-    [SinkType.MQTTBroker]: MQTTBrokerForm,
+    [SinkType.MQTTBroker]: UsingSchemaBridgeConfig,
     [SinkType.Kafka]: BridgeKafkaProducerConfig,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
     [SinkType.Pulsar]: BridgePulsarConfig,

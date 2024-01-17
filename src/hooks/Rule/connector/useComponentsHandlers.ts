@@ -91,6 +91,14 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
+  const mqttHandler: Handler = ({ components, rules }) => {
+    const comRet = components
+    if (comRet?.server) {
+      comRet.server.componentProps = { placeholder: 'broker.emqx.io:1883' }
+    }
+    return { components: comRet, rules }
+  }
+
   const httpHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.url && !comRet.url.default) {
@@ -256,6 +264,7 @@ export default (
   }
 
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
+    [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaProducerHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],

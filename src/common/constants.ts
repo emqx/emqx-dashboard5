@@ -272,7 +272,6 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
 ])
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
-  BridgeType.MQTT,
   BridgeType.InfluxDB,
   BridgeType.KafkaConsumer,
   BridgeType.KafkaProducer,
@@ -284,6 +283,7 @@ export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
 export const SUPPORTED_CONNECTOR_TYPES = [
+  BridgeType.MQTT,
   BridgeType.Webhook,
   BridgeType.KafkaProducer,
   BridgeType.AzureEventHubs,
@@ -347,5 +347,10 @@ export const SSL_FIELDS = [
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'
+
+/**
+ * Schema types related to data integration
+ */
+export const INTEGRATION_SCHEMA_TYPES = ['bridge', 'connector', 'action', 'source']
 
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2000

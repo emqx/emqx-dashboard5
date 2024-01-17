@@ -1,12 +1,10 @@
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
 import { Ref, ref } from 'vue'
 import useHandleActionItem from '../action/useHandleActionItem'
-import { useBridgeDirection } from './useBridgeTypeValue'
 
 interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>
@@ -15,7 +13,6 @@ interface DeleteBridgeResult {
   currentDelName: Ref<string>
   showDeleteWebhookAssociatedTip: Ref<boolean>
   handleDeleteSuc: () => void
-  delBridgeDirection: Ref<number>
   handleDeleteBridge: (data: BridgeItem) => Promise<void>
 }
 
@@ -42,8 +39,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
     showSecondConfirm.value = true
   }
 
-  const delBridgeDirection = ref(BridgeDirection.Egress)
-  const { judgeBridgeDirection } = useBridgeDirection()
   const { deleteAction } = useHandleActionItem()
   const handleDeleteBridge = async (item: BridgeItem) => {
     if (judgeIsWebhookAction(item)) {
@@ -59,7 +54,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
       type: 'warning',
     })
     try {
-      delBridgeDirection.value = judgeBridgeDirection(item)
       await deleteAction(id)
       handleDeleteSuc()
     } catch (error: any) {
@@ -80,7 +74,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
     currentDelName,
     showDeleteWebhookAssociatedTip,
     handleDeleteSuc,
-    delBridgeDirection,
     handleDeleteBridge,
   }
 }

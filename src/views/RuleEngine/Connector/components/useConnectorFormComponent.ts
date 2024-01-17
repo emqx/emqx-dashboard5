@@ -1,6 +1,5 @@
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { BridgeType } from '@/types/enum'
-import BridgeMqttConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeMqttConfig.vue'
 import type { Component, ComputedRef, Ref } from 'vue'
 import { computed } from 'vue'
 import BridgeInfluxdbConfig from '../../Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
@@ -22,7 +21,6 @@ export default (
    * do not supported connector
    */
   const bridgeComMap: Map<string, Component> = new Map([
-    [BridgeType.MQTT, BridgeMqttConfig],
     [BridgeType.KafkaConsumer, BridgeKafkaConsumerConfig as Component],
     [BridgeType.InfluxDB, BridgeInfluxdbConfig],
     [BridgeType.Pulsar, BridgePulsarConfig],

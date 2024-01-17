@@ -1,8 +1,9 @@
-import { SSL_FIELDS } from '@/common/constants'
+import { SSL_FIELDS, INTEGRATION_SCHEMA_TYPES } from '@/common/constants'
 import {
   useActionSchema,
   useBridgeSchema,
   useConnectorSchema,
+  useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
@@ -91,7 +92,7 @@ export default (
 } => {
   const { t, te } = useI18n()
 
-  const typesUseBridgeText = ['bridge', 'connector']
+  const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
   const getSSLPropKey = ({ key, path }: Property): string | false => {
     if (path && SSL_CONF_REG.test(path) && key && SSL_CONFIG_KEYS.includes(key)) {
@@ -156,11 +157,17 @@ export default (
   const { getTypeByBridgeSchemaRef } = useBridgeSchema()
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
   const { getTypeByActionSchemaRef } = useActionSchema()
-  const actionRefReg = /post_bridge_v2/
+  const { getTypeBySourceSchemaRef } = useSourceSchema()
   const getTypeBySchemaRef = () => {
     const { ref } = props.accordingTo
     if (props.type === 'bridge') {
-      return actionRefReg.test(ref) ? getTypeByActionSchemaRef(ref) : getTypeByBridgeSchemaRef(ref)
+      return getTypeByBridgeSchemaRef(ref)
+    }
+    if (props.type === 'action') {
+      return getTypeByActionSchemaRef(ref)
+    }
+    if (props.type === 'source') {
+      return getTypeBySourceSchemaRef(ref)
     }
     return getTypeByConnectorSchemaRef(ref)
   }

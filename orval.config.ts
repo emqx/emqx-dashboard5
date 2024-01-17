@@ -40,6 +40,7 @@ const tagArr = [
   'Banned',
   'Connectors',
   'Actions',
+  'Sources',
   /* ⬇ just for ee */
   'File Transfer',
   'License',

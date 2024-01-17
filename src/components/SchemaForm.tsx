@@ -1,4 +1,4 @@
-import { SESSION_FIELDS } from '@/common/constants'
+import { INTEGRATION_SCHEMA_TYPES, SESSION_FIELDS } from '@/common/constants'
 import { createRandomString, getAPIPath, waitAMoment } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
@@ -38,10 +38,10 @@ interface FormItemMeta {
   levelName?: string
 }
 
-const typesDoNotShowSkeleton = ['bridge', 'connector']
+const typesDoNotShowSkeleton = INTEGRATION_SCHEMA_TYPES
 
-const typesDoNotNeedGroups = ['bridge', 'connector', 'file-trans']
-const typesNeedConciseSSL = ['bridge', 'connector']
+const typesDoNotNeedGroups = [...INTEGRATION_SCHEMA_TYPES, 'file-trans']
+const typesNeedConciseSSL = INTEGRATION_SCHEMA_TYPES
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'
 const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/

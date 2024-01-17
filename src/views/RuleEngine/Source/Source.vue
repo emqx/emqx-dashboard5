@@ -56,7 +56,7 @@
             can-create-rule
             :row-data="row"
             :can-copy="false"
-            @delete="handleDeleteBridge(row)"
+            @delete="handleDeleteSource(row)"
             @create-rule="createRuleWithSource(row.id)"
           />
         </template>
@@ -73,10 +73,9 @@
 </template>
 
 <script lang="ts" setup>
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
+import useHandleSourceItem, { useDeleteSource } from '@/hooks/Rule/action/useHandleSourceItem'
 import useSourceList from '@/hooks/Rule/action/useSourceList'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -129,14 +128,14 @@ const toggleEnable = async (row: BridgeItem) => {
   }
 }
 
-const createRuleWithSource = (bridgeId: string) => {
+const createRuleWithSource = (sourceId: string) => {
   ElMessageBox.confirm(t('RuleEngine.useSourceCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { bridgeId } })
+      router.push({ name: 'rule-create', query: { sourceId } })
     })
     .catch(() => ({}))
 }
@@ -146,8 +145,8 @@ const {
   usingBridgeRules,
   currentDeleteBridgeId,
   handleDeleteSuc,
-  handleDeleteBridge,
-} = useDeleteBridge(getList)
+  handleDeleteSource,
+} = useDeleteSource(getList)
 
 const getDetailPageRoute = (id: string, tab?: string) => ({
   name: 'source-detail',

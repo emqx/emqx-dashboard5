@@ -220,6 +220,7 @@ const schemaProps = {
 const getSchemaBridgeProps = (type: string) => ({
   ...bridgeFormProps,
   ...schemaProps,
+  isSource: props.node?.type === FlowNodeType.Input,
   isUsingInFlow: true,
   labelWidth: '180px',
   hiddenFields: ['role'],
@@ -229,11 +230,9 @@ const getSchemaBridgeProps = (type: string) => ({
 const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
-  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress, labelWidth: '152px' },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
-  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress, labelWidth: '152px' },
   [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Producer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '152px', isRoleHidden: true },

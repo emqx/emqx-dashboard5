@@ -59,6 +59,18 @@ export default (
     }
   }
 
+  const getSymbolsFromOneOfArr = (oneof: Property['oneOf']): Property['symbols'] => {
+    if (!oneof) {
+      return []
+    }
+    return oneof.reduce((arr: Array<string | number | boolean>, item) => {
+      if (item.type === 'enum' && item.symbols) {
+        arr.push(...item.symbols)
+      }
+      return arr
+    }, [])
+  }
+
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -72,6 +84,29 @@ export default (
     }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
+  }
+
+  const mqttHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { qos, retain, payload, topic } = components?.parameters?.properties || {}
+    if (qos?.type === 'oneof') {
+      qos.type = 'enum'
+      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
+      qos.componentProps = { filterable: true, allowCreate: true }
+    }
+    if (retain?.type === 'oneof') {
+      retain.type = 'enum'
+      retain.symbols = [true, false, '${flags.retain}']
+      retain.componentProps = { filterable: true, allowCreate: true }
+    }
+    // for detect whether it is source or action
+    if (topic && !payload) {
+      topic.labelKey = 'source_topic'
+    }
+    if (payload?.type === 'string') {
+      payload.format = 'sql'
+    }
+    return { components, rules }
   }
 
   const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
@@ -307,18 +342,6 @@ export default (
     return { components, rules }
   }
 
-  const getSymbolsFromOneOfArr = (oneof: Property['oneOf']): Property['symbols'] => {
-    if (!oneof) {
-      return []
-    }
-    return oneof.reduce((arr: Array<string | number>, item) => {
-      if (item.type === 'enum' && item.symbols) {
-        arr.push(...item.symbols)
-      }
-      return arr
-    }, [])
-  }
-
   const IoTDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const dataProps = components?.parameters?.properties?.data?.items?.properties
@@ -368,6 +391,7 @@ export default (
   }
 
   const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCPProducer]: GCPProducerComponentsHandler,

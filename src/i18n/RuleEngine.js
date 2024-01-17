@@ -95,14 +95,6 @@ export default {
     zh: '重复的主题',
     en: 'Repeated topics',
   },
-  connParams: {
-    zh: '连接参数',
-    en: 'Connection',
-  },
-  brokerAddress: {
-    zh: 'MQTT 服务地址',
-    en: 'MQTT Broker',
-  },
   mqttBroker: {
     zh: 'MQTT 服务',
     en: 'MQTT Broker',
@@ -110,23 +102,6 @@ export default {
   mqttVer: {
     zh: 'MQTT 协议版本',
     en: 'MQTT Version',
-  },
-
-  cleanStart: {
-    zh: '清除会话',
-    en: 'Clean start',
-  },
-  cleanStartDesc: {
-    zh: '当重新连接到远程服务，该 MQTT 服务作为入口桥接时，是否启动一个干净的会话。',
-    en: 'Whether to start a clean session when reconnecting a remote broker for ingress bridge.',
-  },
-  bridgeMode: {
-    zh: '桥接模式',
-    en: 'Bridge Mode',
-  },
-  bridgeModeDesc: {
-    zh: '该设置仅适用于 MQTT 协议版本低于 5.0 的情况，且远程 MQTT 服务必须支持该功能。开启后，远端服务器将识别当前连接为一个桥接，消息回环检测更高效，收到的保留消息标志位会透传给本地。',
-    en: 'This setting is only for MQTT protocol version older than 5.0, and the remote MQTT broker MUST support this feature. After being enabled, the remote broker will recognize the current connection as a bridge, that loop detection will be more effective and that retained messages will be propagated correctly.',
   },
   name: {
     zh: '名称',
@@ -252,10 +227,6 @@ export default {
     zh: '运行测试',
     en: 'Run Test',
   },
-  sqlMode: {
-    zh: 'SQL 模式',
-    en: 'SQL Mode',
-  },
   sqlEditor: {
     zh: 'SQL 编辑器',
     en: 'SQL Editor',
@@ -268,10 +239,6 @@ export default {
     zh: '消息',
     en: 'Messages',
   },
-  changeFormMethod: {
-    zh: '切换表单编辑',
-    en: 'Switch Form Edit',
-  },
   dataSource: {
     zh: '数据来源',
     en: 'Data Source',
@@ -279,10 +246,6 @@ export default {
   dataSourceDesc: {
     zh: '选择一个事件或 Source 作为测试数据源，确保它与规则中指定的来源保持一致。',
     en: "Select a message event or source as the data source for testing, ensuring that it is consistent with the rule's SQL.",
-  },
-  addDataSource: {
-    zh: '添加数据来源',
-    en: 'Add data source',
   },
   select: {
     zh: '数据转换',
@@ -452,10 +415,6 @@ export default {
     zh: '概览',
     en: 'Overview',
   },
-  viewSQL: {
-    zh: '查看当前数据源下的 SQL 例子',
-    en: 'View SQL example under the current data source',
-  },
   sqlExample: {
     zh: 'SQL 例子',
     en: 'SQL Example',
@@ -463,22 +422,6 @@ export default {
   statistics: {
     zh: '统计',
     en: 'Statistics',
-  },
-  executionStatistics: {
-    zh: '运行统计',
-    en: 'Execution Statistics',
-  },
-  actionsStatistics: {
-    zh: '动作统计',
-    en: 'Actions Statistics',
-  },
-  egressStatistics: {
-    zh: '流出统计',
-    en: 'Egress Statistics',
-  },
-  ingressStatistics: {
-    zh: '流入统计',
-    en: 'Ingress Statistics',
   },
   nodeStatus: {
     zh: '节点状态',
@@ -504,10 +447,6 @@ export default {
     zh: '重连',
     en: 'Reconnect',
   },
-  remoteTopic: {
-    zh: '远程主题',
-    en: 'Remote Topic',
-  },
   ingress: {
     zh: '入口配置',
     en: 'Ingress',
@@ -515,42 +454,6 @@ export default {
   egress: {
     zh: '出口配置',
     en: 'Egress',
-  },
-  localBroker: {
-    zh: '本地 MQTT 服务',
-    en: 'Local MQTT Broker',
-  },
-  remoteBroker: {
-    zh: '远程 MQTT 服务',
-    en: 'Remote MQTT Broker',
-  },
-  ingressDesc: {
-    zh: '从外部 MQTT 服务桥接消息到本地服务，用于规则的 Source。',
-    en: 'Bridges messages from external MQTT broker to local for the Source of the rule.',
-  },
-  ingressHelp: {
-    zh: '开启后，远程服务将作为数据源，本地服务将作为数据目的地接收消息，当出口配置启用后，该配置可选。',
-    en: "When enabled, remote broker will be the data source, local broker will be the data destination to received messages, it's optional when egress is enabled.",
-  },
-  egressDesc: {
-    zh: '将本地消息桥接至外部的 MQTT 服务，用于规则的动作中。',
-    en: 'Bridges local messages to external MQTT broker for use in the action of a rule.',
-  },
-  egressHelp: {
-    zh: '开启后，远程服务将作为数据目的地接收本地服务的消息，当入口配置启用后，该配置可选。',
-    en: 'When enabled, remote broker will be the data destination to received local messages, it’s optional when ingress is enabled.',
-  },
-  remoteTopicRequired: {
-    zh: '请至少配置一个入口或出口配置中的远程服务主题',
-    en: 'Please configure at least one remote topic in ingress or egress',
-  },
-  remoteTopicRepeated: {
-    zh: '入口和出口配置的远程 MQTT 主题相同',
-    en: 'The same remote MQTT topics are configured for ingress and egress',
-  },
-  clientPoolsize: {
-    zh: '连接池大小',
-    en: 'Connection Pool Size',
   },
   egressPoolSizeDesc: {
     zh: `用于出口配置的 MQTT 客户端连接池大小。<br/>
@@ -565,10 +468,6 @@ export default {
     en: `The size of the MQTT client connection pool for ingress. <br/>
     The connection pool is enabled only when \`remote.topic\` is using shared subscriptions (e.g., \`$share/my-group/topic1\`). <br/>
     Each client in the MQTT connection pool is allocated a unique client ID to prevent duplication or conflicts. The client ID follows the format: \`\${'{'}clientid_prefix{'}'}:\${'{'}bridge_name{'}'}:ingress:\${'{'}node{'}'}:\${'{'}n{'}'}\`, where \`n\` represents the client's number in the connection pool.`,
-  },
-  localTopic: {
-    zh: '本地主题',
-    en: 'Local Topic',
   },
   username: {
     zh: '用户名',
@@ -665,22 +564,6 @@ export default {
   mqttProperties: {
     zh: 'MQTT 属性',
     en: 'MQTT Properties',
-  },
-  ingressRemoteTopicDesc: {
-    zh: '本地服务将订阅该主题以从远程 MQTT 服务接收消息。当 EMQX 配置为集群或启用了 ingress 连接池时，必须使用共享订阅来避免消息重复。',
-    en: 'The local broker will subscribe to topic to receive messages from remote broker .When EMQX is running in a cluster or with an enabled ingress connection pool, it is mandatory to use shared subscriptions to avoid message duplication.',
-  },
-  egressRemoteTopicDesc: {
-    zh: '本地服务将向该主题发布消息到远程 MQTT 服务。支持使用 ${field} 语法提取变量动态拼接主题。',
-    en: 'The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics.',
-  },
-  ingressLocalTopicDesc: {
-    zh: '订阅该本地服务的主题，可以直接接收远程服务的消息而不用使用规则，如不填写则由规则指定。（可选）',
-    en: 'Subscribe to the local broker topic to receive messages from the remote broker without using rules, if not it will be specified by the rule. (Optional)',
-  },
-  egressLocalTopicDesc: {
-    zh: '向该本地服务的主题发布消息，可以直接向远程服务发送消息而不用使用规则，如不填写则由规则指定。（可选）',
-    en: 'Publish messages to the local broker topic to send messages to the remote broker without using rules, if not it will be specified by the rule. (Optional)',
   },
   duplicate: {
     zh: '复制',
@@ -895,8 +778,8 @@ export default {
     en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   deleteIngressActionSecondConfirm: {
-    zh: '下方规则使用了此动作，是否确认继续？',
-    en: 'The rule below uses this action. Are you sure you want to continue?',
+    zh: '下方规则使用了此 Source，是否确认继续？',
+    en: 'The rule below uses this source. Are you sure you want to continue?',
   },
   deleteFakeConnectorConfirm: {
     zh: '该连接器被动作使用，继续操作将删除其相关动作。是否确认继续？',

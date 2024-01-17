@@ -70,7 +70,7 @@
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"
     :id="currentDeleteBridgeId"
-    :direction="delBridgeDirection"
+    :direction="BridgeDirection.Egress"
     @submitted="handleDeleteSuc"
   />
   <DeleteWebhookAssociatedTip
@@ -86,7 +86,7 @@ import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { ElMessageBox, ElMessage as M } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
@@ -156,7 +156,6 @@ const {
   currentDelName,
   showDeleteWebhookAssociatedTip,
   handleDeleteSuc,
-  delBridgeDirection,
   handleDeleteBridge,
 } = useDeleteBridge(listBridge)
 

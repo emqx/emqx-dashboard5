@@ -2,6 +2,7 @@ import { getBridgeList } from '@/api/ruleengine'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { useBridgeDirection } from '../bridge/useBridgeTypeValue'
+import { getSources } from '@/api/sources'
 
 export default (): {
   getSourceList: () => Promise<Array<BridgeItem>>
@@ -9,10 +10,17 @@ export default (): {
   const { judgeBridgeDirection } = useBridgeDirection()
   const getSourceList = async () => {
     try {
-      const list: Array<BridgeItem> = await getBridgeList()
-      return Promise.resolve(
-        list.filter((item) => judgeBridgeDirection(item) !== BridgeDirection.Egress),
-      )
+      const bridgeList: Array<BridgeItem> = await getBridgeList()
+      const sourceList = await getSources()
+      /**
+       * Filter duplicates and actions
+       */
+      const filteredBridgeList = bridgeList.filter((item) => {
+        const isIngress = judgeBridgeDirection(item) !== BridgeDirection.Egress
+        const notDuplicated = sourceList.every(({ id }) => id !== item.id)
+        return isIngress && notDuplicated
+      })
+      return Promise.resolve([...sourceList, ...filteredBridgeList])
     } catch (error) {
       return Promise.reject(error)
     }
