@@ -1300,6 +1300,18 @@
     "max_retries": {
       "desc": "请求出错时的最大重试次数。",
       "label": "最大重试次数"
+    },
+    "enable_pipelining": {
+      "desc": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
+      "label": "HTTP 流水线"
+    },
+    "pool_type": {
+      "desc": "连接池的类型。可以是`random`、`hash`之一。",
+      "label": "连接池类型"
+    },
+    "connect_timeout": {
+      "desc": "连接到 HTTP 服务器时的超时时间。",
+      "label": "连接超时"
     }
   }
 }
