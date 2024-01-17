@@ -415,4 +415,12 @@ export default {
     zh: '无效的字符标识符值：{isChar}',
     en: 'Invalid Char Value field: {isChar}',
   },
+  influxdbTemplateRemark: {
+    zh: '在字段值后追加 i，InfluxDB 则将该数值存储为整数类型。',
+    en: 'Append an i to the field value to tell InfluxDB to store the number as an integer.',
+  },
+  iotdbTemplateRemark: {
+    zh: '字段、值、数据类型是必填选项，数据类型可选的值为 BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT',
+    en: 'Measurement, Value, and Data Type are required fields. The Data Type can have the optional values BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT.',
+  },
 }

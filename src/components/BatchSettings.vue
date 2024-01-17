@@ -63,10 +63,10 @@ import { ref, defineProps, defineEmits } from 'vue'
 import { BatchSettingDatabaseType } from '@/types/enum'
 import Papa from 'papaparse'
 import { ElMessage } from 'element-plus'
-import { downloadByURL } from '@/common/tools'
 import { ElUpload } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
+import { createDownloadBlobLink } from '@emqx/shared-ui-utils'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
@@ -79,18 +79,40 @@ const dialogVisible = ref(false)
 const fileList = ref<any[]>([])
 const importLoading = ref(false)
 
+const dbNameMap = {
+  [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
+  [BatchSettingDatabaseType.TDengine]: 'TDengine',
+  [BatchSettingDatabaseType.IoTDB]: 'IoTDB',
+}
+
+const dbTemplateContent: { [key in BatchSettingDatabaseType]: string } = {
+  [BatchSettingDatabaseType.InfluxDB]: `Field,Value,Remarks (Optional)
+temp,\${payload.temp},
+hum,\${payload.hum},
+precip,\${payload.precip}i,${tl('influxdbTemplateRemark')}
+`,
+  [BatchSettingDatabaseType.TDengine]: `Field,Value,Char Value,Remarks (Optional)
+ts,now,FALSE,Example Remark
+msgid,\${id},TRUE,
+mqtt_topic,\${topic},TRUE,
+qos,\${qos},FALSE,
+temp,\${payload.temp},FALSE,
+hum,\${payload.hum},FALSE,
+status,\${payload.status},FALSE,
+`,
+  [BatchSettingDatabaseType.IoTDB]: `Timestamp,Measurement,Data Type,Value,Remarks (Optional)
+now,temp,FLOAT,\${payload.temp},${tl('iotdbTemplateRemark')}
+now,hum,FLOAT,\${payload.hum},
+now,status,BOOLEAN,\${payload.status},
+now,clientid,TEXT,\${clientid},
+`,
+}
+
 function downloadTemplate() {
-  const fileNames: { [key in BatchSettingDatabaseType]: string } = {
-    [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
-    [BatchSettingDatabaseType.TDengine]: 'TDengine',
-    [BatchSettingDatabaseType.IoTDB]: 'IoTDB',
-    // Add more mappings here if needed
-  }
-
-  const downloadFile = fileNames[props.type]
-
-  if (downloadFile) {
-    downloadByURL(`static/templates/EMQX_${downloadFile}_Template.csv`)
+  const template = dbTemplateContent[props.type]
+  if (template) {
+    const blob = new Blob([template], { type: 'text/csv' })
+    createDownloadBlobLink(blob, `EMQX_${dbNameMap[props.type]}_Template.csv`)
   } else {
     console.error(`Unsupported type: ${props.type}`)
   }

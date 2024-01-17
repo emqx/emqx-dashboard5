@@ -1,5 +1,0 @@
-Timestamp,Measurement,Data Type,Value,Remarks (Optional)
-${timestamp},topic,TEXT,${mqtt_topic},MQTT topic
-${timestamp},qos,INT32,${mqtt_qos},Quality of Service level
-${timestamp},payload,TEXT,${mqtt_payload},Payload of the message
-${timestamp},retain,BOOLEAN,${mqtt_retain},Retain flag
