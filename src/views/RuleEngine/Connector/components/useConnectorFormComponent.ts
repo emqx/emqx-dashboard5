@@ -17,7 +17,7 @@ export default (
   /**
    * do not supported connector
    */
-  const bridgeComMap = new Map([])
+  const bridgeComMap: Map<string, Component> = new Map([])
   const formCom = computed<Component | null>((): Component | null => {
     if (!type.value) {
       return null
