@@ -23,15 +23,16 @@ import {
   testSourceConnectivity,
 } from '@/api/sources'
 import { getTypeAndNameFromKey } from '@/common/tools'
-import { BridgeItem } from '@/types/rule'
+import useI18nTl from '@/hooks/useI18nTl'
+import { Source } from '@/types/rule'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { isFunction } from 'lodash'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useBridgeDataHandler } from '../useDataHandler'
 
-type Source = BridgeItem
-
-export default (): {
+const useHandleSourceItem = (): {
   getSourceDetail: (id: string) => Promise<Source>
   handleDataAfterLoaded: (data: Source) => Source
   addSource: (data: Source) => Promise<Source>
@@ -60,7 +61,7 @@ export default (): {
     try {
       const func = isSupportedConnectorId(id) ? requestSourceDetail : getBridgeInfo
       const data = await func(id)
-      return handleDataAfterLoaded(data) as Promise<Source>
+      return handleDataAfterLoaded(data) as Source
     } catch (error) {
       return Promise.reject(error)
     }
@@ -69,7 +70,7 @@ export default (): {
   const addSource = async (data: Source): Promise<Source> => {
     const request = isConnectorSupported(data.type) ? postSource : createBridge
     const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-    return request(dataForSubmit as any)
+    return request(dataForSubmit) as Promise<Source>
   }
 
   const updateSource = async (data: Source): Promise<Source> => {
@@ -149,5 +150,66 @@ export default (): {
     reconnectSourceForNode,
     isTesting,
     testConnectivity,
+  }
+}
+
+export default useHandleSourceItem
+
+export const useDeleteSource = (
+  deletedCallBack: () => void,
+): {
+  showSecondConfirm: Ref<boolean>
+  usingBridgeRules: Ref<string[]>
+  currentDeleteBridgeId: Ref<string>
+  handleDeleteSuc: () => void
+  handleDeleteSource: (item: Source) => Promise<void>
+} => {
+  const { t } = useI18nTl('RuleEngine')
+
+  const showSecondConfirm = ref(false)
+  const usingBridgeRules: Ref<Array<string>> = ref([])
+  const currentDeleteBridgeId = ref('')
+
+  const handleDeleteSuc = () => {
+    ElMessage.success(t('Base.deleteSuccess'))
+    if (deletedCallBack && isFunction(deletedCallBack)) {
+      deletedCallBack()
+    }
+  }
+
+  const secondConfirmToDelete = async (ruleList: Array<string>) => {
+    usingBridgeRules.value = ruleList
+    showSecondConfirm.value = true
+  }
+
+  const { deleteSource } = useHandleSourceItem()
+  const handleDeleteSource = async (item: Source) => {
+    const { id } = item
+    await ElMessageBox.confirm(t('Base.confirmDelete'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
+      type: 'warning',
+    })
+    try {
+      await deleteSource(id)
+      handleDeleteSuc()
+    } catch (error: any) {
+      const { status, data } = error?.response || {}
+      if (status === 400) {
+        currentDeleteBridgeId.value = id
+        secondConfirmToDelete(data?.rules || [])
+      } else {
+        console.error(error)
+      }
+    }
+  }
+
+  return {
+    showSecondConfirm,
+    usingBridgeRules,
+    currentDeleteBridgeId,
+    handleDeleteSuc,
+    handleDeleteSource,
   }
 }

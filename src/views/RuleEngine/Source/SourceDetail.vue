@@ -111,10 +111,9 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
+import useHandleSourceItem, { useDeleteSource } from '@/hooks/Rule/action/useHandleSourceItem'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
-import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -321,13 +320,13 @@ const {
   usingBridgeRules,
   currentDeleteBridgeId,
   handleDeleteSuc,
-  handleDeleteBridge,
-} = useDeleteBridge(goBack)
+  handleDeleteSource,
+} = useDeleteSource(goBack)
 const handleDelete = async () => {
   if (!id.value) {
     return
   }
-  handleDeleteBridge(sourceInfo.value)
+  handleDeleteSource(sourceInfo.value)
 }
 
 onMounted(() => {
