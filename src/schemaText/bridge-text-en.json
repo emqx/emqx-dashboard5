@@ -99,11 +99,11 @@
     },
     "topic": {
       "label": "Topic",
-      "desc": "The local broker will publish messages to the topic to the remote broker, supports using ${field} syntax to use the dynamic topics."
+      "desc": "Message publishing topic, supports using ${field} syntax to extract variables and dynamically concatenate the topic."
     },
     "source_topic": {
       "label": "Topic",
-      "desc": "The local broker will subscribe to topic to receive messages from remote broker. When EMQX is running in a cluster or with an enabled ingress connection pool, it is mandatory to use shared subscriptions to avoid message duplication."
+      "desc": "Message subscription topics support the use of + and # wildcards. When EMQX is running in cluster mode or the connector is configured with a connection pool, shared subscriptions must be used to avoid message duplication."
     },
     "qos": {
       "label": "QoS"
