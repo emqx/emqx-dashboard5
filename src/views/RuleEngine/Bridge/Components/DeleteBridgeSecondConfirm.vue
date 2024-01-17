@@ -47,6 +47,7 @@
 
 <script lang="ts" setup>
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
@@ -81,13 +82,17 @@ const showDialog = computed({
 })
 
 const { deleteAction } = useHandleActionItem()
+const { deleteSource } = useHandleSourceItem()
 
 const isSubmitting = ref(false)
 const submit = async () => {
   if (!props.id) {
     return
   }
-  await deleteAction(props.id, true)
+  props.direction === BridgeDirection.Ingress
+    ? await deleteSource(props.id, true)
+    : await deleteAction(props.id, true)
+
   emit('submitted')
   showDialog.value = false
 }

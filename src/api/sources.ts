@@ -32,11 +32,11 @@ export const putSource = async (id: string, source: Source): Promise<Source> => 
   }
 }
 
-export const deleteSource = (
-  id: string,
-  params?: { also_delete_dep_actions: boolean },
-): Promise<void> => {
-  return http.delete(`/sources/${encodeURIComponent(id)}`, { params })
+export const deleteSource = (id: string, also_delete_dep_actions = false): Promise<void> => {
+  return http.delete(`/sources/${encodeURIComponent(id)}`, {
+    params: { also_delete_dep_actions },
+    errorsHandleCustom: [400],
+  })
 }
 
 export const getSourceDetail = async (id: string): Promise<Source> => {
@@ -53,7 +53,7 @@ export const getSourceMetrics = (id: string): Promise<BridgeMetricsData> => {
   return http.get(`/sources/${encodeURIComponent(id)}/metrics`)
 }
 
-export const resetSourceMetrics = (id: string): Promise<BridgeMetricsData> => {
+export const resetSourceMetrics = (id: string): Promise<void> => {
   return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`)
 }
 
