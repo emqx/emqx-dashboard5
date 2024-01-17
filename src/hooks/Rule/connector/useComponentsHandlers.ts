@@ -67,6 +67,9 @@ export default (
     if (comRet.resource_opts?.properties?.start_after_created) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
     }
+    if (comRet.tags) {
+      Reflect.deleteProperty(comRet, 'tags')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
