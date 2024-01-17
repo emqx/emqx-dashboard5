@@ -220,6 +220,7 @@ const schemaProps = {
 const getSchemaBridgeProps = (type: string) => ({
   ...bridgeFormProps,
   ...schemaProps,
+  isSource: props.node?.type === FlowNodeType.Input,
   isUsingInFlow: true,
   labelWidth: '180px',
   hiddenFields: ['role'],
@@ -229,10 +230,8 @@ const getSchemaBridgeProps = (type: string) => ({
 const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
-  [SourceType.MQTTBroker]: { direction: BridgeDirection.Ingress, labelWidth: '152px' },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
-  [SinkType.MQTTBroker]: { direction: BridgeDirection.Egress, labelWidth: '152px' },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]

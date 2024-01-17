@@ -40,12 +40,13 @@ interface BridgeData {
 }
 
 export default (): {
-  getRuleNBridgesFromFlowData: (
+  getRulesActionsSourcesFromFlowData: (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
   ) => Promise<{
     rule: BasicRule
-    bridges: Array<BridgeData>
+    actions: Array<BridgeData>
+    sources: Array<BridgeData>
   }>
 } => {
   const { t, tl } = useI18nTl('Flow')
@@ -247,10 +248,10 @@ export default (): {
   }
 
   const { transSQLFormDataToSQL } = useRuleUtils()
-  const getRuleNBridgesFromFlowData = async (
+  const getRulesActionsSourcesFromFlowData = async (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
-  ): Promise<{ rule: BasicRule; bridges: Array<BridgeData> }> => {
+  ): Promise<{ rule: BasicRule; actions: Array<BridgeData>; sources: Array<BridgeData> }> => {
     try {
       await validateFlow(flowData)
     } catch (error) {
@@ -270,11 +271,12 @@ export default (): {
     const fieldsExpressions = getFieldsExpressionsFromNode(processingNodes)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
     rule.actions = getActionDataFromNodes(flowName, outputNodes)
-    const bridges = getBridgesFromNodes([...inputNodes, ...outputNodes])
-    return { rule, bridges }
+    const actions = getBridgesFromNodes(outputNodes)
+    const sources = getBridgesFromNodes(inputNodes)
+    return { rule, actions, sources }
   }
 
   return {
-    getRuleNBridgesFromFlowData,
+    getRulesActionsSourcesFromFlowData,
   }
 }

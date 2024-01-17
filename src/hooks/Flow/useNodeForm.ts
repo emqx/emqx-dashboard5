@@ -1,7 +1,6 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
-import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
-import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
+import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { isObject } from 'lodash'
 import useFlowNode, {
@@ -76,7 +75,6 @@ export default (): {
   isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const { createRawMQTTForm } = useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
    */
@@ -89,12 +87,10 @@ export default (): {
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
-    [SourceType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Ingress),
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
-    [SinkType.MQTTBroker]: () => createRawMQTTForm(BridgeDirection.Egress),
   }
   const getFormDataByType = (type: string) => {
     const creator = formDataCreatorMap[type]

@@ -1,35 +1,44 @@
 import { createRules, updateRules } from '@/api/ruleengine'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { groupBy } from 'lodash'
 import { Ref, ref } from 'vue'
+import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
 interface BridgeData {
   isCreated: boolean
   data: BridgeItem
 }
 
+interface GroupedFlowData {
+  rule: BasicRule
+  actions: Array<BridgeData>
+  sources: Array<BridgeData>
+}
+
 export default (): {
   isSubmitting: Ref<boolean>
-  createFlow: (data: { rule: BasicRule; bridges: Array<BridgeData> }) => Promise<void>
-  updateFlow: (data: { rule: BasicRule; bridges: Array<BridgeData> }) => Promise<void>
+  createFlow: (data: GroupedFlowData) => Promise<void>
+  updateFlow: (data: GroupedFlowData) => Promise<void>
 } => {
   const isSubmitting = ref(false)
-  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
   const { addAction, updateAction, deleteAction } = useHandleActionItem()
+  const { addSource, updateSource, deleteSource } = useHandleSourceItem()
 
-  const createBridges = async (bridges: Array<any>) => {
+  const createItems = async (
+    items: Array<any>,
+    funcForCreate: (data: any) => Promise<any>,
+    funcForDelete: (id: string) => Promise<any>,
+  ) => {
     const addedIds: string[] = []
-    for (const data of bridges) {
+    for (const data of items) {
       try {
-        const bridge = await handleBridgeDataBeforeSubmit(data)
-        const { id } = await addAction(bridge)
+        const { id } = await funcForCreate(data)
         addedIds.push(id)
       } catch (error) {
         for (const id of addedIds) {
           try {
-            await deleteAction(id)
+            await funcForDelete(id)
           } catch (error) {
             console.error(`error when deleting ${id}`)
           }
@@ -37,37 +46,65 @@ export default (): {
         break
       }
     }
-    return addedIds.length === bridges.length ? Promise.resolve() : Promise.reject()
+    return addedIds.length === items.length ? Promise.resolve() : Promise.reject()
   }
 
-  const updateBridges = async (bridges: Array<any>) => {
+  const updateItems = (items: Array<any>, funcForUpdate: (data: any) => Promise<any>) => {
     return Promise.all(
-      bridges.map(async (item) => {
-        return updateAction({ ...item, id: item.id })
+      items.map(async (item) => {
+        return funcForUpdate({ ...item, id: item.id })
       }),
     )
   }
 
-  const createFlow = async ({
-    rule,
-    bridges,
-  }: {
-    rule: BasicRule
-    bridges: Array<{ isCreated: boolean; data: BridgeItem }>
-  }) => {
+  const createActions = async (actions: Array<any>) => createItems(actions, addAction, deleteAction)
+
+  const updateActions = async (actions: Array<any>) => updateItems(actions, updateAction)
+
+  const createSources = async (sources: Array<any>) => createItems(sources, addSource, deleteSource)
+
+  const updateSources = async (sources: Array<any>) => updateItems(sources, updateSource)
+
+  const submitActions = async (actions: GroupedFlowData['actions']) => {
+    try {
+      const groupedAction = groupBy(actions, ({ isCreated }) => !!isCreated)
+      if (groupedAction['false']) {
+        await createActions(groupedAction['false'].map(({ data }) => data))
+      }
+      if (groupedAction['true']) {
+        await updateActions(groupedAction['true'].map(({ data }) => data))
+      }
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  const submitSources = async (sources: GroupedFlowData['sources']) => {
+    try {
+      const groupedSource = groupBy(sources, ({ isCreated }) => !!isCreated)
+      if (groupedSource['false']) {
+        await createSources(groupedSource['false'].map(({ data }) => data))
+      }
+      if (groupedSource['true']) {
+        await updateSources(groupedSource['true'].map(({ data }) => data))
+      }
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  const createFlow = async ({ rule, actions, sources }: GroupedFlowData) => {
     /**
      * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
      */
     try {
       isSubmitting.value = true
-      const groupedBridge = groupBy(bridges, ({ isCreated }) => !!isCreated)
 
-      if (groupedBridge['false']) {
-        await createBridges(groupedBridge['false'].map(({ data }) => data))
-      }
-      if (groupedBridge['true']) {
-        await updateBridges(groupedBridge['true'].map(({ data }) => data))
-      }
+      await submitActions(actions)
+      await submitSources(sources)
+
       await createRules(rule as any)
       isSubmitting.value = false
       return Promise.resolve()
@@ -77,25 +114,16 @@ export default (): {
     }
   }
 
-  const updateFlow = async ({
-    rule,
-    bridges,
-  }: {
-    rule: BasicRule
-    bridges: Array<{ isCreated: boolean; data: BridgeItem }>
-  }) => {
+  const updateFlow = async ({ rule, actions, sources }: GroupedFlowData) => {
     /**
      * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
      */
     try {
       isSubmitting.value = true
-      const groupedBridge = groupBy(bridges, 'isCreated')
-      if (groupedBridge['false']) {
-        await createBridges(groupedBridge['false'].map(({ data }) => data))
-      }
-      if (groupedBridge['true']) {
-        await updateBridges(groupedBridge['true'].map(({ data }) => data))
-      }
+
+      await submitActions(actions)
+      await submitSources(sources)
+
       await updateRules(rule.id, rule as any)
       isSubmitting.value = false
       return Promise.resolve()

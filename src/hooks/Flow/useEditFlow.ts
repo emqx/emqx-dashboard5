@@ -5,7 +5,8 @@ import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { ComputedRef, Ref, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import useFlowNode, { NodeType } from './useFlowNode'
+import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
+import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'
 import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtils'
 
 export default (): {
@@ -31,13 +32,15 @@ export default (): {
     }
   }
 
-  const { getDetail } = useHandleActionItem()
+  const { getSourceDetail } = useHandleSourceItem()
+  const { getDetail: getActionDetail } = useHandleActionItem()
   const addBridgeFormDataToNodes = async (nodes: Array<Node>) => {
     await Promise.allSettled(
       nodes.map(async (item) => {
         if (isBridgerNode(item) && item.data?.formData?.id) {
-          const bridgeInfo = await getDetail(item.data.formData.id)
-          item.data.formData = { ...item.data.formData, ...bridgeInfo }
+          const request = item.type === FlowNodeType.Input ? getSourceDetail : getActionDetail
+          const nodeInfo = await request(item.data.formData.id)
+          item.data.formData = { ...item.data.formData, ...nodeInfo }
           addFlagToBridgeNode(item)
         }
         return Promise.resolve()
