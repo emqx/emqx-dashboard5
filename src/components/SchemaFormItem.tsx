@@ -50,7 +50,7 @@ export default defineComponent({
      * for type string,
      */
     format: {
-      type: String as PropType<'text' | 'password'>,
+      type: String as PropType<'text' | 'password' | 'sql'>,
     },
     /**
      * for type enum
@@ -124,8 +124,21 @@ export default defineComponent({
         />
       )
       switch (props.type) {
-        case 'string':
+        case 'string': {
+          if (props.format === 'sql') {
+            return (
+              <div class="monaco-container">
+                <monaco
+                  id={createRandomString()}
+                  v-model={formItemValue.value}
+                  lang="sql"
+                  disabled={isDisabled}
+                />
+              </div>
+            )
+          }
           return stringInput
+        }
         case 'number':
           return (
             <CustomInputNumber
