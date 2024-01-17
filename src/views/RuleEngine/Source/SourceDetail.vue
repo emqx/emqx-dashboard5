@@ -116,10 +116,10 @@ import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBr
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { Source } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import _ from 'lodash'
+import { cloneDeep, isEqual, omit } from 'lodash'
 import { Ref, computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
@@ -137,8 +137,8 @@ enum Tab {
 const route = useRoute()
 const router = useRouter()
 // for compare when update
-let rawSourceInfo: undefined | BridgeItem = undefined
-const sourceInfo: Ref<BridgeItem> = ref({} as BridgeItem)
+let rawSourceInfo: undefined | Source = undefined
+const sourceInfo: Ref<Source> = ref({} as Source)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
@@ -210,7 +210,7 @@ const getSourceInfo = async () => {
   infoLoading.value = true
   try {
     sourceInfo.value = await getSourceDetail(id.value)
-    rawSourceInfo = _.cloneDeep(sourceInfo.value)
+    rawSourceInfo = cloneDeep(sourceInfo.value)
   } catch (error) {
     console.error(error)
   } finally {
@@ -222,8 +222,8 @@ const getSourceInfo = async () => {
  * because each component will fill empty value to the bridgeInfo, so we need to
  * reset the raw bridge info to prevent compare error
  */
-const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
-  rawSourceInfo = _.cloneDeep(bridgeInfo)
+const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: Source) => {
+  rawSourceInfo = cloneDeep(bridgeInfo)
 }
 
 const setBridgeInfoFromSchemaForm = () => {
@@ -244,7 +244,7 @@ const testConnection = async () => {
     await customValidate(FormComEl.value)
     isTesting.value = true
     const data = await getDataForSubmit()
-    await testConnectivity(_.omit(data, 'id'))
+    await testConnectivity(omit(data, 'id') as Source)
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -260,7 +260,7 @@ const updateSourceInfo = async () => {
 
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
-    if (isFromRule.value && _.isEqual(sourceInfo.value, rawSourceInfo)) {
+    if (isFromRule.value && isEqual(sourceInfo.value, rawSourceInfo)) {
       return Promise.resolve(sourceInfo.value.id)
     }
 
@@ -307,7 +307,7 @@ const createRuleWithSource = () => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { bridgeId: sourceInfo.value.id } })
+      router.push({ name: 'rule-create', query: { sourceId: sourceInfo.value.id } })
     })
     .catch(() => ({}))
 }

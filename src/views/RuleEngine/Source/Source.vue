@@ -123,14 +123,14 @@ const toggleEnable = async (row: BridgeItem) => {
   }
 }
 
-const createRuleWithSource = (bridgeId: string) => {
+const createRuleWithSource = (sourceId: string) => {
   ElMessageBox.confirm(t('RuleEngine.useSourceCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { bridgeId } })
+      router.push({ name: 'rule-create', query: { sourceId } })
     })
     .catch(() => ({}))
 }

@@ -118,7 +118,6 @@ import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/commo
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
@@ -249,22 +248,14 @@ const addBridgeToAction = (bridgeID: string) => {
   }
 }
 
-const { judgeBridgeDirection } = useBridgeDirection()
 const { handleConnDirection, getDetail } = useHandleActionItem()
 
-const processBridge = async (bridgeId: string) => {
-  const bridgeInfo = await getDetail(bridgeId)
-  const direction = judgeBridgeDirection(bridgeInfo)
+const processBridge = addBridgeToAction
 
-  if (direction === BridgeDirection.Both || direction === BridgeDirection.Egress) {
-    addBridgeToAction(bridgeInfo.id)
-  }
-
-  if (direction === BridgeDirection.Both || direction === BridgeDirection.Ingress) {
-    replaceSQLFrom(`$bridges/${bridgeInfo.id}`)
-    await nextTick()
-    rightBlockActiveTab.value = RightTab.Sources
-  }
+const processSource = async (sourceId: string) => {
+  replaceSQLFrom(`$bridges/${sourceId}`)
+  await nextTick()
+  rightBlockActiveTab.value = RightTab.Sources
 }
 
 const processConnector = async (
@@ -297,9 +288,12 @@ const processConnector = async (
  */
 const handleDataFromQuery = async () => {
   const bridgeId = route.query.bridgeId?.toString()
+  const sourceId = route.query.sourceId?.toString()
 
   if (bridgeId) {
-    await processBridge(bridgeId)
+    processBridge(bridgeId)
+  } else if (sourceId) {
+    processSource(sourceId)
   } else {
     await handleConnDirection(processConnector as any)
   }
