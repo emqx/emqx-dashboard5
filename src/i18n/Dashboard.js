@@ -191,10 +191,6 @@ export default {
     zh: '{n} 节点',
     en: '{n} Node | {n} Nodes',
   },
-  nodesNun: {
-    zh: '节点数',
-    en: 'Nodes',
-  },
   numberOfNodesInCluster: {
     zh: '集群中节点数',
     en: 'Nodes',

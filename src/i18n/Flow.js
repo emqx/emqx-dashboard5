@@ -107,18 +107,6 @@ export default {
     zh: '调用函数后，需指定一个别名',
     en: 'Need to specify an alias after calling the function',
   },
-  nameInputDesc: {
-    zh: '由于名称不可重复，请输入新名称以保存',
-    en: 'Since names cannot be duplicated, please enter a new name to save',
-  },
-  saveAsDuplication: {
-    zh: '保存为新 {target}',
-    en: 'Save as a new {target}',
-  },
-  pleaseInputOrSelect: {
-    zh: '请输入或选择',
-    en: 'Please Input or Select',
-  },
   incorrectConnection: {
     zh: '错误的连线',
     en: 'Incorrect connection',
@@ -134,9 +122,5 @@ export default {
   bridgeRemovedTip: {
     zh: '该节点已被删除，请及时更新 Flow',
     en: 'This node has been deleted, please update flow in time',
-  },
-  saveAsNewWarning: {
-    zh: '当前配置中的密码字段己加密，保存为新 {target} 请重新输入',
-    en: 'The password field in the current configuration is encrypted, please re-enter when saving as a new {target}',
   },
 }
