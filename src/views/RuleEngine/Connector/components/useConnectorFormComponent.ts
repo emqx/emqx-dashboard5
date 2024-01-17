@@ -1,6 +1,5 @@
 import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 import { BridgeType } from '@/types/enum'
-import BridgeMqttConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeMqttConfig.vue'
 import type { Component, ComputedRef, Ref } from 'vue'
 import { computed } from 'vue'
 import UsingSchemaBridgeConfig from '../../Bridge/Components/UsingSchemaBridgeConfig.vue'
@@ -18,7 +17,7 @@ export default (
   /**
    * do not supported connector
    */
-  const bridgeComMap = new Map([[BridgeType.MQTT, BridgeMqttConfig]])
+  const bridgeComMap = new Map([])
   const formCom = computed<Component | null>((): Component | null => {
     if (!type.value) {
       return null
