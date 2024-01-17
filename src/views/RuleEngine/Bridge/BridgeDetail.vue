@@ -182,7 +182,7 @@ import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCo
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { DetailTab } from '@/types/enum'
+import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
