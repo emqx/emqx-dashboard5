@@ -30,7 +30,7 @@ import { isFunction } from 'lodash'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
-import { useBridgeDataHandler } from '../useDataHandler'
+import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {
   getSourceDetail: (id: string) => Promise<Source>
@@ -47,6 +47,7 @@ const useHandleSourceItem = (): {
   testConnectivity: (data: Source) => Promise<void>
 } => {
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
+  const { handleActionDataBeforeUpdate } = useActionDataHandler()
 
   const isSupportedConnectorId = (id: string) => {
     const { type } = getTypeAndNameFromKey(id)
@@ -77,8 +78,10 @@ const useHandleSourceItem = (): {
     try {
       const { id, type } = data as Source
 
-      const func = isConnectorSupported(type) ? putSource : updateBridge
-      const dataHandler = handleBridgeDataBeforeSubmit
+      const isTrueSource = isConnectorSupported(type)
+
+      const func = isTrueSource ? putSource : updateBridge
+      const dataHandler = isTrueSource ? handleActionDataBeforeUpdate : handleBridgeDataBeforeSubmit
 
       const dataToSubmit = await dataHandler(data)
       Reflect.deleteProperty(dataToSubmit as Source, 'id')
