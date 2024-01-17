@@ -95,12 +95,11 @@ import {
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BridgeMqttConfig from './Components/BridgeConfig/BridgeMqttConfig.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 /**
