@@ -367,11 +367,17 @@ export default (
     return { components, rules }
   }
 
+  const elaActionTypeOrder = [/create/i, /update/i, /delete/i]
+  const getElaActionTypeOrder = (ref: string) =>
+    elaActionTypeOrder.findIndex((reg) => reg.test(ref))
   const elasticsearchHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components || {}
     const oneOfArr = parameters?.oneOf
     if (oneOfArr) {
+      oneOfArr.sort(
+        (a, b) => getElaActionTypeOrder(a.$ref || '') - getElaActionTypeOrder(b.$ref || ''),
+      )
       oneOfArr.forEach((item) => {
         if (item.properties) {
           Reflect.deleteProperty(item.properties, 'require_alias')
@@ -379,6 +385,9 @@ export default (
             // Because the properties of oneof have been modified,
             // the default needs to be recalculated...
             item.default = get(initRecordByComponents(item.properties), parameters.path)
+          }
+          if (item.properties.doc && item.properties.doc.type === 'string') {
+            item.properties.doc.format = 'sql'
           }
         }
       })
