@@ -44,21 +44,30 @@
       </div>
     </el-card>
   </div>
+  <CreateRuleWithConnector
+    v-model="showCreateRuleDialog"
+    :connector="createdConnector"
+    :title="t('Base.createSuccess')"
+    :confirm-text="tl('createRule')"
+    :cancel-text="tl('backConnectorList')"
+    :cancel-callback="() => router.push({ name: 'connector' })"
+  />
 </template>
 
 <script setup lang="ts">
 import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
-import { useBridgeDirection, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
 
@@ -125,27 +134,16 @@ const isSubmitting = ref(false)
 const { getConnectorDetail, addConnector, handleDataForCopy, isTesting, testConnectivity } =
   useHandleConnectorItem()
 
-const { judgeBridgeDirection } = useBridgeDirection()
-
+const showCreateRuleDialog = ref(false)
+const createdConnector = ref<undefined | Connector>(undefined)
 const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
     const ret = await addConnector(formData.value)
     if (isInSinglePage.value) {
-      const direction = judgeBridgeDirection(ret)
-      const { name, type } = ret
-      ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
-        confirmButtonText: tl('createRule'),
-        cancelButtonText: tl('backConnectorList'),
-        type: 'success',
-      })
-        .then(() => {
-          router.push({ name: 'rule-create', query: { direction, connName: name, connType: type } })
-        })
-        .catch(() => {
-          router.push({ name: 'connector' })
-        })
+      createdConnector.value = ret
+      showCreateRuleDialog.value = true
     } else {
       emit('submitted', ret.name)
     }

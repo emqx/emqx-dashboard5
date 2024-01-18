@@ -91,13 +91,16 @@
 
 <script setup lang="ts">
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
 import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import type { WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import SourceDetail from '../Source/SourceDetail.vue'
 import SourceCreate from '../Source/components/SourceCreate.vue'
@@ -217,6 +220,23 @@ const isInputFromSource = computed(() => {
 })
 
 const isCreatingSource = computed(() => !inputForm.value.sourceId)
+
+const { handleConnDirection } = useHandleActionItem()
+
+handleConnDirection(async (direction, connName, connType) => {
+  if (connType && !isConnectorSupported(connType)) {
+    return
+  }
+  await waitAMoment(800)
+  showDrawer.value = true
+  if (connType) {
+    inputForm.value.type = connType
+  }
+  if (connName) {
+    await nextTick()
+    SourceCreateRef.value.sourceRecord.connector = connName
+  }
+})
 
 const SourceDetailRef = ref()
 const SourceCreateRef = ref()
