@@ -13,10 +13,22 @@
             :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="ruleInfo.enable" @change="enableOrDisableRule" />
+            <el-switch
+              class="enable-btn"
+              v-model="ruleInfo.enable"
+              :disabled="isWebhookRule"
+              @change="enableOrDisableRule"
+            />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="deleteRule" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :icon="Delete"
+              :disabled="isWebhookRule"
+              @click="deleteRule"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>

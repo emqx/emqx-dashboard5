@@ -20,6 +20,7 @@
               class="icon-button"
               type="danger"
               :icon="Delete"
+              :disabled="isWebhookConnector"
               @click="
                 handleDeleteConnector(connectorData, () => {
                   $router.push({ name: 'connector' })
@@ -45,7 +46,7 @@
             type="info"
             :closable="false"
           >
-            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
+            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p" scope="global">
               <template #target>
                 <span>{{ t('components.connector') }}</span>
               </template>
@@ -71,7 +72,7 @@
             />
           </div>
           <div class="btn-area">
-            <el-button @click="saveAsCopy">
+            <el-button @click="saveAsCopy" :disabled="isWebhookConnector">
               {{ tl('saveAsCopy') }}
             </el-button>
             <el-button

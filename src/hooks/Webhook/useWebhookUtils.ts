@@ -19,6 +19,7 @@ const enum OtherNodeType {
 export default (): {
   judgeIsWebhookConnector: (connector: Connector) => boolean
   judgeIsWebhookAction: (action: BridgeItem) => boolean
+  judgeIsWebhookRuleId: (id: string) => boolean
   judgeIsWebhookRule: ({ id }: RuleItem) => boolean
   getEnableStatus: (action: HTTPBridge, rule: RuleItem) => boolean
   joiningDataToWebhookList: (
@@ -69,9 +70,11 @@ export default (): {
     )
   }
 
+  const judgeIsWebhookRuleId = (id: string) => webhookTargetReg.test(id)
+
   const judgeIsWebhookRule = (rule: RuleItem) => {
     const { id } = rule
-    return webhookTargetReg.test(id) && judgeOutputsContainWebhook(rule)
+    return judgeIsWebhookRuleId(id) && judgeOutputsContainWebhook(rule)
   }
 
   const getEnableStatus = (action: HTTPBridge, rule: RuleItem) => action.enable && rule.enable
@@ -111,6 +114,7 @@ export default (): {
   return {
     judgeIsWebhookConnector,
     judgeIsWebhookAction,
+    judgeIsWebhookRuleId,
     judgeIsWebhookRule,
     getEnableStatus,
     joiningDataToWebhookList,

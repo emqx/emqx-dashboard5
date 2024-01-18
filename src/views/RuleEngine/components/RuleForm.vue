@@ -84,7 +84,7 @@
         <el-button @click="$router.push({ name: 'rule' })">
           {{ $t('Base.cancel') }}
         </el-button>
-        <el-button type="primary" plain @click="saveAsCopy" v-if="isEdit">
+        <el-button type="primary" plain :disabled="disabled" @click="saveAsCopy" v-if="isEdit">
           {{ tl('saveAsCopy') }}
         </el-button>
         <el-button

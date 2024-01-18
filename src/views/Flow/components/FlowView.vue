@@ -10,18 +10,20 @@
   <FlowSelectDialog
     v-model="showFlowSelectDialog"
     :id-arr="currentNode?.data?.rulesUsed"
+    :disabled-id-arr="disabledEditIdArr"
     @selected="goFlowDetail"
   />
 </template>
 
 <script setup lang="ts">
 import useFlowView from '@/hooks/Flow/useFlowView'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
-import { Ref, defineEmits, onMounted, ref } from 'vue'
-import FlowNode from './FlowNode.vue'
-import NodeDrawer from './NodeDrawer.vue'
+import { Ref, computed, defineEmits, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
+import NodeDrawer from './NodeDrawer.vue'
 
 const router = useRouter()
 
@@ -43,6 +45,14 @@ const handleClickNode = ({ node }: NodeMouseEvent) => {
 
 const goFlowDetail = (flowId: string) =>
   router.push({ name: 'flow-detail', params: { id: flowId } })
+
+const { judgeIsWebhookRuleId } = useWebhookUtils()
+const disabledEditIdArr = computed(() => {
+  if (!currentNode.value) {
+    return []
+  }
+  return currentNode.value.data.rulesUsed.filter(judgeIsWebhookRuleId)
+})
 
 const showFlowSelectDialog = ref(false)
 const editCurrentNode = () => {
