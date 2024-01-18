@@ -66,9 +66,24 @@
           </el-button>
         </div>
       </div>
-      <el-button v-else type="primary" @click="edit">
-        {{ tl('edit') }}
-      </el-button>
+      <template v-else>
+        <OperateWebhookAssociatedPopover
+          :disabled="!disabledEditBecauseWebhook || !readonly"
+          :teleported="false"
+          :name="webhookName"
+          :operation="t('Base.edit')"
+          :targetLabel="t('Base.node')"
+        >
+          <el-button
+            v-if="readonly"
+            type="primary"
+            @click="edit"
+            :disabled="disabledEditBecauseWebhook"
+          >
+            {{ tl('edit') }}
+          </el-button>
+        </OperateWebhookAssociatedPopover>
+      </template>
     </template>
   </el-drawer>
 </template>
@@ -86,16 +101,18 @@ import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
 import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
+import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import type { ComputedRef, PropType, Ref } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import NodeMetrics from './metrics/NodeMetrics.vue'
 
 const props = defineProps({
@@ -130,7 +147,7 @@ const { t, tl } = useI18nTl('Base')
  * eg. SourceType.Message etc.
  */
 const type = computed(() => props.node?.data?.specificType)
-const isEdit = computed(() => record.value.id)
+const isEdit = computed(() => !!record.value.id)
 
 const FormCom = ref()
 
@@ -342,6 +359,22 @@ const save = async () => {
     console.error(error)
   }
 }
+
+const { judgeIsWebhookRuleId } = useWebhookUtils()
+const disabledEditBecauseWebhook = computed(() => {
+  const { rulesUsed } = props?.node?.data || {}
+  if (!rulesUsed) {
+    return false
+  }
+  return rulesUsed.every(judgeIsWebhookRuleId)
+})
+const webhookName = computed(() => {
+  const { rulesUsed } = props?.node?.data || {}
+  if (!rulesUsed || (Array.isArray(rulesUsed) && rulesUsed.length > 1)) {
+    return undefined
+  }
+  return rulesUsed[0]
+})
 
 const edit = () => emit('edit')
 

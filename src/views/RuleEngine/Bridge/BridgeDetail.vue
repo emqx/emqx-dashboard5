@@ -22,6 +22,7 @@
             <el-switch
               class="enable-btn"
               v-model="bridgeInfo.enable"
+              :disabled="isWebhookAction"
               @change="enableOrDisableBridge"
             />
           </el-tooltip>
@@ -30,13 +31,21 @@
               class="icon-button"
               type="primary"
               :icon="Share"
+              :disabled="isWebhookAction"
               plain
               @click="createRuleWithBridge"
             >
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :icon="Delete"
+              :disabled="isWebhookAction"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </div>
