@@ -11,7 +11,13 @@ export default (): {
   const getSourceList = async () => {
     try {
       const bridgeList: Array<BridgeItem> = await getBridgeList()
-      const sourceList = await getSources()
+      let sourceList: Array<BridgeItem> = []
+      // TODO: remove it
+      try {
+        sourceList = await getSources()
+      } catch (error) {
+        //
+      }
       /**
        * Filter duplicates and actions
        */
