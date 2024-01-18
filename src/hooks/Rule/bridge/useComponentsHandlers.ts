@@ -82,6 +82,9 @@ export default (
     if (comRet.local_topic) {
       Reflect.deleteProperty(comRet, 'local_topic')
     }
+    if (comRet.tags) {
+      Reflect.deleteProperty(comRet, 'tags')
+    }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }

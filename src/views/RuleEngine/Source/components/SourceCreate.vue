@@ -12,11 +12,11 @@
 import { customValidate } from '@/common/tools'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Source } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { computed, defineExpose, defineProps, ref } from 'vue'
 import useSourceFormComponent from './useSourceFormComponent'
-import { BridgeItem } from '@/types/rule'
 
 const props = defineProps<{
   type?: string
@@ -33,7 +33,8 @@ const sourceRecord = ref({})
 
 const { addSource, isTesting, testConnectivity } = useHandleSourceItem()
 
-const getDataForSubmit = (): BridgeItem => ({ type: props.type, ...cloneDeep(sourceRecord.value) })
+const getDataForSubmit = (): Source =>
+  ({ type: props.type, ...cloneDeep(sourceRecord.value) } as Source)
 
 const testConnection = async () => {
   try {
@@ -61,7 +62,7 @@ const submitNewSource = async () => {
   }
 }
 
-defineExpose({ testConnection, submitNewSource })
+defineExpose({ testConnection, submitNewSource, sourceRecord })
 </script>
 
 <style lang="scss">

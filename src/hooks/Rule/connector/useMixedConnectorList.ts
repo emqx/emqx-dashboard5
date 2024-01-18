@@ -4,7 +4,7 @@ import { getBridgeList } from '@/api/ruleengine'
 import { getSources } from '@/api/sources'
 import { getBridgeKey, omitArr } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
-import { BridgeItem, Connector } from '@/types/rule'
+import { BridgeItem, Connector, Source } from '@/types/rule'
 import { isConnectorSupported, useOldNewType } from '../bridge/useBridgeTypeValue'
 
 export default (): {
@@ -14,12 +14,19 @@ export default (): {
 
   const getMixedConnectorList = async (): Promise<Array<Connector | BridgeItem>> => {
     try {
-      const [connectorList, actionList, bridgeList, sourceList] = await Promise.all([
+      const [connectorList, actionList, bridgeList] = await Promise.all([
         getConnectors(),
         getActions(),
         getBridgeList(),
-        getSources(),
+        // getSources(),
       ])
+      // FIXME:remove this
+      let sourceList: Array<Source> = []
+      try {
+        sourceList = await getSources()
+      } catch (error) {
+        //
+      }
       const actionIdDataMap = actionList.reduce((map, item) => {
         map.set(item.id, item)
         return map

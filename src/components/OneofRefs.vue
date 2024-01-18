@@ -24,7 +24,7 @@
     <template v-if="oneOfItem.$ref && typeIndex === $index">
       <el-col
         v-for="(item, $key) in oneOfItem.properties"
-        :span="colSpan"
+        :span="item.format === 'sql' ? 24 : colSpan"
         :key="$key"
         v-bind="$attrs"
         :class="getColClass(item)"

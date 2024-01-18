@@ -272,13 +272,14 @@ const processConnector = async (
   if (!connName || !connType) {
     return
   }
+  if (SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
+    return
+  }
 
   if (direction === BridgeDirection.Egress) {
     // Fix: Remove when no longer using v1 bridge API
-    if (!SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
-      const bridgeInfo = await getDetail(`${connType}:${connName}`)
-      addBridgeToAction(bridgeInfo.id)
-    }
+    const bridgeInfo = await getDetail(`${connType}:${connName}`)
+    addBridgeToAction(bridgeInfo.id)
   } else if (direction === BridgeDirection.Ingress) {
     replaceSQLFrom(`$bridges/${connType}:${connName}`)
     await nextTick()

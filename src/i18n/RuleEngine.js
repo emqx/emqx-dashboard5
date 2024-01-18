@@ -733,6 +733,10 @@ export default {
     zh: '是否使用该 Source 创建规则',
     en: 'Would you like to create a rule using this source?',
   },
+  confirmDirectionWhenCreatingRule: {
+    zh: '请问您想将 {name} 连接器用于哪种操作？',
+    en: 'What operation do you want to use the connector {name} for?',
+  },
   canNotViewConnectorTip: {
     zh: '暂不支持通过 Dashboard 管理此连接器',
     en: 'This connector cannot be managed through the dashboard at the moment',

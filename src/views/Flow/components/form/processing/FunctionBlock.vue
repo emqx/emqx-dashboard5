@@ -28,6 +28,7 @@
         :show-all-levels="false"
         :options="(funcOptList as any)"
         :props="cascaderProps"
+        @change="handleSelectFunc"
       />
     </CustomFormItem>
     <div class="args-block" v-if="showArgsBlock">

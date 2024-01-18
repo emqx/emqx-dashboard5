@@ -90,6 +90,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <CreateRuleWithConnector v-model="showCreateRuleDialog" :connector="createdConnector" />
   </div>
   <DelConnectorTip
     v-model="showDelTip"
@@ -104,23 +105,19 @@
 </template>
 
 <script setup lang="ts">
-import {
-  useBridgeDirection,
-  useBridgeTypeIcon,
-  useConnectorTypeValue,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
 
 const router = useRouter()
@@ -180,22 +177,11 @@ const getDetailPageRoute = ({ id }: Connector) => ({
   params: { id },
 })
 
-const { judgeBridgeDirection } = useBridgeDirection()
+const showCreateRuleDialog = ref(false)
+const createdConnector = ref<undefined | Connector>(undefined)
 const createRuleWithConnector = async (connector: Connector) => {
-  try {
-    await ElMessageBox.confirm(tl('useConnectorCreateRule'), {
-      confirmButtonText: t('Base.confirm'),
-      cancelButtonText: t('Base.cancel'),
-      type: 'success',
-    })
-    const direction = judgeBridgeDirection(connector)
-    router.push({
-      name: 'rule-create',
-      query: { direction, connName: connector.name, connType: connector.type },
-    })
-  } catch (error) {
-    //
-  }
+  showCreateRuleDialog.value = true
+  createdConnector.value = connector
 }
 
 const copyConnectorItem = ({ id }: Connector) => {
