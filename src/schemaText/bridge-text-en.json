@@ -1315,6 +1315,10 @@
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
+    },
+    "doc_as_upsert": {
+      "desc": "Treat the update operation as an insert operation when the document to be updated does not exist, and insert the provided document as a new document.",
+      "label": "Enable Upsert"
     }
   }
 }
