@@ -105,6 +105,46 @@
         </el-col>
       </el-row>
     </div>
+    <!-- Chilren Stats -->
+    <div class="metric-block" v-if="showChildrenStats && !isFlowNode">
+      <div class="block-hd">
+        <p class="block-title">
+          {{ tl('action') }}
+        </p>
+      </div>
+      <div v-for="(typeMetricsData, index) in typeMetricsDataSets" :key="index">
+        <el-row
+          :gutter="24"
+          :class="['block-bd', 'stats-numbers', { 'flow-node-row': isFlowNode }]"
+          v-for="(typeMetricsDataChild, index) in typeMetricsData.children"
+          :key="index"
+        >
+          <!-- Pie Chart Stats -->
+          <el-col v-if="totals && totals[typeMetricsDataChild.name]" :span="isFlowNode ? 24 : 8">
+            <el-card class="metric-pie">
+              <p class="metric-name">
+                {{ getMetricItemLabel(totals[typeMetricsDataChild.name]) }}
+              </p>
+              <p class="metric-num">
+                {{ formatNumber(currentMetrics[totals[typeMetricsDataChild.name]]) }}
+              </p>
+              <div class="pie-container" :id="setChartId(typeMetricsDataChild.name)"></div>
+            </el-card>
+          </el-col>
+          <!-- Number Stats -->
+          <el-col :span="isFlowNode ? 24 : 16">
+            <div class="metric-types">
+              <el-row :gutter="24">
+                <el-col :span="12" v-for="stat in typeMetricsDataChild.stats" :key="stat.type">
+                  <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
+                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <!-- Node Status Table -->
     <div class="metric-block" v-if="$slots.table && !isFlowNode">
       <div class="block-hd">
         <p class="block-title">
@@ -145,6 +185,12 @@ interface Rate {
   right2: string
 }
 
+type TypeMetricsMap = {
+  name: string
+  data: TypeMapData
+  children?: TypeMetricsMap[]
+}
+
 const props = defineProps<{
   requestMetrics: () => any
   requestReset?: () => any
@@ -155,10 +201,7 @@ const props = defineProps<{
    * Data chart will only be displayed if 'total' is provided.
    */
   totals?: Record<string, string>
-  typeMetricsMaps: {
-    name: string
-    data: TypeMapData
-  }[]
+  typeMetricsMaps: TypeMetricsMap[]
   rateMetrics: Rate
   /**
    * for confirm dialog
@@ -198,6 +241,10 @@ const {
   generateEmptyMetricTypeData,
 } = useChartDataUtils()
 
+const showChildrenStats = computed(() => {
+  return props.typeMetricsMaps.some((typeMapData) => typeMapData.children)
+})
+
 /**
  * base on selectedNode
  */
@@ -222,13 +269,22 @@ const typeMetricsDataSets: Ref<SetItem[]> = ref([
     stats: [],
   },
 ])
-const handleInitTypeMetricsData = () => {
-  return props.typeMetricsMaps.map((typeMapData) => ({
-    name: typeMapData.name,
-    stats: initTypeMetricsData(typeMapData.data),
-  }))
+
+const handleInitTypeMetricsData = (typeMetricsMaps: TypeMetricsMap[]): SetItem[] => {
+  return typeMetricsMaps.map((typeMapData) => {
+    const children = typeMapData.children
+      ? handleInitTypeMetricsData(typeMapData.children)
+      : undefined
+
+    return {
+      name: typeMapData.name,
+      stats: initTypeMetricsData(typeMapData.data),
+      children,
+    }
+  })
 }
-typeMetricsDataSets.value = handleInitTypeMetricsData()
+
+typeMetricsDataSets.value = handleInitTypeMetricsData(props.typeMetricsMaps)
 
 /* PIE */
 let pieData = []
@@ -255,9 +311,21 @@ const updateToView = () => {
       pieData = generatePieData(data, typeMapData.data)
       updatePieData(`pie-chart-${typeMapData.name}`, pieData)
     }
+    const children = typeMapData.children
+      ? typeMapData.children.map((child) => {
+          const childPieData = generatePieData(data, child.data)
+          updatePieData(`pie-chart-${child.name}`, childPieData)
+          return {
+            name: child.name,
+            stats: generateMetricTypeData(data, child.data),
+          }
+        })
+      : null
+
     typeMetricsDataSets.value.push({
       name: typeMapData.name,
       stats: generateMetricTypeData(data, typeMapData.data),
+      children,
     })
   })
   if (props.rateMetrics) {
@@ -277,7 +345,7 @@ const getMetrics = async () => {
 
 const initMetrics = () => {
   rateData = getInitRateData()
-  typeMetricsDataSets.value = handleInitTypeMetricsData()
+  typeMetricsDataSets.value = handleInitTypeMetricsData(props.typeMetricsMaps)
 }
 
 const handleRefresh = () => {
