@@ -12,10 +12,12 @@
         {
           name: 'rule',
           data: ruleTypeMetricsMap,
-        },
-        {
-          name: 'action',
-          data: actionTypeMetricsMap,
+          children: [
+            {
+              name: 'action',
+              data: actionTypeMetricsMap,
+            },
+          ],
         },
       ]"
       :text-map="textMap"

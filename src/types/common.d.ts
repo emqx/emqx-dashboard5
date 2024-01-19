@@ -86,4 +86,5 @@ export type MetricsDataWithExtraData<ExtraMetricsData = Record<string, never>> =
 export interface SetItem {
   name: string
   stats: TypeMetricDataItem[]
+  children?: SetItem[] | null
 }
