@@ -242,7 +242,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Elasticsearch]: createOrderObj(
-      ['index', 'id', 'doc', 'routing', 'overwrite', 'max_retries'],
+      ['index', 'id', 'doc_as_upsert', 'doc', 'routing', 'overwrite', 'max_retries'],
       fieldStartIndex,
     ),
   }
