@@ -267,6 +267,9 @@ const processConnector = async (
     return
   }
   if (SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
+    if (direction === BridgeDirection.Ingress) {
+      rightBlockActiveTab.value = RightTab.Sources
+    }
     return
   }
 

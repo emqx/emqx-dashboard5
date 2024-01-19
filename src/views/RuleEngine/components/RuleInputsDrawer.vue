@@ -224,7 +224,7 @@ const isCreatingSource = computed(() => !inputForm.value.sourceId)
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
-  if (connType && !isConnectorSupported(connType)) {
+  if ((connType && !isConnectorSupported(connType)) || direction === BridgeDirection.Egress) {
     return
   }
   await waitAMoment(800)
