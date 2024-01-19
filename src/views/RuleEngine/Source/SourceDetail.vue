@@ -48,6 +48,7 @@
           >
             <BridgeItemOverview
               v-if="!infoLoading"
+              is-source
               :bridge-id="id"
               :bridge-msg="sourceInfo"
               @reconnect="getSourceInfo"

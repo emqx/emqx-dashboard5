@@ -4,6 +4,7 @@
       v-if="!infoLoading"
       :bridge-id="id"
       :bridge-msg="bridgeInfo"
+      :is-source="node?.type === FlowNodeType.Input"
       @reconnect="loadBridgeInfo"
     />
   </div>
@@ -11,6 +12,7 @@
 
 <script setup lang="ts">
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import { FlowNodeType } from '@/hooks/Flow/useFlowNode'
 import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import { Ref, computed, ref, defineProps, onMounted, provide } from 'vue'
