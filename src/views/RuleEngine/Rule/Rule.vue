@@ -45,11 +45,18 @@
         </el-table-column>
         <el-table-column prop="enable" :label="$t('Base.isEnabled')">
           <template #default="{ row }">
-            <el-switch
-              v-model="row.enable"
-              :disabled="!$hasPermission('put')"
-              @change="startOrStopRule(row)"
-            />
+            <OperateWebhookAssociatedPopover
+              :disabled="!judgeIsWebhookRule(row)"
+              :name="row.id"
+              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+              :targetLabel="tl('rule')"
+            >
+              <el-switch
+                v-model="row.enable"
+                :disabled="!$hasPermission('put') || judgeIsWebhookRule(row)"
+                @change="startOrStopRule(row)"
+              />
+            </OperateWebhookAssociatedPopover>
           </template>
         </el-table-column>
         <el-table-column prop="description" :label="tl('note')"></el-table-column>
@@ -72,11 +79,19 @@
             >
               {{ $t('Base.setting') }}
             </el-button>
-            <TableItemDropDown
-              :row-data="row"
-              @copy="copyRuleItem(row)"
-              @delete="submitDeleteRules"
-            />
+            <OperateWebhookAssociatedPopover
+              :disabled="!judgeIsWebhookRule(row)"
+              :name="row.id"
+              :operation="tl('moreOperation')"
+              :targetLabel="tl('rule')"
+            >
+              <TableItemDropDown
+                :row-data="row"
+                :disabled="judgeIsWebhookRule(row)"
+                @copy="copyRuleItem(row)"
+                @delete="submitDeleteRules"
+              />
+            </OperateWebhookAssociatedPopover>
           </template>
         </el-table-column>
       </el-table>
@@ -107,6 +122,7 @@ import { Ref, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
+import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import RuleFilterForm from './components/RuleFilterForm.vue'
 

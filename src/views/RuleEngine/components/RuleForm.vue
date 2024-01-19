@@ -86,7 +86,7 @@
         </el-button>
         <el-button
           type="primary"
-          :disabled="!$hasPermission('post')"
+          :disabled="!$hasPermission('post') || disabled"
           plain
           @click="saveAsCopy"
           v-if="isEdit"

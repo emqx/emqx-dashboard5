@@ -27,11 +27,18 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
-          <el-switch
-            v-model="row.enable"
-            :disabled="!$hasPermission('put')"
-            @change="enableOrDisableBridge(row)"
-          />
+          <OperateWebhookAssociatedPopover
+            :disabled="!judgeIsWebhookAction(row)"
+            :name="row.name"
+            :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+            :targetLabel="tl('action')"
+          >
+            <el-switch
+              v-model="row.enable"
+              :disabled="judgeIsWebhookAction(row) || !$hasPermission('put')"
+              @change="enableOrDisableBridge(row)"
+            />
+          </OperateWebhookAssociatedPopover>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="168">
@@ -55,13 +62,21 @@
           >
             {{ $t('Base.setting') }}
           </el-button>
-          <TableItemDropDown
-            can-create-rule
-            :row-data="row"
-            :can-copy="false"
-            @delete="handleDeleteBridge(row)"
-            @create-rule="createRuleWithBridge(row.id)"
-          />
+          <OperateWebhookAssociatedPopover
+            :disabled="!judgeIsWebhookAction(row)"
+            :name="row.name"
+            :operation="tl('moreOperation')"
+            :targetLabel="tl('action')"
+          >
+            <TableItemDropDown
+              can-create-rule
+              :row-data="row"
+              :can-copy="false"
+              :disabled="judgeIsWebhookAction(row)"
+              @delete="handleDeleteBridge(row)"
+              @create-rule="createRuleWithBridge(row.id)"
+            />
+          </OperateWebhookAssociatedPopover>
         </template>
       </el-table-column>
     </el-table>
@@ -85,6 +100,7 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -92,6 +108,7 @@ import { ElMessageBox, ElMessage as M } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
+import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -158,6 +175,7 @@ const {
   handleDeleteSuc,
   handleDeleteBridge,
 } = useDeleteBridge(listBridge)
+const { judgeIsWebhookAction } = useWebhookUtils()
 
 const getBridgeDetailPageRoute = (id: string, tab?: string) => ({
   name: 'action-detail',

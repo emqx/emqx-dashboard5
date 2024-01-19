@@ -15,7 +15,7 @@
           >
             <el-switch
               class="enable-btn"
-              :disabled="!$hasPermission('put')"
+              :disabled="!$hasPermission('put') || isWebhookRule"
               v-model="ruleInfo.enable"
               @change="enableOrDisableRule"
             />
@@ -23,7 +23,7 @@
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
               class="icon-button"
-              :disabled="!$hasPermission('delete')"
+              :disabled="!$hasPermission('delete') || isWebhookRule"
               type="danger"
               :icon="Delete"
               @click="deleteRule"

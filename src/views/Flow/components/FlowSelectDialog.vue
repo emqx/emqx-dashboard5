@@ -11,7 +11,13 @@
       <p class="desc">{{ tl('flowSelectDesc') }}</p>
       <el-form-item label="Flow" prop="flow">
         <el-select v-model="record.flow">
-          <el-option v-for="value in idArr" :key="value" :label="value" :value="value" />
+          <el-option
+            v-for="value in idArr"
+            :key="value"
+            :label="value"
+            :value="value"
+            :disabled="isDisabled(value)"
+          />
         </el-select>
       </el-form-item>
     </el-form>
@@ -42,6 +48,11 @@ const props = defineProps({
     required: true,
     default: () => [],
   },
+  disabledIdArr: {
+    type: Array as PropType<Array<string>>,
+    required: true,
+    default: () => [],
+  },
 })
 const emit = defineEmits(['update:modelValue', 'selected'])
 
@@ -58,7 +69,9 @@ watch(showDialog, (val) => {
   if (!val) {
     record.value.flow = ''
   } else {
-    record.value.flow = props.idArr[0]
+    record.value.flow = props.disabledIdArr.length
+      ? props.idArr.find((id) => !props.disabledIdArr.includes(id)) || props.idArr[0]
+      : props.idArr[0]
   }
 })
 
@@ -75,6 +88,13 @@ const submit = async () => {
   } catch (error) {
     //
   }
+}
+
+const isDisabled = (id: string) => {
+  if (props.disabledIdArr.length === 0) {
+    return false
+  }
+  return props.disabledIdArr.includes(id)
 }
 </script>
 

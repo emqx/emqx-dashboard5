@@ -22,7 +22,7 @@
             <el-switch
               class="enable-btn"
               v-model="bridgeInfo.enable"
-              :disabled="!$hasPermission('put')"
+              :disabled="!$hasPermission('put') || isWebhookAction"
               @change="enableOrDisableBridge"
             />
           </el-tooltip>
@@ -31,7 +31,7 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!$hasPermission('post')"
+              :disabled="!$hasPermission('post') || isWebhookAction"
               plain
               @click="createRuleWithBridge"
             >
@@ -40,7 +40,7 @@
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
               class="icon-button"
-              :disabled="!$hasPermission('delete')"
+              :disabled="!$hasPermission('delete') || isWebhookAction"
               type="danger"
               :icon="Delete"
               @click="handleDelete"

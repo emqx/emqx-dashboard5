@@ -76,14 +76,21 @@
                 </el-button>
                 <!-- TODO:disable del -->
                 <!-- :disable-del="row.XXXXXX" -->
-                <TableItemDropDown
-                  can-create-rule
-                  :row-data="row"
-                  :disabled="row.canNotView"
-                  @copy="copyConnectorItem(row)"
-                  @create-rule="createRuleWithConnector(row)"
-                  @delete="handleDeleteConnector(row, getList)"
-                />
+                <OperateWebhookAssociatedPopover
+                  :disabled="!judgeIsWebhookConnector(row)"
+                  :name="row.name"
+                  :operation="tl('moreOperation')"
+                  :targetLabel="t('components.connector')"
+                >
+                  <TableItemDropDown
+                    can-create-rule
+                    :row-data="row"
+                    :disabled="row.canNotView || judgeIsWebhookConnector(row)"
+                    @copy="copyConnectorItem(row)"
+                    @create-rule="createRuleWithConnector(row)"
+                    @delete="handleDeleteConnector(row, getList)"
+                  />
+                </OperateWebhookAssociatedPopover>
               </div>
             </el-tooltip>
           </template>
@@ -108,6 +115,7 @@
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
+import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
@@ -115,6 +123,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
+import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
@@ -159,6 +168,7 @@ const {
   associatedActionList,
   currentDelType,
 } = useHandleConnectorItem()
+const { judgeIsWebhookConnector } = useWebhookUtils()
 
 const reconnect = async ({ id }: Connector) => {
   try {

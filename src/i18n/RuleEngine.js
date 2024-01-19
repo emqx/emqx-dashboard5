@@ -199,6 +199,14 @@ export default {
     zh: '该{target}被用于 Webhook，无法进行{operation}，请通过{page}管理',
     en: 'The {target} is used for Webhook and cannot be {operation}. Please manage it through the {page}',
   },
+  moreOperation: {
+    zh: '更多操作',
+    en: 'More Operations',
+  },
+  or: {
+    zh: '或',
+    en: 'or',
+  },
   page: {
     zh: '页面',
     en: 'page',

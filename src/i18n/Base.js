@@ -651,4 +651,8 @@ export default {
     zh: '输入后创建新的自定义条目',
     en: 'Enter to create a new custom item',
   },
+  node: {
+    zh: '节点',
+    en: 'Node',
+  },
 }
