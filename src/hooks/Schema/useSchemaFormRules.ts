@@ -8,7 +8,8 @@ export type SchemaRules = FormRules
 
 export default (): {
   rules: Ref<FormRules>
-  countRules: (component: Component, path?: string) => void
+  setToRules: (component: Component, path?: string) => void
+  countRules: (component: Component, rules: FormRules, path?: string) => FormRules
 } => {
   const rules: Ref<FormRules> = ref({})
 
@@ -19,7 +20,7 @@ export default (): {
     return createRequiredRule(label, typeForRule)
   }
 
-  const countRules = (component: Component, path?: string): void => {
+  const countRules = (component: Component, ruleMap: FormRules, path?: string): FormRules => {
     const { required = [], properties } = component
     const getPathToSet = (key: string) => (path ? `${path}.${key}` : key)
     // add required rule
@@ -27,7 +28,7 @@ export default (): {
       const pathToSet = getPathToSet(key)
       const propItem = properties[key]
       const { type, label } = propItem
-      rules.value[pathToSet] = getRuleItem(type as PropType, label)
+      ruleMap[pathToSet] = getRuleItem(type as PropType, label)
     })
     // add range limit
     Object.keys(properties).forEach((key) => {
@@ -38,19 +39,25 @@ export default (): {
         (type === 'number' || type === 'integer') &&
         (minimum !== undefined || maximum !== undefined)
       ) {
-        const currentRule = rules.value[pathToSet]
+        const currentRule = ruleMap[pathToSet]
         const ruleArr = createNumRangeRule(minimum, maximum)
         if (currentRule && Array.isArray(currentRule)) {
           currentRule.push(...ruleArr)
         } else if (!currentRule) {
-          rules.value[pathToSet] = ruleArr
+          ruleMap[pathToSet] = ruleArr
         }
       }
     })
+    return ruleMap
+  }
+
+  const setToRules = (component: Component, path?: string): void => {
+    rules.value = countRules(component, rules.value, path)
   }
 
   return {
     rules,
     countRules,
+    setToRules,
   }
 }
