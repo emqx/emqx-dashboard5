@@ -83,7 +83,7 @@
       <el-row :gutter="20">
         <el-col :span="12" v-if="!isUDP">
           <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
-            <el-input v-model.number="listenerRecord.acceptors" />
+            <CustomInputNumber v-model="listenerRecord.acceptors" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -97,7 +97,7 @@
         </el-col>
         <el-col :span="12" v-if="gatewayName">
           <el-form-item :label="tl('maxConnRate')" prop="max_conn_rate">
-            <el-input v-model.number="listenerRecord.max_conn_rate" />
+            <CustomInputNumber v-model.number="listenerRecord.max_conn_rate" />
           </el-form-item>
         </el-col>
         <template v-if="showProxyProtocolConfig">
@@ -122,7 +122,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="ActiveN">
-              <el-input
+              <CustomInputNumber
                 v-model.number="listenerRecord.tcp_options.active_n"
                 :placeholder="String(defaultListener.tcp_options.active_n)"
               />
@@ -396,6 +396,7 @@
 <script lang="ts" setup>
 import { INFINITY_VALUE } from '@/common/constants'
 import BooleanSelect from '@/components/BooleanSelect.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
@@ -407,10 +408,10 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { PropType, computed, defineEmits, defineProps } from 'vue'
+import ArrayEditorInput from '../ArrayEditorInput.vue'
+import CustomInputNumber from '../CustomInputNumber.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
-import ArrayEditorInput from '../ArrayEditorInput.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({
   modelValue: {

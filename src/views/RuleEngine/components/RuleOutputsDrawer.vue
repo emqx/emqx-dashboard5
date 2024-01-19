@@ -111,7 +111,7 @@ export default defineComponent({
 import { getBridgeKey, getTypeAndNameFromKey } from '@/common/tools'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
-import { RuleOutput } from '@/types/enum'
+import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
 import {
   PropType,
@@ -331,7 +331,10 @@ watch(showDrawer, (val) => {
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
-  if (connType && !SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
+  if (
+    (connType && !SUPPORTED_CONNECTOR_TYPES.includes(connType)) ||
+    direction === BridgeDirection.Ingress
+  ) {
     return
   }
   setTimeout(async () => {

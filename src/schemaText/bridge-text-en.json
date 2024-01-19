@@ -64,7 +64,7 @@
     },
     "topic": {
       "label": "Topic",
-      "desc": "Message publishing topic, supports using ${field} syntax to extract variables and dynamically concatenate the topic."
+      "desc": "Message publishing topic, supports using ${'{'}field{'}'} syntax to extract variables and dynamically concatenate the topic."
     },
     "source_topic": {
       "label": "Topic",

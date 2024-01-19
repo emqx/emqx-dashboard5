@@ -29,7 +29,11 @@
         v-bind="$attrs"
         :class="getColClass(item)"
       >
-        <CustomFormItem :prop="getFormItemProp($key)" :readonly="readonly">
+        <CustomFormItem
+          :prop="getFormItemProp($key)"
+          :readonly="readonly"
+          :rules="getPropRules(getFormItemProp($key))"
+        >
           <template #label>
             <FormItemLabel :label="getLabel(item)" :desc="getDesc(item)" desc-marked />
           </template>
@@ -51,7 +55,7 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual, isFunction, snakeCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineEmits, defineProps, ref, watch, watchEffect } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'
@@ -182,6 +186,13 @@ const getColClass = ({ path }: Property) => {
     return ''
   }
   return props.customColClass[path]
+}
+
+const getPropRules = (prop: string) => {
+  const oneofItem = typeIndex.value !== undefined && props.items[typeIndex.value]
+  if (oneofItem && oneofItem.rules) {
+    return oneofItem.rules[prop]
+  }
 }
 
 watch(

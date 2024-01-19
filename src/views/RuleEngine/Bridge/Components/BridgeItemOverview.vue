@@ -9,7 +9,7 @@
     :type-metrics-maps="getTypeMetricsMap()"
     :text-map="textMap"
     :rate-metrics="rateData"
-    :show-rate="showEgressStats"
+    :show-rate="!isSource"
     :node-status-desc="tl('nodeStatusBridgeDesc')"
   >
     <template #table="{ data }">
@@ -35,7 +35,7 @@
         <el-table-column :label="tl('matched')">
           <template #default="{ row }">{{ getEgressData(row.metrics?.matched) }}</template>
         </el-table-column>
-        <el-table-column v-if="showIngressStats" prop="metrics.received" :label="tl('received')" />
+        <el-table-column v-if="isSource" prop="metrics.received" :label="tl('received')" />
         <el-table-column :label="tl('dropped')">
           <template #default="{ row }">{{ getEgressData(row.metrics?.dropped) }}</template>
         </el-table-column>
@@ -68,12 +68,12 @@
 <script setup lang="ts">
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useBridgeMetrics } from '@/hooks/useMetrics'
 import { MetricsData, NodeMetrics } from '@/types/common'
-import { BridgeDirection, ConnectionStatus } from '@/types/enum'
+import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'
 import { lowerCase } from 'lodash'
 import { ComputedRef, PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
@@ -89,19 +89,28 @@ const props = defineProps({
   bridgeId: {
     type: String,
   },
+  isSource: {
+    type: Boolean,
+  },
 })
 const emit = defineEmits(['reconnect'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
 const { reconnectActionForNode, getActionMetrics, resetActionMetrics } = useHandleActionItem()
+const { reconnectSourceForNode, getSourceMetrics, resetSourceMetrics } = useHandleSourceItem()
+const selectFunction = (sourceFunc: any, actionFunc: any) => (id: string, node?: string) =>
+  props.isSource ? sourceFunc(id, node) : actionFunc(id, node)
+const reconnectForNode = selectFunction(reconnectSourceForNode, reconnectActionForNode)
+const getMetrics = selectFunction(getSourceMetrics, getActionMetrics)
+const requestResetMetrics = selectFunction(resetSourceMetrics, resetActionMetrics)
 
 const getBridgeMetrics = async () => {
   try {
     if (!props.bridgeId) {
       return
     }
-    return getActionMetrics(props.bridgeId)
+    return getMetrics(props.bridgeId)
   } catch (error) {
     //
   }
@@ -111,7 +120,7 @@ const resetMetrics = () => {
   if (!props.bridgeId) {
     return
   }
-  return resetActionMetrics(props.bridgeId)
+  return requestResetMetrics(props.bridgeId)
 }
 
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
@@ -131,11 +140,6 @@ const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
   })
 }
 
-const { judgeBridgeDirection } = useBridgeDirection()
-const bridgeDirection = computed(() => judgeBridgeDirection(props.bridgeMsg))
-const showEgressStats = computed(() => bridgeDirection.value !== BridgeDirection.Ingress)
-const showIngressStats = computed(() => bridgeDirection.value !== BridgeDirection.Egress)
-
 const { ingressTypeMetricsMap, egressTypeMetricsMap, textMap, rateData } = useBridgeMetrics()
 
 const getTypeMetricsMap = () => {
@@ -147,16 +151,13 @@ const getTypeMetricsMap = () => {
     name: 'egress',
     data: egressTypeMetricsMap,
   }
-  if (showIngressStats.value && showEgressStats.value) {
-    return [egressData, ingressData]
-  }
-  if (showIngressStats.value && !showEgressStats.value) {
+  if (props.isSource) {
     return [ingressData]
   }
   return [egressData]
 }
 
-const getEgressData = (data: number) => (showEgressStats.value ? data : '-')
+const getEgressData = (data: number) => (props.isSource ? '-' : data)
 
 const nodeConnectingStatusMap: Ref<Record<string, boolean>> = ref({})
 type NodeStatusData = { node: string; status: ConnectionStatus }
@@ -171,7 +172,7 @@ const setNodeConnectingStatusMap = () => {
 const reconnect = async ({ node }: NodeMetrics) => {
   try {
     nodeConnectingStatusMap.value[node] = true
-    await reconnectActionForNode(node, props.bridgeMsg.id)
+    await reconnectForNode(node, props.bridgeMsg.id)
     emit('reconnect')
   } catch (error) {
     //
