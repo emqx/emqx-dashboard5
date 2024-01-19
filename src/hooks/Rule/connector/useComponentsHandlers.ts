@@ -90,6 +90,13 @@ export default (
     if (comRet?.server) {
       comRet.server.componentProps = { placeholder: 'broker.emqx.io:1883' }
     }
+    if (comRet?.retry_interval?.type === 'string') {
+      comRet.retry_interval.type = 'duration'
+    }
+    if (comRet?.keepalive?.type === 'string') {
+      comRet.keepalive.type = 'duration'
+    }
+
     return { components: comRet, rules }
   }
 
