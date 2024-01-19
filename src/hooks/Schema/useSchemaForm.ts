@@ -47,7 +47,7 @@ export default function useSchemaForm(
     baseURL: '',
   })
   let schema: any = {}
-  const { rules, countRules } = useSchemaFormRules()
+  const { rules, setToRules, countRules } = useSchemaFormRules()
   const { initRecordByComponents } = useSchemaRecord()
   /**
    * for get component
@@ -111,12 +111,22 @@ export default function useSchemaForm(
   }
   const getComponents = (objForGetComponent: { path?: string; ref?: string | Array<string> }) => {
     let lastLabel = ''
-    const transComponents = (component: Component, path?: string): Properties => {
+    /**
+     * @param component component
+     * @param path ref path
+     * @param withRules Some places may require special processing by self
+     * @returns Properties
+     */
+    const transComponents = (
+      component: Component,
+      path?: string,
+      withRules = needRules,
+    ): Properties => {
       const res: Properties = {}
       const { properties, type } = component
       if (type === 'object' && properties) {
-        if (needRules) {
-          countRules(component, path)
+        if (withRules) {
+          setToRules(component, path)
         }
         Object.keys(properties).forEach((key) => {
           let property: Properties[string] = cloneDeep(properties[key])
@@ -174,7 +184,8 @@ export default function useSchemaForm(
             property.oneOf = oneOf.map((item) => {
               if (item.$ref) {
                 const component = getComponentByRef(schema, item.$ref)
-                item.properties = transComponents(component, property.path)
+                item.properties = transComponents(component, property.path, false)
+                item.rules = countRules(component, {}, property.path)
                 if (property.path) {
                   // Because when oneof refs takes the default, it does not take the default of the fields in sequence,
                   // but the default of the ref, so it needs to be processed here.

@@ -1,3 +1,5 @@
+import { FormRules } from './common'
+
 export type InjectSchema = Ref<any> | undefined
 
 export interface Property {
@@ -28,6 +30,10 @@ export interface Property {
    * It is possible to customize the props of component here, with the highest priority.
    */
   componentProps: Record<string, any>
+  /**
+   * exist in oneof refs item
+   */
+  rules?: FormRules | any
 }
 
 export interface Properties {

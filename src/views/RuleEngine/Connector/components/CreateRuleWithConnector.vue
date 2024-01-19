@@ -86,7 +86,6 @@ const connectorDirection = ref(BridgeDirection.Egress)
 const TYPES_WITH_SOURCE = [BridgeType.MQTT]
 
 const confirm = () => {
-  debugger
   if (TYPES_WITH_SOURCE.includes(props.connector?.type)) {
     confirmStep.value += 1
   } else {
