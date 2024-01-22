@@ -133,6 +133,7 @@ export const GetConfigsKey = {
   rpc: 'rpc',
   rule_engine: 'rule_engine',
   slow_subs: 'slow_subs',
+  sources: 'sources',
   sys_topics: 'sys_topics',
   sysmon: 'sysmon',
   telemetry: 'telemetry',
