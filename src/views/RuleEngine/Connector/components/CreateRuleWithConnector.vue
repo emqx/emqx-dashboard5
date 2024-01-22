@@ -36,9 +36,10 @@
 </template>
 
 <script lang="ts" setup>
+import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
 import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
@@ -83,10 +84,8 @@ watch(showDialog, (val) => {
 
 const connectorDirection = ref(BridgeDirection.Egress)
 
-const TYPES_WITH_SOURCE = [BridgeType.MQTT]
-
 const confirm = () => {
-  if (TYPES_WITH_SOURCE.includes(props.connector?.type)) {
+  if (CONNECTOR_TYPES_WITH_SOURCE.includes(props.connector?.type)) {
     confirmStep.value += 1
   } else {
     createRule()
