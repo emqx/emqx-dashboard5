@@ -10,6 +10,12 @@ export type PostConnectors400 = {
   message?: string
 }
 
+export type PostConnectors201 = ConnectorMqttGetConnector | BridgeHttpGetConnector
+
+export type PostConnectorsBody = ConnectorMqttPostConnector | BridgeHttpPostConnector
+
+export type GetConnectors200Item = ConnectorMqttGetConnector | BridgeHttpGetConnector
+
 export type PutConnectorsIdEnableEnable503Code =
   typeof PutConnectorsIdEnableEnable503Code[keyof typeof PutConnectorsIdEnableEnable503Code]
 
@@ -205,6 +211,10 @@ export type PutConnectorsId400 = {
   message?: string
 }
 
+export type PutConnectorsId200 = ConnectorMqttGetConnector | BridgeHttpGetConnector
+
+export type PutConnectorsIdBody = ConnectorMqttPutConnector | BridgeHttpPutConnector
+
 export type GetConnectorsId404Code =
   typeof GetConnectorsId404Code[keyof typeof GetConnectorsId404Code]
 
@@ -229,6 +239,198 @@ export const PostConnectorsProbe400Code = {
 export type PostConnectorsProbe400 = {
   code?: PostConnectorsProbe400Code
   message?: string
+}
+
+export type ConnectorNodeStatusStatus =
+  typeof ConnectorNodeStatusStatus[keyof typeof ConnectorNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorNodeStatusStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ConnectorNodeStatus {
+  node?: string
+  status?: ConnectorNodeStatusStatus
+  status_reason?: string
+}
+
+export interface ConnectorMqttResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export type ConnectorMqttPutConnectorProtoVer =
+  typeof ConnectorMqttPutConnectorProtoVer[keyof typeof ConnectorMqttPutConnectorProtoVer]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttPutConnectorProtoVer = {
+  v3: 'v3',
+  v4: 'v4',
+  v5: 'v5',
+} as const
+
+/**
+ * @deprecated
+ */
+export type ConnectorMqttPutConnectorMode =
+  typeof ConnectorMqttPutConnectorMode[keyof typeof ConnectorMqttPutConnectorMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttPutConnectorMode = {
+  cluster_shareload: 'cluster_shareload',
+} as const
+
+export interface ConnectorMqttPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  pool_size?: number
+  resource_opts?: ConnectorMqttResourceOpts
+  /** @deprecated */
+  mode?: ConnectorMqttPutConnectorMode
+  server: string
+  clientid_prefix?: string
+  /** @deprecated */
+  reconnect_interval?: string
+  proto_ver?: ConnectorMqttPutConnectorProtoVer
+  bridge_mode?: boolean
+  username?: string
+  password?: string
+  clean_start?: boolean
+  keepalive?: string
+  retry_interval?: string
+  max_inflight?: number
+  ssl?: BrokerSslClientOpts
+}
+
+export type ConnectorMqttPostConnectorProtoVer =
+  typeof ConnectorMqttPostConnectorProtoVer[keyof typeof ConnectorMqttPostConnectorProtoVer]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttPostConnectorProtoVer = {
+  v3: 'v3',
+  v4: 'v4',
+  v5: 'v5',
+} as const
+
+/**
+ * @deprecated
+ */
+export type ConnectorMqttPostConnectorMode =
+  typeof ConnectorMqttPostConnectorMode[keyof typeof ConnectorMqttPostConnectorMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttPostConnectorMode = {
+  cluster_shareload: 'cluster_shareload',
+} as const
+
+export type ConnectorMqttPostConnectorType =
+  typeof ConnectorMqttPostConnectorType[keyof typeof ConnectorMqttPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttPostConnectorType = {
+  mqtt: 'mqtt',
+} as const
+
+export interface ConnectorMqttPostConnector {
+  type: ConnectorMqttPostConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  pool_size?: number
+  resource_opts?: ConnectorMqttResourceOpts
+  /** @deprecated */
+  mode?: ConnectorMqttPostConnectorMode
+  server: string
+  clientid_prefix?: string
+  /** @deprecated */
+  reconnect_interval?: string
+  proto_ver?: ConnectorMqttPostConnectorProtoVer
+  bridge_mode?: boolean
+  username?: string
+  password?: string
+  clean_start?: boolean
+  keepalive?: string
+  retry_interval?: string
+  max_inflight?: number
+  ssl?: BrokerSslClientOpts
+}
+
+export type PostConnectorsProbeBody = ConnectorMqttPostConnector | BridgeHttpPostConnector
+
+export type ConnectorMqttGetConnectorProtoVer =
+  typeof ConnectorMqttGetConnectorProtoVer[keyof typeof ConnectorMqttGetConnectorProtoVer]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttGetConnectorProtoVer = {
+  v3: 'v3',
+  v4: 'v4',
+  v5: 'v5',
+} as const
+
+/**
+ * @deprecated
+ */
+export type ConnectorMqttGetConnectorMode =
+  typeof ConnectorMqttGetConnectorMode[keyof typeof ConnectorMqttGetConnectorMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttGetConnectorMode = {
+  cluster_shareload: 'cluster_shareload',
+} as const
+
+export type ConnectorMqttGetConnectorStatus =
+  typeof ConnectorMqttGetConnectorStatus[keyof typeof ConnectorMqttGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type ConnectorMqttGetConnectorType =
+  typeof ConnectorMqttGetConnectorType[keyof typeof ConnectorMqttGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorMqttGetConnectorType = {
+  mqtt: 'mqtt',
+} as const
+
+export interface ConnectorMqttGetConnector {
+  type: ConnectorMqttGetConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  status?: ConnectorMqttGetConnectorStatus
+  status_reason?: string
+  node_status?: ConnectorNodeStatus[]
+  actions?: string[]
+  pool_size?: number
+  resource_opts?: ConnectorMqttResourceOpts
+  /** @deprecated */
+  mode?: ConnectorMqttGetConnectorMode
+  server: string
+  clientid_prefix?: string
+  /** @deprecated */
+  reconnect_interval?: string
+  proto_ver?: ConnectorMqttGetConnectorProtoVer
+  bridge_mode?: boolean
+  username?: string
+  password?: string
+  clean_start?: boolean
+  keepalive?: string
+  retry_interval?: string
+  max_inflight?: number
+  ssl?: BrokerSslClientOpts
 }
 
 export type BrokerSslClientOptsServerNameIndication = string | 'disable'
@@ -313,6 +515,7 @@ export type BridgeHttpPutConnectorHeaders = { [key: string]: any }
 
 export interface BridgeHttpPutConnector {
   enable?: boolean
+  tags?: string[]
   description?: string
   url: string
   headers?: BridgeHttpPutConnectorHeaders
@@ -356,6 +559,7 @@ export interface BridgeHttpPostConnector {
   type: BridgeHttpPostConnectorType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   url: string
   headers?: BridgeHttpPostConnectorHeaders
@@ -419,6 +623,7 @@ export interface BridgeHttpGetConnector {
   type: BridgeHttpGetConnectorType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   url: string
   headers?: BridgeHttpGetConnectorHeaders
@@ -433,3 +638,5 @@ export interface BridgeHttpGetConnector {
   ssl?: BrokerSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
+
+export type GetConnectorsId200 = ConnectorMqttGetConnector | BridgeHttpGetConnector

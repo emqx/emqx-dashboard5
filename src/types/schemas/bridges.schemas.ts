@@ -438,6 +438,7 @@ export const BridgeMqttPutMode = {
 
 export interface BridgeMqttPut {
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -490,6 +491,7 @@ export interface BridgeMqttPost {
   type: BridgeMqttPostType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -545,6 +547,7 @@ export interface BridgeMqttGet {
   status_reason?: string
   node_status?: BridgeNodeStatus[]
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -666,6 +669,7 @@ export const BridgeHttpPutPoolType = {
 
 export interface BridgeHttpPut {
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
@@ -738,6 +742,7 @@ export interface BridgeHttpPost {
   type: BridgeHttpPostType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
@@ -822,6 +827,7 @@ export interface BridgeHttpGet {
   type: BridgeHttpGetType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
