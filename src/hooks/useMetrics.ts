@@ -445,9 +445,10 @@ export const useRuleMetrics = (): {
   const { t, tl } = useI18nTl('RuleEngine')
   const ruleTypeMetricsMap = {
     [MetricType.Green]: { title: tl('passed'), contains: ['passed'] },
+    [MetricType.Gray]: { title: tl('failedNoResult'), contains: ['failed.no_result'] },
     [MetricType.Red]: {
       title: t('Base.failed'),
-      contains: ['failed.exception', 'failed.no_result'],
+      contains: ['failed.exception'],
     },
   }
   const actionTypeMetricsMap = {
