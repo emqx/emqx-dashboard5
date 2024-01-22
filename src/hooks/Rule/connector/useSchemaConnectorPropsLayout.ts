@@ -81,7 +81,14 @@ export default (
     fieldStartIndex,
   )
   const IoTDBOrderMap = createOrderObj(
-    ['base_url', 'authentication.username', 'authentication.password', 'ssl', 'enable_pipelining'],
+    [
+      'base_url',
+      'authentication.username',
+      'authentication.password',
+      'iotdb_version',
+      'ssl',
+      'enable_pipelining',
+    ],
     fieldStartIndex,
   )
 
