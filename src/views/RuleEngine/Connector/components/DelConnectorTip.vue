@@ -12,7 +12,7 @@
           <WarningFilled />
         </i>
         <div class="el-message-box__message">
-          {{ tl('deleteActionTip') }}
+          {{ deleteTip }}
         </div>
       </div>
       <ul class="data-list">
@@ -43,11 +43,13 @@
 </template>
 
 <script lang="ts" setup>
+import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
 import { getBridgeKey } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -64,6 +66,12 @@ const showDialog = computed({
     emit('update:modelValue', val)
   },
 })
+
+const deleteTip = computed(() =>
+  CONNECTOR_TYPES_WITH_SOURCE.includes(props.connectorType as BridgeType)
+    ? tl('deleteConnectorWithSourceTip')
+    : tl('deleteConnectorTip'),
+)
 </script>
 
 <style lang="scss">

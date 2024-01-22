@@ -781,9 +781,13 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
-  deleteActionTip: {
+  deleteConnectorTip: {
     zh: '请先移除使用该连接器的下列动作，然后再删除该连接器。',
     en: 'Please remove the following actions that use this connector before deleting the connector.',
+  },
+  deleteConnectorWithSourceTip: {
+    zh: '请先移除使用该连接器的下列动作或 Source，然后再删除该连接器。',
+    en: 'Please remove the following actions or source that use this connector before deleting the connector.',
   },
   deleteEgressActionSecondConfirm: {
     zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
