@@ -186,9 +186,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.IoTDB]: createOrderObj(
-      ['iotdb_version', 'device_id', 'max_retries', 'is_aligned', 'data'].map(
-        (k) => `parameters.${k}`,
-      ),
+      ['device_id', 'is_aligned', 'data'].map((k) => `parameters.${k}`),
       fieldStartIndex,
     ),
     [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
