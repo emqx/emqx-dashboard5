@@ -49,6 +49,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
+import { lowerCase } from 'lodash'
 import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
@@ -69,7 +70,7 @@ const showDialog = computed({
 
 const deleteTip = computed(() =>
   CONNECTOR_TYPES_WITH_SOURCE.includes(props.connectorType as BridgeType)
-    ? tl('deleteConnectorWithSourceTip')
+    ? tl('deleteConnectorTip', { ext: lowerCase(`${tl('or')} ${t('components.source')}`) })
     : tl('deleteConnectorTip'),
 )
 </script>
