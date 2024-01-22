@@ -1057,6 +1057,7 @@ export const BridgeRedisPutSingleRedisType = {
 
 export interface BridgeRedisPutSingle {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1082,6 +1083,7 @@ export const BridgeRedisPutSentinelRedisType = {
 
 export interface BridgeRedisPutSentinel {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1108,6 +1110,7 @@ export const BridgeRedisPutClusterRedisType = {
 
 export interface BridgeRedisPutCluster {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1140,6 +1143,7 @@ export const BridgeRedisPostSingleRedisType = {
 
 export interface BridgeRedisPostSingle {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1175,6 +1179,7 @@ export const BridgeRedisPostSentinelRedisType = {
 
 export interface BridgeRedisPostSentinel {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1211,6 +1216,7 @@ export const BridgeRedisPostClusterRedisType = {
 
 export interface BridgeRedisPostCluster {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1256,6 +1262,7 @@ export const BridgeRedisGetSingleRedisType = {
 
 export interface BridgeRedisGetSingle {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1332,6 +1339,7 @@ export const BridgeRedisGetClusterRedisType = {
 
 export interface BridgeRedisGetCluster {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -1419,6 +1427,7 @@ export interface BridgeRedisCreationOptsRedisSentinel {
 
 export interface BridgeRedisGetSentinel {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   command_template: string[]
@@ -2152,6 +2161,7 @@ export const BridgeMqttPutMode = {
 
 export interface BridgeMqttPut {
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -2204,6 +2214,7 @@ export interface BridgeMqttPost {
   type: BridgeMqttPostType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -2259,6 +2270,7 @@ export interface BridgeMqttGet {
   status_reason?: string
   node_status?: BridgeNodeStatus[]
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeMqttCreationOpts
   /** @deprecated */
@@ -2970,6 +2982,7 @@ export interface BridgeMatrixGet {
 
 export interface BridgeKinesisPutProducer {
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
@@ -2995,6 +3008,7 @@ export interface BridgeKinesisPostProducer {
   type: BridgeKinesisPostProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
@@ -3034,6 +3048,7 @@ export interface BridgeKinesisGetProducer {
   type: BridgeKinesisGetProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: BridgeKinesisCreationOpts
   aws_access_key_id: string
@@ -3141,6 +3156,7 @@ export type BridgeKafkaPutProducerAuthentication =
 
 export interface BridgeKafkaPutProducer {
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3179,6 +3195,7 @@ export type BridgeKafkaPutConsumerAuthentication =
 
 export interface BridgeKafkaPutConsumer {
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3299,6 +3316,7 @@ export interface BridgeKafkaPostProducer {
   type: BridgeKafkaPostProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3349,6 +3367,7 @@ export interface BridgeKafkaPostConsumer {
   type: BridgeKafkaPostConsumerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3403,6 +3422,7 @@ export interface BridgeKafkaGetProducer {
   type: BridgeKafkaGetProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3495,6 +3515,7 @@ export interface BridgeKafkaGetConsumer {
   type: BridgeKafkaGetConsumerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -3722,6 +3743,7 @@ export const BridgeInfluxdbPutApiV2Precision = {
 
 export interface BridgeInfluxdbPutApiV2 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3747,6 +3769,7 @@ export const BridgeInfluxdbPutApiV1Precision = {
 
 export interface BridgeInfluxdbPutApiV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3780,6 +3803,7 @@ export const BridgeInfluxdbPostApiV2Precision = {
 
 export interface BridgeInfluxdbPostApiV2 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3815,6 +3839,7 @@ export const BridgeInfluxdbPostApiV1Precision = {
 
 export interface BridgeInfluxdbPostApiV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3861,6 +3886,7 @@ export const BridgeInfluxdbGetApiV2Precision = {
 
 export interface BridgeInfluxdbGetApiV2 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3910,6 +3936,7 @@ export const BridgeInfluxdbGetApiV1Precision = {
 
 export interface BridgeInfluxdbGetApiV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -3996,6 +4023,7 @@ export const BridgeHttpPutPoolType = {
 
 export interface BridgeHttpPut {
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
@@ -4068,6 +4096,7 @@ export interface BridgeHttpPost {
   type: BridgeHttpPostType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
@@ -4152,6 +4181,7 @@ export interface BridgeHttpGet {
   type: BridgeHttpGetType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   connect_timeout?: string
   /** @deprecated */
@@ -4185,6 +4215,7 @@ export const BridgeHstreamdbPutDirection = {
 
 export interface BridgeHstreamdbPut {
   enable?: boolean
+  tags?: string[]
   description?: string
   direction?: BridgeHstreamdbPutDirection
   local_topic?: string
@@ -4216,6 +4247,7 @@ export const BridgeHstreamdbPostDirection = {
 
 export interface BridgeHstreamdbPost {
   enable?: boolean
+  tags?: string[]
   description?: string
   direction?: BridgeHstreamdbPostDirection
   local_topic?: string
@@ -4260,6 +4292,7 @@ export const BridgeHstreamdbGetDirection = {
 
 export interface BridgeHstreamdbGet {
   enable?: boolean
+  tags?: string[]
   description?: string
   direction?: BridgeHstreamdbGetDirection
   local_topic?: string
@@ -4291,6 +4324,7 @@ export const BridgeGreptimedbPutGrpcV1Precision = {
 
 export interface BridgeGreptimedbPutGrpcV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -4324,6 +4358,7 @@ export const BridgeGreptimedbPostGrpcV1Precision = {
 
 export interface BridgeGreptimedbPostGrpcV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -4370,6 +4405,7 @@ export const BridgeGreptimedbGetGrpcV1Precision = {
 
 export interface BridgeGreptimedbGetGrpcV1 {
   enable?: boolean
+  tags?: string[]
   description?: string
   local_topic?: string
   write_syntax: string
@@ -4391,6 +4427,7 @@ export type BridgeGcpPubsubPutProducerServiceAccountJson = { [key: string]: any 
 
 export interface BridgeGcpPubsubPutProducer {
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
@@ -4411,6 +4448,7 @@ export type BridgeGcpPubsubPutConsumerServiceAccountJson = { [key: string]: any 
 
 export interface BridgeGcpPubsubPutConsumer {
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
@@ -4437,6 +4475,7 @@ export interface BridgeGcpPubsubPostProducer {
   type: BridgeGcpPubsubPostProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
@@ -4467,6 +4506,7 @@ export interface BridgeGcpPubsubPostConsumer {
   type: BridgeGcpPubsubPostConsumerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
@@ -4512,6 +4552,7 @@ export interface BridgeGcpPubsubGetProducer {
   type: BridgeGcpPubsubGetProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts?: ResourceSchemaCreationOpts
   connect_timeout?: string
@@ -4575,6 +4616,7 @@ export interface BridgeGcpPubsubGetConsumer {
   type: BridgeGcpPubsubGetConsumerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   connect_timeout?: string
@@ -4946,6 +4988,7 @@ export type BridgeAzureEventHubPutProducerAuthentication =
 
 export interface BridgeAzureEventHubPutProducer {
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -5007,6 +5050,7 @@ export interface BridgeAzureEventHubPostProducer {
   type: BridgeAzureEventHubPostProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string
@@ -5074,6 +5118,7 @@ export interface BridgeAzureEventHubGetProducer {
   type: BridgeAzureEventHubGetProducerType
   name: string
   enable?: boolean
+  tags?: string[]
   description?: string
   bootstrap_hosts: string
   connect_timeout?: string

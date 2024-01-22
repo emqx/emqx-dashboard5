@@ -1074,7 +1074,7 @@ export const AuthnJwtPublicKeyAlgorithm = {
 
 export interface AuthnJwtPublicKey {
   algorithm: AuthnJwtPublicKeyAlgorithm
-  public_key?: string
+  public_key: string
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims

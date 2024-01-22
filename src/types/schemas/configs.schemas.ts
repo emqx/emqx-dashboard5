@@ -136,6 +136,7 @@ export const GetConfigsKey = {
   rule_engine: 'rule_engine',
   schema_registry: 'schema_registry',
   slow_subs: 'slow_subs',
+  sources: 'sources',
   sys_topics: 'sys_topics',
   sysmon: 'sysmon',
   topic_metrics: 'topic_metrics',
