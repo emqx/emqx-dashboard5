@@ -12,6 +12,18 @@
     }
   },
   {
+    "method": "put",
+    "path": "/cluster/:node/invite_async",
+    "operation_label": {
+      "en": "Cluster",
+      "zh": "集群"
+    },
+    "operation_name_label": {
+      "en": "Asynchronously invite node to cluster",
+      "zh": "异步邀请节点加入集群"
+    }
+  },
+  {
     "method": "delete",
     "path": "/cluster/:node/force_leave",
     "operation_label": {
