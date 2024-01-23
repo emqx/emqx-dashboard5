@@ -89,7 +89,7 @@ const dbTemplateContent: { [key in BatchSettingDatabaseType]: string } = {
   [BatchSettingDatabaseType.InfluxDB]: `Field,Value,Remarks (Optional)
 temp,\${payload.temp},
 hum,\${payload.hum},
-precip,\${payload.precip}i,${tl('influxdbTemplateRemark')}
+precip,\${payload.precip}i,"${tl('influxdbTemplateRemark')}"
 `,
   [BatchSettingDatabaseType.TDengine]: `Field,Value,Char Value,Remarks (Optional)
 ts,now,FALSE,Example Remark
@@ -101,7 +101,7 @@ hum,\${payload.hum},FALSE,
 status,\${payload.status},FALSE,
 `,
   [BatchSettingDatabaseType.IoTDB]: `Timestamp,Measurement,Data Type,Value,Remarks (Optional)
-now,temp,FLOAT,\${payload.temp},${tl('iotdbTemplateRemark')}
+now,temp,FLOAT,\${payload.temp},"${tl('iotdbTemplateRemark')}"
 now,hum,FLOAT,\${payload.hum},
 now,status,BOOLEAN,\${payload.status},
 now,clientid,TEXT,\${clientid},
