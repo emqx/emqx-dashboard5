@@ -4,9 +4,9 @@
       ref="InputRef"
       v-model="input"
       clearable
-      autofocus
       highlight-first-item
       size="large"
+      value-key="name"
       popper-class="quick-panel-popper"
       :debounce="50"
       :placeholder="tl('search')"
@@ -20,10 +20,10 @@
       <template #default="{ item }">
         <div class="space-between quick-result-item">
           <div class="value vertical-align-center">
-            <template v-if="item.parentLabel">
+            <div v-show="item.parentLabel">
               <span>{{ item.parentLabel }}</span>
               <el-icon class="icon-arrow"><ArrowRight /></el-icon>
-            </template>
+            </div>
             <span>{{ item.label }}</span>
           </div>
           <p class="tip">{{ item.blockTitle }}</p>
@@ -108,7 +108,7 @@ const findParentAndBlock = (path: string) => {
 }
 
 const withParamsPathReg = /:/
-const generateMeneItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {
+const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {
   const ret: Array<MenuItem> = []
 
   const walk = (route: RouteRecordRaw, parent?: any, level = 0) => {
@@ -139,7 +139,7 @@ const generateMeneItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
 /**
  * remove page with params
  */
-const neededMenuList = generateMeneItems(routes)
+const neededMenuList = generateMenuItems(routes)
 
 const input = ref('')
 
@@ -147,17 +147,16 @@ const defaultItemNames = ['overview', 'clients', 'authentication', 'rule']
 const querySearch = (query: string, cb: any) => {
   if (!query) {
     cb(neededMenuList.filter(({ name }) => defaultItemNames.includes(name)))
-    return
-  }
-  const queryRegArr = query.split(' ').map((item) => new RegExp(`${item}`, 'i'))
-  cb(
-    neededMenuList.filter(
+  } else {
+    const queryRegArr = query.split(' ').map((item) => new RegExp(`${item}`, 'i'))
+    const ret = neededMenuList.filter(
       ({ path, name, label }) =>
         queryRegArr.every((reg) => reg.test(path)) ||
         queryRegArr.every((reg) => reg.test(label)) ||
         (name && queryRegArr.every((reg) => reg.test(name))),
-    ),
-  )
+    )
+    cb(ret)
+  }
 }
 
 const router = useRouter()
