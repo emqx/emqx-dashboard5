@@ -55,10 +55,6 @@ export default {
     zh: '集群概览',
     en: 'Cluster Overview',
   },
-  overview: {
-    zh: '概览',
-    en: 'Overview',
-  },
   metrics: {
     zh: '指标',
     en: 'Metrics',
@@ -111,9 +107,17 @@ export default {
     zh: 'Flows',
     en: 'Flows',
   },
+  'flow-create': {
+    zh: '创建 Flow',
+    en: 'Create Flow',
+  },
   webhook: {
     zh: 'Webhook',
     en: 'Webhook',
+  },
+  'webhook-create': {
+    zh: '创建 Webhook',
+    en: 'Create Webhook',
   },
   resources: {
     zh: '资源',
@@ -130,6 +134,10 @@ export default {
   plugins: {
     zh: '插件',
     en: 'Plugins',
+  },
+  'plugin-install': {
+    zh: '安装插件',
+    en: 'Install plugin',
   },
   modules: {
     zh: '模块',
@@ -155,7 +163,8 @@ export default {
     zh: '慢订阅',
     en: 'Slow Subscriptions',
   },
-  general: {
+
+  'mqtt-general': {
     zh: '通用',
     en: 'General',
   },
@@ -167,7 +176,7 @@ export default {
     zh: '扩展',
     en: 'Extension',
   },
-  systemTopic: {
+  'mqtt-system-topic': {
     zh: '系统主题',
     en: 'System Topic',
   },
@@ -315,31 +324,32 @@ export default {
     zh: '连接器',
     en: 'Connector',
   },
+
   extensions: {
     zh: '插件扩展',
     en: 'Extensions',
   },
-  session: {
+  'mqtt-session': {
     zh: '会话',
     en: 'Session',
   },
-  retainer: {
+  'mqtt-retainer': {
     zh: '保留消息',
     en: 'Retainer',
   },
-  integration: {
+  'monitoring-integration': {
     zh: '监控集成',
     en: 'Integration',
   },
-  alarmSettings: {
+  'alarm-settings': {
     zh: '系统',
     en: 'System',
   },
-  currentAlarm: {
+  'current-alarm': {
     zh: '当前告警',
     en: 'Active',
   },
-  historyAlarm: {
+  'history-alarm': {
     zh: '历史告警',
     en: 'History',
   },
@@ -347,4 +357,38 @@ export default {
     zh: '帮助',
     en: 'Help',
   },
+  /* For Quick Panel Start */
+  'rule-create': {
+    zh: '创建规则',
+    en: 'Create Rule',
+  },
+  overview: {
+    zh: '集群概览',
+    en: 'Cluster Overview',
+  },
+  'system-monitoring': {
+    zh: '系统监控',
+    en: 'System Monitoring',
+  },
+  'connector-create': {
+    zh: '创建连接器',
+    en: 'Create Connector',
+  },
+  'authentication-create': {
+    zh: '创建客户端认证',
+    en: 'Create Authentication',
+  },
+  'authorization-create': {
+    zh: '创建客户端授权',
+    en: 'Create Authorization',
+  },
+  'exhook-create': {
+    zh: '创建 ExHook',
+    en: 'Create ExHook',
+  },
+  'slow-sub-config': {
+    zh: '慢订阅设置',
+    en: 'Slow Subscriptions Settings',
+  },
+  /* For Quick Panel End */
 }
