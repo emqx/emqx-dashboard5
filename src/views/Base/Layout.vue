@@ -165,15 +165,9 @@ export default defineComponent({
       if (!store.getters.isDev) {
         return
       }
-      const isWindows = navigator.platform.indexOf('Win') > -1
-      if (isWindows) {
-        if (e.keyCode === 75 && e.ctrlKey) {
-          showQuickPanel.value = true
-        }
-      } else {
-        if (e.keyCode === 75 && e.metaKey) {
-          showQuickPanel.value = true
-        }
+      if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault()
+        showQuickPanel.value = true
       }
     }
     const bindKeyupListener = () => document.addEventListener('keydown', openQuickPanel)
