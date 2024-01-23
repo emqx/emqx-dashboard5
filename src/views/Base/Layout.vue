@@ -62,6 +62,7 @@
       </el-main>
     </el-container>
   </el-container>
+  <QuickPanel v-model="showQuickPanel" />
 </template>
 
 <script lang="ts">
@@ -69,9 +70,10 @@ import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
 import { useStore } from 'vuex'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, onUnmounted, ref, watch } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import EMQXVersion from '@/components/EMQXVersion.vue'
+import QuickPanel from './QuickPanel.vue'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -157,10 +159,33 @@ export default defineComponent({
       }
     })
 
+    const showQuickPanel = ref(false)
+
+    const openQuickPanel = (e: KeyboardEvent) => {
+      if (!store.getters.isDev) {
+        return
+      }
+      const isWindows = navigator.platform.indexOf('Win') > -1
+      if (isWindows) {
+        if (e.keyCode === 75 && e.ctrlKey) {
+          showQuickPanel.value = true
+        }
+      } else {
+        if (e.keyCode === 75 && e.metaKey) {
+          showQuickPanel.value = true
+        }
+      }
+    }
+    const bindKeyupListener = () => document.addEventListener('keydown', openQuickPanel)
+    const unbindKeyupListener = () => document.removeEventListener('keydown', openQuickPanel)
+
+    onUnmounted(unbindKeyupListener)
+
     watch(route, () => {
       setHeaderTitle()
     })
     setHeaderTitle()
+    bindKeyupListener()
     return {
       store,
       route,
@@ -175,6 +200,8 @@ export default defineComponent({
       kebab2pascal,
       isNotFound,
       firstPath,
+      showQuickPanel,
+      openQuickPanel,
     }
   },
 })
