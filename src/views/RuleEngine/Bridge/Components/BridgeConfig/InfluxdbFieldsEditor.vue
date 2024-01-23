@@ -1,5 +1,5 @@
 <template>
-  <el-table class="influxdb-fields-editor key-and-value-editor shadow-none" :data="tableData">
+  <el-table class="influxdb-fields-editor key-and-value-editor shadow-none" :data="displayData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
         <el-input v-if="!readonly" v-model="row.key" class="key-input" @input="atInputChange" />
@@ -43,6 +43,18 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-pagination
+    v-if="shouldPaginate"
+    class="fields-editor-pagination"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+    :page-sizes="[100, 200, 300, 400]"
+    :page-size="pageSize"
+    layout="total, sizes, prev, pager, next"
+    :total="tableData.length"
+  >
+  </el-pagination>
 </template>
 
 <script lang="ts">
@@ -92,6 +104,19 @@ export default defineComponent({
     const { t, tl } = useI18nTl('RuleEngine')
     const { emit } = context
 
+    const pageSize = ref(100)
+    const currentPage = ref(1)
+    const shouldPaginate = ref(false)
+
+    const displayData = computed(() => {
+      if (!shouldPaginate.value) {
+        return tableData.value
+      }
+      const start = (currentPage.value - 1) * pageSize.value
+      const end = start + pageSize.value
+      return tableData.value.slice(start, end)
+    })
+
     const { judgeFieldValueType, judgeValueInInput, explicitlySpecifyTypeInValue, getTypeLabel } =
       useInfluxdbFieldsEditor()
 
@@ -111,9 +136,8 @@ export default defineComponent({
           tableData.value.push({ key, value })
         }
       })
+      shouldPaginate.value = tableData.value.length > 100
     }
-
-    createTbData()
 
     const keyValueLabel = computed(() => {
       if (props.customLabel === null) {
@@ -150,7 +174,18 @@ export default defineComponent({
       emit('add')
     }
 
+    const handleSizeChange = (val: number) => {
+      pageSize.value = val
+      currentPage.value = 1
+    }
+
+    const handleCurrentChange = (val: number) => {
+      currentPage.value = val
+    }
+
     function handleUploadedData(newTableData: kvRow[]) {
+      shouldPaginate.value = newTableData.length > 100
+      currentPage.value = 1
       tableData.value = newTableData
       atInputChange()
     }
@@ -172,6 +207,8 @@ export default defineComponent({
       },
     )
 
+    createTbData()
+
     return {
       tl,
       tableData,
@@ -185,6 +222,12 @@ export default defineComponent({
       keyValueLabel,
       dbType,
       handleUploadedData,
+      displayData,
+      pageSize,
+      currentPage,
+      shouldPaginate,
+      handleSizeChange,
+      handleCurrentChange,
     }
   },
 })
@@ -196,6 +239,9 @@ export default defineComponent({
     display: flex;
     justify-content: space-around;
   }
+}
+.fields-editor-pagination {
+  margin-top: 16px;
 }
 .key-and-value-editor {
   min-width: 200px;
