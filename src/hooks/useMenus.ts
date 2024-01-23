@@ -1,4 +1,13 @@
-export default () => {
+export interface Menu {
+  title: string
+  path?: string
+  icon?: string
+  children?: Menu[]
+}
+
+export default (): {
+  menuList: Array<Menu>
+} => {
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
