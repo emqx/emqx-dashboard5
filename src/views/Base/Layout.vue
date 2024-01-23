@@ -45,7 +45,7 @@
                   v-if="!route.meta?.hideInMenu"
                   :index="topLvRoute.path + '/' + route.path"
                 >
-                  {{ $t(`components.${kebab2pascal(route.path)}`) }}
+                  {{ $t(`components.${route.name}`) }}
                 </el-menu-item>
               </template>
             </el-menu>
@@ -82,6 +82,7 @@ export default defineComponent({
     NavHeader,
     LeftBar,
     EMQXVersion,
+    QuickPanel,
   },
   props: {
     keepAlive: {

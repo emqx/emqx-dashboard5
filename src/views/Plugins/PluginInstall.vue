@@ -1,6 +1,6 @@
 <template>
   <div class="plugin-install app-wrapper">
-    <detail-header :item="{ name: tl('installPlugin'), path: '/plugins' }" />
+    <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
     <el-card class="app-card plugin-install-card">
       <el-upload
         class="plugin-uploader"
