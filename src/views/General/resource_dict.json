@@ -769,6 +769,102 @@
   },
   {
     "method": "post",
+    "path": "/sources",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Create a new source",
+      "zh": "创建 Source"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/sources/:id",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Update an source",
+      "zh": "更新 Source"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/sources/:id",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Delete an source",
+      "zh": "删除 Source"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/sources_probe",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Test source",
+      "zh": "测试 Source"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/sources/:id/:operation",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Start source",
+      "zh": "启动 Source"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/sources/:id/enable/:enable",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Disable/Enable source",
+      "zh": "禁用或启用 Source"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/nodes/:node/sources/:id/:operation",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Start source on a specific node",
+      "zh": "启动指定节点上的 Source"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/sources/:id/metrics/reset",
+    "operation_label": {
+      "en": "Sources",
+      "zh": "Sources"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics for the source",
+      "zh": "重置指定 Source 的指标"
+    }
+  },
+  {
+    "method": "post",
     "path": "/bridges",
     "operation_label": {
       "en": "Bridges",
