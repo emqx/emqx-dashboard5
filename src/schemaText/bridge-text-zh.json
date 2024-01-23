@@ -1263,9 +1263,9 @@
     }
   },
   "emqx_ee_bridge_elasticsearch": {
-    "base_url": {
-      "desc": "ElasticSearch 服务的 REST 接口 URL。",
-      "label": "URL"
+    "server": {
+      "desc": "ElasticSearch 服务的 REST 接口地址。",
+      "label": "服务器地址"
     },
     "routing": {
       "desc": "指定应将文档存储在索引的哪个分片中，留空则由 Elasticsearch 决定。",
