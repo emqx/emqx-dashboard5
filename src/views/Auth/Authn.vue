@@ -5,7 +5,7 @@
       <el-button
         type="primary"
         :icon="Plus"
-        @click="$router.push({ name: 'authenticationCreate' })"
+        @click="$router.push({ name: 'authentication-create' })"
       >
         {{ $t('Base.create') }}
       </el-button>

@@ -5,7 +5,11 @@
       <el-button :icon="Setting" @click="showSettingDrawer = true">
         {{ $t('Base.setting') }}
       </el-button>
-      <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'authorizationCreate' })">
+      <el-button
+        type="primary"
+        :icon="Plus"
+        @click="$router.push({ name: 'authorization-create' })"
+      >
         {{ $t('Base.create') }}
       </el-button>
     </div>

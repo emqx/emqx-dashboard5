@@ -231,7 +231,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'create',
-        name: 'authenticationCreate',
+        name: 'authentication-create',
         component: () => import('@/views/Auth/AuthnCreate.vue'),
       },
       {
@@ -256,7 +256,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'create',
-        name: 'authorizationCreate',
+        name: 'authorization-create',
         component: () => import('@/views/Auth/AuthzCreate.vue'),
       },
       {
@@ -448,12 +448,12 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/RuleEngine/Bridge/BridgeDetail.vue'),
         meta: { hideInMenu: true },
       },
-      {
-        path: 'actions/create',
-        name: 'action-create',
-        component: () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue'),
-        meta: { hideInMenu: true },
-      },
+      // {
+      //   path: 'actions/create',
+      //   name: 'action-create',
+      //   component: () => import('@/views/RuleEngine/Bridge/BridgeCreate.vue'),
+      //   meta: { hideInMenu: true },
+      // },
       {
         path: 'source',
         name: 'source',
