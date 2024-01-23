@@ -163,7 +163,6 @@ export default {
     zh: '慢订阅',
     en: 'Slow Subscriptions',
   },
-
   'mqtt-general': {
     zh: '通用',
     en: 'General',
@@ -324,7 +323,6 @@ export default {
     zh: '连接器',
     en: 'Connector',
   },
-
   extensions: {
     zh: '插件扩展',
     en: 'Extensions',
@@ -385,6 +383,22 @@ export default {
   'exhook-create': {
     zh: '创建 ExHook',
     en: 'Create ExHook',
+  },
+  'conf-mqtt-general': {
+    zh: 'MQTT 通用',
+    en: 'MQTT General',
+  },
+  'conf-mqtt-session': {
+    zh: 'MQTT 会话',
+    en: 'MQTT Session',
+  },
+  'conf-mqtt-retainer': {
+    zh: 'MQTT 保留消息',
+    en: 'MQTT Retainer',
+  },
+  'conf-mqtt-system-topic': {
+    zh: 'MQTT 系统主题',
+    en: 'MQTT System Topic',
   },
   'slow-sub-config': {
     zh: '慢订阅设置',
