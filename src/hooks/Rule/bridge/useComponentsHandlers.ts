@@ -106,6 +106,9 @@ export default (
     if (topic && !payload) {
       topic.labelKey = 'source_topic'
     }
+    if (!payload && qos?.type === 'enum' && qos.symbols) {
+      qos.symbols = qos.symbols.filter((item) => item !== 2)
+    }
     if (payload?.type === 'string') {
       payload.format = 'sql'
     }
