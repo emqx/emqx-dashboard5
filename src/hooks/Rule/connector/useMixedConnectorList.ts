@@ -79,7 +79,11 @@ export default (): {
           })
           const connectorIndex = connectorList.findIndex(({ id }) => id === associatedConnectorId)
           if (connectorIndex !== -1) {
-            connectorIndexArrNeedRemoved.push(connectorIndex)
+            if (isConnectorSupported(type)) {
+              bridgeIndexArrNeedRemoved.push(bridgeIndex)
+            } else {
+              connectorIndexArrNeedRemoved.push(connectorIndex)
+            }
           }
         }
       })
