@@ -1266,9 +1266,9 @@
     }
   },
   "emqx_ee_bridge_elasticsearch": {
-    "base_url": {
-      "desc": "The REST URL of the ElasticSearch service.",
-      "label": "URL"
+    "server": {
+      "desc": "The REST server address of the ElasticSearch service.",
+      "label": "Server"
     },
     "routing": {
       "desc": "Specifies the shard in the index where the document should be stored. If left blank, Elasticsearch decides.",

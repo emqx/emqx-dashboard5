@@ -83,6 +83,7 @@ export default (
   const IoTDBOrderMap = createOrderObj(
     [
       'base_url',
+      'server',
       'authentication.username',
       'authentication.password',
       'iotdb_version',
