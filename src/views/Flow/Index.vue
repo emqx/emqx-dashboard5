@@ -6,14 +6,14 @@
           <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
           <el-radio-button :label="ShowByOpt.List">{{ tl('list') }}</el-radio-button>
         </el-radio-group> -->
-        <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
+        <el-button @click="goCreate" type="primary">{{ tl('flow-create') }}</el-button>
       </div>
       <FlowView v-if="showBy === ShowByOpt.Flow" @loaded="handleLoaded" />
       <!-- <FlowList v-if="showBy === ShowByOpt.List" /> -->
     </template>
     <div v-else class="flow-placeholder-container">
       <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
-      <el-button @click="goCreate" type="primary">{{ tl('createFlow') }}</el-button>
+      <el-button @click="goCreate" type="primary">{{ tl('flow-create') }}</el-button>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import FlowView from './components/FlowView.vue'
 import { useStore } from 'vuex'
 
 const router = useRouter()
-const { tl } = useI18nTl('Flow')
+const { tl } = useI18nTl('components')
 const store = useStore()
 
 const theme = computed(() => {
