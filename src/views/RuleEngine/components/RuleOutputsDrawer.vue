@@ -289,13 +289,15 @@ const submitOutput = async () => {
         throw new Error('can not handle output form')
       }
     } else {
-      if (isEdit.value) {
-        opObj = await BridgeDetailRef.value?.updateBridgeInfo()
+      if (!isCreatingAction.value) {
+        opObj = !isEdit.value
+          ? bridgeForm.value.id
+          : await BridgeDetailRef.value?.updateBridgeInfo()
         if (!opObj) {
           return
         }
       } else {
-        opObj = isCreatingAction.value ? await submitNewAction() : bridgeForm.value.id
+        opObj = await submitNewAction()
       }
       opObj = transBridgeTypeToNewType(opObj)
     }
