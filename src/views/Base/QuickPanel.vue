@@ -19,7 +19,13 @@
       </template>
       <template #default="{ item }">
         <div class="space-between quick-result-item">
-          <div class="value">{{ item.label }}</div>
+          <div class="value vertical-align-center">
+            <template v-if="item.parentLabel">
+              <span>{{ item.parentLabel }}</span>
+              <el-icon class="icon-arrow"><ArrowRight /></el-icon>
+            </template>
+            <span>{{ item.label }}</span>
+          </div>
           <p class="tip">{{ item.blockTitle }}</p>
         </div>
       </template>
@@ -32,16 +38,18 @@ import { titleCase, waitAMoment } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useMenus from '@/hooks/useMenus'
 import { routes } from '@/router'
-import { Search } from '@element-plus/icons-vue'
+import { Search, ArrowRight } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { Menu } from '@/hooks/useMenus'
 import { RouteRecordRaw, useRouter } from 'vue-router'
 
 interface MenuItem {
   path: string
   name?: any
   label: string
+  parentLabel?: string
   blockTitle: string
 }
 
@@ -73,29 +81,32 @@ watch(showDialog, async (val) => {
 const { te } = useI18n()
 const { t, tl } = useI18nTl('Base')
 
-const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)*$`)
+const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
 
 const { menuList } = useMenus()
-const getMenuBlockTitle = (path: string) => {
-  const walk = (menuItem: any) => {
+const findParentAndBlock = (path: string) => {
+  let parent: Menu | any = undefined
+  const walk = (menuItem: Menu): boolean => {
     if (menuItem.path) {
-      return createChildReg(menuItem.path).test(path)
+      const isTarget = menuItem.path === path
+      const isChild = createChildReg(menuItem.path).test(path)
+      if (isChild) {
+        parent = menuItem
+      }
+      return isTarget || isChild
     } else if (menuItem.children) {
-      return menuItem.children.some((item: any) => walk(item))
+      return menuItem.children.some((item: Menu) => walk(item))
     }
     return false
   }
-  const ret = menuList.find((item) => walk(item))
-  return ret ? t(`components.${ret.title}`) : ''
+
+  const block = menuList.find((item) => walk(item))
+  return {
+    parentLabel: parent ? t(`components.${parent.title}`) : undefined,
+    blockTitle: block ? t(`components.${block.title}`) : '',
+  }
 }
 
-const specialRouteName: Record<string, string> = {
-  'alarm-settings': 'system-monitoring',
-  'mqtt-general': 'conf-mqtt-general',
-  'mqtt-session': 'conf-mqtt-session',
-  'mqtt-retainer': 'conf-mqtt-retainer',
-  'mqtt-system-topic': 'conf-mqtt-system-topic',
-}
 const withParamsPathReg = /:/
 const generateMeneItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {
   const ret: Array<MenuItem> = []
@@ -109,12 +120,12 @@ const generateMeneItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
       const path = `${parent?.path ? parent.path : ''}${parent?.path && route.path ? '/' : ''}${
         route.path
       }`
-      const labelKey = specialRouteName[route.name as string] || route.name
+      const labelKey = route.name
       const label = te(`components.${labelKey as string}`)
         ? t(`components.${labelKey as string}`)
         : titleCase(route.name as string)
-      const blockTitle = getMenuBlockTitle(path)
-      ret.push({ path, name: route.name, label, blockTitle })
+      const { parentLabel, blockTitle } = findParentAndBlock(path)
+      ret.push({ path, name: route.name, label, parentLabel, blockTitle })
     }
     if (route.children && level === 0) {
       route.children.forEach((child) => {
@@ -191,6 +202,10 @@ const cancel = () => {
   .quick-result-item {
     padding-top: 8px;
     padding-bottom: 8px;
+  }
+  .icon-arrow {
+    margin: 0 4px;
+    opacity: 0.5;
   }
 }
 </style>

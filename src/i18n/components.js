@@ -364,10 +364,6 @@ export default {
     zh: '集群概览',
     en: 'Cluster Overview',
   },
-  'system-monitoring': {
-    zh: '系统监控',
-    en: 'System Monitoring',
-  },
   'connector-create': {
     zh: '创建连接器',
     en: 'Create Connector',
@@ -383,22 +379,6 @@ export default {
   'exhook-create': {
     zh: '创建 ExHook',
     en: 'Create ExHook',
-  },
-  'conf-mqtt-general': {
-    zh: 'MQTT 通用',
-    en: 'MQTT General',
-  },
-  'conf-mqtt-session': {
-    zh: 'MQTT 会话',
-    en: 'MQTT Session',
-  },
-  'conf-mqtt-retainer': {
-    zh: 'MQTT 保留消息',
-    en: 'MQTT Retainer',
-  },
-  'conf-mqtt-system-topic': {
-    zh: 'MQTT 系统主题',
-    en: 'MQTT System Topic',
   },
   'slow-sub-config': {
     zh: '慢订阅设置',
