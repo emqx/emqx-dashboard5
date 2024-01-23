@@ -290,15 +290,12 @@ const submitTest = async () => {
     if (res) {
       const mapData = (data: Record<string, any>): any => {
         return Object.entries(data).map(([key, value]) => {
-          if (typeof value === 'object') {
-            return {
-              key,
-              children: mapData(value),
-            }
-          }
+          const isObject = typeof value === 'object' && value !== null
           return {
             key,
-            value,
+            ...(isObject
+              ? { children: mapData(value) }
+              : { value: value === null ? 'null' : value }),
           }
         })
       }
@@ -307,7 +304,8 @@ const submitTest = async () => {
       ElMessage.success(tl('testPassed'))
     }
   } catch (e) {
-    // ignore error
+    const err = e as Error
+    ElMessage.error(err.toString())
   } finally {
     testLoading.value = false
   }
