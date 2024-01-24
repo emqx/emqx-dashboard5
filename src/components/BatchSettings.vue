@@ -18,7 +18,11 @@
             <div>{{ $t('Base.downloadTemplatePrompt') }}</div>
             <ul>
               <li>{{ $t('Base.batchSettingDownloadFirst') }}</li>
-              <li v-html="$t('Base.moreImportInstructions', { link: checkDocMap[type] })"></li>
+              <i18n-t keypath="Base.moreImportInstructions" tag="li">
+                <template #link>
+                  <a :href="checkDocMap[type]" target="_blank">{{ $t('Base.helpDocs') }}</a>
+                </template>
+              </i18n-t>
             </ul>
           </template>
           <template #description>

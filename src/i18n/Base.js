@@ -636,8 +636,12 @@ export default {
     en: 'Batch setting requires downloading the import template first',
   },
   moreImportInstructions: {
-    zh: '更多导入说明和示例，请查看<a href="{link}" target="_blank">帮助文档</a>',
-    en: 'For more import instructions and examples, please check the <a href="{link}" target="_blank">help documentation</a>',
+    zh: '更多导入说明和示例，请查看{link}',
+    en: 'For more import instructions and examples, please check the {link}',
+  },
+  helpDocs: {
+    zh: '帮助文档',
+    en: 'Help documentation',
   },
   uploadFile: {
     zh: '上传文件',
