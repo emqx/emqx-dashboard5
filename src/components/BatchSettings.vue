@@ -18,7 +18,7 @@
             <div>{{ $t('Base.downloadTemplatePrompt') }}</div>
             <ul>
               <li>{{ $t('Base.batchSettingDownloadFirst') }}</li>
-              <li>{{ $t('Base.moreImportInstructions') }}</li>
+              <li v-html="$t('Base.moreImportInstructions', { link: checkDocMap[type] })"></li>
             </ul>
           </template>
           <template #description>
@@ -67,6 +67,7 @@ import { ElUpload } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
 import { createDownloadBlobLink } from '@emqx/shared-ui-utils'
+import useDocLink from '@/hooks/useDocLink'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
@@ -78,6 +79,13 @@ const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
 const fileList = ref<any[]>([])
 const importLoading = ref(false)
+const { docMap } = useDocLink()
+
+const checkDocMap = {
+  [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
+  [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
+  [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
+}
 
 const dbNameMap = {
   [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
