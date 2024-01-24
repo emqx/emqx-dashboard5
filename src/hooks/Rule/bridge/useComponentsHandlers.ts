@@ -50,6 +50,23 @@ export default (
     return rules
   }
 
+  const createJSONRule = (errorMsg: string) => {
+    return {
+      trigger: 'blur',
+      validator: (rule: FormItemRule, value: string, callback: (error?: Error) => void) => {
+        try {
+          const obj = JSON.parse(value)
+          if (typeof obj === 'object') {
+            return callback()
+          }
+        } catch (error) {
+          // no need to do anything here, an error will be thrown below
+        }
+        callback(new Error(errorMsg))
+      },
+    }
+  }
+
   const setLabelAndDesc = (prop: Property, path: string) => {
     if (prop) {
       prop.label = t(`${path}.label`)
@@ -203,19 +220,7 @@ export default (
       rules.service_account_json = []
     }
     if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
-      rules.service_account_json.push({
-        validator(rule: FormItemRule, value: string) {
-          return new Promise((resolve, reject) => {
-            try {
-              JSON.parse(value)
-              resolve(true)
-            } catch (error) {
-              reject(tl('accountJSONError'))
-            }
-          })
-        },
-        trigger: 'blur',
-      })
+      rules.service_account_json.push(createJSONRule(tl('accountJSONError')))
     }
 
     if (consumer) {
@@ -406,6 +411,31 @@ export default (
     return { components, rules }
   }
 
+  const openTSDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    const { parameters } = components
+    const properties = parameters?.properties?.data?.items?.properties || {}
+    const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_opents.'
+    Object.entries(properties).forEach(([key, value]) => {
+      setLabelAndDesc(value, `${i18nPrefix}${key}`)
+
+      if (key === 'value' && value.type === 'oneof') {
+        value.type = 'string'
+      }
+    })
+    // TODO: remove it after backend fix '[]'
+    if (parameters?.properties?.data && typeof parameters.properties.data.default === 'string') {
+      parameters.properties.data.default = []
+    }
+
+    if (rules?.['parameters.data.tags'] && rules['parameters.data.tags'].length === 1) {
+      rules['parameters.data.tags'].push(createJSONRule(tl('errorKeyValuePair')))
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -424,6 +454,7 @@ export default (
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
     [BridgeType.IoTDB]: IoTDBHandler,
     [BridgeType.Elasticsearch]: elasticsearchHandler,
+    [BridgeType.OpenTSDB]: openTSDBHandler,
   }
 
   const getComponentsHandler = () => {

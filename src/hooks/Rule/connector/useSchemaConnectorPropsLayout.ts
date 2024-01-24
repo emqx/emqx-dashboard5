@@ -187,6 +187,11 @@ export default (
     ),
     [BridgeType.IoTDB]: IoTDBOrderMap,
     [BridgeType.Elasticsearch]: IoTDBOrderMap,
+    [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
+    [BridgeType.Cassandra]: createOrderObj(
+      ['keyspace', 'servers', 'username', 'password', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

@@ -860,6 +860,25 @@
     "details": {
       "desc": "Whether to return detailed information.",
       "label": "Details"
+    },
+    "data": {
+      "label": "Write Data"
+    },
+    "timestamp": {
+      "desc": "Second or millisecond level timestamp, supports placeholders in the format of ${'{'}var{'}'}.",
+      "label": "Timestamp"
+    },
+    "metric": {
+      "desc": "The name of the metric, should be a unique identifier for the time series data, supports placeholders in the format of ${'{'}var{'}'}.",
+      "label": "Metric"
+    },
+    "tags": {
+      "desc": "Tags for attaching metadata, each tag is a key-value pair, configured in the `key=value,key2=value2` format, and supports placeholders in the format of ${'{'}var{'}'}.",
+      "label": "Tags"
+    },
+    "value": {
+      "desc": "The value of the data point, supports placeholders in the format of ${'{'}var{'}'}. It represents the actual measurement or observed value.",
+      "label": "Value"
     }
   },
   "emqx_ee_bridge_oracle": {

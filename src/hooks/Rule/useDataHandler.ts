@@ -1,7 +1,8 @@
+import { NUM_REG } from '@/common/constants'
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType, Role } from '@/types/enum'
-import { Connector } from '@/types/rule'
+import { Action, Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
 import useI18nTl from '../useI18nTl'
@@ -233,16 +234,6 @@ export const useBridgeDataHandler = (): {
     handleDataForSaveAsCopy,
   } = useCommonDataHandler()
 
-  const handleMQTTBridgeData = (bridgeData: any) => {
-    const { egress = {}, ingress = {} } = bridgeData
-    if (!egress.remote?.topic) {
-      Reflect.deleteProperty(bridgeData, 'egress')
-    } else if (!ingress.remote?.topic) {
-      Reflect.deleteProperty(bridgeData, 'ingress')
-    }
-    return bridgeData
-  }
-
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
@@ -275,7 +266,6 @@ export const useBridgeDataHandler = (): {
   }
 
   const specialDataHandlerBeforeSubmit = new Map([
-    [BridgeType.MQTT, handleMQTTBridgeData],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.GCPConsumer, handleGCPBridgeData],
   ])
@@ -341,15 +331,47 @@ export const useBridgeDataHandler = (): {
 
 export const useActionDataHandler = (): {
   handleActionDataBeforeUpdate: (data: any) => Promise<any>
+  handleActionDataBeforeSubmit: (data: Action) => Promise<Action>
 } => {
   const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+  const handleOpenTSDBDataBeforeSubmit = (data: Action): Action => {
+    const dataArr = data.parameters?.data
+    if (Array.isArray(dataArr)) {
+      data.parameters.data = dataArr.map((item) =>
+        NUM_REG.test(item.value) ? { ...item, value: Number(item.value) } : item,
+      )
+    }
+    return data
+  }
+
+  const specialDataHandlerBeforeSubmit = new Map([
+    [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
+  ])
+
+  /**
+   * submit contains create and update
+   */
+  const handleActionDataBeforeSubmit = async (data: Action): Promise<Action> => {
+    try {
+      let ret = cloneDeep(data)
+      const handler = specialDataHandlerBeforeSubmit.get(ret.type)
+      if (handler) {
+        ret = await handler(ret)
+      }
+      return Promise.resolve(await handleBridgeDataBeforeSubmit(ret))
+    } catch (error) {
+      console.error(error)
+      return Promise.reject()
+    }
+  }
 
   const handleActionDataBeforeUpdate = async (data: any): Promise<any> => {
-    const ret = await handleBridgeDataBeforeSubmit(data)
+    const ret = await handleActionDataBeforeSubmit(data)
     return omit(ret, keysNeedRemovedForUpdate)
   }
 
   return {
+    handleActionDataBeforeSubmit,
     handleActionDataBeforeUpdate,
   }
 }

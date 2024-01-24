@@ -418,6 +418,8 @@ export const useConnectorSchema = (): {
     [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
     [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
     [BridgeType.Elasticsearch, getRef(BridgeType.Elasticsearch, '', 'post')],
+    [BridgeType.OpenTSDB, getRef(`${BridgeType.OpenTSDB}_connector`, '', 'post')],
+    [BridgeType.Cassandra, getRef('cassa')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -459,6 +461,7 @@ export const useActionSchema = (): {
     [BridgeType.GCPProducer, getRef('gcp_pubsub_producer', '')],
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
     [BridgeType.SysKeeperForwarder, getRef('syskeeper', '')],
+    [BridgeType.Cassandra, getRef('cassa')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

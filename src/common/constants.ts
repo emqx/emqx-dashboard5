@@ -56,6 +56,8 @@ export const RULE_LOGICAL_OPERATORS = ['>', '<', '<=', '>=', '<>', '!=', '=', '=
 export const IP_REG =
   /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]):([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/
 
+export const NUM_REG = /^(-?\d+(\.\d+)?e(\+|-)\d+|-?\d+(\.\d+)?)$/
+
 export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
 
 export const GATEWAY_DISABLED_MECHANISM_MAP = {
@@ -302,6 +304,8 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.InfluxDB,
   BridgeType.IoTDB,
   BridgeType.Elasticsearch,
+  BridgeType.OpenTSDB,
+  BridgeType.Cassandra,
 ]
 
 export const COPY_SUFFIX = '_duplication'
