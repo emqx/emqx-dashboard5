@@ -107,6 +107,7 @@ export default (
       topic.labelKey = 'source_topic'
     }
     if (!payload && qos?.type === 'enum' && qos.symbols) {
+      /** QoS2 is not supported yet https://emqx.atlassian.net/browse/ED-1224  */
       qos.symbols = qos.symbols.filter((item) => item !== 2)
     }
     if (payload?.type === 'string') {
