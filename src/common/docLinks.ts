@@ -33,6 +33,9 @@ type DocKey =
   | 'restAPI'
   | 'faq'
   | 'applyLicense'
+  | 'influxDbBatchSettings'
+  | 'iotDbBatchSettings'
+  | 'tdengineBatchSettings'
 
 export type DocMap = Record<DocKey, string>
 
@@ -47,6 +50,8 @@ const createQueryStr = (queryObj: Record<string, string | number>) => {
     '',
   )
 }
+
+const createBatchSettingHash = (lang: string) => (lang === 'zh' ? '批量设置' : 'batch-setting')
 
 const QUERY_FOR_HELP = createQueryStr({
   utm_campaign: 'emqx-enterprise-dashboard-header-to-contact',
@@ -106,5 +111,14 @@ export default (lang: string): DocMap => {
     learnConfig: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
     restAPI: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,
     faq: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/faq/faq.html?${QUERY_FOR_HELP}`,
+    influxDbBatchSettings: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/data-bridge-influxdb.html#${createBatchSettingHash(
+      lang,
+    )}`,
+    iotDbBatchSettings: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/data-bridge-iotdb.html#${createBatchSettingHash(
+      lang,
+    )}`,
+    tdengineBatchSettings: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/data-bridge-tdengine.html#${createBatchSettingHash(
+      lang,
+    )}`,
   }
 }
