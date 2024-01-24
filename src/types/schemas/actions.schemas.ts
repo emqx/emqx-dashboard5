@@ -333,7 +333,7 @@ export interface BridgeMqttPublisherPutBridgeV2 {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherActionParameters
-  resource_opts?: ActionsAndSourcesActionResourceOpts
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
 export type BridgeMqttPublisherPostBridgeV2Type =
@@ -353,7 +353,7 @@ export interface BridgeMqttPublisherPostBridgeV2 {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherActionParameters
-  resource_opts?: ActionsAndSourcesActionResourceOpts
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
 export type BridgeMqttPublisherGetBridgeV2Status =
@@ -387,7 +387,27 @@ export interface BridgeMqttPublisherGetBridgeV2 {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherActionParameters
-  resource_opts?: ActionsAndSourcesActionResourceOpts
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
+}
+
+export type BridgeMqttPublisherActionResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeMqttPublisherActionResourceOptsQueryMode =
+  typeof BridgeMqttPublisherActionResourceOptsQueryMode[keyof typeof BridgeMqttPublisherActionResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMqttPublisherActionResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+export interface BridgeMqttPublisherActionResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  query_mode?: BridgeMqttPublisherActionResourceOptsQueryMode
+  request_ttl?: BridgeMqttPublisherActionResourceOptsRequestTtl
+  inflight_window?: number
+  max_buffer_bytes?: string
 }
 
 export type BridgeMqttPublisherActionParametersRetain = string | boolean
@@ -401,6 +421,15 @@ export interface BridgeMqttPublisherActionParameters {
   payload?: string
 }
 
+export interface BridgeHttpPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
+
 export type BridgeHttpPostBridgeV2Type =
   typeof BridgeHttpPostBridgeV2Type[keyof typeof BridgeHttpPostBridgeV2Type]
 
@@ -408,6 +437,17 @@ export type BridgeHttpPostBridgeV2Type =
 export const BridgeHttpPostBridgeV2Type = {
   http: 'http',
 } as const
+
+export interface BridgeHttpPostBridgeV2 {
+  type: BridgeHttpPostBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
 
 export type BridgeHttpParametersOptsHeaders = { [key: string]: any }
 
@@ -432,26 +472,6 @@ export interface BridgeHttpParametersOpts {
   request_timeout?: string
 }
 
-export interface BridgeHttpPutBridgeV2 {
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
-}
-
-export interface BridgeHttpPostBridgeV2 {
-  type: BridgeHttpPostBridgeV2Type
-  name: string
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
-}
-
 export type BridgeHttpGetBridgeV2Type =
   typeof BridgeHttpGetBridgeV2Type[keyof typeof BridgeHttpGetBridgeV2Type]
 
@@ -471,6 +491,20 @@ export const BridgeHttpGetBridgeV2Status = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeHttpGetBridgeV2 {
+  status?: BridgeHttpGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
+
 export type BridgeHttpActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeHttpActionResourceOptsQueryMode =
@@ -488,41 +522,5 @@ export interface BridgeHttpActionResourceOpts {
   query_mode?: BridgeHttpActionResourceOptsQueryMode
   request_ttl?: BridgeHttpActionResourceOptsRequestTtl
   inflight_window?: number
-  max_buffer_bytes?: string
-}
-
-export interface BridgeHttpGetBridgeV2 {
-  status?: BridgeHttpGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeHttpGetBridgeV2Type
-  name: string
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
-}
-
-export type ActionsAndSourcesActionResourceOptsRequestTtl = 'infinity' | string
-
-export type ActionsAndSourcesActionResourceOptsQueryMode =
-  typeof ActionsAndSourcesActionResourceOptsQueryMode[keyof typeof ActionsAndSourcesActionResourceOptsQueryMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ActionsAndSourcesActionResourceOptsQueryMode = {
-  sync: 'sync',
-  async: 'async',
-} as const
-
-export interface ActionsAndSourcesActionResourceOpts {
-  worker_pool_size?: number
-  health_check_interval?: string
-  query_mode?: ActionsAndSourcesActionResourceOptsQueryMode
-  request_ttl?: ActionsAndSourcesActionResourceOptsRequestTtl
-  inflight_window?: number
-  batch_size?: number
-  batch_time?: string
   max_buffer_bytes?: string
 }

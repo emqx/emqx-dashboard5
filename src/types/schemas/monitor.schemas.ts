@@ -11,9 +11,33 @@ export type PutOpentelemetry400 = {
   message?: string
 }
 
+export type GetPrometheusAuth200Two = { [key: string]: any }
+
 export type GetPrometheusStats200Two = { [key: string]: any }
 
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+export type GetPrometheusDataIntegration200Two = { [key: string]: any }
+
+export type EmqxPrometheusApiModeParameter =
+  typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxPrometheusApiModeParameter = {
+  node: 'node',
+  all_nodes_aggregated: 'all_nodes_aggregated',
+  all_nodes_unaggregated: 'all_nodes_unaggregated',
+} as const
+
+export type GetPrometheusAuthParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusDataIntegrationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
 
 export type PrometheusPushGatewayHeaders = { [key: string]: any }
 
@@ -30,6 +54,8 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
