@@ -16,6 +16,13 @@ import bridgeSchemaTextEn from '@/schemaText/bridge-text-en.json'
 import symbolLabelZh from '@/schemaText/symbol-label-zh.json'
 import symbolLabelEn from '@/schemaText/symbol-label-en.json'
 
+import {
+  zhConnectorsLabel,
+  zhActionsLabel,
+  enActionsLabel,
+  enConnectorsLabel,
+} from '@emqx/shared-ui-i18n'
+
 import { get } from 'lodash'
 
 const lang: { [key: string]: any } = {

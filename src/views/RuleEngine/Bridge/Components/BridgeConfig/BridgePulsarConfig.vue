@@ -349,7 +349,7 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const getPulsarText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_pulsar.${key}`)
+const getPulsarText = (key: string) => t(`BridgeSchema.pulsar.${key}`)
 const getLabelProps = (key: string) => ({
   label: getPulsarText(`${snakeCase(key)}.label`),
   desc: getPulsarText(`${snakeCase(key)}.desc`),

@@ -403,7 +403,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl, te } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
+const getText = (key: string) => t(`BridgeSchema.kafka_producer.${key}`)
 const { getOptLabel } = useSymbolLabel()
 
 const { components: producerComponents, schemaLoadPromise } = useSchemaForm(

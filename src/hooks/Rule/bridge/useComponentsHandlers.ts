@@ -50,6 +50,8 @@ export default (
     return rules
   }
 
+  const getI18nPrefix = (type: string) => `BridgeSchema.${type}.`
+
   const createJSONRule = (errorMsg: string) => {
     return {
       trigger: 'blur',
@@ -224,7 +226,7 @@ export default (
     }
 
     if (consumer) {
-      const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_gcp_pubsub.'
+      const i18nPrefix = getI18nPrefix(BridgeType.GCPConsumer)
       const { pubsub_topic, mqtt_topic, qos, payload_template } =
         consumer?.properties?.topic_mapping?.items?.properties || {}
       const properties = [
@@ -299,7 +301,7 @@ export default (
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
       parameters?.properties?.kafka_ext_headers?.items?.properties || {}
-    const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_azure_event_hub.'
+    const i18nPrefix = getI18nPrefix(BridgeType.AzureEventHubs)
     kafka_ext_header_key &&
       setLabelAndDesc(kafka_ext_header_key, `${i18nPrefix}kafka_ext_header_key`)
     kafka_ext_header_value &&
@@ -371,7 +373,8 @@ export default (
         timestamp.default ??= ''
         timestamp.componentProps = { filterable: true, allowCreate: true }
       }
-      const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_iotdb.'
+      const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
+
       Object.entries(dataProps).forEach(([key, value]) =>
         setLabelAndDesc(value, `${i18nPrefix}${key}`),
       )
@@ -416,7 +419,7 @@ export default (
 
     const { parameters } = components
     const properties = parameters?.properties?.data?.items?.properties || {}
-    const i18nPrefix = 'BridgeSchema.emqx_ee_bridge_opents.'
+    const i18nPrefix = getI18nPrefix(BridgeType.OpenTSDB)
     Object.entries(properties).forEach(([key, value]) => {
       setLabelAndDesc(value, `${i18nPrefix}${key}`)
 
