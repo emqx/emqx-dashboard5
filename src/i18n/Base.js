@@ -648,8 +648,8 @@ export default {
     en: 'Upload File',
   },
   csvFileLimit: {
-    zh: '支持 1M 以内的 csv 格式文件，文件中数据不能超过 2000 行',
-    en: 'Supports csv format files within 1M, and the data in the file cannot exceed 2000 lines',
+    zh: '支持 csv 格式文件，文件大小不超过 2MB，文件中数据不能超过 4096 行',
+    en: 'Supports csv format files less than 2MB, and the data in the file cannot exceed 4096 lines',
   },
   enterToCreate: {
     zh: '输入后创建新的自定义条目',
@@ -658,5 +658,9 @@ export default {
   node: {
     zh: '节点',
     en: 'Node',
+  },
+  maxBatchCsvSize: {
+    zh: '文件大小不能超过 {size}MB',
+    en: 'File size cannot exceed {size}MB',
   },
 }
