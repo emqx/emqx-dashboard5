@@ -250,7 +250,7 @@ const addBridgeToAction = (bridgeID: string) => {
 
 const { handleConnDirection, getDetail } = useHandleActionItem()
 
-const processBridge = addBridgeToAction
+const processAction = addBridgeToAction
 
 const processSource = async (sourceId: string) => {
   replaceSQLFrom(`$bridges/${sourceId}`)
@@ -291,11 +291,11 @@ const processConnector = async (
  * @returns {Promise<void>} A promise that resolves when the data is handled.
  */
 const handleDataFromQuery = async () => {
-  const bridgeId = route.query.bridgeId?.toString()
+  const actionId = route.query.actionId?.toString()
   const sourceId = route.query.sourceId?.toString()
 
-  if (bridgeId) {
-    processBridge(bridgeId)
+  if (actionId) {
+    processAction(actionId)
   } else if (sourceId) {
     processSource(sourceId)
   } else {
