@@ -355,4 +355,6 @@ export const WEBHOOK_SUFFIX = '_WH_D'
  */
 export const INTEGRATION_SCHEMA_TYPES = ['bridge', 'connector', 'action', 'source']
 
-export const BATCH_UPLOAD_CSV_MAX_ROWS = 2000
+export const BATCH_UPLOAD_CSV_MAX_ROWS = 4096
+
+export const BATCH_UPLOAD_CSV_MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
