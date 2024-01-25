@@ -304,6 +304,10 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
+export interface BridgeMqttPublisherSourceResourceOpts {
+  health_check_interval?: string
+}
+
 export type BridgeMqttPublisherPostSourceType =
   typeof BridgeMqttPublisherPostSourceType[keyof typeof BridgeMqttPublisherPostSourceType]
 
@@ -323,7 +327,7 @@ export interface BridgeMqttPublisherPutSource {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherIngressParameters
-  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
 
 export interface BridgeMqttPublisherPostSource {
@@ -334,7 +338,7 @@ export interface BridgeMqttPublisherPostSource {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherIngressParameters
-  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
 
 export type BridgeMqttPublisherGetSourceStatus =
@@ -356,10 +360,6 @@ export const BridgeMqttPublisherGetSourceType = {
   mqtt: 'mqtt',
 } as const
 
-export interface ActionsAndSourcesSourceResourceOpts {
-  health_check_interval?: string
-}
-
 export interface BridgeMqttPublisherGetSource {
   type: BridgeMqttPublisherGetSourceType
   name: string
@@ -371,5 +371,5 @@ export interface BridgeMqttPublisherGetSource {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherIngressParameters
-  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }

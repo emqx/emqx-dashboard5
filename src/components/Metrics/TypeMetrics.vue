@@ -263,13 +263,13 @@ watch(
   }
   .el-descriptions .el-descriptions__label,
   .icon-question {
-    color: var(--color-text-placeholder);
+    color: #bac1cd;
   }
   .icon-question {
     margin-left: 2px;
   }
   .el-descriptions .el-descriptions__content {
-    color: var(--color-bg-content);
+    color: #fff;
   }
 }
 </style>

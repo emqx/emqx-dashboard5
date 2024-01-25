@@ -929,7 +929,27 @@ export interface BridgeMqttPublisherGetBridgeV2 {
   tags?: string[]
   description?: string
   parameters: BridgeMqttPublisherActionParameters
-  resource_opts?: ActionsAndSourcesActionResourceOpts
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
+}
+
+export type BridgeMqttPublisherActionResourceOptsRequestTtl = 'infinity' | string
+
+export type BridgeMqttPublisherActionResourceOptsQueryMode =
+  typeof BridgeMqttPublisherActionResourceOptsQueryMode[keyof typeof BridgeMqttPublisherActionResourceOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMqttPublisherActionResourceOptsQueryMode = {
+  sync: 'sync',
+  async: 'async',
+} as const
+
+export interface BridgeMqttPublisherActionResourceOpts {
+  worker_pool_size?: number
+  health_check_interval?: string
+  query_mode?: BridgeMqttPublisherActionResourceOptsQueryMode
+  request_ttl?: BridgeMqttPublisherActionResourceOptsRequestTtl
+  inflight_window?: number
+  max_buffer_bytes?: string
 }
 
 export type BridgeMqttPublisherActionParametersRetain = string | boolean
@@ -1518,6 +1538,20 @@ export const BridgeHttpGetBridgeV2Status = {
   connecting: 'connecting',
   inconsistent: 'inconsistent',
 } as const
+
+export interface BridgeHttpGetBridgeV2 {
+  status?: BridgeHttpGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeHttpGetBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
 
 export type BridgeHttpActionResourceOptsRequestTtl = 'infinity' | string
 
