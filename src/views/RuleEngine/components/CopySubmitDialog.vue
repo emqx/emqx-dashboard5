@@ -16,6 +16,7 @@
       </span>
     </template>
   </el-dialog>
+  <CreateRuleWithConnector v-model="showCreateRuleDialog" :connector="createdConnector" />
 </template>
 
 <script lang="ts" setup>
@@ -28,6 +29,7 @@ import { BridgeItem, Connector, RuleItem } from '@/types/rule'
 import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
 import { PropType, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import CreateRuleWithConnector from '../Connector/components/CreateRuleWithConnector.vue'
 
 interface CopyTarget {
   type: 'bridge' | 'rule' | 'connector'
@@ -106,6 +108,9 @@ const submitConnector = () => {
   })
 }
 
+const showCreateRuleDialog = ref(false)
+const createdConnector = ref(undefined)
+
 const confirmAfterCreatedBridge = (id: string) => {
   if (id) {
     showDialog.value = false
@@ -115,7 +120,7 @@ const confirmAfterCreatedBridge = (id: string) => {
       type: 'success',
     })
       .then(() => {
-        router.push({ name: 'rule-create', query: { bridgeId: id } })
+        router.push({ name: 'rule-create', query: { actionId: id } })
       })
       .catch(() => {
         router.push({ name: 'actions' })
@@ -149,7 +154,9 @@ const submit = async () => {
     } else if (props.target.type === 'bridge') {
       confirmAfterCreatedBridge(res.id)
     } else if (props.target.type === 'connector') {
-      router.push({ name: 'connector' })
+      createdConnector.value = res
+      showDialog.value = false
+      showCreateRuleDialog.value = true
     }
   } catch (error) {
     //
