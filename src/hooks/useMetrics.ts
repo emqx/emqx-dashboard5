@@ -459,7 +459,7 @@ export const useRuleMetrics = (): {
     },
   }
   const textMap = {
-    matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
+    matched: { label: tl('ruleMatched'), desc: tl('bridgeMatchedDesc') },
     passed: { label: tl('passed'), desc: tl('passedDesc') },
     'actions.total': { label: tl('actionsTotal'), desc: tl('actionsTotalDesc') },
     'failed.exception': { label: tl('failedException'), desc: tl('failedExceptionDesc') },
