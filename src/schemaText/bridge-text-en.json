@@ -70,6 +70,30 @@
     },
     "description": {
       "label": "Description"
+    },
+    "tcp_keepalive": {
+      "desc": "Enable TCP keepalive for connector.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
+      "label": "TCP Keepalive"
+    },
+    "sndbuf": {
+      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
+      "label": "Socket Send Buffer Size"
+    },
+    "recbuf": {
+      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
+      "label": "Socket Receive Buffer Size"
+    },
+    "nodelay": {
+      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+      "label": "No Delay"
+    },
+    "pool_type": {
+      "desc": "The type of the pool. Can be one of `random`, `hash`.",
+      "label": "Pool Type"
+    },
+    "max_retries": {
+      "desc": "Max retry times if an error occurs when sending a request.",
+      "label": "Max Retries"
     }
   },
   "http": {
