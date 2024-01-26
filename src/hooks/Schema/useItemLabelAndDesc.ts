@@ -9,6 +9,7 @@ import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import actionText from '@/schemaText/bridge-text-en.json'
 
 type GetTextKey = (prop: Property) => string
 
@@ -40,25 +41,11 @@ const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
 const COMMON_CONNECTOR_ZONE = 'emqx_connector_schema_lib'
-const COMMON_CONNECTOR_KEY = [
-  'auto_reconnect',
-  'password',
-  'pool_size',
-  'prepare_statement',
-  'ssl',
-  'username',
-  'database',
-  'description',
-]
+const COMMON_CONNECTOR_KEY = Object.keys(actionText['emqx_connector_schema_lib'])
 
 const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
   [BridgeType.MatrixDB, 'pgsql'],
   [BridgeType.TimescaleDB, 'pgsql'],
-  [BridgeType.Confluent, 'kafka'],
-  [BridgeType.KafkaProducer, 'kafka'],
-  [BridgeType.GCPProducer, 'gcp_pubsub'],
-  [BridgeType.GCPConsumer, 'gcp_pubsub'],
-  [BridgeType.AzureEventHubs, 'azure_event_hub'],
 ])
 
 const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
@@ -190,7 +177,7 @@ export default (
     if (specifiedType) {
       type = specifiedType
     }
-    return `emqx_ee_bridge_${type}`
+    return type
   }
 
   const getBridgeTextKey = (prop: Property) => {
