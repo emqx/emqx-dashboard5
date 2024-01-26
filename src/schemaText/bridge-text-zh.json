@@ -70,6 +70,30 @@
     },
     "description": {
       "label": "描述"
+    },
+    "tcp_keepalive": {
+      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
+      "label": "TCP Keepalive"
+    },
+    "sndbuf": {
+      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
+      "label": "Socket 发送缓存大小"
+    },
+    "recbuf": {
+      "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
+      "label": "Socket 收包缓存大小"
+    },
+    "nodelay": {
+      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
+      "label": "是否关闭延迟发送"
+    },
+    "pool_type": {
+      "desc": "连接池的类型。可以是`random`、`hash`之一。",
+      "label": "连接池类型"
+    },
+    "max_retries": {
+      "desc": "请求出错时的最大重试次数。",
+      "label": "最大重试次数"
     }
   },
   "http": {
