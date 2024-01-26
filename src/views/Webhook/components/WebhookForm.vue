@@ -53,8 +53,8 @@
         <el-form-item prop="connector.resource_opts.start_timeout">
           <template #label>
             <FormItemLabel
-              :label="t('BridgeSchema.emqx_resource_schema.start_timeout.label')"
-              :desc="t('BridgeSchema.emqx_resource_schema.start_timeout.desc')"
+              :label="t('BridgeSchema.common.start_timeout.label')"
+              :desc="t('BridgeSchema.common.start_timeout.desc')"
             />
           </template>
           <TimeInputWithUnitSelect v-model="formData.connector.resource_opts.start_timeout" />

@@ -40,8 +40,8 @@ const LOG_SPECIAL_KEY_PREFIX_MAP = {
 const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
-const COMMON_CONNECTOR_ZONE = 'emqx_connector_schema_lib'
-const COMMON_CONNECTOR_KEY = Object.keys(actionText['emqx_connector_schema_lib'])
+const COMMON_ZONE = 'common'
+const COMMON_FIELD_KEYS = Object.keys(actionText[COMMON_ZONE])
 
 const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
   [BridgeType.MatrixDB, 'pgsql'],
@@ -166,11 +166,8 @@ export default (
     if (!props.accordingTo?.ref) {
       return ''
     }
-    if (prop.path && prop.path.indexOf('resource_opt') > -1) {
-      return `emqx_resource_schema`
-    }
-    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
-      return COMMON_CONNECTOR_ZONE
+    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey) {
+      return COMMON_ZONE
     }
     let type = getTypeBySchemaRef()
     const specifiedType = BRIDGE_SPECIAL_TYPE_MAP.get(type)

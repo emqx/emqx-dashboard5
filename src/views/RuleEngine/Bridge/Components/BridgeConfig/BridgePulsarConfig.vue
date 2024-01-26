@@ -356,8 +356,8 @@ const getLabelProps = (key: string) => ({
   descMarked: true,
 })
 const getResourceOptLabelProp = (key: string) => ({
-  label: t(`BridgeSchema.emqx_resource_schema.${key}.label`),
-  desc: t(`BridgeSchema.emqx_resource_schema.${key}.desc`),
+  label: t(`BridgeSchema.common.${key}.label`),
+  desc: t(`BridgeSchema.common.${key}.desc`),
   descMarked: true,
 })
 
