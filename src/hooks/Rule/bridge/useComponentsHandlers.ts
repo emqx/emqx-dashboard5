@@ -73,21 +73,6 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
-  const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-    const { parameters } = components
-    if (parameters?.properties?.body?.type === 'string') {
-      parameters.properties.body.format = 'sql'
-    }
-    if (parameters?.properties?.headers?.default) {
-      parameters.properties.headers.default = pick(
-        parameters.properties.headers.default,
-        'content-type',
-      )
-    }
-    return { components, rules }
-  }
-
   const mqttHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
@@ -107,6 +92,21 @@ export default (
     }
     if (payload?.type === 'string') {
       payload.format = 'sql'
+    }
+    return { components, rules }
+  }
+
+  const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components
+    if (parameters?.properties?.body?.type === 'string') {
+      parameters.properties.body.format = 'sql'
+    }
+    if (parameters?.properties?.headers?.default) {
+      parameters.properties.headers.default = pick(
+        parameters.properties.headers.default,
+        'content-type',
+      )
     }
     return { components, rules }
   }
