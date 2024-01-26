@@ -70,6 +70,30 @@
     },
     "description": {
       "label": "Description"
+    },
+    "tcp_keepalive": {
+      "desc": "Enable TCP keepalive for connector.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
+      "label": "TCP Keepalive"
+    },
+    "sndbuf": {
+      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
+      "label": "Socket Send Buffer Size"
+    },
+    "recbuf": {
+      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
+      "label": "Socket Receive Buffer Size"
+    },
+    "nodelay": {
+      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
+      "label": "No Delay"
+    },
+    "pool_type": {
+      "desc": "The type of the pool. Can be one of `random`, `hash`.",
+      "label": "Pool Type"
+    },
+    "max_retries": {
+      "desc": "Max retry times if an error occurs when sending a request.",
+      "label": "Max Retries"
     }
   },
   "mqtt": {
@@ -135,9 +159,6 @@
     "pool_size": {
       "label": "Connection Pool Size"
     },
-    "pool_type": {
-      "label": "Pool Type"
-    },
     "connect_timeout": {
       "label": "Connect Timeout"
     },
@@ -151,9 +172,6 @@
     "path": {
       "label": "URL Path",
       "desc": "The URL path for this Action.<br/>This path will be appended to the Connector's <code>url</code> configuration to form the full URL address.Template with variables is allowed in this option. For example, <code>/room/{'{'}$room_no{'}'}</code>"
-    },
-    "max_retries": {
-      "label": "Max Retries"
     }
   },
   "cassandra": {
@@ -219,10 +237,6 @@
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
     },
-    "max_retries": {
-      "desc": "Max retry times if an error occurs when sending a request.",
-      "label": "Max Retries"
-    },
     "service_account_json": {
       "desc": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
       "label": "GCP Service Account Credentials"
@@ -280,10 +294,6 @@
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
-    },
-    "max_retries": {
-      "desc": "Max retry times if an error occurs when sending a request.",
-      "label": "Max Retries"
     }
   },
   "hstreamdb": {
@@ -354,22 +364,6 @@
     "metadata_request_timeout": {
       "desc": "Maximum wait time when fetching metadata from Kafka.",
       "label": "Metadata Request Timeout"
-    },
-    "sndbuf": {
-      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
-      "label": "Socket Send Buffer Size"
-    },
-    "recbuf": {
-      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
-      "label": "Socket Receive Buffer Size"
-    },
-    "nodelay": {
-      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
-      "label": "No Delay"
-    },
-    "tcp_keepalive": {
-      "desc": "Enable TCP keepalive for connector.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
-      "label": "TCP Keepalive"
     },
     "topic": {
       "desc": "Kafka topic",
@@ -464,22 +458,6 @@
     "metadata_request_timeout": {
       "desc": "Maximum wait time when fetching metadata from Kafka.",
       "label": "Metadata Request Timeout"
-    },
-    "sndbuf": {
-      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
-      "label": "Socket Send Buffer Size"
-    },
-    "recbuf": {
-      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
-      "label": "Socket Receive Buffer Size"
-    },
-    "tcp_keepalive": {
-      "desc": "Enable TCP keepalive for connector.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
-      "label": "TCP Keepalive"
-    },
-    "nodelay": {
-      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
-      "label": "No Delay"
     },
     "topic": {
       "desc": "Kafka topic",
@@ -623,22 +601,6 @@
       "desc": "Defines the time interval between two offset commit requests sent for each consumer group.",
       "label": "Offset Commit Interval"
     },
-    "sndbuf": {
-      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
-      "label": "Socket Send Buffer Size"
-    },
-    "recbuf": {
-      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
-      "label": "Socket Receive Buffer Size"
-    },
-    "tcp_keepalive": {
-      "desc": "Enable TCP keepalive for connector.<br/>The value is a comma-separated list of three numbers in the format of `Idle,Interval,Probes`<br/>- Idle: The number of seconds of idle time needed by a connection before the server begins to send out keep-alive probes (default on Linux is 7200).<br/>- Interval: The number of seconds between TCP keep-alive probes (default on Linux is 75).<br/>- Probes: The maximum number of TCP keep-alive probes to send before considering the connection as closed if no response is received from the other end (default on Linux is 9).<br/>For example \"240,30,5\" means: send TCP keepalive probes after 240 seconds of idle time, and send probes every 30 second. If there are no responses for 5 consecutive attempts, the connection should be closed.<br/>Default: 'none'",
-      "label": "TCP Keepalive"
-    },
-    "nodelay": {
-      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
-      "label": "No Delay"
-    },
     "topic": {
       "desc": "Kafka topic",
       "label": "Kafka Topic"
@@ -712,11 +674,11 @@
       "desc": "The maximum duration that a worker can wait for a connection to become available.",
       "label": "Wait Queue Timeout"
     },
-    "heartbeat_period": {
+    "heartbeat_frequency": {
       "desc": "Controls when the driver checks the state of the MongoDB deployment. Specify the interval between checks, counted from the end of the previous check until the beginning of the next one. If the number of connections is increased (which will happen, for example, if you increase the pool size), you may need to increase this period as well to avoid creating too many log entries in the MongoDB log file.",
       "label": "Heartbeat period"
     },
-    "min_heartbeat_period": {
+    "min_heartbeat_frequency": {
       "desc": "Controls the minimum amount of time to wait between heartbeats.",
       "label": "Minimum Heartbeat Period"
     },
@@ -863,10 +825,6 @@
       "desc": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
       "label": "HTTP Pipelining"
     },
-    "pool_type": {
-      "desc": "The type of the pool. Can be one of `random`, `hash`.",
-      "label": "Pool Type"
-    },
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",
       "label": "Connect Timeout"
@@ -897,10 +855,6 @@
     },
     "data": {
       "label": "Write Data"
-    },
-    "max_retries": {
-      "desc": "HTTP request max retry times if failed.",
-      "label": "HTTP Request Max Retries"
     }
   },
   "opents": {
@@ -1090,18 +1044,6 @@
       "desc": "The Connection String for connecting to Azure Event Hubs. Should be the \"connection string-primary key\" of a Namespace shared access policy.",
       "label": "Connection String"
     },
-    "sndbuf": {
-      "desc": "Fine tune the socket send buffer. The default value is tuned for high throughput.",
-      "label": "Socket Send Buffer Size"
-    },
-    "recbuf": {
-      "desc": "Fine tune the socket receive buffer. The default value is tuned for high throughput.",
-      "label": "Socket Receive Buffer Size"
-    },
-    "tcp_keepalive": {
-      "desc": "Enable TCP keepalive for Azure Event Hubs bridge connections.\nThe value is three comma separated numbers in the format of 'Idle,Interval,Probes'\n - Idle: The number of seconds a connection needs to be idle before the server begins to send out keep-alive probes (Linux default 7200).\n - Interval: The number of seconds between TCP keep-alive probes (Linux default 75).\n - Probes: The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is obtained from the other end (Linux default 9).\nFor example \"240,30,5\" means: TCP keepalive probes are sent after the connection is idle for 240 seconds, and the probes are sent every 30 seconds until a response is received, if it misses 5 consecutive responses, the connection should be closed.\nDefault: 'none'",
-      "label": "TCP keepalive options"
-    },
     "topic": {
       "desc": "Event Hub name",
       "label": "Event Hub Name"
@@ -1177,10 +1119,6 @@
     "memory_overload_protection": {
       "desc": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
       "label": "Memory Overload Protection"
-    },
-    "nodelay": {
-      "desc": "When set to `true`, TCP buffer is sent as soon as possible. Otherwise, the OS kernel may buffer small TCP packets for a while (40 ms by default).",
-      "label": "No Delay"
     }
   },
   "kinesis": {
@@ -1207,10 +1145,6 @@
     "partition_key": {
       "desc": "The Amazon Kinesis Partition Key associated to published message. Placeholders in format of ${'{'}var{'}'} are supported.",
       "label": "Partition key"
-    },
-    "max_retries": {
-      "desc": "Max retry times if an error occurs when sending a request.",
-      "label": "Max Retries"
     }
   },
   "greptimedb": {
@@ -1306,17 +1240,9 @@
       "desc": "Overwrites the document if it already exists, otherwise the write will fail.",
       "label": "Overwrite Document"
     },
-    "max_retries": {
-      "desc": "Maximum number of retries when a request fails.",
-      "label": "Max Retries"
-    },
     "enable_pipelining": {
       "desc": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
       "label": "HTTP Pipelining"
-    },
-    "pool_type": {
-      "desc": "The type of the pool. Can be one of `random`, `hash`.",
-      "label": "Pool Type"
     },
     "connect_timeout": {
       "desc": "The timeout when connecting to the HTTP server.",

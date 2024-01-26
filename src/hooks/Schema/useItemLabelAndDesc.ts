@@ -48,11 +48,6 @@ const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
   [BridgeType.TimescaleDB, 'pgsql'],
 ])
 
-const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
-  heartbeat_frequency: 'heartbeat_period',
-  min_heartbeat_frequency: 'min_heartbeat_period',
-}
-
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
 } => {
@@ -186,9 +181,6 @@ export default (
     if (type === BridgeType.MongoDB) {
       if (key.match(/_ms$/)) {
         key = key.slice(0, -'_ms'.length)
-      }
-      if (key in MONGO_SPECIAL_KEY_MAP) {
-        key = MONGO_SPECIAL_KEY_MAP[key]
       }
     }
     return prop.labelKey || key

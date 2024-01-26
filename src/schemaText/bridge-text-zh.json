@@ -70,6 +70,30 @@
     },
     "description": {
       "label": "描述"
+    },
+    "tcp_keepalive": {
+      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
+      "label": "TCP Keepalive"
+    },
+    "sndbuf": {
+      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
+      "label": "Socket 发送缓存大小"
+    },
+    "recbuf": {
+      "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
+      "label": "Socket 收包缓存大小"
+    },
+    "nodelay": {
+      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
+      "label": "是否关闭延迟发送"
+    },
+    "pool_type": {
+      "desc": "连接池的类型。可以是`random`、`hash`之一。",
+      "label": "连接池类型"
+    },
+    "max_retries": {
+      "desc": "请求出错时的最大重试次数。",
+      "label": "最大重试次数"
     }
   },
   "mqtt": {
@@ -132,12 +156,6 @@
     "enable_pipelining": {
       "label": "HTTP 管道"
     },
-    "pool_size": {
-      "label": "连接池大小"
-    },
-    "pool_type": {
-      "label": "连接池类型"
-    },
     "connect_timeout": {
       "label": "连接超时"
     },
@@ -151,9 +169,6 @@
     "path": {
       "label": "URL 路径",
       "desc": "此操作的 URL 路径。<br/>此路径将附加到连接器的 <code>url</code> 配置中，以形成完整的 URL 地址。此选项中允许使用带有变量的模板。 例如，<code>/room/{'{'}$room_no{'}'}</code>"
-    },
-    "max_retries": {
-      "label": "最大重试次数"
     }
   },
   "cassandra": {
@@ -176,7 +191,7 @@
       "label": "分隔符"
     },
     "connect_timeout": {
-      "desc": "连接HTTP服务器的超时时间。",
+      "desc": "连接 HTTP 服务器的超时时间。",
       "label": "连接超时"
     },
     "url": {
@@ -218,10 +233,6 @@
     "connect_timeout": {
       "desc": "连接 HTTP 服务器的超时时间。",
       "label": "连接超时"
-    },
-    "max_retries": {
-      "desc": "请求出错时的最大重试次数。",
-      "label": "最大重试次数"
     },
     "service_account_json": {
       "desc": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
@@ -280,10 +291,6 @@
     "connect_timeout": {
       "desc": "连接 HTTP 服务器的超时时间。",
       "label": "连接超时"
-    },
-    "max_retries": {
-      "desc": "请求出错时的最大重试次数。",
-      "label": "最大重试次数"
     }
   },
   "hstreamdb": {
@@ -354,22 +361,6 @@
     "metadata_request_timeout": {
       "desc": "刷新元数据时最大等待时长。",
       "label": "元数据请求超时"
-    },
-    "sndbuf": {
-      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 发送缓存大小"
-    },
-    "recbuf": {
-      "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 收包缓存大小"
-    },
-    "nodelay": {
-      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
-      "label": "是否关闭延迟发送"
-    },
-    "tcp_keepalive": {
-      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
-      "label": "TCP Keepalive"
     },
     "topic": {
       "desc": "Kafka 主题名称",
@@ -464,22 +455,6 @@
     "metadata_request_timeout": {
       "desc": "刷新元数据时最大等待时长。",
       "label": "元数据请求超时"
-    },
-    "sndbuf": {
-      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 发送缓存大小"
-    },
-    "recbuf": {
-      "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 收包缓存大小"
-    },
-    "tcp_keepalive": {
-      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
-      "label": "TCP Keepalive"
-    },
-    "nodelay": {
-      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
-      "label": "是否关闭延迟发送"
     },
     "topic": {
       "desc": "Kafka 主题名称",
@@ -623,22 +598,6 @@
       "desc": "指定 Kafka 消费组偏移量提交的时间间隔。",
       "label": "偏移提交间隔"
     },
-    "sndbuf": {
-      "desc": "TCP socket 的发送缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 发送缓存大小"
-    },
-    "recbuf": {
-      "desc": "TCP socket 的收包缓存调优。默认值是针对高吞吐量的一个推荐值。",
-      "label": "Socket 收包缓存大小"
-    },
-    "tcp_keepalive": {
-      "desc": "启用连接器的 TCP keepalive。<br/>该值是三个逗号分隔的数字，格式为`空闲时间,间隔时间,尝试次数`<br/>- 空闲时间：连接在服务器开始发送 keep-alive 探测之前需要空闲的秒数（Linux 默认为 7200）。<br/>- 间隔时间：TCP keep-alive 探测之间的秒数（Linux 默认为 75）。<br/>- 尝试次数：在从另一端获得响应之前发送的 TCP keep-alive 探测的最大次数（Linux 默认为 9）。<br/>例如，\"240,30,5\" 表示：在连接空闲 240 秒后发送 TCP keepalive 探测，并在每隔 30 秒发送一次探测，如果连续 5 次没有响应，则应该关闭连接。<br/>默认值：'none'",
-      "label": "TCP Keepalive"
-    },
-    "nodelay": {
-      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
-      "label": "是否关闭延迟发送"
-    },
     "topic": {
       "desc": "Kafka 主题名称",
       "label": "Kafka 主题名称"
@@ -712,11 +671,11 @@
       "desc": "工作者等待连接可用的最长时间。",
       "label": "等待队列超时"
     },
-    "heartbeat_period": {
+    "heartbeat_frequency": {
       "desc": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
       "label": "心跳期"
     },
-    "min_heartbeat_period": {
+    "min_heartbeat_frequency": {
       "desc": "心跳间的最小间隙",
       "label": "最小心跳周期"
     },
@@ -863,10 +822,6 @@
       "desc": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
       "label": "HTTP 流水线"
     },
-    "pool_type": {
-      "desc": "连接池的类型。可以是`random`、`hash`之一。",
-      "label": "连接池类型"
-    },
     "connect_timeout": {
       "desc": "连接到 HTTP 服务器时的超时时间。",
       "label": "连接超时"
@@ -897,10 +852,6 @@
     },
     "data": {
       "label": "写入数据"
-    },
-    "max_retries": {
-      "desc": "如果失败，HTTP 请求的最大重试次数。",
-      "label": "HTTP 请求最大重试次数"
     }
   },
   "opents": {
@@ -1090,18 +1041,6 @@
       "desc": "用于连接到 Azure Event Hubs 的连接字符串。应为命名空间共享访问策略的 “连接字符串 - 主键”。",
       "label": "连接字符串"
     },
-    "sndbuf": {
-      "desc": "调整套接字发送缓冲区。默认值针对高吞吐量进行了调整。",
-      "label": "套接字发送缓冲区大小"
-    },
-    "recbuf": {
-      "desc": "调整套接字接收缓冲区。默认值针对高吞吐量进行了调整。",
-      "label": "套接字接收缓冲区大小"
-    },
-    "tcp_keepalive": {
-      "desc": "启用 Azure Event Hubs 桥接连接的 TCP 保活。\n该值是以“Idle，Interval，Probes”格式的三个逗号分隔数字\n - Idle：连接在开始发送保活探测之前需要处于空闲状态的秒数（Linux默认为7200）。\n - Interval：TCP保活探测之间的秒数（Linux默认为75）。\n - Probes：在未从另一端获得响应的情况下发送的最大TCP保活探测次数（Linux默认为9）。\n例如，“240，30，5”表示：在连接空闲240秒后，发送TCP保活探测，并且在连续5次未获得响应时，应关闭连接。\n默认值：“none”",
-      "label": "TCP保活选项"
-    },
     "topic": {
       "desc": "事件中心名称",
       "label": "事件中心名称"
@@ -1177,10 +1116,6 @@
     "memory_overload_protection": {
       "desc": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。",
       "label": "内存过载保护"
-    },
-    "nodelay": {
-      "desc": "设置 `true` 让系统内核立即发送。否则当需要发送的内容很少时，可能会有一定延迟（默认 40 毫秒）。",
-      "label": "是否关闭延迟发送"
     }
   },
   "kinesis": {
@@ -1207,10 +1142,6 @@
     "partition_key": {
       "desc": "与发布的消息关联的 Amazon Kinesis 分区键。支持 ${'{'}var{'}'} 格式的占位符。",
       "label": "分区键"
-    },
-    "max_retries": {
-      "desc": "在发送请求时发生错误的最大重试次数。",
-      "label": "最大重试次数"
     }
   },
   "greptimedb": {
@@ -1306,17 +1237,9 @@
       "desc": "当文档已经存在时覆盖文档，否则文档将写入失败。",
       "label": "是否覆盖文档"
     },
-    "max_retries": {
-      "desc": "请求出错时的最大重试次数。",
-      "label": "最大重试次数"
-    },
     "enable_pipelining": {
       "desc": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
       "label": "HTTP 流水线"
-    },
-    "pool_type": {
-      "desc": "连接池的类型。可以是`random`、`hash`之一。",
-      "label": "连接池类型"
     },
     "connect_timeout": {
       "desc": "连接到 HTTP 服务器时的超时时间。",

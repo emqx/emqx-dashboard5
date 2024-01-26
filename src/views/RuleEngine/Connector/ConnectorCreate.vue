@@ -228,31 +228,6 @@ const checkProps = () => {
   }
 }
 checkProps()
-
-const waitAMoment = (ms = 100): Promise<boolean> => {
-  return new Promise((resolve) => {
-    window.setTimeout(() => {
-      resolve(true)
-    }, ms)
-  })
-}
-window.setTimeout(() => {
-  const typeRadioList = Array.from(document.querySelectorAll('.el-radio-group .el-col-8'))
-  typeRadioList.reduce(async (pre, item) => {
-    await pre
-    const input = item.querySelector('input')
-    selectedType.value = input?.getAttribute('value')
-
-    await waitAMoment(100)
-    document.querySelector('.form-ft .el-button--primary')?.click?.()
-
-    await waitAMoment(1000)
-    document.querySelector('.form-ft :first-child')?.click?.()
-
-    await waitAMoment(100)
-    return Promise.resolve()
-  }, Promise.resolve())
-}, 2000)
 </script>
 
 <style lang="scss">
