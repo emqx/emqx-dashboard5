@@ -127,7 +127,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { tl } = useI18nTl('BridgeSchema.emqx_resource_schema')
+const { tl } = useI18nTl('BridgeSchema.common')
 
 const resourceOptForm = computed({
   get() {
