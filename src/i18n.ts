@@ -8,8 +8,6 @@ import enLocale from 'element-plus/es/locale/lang/en'
 import schemaTextZh from '@/schemaText/schema-text-zh.json'
 import schemaTextEn from '@/schemaText/schema-text-en.json'
 
-import resourceOptSchemaZh from '@/schemaText/resource-opt-schema-zh.json'
-import resourceOptSchemaEn from '@/schemaText/resource-opt-schema-en.json'
 import bridgeSchemaTextZh from '@/schemaText/bridge-text-zh.json'
 import bridgeSchemaTextEn from '@/schemaText/bridge-text-en.json'
 
@@ -42,8 +40,8 @@ Array.prototype.forEach.call(translations.keys(), (path) => {
 lang.en.ConfigSchema = schemaTextEn
 lang.zh.ConfigSchema = schemaTextZh
 
-lang.en.BridgeSchema = { ...resourceOptSchemaEn, ...bridgeSchemaTextEn }
-lang.zh.BridgeSchema = { ...resourceOptSchemaZh, ...bridgeSchemaTextZh }
+lang.en.BridgeSchema = bridgeSchemaTextEn
+lang.zh.BridgeSchema = bridgeSchemaTextZh
 
 lang.en.SchemaSymbolLabel = symbolLabelEn
 lang.zh.SchemaSymbolLabel = symbolLabelZh
