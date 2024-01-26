@@ -137,7 +137,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_http.${key}`)
+const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
 const FormCom = ref()
 const TriggerCom = ref()

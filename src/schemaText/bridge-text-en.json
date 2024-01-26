@@ -32,7 +32,7 @@
       "label": "Description"
     }
   },
-  "emqx_ee_bridge_http": {
+  "http": {
     "url": {
       "label": "URL",
       "desc": "The URL of the HTTP Connector.<br/>Template with variables is allowed in the path, but variables cannot be used in the host or port part.<br/>For example, `http://localhost:9901/${'{'}topic{'}'}` is allowed, but`http://${'{'}host{'}'}:9901/message` or `http://localhost:${'{'}port{'}'}/message`is not allowed."
@@ -67,7 +67,7 @@
       "label": "Max Retries"
     }
   },
-  "emqx_ee_bridge_mqtt": {
+  "mqtt": {
     "server": {
       "label": "MQTT Broker"
     },
