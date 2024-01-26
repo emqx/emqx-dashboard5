@@ -30,7 +30,7 @@
           <el-table-column prop="node" :label="tl('name')" />
           <el-table-column prop="metrics.matched">
             <template #header>
-              <span>{{ tl('matched') }}</span>
+              <span>{{ tl('ruleMatched') }}</span>
               <InfoTooltip :content="tl('sqlMatchedDesc')" />
             </template>
           </el-table-column>
@@ -44,13 +44,13 @@
           <el-table-column prop="metrics['failed.exception']">
             <template #header>
               <span>{{ $t('Base.failed') }}</span>
-              <InfoTooltip :content="tl('sqlFailedDesc')" />
+              <InfoTooltip :content="tl('failedExceptionDesc')" />
             </template>
           </el-table-column>
           <el-table-column prop="metrics['failed.no_result']">
             <template #header>
-              <span>{{ tl('sqlNoResult') }}</span>
-              <InfoTooltip :content="tl('sqlNoResultDesc')" />
+              <span>{{ tl('failedNoResult') }}</span>
+              <InfoTooltip :content="tl('failedNoResultDesc')" />
             </template>
           </el-table-column>
           <el-table-column prop="metrics['matched.rate']">

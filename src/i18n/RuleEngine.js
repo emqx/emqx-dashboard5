@@ -275,6 +275,10 @@ export default {
     zh: '命中',
     en: 'Matched',
   },
+  ruleMatched: {
+    zh: '规则命中总数',
+    en: 'Rule Matched',
+  },
   sqlMatchedDesc: {
     zh: '规则启用后的执行次数',
     en: 'The number of executions after the rule is enabled',
@@ -282,10 +286,6 @@ export default {
   bridgeMatchedDesc: {
     zh: '动作执行的次数',
     en: 'Counts of actions executed',
-  },
-  sqlFailedDesc: {
-    zh: '因语法或函数调用失败导致执行失败',
-    en: 'Execution failed due to syntax or function call failure',
   },
   sqlNoResult: {
     zh: '无结果',
