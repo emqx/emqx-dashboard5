@@ -8,6 +8,7 @@ import {
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import actionText from '@/schemaText/bridge-text-en.json'
 
 type GetTextKey = (prop: Property) => string
 
@@ -37,16 +38,8 @@ const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
 const COMMON_CONNECTOR_ZONE = 'emqx_connector_schema_lib'
-const COMMON_CONNECTOR_KEY = [
-  'auto_reconnect',
-  'password',
-  'pool_size',
-  'prepare_statement',
-  'ssl',
-  'username',
-  'database',
-  'description',
-]
+const COMMON_CONNECTOR_KEY = Object.keys(actionText['emqx_connector_schema_lib'])
+
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
 } => {
@@ -144,7 +137,7 @@ export default (
       return COMMON_CONNECTOR_ZONE
     }
     const type = getTypeBySchemaRef()
-    return `emqx_ee_bridge_${type}`
+    return type
   }
 
   const getBridgeTextKey = (prop: Property) => {

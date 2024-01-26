@@ -12,8 +12,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
+import { useStore } from 'vuex'
 
 const showAdvancedSettings = ref(false)
+const { getters } = useStore()
+/**
+ * default show advanced settings to find issue in time
+ */
+if (getters.isDev) {
+  showAdvancedSettings.value = true
+}
 </script>
 
 <style lang="scss" scoped>

@@ -32,7 +32,7 @@
       "label": "描述"
     }
   },
-  "emqx_ee_bridge_http": {
+  "http": {
     "url": {
       "label": "URL",
       "desc": "HTTP 连接器的 URL。<br/>路径中支持占位符，但在主机或端口部分中不能使用占位符。<br/>例如，`http://localhost:9901/${'{'}topic{'}'}` 是允许的，但是 `http://${'{'}host{'}'}:9901/message` 或 `http://localhost:${'{'}port{'}'}/message `不允许。"
@@ -67,7 +67,7 @@
       "label": "最大重试次数"
     }
   },
-  "emqx_ee_bridge_mqtt": {
+  "mqtt": {
     "server": {
       "label": "MQTT 服务地址"
     },
