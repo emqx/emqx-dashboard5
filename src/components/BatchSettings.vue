@@ -69,7 +69,7 @@ import Papa from 'papaparse'
 import { ElMessage } from 'element-plus'
 import { ElUpload } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BATCH_UPLOAD_CSV_MAX_ROWS, BATCH_UPLOAD_CSV_MAX_FILE_SIZE } from '@/common/constants'
+import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
 import { createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import useDocLink from '@/hooks/useDocLink'
 
@@ -261,12 +261,6 @@ async function importData() {
   try {
     if (fileList.value.length > 0) {
       const file = fileList.value[0].raw
-      if (file.size > BATCH_UPLOAD_CSV_MAX_FILE_SIZE) {
-        ElMessage.error(
-          t('Base.maxBatchCsvSize', { size: BATCH_UPLOAD_CSV_MAX_FILE_SIZE / 1024 / 1024 }),
-        )
-        return
-      }
       const data = await readFileAndParse(file)
       let res: any
       if (props.type === BatchSettingDatabaseType.InfluxDB) {
