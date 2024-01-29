@@ -23,7 +23,7 @@ export const getPasswordHashAlgorithmObj = (): {
     salt_rounds: '10',
     // when name is pbkdf2
     mac_fun: 'sha256',
-    iterations: 4096,
+    iterations: 2048,
     dk_length: '',
   },
 })
