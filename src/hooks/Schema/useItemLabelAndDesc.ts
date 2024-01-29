@@ -9,7 +9,7 @@ import { BridgeType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import actionText from '@/schemaText/bridge-text-en.json'
+import actionText from '@/schemaText/actionText/index'
 
 type GetTextKey = (prop: Property) => string
 
@@ -41,7 +41,7 @@ const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
 const COMMON_ZONE = 'common'
-const COMMON_FIELD_KEYS = Object.keys(actionText[COMMON_ZONE])
+const COMMON_FIELD_KEYS = Object.keys(actionText.en.common)
 
 const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
   [BridgeType.MatrixDB, 'pgsql'],
@@ -172,19 +172,7 @@ export default (
     return type
   }
 
-  const getBridgeTextKey = (prop: Property) => {
-    const type = getTypeBySchemaRef()
-    let key = prop.key
-    if (!key) {
-      return
-    }
-    if (type === BridgeType.MongoDB) {
-      if (key.match(/_ms$/)) {
-        key = key.slice(0, -'_ms'.length)
-      }
-    }
-    return prop.labelKey || key
-  }
+  const getBridgeTextKey = (prop: Property) => prop.key && (prop.labelKey || prop.key)
 
   const getBridgeFormItemTextKey = (prop: Property) => {
     return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`

@@ -106,7 +106,7 @@ export default (): {
     const handleFunction = isTrueAction
       ? handleActionDataBeforeSubmit
       : handleBridgeDataBeforeSubmit
-    const dataForSubmit = await handleFunction(data)
+    const dataForSubmit = await handleFunction(data as any)
     return request(dataForSubmit as any) as Promise<T>
   }
 

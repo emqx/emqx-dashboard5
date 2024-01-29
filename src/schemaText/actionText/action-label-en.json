@@ -1,0 +1,282 @@
+{
+  "common": {
+    "description": "Description",
+    "query_mode": "Query Mode",
+    "ssl": "Enable SSL"
+  },
+  "mqtt": {
+    "server": "MQTT Broker",
+    "proto_ver": "MQTT Version",
+    "bridge_mode": "Bridge Mode",
+    "clean_start": "Clean start",
+    "keepalive": "Keep Alive",
+    "retry_interval": "Message Retry Interval",
+    "clientid_prefix": "ClientID Prefix",
+    "max_inflight": "Max Inflight",
+    "topic": "Topic",
+    "source_topic": "Topic",
+    "qos": "QoS",
+    "retain": "Retain",
+    "payload": "Payload"
+  },
+  "http": {
+    "connect_timeout": "Connect Timeout"
+  },
+  "cassandra": {
+    "keyspace": "Keyspace",
+    "servers": "Servers",
+    "cql": "CQL Template"
+  },
+  "clickhouse": {
+    "batch_value_separator": "Batch Value Separator",
+    "connect_timeout": "Clickhouse Timeout",
+    "url": "Server URL",
+    "sql": "SQL Template"
+  },
+  "dynamo": {
+    "template": "Template",
+    "url": "DynamoDB Endpoint",
+    "table": "Table ",
+    "aws_access_key_id": "AWS Access Key ID",
+    "aws_secret_access_key": "AWS Secret Access Key"
+  },
+  "gcp_pubsub_consumer": {
+    "consumer_pubsub_topic": "GCP PubSub Topic",
+    "consumer_mqtt_topic": "MQTT Topic",
+    "consumer_qos": "QoS",
+    "payload_template": "Payload Template",
+    "pipelining": "HTTP Pipelining",
+    "service_account_json": "GCP Service Account Credentials",
+    "topic_mapping": "Topic Mapping",
+    "pull_max_messages": "Maximum Messages to Pull",
+    "connect_timeout": "Connect Timeout"
+  },
+  "gcp_pubsub_producer": {
+    "connect_timeout": "Connect Timeout"
+  },
+  "hstreamdb": {
+    "url": "HStreamDB Server URL",
+    "stream": "HStreamDB Stream Name",
+    "partition_key": "HStreamDB Partition Key",
+    "grpc_timeout": "HStreamDB gRPC Timeout",
+    "record_template": "HStream Record Template"
+  },
+  "influxdb": {
+    "server": "Server Host",
+    "parameters": "Version of InfluxDB",
+    "token": "Token",
+    "org": "Organization",
+    "bucket": "Bucket",
+    "influxdb_type": "Version of InfluxDB",
+    "write_syntax": "Write Syntax",
+    "precision": "Time Precision"
+  },
+  "confluent_producer": {
+    "connect_timeout": "Connect Timeout",
+    "bootstrap_hosts": "Bootstrap Hosts",
+    "min_metadata_refresh_interval": "Min Metadata Refresh Interval",
+    "metadata_request_timeout": "Metadata Request Timeout",
+    "topic": "Kafka Topic",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Header Value Encode Mode",
+    "kafka_ext_headers": "More Kafka Headers",
+    "key": "Message Key",
+    "value": "Message Value",
+    "partition_strategy": "Partition Strategy",
+    "max_batch_bytes": "Max Batch Bytes",
+    "required_acks": "Required Acks",
+    "partition_count_refresh_interval": "Partition Count Refresh Interval",
+    "max_inflight": "Max Inflight",
+    "sync_query_timeout": "Synchronous Query Timeout",
+    "mode": "Buffer Mode",
+    "per_partition_limit": "Per-partition Buffer Limit",
+    "segment_bytes": "Segment File Bytes",
+    "memory_overload_protection": "Memory Overload Protection",
+    "compression": "Compression"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "Bootstrap Hosts",
+    "authentication": "Authentication",
+    "connect_timeout": "Connect Timeout",
+    "min_metadata_refresh_interval": "Min Metadata Refresh Interval",
+    "metadata_request_timeout": "Metadata Request Timeout",
+    "kafka_message_timestamp": "Message Timestamp",
+    "topic": "Kafka Topic",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Header Value Encode Mode",
+    "kafka_ext_headers": "More Kafka Headers",
+    "key": "Message Key",
+    "value": "Message Value",
+    "compression": "Compression",
+    "partition_strategy": "Partition Strategy",
+    "max_batch_bytes": "Max Batch Bytes",
+    "required_acks": "Required Acks",
+    "partition_count_refresh_interval": "Partition Count Refresh Interval",
+    "max_inflight": "Max Inflight",
+    "sync_query_timeout": "Synchronous Query Timeout",
+    "mode": "Buffer Mode",
+    "per_partition_limit": "Per-partition Buffer Limit",
+    "segment_bytes": "Segment File Bytes",
+    "memory_overload_protection": "Memory Overload Protection"
+  },
+  "kafka_consumer": {
+    "bootstrap_hosts": "Bootstrap Hosts",
+    "consumer_key_encoding_mode": "Key Encoding Mode",
+    "consumer_value_encoding_mode": "Value Encoding Mode",
+    "consumer_topic_mapping": "Topic Mapping",
+    "consumer_offset_reset_policy": "Offset Reset Policy",
+    "consumer_mqtt_topic": "MQTT Topic",
+    "min_metadata_refresh_interval": "Min Metadata Refresh Interval",
+    "metadata_request_timeout": "Metadata Request Timeout",
+    "connect_timeout": "Connect Timeout",
+    "consumer_max_batch_bytes": "Fetch Bytes",
+    "consumer_offset_commit_interval_seconds": "Offset Commit Interval",
+    "topic": "Kafka Topic",
+    "mqtt_topic": "MQTT Topic",
+    "qos": "QoS",
+    "payload_template": "MQTT Payload Template"
+  },
+  "mongodb": {
+    "mongo_type": "MongoDB Mode",
+    "server": "Server Host",
+    "servers": "Servers"
+  },
+  "mysql": {
+    "server": "Server Host",
+    "sql": "SQL Template"
+  },
+  "pgsql": {
+    "server": "Server Host",
+    "sql": "SQL Template"
+  },
+  "redis": {
+    "server": "Server Host",
+    "redis_type": "Redis Mode",
+    "servers": "Servers"
+  },
+  "rocketmq": {
+    "servers": "Server Host",
+    "access_key": "AccessKey",
+    "secret_key": "SecretKey",
+    "security_token": "Security Token",
+    "topic": "RocketMQ Topic",
+    "refresh_interval": "Topic Route Refresh Interval",
+    "send_buffer": "Send Buffer Size",
+    "template": "Template",
+    "sync_timeout": "Sync Timeout"
+  },
+  "tdengine": {
+    "server": "Server Host",
+    "sql": "SQL Template"
+  },
+  "sqlserver": {
+    "server": "Server Host",
+    "driver": "SQL Server Driver Name",
+    "sql": "SQL Template"
+  },
+  "iotdb": {
+    "base_url": "IoTDB REST Service Base URL",
+    "iotdb_version": "IoTDB Version",
+    "enable_pipelining": "HTTP Pipelining",
+    "connect_timeout": "Connect Timeout",
+    "timestamp": "Timestamp",
+    "measurement": "Measurement",
+    "data_type": "Data Type",
+    "value": "Value",
+    "device_id": "Device ID",
+    "is_aligned": "Align Timeseries",
+    "data": "Write Data"
+  },
+  "opents": {
+    "server": "URL",
+    "summary": "Summary",
+    "details": "Details",
+    "data": "Write Data",
+    "timestamp": "Timestamp",
+    "metric": "Metric",
+    "tags": "Tags",
+    "value": "Value"
+  },
+  "oracle": {
+    "server": "Server Host",
+    "sid": "Oracle Database SID",
+    "sql": "SQL Template",
+    "service_name": "Oracle Database Service Name"
+  },
+  "rabbitmq": {
+    "server": "Server",
+    "port": "Port",
+    "exchange": "Exchange",
+    "routing_key": "Routing Key",
+    "virtual_host": "Virtual Host",
+    "heartbeat": "Heartbeat",
+    "delivery_mode": "Message Delivery Mode",
+    "wait_for_publish_confirmations": "Wait for Publish Confirmations",
+    "publish_confirmation_timeout": "Publish Confirmation Timeout",
+    "timeout": "Connection Timeout",
+    "payload_template": "Payload Template"
+  },
+  "pulsar": {
+    "servers": "Servers",
+    "pulsar_topic": "Pulsar Topic Name",
+    "strategy": "Partition Strategy",
+    "compression": "Compression",
+    "message_key": "Message Key",
+    "message_value": "Message Value",
+    "sync_timeout": "Sync Publish Timeout",
+    "retention_period": "Retention Period",
+    "send_buffer": "Socket Send Buffer Size",
+    "max_batch_bytes": "Max Batch Bytes",
+    "connect_timeout": "Connect Timeout",
+    "buffer_mode": "Buffer Mode",
+    "buffer_per_partition_limit": "Per-partition Buffer Limit",
+    "buffer_segment_bytes": "Segment File Bytes",
+    "buffer_memory_overload_protection": "Memory Overload Protection",
+    "authentication_jwt": "JWT"
+  },
+  "azure_event_hub_producer": {
+    "connect_timeout": "Connect Timeout",
+    "min_metadata_refresh_interval": "Min Metadata Refresh Interval",
+    "metadata_request_timeout": "Metadata Request Timeout",
+    "connection_string": "Connection String",
+    "sync_query_timeout": "Synchronous Query Timeout",
+    "kafka_ext_header_key": "Key",
+    "kafka_ext_header_value": "Value"
+  },
+  "kinesis": {
+    "payload_template": "Payload template",
+    "aws_access_key_id": "AWS Access Key ID",
+    "aws_secret_access_key": "AWS Secret Access Key",
+    "endpoint": "Amazon Kinesis Endpoint",
+    "stream_name": "Amazon Kinesis Stream",
+    "partition_key": "Partition key"
+  },
+  "greptimedb": {
+    "server": "Server Host",
+    "dbname": "Database",
+    "precision": "Time Precision",
+    "write_syntax": "Write Syntax"
+  },
+  " eeper_proxy": {
+    "listen": "Listen Address",
+    "acceptors": "Acceptors",
+    "handshake_timeout": "Handshake Timeout"
+  },
+  "syskeeper_forwarder": {
+    "server": "Server"
+  },
+  "elasticsearch": {
+    "server": "Server",
+    "routing": "Routing",
+    "parameters": "Action",
+    "action": "Action",
+    "wait_for_active_shards": "Wait For Active Shards",
+    "index": "Index Name",
+    "id": "Document ID",
+    "doc": "Document Template",
+    "overwrite": "Overwrite Document",
+    "enable_pipelining": "HTTP Pipelining",
+    "connect_timeout": "Connect Timeout",
+    "doc_as_upsert": "Enable Upsert"
+  }
+}

@@ -194,7 +194,7 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="batch_size" :readonly="readonly">
             <template #label>
-              <FormItemLabel v-bind="getLabelProps('batch_size')" />
+              <FormItemLabel v-bind="getResourceOptLabelProp('batch_size')" />
             </template>
             <el-input v-model="formData.batch_size" />
           </CustomFormItem>

@@ -1,0 +1,282 @@
+{
+  "common": {
+    "description": "描述",
+    "query_mode": "请求模式",
+    "ssl": "启用SSL"
+  },
+  "mqtt": {
+    "server": "MQTT 服务地址",
+    "proto_ver": "MQTT 协议版本",
+    "bridge_mode": "桥接模式",
+    "clean_start": "清除会话",
+    "keepalive": "Keep Alive",
+    "retry_interval": "消息重发间隔",
+    "clientid_prefix": "客户端 ID 前缀",
+    "max_inflight": "飞行窗口",
+    "topic": "主题",
+    "source_topic": "主题",
+    "qos": "QoS",
+    "retain": "Retain",
+    "payload": "消息模板"
+  },
+  "http": {
+    "connect_timeout": "连接超时"
+  },
+  "cassandra": {
+    "keyspace": "Keyspace",
+    "servers": "Servers",
+    "cql": "CQL 模板"
+  },
+  "clickhouse": {
+    "batch_value_separator": "分隔符",
+    "connect_timeout": "连接超时",
+    "url": "服务器 URL",
+    "sql": "SQL 模板"
+  },
+  "dynamo": {
+    "template": "模板",
+    "url": "DynamoDB 地址",
+    "table": "表",
+    "aws_access_key_id": "连接访问 ID",
+    "aws_secret_access_key": "连接访问密钥"
+  },
+  "gcp_pubsub_consumer": {
+    "consumer_pubsub_topic": "GCP PubSub 主题",
+    "consumer_mqtt_topic": "MQTT 主题",
+    "consumer_qos": "QoS",
+    "payload_template": "HTTP 请求消息体模板",
+    "pipelining": "HTTP 流水线",
+    "service_account_json": "GCP 服务账户凭证",
+    "topic_mapping": "主题映射",
+    "pull_max_messages": "拉取的最大消息数",
+    "connect_timeout": "连接超时"
+  },
+  "gcp_pubsub_producer": {
+    "connect_timeout": "连接超时"
+  },
+  "hstreamdb": {
+    "url": "HStreamDB 服务器 URL",
+    "stream": "HStreamDB 流名称",
+    "partition_key": "HStreamDB 分区键",
+    "grpc_timeout": "HStreamDB gRPC 超时",
+    "record_template": "HStream Record 模板"
+  },
+  "influxdb": {
+    "server": "服务器地址",
+    "parameters": "InfluxDB 版本",
+    "token": "Token",
+    "org": "组织",
+    "bucket": "Bucket",
+    "influxdb_type": "InfluxDB 版本",
+    "write_syntax": "写语句",
+    "precision": "时间精度"
+  },
+  "confluent_producer": {
+    "connect_timeout": "连接超时",
+    "bootstrap_hosts": "主机列表",
+    "min_metadata_refresh_interval": "元数据刷新最小间隔",
+    "metadata_request_timeout": "元数据请求超时",
+    "topic": "Kafka 主题名称",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Headers 值编码类型",
+    "kafka_ext_headers": "更多的 Kafka Headers",
+    "key": "消息的键",
+    "value": "消息的值",
+    "partition_strategy": "分区选择策略",
+    "max_batch_bytes": "最大批量字节数",
+    "required_acks": "Kafka 确认数量",
+    "partition_count_refresh_interval": "分区数量刷新间隔",
+    "max_inflight": "飞行窗口",
+    "sync_query_timeout": "同步查询超时时间",
+    "mode": "缓存模式",
+    "per_partition_limit": "Kafka 分区缓存上限",
+    "segment_bytes": "缓存文件大小",
+    "memory_overload_protection": "内存过载保护",
+    "compression": "压缩"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "主机列表",
+    "authentication": "认证",
+    "connect_timeout": "连接超时",
+    "min_metadata_refresh_interval": "元数据刷新最小间隔",
+    "metadata_request_timeout": "元数据请求超时",
+    "topic": "Kafka 主题名称",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Headers 值编码类型",
+    "kafka_ext_headers": "更多的 Kafka Headers",
+    "key": "消息的键",
+    "value": "消息的值",
+    "compression": "压缩",
+    "partition_strategy": "分区选择策略",
+    "kafka_message_timestamp": "消息的时间戳",
+    "max_batch_bytes": "最大批量字节数",
+    "required_acks": "Kafka 确认数量",
+    "partition_count_refresh_interval": "分区数量刷新间隔",
+    "max_inflight": "飞行窗口",
+    "sync_query_timeout": "同步查询超时时间",
+    "mode": "缓存模式",
+    "per_partition_limit": "Kafka 分区缓存上限",
+    "segment_bytes": "缓存文件大小",
+    "memory_overload_protection": "内存过载保护"
+  },
+  "kafka_consumer": {
+    "bootstrap_hosts": "主机列表",
+    "consumer_key_encoding_mode": "Key 编码模式",
+    "consumer_value_encoding_mode": "Value 编码模式",
+    "consumer_topic_mapping": "主题映射关系",
+    "consumer_offset_reset_policy": "偏移重置策略",
+    "consumer_mqtt_topic": "MQTT 主题",
+    "min_metadata_refresh_interval": "元数据刷新最小间隔",
+    "metadata_request_timeout": "元数据请求超时",
+    "connect_timeout": "连接超时",
+    "consumer_max_batch_bytes": "拉取字节数",
+    "consumer_offset_commit_interval_seconds": "偏移提交间隔",
+    "topic": "Kafka 主题名称",
+    "mqtt_topic": "MQTT 主题",
+    "qos": "QoS",
+    "payload_template": "MQTT Payload Template"
+  },
+  "mongodb": {
+    "mongo_type": "部署模式",
+    "server": "服务器地址",
+    "servers": "服务器列表"
+  },
+  "mysql": {
+    "server": "服务器地址",
+    "sql": "SQL 模板"
+  },
+  "pgsql": {
+    "server": "服务器地址",
+    "sql": "SQL 模板"
+  },
+  "redis": {
+    "server": "服务器地址",
+    "redis_type": "部署模式",
+    "servers": "服务器列表"
+  },
+  "rocketmq": {
+    "servers": "服务器地址",
+    "access_key": "AccessKey",
+    "secret_key": "SecretKey",
+    "security_token": "安全令牌",
+    "topic": "RocketMQ 主题",
+    "refresh_interval": "主题路由更新间隔",
+    "send_buffer": "发送消息的缓冲区大小",
+    "template": "模板",
+    "sync_timeout": "同步调用超时时间"
+  },
+  "tdengine": {
+    "server": "服务器地址",
+    "sql": "SQL 模板"
+  },
+  "sqlserver": {
+    "server": "服务器地址",
+    "driver": "SQL Server Driver 名称",
+    "sql": "SQL 模板"
+  },
+  "iotdb": {
+    "base_url": "IoTDB REST 服务基础 URL",
+    "iotdb_version": "IoTDB 版本",
+    "enable_pipelining": "HTTP 流水线",
+    "connect_timeout": "连接超时",
+    "timestamp": "时间戳",
+    "measurement": "字段",
+    "data_type": "数据类型",
+    "value": "值",
+    "device_id": "设备 ID",
+    "is_aligned": "对齐时间序列",
+    "data": "写入数据"
+  },
+  "opents": {
+    "server": "服务器地址",
+    "summary": "摘要信息",
+    "details": "详细信息",
+    "data": "写入数据",
+    "timestamp": "时间戳",
+    "metric": "度量",
+    "tags": "标签",
+    "value": "值"
+  },
+  "oracle": {
+    "sql": "SQL 模板",
+    "sid": "Oracle Database SID",
+    "server": "服务器地址",
+    "service_name": "Oracle 数据库服务名称"
+  },
+  "rabbitmq": {
+    "server": "服务器",
+    "port": "端口",
+    "exchange": "交换机",
+    "routing_key": "路由键",
+    "virtual_host": "虚拟主机",
+    "heartbeat": "心跳",
+    "delivery_mode": "消息传递模式",
+    "wait_for_publish_confirmations": "等待发布确认",
+    "publish_confirmation_timeout": "发布确认超时时间",
+    "timeout": "连接超时时间",
+    "payload_template": "有效载荷模板"
+  },
+  "pulsar": {
+    "servers": "服务器地址",
+    "pulsar_topic": "Pulsar 主题名称",
+    "strategy": "分区选择策略",
+    "compression": "压缩",
+    "message_key": "消息的 Key",
+    "message_value": "消息的 Value",
+    "sync_timeout": "同步发布超时",
+    "retention_period": "保留期",
+    "send_buffer": "Socket 发送缓存大小",
+    "max_batch_bytes": "最大批量字节数",
+    "connect_timeout": "连接超时",
+    "buffer_mode": "缓存模式",
+    "buffer_per_partition_limit": "Pulsar 分区缓存上限",
+    "buffer_segment_bytes": "缓存文件大小",
+    "buffer_memory_overload_protection": "内存过载保护",
+    "authentication_jwt": "JWT"
+  },
+  "azure_event_hub_producer": {
+    "connect_timeout": "连接超时",
+    "min_metadata_refresh_interval": "最小元数据刷新间隔",
+    "metadata_request_timeout": "元数据请求超时",
+    "connection_string": "连接字符串",
+    "sync_query_timeout": "同步查询超时",
+    "kafka_ext_header_key": "键",
+    "kafka_ext_header_value": "值"
+  },
+  "kinesis": {
+    "payload_template": "载荷模板",
+    "aws_access_key_id": "AWS 访问密钥 ID",
+    "aws_secret_access_key": "AWS 秘密访问密钥",
+    "endpoint": "Amazon Kinesis 端点",
+    "stream_name": "Amazon Kinesis 流",
+    "partition_key": "分区键"
+  },
+  "greptimedb": {
+    "server": "服务器地址",
+    "dbname": "数据库",
+    "precision": "时间精度",
+    "write_syntax": "写语法"
+  },
+  "syskeeper_proxy": {
+    "listen": "监听地址",
+    "acceptors": "接收器",
+    "handshake_timeout": "握手超时"
+  },
+  "syskeeper_forwarder": {
+    "server": "服务器地址"
+  },
+  "elasticsearch": {
+    "server": "服务器地址",
+    "routing": "路由",
+    "parameters": "操作",
+    "action": "操作",
+    "wait_for_active_shards": "等待激活分片数",
+    "index": "索引名称",
+    "id": "文档 ID",
+    "doc": "文档模板",
+    "overwrite": "是否覆盖文档",
+    "enable_pipelining": "HTTP 流水线",
+    "connect_timeout": "连接超时",
+    "doc_as_upsert": "启用更新插入"
+  }
+}
