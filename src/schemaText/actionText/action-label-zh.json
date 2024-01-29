@@ -1,0 +1,25 @@
+{
+  "common": {
+    "description": "描述",
+    "query_mode": "请求模式",
+    "ssl": "启用SSL"
+  },
+  "mqtt": {
+    "server": "MQTT 服务地址",
+    "proto_ver": "MQTT 协议版本",
+    "bridge_mode": "桥接模式",
+    "clean_start": "清除会话",
+    "keepalive": "Keep Alive",
+    "retry_interval": "消息重发间隔",
+    "clientid_prefix": "客户端 ID 前缀",
+    "max_inflight": "飞行窗口",
+    "topic": "主题",
+    "source_topic": "主题",
+    "qos": "QoS",
+    "retain": "Retain",
+    "payload": "消息模板"
+  },
+  "http": {
+    "connect_timeout": "连接超时"
+  }
+}
