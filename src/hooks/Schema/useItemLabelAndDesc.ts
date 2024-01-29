@@ -5,10 +5,10 @@ import {
   useConnectorSchema,
   useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import actionText from '@/schemaText/actionText/index'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
-import actionText from '@/schemaText/bridge-text-en.json'
 
 type GetTextKey = (prop: Property) => string
 
@@ -38,7 +38,7 @@ const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
 const COMMON_ZONE = 'common'
-const COMMON_FIELD_KEYS = Object.keys(actionText[COMMON_ZONE])
+const COMMON_FIELD_KEYS = Object.keys(actionText.en.common)
 
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
@@ -137,9 +137,7 @@ export default (
     return type
   }
 
-  const getBridgeTextKey = (prop: Property) => {
-    return prop.labelKey || prop.key
-  }
+  const getBridgeTextKey = (prop: Property) => prop.key && (prop.labelKey || prop.key)
 
   const getBridgeFormItemTextKey = (prop: Property) => {
     return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`
