@@ -11,13 +11,15 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, ref, watch, onMounted, PropType, Ref } from 'vue'
+import { defineProps, ref, watch, onMounted, PropType, Ref, computed } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import useEchartResize from '@/hooks/useEchartResize'
+import useI18nTl from '@/hooks/useI18nTl'
+import { isUndefined } from 'lodash'
 import Moment from 'moment'
 
 const props = defineProps({
@@ -41,7 +43,7 @@ const props = defineProps({
     }),
   },
   chartData: {
-    type: Array as PropType<Array<{ xData: Array<string>; yData: Array<number> }>>,
+    type: Array as PropType<Array<{ xData: Array<number>; yData: Array<number> }>>,
     default: () => [
       {
         xData: [],
@@ -52,6 +54,12 @@ const props = defineProps({
   height: {
     type: String,
     default: '190px',
+  },
+  isInstantaneousValue: {
+    type: Boolean,
+  },
+  unitTextKey: {
+    type: String,
   },
 })
 
@@ -71,9 +79,9 @@ onMounted(() => {
 })
 
 const NO_DATA_VALUE = -1
-let noYAxisDataMap: Record<string, Array<string>> = {}
+let noYAxisDataMap: Record<string, Array<number>> = {}
 
-const storeNoDataXAxis = (yData: Array<number>, xData: Array<string>, title: string) => {
+const storeNoDataXAxis = (yData: Array<number>, xData: Array<number>, title: string) => {
   yData.forEach((item, index) => {
     if (item === NO_DATA_VALUE) {
       if (!noYAxisDataMap[title]) {
@@ -125,7 +133,7 @@ const _formatTime = (time: string, format = 'YYYY/MM/DD HH:mm') => {
   return Moment(parseInt(time)).format(format)
 }
 
-const createTooltip = (xAxis: string, title: string, val: number, color: string) => {
+const createTooltip = (xAxis: string, title: string, color: string, val?: number) => {
   const container = document.createElement('div')
   container.innerHTML = `
   <div class="polyline-chart-tooltip">
@@ -135,13 +143,24 @@ const createTooltip = (xAxis: string, title: string, val: number, color: string)
         <i class="badge" style="background-color:${color}"></i>
         <span>${title}</span>
       </div>
-      <p class="num">${val}</p>
+      ${!isUndefined(val) ? `<p class="num">${val}</p>` : ''}
     </div>
   </div>
   `
   return container
 }
 
+const { t, tl } = useI18nTl('Dashboard')
+const getInterval = (index: number) => {
+  const xData: Array<number> = props.chartData?.[0]?.xData || []
+  if (index === 0 && !isUndefined(xData[0]) && !isUndefined(xData[1])) {
+    return xData[1] - xData[0]
+  }
+  if (!isUndefined(xData[index]) && !isUndefined(xData[index - 1])) {
+    return xData[index] - xData[index - 1]
+  }
+  return undefined
+}
 const drawChart = () => {
   setSeriesConfig()
   let Dom = document.getElementById(props.chartId)
@@ -166,12 +185,23 @@ const drawChart = () => {
         if (!params[0]) {
           return ''
         }
-        const { axisValue, color, seriesName, value } = params[0]
+        const { axisValue, color, seriesName, value, dataIndex } = params[0]
         let valueShowInTooltip = value
-        if (noYAxisDataMap[seriesName]?.includes(axisValue)) {
+        const isNoData = noYAxisDataMap[seriesName]?.includes(axisValue)
+        if (isNoData) {
           valueShowInTooltip = 'NaN'
         }
-        return createTooltip(axisValue, seriesName, valueShowInTooltip, color)
+        if (!props.unitTextKey) {
+          return createTooltip(axisValue, seriesName, color, valueShowInTooltip)
+        }
+        let title = ''
+        const interval = getInterval(dataIndex)
+        if (!props.isInstantaneousValue && interval) {
+          title = t(props.unitTextKey, { interval: interval / 1000, n: value })
+        } else {
+          title = isNoData ? t(props.unitTextKey, { n: 0 }) : t(props.unitTextKey, { n: value })
+        }
+        return createTooltip(axisValue, title, color)
       },
     },
     xAxis: {

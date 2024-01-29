@@ -243,6 +243,30 @@ export default {
     zh: '在线连接数',
     en: 'Live Connections',
   },
+  messagesUnit: {
+    zh: '{interval} 秒内消息总数：{n}',
+    en: 'Total Messages in {interval} Seconds: {n}',
+  },
+  connectionsUnit: {
+    zh: '{n} 连接',
+    en: '0 Connections | {n} Connection | {n} Connections',
+  },
+  topicsUnit: {
+    zh: '{n} 主题',
+    en: '0 Topics | {n} Topic | {n} Topics',
+  },
+  subscriptionsUnit: {
+    zh: '{n} 订阅',
+    en: '0 Subscriptions | {n} Subscription | {n} Subscriptions',
+  },
+  intervalSuffix: {
+    zh: '/{interval} 秒',
+    en: ' in {interval} sec',
+  },
+  lineChartDataItemDetail: {
+    zh: '{interval} 秒内{type}',
+    en: '{type} in {interval} Seconds',
+  },
   maxConnections: {
     zh: '连接数峰值',
     en: 'Max Connections',

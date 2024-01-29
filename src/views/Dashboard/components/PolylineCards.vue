@@ -21,6 +21,7 @@
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
                 :chartColors="chartColorList[item.value]"
+                :unit-text-key="dataUnitTextKey[item.value]"
               ></polyline-chart>
             </el-card>
           </el-col>
@@ -38,6 +39,8 @@
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
                 :chartColors="chartColorList[item.value]"
+                :unit-text-key="dataUnitTextKey[item.value]"
+                is-instantaneous-value
               ></polyline-chart>
             </el-card>
           </el-col>
@@ -66,7 +69,7 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 const POLLING_INTERVAL = 60000
 
 type ChartData = Array<{
-  xData: Array<string>
+  xData: Array<number>
   yData: Array<number>
 }>
 
@@ -104,6 +107,14 @@ const connectionDataTypeMap = reactive({
   [ChartType.Topics]: t('Dashboard.topics'),
   [ChartType.Subscriptions]: t('Dashboard.Subscription'),
 })
+const dataUnitTextKey: Record<string, string> = {
+  [ChartType.Received]: 'Dashboard.messagesUnit',
+  [ChartType.Sent]: 'Dashboard.messagesUnit',
+  [ChartType.Dropped]: 'Dashboard.messagesUnit',
+  [ChartType.Connections]: 'Dashboard.connectionsUnit',
+  [ChartType.Topics]: 'Dashboard.topicsUnit',
+  [ChartType.Subscriptions]: 'Dashboard.subscriptionsUnit',
+}
 const metricLog: Record<string, ChartData> = reactive({
   [ChartType.Connections]: chartDataFill(32),
   [ChartType.Topics]: chartDataFill(32),
