@@ -1,51 +1,58 @@
 <template>
   <!-- TABLE -->
-  <el-table
-    v-if="editMode !== 'list'"
-    class="object-array-editor key-and-value-editor shadow-none"
-    ref="TableCom"
-    :data="arr"
-  >
-    <el-table-column v-for="(value, key) in properties" :key="key">
-      <template #header>
-        <label :class="getFormItemRules(key) && 'is-required'">
-          {{ value.label }}
-        </label>
-        <InfoTooltip v-if="value.description">
-          <template #content>
-            <MarkdownContent :content="value.description" />
-          </template>
-        </InfoTooltip>
-      </template>
-      <template #default="{ $index }">
-        <template v-if="arr[$index] !== undefined">
-          <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
-            <SchemaFormItem
-              v-model="arr[$index][key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols as string[] | number[] | undefined)"
-              :custom-props="value.componentProps"
-            />
-          </CustomFormItem>
+  <div v-if="editMode !== 'list'" class="object-array-editor">
+    <el-table class="key-and-value-editor shadow-none" ref="TableCom" :data="displayTableData">
+      <el-table-column v-for="(value, key) in properties" :key="key">
+        <template #header>
+          <label :class="getFormItemRules(key) && 'is-required'">
+            {{ value.label }}
+          </label>
+          <InfoTooltip v-if="value.description">
+            <template #content>
+              <MarkdownContent :content="value.description" />
+            </template>
+          </InfoTooltip>
         </template>
-      </template>
-    </el-table-column>
-    <el-table-column :width="dbType ? '170px' : '100px'" v-if="!disabled">
-      <template #header>
-        <div class="header-settings">
-          <batch-settings v-if="dbType" :type="dbType" @uploaded-data="handleUploadedData" />
-          <a href="javascript:;" @click="addItem">
-            {{ $t('Base.add') }}
+        <template #default="{ $index }">
+          <template v-if="displayTableData[$index] !== undefined">
+            <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
+              <SchemaFormItem
+                v-model="displayTableData[$index][key]"
+                :type="(value.type as any)"
+                :symbols="(value.symbols as string[] | number[] | undefined)"
+                :custom-props="value.componentProps"
+              />
+            </CustomFormItem>
+          </template>
+        </template>
+      </el-table-column>
+      <el-table-column :width="dbType ? '170px' : '100px'" v-if="!disabled">
+        <template #header>
+          <div class="header-settings">
+            <batch-settings v-if="dbType" :type="dbType" @uploaded-data="handleUploadedData" />
+            <a href="javascript:;" @click="addItem">
+              {{ $t('Base.add') }}
+            </a>
+          </div>
+        </template>
+        <template #default="{ $index }">
+          <a href="javascript:;" @click="deleteItem($index)">
+            {{ $t('Base.delete') }}
           </a>
-        </div>
-      </template>
-      <template #default="{ $index }">
-        <a href="javascript:;" @click="deleteItem($index)">
-          {{ $t('Base.delete') }}
-        </a>
-      </template>
-    </el-table-column>
-  </el-table>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      v-if="shouldPaginate"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-sizes="[50, 100, 200, 400]"
+      :total="arr.length"
+    ></el-pagination>
+  </div>
   <!-- LIST -->
   <div v-else class="object-array-editor">
     <ul class="obj-list" v-if="arr && arr.length">
@@ -87,7 +94,7 @@ import { FormRules } from '@/types/common'
 import { Properties } from '@/types/schemaForm'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { cloneDeep, get, isFunction } from 'lodash'
-import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref } from 'vue'
+import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
@@ -130,7 +137,20 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
+const currentPage = ref(1)
+const pageSize = ref(50)
+const shouldPaginate = ref(false)
+
 const { tl } = useI18nTl('Base')
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    shouldPaginate.value =
+      val.length > 50 && props.editMode === 'table' && props.dbType !== undefined
+  },
+  { deep: true },
+)
 
 const arr = computed({
   get() {
@@ -139,6 +159,16 @@ const arr = computed({
   set(val) {
     emit('update:modelValue', val)
   },
+})
+
+const displayTableData = computed(() => {
+  if (shouldPaginate.value) {
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    return arr.value.slice(start, end)
+  } else {
+    return arr.value
+  }
 })
 
 const TableCom = ref()
@@ -170,6 +200,15 @@ const handleUploadedData = (val: Array<Record<string, any>>) => {
   arr.value = val
 }
 
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+  currentPage.value = 1
+}
+
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val
+}
+
 onMounted(async () => {
   await nextTick()
   if (isFunction(TableCom.value?.doLayout)) {
@@ -181,6 +220,9 @@ onMounted(async () => {
 <style lang="scss">
 .object-array-editor {
   width: 100%;
+  .el-pagination {
+    margin-top: 16px;
+  }
   ul {
     padding: 0;
     margin: 0;
