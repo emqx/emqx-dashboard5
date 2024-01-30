@@ -50,7 +50,10 @@
             <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
               <el-descriptions-item :label="tl('connectedStatus')">
                 <el-tag type="info">
-                  <CheckIcon :status="record.connected ? 'check' : 'close'" size="small" />
+                  <CheckIcon
+                    :status="record.connected ? CheckStatus.Check : CheckStatus.Close"
+                    size="small"
+                  />
                   {{ record.connected ? tl('connected') : tl('disconnected') }}
                 </el-tag>
               </el-descriptions-item>
@@ -63,7 +66,7 @@
                   <el-tag type="info">
                     <span>{{ record.proto_name }}</span>
                     &nbsp;
-                    <span v-if="record.proto_name === 'MQTT'">
+                    <span v-if="record.proto_name === 'MQTT' && record.proto_ver !== undefined">
                       {{ mqttVersion[record.proto_ver] }}
                     </span>
                     <span v-else>{{ record.proto_ver }}</span>
@@ -143,6 +146,9 @@
           {{ tl('currentSubscription') }}
         </div>
         <div>
+          <el-button type="primary" :icon="Refresh" @click="handleRefreshSubs">
+            {{ t('Base.refresh') }}
+          </el-button>
           <el-button type="primary" :icon="Plus" @click="handlePreAdd">
             {{ tl('addASubscription') }}
           </el-button>
@@ -193,6 +199,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
+import { CheckStatus } from '@/types/enum'
 
 export default defineComponent({
   name: 'ClientDetails',
@@ -322,7 +329,7 @@ const clientsOrganizied = {
     messages: [],
   },
 }
-const mqttVersion = {
+const mqttVersion: Record<number, string> = {
   3: 'v3.1',
   4: 'v3.1.1',
   5: 'v5.0',
@@ -453,6 +460,10 @@ const handlePreAdd = () => {
   dialogVisible.value = true
 }
 
+const handleRefreshSubs = () => {
+  loadSubs()
+}
+
 const loadSubs = async () => {
   if (props.gateway) {
     return loadGatewaySubs()
@@ -506,7 +517,7 @@ const getLabel = (label: string) => {
 
 const filterMetrics = (metrics: Array<keyof Client>) => {
   return metrics.map((metric) => {
-    const label = getLabel(metric)
+    const label = getLabel(metric as string)
     const value = record.value[metric]
     return {
       label,
