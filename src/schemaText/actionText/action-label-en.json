@@ -1,25 +1,10 @@
 {
   "common": {
     "description": "Description",
-    "query_mode": "Query Mode",
     "ssl": "Enable SSL"
   },
   "mqtt": {
     "server": "MQTT Broker",
-    "proto_ver": "MQTT Version",
-    "bridge_mode": "Bridge Mode",
-    "clean_start": "Clean start",
-    "keepalive": "Keep Alive",
-    "retry_interval": "Message Retry Interval",
-    "clientid_prefix": "ClientID Prefix",
-    "max_inflight": "Max Inflight",
-    "topic": "Topic",
-    "source_topic": "Topic",
-    "qos": "QoS",
-    "retain": "Retain",
-    "payload": "Payload"
-  },
-  "http": {
-    "connect_timeout": "Connect Timeout"
+    "source_topic": "Topic"
   }
 }
