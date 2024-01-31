@@ -154,37 +154,51 @@ export default (
     return getTypeByConnectorSchemaRef(ref)
   }
 
-  /**
-   * zone is first level
-   */
-  const getBridgeTextZone = (prop: Property) => {
+  const getHotConfText = (prop: Property) => {
+    const textKey = 'ConfigSchema.' + getConfigurationItemTextKey(prop)
+    const descKey = `${textKey}.desc`
+    if (textKey) {
+      return {
+        label: t(`${textKey}.label`),
+        desc: te(descKey) ? t(descKey) : '',
+      }
+    }
+    return { label: '' }
+  }
+
+  const getBridgeTextKey = (prop: Property) => prop.key && (prop.labelKey || prop.key)
+
+  const getActionFormItemTextPath = (prop: Property, textType: 'label' | 'desc') => {
     if (!props.accordingTo?.ref) {
       return ''
     }
-    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey) {
-      return COMMON_ZONE
-    }
+    const textFinalKey = getBridgeTextKey(prop)
     let type = getTypeBySchemaRef()
     const specifiedType = BRIDGE_SPECIAL_TYPE_MAP.get(type)
     if (specifiedType) {
       type = specifiedType
     }
-    return type
+    const typeTextPath = `BridgeSchema.${type}.${textFinalKey}.${textType}`
+    /**
+     * If there is available text in the type zone,
+     * the text in the type zone will be taken first.
+     * Otherwise, the text in the common zone will be taken.
+     * Do this for override some of the less precise commons in the share-ui.
+     */
+    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
+      return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
+    }
+    return typeTextPath
   }
 
-  const getBridgeTextKey = (prop: Property) => prop.key && (prop.labelKey || prop.key)
-
-  const getBridgeFormItemTextKey = (prop: Property) => {
-    return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`
+  const getActionTextPath = (prop: Property) => {
+    return {
+      labelPath: getActionFormItemTextPath(prop, 'label'),
+      descPath: getActionFormItemTextPath(prop, 'desc'),
+    }
   }
 
-  const getTextKey = (prop: Property) => {
-    return !typesUseBridgeText.includes(props.type)
-      ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
-      : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
-  }
-
-  const specialProcess = (prop: Property) => {
+  const getActionSpecialText = (prop: Property) => {
     // Some special handling for the enterprise version
     if (!typesUseBridgeText.includes(props.type)) {
       return undefined
@@ -212,25 +226,31 @@ export default (
     return undefined
   }
 
+  const getActionText = (prop: Property) => {
+    const specialRet = getActionSpecialText(prop)
+    if (specialRet) {
+      return specialRet
+    }
+    const { labelPath, descPath } = getActionTextPath(prop)
+    if (labelPath) {
+      return {
+        label: t(labelPath),
+        desc: te(descPath) ? t(descPath) : '',
+      }
+    }
+    return { label: '' }
+  }
+
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
     return te(textKey) ? t(textKey) : key?.toString()
   }
 
   const getText = (prop: Property) => {
-    const specialRet = specialProcess(prop)
-    if (specialRet) {
-      return specialRet
+    if (!typesUseBridgeText.includes(props.type)) {
+      return getHotConfText(prop)
     }
-    const key = getTextKey(prop)
-    const descKey = `${key}.desc`
-    if (key) {
-      return {
-        label: t(`${key}.label`),
-        desc: te(descKey) ? t(descKey) : '',
-      }
-    }
-    return { label: '' }
+    return getActionText(prop)
   }
 
   return {
