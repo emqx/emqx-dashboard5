@@ -1,15 +1,14 @@
 import {
   enActionsLabel,
-  zhActionsLabel,
   enConnectorsLabel,
+  zhActionsLabel,
   zhConnectorsLabel,
 } from '@emqx/shared-ui-i18n'
-
+import { merge } from 'lodash'
 import customActionDescEn from './action-desc-en.json'
 import customActionDescZh from './action-desc-zh.json'
 import customActionLabelEn from './action-label-en.json'
 import customActionLabelZh from './action-label-zh.json'
-import { merge, omit } from 'lodash'
 
 interface TextConf {
   [type: string]: { [key: string]: string }
@@ -35,23 +34,10 @@ const handleOneLang = (
   descConf: TextConf,
   lang: 'zh' | 'en',
 ) => {
-  const customLabelKeys = Object.entries(customLabelConf).reduce(
-    (arr: Array<string>, [, labelMap]) => {
-      const keys = Object.keys(labelMap)
-      arr.push(...keys)
-      return arr
-    },
-    [],
-  )
-
   const allTypes = [...new Set([...Object.keys(defaultLabelConf), ...Object.keys(customLabelConf)])]
   allTypes.forEach((type) => {
-    let defaultTypeLabelMap = defaultLabelConf[type] || {}
+    const defaultTypeLabelMap = defaultLabelConf[type] || {}
     const customTypeLabelMap = customLabelConf[type] || {}
-
-    if (type === 'common') {
-      defaultTypeLabelMap = omit(defaultTypeLabelMap, customLabelKeys)
-    }
 
     result[lang][type] = Object.entries(merge(defaultTypeLabelMap, customTypeLabelMap)).reduce(
       (obj: { [key: string]: TextItem }, [key, label]) => {
