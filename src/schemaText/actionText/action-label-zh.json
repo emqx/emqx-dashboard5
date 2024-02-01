@@ -6,5 +6,83 @@
   "mqtt": {
     "server": "MQTT 服务地址",
     "source_topic": "主题"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "主机列表",
+    "authentication": "认证",
+    "connect_timeout": "连接超时",
+    "min_metadata_refresh_interval": "元数据刷新最小间隔",
+    "metadata_request_timeout": "元数据请求超时",
+    "topic": "Kafka 主题名称",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Headers 值编码类型",
+    "kafka_ext_headers": "更多的 Kafka Headers",
+    "key": "消息的键",
+    "value": "消息的值",
+    "compression": "压缩",
+    "partition_strategy": "分区选择策略",
+    "kafka_message_timestamp": "消息的时间戳",
+    "max_batch_bytes": "最大批量字节数",
+    "required_acks": "Kafka 确认数量",
+    "partition_count_refresh_interval": "分区数量刷新间隔",
+    "max_inflight": "飞行窗口",
+    "sync_query_timeout": "同步查询超时时间",
+    "mode": "缓存模式",
+    "per_partition_limit": "Kafka 分区缓存上限",
+    "segment_bytes": "缓存文件大小",
+    "memory_overload_protection": "内存过载保护"
+  },
+  "confluent_producer": {
+    "bootstrap_hosts": "主机列表",
+    "topic": "Kafka 主题名称",
+    "key": "消息的键",
+    "value": "消息的值",
+    "mode": "缓存模式"
+  },
+  "azure_event_hub_producer": {
+    "connection_string": "连接字符串",
+    "kafka_ext_header_key": "键",
+    "kafka_ext_header_value": "值"
+  },
+  "mongodb": {
+    "mongo_type": "部署模式"
+  },
+  "redis": {
+    "redis_type": "部署模式"
+  },
+  "gcp_pubsub_producer": {},
+  "syskeeper_proxy": {
+    "listen": "监听地址",
+    "acceptors": "接收器",
+    "handshake_timeout": "握手超时"
+  },
+  "elasticsearch": {
+    "action": "操作"
+  },
+  "clickhouse": {
+    "url": "服务器 URL"
+  },
+  "dynamo": {
+    "url": "DynamoDB 地址"
+  },
+  "hstreamdb": {
+    "url": "HStreamDB 服务器 URL"
+  },
+  "rocketmq": {
+    "servers": "服务器地址",
+    "topic": "RocketMQ 主题",
+    "sync_timeout": "同步调用超时时间"
+  },
+  "rabbitmq": {
+    "payload_template": "有效载荷模板"
+  },
+  "pulsar": {
+    "servers": "服务器地址"
+  },
+  "kinesis": {
+    "payload_template": "载荷模板"
+  },
+  "influxdb": {
+    "influxdb_type": "InfluxDB 版本"
   }
 }

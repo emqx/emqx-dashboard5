@@ -131,7 +131,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { tl, t } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
+const getText = (key: string) => t(`BridgeSchema.influxdb.${key}`)
 
 const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
   ref: '#/components/schemas/bridge_influxdb.post_bridge_v2',

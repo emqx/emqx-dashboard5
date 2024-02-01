@@ -75,7 +75,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { tl, t } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_influxdb.${key}`)
+const getText = (key: string) => t(`BridgeSchema.influxdb.${key}`)
 const activeTab = ref(Tab.JSON)
 
 const lineProtocol = computed({
