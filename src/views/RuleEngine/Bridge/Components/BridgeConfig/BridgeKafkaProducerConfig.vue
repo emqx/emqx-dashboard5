@@ -245,8 +245,8 @@
         <el-col :span="colSpan">
           <el-form-item prop="parameters.query_mode">
             <template #label>
-              <span>{{ getText('query_mode.label') }}</span>
-              <InfoTooltip :content="getText('query_mode.desc')" />
+              <span>{{ getCommonText('query_mode.label') }}</span>
+              <InfoTooltip :content="getCommonText('query_mode.desc')" />
             </template>
             <el-select v-model="formData.parameters.query_mode" v-if="!readonly">
               <el-option
@@ -403,7 +403,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl, te } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
+const getText = (key: string) => t(`BridgeSchema.kafka_producer.${key}`)
+const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
 const { getOptLabel } = useSymbolLabel()
 
 const { components: producerComponents, schemaLoadPromise } = useSchemaForm(

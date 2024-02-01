@@ -277,8 +277,8 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="socket_opts.sndbuf" :readonly="readonly">
             <template #label>
-              <span>{{ getText('sndbuf.label') }}</span>
-              <InfoTooltip :content="getText('sndbuf.desc')" />
+              <span>{{ getCommonText('sndbuf.label') }}</span>
+              <InfoTooltip :content="getCommonText('sndbuf.desc')" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.sndbuf" :units="usefulMemoryUnit" />
           </CustomFormItem>
@@ -286,8 +286,8 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="socket_opts.recbuf" :readonly="readonly">
             <template #label>
-              <span>{{ getText('recbuf.label') }}</span>
-              <InfoTooltip :content="getText('recbuf.desc')" />
+              <span>{{ getCommonText('recbuf.label') }}</span>
+              <InfoTooltip :content="getCommonText('recbuf.desc')" />
             </template>
             <InputWithUnit v-model="formData.socket_opts.recbuf" :units="usefulMemoryUnit" />
           </CustomFormItem>
@@ -296,8 +296,8 @@
           <CustomFormItem prop="socket_opts.tcp_keepalive" :readonly="readonly">
             <template #label>
               <FormItemLabel
-                :label="getText('tcp_keepalive.label')"
-                :desc="getText('tcp_keepalive.desc')"
+                :label="getCommonText('tcp_keepalive.label')"
+                :desc="getCommonText('tcp_keepalive.desc')"
                 desc-marked
               />
             </template>
@@ -308,8 +308,8 @@
           <CustomFormItem prop="socket_opts.nodelay" :readonly="readonly">
             <template #label>
               <FormItemLabel
-                :label="getText('nodelay.label')"
-                :desc="getText('nodelay.desc')"
+                :label="getCommonText('nodelay.label')"
+                :desc="getCommonText('nodelay.desc')"
                 desc-marked
               />
             </template>
@@ -402,7 +402,8 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 const { getOptLabel } = useSymbolLabel()
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_kafka.${key}`)
+const getText = (key: string) => t(`BridgeSchema.kafka_consumer.${key}`)
+const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
 
 const { components: consumerComponents, schemaLoadPromise } = useSchemaForm(
   getAPIPath(`/schemas/bridges`),

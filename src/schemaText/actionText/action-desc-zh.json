@@ -38,5 +38,303 @@
     "url": "HTTP 连接器的 URL。<br/>路径中支持占位符，但在主机或端口部分中不能使用占位符。<br/>例如，`http://localhost:9901/${'{'}topic{'}'}` 是允许的，但是 `http://${'{'}host{'}'}:9901/message` 或 `http://localhost:${'{'}port{'}'}/message `不允许。",
     "body": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。请根据使用动作的业务需求来选择字段，置空则原样转发消息。",
     "path": "此操作的 URL 路径。<br/>此路径将附加到连接器的 <code>url</code> 配置中，以形成完整的 URL 地址。此选项中允许使用带有变量的模板。 例如，<code>/room/{'{'}$room_no{'}'}</code>"
+  },
+  "cassandra": {
+    "keyspace": "要连接到的 Keyspace 名称。",
+    "servers": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port][,Host2:Port]`。<br/>如果未指定 `[:Port]`，则使用 Cassandra 默认端口 9042。",
+    "cql": "CQL 模板"
+  },
+  "clickhouse": {
+    "batch_value_separator": "默认为逗号 ','，适用于 VALUES 格式。您也可以使用其他分隔符， 请参考 [INSERT INTO 语句](https://clickhouse.com/docs/zh/sql-reference/statements/insert-into)。",
+    "connect_timeout": "连接 HTTP 服务器的超时时间。",
+    "url": "你想连接到的Clickhouse服务器的HTTP URL（例如http://myhostname:8123）。",
+    "sql": "可以使用 ${'{'}field{'}'} 占位符来引用消息与客户端上下文中的变量，请确保对应字段存在且数据格式符合预期。此处不支持 [SQL 预处理](https://docs.emqx.com/zh/enterprise/v5.0/data-integration/data-bridges.html#sql-预处理)。"
+  },
+  "dynamo": {
+    "template": "模板，默认值为空。当此值为空时，整个消息将存储在数据库中。<br />模板可以是任何带有占位符的有效json，并确保表中所有的键都在这里，例如：<br />  `{'{'}\"id\" : \"${'{'}id{'}'}\", \"clientid\" : \"${'{'}clientid{'}'}\", \"data\" : \"${'{'}payload.data{'}'}\"{'}'}`",
+    "url": "DynamoDB 的地址。",
+    "table": "DynamoDB 的表。",
+    "aws_access_key_id": "DynamoDB 的访问 ID。",
+    "aws_secret_access_key": "DynamoDB 的访问密钥。"
+  },
+  "gcp_pubsub_producer": {
+    "pipelining": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+    "connect_timeout": "连接 HTTP 服务器的超时时间。",
+    "service_account_json": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+    "pubsub_topic": "要发布消息的GCP PubSub主题。",
+    "payload_template": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+    "attributes_template": "用于格式化消息属性的模板。未定义的值将被渲染为空字符串。空键将从属性映射中删除。",
+    "ordering_key_template": "用于格式化消息排序键的模板。未定义的值将被渲染为空字符串。如果此值为空，则不会将其添加到消息中。"
+  },
+  "gcp_pubsub_consumer": {
+    "consumer_pubsub_topic": "要消费的 GCP PubSub 主题。",
+    "consumer_mqtt_topic": "应将从 GCP PubSub 消费的消息发布到的本地主题。",
+    "consumer_qos": "用于发布从 GCP PubSub 消费的消息的 MQTT QoS。",
+    "payload_template": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+    "pipelining": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
+    "service_account_json": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
+    "topic_mapping": "定义 GCP PubSub 主题和 MQTT 主题之间的映射。必须包含至少一个项目。",
+    "pull_max_messages": "从 GCP PubSub 中在一个拉取请求里检索的最大消息数。\n实际数量可能小于指定的值。",
+    "connect_timeout": "连接 HTTP 服务器的超时时间。"
+  },
+  "hstreamdb": {
+    "url": "HStreamDB 服务器的URL。使用 gRPC HTTP 服务器地址。",
+    "partition_key": "HStreamDB 分区键。支持占位符。",
+    "record_template": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。<br />注意：当使用 `raw record` 模板（意味着数据不是有效的JSON）时，应该在 HStream 中使用 `read` 或 `subscription` 来获取数据。"
+  },
+  "influxdb": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。",
+    "token": "InfluxDB token。",
+    "org": "InfluxDB 组织名称。",
+    "bucket": "InfluxDB bucket 名称。",
+    "write_syntax": "使用 InfluxDB API Line Protocol 写入 InfluxDB 的数据，支持占位符，参考 [InfluxDB 2.3 Line Protocol](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 及 [InfluxDB 1.8 Line Protocol](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) <br/>TLDR: <br/>```<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]```<br/>注意，整形数值占位符后需要添加一个字符 `i` 类型标识。例如 `${'{'}payload.int_value{'}'}i`",
+    "precision": "InfluxDB 时间精度。"
+  },
+  "confluent_producer": {
+    "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+    "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+    "min_metadata_refresh_interval": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+    "metadata_request_timeout": "刷新元数据时最大等待时长。",
+    "topic": "Kafka 主题名称",
+    "kafka_headers": "请提供用作 Kafka Headers 的占位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意占位符的值必须是一个对象：<br/>`{'{'}\"foo\": \"bar\"{'}'}`",
+    "kafka_header_value_encode_mode": "Kafka Headers 的值编码类型：<br/>- `NONE`：仅将二进制值添加到 Kafka Headers；<br/>- `JSON`：仅将 JSON 值添加到 Kafka Headers，并在发送之前将其编码为 JSON 字符串。",
+    "kafka_ext_headers": "请提供更多的键值对，用于 Kafka Headers。<br/>这里的键值对将与 `kafka_headers` 字段的值合并后发送到 Kafka。",
+    "key": "生成 Kafka 消息键的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
+    "value": "生成 Kafka 消息的值的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
+    "partition_strategy": "设置消息发布时应该如何选择 Kafka 分区。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
+    "max_batch_bytes": "最大消息批量字节数。大多数 Kafka 环境的默认最低值是 1 MB，EMQX 的默认值比 1 MB 更小是因为需要补偿 Kafka 消息编码所需要的额外字节（尤其是当每条消息都很小的情况下）。当单个消息的大小超过该限制时，它仍然会被发送，（相当于该批量中只有单个消息）。",
+    "required_acks": "设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。<br/><code>all_isr</code>: 需要所有的在线复制者都确认。<br/><code>leader_only</code>: 仅需要分区 leader 确认。<br/><code>none</code>: 无需 Kafka 回复任何确认。",
+    "partition_count_refresh_interval": "配置 Kafka 刷新分区数量的时间间隔。<br/>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy</code> 配置，把消息发送到新的分区中。",
+    "max_inflight": "设置 Kafka 生产者（每个分区一个）在收到 Kafka 的确认前最多发送多少个请求（批量）。调大这个值通常可以增加吞吐量，但是，当该值设置大于 1 时存在消息乱序的风险。",
+    "sync_query_timeout": "同步查询的超时时间。仅当请求模式配置为'同步'时才使用该配置。",
+    "mode": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
+    "per_partition_limit": "为每个 Kafka 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。",
+    "segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
+    "memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
+    "compression": "压缩方法。"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+    "authentication": "认证参数。",
+    "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+    "min_metadata_refresh_interval": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+    "metadata_request_timeout": "刷新元数据时最大等待时长。",
+    "topic": "Kafka 主题名称",
+    "kafka_headers": "请提供用作 Kafka Headers 的占位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意占位符的值必须是一个对象：<br/>`{'{'}\"foo\": \"bar\"{'}'}`",
+    "kafka_header_value_encode_mode": "Kafka Headers 的值编码类型：<br/>- `NONE`：仅将二进制值添加到 Kafka Headers；<br/>- `JSON`：仅将 JSON 值添加到 Kafka Headers，并在发送之前将其编码为 JSON 字符串。",
+    "kafka_ext_headers": "请提供更多的键值对，用于 Kafka Headers。<br/>这里的键值对将与 `kafka_headers` 字段的值合并后发送到 Kafka。",
+    "key": "生成 Kafka 消息键的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code> ，而非空字符串。",
+    "value": "生成 Kafka 消息的值的模版。如果模版生成后为空值，则会使用 Kafka 的 <code>NULL</code>，而非空字符串。",
+    "kafka_message_timestamp": "生成 Kafka 消息时间戳的模版。该时间必需是一个整型数值（可以是字符串格式）例如 <code>1661326462115</code> 或 <code>'1661326462115'</code>。当所需的输入字段不存在，或不是一个整型时，则会使用当前系统时间。",
+    "compression": "压缩方法。",
+    "partition_strategy": "设置消息发布时应该如何选择 Kafka 分区。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>key_dispatch</code>：对 Kafka 消息键进行哈希，以得到一个分区号。",
+    "max_batch_bytes": "最大消息批量字节数。大多数 Kafka 环境的默认最低值是 1 MB，EMQX 的默认值比 1 MB 更小是因为需要补偿 Kafka 消息编码所需要的额外字节（尤其是当每条消息都很小的情况下）。当单个消息的大小超过该限制时，它仍然会被发送，（相当于该批量中只有单个消息）。",
+    "required_acks": "设置 Kafka leader 在返回给 EMQX 确认之前需要等待多少个 follower 的确认。<br/><code>all_isr</code>: 需要所有的在线复制者都确认。<br/><code>leader_only</code>: 仅需要分区 leader 确认。<br/><code>none</code>: 无需 Kafka 回复任何确认。",
+    "partition_count_refresh_interval": "配置 Kafka 刷新分区数量的时间间隔。<br/>EMQX 发现 Kafka 分区数量增加后，会开始按 <code>partition_strategy</code> 配置，把消息发送到新的分区中。",
+    "max_inflight": "设置 Kafka 生产者（每个分区一个）在收到 Kafka 的确认前最多发送多少个请求（批量）。调大这个值通常可以增加吞吐量，但是，当该值设置大于 1 时存在消息乱序的风险。",
+    "sync_query_timeout": "同步查询的超时时间。仅当请求模式配置为'同步'时才使用该配置。",
+    "mode": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。与 <code>memory</code> 模式一样，如果 EMQX 服务重启，缓存的消息会丢失。",
+    "per_partition_limit": "为每个 Kafka 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。",
+    "segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
+    "memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
+    "kafka_ext_header_key": "Kafka Headers 的键。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。",
+    "mechanism": "SASL 认证方法名称。",
+    "kerberos_principal": "SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中",
+    "kerberos_keytab_file": "SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。",
+    "kafka_ext_header_value": "Kafka Headers 的值。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。"
+  },
+  "kafka_consumer": {
+    "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
+    "consumer_key_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Key。<code>none</code> 使用 Kafka 消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的密钥或值使用 base-64 编码。",
+    "consumer_value_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的 Value 使用 base-64 编码。",
+    "consumer_topic_mapping": "指定 Kafka 主题和 MQTT 主题之间的映射关系。 应至少包含一项。",
+    "consumer_offset_reset_policy": "如不存在偏移量历史记录或历史记录失效，消费者应使用哪个偏移量开始消费。",
+    "consumer_mqtt_topic": "设置 Kafka 消息向哪个本地 MQTT 主题转发消息。",
+    "min_metadata_refresh_interval": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
+    "metadata_request_timeout": "刷新元数据时最大等待时长。",
+    "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+    "consumer_max_batch_bytes": "设置每次从 Kafka 拉取数据的字节数。如该配置小于 Kafka 消息的大小，可能会影响消费性能。",
+    "consumer_offset_commit_interval_seconds": "指定 Kafka 消费组偏移量提交的时间间隔。",
+    "topic": "Kafka 主题名称",
+    "mqtt_topic": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
+    "qos": "转发 MQTT 消息时使用的 QoS。",
+    "payload_template": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。<br/><code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。<br/><code>offset</code>：消息的偏移量。<br/><code>topic</code>：Kafka 主题。<br/><code>ts</code>: 消息的时间戳。<br/><code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。<br/><code>value</code>: Kafka 消息值（使用选择的编码方式编码）。"
+  },
+  "mongodb": {
+    "collection": "数据将被存储到的集合",
+    "payload_template": "用于格式化写入 MongoDB 的消息模板。 如果未定义，规则引擎会使用 JSON 格式序列化所有的可见输入，例如 clientid, topic, payload 等。",
+    "auth_source": "与用户证书关联的数据库名称。",
+    "use_legacy_protocol": "是否使用 MongoDB 的旧协议与数据库通信。默认情况下，系统会尝试自动确定是否支持新协议。",
+    "srv_record": "使用 DNS SRV 记录。",
+    "max_overflow": "当连接池中所有线程都被占用时，可以创建的最大附加工作线程数。这有助于通过允许更多并发连接到 MongoDB 服务器来管理暂时的工作负载峰值。",
+    "overflow_ttl": "当池内工人太多时，等待多久清除多余工人。",
+    "overflow_check_period": "检查是否有超过配置的工人的周期（\"溢出\"）。",
+    "local_threshold": "在多个合适的MongoDB实例中进行选择的延迟窗口的大小。",
+    "connect_timeout": "超时重连的等待时间。",
+    "socket_timeout": "在尝试超时之前，在套接字上尝试发送或接收的持续时间。",
+    "server_selection_timeout": "指定在抛出异常之前为服务器选择阻断多长时间。",
+    "wait_queue_timeout": "工作者等待连接可用的最长时间。",
+    "heartbeat_frequency": "控制驱动程序何时检查MongoDB部署的状态。指定检查的间隔时间，从上一次检查结束到下一次检查开始计算。如果连接数增加（例如，如果你增加池子的大小，就会发生这种情况），你可能也需要增加这个周期，以避免在MongoDB日志文件中创建太多的日志条目。",
+    "min_heartbeat_frequency": "心跳间的最小间隙",
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
+    "w_mode": "写模式。",
+    "servers": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MongoDB 默认端口 27017。",
+    "replica_set_name": "副本集的名称。",
+    "r_mode": "读模式。"
+  },
+  "mysql": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 MySQL 默认端口 3306。",
+    "sql": "SQL 模板"
+  },
+  "pgsql": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用默认端口 5432。",
+    "sql": "SQL 模板"
+  },
+  "redis": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
+    "servers": "集群将要连接的节点列表。 节点之间用逗号分隔，如：`Node[,Node].`<br/>每个节点的配置为：将要连接的 IPv4 或 IPv6 地址或主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Redis 默认端口 6379。",
+    "sentinel": "哨兵模式。当 Redis 服务运行在哨兵模式下，该配置必须设置为 'sentinel'。",
+    "command_template": "用于推送数据的 Redis 命令模板。 每个列表元素代表一个命令名称或其参数。<br/>例如，要通过键 `msgs` 将消息体推送到 Redis 列表中，数组元素应该是： `rpush`, `msgs`, `${'{'}payload{'}'}`。"
+  },
+  "rocketmq": {
+    "servers": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 RocketMQ 默认端口 9876。",
+    "access_key": "RocketMQ 服务器的 `accessKey`。",
+    "secret_key": "RocketMQ 服务器的 `secretKey`。",
+    "security_token": "RocketMQ 服务器安全令牌",
+    "topic": "RocketMQ 主题",
+    "refresh_interval": "RocketMQ 主题路由更新间隔。",
+    "send_buffer": "RocketMQ 驱动的套字节发送消息的缓冲区大小",
+    "template": "模板, 默认为空，为空时将会将整个消息转发给 RocketMQ。 <br>模板可以是任意带有占位符的合法字符串, 例如:<br>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}",
+    "sync_timeout": "RocketMQ 驱动同步调用的超时时间。"
+  },
+  "tdengine": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 TDengine 默认端口 6041。",
+    "sql": "SQL 模板"
+  },
+  "sqlserver": {
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 SQL Server 默认端口 1433。",
+    "driver": "SQL Server Driver 名称",
+    "sql": "SQL 模板"
+  },
+  "iotdb": {
+    "base_url": "外部 IoTDB 服务的 REST 接口的基础 URL。<br/>URL 具有以下形式：`http://Host:Port`",
+    "iotdb_version": "要连接的 IoTDB 系统的版本。",
+    "enable_pipelining": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
+    "connect_timeout": "连接到 HTTP 服务器时的超时时间。",
+    "timestamp": "支持使用 ${'{'}var{'}'} 格式的占位符，要求是时间戳格式。也可以使用以下特殊字符插入系统时间：</br>- `now`: 当前毫秒级时间戳</br>- `now_ms`: 当前毫秒级时间戳</br>- `now_us`: 当前微秒级时间戳</br>- `now_ns`: 当前纳秒级时间戳",
+    "measurement": "也称 Measurement，支持使用 ${'{'}var{'}'} 格式的占位符。",
+    "data_type": "数据类型，支持使用 ${'{'}var{'}'} 格式的占位符。",
+    "value": "要插入的值，支持使用 ${'{'}var{'}'} 格式的占位符。",
+    "device_id": "应插入此数据的固定设备名称。如果为空，则必须在规则操作中设置，消息本身中设置，或从主题中提取。",
+    "is_aligned": "是否对齐时间序列"
+  },
+  "opents": {
+    "server": "服务器的地址。",
+    "summary": "是否返回摘要信息。",
+    "details": "是否返回详细信息。",
+    "timestamp": "秒级或毫秒级时间戳，支持 ${'{'}var{'}'} 格式的占位符。",
+    "metric": "度量的名称，应为时间序列数据的唯一标识符，支持 ${'{'}var{'}'} 格式的占位符，",
+    "tags": "附加元数据的标签，每个标签都是一个键值对，采用 `key=value,key2=value2` 的格式进行配置，并支持 ${'{'}var{'}'} 形式的占位符。",
+    "value": "数据点的值，支持 ${'{'}var{'}'} 格式的占位符。它代表实际的测量或观察值。"
+  },
+  "oracle": {
+    "sql": "SQL模板。模板中描述消息元数据和有效载荷的字符串可以包含占位符。这些占位符在插入时不会做任何检查和格式转换，所以请务必确保插入值被正确地格式化和转义。",
+    "sid": "Oracle Database SID 名称",
+    "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。<br/>主机名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，则使用 Oracle Database 默认端口 1521。"
+  },
+  "rabbitmq": {
+    "server": "你想要连接的 RabbitMQ 服务器地址（例如，localhost）。",
+    "port": "RabbitMQ 服务器监听的端口号（默认为 5672）。",
+    "exchange": "消息将被发送到的 RabbitMQ 交换机的名称。",
+    "routing_key": "用于将消息路由到 RabbitMQ 交换机的正确队列的路由键。",
+    "virtual_host": "连接到 RabbitMQ 服务器时要使用的虚拟主机。",
+    "heartbeat": "发送心跳消息到 RabbitMQ 服务器的时间间隔。",
+    "delivery_mode": "发布到 RabbitMQ 的消息的传递模式。非持久性的传递模式适用于不需要在 RabbitMQ 重启时保持持久性的消息，而持久性的传递模式适用于必须在 RabbitMQ 重启时保持持久性的消息。",
+    "wait_for_publish_confirmations": "使用发布者确认时，是否要等待 RabbitMQ 确认消息。",
+    "publish_confirmation_timeout": "使用发布者确认时等待 RabbitMQ 确认消息发布的超时时间。",
+    "timeout": "等待建立连接的超时时间。",
+    "payload_template": "发送消息到 RabbitMQ 之前格式化消息有效载荷的模板。模板占位符（例如 ${'{'}field1.sub_field{'}'} ）将被替换为相应字段的值。如果为空，则整个输入消息将被用作有效载荷，格式化为JSON文本。此行为相当于将 ${'{'}.{'}'} 指定为有效载荷模板。"
+  },
+  "pulsar": {
+    "servers": "以逗号分隔的 <code>scheme://host[:port]</code> 格式的 Pulsar URL 列表，支持的 scheme 有 <code>pulsar://</code> （默认）和<code>pulsar+ssl://</code>。默认端口：6650。",
+    "pulsar_topic": "Pulsar 主题名称",
+    "strategy": "设置消息发布时的 Pulsar 分区选择策略。<br/><code>random</code>: 为每个消息随机选择一个分区。<br/><code>roundrobin</code>: 依次为每条信息挑选可用的 producer。<br/><code>key_dispatch</code>: 将待选择分区的编码进行哈希，并存储在一批信息中第一条信息的 Pulsar 信息密钥中。",
+    "compression": "压缩方法。",
+    "message_key": "生成 Pulsar 消息 Key 的模版。",
+    "message_value": "生成 Pulsar 消息 Value 的模版。",
+    "sync_timeout": "同步发布时，从 Pulsar 接收发送回执的最长等待时间。",
+    "retention_period": "指定在与 Pulsar broker 断开连接时缓冲消息的持续时间。请合理设置该值，时间设置越久，需要的内存/磁盘的使用量越高。",
+    "send_buffer": "TCP socket 的发送缓存调优，高吞吐量下建议保留默认值。",
+    "max_batch_bytes": "每个批次可收集的最大消息字节数。EMQX 将默认值设为小于 5MB，以便补偿编码开销，特别是在处理较小的消息时。当单条消息的大小超过该限制时，会做为单独批次处理，即该批次中仅包含这条消息。",
+    "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
+    "buffer_mode": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
+    "buffer_per_partition_limit": "为每个 Pulsar 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，以便接收新的消息。",
+    "buffer_segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
+    "buffer_memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
+    "authentication_jwt": "JWT 认证令牌。"
+  },
+  "azure_event_hub_producer": {
+    "bootstrap_hosts": "用于引导客户端的 Azure Event Hubs Kafka <code>host[:port]</code>命名空间端点的逗号分隔列表。默认端口号为9093。",
+    "connect_timeout": "TCP连接建立的最大等待时间（包括启用身份验证的时间）。",
+    "min_metadata_refresh_interval": "客户端在刷新 Azure Event Hubs Kafka 代理和主题元数据之前必须等待的最小时间间隔。设置太小的值可能会对 Azure Event Hubs 造成额外的负载。",
+    "metadata_request_timeout": "从 Azure Event Hubs 获取元数据时的最大等待时间。",
+    "connection_string": "用于连接到 Azure Event Hubs 的连接字符串。应为命名空间共享访问策略的 “连接字符串 - 主键”。",
+    "topic": "事件中心名称",
+    "max_batch_bytes": "在 Azure Event Hubs 消息批次中收集的最大字节数。大多数 Azure Event Hubs 代理的默认限制为 1MB 批次大小。EMQX 的默认值小于1 MB，以补偿 Azure Event Hubs 消息编码开销（特别是当每个单独消息非常小时）。当单个消息超过限制时，仍然会发送（作为单个元素批次）。",
+    "partition_strategy": "分区策略用于告诉生产者如何将消息分派到 Azure Event Hubs 分区。\n\n<code>random</code>：随机选择每个消息的分区\n<code>key_dispatch</code>：将 Azure Event Hubs 消息键哈希到分区号",
+    "required_acks": "Azure Event Hubs 分区领导者在向其追随者发送确认之前必须等待的所需确认\n\n<code>all_isr</code>：要求所有同步副本进行确认。\n<code>leader_only</code>：仅需要分区领导者的确认。",
+    "kafka_headers": "请提供一个占位符用于用作 Azure Event Hubs 头部<br/>\n例如：<code>${'{'}pub_props{'}'}</code><br/>\n请注意，占位符的值必须是对象：\n<code>{'{'}\\\"foo\\\": \\\"bar\\\"{'}'}</code>",
+    "kafka_ext_headers": "请为 Azure Event Hubs 提供更多的键值对头部信息<br/>此处的键值对将在发送到 Azure Event Hubs 之前与 <code>kafka_headers</code> 字段的值进行组合。",
+    "kafka_header_value_encode_mode": "Azure Event Hubs 头部值编码模式<br/>\n - NONE：仅将二进制值添加到 Azure Event Hubs 头部；<br/>\n - JSON：仅将JSON值添加到Azure Event Hubs 头部，并在发送前将其编码为JSON字符串。",
+    "partition_count_refresh_interval": "Azure Event Hubs 生产者用于发现增加的分区数的时间间隔。\n在 Azure Event Hubs 中增加分区数后，EMQX将在根据<code>partition_strategy</code>分派消息时考虑已发现的分区。",
+    "max_inflight": "Azure Event Hubs 生产者（每个分区）允许发送的最大批次数，然后从 Azure Event Hubs 接收确认。较大的值通常意味着更高的吞吐量。但是，当该值大于1时，可能会有消息重新排序的风险。",
+    "sync_query_timeout": "该参数定义同步查询的超时限制。仅在桥接查询模式配置为'同步'时适用。",
+    "key": "用于呈现 Azure Event Hubs 消息键的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hubs 的<code>NULL</code>（而不是空字符串）。",
+    "value": "用于呈现 Azure Event Hubs 消息值的模板。如果模板呈现为空值（即在规则引擎上下文中没有此类数据字段），则使用Azure Event Hubs 的<code>NULL</code>（而不是空字符串）。",
+    "kafka_ext_header_key": "Azure Event Hubs头部的键。支持格式为${'{'}var{'}'}的占位符。",
+    "kafka_ext_header_value": "Azure Event Hubs头部的值。支持格式为${'{'}var{'}'}的占位符。",
+    "mode": "消息缓冲区模式。\n\n<code>memory</code>：在内存中缓冲所有消息。在EMQX节点重启时，消息将会丢失\n<code>disk</code>：将所有消息缓冲到磁盘上。磁盘上的消息能够在EMQX节点重启时幸存下来。\n<code>hybrid</code>：首先在内存中缓冲消息，当达到一定限制时（有关更多信息，请参阅<code>segment_bytes</code>配置），然后开始将消息转移到磁盘上，与<code>memory</code>模式一样，消息将会在EMQX节点重启时丢失。",
+    "per_partition_limit": "每个 Azure Event Hubs 分区允许缓冲的字节数。当超过此限制时，旧消息将被删除以获得新消息的缓冲区配额。",
+    "segment_bytes": "在缓冲区模式设置为<code>disk</code>或<code>hybrid</code>时适用。\n此值用于指定每个磁盘缓冲文件的大小。",
+    "memory_overload_protection": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。"
+  },
+  "kinesis": {
+    "payload_template": "用于格式化输出消息的模板。如果未定义，将以 JSON 格式发送所有可用上下文。",
+    "aws_access_key_id": "用于连接到 Amazon Kinesis 的访问密钥 ID。",
+    "aws_secret_access_key": "用于连接到 Amazon Kinesis 的 AWS 秘密访问密钥。",
+    "endpoint": "Amazon Kinesis 端点的 URL。",
+    "stream_name": "要发布消息的 Amazon Kinesis 流。",
+    "partition_key": "与发布的消息关联的 Amazon Kinesis 分区键。支持 ${'{'}var{'}'} 格式的占位符。"
+  },
+  "greptimedb": {
+    "server": "要连接的 IPv4 或 IPv6 地址或主机名。</br>\n主机条目的格式为：`Host[:Port]`。",
+    "dbname": "GreptimeDB 数据库名称。",
+    "precision": "GreptimeDB 时间精度。",
+    "write_syntax": "GreptimeDB gRPC 协议写数据点的配置。写语法是一种基于文本的格式，提供数据点的测量、标签集、字段集和时间戳，支持占位符，与 InfluxDB 行协议相同。\n参考 [InfluxDB 2.3 行协议](https://docs.influxdata.com/influxdb/v2.3/reference/syntax/line-protocol/) 和\n[InfluxDB 1.8 行协议](https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/) </br>\n简而言之：</br>\n```\n<measurement>[,<tag_key>=<tag_value>[,<tag_key>=<tag_value>]] <field_key>=<field_value>[,<field_key>=<field_value>] [<timestamp>]\n```\n请注意，整数值的占位符必须使用后缀 `i` 进行注释。例如 `${'{'}payload.int_value{'}'}i`。"
+  },
+  "syskeeper_proxy": {
+    "listen": "Syskeeper 代理服务器的监听地址",
+    "acceptors": "接收器的数量",
+    "handshake_timeout": "在创建连接时等待握手的最长时间"
+  },
+  "syskeeper_forwarder": {
+    "server": "Syskeeper 代理服务器的地址",
+    "ack_mode": "指定代理服务器是否应该回复确认消息，可以是：<br>- need_ack <br>- no_ack <br>",
+    "ack_timeout": "等待回复确认消息的最长时间",
+    "target_topic": "转发消息的主题",
+    "target_qos": "转发消息的服务质量(QoS)，留空表示使用原始主题的 QoS",
+    "template": "消息模板, 支持占位符"
+  },
+  "elasticsearch": {
+    "server": "ElasticSearch 服务的 REST 接口地址。",
+    "routing": "指定应将文档存储在索引的哪个分片中，留空则由 Elasticsearch 决定。",
+    "wait_for_active_shards": "在继续操作之前必须激活的分片副本数。\n设置为all或任何正整数，最多为索引中的总分片数（number_of_replicas+1）。\n默认值：1，即主分片。",
+    "index": "要执行操作的索引或索引别名的名称，支持 ${'{'}var{'}'} 格式的占位符。",
+    "id": "索引内文档的唯一标识符，支持 ${'{'}var{'}'} 格式的占位符。如果未指定 ID，则由 Elasticsearch 自动生成。",
+    "doc": "自定义文档模板，支持 ${'{'}var{'}'} 格式的占位符，要求必须可以被转换为 JSON 对象。\n 例如 `{'{'} \"field\": \"${'{'}payload.field{'}'}\" {'}'}`，或 `${'{'}payload{'}'}`。",
+    "overwrite": "当文档已经存在时覆盖文档，否则文档将写入失败。",
+    "enable_pipelining": "一个正整数。是否连续发送 HTTP 请求，当设置为 1 时，这意味着每次发送 HTTP 请求后，您需要等待服务器返回，然后继续发送下一个请求。",
+    "connect_timeout": "连接到 HTTP 服务器时的超时时间。",
+    "doc_as_upsert": "尝试更新的文档不存在时，将更新操作当作一个插入操作，并将提供的文档当作新文档插入。"
   }
 }
