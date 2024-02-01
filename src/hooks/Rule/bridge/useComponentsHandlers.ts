@@ -319,25 +319,10 @@ export default (
   }
   const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { payload_template, aws_secret_access_key } = components
 
-    if (payload_template?.type === 'string') {
-      payload_template.format = 'sql'
+    if (components?.parameters?.properties?.payload_template?.type === 'string') {
+      components.parameters.properties.payload_template.format = 'sql'
     }
-
-    if (aws_secret_access_key?.type === 'string') {
-      aws_secret_access_key.format = 'password'
-    }
-
-    return { components, rules }
-  }
-
-  const greptimeDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-
-    // TODO:remove
-    Reflect.deleteProperty(components, 'ssl')
-    Reflect.deleteProperty(rules, 'ssl')
 
     return { components, rules }
   }
@@ -428,7 +413,6 @@ export default (
     [BridgeType.AzureEventHubs]: azureEventHubsHandler,
     [BridgeType.Confluent]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
-    [BridgeType.GreptimeDB]: greptimeDBHandler,
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
     [BridgeType.IoTDB]: IoTDBHandler,
     [BridgeType.Elasticsearch]: elasticsearchHandler,
