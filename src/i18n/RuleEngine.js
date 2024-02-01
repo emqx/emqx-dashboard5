@@ -191,10 +191,6 @@ export default {
     zh: '规则',
     en: 'rule',
   },
-  createWebhook: {
-    zh: '创建 Webhook',
-    en: 'Create Webhook',
-  },
   handleWebhookAssociatedTip: {
     zh: '该{target}被用于 Webhook，无法进行{operation}，请通过{page}管理',
     en: 'The {target} is used for Webhook and cannot be {operation}. Please manage it through the {page}',

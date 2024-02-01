@@ -45,7 +45,7 @@
                   v-if="!route.meta?.hideInMenu"
                   :index="topLvRoute.path + '/' + route.path"
                 >
-                  {{ $t(`components.${kebab2pascal(route.path)}`) }}
+                  {{ $t(`components.${route.name}`) }}
                 </el-menu-item>
               </template>
             </el-menu>
@@ -66,18 +66,20 @@
     v-model="showLicenseTipDialog"
     :max-connection="store.state.licenseData.max_connections"
   />
+  <QuickPanel v-model="showQuickPanel" />
 </template>
 
 <script lang="ts">
-import LeftBar from './LeftBar.vue'
-import NavHeader from './NavHeader.vue'
-import LicenseTipDialog from './LicenseTipDialog.vue'
-import { routes } from '@/router'
-import { useStore } from 'vuex'
-import { computed, defineComponent, ref, watch, onMounted } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { loadLicenseInfo } from '@/api/common'
 import EMQXVersion from '@/components/EMQXVersion.vue'
+import { routes } from '@/router'
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import LeftBar from './LeftBar.vue'
+import LicenseTipDialog from './LicenseTipDialog.vue'
+import NavHeader from './NavHeader.vue'
+import QuickPanel from './QuickPanel.vue'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -89,6 +91,7 @@ export default defineComponent({
     LeftBar,
     LicenseTipDialog,
     EMQXVersion,
+    QuickPanel,
   },
   props: {
     keepAlive: {
@@ -189,10 +192,28 @@ export default defineComponent({
         store.dispatch('SET_LEFT_BAR_COLLAPSE', true)
       }
     })
+
+    const showQuickPanel = ref(false)
+
+    const openQuickPanel = (e: KeyboardEvent) => {
+      if (!store.getters.isDev) {
+        return
+      }
+      if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault()
+        showQuickPanel.value = true
+      }
+    }
+    const bindKeyupListener = () => document.addEventListener('keydown', openQuickPanel)
+    const unbindKeyupListener = () => document.removeEventListener('keydown', openQuickPanel)
+
+    onUnmounted(unbindKeyupListener)
+
     watch(route, () => {
       setHeaderTitle()
     })
     setHeaderTitle()
+    bindKeyupListener()
     return {
       store,
       route,
@@ -208,6 +229,8 @@ export default defineComponent({
       kebab2pascal,
       isNotFound,
       firstPath,
+      showQuickPanel,
+      openQuickPanel,
     }
   },
 })

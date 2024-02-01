@@ -53,6 +53,11 @@ export const getConnectors = async (): Promise<Array<Connector>> => {
   }
 }
 
-export const postConnector = (data: Connector): Promise<Connector> => {
-  return http.post(`/connectors`, data)
+export const postConnector = async (data: Connector): Promise<Connector> => {
+  try {
+    const ret = await http.post(`/connectors`, data)
+    return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }

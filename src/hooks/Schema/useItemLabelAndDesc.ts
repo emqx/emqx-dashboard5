@@ -6,6 +6,7 @@ import {
   useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
+import actionText from '@/schemaText/actionText/index'
 import { Property } from '@/types/schemaForm'
 import { isFunction, snakeCase } from 'lodash'
 import { useI18n } from 'vue-i18n'
@@ -39,32 +40,13 @@ const LOG_SPECIAL_KEY_PREFIX_MAP = {
 const SYS_MON_PREFIX = 'sysmon_'
 
 // Bridge
-const COMMON_CONNECTOR_ZONE = 'emqx_connector_schema_lib'
-const COMMON_CONNECTOR_KEY = [
-  'auto_reconnect',
-  'password',
-  'pool_size',
-  'prepare_statement',
-  'ssl',
-  'username',
-  'database',
-  'description',
-]
+const COMMON_ZONE = 'common'
+const COMMON_FIELD_KEYS = Object.keys(actionText.en.common)
 
 const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
   [BridgeType.MatrixDB, 'pgsql'],
   [BridgeType.TimescaleDB, 'pgsql'],
-  [BridgeType.Confluent, 'kafka'],
-  [BridgeType.KafkaProducer, 'kafka'],
-  [BridgeType.GCPProducer, 'gcp_pubsub'],
-  [BridgeType.GCPConsumer, 'gcp_pubsub'],
-  [BridgeType.AzureEventHubs, 'azure_event_hub'],
 ])
-
-const MONGO_SPECIAL_KEY_MAP: Record<string, string> = {
-  heartbeat_frequency: 'heartbeat_period',
-  min_heartbeat_frequency: 'min_heartbeat_period',
-}
 
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
@@ -172,55 +154,51 @@ export default (
     return getTypeByConnectorSchemaRef(ref)
   }
 
-  /**
-   * zone is first level
-   */
-  const getBridgeTextZone = (prop: Property) => {
+  const getHotConfText = (prop: Property) => {
+    const textKey = 'ConfigSchema.' + getConfigurationItemTextKey(prop)
+    const descKey = `${textKey}.desc`
+    if (textKey) {
+      return {
+        label: t(`${textKey}.label`),
+        desc: te(descKey) ? t(descKey) : '',
+      }
+    }
+    return { label: '' }
+  }
+
+  const getBridgeTextKey = (prop: Property) => prop.key && (prop.labelKey || prop.key)
+
+  const getActionFormItemTextPath = (prop: Property, textType: 'label' | 'desc') => {
     if (!props.accordingTo?.ref) {
       return ''
     }
-    if (prop.path && prop.path.indexOf('resource_opt') > -1) {
-      return `emqx_resource_schema`
-    }
-    if (prop.key && COMMON_CONNECTOR_KEY.includes(prop.key) && !prop.labelKey) {
-      return COMMON_CONNECTOR_ZONE
-    }
+    const textFinalKey = getBridgeTextKey(prop)
     let type = getTypeBySchemaRef()
     const specifiedType = BRIDGE_SPECIAL_TYPE_MAP.get(type)
     if (specifiedType) {
       type = specifiedType
     }
-    return `emqx_ee_bridge_${type}`
-  }
-
-  const getBridgeTextKey = (prop: Property) => {
-    const type = getTypeBySchemaRef()
-    let key = prop.key
-    if (!key) {
-      return
+    const typeTextPath = `BridgeSchema.${type}.${textFinalKey}.${textType}`
+    /**
+     * If there is available text in the type zone,
+     * the text in the type zone will be taken first.
+     * Otherwise, the text in the common zone will be taken.
+     * Do this for override some of the less precise commons in the share-ui.
+     */
+    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
+      return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
     }
-    if (type === BridgeType.MongoDB) {
-      if (key.match(/_ms$/)) {
-        key = key.slice(0, -'_ms'.length)
-      }
-      if (key in MONGO_SPECIAL_KEY_MAP) {
-        key = MONGO_SPECIAL_KEY_MAP[key]
-      }
+    return typeTextPath
+  }
+
+  const getActionTextPath = (prop: Property) => {
+    return {
+      labelPath: getActionFormItemTextPath(prop, 'label'),
+      descPath: getActionFormItemTextPath(prop, 'desc'),
     }
-    return prop.labelKey || key
   }
 
-  const getBridgeFormItemTextKey = (prop: Property) => {
-    return `${getBridgeTextZone(prop)}.${getBridgeTextKey(prop)}`
-  }
-
-  const getTextKey = (prop: Property) => {
-    return !typesUseBridgeText.includes(props.type)
-      ? 'ConfigSchema.' + getConfigurationItemTextKey(prop)
-      : 'BridgeSchema.' + getBridgeFormItemTextKey(prop)
-  }
-
-  const specialProcess = (prop: Property) => {
+  const getActionSpecialText = (prop: Property) => {
     // Some special handling for the enterprise version
     if (!typesUseBridgeText.includes(props.type)) {
       return undefined
@@ -248,25 +226,31 @@ export default (
     return undefined
   }
 
+  const getActionText = (prop: Property) => {
+    const specialRet = getActionSpecialText(prop)
+    if (specialRet) {
+      return specialRet
+    }
+    const { labelPath, descPath } = getActionTextPath(prop)
+    if (labelPath) {
+      return {
+        label: t(labelPath),
+        desc: te(descPath) ? t(descPath) : '',
+      }
+    }
+    return { label: '' }
+  }
+
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
     return te(textKey) ? t(textKey) : key?.toString()
   }
 
   const getText = (prop: Property) => {
-    const specialRet = specialProcess(prop)
-    if (specialRet) {
-      return specialRet
+    if (!typesUseBridgeText.includes(props.type)) {
+      return getHotConfText(prop)
     }
-    const key = getTextKey(prop)
-    const descKey = `${key}.desc`
-    if (key) {
-      return {
-        label: t(`${key}.label`),
-        desc: te(descKey) ? t(descKey) : '',
-      }
-    }
-    return { label: '' }
+    return getActionText(prop)
   }
 
   return {

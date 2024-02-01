@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <detail-header :item="{ name: $t('RuleEngine.createWebhook'), routeName: 'webhook' }" />
+    <detail-header :item="{ name: t('components.webhook-create'), routeName: 'webhook' }" />
     <el-card class="webhook-create-card app-card">
       <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
       <div class="card-ft">
@@ -31,7 +31,7 @@ import { Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import WebhookFormCom from './components/WebhookForm.vue'
 
-const { tl } = useI18nTl('Base')
+const { t, tl } = useI18nTl('Base')
 const router = useRouter()
 
 const FormCom = ref()

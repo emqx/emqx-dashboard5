@@ -1,0 +1,10 @@
+{
+  "common": {
+    "description": "Description",
+    "ssl": "Enable SSL"
+  },
+  "mqtt": {
+    "server": "MQTT Broker",
+    "source_topic": "Topic"
+  }
+}

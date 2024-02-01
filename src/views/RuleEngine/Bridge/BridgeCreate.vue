@@ -304,7 +304,7 @@ const submitCreateBridge = async () => {
     const data = await getDataForSubmit()
     res = await addAction(data)
 
-    const bridgeId = res?.id
+    const id = res?.id
     if (!isFromRule.value) {
       ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
         confirmButtonText: tl('createRule'),
@@ -312,14 +312,14 @@ const submitCreateBridge = async () => {
         type: 'success',
       })
         .then(() => {
-          router.push({ name: 'rule-create', query: { bridgeId } })
+          router.push({ name: 'rule-create', query: { actionId: id } })
         })
         .catch(() => {
           router.push({ name: 'actions' })
         })
     }
     submitLoading.value = false
-    return Promise.resolve(bridgeId)
+    return Promise.resolve(id)
   } catch (error) {
     console.error(error)
     submitLoading.value = false

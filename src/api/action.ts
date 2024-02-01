@@ -14,7 +14,7 @@ export const getActions = async (): Promise<Array<Action>> => {
   try {
     const data = await http.get(`/actions`)
     return Promise.resolve(
-      data.map((item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item), ...item })),
+      data.map((item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item })),
     )
   } catch (error) {
     return Promise.reject(error)

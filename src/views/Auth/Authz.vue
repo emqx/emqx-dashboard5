@@ -13,7 +13,7 @@
         type="primary"
         :icon="Plus"
         :disabled="!$hasPermission('post')"
-        @click="$router.push({ name: 'authorizationCreate' })"
+        @click="$router.push({ name: 'authorization-create' })"
       >
         {{ $t('Base.create') }}
       </el-button>

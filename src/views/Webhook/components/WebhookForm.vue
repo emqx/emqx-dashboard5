@@ -53,8 +53,8 @@
         <el-form-item prop="connector.resource_opts.start_timeout">
           <template #label>
             <FormItemLabel
-              :label="t('BridgeSchema.emqx_resource_schema.start_timeout.label')"
-              :desc="t('BridgeSchema.emqx_resource_schema.start_timeout.desc')"
+              :label="t('BridgeSchema.common.start_timeout.label')"
+              :desc="t('BridgeSchema.common.start_timeout.desc')"
             />
           </template>
           <TimeInputWithUnitSelect v-model="formData.connector.resource_opts.start_timeout" />
@@ -138,7 +138,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_http.${key}`)
+const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
 const FormCom = ref()
 const TriggerCom = ref()
