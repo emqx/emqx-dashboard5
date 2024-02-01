@@ -272,6 +272,26 @@ export default (
     return { components, rules }
   }
 
+  const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    if (components?.aws_secret_access_key?.type === 'string') {
+      components.aws_secret_access_key.format = 'password'
+    }
+
+    return { components, rules }
+  }
+
+  const greptimeDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    // TODO:remove
+    Reflect.deleteProperty(components, 'ssl')
+    Reflect.deleteProperty(rules, 'ssl')
+
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -283,6 +303,8 @@ export default (
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],
+    [BridgeType.AmazonKinesis, amazonKinesisHandler],
+    [BridgeType.GreptimeDB, greptimeDBHandler],
   ])
 
   const getComponentsHandler = () => {

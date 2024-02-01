@@ -50,7 +50,6 @@
   "redis": {
     "redis_type": "部署模式"
   },
-  "gcp_pubsub_producer": {},
   "syskeeper_proxy": {
     "listen": "监听地址",
     "acceptors": "接收器",
@@ -78,9 +77,6 @@
   },
   "pulsar": {
     "servers": "服务器地址"
-  },
-  "kinesis": {
-    "payload_template": "载荷模板"
   },
   "influxdb": {
     "influxdb_type": "InfluxDB 版本"

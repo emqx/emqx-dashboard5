@@ -50,7 +50,6 @@
   "redis": {
     "redis_type": "Redis Mode"
   },
-  "gcp_pubsub_producer": {},
   "syskeeper_proxy": {
     "listen": "Listen Address",
     "acceptors": "Acceptors",
@@ -78,9 +77,6 @@
   },
   "pulsar": {
     "servers": "Servers"
-  },
-  "kinesis": {
-    "payload_template": "Payload template"
   },
   "influxdb": {
     "influxdb_type": "Version of InfluxDB"
