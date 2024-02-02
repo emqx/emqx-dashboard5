@@ -27,5 +27,6 @@
   "parameters_connector_influxdb_api_v_2": "v2",
   "parameters_action_update": "Update",
   "parameters_action_delete": "Delete",
-  "parameters_action_create": "Create"
+  "parameters_action_create": "Create",
+  "all_partitions": "All Partitions"
 }

@@ -250,7 +250,6 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
-  [SinkType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Producer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Pulsar]: { ...bridgeFormProps, labelWidth: '152px', isRoleHidden: true },
 }))

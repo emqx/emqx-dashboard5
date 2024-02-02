@@ -112,7 +112,8 @@
     "per_partition_limit": "Number of bytes allowed to buffer for each Kafka partition. When this limit is exceeded, old messages will be dropped in a trade for credits for new messages to be buffered.",
     "segment_bytes": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.<br/>This value is to specify the size of each on-disk buffer file.",
     "memory_overload_protection": "Applicable when buffer mode is set to <code>memory</code><br/>EMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
-    "compression": "Compression method."
+    "compression": "Compression method.",
+    "partitions_limit": "Limits the maximum number of partitions to which a producer can send messages."
   },
   "kafka_producer": {
     "bootstrap_hosts": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
@@ -143,7 +144,8 @@
     "mechanism": "SASL authentication mechanism.",
     "kerberos_principal": "SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.",
     "kerberos_keytab_file": "SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.",
-    "kafka_ext_header_value": "Value of the Kafka header. Placeholders in the format of <code>${'{'}var{'}'}</code> are supported."
+    "kafka_ext_header_value": "Value of the Kafka header. Placeholders in the format of <code>${'{'}var{'}'}</code> are supported.",
+    "partitions_limit": "Limits the maximum number of partitions to which a producer can send messages."
   },
   "kafka_consumer": {
     "bootstrap_hosts": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
@@ -299,7 +301,8 @@
     "mode": "Message buffer mode.\n\n<code>memory</code>: Buffer all messages in memory. The messages will be lost in case of EMQX node restart\n<code>disk</code>: Buffer all messages on disk. The messages on disk are able to survive EMQX node restart.\n<code>hybrid</code>: Buffer message in memory first, when up to certain limit (see <code>segment_bytes</code> config for more information), then start offloading messages to disk, Like <code>memory</code> mode, the messages will be lost in case of EMQX node restart.",
     "per_partition_limit": "Number of bytes allowed to buffer for each Azure Event Hubs partition. When this limit is exceeded, old messages will be dropped in a trade for credits for new messages to be buffered.",
     "segment_bytes": "Applicable when buffer mode is set to <code>disk</code> or <code>hybrid</code>.\nThis value is to specify the size of each on-disk buffer file.",
-    "memory_overload_protection": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux."
+    "memory_overload_protection": "Applicable when buffer mode is set to <code>memory</code>\nEMQX will drop old buffered messages under high memory pressure. The high memory threshold is defined in config <code>sysmon.os.sysmem_high_watermark</code>. NOTE: This config only works on Linux.",
+    "partitions_limit": "Limits the maximum number of partitions to which a producer can send messages."
   },
   "kinesis": {
     "payload_template": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",

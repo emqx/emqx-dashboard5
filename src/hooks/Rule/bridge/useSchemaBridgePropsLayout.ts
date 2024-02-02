@@ -71,46 +71,38 @@ export default (
     fieldStartIndex,
   )
 
-  const azureAdvancedProps = [
-    'min_metadata_refresh_interval',
-    'metadata_request_timeout',
-    'parameters.max_batch_bytes',
-    'parameters.required_acks',
-    'parameters.partition_count_refresh_interval',
-    'parameters.max_inflight',
-    'parameters.query_mode',
-    'parameters.sync_query_timeout',
-    'parameters.buffer',
-    'parameters.buffer.mode',
-    'parameters.buffer.per_partition_limit',
-    'parameters.buffer.segment_bytes',
-    'parameters.buffer.memory_overload_protection',
-    'mode',
-    'per_partition_limit',
-    'segment_bytes',
-    'memory_overload_protection',
-    'socket_opts.sndbuf',
-    'socket_opts.recbuf',
-    'socket_opts.tcp_keepalive',
-    'socket_opts.nodelay',
-  ]
+  const kafkaProducerAdvancedProps = getPathArrInParameters([
+    'max_batch_bytes',
+    'required_acks',
+    'partition_count_refresh_interval',
+    'max_inflight',
+    'query_mode',
+    'sync_query_timeout',
+    'buffer',
+    'buffer.mode',
+    'buffer.per_partition_limit',
+    'buffer.segment_bytes',
+    'buffer.memory_overload_protection',
+  ])
 
-  const azurePropsOrderMap = {
+  const kafkaProducerPropsOrderMap = {
     ...createOrderObj(
-      [
-        'parameters.topic',
-        'parameters.kafka_headers',
-        'parameters.kafka_header_value_encode_mode',
-        'parameters.kafka_ext_headers',
-        'parameters.message',
-        'parameters.message.key',
-        'parameters.message.value',
-        'parameters.message.timestamp',
-        'parameters.partition_strategy',
-      ],
+      getPathArrInParameters([
+        'topic',
+        'kafka_headers',
+        'kafka_header_value_encode_mode',
+        'kafka_ext_headers',
+        'message',
+        'message.key',
+        'message.value',
+        'message.timestamp',
+        'compression',
+        'partition_strategy',
+        'partitions_limit',
+      ]),
       fieldStartIndex,
     ),
-    ...createOrderObj(azureAdvancedProps, 150),
+    ...createOrderObj(kafkaProducerAdvancedProps, 70),
   }
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
@@ -127,12 +119,12 @@ export default (
     [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
     [BridgeType.Redis]: createOrderObj(['command_template'], fieldStartIndex),
     [BridgeType.GCPProducer]: createOrderObj(
-      [
-        'parameters.pubsub_topic',
-        'parameters.payload_template',
-        'parameters.attributes_template',
-        'parameters.ordering_key_template',
-      ],
+      getPathArrInParameters([
+        'pubsub_topic',
+        'payload_template',
+        'attributes_template',
+        'ordering_key_template',
+      ]),
       fieldStartIndex,
     ),
     [BridgeType.GCPConsumer]: createOrderObj(
@@ -218,8 +210,9 @@ export default (
       ['url', 'stream', 'partition_key', 'grpc_timeout', 'ssl', 'record_template'],
       fieldStartIndex,
     ),
-    [BridgeType.AzureEventHubs]: azurePropsOrderMap,
-    [BridgeType.Confluent]: azurePropsOrderMap,
+    [BridgeType.KafkaProducer]: kafkaProducerPropsOrderMap,
+    [BridgeType.AzureEventHubs]: kafkaProducerPropsOrderMap,
+    [BridgeType.Confluent]: kafkaProducerPropsOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(
       getPathArrInParameters(['stream_name', 'partition_key', 'payload_template']),
       fieldStartIndex,
@@ -246,7 +239,7 @@ export default (
     return ret
   })
 
-  const azureColClassMap = { 'parameters.topic': 'col-need-row' }
+  const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
     [BridgeType.GCPConsumer]: {
@@ -271,8 +264,9 @@ export default (
     [BridgeType.OracleDatabase]: {
       password: 'dividing-line-below',
     },
-    [BridgeType.AzureEventHubs]: azureColClassMap,
-    [BridgeType.Confluent]: azureColClassMap,
+    [BridgeType.KafkaProducer]: kafkaProducerColClassMap,
+    [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
+    [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.AmazonKinesis]: {
       partition_key: 'dividing-line-below',
     },
@@ -289,8 +283,9 @@ export default (
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCPConsumer]: ['pipelining'],
-    [BridgeType.AzureEventHubs]: azureAdvancedProps,
-    [BridgeType.Confluent]: azureAdvancedProps,
+    [BridgeType.KafkaProducer]: kafkaProducerAdvancedProps,
+    [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
+    [BridgeType.Confluent]: kafkaProducerAdvancedProps,
   }
 
   const advancedFields = computed(() => {

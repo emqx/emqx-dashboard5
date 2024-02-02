@@ -76,8 +76,7 @@ export default (): {
   isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const { createRawKafkaProducerForm, createRawKafkaConsumerForm, createRawInfluxDBForm } =
-    useBridgeFormCreator()
+  const { createRawKafkaConsumerForm, createRawInfluxDBForm } = useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
    */
@@ -96,7 +95,6 @@ export default (): {
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
-    [SinkType.Kafka]: createRawKafkaProducerForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,
     [SinkType.Pulsar]: emptyCreator,
