@@ -41,14 +41,8 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-kafka-producer-config
-                v-if="chosenBridgeType === BridgeType.KafkaProducer"
-                v-model="bridgeData"
-                ref="formCom"
-                :copy="isCopy"
-              />
               <bridge-kafka-consumer-config
-                v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
+                v-if="chosenBridgeType === BridgeType.KafkaConsumer"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
@@ -122,12 +116,6 @@
         v-model="bridgeData"
         ref="formCom"
       />
-      <bridge-kafka-producer-config
-        v-else-if="chosenBridgeType === BridgeType.KafkaProducer"
-        v-model="bridgeData"
-        ref="formCom"
-        :copy="isCopy"
-      />
       <bridge-kafka-consumer-config
         v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
         v-model="bridgeData"
@@ -166,7 +154,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
-import BridgeKafkaProducerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'

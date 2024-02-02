@@ -27,5 +27,6 @@
   "parameters_connector_influxdb_api_v_2": "v2",
   "parameters_action_update": "更新",
   "parameters_action_delete": "删除",
-  "parameters_action_create": "创建"
+  "parameters_action_create": "创建",
+  "all_partitions": "所有分区"
 }

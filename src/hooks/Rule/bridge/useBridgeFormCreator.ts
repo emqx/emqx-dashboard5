@@ -11,7 +11,6 @@ import {
 export default (): {
   createRawMQTTForm: (direction?: BridgeDirection) => any
   createKafkaDefaultValCommonPart: () => any
-  createRawKafkaProducerForm: () => OtherBridge
   createRawKafkaConsumerForm: () => OtherBridge
   createRawInfluxDBForm: () => OtherBridge
 } => {
@@ -68,34 +67,6 @@ export default (): {
     name: '',
     resource_opts: { health_check_interval: '15s' },
   })
-  const createRawKafkaProducerForm = () => ({
-    type: BridgeType.KafkaProducer,
-    connector: '',
-    ...createKafkaDefaultValCommonPart(),
-    parameters: {
-      topic: '',
-      message: {
-        key: '${.clientid}',
-        value: '${.}',
-        timestamp: '${.timestamp}',
-      },
-      max_batch_bytes: '896KB',
-      compression: 'no_compression',
-      partition_strategy: 'random',
-      required_acks: 'all_isr',
-      partition_count_refresh_interval: '60s',
-      max_inflight: 10,
-      query_mode: 'async',
-      sync_query_timeout: '5s',
-      kafka_header_value_encode_mode: 'none',
-      buffer: {
-        mode: 'memory',
-        per_partition_limit: '2GB',
-        segment_bytes: '100MB',
-        memory_overload_protection: false,
-      },
-    },
-  })
   const createRawKafkaConsumerForm = () => ({
     type: BridgeType.KafkaConsumer,
     ...createKafkaDefaultValCommonPart(),
@@ -140,7 +111,6 @@ export default (): {
   return {
     createRawMQTTForm,
     createKafkaDefaultValCommonPart,
-    createRawKafkaProducerForm,
     createRawKafkaConsumerForm,
     createRawInfluxDBForm,
   }

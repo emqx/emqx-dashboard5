@@ -103,15 +103,6 @@
                 :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
-              <bridge-kafka-producer-config
-                v-else-if="bridgeType === BridgeType.KafkaProducer"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                :disabled="disabled"
-                :hide-name="hideName"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
               <bridge-pulsar-config
                 v-else-if="bridgeType === BridgeType.Pulsar"
                 v-model="bridgeInfo"
@@ -196,7 +187,6 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
-import BridgeKafkaProducerConfig from './Components/BridgeConfig/BridgeKafkaProducerConfig.vue'
 
 enum Tab {
   Overview = 'overview',

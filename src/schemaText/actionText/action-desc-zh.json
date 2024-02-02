@@ -111,7 +111,8 @@
     "per_partition_limit": "为每个 Kafka 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，为新的消息腾出空间。",
     "segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
     "memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
-    "compression": "压缩方法。"
+    "compression": "压缩方法。",
+    "partitions_limit": "限制生产者能够发送消息的最大分区数量。"
   },
   "kafka_producer": {
     "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
@@ -141,7 +142,8 @@
     "mechanism": "SASL 认证方法名称。",
     "kerberos_principal": "SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中",
     "kerberos_keytab_file": "SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。",
-    "kafka_ext_header_value": "Kafka Headers 的值。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。"
+    "kafka_ext_header_value": "Kafka Headers 的值。支持使用 <code>${'{'}var{'}'}</code> 格式的占位符。",
+    "partitions_limit": "限制生产者能够发送消息的最大分区数量。"
   },
   "kafka_consumer": {
     "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
@@ -296,7 +298,8 @@
     "mode": "消息缓冲区模式。\n\n<code>memory</code>：在内存中缓冲所有消息。在EMQX节点重启时，消息将会丢失\n<code>disk</code>：将所有消息缓冲到磁盘上。磁盘上的消息能够在EMQX节点重启时幸存下来。\n<code>hybrid</code>：首先在内存中缓冲消息，当达到一定限制时（有关更多信息，请参阅<code>segment_bytes</code>配置），然后开始将消息转移到磁盘上，与<code>memory</code>模式一样，消息将会在EMQX节点重启时丢失。",
     "per_partition_limit": "每个 Azure Event Hubs 分区允许缓冲的字节数。当超过此限制时，旧消息将被删除以获得新消息的缓冲区配额。",
     "segment_bytes": "在缓冲区模式设置为<code>disk</code>或<code>hybrid</code>时适用。\n此值用于指定每个磁盘缓冲文件的大小。",
-    "memory_overload_protection": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。"
+    "memory_overload_protection": "在缓冲区模式设置为<code>memory</code>时适用\n在内存压力较大时，EMQX将删除旧的缓冲消息。高内存阈值在配置<code>sysmon.os.sysmem_high_watermark</code>中定义。注意：此配置仅适用于Linux。",
+    "partitions_limit": "限制生产者能够发送消息的最大分区数量。"
   },
   "kinesis": {
     "payload_template": "用于格式化输出消息的模板。如果未定义，将以 JSON 格式发送所有可用上下文。",

@@ -294,10 +294,16 @@ export default (
     return { components, rules }
   }
 
-  const azureEventHubsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const kafkaProducerHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
+
+    if (parameters?.properties?.partitions_limit) {
+      parameters.properties.partitions_limit.componentProps = {
+        disabledLabel: t('SchemaSymbolLabel.all_partitions'),
+      }
+    }
 
     const { kafka_ext_header_key, kafka_ext_header_value } =
       parameters?.properties?.kafka_ext_headers?.items?.properties || {}
@@ -317,6 +323,7 @@ export default (
 
     return { components, rules }
   }
+
   const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
@@ -410,8 +417,9 @@ export default (
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
-    [BridgeType.AzureEventHubs]: azureEventHubsHandler,
-    [BridgeType.Confluent]: azureEventHubsHandler,
+    [BridgeType.KafkaProducer]: kafkaProducerHandler,
+    [BridgeType.AzureEventHubs]: kafkaProducerHandler,
+    [BridgeType.Confluent]: kafkaProducerHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
     [BridgeType.IoTDB]: IoTDBHandler,
