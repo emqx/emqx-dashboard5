@@ -274,10 +274,9 @@ export default (
 
   const rabbitMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { payload_template } = components
 
-    if (payload_template?.type === 'string') {
-      payload_template.format = 'sql'
+    if (components?.parameters?.properties?.payload_template?.type === 'string') {
+      components.parameters.properties.payload_template.format = 'sql'
     }
 
     return { components, rules }

@@ -205,6 +205,10 @@ export default (
       ['keyspace', 'servers', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
+    [BridgeType.RabbitMQ]: createOrderObj(
+      ['server', 'port', 'username', 'password', 'virtual_host', 'heartbeat', 'timeout', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -233,6 +237,7 @@ export default (
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
     [BridgeType.IoTDB]: IoTDBAdvancedProps,
     [BridgeType.Elasticsearch]: IoTDBAdvancedProps,
+    [BridgeType.RabbitMQ]: ['heartbeat', 'timeout'],
   }
 
   const advancedFields = computed(() => {

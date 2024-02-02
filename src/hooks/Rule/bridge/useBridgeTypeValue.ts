@@ -421,6 +421,7 @@ export const useConnectorSchema = (): {
     [BridgeType.TDengine, getRef(`${BridgeType.TDengine}_connector`, '', 'post')],
     [BridgeType.OpenTSDB, getRef(`${BridgeType.OpenTSDB}_connector`, '', 'post')],
     [BridgeType.Cassandra, getRef('cassa')],
+    [BridgeType.RabbitMQ, getRef(BridgeType.RabbitMQ, '', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {
