@@ -28,26 +28,32 @@ const result: TextResult = {
   en: {},
 }
 
+const transformConf = (conf: TextConf, propName: 'label' | 'desc') =>
+  Object.entries(conf).reduce(
+    (obj: Record<string, Record<string, Record<'label' | 'desc', string>>>, [type, map]) => {
+      obj[type] = Object.entries(map).reduce(
+        (ret: Record<string, Record<'label' | 'desc', string>>, [key, value]) => {
+          ret[key] = { [propName]: value } as Record<'label' | 'desc', string>
+          return ret
+        },
+        {},
+      )
+      return obj
+    },
+    {},
+  )
+
 const handleOneLang = (
   defaultLabelConf: TextConf,
   customLabelConf: TextConf,
   descConf: TextConf,
   lang: 'zh' | 'en',
 ) => {
-  const allTypes = [...new Set([...Object.keys(defaultLabelConf), ...Object.keys(customLabelConf)])]
-  allTypes.forEach((type) => {
-    const defaultTypeLabelMap = defaultLabelConf[type] || {}
-    const customTypeLabelMap = customLabelConf[type] || {}
+  const labelConf = merge(defaultLabelConf, customLabelConf)
+  const labelRet = transformConf(labelConf, 'label')
+  const descRet = transformConf(descConf, 'desc')
 
-    result[lang][type] = Object.entries(merge(defaultTypeLabelMap, customTypeLabelMap)).reduce(
-      (obj: { [key: string]: TextItem }, [key, label]) => {
-        const desc = descConf[type]?.[key]
-        obj[key] = { label, desc }
-        return obj
-      },
-      {},
-    )
-  })
+  result[lang] = merge(labelRet, descRet)
 }
 
 const generateResult = () => {
