@@ -466,6 +466,7 @@ const SchemaForm = defineComponent({
             ...handleUpdateModelValue,
             items: property.oneOf,
             disabled: isPropertyDisabled,
+            ...customProps,
           }
           if (isComplexOneof(property)) {
             const propToBind = _.cloneDeep(property)
