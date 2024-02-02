@@ -226,7 +226,6 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
   BridgeType.InfluxDB,
   BridgeType.KafkaConsumer,
-  BridgeType.KafkaProducer,
   BridgeType.Pulsar,
 ]
 

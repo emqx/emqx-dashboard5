@@ -34,6 +34,8 @@
         v-model="valueProxy"
         :disabled="disabled"
         clearable
+        :min="oneOfInfo.propEnabled.minimum ?? Number.NEGATIVE_INFINITY"
+        :max="oneOfInfo.propEnabled.maximum ?? Number.POSITIVE_INFINITY"
       />
       <el-select
         v-model="valueProxy"
