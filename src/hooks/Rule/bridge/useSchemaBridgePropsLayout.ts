@@ -220,6 +220,7 @@ export default (
     ),
     [BridgeType.AzureEventHubs]: azurePropsOrderMap,
     [BridgeType.Confluent]: azurePropsOrderMap,
+    [BridgeType.KafkaProducer]: azurePropsOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(
       getPathArrInParameters(['stream_name', 'partition_key', 'payload_template']),
       fieldStartIndex,
@@ -271,6 +272,7 @@ export default (
     [BridgeType.OracleDatabase]: {
       password: 'dividing-line-below',
     },
+    [BridgeType.KafkaProducer]: azureColClassMap,
     [BridgeType.AzureEventHubs]: azureColClassMap,
     [BridgeType.Confluent]: azureColClassMap,
     [BridgeType.AmazonKinesis]: {
@@ -289,6 +291,7 @@ export default (
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCPConsumer]: ['pipelining'],
+    [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
   }

@@ -41,14 +41,8 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-kafka-producer-config
-                v-if="chosenBridgeType === BridgeType.KafkaProducer"
-                v-model="bridgeData"
-                ref="formCom"
-                :copy="isCopy"
-              />
               <bridge-kafka-consumer-config
-                v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
+                v-if="chosenBridgeType === BridgeType.KafkaConsumer"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
@@ -121,12 +115,6 @@
         v-if="chosenBridgeType === BridgeType.InfluxDB"
         v-model="bridgeData"
         ref="formCom"
-      />
-      <bridge-kafka-producer-config
-        v-else-if="chosenBridgeType === BridgeType.KafkaProducer"
-        v-model="bridgeData"
-        ref="formCom"
-        :copy="isCopy"
       />
       <bridge-kafka-consumer-config
         v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"

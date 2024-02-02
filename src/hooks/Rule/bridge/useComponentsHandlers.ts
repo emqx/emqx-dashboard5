@@ -410,6 +410,7 @@ export default (
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
+    [BridgeType.KafkaProducer]: azureEventHubsHandler,
     [BridgeType.AzureEventHubs]: azureEventHubsHandler,
     [BridgeType.Confluent]: azureEventHubsHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,

@@ -459,6 +459,7 @@ export const useActionSchema = (): {
     [BridgeType.GCPProducer, getRef('gcp_pubsub_producer', '')],
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
     [BridgeType.SysKeeperForwarder, getRef('syskeeper', '')],
+    [BridgeType.KafkaProducer, getRef('kafka')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
