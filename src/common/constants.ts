@@ -310,6 +310,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.OracleDatabase,
   BridgeType.OpenTSDB,
   BridgeType.Cassandra,
+  BridgeType.RabbitMQ,
 ]
 
 export const COPY_SUFFIX = '_duplication'

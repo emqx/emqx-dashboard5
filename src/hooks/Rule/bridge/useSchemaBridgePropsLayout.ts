@@ -179,23 +179,14 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RabbitMQ]: createOrderObj(
-      [
-        'server',
-        'port',
-        'username',
-        'password',
+      getPathArrInParameters([
         'exchange',
         'routing_key',
-        'virtual_host',
-        'heartbeat',
-        'auto_reconnect',
         'delivery_mode',
         'wait_for_publish_confirmations',
         'publish_confirmation_timeout',
-        'timeout',
-        'ssl',
         'payload_template',
-      ],
+      ]),
       fieldStartIndex,
     ),
     [BridgeType.HStream]: createOrderObj(
@@ -263,7 +254,7 @@ export default (
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
-    [BridgeType.RabbitMQ]: ['heartbeat', 'publish_confirmation_timeout', 'timeout'],
+    [BridgeType.RabbitMQ]: ['parameters.publish_confirmation_timeout'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCPConsumer]: ['pipelining'],
