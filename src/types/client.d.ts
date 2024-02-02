@@ -49,4 +49,5 @@ export interface Client {
   username: string
   will_msg: string
   zone: string
+  [key: string]: any
 }

@@ -1,0 +1,84 @@
+{
+  "common": {
+    "description": "Description",
+    "ssl": "Enable SSL"
+  },
+  "mqtt": {
+    "server": "MQTT Broker",
+    "source_topic": "Topic"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "Bootstrap Hosts",
+    "authentication": "Authentication",
+    "connect_timeout": "Connect Timeout",
+    "min_metadata_refresh_interval": "Min Metadata Refresh Interval",
+    "metadata_request_timeout": "Metadata Request Timeout",
+    "kafka_message_timestamp": "Message Timestamp",
+    "topic": "Kafka Topic",
+    "kafka_headers": "Kafka Headers",
+    "kafka_header_value_encode_mode": "Kafka Header Value Encode Mode",
+    "kafka_ext_headers": "More Kafka Headers",
+    "key": "Message Key",
+    "value": "Message Value",
+    "compression": "Compression",
+    "partition_strategy": "Partition Strategy",
+    "max_batch_bytes": "Max Batch Bytes",
+    "required_acks": "Required Acks",
+    "partition_count_refresh_interval": "Partition Count Refresh Interval",
+    "max_inflight": "Max Inflight",
+    "sync_query_timeout": "Synchronous Query Timeout",
+    "mode": "Buffer Mode",
+    "per_partition_limit": "Per-partition Buffer Limit",
+    "segment_bytes": "Segment File Bytes",
+    "memory_overload_protection": "Memory Overload Protection"
+  },
+  "confluent_producer": {
+    "bootstrap_hosts": "Bootstrap Hosts",
+    "topic": "Kafka Topic",
+    "key": "Message Key",
+    "value": "Message Value",
+    "mode": "Buffer Mode"
+  },
+  "azure_event_hub_producer": {
+    "connection_string": "Connection String",
+    "kafka_ext_header_key": "Key",
+    "kafka_ext_header_value": "Value"
+  },
+  "mongodb": {
+    "mongo_type": "MongoDB Mode"
+  },
+  "redis": {
+    "redis_type": "Redis Mode"
+  },
+  "syskeeper_proxy": {
+    "listen": "Listen Address",
+    "acceptors": "Acceptors",
+    "handshake_timeout": "Handshake Timeout"
+  },
+  "elasticsearch": {
+    "action": "Action"
+  },
+  "clickhouse": {
+    "url": "Server URL"
+  },
+  "dynamo": {
+    "url": "DynamoDB Endpoint"
+  },
+  "hstreamdb": {
+    "url": "HStreamDB Server URL"
+  },
+  "rocketmq": {
+    "servers": "Server Host",
+    "topic": "RocketMQ Topic",
+    "sync_timeout": "Sync Timeout"
+  },
+  "rabbitmq": {
+    "payload_template": "Payload Template"
+  },
+  "pulsar": {
+    "servers": "Servers"
+  },
+  "influxdb": {
+    "influxdb_type": "Version of InfluxDB"
+  }
+}

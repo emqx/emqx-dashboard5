@@ -221,22 +221,15 @@ export default (
     [BridgeType.AzureEventHubs]: azurePropsOrderMap,
     [BridgeType.Confluent]: azurePropsOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(
-      [
-        'aws_access_key_id',
-        'aws_secret_access_key',
-        'endpoint',
-        'stream_name',
-        'partition_key',
-        'payload_template',
-      ],
+      getPathArrInParameters(['stream_name', 'partition_key', 'payload_template']),
       fieldStartIndex,
     ),
     [BridgeType.GreptimeDB]: createOrderObj(
-      ['server', 'dbname', 'username', 'password', 'precision', 'ssl', 'write_syntax'],
+      getPathArrInParameters(['write_syntax', 'precision']),
       fieldStartIndex,
     ),
     [BridgeType.SysKeeperForwarder]: createOrderObj(
-      ['parameters.target_topic', 'parameters.target_qos', 'parameters.template'],
+      getPathArrInParameters(['target_topic', 'target_qos', 'template']),
       fieldStartIndex,
     ),
     [BridgeType.Elasticsearch]: createOrderObj(

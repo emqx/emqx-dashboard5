@@ -194,7 +194,7 @@
         <el-col :span="colSpan">
           <CustomFormItem prop="batch_size" :readonly="readonly">
             <template #label>
-              <FormItemLabel v-bind="getLabelProps('batch_size')" />
+              <FormItemLabel v-bind="getResourceOptLabelProp('batch_size')" />
             </template>
             <el-input v-model="formData.batch_size" />
           </CustomFormItem>
@@ -349,15 +349,15 @@ const emit = defineEmits(['update:modelValue', 'init'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const getPulsarText = (key: string) => t(`BridgeSchema.emqx_ee_bridge_pulsar.${key}`)
+const getPulsarText = (key: string) => t(`BridgeSchema.pulsar.${key}`)
 const getLabelProps = (key: string) => ({
   label: getPulsarText(`${snakeCase(key)}.label`),
   desc: getPulsarText(`${snakeCase(key)}.desc`),
   descMarked: true,
 })
 const getResourceOptLabelProp = (key: string) => ({
-  label: t(`BridgeSchema.emqx_resource_schema.${key}.label`),
-  desc: t(`BridgeSchema.emqx_resource_schema.${key}.desc`),
+  label: t(`BridgeSchema.common.${key}.label`),
+  desc: t(`BridgeSchema.common.${key}.desc`),
   descMarked: true,
 })
 

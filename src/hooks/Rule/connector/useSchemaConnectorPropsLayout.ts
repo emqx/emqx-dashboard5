@@ -187,6 +187,14 @@ export default (
     ),
     [BridgeType.IoTDB]: IoTDBOrderMap,
     [BridgeType.Elasticsearch]: IoTDBOrderMap,
+    [BridgeType.AmazonKinesis]: createOrderObj(
+      ['aws_access_key_id', 'aws_secret_access_key', 'endpoint'],
+      fieldStartIndex,
+    ),
+    [BridgeType.GreptimeDB]: createOrderObj(
+      ['server', 'dbname', 'username', 'password', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

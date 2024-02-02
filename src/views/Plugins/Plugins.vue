@@ -10,13 +10,9 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="goInstall"
-        >{{ tl('installPlugin') }}</el-button
-      >
+      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="goInstall">
+        {{ t('components.plugin-install') }}
+      </el-button>
     </div>
     <el-table
       :data="pluginListToShow"

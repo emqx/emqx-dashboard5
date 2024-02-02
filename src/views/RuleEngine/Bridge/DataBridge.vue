@@ -154,14 +154,14 @@ const enableOrDisableBridge = async (row: BridgeItem) => {
   }
 }
 
-const createRuleWithBridge = (bridgeId: string) => {
+const createRuleWithBridge = (id: string) => {
   ElMessageBox.confirm(t('RuleEngine.useActionCreateRule'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { bridgeId } })
+      router.push({ name: 'rule-create', query: { actionId: id } })
     })
     .catch(() => ({}))
 }

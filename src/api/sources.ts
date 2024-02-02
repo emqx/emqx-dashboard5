@@ -6,7 +6,7 @@ export const getSources = async (): Promise<Array<Source>> => {
   try {
     const data = await http.get(`/sources`)
     return Promise.resolve(
-      data.map((item: Omit<Source, 'id'>) => ({ id: getBridgeKey(item), ...item })),
+      data.map((item: Omit<Source, 'id'>) => ({ id: getBridgeKey(item as any), ...item })),
     )
   } catch (error) {
     return Promise.reject(error)

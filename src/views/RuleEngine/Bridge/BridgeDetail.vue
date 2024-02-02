@@ -387,7 +387,7 @@ const createRuleWithBridge = () => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { bridgeId: bridgeInfo.value.id } })
+      router.push({ name: 'rule-create', query: { actionId: bridgeInfo.value.id } })
     })
     .catch(() => ({}))
 }

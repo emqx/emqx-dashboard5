@@ -15,10 +15,6 @@ export default {
     zh: '未安装',
     en: 'Not installed',
   },
-  installPlugin: {
-    zh: '安装插件',
-    en: 'Install plugin',
-  },
   name: {
     zh: '名称',
     en: 'Name',
