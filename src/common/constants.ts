@@ -304,6 +304,8 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.Elasticsearch,
   BridgeType.AmazonKinesis,
   BridgeType.GreptimeDB,
+  BridgeType.TDengine,
+  BridgeType.OracleDatabase,
 ]
 
 export const COPY_SUFFIX = '_duplication'

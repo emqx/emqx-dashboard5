@@ -418,6 +418,7 @@ export const useConnectorSchema = (): {
     [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
     [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
     [BridgeType.Elasticsearch, getRef(BridgeType.Elasticsearch, '', 'post')],
+    [BridgeType.TDengine, getRef(`${BridgeType.TDengine}_connector`, '', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {

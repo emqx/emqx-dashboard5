@@ -144,10 +144,6 @@ export default (
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
-    [BridgeType.TDengine]: createOrderObj(
-      ['server', 'database', 'username', 'password'],
-      fieldStartIndex,
-    ),
     [BridgeType.ClickHouse]: createOrderObj(
       ['url', 'database', 'username', 'password', 'batch_value_separator', 'sql'],
       fieldStartIndex,
@@ -182,10 +178,6 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
-    [BridgeType.OracleDatabase]: createOrderObj(
-      ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
-      fieldStartIndex,
-    ),
     [BridgeType.RabbitMQ]: createOrderObj(
       [
         'server',
@@ -229,6 +221,10 @@ export default (
       ['index', 'id', 'doc_as_upsert', 'doc', 'routing', 'overwrite', 'max_retries'],
       fieldStartIndex,
     ),
+    [BridgeType.TDengine]: createOrderObj(
+      getPathArrInParameters(['database', 'sql']),
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -246,9 +242,6 @@ export default (
       pubsub_topic: 'col-need-row',
       service_account_json: 'custom-col-24',
     },
-    [BridgeType.TDengine]: {
-      username: 'dividing-line-below',
-    },
     [BridgeType.ClickHouse]: {
       username: 'dividing-line-below',
     },
@@ -261,18 +254,9 @@ export default (
     [BridgeType.MicrosoftSQLServer]: {
       driver: 'dividing-line-below',
     },
-    [BridgeType.OracleDatabase]: {
-      password: 'dividing-line-below',
-    },
     [BridgeType.KafkaProducer]: kafkaProducerColClassMap,
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
-    [BridgeType.AmazonKinesis]: {
-      partition_key: 'dividing-line-below',
-    },
-    [BridgeType.GreptimeDB]: {
-      username: 'dividing-line-below',
-    },
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
   }
 
