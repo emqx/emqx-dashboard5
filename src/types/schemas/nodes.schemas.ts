@@ -45,6 +45,8 @@ export interface EmqxMgmtApiStatsNodeStatsData {
   'delayed.max'?: number
   'live_connections.count'?: number
   'live_connections.max'?: number
+  'cluster_sessions.count'?: number
+  'cluster_sessions.max'?: number
   'retained.count'?: number
   'retained.max'?: number
   'sessions.count'?: number
@@ -92,6 +94,7 @@ export interface EmqxMgmtApiNodesNodeInfo {
   node?: string
   connections?: number
   live_connections?: number
+  cluster_sessions?: number
   load1?: number
   load5?: number
   load15?: number

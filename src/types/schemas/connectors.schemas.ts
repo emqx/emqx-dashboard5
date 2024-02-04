@@ -146,45 +146,6 @@ export type PostConnectorsIdOperation400 = {
   message?: string
 }
 
-export type DeleteConnectorsId503Code =
-  typeof DeleteConnectorsId503Code[keyof typeof DeleteConnectorsId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteConnectorsId503 = {
-  code?: DeleteConnectorsId503Code
-  message?: string
-}
-
-export type DeleteConnectorsId404Code =
-  typeof DeleteConnectorsId404Code[keyof typeof DeleteConnectorsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteConnectorsId404 = {
-  code?: DeleteConnectorsId404Code
-  message?: string
-}
-
-export type DeleteConnectorsId400Code =
-  typeof DeleteConnectorsId400Code[keyof typeof DeleteConnectorsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteConnectorsId400 = {
-  code?: DeleteConnectorsId400Code
-  message?: string
-}
-
 export type PutConnectorsId404Code =
   typeof PutConnectorsId404Code[keyof typeof PutConnectorsId404Code]
 
@@ -228,6 +189,47 @@ export type GetConnectorsId404 = {
   message?: string
 }
 
+export type GetConnectorsId200 = ConnectorMqttGetConnector | BridgeHttpGetConnector
+
+export type DeleteConnectorsId503Code =
+  typeof DeleteConnectorsId503Code[keyof typeof DeleteConnectorsId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteConnectorsId503 = {
+  code?: DeleteConnectorsId503Code
+  message?: string
+}
+
+export type DeleteConnectorsId404Code =
+  typeof DeleteConnectorsId404Code[keyof typeof DeleteConnectorsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteConnectorsId404 = {
+  code?: DeleteConnectorsId404Code
+  message?: string
+}
+
+export type DeleteConnectorsId400Code =
+  typeof DeleteConnectorsId400Code[keyof typeof DeleteConnectorsId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteConnectorsId400 = {
+  code?: DeleteConnectorsId400Code
+  message?: string
+}
+
 export type PostConnectorsProbe400Code =
   typeof PostConnectorsProbe400Code[keyof typeof PostConnectorsProbe400Code]
 
@@ -239,6 +241,55 @@ export const PostConnectorsProbe400Code = {
 export type PostConnectorsProbe400 = {
   code?: PostConnectorsProbe400Code
   message?: string
+}
+
+export type PostConnectorsProbeBody = ConnectorMqttPostConnector | BridgeHttpPostConnector
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
 
 export type ConnectorNodeStatusStatus =
@@ -305,7 +356,7 @@ export interface ConnectorMqttPutConnector {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type ConnectorMqttPostConnectorProtoVer =
@@ -359,10 +410,8 @@ export interface ConnectorMqttPostConnector {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
-
-export type PostConnectorsProbeBody = ConnectorMqttPostConnector | BridgeHttpPostConnector
 
 export type ConnectorMqttGetConnectorProtoVer =
   typeof ConnectorMqttGetConnectorProtoVer[keyof typeof ConnectorMqttGetConnectorProtoVer]
@@ -430,54 +479,7 @@ export interface ConnectorMqttGetConnector {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
-}
-
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
-
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface BrokerSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: BrokerSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeNodeStatusStatus =
@@ -527,7 +529,7 @@ export interface BridgeHttpPutConnector {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpPutConnectorRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
@@ -571,7 +573,7 @@ export interface BridgeHttpPostConnector {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpPostConnectorRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
@@ -635,8 +637,6 @@ export interface BridgeHttpGetConnector {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpGetConnectorRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
-
-export type GetConnectorsId200 = ConnectorMqttGetConnector | BridgeHttpGetConnector

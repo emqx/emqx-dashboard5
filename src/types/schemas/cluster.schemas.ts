@@ -52,31 +52,21 @@ export interface ClusterReplicantInfo {
   streams?: number
 }
 
-export type ClusterNodeInvitationSucceedFinishedAt = number | string
-
-export type ClusterNodeInvitationSucceedStartedAt = number | string
-
 export interface ClusterNodeInvitationSucceed {
   node?: string
-  started_at?: ClusterNodeInvitationSucceedStartedAt
-  finished_at?: ClusterNodeInvitationSucceedFinishedAt
+  started_at?: string
+  finished_at?: string
 }
-
-export type ClusterNodeInvitationInProgressStartedAt = number | string
 
 export interface ClusterNodeInvitationInProgress {
   node?: string
-  started_at?: ClusterNodeInvitationInProgressStartedAt
+  started_at?: string
 }
-
-export type ClusterNodeInvitationFailedFinishedAt = number | string
-
-export type ClusterNodeInvitationFailedStartedAt = number | string
 
 export interface ClusterNodeInvitationFailed {
   node?: string
-  started_at?: ClusterNodeInvitationFailedStartedAt
-  finished_at?: ClusterNodeInvitationFailedFinishedAt
+  started_at?: string
+  finished_at?: string
   reason?: string
 }
 

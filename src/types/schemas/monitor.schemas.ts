@@ -229,7 +229,7 @@ export interface OpentelemetryOtelLogs {
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
-  ssl_options?: BrokerSslClientOpts
+  ssl_options?: EmqxSslClientOpts
 }
 
 export interface OpentelemetryOpentelemetry {
@@ -239,13 +239,13 @@ export interface OpentelemetryOpentelemetry {
   exporter?: OpentelemetryOtelExporter
 }
 
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
+export const EmqxSslClientOptsLogLevel = {
   emergency: 'emergency',
   alert: 'alert',
   critical: 'critical',
@@ -258,30 +258,30 @@ export const BrokerSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
+export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
   verify_none: 'verify_none',
 } as const
 
-export interface BrokerSslClientOpts {
+export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
   keyfile?: string
-  verify?: BrokerSslClientOptsVerify
+  verify?: EmqxSslClientOptsVerify
   reuse_sessions?: boolean
   depth?: number
   password?: string
   versions?: string[]
   ciphers?: string[]
   secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
+  log_level?: EmqxSslClientOptsLogLevel
   hibernate_after?: string
   enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
 }

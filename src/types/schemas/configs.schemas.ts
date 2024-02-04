@@ -176,6 +176,46 @@ export type PostConfigsResetRootnameParams = {
   conf_path?: string
 }
 
+export type PutConfigsBroker403Code =
+  typeof PutConfigsBroker403Code[keyof typeof PutConfigsBroker403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsBroker403Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsBroker403 = {
+  code?: PutConfigsBroker403Code
+  message?: string
+}
+
+export type PutConfigsBroker400Code =
+  typeof PutConfigsBroker400Code[keyof typeof PutConfigsBroker400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsBroker400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
+} as const
+
+export type PutConfigsBroker400 = {
+  code?: PutConfigsBroker400Code
+  message?: string
+}
+
+export type GetConfigsBroker404Code =
+  typeof GetConfigsBroker404Code[keyof typeof GetConfigsBroker404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetConfigsBroker404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetConfigsBroker404 = {
+  code?: GetConfigsBroker404Code
+  message?: string
+}
+
 export type PutConfigsDashboard403Code =
   typeof PutConfigsDashboard403Code[keyof typeof PutConfigsDashboard403Code]
 
@@ -283,24 +323,24 @@ export type PutConfigsGlobalZone400 = {
 }
 
 export type PutConfigsGlobalZone200 = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type PutConfigsGlobalZoneBody = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type GetConfigsGlobalZone200 = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type PutConfigsSysmon403Code =
@@ -383,6 +423,148 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
+export type EmqxSysmonVmLargeHeap = string | 'disabled'
+
+export type EmqxSysmonVmLongSchedule = string | 'disabled'
+
+export type EmqxSysmonVmLongGc = string | 'disabled'
+
+export interface EmqxSysmonVm {
+  process_check_interval?: string
+  process_high_watermark?: string
+  process_low_watermark?: string
+  long_gc?: EmqxSysmonVmLongGc
+  long_schedule?: EmqxSysmonVmLongSchedule
+  large_heap?: EmqxSysmonVmLargeHeap
+  busy_dist_port?: boolean
+  busy_port?: boolean
+}
+
+export type EmqxSysmonOsMemCheckInterval = string | 'disabled'
+
+export interface EmqxSysmonOs {
+  cpu_check_interval?: string
+  cpu_high_watermark?: string
+  cpu_low_watermark?: string
+  mem_check_interval?: EmqxSysmonOsMemCheckInterval
+  sysmem_high_watermark?: string
+  procmem_high_watermark?: string
+}
+
+export interface EmqxSysmon {
+  vm?: EmqxSysmonVm
+  os?: EmqxSysmonOs
+}
+
+export type EmqxSysTopicsSysHeartbeatInterval = string | 'disabled'
+
+export type EmqxSysTopicsSysMsgInterval = string | 'disabled'
+
+export interface EmqxSysTopics {
+  sys_msg_interval?: EmqxSysTopicsSysMsgInterval
+  sys_heartbeat_interval?: EmqxSysTopicsSysHeartbeatInterval
+  sys_event_messages?: EmqxEventNames
+}
+
+export type EmqxMqttMaxSubscriptions = 'infinity' | number
+
+export type EmqxMqttMaxMqueueLen = 'infinity' | number
+
+export type EmqxMqttMqueueDefaultPriority =
+  typeof EmqxMqttMqueueDefaultPriority[keyof typeof EmqxMqttMqueueDefaultPriority]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttMqueueDefaultPriority = {
+  highest: 'highest',
+  lowest: 'lowest',
+} as const
+
+export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: any }
+
+export type EmqxMqttMqueuePriorities = EmqxMqttMqueuePrioritiesOneOf | 'disabled'
+
+export type EmqxMqttMaxAwaitingRel = 'infinity' | number
+
+export type EmqxMqttMessageExpiryInterval = 'infinity' | string
+
+export type EmqxMqttPeerCertAsClientid =
+  typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttPeerCertAsClientid = {
+  disabled: 'disabled',
+  cn: 'cn',
+  dn: 'dn',
+  crt: 'crt',
+  pem: 'pem',
+  md5: 'md5',
+} as const
+
+export type EmqxMqttPeerCertAsUsername =
+  typeof EmqxMqttPeerCertAsUsername[keyof typeof EmqxMqttPeerCertAsUsername]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttPeerCertAsUsername = {
+  disabled: 'disabled',
+  cn: 'cn',
+  dn: 'dn',
+  crt: 'crt',
+  pem: 'pem',
+  md5: 'md5',
+} as const
+
+export type EmqxMqttServerKeepalive = 'disabled' | number
+
+export type EmqxMqttSharedSubscriptionStrategy =
+  typeof EmqxMqttSharedSubscriptionStrategy[keyof typeof EmqxMqttSharedSubscriptionStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttSharedSubscriptionStrategy = {
+  random: 'random',
+  round_robin: 'round_robin',
+  round_robin_per_group: 'round_robin_per_group',
+  sticky: 'sticky',
+  local: 'local',
+  hash_topic: 'hash_topic',
+  hash_clientid: 'hash_clientid',
+} as const
+
+export type EmqxMqttIdleTimeout = string | 'infinity'
+
+export interface EmqxMqtt {
+  idle_timeout?: EmqxMqttIdleTimeout
+  max_packet_size?: string
+  max_clientid_len?: number
+  max_topic_levels?: number
+  max_topic_alias?: number
+  retain_available?: boolean
+  wildcard_subscription?: boolean
+  shared_subscription?: boolean
+  shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
+  exclusive_subscription?: boolean
+  ignore_loop_deliver?: boolean
+  strict_mode?: boolean
+  response_information?: string
+  server_keepalive?: EmqxMqttServerKeepalive
+  keepalive_multiplier?: number
+  retry_interval?: string
+  use_username_as_clientid?: boolean
+  peer_cert_as_username?: EmqxMqttPeerCertAsUsername
+  peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
+  session_expiry_interval?: string
+  message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  max_awaiting_rel?: EmqxMqttMaxAwaitingRel
+  max_qos_allowed?: number
+  mqueue_priorities?: EmqxMqttMqueuePriorities
+  mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
+  mqueue_store_qos0?: boolean
+  max_mqueue_len?: EmqxMqttMaxMqueueLen
+  max_inflight?: number
+  max_subscriptions?: EmqxMqttMaxSubscriptions
+  upgrade_qos?: boolean
+  await_rel_timeout?: string
+}
+
 export type EmqxLogFileHandlerFormatter =
   typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
@@ -426,6 +608,37 @@ export type EmqxLogFileOneOf = {
 
 export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
 
+export interface EmqxLog {
+  console?: EmqxConsoleHandler
+  file?: EmqxLogFile
+}
+
+export interface EmqxForceShutdown {
+  enable?: boolean
+  max_mailbox_size?: number
+  max_heap_size?: string
+}
+
+export interface EmqxForceGc {
+  enable?: boolean
+  count?: number
+  bytes?: string
+}
+
+export interface EmqxFlappingDetect {
+  enable?: boolean
+  window_time?: string
+  max_count?: number
+  ban_time?: string
+}
+
+export interface EmqxEventNames {
+  client_connected?: boolean
+  client_disconnected?: boolean
+  client_subscribed?: boolean
+  client_unsubscribed?: boolean
+}
+
 export type EmqxConsoleHandlerFormatter =
   typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
 
@@ -458,9 +671,15 @@ export interface EmqxConsoleHandler {
   time_offset?: string
 }
 
-export interface EmqxLog {
-  console?: EmqxConsoleHandler
-  file?: EmqxLogFile
+export interface EmqxBroker {
+  enable_session_registry?: boolean
+  session_history_retain?: string
+}
+
+export interface EmqxAlarm {
+  actions?: string[]
+  size_limit?: number
+  validity_period?: string
 }
 
 export type DashboardSslOptionsLogLevel =
@@ -542,175 +761,5 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
-}
-
-export type BrokerSysmonVmLargeHeap = string | 'disabled'
-
-export type BrokerSysmonVmLongSchedule = string | 'disabled'
-
-export type BrokerSysmonVmLongGc = string | 'disabled'
-
-export interface BrokerSysmonVm {
-  process_check_interval?: string
-  process_high_watermark?: string
-  process_low_watermark?: string
-  long_gc?: BrokerSysmonVmLongGc
-  long_schedule?: BrokerSysmonVmLongSchedule
-  large_heap?: BrokerSysmonVmLargeHeap
-  busy_dist_port?: boolean
-  busy_port?: boolean
-}
-
-export type BrokerSysmonOsMemCheckInterval = string | 'disabled'
-
-export interface BrokerSysmonOs {
-  cpu_check_interval?: string
-  cpu_high_watermark?: string
-  cpu_low_watermark?: string
-  mem_check_interval?: BrokerSysmonOsMemCheckInterval
-  sysmem_high_watermark?: string
-  procmem_high_watermark?: string
-}
-
-export interface BrokerSysmon {
-  vm?: BrokerSysmonVm
-  os?: BrokerSysmonOs
-}
-
-export type BrokerSysTopicsSysHeartbeatInterval = string | 'disabled'
-
-export type BrokerSysTopicsSysMsgInterval = string | 'disabled'
-
-export interface BrokerSysTopics {
-  sys_msg_interval?: BrokerSysTopicsSysMsgInterval
-  sys_heartbeat_interval?: BrokerSysTopicsSysHeartbeatInterval
-  sys_event_messages?: BrokerEventNames
-}
-
-export type BrokerMqttMaxSubscriptions = 'infinity' | number
-
-export type BrokerMqttMaxMqueueLen = 'infinity' | number
-
-export type BrokerMqttMqueueDefaultPriority =
-  typeof BrokerMqttMqueueDefaultPriority[keyof typeof BrokerMqttMqueueDefaultPriority]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttMqueueDefaultPriority = {
-  highest: 'highest',
-  lowest: 'lowest',
-} as const
-
-export type BrokerMqttMqueuePrioritiesOneOf = { [key: string]: any }
-
-export type BrokerMqttMqueuePriorities = BrokerMqttMqueuePrioritiesOneOf | 'disabled'
-
-export type BrokerMqttMaxAwaitingRel = 'infinity' | number
-
-export type BrokerMqttPeerCertAsClientid =
-  typeof BrokerMqttPeerCertAsClientid[keyof typeof BrokerMqttPeerCertAsClientid]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttPeerCertAsClientid = {
-  disabled: 'disabled',
-  cn: 'cn',
-  dn: 'dn',
-  crt: 'crt',
-  pem: 'pem',
-  md5: 'md5',
-} as const
-
-export type BrokerMqttPeerCertAsUsername =
-  typeof BrokerMqttPeerCertAsUsername[keyof typeof BrokerMqttPeerCertAsUsername]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttPeerCertAsUsername = {
-  disabled: 'disabled',
-  cn: 'cn',
-  dn: 'dn',
-  crt: 'crt',
-  pem: 'pem',
-  md5: 'md5',
-} as const
-
-export type BrokerMqttServerKeepalive = 'disabled' | number
-
-export type BrokerMqttSharedSubscriptionStrategy =
-  typeof BrokerMqttSharedSubscriptionStrategy[keyof typeof BrokerMqttSharedSubscriptionStrategy]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttSharedSubscriptionStrategy = {
-  random: 'random',
-  round_robin: 'round_robin',
-  round_robin_per_group: 'round_robin_per_group',
-  sticky: 'sticky',
-  local: 'local',
-  hash_topic: 'hash_topic',
-  hash_clientid: 'hash_clientid',
-} as const
-
-export type BrokerMqttIdleTimeout = string | 'infinity'
-
-export interface BrokerMqtt {
-  idle_timeout?: BrokerMqttIdleTimeout
-  max_packet_size?: string
-  max_clientid_len?: number
-  max_topic_levels?: number
-  max_topic_alias?: number
-  retain_available?: boolean
-  wildcard_subscription?: boolean
-  shared_subscription?: boolean
-  shared_subscription_strategy?: BrokerMqttSharedSubscriptionStrategy
-  exclusive_subscription?: boolean
-  ignore_loop_deliver?: boolean
-  strict_mode?: boolean
-  response_information?: string
-  server_keepalive?: BrokerMqttServerKeepalive
-  keepalive_multiplier?: number
-  retry_interval?: string
-  use_username_as_clientid?: boolean
-  peer_cert_as_username?: BrokerMqttPeerCertAsUsername
-  peer_cert_as_clientid?: BrokerMqttPeerCertAsClientid
-  session_expiry_interval?: string
-  max_awaiting_rel?: BrokerMqttMaxAwaitingRel
-  max_qos_allowed?: number
-  mqueue_priorities?: BrokerMqttMqueuePriorities
-  mqueue_default_priority?: BrokerMqttMqueueDefaultPriority
-  mqueue_store_qos0?: boolean
-  max_mqueue_len?: BrokerMqttMaxMqueueLen
-  max_inflight?: number
-  max_subscriptions?: BrokerMqttMaxSubscriptions
-  upgrade_qos?: boolean
-  await_rel_timeout?: string
-}
-
-export interface BrokerForceShutdown {
-  enable?: boolean
-  max_mailbox_size?: number
-  max_heap_size?: string
-}
-
-export interface BrokerForceGc {
-  enable?: boolean
-  count?: number
-  bytes?: string
-}
-
-export interface BrokerFlappingDetect {
-  enable?: boolean
-  window_time?: string
-  max_count?: number
-  ban_time?: string
-}
-
-export interface BrokerEventNames {
-  client_connected?: boolean
-  client_disconnected?: boolean
-  client_subscribed?: boolean
-  client_unsubscribed?: boolean
-}
-
-export interface BrokerAlarm {
-  actions?: string[]
-  size_limit?: number
-  validity_period?: string
+  swagger_support?: boolean
 }
