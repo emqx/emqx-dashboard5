@@ -4,12 +4,12 @@
       ref="InputRef"
       v-model="input"
       clearable
-      highlight-first-item
       size="large"
       value-key="name"
       popper-class="quick-panel-popper"
       :debounce="50"
       :placeholder="tl('search')"
+      :highlight-first-item="!!input"
       :fetch-suggestions="querySearch"
       @keyup.esc="cancel"
       @select="handleSelect"
