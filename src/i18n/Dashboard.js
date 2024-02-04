@@ -1,8 +1,4 @@
 export default {
-  networkGraph: {
-    en: 'Cluster',
-    zh: '集群拓扑',
-  },
   shareSubscription: {
     zh: '共享订阅',
     en: 'Shared Subscriptions',
@@ -15,17 +11,9 @@ export default {
     zh: '保留消息',
     en: 'Retained',
   },
-  connectionsTips: {
-    zh: '活跃连接数',
-    en: 'Active Connections',
-  },
   view: {
     zh: '查看',
     en: 'View',
-  },
-  systemTime: {
-    zh: '系统时间',
-    en: 'System Time',
   },
   uptime: {
     zh: '运行时长',
@@ -46,10 +34,6 @@ export default {
   stopped: {
     zh: '已停止',
     en: 'Stopped',
-  },
-  erlangVMMemory: {
-    zh: 'VM 内存',
-    en: 'VM Memory',
   },
   memory: {
     zh: '操作系统内存',
@@ -127,22 +111,6 @@ export default {
     zh: '监听器',
     en: 'Listener',
   },
-  ListeningPorts: {
-    zh: '当前监听端口列表',
-    en: 'Listening address and ports',
-  },
-  listenerProtocol: {
-    zh: '监听协议',
-    en: 'Protocol',
-  },
-  listenerAddress: {
-    zh: '监听地址',
-    en: 'Address',
-  },
-  connectCurrentAndMax: {
-    zh: '连接 (当前/最大)',
-    en: 'Connect (Current/Max)',
-  },
   current: {
     zh: '当前',
     en: 'Current',
@@ -150,10 +118,6 @@ export default {
   maximum: {
     zh: '最大',
     en: 'Maximum',
-  },
-  dataList: {
-    zh: '数据列表',
-    en: 'Data List',
   },
   packetStatisticsOfNodes: {
     zh: '集群或单个节点的报文信息、消息统计与流量收发统计',
@@ -179,10 +143,6 @@ export default {
     zh: '会话',
     en: 'Sessions',
   },
-  mainConfiguration: {
-    zh: '节点主要配置',
-    en: 'Main Configuration',
-  },
   status: {
     zh: '状态',
     en: 'Status',
@@ -190,10 +150,6 @@ export default {
   node: {
     zh: '{n} 节点',
     en: '{n} Node | {n} Nodes',
-  },
-  numberOfNodesInCluster: {
-    zh: '集群中节点数',
-    en: 'Nodes',
   },
   strip: {
     zh: '{n} 条',
@@ -227,10 +183,6 @@ export default {
     zh: '订阅数',
     en: 'Subscriptions',
   },
-  topicNumber: {
-    zh: '集群订阅关系数',
-    en: 'Topics',
-  },
   connection: {
     zh: '连接',
     en: 'Connections',
@@ -258,18 +210,6 @@ export default {
   subscriptionsUnit: {
     zh: '{n} 订阅',
     en: '0 Subscriptions | {n} Subscription | {n} Subscriptions',
-  },
-  intervalSuffix: {
-    zh: '/{interval} 秒',
-    en: ' in {interval} sec',
-  },
-  lineChartDataItemDetail: {
-    zh: '{interval} 秒内{type}',
-    en: '{type} in {interval} Seconds',
-  },
-  maxConnections: {
-    zh: '连接数峰值',
-    en: 'Max Connections',
   },
   noData: {
     zh: '暂无数据',

@@ -35,10 +35,6 @@ export default {
     en: 'Flow Control',
     zh: '流控',
   },
-  batchReadNumber: {
-    zh: '批量加载数量',
-    en: 'Batch Read Number',
-  },
   msgExpiryInterval: {
     en: 'Message Expiry Interval',
     zh: '消息过期间隔',
@@ -286,10 +282,6 @@ export default {
   maxRetainedMessagesDesc: {
     en: 'Maximum number of retained messages, 0 means no limit',
     zh: '消息保留的数量上限，0 表示无限',
-  },
-  batchReadNumberDesc: {
-    en: 'Size of the batch when reading messages from storage, 0 means reading all at once',
-    zh: '从存储后端批量加载时的每批数量上限，0 代表一次性读取',
   },
   sysMsgIntervalDesc: {
     en: `Time interval for publishing following system messages:
