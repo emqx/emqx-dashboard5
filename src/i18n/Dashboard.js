@@ -446,6 +446,10 @@ export default {
     zh: '授权命中缓存的次数',
     en: 'Number of client getting authorization result (allow or deny) by cache',
   },
+  authorization_cache_miss: {
+    zh: '授权未命中缓存的次数',
+    en: 'Number of client authorization cache misses',
+  },
 
   /* received and sent */
   bytes_received: {

@@ -577,6 +577,10 @@
       "desc": "指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。",
       "label": "会话过期间隔"
     },
+    "mqtt_message_expiry_interval": {
+      "desc": "MQTT 消息的过期时间间隔。 对于 MQTT 5.0 客户端，只有在消息中未设置 Message-Expiry-Interval 属性时，此配置才会生效； 否则，将使用 Message-Expiry-Interval 属性的值。 对于 5.0 之前的 MQTT 版本，此配置将始终生效。 请注意，将 `message_expiry_interval` 设置为大于 `session_expiry_interval` 是没有意义的，因为当会话过期时，所有消息都将被清除。",
+      "label": "消息过期间隔"
+    },
     "fields_listener_enabled": {
       "desc": "启停监听器。",
       "label": "启停监听器"
