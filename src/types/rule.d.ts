@@ -194,6 +194,7 @@ export interface Action {
   connector: string
   resource_opts: ResourceOpt
   [key: any]: any
+  [key: string]: any
 }
 
 export type Source = Action

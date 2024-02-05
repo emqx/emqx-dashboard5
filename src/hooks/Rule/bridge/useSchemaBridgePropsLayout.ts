@@ -152,10 +152,6 @@ export default (
       ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'template'],
       fieldStartIndex,
     ),
-    [BridgeType.Cassandra]: createOrderObj(
-      ['keyspace', 'servers', 'username', 'password', 'ssl', 'cql'],
-      fieldStartIndex,
-    ),
     [BridgeType.RocketMQ]: createOrderObj(
       [
         'servers',
@@ -178,6 +174,10 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
+    [BridgeType.OracleDatabase]: createOrderObj(
+      ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
+      fieldStartIndex,
+    ),
     [BridgeType.RabbitMQ]: createOrderObj(
       [
         'server',

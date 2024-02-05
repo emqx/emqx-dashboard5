@@ -200,6 +200,11 @@ export default (
       ['server', 'service_name', 'sid', 'username', 'password'],
       fieldStartIndex,
     ),
+    [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
+    [BridgeType.Cassandra]: createOrderObj(
+      ['keyspace', 'servers', 'username', 'password', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

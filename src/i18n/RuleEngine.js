@@ -1241,4 +1241,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '过去一分钟内规则匹配速度的趋势',
     en: 'Trend of rule matching speed in the last minute',
   },
+  errorKeyValuePair: {
+    zh: '错误的键值对输入',
+    en: 'Wrong key-value pair input',
+  },
 }
