@@ -582,7 +582,7 @@
       "label": "Session Expiry Interval"
     },
     "mqtt_message_expiry_interval": {
-      "desc": "The expiry interval of MQTT messages. For MQTT 5.0 clients, this configuration will only take effect when the Message-Expiry-Interval property is not set in the message; otherwise, the value of the Message-Expiry-Interval property will be used. For MQTT versions older than 5.0, this configuration will always take effect. Please note that setting `message_expiry_interval` greater than `session_expiry_interval` is meaningless, as all messages will be cleared when the session expires.",
+      "desc": "The MQTT message expiry interval. For MQTT v5.0 clients, it is only effective if the Message-Expiry-Interval property is not specified for the message; for MQTT v3.1 and v3.1.1, it always applies. Note that it is not helpful to set this value to a greater value than the MQTT Session Expiry Interval, because once the session expires, all related messages are purged.",
       "label": "Message Expiry Interval"
     },
     "fields_listener_enabled": {
