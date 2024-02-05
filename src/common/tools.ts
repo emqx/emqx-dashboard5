@@ -293,7 +293,10 @@ export const addNewlineAfterComma = (input: string): string => {
   return output
 }
 
-export const splitOnComma = (input: string): string[] => {
+/**
+ * do not support single/double quote and bracket
+ */
+export const splitOnSymbol = (input: string, symbol: string): string[] => {
   const bracketStack: Array<string> = []
   let quoteFlag = false
   let doubleQuoteFlag = false
@@ -312,7 +315,12 @@ export const splitOnComma = (input: string): string[] => {
       quoteFlag = !quoteFlag
     } else if (currentChar === '"') {
       doubleQuoteFlag = !doubleQuoteFlag
-    } else if (currentChar === ',' && bracketStack.length === 0 && !quoteFlag && !doubleQuoteFlag) {
+    } else if (
+      currentChar === symbol &&
+      bracketStack.length === 0 &&
+      !quoteFlag &&
+      !doubleQuoteFlag
+    ) {
       output.push('')
       continue
     }
@@ -322,6 +330,8 @@ export const splitOnComma = (input: string): string[] => {
 
   return output
 }
+
+export const splitOnComma = (input: string): string[] => splitOnSymbol(input, ',')
 
 export const trimSpacesAndLFs = (input: string): string =>
   input.replace(/(^\s+)|(\s+$)/g, '').replace(/(^\n+)|(\n+$)/g, '')

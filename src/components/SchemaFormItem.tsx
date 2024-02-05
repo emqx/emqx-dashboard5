@@ -6,6 +6,7 @@ import { PropType, SetupContext, computed, defineComponent } from 'vue'
 import ArrayEditor from './ArrayEditor.vue'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
+import KeyAndValueEditor from './KeyAndValueEditor.vue'
 import OneOf from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 
@@ -22,6 +23,7 @@ type FormItemType =
   | 'oneof'
   | 'ssl'
   | 'sql'
+  | 'object'
 
 export default defineComponent({
   components: {
@@ -211,6 +213,8 @@ export default defineComponent({
               />
             </div>
           )
+        case 'object':
+          return <KeyAndValueEditor v-model={formItemValue.value} {...customProps} />
         default:
           return stringInput
       }
