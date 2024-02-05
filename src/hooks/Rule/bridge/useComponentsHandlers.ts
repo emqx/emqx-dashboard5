@@ -406,6 +406,27 @@ export default (
     return { components, rules }
   }
 
+  const openTSDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    const { parameters } = components
+    const properties = parameters?.properties?.data?.items?.properties || {}
+    const i18nPrefix = getI18nPrefix(BridgeType.OpenTSDB)
+    Object.entries(properties).forEach(([key, value]) => {
+      setLabelAndDesc(value, `${i18nPrefix}${key}`)
+
+      if (key === 'value' && value.type === 'oneof') {
+        value.type = 'string'
+      } else if (key === 'tags' && value.type === 'oneof') {
+        value.type = 'object'
+        value.componentProps = { type: 'input' }
+        value.default = {}
+      }
+    })
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -424,6 +445,7 @@ export default (
     [BridgeType.SysKeeperForwarder]: syskeeperDbHandler,
     [BridgeType.IoTDB]: IoTDBHandler,
     [BridgeType.Elasticsearch]: elasticsearchHandler,
+    [BridgeType.OpenTSDB]: openTSDBHandler,
   }
 
   const getComponentsHandler = () => {

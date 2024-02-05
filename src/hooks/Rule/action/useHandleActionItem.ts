@@ -61,7 +61,7 @@ export default (): {
   const isTrueActionId = (id: string) => isConnectorSupported(getTypeAndNameFromKey(id).type)
 
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
-  const { handleActionDataBeforeUpdate } = useActionDataHandler()
+  const { handleActionDataBeforeSubmit, handleActionDataBeforeUpdate } = useActionDataHandler()
 
   const handleDataAfterLoaded = <T = NowAction>(data: T): T => {
     return handleBridgeDataAfterLoaded(data)
@@ -101,8 +101,12 @@ export default (): {
   }
 
   const addAction = async <T = NowAction>(data: T): Promise<T> => {
-    const request = isConnectorSupported((data as NowAction).type) ? postAction : createBridge
-    const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
+    const isTrueAction = isConnectorSupported((data as NowAction).type)
+    const request = isTrueAction ? postAction : createBridge
+    const handleFunction = isTrueAction
+      ? handleActionDataBeforeSubmit
+      : handleBridgeDataBeforeSubmit
+    const dataForSubmit = await handleFunction(data as any)
     return request(dataForSubmit as any) as Promise<T>
   }
 

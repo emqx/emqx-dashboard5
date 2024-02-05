@@ -419,6 +419,8 @@ export const useConnectorSchema = (): {
     [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
     [BridgeType.Elasticsearch, getRef(BridgeType.Elasticsearch, '', 'post')],
     [BridgeType.TDengine, getRef(`${BridgeType.TDengine}_connector`, '', 'post')],
+    [BridgeType.OpenTSDB, getRef(`${BridgeType.OpenTSDB}_connector`, '', 'post')],
+    [BridgeType.Cassandra, getRef('cassa')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -461,6 +463,7 @@ export const useActionSchema = (): {
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
     [BridgeType.SysKeeperForwarder, getRef('syskeeper', '')],
     [BridgeType.KafkaProducer, getRef('kafka')],
+    [BridgeType.Cassandra, getRef('cassa')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
