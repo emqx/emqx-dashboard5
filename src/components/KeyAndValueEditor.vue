@@ -31,7 +31,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <div class="key-and-value-editor" v-else>
+  <div class="key-and-value-editor" v-else-if="type === 'list'">
     <ul class="key-value-list">
       <li class="key-value-item" v-for="(item, $index) in tableData" :key="$index">
         <el-input :placeholder="keyValueLabel.key" v-model="item.key" @input="atInputChange" />
@@ -45,13 +45,20 @@
       {{ t('Base.add') }}
     </el-button>
   </div>
+  <el-input
+    v-else
+    class="key-and-value-input"
+    v-model="inputValue"
+    @blur="handleInputValueChange"
+  />
 </template>
 
-<script lang="ts">
-import { cloneDeep, isEqual, isPlainObject } from 'lodash'
-import { computed, defineComponent, PropType, ref, Ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+<script lang="ts" setup>
+import { splitOnComma, splitOnSymbol } from '@/common/tools'
 import { Delete, Plus } from '@element-plus/icons-vue'
+import { cloneDeep, isEqual, isPlainObject } from 'lodash'
+import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 enum State {
   OK = 0,
@@ -63,108 +70,142 @@ type kvRow = {
   state: State
 }
 
-export default defineComponent({
-  name: 'KeyAndValueEditor',
-  emits: ['update:modelValue'],
-  components: { Delete },
-  props: {
-    modelValue: {
-      type: Object,
-    },
-    customLabel: {
-      type: Object,
-      default: null,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    fixedKeys: {
-      type: Boolean,
-      default: false,
-    },
-    type: {
-      type: String as PropType<'table' | 'list'>,
-      default: 'table',
-    },
-    readonly: {
-      type: Boolean,
-    },
+const props = defineProps({
+  modelValue: {
+    type: Object,
   },
-  setup(props, context) {
-    const rowData: kvRow = {
-      key: '',
-      value: '',
-      state: State.OK,
-    }
-    const tableData: Ref<kvRow[]> = ref([])
-
-    let lastTimeObjData = {}
-
-    const { t } = useI18n()
-    const { emit } = context
-
-    function createTbData() {
-      const d = props.modelValue
-      if (!d || !isPlainObject(d)) {
-        return
-      }
-      tableData.value = []
-      lastTimeObjData = cloneDeep(d)
-      Object.entries(d).forEach(([key, value]: [string, string]) => {
-        tableData.value.push({ key, value, state: 0 })
-      })
-    }
-
-    createTbData()
-
-    const keyValueLabel = computed(() => {
-      if (props.customLabel === null) {
-        return {
-          key: t('components.key'),
-          value: t('components.value'),
-        }
-      }
-      return props.customLabel
-    })
-
-    function atInputChange() {
-      const data: Record<string, unknown> = {}
-      tableData.value.forEach((item) => {
-        const { key, value } = item
-        data[key] = value
-      })
-      lastTimeObjData = cloneDeep(data)
-      emit('update:modelValue', data)
-    }
-    function deleteItem(row: kvRow) {
-      tableData.value = tableData.value.filter(($) => $ !== row)
-      atInputChange()
-    }
-    function addColumn() {
-      tableData.value.push({ ...rowData })
-    }
-
-    watch(
-      () => props.modelValue,
-      (val) => {
-        if (!isEqual(val, lastTimeObjData)) {
-          createTbData()
-        }
-      },
-    )
-
-    return {
-      Plus,
-      t,
-      tableData,
-      atInputChange,
-      deleteItem,
-      addColumn,
-      keyValueLabel,
-    }
+  customLabel: {
+    type: Object,
+    default: null,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  fixedKeys: {
+    type: Boolean,
+    default: false,
+  },
+  type: {
+    type: String as PropType<'table' | 'list' | 'input'>,
+    default: 'table',
+  },
+  readonly: {
+    type: Boolean,
   },
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+const rowData: kvRow = {
+  key: '',
+  value: '',
+  state: State.OK,
+}
+const tableData: Ref<kvRow[]> = ref([])
+
+let lastTimeObjData = {}
+
+const { t } = useI18n()
+
+const inputValue = ref('')
+
+const convertObjToStr = (obj: Record<string, any>) => {
+  const keyValueArr = Object.entries(obj)
+  return Object.entries(obj).reduce((str, [key, value], index) => {
+    const end = index < keyValueArr.length - 1 ? ', ' : ''
+    return (str += `${key}=${value}${end}`)
+  }, '')
+}
+
+const createKeyValueStr = () => {
+  if (!props.modelValue) {
+    inputValue.value = ''
+  } else if (typeof props.modelValue === 'string') {
+    inputValue.value = props.modelValue
+  } else {
+    inputValue.value = convertObjToStr(props.modelValue)
+  }
+}
+
+const convertStrToObj = (str: string) => {
+  const equationArr = splitOnComma(str)
+  const obj: Record<string, unknown> = {}
+  equationArr.forEach((item) => {
+    const [key, value] = splitOnSymbol(item, '=').map((item) => item.trim())
+    obj[key] = value
+  })
+  return obj
+}
+
+const validKeyValueStrReg = /(.+=.+,)*(.+=.+)/
+const handleInputValueChange = () => {
+  if (validKeyValueStrReg.test(inputValue.value)) {
+    const newObj = convertStrToObj(inputValue.value)
+    lastTimeObjData = cloneDeep(newObj)
+    emit('update:modelValue', newObj)
+  } else if (typeof props.modelValue === 'string') {
+    emit('update:modelValue', inputValue.value)
+  }
+}
+
+function createTbData() {
+  const d = props.modelValue
+  if (!d || !isPlainObject(d)) {
+    return
+  }
+  tableData.value = []
+  lastTimeObjData = cloneDeep(d)
+  Object.entries(d).forEach(([key, value]: [string, string]) => {
+    tableData.value.push({ key, value, state: 0 })
+  })
+}
+
+const keyValueLabel = computed(() => {
+  if (props.customLabel === null) {
+    return {
+      key: t('components.key'),
+      value: t('components.value'),
+    }
+  }
+  return props.customLabel
+})
+
+function atInputChange() {
+  const data: Record<string, unknown> = {}
+  tableData.value.forEach((item) => {
+    const { key, value } = item
+    data[key] = value
+  })
+  lastTimeObjData = cloneDeep(data)
+  emit('update:modelValue', data)
+}
+function deleteItem(row: kvRow) {
+  tableData.value = tableData.value.filter(($) => $ !== row)
+  atInputChange()
+}
+function addColumn() {
+  tableData.value.push({ ...rowData })
+}
+
+const updateSelfValue = () => {
+  if (props.type !== 'input') {
+    createTbData()
+  } else {
+    createKeyValueStr()
+  }
+}
+
+updateSelfValue()
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (!isEqual(val, lastTimeObjData)) {
+      updateSelfValue()
+    }
+  },
+)
 </script>
 
 <style lang="scss">
