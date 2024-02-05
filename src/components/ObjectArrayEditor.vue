@@ -2,7 +2,7 @@
   <!-- TABLE -->
   <div v-if="editMode !== 'list'" class="object-array-editor">
     <el-table class="key-and-value-editor shadow-none" ref="TableCom" :data="displayTableData">
-      <el-table-column v-for="(value, key) in properties" :key="key">
+      <el-table-column v-for="(value, key) in properties" :key="key" :width="getColumnWidth(value)">
         <template #header>
           <label :class="getFormItemRules(key) && 'is-required'">
             {{ value.label }}
@@ -91,7 +91,7 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
-import { Properties } from '@/types/schemaForm'
+import { Properties, Property } from '@/types/schemaForm'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { cloneDeep, get, isFunction } from 'lodash'
 import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref, watch } from 'vue'
@@ -177,6 +177,8 @@ const { initRecordByComponents } = useSchemaRecord()
 
 const keyArr = computed(() => Array.from({ length: arr.value.length }, () => createRandomString()))
 
+const getColumnWidth = (property: Property) => (property.type === 'object' ? 300 : undefined)
+
 const addItem = () => {
   const objData = get(initRecordByComponents(props.properties), props.propKey)
   const defaultValue = cloneDeep(objData)
@@ -222,6 +224,11 @@ onMounted(async () => {
   width: 100%;
   .el-pagination {
     margin-top: 16px;
+  }
+  .el-table {
+    .el-form-item {
+      margin-bottom: 0;
+    }
   }
   ul {
     padding: 0;
