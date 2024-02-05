@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <detail-header
-      :item="{ name: `${getBackendLabel(backend)} ${t('Base.setting')}`, routeName: 'SSO' }"
+      :item="{ name: `${getBackendLabel(backend)} ${t('Base.setting')}`, routeName: 'sso' }"
     />
     <el-card class="app-card sso-detail" v-loading="isLoading">
       <el-row>
@@ -108,7 +108,7 @@ const saveConfig = async () => {
       handleFormDataBeforeSubmit(backend.value, formData.value) as EmqxDashboardSsoLdapLdap,
     )
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'SSO' })
+    router.push({ name: 'sso' })
   } catch (error) {
     //
   } finally {
