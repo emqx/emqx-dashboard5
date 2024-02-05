@@ -392,5 +392,9 @@ export default {
     zh: '慢订阅设置',
     en: 'Slow Subscriptions Settings',
   },
+  'schema-create': {
+    zh: '创建编解码',
+    en: 'Create Schema',
+  },
   /* For Quick Panel End */
 }

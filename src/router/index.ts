@@ -358,7 +358,7 @@ export const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'APIKey',
+        name: 'license',
         component: () => import('@/views/General/License.vue'),
       },
     ],
@@ -374,7 +374,7 @@ export const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'SSO',
+        name: 'sso',
         component: () => import('@/views/General/SSO.vue'),
       },
       {
