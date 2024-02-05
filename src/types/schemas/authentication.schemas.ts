@@ -84,19 +84,6 @@ export type GetAuthentication200Item =
   | AuthnMysql
   | AuthnBuiltinDb
 
-export type DeleteAuthenticationId404Code =
-  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationId404 = {
-  code?: DeleteAuthenticationId404Code
-  message?: string
-}
-
 export type PutAuthenticationId409Code =
   typeof PutAuthenticationId409Code[keyof typeof PutAuthenticationId409Code]
 
@@ -188,6 +175,19 @@ export type GetAuthenticationId200 =
   | AuthnPostgresql
   | AuthnMysql
   | AuthnBuiltinDb
+
+export type DeleteAuthenticationId404Code =
+  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationId404 = {
+  code?: DeleteAuthenticationId404Code
+  message?: string
+}
 
 export type GetAuthenticationIdStatus500Code =
   typeof GetAuthenticationIdStatus500Code[keyof typeof GetAuthenticationIdStatus500Code]
@@ -287,21 +287,23 @@ export type PostAuthenticationIdImportUsers400 = {
   message?: string
 }
 
-export type PostAuthenticationIdImportUsersBody = {
+export type PostAuthenticationIdImportUsersBodyTwo = { [key: string]: any }
+
+export type PostAuthenticationIdImportUsersBodyOne = {
   filename?: Blob
 }
 
-export type DeleteAuthenticationIdUsersUserId404Code =
-  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+export type PostAuthenticationIdImportUsersType =
+  typeof PostAuthenticationIdImportUsersType[keyof typeof PostAuthenticationIdImportUsersType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationIdUsersUserId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
+export const PostAuthenticationIdImportUsersType = {
+  plain: 'plain',
+  hash: 'hash',
 } as const
 
-export type DeleteAuthenticationIdUsersUserId404 = {
-  code?: DeleteAuthenticationIdUsersUserId404Code
-  message?: string
+export type PostAuthenticationIdImportUsersParams = {
+  type: PostAuthenticationIdImportUsersType
 }
 
 export type PutAuthenticationIdUsersUserId404Code =
@@ -340,6 +342,19 @@ export const GetAuthenticationIdUsersUserId404Code = {
 
 export type GetAuthenticationIdUsersUserId404 = {
   code?: GetAuthenticationIdUsersUserId404Code
+  message?: string
+}
+
+export type DeleteAuthenticationIdUsersUserId404Code =
+  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationIdUsersUserId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationIdUsersUserId404 = {
+  code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
 }
 
@@ -438,6 +453,53 @@ export interface LdapSsl {
   server_name_indication?: LdapSslServerNameIndication
 }
 
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+}
+
 export interface EmqxAuthnApiResponseUser {
   user_id: string
   is_superuser?: boolean
@@ -468,53 +530,6 @@ export interface ConnectorHttpRequest {
   headers?: ConnectorHttpRequestHeaders
   max_retries?: number
   request_timeout?: string
-}
-
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
-
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface BrokerSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: BrokerSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
 export type AuthnScramAlgorithm = typeof AuthnScramAlgorithm[keyof typeof AuthnScramAlgorithm]
@@ -599,7 +614,7 @@ export interface AuthnRedisSingle {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnRedisSentinelRedisType =
@@ -646,7 +661,7 @@ export interface AuthnRedisSentinel {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnRedisClusterRedisType =
@@ -691,7 +706,7 @@ export interface AuthnRedisCluster {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
@@ -728,7 +743,7 @@ export interface AuthnPostgresql {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnNodeStatusStatus = typeof AuthnNodeStatusStatus[keyof typeof AuthnNodeStatusStatus]
@@ -790,7 +805,7 @@ export interface AuthnMysql {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnMongoSingleUseLegacyProtocol =
@@ -863,7 +878,7 @@ export interface AuthnMongoSingle {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnMongoShardedUseLegacyProtocol =
@@ -937,7 +952,7 @@ export interface AuthnMongoSharded {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnMongoRsUseLegacyProtocol =
@@ -1014,7 +1029,7 @@ export interface AuthnMongoRs {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnMetricsStatusFieldsStatus =
@@ -1178,7 +1193,7 @@ export interface AuthnJwtJwks {
   endpoint: string
   pool_size?: number
   refresh_interval?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtJwksVerifyClaims
@@ -1256,15 +1271,15 @@ export interface AuthnHttpPost {
   body?: AuthnHttpPostBody
   request_timeout?: string
   enable?: boolean
-  request?: ConnectorHttpRequest
-  ssl?: BrokerSslClientOpts
   connect_timeout?: string
-  pool_size?: number
+  enable_pipelining?: number
   /** @deprecated */
   max_retries?: number
+  pool_size?: number
+  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  enable_pipelining?: number
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnHttpGetBody = { [key: string]: any }
@@ -1301,15 +1316,15 @@ export interface AuthnHttpGet {
   body?: AuthnHttpGetBody
   request_timeout?: string
   enable?: boolean
-  request?: ConnectorHttpRequest
-  ssl?: BrokerSslClientOpts
   connect_timeout?: string
-  pool_size?: number
+  enable_pipelining?: number
   /** @deprecated */
   max_retries?: number
+  pool_size?: number
+  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  enable_pipelining?: number
+  ssl?: EmqxSslClientOpts
 }
 
 export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]

@@ -26,7 +26,6 @@ export type PutGatewaysName400 = {
 }
 
 export type PutGatewaysNameBody =
-  | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiUpdateExproto
   | EmqxGatewayApiUpdateCoap
   | EmqxGatewayApiUpdateGbt32960
@@ -34,7 +33,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiUpdateJt808
   | EmqxGatewayApiUpdateMqttsn
   | EmqxGatewayApiUpdateLwm2m
-  | EmqxGatewayApiStomp
+  | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiExproto
   | EmqxGatewayApiCoap
   | EmqxGatewayApiGbt32960
@@ -42,6 +41,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiStomp
 
 export type GetGatewaysName404Code =
   typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
@@ -58,7 +58,6 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiStomp
   | EmqxGatewayApiExproto
   | EmqxGatewayApiCoap
   | EmqxGatewayApiGbt32960
@@ -66,6 +65,7 @@ export type GetGatewaysName200 =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiMqttsn
   | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiStomp
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
@@ -230,7 +230,7 @@ export const GatewayExprotoGrpcHandlerServiceName = {
 export interface GatewayExprotoGrpcHandler {
   address: string
   service_name: GatewayExprotoGrpcHandlerServiceName
-  ssl_options?: BrokerSslClientOpts
+  ssl_options?: EmqxSslClientOpts
 }
 
 export type GatewayDtlsOptsLogLevel =
@@ -258,6 +258,81 @@ export const GatewayDtlsOptsVerify = {
   verify_none: 'verify_none',
 } as const
 
+export interface GatewayClientinfoOverride {
+  username?: string
+  password?: string
+  clientid?: string
+}
+
+export interface EmqxTcpOpts {
+  active_n?: number
+  backlog?: number
+  send_timeout?: string
+  send_timeout_close?: boolean
+  recbuf?: string
+  sndbuf?: string
+  buffer?: string
+  high_watermark?: string
+  nodelay?: boolean
+  reuseaddr?: boolean
+  keepalive?: string
+}
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+}
+
+export interface EmqxOcsp {
+  enable_ocsp_stapling?: boolean
+  responder_url?: string
+  issuer_pem?: string
+  refresh_interval?: string
+  refresh_http_timeout?: string
+}
+
 export interface GatewayDtlsOpts {
   cacertfile?: string
   /** @deprecated */
@@ -279,14 +354,59 @@ export interface GatewayDtlsOpts {
   client_renegotiation?: boolean
   handshake_timeout?: string
   gc_after_handshake?: boolean
-  ocsp?: BrokerOcsp
+  ocsp?: EmqxOcsp
   enable_crl_check?: boolean
 }
 
-export interface GatewayClientinfoOverride {
-  username?: string
+export type EmqxListenerSslOptsLogLevel =
+  typeof EmqxListenerSslOptsLogLevel[keyof typeof EmqxListenerSslOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxListenerSslOptsVerify =
+  typeof EmqxListenerSslOptsVerify[keyof typeof EmqxListenerSslOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxListenerSslOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxListenerSslOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
   password?: string
-  clientid?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxListenerSslOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+  gc_after_handshake?: boolean
+  ocsp?: EmqxOcsp
+  enable_crl_check?: boolean
 }
 
 export type GatewayOcppUpstreamTopicOverrideMapping = {
@@ -629,7 +749,7 @@ export interface EmqxGatewayApiSslListener {
   name?: string
   running?: boolean
   acceptors?: number
-  tcp_options?: BrokerTcpOpts
+  tcp_options?: EmqxTcpOpts
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   enable?: boolean
@@ -639,7 +759,7 @@ export interface EmqxGatewayApiSslListener {
   enable_authn?: boolean
   mountpoint?: string
   access_rules?: string[]
-  ssl_options?: BrokerListenerSslOpts
+  ssl_options?: EmqxListenerSslOpts
 }
 
 export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener

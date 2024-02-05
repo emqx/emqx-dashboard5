@@ -139,10 +139,6 @@ export default {
     zh: '安装插件',
     en: 'Install plugin',
   },
-  modules: {
-    zh: '模块',
-    en: 'Modules',
-  },
   tool: {
     zh: '工具',
     en: 'Tool',
@@ -226,10 +222,6 @@ export default {
   configuration: {
     zh: '功能配置',
     en: 'Configuration',
-  },
-  'basic-config': {
-    zh: '基础配置',
-    en: 'Basic Config',
   },
   cluster: {
     zh: '集群',

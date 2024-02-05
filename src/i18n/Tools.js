@@ -31,10 +31,6 @@ export default {
     zh: '连接配置',
     en: 'Connection',
   },
-  protocolType: {
-    zh: '协议类型',
-    en: 'Protocol Type',
-  },
   host: {
     zh: '主机名',
     en: 'Host',
@@ -46,10 +42,6 @@ export default {
   mountPoint: {
     zh: '挂载点',
     en: 'Mountpoint',
-  },
-  randomGeneration: {
-    zh: '随机生成',
-    en: 'Random',
   },
   connected: {
     zh: '已连接',
@@ -74,10 +66,6 @@ export default {
   connect: {
     zh: '连接',
     en: 'Connect',
-  },
-  cancelConnection: {
-    zh: '取消连接',
-    en: 'Cancel connection',
   },
   disconnect: {
     zh: '断开连接',

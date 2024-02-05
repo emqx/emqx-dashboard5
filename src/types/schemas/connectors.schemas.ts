@@ -197,45 +197,6 @@ export type PostConnectorsIdOperation400 = {
   message?: string
 }
 
-export type DeleteConnectorsId503Code =
-  typeof DeleteConnectorsId503Code[keyof typeof DeleteConnectorsId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteConnectorsId503 = {
-  code?: DeleteConnectorsId503Code
-  message?: string
-}
-
-export type DeleteConnectorsId404Code =
-  typeof DeleteConnectorsId404Code[keyof typeof DeleteConnectorsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteConnectorsId404 = {
-  code?: DeleteConnectorsId404Code
-  message?: string
-}
-
-export type DeleteConnectorsId400Code =
-  typeof DeleteConnectorsId400Code[keyof typeof DeleteConnectorsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteConnectorsId400 = {
-  code?: DeleteConnectorsId400Code
-  message?: string
-}
-
 export type PutConnectorsId404Code =
   typeof PutConnectorsId404Code[keyof typeof PutConnectorsId404Code]
 
@@ -1273,7 +1234,7 @@ export interface ConnectorMqttPostConnector {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type ConnectorMqttGetConnectorProtoVer =
@@ -2275,7 +2236,7 @@ export interface BridgeHttpPostConnector {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpPostConnectorRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
 
@@ -2357,7 +2318,7 @@ export interface BridgeHttpGetConnector {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpGetConnectorRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   resource_opts?: BridgeHttpConnectorResourceOpts
 }
 

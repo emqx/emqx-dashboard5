@@ -67,6 +67,8 @@ export interface EmqxMgmtApiStatsNodeStatsData {
   'delayed.max'?: number
   'live_connections.count'?: number
   'live_connections.max'?: number
+  'cluster_sessions.count'?: number
+  'cluster_sessions.max'?: number
   'retained.count'?: number
   'retained.max'?: number
   'sessions.count'?: number
@@ -93,6 +95,8 @@ export interface EmqxMgmtApiStatsAggergateData {
   'delayed.max'?: number
   'live_connections.count'?: number
   'live_connections.max'?: number
+  'cluster_sessions.count'?: number
+  'cluster_sessions.max'?: number
   'retained.count'?: number
   'retained.max'?: number
   'sessions.count'?: number
@@ -282,8 +286,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   dropped_msg_rate?: number
-  sent_msg_rate?: number
   received_msg_rate?: number
+  sent_msg_rate?: number
   subscriptions?: number
   topics?: number
   connections?: number

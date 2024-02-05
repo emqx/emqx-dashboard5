@@ -159,9 +159,9 @@ export default {
     zh: '会话信息',
     en: 'Session Info',
   },
-  protocolType: {
-    zh: '协议类型',
-    en: 'Protocol Type',
+  isBridge: {
+    zh: '桥接标识',
+    en: 'Bridge',
   },
   sslCert: {
     zh: 'SSL 证书',
@@ -318,18 +318,6 @@ export default {
   expand: {
     zh: '展开',
     en: 'Expand',
-  },
-  authSuccess: {
-    zh: '认证成功',
-    en: 'Auth Success',
-  },
-  authFailed: {
-    zh: '认证失败',
-    en: 'Auth Failed',
-  },
-  connectSuccess: {
-    zh: '连接成功',
-    en: 'Connected',
   },
   clientDetailErr: {
     zh: '客户端详情获取出错',

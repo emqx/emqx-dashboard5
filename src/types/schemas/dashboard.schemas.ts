@@ -59,6 +59,29 @@ export type PostUsersUsernameChangePwdBody = {
   new_pwd?: string
 }
 
+export type PutUsersUsername404Code =
+  typeof PutUsersUsername404Code[keyof typeof PutUsersUsername404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsername404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type PutUsersUsername404 = {
+  code?: PutUsersUsername404Code
+  message?: string
+}
+
+export type PutUsersUsername200 = {
+  username?: string
+  description?: string
+  backend?: string
+}
+
+export type PutUsersUsernameBody = {
+  description?: string
+}
+
 export type DeleteUsersUsername404Code =
   typeof DeleteUsersUsername404Code[keyof typeof DeleteUsersUsername404Code]
 

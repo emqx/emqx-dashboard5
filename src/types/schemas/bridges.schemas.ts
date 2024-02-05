@@ -167,46 +167,6 @@ export type PostBridgesIdOperation400 = {
   message?: string
 }
 
-export type DeleteBridgesId503Code =
-  typeof DeleteBridgesId503Code[keyof typeof DeleteBridgesId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteBridgesId503 = {
-  code?: DeleteBridgesId503Code
-  message?: string
-}
-
-export type DeleteBridgesId404Code =
-  typeof DeleteBridgesId404Code[keyof typeof DeleteBridgesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteBridgesId404 = {
-  code?: DeleteBridgesId404Code
-  message?: string
-}
-
-export type DeleteBridgesId400Code =
-  typeof DeleteBridgesId400Code[keyof typeof DeleteBridgesId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteBridgesId400 = {
-  rules?: string[]
-  code?: DeleteBridgesId400Code
-  message?: string
-}
-
 export type PutBridgesId404Code = typeof PutBridgesId404Code[keyof typeof PutBridgesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -347,6 +307,46 @@ export type GetBridgesId200 =
   | BridgeHttpGet
   | BridgeIotdbGet
   | BridgeInfluxdbGetApiV2
+
+export type DeleteBridgesId503Code =
+  typeof DeleteBridgesId503Code[keyof typeof DeleteBridgesId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteBridgesId503 = {
+  code?: DeleteBridgesId503Code
+  message?: string
+}
+
+export type DeleteBridgesId404Code =
+  typeof DeleteBridgesId404Code[keyof typeof DeleteBridgesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteBridgesId404 = {
+  code?: DeleteBridgesId404Code
+  message?: string
+}
+
+export type DeleteBridgesId400Code =
+  typeof DeleteBridgesId400Code[keyof typeof DeleteBridgesId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteBridgesId400 = {
+  rules?: string[]
+  code?: DeleteBridgesId400Code
+  message?: string
+}
 
 export type GetBridgesIdMetrics404Code =
   typeof GetBridgesIdMetrics404Code[keyof typeof GetBridgesIdMetrics404Code]
@@ -605,53 +605,6 @@ export interface ConnectorMqttEgress {
   pool_size?: number
   local?: ConnectorMqttEgressLocal
   remote: ConnectorMqttEgressRemote
-}
-
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
-
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface BrokerSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: BrokerSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }
 
 export type BridgeNodeStatusStatus =
@@ -2178,7 +2131,7 @@ export interface BridgeMqttPut {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   ingress?: ConnectorMqttIngress
   egress?: ConnectorMqttEgress
 }
@@ -2231,7 +2184,7 @@ export interface BridgeMqttPost {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   ingress?: ConnectorMqttIngress
   egress?: ConnectorMqttEgress
 }
@@ -2287,7 +2240,7 @@ export interface BridgeMqttGet {
   keepalive?: string
   retry_interval?: string
   max_inflight?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   ingress?: ConnectorMqttIngress
   egress?: ConnectorMqttEgress
 }
@@ -4033,7 +3986,7 @@ export interface BridgeHttpPut {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpPutRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPutDirection
@@ -4106,7 +4059,7 @@ export interface BridgeHttpPost {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpPostRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpPostDirection
@@ -4191,7 +4144,7 @@ export interface BridgeHttpGet {
   enable_pipelining?: number
   /** @deprecated */
   request?: BridgeHttpGetRequest
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   url: string
   /** @deprecated */
   direction?: BridgeHttpGetDirection

@@ -295,10 +295,6 @@ export default {
     zh: '密钥长度',
     en: 'Derived key length',
   },
-  payloadTooLargeTip: {
-    zh: 'payload 大小超过 1MB 内容无法查看',
-    en: 'The payload size exceeds 1MB, and the content cannot be viewed',
-  },
   readMode: {
     zh: '读模式',
     en: 'Read Mode',
@@ -386,10 +382,6 @@ export default {
   authz: {
     zh: '授权',
     en: 'authorization',
-  },
-  authzCheck: {
-    zh: '鉴权检查',
-    en: 'authorizations',
   },
   publish: {
     zh: '发布时',

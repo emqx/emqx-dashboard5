@@ -178,6 +178,46 @@ export type PostConfigsResetRootnameParams = {
   conf_path?: string
 }
 
+export type PutConfigsBroker403Code =
+  typeof PutConfigsBroker403Code[keyof typeof PutConfigsBroker403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsBroker403Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsBroker403 = {
+  code?: PutConfigsBroker403Code
+  message?: string
+}
+
+export type PutConfigsBroker400Code =
+  typeof PutConfigsBroker400Code[keyof typeof PutConfigsBroker400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsBroker400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
+} as const
+
+export type PutConfigsBroker400 = {
+  code?: PutConfigsBroker400Code
+  message?: string
+}
+
+export type GetConfigsBroker404Code =
+  typeof GetConfigsBroker404Code[keyof typeof GetConfigsBroker404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetConfigsBroker404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetConfigsBroker404 = {
+  code?: GetConfigsBroker404Code
+  message?: string
+}
+
 export type PutConfigsDashboard403Code =
   typeof PutConfigsDashboard403Code[keyof typeof PutConfigsDashboard403Code]
 
@@ -325,24 +365,24 @@ export type PutConfigsGlobalZone400 = {
 }
 
 export type PutConfigsGlobalZone200 = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type PutConfigsGlobalZoneBody = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type GetConfigsGlobalZone200 = {
-  mqtt?: BrokerMqtt
-  flapping_detect?: BrokerFlappingDetect
-  force_shutdown?: BrokerForceShutdown
-  force_gc?: BrokerForceGc
+  mqtt?: EmqxMqtt
+  flapping_detect?: EmqxFlappingDetect
+  force_shutdown?: EmqxForceShutdown
+  force_gc?: EmqxForceGc
 }
 
 export type PutConfigsSysmon403Code =

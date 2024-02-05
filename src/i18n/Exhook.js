@@ -51,10 +51,6 @@ export default {
     zh: '自动重连',
     en: 'Auto Reconnect',
   },
-  autoReconnectDesc: {
-    zh: '是否开启自动重连。当加载 ExHook 回调服务器失败后，是否进行重试。',
-    en: 'If or not enable auto reconnect. If enabled, retry when loading ExHook callback server fails.',
-  },
   autoReconnectInterval: {
     zh: '自动重连周期',
     en: 'Auto Reconnect Interval',
