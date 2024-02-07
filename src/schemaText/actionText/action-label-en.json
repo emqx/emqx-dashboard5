@@ -49,7 +49,9 @@
     "sync_timeout": "Sync Timeout"
   },
   "rabbitmq": {
-    "payload_template": "Payload Template"
+    "payload_template": "Payload Template",
+    "queue": "Queue",
+    "no_ack": "No Ack"
   },
   "pulsar": {
     "servers": "Servers"
