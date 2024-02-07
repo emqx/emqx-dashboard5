@@ -564,6 +564,53 @@ export interface MongoTopology {
   min_heartbeat_frequency_ms?: string
 }
 
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+}
+
 export interface ConnectorMqttIngressRemote {
   topic: string
   qos?: number
@@ -659,7 +706,7 @@ export interface BridgeTimescalePut {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeTimescalePostType =
@@ -684,7 +731,7 @@ export interface BridgeTimescalePost {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeTimescaleGetType =
@@ -723,7 +770,7 @@ export interface BridgeTimescaleGet {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export interface BridgeTdenginePut {
@@ -809,6 +856,23 @@ export const BridgeSqlserverPostType = {
   sqlserver: 'sqlserver',
 } as const
 
+export interface BridgeSqlserverPost {
+  type: BridgeSqlserverPostType
+  name: string
+  enable?: boolean
+  sql?: string
+  driver?: string
+  local_topic?: string
+  resource_opts?: BridgeSqlserverCreationOpts
+  server: string
+  database: string
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+}
+
 export type BridgeSqlserverGetType =
   typeof BridgeSqlserverGetType[keyof typeof BridgeSqlserverGetType]
 
@@ -882,23 +946,6 @@ export interface BridgeSqlserverCreationOpts {
 }
 
 export interface BridgeSqlserverPut {
-  enable?: boolean
-  sql?: string
-  driver?: string
-  local_topic?: string
-  resource_opts?: BridgeSqlserverCreationOpts
-  server: string
-  database: string
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-}
-
-export interface BridgeSqlserverPost {
-  type: BridgeSqlserverPostType
-  name: string
   enable?: boolean
   sql?: string
   driver?: string
@@ -1023,7 +1070,7 @@ export interface BridgeRedisPutSingle {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeRedisPutSentinelRedisType =
@@ -1050,7 +1097,7 @@ export interface BridgeRedisPutSentinel {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeRedisPutClusterRedisType =
@@ -1075,7 +1122,7 @@ export interface BridgeRedisPutCluster {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeRedisPostSingleType =
@@ -1109,7 +1156,7 @@ export interface BridgeRedisPostSingle {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisPostSingleType
   name: string
 }
@@ -1146,7 +1193,7 @@ export interface BridgeRedisPostSentinel {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisPostSentinelType
   name: string
 }
@@ -1181,7 +1228,7 @@ export interface BridgeRedisPostCluster {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisPostClusterType
   name: string
 }
@@ -1228,7 +1275,7 @@ export interface BridgeRedisGetSingle {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisGetSingleType
   name: string
   status?: BridgeRedisGetSingleStatus
@@ -1304,7 +1351,7 @@ export interface BridgeRedisGetCluster {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisGetClusterType
   name: string
   status?: BridgeRedisGetClusterStatus
@@ -1394,7 +1441,7 @@ export interface BridgeRedisGetSentinel {
   database?: number
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeRedisGetSentinelType
   name: string
   status?: BridgeRedisGetSentinelStatus
@@ -1452,15 +1499,15 @@ export interface BridgeRabbitmqPut {
   password: string
   pool_size?: number
   timeout?: string
-  wait_for_publish_confirmations?: boolean
-  publish_confirmation_timeout?: string
   virtual_host?: string
   heartbeat?: string
+  ssl?: EmqxSslClientOpts
+  wait_for_publish_confirmations?: boolean
+  publish_confirmation_timeout?: string
   exchange: string
   routing_key: string
   delivery_mode?: BridgeRabbitmqPutDeliveryMode
   payload_template?: string
-  ssl?: BrokerSslClientOpts
 }
 
 export type BridgeRabbitmqPostDeliveryMode =
@@ -1479,29 +1526,6 @@ export type BridgeRabbitmqPostType =
 export const BridgeRabbitmqPostType = {
   rabbitmq: 'rabbitmq',
 } as const
-
-export interface BridgeRabbitmqPost {
-  type: BridgeRabbitmqPostType
-  name: string
-  enable?: boolean
-  local_topic?: string
-  resource_opts?: BridgeRabbitmqCreationOpts
-  server?: string
-  port?: number
-  username: string
-  password: string
-  pool_size?: number
-  timeout?: string
-  wait_for_publish_confirmations?: boolean
-  publish_confirmation_timeout?: string
-  virtual_host?: string
-  heartbeat?: string
-  exchange: string
-  routing_key: string
-  delivery_mode?: BridgeRabbitmqPostDeliveryMode
-  payload_template?: string
-  ssl?: BrokerSslClientOpts
-}
 
 export type BridgeRabbitmqGetDeliveryMode =
   typeof BridgeRabbitmqGetDeliveryMode[keyof typeof BridgeRabbitmqGetDeliveryMode]
@@ -1545,15 +1569,15 @@ export interface BridgeRabbitmqGet {
   password: string
   pool_size?: number
   timeout?: string
-  wait_for_publish_confirmations?: boolean
-  publish_confirmation_timeout?: string
   virtual_host?: string
   heartbeat?: string
+  ssl?: EmqxSslClientOpts
+  wait_for_publish_confirmations?: boolean
+  publish_confirmation_timeout?: string
   exchange: string
   routing_key: string
   delivery_mode?: BridgeRabbitmqGetDeliveryMode
   payload_template?: string
-  ssl?: BrokerSslClientOpts
 }
 
 export type BridgeRabbitmqCreationOptsRequestTtl = 'infinity' | string
@@ -1587,6 +1611,29 @@ export interface BridgeRabbitmqCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface BridgeRabbitmqPost {
+  type: BridgeRabbitmqPostType
+  name: string
+  enable?: boolean
+  local_topic?: string
+  resource_opts?: BridgeRabbitmqCreationOpts
+  server?: string
+  port?: number
+  username: string
+  password: string
+  pool_size?: number
+  timeout?: string
+  virtual_host?: string
+  heartbeat?: string
+  ssl?: EmqxSslClientOpts
+  wait_for_publish_confirmations?: boolean
+  publish_confirmation_timeout?: string
+  exchange: string
+  routing_key: string
+  delivery_mode?: BridgeRabbitmqPostDeliveryMode
+  payload_template?: string
 }
 
 export type BridgePulsarPutProducerStrategy =
@@ -1627,6 +1674,26 @@ export interface BridgePulsarProducerPulsarMessage {
   value?: string
 }
 
+export interface BridgePulsarPutProducer {
+  enable?: boolean
+  servers: string
+  authentication?: BridgePulsarPutProducerAuthentication
+  connect_timeout?: string
+  ssl?: EmqxSslClientOpts
+  batch_size?: number
+  compression?: BridgePulsarPutProducerCompression
+  send_buffer?: string
+  sync_timeout?: string
+  retention_period?: BridgePulsarPutProducerRetentionPeriod
+  max_batch_bytes?: string
+  local_topic?: string
+  pulsar_topic: string
+  strategy?: BridgePulsarPutProducerStrategy
+  buffer?: BridgePulsarProducerBuffer
+  message?: BridgePulsarProducerPulsarMessage
+  resource_opts?: BridgePulsarProducerResourceOpts
+}
+
 export type BridgePulsarProducerBufferMode =
   typeof BridgePulsarProducerBufferMode[keyof typeof BridgePulsarProducerBufferMode]
 
@@ -1642,26 +1709,6 @@ export interface BridgePulsarProducerBuffer {
   per_partition_limit?: string
   segment_bytes?: string
   memory_overload_protection?: boolean
-}
-
-export interface BridgePulsarPutProducer {
-  enable?: boolean
-  servers: string
-  authentication?: BridgePulsarPutProducerAuthentication
-  connect_timeout?: string
-  ssl?: BrokerSslClientOpts
-  batch_size?: number
-  compression?: BridgePulsarPutProducerCompression
-  send_buffer?: string
-  sync_timeout?: string
-  retention_period?: BridgePulsarPutProducerRetentionPeriod
-  max_batch_bytes?: string
-  local_topic?: string
-  pulsar_topic: string
-  strategy?: BridgePulsarPutProducerStrategy
-  buffer?: BridgePulsarProducerBuffer
-  message?: BridgePulsarProducerPulsarMessage
-  resource_opts?: BridgePulsarProducerResourceOpts
 }
 
 export type BridgePulsarPostProducerStrategy =
@@ -1706,7 +1753,7 @@ export interface BridgePulsarPostProducer {
   servers: string
   authentication?: BridgePulsarPostProducerAuthentication
   connect_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   batch_size?: number
   compression?: BridgePulsarPostProducerCompression
   send_buffer?: string
@@ -1777,7 +1824,7 @@ export interface BridgePulsarGetProducer {
   servers: string
   authentication?: BridgePulsarGetProducerAuthentication
   connect_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   batch_size?: number
   compression?: BridgePulsarGetProducerCompression
   send_buffer?: string
@@ -1813,7 +1860,7 @@ export interface BridgePgsqlPut {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgePgsqlPostType = typeof BridgePgsqlPostType[keyof typeof BridgePgsqlPostType]
@@ -1837,7 +1884,7 @@ export interface BridgePgsqlPost {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgePgsqlGetType = typeof BridgePgsqlGetType[keyof typeof BridgePgsqlGetType]
@@ -1874,7 +1921,7 @@ export interface BridgePgsqlGet {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export interface BridgeOraclePut {
@@ -2029,7 +2076,7 @@ export interface BridgeMysqlPut {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeMysqlPostType = typeof BridgeMysqlPostType[keyof typeof BridgeMysqlPostType]
@@ -2053,7 +2100,7 @@ export interface BridgeMysqlPost {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeMysqlGetType = typeof BridgeMysqlGetType[keyof typeof BridgeMysqlGetType]
@@ -2090,7 +2137,7 @@ export interface BridgeMysqlGet {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeMqttPutProtoVer = typeof BridgeMqttPutProtoVer[keyof typeof BridgeMqttPutProtoVer]
@@ -2315,7 +2362,7 @@ export interface BridgeMongodbPutSingle {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2361,7 +2408,7 @@ export interface BridgeMongodbPutSharded {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2418,7 +2465,7 @@ export interface BridgeMongodbPutRs {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2472,7 +2519,7 @@ export interface BridgeMongodbPostSingle {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2528,7 +2575,7 @@ export interface BridgeMongodbPostSharded {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2595,7 +2642,7 @@ export interface BridgeMongodbPostRs {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2665,7 +2712,7 @@ export interface BridgeMongodbGetSingle {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2735,7 +2782,7 @@ export interface BridgeMongodbGetSharded {
   auth_source?: string
   database: string
   topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   enable?: boolean
   collection?: string
   payload_template?: string
@@ -2799,6 +2846,32 @@ export const BridgeMongodbGetRsStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeMongodbGetRs {
+  status?: BridgeMongodbGetRsStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  mongo_type: BridgeMongodbGetRsMongoType
+  servers: string
+  w_mode?: BridgeMongodbGetRsWMode
+  r_mode?: BridgeMongodbGetRsRMode
+  replica_set_name: string
+  srv_record?: boolean
+  pool_size?: number
+  username?: string
+  password?: string
+  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
+  auth_source?: string
+  database: string
+  topology?: MongoTopology
+  ssl?: EmqxSslClientOpts
+  enable?: boolean
+  collection?: string
+  payload_template?: string
+  resource_opts: BridgeMongodbCreationOpts
+  type: BridgeMongodbGetRsType
+  name: string
+}
+
 export type BridgeMongodbCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeMongodbCreationOptsQueryMode =
@@ -2831,32 +2904,6 @@ export interface BridgeMongodbCreationOpts {
   max_buffer_bytes?: string
 }
 
-export interface BridgeMongodbGetRs {
-  status?: BridgeMongodbGetRsStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  mongo_type: BridgeMongodbGetRsMongoType
-  servers: string
-  w_mode?: BridgeMongodbGetRsWMode
-  r_mode?: BridgeMongodbGetRsRMode
-  replica_set_name: string
-  srv_record?: boolean
-  pool_size?: number
-  username?: string
-  password?: string
-  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
-  auth_source?: string
-  database: string
-  topology?: MongoTopology
-  ssl?: BrokerSslClientOpts
-  enable?: boolean
-  collection?: string
-  payload_template?: string
-  resource_opts: BridgeMongodbCreationOpts
-  type: BridgeMongodbGetRsType
-  name: string
-}
-
 export interface BridgeMatrixPut {
   enable?: boolean
   sql?: string
@@ -2869,7 +2916,7 @@ export interface BridgeMatrixPut {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeMatrixPostType = typeof BridgeMatrixPostType[keyof typeof BridgeMatrixPostType]
@@ -2893,7 +2940,7 @@ export interface BridgeMatrixPost {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeMatrixGetType = typeof BridgeMatrixGetType[keyof typeof BridgeMatrixGetType]
@@ -2930,7 +2977,7 @@ export interface BridgeMatrixGet {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export interface BridgeKinesisPutProducer {
@@ -2944,9 +2991,9 @@ export interface BridgeKinesisPutProducer {
   max_retries?: number
   pool_size?: number
   payload_template?: string
-  local_topic?: string
   stream_name: string
   partition_key: string
+  local_topic?: string
 }
 
 export type BridgeKinesisPostProducerType =
@@ -2970,9 +3017,9 @@ export interface BridgeKinesisPostProducer {
   max_retries?: number
   pool_size?: number
   payload_template?: string
-  local_topic?: string
   stream_name: string
   partition_key: string
+  local_topic?: string
 }
 
 export type BridgeKinesisGetProducerType =
@@ -2993,27 +3040,6 @@ export const BridgeKinesisGetProducerStatus = {
   connecting: 'connecting',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeKinesisGetProducer {
-  status?: BridgeKinesisGetProducerStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeKinesisGetProducerType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeKinesisCreationOpts
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  endpoint: string
-  max_retries?: number
-  pool_size?: number
-  payload_template?: string
-  local_topic?: string
-  stream_name: string
-  partition_key: string
-}
 
 export type BridgeKinesisCreationOptsRequestTtl = 'infinity' | string
 
@@ -3046,6 +3072,27 @@ export interface BridgeKinesisCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface BridgeKinesisGetProducer {
+  status?: BridgeKinesisGetProducerStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeKinesisGetProducerType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeKinesisCreationOpts
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  endpoint: string
+  max_retries?: number
+  pool_size?: number
+  payload_template?: string
+  stream_name: string
+  partition_key: string
+  local_topic?: string
 }
 
 export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
@@ -3173,6 +3220,8 @@ export const BridgeKafkaProducerKafkaOptsQueryMode = {
   sync: 'sync',
 } as const
 
+export type BridgeKafkaProducerKafkaOptsPartitionsLimit = number | 'all_partitions'
+
 export type BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode =
   typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode[keyof typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode]
 
@@ -3216,6 +3265,24 @@ export interface BridgeKafkaProducerKafkaExtHeaders {
   kafka_ext_header_value: string
 }
 
+export interface BridgeKafkaProducerKafkaOpts {
+  topic: string
+  message?: BridgeKafkaKafkaMessage
+  max_batch_bytes?: string
+  compression?: BridgeKafkaProducerKafkaOptsCompression
+  partition_strategy?: BridgeKafkaProducerKafkaOptsPartitionStrategy
+  required_acks?: BridgeKafkaProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  partitions_limit?: BridgeKafkaProducerKafkaOptsPartitionsLimit
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: BridgeKafkaProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
+}
+
 export type BridgeKafkaProducerBufferMode =
   typeof BridgeKafkaProducerBufferMode[keyof typeof BridgeKafkaProducerBufferMode]
 
@@ -3231,23 +3298,6 @@ export interface BridgeKafkaProducerBuffer {
   per_partition_limit?: string
   segment_bytes?: string
   memory_overload_protection?: boolean
-}
-
-export interface BridgeKafkaProducerKafkaOpts {
-  topic: string
-  message?: BridgeKafkaKafkaMessage
-  max_batch_bytes?: string
-  compression?: BridgeKafkaProducerKafkaOptsCompression
-  partition_strategy?: BridgeKafkaProducerKafkaOptsPartitionStrategy
-  required_acks?: BridgeKafkaProducerKafkaOptsRequiredAcks
-  kafka_headers?: string
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode
-  partition_count_refresh_interval?: string
-  max_inflight?: number
-  buffer?: BridgeKafkaProducerBuffer
-  query_mode?: BridgeKafkaProducerKafkaOptsQueryMode
-  sync_query_timeout?: string
 }
 
 export type BridgeKafkaPostProducerAuthentication =
@@ -3368,27 +3418,6 @@ export const BridgeKafkaGetProducerStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface BridgeKafkaGetProducer {
-  status?: BridgeKafkaGetProducerStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeKafkaGetProducerType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  bootstrap_hosts: string
-  connect_timeout?: string
-  min_metadata_refresh_interval?: string
-  metadata_request_timeout?: string
-  authentication?: BridgeKafkaGetProducerAuthentication
-  socket_opts?: BridgeKafkaSocketOpts
-  ssl?: BridgeKafkaSslClientOpts
-  resource_opts?: BridgeKafkaConnectorResourceOpts
-  local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
-}
-
 export type BridgeKafkaGetConsumerValueEncodingMode =
   typeof BridgeKafkaGetConsumerValueEncodingMode[keyof typeof BridgeKafkaGetConsumerValueEncodingMode]
 
@@ -3459,6 +3488,27 @@ export interface BridgeKafkaConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface BridgeKafkaGetProducer {
+  status?: BridgeKafkaGetProducerStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeKafkaGetProducerType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  bootstrap_hosts: string
+  connect_timeout?: string
+  min_metadata_refresh_interval?: string
+  metadata_request_timeout?: string
+  authentication?: BridgeKafkaGetProducerAuthentication
+  socket_opts?: BridgeKafkaSocketOpts
+  ssl?: BridgeKafkaSslClientOpts
+  resource_opts?: BridgeKafkaConnectorResourceOpts
+  local_topic?: string
+  kafka: BridgeKafkaProducerKafkaOpts
 }
 
 export interface BridgeKafkaGetConsumer {
@@ -3604,7 +3654,7 @@ export interface BridgeIotdbGet {
   pool_type?: BridgeIotdbGetPoolType
   pool_size?: number
   enable_pipelining?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   base_url: string
   max_retries?: number
 }
@@ -3658,7 +3708,7 @@ export interface BridgeIotdbPut {
   pool_type?: BridgeIotdbPutPoolType
   pool_size?: number
   enable_pipelining?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   base_url: string
   max_retries?: number
 }
@@ -3678,7 +3728,7 @@ export interface BridgeIotdbPost {
   pool_type?: BridgeIotdbPostPoolType
   pool_size?: number
   enable_pipelining?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   base_url: string
   max_retries?: number
 }
@@ -3703,7 +3753,7 @@ export interface BridgeInfluxdbPutApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV2Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   bucket: string
   org: string
   token: string
@@ -3729,7 +3779,7 @@ export interface BridgeInfluxdbPutApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV1Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   database: string
   username?: string
   password?: string
@@ -3763,7 +3813,7 @@ export interface BridgeInfluxdbPostApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV2Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   bucket: string
   org: string
   token: string
@@ -3799,7 +3849,7 @@ export interface BridgeInfluxdbPostApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV1Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   database: string
   username?: string
   password?: string
@@ -3846,7 +3896,7 @@ export interface BridgeInfluxdbGetApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV2Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   bucket: string
   org: string
   token: string
@@ -3896,7 +3946,7 @@ export interface BridgeInfluxdbGetApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV1Precision
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   database: string
   username?: string
   password?: string
@@ -4179,7 +4229,7 @@ export interface BridgeHstreamdbPut {
   partition_key?: string
   pool_size?: number
   grpc_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeHstreamdbPostType =
@@ -4211,7 +4261,7 @@ export interface BridgeHstreamdbPost {
   partition_key?: string
   pool_size?: number
   grpc_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeHstreamdbPostType
   name: string
 }
@@ -4256,7 +4306,7 @@ export interface BridgeHstreamdbGet {
   partition_key?: string
   pool_size?: number
   grpc_timeout?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeHstreamdbGetType
   name: string
   status?: BridgeHstreamdbGetStatus
@@ -4287,7 +4337,7 @@ export interface BridgeGreptimedbPutGrpcV1 {
   dbname: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeGreptimedbPostGrpcV1Type =
@@ -4321,7 +4371,7 @@ export interface BridgeGreptimedbPostGrpcV1 {
   dbname: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeGreptimedbPostGrpcV1Type
   name: string
 }
@@ -4368,7 +4418,7 @@ export interface BridgeGreptimedbGetGrpcV1 {
   dbname: string
   username?: string
   password?: string
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   type: BridgeGreptimedbGetGrpcV1Type
   name: string
   status?: BridgeGreptimedbGetGrpcV1Status
@@ -4688,6 +4738,22 @@ export interface BridgeDynamoGet {
   auto_reconnect?: boolean
 }
 
+export interface BridgeClickhousePut {
+  enable?: boolean
+  sql?: string
+  batch_value_separator?: string
+  local_topic?: string
+  resource_opts?: BridgeClickhouseCreationOpts
+  url: string
+  connect_timeout?: string
+  database: string
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+}
+
 export type BridgeClickhousePostType =
   typeof BridgeClickhousePostType[keyof typeof BridgeClickhousePostType]
 
@@ -4787,25 +4853,9 @@ export interface BridgeClickhouseCreationOpts {
   max_buffer_bytes?: string
 }
 
-export interface BridgeClickhousePut {
-  enable?: boolean
-  sql?: string
-  batch_value_separator?: string
-  local_topic?: string
-  resource_opts?: BridgeClickhouseCreationOpts
-  url: string
-  connect_timeout?: string
-  database: string
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-}
-
 export interface BridgeCassaPut {
-  enable?: boolean
   cql?: string
+  enable?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
@@ -4815,7 +4865,7 @@ export interface BridgeCassaPut {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeCassaPostType = typeof BridgeCassaPostType[keyof typeof BridgeCassaPostType]
@@ -4828,8 +4878,8 @@ export const BridgeCassaPostType = {
 export interface BridgeCassaPost {
   type: BridgeCassaPostType
   name: string
-  enable?: boolean
   cql?: string
+  enable?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
@@ -4839,7 +4889,7 @@ export interface BridgeCassaPost {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeCassaGetType = typeof BridgeCassaGetType[keyof typeof BridgeCassaGetType]
@@ -4865,8 +4915,8 @@ export interface BridgeCassaGet {
   node_status?: BridgeNodeStatus[]
   type: BridgeCassaGetType
   name: string
-  enable?: boolean
   cql?: string
+  enable?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
@@ -4876,7 +4926,7 @@ export interface BridgeCassaGet {
   password?: string
   /** @deprecated */
   auto_reconnect?: boolean
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'disable' | 'auto'
@@ -4964,6 +5014,8 @@ export const BridgeAzureEventHubProducerKafkaOptsQueryMode = {
   sync: 'sync',
 } as const
 
+export type BridgeAzureEventHubProducerKafkaOptsPartitionsLimit = number | 'all_partitions'
+
 export type BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode =
   typeof BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode[keyof typeof BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode]
 
@@ -4990,6 +5042,23 @@ export const BridgeAzureEventHubProducerKafkaOptsPartitionStrategy = {
   random: 'random',
   key_dispatch: 'key_dispatch',
 } as const
+
+export interface BridgeAzureEventHubProducerKafkaOpts {
+  topic: string
+  message?: BridgeAzureEventHubKafkaMessage
+  max_batch_bytes?: string
+  partition_strategy?: BridgeAzureEventHubProducerKafkaOptsPartitionStrategy
+  required_acks?: BridgeAzureEventHubProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  partitions_limit?: BridgeAzureEventHubProducerKafkaOptsPartitionsLimit
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: BridgeAzureEventHubProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
+}
 
 export type BridgeAzureEventHubPostProducerType =
   typeof BridgeAzureEventHubPostProducerType[keyof typeof BridgeAzureEventHubPostProducerType]
@@ -5020,22 +5089,6 @@ export interface BridgeAzureEventHubPostProducer {
 export interface BridgeAzureEventHubKafkaMessage {
   key?: string
   value?: string
-}
-
-export interface BridgeAzureEventHubProducerKafkaOpts {
-  topic: string
-  message?: BridgeAzureEventHubKafkaMessage
-  max_batch_bytes?: string
-  partition_strategy?: BridgeAzureEventHubProducerKafkaOptsPartitionStrategy
-  required_acks?: BridgeAzureEventHubProducerKafkaOptsRequiredAcks
-  kafka_headers?: string
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode
-  partition_count_refresh_interval?: string
-  max_inflight?: number
-  buffer?: BridgeKafkaProducerBuffer
-  query_mode?: BridgeAzureEventHubProducerKafkaOptsQueryMode
-  sync_query_timeout?: string
 }
 
 export type BridgeAzureEventHubGetProducerAuthentication =

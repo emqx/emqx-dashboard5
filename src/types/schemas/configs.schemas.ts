@@ -503,7 +503,7 @@ export interface S3TransportOptions {
   pool_type?: S3TransportOptionsPoolType
   pool_size?: number
   enable_pipelining?: number
-  ssl?: BrokerSslClientOpts
+  ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
   max_retries?: number
   request_timeout?: string
@@ -612,6 +612,195 @@ export interface FileTransferLocalStorage {
   enable?: boolean
 }
 
+export type EmqxSysmonVmLargeHeap = string | 'disabled'
+
+export type EmqxSysmonVmLongSchedule = string | 'disabled'
+
+export type EmqxSysmonVmLongGc = string | 'disabled'
+
+export interface EmqxSysmonVm {
+  process_check_interval?: string
+  process_high_watermark?: string
+  process_low_watermark?: string
+  long_gc?: EmqxSysmonVmLongGc
+  long_schedule?: EmqxSysmonVmLongSchedule
+  large_heap?: EmqxSysmonVmLargeHeap
+  busy_dist_port?: boolean
+  busy_port?: boolean
+}
+
+export type EmqxSysmonOsMemCheckInterval = string | 'disabled'
+
+export interface EmqxSysmonOs {
+  cpu_check_interval?: string
+  cpu_high_watermark?: string
+  cpu_low_watermark?: string
+  mem_check_interval?: EmqxSysmonOsMemCheckInterval
+  sysmem_high_watermark?: string
+  procmem_high_watermark?: string
+}
+
+export interface EmqxSysmon {
+  vm?: EmqxSysmonVm
+  os?: EmqxSysmonOs
+}
+
+export type EmqxSysTopicsSysHeartbeatInterval = string | 'disabled'
+
+export type EmqxSysTopicsSysMsgInterval = string | 'disabled'
+
+export interface EmqxSysTopics {
+  sys_msg_interval?: EmqxSysTopicsSysMsgInterval
+  sys_heartbeat_interval?: EmqxSysTopicsSysHeartbeatInterval
+  sys_event_messages?: EmqxEventNames
+}
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsLogLevel =
+  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: EmqxSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: EmqxSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+}
+
+export type EmqxMqttMaxSubscriptions = 'infinity' | number
+
+export type EmqxMqttMaxMqueueLen = 'infinity' | number
+
+export type EmqxMqttMqueueDefaultPriority =
+  typeof EmqxMqttMqueueDefaultPriority[keyof typeof EmqxMqttMqueueDefaultPriority]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttMqueueDefaultPriority = {
+  highest: 'highest',
+  lowest: 'lowest',
+} as const
+
+export interface EmqxMqtt {
+  idle_timeout?: EmqxMqttIdleTimeout
+  max_packet_size?: string
+  max_clientid_len?: number
+  max_topic_levels?: number
+  max_topic_alias?: number
+  retain_available?: boolean
+  wildcard_subscription?: boolean
+  shared_subscription?: boolean
+  shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
+  exclusive_subscription?: boolean
+  ignore_loop_deliver?: boolean
+  strict_mode?: boolean
+  response_information?: string
+  server_keepalive?: EmqxMqttServerKeepalive
+  keepalive_multiplier?: number
+  retry_interval?: string
+  use_username_as_clientid?: boolean
+  peer_cert_as_username?: EmqxMqttPeerCertAsUsername
+  peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
+  session_expiry_interval?: string
+  message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  max_awaiting_rel?: EmqxMqttMaxAwaitingRel
+  max_qos_allowed?: number
+  mqueue_priorities?: EmqxMqttMqueuePriorities
+  mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
+  mqueue_store_qos0?: boolean
+  max_mqueue_len?: EmqxMqttMaxMqueueLen
+  max_inflight?: number
+  max_subscriptions?: EmqxMqttMaxSubscriptions
+  upgrade_qos?: boolean
+  await_rel_timeout?: string
+}
+
+export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: any }
+
+export type EmqxMqttMqueuePriorities = EmqxMqttMqueuePrioritiesOneOf | 'disabled'
+
+export type EmqxMqttMaxAwaitingRel = 'infinity' | number
+
+export type EmqxMqttMessageExpiryInterval = 'infinity' | string
+
+export type EmqxMqttPeerCertAsClientid =
+  typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttPeerCertAsClientid = {
+  disabled: 'disabled',
+  cn: 'cn',
+  dn: 'dn',
+  crt: 'crt',
+  pem: 'pem',
+  md5: 'md5',
+} as const
+
+export type EmqxMqttPeerCertAsUsername =
+  typeof EmqxMqttPeerCertAsUsername[keyof typeof EmqxMqttPeerCertAsUsername]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttPeerCertAsUsername = {
+  disabled: 'disabled',
+  cn: 'cn',
+  dn: 'dn',
+  crt: 'crt',
+  pem: 'pem',
+  md5: 'md5',
+} as const
+
+export type EmqxMqttServerKeepalive = 'disabled' | number
+
+export type EmqxMqttSharedSubscriptionStrategy =
+  typeof EmqxMqttSharedSubscriptionStrategy[keyof typeof EmqxMqttSharedSubscriptionStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttSharedSubscriptionStrategy = {
+  random: 'random',
+  round_robin: 'round_robin',
+  round_robin_per_group: 'round_robin_per_group',
+  sticky: 'sticky',
+  local: 'local',
+  hash_topic: 'hash_topic',
+  hash_clientid: 'hash_clientid',
+} as const
+
+export type EmqxMqttIdleTimeout = string | 'infinity'
+
 export type EmqxLogFileHandlerFormatter =
   typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
@@ -673,12 +862,38 @@ export interface EmqxLog {
   audit?: EmqxLogAuditHandler
 }
 
+export interface EmqxForceShutdown {
+  enable?: boolean
+  max_mailbox_size?: number
+  max_heap_size?: string
+}
+
+export interface EmqxForceGc {
+  enable?: boolean
+  count?: number
+  bytes?: string
+}
+
+export interface EmqxFlappingDetect {
+  enable?: boolean
+  window_time?: string
+  max_count?: number
+  ban_time?: string
+}
+
 export interface EmqxFileTransfer {
   enable?: boolean
   init_timeout?: string
   store_segment_timeout?: string
   assemble_timeout?: string
   storage?: FileTransferStorageBackend
+}
+
+export interface EmqxEventNames {
+  client_connected?: boolean
+  client_disconnected?: boolean
+  client_subscribed?: boolean
+  client_unsubscribed?: boolean
 }
 
 export type EmqxConsoleHandlerFormatter =
@@ -713,9 +928,15 @@ export interface EmqxConsoleHandler {
   time_offset?: string
 }
 
-export interface DashboardSso {
-  ldap?: SsoLdap
-  saml?: DashboardSaml
+export interface EmqxBroker {
+  enable_session_registry?: boolean
+  session_history_retain?: string
+}
+
+export interface EmqxAlarm {
+  actions?: string[]
+  size_limit?: number
+  validity_period?: string
 }
 
 export type DashboardSslOptionsLogLevel =
@@ -782,6 +1003,11 @@ export interface DashboardSaml {
   sp_private_key?: string
 }
 
+export interface DashboardSso {
+  ldap?: SsoLdap
+  saml?: DashboardSaml
+}
+
 export interface DashboardHttps {
   bind?: string
   ssl_options: DashboardSslOptions
@@ -814,223 +1040,6 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
+  swagger_support?: boolean
   sso?: DashboardSso
-}
-
-export type BrokerSysmonVmLargeHeap = string | 'disabled'
-
-export type BrokerSysmonVmLongSchedule = string | 'disabled'
-
-export type BrokerSysmonVmLongGc = string | 'disabled'
-
-export interface BrokerSysmonVm {
-  process_check_interval?: string
-  process_high_watermark?: string
-  process_low_watermark?: string
-  long_gc?: BrokerSysmonVmLongGc
-  long_schedule?: BrokerSysmonVmLongSchedule
-  large_heap?: BrokerSysmonVmLargeHeap
-  busy_dist_port?: boolean
-  busy_port?: boolean
-}
-
-export type BrokerSysmonOsMemCheckInterval = string | 'disabled'
-
-export interface BrokerSysmonOs {
-  cpu_check_interval?: string
-  cpu_high_watermark?: string
-  cpu_low_watermark?: string
-  mem_check_interval?: BrokerSysmonOsMemCheckInterval
-  sysmem_high_watermark?: string
-  procmem_high_watermark?: string
-}
-
-export interface BrokerSysmon {
-  vm?: BrokerSysmonVm
-  os?: BrokerSysmonOs
-}
-
-export type BrokerSysTopicsSysHeartbeatInterval = string | 'disabled'
-
-export type BrokerSysTopicsSysMsgInterval = string | 'disabled'
-
-export interface BrokerSysTopics {
-  sys_msg_interval?: BrokerSysTopicsSysMsgInterval
-  sys_heartbeat_interval?: BrokerSysTopicsSysHeartbeatInterval
-  sys_event_messages?: BrokerEventNames
-}
-
-export type BrokerSslClientOptsServerNameIndication = string | 'disable'
-
-export type BrokerSslClientOptsLogLevel =
-  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type BrokerSslClientOptsVerify =
-  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface BrokerSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: BrokerSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: BrokerSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: BrokerSslClientOptsServerNameIndication
-}
-
-export type BrokerMqttMaxSubscriptions = 'infinity' | number
-
-export type BrokerMqttMaxMqueueLen = 'infinity' | number
-
-export type BrokerMqttMqueueDefaultPriority =
-  typeof BrokerMqttMqueueDefaultPriority[keyof typeof BrokerMqttMqueueDefaultPriority]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttMqueueDefaultPriority = {
-  highest: 'highest',
-  lowest: 'lowest',
-} as const
-
-export type BrokerMqttMqueuePrioritiesOneOf = { [key: string]: any }
-
-export type BrokerMqttMqueuePriorities = BrokerMqttMqueuePrioritiesOneOf | 'disabled'
-
-export type BrokerMqttMaxAwaitingRel = 'infinity' | number
-
-export type BrokerMqttPeerCertAsClientid =
-  typeof BrokerMqttPeerCertAsClientid[keyof typeof BrokerMqttPeerCertAsClientid]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttPeerCertAsClientid = {
-  disabled: 'disabled',
-  cn: 'cn',
-  dn: 'dn',
-  crt: 'crt',
-  pem: 'pem',
-  md5: 'md5',
-} as const
-
-export type BrokerMqttPeerCertAsUsername =
-  typeof BrokerMqttPeerCertAsUsername[keyof typeof BrokerMqttPeerCertAsUsername]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttPeerCertAsUsername = {
-  disabled: 'disabled',
-  cn: 'cn',
-  dn: 'dn',
-  crt: 'crt',
-  pem: 'pem',
-  md5: 'md5',
-} as const
-
-export type BrokerMqttServerKeepalive = 'disabled' | number
-
-export type BrokerMqttSharedSubscriptionStrategy =
-  typeof BrokerMqttSharedSubscriptionStrategy[keyof typeof BrokerMqttSharedSubscriptionStrategy]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BrokerMqttSharedSubscriptionStrategy = {
-  random: 'random',
-  round_robin: 'round_robin',
-  round_robin_per_group: 'round_robin_per_group',
-  sticky: 'sticky',
-  local: 'local',
-  hash_topic: 'hash_topic',
-  hash_clientid: 'hash_clientid',
-} as const
-
-export type BrokerMqttIdleTimeout = string | 'infinity'
-
-export interface BrokerMqtt {
-  idle_timeout?: BrokerMqttIdleTimeout
-  max_packet_size?: string
-  max_clientid_len?: number
-  max_topic_levels?: number
-  max_topic_alias?: number
-  retain_available?: boolean
-  wildcard_subscription?: boolean
-  shared_subscription?: boolean
-  shared_subscription_strategy?: BrokerMqttSharedSubscriptionStrategy
-  exclusive_subscription?: boolean
-  ignore_loop_deliver?: boolean
-  strict_mode?: boolean
-  response_information?: string
-  server_keepalive?: BrokerMqttServerKeepalive
-  keepalive_multiplier?: number
-  retry_interval?: string
-  use_username_as_clientid?: boolean
-  peer_cert_as_username?: BrokerMqttPeerCertAsUsername
-  peer_cert_as_clientid?: BrokerMqttPeerCertAsClientid
-  session_expiry_interval?: string
-  max_awaiting_rel?: BrokerMqttMaxAwaitingRel
-  max_qos_allowed?: number
-  mqueue_priorities?: BrokerMqttMqueuePriorities
-  mqueue_default_priority?: BrokerMqttMqueueDefaultPriority
-  mqueue_store_qos0?: boolean
-  max_mqueue_len?: BrokerMqttMaxMqueueLen
-  max_inflight?: number
-  max_subscriptions?: BrokerMqttMaxSubscriptions
-  upgrade_qos?: boolean
-  await_rel_timeout?: string
-}
-
-export interface BrokerForceShutdown {
-  enable?: boolean
-  max_mailbox_size?: number
-  max_heap_size?: string
-}
-
-export interface BrokerForceGc {
-  enable?: boolean
-  count?: number
-  bytes?: string
-}
-
-export interface BrokerFlappingDetect {
-  enable?: boolean
-  window_time?: string
-  max_count?: number
-  ban_time?: string
-}
-
-export interface BrokerEventNames {
-  client_connected?: boolean
-  client_disconnected?: boolean
-  client_subscribed?: boolean
-  client_unsubscribed?: boolean
-}
-
-export interface BrokerAlarm {
-  actions?: string[]
-  size_limit?: number
-  validity_period?: string
 }

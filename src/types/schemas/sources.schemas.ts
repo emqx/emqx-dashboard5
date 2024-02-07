@@ -81,6 +81,8 @@ export type PostSourcesProbe400 = {
   message?: string
 }
 
+export type PostSourcesProbeBody = BridgeRabbitmqPostSource | BridgeMqttPublisherPostSource
+
 export type PutSourcesIdEnableEnable503Code =
   typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
 
@@ -144,6 +146,10 @@ export type PutSourcesId400 = {
   message?: string
 }
 
+export type PutSourcesId200 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+
+export type PutSourcesIdBody = BridgeRabbitmqPutSource | BridgeMqttPublisherPutSource
+
 export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -155,6 +161,8 @@ export type GetSourcesId404 = {
   code?: GetSourcesId404Code
   message?: string
 }
+
+export type GetSourcesId200 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
 
 export type DeleteSourcesId503Code =
   typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
@@ -211,6 +219,12 @@ export type PostSources400 = {
   code?: PostSources400Code
   message?: string
 }
+
+export type PostSources201 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+
+export type PostSourcesBody = BridgeRabbitmqPostSource | BridgeMqttPublisherPostSource
+
+export type GetSources200Item = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
 
 export type PostNodesNodeSourcesIdOperation503Code =
   typeof PostNodesNodeSourcesIdOperation503Code[keyof typeof PostNodesNodeSourcesIdOperation503Code]
@@ -304,6 +318,78 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
+export type BridgeRabbitmqSourceParametersQos = string | number
+
+export interface BridgeRabbitmqSourceParameters {
+  wait_for_publish_confirmations?: boolean
+  topic: string
+  qos?: BridgeRabbitmqSourceParametersQos
+  payload_template?: string
+  queue: string
+  no_ack?: boolean
+}
+
+export interface BridgeRabbitmqPutSource {
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeRabbitmqSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+}
+
+export type BridgeRabbitmqPostSourceType =
+  typeof BridgeRabbitmqPostSourceType[keyof typeof BridgeRabbitmqPostSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeRabbitmqPostSourceType = {
+  rabbitmq: 'rabbitmq',
+} as const
+
+export interface BridgeRabbitmqPostSource {
+  type: BridgeRabbitmqPostSourceType
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeRabbitmqSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+}
+
+export type BridgeRabbitmqGetSourceStatus =
+  typeof BridgeRabbitmqGetSourceStatus[keyof typeof BridgeRabbitmqGetSourceStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeRabbitmqGetSourceStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type BridgeRabbitmqGetSourceType =
+  typeof BridgeRabbitmqGetSourceType[keyof typeof BridgeRabbitmqGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeRabbitmqGetSourceType = {
+  rabbitmq: 'rabbitmq',
+} as const
+
+export interface BridgeRabbitmqGetSource {
+  type: BridgeRabbitmqGetSourceType
+  name: string
+  status?: BridgeRabbitmqGetSourceStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeRabbitmqSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+}
+
 export interface BridgeMqttPublisherSourceResourceOpts {
   health_check_interval?: string
 }
@@ -372,4 +458,8 @@ export interface BridgeMqttPublisherGetSource {
   description?: string
   parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
+}
+
+export interface ActionsAndSourcesSourceResourceOpts {
+  health_check_interval?: string
 }
