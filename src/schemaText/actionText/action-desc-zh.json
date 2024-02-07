@@ -255,7 +255,9 @@
     "wait_for_publish_confirmations": "使用发布者确认时，是否要等待 RabbitMQ 确认消息。",
     "publish_confirmation_timeout": "使用发布者确认时等待 RabbitMQ 确认消息发布的超时时间。",
     "timeout": "等待建立连接的超时时间。",
-    "payload_template": "发送消息到 RabbitMQ 之前格式化消息有效载荷的模板。模板占位符（例如 ${'{'}field1.sub_field{'}'} ）将被替换为相应字段的值。如果为空，则整个输入消息将被用作有效载荷，格式化为JSON文本。此行为相当于将 ${'{'}.{'}'} 指定为有效载荷模板。"
+    "payload_template": "发送消息到 RabbitMQ 之前格式化消息有效载荷的模板。模板占位符（例如 ${'{'}field1.sub_field{'}'} ）将被替换为相应字段的值。如果为空，则整个输入消息将被用作有效载荷，格式化为JSON文本。此行为相当于将 ${'{'}.{'}'} 指定为有效载荷模板。",
+    "queue": "RabbitMQ 队列名称。",
+    "no_ack": "在从 RabbitMQ 消费消息时是否使用 `no_ack` 模式。"
   },
   "pulsar": {
     "servers": "以逗号分隔的 <code>scheme://host[:port]</code> 格式的 Pulsar URL 列表，支持的 scheme 有 <code>pulsar://</code> （默认）和<code>pulsar+ssl://</code>。默认端口：6650。",

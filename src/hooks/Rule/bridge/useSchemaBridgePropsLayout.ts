@@ -180,12 +180,17 @@ export default (
     ),
     [BridgeType.RabbitMQ]: createOrderObj(
       getPathArrInParameters([
+        /* action */
         'exchange',
         'routing_key',
         'delivery_mode',
         'wait_for_publish_confirmations',
         'publish_confirmation_timeout',
         'payload_template',
+        /* source */
+        'queue',
+        'no_ack',
+        'wait_for_publish_confirmations',
       ]),
       fieldStartIndex,
     ),

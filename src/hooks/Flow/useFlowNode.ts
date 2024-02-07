@@ -33,6 +33,7 @@ export const SourceType = {
   MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
   Kafka: BridgeType.KafkaConsumer,
   GCP: BridgeType.GCPConsumer,
+  RabbitMQ: BridgeType.RabbitMQ,
 }
 
 export const enum ProcessingType {
