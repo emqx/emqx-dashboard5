@@ -202,98 +202,6 @@ export type PostGatewaysNameAuthenticationImportUsersBody = {
   filename?: Blob
 }
 
-export type PostGatewaysNameAuthentication404Code =
-  typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PostGatewaysNameAuthentication404 = {
-  code?: PostGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type PostGatewaysNameAuthentication400Code =
-  typeof PostGatewaysNameAuthentication400Code[keyof typeof PostGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostGatewaysNameAuthentication400 = {
-  code?: PostGatewaysNameAuthentication400Code
-  message?: string
-}
-
-export type PostGatewaysNameAuthentication201 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PostGatewaysNameAuthenticationBody =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type DeleteGatewaysNameAuthentication404Code =
-  typeof DeleteGatewaysNameAuthentication404Code[keyof typeof DeleteGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameAuthentication404 = {
-  code?: DeleteGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameAuthentication400Code =
-  typeof DeleteGatewaysNameAuthentication400Code[keyof typeof DeleteGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameAuthentication400 = {
-  code?: DeleteGatewaysNameAuthentication400Code
-  message?: string
-}
-
 export type PutGatewaysNameAuthentication404Code =
   typeof PutGatewaysNameAuthentication404Code[keyof typeof PutGatewaysNameAuthentication404Code]
 
@@ -386,25 +294,8 @@ export type PostGatewaysNameAuthentication400 = {
   message?: string
 }
 
-export type PostGatewaysNameAuthentication201 =
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -782,22 +673,6 @@ export type AuthnPostgresqlPasswordHashAlgorithm =
   | AuthnHashPbkdf2
   | AuthnHashBcrypt
 
-export type AuthnPostgresqlBackend =
-  typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnPostgresqlBackend = {
-  postgresql: 'postgresql',
-} as const
-
-export type AuthnPostgresqlMechanism =
-  typeof AuthnPostgresqlMechanism[keyof typeof AuthnPostgresqlMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnPostgresqlMechanism = {
-  password_based: 'password_based',
-} as const
-
 export interface AuthnPostgresql {
   mechanism: AuthnPostgresqlMechanism
   backend: AuthnPostgresqlBackend
@@ -813,6 +688,41 @@ export interface AuthnPostgresql {
   auto_reconnect?: boolean
   ssl?: EmqxSslClientOpts
 }
+
+export type PostGatewaysNameAuthentication201 =
+  | AuthnGcpDevice
+  | AuthnLdapDeprecated
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type AuthnPostgresqlBackend =
+  typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnPostgresqlBackend = {
+  postgresql: 'postgresql',
+} as const
+
+export type AuthnPostgresqlMechanism =
+  typeof AuthnPostgresqlMechanism[keyof typeof AuthnPostgresqlMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnPostgresqlMechanism = {
+  password_based: 'password_based',
+} as const
 
 export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 

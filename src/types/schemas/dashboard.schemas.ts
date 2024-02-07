@@ -74,12 +74,28 @@ export type PutUsersUsername404 = {
 
 export type PutUsersUsername200 = {
   username?: string
+  role?: string
   description?: string
   backend?: string
 }
 
 export type PutUsersUsernameBody = {
+  role?: string
   description?: string
+}
+
+export type PutUsersUsernameBackend =
+  typeof PutUsersUsernameBackend[keyof typeof PutUsersUsernameBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsernameBackend = {
+  local: 'local',
+  ldap: 'ldap',
+  saml: 'saml',
+} as const
+
+export type PutUsersUsernameParams = {
+  backend?: PutUsersUsernameBackend
 }
 
 export type DeleteUsersUsername404Code =
@@ -121,45 +137,6 @@ export const DeleteUsersUsernameBackend = {
 
 export type DeleteUsersUsernameParams = {
   backend?: DeleteUsersUsernameBackend
-}
-
-export type PutUsersUsername404Code =
-  typeof PutUsersUsername404Code[keyof typeof PutUsersUsername404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutUsersUsername404Code = {
-  USER_NOT_FOUND: 'USER_NOT_FOUND',
-} as const
-
-export type PutUsersUsername404 = {
-  code?: PutUsersUsername404Code
-  message?: string
-}
-
-export type PutUsersUsername200 = {
-  username?: string
-  role?: string
-  description?: string
-  backend?: string
-}
-
-export type PutUsersUsernameBody = {
-  role?: string
-  description?: string
-}
-
-export type PutUsersUsernameBackend =
-  typeof PutUsersUsernameBackend[keyof typeof PutUsersUsernameBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutUsersUsernameBackend = {
-  local: 'local',
-  ldap: 'ldap',
-  saml: 'saml',
-} as const
-
-export type PutUsersUsernameParams = {
-  backend?: PutUsersUsernameBackend
 }
 
 export type PostLogin401Code = typeof PostLogin401Code[keyof typeof PostLogin401Code]

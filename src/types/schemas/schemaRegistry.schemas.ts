@@ -1,16 +1,3 @@
-export type DeleteSchemaRegistryName404Code =
-  typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaRegistryName404 = {
-  code?: DeleteSchemaRegistryName404Code
-  message?: string
-}
-
 export type PutSchemaRegistryName404Code =
   typeof PutSchemaRegistryName404Code[keyof typeof PutSchemaRegistryName404Code]
 
@@ -23,6 +10,10 @@ export type PutSchemaRegistryName404 = {
   code?: PutSchemaRegistryName404Code
   message?: string
 }
+
+export type PutSchemaRegistryName200 = SchemaRegistryProtobuf | SchemaRegistryAvro
+
+export type PutSchemaRegistryNameBody = SchemaRegistryProtobuf | SchemaRegistryAvro
 
 export type GetSchemaRegistryName404Code =
   typeof GetSchemaRegistryName404Code[keyof typeof GetSchemaRegistryName404Code]
@@ -38,6 +29,19 @@ export type GetSchemaRegistryName404 = {
 }
 
 export type GetSchemaRegistryName200 = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
+
+export type DeleteSchemaRegistryName404Code =
+  typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteSchemaRegistryName404 = {
+  code?: DeleteSchemaRegistryName404Code
+  message?: string
+}
 
 export type PostSchemaRegistry400Code =
   typeof PostSchemaRegistry400Code[keyof typeof PostSchemaRegistry400Code]
@@ -69,10 +73,6 @@ export interface SchemaRegistryProtobuf {
   source: string
   description?: string
 }
-
-export type PutSchemaRegistryName200 = SchemaRegistryProtobuf | SchemaRegistryAvro
-
-export type PutSchemaRegistryNameBody = SchemaRegistryProtobuf | SchemaRegistryAvro
 
 export type SchemaRegistryGetProtobufType =
   typeof SchemaRegistryGetProtobufType[keyof typeof SchemaRegistryGetProtobufType]
