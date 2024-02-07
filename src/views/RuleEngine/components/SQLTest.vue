@@ -37,35 +37,26 @@
           </el-col>
           <!-- Output -->
           <el-col :span="12">
-            <label class="test-label">
+            <label class="test-label" shadow="none">
               {{ tl('outputResult') }}
               <InfoTooltip :content="tl('outputResultDesc')" />
             </label>
-            <el-table
-              class="shadow-none"
-              :key="tableKey"
-              :data="resultData"
-              row-key="key"
-              default-expand-all
-              max-height="505"
-            >
-              <el-table-column
-                :label="$t('components.field')"
-                prop="key"
-                min-width="100"
-                show-overflow-tooltip
-              >
-                <template #slot="{ row }">
-                  <el-input v-model="row.key" />
-                </template>
-              </el-table-column>
-              <el-table-column
-                :label="$t('components.value')"
-                prop="value"
-                min-width="100"
-                show-overflow-tooltip
-              />
-            </el-table>
+            <el-card class="test-result">
+              <el-scrollbar max-height="490px">
+                <p class="tip no-data" v-if="!resultData">{{ t('Base.noData') }}</p>
+                <JsonViewer
+                  v-else
+                  :value="resultData"
+                  theme="light"
+                  expanded
+                  :copyable="{
+                    copyText: t('Base.copy'),
+                    copiedText: t('Base.copied'),
+                    timeout: 2000,
+                  }"
+                />
+              </el-scrollbar>
+            </el-card>
           </el-col>
         </el-row>
         <el-button
@@ -98,29 +89,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import useCopy from '@/hooks/useCopy'
-
-export default defineComponent({
-  name: 'SQLTest',
-})
-</script>
-
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, Ref, PropType, watch } from 'vue'
 import { testsql } from '@/api/ruleengine'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { getKeywordsFromSQL } from '@/common/tools'
-import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
-import TestSQLContextForm from './TestSQLContextForm.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import FromSelect from '../components/FromSelect.vue'
-import { BridgeItem, RuleEvent } from '@/types/rule'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import { RuleInputType } from '@/types/enum'
 import CodeView from '@/components/CodeView.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import useCopy from '@/hooks/useCopy'
+import useI18nTl from '@/hooks/useI18nTl'
+import { RuleInputType } from '@/types/enum'
+import { BridgeItem, RuleEvent } from '@/types/rule'
+import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { PropType, Ref, defineEmits, defineProps, ref, watch } from 'vue'
+import { JsonViewer } from 'vue3-json-viewer'
+import 'vue3-json-viewer/dist/index.css'
+import FromSelect from '../components/FromSelect.vue'
+import TestSQLContextForm from './TestSQLContextForm.vue'
 
 interface TestParams {
   context: Record<string, string>
@@ -156,9 +141,7 @@ const props = defineProps({
 })
 
 const testLoading = ref(false)
-const resultData = ref<{ [key: string]: any }[]>([])
-// for refresh table
-const tableKey = ref(0)
+const resultData = ref<Record<string, any> | undefined>(undefined)
 const emits = defineEmits(['use-sql'])
 
 const showTest = ref(false)
@@ -283,24 +266,9 @@ const submitTest = async () => {
     event_type: getEventTypeInContext(),
   }
   try {
-    const res = await testsql({
-      context,
-      sql: props.sql,
-    })
+    const res = await testsql({ context, sql: props.sql })
     if (res) {
-      const mapData = (data: Record<string, any>): any => {
-        return Object.entries(data).map(([key, value]) => {
-          const isObject = typeof value === 'object' && value !== null
-          return {
-            key,
-            ...(isObject
-              ? { children: mapData(value) }
-              : { value: value === null ? 'null' : value }),
-          }
-        })
-      }
-      resultData.value = mapData(res)
-      tableKey.value += 1
+      resultData.value = res
       ElMessage.success(tl('testPassed'))
     }
   } catch (e) {
@@ -361,6 +329,34 @@ setDataTypeNContext()
       padding-top: 0px;
       padding-bottom: 0px;
     }
+  }
+  .test-result {
+    .el-card__body {
+      padding: 0;
+    }
+    .no-data {
+      padding: 28px;
+      text-align: center;
+      opacity: 0.6;
+    }
+  }
+  .jv-container.jv-light {
+    background-color: var(--color-bg-content);
+  }
+  .jv-container > .jv-tooltip {
+    top: 8px;
+  }
+  .jv-container.jv-light .jv-key,
+  .jv-container.jv-light .jv-item.jv-array,
+  .jv-container.jv-light .jv-item.jv-object {
+    color: var(--color-text-primary);
+  }
+  .jv-node {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .jv-toggle + span {
+    padding-left: 4px;
   }
 }
 </style>
