@@ -68,7 +68,12 @@ const handleQuery = () => {
   const info = getInfoFromQuery()
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
-    updateBaseInfo(info.username, info, DashboardSamlBackend.saml)
+    /**
+     * Currently, if info is from location.search, it's using single sign-on;
+     * if it's from route.query, it's from ECP (i.e., no backend)
+     */
+    const backend = location.search ? DashboardSamlBackend.saml : undefined
+    updateBaseInfo(info.username, info, backend)
     router.push({ name: 'overview' })
   }
 }
