@@ -49,6 +49,7 @@
                   :value="resultData"
                   theme="light"
                   expanded
+                  :expand-depth="Number.MAX_SAFE_INTEGER"
                   :copyable="{
                     copyText: t('Base.copy'),
                     copiedText: t('Base.copied'),
@@ -351,11 +352,23 @@ setDataTypeNContext()
     color: var(--color-text-primary);
   }
   .jv-node {
-    padding-top: 4px;
-    padding-bottom: 4px;
+    line-height: 24px;
+  }
+  .jv-node + .jv-item.jv-object,
+  .jv-node + .jv-item.jv-array {
+    margin-left: 16px;
+  }
+  .jv-node .jv-node {
+    margin-left: 29px;
+  }
+  .jv-container .jv-toggle {
+    opacity: 0.6;
   }
   .jv-toggle + span {
     padding-left: 4px;
+  }
+  .jv-container.jv-light .jv-button {
+    color: var(--color-primary);
   }
 }
 </style>
