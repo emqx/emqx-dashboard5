@@ -43,11 +43,6 @@
   "hstreamdb": {
     "url": "HStreamDB Server URL"
   },
-  "rocketmq": {
-    "servers": "Server Host",
-    "topic": "RocketMQ Topic",
-    "sync_timeout": "Sync Timeout"
-  },
   "rabbitmq": {
     "payload_template": "Payload Template",
     "queue": "Queue",

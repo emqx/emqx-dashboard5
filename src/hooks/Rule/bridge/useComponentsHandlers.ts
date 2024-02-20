@@ -257,16 +257,9 @@ export default (
 
   const rocketMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { template, secret_key, security_token } = components
 
-    if (template?.type === 'string') {
-      template.format = 'sql'
-    }
-    if (secret_key?.type === 'string') {
-      secret_key.format = 'password'
-    }
-    if (security_token?.type === 'string') {
-      security_token.format = 'password'
+    if (components?.parameters?.properties?.template?.type === 'string') {
+      components.parameters.properties.template.format = 'sql'
     }
 
     return { components, rules }
@@ -426,6 +419,16 @@ export default (
     return { components, rules }
   }
 
+  const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    if (components?.parameters?.properties?.content?.type === 'string') {
+      components.parameters.properties.content.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -445,6 +448,7 @@ export default (
     [BridgeType.IoTDB]: IoTDBHandler,
     [BridgeType.Elasticsearch]: elasticsearchHandler,
     [BridgeType.OpenTSDB]: openTSDBHandler,
+    [BridgeType.S3]: S3Handler,
   }
 
   const getComponentsHandler = () => {

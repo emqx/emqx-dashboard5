@@ -1439,7 +1439,7 @@
     },
     "ipv6_probe": {
       "desc": "Whether to probe for IPv6 support.",
-      "label": "IPV6 Probe"
+      "label": "IPv6 Probe"
     },
     "headers": {
       "label": "HTTP Headers"

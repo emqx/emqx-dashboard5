@@ -344,5 +344,10 @@
     "enable_pipelining": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
     "connect_timeout": "The timeout when connecting to the HTTP server.",
     "doc_as_upsert": "Treat the update operation as an insert operation when the document to be updated does not exist, and insert the provided document as a new document."
+  },
+  "s3": {
+    "ipv6_probe": "Whether to probe for IPv6 support.",
+    "acl": "The ACL to use for the uploaded objects.",
+    "content": "The content of the object to be uploaded supports placeholders."
   }
 }
