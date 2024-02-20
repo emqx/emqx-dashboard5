@@ -85,6 +85,15 @@ export default (
     'buffer.memory_overload_protection',
   ])
 
+  const HStreamAdvancedProps = getPathArrInParameters([
+    'grpc_flush_timeout',
+    'aggregation_pool_size',
+    'max_batches',
+    'writer_pool_size',
+    'batch_size',
+    'batch_interval',
+  ])
+
   const kafkaProducerPropsOrderMap = {
     ...createOrderObj(
       getPathArrInParameters([
@@ -192,7 +201,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.HStream]: createOrderObj(
-      ['url', 'stream', 'partition_key', 'grpc_timeout', 'ssl', 'record_template'],
+      ['stream', 'partition_key', 'record_template', ...HStreamAdvancedProps],
       fieldStartIndex,
     ),
     [BridgeType.KafkaProducer]: kafkaProducerPropsOrderMap,
@@ -271,6 +280,7 @@ export default (
     [BridgeType.KafkaProducer]: kafkaProducerAdvancedProps,
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,
+    [BridgeType.HStream]: HStreamAdvancedProps,
   }
 
   const advancedFields = computed(() => {

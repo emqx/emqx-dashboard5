@@ -314,6 +314,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.RocketMQ,
   BridgeType.ClickHouse,
   BridgeType.S3,
+  BridgeType.HStream,
 ]
 
 export const COPY_SUFFIX = '_duplication'

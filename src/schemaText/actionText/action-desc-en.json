@@ -80,6 +80,11 @@
   "hstreamdb": {
     "url": "HStreamDB Server URL. Using gRPC http server address.",
     "partition_key": "HStreamDB Partition Key. Placeholders supported.",
+    "grpc_flush_timeout": "Time interval for flushing gRPC calls to the HStreamDB server.",
+    "aggregation_pool_size": "The size of the record aggregation pool. A larger aggregation pool size can lead to enhanced parallelization but may also result in reduced efficiency due to smaller batch sizes.",
+    "max_batches": "Maximum number of unconfirmed batches in the flush queue.",
+    "writer_pool_size": "The size of the writer pool. A larger pool may increase parallelization and concurrent write operations, potentially boosting throughput. Trade-offs include greater memory consumption and possible resource contention.",
+    "batch_interval": "Maximum interval that is allowed between two successive (batch) request.",
     "record_template": "The HStream record template to be forwarded to the HStreamDB. Placeholders supported.<br />NOTE: When you use `raw record` template (which means the data is not a valid JSON), you should use `read` or `subscription` in HStream to get the data."
   },
   "influxdb": {

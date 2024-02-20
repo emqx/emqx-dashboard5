@@ -80,6 +80,11 @@
   "hstreamdb": {
     "url": "HStreamDB 服务器的URL。使用 gRPC HTTP 服务器地址。",
     "partition_key": "HStreamDB 分区键。支持占位符。",
+    "grpc_flush_timeout": "刷新 gRPC 调用到 HStreamDB 服务器的时间间隔。",
+    "aggregation_pool_size": "记录聚合池的大小。增大聚合池可提升并行处理能力，但可能会因批处理变小而影响效率。",
+    "max_batches": "刷新队列中最大未确认批次数。",
+    "writer_pool_size": "写入池大小。扩大池规模可增加并行化和同时写入操作，可能提升吞吐量。但需权衡内存消耗和资源竞争。",
+    "batch_interval": "两个连续（批量）请求之间的最大间隔。",
     "record_template": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。<br />注意：当使用 `raw record` 模板（意味着数据不是有效的JSON）时，应该在 HStream 中使用 `read` 或 `subscription` 来获取数据。"
   },
   "influxdb": {
