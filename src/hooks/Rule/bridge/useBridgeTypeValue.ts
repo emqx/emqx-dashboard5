@@ -93,6 +93,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Confluent, label: `Confluent ${tl('producer')}` },
     { value: BridgeType.SysKeeperForwarder, label: tl('sysKeeperForwarder') },
     { value: BridgeType.Elasticsearch, label: 'Elasticsearch' },
+    { value: BridgeType.S3, label: 'Amazon S3' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -422,6 +423,7 @@ export const useConnectorSchema = (): {
     [BridgeType.OpenTSDB, getRef(`${BridgeType.OpenTSDB}_connector`, '', 'post')],
     [BridgeType.Cassandra, getRef('cassa')],
     [BridgeType.RabbitMQ, getRef(BridgeType.RabbitMQ, '', 'post')],
+    [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -465,6 +467,7 @@ export const useActionSchema = (): {
     [BridgeType.SysKeeperForwarder, getRef('syskeeper', '')],
     [BridgeType.KafkaProducer, getRef('kafka')],
     [BridgeType.Cassandra, getRef('cassa')],
+    [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

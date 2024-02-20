@@ -311,6 +311,9 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.OpenTSDB,
   BridgeType.Cassandra,
   BridgeType.RabbitMQ,
+  BridgeType.RocketMQ,
+  BridgeType.ClickHouse,
+  BridgeType.S3,
 ]
 
 export const COPY_SUFFIX = '_duplication'

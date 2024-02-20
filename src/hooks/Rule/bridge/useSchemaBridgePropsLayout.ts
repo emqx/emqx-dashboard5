@@ -145,7 +145,7 @@ export default (
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
     [BridgeType.ClickHouse]: createOrderObj(
-      ['url', 'database', 'username', 'password', 'batch_value_separator', 'sql'],
+      getPathArrInParameters(['batch_value_separator', 'sql']),
       fieldStartIndex,
     ),
     [BridgeType.DynamoDB]: createOrderObj(
@@ -153,16 +153,13 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
-      [
-        'servers',
-        'access_key',
-        'secret_key',
-        'security_token',
+      getPathArrInParameters([
         'topic',
+        'template',
         'refresh_interval',
         'send_buffer',
-        'template',
-      ],
+        'sync_timeout',
+      ]),
       fieldStartIndex,
     ),
     [BridgeType.MicrosoftSQLServer]: createOrderObj(
@@ -221,6 +218,7 @@ export default (
       getPathArrInParameters(['database', 'sql']),
       fieldStartIndex,
     ),
+    [BridgeType.S3]: createOrderObj(getPathArrInParameters(['database', 'sql']), fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
@@ -258,7 +256,11 @@ export default (
 
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: [`parameters.max_retries`],
-    [BridgeType.RocketMQ]: ['refresh_interval', 'send_buffer', 'sync_timeout'],
+    [BridgeType.RocketMQ]: getPathArrInParameters([
+      'refresh_interval',
+      'send_buffer',
+      'sync_timeout',
+    ]),
     [BridgeType.RabbitMQ]: ['parameters.publish_confirmation_timeout'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],

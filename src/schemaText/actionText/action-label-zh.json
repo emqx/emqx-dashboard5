@@ -43,11 +43,6 @@
   "hstreamdb": {
     "url": "HStreamDB 服务器 URL"
   },
-  "rocketmq": {
-    "servers": "服务器地址",
-    "topic": "RocketMQ 主题",
-    "sync_timeout": "同步调用超时时间"
-  },
   "rabbitmq": {
     "payload_template": "有效载荷模板",
     "queue": "队列",

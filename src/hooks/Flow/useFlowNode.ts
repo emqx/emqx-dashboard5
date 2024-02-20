@@ -71,6 +71,7 @@ export const SinkType = {
   Pulsar: getSpecificTypeWithDirection(BridgeType.Pulsar, BridgeDirection.Egress),
   Elasticsearch: BridgeType.Elasticsearch,
   SysKeeperForwarder: BridgeType.SysKeeperForwarder,
+  S3: BridgeType.S3,
   RePub: 'republish',
   Console: 'console',
 }

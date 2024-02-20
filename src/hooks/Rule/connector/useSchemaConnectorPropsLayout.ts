@@ -69,6 +69,16 @@ export default (
 
   const IoTDBAdvancedProps = ['enable_pipelining']
 
+  const S3AdvancedProps = [
+    'transport_options.request_timeout',
+    'transport_options.pool_type',
+    'transport_options.pool_size',
+    'transport_options.connect_timeout',
+    'transport_options.enable_pipelining',
+    'transport_options.max_retries',
+    'transport_options.ipv6_probe',
+  ]
+
   const azureOrderMap = {
     ...createOrderObj(
       ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl'],
@@ -209,6 +219,26 @@ export default (
       ['server', 'port', 'username', 'password', 'virtual_host', 'heartbeat', 'timeout', 'ssl'],
       fieldStartIndex,
     ),
+    [BridgeType.RocketMQ]: createOrderObj(
+      ['servers', 'access_key', 'secret_key', 'security_token'],
+      fieldStartIndex,
+    ),
+    [BridgeType.ClickHouse]: createOrderObj(
+      ['url', 'database', 'username', 'password'],
+      fieldStartIndex,
+    ),
+    [BridgeType.S3]: createOrderObj(
+      [
+        'host',
+        'port',
+        'access_key_id',
+        'secret_access_key',
+        'transport_options.headers',
+        'transport_options.ssl',
+        ...S3AdvancedProps,
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -224,6 +254,7 @@ export default (
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
+    [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
   }
 
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
@@ -238,6 +269,7 @@ export default (
     [BridgeType.IoTDB]: IoTDBAdvancedProps,
     [BridgeType.Elasticsearch]: IoTDBAdvancedProps,
     [BridgeType.RabbitMQ]: ['heartbeat', 'timeout'],
+    [BridgeType.S3]: S3AdvancedProps,
   }
 
   const advancedFields = computed(() => {
