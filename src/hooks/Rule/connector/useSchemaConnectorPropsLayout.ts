@@ -239,6 +239,7 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.HStream]: createOrderObj(['url', 'grpc_timeout', 'ssl'], fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
