@@ -196,9 +196,6 @@ export default defineComponent({
     const showQuickPanel = ref(false)
 
     const openQuickPanel = (e: KeyboardEvent) => {
-      if (!store.getters.isDev) {
-        return
-      }
       if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault()
         showQuickPanel.value = true

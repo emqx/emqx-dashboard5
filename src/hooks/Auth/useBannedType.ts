@@ -13,8 +13,11 @@ export default (): {
 
   const typeList = [
     { label: t('Clients.clientId'), value: BannedType.Client },
+    { label: t('Clients.clientIdReg'), value: BannedType.ClientReg },
     { label: t('Clients.username'), value: BannedType.User },
+    { label: t('Clients.usernameReg'), value: BannedType.UserReg },
     { label: t('Clients.ipAddress'), value: BannedType.Address },
+    { label: t('Clients.ipAddressRange'), value: BannedType.AddressRange },
   ]
 
   const getLabelFromValue = (value: BannedType) => {

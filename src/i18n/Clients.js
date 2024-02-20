@@ -31,6 +31,10 @@ export default {
     zh: '客户端 ID',
     en: 'Client ID',
   },
+  clientIdReg: {
+    zh: '客户端 ID 模式',
+    en: 'Client ID Pattern',
+  },
   clientid: {
     zh: '客户端 ID',
     en: 'Client ID',
@@ -43,9 +47,17 @@ export default {
     zh: '用户名',
     en: 'Username',
   },
+  usernameReg: {
+    zh: '用户名模式',
+    en: 'Username Pattern',
+  },
   ipAddress: {
     zh: 'IP 地址',
     en: 'IP Address',
+  },
+  ipAddressRange: {
+    zh: 'IP 地址范围',
+    en: 'IP Address Range',
   },
   port: {
     zh: '端口',
