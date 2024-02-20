@@ -133,6 +133,7 @@ export enum BridgeType {
   SysKeeperProxy = 'syskeeper_proxy',
   SysKeeperForwarder = 'syskeeper_forwarder',
   Elasticsearch = 'elasticsearch',
+  S3 = 's3',
 }
 
 export enum ConnectorType {
@@ -280,6 +281,7 @@ export enum PropType {
   Number = 'number',
   IPPort = 'ip_port',
   ByteSize = 'byteSize',
+  Object = 'object',
 }
 
 export enum TimeUnit {
