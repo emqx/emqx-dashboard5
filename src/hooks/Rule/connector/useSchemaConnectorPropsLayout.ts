@@ -198,7 +198,7 @@ export default (
     [BridgeType.IoTDB]: IoTDBOrderMap,
     [BridgeType.Elasticsearch]: IoTDBOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(
-      ['aws_access_key_id', 'aws_secret_access_key', 'endpoint'],
+      ['endpoint', 'aws_access_key_id', 'aws_secret_access_key'],
       fieldStartIndex,
     ),
     [BridgeType.GreptimeDB]: createOrderObj(
@@ -212,7 +212,7 @@ export default (
     ),
     [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
     [BridgeType.Cassandra]: createOrderObj(
-      ['keyspace', 'servers', 'username', 'password', 'ssl'],
+      ['servers', 'keyspace', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
     [BridgeType.RabbitMQ]: createOrderObj(

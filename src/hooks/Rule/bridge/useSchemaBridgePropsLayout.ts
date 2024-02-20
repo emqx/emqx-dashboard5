@@ -218,7 +218,10 @@ export default (
       getPathArrInParameters(['database', 'sql']),
       fieldStartIndex,
     ),
-    [BridgeType.S3]: createOrderObj(getPathArrInParameters(['database', 'sql']), fieldStartIndex),
+    [BridgeType.S3]: createOrderObj(
+      getPathArrInParameters(['bucket', 'key', 'acl', 'content']),
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
