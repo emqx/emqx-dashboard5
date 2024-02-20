@@ -300,8 +300,11 @@ export enum BuiltInDBType {
 
 export enum BannedType {
   Client = 'clientid',
+  ClientReg = 'clientid_re',
   User = 'username',
+  UserReg = 'username_re',
   Address = 'peerhost',
+  AddressRange = 'peerhost_net',
 }
 
 export const enum TraceEncodeType {
