@@ -16,6 +16,8 @@ export default (): {
         return false
       case PropType.Number:
         return undefined
+      case PropType.Object:
+        return {}
       default:
         return ''
     }
