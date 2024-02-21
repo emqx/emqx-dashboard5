@@ -261,10 +261,9 @@ const getFormComponentProps = (type: string) => {
 /* For Reuse Action */
 const selectedAction = ref('')
 const actionType = computed(() => removeDirectionFromSpecificType(type.value))
-const actionDirection = computed(() => {
-  const isExistedInSource = Object.entries(SourceType).some(([, value]) => value === type.value)
-  return isExistedInSource ? BridgeDirection.Ingress : BridgeDirection.Egress
-})
+const actionDirection = computed(() =>
+  props.node?.type === FlowNodeType.Input ? BridgeDirection.Ingress : BridgeDirection.Egress,
+)
 const { handleActionDataAfterLoaded } = useHandleActionItem()
 const processSelectedActionChange = (action: BridgeItem | undefined) => {
   // select create a new one
