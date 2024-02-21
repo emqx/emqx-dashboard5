@@ -124,6 +124,10 @@ export default {
     zh: '文件日志',
     en: 'File Log',
   },
+  throttling: {
+    zh: '日志限流',
+    en: 'Throttling',
+  },
   audit: {
     zh: '审计日志',
     en: 'Audit Log',
