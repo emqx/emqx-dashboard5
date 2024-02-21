@@ -352,7 +352,9 @@
   },
   "s3": {
     "ipv6_probe": "Whether to probe for IPv6 support.",
-    "acl": "The ACL to use for the uploaded objects.",
-    "content": "The content of the object to be uploaded supports placeholders."
+    "acl": "The Access Control List (ACL) to use for the uploaded objects.",
+    "content": "The content of the object to be uploaded supports placeholders.",
+    "bucket": "The name of the bucket to which files will be uploaded. Needs to be pre-created in S3. Supports the ${var} placeholder format.",
+    "key": "The content of the object to be stored. By default, it is in JSON text format containing all fields. Supports placeholder settings such as ${payload}. The storage format depends on the format of the variable and can be stored in binary format."
   }
 }
