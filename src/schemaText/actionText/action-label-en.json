@@ -40,9 +40,6 @@
   "dynamo": {
     "url": "DynamoDB Endpoint"
   },
-  "hstreamdb": {
-    "url": "HStreamDB Server URL"
-  },
   "rabbitmq": {
     "payload_template": "Payload Template",
     "queue": "Queue",
