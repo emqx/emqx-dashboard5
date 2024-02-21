@@ -61,6 +61,9 @@ export const EmqxMgmtApiBannedBanAs = {
   clientid: 'clientid',
   username: 'username',
   peerhost: 'peerhost',
+  clientid_re: 'clientid_re',
+  username_re: 'username_re',
+  peerhost_net: 'peerhost_net',
 } as const
 
 export interface EmqxMgmtApiBannedBan {
