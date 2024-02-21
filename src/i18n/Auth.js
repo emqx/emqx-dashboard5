@@ -523,4 +523,44 @@ export default {
     zh: '指定列表内的主题不会生成授权缓存。',
     en: 'The topics specified in the list will not generate an authorization cache.',
   },
+  importUsers: {
+    zh: '导入用户',
+    en: 'Import users',
+  },
+  selectImportMethod: {
+    zh: '选择导入方式',
+    en: 'Select import method',
+  },
+  plaintextPassword: {
+    zh: '明文密码',
+    en: 'Plaintext',
+  },
+  encryptedPassword: {
+    zh: '加密密码',
+    en: 'Encrypted',
+  },
+  downloadImportTemplate: {
+    zh: '下载导入模板',
+    en: 'Download import template',
+  },
+  downloadUserImportTemplate: {
+    zh: '为保证顺利导入，请您下载用户导入模板。',
+    en: 'To ensure successful import, please download the user import template.',
+  },
+  uploadFile: {
+    zh: '上传文件',
+    en: 'Upload file',
+  },
+  clickToSelectFile: {
+    zh: '点击选择文件',
+    en: 'Click to select file',
+  },
+  downloadTemplate: {
+    zh: '下载模板',
+    en: 'Download template',
+  },
+  selectFileFirst: {
+    zh: '请先选择文件',
+    en: 'Please select a file first',
+  },
 }

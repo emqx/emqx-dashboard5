@@ -31,20 +31,7 @@
       </div>
       <div class="add-funcs-container">
         <template v-if="mechanism === 'password_based'">
-          <el-tooltip :content="$t('Base.downloadTemplate')" placement="top">
-            <el-button class="icon-button" :icon="Document" @click="downloadTemplate"> </el-button>
-          </el-tooltip>
-          <el-tooltip :content="$t('Base.import')" placement="top">
-            <el-upload
-              ref="upload"
-              class="file-upload"
-              :show-file-list="false"
-              :auto-upload="false"
-              :on-change="handleUsersFileChange"
-            >
-              <el-button class="icon-button" type="primary" plain :icon="Upload"> </el-button>
-            </el-upload>
-          </el-tooltip>
+          <authn-users-import @uploadedData="loadData" />
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
           <el-button class="icon-button" type="primary" :icon="Plus" @click="addCommand">
@@ -128,13 +115,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  createAuthnUsers,
-  deleteAuthnUser,
-  loadAuthnUsers,
-  updateAuthnUser,
-  uploadUsers,
-} from '@/api/auth'
+import { createAuthnUsers, deleteAuthnUser, loadAuthnUsers, updateAuthnUser } from '@/api/auth'
 import {
   addGatewayUserManagement,
   deleteGatewayUser,
@@ -142,15 +123,15 @@ import {
   updateGatewayUser,
 } from '@/api/gateway'
 import { replaceSpaceForHTML } from '@/common/tools'
-import { downloadByURL } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Document, Plus, Refresh, Search, Upload } from '@element-plus/icons-vue'
+import { Plus, Refresh, Search } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import AuthnUsersImport from './AuthnUsersImport.vue'
 
 const createRawUserForm = () => ({
   user_id: '',
@@ -182,7 +163,7 @@ const isEdit = ref(false)
 const saveLoading = ref(false)
 const searchVal = reactive({
   user_id: '',
-  is_superuser: null,
+  is_superuser: undefined,
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
@@ -201,7 +182,7 @@ const loadData = async () => {
   const sendParams = {
     ...pageParams.value,
     like_user_id: searchVal.user_id === '' ? null : user_id,
-    is_superuser: is_superuser,
+    is_superuser,
   }
 
   lockTable.value = true
@@ -335,21 +316,6 @@ const handleUpdate = async function () {
   }
 }
 
-const downloadTemplate = async () => {
-  downloadByURL('static/templates/user-import-template.csv')
-}
-
-const handleUsersFileChange = async (file: { raw: File; name: string }) => {
-  try {
-    await uploadUsers(id.value, file)
-    M.success(t('Base.importSuc'))
-    loadData()
-  } catch (error) {
-    // error
-  }
-  return Promise.reject()
-}
-
 const getFiledLabel = (field: 'clientid' | 'username') => {
   const fieldMap = {
     clientid: t('Base.clientid'),
@@ -364,7 +330,7 @@ const resetPageAndLoadData = () => {
 }
 
 const resetIsSuperuser = () => {
-  searchVal.is_superuser = null
+  searchVal.is_superuser = undefined
 }
 </script>
 
@@ -381,6 +347,7 @@ const resetIsSuperuser = () => {
   }
 
   .add-funcs-container {
+    display: flex;
     > .el-button,
     > .file-upload {
       margin-left: 16px;
