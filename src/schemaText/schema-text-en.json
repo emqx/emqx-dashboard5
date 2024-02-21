@@ -451,6 +451,10 @@
     "db_shard_transports": {
       "desc": "Allows to tune the transport method used for transaction log replication, on a per-shard basis.<br/>\n<code>gen_rpc</code> uses the <code>gen_rpc</code> library,\n<code>distr</code> uses the Erlang distribution.<br/>If not specified,\nthe default is to use the value set in <code>db.default_shard_transport</code>.",
       "label": "Shard Transports"
+    },
+    "common_handler_time_window": {
+      "desc": "For throttled messages, only log 1 in each time window.",
+      "label": "Time Window"
     }
   },
   "emqx_limiter_schema": {
