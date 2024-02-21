@@ -92,12 +92,16 @@ export function updateAuthnUser(id: string, userId: string, body: { [key: string
   )
 }
 
-export function uploadUsers(id: string, file: { raw: File; name: string }) {
+export function uploadUsers(id: string, type: 'plain' | 'hash', file: { raw: File; name: string }) {
   const formData = new FormData()
   formData.append('filename', file.raw)
-  return http.post(`/authentication/${encodeURIComponent(id)}/import_users`, formData, {
-    params: { id },
-  })
+  return http.post(
+    `/authentication/${encodeURIComponent(id)}/import_users?type=${type}`,
+    formData,
+    {
+      params: { id },
+    },
+  )
 }
 
 export function moveAuthn(id: string, positionStr: string) {
