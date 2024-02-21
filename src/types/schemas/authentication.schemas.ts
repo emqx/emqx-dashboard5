@@ -1,3 +1,16 @@
+export type PutAuthenticationOrder400Code =
+  typeof PutAuthenticationOrder400Code[keyof typeof PutAuthenticationOrder400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthenticationOrder400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthenticationOrder400 = {
+  code?: PutAuthenticationOrder400Code
+  message?: string
+}
+
 export type PostAuthentication409Code =
   typeof PostAuthentication409Code[keyof typeof PostAuthentication409Code]
 
@@ -514,6 +527,10 @@ export interface EmqxAuthnApiRequestUserCreate {
   user_id: string
   password: string
   is_superuser?: boolean
+}
+
+export interface EmqxAuthnApiRequestAuthnOrder {
+  id: string
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: any }

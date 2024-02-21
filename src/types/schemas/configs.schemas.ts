@@ -565,6 +565,10 @@ export interface EmqxMqtt {
   await_rel_timeout?: string
 }
 
+export interface EmqxLogThrottling {
+  time_window?: string
+}
+
 export type EmqxLogFileHandlerFormatter =
   typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
@@ -611,6 +615,7 @@ export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
 export interface EmqxLog {
   console?: EmqxConsoleHandler
   file?: EmqxLogFile
+  throttling?: EmqxLogThrottling
 }
 
 export interface EmqxForceShutdown {

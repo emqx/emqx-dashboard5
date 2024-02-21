@@ -109,6 +109,19 @@ export type DeleteAuthorizationCache400 = {
   message?: string
 }
 
+export type PutAuthorizationSourcesOrder400Code =
+  typeof PutAuthorizationSourcesOrder400Code[keyof typeof PutAuthorizationSourcesOrder400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesOrder400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthorizationSourcesOrder400 = {
+  code?: PutAuthorizationSourcesOrder400Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesType400Code =
   typeof PutAuthorizationSourcesType400Code[keyof typeof PutAuthorizationSourcesType400Code]
 
@@ -578,11 +591,6 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   metrics?: EmqxAuthzSchemaResourceMetrics
 }
 
-export interface EmqxAuthzSchemaNodeMetrics {
-  node?: string
-  metrics?: EmqxAuthzSchemaMetrics
-}
-
 export interface EmqxAuthzSchemaNodeError {
   node?: string
   error?: string
@@ -607,6 +615,11 @@ export interface EmqxAuthzSchemaMetrics {
   rate?: number
   rate_max?: number
   rate_last5m?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  node?: string
+  metrics?: EmqxAuthzSchemaMetrics
 }
 
 export interface EmqxAuthzSchemaMetricsStatusFields {
@@ -636,6 +649,25 @@ export type EmqxAuthzApiSourcesSourcesSourcesItem =
 
 export interface EmqxAuthzApiSourcesSources {
   sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
+export type EmqxAuthzApiSourcesRequestSourcesOrderType =
+  typeof EmqxAuthzApiSourcesRequestSourcesOrderType[keyof typeof EmqxAuthzApiSourcesRequestSourcesOrderType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiSourcesRequestSourcesOrderType = {
+  file: 'file',
+  built_in_database: 'built_in_database',
+  http: 'http',
+  redis: 'redis',
+  mysql: 'mysql',
+  postgresql: 'postgresql',
+  mongodb: 'mongodb',
+  ldap: 'ldap',
+} as const
+
+export interface EmqxAuthzApiSourcesRequestSourcesOrder {
+  type: EmqxAuthzApiSourcesRequestSourcesOrderType
 }
 
 export interface EmqxAuthzApiSourcesPosition {
