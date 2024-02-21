@@ -447,6 +447,10 @@
     "db_shard_transports": {
       "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
       "label": "事务日志传输协议"
+    },
+    "common_handler_time_window": {
+      "desc": "对于被限流的消息，在每个时间窗口内只记录其中的一条。",
+      "label": "时间窗口"
     }
   },
   "emqx_limiter_schema": {
