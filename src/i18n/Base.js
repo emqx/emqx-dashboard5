@@ -300,7 +300,7 @@ export default {
     en: 'TLS Verify',
   },
   tlsVerifyClient: {
-    zh: '验证客户端证书',
+    zh: '双向认证',
     en: 'TLS Verify Client',
   },
   enableTLS: {

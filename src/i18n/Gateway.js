@@ -212,8 +212,16 @@ export default {
     en: 'Update',
   },
   maxConnRate: {
-    zh: '最大连接速率',
-    en: 'Max Connection Rate',
+    zh: '最大连接速率（监听器）',
+    en: 'Max Connection Rate (Listener)',
+  },
+  maxMsgPubRate: {
+    zh: '最大消息发布速率（单客户端）',
+    en: 'Max Message Publishing Rate (Per Client)',
+  },
+  maxMsgPubTraffic: {
+    zh: '最大消息发布流量（单客户端）',
+    en: 'Max Message Publishing Traffic (Per Client)',
   },
   maxConn: {
     zh: '最大连接数',
@@ -305,8 +313,8 @@ export default {
     en: 'Disabling the gateway will cause all connections accessed through this gateway to be disconnected. Continue?',
   },
   failIfNoPeerCert: {
-    zh: '没有证书则 SSL 失败',
-    en: 'SSL Fail If No Peer Cert',
+    zh: '强制验证对端证书',
+    en: 'Force Verify Peer Certificate',
   },
   SSLdepth: {
     zh: 'CA 证书深度',
@@ -341,7 +349,7 @@ export default {
     zh: '启用 CRL 检查',
   },
   showLimiter: {
-    zh: '速率配置（可选）',
+    zh: '速率限制（可选）',
     en: 'Limiter (Optional)',
   },
 }
