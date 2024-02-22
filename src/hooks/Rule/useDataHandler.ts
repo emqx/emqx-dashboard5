@@ -107,7 +107,10 @@ export const useConnectorDataHandler = (): {
     return bridgeData
   }
 
-  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.GCPProducer, handleGCPBridgeData]])
+  const specialDataHandlerBeforeSubmit = new Map([
+    [BridgeType.GCPProducer, handleGCPBridgeData],
+    [BridgeType.GCPConsumer, handleGCPBridgeData],
+  ])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
     try {
@@ -141,7 +144,10 @@ export const useConnectorDataHandler = (): {
     return data
   }
 
-  const specialHandlerAfterLoaded = new Map([[BridgeType.GCPProducer, handleGCPDataAfterLoaded]])
+  const specialHandlerAfterLoaded = new Map([
+    [BridgeType.GCPProducer, handleGCPDataAfterLoaded],
+    [BridgeType.GCPConsumer, handleGCPDataAfterLoaded],
+  ])
 
   const handleConnectorDataAfterLoaded = (data: Connector): Connector => {
     const { type } = data
@@ -225,8 +231,6 @@ export const useBridgeDataHandler = (): {
   handleBridgeDataForCopy: (bridgeData: any) => any
   handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
-  const { tl } = useI18nTl('RuleEngine')
-
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     handleDataBeforeSubmit,
@@ -253,23 +257,7 @@ export const useBridgeDataHandler = (): {
     }
   }
 
-  const handleGCPBridgeData = (bridgeData: any) => {
-    if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
-      try {
-        bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
-        return bridgeData
-      } catch (error) {
-        ElMessage.error(tl('accountJSONError'))
-        return Promise.reject()
-      }
-    }
-    return bridgeData
-  }
-
-  const specialDataHandlerBeforeSubmit = new Map([
-    [BridgeType.Redis, handleRedisBridgeData],
-    [BridgeType.GCPConsumer, handleGCPBridgeData],
-  ])
+  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.Redis, handleRedisBridgeData]])
 
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
@@ -286,14 +274,6 @@ export const useBridgeDataHandler = (): {
     }
   }
 
-  const handleGCPDataAfterLoaded = (data: any) => {
-    if ('service_account_json' in data && typeof data.service_account_json === 'object') {
-      data.service_account_json = stringifyObjSafely(data.service_account_json, 2)
-    }
-    data.role = data.type.indexOf('consumer') > -1 ? Role.Consumer : Role.Producer
-    return data
-  }
-
   const handleRedisDataAfterLoaded = (data: any) => {
     if (data?.parameters?.command_template && Array.isArray(data.parameters.command_template)) {
       data.parameters.command_template = transCommandArrToStr(data.parameters.command_template)
@@ -301,11 +281,7 @@ export const useBridgeDataHandler = (): {
     return data
   }
 
-  const specialHandlerAfterLoaded = new Map([
-    [BridgeType.GCPProducer, handleGCPDataAfterLoaded],
-    [BridgeType.GCPConsumer, handleGCPDataAfterLoaded],
-    [BridgeType.Redis, handleRedisDataAfterLoaded],
-  ])
+  const specialHandlerAfterLoaded = new Map([[BridgeType.Redis, handleRedisDataAfterLoaded]])
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     const bridgeType = getBridgeGeneralType(bridgeData.type)
     const handler = specialHandlerAfterLoaded.get(bridgeType)

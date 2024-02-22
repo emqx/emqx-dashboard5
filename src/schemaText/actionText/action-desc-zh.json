@@ -67,13 +67,9 @@
     "ordering_key_template": "用于格式化消息排序键的模板。未定义的值将被渲染为空字符串。如果此值为空，则不会将其添加到消息中。"
   },
   "gcp_pubsub_consumer": {
-    "consumer_pubsub_topic": "要消费的 GCP PubSub 主题。",
-    "consumer_mqtt_topic": "应将从 GCP PubSub 消费的消息发布到的本地主题。",
-    "consumer_qos": "用于发布从 GCP PubSub 消费的消息的 MQTT QoS。",
-    "payload_template": "用于格式化外发信息的模板。 如果未定义，将以JSON格式发送所有可用的上下文。",
+    "topic": "要消费的 GCP PubSub 主题。",
     "pipelining": "正整数，设置最大可发送的异步 HTTP 请求数量。当设置为 1 时，表示每次发送完成 HTTP 请求后都需要等待服务器返回，再继续发送下一个请求。",
     "service_account_json": "包含将与 PubSub 一起使用的 GCP 服务账户凭证的 JSON。<br/>当创建GCP服务账户时（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以选择下载 JSON 形式的凭证，然后在该配置项中使用。",
-    "topic_mapping": "定义 GCP PubSub 主题和 MQTT 主题之间的映射。必须包含至少一个项目。",
     "pull_max_messages": "从 GCP PubSub 中在一个拉取请求里检索的最大消息数。\n实际数量可能小于指定的值。",
     "connect_timeout": "连接 HTTP 服务器的超时时间。"
   },

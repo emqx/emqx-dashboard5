@@ -67,13 +67,9 @@
     "ordering_key_template": "The template for formatting the outgoing message ordering key.  Undefined values will be rendered as empty string values.  This value will not be added to the message if it's empty."
   },
   "gcp_pubsub_consumer": {
-    "consumer_pubsub_topic": "GCP PubSub topic to consume from.",
-    "consumer_mqtt_topic": "Local topic to which consumed GCP PubSub messages should be published to.",
-    "consumer_qos": "MQTT QoS used to publish messages consumed from GCP PubSub.",
-    "payload_template": "The template for formatting the outgoing messages.  If undefined, will send all the available context in JSON format.",
+    "topic": "GCP PubSub topic to consume from.",
     "pipelining": "A positive integer. Whether to send HTTP requests continuously, when set to 1, it means that after each HTTP request is sent, you need to wait for the server to return and then continue to send the next request.",
     "service_account_json": "JSON containing the GCP Service Account credentials to be used with PubSub.<br/>When a GCP Service Account is created (as described in https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount), you have the option of downloading the credentials in JSON form.  That's the file needed.",
-    "topic_mapping": "Defines the mapping between GCP PubSub topics and MQTT topics. Must contain at least one item.",
     "pull_max_messages": "The maximum number of messages to retrieve from GCP PubSub in a single pull request.\n The actual number may be less than the specified value.",
     "connect_timeout": "The timeout when connecting to the HTTP server."
   },

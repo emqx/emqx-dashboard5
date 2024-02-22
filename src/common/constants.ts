@@ -316,6 +316,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.S3,
   BridgeType.HStream,
   BridgeType.DynamoDB,
+  BridgeType.GCPConsumer,
 ]
 
 export const COPY_SUFFIX = '_duplication'
