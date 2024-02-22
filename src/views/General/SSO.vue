@@ -1,5 +1,5 @@
 <template>
-  <div class="sso app-wrapper" v-loading="isLoading">
+  <div class="sso app-wrapper with-padding-top" v-loading="isLoading">
     <el-row class="sso-list" :gutter="24">
       <el-col :span="6" class="sso-item" v-for="item in SSOList" :key="item.backend">
         <el-card class="sso-item-card">
