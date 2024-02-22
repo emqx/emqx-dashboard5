@@ -137,16 +137,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GCPConsumer]: createOrderObj(
-      [
-        'pubsub_topic',
-        'pipelining',
-        'service_account_json',
-        'payload_template',
-        'attributes_template',
-        'ordering_key_template',
-        'consumer.topic_mapping',
-        'consumer.pull_max_messages',
-      ],
+      ['pubsub_topic', 'consumer.pull_max_messages'],
       fieldStartIndex,
     ),
     [BridgeType.MongoDB]: createOrderObj(['collection', 'payload_template'], fieldStartIndex),
@@ -244,10 +235,6 @@ export default (
   const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
     [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
-    [BridgeType.GCPConsumer]: {
-      pubsub_topic: 'col-need-row',
-      service_account_json: 'custom-col-24',
-    },
     [BridgeType.ClickHouse]: {
       username: 'dividing-line-below',
     },

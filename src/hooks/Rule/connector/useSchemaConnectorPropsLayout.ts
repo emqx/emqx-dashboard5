@@ -146,6 +146,10 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GCPProducer]: createOrderObj(['pipelining'], fieldStartIndex),
+    [BridgeType.GCPConsumer]: createOrderObj(
+      ['pipelining', 'service_account_json'],
+      fieldStartIndex,
+    ),
     [BridgeType.MongoDB]: {
       ...createOrderObj(
         [
@@ -253,9 +257,10 @@ export default (
     }
     return ret
   })
-
+  const GCPColClass = { service_account_json: 'custom-col-24' }
   const typeColClassMap: Record<string, Record<string, string>> = {
-    [BridgeType.GCPProducer]: { service_account_json: 'custom-col-24' },
+    [BridgeType.GCPProducer]: GCPColClass,
+    [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
@@ -269,6 +274,7 @@ export default (
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
     [BridgeType.GCPProducer]: ['pipelining'],
+    [BridgeType.GCPConsumer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
     [BridgeType.IoTDB]: IoTDBAdvancedProps,

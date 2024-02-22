@@ -165,7 +165,7 @@ export default (
     return { components, rules }
   }
 
-  const GCPProducerHandler: Handler = ({ components, rules }) => {
+  const GCPHandler: Handler = ({ components, rules }) => {
     const { service_account_json } = components
     /* Common */
     if (service_account_json?.type === 'string') {
@@ -299,7 +299,8 @@ export default (
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.Confluent, confluentHandler],
-    [BridgeType.GCPProducer, GCPProducerHandler],
+    [BridgeType.GCPProducer, GCPHandler],
+    [BridgeType.GCPConsumer, GCPHandler],
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],

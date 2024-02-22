@@ -366,25 +366,10 @@ export const useBridgeSchema = (): {
     return refPrefix + type + finalSuffix
   }
 
-  const specialBridgeTypeRefKeyMap: Map<string, string> = new Map([
-    [BridgeType.Cassandra, getRef('cassa')],
-    [BridgeType.AmazonKinesis, getRef('kinesis', '_producer')],
-    [BridgeType.GCPConsumer, getRef('gcp_pubsub', '_consumer')],
-    [BridgeType.GreptimeDB, getRef('greptimedb', '_grpc_v1')],
-  ])
-
-  const getSchemaRefByType = (type: string) => {
-    const ref = specialBridgeTypeRefKeyMap.get(type)
-    return ref ?? getRef(type)
-  }
+  const getSchemaRefByType = getRef
 
   const getTypeByBridgeSchemaRef = (ref: string) => {
     const refKey = ref.replace(/^.+\//, '')
-    for (const [type, refValue] of specialBridgeTypeRefKeyMap.entries()) {
-      if (refValue === refKey) {
-        return type
-      }
-    }
     // 1. remove path 2. remove prefix 3. remove suffix
     const ret = refKey
       .replace(new RegExp(`${refPrefix}`), '')
@@ -424,6 +409,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Cassandra, getRef('cassa')],
     [BridgeType.RabbitMQ, getRef(BridgeType.RabbitMQ, '', 'post')],
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
+    [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -507,6 +493,7 @@ export const useSourceSchema = (): {
 
   const specialActionTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.MQTT, getRef('mqtt_publisher')],
+    [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

@@ -206,41 +206,6 @@ export default (
     return { components, rules }
   }
 
-  const GCPConsumerComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-    const { service_account_json, consumer } = components
-
-    if (service_account_json?.type === 'string') {
-      // The backend does not give data indicating that it is possible to upload files here, add it manually
-      service_account_json.format = 'file'
-      service_account_json.componentProps = {
-        accept: '.json',
-        tip: t('Base.uploadTip', { format: 'JSON' }),
-      }
-    }
-    if (rules && !rules.service_account_json) {
-      rules.service_account_json = []
-    }
-    if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
-      rules.service_account_json.push(createJSONRule(tl('accountJSONError')))
-    }
-
-    if (consumer) {
-      const i18nPrefix = getI18nPrefix(BridgeType.GCPConsumer)
-      const { pubsub_topic, mqtt_topic, qos, payload_template } =
-        consumer?.properties?.topic_mapping?.items?.properties || {}
-      const properties = [
-        { prop: pubsub_topic, key: 'consumer_pubsub_topic' },
-        { prop: mqtt_topic, key: 'consumer_mqtt_topic' },
-        { prop: qos, key: 'consumer_qos' },
-        { prop: payload_template, key: 'payload_template' },
-      ]
-      properties.forEach(({ prop, key }) => prop && setLabelAndDesc(prop, `${i18nPrefix}${key}`))
-    }
-
-    return { components, rules }
-  }
-
   const dynamoDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
@@ -429,7 +394,6 @@ export default (
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,
     [BridgeType.GCPProducer]: GCPProducerComponentsHandler,
-    [BridgeType.GCPConsumer]: GCPConsumerComponentsHandler,
     [BridgeType.MongoDB]: mongoComponentsHandler,
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,
