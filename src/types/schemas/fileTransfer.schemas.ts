@@ -147,14 +147,14 @@ export const FileTransferS3ExporterAcl = {
 export interface FileTransferS3Exporter {
   access_key_id?: string
   secret_access_key?: string
-  bucket: string
   host: string
   port: number
-  url_expire_time?: string
+  transport_options?: S3TransportOptions
   min_part_size: string
   max_part_size: string
+  url_expire_time?: string
+  bucket: string
   acl?: FileTransferS3ExporterAcl
-  transport_options?: S3TransportOptions
   enable?: boolean
 }
 

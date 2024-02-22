@@ -13,7 +13,7 @@ export type PostBridges400 = {
 export type PostBridges201 =
   | BridgeKafkaGetProducer
   | BridgeTimescaleGet
-  | BridgeRocketmqGet
+  | RocketmqGet
   | BridgeKafkaGetConsumer
   | BridgeMatrixGet
   | BridgeSqlserverGet
@@ -48,7 +48,7 @@ export type PostBridges201 =
 export type PostBridgesBody =
   | BridgeKafkaPostProducer
   | BridgeTimescalePost
-  | BridgeRocketmqPost
+  | RocketmqPost
   | BridgeKafkaPostConsumer
   | BridgeMatrixPost
   | BridgeSqlserverPost
@@ -83,7 +83,7 @@ export type PostBridgesBody =
 export type GetBridges200Item =
   | BridgeKafkaGetProducer
   | BridgeTimescaleGet
-  | BridgeRocketmqGet
+  | RocketmqGet
   | BridgeKafkaGetConsumer
   | BridgeMatrixGet
   | BridgeSqlserverGet
@@ -194,7 +194,7 @@ export type PutBridgesId400 = {
 export type PutBridgesId200 =
   | BridgeKafkaGetProducer
   | BridgeTimescaleGet
-  | BridgeRocketmqGet
+  | RocketmqGet
   | BridgeKafkaGetConsumer
   | BridgeMatrixGet
   | BridgeSqlserverGet
@@ -229,7 +229,7 @@ export type PutBridgesId200 =
 export type PutBridgesIdBody =
   | BridgeKafkaPutProducer
   | BridgeTimescalePut
-  | BridgeRocketmqPut
+  | RocketmqPut
   | BridgeKafkaPutConsumer
   | BridgeMatrixPut
   | BridgeSqlserverPut
@@ -276,7 +276,7 @@ export type GetBridgesId404 = {
 export type GetBridgesId200 =
   | BridgeKafkaGetProducer
   | BridgeTimescaleGet
-  | BridgeRocketmqGet
+  | RocketmqGet
   | BridgeKafkaGetConsumer
   | BridgeMatrixGet
   | BridgeSqlserverGet
@@ -421,7 +421,7 @@ export type PostBridgesProbe400 = {
 export type PostBridgesProbeBody =
   | BridgeKafkaPostProducer
   | BridgeTimescalePost
-  | BridgeRocketmqPost
+  | RocketmqPost
   | BridgeKafkaPostConsumer
   | BridgeMatrixPost
   | BridgeSqlserverPost
@@ -516,6 +516,91 @@ export const PutBridgesIdMetricsReset404Code = {
 export type PutBridgesIdMetricsReset404 = {
   code?: PutBridgesIdMetricsReset404Code
   message?: string
+}
+
+export interface RocketmqPut {
+  enable?: boolean
+  template?: string
+  local_topic?: string
+  resource_opts?: ResourceSchemaCreationOpts
+  servers: string
+  topic?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  sync_timeout?: string
+  refresh_interval?: string
+  send_buffer?: string
+  pool_size?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+}
+
+export type RocketmqPostType = typeof RocketmqPostType[keyof typeof RocketmqPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RocketmqPostType = {
+  rocketmq: 'rocketmq',
+} as const
+
+export interface RocketmqPost {
+  type: RocketmqPostType
+  name: string
+  enable?: boolean
+  template?: string
+  local_topic?: string
+  resource_opts?: ResourceSchemaCreationOpts
+  servers: string
+  topic?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  sync_timeout?: string
+  refresh_interval?: string
+  send_buffer?: string
+  pool_size?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+}
+
+export type RocketmqGetType = typeof RocketmqGetType[keyof typeof RocketmqGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RocketmqGetType = {
+  rocketmq: 'rocketmq',
+} as const
+
+export type RocketmqGetStatus = typeof RocketmqGetStatus[keyof typeof RocketmqGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RocketmqGetStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface RocketmqGet {
+  status?: RocketmqGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: RocketmqGetType
+  name: string
+  enable?: boolean
+  template?: string
+  local_topic?: string
+  resource_opts?: ResourceSchemaCreationOpts
+  servers: string
+  topic?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  sync_timeout?: string
+  refresh_interval?: string
+  send_buffer?: string
+  pool_size?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
 }
 
 export type ResourceSchemaCreationOptsRequestTtl = 'infinity' | string
@@ -848,6 +933,21 @@ export interface BridgeTdengineGet {
   auto_reconnect?: boolean
 }
 
+export interface BridgeSqlserverPut {
+  enable?: boolean
+  sql?: string
+  driver?: string
+  local_topic?: string
+  resource_opts?: BridgeSqlserverCreationOpts
+  server: string
+  database: string
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+}
+
 export type BridgeSqlserverPostType =
   typeof BridgeSqlserverPostType[keyof typeof BridgeSqlserverPostType]
 
@@ -943,108 +1043,6 @@ export interface BridgeSqlserverCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeSqlserverPut {
-  enable?: boolean
-  sql?: string
-  driver?: string
-  local_topic?: string
-  resource_opts?: BridgeSqlserverCreationOpts
-  server: string
-  database: string
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-}
-
-export interface BridgeRocketmqPut {
-  enable?: boolean
-  template?: string
-  local_topic?: string
-  resource_opts?: ResourceSchemaCreationOpts
-  servers: string
-  topic?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  sync_timeout?: string
-  refresh_interval?: string
-  send_buffer?: string
-  pool_size?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-}
-
-export type BridgeRocketmqPostType =
-  typeof BridgeRocketmqPostType[keyof typeof BridgeRocketmqPostType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeRocketmqPostType = {
-  rocketmq: 'rocketmq',
-} as const
-
-export interface BridgeRocketmqPost {
-  type: BridgeRocketmqPostType
-  name: string
-  enable?: boolean
-  template?: string
-  local_topic?: string
-  resource_opts?: ResourceSchemaCreationOpts
-  servers: string
-  topic?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  sync_timeout?: string
-  refresh_interval?: string
-  send_buffer?: string
-  pool_size?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-}
-
-export type BridgeRocketmqGetType = typeof BridgeRocketmqGetType[keyof typeof BridgeRocketmqGetType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeRocketmqGetType = {
-  rocketmq: 'rocketmq',
-} as const
-
-export type BridgeRocketmqGetStatus =
-  typeof BridgeRocketmqGetStatus[keyof typeof BridgeRocketmqGetStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeRocketmqGetStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeRocketmqGet {
-  status?: BridgeRocketmqGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeRocketmqGetType
-  name: string
-  enable?: boolean
-  template?: string
-  local_topic?: string
-  resource_opts?: ResourceSchemaCreationOpts
-  servers: string
-  topic?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  sync_timeout?: string
-  refresh_interval?: string
-  send_buffer?: string
-  pool_size?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
 }
 
 export type BridgeRedisPutSingleRedisType =

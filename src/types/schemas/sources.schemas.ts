@@ -81,7 +81,10 @@ export type PostSourcesProbe400 = {
   message?: string
 }
 
-export type PostSourcesProbeBody = BridgeRabbitmqPostSource | BridgeMqttPublisherPostSource
+export type PostSourcesProbeBody =
+  | BridgeRabbitmqPostSource
+  | BridgeMqttPublisherPostSource
+  | GcpPubsubConsumerPostSource
 
 export type PutSourcesIdEnableEnable503Code =
   typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
@@ -146,9 +149,15 @@ export type PutSourcesId400 = {
   message?: string
 }
 
-export type PutSourcesId200 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+export type PutSourcesId200 =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | GcpPubsubConsumerGetSource
 
-export type PutSourcesIdBody = BridgeRabbitmqPutSource | BridgeMqttPublisherPutSource
+export type PutSourcesIdBody =
+  | BridgeRabbitmqPutSource
+  | BridgeMqttPublisherPutSource
+  | GcpPubsubConsumerPutSource
 
 export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
 
@@ -162,7 +171,10 @@ export type GetSourcesId404 = {
   message?: string
 }
 
-export type GetSourcesId200 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+export type GetSourcesId200 =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | GcpPubsubConsumerGetSource
 
 export type DeleteSourcesId503Code =
   typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
@@ -220,11 +232,20 @@ export type PostSources400 = {
   message?: string
 }
 
-export type PostSources201 = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+export type PostSources201 =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | GcpPubsubConsumerGetSource
 
-export type PostSourcesBody = BridgeRabbitmqPostSource | BridgeMqttPublisherPostSource
+export type PostSourcesBody =
+  | BridgeRabbitmqPostSource
+  | BridgeMqttPublisherPostSource
+  | GcpPubsubConsumerPostSource
 
-export type GetSources200Item = BridgeRabbitmqGetSource | BridgeMqttPublisherGetSource
+export type GetSources200Item =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | GcpPubsubConsumerGetSource
 
 export type PostNodesNodeSourcesIdOperation503Code =
   typeof PostNodesNodeSourcesIdOperation503Code[keyof typeof PostNodesNodeSourcesIdOperation503Code]
@@ -278,6 +299,79 @@ export type PostNodesNodeSourcesIdOperation400 = {
   message?: string
 }
 
+export type GcpPubsubConsumerSourceResourceOptsRequestTtl = 'infinity' | string
+
+export interface GcpPubsubConsumerSourceResourceOpts {
+  health_check_interval?: string
+  request_ttl?: GcpPubsubConsumerSourceResourceOptsRequestTtl
+}
+
+export interface GcpPubsubConsumerSourceParameters {
+  topic: string
+  pull_max_messages?: number
+}
+
+export interface GcpPubsubConsumerPutSource {
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: GcpPubsubConsumerSourceParameters
+  resource_opts?: GcpPubsubConsumerSourceResourceOpts
+}
+
+export type GcpPubsubConsumerPostSourceType =
+  typeof GcpPubsubConsumerPostSourceType[keyof typeof GcpPubsubConsumerPostSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubConsumerPostSourceType = {
+  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
+} as const
+
+export interface GcpPubsubConsumerPostSource {
+  type: GcpPubsubConsumerPostSourceType
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: GcpPubsubConsumerSourceParameters
+  resource_opts?: GcpPubsubConsumerSourceResourceOpts
+}
+
+export type GcpPubsubConsumerGetSourceStatus =
+  typeof GcpPubsubConsumerGetSourceStatus[keyof typeof GcpPubsubConsumerGetSourceStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubConsumerGetSourceStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type GcpPubsubConsumerGetSourceType =
+  typeof GcpPubsubConsumerGetSourceType[keyof typeof GcpPubsubConsumerGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubConsumerGetSourceType = {
+  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
+} as const
+
+export interface GcpPubsubConsumerGetSource {
+  type: GcpPubsubConsumerGetSourceType
+  name: string
+  status?: GcpPubsubConsumerGetSourceStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: GcpPubsubConsumerSourceParameters
+  resource_opts?: GcpPubsubConsumerSourceResourceOpts
+}
+
 export type BridgeNodeStatusStatus =
   typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
 
@@ -318,14 +412,9 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
-export type BridgeRabbitmqSourceParametersQos = string | number
-
 export interface BridgeRabbitmqSourceParameters {
-  wait_for_publish_confirmations?: boolean
-  topic: string
-  qos?: BridgeRabbitmqSourceParametersQos
-  payload_template?: string
   queue: string
+  wait_for_publish_confirmations?: boolean
   no_ack?: boolean
 }
 
