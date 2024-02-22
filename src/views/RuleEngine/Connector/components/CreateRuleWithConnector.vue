@@ -78,7 +78,7 @@ watch(showDialog, (val) => {
     confirmStep.value = 0
   } else {
     connectorDirection.value =
-      (props.connector && judgeBridgeDirection(props.connector)) || BridgeDirection.Egress
+      (props.connector && judgeBridgeDirection(props.connector)) ?? BridgeDirection.Egress
   }
 })
 
