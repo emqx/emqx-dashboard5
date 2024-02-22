@@ -284,7 +284,7 @@ export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
-export const CONNECTOR_TYPES_WITH_SOURCE = [BridgeType.MQTT]
+export const CONNECTOR_TYPES_WITH_SOURCE = [BridgeType.MQTT, BridgeType.RabbitMQ]
 
 export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.MQTT,
