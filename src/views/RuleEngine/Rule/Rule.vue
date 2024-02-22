@@ -1,6 +1,10 @@
 <template>
   <div class="rule">
-    <RuleFilterForm class="search-wrapper" :initial-value="filterParams" @search="searchRule" />
+    <RuleFilterForm
+      class="search-wrapper without-padding-top"
+      :initial-value="filterParams"
+      @search="searchRule"
+    />
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>

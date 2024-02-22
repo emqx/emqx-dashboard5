@@ -1,5 +1,5 @@
 <template>
-  <div class="flapping-detect app-wrapper">
+  <div class="flapping-detect app-wrapper with-padding-top">
     <el-card class="allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>

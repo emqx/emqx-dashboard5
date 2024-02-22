@@ -149,6 +149,9 @@ addNewTab()
 </script>
 
 <style lang="scss" scoped>
+.app-wrapper.websocket {
+  padding-top: 24px;
+}
 .el-tabs {
   :deep(.el-tabs__header) {
     margin-bottom: 24px;
