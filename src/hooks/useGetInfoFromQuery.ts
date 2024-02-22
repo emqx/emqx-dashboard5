@@ -19,7 +19,7 @@ const getDataFromParams = (params: string): Record<string, string> => {
 
 const getQueryInHash = (hash: string) => hash.slice(1).split('?')[1]
 
-const INFO_KEY = 'login_meta'
+export const USER_INFO_KEY = 'login_meta'
 export default (): {
   getInfoFromQuery: () => any | undefined
 } => {
@@ -31,7 +31,7 @@ export default (): {
       } else if (location.hash) {
         info = getDataFromParams(getQueryInHash(location.hash))
       }
-      const base64Str = info[INFO_KEY]
+      const base64Str = info[USER_INFO_KEY]
       if (!base64Str) {
         return
       }
