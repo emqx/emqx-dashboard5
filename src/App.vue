@@ -5,10 +5,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import useGetInfoFromQuery from '@/hooks/useGetInfoFromQuery'
+import { useRoute, useRouter } from 'vue-router'
+import useGetInfoFromQuery, { USER_INFO_KEY } from '@/hooks/useGetInfoFromQuery'
 import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { waitAMoment } from './common/tools'
+import { omit } from 'lodash'
 
 const store = useStore()
 const lang = computed(() => {
@@ -62,9 +64,10 @@ if (syncOsTheme.value) {
 }
 
 const router = useRouter()
+const route = useRoute()
 const { getInfoFromQuery } = useGetInfoFromQuery()
 const { updateBaseInfo } = useUpdateBaseInfo()
-const handleQuery = () => {
+const handleQuery = async () => {
   const info = getInfoFromQuery()
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
@@ -74,7 +77,16 @@ const handleQuery = () => {
      */
     const backend = location.search ? DashboardSamlBackend.saml : undefined
     updateBaseInfo(info.username, info, backend)
-    router.push({ name: 'overview' })
+    // if in login page, redirect to overview page
+    if (/login/i.test(location.hash.split('?')[0])) {
+      router.push({ name: 'overview' })
+    }
+    await waitAMoment()
+    // remove login meta from query for safe
+    if (route.query) {
+      const newQuery = omit(route.query, USER_INFO_KEY)
+      router.replace({ ...route, query: newQuery })
+    }
   }
 }
 handleQuery()
