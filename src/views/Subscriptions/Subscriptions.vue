@@ -1,6 +1,6 @@
 <template>
   <div class="subscriptions">
-    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+    <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
       <el-row :gutter="20">
         <el-col v-bind="colProps">
           <el-select
@@ -200,6 +200,11 @@ loadTableData()
 
 <style lang="scss">
 @import '~@/style/management.scss';
+.subscriptions {
+  .search-wrapper {
+    margin-top: -12px;
+  }
+}
 .info-tooltip {
   p {
     margin: 0;

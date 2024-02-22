@@ -52,7 +52,7 @@ const goBack = () => {
 
 <style lang="scss">
 .detail-header {
-  margin-top: 18px;
+  margin-top: 32px;
   margin-bottom: 24px;
   max-width: 90%;
   .el-page-header__breadcrumb {

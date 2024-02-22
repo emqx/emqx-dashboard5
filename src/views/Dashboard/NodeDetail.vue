@@ -191,6 +191,13 @@ loadData()
 
 <style lang="scss">
 .node-detail {
+  .detail-header {
+    margin-top: 4px;
+    margin-bottom: 0;
+  }
+  .block-header {
+    margin-bottom: 20px;
+  }
   .el-card {
     .stop-status::before,
     .running-status::before {

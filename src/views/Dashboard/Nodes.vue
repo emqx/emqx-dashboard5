@@ -100,9 +100,6 @@ const { nodes, lockTable: nodesLockTable, hasMemory, loadData: loadAllNodes } = 
 
 <style lang="scss">
 .nodes {
-  .nodes-table {
-    margin-top: 14px;
-  }
   .el-progress {
     width: 100%;
   }

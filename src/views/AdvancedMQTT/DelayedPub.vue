@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper delayed-config">
+  <div class="app-wrapper delayed-config with-padding-top">
     <el-card class="app-card" v-loading="isLoading">
       <el-form
         ref="delayedForm"
