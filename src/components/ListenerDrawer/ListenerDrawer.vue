@@ -35,25 +35,6 @@
             <el-input v-model="listenerRecord.bind" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('mountPoint')">
-            <el-input v-model="listenerRecord.mountpoint" />
-          </el-form-item>
-        </el-col>
-        <!-- <el-col :span="12" v-if="!gatewayName">
-          <el-form-item label="Zone">
-            <template #label>
-              <label>Zone</label>
-              <InfoTooltip :content="$t('BasicConfig.listenerZoneDesc')" />
-            </template>
-            <ZoneSelect v-model="listenerRecord.zone" />
-          </el-form-item>
-        </el-col> -->
-        <!-- <el-col :span="12" v-if="!gatewayName">
-          <el-form-item :label="$t('BasicConfig.limiter')">
-            <LimiterSelect v-model="listenerRecord.limiter" />
-          </el-form-item>
-        </el-col> -->
         <el-col :span="24"><el-divider /></el-col>
       </el-row>
       <el-row v-if="showWSConfig && !gatewayName" :gutter="20">
@@ -81,11 +62,6 @@
       </el-row>
       <!-- Listener Config -->
       <el-row :gutter="20">
-        <el-col :span="12" v-if="!isUDP">
-          <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
-            <CustomInputNumber v-model="listenerRecord.acceptors" />
-          </el-form-item>
-        </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxConn')" prop="max_connections">
             <Oneof
@@ -117,102 +93,10 @@
           </el-col>
         </template>
       </el-row>
-      <!-- TCP Config -->
-      <div v-if="showTCPConfig">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="ActiveN">
-              <CustomInputNumber
-                v-model.number="listenerRecord.tcp_options.active_n"
-                :placeholder="String(defaultListener.tcp_options.active_n)"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Buffer'">
-              <InputWithUnit
-                v-model="listenerRecord.tcp_options.buffer"
-                number-placeholder="4"
-                :units="['KB']"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'TCP_NODELAY'">
-              <BooleanSelect v-model="listenerRecord.tcp_options.nodelay" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'SO_REUSEADDR'">
-              <BooleanSelect v-model="listenerRecord.tcp_options.reuseaddr" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('sendTimeout')">
-              <TimeInputWithUnitSelect
-                v-model="listenerRecord.tcp_options.send_timeout"
-                number-placeholder="15"
-                :enabled-units="['s']"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('sendTimeoutClose')">
-              <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- UDP -->
-      <div v-else-if="showUDPConfig">
-        <el-row :gutter="20">
-          <el-col :span="24"><el-divider /></el-col>
-          <el-col :span="12">
-            <el-form-item :label="'ActiveN'">
-              <el-input
-                v-model="listenerRecord.udp_options.active_n"
-                :placeholder="String(defaultListener.udp_options.active_n)"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'Buffer'">
-              <InputWithUnit
-                v-model="listenerRecord.udp_options.buffer"
-                number-placeholder="4"
-                :units="['KB']"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('recBuf')">
-              <InputWithUnit
-                v-model="listenerRecord.udp_options.recbuf"
-                number-placeholder="2"
-                :units="['KB']"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('sendBuf')">
-              <InputWithUnit
-                v-model="listenerRecord.udp_options.sndbuf"
-                number-placeholder="2"
-                :units="['KB']"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="'SO_REUSEADDR'">
-              <BooleanSelect v-model="listenerRecord.udp_options.reuseaddr" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
       <!-- (like)SSL Config -->
       <div v-if="showSSLConfig">
         <el-row :gutter="20">
-          <el-col v-if="!isQUIC" :span="24"><el-divider /></el-col>
+          <el-col :span="24"><el-divider /></el-col>
           <el-col :span="24">
             <!-- v-if is for refresh -->
             <TLSEnableConfig
@@ -225,105 +109,16 @@
               :verify-label="t('Base.tlsVerifyClient')"
             />
           </el-col>
-          <!-- Version of SSL/DTLS -->
-          <template v-if="isDTLS">
-            <el-col :span="12">
-              <el-form-item :label="tl('dtlsversion')">
-                <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item>
-                <template #label>
-                  <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
-                </template>
-                <array-editor-input v-model="listenerRecord.dtls_options.ciphers" />
-              </el-form-item>
-            </el-col>
-          </template>
-          <template v-else-if="!isQUIC">
-            <el-col :span="12">
-              <el-form-item :label="tl('sslversion')">
-                <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item>
-                <template #label>
-                  <form-item-label :label="tl('ciphers')" :desc="tl('ciphersDesc')" desc-marked />
-                </template>
-                <array-editor-input v-model="listenerRecord.ssl_options.ciphers" />
-              </el-form-item>
-            </el-col>
-          </template>
-
-          <template v-if="!isQUIC">
+          <template v-if="!isQUIC && listenerRecord[SSLConfigKey].verify !== 'verify_none'">
             <el-col :span="12">
               <el-form-item :label="tl('failIfNoPeerCert')">
                 <BooleanSelect v-model="listenerRecord[SSLConfigKey].fail_if_no_peer_cert" />
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item :label="tl('SSLdepth')">
-                <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
-              </el-form-item>
-            </el-col>
-          </template>
-          <el-col :span="12">
-            <el-form-item :label="tl('SSLPassword')">
-              <el-input
-                v-model="listenerRecord[SSLConfigKey].password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
-            </el-form-item>
-          </el-col>
-
-          <!-- OCSP -->
-          <template v-if="!gatewayName && !isWSS && !isQUIC">
-            <el-col :span="24">
-              <el-form-item :label="tl('enableOcspStapling')">
-                <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
-              </el-form-item>
-            </el-col>
-            <template v-if="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling">
-              <el-col :span="24">
-                <el-form-item :label="tl('responderUrl')" prop="ssl_options.ocsp.responder_url">
-                  <el-input v-model="listenerRecord.ssl_options.ocsp.responder_url" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <el-form-item :label="tl('issuerPem')" prop="ssl_options.ocsp.issuer_pem">
-                  <CertFileInput
-                    v-model="listenerRecord.ssl_options.ocsp.issuer_pem"
-                    :is-edit="isEdit"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('refreshInterval')">
-                  <TimeInputWithUnitSelect
-                    v-model="listenerRecord.ssl_options.ocsp.refresh_interval"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('refreshHttpTimeout')">
-                  <TimeInputWithUnitSelect
-                    v-model="listenerRecord.ssl_options.ocsp.refresh_http_timeout"
-                  />
-                </el-form-item>
-              </el-col>
-            </template>
-            <el-col :span="12">
-              <el-form-item :label="tl('enableCrlCheck')">
-                <el-switch v-model="listenerRecord.ssl_options.enable_crl_check" />
-              </el-form-item>
-            </el-col>
           </template>
         </el-row>
       </div>
+      <!-- Rate Limiter -->
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
@@ -331,10 +126,7 @@
         </el-col>
         <el-col :span="12" />
         <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.max_conn_rate.label')"
-            prop="max_conn_rate"
-          >
+          <el-form-item :label="t('Gateway.maxConnRate')" prop="max_conn_rate">
             <InputWithUnit
               v-model="listenerRecord.max_conn_rate"
               :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
@@ -342,10 +134,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.messages_rate.label')"
-            prop="messages_rate"
-          >
+          <el-form-item :label="t('Gateway.maxMsgPubRate')" prop="messages_rate">
             <InputWithUnit
               v-model="listenerRecord.messages_rate"
               :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
@@ -353,10 +142,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item
-            :label="t('ConfigSchema.emqx_limiter_schema.bytes_rate.label')"
-            prop="bytes_rate"
-          >
+          <el-form-item :label="t('Gateway.maxMsgPubTraffic')" prop="bytes_rate">
             <InputWithUnit
               v-model="listenerRecord.bytes_rate"
               :units="[
@@ -367,6 +153,211 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- Advanced Settings -->
+      <advanced-setting-container>
+        <div>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item :label="tl('mountPoint')">
+                <el-input v-model="listenerRecord.mountpoint" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="!isUDP">
+              <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
+                <CustomInputNumber v-model="listenerRecord.acceptors" />
+              </el-form-item>
+            </el-col>
+            <!-- TCP -->
+            <template v-if="showTCPConfig">
+              <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="12">
+                <el-form-item label="ActiveN">
+                  <CustomInputNumber
+                    v-model.number="listenerRecord.tcp_options.active_n"
+                    :placeholder="String(defaultListener.tcp_options.active_n)"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'Buffer'">
+                  <InputWithUnit
+                    v-model="listenerRecord.tcp_options.buffer"
+                    number-placeholder="4"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'TCP_NODELAY'">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.nodelay" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'SO_REUSEADDR'">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.reuseaddr" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendTimeout')">
+                  <TimeInputWithUnitSelect
+                    v-model="listenerRecord.tcp_options.send_timeout"
+                    number-placeholder="15"
+                    :enabled-units="['s']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendTimeoutClose')">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
+                </el-form-item>
+              </el-col>
+            </template>
+            <!-- UDP -->
+            <template v-if="showUDPConfig">
+              <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="12">
+                <el-form-item :label="'ActiveN'">
+                  <el-input
+                    v-model="listenerRecord.udp_options.active_n"
+                    :placeholder="String(defaultListener.udp_options.active_n)"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'Buffer'">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.buffer"
+                    number-placeholder="4"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('recBuf')">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.recbuf"
+                    number-placeholder="2"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendBuf')">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.sndbuf"
+                    number-placeholder="2"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'SO_REUSEADDR'">
+                  <BooleanSelect v-model="listenerRecord.udp_options.reuseaddr" />
+                </el-form-item>
+              </el-col>
+            </template>
+            <!-- SSL -->
+            <template v-if="showSSLConfig">
+              <el-col :span="24"><el-divider /></el-col>
+              <template v-if="isDTLS">
+                <el-col :span="12">
+                  <el-form-item :label="tl('dtlsversion')">
+                    <DTLSVersionSelect v-model="listenerRecord.dtls_options.versions" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item>
+                    <template #label>
+                      <form-item-label
+                        :label="tl('ciphers')"
+                        :desc="tl('ciphersDesc')"
+                        desc-marked
+                      />
+                    </template>
+                    <array-editor-input v-model="listenerRecord.dtls_options.ciphers" />
+                  </el-form-item>
+                </el-col>
+              </template>
+              <template v-else-if="!isQUIC">
+                <el-col :span="12">
+                  <el-form-item :label="tl('sslversion')">
+                    <SSLVersionSelect v-model="listenerRecord.ssl_options.versions" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item>
+                    <template #label>
+                      <form-item-label
+                        :label="tl('ciphers')"
+                        :desc="tl('ciphersDesc')"
+                        desc-marked
+                      />
+                    </template>
+                    <array-editor-input v-model="listenerRecord.ssl_options.ciphers" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="tl('SSLdepth')">
+                    <el-input v-model.number="listenerRecord[SSLConfigKey].depth" />
+                  </el-form-item>
+                </el-col>
+              </template>
+              <el-col :span="12">
+                <el-form-item :label="tl('SSLPassword')">
+                  <el-input
+                    v-model="listenerRecord[SSLConfigKey].password"
+                    type="password"
+                    autocomplete="one-time-code"
+                    show-password
+                  />
+                </el-form-item>
+              </el-col>
+              <!-- OCSP -->
+              <template v-if="!gatewayName && !isWSS && !isQUIC">
+                <el-col :span="24">
+                  <el-form-item :label="tl('enableOcspStapling')">
+                    <el-switch v-model="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling" />
+                  </el-form-item>
+                </el-col>
+                <template v-if="listenerRecord.ssl_options.ocsp.enable_ocsp_stapling">
+                  <el-col :span="24">
+                    <el-form-item :label="tl('responderUrl')" prop="ssl_options.ocsp.responder_url">
+                      <el-input v-model="listenerRecord.ssl_options.ocsp.responder_url" />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="24">
+                    <el-form-item :label="tl('issuerPem')" prop="ssl_options.ocsp.issuer_pem">
+                      <CertFileInput
+                        v-model="listenerRecord.ssl_options.ocsp.issuer_pem"
+                        :is-edit="isEdit"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="tl('refreshInterval')">
+                      <TimeInputWithUnitSelect
+                        v-model="listenerRecord.ssl_options.ocsp.refresh_interval"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item :label="tl('refreshHttpTimeout')">
+                      <TimeInputWithUnitSelect
+                        v-model="listenerRecord.ssl_options.ocsp.refresh_http_timeout"
+                      />
+                    </el-form-item>
+                  </el-col>
+                </template>
+                <el-col :span="12">
+                  <el-form-item :label="tl('enableCrlCheck')">
+                    <el-switch v-model="listenerRecord.ssl_options.enable_crl_check" />
+                  </el-form-item>
+                </el-col>
+              </template>
+            </template>
+          </el-row>
+        </div>
+      </advanced-setting-container>
     </el-form>
     <template #footer>
       <el-button @click="showDialog = false">
@@ -403,6 +394,7 @@ import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import useListenerDialog from '@/hooks/Config/useListenerDialog'
 import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'

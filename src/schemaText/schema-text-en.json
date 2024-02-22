@@ -969,7 +969,7 @@
     },
     "server_ssl_opts_schema_fail_if_no_peer_cert": {
       "desc": "Used together with {'{'}verify, verify_peer{'}'} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
-      "label": "SSL fail if no peer cert"
+      "label": "Force Verify Peer Certificate"
     },
     "fields_ws_opts_compress": {
       "desc": "If <code>true</code>, compress WebSocket messages using <code>zlib</code>.<br/>\nThe configuration items under <code>deflate_opts</code> belong to the compression-related parameter configuration.",

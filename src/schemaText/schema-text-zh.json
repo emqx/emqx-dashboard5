@@ -965,7 +965,7 @@
     },
     "server_ssl_opts_schema_fail_if_no_peer_cert": {
       "desc": "TLS/DTLS 服务器与 {'{'}verify，verify_peer{'}'} 一起使用。\n如果设置为true，则如果客户端没有要发送的证书，即发送空证书，服务器将失败。\n如果设置为false，则仅当客户端发送无效证书（空证书被视为有效证书）时才会失败。",
-      "label": "没有证书则 SSL 失败"
+      "label": "强制验证对端证书"
     },
     "fields_ws_opts_compress": {
       "desc": "如果 <code>true</code>，则使用<code>zlib</code> 压缩 WebSocket 消息<br/>\n<code>deflate_opts</code> 下的配置项属于压缩相关参数配置。",
