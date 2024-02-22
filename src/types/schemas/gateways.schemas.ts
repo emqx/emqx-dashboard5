@@ -26,22 +26,22 @@ export type PutGatewaysName400 = {
 }
 
 export type PutGatewaysNameBody =
-  | EmqxGatewayApiUpdateLwm2m
-  | EmqxGatewayApiUpdateMqttsn
-  | EmqxGatewayApiUpdateGbt32960
+  | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiUpdateOcpp
+  | EmqxGatewayApiUpdateMqttsn
+  | EmqxGatewayApiUpdateLwm2m
+  | EmqxGatewayApiUpdateJt808
+  | EmqxGatewayApiUpdateGbt32960
   | EmqxGatewayApiUpdateExproto
   | EmqxGatewayApiUpdateCoap
-  | EmqxGatewayApiUpdateStomp
-  | EmqxGatewayApiUpdateJt808
-  | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiMqttsn
-  | EmqxGatewayApiGbt32960
+  | EmqxGatewayApiStomp
   | EmqxGatewayApiOcpp
+  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiGbt32960
   | EmqxGatewayApiExproto
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiStomp
-  | EmqxGatewayApiJt808
 
 export type GetGatewaysName404Code =
   typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
@@ -58,14 +58,14 @@ export type GetGatewaysName404 = {
 }
 
 export type GetGatewaysName200 =
-  | EmqxGatewayApiLwm2m
-  | EmqxGatewayApiMqttsn
-  | EmqxGatewayApiGbt32960
+  | EmqxGatewayApiStomp
   | EmqxGatewayApiOcpp
+  | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiLwm2m
+  | EmqxGatewayApiJt808
+  | EmqxGatewayApiGbt32960
   | EmqxGatewayApiExproto
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiStomp
-  | EmqxGatewayApiJt808
 
 export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
 
@@ -213,6 +213,16 @@ export interface GatewayLwm2mTranslators {
   update: GatewayTranslator
 }
 
+export interface GatewayJt808Proto {
+  auth?: GatewayJt808ProtoAuth
+  up_topic: string
+  dn_topic: string
+}
+
+export interface GatewayJt808Frame {
+  max_length?: number
+}
+
 export interface GatewayExprotoGrpcServer {
   bind: string
   ssl_options?: GatewaySslServerOpts
@@ -288,6 +298,20 @@ export interface GatewayClientinfoOverride {
   password?: string
   clientid?: string
 }
+
+export interface GatewayAnonymousTrue {
+  allow_anonymous: 'true'
+  registry?: string
+  authentication?: string
+}
+
+export interface GatewayAnonymousFalse {
+  allow_anonymous: 'false'
+  registry: string
+  authentication: string
+}
+
+export type GatewayJt808ProtoAuth = GatewayAnonymousFalse | GatewayAnonymousTrue
 
 export type GatewayOcppUpstreamTopicOverrideMapping = {
   $name?: string
@@ -522,32 +546,6 @@ export interface EmqxDeflateOpts {
   client_max_window_bits?: number
 }
 
-export interface EmqxJt808SchemaJt808Proto {
-  auth?: EmqxJt808SchemaJt808ProtoAuth
-  up_topic: string
-  dn_topic: string
-}
-
-export interface EmqxJt808SchemaJt808Frame {
-  max_length?: number
-}
-
-export interface EmqxJt808SchemaAnonymousTrue {
-  allow_anonymous: 'true'
-  registry?: string
-  authentication?: string
-}
-
-export interface EmqxJt808SchemaAnonymousFalse {
-  allow_anonymous: 'false'
-  registry: string
-  authentication: string
-}
-
-export type EmqxJt808SchemaJt808ProtoAuth =
-  | EmqxJt808SchemaAnonymousFalse
-  | EmqxJt808SchemaAnonymousTrue
-
 export type EmqxGatewayApiWssListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiWssListenerType =
@@ -680,8 +678,8 @@ export interface EmqxGatewayApiUpdateLwm2m {
 }
 
 export interface EmqxGatewayApiUpdateJt808 {
-  frame?: EmqxJt808SchemaJt808Frame
-  proto?: EmqxJt808SchemaJt808Proto
+  frame?: GatewayJt808Frame
+  proto?: GatewayJt808Proto
   mountpoint?: string
   retry_interval?: string
   max_retry_times?: number
@@ -976,8 +974,8 @@ export const EmqxGatewayApiJt808Name = {
 
 export interface EmqxGatewayApiJt808 {
   name?: EmqxGatewayApiJt808Name
-  frame?: EmqxJt808SchemaJt808Frame
-  proto?: EmqxJt808SchemaJt808Proto
+  frame?: GatewayJt808Frame
+  proto?: GatewayJt808Proto
   mountpoint?: string
   retry_interval?: string
   max_retry_times?: number
