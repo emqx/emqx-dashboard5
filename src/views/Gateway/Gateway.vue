@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper gateway">
+  <div class="app-wrapper gateway with-padding-top">
     <el-table :data="tbData" v-loading="tbLoading" :row-class-name="getRowClassName">
       <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">

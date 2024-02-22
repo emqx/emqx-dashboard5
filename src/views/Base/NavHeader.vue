@@ -1,5 +1,6 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
+    <h2 class="page-title">{{ title }}</h2>
     <div class="pull-right">
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
@@ -84,6 +85,12 @@ export default defineComponent({
     Setting,
     Settings,
     Help,
+  },
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
   },
   setup() {
     const showSettings = ref(false)
@@ -222,6 +229,13 @@ export default defineComponent({
     margin-right: 10px;
     margin-left: 4px;
   }
+}
+
+.page-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 22px;
+  color: #fff;
 }
 
 .pull-right {

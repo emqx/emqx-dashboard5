@@ -21,14 +21,13 @@
     </el-aside>
     <el-container class="layout">
       <el-header :style="{ left: elMainStyle, height: 'auto' }">
-        <nav-header></nav-header>
+        <nav-header
+          :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
+        />
       </el-header>
       <el-main :style="{ marginLeft: elMainStyle }">
         <div class="main-content">
           <el-scrollbar>
-            <h1 class="header-title">
-              {{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}
-            </h1>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
               :default-active="defaultSubMenu"
@@ -276,28 +275,23 @@ export default defineComponent({
   }
 }
 
+$padding: 8px;
+$header-heigh: 60px;
+
 .el-main {
   transition: margin-left 0.3s;
   background-color: var(--color-bg);
   height: 100vh;
   .main-content {
     background-color: var(--color-bg-content);
-    margin-top: 60px;
-    margin-right: 8px;
-    border-radius: 8px;
+    margin-top: $header-heigh;
+    margin-right: $padding;
+    border-radius: $padding;
     position: relative;
     height: 100%;
-    height: calc(100% - 68px); /* 60px + 12px padding */
+    height: calc(100% - #{$header-heigh} - #{$padding}); /* 60px + 12px padding */
     overflow: hidden;
   }
-}
-
-$title-size: 22px;
-$title-margin: 22px;
-.header-title {
-  font-size: $title-size;
-  margin-top: $title-margin;
-  margin-bottom: $title-margin;
 }
 
 .el-container {
@@ -307,8 +301,8 @@ $title-margin: 22px;
 .logo {
   position: fixed;
   background-color: var(--color-bg);
-  height: 60px;
-  line-height: 60px;
+  height: $header-heigh;
+  line-height: $header-heigh;
   overflow: hidden;
   top: 0;
   left: 0;
@@ -342,12 +336,11 @@ $title-margin: 22px;
 }
 
 .top-submenu {
-  margin: 0 24px;
-  margin-bottom: 24px;
+  margin: 24px 24px 32px;
 }
 
 // 60px is header height
 .is-full-height {
-  height: calc(100vh - 60px - #{$title-size} - #{$title-margin} * 2);
+  height: calc(100vh - #{$header-heigh} - #{$padding});
 }
 </style>

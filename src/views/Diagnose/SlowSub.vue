@@ -47,6 +47,7 @@ getConfig()
 <style lang="scss" scoped>
 .slow-sub {
   .placeholder {
+    padding-top: 80px;
     text-align: center;
   }
 

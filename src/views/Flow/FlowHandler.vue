@@ -183,11 +183,11 @@ const submit = async () => {
   p {
     margin: 0;
   }
-  $hd-height: 72px;
+  $hd-height: 80px;
   .flow-create-hd {
     height: $hd-height;
     align-items: center;
-    padding-left: 24px;
+    padding-left: 20px;
     padding-right: 24px;
     border-bottom: 1px solid var(--color-border-primary);
   }
