@@ -158,7 +158,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.DynamoDB]: createOrderObj(
-      ['url', 'aws_access_key_id', 'aws_secret_access_key', 'table', 'template'],
+      getPathArrInParameters(['table', 'template']),
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
