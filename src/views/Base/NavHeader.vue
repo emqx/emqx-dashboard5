@@ -1,6 +1,6 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
-    <h2 class="page-title">{{ title }}</h2>
+    <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
@@ -231,7 +231,7 @@ export default defineComponent({
   }
 }
 
-.page-title {
+.header-title {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 22px;
