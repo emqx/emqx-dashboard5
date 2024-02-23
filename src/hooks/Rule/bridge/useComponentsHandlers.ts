@@ -243,13 +243,9 @@ export default (
 
   const dynamoDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { template, aws_secret_access_key } = components
 
-    if (template?.type === 'string') {
-      template.format = 'sql'
-    }
-    if (aws_secret_access_key?.type === 'string') {
-      aws_secret_access_key.format = 'password'
+    if (components?.parameters?.properties?.template?.type === 'string') {
+      components.parameters.properties.template.format = 'sql'
     }
 
     return { components, rules }
