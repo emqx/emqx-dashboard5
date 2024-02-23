@@ -2896,7 +2896,6 @@ export interface BridgeMongodbCreationOpts {
   query_mode?: BridgeMongodbCreationOptsQueryMode
   request_ttl?: BridgeMongodbCreationOptsRequestTtl
   inflight_window?: number
-  batch_time?: string
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
