@@ -453,7 +453,7 @@
       "label": "Shard Transports"
     },
     "common_handler_time_window": {
-      "desc": "This configuration setting controls the logging behavior for throttled messages, including but not limited to messages like 'authorization_permission_denied'. Within each defined time window, only one instance of a throttled message will be logged to prevent log flooding. At the conclusion of each time window, a summary log will be generated, detailing the occurrence of any throttled messages during that period. It's important to note that the shortest effective time window for this setting is 1 second (1s). Should a value lower than 1s be specified, it will automatically be adjusted to 1s.",
+      "desc": "The time window for log throttling ensures that the same type of event is only logged once within the designated time frame to prevent log overflow. A detailed log encapsulating the activities within that period is generated at the end of the time window. The minimum configurable value for this window is one second; any attempt to set a time less than one second will be automatically adjusted to one second by the system.<br/>The following events are supported:<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
       "label": "Time Window"
     },
     "audit_handler_path": {
