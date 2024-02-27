@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, ref, watch, onMounted, PropType, Ref, computed } from 'vue'
+import { defineProps, ref, watch, onMounted, PropType, Ref } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
@@ -150,7 +150,7 @@ const createTooltip = (xAxis: string, title: string, color: string, val?: number
   return container
 }
 
-const { t, tl } = useI18nTl('Dashboard')
+const { t } = useI18nTl('Dashboard')
 const getInterval = (index: number) => {
   const xData: Array<number> = props.chartData?.[0]?.xData || []
   if (index === 0 && !isUndefined(xData[0]) && !isUndefined(xData[1])) {

@@ -963,9 +963,9 @@ const SchemaForm = defineComponent({
         formEle = renderLayout(getComponents(properties))
         ctx.emit('schema-loaded')
         isSchemaLoading.value = false
-      }
-      if (props.needFooter) {
-        addObserverToFooter()
+        if (props.needFooter) {
+          window.setTimeout(addObserverToFooter, 400)
+        }
       }
       return formEle
     }

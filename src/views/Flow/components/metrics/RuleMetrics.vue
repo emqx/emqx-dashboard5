@@ -13,7 +13,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Refresh } from '@element-plus/icons-vue'
 import {} from 'vue'
 
-const { t, tl } = useI18nTl('RuleEngine')
+const { t } = useI18nTl('RuleEngine')
 
 const handleRefresh = () => {
   // TODO:
