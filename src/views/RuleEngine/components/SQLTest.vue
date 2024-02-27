@@ -224,7 +224,7 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
 
 watch(
   () => props.eventList,
-  (value) => {
+  () => {
     handleDataSourceChanged({ value: dataType.value })
   },
 )
@@ -288,7 +288,7 @@ const setDataType = (type: RuleInputType, firstInput: string) => {
 }
 
 const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList, customPayload: payload } = props
+  const { sql, eventList, ingressBridgeList } = props
   const { fromStr } = getKeywordsFromSQL(sql)
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
