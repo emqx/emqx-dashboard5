@@ -1,8 +1,11 @@
+import { transTimeStrToMS } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { PropType } from '@/types/enum'
 import { Component } from '@/types/schemaForm'
-import { ref, Ref } from 'vue'
+import { isNumber, isString, isUndefined } from 'lodash'
+import { Ref, ref } from 'vue'
 import useFormRules from '../useFormRules'
+import useI18nTl from '../useI18nTl'
 
 export type SchemaRules = FormRules
 
@@ -11,6 +14,8 @@ export default (): {
   setToRules: (component: Component, path?: string) => void
   countRules: (component: Component, rules: FormRules, path?: string) => FormRules
 } => {
+  const { tl } = useI18nTl('Rule')
+
   const rules: Ref<FormRules> = ref({})
 
   const { createRequiredRule, createNumRangeRule } = useFormRules()
@@ -37,15 +42,35 @@ export default (): {
       const { type, minimum, maximum } = propItem
       if (
         (type === 'number' || type === 'integer') &&
-        (minimum !== undefined || maximum !== undefined)
+        ((minimum !== undefined && isNumber(minimum)) ||
+          (maximum !== undefined && isNumber(maximum)))
       ) {
         const currentRule = ruleMap[pathToSet]
-        const ruleArr = createNumRangeRule(minimum, maximum)
+        const ruleArr = createNumRangeRule(minimum as number, maximum as number)
         if (currentRule && Array.isArray(currentRule)) {
           currentRule.push(...ruleArr)
         } else if (!currentRule) {
           ruleMap[pathToSet] = ruleArr
         }
+      } else if (type === 'duration' && (minimum !== undefined || maximum !== undefined)) {
+        ruleMap[pathToSet] = [
+          {
+            validator: (rule, value, callback) => {
+              const msNum = transTimeStrToMS(value)
+              const min = minimum ? transTimeStrToMS(minimum as string) : undefined
+              const max = maximum ? transTimeStrToMS(maximum as string) : undefined
+              if (typeof msNum === 'number') {
+                if (!isUndefined(min) && !isString(min) && msNum < min) {
+                  return callback(new Error(tl('durationMinimumError', { min: minimum as string })))
+                }
+                if (!isUndefined(max) && !isString(max) && msNum > max) {
+                  return callback(new Error(tl('durationMaximumError', { max: maximum as string })))
+                }
+              }
+              callback()
+            },
+          },
+        ]
       }
     })
     return ruleMap

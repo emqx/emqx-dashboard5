@@ -171,6 +171,29 @@ export const transMSNumToString = (num: number): string => {
   return cutNumberDecimal(num / ONE_DAY) + 'd'
 }
 
+export const transTimeStrToMS = (timeStr: string): number | string => {
+  const reg = /^(\d+(\.\d+)?)(ms|s|m|h|d)$/
+  const matchResult = timeStr.trim().match(reg)
+  if (!matchResult) {
+    return timeStr
+  }
+  const [, numStr, , unit] = matchResult
+  const num = parseFloat(numStr)
+  switch (unit) {
+    case 'ms':
+      return num
+    case 's':
+      return num * ONE_SECOND
+    case 'm':
+      return num * ONE_MINUTE
+    case 'h':
+      return num * ONE_HOUR
+    case 'd':
+      return num * ONE_DAY
+  }
+  return timeStr
+}
+
 export const getLabelFromValueInOptionList = <T>(
   targetValue: T,
   optionList: Array<{ value: T; label: string }>,

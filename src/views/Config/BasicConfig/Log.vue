@@ -4,6 +4,7 @@
       <schema-form
         ref="SchemaFormCom"
         :according-to="{ path: '/configs/log' }"
+        need-rules
         type="log"
         :form="configs"
         :btn-loading="saveLoading"

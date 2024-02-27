@@ -15,8 +15,8 @@ export interface Property {
   default: any
   symbols?: Array<string | number | boolean>
   type: string
-  maximum?: number
-  minimum?: number
+  maximum?: number | string
+  minimum?: number | string
   key?: string
   path?: string
   readOnly?: boolean
