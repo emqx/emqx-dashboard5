@@ -261,6 +261,83 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
+
+const defaultUnexposedConfig = {
+  access_rules: ['allow all'],
+  enable_authn: true,
+}
+
+const tcpUnexposedOptions = {
+  backlog: 1024,
+  high_watermark: '1MB',
+  keepalive: 'none',
+}
+
+const sslUnexposedOptions = {
+  client_renegotiation: true,
+  handshake_timeout: '15s',
+  hibernate_after: '5s',
+  honor_cipher_order: true,
+  log_level: 'notice',
+  reuse_sessions: true,
+  secure_renegotiate: true,
+}
+
+const websocketUnexposedOptions = {
+  allow_origin_absence: true,
+  check_origin_enable: false,
+  check_origins: 'http://localhost:18083, http://127.0.0.1:18083',
+  compress: false,
+  deflate_opts: {
+    client_context_takeover: 'takeover',
+    client_max_window_bits: 15,
+    mem_level: 8,
+    server_context_takeover: 'takeover',
+    server_max_window_bits: 15,
+    strategy: 'default',
+  },
+  fail_if_no_subprotocol: true,
+  idle_timeout: '7200s',
+  max_frame_size: 'infinity',
+  mqtt_piggyback: 'multiple',
+  proxy_address_header: 'x-forwarded-for',
+  proxy_port_header: 'x-forwarded-port',
+  supported_subprotocols: 'mqtt, mqtt-v3, mqtt-v3.1.1, mqtt-v5',
+  validate_utf8: true,
+}
+
+export const unexposedConfigs = {
+  tcp: {
+    ...defaultUnexposedConfig,
+    tcp_options: tcpUnexposedOptions,
+  },
+  ssl: {
+    ...defaultUnexposedConfig,
+    tcp_options: {
+      ...tcpUnexposedOptions,
+      nodelay: true,
+      reuseaddr: true,
+      send_timeout: '15s',
+      send_timeout_close: true,
+    },
+    ssl_options: {
+      ...sslUnexposedOptions,
+      gc_after_handshake: false,
+    },
+  },
+  ws: {
+    ...defaultUnexposedConfig,
+    tcp_options: tcpUnexposedOptions,
+    websocket: websocketUnexposedOptions,
+  },
+  wss: {
+    ...defaultUnexposedConfig,
+    tcp_options: tcpUnexposedOptions,
+    ssl_options: sslUnexposedOptions,
+    websocket: websocketUnexposedOptions,
+  },
+}
+
 // suffix for HTTP bridge **name** and rule **id**
 export const WEBHOOK_SUFFIX = '_WH_D'
 
