@@ -59,4 +59,12 @@ export default {
     zh: '发布中不能包含 MQTT 通配符 "#" 和 "+"',
     en: 'Publish cannot contain MQTT wildcards "#" and "+"',
   },
+  durationMinimumError: {
+    zh: '可配置的最小值为 {min}',
+    en: 'Configurable minimum value of {min}',
+  },
+  durationMaximumError: {
+    zh: '可配置的最大值为 {max}',
+    en: 'Configurable maximum value of {max}',
+  },
 }
