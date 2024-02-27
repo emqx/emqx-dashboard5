@@ -1,6 +1,6 @@
 <template>
   <div class="topics">
-    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+    <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
       <el-row :gutter="28">
         <el-col :span="8">
           <el-input
@@ -122,3 +122,12 @@ const createMetricForTopic = (topic: string) => {
 
 loadTopics()
 </script>
+
+<style lang="scss">
+@import '~@/style/management.scss';
+.topics {
+  .search-wrapper {
+    margin-top: -12px;
+  }
+}
+</style>
