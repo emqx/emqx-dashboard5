@@ -352,4 +352,12 @@ export default {
     zh: '速率限制（可选）',
     en: 'Limiter (Optional)',
   },
+  customConfig: {
+    zh: '自定义配置',
+    en: 'Custom Configuration',
+  },
+  customConfigDescription: {
+    zh: '使用键值对配置更多监听器参数。',
+    en: 'Use key-value pairs to configure more listener parameters.',
+  },
 }

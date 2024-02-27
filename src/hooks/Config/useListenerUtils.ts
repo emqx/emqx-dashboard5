@@ -1,4 +1,4 @@
-import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import { SSL_VERIFY_VALUE_MAP, unexposedConfigs } from '@/common/constants'
 import useLimiter from '@/hooks/Config/useLimiter'
 import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -36,6 +36,7 @@ export interface ListenerUtils {
    */
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
   transPort: (port: string) => string
+  extractDifferences: (type: keyof typeof unexposedConfigs, data: any) => Record<string, any>
 }
 
 export default (gatewayName?: string | undefined): ListenerUtils => {
@@ -304,6 +305,42 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
   const transPort = (port: string) =>
     portNeedsToTransReg.test(port) ? port.replace(':', '') : port
 
+  function extractDifferences(type: keyof typeof unexposedConfigs, data: any) {
+    const defaultConfig = unexposedConfigs[type]
+    const diff: Record<string, any> = {}
+
+    function compareAndExtractDiff(defaultObj: any, compareObj: any, path = '') {
+      Object.keys(defaultObj).forEach((key) => {
+        const newPath = path ? `${path}.${key}` : key
+        if (
+          typeof defaultObj[key] === 'object' &&
+          !Array.isArray(defaultObj[key]) &&
+          defaultObj[key] !== null
+        ) {
+          // Object but not Array
+          if (!compareObj[key]) compareObj[key] = {}
+          compareAndExtractDiff(defaultObj[key], compareObj[key], newPath)
+        } else if (Array.isArray(defaultObj[key])) {
+          // Handle Array types
+          if (
+            !Array.isArray(compareObj[key]) ||
+            defaultObj[key].length !== compareObj[key].length ||
+            !defaultObj[key].every((val: any, index: number) => val === compareObj[key][index])
+          ) {
+            diff[newPath] = compareObj[key]
+          }
+        } else {
+          // Handle non-object and non-array types
+          if (defaultObj[key] !== compareObj[key]) {
+            diff[newPath] = compareObj[key]
+          }
+        }
+      })
+    }
+    compareAndExtractDiff(defaultConfig, data)
+    return diff
+  }
+
   return {
     completeGatewayListenerTypeList,
     listenerTypeList,
@@ -327,5 +364,6 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     deNormalizeStructure,
     handleListenerDataWhenItIsIndependent,
     transPort,
+    extractDifferences,
   }
 }
