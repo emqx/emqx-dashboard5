@@ -395,6 +395,7 @@ export const useConnectorSchema = (): {
   const specialTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.MQTT, getRef(BridgeType.MQTT, 'connector_')],
     [BridgeType.KafkaProducer, getRef('kafka')],
+    [BridgeType.KafkaConsumer, getRef(BridgeType.KafkaConsumer, '')],
     [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
     [BridgeType.Confluent, getRef('confluent', '')],
     [BridgeType.PgSQL, getRef('postgres', 'connector_')],
@@ -496,6 +497,7 @@ export const useSourceSchema = (): {
   const specialActionTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.MQTT, getRef('mqtt_publisher')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
+    [BridgeType.KafkaConsumer, getRef(BridgeType.KafkaConsumer, '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

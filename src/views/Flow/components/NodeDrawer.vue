@@ -249,7 +249,6 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
-  [SourceType.Kafka]: { ...bridgeFormProps, labelWidth: '152px', fixedRole: Role.Consumer },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
 }))
 const getFormComponentProps = (type: string) => {

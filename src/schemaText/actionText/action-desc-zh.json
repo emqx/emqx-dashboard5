@@ -148,20 +148,15 @@
   },
   "kafka_consumer": {
     "bootstrap_hosts": "用逗号分隔的 <code>host[:port]</code> 主机列表。默认端口号为 9092。",
-    "consumer_key_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Key。<code>none</code> 使用 Kafka 消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的密钥或值使用 base-64 编码。",
-    "consumer_value_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的 Value 使用 base-64 编码。",
-    "consumer_topic_mapping": "指定 Kafka 主题和 MQTT 主题之间的映射关系。 应至少包含一项。",
-    "consumer_offset_reset_policy": "如不存在偏移量历史记录或历史记录失效，消费者应使用哪个偏移量开始消费。",
-    "consumer_mqtt_topic": "设置 Kafka 消息向哪个本地 MQTT 主题转发消息。",
+    "key_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Key。<code>none</code> 使用 Kafka 消息中的 Key 原始值，不进行编码。  注意：在这种情况下，Key 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的密钥或值使用 base-64 编码。",
+    "value_encoding_mode": "通过 MQTT 转发之前，如何处理 Kafka 消息的 Value。<code>none</code> 使用 Kafka 消息中的 Value 原始值，不进行编码。  注意：在这种情况下，Value 必须是一个有效的 UTF-8 字符串。<br/><code>base64</code> 对收到的 Value 使用 base-64 编码。",
+    "offset_reset_policy": "如不存在偏移量历史记录或历史记录失效，消费者应使用哪个偏移量开始消费。",
     "min_metadata_refresh_interval": "刷新 Kafka broker 和 Kafka 主题元数据段最短时间间隔。设置太小可能会增加 Kafka 压力。",
     "metadata_request_timeout": "刷新元数据时最大等待时长。",
     "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
-    "consumer_max_batch_bytes": "设置每次从 Kafka 拉取数据的字节数。如该配置小于 Kafka 消息的大小，可能会影响消费性能。",
-    "consumer_offset_commit_interval_seconds": "指定 Kafka 消费组偏移量提交的时间间隔。",
-    "topic": "Kafka 主题名称",
-    "mqtt_topic": "指定 MQTT 主题作为桥接的数据源。 若该桥接用于规则的动作，则必须将该配置项删除。",
-    "qos": "转发 MQTT 消息时使用的 QoS。",
-    "payload_template": "用于转换收到的 Kafka 消息的模板。 默认情况下，它将使用 JSON 格式来序列化来自 Kafka 的所有字段。 这些字段包括：<code>headers</code>：一个包含字符串键值对的 JSON 对象。<br/><code>key</code>：Kafka 消息的键（使用选择的编码方式编码）。<br/><code>offset</code>：消息的偏移量。<br/><code>topic</code>：Kafka 主题。<br/><code>ts</code>: 消息的时间戳。<br/><code>ts_type</code>：消息的时间戳类型，值可能是： <code>create</code>， <code>append</code> 或 <code>undefined</code>。<br/><code>value</code>: Kafka 消息值（使用选择的编码方式编码）。"
+    "max_batch_bytes": "设置每次从 Kafka 拉取数据的字节数。如该配置小于 Kafka 消息的大小，可能会影响消费性能。",
+    "offset_commit_interval_seconds": "指定 Kafka 消费组偏移量提交的时间间隔。",
+    "topic": "Kafka 主题名称"
   },
   "mongodb": {
     "collection": "数据将被存储到的集合",

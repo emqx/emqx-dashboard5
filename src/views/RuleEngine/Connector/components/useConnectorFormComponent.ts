@@ -3,7 +3,6 @@ import { BridgeType } from '@/types/enum'
 import type { Component, ComputedRef, Ref } from 'vue'
 import { computed } from 'vue'
 import BridgeInfluxdbConfig from '../../Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgeKafkaConsumerConfig from '../../Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import UsingSchemaBridgeConfig from '../../Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConnectorSchemaForm from './ConnectorSchemaForm.vue'
 
@@ -20,7 +19,6 @@ export default (
    * do not supported connector
    */
   const bridgeComMap: Map<string, Component> = new Map([
-    [BridgeType.KafkaConsumer, BridgeKafkaConsumerConfig as Component],
     [BridgeType.InfluxDB, BridgeInfluxdbConfig],
   ])
   const formCom = computed<Component | null>(() => {

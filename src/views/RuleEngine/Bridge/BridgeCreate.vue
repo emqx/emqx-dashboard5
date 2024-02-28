@@ -41,14 +41,8 @@
           </template>
           <template v-if="step === 1">
             <div v-loading="targetLoading">
-              <bridge-kafka-consumer-config
-                v-if="chosenBridgeType === BridgeType.KafkaConsumer"
-                v-model="bridgeData"
-                ref="formCom"
-                :copy="isCopy"
-              />
               <bridge-influxdb-config
-                v-else-if="chosenBridgeType === BridgeType.InfluxDB"
+                v-if="chosenBridgeType === BridgeType.InfluxDB"
                 v-model="bridgeData"
                 ref="formCom"
                 :copy="isCopy"
@@ -110,12 +104,6 @@
         v-model="bridgeData"
         ref="formCom"
       />
-      <bridge-kafka-consumer-config
-        v-else-if="chosenBridgeType === BridgeType.KafkaConsumer"
-        v-model="bridgeData"
-        ref="formCom"
-        :copy="isCopy"
-      />
       <using-schema-bridge-config
         v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
@@ -142,7 +130,6 @@ import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
