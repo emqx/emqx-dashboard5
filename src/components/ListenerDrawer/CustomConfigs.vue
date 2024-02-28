@@ -97,10 +97,10 @@ function parseValue(value: string): string | number | boolean | string[] {
  */
 function stringToObject(str: string): NestedObject {
   const result: NestedObject = {}
-  const lines = str.split('\n').filter((line) => line.trim() !== '') // 过滤空行
+  const lines = str.split('\n').filter((line) => line.trim() !== '')
   lines.forEach((line) => {
-    const parts = line.split(':').map((part) => part.trim())
-    if (parts.length !== 2) {
+    const parts = line.split(/:(.+)/).map((part) => part.trim())
+    if (parts.length < 2 || !parts[0] || !parts[1]) {
       throw new Error(`Invalid format for line: "${line}". Expected 'key: value'.`)
     }
     const [rawKey, value] = parts
