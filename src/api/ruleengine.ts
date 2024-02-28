@@ -124,7 +124,9 @@ export function deleteRules(id: string): Promise<any> {
 }
 
 export function testsql(body: Record<string, unknown>): Promise<any> {
-  return http.post('/rule_test', body)
+  return http.post('/rule_test', body, {
+    transformResponse: [(data: string) => data],
+  })
 }
 
 export function queryRuleMetrics(ruleId: string): Promise<RuleMetrics> {

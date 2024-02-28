@@ -32,6 +32,7 @@
     "highlight.js": "10.7.3",
     "js-base64": "^3.7.2",
     "js-sql-parser": "^1.4.1",
+    "json-bigint": "^1.0.0",
     "lodash": "^4.17.21",
     "marked": "^4.0.9",
     "moment": "^2.29.1",
@@ -43,7 +44,6 @@
     "vue": "^3.2.16",
     "vue-i18n": "^9.2.0-beta.19",
     "vue-router": "^4.0.0-0",
-    "vue3-json-viewer": "^2.2.2",
     "vuex": "^4.0.0-0",
     "webpack-bundle-analyzer": "^4.8.0",
     "xss": "^1.0.14"

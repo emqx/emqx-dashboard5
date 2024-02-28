@@ -42,21 +42,23 @@
               <InfoTooltip :content="tl('outputResultDesc')" />
             </label>
             <el-card class="test-result">
-              <el-scrollbar max-height="490px">
-                <p class="tip no-data" v-if="!resultData">{{ t('Base.noData') }}</p>
-                <JsonViewer
-                  v-else
-                  :value="resultData"
-                  theme="light"
-                  expanded
-                  :expand-depth="Number.MAX_SAFE_INTEGER"
-                  :copyable="{
-                    copyText: t('Base.copy'),
-                    copiedText: t('Base.copied'),
-                    timeout: 2000,
-                  }"
+              <div class="result-hd">
+                <el-tooltip effect="dark" placement="top" :content="t('Base.copy')">
+                  <el-button type="primary" class="btn-copy" link>
+                    <el-icon class="icon-copy" :size="18" @click="copyText(resultData)">
+                      <copy-document />
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
+              </div>
+              <div class="monaco-container">
+                <Monaco
+                  :id="createRandomString()"
+                  v-model="resultData"
+                  class="payload"
+                  lang="json"
                 />
-              </el-scrollbar>
+              </div>
             </el-card>
           </el-col>
         </el-row>
@@ -91,19 +93,19 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { getKeywordsFromSQL } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
+import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import JSONbig from 'json-bigint'
 import { PropType, Ref, defineEmits, defineProps, ref, watch } from 'vue'
-import { JsonViewer } from 'vue3-json-viewer'
-import 'vue3-json-viewer/dist/index.css'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 
@@ -141,7 +143,7 @@ const props = defineProps({
 })
 
 const testLoading = ref(false)
-const resultData = ref<Record<string, any> | undefined>(undefined)
+const resultData = ref<string>('')
 const emits = defineEmits(['use-sql'])
 
 const showTest = ref(false)
@@ -268,7 +270,7 @@ const submitTest = async () => {
   try {
     const res = await testsql({ context, sql: props.sql })
     if (res) {
-      resultData.value = res
+      resultData.value = JSONbig.stringify(JSONbig.parse(res), null, 2)
       ElMessage.success(tl('testPassed'))
     }
   } catch (e) {
@@ -331,44 +333,15 @@ setDataTypeNContext()
     }
   }
   .test-result {
-    .el-card__body {
-      padding: 0;
+    height: 490px;
+    .monaco-container {
+      height: 412px;
     }
-    .no-data {
-      padding: 28px;
-      text-align: center;
-      opacity: 0.6;
+    .result-hd {
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 0;
     }
-  }
-  .jv-container.jv-light {
-    background-color: var(--color-bg-content);
-  }
-  .jv-container > .jv-tooltip {
-    top: 8px;
-  }
-  .jv-container.jv-light .jv-key,
-  .jv-container.jv-light .jv-item.jv-array,
-  .jv-container.jv-light .jv-item.jv-object {
-    color: var(--color-text-primary);
-  }
-  .jv-node {
-    line-height: 24px;
-  }
-  .jv-node + .jv-item.jv-object,
-  .jv-node + .jv-item.jv-array {
-    margin-left: 16px;
-  }
-  .jv-node .jv-node {
-    margin-left: 29px;
-  }
-  .jv-container .jv-toggle {
-    opacity: 0.6;
-  }
-  .jv-toggle + span {
-    padding-left: 4px;
-  }
-  .jv-container.jv-light .jv-button {
-    color: var(--color-primary);
   }
 }
 </style>
