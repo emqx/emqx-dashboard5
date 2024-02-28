@@ -275,7 +275,7 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.Pulsar, ['pulsar_producer']],
 ])
 
-export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB, BridgeType.KafkaConsumer]
+export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
@@ -287,6 +287,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.MQTT,
   BridgeType.Webhook,
   BridgeType.KafkaProducer,
+  BridgeType.KafkaConsumer,
   BridgeType.AzureEventHubs,
   BridgeType.Confluent,
   BridgeType.PgSQL,

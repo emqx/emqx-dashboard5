@@ -85,6 +85,11 @@ export default (
     'buffer.memory_overload_protection',
   ])
 
+  const kafkaConsumerAdvancedProps = getPathArrInParameters([
+    'max_batch_bytes',
+    'offset_commit_interval_seconds',
+  ])
+
   const HStreamAdvancedProps = getPathArrInParameters([
     'grpc_flush_timeout',
     'aggregation_pool_size',
@@ -194,10 +199,25 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.HStream]: createOrderObj(
-      ['stream', 'partition_key', 'record_template', ...HStreamAdvancedProps],
+      [
+        ...getPathArrInParameters(['stream', 'partition_key', 'record_template']),
+        ...HStreamAdvancedProps,
+      ],
       fieldStartIndex,
     ),
     [BridgeType.KafkaProducer]: kafkaProducerPropsOrderMap,
+    [BridgeType.KafkaConsumer]: createOrderObj(
+      [
+        ...getPathArrInParameters([
+          'topic',
+          'key_encoding_mode',
+          'value_encoding_mode',
+          'offset_reset_policy',
+        ]),
+        ...kafkaConsumerAdvancedProps,
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.AzureEventHubs]: kafkaProducerPropsOrderMap,
     [BridgeType.Confluent]: kafkaProducerPropsOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(
@@ -271,6 +291,7 @@ export default (
     [BridgeType.KafkaProducer]: kafkaProducerAdvancedProps,
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,
+    [BridgeType.KafkaConsumer]: kafkaConsumerAdvancedProps,
     [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
   }

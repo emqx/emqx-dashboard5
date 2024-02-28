@@ -4,7 +4,6 @@ import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.v
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
@@ -51,7 +50,6 @@ export default (): {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
     [SourceType.MQTTBroker]: UsingSchemaBridgeConfig,
-    [SourceType.Kafka]: BridgeKafkaConsumerConfig,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,

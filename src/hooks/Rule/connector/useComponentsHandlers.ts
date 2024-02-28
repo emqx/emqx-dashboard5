@@ -119,7 +119,7 @@ export default (
     return { components: comRet, rules }
   }
 
-  const kafkaProducerHandler: Handler = ({ components, rules }) => {
+  const kafkaHandler: Handler = ({ components, rules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
       components.authentication.oneOf = authList.reverse()
@@ -303,7 +303,8 @@ export default (
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
-    [BridgeType.KafkaProducer, kafkaProducerHandler],
+    [BridgeType.KafkaProducer, kafkaHandler],
+    [BridgeType.KafkaConsumer, kafkaHandler],
     [BridgeType.AzureEventHubs, azureEventHubsHandler],
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.Confluent, confluentHandler],

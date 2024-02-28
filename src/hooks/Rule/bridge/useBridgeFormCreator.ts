@@ -10,8 +10,6 @@ import {
 
 export default (): {
   createRawMQTTForm: (direction?: BridgeDirection) => any
-  createKafkaDefaultValCommonPart: () => any
-  createRawKafkaConsumerForm: () => OtherBridge
   createRawInfluxDBForm: () => OtherBridge
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
@@ -62,36 +60,6 @@ export default (): {
     }
   }
 
-  // Common parts of producers and consumers
-  const createKafkaDefaultValCommonPart = () => ({
-    name: '',
-    resource_opts: { health_check_interval: '15s' },
-  })
-  const createRawKafkaConsumerForm = () => ({
-    type: BridgeType.KafkaConsumer,
-    ...createKafkaDefaultValCommonPart(),
-    bootstrap_hosts: '',
-    connect_timeout: '5s',
-    min_metadata_refresh_interval: '3s',
-    metadata_request_timeout: '5s',
-    authentication: 'none',
-    socket_opts: {
-      sndbuf: '1024KB',
-      recbuf: '1024KB',
-      tcp_keepalive: 'none',
-      nodelay: true,
-    },
-    ssl: createSSLForm(),
-    topic_mapping: [],
-    kafka: {
-      max_batch_bytes: '896KB',
-      offset_reset_policy: 'latest',
-      offset_commit_interval_seconds: '5s',
-    },
-    key_encoding_mode: 'none',
-    value_encoding_mode: 'none',
-  })
-
   const createRawInfluxDBForm = () => ({
     type: BridgeType.InfluxDB,
     name: '',
@@ -110,8 +78,6 @@ export default (): {
 
   return {
     createRawMQTTForm,
-    createKafkaDefaultValCommonPart,
-    createRawKafkaConsumerForm,
     createRawInfluxDBForm,
   }
 }

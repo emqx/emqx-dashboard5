@@ -76,7 +76,7 @@ export default (): {
   isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const { createRawKafkaConsumerForm, createRawInfluxDBForm } = useBridgeFormCreator()
+  const { createRawInfluxDBForm } = useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
    */
@@ -89,7 +89,6 @@ export default (): {
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
-    [SourceType.Kafka]: createRawKafkaConsumerForm,
     [SourceType.GCP]: () => ({ role: Role.Consumer }),
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,

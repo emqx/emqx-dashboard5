@@ -150,20 +150,15 @@
   },
   "kafka_consumer": {
     "bootstrap_hosts": "A comma separated list of Kafka <code>host[:port]</code> endpoints to bootstrap the client. Default port number is 9092.",
-    "consumer_key_encoding_mode": "Defines how the key from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
-    "consumer_value_encoding_mode": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
-    "consumer_topic_mapping": "Defines the mapping between Kafka topics and MQTT topics. Must contain at least one item.",
-    "consumer_offset_reset_policy": "Defines from which offset a consumer should start fetching when there is no commit history or when the commit history becomes invalid.",
-    "consumer_mqtt_topic": "Local topic to which consumed Kafka messages should be published to.",
+    "key_encoding_mode": "Defines how the key from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the key from the Kafka message unchanged.  Note: in this case, the key must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received key.",
+    "value_encoding_mode": "Defines how the value from the Kafka message is encoded before being forwarded via MQTT.<br/><code>none</code> Uses the value from the Kafka message unchanged.  Note: in this case, the value must be a valid UTF-8 string.<br/><code>base64</code> Uses base-64 encoding on the received value.",
+    "offset_reset_policy": "Defines from which offset a consumer should start fetching when there is no commit history or when the commit history becomes invalid.",
     "min_metadata_refresh_interval": "Minimum time interval the client has to wait before refreshing Kafka broker and topic metadata. Setting too small value may add extra load on Kafka.",
     "metadata_request_timeout": "Maximum wait time when fetching metadata from Kafka.",
     "connect_timeout": "Maximum wait time for TCP connection establishment (including authentication time if enabled).",
-    "consumer_max_batch_bytes": "Set how many bytes to pull from Kafka in each fetch request. Please note that if the configured value is smaller than the message size in Kafka, it may negatively impact the fetch performance.",
-    "consumer_offset_commit_interval_seconds": "Defines the time interval between two offset commit requests sent for each consumer group.",
-    "topic": "Kafka topic",
-    "mqtt_topic": "MQTT topic or topic as data source (bridge input).  Should not configure this if the bridge is used as a rule action.",
-    "qos": "MQTT QoS used to publish messages consumed from Kafka.",
-    "payload_template": "The template for transforming the incoming Kafka message.  By default, it will use JSON format to serialize inputs from the Kafka message.  Such fields are:<br/><code>headers</code>: an object containing string key-value pairs.<br/><code>key</code>: Kafka message key (uses the chosen key encoding).<br/><code>offset</code>: offset for the message.<br/><code>topic</code>: Kafka topic.<br/><code>ts</code>: message timestamp.<br/><code>ts_type</code>: message timestamp type, which is one of <code>create</code>, <code>append</code> or <code>undefined</code>.<br/><code>value</code>: Kafka message value (uses the chosen value encoding)."
+    "max_batch_bytes": "Set how many bytes to pull from Kafka in each fetch request. Please note that if the configured value is smaller than the message size in Kafka, it may negatively impact the fetch performance.",
+    "offset_commit_interval_seconds": "Defines the time interval between two offset commit requests sent for each consumer group.",
+    "topic": "Kafka topic"
   },
   "mongodb": {
     "collection": "The collection where data will be stored into",
