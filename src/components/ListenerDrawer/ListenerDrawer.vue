@@ -355,6 +355,13 @@
                 </el-col>
               </template>
             </template>
+            <!-- Custome Configs -->
+            <template v-if="!gatewayName && !isQUIC">
+              <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="24">
+                <custom-configs :type="listenerRecord.type" v-model="listenerCustomConfigs" />
+              </el-col>
+            </template>
           </el-row>
         </div>
       </advanced-setting-container>
@@ -404,6 +411,7 @@ import ArrayEditorInput from '../ArrayEditorInput.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
+import CustomConfigs from './CustomConfigs.vue'
 
 const props = defineProps({
   modelValue: {
@@ -434,6 +442,7 @@ const {
   canBeDeleted,
   isLoading,
   listenerRecord,
+  listenerCustomConfigs,
   formCom,
   listenerTypeOptList,
   defaultListener,

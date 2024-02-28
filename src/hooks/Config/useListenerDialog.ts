@@ -6,10 +6,11 @@ import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { assign, cloneDeep, omit } from 'lodash'
+import { merge, assign, cloneDeep, omit } from 'lodash'
 import { ComputedRef, Ref, WritableComputedRef, computed, nextTick, ref, watch } from 'vue'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
+import { isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'
 
 type Props = Readonly<
   {
@@ -34,6 +35,7 @@ interface UseListenerDialogReturns {
   canBeDeleted: ComputedRef<boolean>
   isLoading: Ref<boolean>
   listenerRecord: Ref<Listener>
+  listenerCustomConfigs: Ref<Listener>
   formCom: Ref<any>
   listenerTypeOptList: ComputedRef<Array<string>>
   defaultListener: Ref<Listener>
@@ -73,6 +75,8 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const listenerRecord: Ref<Listener> = ref({} as Listener)
 
+  const listenerCustomConfigs: Ref<Listener> = ref({} as Listener)
+
   const { t } = useI18nTl('Gateway')
   const {
     completeGatewayListenerTypeList,
@@ -91,6 +95,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     handleListenerDataWhenItIsIndependent,
     getListenerNameNTypeById,
     transPort,
+    extractDifferences,
   } = useListenerUtils(props.gatewayName)
 
   const listenerTypeOptList = computed(() => {
@@ -134,6 +139,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   })
 
   const isLoading = ref(false)
+
   const loadListenerData = async () => {
     if (!props.listener) {
       return
@@ -143,6 +149,14 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       const data = await queryListenerDetail(props.listener.id)
       const { name, type } = getListenerNameNTypeById(data.id)
       listenerRecord.value = { ...data, name, type, bind: transPort(data.bind) }
+      // Extract differences custom configs
+      const differences = extractDifferences(
+        type as 'tcp' | 'ssl' | 'ws' | 'wss',
+        listenerRecord.value,
+      )
+      if (!isEmptyObj(differences)) {
+        listenerCustomConfigs.value = unflattenObject(differences)
+      }
     } catch (error) {
       //
     } finally {
@@ -172,6 +186,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
     if (data.type === ListenerType.WSS || data.type === ListenerType.QUIC) {
       delete data.ssl_options.ocsp
+    }
+    // Handle the custom configs
+    if (!isEmptyObj(listenerCustomConfigs.value)) {
+      merge(data, listenerCustomConfigs.value)
     }
     return data
   }
@@ -284,6 +302,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     isEdit,
     canBeDeleted,
     listenerRecord,
+    listenerCustomConfigs,
     formCom,
     listenerTypeOptList,
     defaultListener,
