@@ -6,7 +6,7 @@
     :modelValue="(inputValue as string)"
     :units="unitList"
     :disabled="disabled"
-    :default-unit="defaultUnit"
+    :default-unit="defaultUnitValue"
     :number-placeholder="numberPlaceholder"
     @update:model-value="handleInputUpdated"
     @change="$emit('change')"
@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
+import { isUndefined } from 'lodash'
 import type { PropType, WritableComputedRef } from 'vue'
 import { computed, defineComponent } from 'vue'
 import CustomInputNumber from './CustomInputNumber.vue'
@@ -81,7 +82,14 @@ export default defineComponent({
       return inputValue.value !== undefined && typeof inputValue.value === 'number'
     })
 
-    return { inputValue, unitList, showNumInput, handleInputUpdated }
+    const defaultUnitValue = computed(() => {
+      if (!isUndefined(props.defaultUnit)) {
+        return props.defaultUnit
+      }
+      return props.enabledUnits.includes('s') ? 's' : props.enabledUnits[0]
+    })
+
+    return { inputValue, unitList, showNumInput, defaultUnitValue, handleInputUpdated }
   },
 })
 </script>
