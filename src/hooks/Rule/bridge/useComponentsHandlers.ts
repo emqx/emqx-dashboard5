@@ -52,23 +52,6 @@ export default (
 
   const getI18nPrefix = (type: string) => `BridgeSchema.${type}.`
 
-  const createJSONRule = (errorMsg: string) => {
-    return {
-      trigger: 'blur',
-      validator: (rule: FormItemRule, value: string, callback: (error?: Error) => void) => {
-        try {
-          const obj = JSON.parse(value)
-          if (typeof obj === 'object') {
-            return callback()
-          }
-        } catch (error) {
-          // no need to do anything here, an error will be thrown below
-        }
-        callback(new Error(errorMsg))
-      },
-    }
-  }
-
   const setLabelAndDesc = (prop: Property, path: string) => {
     if (prop) {
       prop.label = t(`${path}.label`)
@@ -388,6 +371,21 @@ export default (
 
     return { components, rules }
   }
+  const pulsarHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    const { parameters } = components
+
+    const { key, value } = parameters?.properties?.message?.properties || {}
+    if (key?.type === 'string') {
+      key.componentProps = { type: 'textarea', rows: 3 }
+    }
+    if (value?.type === 'string') {
+      value.componentProps = { type: 'textarea', rows: 3 }
+    }
+
+    return { components, rules }
+  }
 
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
@@ -408,6 +406,7 @@ export default (
     [BridgeType.Elasticsearch]: elasticsearchHandler,
     [BridgeType.OpenTSDB]: openTSDBHandler,
     [BridgeType.S3]: S3Handler,
+    [BridgeType.Pulsar]: pulsarHandler,
   }
 
   const getComponentsHandler = () => {

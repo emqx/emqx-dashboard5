@@ -292,6 +292,14 @@ export default (
     return { components, rules }
   }
 
+  const pulsarHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+    const authList = components.authentication?.oneOf
+    if (authList) {
+      components.authentication.oneOf = authList.reverse()
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -306,6 +314,7 @@ export default (
     [BridgeType.InfluxDB, influxDbHandler],
     [BridgeType.AmazonKinesis, amazonKinesisHandler],
     [BridgeType.GreptimeDB, greptimeDBHandler],
+    [BridgeType.Pulsar, pulsarHandler],
   ])
 
   const getComponentsHandler = () => {

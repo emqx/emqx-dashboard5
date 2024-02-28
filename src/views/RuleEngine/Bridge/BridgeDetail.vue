@@ -103,15 +103,6 @@
                 :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
-              <bridge-pulsar-config
-                v-else-if="bridgeType === BridgeType.Pulsar"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                :disabled="disabled"
-                :hide-name="hideName"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
               <using-schema-bridge-config
                 v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
                 edit
@@ -176,7 +167,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { Delete, Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'

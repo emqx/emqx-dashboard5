@@ -68,7 +68,7 @@ export const SinkType = {
   AzureEventHubs: BridgeType.AzureEventHubs,
   AmazonKinesis: BridgeType.AmazonKinesis,
   GreptimeDB: BridgeType.GreptimeDB,
-  Pulsar: getSpecificTypeWithDirection(BridgeType.Pulsar, BridgeDirection.Egress),
+  Pulsar: BridgeType.Pulsar,
   Elasticsearch: BridgeType.Elasticsearch,
   SysKeeperForwarder: BridgeType.SysKeeperForwarder,
   S3: BridgeType.S3,

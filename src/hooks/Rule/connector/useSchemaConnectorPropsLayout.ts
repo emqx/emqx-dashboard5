@@ -248,6 +248,7 @@ export default (
       ['url', 'aws_access_key_id', 'aws_secret_access_key'],
       fieldStartIndex,
     ),
+    [BridgeType.Pulsar]: createOrderObj(['servers', 'authentication', 'ssl'], fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
