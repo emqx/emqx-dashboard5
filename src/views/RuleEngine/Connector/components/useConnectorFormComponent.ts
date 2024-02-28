@@ -4,7 +4,6 @@ import type { Component, ComputedRef, Ref } from 'vue'
 import { computed } from 'vue'
 import BridgeInfluxdbConfig from '../../Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '../../Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
-import BridgePulsarConfig from '../../Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import UsingSchemaBridgeConfig from '../../Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConnectorSchemaForm from './ConnectorSchemaForm.vue'
 
@@ -23,7 +22,6 @@ export default (
   const bridgeComMap: Map<string, Component> = new Map([
     [BridgeType.KafkaConsumer, BridgeKafkaConsumerConfig as Component],
     [BridgeType.InfluxDB, BridgeInfluxdbConfig],
-    [BridgeType.Pulsar, BridgePulsarConfig],
   ])
   const formCom = computed<Component | null>(() => {
     if (!type.value) {

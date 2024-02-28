@@ -410,6 +410,7 @@ export const useConnectorSchema = (): {
     [BridgeType.RabbitMQ, getRef(BridgeType.RabbitMQ, '', 'post')],
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
+    [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '', 'post')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -454,6 +455,7 @@ export const useActionSchema = (): {
     [BridgeType.KafkaProducer, getRef('kafka')],
     [BridgeType.Cassandra, getRef('cassa')],
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
+    [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

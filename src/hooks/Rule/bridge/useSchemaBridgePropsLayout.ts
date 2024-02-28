@@ -94,6 +94,17 @@ export default (
     'batch_interval',
   ])
 
+  const pulsarAdvancedProps = getPathArrInParameters([
+    'send_buffer',
+    'batch_size',
+    'max_batch_bytes',
+    'sync_timeout',
+    'buffer.mode',
+    'buffer.per_partition_limit',
+    'buffer.segment_bytes',
+    'buffer.memory_overload_protection',
+  ])
+
   const kafkaProducerPropsOrderMap = {
     ...createOrderObj(
       getPathArrInParameters([
@@ -170,11 +181,6 @@ export default (
       ['device_id', 'is_aligned', 'data'].map((k) => `parameters.${k}`),
       fieldStartIndex,
     ),
-    [BridgeType.OpenTSDB]: createOrderObj(['server', 'summary', 'details'], fieldStartIndex),
-    [BridgeType.OracleDatabase]: createOrderObj(
-      ['server', 'service_name', 'sid', 'username', 'password', 'sql'],
-      fieldStartIndex,
-    ),
     [BridgeType.RabbitMQ]: createOrderObj(
       getPathArrInParameters([
         /* action */
@@ -222,6 +228,20 @@ export default (
       getPathArrInParameters(['bucket', 'key', 'acl', 'content']),
       fieldStartIndex,
     ),
+    [BridgeType.Pulsar]: createOrderObj(
+      [
+        ...getPathArrInParameters([
+          'pulsar_topic',
+          'strategy',
+          'compression',
+          'retention_period',
+          'message.key',
+          'message.value',
+        ]),
+        ...pulsarAdvancedProps,
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -234,19 +254,7 @@ export default (
 
   const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
   const typeColClassMap: Record<string, Record<string, string>> = {
-    [BridgeType.GCPProducer]: { pubsub_topic: 'col-need-row' },
-    [BridgeType.ClickHouse]: {
-      username: 'dividing-line-below',
-    },
-    [BridgeType.DynamoDB]: {
-      aws_secret_access_key: 'dividing-line-below',
-    },
-    [BridgeType.RocketMQ]: {
-      topic: 'dividing-line-below',
-    },
-    [BridgeType.MicrosoftSQLServer]: {
-      driver: 'dividing-line-below',
-    },
+    [BridgeType.MicrosoftSQLServer]: { driver: 'dividing-line-below' },
     [BridgeType.KafkaProducer]: kafkaProducerColClassMap,
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
@@ -268,6 +276,7 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,
     [BridgeType.HStream]: HStreamAdvancedProps,
+    [BridgeType.Pulsar]: pulsarAdvancedProps,
   }
 
   const advancedFields = computed(() => {

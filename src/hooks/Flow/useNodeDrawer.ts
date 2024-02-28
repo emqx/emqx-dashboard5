@@ -5,7 +5,6 @@ import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
-import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
@@ -59,7 +58,6 @@ export default (): {
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTTBroker]: UsingSchemaBridgeConfig,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
-    [SinkType.Pulsar]: BridgePulsarConfig,
   }
   const getFormComponent = (type: string) => {
     if (!type) {

@@ -272,13 +272,10 @@ export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
   [BridgeType.MongoDB, ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
   [BridgeType.InfluxDB, ['influxdb_api_v1', 'influxdb_api_v2']],
   [BridgeType.AmazonKinesis, ['kinesis_producer']],
+  [BridgeType.Pulsar, ['pulsar_producer']],
 ])
 
-export const BRIDGE_TYPES_NOT_USE_SCHEMA = [
-  BridgeType.InfluxDB,
-  BridgeType.KafkaConsumer,
-  BridgeType.Pulsar,
-]
+export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB, BridgeType.KafkaConsumer]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 
@@ -317,6 +314,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.HStream,
   BridgeType.DynamoDB,
   BridgeType.GCPConsumer,
+  BridgeType.Pulsar,
 ]
 
 export const COPY_SUFFIX = '_duplication'

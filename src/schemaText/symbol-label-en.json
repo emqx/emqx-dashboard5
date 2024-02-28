@@ -16,6 +16,8 @@
   "json": "JSON",
   "authentication_auth_gssapi_kerberos": "Kerberos",
   "authentication_auth_username_password": "Basic auth",
+  "authentication_auth_basic": "Basic auth",
+  "authentication_auth_token": "Token",
   "authentication_none": "None",
   "parameters_connector_single": "single",
   "parameters_connector_rs": "rs",

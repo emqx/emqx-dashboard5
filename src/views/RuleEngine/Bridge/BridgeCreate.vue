@@ -53,12 +53,6 @@
                 ref="formCom"
                 :copy="isCopy"
               />
-              <bridge-pulsar-config
-                v-else-if="chosenBridgeType === BridgeType.Pulsar"
-                v-model="bridgeData"
-                ref="formCom"
-                :copy="isCopy"
-              />
               <using-schema-bridge-config
                 v-else-if="
                   chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)
@@ -122,11 +116,6 @@
         ref="formCom"
         :copy="isCopy"
       />
-      <bridge-pulsar-config
-        v-else-if="chosenBridgeType === BridgeType.Pulsar"
-        v-model="bridgeData"
-        ref="formCom"
-      />
       <using-schema-bridge-config
         v-else-if="chosenBridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType)"
         :type="chosenBridgeType"
@@ -154,7 +143,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeKafkaConsumerConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeKafkaConsumerConfig.vue'
-import BridgePulsarConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgePulsarConfig.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import { Ref, computed, defineExpose, defineProps, ref } from 'vue'
