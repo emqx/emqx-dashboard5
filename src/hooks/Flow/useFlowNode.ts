@@ -19,18 +19,10 @@ export const enum NodeType {
   Sink,
 }
 
-export const SOURCE_SUFFIX = '_source'
-export const SINK_SUFFIX = '_sink'
-
-export const getSpecificTypeWithDirection = (
-  type: BridgeType,
-  direction: BridgeDirection,
-): string => `${type}${direction === BridgeDirection.Ingress ? SOURCE_SUFFIX : SINK_SUFFIX}`
-
 export const SourceType = {
   Message: 'message',
   Event: 'event',
-  MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Ingress),
+  MQTTBroker: BridgeType.MQTT,
 }
 
 export const enum ProcessingType {
@@ -40,7 +32,7 @@ export const enum ProcessingType {
 
 export const SinkType = {
   HTTP: BridgeType.Webhook,
-  MQTTBroker: getSpecificTypeWithDirection(BridgeType.MQTT, BridgeDirection.Egress),
+  MQTTBroker: BridgeType.MQTT,
   Console: 'console',
   RePub: 'republish',
 }
@@ -112,7 +104,6 @@ export default (): {
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   isBridgerNode: (node: Partial<Node>) => boolean
-  removeDirectionFromSpecificType: (type: string) => string
   isBridgeType: (type: string) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
@@ -173,7 +164,7 @@ export default (): {
   const getTypeLabel = (specificType: string): string => {
     let ret: string | undefined = typeLabelMap[specificType]
     if (!ret && isBridgeType(specificType)) {
-      ret = getBridgeLabelByTypeValue(removeDirectionFromSpecificType(specificType) as BridgeType)
+      ret = getBridgeLabelByTypeValue(specificType as BridgeType)
     }
     return ret || specificType
   }
@@ -210,9 +201,6 @@ export default (): {
     )
   }
 
-  const removeDirectionFromSpecificType = (type: string) =>
-    type.replace(new RegExp(`${SOURCE_SUFFIX}|${SINK_SUFFIX}`), '')
-
   const isNotBridgeTypes = [
     SourceType.Event,
     SourceType.Message,
@@ -222,9 +210,8 @@ export default (): {
     SinkType.Console,
   ]
   const isBridgeType = (type: string) => {
-    const typeRemovedDirection = removeDirectionFromSpecificType(type)
-    const isBridge = Object.entries(BridgeType).some(([, value]) => value === typeRemovedDirection)
-    return !isNotBridgeTypes.includes(typeRemovedDirection) && isBridge
+    const isBridge = Object.entries(BridgeType).some(([, value]) => value === type)
+    return !isNotBridgeTypes.includes(type) && isBridge
   }
 
   const getEventLabelFromVal = (val: string) => {
@@ -269,7 +256,7 @@ export default (): {
   }
 
   const adjustTypeForSpecialCases = (type: string): string => {
-    if ([SourceType.MQTTBroker, SinkType.MQTTBroker].includes(type)) {
+    if (([SourceType.MQTTBroker, SinkType.MQTTBroker] as Array<string>).includes(type)) {
       return BridgeType.MQTT
     }
 
@@ -340,11 +327,7 @@ export default (): {
     generateNodeByType(ProcessingType.Filter),
   ]
   const sinkNodeList: Array<NodeItem> = Object.entries(SinkType)
-    .sort(
-      (a, b) =>
-        (sinkOrderIndex[removeDirectionFromSpecificType(a[1])] || 0) -
-        (sinkOrderIndex[removeDirectionFromSpecificType(b[1])] || 0),
-    )
+    .sort((a, b) => (sinkOrderIndex[a[1]] || 0) - (sinkOrderIndex[b[1]] || 0))
     .map(([, value]) => generateNodeByType(value))
 
   return {
@@ -358,7 +341,6 @@ export default (): {
     getTypeCommonData,
     isBridgerNode,
     isBridgeType,
-    removeDirectionFromSpecificType,
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,

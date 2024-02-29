@@ -28,7 +28,6 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
   SourceType,
-  getSpecificTypeWithDirection,
 } from './useFlowNode'
 import {
   createConsoleForm,
@@ -101,21 +100,7 @@ export default (): {
   /**
    * @param bridgeType The bridge type here is a specific type, for example, if it is influxdb, which version is it?
    */
-  const getSpecificTypeForBridge = (bridgeType: string, nodeType?: NodeType) => {
-    if (isTwoDirectionBridge(bridgeType)) {
-      const direction =
-        nodeType === NodeType.Sink ? BridgeDirection.Egress : BridgeDirection.Ingress
-      return getSpecificTypeWithDirection(bridgeType as BridgeType, direction)
-    }
-
-    const direction = typeSpecifiesTheDirection(bridgeType)
-    if (direction !== undefined) {
-      const generalType = getBridgeGeneralType(bridgeType)
-      return getSpecificTypeWithDirection(generalType, direction)
-    }
-
-    return getBridgeGeneralType(bridgeType)
-  }
+  const getSpecificTypeForBridge = (bridgeType: string) => getBridgeGeneralType(bridgeType)
 
   /* FIELDS */
   const countArgsWhenLengthNotMatch = (
@@ -267,7 +252,7 @@ export default (): {
       const type = detectInputType(fromItem)
       let specificType = type
       if (type !== SourceType.Event && type !== SourceType.Message) {
-        specificType = getSpecificTypeForBridge(specificType, NodeType.Source)
+        specificType = getSpecificTypeForBridge(specificType)
       }
       const formData = getFormDataByType(type, fromItem)
       const id =
@@ -344,7 +329,7 @@ export default (): {
 
       let specificType = type
       if (type !== SinkType.Console && type !== SinkType.RePub) {
-        specificType = getSpecificTypeForBridge(specificType, NodeType.Sink)
+        specificType = getSpecificTypeForBridge(specificType)
       }
 
       let id = ''
