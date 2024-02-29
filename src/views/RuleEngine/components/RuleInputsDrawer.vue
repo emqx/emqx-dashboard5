@@ -169,9 +169,9 @@ watch(showDrawer, (val) => {
   }
 })
 
-const { sourceNodeList, removeDirectionFromSpecificType, getNodeIcon } = useFlowNode()
+const { sourceNodeList, getNodeIcon } = useFlowNode()
 const inputTypeOpts = sourceNodeList.map(({ name, specificType }) => ({
-  value: removeDirectionFromSpecificType(specificType),
+  value: specificType,
   label: name,
   icon: getNodeIcon(specificType),
 }))

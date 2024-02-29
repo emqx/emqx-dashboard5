@@ -21,7 +21,7 @@ export default (): {
   const { t, tl } = useI18nTl('RuleEngine')
 
   const { isUsingSchemaBridgeType } = useNodeForm()
-  const { isBridgeType, removeDirectionFromSpecificType } = useFlowNode()
+  const { isBridgeType } = useFlowNode()
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const drawerTitleMap: Record<string, string> = {
@@ -34,7 +34,7 @@ export default (): {
   }
   const getDrawerTitle = (type: string) => {
     if (isBridgeType(type)) {
-      return getBridgeLabelByTypeValue(removeDirectionFromSpecificType(type) as BridgeType) || ''
+      return getBridgeLabelByTypeValue(type as BridgeType) || ''
     }
     return drawerTitleMap[type]
   }

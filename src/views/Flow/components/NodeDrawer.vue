@@ -191,7 +191,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { removeDirectionFromSpecificType, isBridgeType } = useFlowNode()
+const { isBridgeType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
@@ -241,7 +241,7 @@ const getSchemaBridgeProps = (type: string) => ({
   isUsingInFlow: true,
   labelWidth: '180px',
   hiddenFields: ['role'],
-  type: removeDirectionFromSpecificType(type),
+  type: type,
 })
 
 const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
@@ -260,7 +260,7 @@ const getFormComponentProps = (type: string) => {
 
 /* For Reuse Action */
 const selectedAction = ref('')
-const actionType = computed(() => removeDirectionFromSpecificType(type.value))
+const actionType = computed(() => type.value)
 const actionDirection = computed(() =>
   props.node?.type === FlowNodeType.Input ? BridgeDirection.Ingress : BridgeDirection.Egress,
 )
