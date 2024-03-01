@@ -43,3 +43,11 @@ export function subscribe(
   const topicData = pick(topic, ['qos', 'topic', 'nl', 'rap', 'rh'])
   return http.post(`/clients/${encodeURIComponent(clientId)}/subscribe`, topicData)
 }
+
+export function loadMsgQueue(clientId: string, query: { page: number; limit: number }) {
+  return http.get(`/clients/${encodeURIComponent(clientId)}/mqueue_messages`, { params: query })
+}
+
+export function loadInflightMsgs(clientId: string, query: { page: number; limit: number }) {
+  return http.get(`/clients/${encodeURIComponent(clientId)}/inflight_messages`, { params: query })
+}
