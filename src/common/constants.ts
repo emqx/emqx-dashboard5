@@ -315,6 +315,7 @@ export const SUPPORTED_CONNECTOR_TYPES = [
   BridgeType.DynamoDB,
   BridgeType.GCPConsumer,
   BridgeType.Pulsar,
+  BridgeType.MicrosoftSQLServer,
 ]
 
 export const COPY_SUFFIX = '_duplication'

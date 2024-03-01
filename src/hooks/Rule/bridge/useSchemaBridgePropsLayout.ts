@@ -173,10 +173,6 @@ export default (
       ]),
       fieldStartIndex,
     ),
-    [BridgeType.MicrosoftSQLServer]: createOrderObj(
-      ['server', 'database', 'username', 'password', 'driver', 'sql'],
-      fieldStartIndex,
-    ),
     [BridgeType.IoTDB]: createOrderObj(
       ['device_id', 'is_aligned', 'data'].map((k) => `parameters.${k}`),
       fieldStartIndex,

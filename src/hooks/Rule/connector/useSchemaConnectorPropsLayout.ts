@@ -249,6 +249,10 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Pulsar]: createOrderObj(['servers', 'authentication', 'ssl'], fieldStartIndex),
+    [BridgeType.MicrosoftSQLServer]: createOrderObj(
+      ['server', 'database', 'username', 'password', 'driver'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
