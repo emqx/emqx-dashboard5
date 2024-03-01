@@ -23,6 +23,7 @@
       <el-header :style="{ left: elMainStyle, height: 'auto' }">
         <nav-header
           :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
+          @open-quick-panel="openQuickPanel"
         />
       </el-header>
       <el-main :style="{ marginLeft: elMainStyle }">
@@ -160,14 +161,16 @@ export default defineComponent({
 
     const showQuickPanel = ref(false)
 
-    const openQuickPanel = (e: KeyboardEvent) => {
+    const openQuickPanel = () => (showQuickPanel.value = true)
+
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault()
-        showQuickPanel.value = true
+        openQuickPanel()
       }
     }
-    const bindKeyupListener = () => document.addEventListener('keydown', openQuickPanel)
-    const unbindKeyupListener = () => document.removeEventListener('keydown', openQuickPanel)
+    const bindKeyupListener = () => document.addEventListener('keydown', handleKeyDown)
+    const unbindKeyupListener = () => document.removeEventListener('keydown', handleKeyDown)
 
     onUnmounted(unbindKeyupListener)
 
