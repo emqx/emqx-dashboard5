@@ -1200,10 +1200,10 @@
   resolved "https://registry.yarnpkg.com/@element-plus/icons-vue/-/icons-vue-2.0.9.tgz#b7777c57534522e387303d194451d50ff549d49a"
   integrity sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==
 
-"@emqx/shared-ui-i18n@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.12.tgz#916d151cbb7e7a1a0b11cb30f51dff80ba6388f4"
-  integrity sha512-CX/3Ww0fI99LIYTdiHjG8XWFffnhyNcl6Lk8HCl0QBwWAf2nM/uYvQGKbk+OFbPPIkstQj2HHswDTntbLA31LQ==
+"@emqx/shared-ui-i18n@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.13.tgz#742fb5baeabd2aff356d108b78ea734ef6886f0a"
+  integrity sha512-lwbWKE2x2MgFLbxQgWeFRd+yK9enGSLPjVdytUPU/Wlpt0szFP4zyzTgZPQ6QyvhZ5hIbtu05fYvobNv8ANZTg==
 
 "@emqx/shared-ui-utils@^0.0.11":
   version "0.0.11"
