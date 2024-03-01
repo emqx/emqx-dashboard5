@@ -611,4 +611,8 @@ export default {
     zh: '节点',
     en: 'Node',
   },
+  quickFind: {
+    zh: '快速查找',
+    en: 'Quick Find',
+  },
 }
