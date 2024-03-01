@@ -659,6 +659,10 @@ export default {
     zh: '节点',
     en: 'Node',
   },
+  quickFind: {
+    zh: '快速查找',
+    en: 'Quick Find',
+  },
   maxBatchCsvSize: {
     zh: '文件大小不能超过 {size}MB',
     en: 'File size cannot exceed {size}MB',

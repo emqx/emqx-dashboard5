@@ -2,10 +2,20 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
+      <div class="quick-panel-enter" @click="openQuickPanel">
+        <div class="enter-hd">
+          <el-icon :size="16"><Search /></el-icon>
+          <span>{{ t('Base.quickFind') }}</span>
+        </div>
+        <div class="enter-ft">
+          <span class="icon-key is-cmd" v-if="isMac">⌘</span>
+          <span class="icon-key" v-else>Ctrl</span>
+          <span class="icon-key">K</span>
+        </div>
+      </div>
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
       </el-button>
-
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="func-item">
           <el-badge :is-dot="!!alertCount">
@@ -67,7 +77,7 @@
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
 import { useStore } from 'vuex'
-import { Right, Bell, Setting } from '@element-plus/icons-vue'
+import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -85,6 +95,7 @@ export default defineComponent({
     Setting,
     Settings,
     Help,
+    Search,
   },
   props: {
     title: {
@@ -92,7 +103,7 @@ export default defineComponent({
       default: '',
     },
   },
-  setup() {
+  setup(props, ctx) {
     const showSettings = ref(false)
     const showHelp = ref(false)
     const store = useStore()
@@ -178,6 +189,11 @@ export default defineComponent({
     const handleShowHelp = () => {
       showHelp.value = true
     }
+
+    const isMac = computed(() => /Mac/.test(navigator.userAgent))
+    const openQuickPanel = () => {
+      ctx.emit('open-quick-panel')
+    }
     loadData()
     onMounted(() => {
       document.addEventListener('visibilitychange', visibilityChangeFunc)
@@ -186,6 +202,7 @@ export default defineComponent({
       document.removeEventListener('visibilitychange', visibilityChangeFunc)
     })
     return {
+      t,
       IS_ENTERPRISE,
       showSettings,
       showHelp,
@@ -201,6 +218,8 @@ export default defineComponent({
       visibilityChangeFunc,
       handleShowSettings,
       handleShowHelp,
+      isMac,
+      openQuickPanel,
     }
   },
 })
@@ -244,6 +263,52 @@ export default defineComponent({
   justify-content: flex-end;
   flex-grow: 1;
   align-items: center;
+}
+
+.quick-panel-enter {
+  display: flex;
+  height: 32px;
+  width: 360px;
+  padding: 4px 16px;
+  margin-right: 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #27353e;
+  color: #a7abb1;
+  cursor: pointer;
+  font-family: 'PingFang SC';
+  &:hover {
+    border-color: var(--color-primary);
+  }
+  .enter-hd,
+  .enter-ft {
+    display: flex;
+    align-items: center;
+  }
+  .enter-hd {
+    font-size: 14px;
+    .el-icon {
+      margin-right: 10px;
+      color: #fff;
+    }
+  }
+  .icon-key {
+    height: 20px;
+    min-width: 20px;
+    padding: 4px;
+    margin-left: 4px;
+    text-align: center;
+    line-height: 1;
+    font-size: 11px;
+    color: #fff;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    &.is-cmd {
+      font-size: 12px;
+    }
+  }
 }
 
 .func-item {
