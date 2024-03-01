@@ -439,4 +439,16 @@ export default {
     zh: '永不过期',
     en: 'Never Expire',
   },
+  viewMsg: {
+    zh: '查看消息',
+    en: 'View Message',
+  },
+  msgId: {
+    zh: '消息 ID',
+    en: 'Message ID',
+  },
+  inflightMsgList: {
+    zh: '飞行窗口消息列表',
+    en: 'Inflight Messages',
+  },
 }
