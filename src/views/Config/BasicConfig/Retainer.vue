@@ -258,17 +258,5 @@ const { addObserverToFooter } = useConfFooterStyle()
       }
     }
   }
-  .payload-copied {
-    padding-right: 10px;
-  }
-  .payload-dialog {
-    .payload-dialog-ft {
-      display: flex;
-      justify-content: space-between;
-      .el-select {
-        width: 200px;
-      }
-    }
-  }
 }
 </style>
