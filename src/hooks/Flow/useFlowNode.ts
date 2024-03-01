@@ -25,6 +25,11 @@ export const SourceType = {
   MQTTBroker: BridgeType.MQTT,
 }
 
+/**
+ * Cannot be added, only for show webhook
+ */
+export const SourceTypeAllMsgsAndEvents = 'all-msgs-and-events'
+
 export const enum ProcessingType {
   Filter = 'filter',
   Function = 'function',
@@ -189,15 +194,18 @@ export default (): {
   }
   initEventList()
 
+  const isNotBridgeSourceNodeTypes = [
+    SourceType.Message,
+    SourceType.Event,
+    SourceTypeAllMsgsAndEvents,
+  ]
+  const isNotBridgeSinkNodeTypes = [SinkType.Console, SinkType.RePub]
   const isBridgerNode = ({ type, data }: Partial<Node>): boolean => {
     const { specificType } = data || {}
     return (
       (type === FlowNodeType.Input &&
-        specificType !== SourceType.Message &&
-        specificType !== SourceType.Event) ||
-      (type === FlowNodeType.Output &&
-        specificType !== SinkType.Console &&
-        specificType !== SinkType.RePub)
+        !isNotBridgeSourceNodeTypes.includes(specificType as string)) ||
+      (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
   }
 

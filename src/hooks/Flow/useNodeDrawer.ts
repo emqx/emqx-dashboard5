@@ -3,13 +3,19 @@ import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
+import AllMsgsAndEventsForm from '@/views/Flow/components/form/source/AllMsgsAndEventsForm.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
 import { Component } from 'vue'
 import useBridgeTypeValue from '../Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '../useI18nTl'
-import useFlowNode, { ProcessingType, SinkType, SourceType } from './useFlowNode'
+import useFlowNode, {
+  ProcessingType,
+  SinkType,
+  SourceType,
+  SourceTypeAllMsgsAndEvents,
+} from './useFlowNode'
 import useNodeForm from './useNodeForm'
 
 export default (): {
@@ -27,6 +33,7 @@ export default (): {
   const drawerTitleMap: Record<string, string> = {
     [SourceType.Message]: tl('message'),
     [SourceType.Event]: tl('event'),
+    [SourceTypeAllMsgsAndEvents]: tl('allMsgsAndEvents'),
     [ProcessingType.Function]: tl('dataProcessing'),
     [ProcessingType.Filter]: t('Flow.filter'),
     [SinkType.RePub]: tl('republish'),
@@ -49,6 +56,7 @@ export default (): {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
     [SourceType.MQTTBroker]: UsingSchemaBridgeConfig,
+    [SourceTypeAllMsgsAndEvents]: AllMsgsAndEventsForm,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,
