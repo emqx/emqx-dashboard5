@@ -109,6 +109,16 @@
               >
                 <div>
                   <span>{{ getSessionInfoItem(item) }}</span>
+                  <el-button
+                    v-if="withMsgList(item)"
+                    class="btn-view-msg"
+                    type="primary"
+                    plain
+                    size="small"
+                    @click="viewMsgList(item as 'mqueue' | 'inflight')"
+                  >
+                    {{ tl('viewMsg') }}
+                  </el-button>
                 </div>
               </el-descriptions-item>
             </el-descriptions>
@@ -206,6 +216,7 @@
       <span>{{ tl('clientDoesNotExist') }}</span>
     </div>
   </div>
+  <MessageListDialog v-model="showMsgListDialog" :client-id="clientId" :type="msgListType" />
 </template>
 
 <script lang="ts">
@@ -243,6 +254,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
+import MessageListDialog from './components/MessageListDialog.vue'
 
 const props = defineProps({
   gateway: {
@@ -346,12 +358,16 @@ const mqttVersion: Record<number, string> = {
   5: 'v5.0',
 }
 const subscriptions = ref<Subscription[]>([])
+
 const route = useRoute()
 const router = useRouter()
 const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
 const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const { getBackRoute } = useReceiveParams('clients')
+
+const showMsgListDialog = ref(false)
+const msgListType = ref<'mqueue' | 'inflight'>('mqueue')
 
 const isFromSlowSub = computed(() => {
   return route.query.from === 'slow-sub'
@@ -576,6 +592,12 @@ const handleUnsubscriptionGateway = async (clientid: Subscription['clientid'], t
   }
 }
 
+const withMsgList = (item: string) => ['mqueue', 'inflight'].includes(item)
+const viewMsgList = (type: 'mqueue' | 'inflight') => {
+  msgListType.value = type
+  showMsgListDialog.value = true
+}
+
 loadData()
 loadSubs()
 </script>
@@ -666,7 +688,8 @@ loadSubs()
     position: absolute;
     right: 25px;
   }
-  .btn-copy {
+  .btn-copy,
+  .btn-view-msg {
     margin-left: 16px;
   }
 }

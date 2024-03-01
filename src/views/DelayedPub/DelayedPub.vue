@@ -40,69 +40,38 @@
       <common-pagination @loadPage="loadDelayedList" v-model:metaData="pageMeta" />
     </div>
   </div>
-  <el-dialog class="payload-dialog" v-model="payloadDialog" :title="'Payload'">
-    <el-row v-loading="payloadLoading">
-      <el-input
-        type="textarea"
-        :rows="10"
-        resize="none"
-        placeholder="Payload"
-        v-model="payloadForShow"
-        readonly
-      />
-    </el-row>
-    <template #footer>
-      <div class="payload-dialog-ft" v-if="!(payloadDetail === null)">
-        <el-select v-model="payloadShowBy">
-          <el-option v-for="item in payloadShowByOptions" :key="item" :label="item" :value="item" />
-        </el-select>
-        <div>
-          <span v-if="isCopyShow" class="payload-copied">{{ $t('Base.copied') }}</span>
-
-          <el-button @click="copyText(payloadForShow)">
-            {{ $t('Base.copy') }}
-          </el-button>
-        </div>
-      </div>
-    </template>
-  </el-dialog>
+  <PayloadDialog
+    v-model="payloadDialog"
+    :raw-payload="payloadDetail"
+    :is-loading="payloadLoading"
+    :topic="currentTopic"
+  />
 </template>
 
 <script lang="ts" setup>
 import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
 import { dateFormat } from '@/common/tools'
+import PayloadDialog from '@/components/PayloadDialog.vue'
 import CommonPagination from '@/components/commonPagination.vue'
-import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { DelayedMessage } from '@/types/extension'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
-import { onMounted, onUnmounted, ref, Ref } from 'vue'
+import { Ref, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const { tl, t } = useI18nTl('Extension')
 const router = useRouter()
 let copyShowTimeout: Ref<undefined | number> = ref(undefined)
-const copySuccess = () => {
-  isCopyShow.value = true
-  window.clearTimeout(copyShowTimeout.value)
-  copyShowTimeout.value = window.setTimeout(() => {
-    isCopyShow.value = false
-  }, 2000)
-}
-const { copyText } = useCopy(copySuccess)
 
 let delayedTbData: Ref<Array<DelayedMessage>> = ref([])
 let tbLoading = ref(false)
 let payloadDialog = ref(false)
 let payloadLoading = ref(false)
 let payloadDetail = ref('')
-let isCopyShow = ref(false)
+const currentTopic = ref('')
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-
-const { payloadForShow, payloadShowBy, payloadShowByOptions, setRawText } = useShowTextByDifferent()
 
 const goSetting = () => {
   router.push({ name: 'delayed-pub-configuration' })
@@ -146,12 +115,12 @@ const checkPayload = async function (row: DelayedMessage) {
   payloadDialog.value = true
   payloadLoading.value = true
   payloadDetail.value = ''
-  const { msgid, node } = row
+  const { msgid, node, topic } = row
   try {
     let res = await getDelayedInfo(node, msgid)
     if (res) {
+      currentTopic.value = topic
       payloadDetail.value = res?.payload
-      setRawText(payloadDetail.value)
     }
   } catch (error) {
     console.error(error)
@@ -168,18 +137,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.payload-copied {
-  padding-right: 10px;
-}
-.payload-dialog {
-  .payload-dialog-ft {
-    display: flex;
-    justify-content: space-between;
-    .el-select {
-      width: 200px;
-    }
-  }
-}
 .delayed-table {
   :deep(.el-table__cell > .cell) {
     padding: 0 12px;

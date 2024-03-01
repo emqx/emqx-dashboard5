@@ -51,3 +51,16 @@ export interface Client {
   zone: string
   [key: string]: any
 }
+
+/**
+ * message queue / inflight
+ */
+export interface MessageItem {
+  from_clientid: string
+  from_username: string
+  msgid: string
+  payload: string
+  publish_at: string
+  qos: number
+  topic: string
+}
