@@ -106,7 +106,13 @@ let nowSQL = ref('')
 
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
-const { TOPIC_EVENT, transFromStrToFromArr, transSQLFormDataToSQL, isMsgPubEvent } = useRuleUtils()
+const {
+  TOPIC_EVENT,
+  allMsgsAndEvents,
+  transFromStrToFromArr,
+  transSQLFormDataToSQL,
+  isMsgPubEvent,
+} = useRuleUtils()
 
 const ruleInputEventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
 const ruleInputBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
@@ -131,15 +137,6 @@ const updateSQL = (sql: string) => {
     emit('update:modelValue', sql)
   }
 }
-
-const allMsgsAndEvents = computed(() => {
-  return ruleEvents.value.reduce((arr: Array<string>, { event }) => {
-    if (isMsgPubEvent(event)) {
-      return [...arr, MULTI_LEVEL_WILDCARD]
-    }
-    return [...arr, event]
-  }, [])
-})
 
 const SQLKeywords = computed(() => getKeyPartsFromSQL(props.modelValue))
 const fromDataArr = computed(() => {

@@ -96,6 +96,7 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
   SourceType,
+  SourceTypeAllMsgsAndEvents,
 } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
@@ -194,7 +195,7 @@ const existedTopics = computed(() => {
 const { isBridgeType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
-  [FlowNodeType.Input]: [SourceType.Event, SourceType.Message],
+  [FlowNodeType.Input]: [SourceType.Event, SourceType.Message, SourceTypeAllMsgsAndEvents],
   [FlowNodeType.Default]: [ProcessingType.Filter, ProcessingType.Function],
   [FlowNodeType.Output]: [SinkType.Console, SinkType.RePub],
 }

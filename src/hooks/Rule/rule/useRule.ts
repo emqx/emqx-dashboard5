@@ -1,11 +1,20 @@
-import { RULE_FROM_SEPARATOR, TOPIC_EVENT } from '@/common/constants'
-import { BridgeType, RuleInputType, RuleSQLKeyword, EventForRule } from '@/types/enum'
-import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import {
+  MULTI_LEVEL_WILDCARD,
+  RULE_FROM_SEPARATOR,
+  RULE_INPUT_BRIDGE_TYPE_PREFIX,
+  TOPIC_EVENT,
+} from '@/common/constants'
 import { addNewlineAfterComma, splitOnComma } from '@/common/tools'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { BridgeType, EventForRule, RuleInputType, RuleSQLKeyword } from '@/types/enum'
+import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
+import { ComputedRef, computed, ref } from 'vue'
+import useRuleEvents from './useRuleEvents'
+import { escapeRegExp } from 'lodash'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
+  allMsgsAndEvents: ComputedRef<string[]>
   findInputTypeNTarget: (
     inputItem: string,
     eventList: Array<RuleEvent>,
@@ -32,6 +41,22 @@ export const useRuleUtils = (): {
 } => {
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
+
+  const { getEventList } = useRuleEvents()
+  const ruleEvents = ref<Array<RuleEvent>>([])
+  ;(async () => {
+    const list = await getEventList()
+    const bridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+    ruleEvents.value = list.filter(({ event }) => !bridgeReg.test(event))
+  })()
+  const allMsgsAndEvents = computed(() => {
+    return ruleEvents.value.reduce((arr: Array<string>, { event }) => {
+      if (isMsgPubEvent(event)) {
+        return [...arr, MULTI_LEVEL_WILDCARD]
+      }
+      return [...arr, event]
+    }, [])
+  })
 
   const isMsgPubEvent = (event: string) => event === EventForRule.MessagePublish
   const getEventForShow = (event: string) => (isMsgPubEvent(event) ? '${topic}' : event)
@@ -174,6 +199,7 @@ export const useRuleUtils = (): {
 
   return {
     TOPIC_EVENT,
+    allMsgsAndEvents,
     findInputTypeNTarget,
     getTestColumns,
     transFromStrToFromArr,
