@@ -84,6 +84,7 @@ export type PostSourcesProbe400 = {
 export type PostSourcesProbeBody =
   | BridgeRabbitmqPostSource
   | BridgeMqttPublisherPostSource
+  | KafkaConsumerPostSource
   | GcpPubsubConsumerPostSource
 
 export type PutSourcesIdEnableEnable503Code =
@@ -152,11 +153,13 @@ export type PutSourcesId400 = {
 export type PutSourcesId200 =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
 
 export type PutSourcesIdBody =
   | BridgeRabbitmqPutSource
   | BridgeMqttPublisherPutSource
+  | KafkaConsumerPutSource
   | GcpPubsubConsumerPutSource
 
 export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
@@ -174,6 +177,7 @@ export type GetSourcesId404 = {
 export type GetSourcesId200 =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
 
 export type DeleteSourcesId503Code =
@@ -235,16 +239,19 @@ export type PostSources400 = {
 export type PostSources201 =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
 
 export type PostSourcesBody =
   | BridgeRabbitmqPostSource
   | BridgeMqttPublisherPostSource
+  | KafkaConsumerPostSource
   | GcpPubsubConsumerPostSource
 
 export type GetSources200Item =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
 
 export type PostNodesNodeSourcesIdOperation503Code =
@@ -297,6 +304,103 @@ export const PostNodesNodeSourcesIdOperation400Code = {
 export type PostNodesNodeSourcesIdOperation400 = {
   code?: PostNodesNodeSourcesIdOperation400Code
   message?: string
+}
+
+export type KafkaConsumerSourceParametersValueEncodingMode =
+  typeof KafkaConsumerSourceParametersValueEncodingMode[keyof typeof KafkaConsumerSourceParametersValueEncodingMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerSourceParametersValueEncodingMode = {
+  none: 'none',
+  base64: 'base64',
+} as const
+
+export type KafkaConsumerSourceParametersKeyEncodingMode =
+  typeof KafkaConsumerSourceParametersKeyEncodingMode[keyof typeof KafkaConsumerSourceParametersKeyEncodingMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerSourceParametersKeyEncodingMode = {
+  none: 'none',
+  base64: 'base64',
+} as const
+
+export type KafkaConsumerSourceParametersOffsetResetPolicy =
+  typeof KafkaConsumerSourceParametersOffsetResetPolicy[keyof typeof KafkaConsumerSourceParametersOffsetResetPolicy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerSourceParametersOffsetResetPolicy = {
+  latest: 'latest',
+  earliest: 'earliest',
+} as const
+
+export interface KafkaConsumerSourceParameters {
+  topic: string
+  max_batch_bytes?: string
+  offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
+  offset_commit_interval_seconds?: string
+  key_encoding_mode?: KafkaConsumerSourceParametersKeyEncodingMode
+  value_encoding_mode?: KafkaConsumerSourceParametersValueEncodingMode
+}
+
+export interface KafkaConsumerPutSource {
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: KafkaConsumerSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+}
+
+export type KafkaConsumerPostSourceType =
+  typeof KafkaConsumerPostSourceType[keyof typeof KafkaConsumerPostSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerPostSourceType = {
+  kafka_consumer: 'kafka_consumer',
+} as const
+
+export interface KafkaConsumerPostSource {
+  type: KafkaConsumerPostSourceType
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: KafkaConsumerSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+}
+
+export type KafkaConsumerGetSourceStatus =
+  typeof KafkaConsumerGetSourceStatus[keyof typeof KafkaConsumerGetSourceStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerGetSourceStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type KafkaConsumerGetSourceType =
+  typeof KafkaConsumerGetSourceType[keyof typeof KafkaConsumerGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerGetSourceType = {
+  kafka_consumer: 'kafka_consumer',
+} as const
+
+export interface KafkaConsumerGetSource {
+  type: KafkaConsumerGetSourceType
+  name: string
+  status?: KafkaConsumerGetSourceStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: KafkaConsumerSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
 export type GcpPubsubConsumerSourceResourceOptsRequestTtl = 'infinity' | string
