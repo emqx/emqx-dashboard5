@@ -11,6 +11,7 @@ export default (): {
   const schemaTypeOpts: Array<{ label: string; value: SchemaRegistryType }> = [
     { label: 'Avro', value: SchemaRegistryType.Avro },
     { label: 'Protobuf', value: SchemaRegistryType.Protobuf },
+    { label: 'JSON', value: SchemaRegistryType.JSON },
   ]
 
   const getLabelByValue = (value: SchemaRegistryType) =>

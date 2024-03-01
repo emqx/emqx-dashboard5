@@ -164,6 +164,7 @@ export enum RuleInputType {
 export enum SchemaRegistryType {
   Avro = 'avro',
   Protobuf = 'protobuf',
+  JSON = 'json',
 }
 
 export enum NodeStatusClass {
