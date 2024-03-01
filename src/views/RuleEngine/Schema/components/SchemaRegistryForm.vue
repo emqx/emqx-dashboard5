@@ -40,7 +40,8 @@
             <Monaco
               v-model="schemaForm.source"
               :id="createRandomString()"
-              lang="plaintext"
+              :lang="selectedJSON ? 'json' : 'plaintext'"
+              :jsonWithoutValidate="selectedJSON"
               @blur="onBlurChanged"
             />
           </div>
@@ -57,6 +58,7 @@ import Monaco from '@/components/Monaco.vue'
 import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import {
   PropType,
@@ -112,6 +114,10 @@ const onBlurChanged = () => {
     FormCom.value.clearValidate('source')
   }
 }
+
+const selectedJSON = computed(() => {
+  return schemaForm.value.type === SchemaRegistryType.JSON
+})
 
 defineExpose({ validate })
 </script>
