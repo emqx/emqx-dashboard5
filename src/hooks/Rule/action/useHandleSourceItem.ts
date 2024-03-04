@@ -1,16 +1,4 @@
 import {
-  createBridge,
-  deleteBridge,
-  getBridgeInfo,
-  queryBridgeMetrics,
-  reconnectBridge,
-  reconnectBridgeForNode,
-  resetBridgeMetrics,
-  startStopBridge,
-  testConnect,
-  updateBridge,
-} from '@/api/ruleengine'
-import {
   postSource,
   putSource,
   putSourceEnable,
@@ -22,14 +10,12 @@ import {
   getSourceMetrics as requestSourceMetrics,
   testSourceConnectivity,
 } from '@/api/sources'
-import { getTypeAndNameFromKey } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
 import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {
@@ -40,7 +26,7 @@ const useHandleSourceItem = (): {
   deleteSource: (id: string, withDependency?: boolean) => Promise<void>
   getSourceMetrics: (id: string) => Promise<any>
   resetSourceMetrics: (id: string) => Promise<void>
-  toggleSourceEnable: (id: string, isEnable: boolean) => Promise<void>
+  toggleSourceEnable: (id: string, isEnable: boolean) => Promise<Source>
   reconnectSource: (id: string) => Promise<void>
   reconnectSourceForNode: (node: string, id: string) => Promise<void>
   isTesting: Ref<boolean>
@@ -49,19 +35,13 @@ const useHandleSourceItem = (): {
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
   const { handleActionDataBeforeUpdate } = useActionDataHandler()
 
-  const isSupportedConnectorId = (id: string) => {
-    const { type } = getTypeAndNameFromKey(id)
-    return isConnectorSupported(type)
-  }
-
   const handleDataAfterLoaded = (data: Source): Source => {
     return handleBridgeDataAfterLoaded(data)
   }
 
   const getSourceDetail = async (id: string): Promise<Source> => {
     try {
-      const func = isSupportedConnectorId(id) ? requestSourceDetail : getBridgeInfo
-      const data = await func(id)
+      const data = await requestSourceDetail(id)
       return handleDataAfterLoaded(data) as Source
     } catch (error) {
       return Promise.reject(error)
@@ -69,24 +49,16 @@ const useHandleSourceItem = (): {
   }
 
   const addSource = async (data: Source): Promise<Source> => {
-    const request = isConnectorSupported(data.type) ? postSource : createBridge
     const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-    return request(dataForSubmit) as Promise<Source>
+    return postSource(dataForSubmit) as Promise<Source>
   }
 
   const updateSource = async (data: Source): Promise<Source> => {
     try {
-      const { id, type } = data as Source
-
-      const isTrueSource = isConnectorSupported(type)
-
-      const func = isTrueSource ? putSource : updateBridge
-      const dataHandler = isTrueSource ? handleActionDataBeforeUpdate : handleBridgeDataBeforeSubmit
-
-      const dataToSubmit = await dataHandler(data)
+      const { id } = data as Source
+      const dataToSubmit = await handleActionDataBeforeUpdate(data)
       Reflect.deleteProperty(dataToSubmit as Source, 'id')
-
-      return func(id, dataToSubmit as any) as Promise<Source>
+      return putSource(id, dataToSubmit as any) as Promise<Source>
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -94,44 +66,36 @@ const useHandleSourceItem = (): {
   }
 
   const deleteSource = async (id: string, withDependency = false): Promise<void> => {
-    const func = isSupportedConnectorId(id) ? requestDeleteSource : deleteBridge
-    return func(id, withDependency)
+    return requestDeleteSource(id, withDependency)
   }
 
   // TODO: type of ret; request action metrics
   const getSourceMetrics = async (id: string): Promise<any> => {
-    const func = isSupportedConnectorId(id) ? requestSourceMetrics : queryBridgeMetrics
-    return func(id)
+    return requestSourceMetrics(id)
   }
 
   const resetSourceMetrics = async (id: string) => {
-    const func = isSupportedConnectorId(id) ? requestResetSourceMetrics : resetBridgeMetrics
-    return func(id)
+    return requestResetSourceMetrics(id)
   }
 
   const toggleSourceEnable = (id: string, isEnable: boolean) => {
-    const func = isSupportedConnectorId(id) ? putSourceEnable : startStopBridge
-    return func(id, isEnable)
+    return putSourceEnable(id, isEnable)
   }
 
   const reconnectSource = async (id: string): Promise<void> => {
-    const func = isSupportedConnectorId(id) ? requestReconnectSource : reconnectBridge
-    return func(id)
+    return requestReconnectSource(id)
   }
 
   const reconnectSourceForNode = async (node: string, id: string): Promise<void> => {
-    const func = isSupportedConnectorId(id) ? requestReconnectSourceForNode : reconnectBridgeForNode
-    return func(node, id)
+    return requestReconnectSourceForNode(node, id)
   }
 
   const isTesting = ref(false)
   const testConnectivity = async (data: Source): Promise<void> => {
     try {
       isTesting.value = true
-      const { type } = data
-      const request = isConnectorSupported(type) ? testSourceConnectivity : testConnect
       const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-      await request(dataForSubmit)
+      await testSourceConnectivity(dataForSubmit)
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {

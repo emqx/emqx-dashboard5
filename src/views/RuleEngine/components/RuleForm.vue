@@ -113,7 +113,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { getRuleEvents } from '@/api/ruleengine'
-import { DEFAULT_FROM, DEFAULT_SELECT, SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
+import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -266,20 +266,7 @@ const processConnector = async (
   if (!connName || !connType) {
     return
   }
-  if (SUPPORTED_CONNECTOR_TYPES.includes(connType)) {
-    if (direction === BridgeDirection.Ingress) {
-      rightBlockActiveTab.value = RightTab.Sources
-    }
-    return
-  }
-
-  if (direction === BridgeDirection.Egress) {
-    // Fix: Remove when no longer using v1 bridge API
-    const bridgeInfo = await getDetail(`${connType}:${connName}`)
-    addBridgeToAction(bridgeInfo.id)
-  } else if (direction === BridgeDirection.Ingress) {
-    replaceSQLFrom(`$bridges/${connType}:${connName}`)
-    await nextTick()
+  if (direction === BridgeDirection.Ingress) {
     rightBlockActiveTab.value = RightTab.Sources
   }
 }

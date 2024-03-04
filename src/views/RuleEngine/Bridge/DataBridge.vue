@@ -96,7 +96,7 @@
 
 <script lang="ts" setup>
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
+import useActionList from '@/hooks/Rule/action/useActionList'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
@@ -126,11 +126,11 @@ const initReconnectingMap = () => {
   bridgeTb.value.forEach(({ id }) => reconnectingMap.value.set(id, false))
 }
 
-const { getMixedActionList } = useMixedActionList()
+const { getActionList } = useActionList()
 const listBridge = async function () {
   tbLoading.value = true
   try {
-    bridgeTb.value = await getMixedActionList()
+    bridgeTb.value = await getActionList()
     initReconnectingMap()
   } catch (error) {
     console.error(error)
