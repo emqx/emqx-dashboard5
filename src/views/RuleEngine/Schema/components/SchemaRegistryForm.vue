@@ -2,7 +2,7 @@
   <el-form
     ref="FormCom"
     label-position="top"
-    class="schema-create-form"
+    class="schema-registry-form"
     :rules="rules"
     :model="schemaForm"
     require-asterisk-position="right"
@@ -41,13 +41,22 @@
               v-model="schemaForm.source"
               :id="createRandomString()"
               :lang="selectedJSON ? 'json' : 'plaintext'"
-              :jsonWithoutValidate="selectedJSON"
               @blur="onBlurChanged"
             />
           </div>
         </el-form-item>
+        <el-button
+          v-if="selectedJSON"
+          class="btn-schema"
+          type="primary"
+          plain
+          @click="openJSONSchemaDialog"
+        >
+          {{ tl('generateFromJSON') }}
+        </el-button>
       </el-col>
     </el-row>
+    <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
   </el-form>
 </template>
 
@@ -60,6 +69,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
+import ajv from 'ajv'
 import {
   PropType,
   WritableComputedRef,
@@ -69,6 +79,7 @@ import {
   defineProps,
   ref,
 } from 'vue'
+import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
 
 const props = defineProps({
   modelValue: {
@@ -98,11 +109,28 @@ const FormCom = ref()
 
 const { schemaTypeOpts } = useSchemaType()
 
+const ajvInstance = new ajv()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   type: createRequiredRule(tl('type'), 'select'),
-  source: createRequiredRule('Schema'),
+  source: [
+    ...createRequiredRule('Schema'),
+    {
+      validator(rule, value, callback) {
+        if (schemaForm.value.type !== SchemaRegistryType.JSON) {
+          callback()
+          return
+        }
+        try {
+          ajvInstance.compile(JSON.parse(value))
+          callback()
+        } catch (e) {
+          callback(new Error(tl('invalidJSONSchema')))
+        }
+      },
+    },
+  ],
 })
 
 const validate = () => FormCom.value.validate()
@@ -119,11 +147,22 @@ const selectedJSON = computed(() => {
   return schemaForm.value.type === SchemaRegistryType.JSON
 })
 
+const showJSONSchemaDialog = ref(false)
+const openJSONSchemaDialog = () => {
+  showJSONSchemaDialog.value = true
+}
+
+const updateSchema = (schema: string) => {
+  schemaForm.value.source = schema
+}
+
 defineExpose({ validate })
 </script>
 
-<style scoped>
-.schema-form {
-  margin: 20px;
+<style lang="scss" scoped>
+.schema-registry-form {
+  .btn-schema {
+    margin-bottom: 20px;
+  }
 }
 </style>

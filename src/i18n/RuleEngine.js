@@ -1245,4 +1245,16 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '错误的键值对输入',
     en: 'Wrong key-value pair input',
   },
+  generateJSONSchema: {
+    zh: '生成 JSON Schema',
+    en: 'Generate JSON Schema',
+  },
+  generateFromJSON: {
+    zh: '从 JSON 生成',
+    en: 'Generate from JSON',
+  },
+  invalidJSONSchema: {
+    zh: '无效的 JSON Schema',
+    en: 'Invalid JSON Schema',
+  },
 }
