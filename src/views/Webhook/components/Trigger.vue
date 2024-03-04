@@ -53,7 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
 import {
   MULTI_LEVEL_WILDCARD,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
@@ -61,7 +60,9 @@ import {
 } from '@/common/constants'
 import { getKeyPartsFromSQL, arraysAreEqual } from '@/common/tools'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
+import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { escapeRegExp, startCase } from 'lodash'
@@ -106,20 +107,26 @@ let nowSQL = ref('')
 
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
-const { TOPIC_EVENT, transFromStrToFromArr, transSQLFormDataToSQL, isMsgPubEvent } = useRuleUtils()
+const {
+  TOPIC_EVENT,
+  allMsgsAndEvents,
+  transFromStrToFromArr,
+  transSQLFormDataToSQL,
+  isMsgPubEvent,
+} = useRuleUtils()
 
 const ruleInputEventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
 const ruleInputBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
 
 const ruleEvents: Ref<Array<RuleEvent>> = ref([])
 
-const msgEventReg = /message/i
+const msgEventReg = /message|delivery_dropped/i
 const checkIsMsgEvent = (str: string) => ruleInputEventReg.test(str) && msgEventReg.test(str)
 
 const msgEventOpts = computed(() => ruleEvents.value.filter(({ event }) => msgEventReg.test(event)))
 
 const otherEventOpts = computed(() => {
-  return ruleEvents.value.filter(({ event }) => event.indexOf('message') === -1)
+  return ruleEvents.value.filter(({ event }) => !msgEventReg.test(event))
 })
 
 const isZh = computed(() => state.lang === 'zh')
@@ -131,15 +138,6 @@ const updateSQL = (sql: string) => {
     emit('update:modelValue', sql)
   }
 }
-
-const allMsgsAndEvents = computed(() => {
-  return ruleEvents.value.reduce((arr: Array<string>, { event }) => {
-    if (isMsgPubEvent(event)) {
-      return [...arr, MULTI_LEVEL_WILDCARD]
-    }
-    return [...arr, event]
-  }, [])
-})
 
 const SQLKeywords = computed(() => getKeyPartsFromSQL(props.modelValue))
 const fromDataArr = computed(() => {
@@ -361,11 +359,20 @@ const selectedType = computed({
   },
 })
 
+const { getEventList: queryRuleEvents } = useRuleEvents()
 const getRuleEvents = async () => {
   try {
     const list: Array<RuleEvent> = await queryRuleEvents()
     const bridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
-    ruleEvents.value = list.filter(({ event }) => !bridgeReg.test(event))
+    ruleEvents.value = list
+      .sort(({ event }) => {
+        // Unlike other places, here we put the message release at the top of the list
+        if (event === EventForRule.MessagePublish) {
+          return -1
+        }
+        return 0
+      })
+      .filter(({ event }) => !bridgeReg.test(event))
   } catch (error) {
     //
   }

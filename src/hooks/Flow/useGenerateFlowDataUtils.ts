@@ -5,6 +5,7 @@ import {
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
 import {
+  arraysAreEqual,
   getKeyPartsFromSQL,
   getTypeAndNameFromKey,
   isForeachReg,
@@ -28,6 +29,7 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
   SourceType,
+  SourceTypeAllMsgsAndEvents,
 } from './useFlowNode'
 import {
   createConsoleForm,
@@ -36,6 +38,9 @@ import {
   createMessageForm,
 } from './useNodeForm'
 import useParseWhere from './useParseWhere'
+import useWebhookUtils from '../Webhook/useWebhookUtils'
+import { useRuleUtils } from '../Rule/rule/useRule'
+import useI18nTl from '../useI18nTl'
 
 /**
  * ID rule of each node
@@ -273,6 +278,19 @@ export default (): {
     }, [])
   }
 
+  const { tl } = useI18nTl('RuleEngine')
+
+  const generateAllMsgsAndEventsNode = () => {
+    const node = {
+      id: SourceTypeAllMsgsAndEvents,
+      ...getTypeCommonData(NodeType.Source),
+      label: tl('allMsgsAndEvents'),
+      position: { x: 0, y: 0 },
+      data: { specificType: SourceTypeAllMsgsAndEvents, formData: {} },
+    }
+    return node
+  }
+
   /* WHERE */
 
   const detectWhereDataEditedWay = (filterForm: FilterFormData) =>
@@ -361,26 +379,32 @@ export default (): {
   }
 
   /* RULE */
+  const { judgeIsWebhookRule } = useWebhookUtils()
+  const { allMsgsAndEvents } = useRuleUtils()
   /**
    * Generate message, event, filter, and function nodes based on the SQL of the rule.
    * Generate bridge, console, and republish nodes based on the actions.
    * And the corresponding edges.
    */
-  const generateFlowDataFromRuleItem = ({
-    sql,
-    actions,
-    id,
-    from,
-  }: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
+  const generateFlowDataFromRuleItem = (rule: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
+    const { sql, actions, id, from } = rule
     const nodes: GroupedNode = {
       [NodeType.Source]: [],
       [ProcessingType.Function]: [],
       [ProcessingType.Filter]: [],
       [NodeType.Sink]: [],
     }
+    // If the rule is a webhook and the input is "all messages and events",
+    // create an "all messages and events node".
     const { fieldStr, whereStr } = getKeyPartsFromSQL(sql)
+
     if (from && from.length > 0) {
-      nodes[NodeType.Source] = generateNodesBaseFromData(from)
+      if (judgeIsWebhookRule(rule) && arraysAreEqual(from, allMsgsAndEvents.value)) {
+        // TODO:
+        nodes[NodeType.Source] = [generateAllMsgsAndEventsNode()]
+      } else {
+        nodes[NodeType.Source] = generateNodesBaseFromData(from)
+      }
     }
     if (whereStr !== undefined) {
       nodes[ProcessingType.Filter].push(generateNodeBaseWhereData(whereStr, id))

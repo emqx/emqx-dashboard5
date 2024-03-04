@@ -1,6 +1,8 @@
-import { useStore } from 'vuex'
 import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
 import { RuleEvent } from '@/types/rule'
+import { camelCase } from 'lodash'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 const EVENT_SORT: Array<string> = [
   '$events/client_connected',
@@ -23,6 +25,16 @@ export default (): {
   getEventList: () => Promise<RuleEvent[]>
 } => {
   const { state, commit } = useStore()
+  const { t } = useI18n()
+
+  const setLabelToEventList = (eventList: Array<RuleEvent>) => {
+    // Use our own label instead of the one provided by api
+    eventList.forEach((item) => {
+      item.title.en = t(`RuleEvent.${camelCase(item.event)}`, {}, { locale: 'en' })
+      item.title.zh = t(`RuleEvent.${camelCase(item.event)}`, {}, { locale: 'zh' })
+    })
+    return eventList
+  }
 
   const getEventList = async () => {
     try {
@@ -33,7 +45,9 @@ export default (): {
           commit('SET_RULE_EVENT_REQUEST', request)
         }
         const data: Array<RuleEvent> = await state.ruleEventRequest
-        eventList = data.sort((a, b) => getEventIndex(a.event) - getEventIndex(b.event))
+        eventList = setLabelToEventList(
+          data.sort((a, b) => getEventIndex(a.event) - getEventIndex(b.event)),
+        )
         commit('SET_RULE_EVENT_LIST', eventList)
       }
       return Promise.resolve(eventList)
