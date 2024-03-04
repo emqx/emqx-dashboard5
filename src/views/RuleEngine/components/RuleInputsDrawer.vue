@@ -95,7 +95,6 @@ import { waitAMoment } from '@/common/tools'
 import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
 import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -224,7 +223,7 @@ const isCreatingSource = computed(() => !inputForm.value.sourceId)
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
-  if ((connType && !isConnectorSupported(connType)) || direction === BridgeDirection.Egress) {
+  if (direction === BridgeDirection.Egress) {
     return
   }
   await waitAMoment(800)

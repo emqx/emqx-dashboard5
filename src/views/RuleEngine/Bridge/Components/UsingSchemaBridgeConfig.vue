@@ -32,23 +32,16 @@
 <script setup lang="ts">
 import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import {
-  isConnectorSupported,
-  useActionSchema,
-  useBridgeSchema,
-  useSourceSchema,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useActionSchema, useSourceSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
 import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
-import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
-const { getSchemaRefByType: getBridgeTypeRefKey } = useBridgeSchema()
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
 const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()
 
@@ -85,20 +78,9 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue', 'init'])
 
-/**
- * different from is source/action
- */
-const isBridge = computed(() => !isConnectorSupported(props.type as BridgeType))
-
-const schemaFilePath = computed(() => {
-  const schemaType = isBridge.value ? 'bridges' : 'actions'
-  return getAPIPath(`/schemas/${schemaType}`)
-})
+const schemaFilePath = computed(() => getAPIPath(`/schemas/actions`))
 
 const schemaType = computed(() => {
-  if (!props.type || !isConnectorSupported(props.type)) {
-    return 'bridge'
-  }
   return props.isSource ? 'source' : 'action'
 })
 
@@ -153,10 +135,6 @@ const getRefKey = computed(() => {
   if (!props.type) {
     return
   }
-  if (isBridge.value) {
-    return getBridgeTypeRefKey(props.type)
-  }
-
   return props.isSource ? getSourceTypeRefKey(props.type) : getActionTypeRefKey(props.type)
 })
 

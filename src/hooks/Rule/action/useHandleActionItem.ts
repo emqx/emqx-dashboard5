@@ -10,28 +10,12 @@ import {
   resetActionMetrics as requestResetActionMetrics,
   testActionConnectivity as requestTestActionConnectivity,
 } from '@/api/action'
-import {
-  createBridge,
-  deleteBridge,
-  getBridgeInfo,
-  queryBridgeMetrics,
-  reconnectBridge,
-  reconnectBridgeForNode,
-  resetBridgeMetrics,
-  startStopBridge,
-  testConnect,
-  updateBridge,
-} from '@/api/ruleengine'
-import { BRIDGE_OLD_TYPES_MAP } from '@/common/constants'
-import { getBridgeKey, getTypeAndNameFromKey } from '@/common/tools'
-import { isConnectorSupported } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { BridgeType } from '@/types/enum'
 import { Action, BridgeItem } from '@/types/rule'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
-import useMixedActionList from './useMixedActionList'
 import { useRoute } from 'vue-router'
-import { BridgeType } from '@/types/enum'
+import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
 
 type NowAction = Action | BridgeItem
 
@@ -42,10 +26,10 @@ type HandleDirectionCallback = (
 ) => void
 
 export default (): {
-  getDetail: <T = NowAction>(id: string) => Promise<T>
-  handleActionDataAfterLoaded: <T = NowAction>(data: T) => T
-  addAction: <T = NowAction>(data: T) => Promise<T>
-  updateAction: <T = NowAction>(data: T) => Promise<T>
+  getDetail: (id: string) => Promise<Action>
+  handleActionDataAfterLoaded: (data: any) => Promise<Action>
+  addAction: (data: Action) => Promise<Action>
+  updateAction: (data: Action) => Promise<Action>
   deleteAction: (id: string, withDependency?: boolean) => Promise<void>
   getActionMetrics: (id: string) => Promise<any>
   resetActionMetrics: (id: string) => Promise<void>
@@ -58,66 +42,33 @@ export default (): {
 } => {
   const route = useRoute()
 
-  const isTrueActionId = (id: string) => isConnectorSupported(getTypeAndNameFromKey(id).type)
-
   const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
   const { handleActionDataBeforeUpdate } = useActionDataHandler()
 
-  const handleDataAfterLoaded = <T = NowAction>(data: T): T => {
+  const handleDataAfterLoaded = (data: any): Promise<Action> => {
     return handleBridgeDataAfterLoaded(data)
   }
 
-  const { getMixedActionListForRule } = useMixedActionList()
-  // Extracted logic for handling non-true action IDs
-  const handleNonTrueActionId = async (id: string): Promise<string> => {
-    const { type, name } = getTypeAndNameFromKey(id)
-
-    if (BRIDGE_OLD_TYPES_MAP.get(type)) {
-      const actionList = await getMixedActionListForRule()
-      const actionItem = actionList.find(
-        ({ id: actionId, realType }) => actionId === id && realType,
-      )
-
-      if (actionItem) {
-        return getBridgeKey({ type: actionItem.realType, name })
-      }
-    }
-
-    return id
-  }
-  const getDetail = async <T = NowAction>(id: string): Promise<T> => {
+  const getDetail = async (id: string): Promise<Action> => {
     try {
-      let idForRequest = id
-      const isTrueAction = isTrueActionId(id)
-      if (!isTrueAction) {
-        idForRequest = await handleNonTrueActionId(id)
-      }
-      const func = isTrueAction ? getActionDetail : getBridgeInfo
-      const data = await func(idForRequest)
-      return handleDataAfterLoaded(data) as Promise<T>
+      const data = await getActionDetail(id)
+      return handleDataAfterLoaded(data) as Promise<Action>
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
-  const addAction = async <T = NowAction>(data: T): Promise<T> => {
-    const request = isConnectorSupported((data as NowAction).type) ? postAction : createBridge
-    const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-    return request(dataForSubmit as any) as Promise<T>
+  const addAction = async (data: Action): Promise<Action> => {
+    const dataForSubmit = data
+    return postAction(dataForSubmit as any) as Promise<Action>
   }
 
-  const updateAction = async <T = NowAction>(data: T): Promise<T> => {
+  const updateAction = async (data: Action): Promise<Action> => {
     try {
-      const { id, type } = data as NowAction
-
-      const isTrueAction = isConnectorSupported(type)
-      const func = isTrueAction ? putAction : updateBridge
-      const dataHandler = isTrueAction ? handleActionDataBeforeUpdate : handleBridgeDataBeforeSubmit
-
-      const dataToSubmit = await dataHandler(data)
+      const { id } = data as NowAction
+      const dataToSubmit = await handleActionDataBeforeUpdate(data)
       Reflect.deleteProperty(dataToSubmit as NowAction, 'id')
-
-      return func(id, dataToSubmit as any) as Promise<T>
+      return putAction(id, dataToSubmit as any) as Promise<Action>
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -125,44 +76,36 @@ export default (): {
   }
 
   const deleteAction = async (id: string, withDependency = false): Promise<void> => {
-    const func = isTrueActionId(id) ? requestDelAction : deleteBridge
-    return func(id, withDependency)
+    return requestDelAction(id, withDependency)
   }
 
   // TODO: type of ret; request action metrics
   const getActionMetrics = async (id: string): Promise<any> => {
-    const func = isTrueActionId(id) ? requestGetActionMetrics : queryBridgeMetrics
-    return func(id)
+    return requestGetActionMetrics(id)
   }
 
   const resetActionMetrics = async (id: string) => {
-    const func = isTrueActionId(id) ? requestResetActionMetrics : resetBridgeMetrics
-    return func(id)
+    return requestResetActionMetrics(id)
   }
 
   const toggleActionEnable = (id: string, isEnable: boolean) => {
-    const func = isTrueActionId(id) ? putActionEnable : startStopBridge
-    return func(id, isEnable)
+    return putActionEnable(id, isEnable)
   }
 
   const reconnectAction = async (id: string): Promise<void> => {
-    const func = isTrueActionId(id) ? requestReconnectAction : reconnectBridge
-    return func(id)
+    return requestReconnectAction(id)
   }
 
   const reconnectActionForNode = async (node: string, id: string): Promise<void> => {
-    const func = isTrueActionId(id) ? requestReconnectActionForNode : reconnectBridgeForNode
-    return func(node, id)
+    return requestReconnectActionForNode(node, id)
   }
 
   const isTesting = ref(false)
   const testConnectivity = async (data: NowAction): Promise<void> => {
     try {
       isTesting.value = true
-      const isTrueAction = isConnectorSupported((data as NowAction).type)
-      const request = isTrueAction ? requestTestActionConnectivity : testConnect
       const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-      await request(dataForSubmit)
+      await requestTestActionConnectivity(dataForSubmit)
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {

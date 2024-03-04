@@ -5,35 +5,23 @@ import {
   deleteConnector as requestDelConnector,
   reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
-import {
-  createBridge,
-  deleteBridge,
-  getBridgeInfo,
-  reconnectBridge,
-  testConnect,
-  updateBridge,
-} from '@/api/ruleengine'
-import { getTypeAndNameFromKey } from '@/common/tools'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
-import { ElMessageBox } from 'element-plus'
 import { Ref, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { isConnectorSupported } from '../bridge/useBridgeTypeValue'
-import { useBridgeDataHandler, useConnectorDataHandler } from '../useDataHandler'
+import { useConnectorDataHandler } from '../useDataHandler'
 
 type NowConnector = Connector | BridgeItem
 
 interface ConnectorHandlerResult {
-  getConnectorDetail: <T = NowConnector>(id: string) => Promise<T>
-  handleConnectorDataAfterLoaded: <T = NowConnector>(data: T) => T
-  addConnector: <T = NowConnector>(data: T) => Promise<T>
-  updateConnector: <T = NowConnector>(data: T) => Promise<T>
+  getConnectorDetail: (id: string) => Promise<Connector>
+  handleConnectorDataAfterLoaded: (data: Connector) => Connector
+  addConnector: (data: Connector) => Promise<Connector>
+  updateConnector: (data: Connector) => Promise<Connector>
   deleteConnector: (id: string, withDep?: boolean) => Promise<void>
   reconnectConnector: (id: string) => Promise<void>
-  handleDataForCopy: <T = NowConnector>(data: T) => T
+  handleDataForCopy: (data: Connector) => Connector
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
   showDelTip: Ref<boolean>
@@ -45,9 +33,6 @@ interface ConnectorHandlerResult {
 }
 
 export default (): ConnectorHandlerResult => {
-  const { t } = useI18n()
-  const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded, handleBridgeDataForCopy } =
-    useBridgeDataHandler()
   const {
     handleConnectorDataBeforeSubmit,
     handleConnectorDataBeforeUpdate,
@@ -55,31 +40,23 @@ export default (): ConnectorHandlerResult => {
     handleConnectorDataAfterLoaded,
   } = useConnectorDataHandler()
 
-  const handleDataAfterLoaded = <T = NowConnector>(data: T): T => {
-    const dataHandler = isConnectorSupported((data as NowConnector).type)
-      ? handleConnectorDataAfterLoaded
-      : handleBridgeDataAfterLoaded
-    return dataHandler(data as any)
+  const handleDataAfterLoaded = (data: Connector): Connector => {
+    return handleConnectorDataAfterLoaded(data as any)
   }
 
-  const getConnectorDetail = async <T = NowConnector>(id: string): Promise<T> => {
+  const getConnectorDetail = async (id: string): Promise<Connector> => {
     try {
-      const isTrueConnector = isConnectorSupported(getTypeAndNameFromKey(id).type)
-      const func = isTrueConnector ? requestConnectorDetail : getBridgeInfo
-      const data = await func(id)
-      return handleDataAfterLoaded(data) as Promise<T>
+      const data = await requestConnectorDetail(id)
+      return handleDataAfterLoaded(data)
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
     }
   }
 
-  const handleDataForCopy = <T = NowConnector>(data: T): T => {
+  const handleDataForCopy = (data: Connector): Connector => {
     try {
-      const dataHandle = isConnectorSupported((data as NowConnector).type)
-        ? handleConnectorDataForCopy
-        : handleBridgeDataForCopy
-      const ret = dataHandle(data as any)
+      const ret = handleConnectorDataForCopy(data as any)
       return ret
     } catch (error) {
       console.error(error)
@@ -87,63 +64,29 @@ export default (): ConnectorHandlerResult => {
     }
   }
 
-  const addConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const isTrueConnector = isConnectorSupported((data as NowConnector).type)
-    const request = isTrueConnector ? postConnector : createBridge
-    const dataHandler = isTrueConnector
-      ? handleConnectorDataBeforeSubmit
-      : handleBridgeDataBeforeSubmit
-    const dataForSubmit = await dataHandler(data as any)
-    return request(dataForSubmit) as Promise<T>
+  const addConnector = async (data: Connector): Promise<Connector> => {
+    const dataForSubmit = await handleConnectorDataBeforeSubmit(data as any)
+    return postConnector(dataForSubmit)
   }
 
-  const updateConnector = async <T = NowConnector>(data: T): Promise<T> => {
-    const { id, type } = data as NowConnector
-
-    const isTrueConnector = isConnectorSupported(type)
-    const func = isTrueConnector ? putConnector : updateBridge
-    const dataHandler = isTrueConnector
-      ? handleConnectorDataBeforeUpdate
-      : handleBridgeDataBeforeSubmit
-
-    const dataForSubmit = await dataHandler(data as any)
+  const updateConnector = async (data: Connector): Promise<Connector> => {
+    const { id } = data as NowConnector
+    const dataForSubmit = await handleConnectorDataBeforeUpdate(data as any)
     Reflect.deleteProperty(dataForSubmit, 'id')
-    return func(id, dataForSubmit) as Promise<T>
+    return putConnector(id, dataForSubmit) as Promise<Connector>
   }
 
-  const deleteConnector = async (id: string, withDep?: boolean): Promise<void> => {
-    const isConnector = isConnectorSupported(getTypeAndNameFromKey(id).type)
-    if (isConnector) {
-      return requestDelConnector(id)
-    }
-    return deleteBridge(id, withDep)
+  const deleteConnector = async (id: string): Promise<void> => {
+    return requestDelConnector(id)
   }
 
   const reconnectConnector = async (id: string): Promise<void> => {
-    const func = isConnectorSupported(getTypeAndNameFromKey(id).type)
-      ? requestReconnectConnector
-      : reconnectBridge
-    return func(id)
+    return requestReconnectConnector(id)
   }
 
   const { isTesting, testConnectivity: testConnectorConnectivity } = useTestConnector()
-
-  const testBridgeConnectivity = async (bridge: BridgeItem) => {
-    try {
-      isTesting.value = true
-      const data = await handleBridgeDataBeforeSubmit(bridge)
-      await testConnect(data)
-      isTesting.value = false
-      return Promise.resolve()
-    } catch (error) {
-      isTesting.value = false
-      return Promise.reject()
-    }
-  }
   const testConnectivity = async (data: NowConnector): Promise<void> =>
-    isConnectorSupported(data.type)
-      ? testConnectorConnectivity(data as Connector)
-      : testBridgeConnectivity(data)
+    testConnectorConnectivity(data as Connector)
 
   const showDelTip = ref(false)
   const associatedActionList = ref<Array<string>>([])
@@ -153,27 +96,6 @@ export default (): ConnectorHandlerResult => {
 
   const deleteTrueConnector = async (id: string) => {
     return confirmDel(() => deleteConnector(id))
-  }
-
-  const deleteFakeConnector = async (id: string) => {
-    try {
-      await confirmDel(() => deleteConnector(id))
-    } catch (error: any) {
-      const { status, data } = error?.response || {}
-      if (status === 400 && data?.rules?.length) {
-        await ElMessageBox.confirm(t('RuleEngine.deleteFakeConnectorConfirm'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          confirmButtonClass: 'confirm-danger',
-          type: 'warning',
-        })
-        await deleteConnector(id, true)
-        return Promise.resolve()
-      } else {
-        console.error(error)
-      }
-      return Promise.reject()
-    }
   }
 
   const currentDelName = ref('')
@@ -197,11 +119,7 @@ export default (): ConnectorHandlerResult => {
       return
     }
     try {
-      if (isConnectorSupported(type)) {
-        await deleteTrueConnector(id)
-      } else {
-        await deleteFakeConnector(id)
-      }
+      await deleteTrueConnector(id)
       callback()
     } catch (error) {
       //

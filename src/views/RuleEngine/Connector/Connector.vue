@@ -109,7 +109,7 @@
 <script setup lang="ts">
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
-import useMixedConnectorList from '@/hooks/Rule/connector/useMixedConnectorList'
+import useConnectorList from '@/hooks/Rule/connector/useConnectorList'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
@@ -133,11 +133,11 @@ const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const { getMixedConnectorList } = useMixedConnectorList()
+const { getConnectorList } = useConnectorList()
 const getList = async () => {
   try {
     isLoading.value = true
-    tableData.value = await getMixedConnectorList()
+    tableData.value = await getConnectorList()
     initReconnectingMap()
   } catch (error) {
     //
