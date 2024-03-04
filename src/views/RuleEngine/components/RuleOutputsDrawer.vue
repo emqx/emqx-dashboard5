@@ -108,10 +108,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getBridgeKey, getTypeAndNameFromKey } from '@/common/tools'
+import { getTypeAndNameFromKey } from '@/common/tools'
+import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
-import { BridgeDirection, RuleOutput } from '@/types/enum'
+import { RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
 import {
   PropType,
@@ -127,9 +128,6 @@ import BridgeCreate from '../Bridge/BridgeCreate.vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import RePubForm from './RePubForm.vue'
-import { useOldNewType } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { SUPPORTED_CONNECTOR_TYPES } from '@/common/constants'
 
 type OutputForm = {
   type: string
@@ -273,13 +271,6 @@ const submitNewAction = async () => {
   }
 }
 
-const { getNewType } = useOldNewType()
-const transBridgeTypeToNewType = (data: string) => {
-  const { type, name } = getTypeAndNameFromKey(data)
-  const newType = getNewType(type)
-  return getBridgeKey({ type: newType || type, name })
-}
-
 const submitOutput = async () => {
   try {
     await formCom.value?.validate()
@@ -306,7 +297,6 @@ const submitOutput = async () => {
       } else {
         opObj = await submitNewAction()
       }
-      opObj = transBridgeTypeToNewType(opObj)
     }
     emit('submit', opObj, isEdit.value)
     showDrawer.value = false
@@ -333,12 +323,6 @@ watch(showDrawer, (val) => {
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
-  if (
-    (connType && !SUPPORTED_CONNECTOR_TYPES.includes(connType)) ||
-    direction === BridgeDirection.Ingress
-  ) {
-    return
-  }
   setTimeout(async () => {
     showDrawer.value = true
     if (connType) {

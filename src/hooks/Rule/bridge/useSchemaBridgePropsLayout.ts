@@ -1,6 +1,5 @@
 import { BridgeType } from '@/types/enum'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
-import { isConnectorSupported } from './useBridgeTypeValue'
 import useSyncConfiguration from './useSyncConfiguration'
 
 export const resourceOptFields = [
@@ -306,17 +305,13 @@ export default (
     let connectorClass = ''
     let nameClass = ''
     let descClass = ''
-    if (isConnectorSupported(props.type as BridgeType)) {
-      if (props.hideName) {
-        connectorClass = 'dividing-line-below'
-        nameClass = 'col-hidden'
-      } else {
-        descClass = singleFieldWithLineBelow
-      }
+    if (props.hideName) {
+      connectorClass = 'dividing-line-below'
+      nameClass = 'col-hidden'
     } else {
-      nameClass = props.hideName ? 'col-hidden' : singleFieldWithLineBelow
-      descClass = 'col-hidden'
+      descClass = singleFieldWithLineBelow
     }
+
     return { nameClass, connectorClass, descClass }
   }
 
