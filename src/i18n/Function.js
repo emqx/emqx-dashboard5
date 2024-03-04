@@ -44,6 +44,10 @@ export default {
     zh: '时间与日期函数',
     en: 'Time and Date Functions',
   },
+  schemaRegistry: {
+    zh: '编解码',
+    en: 'Schema Registry',
+  },
   /* PARAMS */
   Value: {
     zh: '值',

@@ -7,7 +7,7 @@
     destroy-on-close
   >
     <el-form ref="FormCom" label-position="top" :rules="rules" :model="form" hide-required-asterisk>
-      <el-form-item prop="json">
+      <el-form-item prop="json" :label="tl('generateJSONSchemaTip')">
         <div class="monaco-container">
           <monaco id="database-filter" v-model="form.json" lang="json" json-without-validate />
         </div>

@@ -1159,5 +1159,65 @@
         "args": []
       }
     ]
+  },
+  {
+    "groupLabel": "schemaRegistry",
+    "list": [
+      {
+        "name": "schema_decode",
+        "args": [
+          {
+            "name": "SchemaName",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Data",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Type",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "schema_encode",
+        "args": [
+          {
+            "name": "SchemaName",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Data",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Type",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "schema_check",
+        "args": [
+          {
+            "name": "SchemaName",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "Data",
+            "type": "object",
+            "required": true
+          }
+        ]
+      }
+    ]
   }
 ]
