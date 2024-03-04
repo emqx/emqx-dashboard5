@@ -119,4 +119,8 @@ export default {
     zh: '该节点已被删除，请及时更新 Flow',
     en: 'This node has been deleted, please update flow in time',
   },
+  webhookAllEventsAndMsgDesc: {
+    zh: '包含来自所有主题的消息，以及以下事件：',
+    en: 'Contains messages from all topics, as well as the following events:',
+  },
 }

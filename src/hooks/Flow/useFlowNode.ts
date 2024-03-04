@@ -279,6 +279,7 @@ export default (): {
     SourceType.Event,
     SourceType.Message,
     BridgeType.MQTT,
+    SourceTypeAllMsgsAndEvents,
     ProcessingType.Filter,
     ProcessingType.Function,
     SinkType.Console,
