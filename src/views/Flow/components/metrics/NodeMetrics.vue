@@ -11,14 +11,13 @@
 </template>
 
 <script setup lang="ts">
+import { FlowNodeType } from '@/hooks/Flow/useFlowNode'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import { FlowNodeType } from '@/hooks/Flow/useFlowNode'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
-import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
-import { Ref, computed, ref, defineProps, onMounted, provide } from 'vue'
 import { BridgeItem } from '@/types/rule'
+import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import { Node } from '@vue-flow/core'
+import { Ref, computed, defineProps, onMounted, provide, ref } from 'vue'
 
 const props = defineProps<{
   node?: Node
@@ -32,7 +31,6 @@ const infoLoading = ref(false)
 
 const isSource = computed(() => props?.node?.type === FlowNodeType.Input)
 
-const { handleBridgeDataAfterLoaded } = useBridgeDataHandler()
 const { getDetail: getActionDetail } = useHandleActionItem()
 const { getSourceDetail } = useHandleSourceItem()
 
@@ -40,8 +38,7 @@ const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     const request = isSource.value ? getSourceDetail : getActionDetail
-    const data = await request(id.value)
-    bridgeInfo.value = handleBridgeDataAfterLoaded(data)
+    bridgeInfo.value = await request(id.value)
   } catch (error) {
     console.error(error)
   } finally {

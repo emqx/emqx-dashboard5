@@ -1,7 +1,6 @@
 import { SSL_FIELDS, INTEGRATION_SCHEMA_TYPES } from '@/common/constants'
 import {
   useActionSchema,
-  useBridgeSchema,
   useConnectorSchema,
   useSourceSchema,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
@@ -136,15 +135,11 @@ export default (
     return prop.path
   }
 
-  const { getTypeByBridgeSchemaRef } = useBridgeSchema()
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
   const { getTypeByActionSchemaRef } = useActionSchema()
   const { getTypeBySourceSchemaRef } = useSourceSchema()
   const getTypeBySchemaRef = () => {
     const { ref } = props.accordingTo
-    if (props.type === 'bridge') {
-      return getTypeByBridgeSchemaRef(ref)
-    }
     if (props.type === 'action') {
       return getTypeByActionSchemaRef(ref)
     }

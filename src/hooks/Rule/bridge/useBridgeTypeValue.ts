@@ -2,7 +2,7 @@ import { INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
-import { BridgeItem, MQTTBridge } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
 
@@ -197,42 +197,11 @@ export const useBridgeTypeOptions = (): {
   getFilterBridgeOptions: () => BridgeTypeOptions[]
   bridgeTypeOptions: BridgeTypeOptions[]
 } => {
-  const { tl, t } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
-
-  const descMap = new Map([
-    [BridgeType.Webhook, tl('bridgeDescHTTP')],
-    [BridgeType.MQTT, tl('bridgeDescMQTT')],
-    [BridgeType.InfluxDB, t('RuleEngine.egressDataBaseDesc', { name: tl('influxDBLabel') })],
-    [BridgeType.MySQL, t('RuleEngine.egressDataBaseDesc', { name: tl('mySQL') })],
-    [BridgeType.Redis, t('RuleEngine.egressDataBaseDesc', { name: tl('redis') })],
-    [BridgeType.MongoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('mongoDB') })],
-    [BridgeType.PgSQL, t('RuleEngine.egressDataBaseDesc', { name: tl('pgSql') })],
-    [BridgeType.TimescaleDB, t('RuleEngine.egressDataBaseDesc', { name: tl('timescaleDB') })],
-    [BridgeType.MatrixDB, t('RuleEngine.egressDataBaseDesc', { name: tl('matrixDB') })],
-    [BridgeType.TDengine, t('RuleEngine.egressDataBaseDesc', { name: tl('TDengine') })],
-    [BridgeType.ClickHouse, t('RuleEngine.egressDataBaseDesc', { name: tl('clickHouse') })],
-    [BridgeType.DynamoDB, t('RuleEngine.egressDataBaseDesc', { name: tl('dynamoDB') })],
-    [BridgeType.Cassandra, t('RuleEngine.egressDataBaseDesc', { name: tl('cassandra') })],
-    [BridgeType.RocketMQ, t('RuleEngine.bridgeDataToDesc', { name: tl('rocketMQ') })],
-    [
-      BridgeType.MicrosoftSQLServer,
-      t('RuleEngine.egressDataBaseDesc', { name: tl('microsoftSqlServer') }),
-    ],
-    [BridgeType.IoTDB, t('RuleEngine.egressDataBaseDesc', { name: tl('iotDB') })],
-    [BridgeType.OpenTSDB, t('RuleEngine.egressDataBaseDesc', { name: tl('openTSDB') })],
-    [BridgeType.OracleDatabase, t('RuleEngine.egressDataBaseDesc', { name: tl('oracleDatabase') })],
-    [BridgeType.RabbitMQ, t('RuleEngine.bridgeDataToDesc', { name: tl('rabbitMQ') })],
-    [BridgeType.Pulsar, t('RuleEngine.bridgeDataToDesc', { name: tl('pulsar') })],
-    [BridgeType.HStream, t('RuleEngine.egressDataBaseDesc', { name: tl('hStream') })],
-    [BridgeType.AzureEventHubs, t('RuleEngine.bridgeDataToDesc', { name: tl('azureEventHubs') })],
-    [BridgeType.AmazonKinesis, t('RuleEngine.bridgeDataToDesc', { name: tl('amazonKinesis') })],
-    [BridgeType.GreptimeDB, t('RuleEngine.egressDataBaseDesc', { name: tl('greptimeDB') })],
-  ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
     ...item,
-    desc: descMap.get(item.value) || '',
+    desc: '',
   }))
 
   const searchQuery = ref('')
@@ -296,25 +265,14 @@ export const useBridgeTypeIcon = (): {
   }
 }
 
-export const useBridgeDirection = (): {
-  judgeBridgeDirection: (bridge: BridgeItem) => BridgeDirection
+export const useConnectorDirection = (): {
+  judgeConnectorDirection: (bridge: BridgeItem) => BridgeDirection
 } => {
   const { getBridgeGeneralType } = useBridgeTypeValue()
-  const judgeBridgeDirection = (bridge: BridgeItem): BridgeDirection => {
+  const judgeConnectorDirection = (bridge: BridgeItem): BridgeDirection => {
     const { type: rawType } = bridge
     const type = getBridgeGeneralType(rawType)
-    // FOR MQTT
-    if (type === BridgeType.MQTT) {
-      const { ingress, egress } = bridge as MQTTBridge
-      const withIngress = !!ingress?.remote?.topic
-      const withEgress = !!egress?.remote?.topic
-      if (withIngress && withEgress) {
-        return BridgeDirection.Both
-      } else if (withIngress) {
-        return BridgeDirection.Ingress
-      }
-      return BridgeDirection.Egress
-    } else if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
+    if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
       return BridgeDirection.Ingress
     }
     if (typesWithProducerAndConsumer.includes(type)) {
@@ -325,36 +283,7 @@ export const useBridgeDirection = (): {
   }
 
   return {
-    judgeBridgeDirection,
-  }
-}
-
-export const useBridgeSchema = (): {
-  getSchemaRefByType: (type: string, suffix?: string) => string
-  getTypeByBridgeSchemaRef: (ref: string) => string
-} => {
-  const refPrefix = 'bridge_'
-  const refSuffix = '.post'
-
-  const getRef = (type: string, suffix?: string) => {
-    const finalSuffix = `${refSuffix}${suffix || ''}`
-    return refPrefix + type + finalSuffix
-  }
-
-  const getSchemaRefByType = getRef
-
-  const getTypeByBridgeSchemaRef = (ref: string) => {
-    const refKey = ref.replace(/^.+\//, '')
-    // 1. remove path 2. remove prefix 3. remove suffix
-    const ret = refKey
-      .replace(new RegExp(`${refPrefix}`), '')
-      .replace(new RegExp(`${refSuffix}\\w*`), '')
-    return ret
-  }
-
-  return {
-    getSchemaRefByType,
-    getTypeByBridgeSchemaRef,
+    judgeConnectorDirection,
   }
 }
 

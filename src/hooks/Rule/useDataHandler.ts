@@ -2,11 +2,10 @@ import { NUM_REG } from '@/common/constants'
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType, Role } from '@/types/enum'
-import { Action, Connector } from '@/types/rule'
+import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
 import useI18nTl from '../useI18nTl'
-import { useBridgeTypeValue } from './bridge/useBridgeTypeValue'
 
 const keysDoNotNeedForAPI = [
   'node_status',
@@ -226,18 +225,42 @@ export const useRedisCommandCheck = (): {
 
 export const useBridgeDataHandler = (): {
   likePasswordFieldKeys: string[]
-  handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
-  handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
-  const { getBridgeGeneralType } = useBridgeTypeValue()
-  const {
-    handleDataBeforeSubmit,
+  const { likePasswordFieldKeys, handleDataForCopy } = useCommonDataHandler()
+
+  const handleBridgeDataAfterLoaded = (bridgeData: any) => {
+    return bridgeData
+  }
+
+  const handleBridgeDataForCopy = (bridgeData: any): any => {
+    return handleBridgeDataAfterLoaded(handleDataForCopy(bridgeData))
+  }
+
+  return {
     likePasswordFieldKeys,
-    handleDataForCopy,
-    handleDataForSaveAsCopy,
-  } = useCommonDataHandler()
+    handleBridgeDataAfterLoaded,
+    handleBridgeDataForCopy,
+  }
+}
+
+export const useActionDataHandler = (): {
+  handleActionDataBeforeSubmit: (data: any) => Promise<any>
+  handleActionDataBeforeUpdate: (data: any) => Promise<any>
+  handleActionDataAfterLoaded: (data: any) => any
+} => {
+  const { handleDataBeforeSubmit } = useCommonDataHandler()
+
+  const handleOpenTSDBDataBeforeSubmit = (data: any): any => {
+    const dataArr = data.parameters?.data
+    if (Array.isArray(dataArr)) {
+      data.parameters.data = dataArr.map((item) =>
+        NUM_REG.test(item.value) ? { ...item, value: Number(item.value) } : item,
+      )
+    }
+    return data
+  }
 
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
@@ -257,85 +280,22 @@ export const useBridgeDataHandler = (): {
     }
   }
 
-  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.Redis, handleRedisBridgeData]])
-
-  const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
-    try {
-      let ret = cloneDeep(bridgeData)
-      const bridgeType = getBridgeGeneralType(bridgeData.type)
-      const handler = specialDataHandlerBeforeSubmit.get(bridgeType)
-      if (handler) {
-        ret = await handler(ret)
-      }
-      return Promise.resolve(handleDataBeforeSubmit(ret))
-    } catch (error) {
-      console.error(error)
-      return Promise.reject()
-    }
-  }
-
-  const handleRedisDataAfterLoaded = (data: any) => {
-    if (data?.parameters?.command_template && Array.isArray(data.parameters.command_template)) {
-      data.parameters.command_template = transCommandArrToStr(data.parameters.command_template)
-    }
-    return data
-  }
-
-  const specialHandlerAfterLoaded = new Map([[BridgeType.Redis, handleRedisDataAfterLoaded]])
-  const handleBridgeDataAfterLoaded = (bridgeData: any) => {
-    const bridgeType = getBridgeGeneralType(bridgeData.type)
-    const handler = specialHandlerAfterLoaded.get(bridgeType)
-    if (handler) {
-      handler(bridgeData)
-    }
-    return bridgeData
-  }
-
-  const handleBridgeDataForCopy = (bridgeData: any): any => {
-    return handleBridgeDataAfterLoaded(handleDataForCopy(bridgeData))
-  }
-
-  const handleBridgeDataForSaveAsCopy = handleDataForSaveAsCopy
-
-  return {
-    likePasswordFieldKeys,
-    handleBridgeDataBeforeSubmit,
-    handleBridgeDataAfterLoaded,
-    handleBridgeDataForCopy,
-    handleBridgeDataForSaveAsCopy,
-  }
-}
-
-export const useActionDataHandler = (): {
-  handleActionDataBeforeUpdate: (data: any) => Promise<any>
-  handleActionDataBeforeSubmit: (data: Action) => Promise<Action>
-} => {
-  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
-  const handleOpenTSDBDataBeforeSubmit = (data: Action): Action => {
-    const dataArr = data.parameters?.data
-    if (Array.isArray(dataArr)) {
-      data.parameters.data = dataArr.map((item) =>
-        NUM_REG.test(item.value) ? { ...item, value: Number(item.value) } : item,
-      )
-    }
-    return data
-  }
-
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
+    [BridgeType.Redis, handleRedisBridgeData],
   ])
 
   /**
    * submit contains create and update
    */
-  const handleActionDataBeforeSubmit = async (data: Action): Promise<Action> => {
+  const handleActionDataBeforeSubmit = async (data: any): Promise<any> => {
     try {
       let ret = cloneDeep(data)
       const handler = specialDataHandlerBeforeSubmit.get(ret.type)
       if (handler) {
         ret = await handler(ret)
       }
-      return Promise.resolve(await handleBridgeDataBeforeSubmit(ret))
+      return Promise.resolve(await handleDataBeforeSubmit(ret))
     } catch (error) {
       console.error(error)
       return Promise.reject()
@@ -347,8 +307,26 @@ export const useActionDataHandler = (): {
     return omit(ret, keysNeedRemovedForUpdate)
   }
 
+  const handleRedisDataAfterLoaded = (data: any) => {
+    if (data?.parameters?.command_template && Array.isArray(data.parameters.command_template)) {
+      data.parameters.command_template = transCommandArrToStr(data.parameters.command_template)
+    }
+    return data
+  }
+
+  const specialHandlerAfterLoaded = new Map([[BridgeType.Redis, handleRedisDataAfterLoaded]])
+
+  const handleActionDataAfterLoaded = (data: any) => {
+    const handler = specialHandlerAfterLoaded.get(data.type)
+    if (handler) {
+      handler(data)
+    }
+    return data
+  }
+
   return {
     handleActionDataBeforeSubmit,
     handleActionDataBeforeUpdate,
+    handleActionDataAfterLoaded,
   }
 }

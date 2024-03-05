@@ -11,13 +11,11 @@ import {
   testActionConnectivity as requestTestActionConnectivity,
 } from '@/api/action'
 import { BridgeType } from '@/types/enum'
-import { Action, BridgeItem } from '@/types/rule'
+import { Action } from '@/types/rule'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
-
-type NowAction = Action | BridgeItem
+import { useActionDataHandler } from '../useDataHandler'
 
 type HandleDirectionCallback = (
   direction?: number,
@@ -37,16 +35,19 @@ export default (): {
   reconnectAction: (id: string) => Promise<void>
   reconnectActionForNode: (node: string, id: string) => Promise<void>
   isTesting: Ref<boolean>
-  testConnectivity: (data: NowAction) => Promise<void>
+  testConnectivity: (data: Action) => Promise<void>
   handleConnDirection: (callback: HandleDirectionCallback) => void
 } => {
   const route = useRoute()
 
-  const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
-  const { handleActionDataBeforeSubmit, handleActionDataBeforeUpdate } = useActionDataHandler()
+  const {
+    handleActionDataAfterLoaded,
+    handleActionDataBeforeSubmit,
+    handleActionDataBeforeUpdate,
+  } = useActionDataHandler()
 
   const handleDataAfterLoaded = (data: any): Promise<Action> => {
-    return handleBridgeDataAfterLoaded(data)
+    return handleActionDataAfterLoaded(data)
   }
 
   const getDetail = async (id: string): Promise<Action> => {
@@ -65,9 +66,9 @@ export default (): {
 
   const updateAction = async (data: Action): Promise<Action> => {
     try {
-      const { id } = data as NowAction
+      const { id } = data as Action
       const dataToSubmit = await handleActionDataBeforeUpdate(data)
-      Reflect.deleteProperty(dataToSubmit as NowAction, 'id')
+      Reflect.deleteProperty(dataToSubmit as Action, 'id')
       return putAction(id, dataToSubmit as any) as Promise<Action>
     } catch (error) {
       console.error(error)
@@ -101,10 +102,10 @@ export default (): {
   }
 
   const isTesting = ref(false)
-  const testConnectivity = async (data: NowAction): Promise<void> => {
+  const testConnectivity = async (data: Action): Promise<void> => {
     try {
       isTesting.value = true
-      const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
+      const dataForSubmit = await handleActionDataBeforeSubmit(data)
       await requestTestActionConnectivity(dataForSubmit)
       isTesting.value = false
       return Promise.resolve()
