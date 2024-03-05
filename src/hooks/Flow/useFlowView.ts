@@ -7,7 +7,7 @@ import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 import { Ref, ref } from 'vue'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
-import useMixedActionList from '../Rule/action/useMixedActionList'
+import useActionList from '../Rule/action/useActionList'
 import useSourceList from '../Rule/action/useSourceList'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 
@@ -42,13 +42,13 @@ export default (): {
     }
   }
 
-  const { getMixedActionListForRule } = useMixedActionList()
+  const { getActionList } = useActionList()
   const { getSourceList } = useSourceList()
   const { handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
       const sourceList = await getSourceList()
-      const sinkList = await getMixedActionListForRule()
+      const sinkList = await getActionList()
       const list = [...sourceList, ...sinkList]
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
         m.set(item.id, handleActionDataAfterLoaded(item))

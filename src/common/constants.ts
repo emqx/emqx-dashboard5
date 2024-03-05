@@ -260,21 +260,6 @@ export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
 const { VUE_APP_VERSION } = process.env
 export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
-/**
- * Map<newType, oldType>
- * for deduplicate
- */
-export const BRIDGE_OLD_TYPES_MAP: Map<string, Array<string>> = new Map([
-  [BridgeType.Webhook, ['webhook']],
-  [BridgeType.KafkaProducer, ['kafka']],
-  [BridgeType.Redis, ['redis_sentinel', 'redis_cluster', 'redis_single']],
-  [BridgeType.GCPProducer, ['gcp_pubsub']],
-  [BridgeType.MongoDB, ['mongodb_rs', 'mongodb_sharded', 'mongodb_single']],
-  [BridgeType.InfluxDB, ['influxdb_api_v1', 'influxdb_api_v2']],
-  [BridgeType.AmazonKinesis, ['kinesis_producer']],
-  [BridgeType.Pulsar, ['pulsar_producer']],
-])
-
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB]
 
 export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
@@ -282,42 +267,6 @@ export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
 export const CONNECTOR_TYPES_WITH_SOURCE = [BridgeType.MQTT, BridgeType.RabbitMQ]
-
-export const SUPPORTED_CONNECTOR_TYPES = [
-  BridgeType.MQTT,
-  BridgeType.Webhook,
-  BridgeType.KafkaProducer,
-  BridgeType.KafkaConsumer,
-  BridgeType.AzureEventHubs,
-  BridgeType.Confluent,
-  BridgeType.PgSQL,
-  BridgeType.TimescaleDB,
-  BridgeType.MatrixDB,
-  BridgeType.MySQL,
-  BridgeType.GCPProducer,
-  BridgeType.MongoDB,
-  BridgeType.Redis,
-  BridgeType.SysKeeperForwarder,
-  BridgeType.SysKeeperProxy,
-  BridgeType.InfluxDB,
-  BridgeType.IoTDB,
-  BridgeType.Elasticsearch,
-  BridgeType.AmazonKinesis,
-  BridgeType.GreptimeDB,
-  BridgeType.TDengine,
-  BridgeType.OracleDatabase,
-  BridgeType.OpenTSDB,
-  BridgeType.Cassandra,
-  BridgeType.RabbitMQ,
-  BridgeType.RocketMQ,
-  BridgeType.ClickHouse,
-  BridgeType.S3,
-  BridgeType.HStream,
-  BridgeType.DynamoDB,
-  BridgeType.GCPConsumer,
-  BridgeType.Pulsar,
-  BridgeType.MicrosoftSQLServer,
-]
 
 export const COPY_SUFFIX = '_duplication'
 

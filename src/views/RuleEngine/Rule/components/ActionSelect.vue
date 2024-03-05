@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
-import useMixedActionList from '@/hooks/Rule/action/useMixedActionList'
+import useActionList from '@/hooks/Rule/action/useActionList'
 import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
@@ -86,14 +86,14 @@ const selected = computed({
 })
 
 const totalList = ref<Array<BridgeItem>>([])
-const { getMixedActionListForRule } = useMixedActionList()
+const { getActionList } = useActionList()
 const { getSourceList } = useSourceList()
 const getTotalList = async () => {
   try {
     if (props.direction === BridgeDirection.Ingress) {
       totalList.value = await getSourceList()
     } else {
-      totalList.value = await getMixedActionListForRule()
+      totalList.value = await getActionList()
     }
   } catch (error) {
     //
