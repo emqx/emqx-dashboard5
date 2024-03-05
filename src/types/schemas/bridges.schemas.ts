@@ -941,9 +941,9 @@ export interface BridgeTdengineGet {
 export interface BridgeSqlserverPut {
   enable?: boolean
   sql?: string
-  driver?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  driver?: string
   server: string
   database: string
   pool_size?: number
@@ -966,9 +966,9 @@ export interface BridgeSqlserverPost {
   name: string
   enable?: boolean
   sql?: string
-  driver?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  driver?: string
   server: string
   database: string
   pool_size?: number
@@ -1005,9 +1005,9 @@ export interface BridgeSqlserverGet {
   name: string
   enable?: boolean
   sql?: string
-  driver?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  driver?: string
   server: string
   database: string
   pool_size?: number
