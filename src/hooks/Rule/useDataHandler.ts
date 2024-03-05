@@ -1,9 +1,7 @@
 import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType } from '@/types/enum'
-import { cloneDeep, omit, set, get } from 'lodash'
-import { useBridgeTypeValue } from './bridge/useBridgeTypeValue'
 import { Connector } from '@/types/rule'
+import { cloneDeep, get, omit, set } from 'lodash'
 
 const keysDoNotNeedForAPI = [
   'node_status',
@@ -112,33 +110,13 @@ export const useBridgeDataHandler = (): {
   handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
-  handleBridgeDataForSaveAsCopy: (bridgeData: any) => any
 } => {
-  const { getBridgeGeneralType } = useBridgeTypeValue()
-  const {
-    handleDataBeforeSubmit,
-    likePasswordFieldKeys,
-    handleDataForCopy,
-    handleDataForSaveAsCopy,
-  } = useCommonDataHandler()
-
-  const handleMQTTBridgeData = (bridgeData: any) => {
-    const { egress = {}, ingress = {} } = bridgeData
-    if (!egress.remote?.topic) {
-      Reflect.deleteProperty(bridgeData, 'egress')
-    } else if (!ingress.remote?.topic) {
-      Reflect.deleteProperty(bridgeData, 'ingress')
-    }
-    return bridgeData
-  }
+  const { handleDataBeforeSubmit, likePasswordFieldKeys, handleDataForCopy } =
+    useCommonDataHandler()
 
   const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
     try {
-      let ret = cloneDeep(bridgeData)
-      const bridgeType = getBridgeGeneralType(bridgeData.type)
-      if (bridgeType === BridgeType.MQTT) {
-        ret = await handleMQTTBridgeData(ret)
-      }
+      const ret = cloneDeep(bridgeData)
       return Promise.resolve(handleDataBeforeSubmit(ret))
     } catch (error) {
       console.error(error)
@@ -154,14 +132,11 @@ export const useBridgeDataHandler = (): {
     return handleBridgeDataAfterLoaded(handleDataForCopy(bridgeData))
   }
 
-  const handleBridgeDataForSaveAsCopy = handleDataForSaveAsCopy
-
   return {
     likePasswordFieldKeys,
     handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
-    handleBridgeDataForSaveAsCopy,
   }
 }
 

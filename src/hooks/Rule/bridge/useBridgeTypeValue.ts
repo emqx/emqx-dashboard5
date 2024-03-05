@@ -2,7 +2,7 @@ import { INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
-import { BridgeItem, MQTTBridge } from '@/types/rule'
+import { BridgeItem } from '@/types/rule'
 
 const bridgesOrder = [BridgeType.MQTT, BridgeType.Webhook]
 
@@ -105,17 +105,11 @@ export const typesWithProducerAndConsumer = [
 export const useBridgeTypeOptions = (): {
   bridgeTypeOptions: BridgeTypeOptions[]
 } => {
-  const { tl } = useI18nTl('RuleEngine')
   const { bridgeTypeList } = useBridgeTypeValue()
-
-  const descMap = new Map([
-    [BridgeType.Webhook, tl('bridgeDescHTTP')],
-    [BridgeType.MQTT, tl('bridgeDescMQTT')],
-  ])
 
   const bridgeTypeOptions: Array<BridgeTypeOptions> = bridgeTypeList.map((item) => ({
     ...item,
-    desc: descMap.get(item.value) || '',
+    desc: '',
   }))
 
   return {
@@ -157,25 +151,14 @@ export const useBridgeTypeIcon = (): {
   }
 }
 
-export const useBridgeDirection = (): {
-  judgeBridgeDirection: (bridge: BridgeItem) => BridgeDirection
+export const useConnectorDirection = (): {
+  judgeConnectorDirection: (bridge: BridgeItem) => BridgeDirection
 } => {
   const { getBridgeGeneralType } = useBridgeTypeValue()
-  const judgeBridgeDirection = (bridge: BridgeItem): BridgeDirection => {
+  const judgeConnectorDirection = (bridge: BridgeItem): BridgeDirection => {
     const { type: rawType } = bridge
     const type = getBridgeGeneralType(rawType)
-    // FOR MQTT
-    if (type === BridgeType.MQTT) {
-      const { ingress, egress } = bridge as MQTTBridge
-      const withIngress = !!ingress?.remote?.topic
-      const withEgress = !!egress?.remote?.topic
-      if (withIngress && withEgress) {
-        return BridgeDirection.Both
-      } else if (withIngress) {
-        return BridgeDirection.Ingress
-      }
-      return BridgeDirection.Egress
-    } else if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
+    if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
       return BridgeDirection.Ingress
     }
 
@@ -183,46 +166,7 @@ export const useBridgeDirection = (): {
   }
 
   return {
-    judgeBridgeDirection,
-  }
-}
-
-export const useBridgeSchema = (): {
-  getSchemaRefByType: (type: string, suffix?: string) => string
-  getTypeByBridgeSchemaRef: (ref: string) => string
-} => {
-  const refPrefix = 'bridge_'
-  const refSuffix = '.post'
-
-  const getRef = (type: string, suffix?: string) => {
-    const finalSuffix = `${refSuffix}${suffix || ''}`
-    return refPrefix + type + finalSuffix
-  }
-
-  const specialBridgeTypeRefKeyMap: Map<string, string> = new Map([])
-
-  const getSchemaRefByType = (type: string) => {
-    const ref = specialBridgeTypeRefKeyMap.get(type)
-    return ref ?? getRef(type)
-  }
-
-  const getTypeByBridgeSchemaRef = (ref: string) => {
-    const refKey = ref.replace(/^.+\//, '')
-    for (const [type, refValue] of specialBridgeTypeRefKeyMap.entries()) {
-      if (refValue === refKey) {
-        return type
-      }
-    }
-    // 1. remove path 2. remove prefix 3. remove suffix
-    const ret = refKey
-      .replace(new RegExp(`${refPrefix}`), '')
-      .replace(new RegExp(`${refSuffix}\\w*`), '')
-    return ret
-  }
-
-  return {
-    getSchemaRefByType,
-    getTypeByBridgeSchemaRef,
+    judgeConnectorDirection,
   }
 }
 

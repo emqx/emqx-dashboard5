@@ -16,7 +16,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { useActionDataHandler, useBridgeDataHandler } from '../useDataHandler'
+import { useActionDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {
   getSourceDetail: (id: string) => Promise<Source>
@@ -32,12 +32,9 @@ const useHandleSourceItem = (): {
   isTesting: Ref<boolean>
   testConnectivity: (data: Source) => Promise<void>
 } => {
-  const { handleBridgeDataBeforeSubmit, handleBridgeDataAfterLoaded } = useBridgeDataHandler()
   const { handleActionDataBeforeUpdate } = useActionDataHandler()
 
-  const handleDataAfterLoaded = (data: Source): Source => {
-    return handleBridgeDataAfterLoaded(data)
-  }
+  const handleDataAfterLoaded = (data: Source): Source => data
 
   const getSourceDetail = async (id: string): Promise<Source> => {
     try {
@@ -49,8 +46,7 @@ const useHandleSourceItem = (): {
   }
 
   const addSource = async (data: Source): Promise<Source> => {
-    const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
-    return postSource(dataForSubmit) as Promise<Source>
+    return postSource(data) as Promise<Source>
   }
 
   const updateSource = async (data: Source): Promise<Source> => {
@@ -94,7 +90,7 @@ const useHandleSourceItem = (): {
   const testConnectivity = async (data: Source): Promise<void> => {
     try {
       isTesting.value = true
-      const dataForSubmit = await handleBridgeDataBeforeSubmit(data)
+      const dataForSubmit = data
       await testSourceConnectivity(dataForSubmit)
       isTesting.value = false
       return Promise.resolve()
