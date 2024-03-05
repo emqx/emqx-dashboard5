@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
-import { useBridgeDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useConnectorDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
@@ -71,14 +71,14 @@ const router = useRouter()
 
 const confirmStep = ref(0)
 
-const { judgeBridgeDirection } = useBridgeDirection()
+const { judgeConnectorDirection } = useConnectorDirection()
 
 watch(showDialog, (val) => {
   if (!val) {
     confirmStep.value = 0
   } else {
     connectorDirection.value =
-      (props.connector && judgeBridgeDirection(props.connector)) ?? BridgeDirection.Egress
+      (props.connector && judgeConnectorDirection(props.connector)) ?? BridgeDirection.Egress
   }
 })
 
