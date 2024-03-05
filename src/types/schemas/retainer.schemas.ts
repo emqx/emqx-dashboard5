@@ -132,6 +132,7 @@ export interface RetainerMnesiaConfig {
   storage_type?: RetainerMnesiaConfigStorageType
   max_retained_messages?: number
   index_specs?: number[]
+  enable?: boolean
 }
 
 export interface RetainerMessageSummary {
