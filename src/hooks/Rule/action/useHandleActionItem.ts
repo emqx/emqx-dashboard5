@@ -60,7 +60,7 @@ export default (): {
   }
 
   const addAction = async (data: Action): Promise<Action> => {
-    const dataForSubmit = handleActionDataBeforeSubmit(data)
+    const dataForSubmit = await handleActionDataBeforeSubmit(data)
     return postAction(dataForSubmit as any) as Promise<Action>
   }
 
