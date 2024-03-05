@@ -92,7 +92,7 @@ import {
   useBridgeTypeOptions,
   useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
+import { useActionDataHandler, useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
@@ -131,7 +131,8 @@ const chosenBridgeType: Ref<BridgeType> = ref(
 
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 
-const { handleBridgeDataBeforeSubmit, handleBridgeDataForCopy } = useBridgeDataHandler()
+const { handleBridgeDataForCopy } = useBridgeDataHandler()
+const { handleActionDataBeforeSubmit } = useActionDataHandler()
 
 const handleTypeSelected = () => {
   bridgeData.value = createBridgeData()
@@ -192,7 +193,7 @@ const getDataForSubmit = () => {
       ..._.cloneDeep(bridgeData.value),
     }
   }
-  return handleBridgeDataBeforeSubmit(dataToSubmit)
+  return handleActionDataBeforeSubmit(dataToSubmit)
 }
 
 const testConnection = async () => {

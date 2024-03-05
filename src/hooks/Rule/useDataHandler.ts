@@ -1,6 +1,7 @@
 import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
-import { Connector } from '@/types/rule'
+import { BridgeType } from '@/types/enum'
+import { Action, Connector } from '@/types/rule'
 import { cloneDeep, get, omit, set } from 'lodash'
 
 const keysDoNotNeedForAPI = [
@@ -107,22 +108,10 @@ export const useConnectorDataHandler = (): {
 
 export const useBridgeDataHandler = (): {
   likePasswordFieldKeys: string[]
-  handleBridgeDataBeforeSubmit: (bridgeData: any) => Promise<any>
   handleBridgeDataAfterLoaded: (bridgeData: any) => any
   handleBridgeDataForCopy: (bridgeData: any) => any
 } => {
-  const { handleDataBeforeSubmit, likePasswordFieldKeys, handleDataForCopy } =
-    useCommonDataHandler()
-
-  const handleBridgeDataBeforeSubmit = async (bridgeData: any): Promise<any> => {
-    try {
-      const ret = cloneDeep(bridgeData)
-      return Promise.resolve(handleDataBeforeSubmit(ret))
-    } catch (error) {
-      console.error(error)
-      return Promise.reject()
-    }
-  }
+  const { likePasswordFieldKeys, handleDataForCopy } = useCommonDataHandler()
 
   const handleBridgeDataAfterLoaded = (bridgeData: any) => {
     return bridgeData
@@ -134,23 +123,49 @@ export const useBridgeDataHandler = (): {
 
   return {
     likePasswordFieldKeys,
-    handleBridgeDataBeforeSubmit,
     handleBridgeDataAfterLoaded,
     handleBridgeDataForCopy,
   }
 }
 
 export const useActionDataHandler = (): {
+  handleActionDataBeforeSubmit: (data: any) => Promise<any>
   handleActionDataBeforeUpdate: (data: any) => Promise<any>
+  handleActionDataAfterLoaded: (data: any) => any
 } => {
-  const { handleBridgeDataBeforeSubmit } = useBridgeDataHandler()
+  const { handleDataBeforeSubmit } = useCommonDataHandler()
+
+  const specialDataHandlerBeforeSubmit: Map<BridgeType, (data: Action) => Action> = new Map([])
+
+  /**
+   * submit contains create and update
+   */
+  const handleActionDataBeforeSubmit = async (data: any): Promise<any> => {
+    try {
+      let ret = cloneDeep(data)
+      const handler = specialDataHandlerBeforeSubmit.get(ret.type)
+      if (handler) {
+        ret = await handler(ret)
+      }
+      return Promise.resolve(await handleDataBeforeSubmit(ret))
+    } catch (error) {
+      console.error(error)
+      return Promise.reject()
+    }
+  }
 
   const handleActionDataBeforeUpdate = async (data: any): Promise<any> => {
-    const ret = await handleBridgeDataBeforeSubmit(data)
+    const ret = await handleActionDataBeforeSubmit(data)
     return omit(ret, keysNeedRemovedForUpdate)
   }
 
+  const handleActionDataAfterLoaded = (data: any) => {
+    return data
+  }
+
   return {
+    handleActionDataBeforeSubmit,
     handleActionDataBeforeUpdate,
+    handleActionDataAfterLoaded,
   }
 }
