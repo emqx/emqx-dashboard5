@@ -1,5 +1,4 @@
 import {
-  BRIDGE_TYPES_WITH_TWO_DIRECTIONS,
   DEFAULT_SELECT,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
@@ -12,14 +11,13 @@ import {
   splitOnComma,
   trimSpacesAndLFs,
 } from '@/common/tools'
-import {
-  typesWithProducerAndConsumer,
-  useBridgeTypeValue,
-} from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { escapeRegExp, isString } from 'lodash'
+import { useRuleUtils } from '../Rule/rule/useRule'
+import useWebhookUtils from '../Webhook/useWebhookUtils'
+import useI18nTl from '../useI18nTl'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
   EditedWay,
@@ -38,9 +36,6 @@ import {
   createMessageForm,
 } from './useNodeForm'
 import useParseWhere from './useParseWhere'
-import useWebhookUtils from '../Webhook/useWebhookUtils'
-import { useRuleUtils } from '../Rule/rule/useRule'
-import useI18nTl from '../useI18nTl'
 
 /**
  * ID rule of each node
@@ -84,23 +79,9 @@ export default (): {
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
 
-  const isTwoDirectionBridge = (bridgeType: string): boolean =>
-    BRIDGE_TYPES_WITH_TWO_DIRECTIONS.includes(bridgeType as BridgeType)
-
   const getBridgeNameFromId = (id: string): string => getTypeAndNameFromKey(id).name
 
   const getBridgeTypeFromId = (id: string): string => getTypeAndNameFromKey(id).type
-
-  /**
-   * Check only those bridge types that have direction
-   */
-  const typeSpecifiesTheDirection = (type: string): BridgeDirection | undefined => {
-    const generalType = getBridgeGeneralType(type)
-    if (typesWithProducerAndConsumer.includes(generalType)) {
-      return type.includes('consumer') ? BridgeDirection.Ingress : BridgeDirection.Egress
-    }
-    return
-  }
 
   /**
    * @param bridgeType The bridge type here is a specific type, for example, if it is influxdb, which version is it?

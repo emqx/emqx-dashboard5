@@ -71,14 +71,15 @@ const router = useRouter()
 
 const confirmStep = ref(0)
 
-const { judgeConnectorDirection } = useConnectorDirection()
+const { judgeConnectorTypeDirection } = useConnectorDirection()
 
 watch(showDialog, (val) => {
   if (!val) {
     confirmStep.value = 0
   } else {
     connectorDirection.value =
-      (props.connector && judgeConnectorDirection(props.connector)) ?? BridgeDirection.Egress
+      (props.connector && judgeConnectorTypeDirection(props.connector.type)) ??
+      BridgeDirection.Egress
   }
 })
 
