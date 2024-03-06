@@ -451,4 +451,8 @@ export default {
     zh: '飞行窗口消息列表',
     en: 'Inflight Messages',
   },
+  msgQueueMsgList: {
+    zh: '消息队列消息列表',
+    en: 'Message Queue Messages',
+  },
 }
