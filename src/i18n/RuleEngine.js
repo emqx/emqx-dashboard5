@@ -777,7 +777,11 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
-  deleteConnectorTip: {
+  deleteSourceConnectorTip: {
+    zh: '请先移除使用该连接器的下列 sources，然后再删除该连接器。',
+    en: 'Please remove the following sources that use this connector before deleting the connector.',
+  },
+  deleteActionConnectorTip: {
     zh: '请先移除使用该连接器的下列动作{ext}，然后再删除该连接器。',
     en: 'Please remove the following actions {ext} that use this connector before deleting the connector.',
   },

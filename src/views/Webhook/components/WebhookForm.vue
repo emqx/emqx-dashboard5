@@ -69,7 +69,7 @@
           v-model="formData.connector.ssl"
           :is-edit="isEdit"
         />
-        <el-form-item :label="getLabel('connect_timeout')">
+        <el-form-item :label="getCommonText('connect_timeout.label')">
           <TimeInputWithUnitSelect
             v-model="formData.connector.connect_timeout"
             :enabled-units="['s']"
@@ -78,7 +78,7 @@
         <el-form-item :label="tl('connectionPoolSize')" prop="connector.pool_size">
           <el-input v-model.number="formData.connector.pool_size" />
         </el-form-item>
-        <el-form-item :label="getLabel('pool_type')" prop="connector.pool_type">
+        <el-form-item :label="getCommonText('pool_type.label')" prop="connector.pool_type">
           <el-select v-model="formData.connector.pool_type">
             <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
           </el-select>
@@ -140,6 +140,7 @@ const emit = defineEmits(['update:modelValue'])
 const { t, tl } = useI18nTl('RuleEngine')
 const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
+const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
 const FormCom = ref()
 const TriggerCom = ref()
 

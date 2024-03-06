@@ -1,4 +1,4 @@
-import { INGRESS_BRIDGE_TYPES } from '@/common/constants'
+import { CONNECTOR_TYPES_WITH_TWO_DIRECTIONS, INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
@@ -266,14 +266,16 @@ export const useBridgeTypeIcon = (): {
 }
 
 export const useConnectorDirection = (): {
-  judgeConnectorDirection: (bridge: BridgeItem) => BridgeDirection
+  judgeConnectorTypeDirection: (bridge: BridgeType) => BridgeDirection
 } => {
   const { getBridgeGeneralType } = useBridgeTypeValue()
-  const judgeConnectorDirection = (bridge: BridgeItem): BridgeDirection => {
-    const { type: rawType } = bridge
+  const judgeConnectorTypeDirection = (rawType: BridgeType) => {
     const type = getBridgeGeneralType(rawType)
     if (INGRESS_BRIDGE_TYPES.includes(rawType)) {
       return BridgeDirection.Ingress
+    }
+    if (CONNECTOR_TYPES_WITH_TWO_DIRECTIONS.includes(type)) {
+      return BridgeDirection.Both
     }
     if (typesWithProducerAndConsumer.includes(type)) {
       return consumerReg.test(rawType) ? BridgeDirection.Ingress : BridgeDirection.Egress
@@ -283,7 +285,7 @@ export const useConnectorDirection = (): {
   }
 
   return {
-    judgeConnectorDirection,
+    judgeConnectorTypeDirection,
   }
 }
 

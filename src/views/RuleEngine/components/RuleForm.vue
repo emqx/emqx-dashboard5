@@ -254,7 +254,7 @@ const addBridgeToAction = (bridgeID: string) => {
   }
 }
 
-const { handleConnDirection, getDetail } = useHandleActionItem()
+const { handleConnDirection } = useHandleActionItem()
 
 const processAction = addBridgeToAction
 

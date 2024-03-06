@@ -3,7 +3,7 @@ import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeDirection, BridgeType, FilterLogicalOperator } from '@/types/enum'
+import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
 import { startCase } from 'lodash'
