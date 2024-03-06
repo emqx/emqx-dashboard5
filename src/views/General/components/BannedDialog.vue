@@ -94,7 +94,7 @@ const submitLoading = ref(false)
 const { typeList: asOptions } = useBannedType()
 const record = ref(generateRawRecord())
 const rules = {
-  who: [{ required: true, message: tl('enterWho'), trigger: 'change' }],
+  who: [{ required: true, message: tl('enterWho'), trigger: 'blur' }],
   until: [
     {
       validator: (rule: any, value: string) => {
@@ -126,6 +126,13 @@ watch(showDialog, async (value: boolean) => {
     record.value = generateRawRecord()
   }
 })
+
+watch(
+  () => record.value.as,
+  () => {
+    FormCom.value.clearValidate()
+  },
+)
 
 const isItEarlierThanToday = (date: Date) => {
   const todayStartTime = new Date().setHours(0, 0, 0, 0)
