@@ -109,6 +109,8 @@ import { PropType, Ref, defineEmits, defineProps, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 
+const JSONbigNative = JSONbig({ useNativeBigInt: true })
+
 interface TestParams {
   context: Record<string, string>
   output: string
@@ -267,10 +269,15 @@ const submitTest = async () => {
     ...testParams.value.context,
     event_type: getEventTypeInContext(),
   }
+  let res
   try {
-    const res = await testsql({ context, sql: props.sql })
+    res = await testsql({ context, sql: props.sql })
+  } catch (error) {
+    //
+  }
+  try {
     if (res) {
-      resultData.value = JSONbig.stringify(JSONbig.parse(res), null, 2)
+      resultData.value = JSONbigNative.stringify(JSONbigNative.parse(res), null, 2)
       ElMessage.success(tl('testPassed'))
     }
   } catch (e) {

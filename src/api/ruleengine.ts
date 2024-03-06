@@ -125,7 +125,11 @@ export function deleteRules(id: string): Promise<any> {
 
 export function testsql(body: Record<string, unknown>): Promise<any> {
   return http.post('/rule_test', body, {
-    transformResponse: [(data: string) => data],
+    transformResponse: [
+      (data: string, responseHeader: any, code: number) => {
+        return code > 299 ? JSON.parse(data) : data
+      },
+    ],
   })
 }
 
