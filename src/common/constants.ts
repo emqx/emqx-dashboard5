@@ -213,7 +213,7 @@ export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB]
 
-export const BRIDGE_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT]
+export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT, BridgeType.RabbitMQ]
 
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 

@@ -43,10 +43,10 @@
 </template>
 
 <script lang="ts" setup>
-import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
 import { getBridgeKey } from '@/common/tools'
+import { useConnectorDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { lowerCase } from 'lodash'
@@ -68,11 +68,21 @@ const showDialog = computed({
   },
 })
 
-const deleteTip = computed(() =>
-  CONNECTOR_TYPES_WITH_SOURCE.includes(props.connectorType as BridgeType)
-    ? tl('deleteConnectorTip', { ext: lowerCase(`${tl('or')} ${t('components.source')}`) })
-    : tl('deleteConnectorTip'),
-)
+const { judgeConnectorTypeDirection } = useConnectorDirection()
+
+const deleteTip = computed(() => {
+  const direction = judgeConnectorTypeDirection(props.connectorType as BridgeType)
+  switch (direction) {
+    case BridgeDirection.Ingress:
+      return tl('deleteSourceConnectorTip')
+    case BridgeDirection.Both:
+      return tl('deleteActionConnectorTip', {
+        ext: lowerCase(`${tl('or')} ${t('components.source')}`),
+      })
+    default:
+      return tl('deleteActionConnectorTip')
+  }
+})
 </script>
 
 <style lang="scss">
