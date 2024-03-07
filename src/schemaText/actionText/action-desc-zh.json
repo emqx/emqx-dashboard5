@@ -268,10 +268,10 @@
     "send_buffer": "TCP socket 的发送缓存调优，高吞吐量下建议保留默认值。",
     "max_batch_bytes": "每个批次可收集的最大消息字节数。EMQX 将默认值设为小于 5MB，以便补偿编码开销，特别是在处理较小的消息时。当单条消息的大小超过该限制时，会做为单独批次处理，即该批次中仅包含这条消息。",
     "connect_timeout": "建立 TCP 连接时的最大等待时长（若启用认证，这个等待时长也包含完成认证所需时间）。",
-    "buffer_mode": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
-    "buffer_per_partition_limit": "为每个 Pulsar 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，以便接收新的消息。",
-    "buffer_segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
-    "buffer_memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
+    "mode": "消息缓存模式。<br/><code>memory</code>: 所有的消息都缓存在内存里。如果 EMQX 服务重启，缓存的消息会丢失。<br/><code>disk</code>: 缓存到磁盘上。EMQX 重启后会继续发送重启前未发送完成的消息。<br/><code>hybrid</code>: 先将消息缓存在内存中，当内存中的消息堆积超过一定限制（配置项 <code>segment_bytes</code> 描述了该限制）后，后续的消息会缓存到磁盘上。如果 EMQX 服务重启，缓存消息会丢失。",
+    "per_partition_limit": "为每个 Pulsar 分区设置的最大缓存字节数。当超过这个上限之后，老的消息会被丢弃，以便接收新的消息。",
+    "segment_bytes": "当缓存模式是 <code>disk</code> 或 <code>hybrid</code> 时适用。该配置用于指定缓存到磁盘上的文件的大小。",
+    "memory_overload_protection": "缓存模式是 <code>memory</code> 或 <code>hybrid</code> 时适用。当系统处于高内存压力时，从队列中丢弃旧的消息以减缓内存增长。内存压力值由配置项 <code>sysmon.os.sysmem_high_watermark</code> 决定。注意，该配置仅在 Linux 系统中有效。",
     "authentication_jwt": "JWT 认证令牌。"
   },
   "azure_event_hub_producer": {
