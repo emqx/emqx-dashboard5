@@ -50,5 +50,8 @@
   },
   "influxdb": {
     "influxdb_type": "Version of InfluxDB"
+  },
+  "hstreamdb": {
+    "hstream_batch_size": "HStreamDB Batch Size"
   }
 }

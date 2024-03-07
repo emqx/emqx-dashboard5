@@ -81,7 +81,8 @@
     "max_batches": "Maximum number of unconfirmed batches in the flush queue.",
     "writer_pool_size": "The size of the writer pool. A larger pool may increase parallelization and concurrent write operations, potentially boosting throughput. Trade-offs include greater memory consumption and possible resource contention.",
     "batch_interval": "Maximum interval that is allowed between two successive (batch) request.",
-    "record_template": "The HStream record template to be forwarded to the HStreamDB. Placeholders supported.<br />NOTE: When you use `raw record` template (which means the data is not a valid JSON), you should use `read` or `subscription` in HStream to get the data."
+    "record_template": "The HStream record template to be forwarded to the HStreamDB. Placeholders supported.<br />NOTE: When you use `raw record` template (which means the data is not a valid JSON), you should use `read` or `subscription` in HStream to get the data.",
+    "hstream_batch_size": "Maximum number of insert data clauses that can be sent in a single request."
   },
   "influxdb": {
     "server": "The IPv4 or IPv6 address or the hostname to connect to.</br><br/>A host entry has the following form: `Host[:Port]`.</br><br/>The InfluxDB default port 8086 is used if `[:Port]` is not specified.",

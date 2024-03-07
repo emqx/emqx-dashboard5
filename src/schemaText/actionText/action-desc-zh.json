@@ -81,7 +81,8 @@
     "max_batches": "刷新队列中最大未确认批次数。",
     "writer_pool_size": "写入池大小。扩大池规模可增加并行化和同时写入操作，可能提升吞吐量。但需权衡内存消耗和资源竞争。",
     "batch_interval": "两个连续（批量）请求之间的最大间隔。",
-    "record_template": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。<br />注意：当使用 `raw record` 模板（意味着数据不是有效的JSON）时，应该在 HStream 中使用 `read` 或 `subscription` 来获取数据。"
+    "record_template": "将被转发到 HStreamDB 的 HStream record 模板。支持占位符。<br />注意：当使用 `raw record` 模板（意味着数据不是有效的JSON）时，应该在 HStream 中使用 `read` 或 `subscription` 来获取数据。",
+    "hstream_batch_size": "单个请求中可发送的插入数据子句的最大数量。"
   },
   "influxdb": {
     "server": "将要连接的 IPv4 或 IPv6 地址，或者主机名。</br><br/>主机名具有以下形式：`Host[:Port]`。</br><br/>如果未指定 `[:Port]`，则使用 InfluxDB 默认端口 8086。",
