@@ -74,7 +74,7 @@ watch(showDialog, (val) => {
 })
 
 const dialogTitle = computed(() => {
-  return props.type === 'mqueue' ? tl('mqueue') : tl('inflightMsgList')
+  return props.type === 'mqueue' ? tl('msgQueueMsgList') : tl('inflightMsgList')
 })
 
 const isLoading = ref(false)
