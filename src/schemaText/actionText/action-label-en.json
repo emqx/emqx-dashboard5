@@ -4,7 +4,6 @@
     "ssl": "Enable SSL"
   },
   "mqtt": {
-    "server": "MQTT Broker",
     "source_topic": "Topic"
   },
   "kafka_producer": {
@@ -41,12 +40,8 @@
     "url": "DynamoDB Endpoint"
   },
   "rabbitmq": {
-    "payload_template": "Payload Template",
     "queue": "Queue",
     "no_ack": "No Ack"
-  },
-  "pulsar": {
-    "servers": "Servers"
   },
   "influxdb": {
     "influxdb_type": "Version of InfluxDB"
