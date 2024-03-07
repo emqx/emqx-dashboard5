@@ -83,10 +83,14 @@ const units = props.units?.map((unit) => {
 const strRegExp = computed(() => {
   return new RegExp(
     `^(?<numberPart>\\d+(\\.\\d*)?)?(?<unit>${units?.map(({ value }) => value).join('|')})$`,
+    'i',
   )
 })
 const backupRegExp = computed(() => {
-  return new RegExp(`^(?<numberPart>.*)(?<unit>${units?.map(({ value }) => value).join('|')})$`)
+  return new RegExp(
+    `^(?<numberPart>.*)(?<unit>${units?.map(({ value }) => value).join('|')})$`,
+    'i',
+  )
 })
 
 const numPartRegExp = /^-?\d+(\.\d+)?$/
@@ -148,7 +152,15 @@ const unit: WritableComputedRef<string> = computed({
     const { unit = '' } =
       modelValueMatchReg.value?.groups || modelValueMatchBackupReg.value?.groups || {}
     if (unit !== '') {
-      return unit
+      const existingUnit = props.units?.find((item) => {
+        const value = typeof item === 'string' ? item : item.value
+        return new RegExp(value, 'i').test(unit)
+      })
+      return existingUnit
+        ? typeof existingUnit === 'string'
+          ? existingUnit
+          : existingUnit.value
+        : unit
     }
 
     if (!props.modelValue && units && units.length > 0) {
