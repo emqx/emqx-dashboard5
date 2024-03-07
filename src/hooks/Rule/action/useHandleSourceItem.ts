@@ -32,7 +32,7 @@ const useHandleSourceItem = (): {
   isTesting: Ref<boolean>
   testConnectivity: (data: Source) => Promise<void>
 } => {
-  const { handleActionDataBeforeUpdate } = useActionDataHandler()
+  const { handleActionDataBeforeUpdate, handleActionDataBeforeSubmit } = useActionDataHandler()
 
   const handleDataAfterLoaded = (data: Source): Source => data
 
@@ -90,7 +90,7 @@ const useHandleSourceItem = (): {
   const testConnectivity = async (data: Source): Promise<void> => {
     try {
       isTesting.value = true
-      const dataForSubmit = data
+      const dataForSubmit = await handleActionDataBeforeSubmit(data)
       await testSourceConnectivity(dataForSubmit)
       isTesting.value = false
       return Promise.resolve()
