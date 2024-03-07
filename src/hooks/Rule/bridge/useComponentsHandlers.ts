@@ -225,7 +225,9 @@ export default (
     if (components?.parameters?.properties?.record_template?.type === 'string') {
       components.parameters.properties.record_template.format = 'sql'
     }
-
+    if (components?.parameters?.properties?.batch_size) {
+      components.parameters.properties.batch_size.labelKey = 'hstream_batch_size'
+    }
     return { components, rules }
   }
 

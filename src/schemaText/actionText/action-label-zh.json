@@ -50,5 +50,8 @@
   },
   "influxdb": {
     "influxdb_type": "InfluxDB 版本"
+  },
+  "hstreamdb": {
+    "hstream_batch_size": "HStreamDB 最大批量请求大小"
   }
 }
