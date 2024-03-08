@@ -258,6 +258,8 @@ const props = defineProps({
   },
 })
 
+type ClientTypes = 'MQTT' | 'LWM2M' | 'others' | 'MQISDP'
+
 const emit = defineEmits(['refreshGateway'])
 
 const dialogVisible = ref(false)
@@ -370,12 +372,15 @@ const backRoute = computed(() => {
 const clientId = computed<string>((): string => {
   return (route.params.clientId as string) || (props.clientid as string)
 })
-const clientType = computed<'MQTT' | 'LWM2M' | 'others'>((): 'MQTT' | 'LWM2M' | 'others' => {
+const clientType = computed<ClientTypes>((): ClientTypes => {
   const proto_name = String(record.value.proto_name)
-  return proto_name.toUpperCase() as 'MQTT' | 'LWM2M' | 'others'
+  return proto_name.toUpperCase() as ClientTypes
 })
 const clientDetailParts = computed(() => {
   let allParts = Object.keys(clientsOrganizied)
+  if (clientType.value === 'MQISDP') {
+    return clientsOrganizied.MQTT
+  }
   if (Array.prototype.includes.call(allParts, clientType.value)) {
     return clientsOrganizied[clientType.value]
   }
