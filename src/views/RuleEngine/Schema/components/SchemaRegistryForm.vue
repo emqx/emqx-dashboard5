@@ -36,6 +36,14 @@
       </el-col>
       <el-col :span="24">
         <el-form-item label="Schema" prop="source">
+          <template #label>
+            <FormItemLabel
+              label="Schema"
+              :desc="selectedJSON ? tl('JSONSchemaVersionTip') : undefined"
+              desc-marked
+              popper-class="is-wider"
+            />
+          </template>
           <div class="monaco-container">
             <Monaco
               v-model="schemaForm.source"
@@ -70,6 +78,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import ajv from 'ajv'
+import draft6MetaSchema from 'ajv/dist/refs/json-schema-draft-06.json'
 import {
   PropType,
   WritableComputedRef,
@@ -109,7 +118,6 @@ const FormCom = ref()
 
 const { schemaTypeOpts } = useSchemaType()
 
-const ajvInstance = new ajv()
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
@@ -123,9 +131,12 @@ const rules = ref({
           return
         }
         try {
+          const ajvInstance = new ajv({ validateSchema: false })
+          ajvInstance.addMetaSchema(draft6MetaSchema)
           ajvInstance.compile(JSON.parse(value))
           callback()
         } catch (e) {
+          console.error(e)
           callback(new Error(tl('invalidJSONSchema')))
         }
       },
