@@ -108,7 +108,7 @@
               >
                 <div>
                   <span>{{ getSessionInfoItem(item) }}</span>
-                  <el-button
+                  <!-- <el-button
                     v-if="withMsgList(item)"
                     class="btn-view-msg"
                     type="primary"
@@ -117,7 +117,7 @@
                     @click="viewMsgList(item as 'mqueue' | 'inflight')"
                   >
                     {{ tl('viewMsg') }}
-                  </el-button>
+                  </el-button> -->
                 </div>
               </el-descriptions-item>
             </el-descriptions>
