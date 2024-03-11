@@ -24,11 +24,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="emq-table-footer">
+        <MiniPagination
+          :current-page="currentPage"
+          :hasnext="hasNext"
+          @current-change="handlePageChanged"
+        />
+      </div>
     </el-scrollbar>
 
-    <div class="emq-table-footer">
-      <CommonPagination @loadPage="getList" v-model:metaData="pageMeta" />
-    </div>
     <PayloadDialog
       v-model="showPayloadDialog"
       :raw-payload="payloadContent"
@@ -40,12 +44,14 @@
 <script lang="ts" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
 import { dateFormat } from '@/common/tools'
+import MiniPagination from '@/components/MiniPagination.vue'
 import PayloadDialog from '@/components/PayloadDialog.vue'
-import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { MessageItem } from '@/types/client'
+import { isUndefined } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+
+const NO_NEXT_PAGE_FLAG = 'end_of_data'
 
 const props = defineProps<{
   modelValue: boolean
@@ -69,6 +75,7 @@ watch(showDialog, (val) => {
   if (val) {
     getList()
   } else {
+    initPageMeta()
     msgList.value = []
   }
 })
@@ -81,23 +88,56 @@ const isLoading = ref(false)
 
 const msgList = ref<Array<MessageItem>>([])
 
-const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+const currentPage = ref(1)
+const hasNext = ref(false)
+const limit = 5
+
+const initLastMap = () => new Map([[0, 'none']])
+/**
+ * When getting the data on the previous page,
+ * the last data returned by the api can be used to get the data on the next page;
+ * when getting the data on the first page, last is `none`.
+ */
+/**
+ * @key pageNo
+ * @value pageLast
+ */
+let lastMap: Map<number, string> = initLastMap()
 
 const getList = async () => {
   try {
     isLoading.value = true
     const request = props.type === 'mqueue' ? loadMsgQueue : loadInflightMsgs
-    const { data = [], meta = { limit: 20, page: 1 } } = await request(
-      props.clientId,
-      pageParams.value,
-    )
+    const lastValue = lastMap.get(currentPage.value - 1) ?? 'none'
+    const { data = [], meta } = await request(props.clientId, {
+      limit,
+      after: lastValue,
+    })
     msgList.value = data
-    setPageMeta(meta)
+    hasNext.value = meta.last !== NO_NEXT_PAGE_FLAG
+    if (isUndefined(lastMap.get(currentPage.value))) {
+      lastMap.set(currentPage.value, meta.last)
+    }
   } catch (error) {
     //
   } finally {
     isLoading.value = false
   }
+}
+
+const handlePageChanged = (page: number) => {
+  if (page > currentPage.value) {
+    currentPage.value += 1
+    getList()
+  } else {
+    currentPage.value -= 1
+    getList()
+  }
+}
+
+const initPageMeta = () => {
+  currentPage.value = 1
+  lastMap = initLastMap()
 }
 
 const refreshList = () => {
