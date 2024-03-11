@@ -44,10 +44,10 @@ export function subscribe(
   return http.post(`/clients/${encodeURIComponent(clientId)}/subscribe`, topicData)
 }
 
-export function loadMsgQueue(clientId: string, query: { page: number; limit: number }) {
+export function loadMsgQueue(clientId: string, query: { after: string; limit: number }) {
   return http.get(`/clients/${encodeURIComponent(clientId)}/mqueue_messages`, { params: query })
 }
 
-export function loadInflightMsgs(clientId: string, query: { page: number; limit: number }) {
+export function loadInflightMsgs(clientId: string, query: { after: string; limit: number }) {
   return http.get(`/clients/${encodeURIComponent(clientId)}/inflight_messages`, { params: query })
 }
