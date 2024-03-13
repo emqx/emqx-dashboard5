@@ -36,13 +36,14 @@
 <script lang="ts" setup>
 import { titleCase, waitAMoment } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import type { Menu } from '@/hooks/useMenus'
 import useMenus from '@/hooks/useMenus'
 import { routes } from '@/router'
-import { Search, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight, Search } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
+import { escapeRegExp } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { Menu } from '@/hooks/useMenus'
 import { RouteRecordRaw, useRouter } from 'vue-router'
 
 interface MenuItem {
@@ -148,7 +149,7 @@ const querySearch = (query: string, cb: any) => {
   if (!query) {
     cb(neededMenuList.filter(({ name }) => defaultItemNames.includes(name)))
   } else {
-    const queryRegArr = query.split(' ').map((item) => new RegExp(`${item}`, 'i'))
+    const queryRegArr = query.split(' ').map((item) => new RegExp(`${escapeRegExp(item)}`, 'i'))
     const ret = neededMenuList.filter(
       ({ path, name, label }) =>
         queryRegArr.every((reg) => reg.test(path)) ||

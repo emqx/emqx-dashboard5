@@ -237,6 +237,12 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     gatewayTypesWhichHasSSLConfig.includes(type)
   const hasWSConfig = (type: ListenerType) => gatewayTypesWhichHasWSConfig.includes(type)
 
+  /**
+   * Normalizes the structure of a listener record.
+   *
+   * @param record - The listener record to normalize.
+   * @returns The normalized listener record.
+   */
   const normalizeStructure = (record: Listener) => {
     const { type = ListenerType.TCP } = record
     const result: Listener = {}
@@ -255,6 +261,9 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
           break
         case 'limiter':
           result[v] = record[v]
+          break
+        case 'access_rules':
+          result[v] = typeof record[v] === 'string' ? record[v].split(',') : record[v]
           break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {

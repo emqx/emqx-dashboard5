@@ -114,6 +114,7 @@ export const GetConfigsKey = {
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
+  durable_storage: 'durable_storage',
   exhook: 'exhook',
   file_transfer: 'file_transfer',
   flapping_detect: 'flapping_detect',

@@ -154,6 +154,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
         type as 'tcp' | 'ssl' | 'ws' | 'wss',
         listenerRecord.value,
       )
+      listenerCustomConfigs.value = {}
       if (!isEmptyObj(differences)) {
         listenerCustomConfigs.value = unflattenObject(differences)
       }
