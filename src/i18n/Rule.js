@@ -61,10 +61,10 @@ export default {
   },
   durationMinimumError: {
     zh: '可配置的最小值为 {min}',
-    en: 'Configurable minimum value of {min}',
+    en: 'Configurable minimum value is {min}',
   },
   durationMaximumError: {
     zh: '可配置的最大值为 {max}',
-    en: 'Configurable maximum value of {max}',
+    en: 'Configurable maximum value is {max}',
   },
 }
