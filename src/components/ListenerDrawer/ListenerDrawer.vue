@@ -156,95 +156,6 @@
                 <CustomInputNumber v-model="listenerRecord.acceptors" />
               </el-form-item>
             </el-col>
-            <!-- TCP -->
-            <template v-if="showTCPConfig">
-              <el-col :span="24"><el-divider /></el-col>
-              <el-col :span="12">
-                <el-form-item label="ActiveN">
-                  <CustomInputNumber
-                    v-model.number="listenerRecord.tcp_options.active_n"
-                    :placeholder="String(defaultListener.tcp_options.active_n)"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="'Buffer'">
-                  <InputWithUnit
-                    v-model="listenerRecord.tcp_options.buffer"
-                    number-placeholder="4"
-                    :units="['KB']"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="'TCP_NODELAY'">
-                  <BooleanSelect v-model="listenerRecord.tcp_options.nodelay" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="'SO_REUSEADDR'">
-                  <BooleanSelect v-model="listenerRecord.tcp_options.reuseaddr" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('sendTimeout')">
-                  <TimeInputWithUnitSelect
-                    v-model="listenerRecord.tcp_options.send_timeout"
-                    number-placeholder="15"
-                    :enabled-units="['s']"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('sendTimeoutClose')">
-                  <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
-                </el-form-item>
-              </el-col>
-            </template>
-            <!-- UDP -->
-            <template v-if="showUDPConfig">
-              <el-col :span="24"><el-divider /></el-col>
-              <el-col :span="12">
-                <el-form-item :label="'ActiveN'">
-                  <el-input
-                    v-model="listenerRecord.udp_options.active_n"
-                    :placeholder="String(defaultListener.udp_options.active_n)"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="'Buffer'">
-                  <InputWithUnit
-                    v-model="listenerRecord.udp_options.buffer"
-                    number-placeholder="4"
-                    :units="['KB']"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('recBuf')">
-                  <InputWithUnit
-                    v-model="listenerRecord.udp_options.recbuf"
-                    number-placeholder="2"
-                    :units="['KB']"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="tl('sendBuf')">
-                  <InputWithUnit
-                    v-model="listenerRecord.udp_options.sndbuf"
-                    number-placeholder="2"
-                    :units="['KB']"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item :label="'SO_REUSEADDR'">
-                  <BooleanSelect v-model="listenerRecord.udp_options.reuseaddr" />
-                </el-form-item>
-              </el-col>
-            </template>
             <!-- SSL -->
             <template v-if="showSSLConfig">
               <el-col :span="24"><el-divider /></el-col>
@@ -343,6 +254,95 @@
                   </el-form-item>
                 </el-col>
               </template>
+            </template>
+            <!-- TCP -->
+            <template v-if="showTCPConfig">
+              <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="12">
+                <el-form-item label="ActiveN">
+                  <CustomInputNumber
+                    v-model.number="listenerRecord.tcp_options.active_n"
+                    :placeholder="String(defaultListener.tcp_options.active_n)"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'Buffer'">
+                  <InputWithUnit
+                    v-model="listenerRecord.tcp_options.buffer"
+                    number-placeholder="4"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'TCP_NODELAY'">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.nodelay" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'SO_REUSEADDR'">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.reuseaddr" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendTimeout')">
+                  <TimeInputWithUnitSelect
+                    v-model="listenerRecord.tcp_options.send_timeout"
+                    number-placeholder="15"
+                    :enabled-units="['s']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendTimeoutClose')">
+                  <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
+                </el-form-item>
+              </el-col>
+            </template>
+            <!-- UDP -->
+            <template v-if="showUDPConfig">
+              <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="12">
+                <el-form-item :label="'ActiveN'">
+                  <el-input
+                    v-model="listenerRecord.udp_options.active_n"
+                    :placeholder="String(defaultListener.udp_options.active_n)"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'Buffer'">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.buffer"
+                    number-placeholder="4"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('recBuf')">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.recbuf"
+                    number-placeholder="2"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="tl('sendBuf')">
+                  <InputWithUnit
+                    v-model="listenerRecord.udp_options.sndbuf"
+                    number-placeholder="2"
+                    :units="['KB']"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="'SO_REUSEADDR'">
+                  <BooleanSelect v-model="listenerRecord.udp_options.reuseaddr" />
+                </el-form-item>
+              </el-col>
             </template>
             <!-- Custome Configs -->
             <template v-if="!gatewayName && !isQUIC">
