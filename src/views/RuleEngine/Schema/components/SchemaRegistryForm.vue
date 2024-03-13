@@ -89,6 +89,7 @@ import {
   ref,
 } from 'vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
+import Ajv04 from 'ajv-draft-04'
 
 const props = defineProps({
   modelValue: {
@@ -131,13 +132,25 @@ const rules = ref({
           return
         }
         try {
-          const ajvInstance = new ajv({ validateSchema: false })
-          ajvInstance.addMetaSchema(draft6MetaSchema)
+          const schemaObj = JSON.parse(value)
+          const { $schema } = schemaObj
+          // do not support validate 03
+          // now the default version is 03
+          if (/03/.test($schema) || !$schema) {
+            callback()
+            return
+          }
+          const isVersion06 = /06/.test($schema)
+          const ajvInstance = isVersion06
+            ? new ajv({ validateSchema: false })
+            : new Ajv04({ validateSchema: false })
+          if (isVersion06) {
+            ajvInstance.addMetaSchema(draft6MetaSchema)
+          }
           ajvInstance.compile(JSON.parse(value))
           callback()
-        } catch (e) {
-          console.error(e)
-          callback(new Error(tl('invalidJSONSchema')))
+        } catch (e: any) {
+          callback(new Error(e.toString()))
         }
       },
     },
