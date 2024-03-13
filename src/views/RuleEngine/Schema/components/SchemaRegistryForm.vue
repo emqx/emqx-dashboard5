@@ -49,6 +49,7 @@
               v-model="schemaForm.source"
               :id="createRandomString()"
               :lang="selectedJSON ? 'json' : 'plaintext'"
+              :custom-monaco-handler="disableCompletionItems"
               @blur="onBlurChanged"
             />
           </div>
@@ -86,6 +87,7 @@ import {
   defineEmits,
   defineExpose,
   defineProps,
+  onUnmounted,
   ref,
 } from 'vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
@@ -179,6 +181,30 @@ const openJSONSchemaDialog = () => {
 const updateSchema = (schema: string) => {
   schemaForm.value.source = schema
 }
+
+/**
+ * Stores pointers to reset `completionItems` when leaving the page.....
+ */
+let monacoTarget: any
+
+const setCompletionItems = (value: boolean) => {
+  const jsonDefault = monacoTarget?.languages?.json?.jsonDefaults
+  if (jsonDefault?.setModeConfiguration) {
+    console.log('qqq')
+    jsonDefault.setModeConfiguration({
+      ...jsonDefault.modeConfiguration,
+      completionItems: value,
+    })
+  }
+}
+const disableCompletionItems = (monaco: any) => {
+  monacoTarget = monaco
+  setCompletionItems(false)
+}
+
+onUnmounted(() => {
+  setCompletionItems(true)
+})
 
 defineExpose({ validate })
 </script>
