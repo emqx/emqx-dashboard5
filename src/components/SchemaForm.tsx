@@ -250,10 +250,6 @@ const SchemaForm = defineComponent({
         _.set(configForm.value, _path, event)
       }
     }
-    const handleBatchSettingChange = (val: string) => {
-      _.set(configForm.value, 'sql', val)
-    }
-
     const confirmPropertyDisabled = (property: Property) => {
       const { readOnly, path } = property
       const { propsDisabled } = props
@@ -305,7 +301,6 @@ const SchemaForm = defineComponent({
        */
       const modelValue = _.get(configForm.value, path)
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
-      const handleUpdateUploadedValue: any = { onUploadedData: handleBatchSettingChange }
       const inputType = format === 'password' ? 'password' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const showPassword = inputType === 'password'
@@ -536,7 +531,7 @@ const SchemaForm = defineComponent({
               {props.batchSettingConfigs.dbType === BatchSettingDatabaseType.TDengine && (
                 <BatchSettings
                   type={props.batchSettingConfigs.dbType}
-                  {...handleUpdateUploadedValue}
+                  onUploadedData={handleModelValueUpdate(path)}
                 />
               )}
             </div>
