@@ -15,6 +15,7 @@ import * as monaco from 'monaco-editor'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
+import { isFunction } from 'lodash'
 
 /**
  * for placeholder to show full desc
@@ -71,6 +72,9 @@ const prop = defineProps({
     type: Boolean,
     default: false,
   },
+  customMonacoHandler: {
+    type: Function,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
@@ -106,6 +110,9 @@ const registerProvider = () => {
   }
   if (prop.completionProvider) {
     monaco.languages.registerCompletionItemProvider(prop.lang, prop.completionProvider)
+  }
+  if (prop.customMonacoHandler && isFunction(prop.customMonacoHandler)) {
+    prop.customMonacoHandler(monaco)
   }
 }
 
