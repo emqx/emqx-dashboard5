@@ -518,7 +518,10 @@ const SchemaForm = defineComponent({
           )
         }
 
-        case 'sql':
+        case 'sql': {
+          const isDisabled = isPropertyDisabled || props.disabled
+          const showBatchSettings =
+            props.batchSettingConfigs.dbType === BatchSettingDatabaseType.TDengine && !isDisabled
           return (
             <div class="monaco-container">
               <Monaco
@@ -526,9 +529,9 @@ const SchemaForm = defineComponent({
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 lang="sql"
-                disabled={isPropertyDisabled || props.disabled}
+                disabled={isDisabled}
               />
-              {props.batchSettingConfigs.dbType === BatchSettingDatabaseType.TDengine && (
+              {showBatchSettings && (
                 <BatchSettings
                   type={props.batchSettingConfigs.dbType}
                   onUploadedData={handleModelValueUpdate(path)}
@@ -536,6 +539,7 @@ const SchemaForm = defineComponent({
               )}
             </div>
           )
+        }
         case 'file':
           return (
             <TextareaWithUploader
