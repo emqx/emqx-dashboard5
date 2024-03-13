@@ -62,6 +62,85 @@ export type PostClientsClientidUnsubscribe404 = {
   message?: string
 }
 
+export type GetClientsClientidInflightMessages404Code =
+  typeof GetClientsClientidInflightMessages404Code[keyof typeof GetClientsClientidInflightMessages404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidInflightMessages404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+} as const
+
+export type GetClientsClientidInflightMessages404 = {
+  code?: GetClientsClientidInflightMessages404Code
+  message?: string
+}
+
+export type GetClientsClientidInflightMessages400Code =
+  typeof GetClientsClientidInflightMessages400Code[keyof typeof GetClientsClientidInflightMessages400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidInflightMessages400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+} as const
+
+export type GetClientsClientidInflightMessages400 = {
+  code?: GetClientsClientidInflightMessages400Code
+  message?: string
+}
+
+export type GetClientsClientidInflightMessagesPayload =
+  typeof GetClientsClientidInflightMessagesPayload[keyof typeof GetClientsClientidInflightMessagesPayload]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidInflightMessagesPayload = {
+  none: 'none',
+  base64: 'base64',
+  plain: 'plain',
+} as const
+
+export type GetClientsClientidInflightMessagesParams = {
+  payload?: GetClientsClientidInflightMessagesPayload
+  max_payload_bytes?: string
+  after?: PublicAfterParameter
+  limit?: PublicLimitParameter
+}
+
+export type GetClientsClientidMqueueMessages404Code =
+  typeof GetClientsClientidMqueueMessages404Code[keyof typeof GetClientsClientidMqueueMessages404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidMqueueMessages404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+} as const
+
+export type GetClientsClientidMqueueMessages404 = {
+  code?: GetClientsClientidMqueueMessages404Code
+  message?: string
+}
+
+export type GetClientsClientidMqueueMessages400Code =
+  typeof GetClientsClientidMqueueMessages400Code[keyof typeof GetClientsClientidMqueueMessages400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidMqueueMessages400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+} as const
+
+export type GetClientsClientidMqueueMessages400 = {
+  code?: GetClientsClientidMqueueMessages400Code
+  message?: string
+}
+
+export type GetClientsClientidMqueueMessagesPayload =
+  typeof GetClientsClientidMqueueMessagesPayload[keyof typeof GetClientsClientidMqueueMessagesPayload]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidMqueueMessagesPayload = {
+  none: 'none',
+  base64: 'base64',
+  plain: 'plain',
+} as const
+
 export type PostClientsClientidSubscribe404Code =
   typeof PostClientsClientidSubscribe404Code[keyof typeof PostClientsClientidSubscribe404Code]
 
@@ -161,11 +240,27 @@ export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
+export type PublicAfterParameter = string | 'end_of_data' | 'none'
+
+export type GetClientsClientidMqueueMessagesParams = {
+  payload?: GetClientsClientidMqueueMessagesPayload
+  max_payload_bytes?: string
+  after?: PublicAfterParameter
+  limit?: PublicLimitParameter
+}
+
 export interface PublicMeta {
   page?: number
   limit?: number
   count?: number
   hasnext: boolean
+}
+
+export type PublicContinuationMetaLast = string | 'end_of_data' | 'none'
+
+export interface PublicContinuationMeta {
+  last: PublicContinuationMetaLast
+  count?: number
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
@@ -188,6 +283,26 @@ export interface EmqxMgmtApiClientsSubscribe {
   nl?: number
   rap?: number
   rh?: number
+}
+
+export interface EmqxMgmtApiClientsMessage {
+  msgid?: string
+  topic?: string
+  qos?: number
+  publish_at?: number
+  from_clientid?: string
+  from_username?: string
+  payload?: string
+}
+
+export interface EmqxMgmtApiClientsMqueueMessages {
+  data?: EmqxMgmtApiClientsMessage[]
+  meta?: PublicContinuationMeta
+}
+
+export interface EmqxMgmtApiClientsInflightMessages {
+  data?: EmqxMgmtApiClientsMessage[]
+  meta?: PublicContinuationMeta
 }
 
 export type EmqxMgmtApiClientsClientDisconnectedAt = number | string
