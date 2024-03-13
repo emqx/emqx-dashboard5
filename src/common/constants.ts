@@ -297,10 +297,6 @@ export const unexposedConfigs = {
     ...defaultUnexposedConfig,
     tcp_options: {
       ...tcpUnexposedOptions,
-      nodelay: true,
-      reuseaddr: true,
-      send_timeout: '15s',
-      send_timeout_close: true,
     },
     ssl_options: {
       ...sslUnexposedOptions,
