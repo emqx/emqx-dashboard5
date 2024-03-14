@@ -1266,7 +1266,7 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Enter JSON to generate JSON Schema',
   },
   JSONSchemaVersionTip: {
-    zh: `当前支持 JSON Schema draft-03、draft-04 和 draft-06 版本。`,
-    en: `JSON Schema versions draft-03, draft-04, and draft-06 are supported.`,
+    zh: `当前支持 JSON Schema \`draft-03\`、\`draft-04\` 和 \`draft-06\` 版本。`,
+    en: `JSON Schema versions \`draft-03\`, \`draft-04\`, and \`draft-06\` are supported.`,
   },
 }

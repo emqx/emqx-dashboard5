@@ -217,6 +217,18 @@
   },
   {
     "method": "put",
+    "path": "/authentication/order",
+    "operation_label": {
+      "en": "Authentication",
+      "zh": "认证"
+    },
+    "operation_name_label": {
+      "en": "Reorder all authenticators in global authentication chain",
+      "zh": "重新排序全局认证链中的所有认证器"
+    }
+  },
+  {
+    "method": "put",
     "path": "/gcp_devices/:deviceid",
     "operation_label": {
       "en": "Authentication",
@@ -357,6 +369,18 @@
     "operation_name_label": {
       "en": "Delete Authorizer",
       "zh": "删除授权检查器"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/authorization/sources/order",
+    "operation_label": {
+      "en": "Authorization",
+      "zh": "授权"
+    },
+    "operation_name_label": {
+      "en": "Reorder all authorization sources",
+      "zh": "重新排序所有授权器"
     }
   },
   {
@@ -1068,6 +1092,18 @@
     }
   },
   {
+    "method": "delete",
+    "path": "/mqtt/delayed/messages/:topic",
+    "operation_label": {
+      "en": "MQTT",
+      "zh": "MQTT"
+    },
+    "operation_name_label": {
+      "en": "Delete delayed messages by topic",
+      "zh": "按照主题删除延迟消息"
+    }
+  },
+  {
     "method": "put",
     "path": "/mqtt/retainer",
     "operation_label": {
@@ -1089,6 +1125,18 @@
     "operation_name_label": {
       "en": "Delete the specific retainer message of the topic",
       "zh": "删除指定主题的保留消息"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/mqtt/retainer/messages",
+    "operation_label": {
+      "en": "Retainer",
+      "zh": "保留消息"
+    },
+    "operation_name_label": {
+      "en": "Delete all retainer messages",
+      "zh": "删除所有保留消息"
     }
   },
   {
@@ -1644,6 +1692,18 @@
     }
   },
   {
+    "method": "put",
+    "path": "/configs/broker",
+    "operation_label": {
+      "en": "Configs",
+      "zh": "配置"
+    },
+    "operation_name_label": {
+      "en": "Update the sub-configurations under broker",
+      "zh": "更新 broker 下的子配置"
+    }
+  },
+  {
     "method": "post",
     "path": "/configs_reset/:rootname",
     "operation_label": {
@@ -1657,7 +1717,7 @@
   },
   {
     "method": "post",
-    "path": "/listeners",
+    "path": "/listeners/:id",
     "operation_label": {
       "en": "Listeners",
       "zh": "监听器"
@@ -1700,7 +1760,7 @@
     },
     "operation_name_label": {
       "en": "Stop the listener on all nodes",
-      "zh": "在所有节点上停止指定 ID的监听器"
+      "zh": "在所有节点上停止指定 ID 的监听器"
     }
   },
   {
