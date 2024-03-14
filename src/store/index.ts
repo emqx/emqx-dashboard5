@@ -1,4 +1,5 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
+import { getValueFromQuery } from '@/common/tools'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { LicenseCustomerType } from '@/types/enum'
@@ -6,6 +7,10 @@ import { RuleEvent } from '@/types/rule'
 import { createStore } from 'vuex'
 
 const getLang = () => {
+  const langFromQuery = getValueFromQuery('lang')
+  if (langFromQuery && /en|zh/i.test(langFromQuery)) {
+    return langFromQuery
+  }
   let lang = localStorage.getItem('language')
   if (!lang) {
     lang = navigator.language.startsWith('zh') ? 'zh' : 'en'
