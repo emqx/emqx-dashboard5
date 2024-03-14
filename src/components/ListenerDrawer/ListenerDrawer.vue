@@ -348,7 +348,11 @@
             <template v-if="!gatewayName && !isQUIC">
               <el-col :span="24"><el-divider /></el-col>
               <el-col :span="24">
-                <custom-configs :type="listenerRecord.type" v-model="listenerCustomConfigs" />
+                <custom-configs
+                  ref="customConfig"
+                  :type="listenerRecord.type"
+                  v-model="listenerCustomConfigs"
+                />
               </el-col>
             </template>
           </el-row>
@@ -422,6 +426,7 @@ const {
   listenerRecord,
   listenerCustomConfigs,
   formCom,
+  customConfig,
   listenerTypeOptList,
   defaultListener,
   isSubmitting,
