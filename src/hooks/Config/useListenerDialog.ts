@@ -37,6 +37,7 @@ interface UseListenerDialogReturns {
   listenerRecord: Ref<Listener>
   listenerCustomConfigs: Ref<Listener>
   formCom: Ref<any>
+  customConfig: Ref<any>
   listenerTypeOptList: ComputedRef<Array<string>>
   defaultListener: Ref<Listener>
   isSubmitting: Ref<boolean>
@@ -96,6 +97,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     getListenerNameNTypeById,
     transPort,
     extractDifferences,
+    stringToObject,
   } = useListenerUtils(props.gatewayName)
 
   const listenerTypeOptList = computed(() => {
@@ -111,6 +113,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const defaultListener = ref(createRawListener())
   const formCom = ref()
+  const customConfig = ref()
 
   const isSubmitting = ref(false)
 
@@ -175,6 +178,17 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
   }
 
+  const validateCustomConfig = async () => {
+    try {
+      await stringToObject(customConfig.value.rawListener)
+      return Promise.resolve()
+    } catch (error) {
+      const err = error as Error
+      ElMessage.error(err.toString())
+      return Promise.reject(error)
+    }
+  }
+
   const handleDataBeforeSubmit = (data: Listener) => {
     if (props.gatewayName) {
       const needDeletedKeys = ['zone', 'limiter', 'current_connections']
@@ -197,6 +211,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const submit = async () => {
     await validateForm()
+    await validateCustomConfig()
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = handleDataBeforeSubmit(cloneDeep(listenerRecord.value))
     if (props.doNotSubmitToBackend) {
@@ -305,6 +320,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     listenerRecord,
     listenerCustomConfigs,
     formCom,
+    customConfig,
     listenerTypeOptList,
     defaultListener,
     isSubmitting,
