@@ -190,7 +190,6 @@ let monacoTarget: any
 const setCompletionItems = (value: boolean) => {
   const jsonDefault = monacoTarget?.languages?.json?.jsonDefaults
   if (jsonDefault?.setModeConfiguration) {
-    console.log('qqq')
     jsonDefault.setModeConfiguration({
       ...jsonDefault.modeConfiguration,
       completionItems: value,
