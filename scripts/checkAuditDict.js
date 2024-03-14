@@ -1,16 +1,18 @@
 const rawDict = require('../src/views/General/resource_dict.json')
 const axios = require('axios')
+const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
-const dict = rawDict.reduce((obj, dictItem) => {
+const dictMap = rawDict.reduce((map, dictItem) => {
   const { method, path, operation_name_label: label, operation_label: typeLabel } = dictItem
-  obj[`${method}:${path}`] = { label, typeLabel }
-  return obj
-}, {})
+  map.set(`${method}:${path}`, { label, typeLabel })
+  return map
+}, new Map())
 
-const swaggerExistedKeys = []
-const missingKeys = []
+const swaggerExistedKeyInfoMap = new Map([])
+const missingDictItems = []
 const uselessKeys = []
-const duplicatedContent = []
+
+const specialMap = new Map([['post:/listeners', 'post:/listeners/:id']])
 
 const reg = /\{(\w+)\}/g
 const replacePlaceholder = (path) =>
@@ -18,49 +20,49 @@ const replacePlaceholder = (path) =>
     return `:${$1}`
   })
 const check = async () => {
-  const { data: swaggerJSON } = await axios.get('http://localhost:18083/api-docs/swagger.json')
+  const { data: swaggerJSON } = await axios.get(`${baseURL}/api-docs/swagger.json`)
   const { paths } = swaggerJSON
   Object.entries(paths).forEach(([rawPathItem, requestMap]) => {
     const pathItem = replacePlaceholder(rawPathItem)
     const requestMethods = Object.entries(requestMap)
     requestMethods.forEach(([method, info]) => {
-      if (info.deprecated) {
-        return
-      }
-      if (method === 'get') {
+      if (info.deprecated || method === 'get') {
         return
       }
       const key = `${method}:${pathItem}`
-      swaggerExistedKeys.push(key)
+      swaggerExistedKeyInfoMap.set(key, {
+        method,
+        path: pathItem,
+        operation_label: { en: 'TODO', zh: 'TODO' },
+        operation_name_label: { en: info.description, zh: 'TODO 中文翻译' },
+      })
     })
   })
-  swaggerExistedKeys.forEach((key) => {
-    if (!dict[key]) {
-      missingKeys.push(key)
-    }
-  })
-  Object.keys(dict).forEach((key) => {
-    if (!swaggerExistedKeys.includes(key)) {
-      uselessKeys.push(key)
-    }
-  })
-  console.table(missingKeys)
-  console.table(uselessKeys)
-
-  const dictKeyValuePairs = Object.entries(dict)
-  for (let index = 0; index < dictKeyValuePairs.length; index++) {
-    const { label } = dictKeyValuePairs[index][1]
-    const { en, zh } = label
-    for (let j = index + 1; j < dictKeyValuePairs.length; j++) {
-      const { label: labelForCompare } = dictKeyValuePairs[j][1]
-      const { en: enForCompare, zh: zhForCompare } = labelForCompare
-      if (en === enForCompare || zh === zhForCompare) {
-        duplicatedContent.push(rawDict[index], rawDict[j])
-      }
+  for (const key of swaggerExistedKeyInfoMap.keys()) {
+    if (!dictMap.get(key) && !specialMap.get(key)) {
+      missingDictItems.push(swaggerExistedKeyInfoMap.get(key))
     }
   }
 
-  console.log(JSON.stringify(duplicatedContent, null, 2))
+  for (let key of dictMap.keys()) {
+    let isSpecialValue = false
+    for (let value of specialMap.values()) {
+      if (value === key) {
+        isSpecialValue = true
+      }
+    }
+    if (!swaggerExistedKeyInfoMap.get(key) && !isSpecialValue) {
+      uselessKeys.push(key)
+    }
+  }
+
+  if (uselessKeys.length) {
+    console.log('📜 Useless Keys\n', JSON.stringify(uselessKeys, null, 2))
+  }
+  if (missingDictItems.length) {
+    console.log('📜 Missing Dict Items\n', JSON.stringify(missingDictItems, null, 2))
+    throw new Error('MISSING DICT ITEMS')
+  }
 }
 
 check()
