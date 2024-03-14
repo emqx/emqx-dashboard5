@@ -40,3 +40,11 @@ jobs:
     uses: ./.github/workflows/check_newest_schema.yaml
     with:
       emqx-name: ${{ needs.set_version.outputs.emqx-name }}
+
+  check_audit_dict:
+    needs:
+      - set_version
+      - build_emqx_for_test
+    uses: ./.github/workflows/check_audit_dict.yaml
+    with:
+      emqx-name: ${{ needs.set_version.outputs.emqx-name }}
