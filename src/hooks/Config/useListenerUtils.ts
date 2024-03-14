@@ -37,6 +37,8 @@ export interface ListenerUtils {
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
   transPort: (port: string) => string
   extractDifferences: (type: keyof typeof unexposedConfigs, data: any) => Record<string, any>
+  objectToString: (obj: Record<string, any>, parentKey?: string) => string
+  stringToObject: (str: string) => Record<string, any>
 }
 
 export default (gatewayName?: string | undefined): ListenerUtils => {
@@ -352,6 +354,79 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     return diff
   }
 
+  /**
+   * Converts an object to a string representation.
+   *
+   * @param {Record<string, any>} obj - The object to convert.
+   * @param {string} [parentKey=''] - The parent key for nested objects.
+   * @returns {string} The string representation of the object.
+   */
+  function objectToString(obj: Record<string, any>, parentKey = '') {
+    let str = ''
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key]
+      const newKey = parentKey ? `${parentKey}.${key}` : key
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        str += objectToString(value, newKey)
+      } else {
+        if (Array.isArray(value)) {
+          str += `${newKey}: ${value.join(', ')}\n`
+        } else {
+          str += `${newKey}: ${value}\n`
+        }
+      }
+    })
+    return str
+  }
+
+  type NestedObject = {
+    [key: string]: string | number | boolean | NestedObject | string[]
+  }
+  function parseValue(value: string): string | number | boolean | string[] {
+    if (value === 'true') return true
+    if (value === 'false') return false
+    if (!isNaN(Number(value))) return Number(value)
+    if (value.includes(', ')) return value.split(', ').map((v) => v.trim())
+    return value
+  }
+
+  /**
+   * Converts a string into a nested object.
+   *
+   * @param str - The string to convert.
+   * @returns A promise that resolves to the nested object.
+   * @throws If the string has an invalid format or if there is a path conflict or invalid nesting.
+   */
+  function stringToObject(str: string): Promise<NestedObject> {
+    return new Promise((resolve, reject) => {
+      const result: NestedObject = {}
+      const lines = str.split('\n').filter((line) => line.trim() !== '')
+      lines.forEach((line) => {
+        const parts = line.split(/:(.+)/).map((part) => part.trim())
+        if (parts.length < 2 || !parts[0] || !parts[1]) {
+          reject(new Error(`Invalid format for line: "${line}". Expected 'key: value'.`))
+        }
+        const [rawKey, value] = parts
+        const keys = rawKey.split('.')
+        let current: Record<string, NestedObject | string | number | boolean | string[]> = result
+        keys.forEach((key, index) => {
+          if (index === keys.length - 1) {
+            current[key] = parseValue(value)
+          } else {
+            if (!(key in current)) {
+              current[key] = {}
+            }
+            if (typeof current[key] !== 'object' || Array.isArray(current[key])) {
+              reject(new Error(`Path conflict or invalid nesting for key: "${rawKey}".`))
+            }
+            current = current[key] as NestedObject
+          }
+        })
+      })
+      resolve(result)
+    })
+  }
+
   return {
     completeGatewayListenerTypeList,
     listenerTypeList,
@@ -376,5 +451,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     handleListenerDataWhenItIsIndependent,
     transPort,
     extractDifferences,
+    objectToString,
+    stringToObject,
   }
 }
