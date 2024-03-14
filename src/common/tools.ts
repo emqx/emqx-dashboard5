@@ -733,3 +733,28 @@ export const accAdd = (arg1: number, arg2: number): number => {
   const adjustedArg2 = arg2 * multiplier
   return (adjustedArg1 + adjustedArg2) / multiplier
 }
+
+const getDataFromParams = (params: string): Record<string, string> => {
+  const str = params
+  if (URLSearchParams) {
+    const ret: Record<string, string> = {}
+    for (const [key, value] of new URLSearchParams(str).entries()) {
+      ret[key] = value
+    }
+    return ret
+  } else {
+    return str.split('&').reduce((ret: Record<string, string>, curr) => {
+      const pair = curr.split('=')
+      ret[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
+      return ret
+    }, {})
+  }
+}
+
+const getQueryInHash = (hash: string) => hash.slice(1).split('?')[1]
+
+export const getValueFromQuery = (key: string): string | undefined => {
+  const infoFromParams = getDataFromParams(location.search.slice(1))
+  const infoFromHash = getDataFromParams(getQueryInHash(location.hash))
+  return infoFromParams[key] || infoFromHash[key]
+}

@@ -65,10 +65,10 @@ if (syncOsTheme.value) {
 
 const router = useRouter()
 const route = useRoute()
-const { getInfoFromQuery } = useGetInfoFromQuery()
+const { getUserInfoFromQuery } = useGetInfoFromQuery()
 const { updateBaseInfo } = useUpdateBaseInfo()
 const handleQuery = async () => {
-  const info = getInfoFromQuery()
+  const info = getUserInfoFromQuery()
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
     /**
