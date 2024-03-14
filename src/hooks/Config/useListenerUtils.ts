@@ -264,8 +264,17 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
         case 'limiter':
           result[v] = record[v]
           break
+        // Custom configs
         case 'access_rules':
           result[v] = typeof record[v] === 'string' ? record[v].split(',') : record[v]
+          break
+        case 'websocket':
+          if (
+            record[v]?.supported_subprotocols &&
+            typeof record[v].supported_subprotocols !== 'string'
+          ) {
+            record[v].supported_subprotocols = record[v].supported_subprotocols.join(', ')
+          }
           break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {
