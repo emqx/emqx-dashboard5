@@ -37,6 +37,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { escapeRegExp } from 'lodash'
 import { defineProps, defineEmits, PropType, computed, WritableComputedRef, ref } from 'vue'
 
 const props = defineProps({
@@ -154,7 +155,7 @@ const unit: WritableComputedRef<string> = computed({
     if (unit !== '') {
       const existingUnit = props.units?.find((item) => {
         const value = typeof item === 'string' ? item : item.value
-        return new RegExp(value, 'i').test(unit)
+        return new RegExp(`^${escapeRegExp(value)}$`, 'i').test(unit)
       })
       return existingUnit
         ? typeof existingUnit === 'string'
