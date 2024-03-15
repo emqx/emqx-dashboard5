@@ -284,6 +284,19 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'session.terminated'?: number
 }
 
+export interface EmqxDashboardMonitorApiSamplerCurrentNode {
+  dropped_msg_rate?: number
+  received_msg_rate?: number
+  sent_msg_rate?: number
+  subscriptions?: number
+  topics?: number
+  connections?: number
+  live_connections?: number
+  node_uptime?: number
+  retained_msg_count?: number
+  shared_subscriptions?: number
+}
+
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   dropped_msg_rate?: number
   received_msg_rate?: number
@@ -292,6 +305,8 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   topics?: number
   connections?: number
   live_connections?: number
+  retained_msg_count?: number
+  shared_subscriptions?: number
 }
 
 export interface EmqxDashboardMonitorApiSampler {
