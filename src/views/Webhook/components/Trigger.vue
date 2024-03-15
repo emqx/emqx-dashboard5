@@ -378,6 +378,12 @@ const getRuleEvents = async () => {
   }
 }
 
+const setTopicList = () => {
+  topicList.value = topicListFromRule.value
+}
+
+setTopicList()
+
 getRuleEvents()
 
 defineExpose({ validate })
@@ -387,7 +393,7 @@ watch(
   async (val) => {
     if (nowSQL.value !== val) {
       await nextTick()
-      topicList.value = topicListFromRule.value
+      setTopicList()
     }
   },
 )
