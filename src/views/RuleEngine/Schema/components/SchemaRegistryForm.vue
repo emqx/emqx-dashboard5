@@ -79,6 +79,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import ajv from 'ajv'
+import Ajv04 from 'ajv-draft-04'
+import addFormats from 'ajv-formats'
 import draft6MetaSchema from 'ajv/dist/refs/json-schema-draft-06.json'
 import {
   PropType,
@@ -91,7 +93,6 @@ import {
   ref,
 } from 'vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
-import Ajv04 from 'ajv-draft-04'
 
 const props = defineProps({
   modelValue: {
@@ -146,9 +147,14 @@ const rules = ref({
           const ajvInstance = isVersion06
             ? new ajv({ validateSchema: false })
             : new Ajv04({ validateSchema: false })
+          addFormats(ajvInstance)
+
           if (isVersion06) {
             ajvInstance.addMetaSchema(draft6MetaSchema)
           }
+          // remove all existed schemas..
+          // otherwise it throws the magical `existed` error
+          Object.keys(ajvInstance.schemas).forEach((key) => ajvInstance.removeSchema(key))
           ajvInstance.compile(JSON.parse(value))
           callback()
         } catch (e: any) {
