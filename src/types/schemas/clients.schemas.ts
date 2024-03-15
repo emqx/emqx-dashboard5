@@ -232,6 +232,19 @@ export type DeleteClientsClientidAuthorizationCache404 = {
   message?: string
 }
 
+export type GetSessionsCount400Code =
+  typeof GetSessionsCount400Code[keyof typeof GetSessionsCount400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSessionsCount400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetSessionsCount400 = {
+  code?: GetSessionsCount400Code
+  message?: string
+}
+
 export type GetSessionsCountParams = {
   since?: number
 }
