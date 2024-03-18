@@ -180,7 +180,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const validateCustomConfig = async () => {
     try {
-      await stringToObject(customConfig.value.rawListener)
+      if (customConfig.value) {
+        await stringToObject(customConfig.value.rawListener)
+      }
       return Promise.resolve()
     } catch (error) {
       const err = error as Error
@@ -211,7 +213,9 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
   const submit = async () => {
     await validateForm()
-    await validateCustomConfig()
+    if (!props.gatewayName) {
+      await validateCustomConfig()
+    }
     listenerRecord.value.id = createListenerId(listenerRecord.value, props.gatewayName)
     const input = handleDataBeforeSubmit(cloneDeep(listenerRecord.value))
     if (props.doNotSubmitToBackend) {
