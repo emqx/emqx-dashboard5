@@ -32,7 +32,7 @@ export default {
     en: 'Client ID',
   },
   clientIdReg: {
-    zh: '客户端 ID 模式',
+    zh: '客户端 ID 表达式',
     en: 'Client ID Pattern',
   },
   clientid: {
@@ -48,7 +48,7 @@ export default {
     en: 'Username',
   },
   usernameReg: {
-    zh: '用户名模式',
+    zh: '用户名表达式',
     en: 'Username Pattern',
   },
   ipAddress: {
