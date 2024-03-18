@@ -138,8 +138,8 @@ const rules = ref({
           const schemaObj = JSON.parse(value)
           const { $schema } = schemaObj
           // do not support validate 03
-          // now the default version is 03
-          if (/03/.test($schema) || !$schema) {
+          // now the default version is 06
+          if (/03/.test($schema)) {
             callback()
             return
           }
