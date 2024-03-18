@@ -75,7 +75,10 @@ const submit = async () => {
     return
   }
   try {
-    const schema = createSchema(JSON.parse(form.value.json))
+    const schema: Record<string, any> = {
+      $schema: 'http://json-schema.org/draft-06/schema#',
+      ...createSchema(JSON.parse(form.value.json)),
+    }
     emit('submit', JSON.stringify(schema, null, 2))
     showDialog.value = false
   } catch (error: any) {
