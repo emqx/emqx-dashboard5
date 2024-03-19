@@ -37,6 +37,9 @@ const bridgesOrder = [
   BridgeType.OracleDatabase,
   BridgeType.HStream,
   BridgeType.Elasticsearch,
+  BridgeType.S3,
+  BridgeType.SysKeeperProxy,
+  BridgeType.SysKeeperForwarder,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
