@@ -70,6 +70,7 @@ export default (
   const IoTDBAdvancedProps = ['enable_pipelining']
 
   const S3AdvancedProps = [
+    'transport_options.headers',
     'transport_options.request_timeout',
     'transport_options.pool_type',
     'transport_options.pool_size',
@@ -238,7 +239,6 @@ export default (
         'port',
         'access_key_id',
         'secret_access_key',
-        'transport_options.headers',
         'transport_options.ssl',
         ...S3AdvancedProps,
       ],
