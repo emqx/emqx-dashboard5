@@ -55,7 +55,7 @@
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
                     <a :href="releaseNoteLink" target="_blank">
-                      {{ currentInfo.node['version'] }}
+                      {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
                     </a>
                   </span>
                 </div>
@@ -135,8 +135,11 @@ import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
+import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
+
+const { edition } = useEditionConfigs()
 
 const { locale } = useI18n()
 

@@ -156,7 +156,7 @@ const productList = [
     desc: tl('eeDesc'),
     linkText: t('Settings.tryEnterprise'),
     link: docMap.emqxEnterprise,
-    icon: require('@/assets/img/emqx-enterprise.png'),
+    icon: require('@/assets/img/emqx-enterprise-icon.png'),
   },
   {
     title: 'EMQX Cloud',
