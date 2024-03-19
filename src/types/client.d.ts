@@ -60,7 +60,7 @@ export interface MessageItem {
   from_username: string
   msgid: string
   payload: string
-  publish_at: string
+  publish_at: number
   qos: number
   topic: string
 }
