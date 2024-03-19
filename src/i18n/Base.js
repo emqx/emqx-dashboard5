@@ -615,4 +615,12 @@ export default {
     zh: '快速查找',
     en: 'Quick Find',
   },
+  openSourceEdition: {
+    zh: 'Open Source',
+    en: 'Open Source',
+  },
+  enterpriseEdition: {
+    zh: 'Enterprise',
+    en: 'Enterprise',
+  },
 }
