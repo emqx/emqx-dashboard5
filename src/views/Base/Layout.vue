@@ -2,7 +2,7 @@
   <el-container>
     <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
       <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-        <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
+        <img :src="appLogo" alt="emqx-logo" />
       </div>
       <left-bar></left-bar>
       <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
@@ -80,6 +80,7 @@ import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
+import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -103,6 +104,7 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
+    const { appLogo } = useEditionConfigs()
 
     const showLicenseTipDialog = ref(false)
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
@@ -230,6 +232,7 @@ export default defineComponent({
       firstPath,
       showQuickPanel,
       openQuickPanel,
+      appLogo,
     }
   },
 })

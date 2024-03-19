@@ -667,4 +667,12 @@ export default {
     zh: '文件大小不能超过 {size}MB',
     en: 'File size cannot exceed {size}MB',
   },
+  openSourceEdition: {
+    zh: 'Open Source',
+    en: 'Open Source',
+  },
+  enterpriseEdition: {
+    zh: 'Enterprise',
+    en: 'Enterprise',
+  },
 }

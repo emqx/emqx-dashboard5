@@ -3,12 +3,7 @@
     <el-row v-if="!showChangePwdForm">
       <el-col class="intro" :span="8">
         <div class="content">
-          <img
-            class="dashboard-img"
-            src="@/assets/img/login-banner.png"
-            width="369"
-            alt="emqx-dashboard"
-          />
+          <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
           <div class="cloud-list">
             <a :href="docMap.cloud" target="_blank" rel="noopener noreferrer">
               <img src="@/assets/img/aws.png" width="32" height="32" alt="aws" />
@@ -23,7 +18,7 @@
         <!-- Local Login -->
         <div v-if="currentLoginBackend === 'local'" class="login-wrapper local-login">
           <div class="form-hd">
-            <h1>{{ $t('Base.login') }}</h1>
+            <h1>{{ loginTitle }}</h1>
           </div>
           <el-form
             ref="FormCom"
@@ -213,6 +208,7 @@ import useSSO from '@/hooks/SSO/useSSO'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
+import useEditionConfigs from '@/hooks/useEditionConfigs'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -226,6 +222,7 @@ const { t } = useI18n()
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
+const { loginTitle, loginBgBanner } = useEditionConfigs()
 
 const { docMap } = useDocLink()
 
