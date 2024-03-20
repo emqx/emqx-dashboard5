@@ -38,13 +38,26 @@ import { dateFormat, waitAMoment } from '@/common/tools'
 import PayloadDialog from '@/components/PayloadDialog.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MessageItem } from '@/types/client'
-import { ElButton } from 'element-plus'
 import { debounce, isUndefined } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
-const TABLE_HEIGHT = 400
-const TABLE_ROW_HEIGHT = 50
-const tableBodyHeight = TABLE_HEIGHT - TABLE_ROW_HEIGHT
+type MsgItem = MessageItem & {
+  mqueue_priority: number | string
+  /**
+   * Time to insert queue
+   */
+  inserted_at: string
+  /**
+   * If the message is a message queue, it is spliced from inserted_at and priority; if it is an inflight message, it is inserted_at
+   * for compare to remove outdated data
+   */
+  _id?: string
+}
+
+const TABLE_HEIGHT = 410
+const TABLE_HEADER_HEIGHT = 50
+const TABLE_ROW_HEIGHT = 60
+const tableBodyHeight = TABLE_HEIGHT - TABLE_HEADER_HEIGHT
 
 const props = defineProps<{
   modelValue: boolean
@@ -73,15 +86,17 @@ watch(showDialog, (val) => {
   }
 })
 
+const isMsgQueue = computed(() => props.type === 'mqueue')
+
 const dialogTitle = computed(() => {
-  return props.type === 'mqueue' ? tl('msgQueueMsgList') : tl('inflightMsgList')
+  return isMsgQueue.value ? tl('msgQueueMsgList') : tl('inflightMsgList')
 })
 
 const isLoading = ref(false)
 
 const TableRef = ref()
 
-const msgList = ref<Array<MessageItem>>([])
+const msgList = ref<Array<MsgItem>>([])
 
 const totalLength = computed(() => msgList.value.length)
 
@@ -96,12 +111,31 @@ const tableWidth = 1020
 const publishTimeWidth = 180
 const qosWidth = 100
 const payloadWidth = 180
-const msgIdWidth = (tableWidth - publishTimeWidth - qosWidth - payloadWidth) / 3
+const msgIdWidth = 240
+const topicWidth = (tableWidth - publishTimeWidth - qosWidth - payloadWidth - msgIdWidth) / 2
 const columns = [
-  { title: tl('msgId'), key: 'msgid', dataKey: 'msgid', width: msgIdWidth },
-  { title: t('Base.topic'), key: 'topic', dataKey: 'topic', width: msgIdWidth },
+  {
+    title: tl('msgId'),
+    key: 'msgid',
+    dataKey: 'msgid',
+    width: msgIdWidth,
+    cellRenderer: ({ rowData }: any) => {
+      if (rowData.mqueue_priority === 0) {
+        return rowData.msgid
+      }
+      return (
+        <>
+          <span>{rowData.msgid}</span>
+          <el-tag type="info" disable-transitions>
+            {tl('priority')}: {rowData.mqueue_priority}
+          </el-tag>
+        </>
+      )
+    },
+  },
+  { title: t('Base.topic'), key: 'topic', dataKey: 'topic', width: topicWidth },
   { title: 'QoS', key: 'qos', dataKey: 'qos', width: qosWidth },
-  { title: t('Base.clientid'), key: 'from_clientid', dataKey: 'from_clientid', width: msgIdWidth },
+  { title: t('Base.clientid'), key: 'from_clientid', dataKey: 'from_clientid', width: topicWidth },
   {
     title: t('Extension.publishTime'),
     key: 'publish_at',
@@ -114,9 +148,9 @@ const columns = [
     width: payloadWidth,
     cellRenderer: ({ rowData }: any) => {
       return (
-        <ElButton size="small" onClick={() => showPayload(rowData)}>
+        <el-button size="small" onClick={() => showPayload(rowData)}>
           {t('Extension.openPayload')}
-        </ElButton>
+        </el-button>
       )
     },
   },
@@ -124,28 +158,15 @@ const columns = [
 
 let lastPosition = 'none'
 
-const withPriorityReg = /\d+_\d+/
-const removeOutdatedData = (start: string, list: Array<MessageItem>) => {
+const removeOutdatedData = (start: string, list: Array<MsgItem>): Array<MsgItem> => {
   // If start is none, there is no data in the list.
   if (start === 'none') {
     return []
   }
-  let startNum = Number(start)
-  if (withPriorityReg.test(start)) {
-    // TODO: compare with priority
-    // TODO: compare with priority
-    // TODO: compare with priority
-    startNum = Number(start.slice(0, -2))
-  }
   const ret = [...list]
-  let lastOutdatedIndex = -1
-  for (lastOutdatedIndex = 0; lastOutdatedIndex < ret.length; lastOutdatedIndex++) {
-    if (ret[lastOutdatedIndex].publish_at >= startNum) {
-      break
-    }
-  }
-  if (lastOutdatedIndex > -1) {
-    ret.splice(0, lastOutdatedIndex)
+  const startIndex = ret.findIndex((item) => item._id === start)
+  if (startIndex > -1) {
+    return ret.slice(startIndex)
   }
   return ret
 }
@@ -153,17 +174,21 @@ const removeOutdatedData = (start: string, list: Array<MessageItem>) => {
 const getList = async () => {
   try {
     isLoading.value = true
-    const request = props.type === 'mqueue' ? loadMsgQueue : loadInflightMsgs
-    const { data = [], meta } = await request(props.clientId, {
+    const request = isMsgQueue.value ? loadMsgQueue : loadInflightMsgs
+    const { data: rawData = [], meta } = await request(props.clientId, {
       limit,
       position: lastPosition,
     })
-    const preList = [...msgList.value]
+    const data = rawData.map((item: MsgItem) => {
+      const { inserted_at, mqueue_priority } = item
+      const _id = isMsgQueue.value ? `${inserted_at}_${mqueue_priority}` : inserted_at
+      return { ...item, _id }
+    })
     msgList.value.push(...data)
     const lengthBeforeRemove = msgList.value.length
     await waitAMoment(800)
     // just remove outdated data from old data
-    msgList.value = [...removeOutdatedData(meta.start, preList), ...data]
+    msgList.value = removeOutdatedData(meta.start, msgList.value)
     const lengthAfterRemove = msgList.value.length
     if (lengthAfterRemove < lengthBeforeRemove) {
       const firstRow = msgList.value.findIndex((item) => item.msgid === data[0].msgid)
@@ -193,7 +218,7 @@ const showPayloadDialog = ref(false)
 const payloadContent = ref('')
 const currentTopic = ref('')
 
-const showPayload = ({ topic, payload }: MessageItem) => {
+const showPayload = ({ topic, payload }: MsgItem) => {
   currentTopic.value = topic
   payloadContent.value = payload
   showPayloadDialog.value = true
@@ -215,6 +240,18 @@ const handleScroll = debounce(async (scrollArg: any) => {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 24px;
+  }
+  .el-dialog__body {
+    padding-bottom: 32px;
+  }
+  .el-table-v2:not(.is-dynamic) .el-table-v2__cell-text {
+    white-space: normal;
+    overflow: auto;
+    text-overflow: unset;
+    word-break: break-all;
+  }
+  .el-tag {
+    margin-left: 6px;
   }
 }
 </style>
