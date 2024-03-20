@@ -676,6 +676,7 @@ export interface EmqxConsoleHandler {
 export interface DashboardSso {
   ldap?: SsoLdap
   saml?: DashboardSaml
+  iframe?: DashboardIframe
 }
 
 export type DashboardSslOptionsLogLevel =
@@ -742,18 +743,6 @@ export interface DashboardSaml {
   sp_private_key?: string
 }
 
-export interface DashboardHttps {
-  bind?: string
-  ssl_options: DashboardSslOptions
-  num_acceptors?: number
-  max_connections?: number
-  backlog?: number
-  send_timeout?: string
-  inet6?: boolean
-  ipv6_v6only?: boolean
-  proxy_header?: boolean
-}
-
 export interface DashboardHttp {
   bind?: string
   num_acceptors?: number
@@ -770,11 +759,66 @@ export interface DashboardListeners {
   https?: DashboardHttps
 }
 
+export type DashboardIframeMethod = typeof DashboardIframeMethod[keyof typeof DashboardIframeMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardIframeMethod = {
+  get: 'get',
+} as const
+
+export type DashboardIframeBackend =
+  typeof DashboardIframeBackend[keyof typeof DashboardIframeBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardIframeBackend = {
+  iframe: 'iframe',
+} as const
+
+export interface DashboardIframe {
+  enable?: boolean
+  backend: DashboardIframeBackend
+  url: string
+  request_timeout?: string
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: DashboardIframeMethod
+}
+
+export interface DashboardHttps {
+  bind?: string
+  ssl_options: DashboardSslOptions
+  num_acceptors?: number
+  max_connections?: number
+  backlog?: number
+  send_timeout?: string
+  inet6?: boolean
+  ipv6_v6only?: boolean
+  proxy_header?: boolean
+}
+
 export interface DashboardDashboard {
   listeners?: DashboardListeners
   token_expired_time?: string
   cors?: boolean
   sso?: DashboardSso
+}
+
+export type ConnectorHttpRequestHeaders = { [key: string]: any }
+
+export interface ConnectorHttpRequest {
+  method?: string
+  path?: string
+  body?: string
+  headers?: ConnectorHttpRequestHeaders
+  max_retries?: number
+  request_timeout?: string
 }
 
 export type BrokerSysmonVmLargeHeap = string | 'disabled'
