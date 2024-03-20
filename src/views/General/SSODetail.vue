@@ -34,8 +34,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import {
   DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
-  EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { SSOLdapForm } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import type { Component, ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
@@ -105,7 +105,7 @@ const saveConfig = async () => {
     await FormCom.value?.validate?.()
     await putSSOBackend(
       backend.value,
-      handleFormDataBeforeSubmit(backend.value, formData.value) as EmqxDashboardSsoLdapLdap,
+      handleFormDataBeforeSubmit(backend.value, formData.value) as SSOLdapForm,
     )
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'SSO' })

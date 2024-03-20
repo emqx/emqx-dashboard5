@@ -10,8 +10,8 @@
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'LDAP' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
-    <el-form-item prop="server" :label="t('Auth.server')">
-      <el-input v-model="formData.server" />
+    <el-form-item prop="url" :label="t('Auth.url')">
+      <el-input v-model="formData.url" />
     </el-form-item>
     <el-form-item prop="username" :label="t('Base.username')">
       <el-input v-model="formData.username" />
@@ -78,7 +78,7 @@ const formData = computed({
 
 const { createRequiredRule } = useFormRules()
 const rules = {
-  server: createRequiredRule(t('Auth.server')),
+  url: createRequiredRule(t('Auth.url')),
   username: createRequiredRule(t('Base.username')),
   base_dn: createRequiredRule(tl('baseDN')),
 }
