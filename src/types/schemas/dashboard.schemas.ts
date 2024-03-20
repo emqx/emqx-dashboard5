@@ -21,6 +21,7 @@ export const PostLogoutBackend = {
   local: 'local',
   ldap: 'ldap',
   saml: 'saml',
+  iframe: 'iframe',
 } as const
 
 export type PostLogoutParams = {
@@ -94,6 +95,7 @@ export const DeleteUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
   saml: 'saml',
+  iframe: 'iframe',
 } as const
 
 export type DeleteUsersUsernameParams = {
@@ -133,6 +135,7 @@ export const PutUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
   saml: 'saml',
+  iframe: 'iframe',
 } as const
 
 export type PutUsersUsernameParams = {

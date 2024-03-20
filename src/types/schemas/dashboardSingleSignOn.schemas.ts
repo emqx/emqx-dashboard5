@@ -23,9 +23,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoLdap
+export type PutSsoBackend200 = DashboardIframe | DashboardSaml | SsoLdap
 
-export type PutSsoBackendBody = DashboardSaml | SsoLdap
+export type PutSsoBackendBody = DashboardIframe | DashboardSaml | SsoLdap
 
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
@@ -39,7 +39,7 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoLdap
+export type GetSsoBackend200 = DashboardIframe | DashboardSaml | SsoLdap
 
 export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
 
@@ -47,6 +47,7 @@ export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetS
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
   saml: 'saml',
+  iframe: 'iframe',
 } as const
 
 export type PostSsoLoginBackend404Code =
@@ -107,6 +108,8 @@ export type PostSsoLoginBackend200 = {
   version?: string
   license?: PostSsoLoginBackend200License
 }
+
+export type PostSsoLoginBackendBody = DashboardLogin | DashboardLogin | SsoLogin
 
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
@@ -188,8 +191,6 @@ export interface SsoLogin {
   username?: string
   password?: string
 }
-
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin
 
 export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
@@ -285,6 +286,21 @@ export interface DashboardLogin {
   backend: DashboardLoginBackend
 }
 
+export type DashboardIframeMethod = typeof DashboardIframeMethod[keyof typeof DashboardIframeMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardIframeMethod = {
+  get: 'get',
+} as const
+
+export type DashboardIframeBackend =
+  typeof DashboardIframeBackend[keyof typeof DashboardIframeBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardIframeBackend = {
+  iframe: 'iframe',
+} as const
+
 export type DashboardSsoBackendStatusBackend =
   typeof DashboardSsoBackendStatusBackend[keyof typeof DashboardSsoBackendStatusBackend]
 
@@ -292,6 +308,7 @@ export type DashboardSsoBackendStatusBackend =
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
   saml: 'saml',
+  iframe: 'iframe',
 } as const
 
 export interface DashboardSsoBackendStatus {
@@ -299,4 +316,79 @@ export interface DashboardSsoBackendStatus {
   backend: DashboardSsoBackendStatusBackend
   running?: boolean
   last_error?: string
+}
+
+export type ConnectorHttpRequestHeaders = { [key: string]: any }
+
+export interface ConnectorHttpRequest {
+  method?: string
+  path?: string
+  body?: string
+  headers?: ConnectorHttpRequestHeaders
+  max_retries?: number
+  request_timeout?: string
+}
+
+export interface DashboardIframe {
+  enable?: boolean
+  backend: DashboardIframeBackend
+  url: string
+  request_timeout?: string
+  connect_timeout?: string
+  /** @deprecated */
+  max_retries?: number
+  /** @deprecated */
+  retry_interval?: string
+  pool_size?: number
+  enable_pipelining?: number
+  request?: ConnectorHttpRequest
+  ssl?: BrokerSslClientOpts
+  method: DashboardIframeMethod
+}
+
+export type BrokerSslClientOptsServerNameIndication = string | 'disable'
+
+export type BrokerSslClientOptsLogLevel =
+  typeof BrokerSslClientOptsLogLevel[keyof typeof BrokerSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export type BrokerSslClientOptsVerify =
+  typeof BrokerSslClientOptsVerify[keyof typeof BrokerSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BrokerSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export interface BrokerSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: BrokerSslClientOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: BrokerSslClientOptsLogLevel
+  hibernate_after?: string
+  enable?: boolean
+  server_name_indication?: BrokerSslClientOptsServerNameIndication
 }

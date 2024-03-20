@@ -3,12 +3,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import useGetInfoFromQuery from '@/hooks/useGetInfoFromQuery'
+import useGetInfoFromQuery, { USER_INFO_KEY } from '@/hooks/useGetInfoFromQuery'
 import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { ElLoading } from 'element-plus'
+import { omit } from 'lodash'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { postSSOLogin } from './api/sso'
+import { getValueFromQuery, waitAMoment } from './common/tools'
+import { SSOIframeBackend } from './types/typeAlias'
 
 const store = useStore()
 const lang = computed(() => {
@@ -62,17 +67,56 @@ if (syncOsTheme.value) {
 }
 
 const router = useRouter()
-const { getInfoFromQuery } = useGetInfoFromQuery()
+const route = useRoute()
+const { getUserInfoFromQuery } = useGetInfoFromQuery()
 const { updateBaseInfo } = useUpdateBaseInfo()
-const handleQuery = () => {
-  const info = getInfoFromQuery()
+const handleQuery = async () => {
+  let info = getUserInfoFromQuery()
+  const token = getValueFromQuery('token')
+  if (token) {
+    const loading = ElLoading.service({ customClass: 'is-opacity' })
+    try {
+      info = await postSSOLogin(SSOIframeBackend.iframe, {
+        backend: SSOIframeBackend.iframe,
+        sinochem_user_token: token,
+      } as any)
+    } catch (error) {
+      // TODO:
+    } finally {
+      window.setTimeout(loading.close, 300)
+    }
+  }
+
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
-    updateBaseInfo(info.username, info, DashboardSamlBackend.saml)
-    router.push({ name: 'overview' })
+    /**
+     * Currently, if info is from location.search, it's using single sign-on;
+     * if it's from route.query, it's from ECP (i.e., no backend)
+     */
+    const backend = location.search
+      ? DashboardSamlBackend.saml
+      : token
+      ? SSOIframeBackend.iframe
+      : undefined
+    updateBaseInfo(info.username, info, backend)
+    // if in login page, redirect to overview page
+    if (/login/i.test(location.hash.split('?')[0])) {
+      router.push({ name: 'overview' })
+    }
+    await waitAMoment(1000)
+    // remove login meta from query for safe
+    if (route.query) {
+      const newQuery = omit(route.query, [USER_INFO_KEY, 'token'])
+      router.replace({ query: newQuery })
+    }
   }
 }
 handleQuery()
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.el-loading-mask.is-opacity {
+  background-color: var(--color-bg-content) !important;
+  z-index: 2100;
+}
+</style>
