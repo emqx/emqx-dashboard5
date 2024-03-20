@@ -23,7 +23,7 @@ export type GetClientsParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
   node?: string
-  username?: string
+  username?: string[]
   ip_address?: string
   conn_state?: GetClientsConnState
   clean_start?: boolean
@@ -34,6 +34,8 @@ export type GetClientsParams = {
   lte_created_at?: number | string
   gte_connected_at?: number | string
   lte_connected_at?: number | string
+  clientid?: string[]
+  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
 }
 
 export type GetClientsClientidSubscriptions404Code =
@@ -261,6 +263,65 @@ export type GetClientsClientidMqueueMessagesParams = {
   after?: PublicAfterParameter
   limit?: PublicLimitParameter
 }
+
+export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
+  typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[keyof typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
+  awaiting_rel_cnt: 'awaiting_rel_cnt',
+  awaiting_rel_max: 'awaiting_rel_max',
+  clean_start: 'clean_start',
+  clientid: 'clientid',
+  connected: 'connected',
+  connected_at: 'connected_at',
+  created_at: 'created_at',
+  disconnected_at: 'disconnected_at',
+  expiry_interval: 'expiry_interval',
+  heap_size: 'heap_size',
+  inflight_cnt: 'inflight_cnt',
+  inflight_max: 'inflight_max',
+  ip_address: 'ip_address',
+  is_bridge: 'is_bridge',
+  keepalive: 'keepalive',
+  mailbox_len: 'mailbox_len',
+  mqueue_dropped: 'mqueue_dropped',
+  mqueue_len: 'mqueue_len',
+  mqueue_max: 'mqueue_max',
+  node: 'node',
+  port: 'port',
+  proto_name: 'proto_name',
+  proto_ver: 'proto_ver',
+  recv_cnt: 'recv_cnt',
+  recv_msg: 'recv_msg',
+  recv_msgdropped: 'recv_msg.dropped',
+  recv_msgdroppedawait_pubrel_timeout: 'recv_msg.dropped.await_pubrel_timeout',
+  recv_msgqos0: 'recv_msg.qos0',
+  recv_msgqos1: 'recv_msg.qos1',
+  recv_msgqos2: 'recv_msg.qos2',
+  recv_oct: 'recv_oct',
+  recv_pkt: 'recv_pkt',
+  reductions: 'reductions',
+  send_cnt: 'send_cnt',
+  send_msg: 'send_msg',
+  send_msgdropped: 'send_msg.dropped',
+  send_msgdroppedexpired: 'send_msg.dropped.expired',
+  send_msgdroppedqueue_full: 'send_msg.dropped.queue_full',
+  send_msgdroppedtoo_large: 'send_msg.dropped.too_large',
+  send_msgqos0: 'send_msg.qos0',
+  send_msgqos1: 'send_msg.qos1',
+  send_msgqos2: 'send_msg.qos2',
+  send_oct: 'send_oct',
+  send_pkt: 'send_pkt',
+  subscriptions_cnt: 'subscriptions_cnt',
+  subscriptions_max: 'subscriptions_max',
+  username: 'username',
+  mountpoint: 'mountpoint',
+} as const
+
+export type EmqxMgmtApiClientsRequestedClientFieldsParameter =
+  | EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[]
+  | 'all'
 
 export interface PublicMeta {
   page?: number
