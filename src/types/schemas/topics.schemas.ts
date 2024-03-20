@@ -36,4 +36,5 @@ export interface PublicMeta {
 export interface EmqxMgmtApiTopicsTopic {
   topic: string
   node: string
+  session?: string
 }
