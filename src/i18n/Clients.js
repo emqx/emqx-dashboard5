@@ -455,4 +455,8 @@ export default {
     zh: '消息队列消息列表',
     en: 'Message Queue Messages',
   },
+  priority: {
+    zh: '优先级',
+    en: 'Priority',
+  },
 }
