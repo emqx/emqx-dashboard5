@@ -1,39 +1,35 @@
 <template>
   <el-form
-    class="ldap-form"
+    class="iframe-form"
     ref="FormCom"
     require-asterisk-position="right"
     :model="formData"
     :rules="rules"
     :label-width="150"
   >
-    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'LDAP' })">
+    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'iframe' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
-    <el-form-item prop="server" :label="t('Auth.server')">
-      <el-input v-model="formData.server" />
+    <el-form-item prop="url" label="URL">
+      <el-input v-model="formData.url" />
     </el-form-item>
-    <el-form-item prop="username" :label="t('Base.username')">
-      <el-input v-model="formData.username" />
+    <el-form-item prop="method" :label="t('Auth.method')">
+      <el-select v-model="formData.method">
+        <el-option label="GET" value="get" />
+      </el-select>
     </el-form-item>
-    <el-form-item prop="password" :label="t('Base.password')">
-      <el-input type="password" v-model="formData.password" autocomplete="one-time-code" />
+    <el-form-item prop="pool_size" :label="t('RuleEngine.connectionPoolSize')">
+      <TimeInputWithUnitSelect v-model="formData.pool_size" />
     </el-form-item>
-    <el-form-item prop="base_dn" :label="tl('baseDN')">
-      <el-input v-model="formData.base_dn" />
+    <el-form-item prop="request_timeout" :label="t('Auth.requestTimeout')">
+      <TimeInputWithUnitSelect v-model="formData.request_timeout" />
     </el-form-item>
-    <el-form-item prop="filter">
-      <template #label>
-        <FormItemLabel
-          :label="tl('LDAPFilter')"
-          :desc="tl('LDAPFilterDesc')"
-          desc-marked
-          popper-class="is-wider"
-        />
-      </template>
-      <el-input v-model="formData.filter" />
+    <el-form-item prop="connect_timeout" :label="t('Auth.connectTimeout')">
+      <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
     </el-form-item>
-    <!-- TODO: fix type error -->
+    <el-form-item prop="enable_pipelining" :label="t('Auth.httpPipelining')">
+      <CustomInputNumber v-model="formData.enable_pipelining" />
+    </el-form-item>
     <CommonTLSConfig
       v-if="formData.ssl"
       class="tls-config-form"
@@ -44,16 +40,17 @@
 </template>
 
 <script setup lang="ts">
-import FormItemLabel from '@/components/FormItemLabel.vue'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SSOLdapForm } from '@/types/typeAlias'
+import { IframeForm } from '@/types/typeAlias'
 import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<SSOLdapForm>,
+    type: Object as PropType<IframeForm>,
     default: () => ({}),
   },
   isEdit: {
@@ -78,9 +75,8 @@ const formData = computed({
 
 const { createRequiredRule } = useFormRules()
 const rules = {
-  server: createRequiredRule(t('Auth.server')),
-  username: createRequiredRule(t('Base.username')),
-  base_dn: createRequiredRule(tl('baseDN')),
+  url: createRequiredRule('URL'),
+  method: createRequiredRule(t('Auth.method'), 'select'),
 }
 
 const validate = () => FormCom.value.validate()
@@ -88,7 +84,7 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
-.ldap-form {
+.iframe-form {
   .TLS-enable-config .TLS-input {
     width: 100%;
   }
