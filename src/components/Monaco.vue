@@ -86,6 +86,7 @@ const setJSONValidate = () => {
   if (prop.lang === 'json') {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: !prop.jsonWithoutValidate,
+      schemaRequest: 'ignore',
     })
   }
 }
