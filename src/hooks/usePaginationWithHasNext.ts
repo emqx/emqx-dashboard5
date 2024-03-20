@@ -8,7 +8,9 @@ const generateDefaultPageMeta = (): PageData => ({
   hasnext: false,
 })
 
-export default (): {
+export default (
+  customPageMeta?: Partial<PageData>,
+): {
   pageMeta: Ref<PageData>
   pageParams: ComputedRef<{
     limit: number
@@ -17,7 +19,7 @@ export default (): {
   initPageMeta: () => void
   setPageMeta: (data: PageData) => void
 } => {
-  const pageMeta: Ref<PageData> = ref(generateDefaultPageMeta())
+  const pageMeta: Ref<PageData> = ref({ ...generateDefaultPageMeta(), ...(customPageMeta ?? {}) })
   const pageParams = computed(() => ({
     limit: pageMeta.value.limit,
     page: pageMeta.value.page,
