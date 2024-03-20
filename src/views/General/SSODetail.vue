@@ -34,8 +34,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import {
   DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
-  EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { SSOLdapForm } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import type { Component, ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
@@ -43,6 +43,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
+import IframeForm from './components/SSOForm/IframeForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -59,6 +60,7 @@ const FormCom = ref()
 const formComMap: Record<string, Component> = {
   [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
   [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
+  [DashboardSsoBackendStatusBackend.iframe]: IframeForm,
 }
 
 const formCom = computed(() =>
@@ -105,7 +107,7 @@ const saveConfig = async () => {
     await FormCom.value?.validate?.()
     await putSSOBackend(
       backend.value,
-      handleFormDataBeforeSubmit(backend.value, formData.value) as EmqxDashboardSsoLdapLdap,
+      handleFormDataBeforeSubmit(backend.value, formData.value) as SSOLdapForm,
     )
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'SSO' })

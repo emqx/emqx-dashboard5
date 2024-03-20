@@ -5,6 +5,7 @@ import {
   DashboardSamlBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import useSSL from '../useSSL'
+import { SSOIframeBackend } from '@/types/typeAlias'
 
 export default (): {
   createRawForm: (backend: string) => any
@@ -31,10 +32,22 @@ export default (): {
     sp_public_key: '',
     sp_private_key: '',
   })
+  const createRawIframeForm = (): any => ({
+    enable: true,
+    backend: SSOIframeBackend.iframe,
+    url: 'https://127.0.0.1:28080',
+    request_timeout: '30s',
+    connect_timeout: '15s',
+    pool_size: 8,
+    enable_pipelining: 100,
+    ssl: createSSLForm(),
+    method: 'get',
+  })
 
   const formCreatorMap: Map<string, () => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
     [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
+    [DashboardSsoBackendStatusBackend.iframe, createRawIframeForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)
@@ -52,6 +65,7 @@ export default (): {
   const formHandlerMap: Map<string, (form: any) => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
     [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
+    [DashboardSsoBackendStatusBackend.iframe, handleSAMLFormBeforeSubmit],
   ])
 
   const handleFormDataBeforeSubmit = (backend: string, form: any) => {

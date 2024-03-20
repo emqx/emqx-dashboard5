@@ -5,7 +5,11 @@ import {
   GetAuditParams as GetAuditParamsType,
 } from './schemas/audit.schemas'
 import { EmqxLog } from './schemas/configs.schemas'
-import { DashboardIframeBackend } from './schemas/dashboardSingleSignOn.schemas'
+import {
+  DashboardIframeBackend,
+  SsoLdap,
+  DashboardIframe,
+} from './schemas/dashboardSingleSignOn.schemas'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
 
 /* CONF */
@@ -19,3 +23,5 @@ export const AuditLogFrom = GetAuditFrom
 export const AuditLogOperationResult = GetAuditOperationResult
 
 export const SSOIframeBackend = DashboardIframeBackend
+export type SSOLdapForm = SsoLdap
+export type IframeForm = DashboardIframe
