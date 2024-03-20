@@ -120,6 +120,13 @@ export type PutSourcesIdMetricsReset404 = {
   message?: string
 }
 
+export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof GetSourceTypes200Item]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSourceTypes200Item = {
+  mqtt: 'mqtt',
+} as const
+
 export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
