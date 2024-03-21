@@ -115,4 +115,12 @@ export default {
     zh: '卸载成功',
     en: 'Uninstalled successfully',
   },
+  managePlugin: {
+    zh: '管理插件',
+    en: 'Manage plugin',
+  },
+  infoPlugin: {
+    zh: '插件信息',
+    en: 'Plugin information',
+  },
 }

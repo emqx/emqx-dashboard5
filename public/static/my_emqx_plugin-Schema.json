@@ -1,0 +1,83 @@
+{
+  "type": "record",
+  "name": "ExtendedConfig",
+  "fields": [
+    {
+      "name": "hostname",
+      "type": "string",
+      "doc": "The database host name.",
+      "default": "localhost"
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "doc": "The port number on which the database server is listening.",
+      "default": 3306
+    },
+    {
+      "name": "isActive",
+      "type": "boolean",
+      "doc": "Flag to mark if the database connection is active."
+    },
+    {
+      "name": "databaseType",
+      "type": {
+        "type": "enum",
+        "symbols": ["PostgreSQL", "MySQL", "SQLite", "MongoDB"],
+        "doc": "The type of database."
+      },
+      "default": "MySQL"
+    },
+    {
+      "name": "maxConnections",
+      "type": "int",
+      "doc": "The maximum number of database connections."
+    },
+    {
+      "name": "connectionOptions",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "ConnectionOption",
+          "fields": [
+            {
+              "name": "optionName",
+              "type": "string",
+              "doc": "The name of the option."
+            },
+            {
+              "name": "optionValue",
+              "type": "string",
+              "doc": "The value of the option."
+            }
+          ],
+          "doc": "A key-value pair for connection options."
+        }
+      },
+      "default": [{"optionName": "autoReconnect", "optionValue": "true"}],
+      "doc": "A list of additional options for the database connection."
+    },
+    {
+      "name": "security",
+      "type": {
+        "type": "record",
+        "name": "SecurityConfig",
+        "fields": [
+          {
+            "name": "username",
+            "type": "string",
+            "doc": "The username for database access authentication."
+          },
+          {
+            "name": "password",
+            "type": ["null", "string"],
+            "default": null,
+            "doc": "The password for database access authentication. Can be null."
+          }
+        ],
+        "doc": "The security credentials for the database."
+      }
+    }
+  ]
+}
