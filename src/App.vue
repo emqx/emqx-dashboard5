@@ -87,12 +87,11 @@ const handleQuery = async () => {
     } catch (error) {
       // TODO:
     } finally {
-      window.setTimeout(loading.close, 300)
+      window.setTimeout(loading.close, 500)
     }
   }
 
   if (info) {
-    location.replace(location.origin + location.pathname + location.hash)
     /**
      * Currently, if info is from location.search, it's using single sign-on;
      * if it's from route.query, it's from ECP (i.e., no backend)
@@ -103,6 +102,10 @@ const handleQuery = async () => {
       ? SSOIframeBackend.iframe
       : undefined
     updateBaseInfo(info.username, info, backend)
+    if (location.search) {
+      window.history.replaceState({}, document.title, location.pathname + location.hash)
+    }
+    await waitAMoment()
     // if in login page, redirect to overview page
     if (/login/i.test(location.hash.split('?')[0])) {
       router.push({ name: 'overview' })
