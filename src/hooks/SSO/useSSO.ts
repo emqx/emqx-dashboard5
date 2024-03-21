@@ -7,11 +7,15 @@ import {
   PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ComputedRef, Ref, computed, reactive, ref } from 'vue'
+import useI18nTl from '../useI18nTl'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
+  const { tl } = useI18nTl('General')
+
   const backendsLabelMap: Map<string, string> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, 'LDAP'],
     [DashboardSsoBackendStatusBackend.saml, 'SAML 2.0'],
+    [DashboardSsoBackendStatusBackend.iframe, tl('customToken')],
   ])
   const getBackendLabel = (backend: string): string => backendsLabelMap.get(backend) || ''
 

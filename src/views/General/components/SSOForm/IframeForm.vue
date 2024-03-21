@@ -5,18 +5,18 @@
     require-asterisk-position="right"
     :model="formData"
     :rules="rules"
-    :label-width="150"
+    :label-width="200"
   >
-    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'iframe' })">
+    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: tl('customToken') })">
       <el-switch v-model="formData.enable" />
-    </el-form-item>
-    <el-form-item prop="url" label="URL">
-      <el-input v-model="formData.url" />
     </el-form-item>
     <el-form-item prop="method" :label="t('Auth.method')">
       <el-select v-model="formData.method">
         <el-option label="GET" value="get" />
       </el-select>
+    </el-form-item>
+    <el-form-item prop="url" label="URL">
+      <el-input v-model="formData.url" />
     </el-form-item>
     <el-form-item prop="pool_size" :label="t('RuleEngine.connectionPoolSize')">
       <TimeInputWithUnitSelect v-model="formData.pool_size" />

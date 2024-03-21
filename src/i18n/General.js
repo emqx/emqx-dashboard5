@@ -260,7 +260,7 @@ export default {
     en: 'Disabled',
   },
   SSOEnable: {
-    zh: '启用 {backend} SSO',
+    zh: '启用{backend} SSO',
     en: 'Enable {backend} SSO',
   },
   baseDN: {
@@ -422,5 +422,9 @@ export default {
   iotdbTemplateRemark: {
     zh: '字段、值、数据类型是必填选项，数据类型可选的值为 BOOLEAN、INT32、INT64、FLOAT、DOUBLE、TEXT',
     en: 'Measurement, Value, and Data Type are required fields. The Data Type can have the optional values BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT.',
+  },
+  customToken: {
+    zh: '自定义 Token',
+    en: 'Custom Token',
   },
 }

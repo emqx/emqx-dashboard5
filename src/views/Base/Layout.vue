@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+    <el-aside v-if="!hideLeftMenu" :style="{ width: leftBarCollapse ? '80px' : '200px' }">
       <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
         <img src="@/assets/img/emqx-logo.png" alt="emqx-logo" />
       </div>
@@ -110,7 +110,11 @@ export default defineComponent({
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
     })
+    const hideLeftMenu = computed(() => store.state.hideLeftMenu)
     const elMainStyle = computed(() => {
+      if (hideLeftMenu.value) {
+        return '8px'
+      }
       return !leftBarCollapse.value ? '200px' : '80px'
     })
     const topLvRoute: any = computed(() => {
@@ -204,6 +208,7 @@ export default defineComponent({
       hasSubMenu,
       showSubMenu,
       leftBarCollapse,
+      hideLeftMenu,
       fullHeight,
       kebab2pascal,
       isNotFound,

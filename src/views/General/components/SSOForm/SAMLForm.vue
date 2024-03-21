@@ -8,7 +8,7 @@
     :label-width="180"
     :validate-on-rule-change="false"
   >
-    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
+    <el-form-item prop="enable" :label="tl('SSOEnable', { backend: ' SAML' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
     <el-form-item prop="dashboard_addr">
