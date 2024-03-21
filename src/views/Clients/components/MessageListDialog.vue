@@ -120,7 +120,11 @@ const columns = [
     dataKey: 'msgid',
     width: msgIdWidth,
     cellRenderer: ({ rowData }: any) => {
-      if (rowData.mqueue_priority === 0) {
+      if (
+        !isMsgQueue.value ||
+        rowData.mqueue_priority === 0 ||
+        isUndefined(rowData.mqueue_priority)
+      ) {
         return rowData.msgid
       }
       return (
