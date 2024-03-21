@@ -73,6 +73,10 @@ const { updateBaseInfo } = useUpdateBaseInfo()
 const handleQuery = async () => {
   let info = getUserInfoFromQuery()
   const token = getValueFromQuery('token')
+  const hideLeftMenu = getValueFromQuery('hideMenu', true)
+  if (hideLeftMenu) {
+    store.commit('SET_HIDE_LEFT_MENU', hideLeftMenu === 'true')
+  }
   if (token) {
     const loading = ElLoading.service({ customClass: 'is-opacity' })
     try {

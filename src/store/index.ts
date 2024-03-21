@@ -38,6 +38,8 @@ const getLeftBarCollapse = () => {
   return JSON.parse(leftBarCollapse)
 }
 
+const getHideLeftMenu = () => sessionStorage.getItem('hideLeftMenu') === 'true'
+
 const getLoginBackend = () => {
   const loginBackend = localStorage.getItem('loginBackend') || 'local'
   if (loginBackend === 'undefined') {
@@ -53,6 +55,7 @@ export default createStore({
     syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
     leftBarCollapse: getLeftBarCollapse(),
+    hideLeftMenu: getHideLeftMenu(),
     alertCount: 0,
     request_queue: 0,
     edition: localStorage.getItem('edition'),
@@ -103,6 +106,10 @@ export default createStore({
     SET_LEFT_BAR_COLLAPSE(state, collapse) {
       localStorage.setItem('leftBarCollapse', !!collapse as any)
       state.leftBarCollapse = !!collapse
+    },
+    SET_HIDE_LEFT_MENU(state, hide: boolean) {
+      sessionStorage.setItem('hideLeftMenu', hide ? 'true' : 'false')
+      state.hideLeftMenu = hide
     },
     SET_LANGUAGE(state, lang) {
       localStorage.setItem('language', lang)

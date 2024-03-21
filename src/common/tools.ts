@@ -720,8 +720,17 @@ const getDataFromParams = (params: string): Record<string, string> => {
 
 const getQueryInHash = (hash: string) => hash.slice(1).split('?')[1]
 
-export const getValueFromQuery = (key: string): string | undefined => {
+export const getValueFromQuery = (key: string, ignoreCase?: boolean): string | undefined => {
   const infoFromParams = getDataFromParams(location.search.slice(1))
   const infoFromHash = getDataFromParams(getQueryInHash(location.hash))
-  return infoFromParams[key] || infoFromHash[key]
+  let keyToGet = key
+  if (ignoreCase) {
+    const keyReg = new RegExp(`^${key}$`, 'i')
+    Object.keys({ ...infoFromParams, ...infoFromHash }).forEach((k) => {
+      if (keyReg.test(k)) {
+        keyToGet = k
+      }
+    })
+  }
+  return infoFromParams[keyToGet] || infoFromHash[keyToGet]
 }
