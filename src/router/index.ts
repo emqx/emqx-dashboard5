@@ -21,7 +21,7 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       authRequired: false,
     },
-    component: () => import('@/views/Base/Login.vue'),
+    component: () => import('@/views/Base/Unauthorized.vue'),
   },
 
   // Overview

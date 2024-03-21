@@ -663,4 +663,8 @@ export default {
     zh: '文件大小不能超过 {size}MB',
     en: 'File size cannot exceed {size}MB',
   },
+  unauthorized: {
+    zh: '未授权',
+    en: 'Unauthorized',
+  },
 }
