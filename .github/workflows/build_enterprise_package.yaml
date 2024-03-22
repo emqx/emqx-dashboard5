@@ -5,12 +5,14 @@ on:
     branches:
       - 'enterprise'
       - 'dev/e/*'
+      - 'c/**'
   push:
     tags:
       - 'e1.*'
     branches:
       - 'enterprise'
       - 'dev/e/*'
+      - 'c/**'
 
 jobs:
   build:
