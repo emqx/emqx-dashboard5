@@ -12,6 +12,7 @@ export default defineComponent({
 
 <script setup>
 import * as monaco from 'monaco-editor'
+import { language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
@@ -109,8 +110,21 @@ const registerProvider = () => {
   }
 }
 
+registerRuleSql()
 registerProvider()
 defineTheme()
+
+/**
+ * Distinguish between the rule's sql and the action's sql,
+ * otherwise the rule's Completion will appear in the action's sql.
+ */
+const registerRuleSql = () => {
+  const registered = monaco.languages.getLanguages().find((lang) => lang.id === 'rulesql')
+  if (!registered) {
+    monaco.languages.register({ id: 'rulesql' })
+    monaco.languages.setMonarchTokensProvider('rulesql', { ...sql })
+  }
+}
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
