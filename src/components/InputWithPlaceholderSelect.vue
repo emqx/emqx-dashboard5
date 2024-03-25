@@ -84,33 +84,13 @@
 </template>
 
 <script lang="ts" setup>
+import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { onClickOutside } from '@vueuse/core'
 import type { AutocompleteData } from 'element-plus'
 import { useAttrs, useId, useNamespace } from 'element-plus'
 import { debounce, escapeRegExp, isArray } from 'lodash'
 import type { StyleValue } from 'vue'
 import { computed, defineEmits, defineProps, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
-
-// TODO: for test, delete it
-const temp = [
-  'event',
-  'id',
-  'clientid',
-  'username',
-  'payload',
-  'peerhost',
-  'topic',
-  'qos',
-  'flags',
-  'publish_received_at',
-  'pub_props',
-  'timestamp',
-  'node',
-]
-const testAvailableFields = temp.reduce((arr: Array<{ value: string }>, item) => {
-  arr.push({ value: `$\{${item}}` }, { value: `$\{.${item}}` })
-  return arr
-}, [])
 
 const props = defineProps<{
   modelValue: string | number
@@ -174,13 +154,19 @@ const getMatchPart = () => {
   const matchRet = props.modelValue.toString().match(placeholderReg)
   return matchRet && matchRet[0]
 }
+const { availablePlaceholders } = useSQLAvailablePlaceholder()
 const fetchSuggestions = () => {
   const matchPart = getMatchPart()
   if (!matchPart) {
     return []
   }
   const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
-  return testAvailableFields.filter(({ value }) => filterReg.test(value))
+  return availablePlaceholders.value.reduce((arr, value) => {
+    if (filterReg.test(value)) {
+      arr.push({ value })
+    }
+    return arr
+  }, [] as Array<{ value: string }>)
 }
 
 const getData = async () => {

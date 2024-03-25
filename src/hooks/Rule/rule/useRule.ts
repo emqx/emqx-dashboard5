@@ -35,7 +35,6 @@ export const useRuleUtils = (): {
   transFromStrToFromArr: (fromStr: string) => Array<string>
   transFromDataArrToStr: (from: Array<string>) => string
   transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
-  getSQLPart: (sql: string, part: RuleSQLKeyword) => string
   isMsgPubEvent: (event: string) => boolean
   replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
 } => {
@@ -205,7 +204,6 @@ export const useRuleUtils = (): {
     transFromStrToFromArr,
     transFromDataArrToStr,
     transSQLFormDataToSQL,
-    getSQLPart,
     replaceTargetPartInSQL,
     isMsgPubEvent,
     getEventForShow,
