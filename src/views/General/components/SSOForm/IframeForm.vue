@@ -19,7 +19,7 @@
       <el-input v-model="formData.url" />
     </el-form-item>
     <el-form-item prop="pool_size" :label="t('RuleEngine.connectionPoolSize')">
-      <TimeInputWithUnitSelect v-model="formData.pool_size" />
+      <CustomInputNumber v-model="formData.pool_size" />
     </el-form-item>
     <el-form-item prop="request_timeout" :label="t('Auth.requestTimeout')">
       <TimeInputWithUnitSelect v-model="formData.request_timeout" />
