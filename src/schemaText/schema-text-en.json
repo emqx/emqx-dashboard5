@@ -184,6 +184,10 @@
       "desc": "Enable this log handler.",
       "label": "Enable Log Handler"
     },
+    "common_handler_timestamp_format": {
+      "desc": "Pick a timestamp format:<br/>- <code>auto</code>: automatically choose the best format based on log formatter. <code>epoch</code> for JSON and <code>rfc3339</code> for text.<br/>- <code>epoch</code>: Unix epoch time in milliseconds.<br/>- <code>rfc3339</code>: RFC3339 format.",
+      "label": "Timestamp Format"
+    },
     "cluster_k8s_service_name": {
       "desc": "EMQX broker service name.",
       "label": "K8s Service Name"
