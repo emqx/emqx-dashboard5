@@ -260,8 +260,8 @@ export default {
     en: 'Disabled',
   },
   SSOEnable: {
-    zh: '启用{backend} SSO',
-    en: 'Enable {backend} SSO',
+    zh: '启用{backend} 单点登录',
+    en: 'Enable {backend} 单点登录',
   },
   baseDN: {
     zh: '基本 DN',
