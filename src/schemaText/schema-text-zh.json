@@ -184,6 +184,10 @@
       "desc": "启用此日志处理进程。",
       "label": "启用日志处理进程"
     },
+    "common_handler_timestamp_format": {
+      "desc": "选择时间戳格式：<br/>- <code>auto</code>：根据日志的格式自动选择最合适的时间戳格式。对于 JSON 使用 <code>epoch</code>，对于文本则使用 <code>rfc3339</code>。<br/>- <code>epoch</code>：表示为自 Unix 纪元起的毫秒数。<br/>- <code>rfc3339</code>：遵循 RFC3339 标准的时间格式。",
+      "label": "时间戳格式"
+    },
     "cluster_k8s_service_name": {
       "desc": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
       "label": "K8s 服务别名"
