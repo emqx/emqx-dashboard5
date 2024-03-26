@@ -13,6 +13,8 @@ import type { ComputedRef, Ref } from 'vue'
 import { computed, inject } from 'vue'
 
 export default (): {
+  sql: Ref<string> | undefined
+  availableFields: ComputedRef<string[]>
   availablePlaceholders: ComputedRef<string[]>
 } => {
   /**
@@ -49,6 +51,9 @@ export default (): {
     !ruleInputBridgeReg.test(str) && !ruleInputEventReg.test(str)
 
   const availableFields = computed<Array<string>>(() => {
+    if (selectList.value.length === 0) {
+      return []
+    }
     let valueSet: Set<string> = new Set()
     // if select `*`
     if (selectList.value.length === 1 && /^\*$/.test(selectList.value[0])) {
@@ -84,5 +89,5 @@ export default (): {
     return availableFields.value.map((item) => `\${${item}}`)
   })
 
-  return { availablePlaceholders }
+  return { sql, availableFields, availablePlaceholders }
 }
