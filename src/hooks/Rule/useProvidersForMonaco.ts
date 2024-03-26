@@ -1,11 +1,12 @@
-import { RULE_INPUT_EVENT_PREFIX, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import * as monaco from 'monaco-editor'
-import { Ref, ref } from 'vue'
-import useI18nTl from '../useI18nTl'
-import useRuleSourceEvents from './rule/useRuleSourceEvents'
-import keysInRule from './KeysInRule'
 import { camelCase } from 'lodash'
+import * as monaco from 'monaco-editor'
+import { computed, Ref, ref } from 'vue'
+import useI18nTl from '../useI18nTl'
+import keysInRule from './KeysInRule'
+import useRuleSourceEvents from './rule/useRuleSourceEvents'
+import useSQLAvailablePlaceholder from './useSQLAvailablePlaceholder'
 
 const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
 
@@ -15,6 +16,46 @@ interface EventDepItem {
   documentation?: string | monaco.IMarkdownString
   insertText: string
   insertTextRules?: monaco.languages.CompletionItemInsertTextRule
+}
+
+interface TextRange {
+  startLineNumber: number
+  endLineNumber: number
+  startColumn: number
+  endColumn: number
+}
+
+export const useProviderUtils = (): {
+  createCompletionProvider: (
+    proposals: Array<EventDepItem>,
+  ) => monaco.languages.CompletionItemProvider
+} => {
+  const generateSuggestions = (dependencyProposals: Array<EventDepItem>, range: TextRange) =>
+    dependencyProposals.map((item) => ({ ...item, range }))
+
+  const createCompletionProvider = (proposals: Array<EventDepItem>) => {
+    return {
+      provideCompletionItems: function (
+        model: monaco.editor.ITextModel,
+        position: monaco.Position,
+      ) {
+        const word = model.getWordUntilPosition(position)
+        const range = {
+          startLineNumber: position.lineNumber,
+          endLineNumber: position.lineNumber,
+          // -2 is for the `${`/`"$`, +1 is for the `}`/`"`
+          startColumn: word.startColumn - 2,
+          endColumn: word.endColumn + 1,
+        }
+        const suggestions = generateSuggestions(proposals, range)
+        return { suggestions }
+      },
+    }
+  }
+
+  return {
+    createCompletionProvider,
+  }
 }
 
 export default (): {
@@ -134,36 +175,18 @@ export default (): {
     })
   }
 
-  const generateSuggestions = (
-    dependencyProposals: Array<EventDepItem>,
-    range: {
-      startLineNumber: number
-      endLineNumber: number
-      startColumn: number
-      endColumn: number
-    },
-  ) => dependencyProposals.map((item) => ({ ...item, range }))
+  const { createCompletionProvider } = useProviderUtils()
 
   const createProviders = () => {
     completionProvider.value = {
-      provideCompletionItems: function (
-        model: monaco.editor.ITextModel,
-        position: monaco.Position,
-      ) {
-        const word = model.getWordUntilPosition(position)
-        const range = {
-          startLineNumber: position.lineNumber,
-          endLineNumber: position.lineNumber,
-          startColumn: word.startColumn,
-          endColumn: word.endColumn,
-        }
-        const suggestions = generateSuggestions(eventDependencyProposals, range)
-          .concat(generateSuggestions(bridgeDependencyProposals, range))
-          .concat(generateSuggestions(syntaxKeyDependencyProposals, range))
-          .concat(generateSuggestions(fieldsDependencyProposals, range))
-          .concat(generateSuggestions(builtInFuncsDependencyProposals, range))
-        return { suggestions }
-      },
+      ...createCompletionProvider([
+        ...eventDependencyProposals,
+        ...bridgeDependencyProposals,
+        ...syntaxKeyDependencyProposals,
+        ...fieldsDependencyProposals,
+        ...builtInFuncsDependencyProposals,
+      ]),
+      triggerCharacters: ['"', '$'],
     }
     hoverProvider.value = {
       provideHover: function (model: monaco.editor.ITextModel, position: monaco.Position) {
@@ -218,5 +241,26 @@ export default (): {
     completionProvider,
     hoverProvider,
     setExtDepData,
+  }
+}
+
+export const useAvailableProviders = () => {
+  const { sql, availablePlaceholders } = useSQLAvailablePlaceholder()
+  const { createCompletionProvider } = useProviderUtils()
+
+  const createPlaceholderProposals = (placeholders: string) => ({
+    label: placeholders,
+    kind: monaco.languages.CompletionItemKind.Field,
+    insertText: placeholders,
+  })
+
+  const completionProvider = computed<undefined | monaco.languages.CompletionItemProvider>(() => {
+    const proposals = availablePlaceholders.value.map((field) => createPlaceholderProposals(field))
+    return { ...createCompletionProvider(proposals), triggerCharacters: ['$'] }
+  })
+
+  return {
+    sql,
+    completionProvider,
   }
 }

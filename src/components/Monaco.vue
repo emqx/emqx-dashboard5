@@ -101,18 +101,24 @@ const defineTheme = () => {
   monaco.editor.defineTheme('editor-dark', dark)
 }
 
-const registerProvider = () => {
+const registerHoverProvider = () => {
   if (prop.hoverProvider) {
     monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
   }
-  if (prop.completionProvider) {
-    monaco.languages.registerCompletionItemProvider(prop.lang, prop.completionProvider)
-  }
 }
 
-registerRuleSql()
-registerProvider()
-defineTheme()
+let currentCompletionProvider = undefined
+const registerCompletionProvider = () => {
+  if (prop.completionProvider) {
+    if (currentCompletionProvider) {
+      currentCompletionProvider?.dispose?.()
+    }
+    currentCompletionProvider = monaco.languages.registerCompletionItemProvider(
+      prop.lang,
+      prop.completionProvider,
+    )
+  }
+}
 
 /**
  * Distinguish between the rule's sql and the action's sql,
@@ -125,6 +131,11 @@ const registerRuleSql = () => {
     monaco.languages.setMonarchTokensProvider('rulesql', { ...sql })
   }
 }
+
+registerRuleSql()
+registerHoverProvider()
+registerCompletionProvider()
+defineTheme()
 
 const initEditor = () => {
   const id = `monaco-${prop.id}`
@@ -191,7 +202,7 @@ watch(
   },
 )
 
-watch(() => prop.completionProvider, registerProvider)
+watch(() => prop.completionProvider, registerCompletionProvider)
 
 watch(
   () => prop.lang,
