@@ -1,3 +1,4 @@
+import { SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import { checkNOmitFromObj } from '@/common/tools'
 import {
   DashboardSsoBackendStatusBackend,
@@ -40,7 +41,7 @@ export default (): {
     connect_timeout: '15s',
     pool_size: 8,
     enable_pipelining: 100,
-    ssl: createSSLForm(),
+    ssl: { ...createSSLForm(), verify: SSL_VERIFY_VALUE_MAP.get(false) },
     method: 'get',
   })
 
