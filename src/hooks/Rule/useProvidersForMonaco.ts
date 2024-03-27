@@ -1,4 +1,5 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { camelCase } from 'lodash'
 import * as monaco from 'monaco-editor'
@@ -35,16 +36,26 @@ export const useProviderUtils = (): {
 
   const createCompletionProvider = (proposals: Array<EventDepItem>) => {
     return {
-      provideCompletionItems: function (
+      provideCompletionItems: async function (
         model: monaco.editor.ITextModel,
         position: monaco.Position,
       ) {
+        // Wait for the trigger character to be entered into the editor
+        await waitAMoment()
+        const { column } = position
+        const triggerStr = model.getValueInRange({
+          startLineNumber: position.lineNumber,
+          endLineNumber: position.lineNumber,
+          startColumn: column - 1,
+          endColumn: column,
+        })
+        const isTriggeredByCharacter = /\w/.test(triggerStr)
         const word = model.getWordUntilPosition(position)
         const range = {
           startLineNumber: position.lineNumber,
           endLineNumber: position.lineNumber,
-          // -2 is for the `${`/`"$`, +1 is for the `}`/`"`
-          startColumn: word.startColumn - 2,
+          // -1 is for the `${`/`"$`, +1 is for the `}`/`"`
+          startColumn: word.startColumn - (isTriggeredByCharacter ? 0 : 1),
           endColumn: word.endColumn + 1,
         }
         const suggestions = generateSuggestions(proposals, range)
