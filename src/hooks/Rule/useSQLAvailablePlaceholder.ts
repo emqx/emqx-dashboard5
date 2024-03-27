@@ -10,7 +10,7 @@ import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { EventForRule } from '@/types/enum'
 import { escapeRegExp, isUndefined } from 'lodash'
 import type { ComputedRef, Ref } from 'vue'
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 
 export default (): {
   sql: Ref<string> | undefined
@@ -20,12 +20,14 @@ export default (): {
   /**
    * Used to confirm which optional placeholders are provided
    */
-  const sql: Ref<string> | undefined = inject('sql')
+  const sql: Ref<string> | undefined = inject('sql', ref(''))
   /**
    * An event list is needed to find out what available placeholders are for each `from`
    */
-  const eventList: Ref<Array<{ columns: string[]; event: string } & unknown>> | undefined =
-    inject('eventList')
+  const eventList: Ref<Array<{ columns: string[]; event: string } & unknown>> | undefined = inject(
+    'eventList',
+    ref([]),
+  )
 
   const sqlKeyParts = computed<
     Partial<{

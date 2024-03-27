@@ -91,8 +91,12 @@ import { createRandomString, waitAMoment } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
-import useFlowNode, { NodeType } from '@/hooks/Flow/useFlowNode'
+import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
+import useFlowNode, { FlowNodeType, NodeType, ProcessingType } from '@/hooks/Flow/useFlowNode'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
+import { RuleEvent } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import {
   Edge,
@@ -107,7 +111,17 @@ import {
 } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual, pick } from 'lodash'
-import { PropType, Ref, computed, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import {
+  PropType,
+  Ref,
+  computed,
+  defineExpose,
+  defineProps,
+  nextTick,
+  provide,
+  ref,
+  watch,
+} from 'vue'
 import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
@@ -378,6 +392,36 @@ const getFlowData = () => {
 }
 
 onConnect((params) => addEdges(params))
+
+// For the configuration of action can select placeholder
+const eventList = ref<Array<RuleEvent>>([])
+provide('eventList', eventList)
+const { getEventList } = useRuleEvents()
+;(async () => (eventList.value = await getEventList()))()
+
+const { getFromDataFromNodes, getFieldsExpressionsFromNode } = useFlowEditorDataHandler()
+const { transSQLFormDataToSQL } = useRuleUtils()
+const sql = computed(() => {
+  const inputNodeArr: Array<any> = []
+  const fieldNodeArr: Array<any> = []
+  getNodes.value.forEach((item) => {
+    if (!item.data.formData) {
+      return
+    }
+    if (item.type === FlowNodeType.Input) {
+      inputNodeArr.push(pick(item, nodeNeededKeys))
+    } else if (
+      item.type === FlowNodeType.Default &&
+      item.data.specificType === ProcessingType.Function
+    ) {
+      fieldNodeArr.push(pick(item, nodeNeededKeys))
+    }
+  })
+  const fromArr = getFromDataFromNodes(inputNodeArr)
+  const fieldsExpressions = getFieldsExpressionsFromNode(fieldNodeArr)
+  return transSQLFormDataToSQL(fieldsExpressions, fromArr, '')
+})
+provide('sql', sql)
 
 watch(
   () => props.data,

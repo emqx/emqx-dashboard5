@@ -40,6 +40,8 @@ interface BridgeData {
 }
 
 export default (): {
+  getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
+  getFieldsExpressionsFromNode: (nodes: Array<NodeData>) => string
   getRulesActionsSourcesFromFlowData: (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
@@ -169,7 +171,7 @@ export default (): {
   const groupNodes = (nodes: Array<NodeData>): NodesAfterGroup =>
     groupBy(nodes, 'type') as NodesAfterGroup
 
-  const getFromDataFromNodes = (flowName: string, nodes: Array<NodeData>): Array<string> => {
+  const getFromDataFromNodes = (nodes: Array<NodeData>): Array<string> => {
     return nodes.reduce((ret: Array<string>, node) => {
       if (node.type !== FlowNodeType.Input) {
         return ret
@@ -199,7 +201,7 @@ export default (): {
     }, [])
   }
 
-  const getActionDataFromNodes = (flowName: string, nodes: Array<NodeData>): Array<any> => {
+  const getActionDataFromNodes = (nodes: Array<NodeData>): Array<any> => {
     return nodes.reduce((ret: Array<string>, node) => {
       if (node.type !== FlowNodeType.Output) {
         return ret
@@ -266,17 +268,19 @@ export default (): {
       [FlowNodeType.Default]: processingNodes = [],
       [FlowNodeType.Output]: outputNodes = [],
     } = nodes
-    const fromArr = getFromDataFromNodes(flowName, inputNodes)
+    const fromArr = getFromDataFromNodes(inputNodes)
     const filterStr = getFilterStrFromNodes(processingNodes)
     const fieldsExpressions = getFieldsExpressionsFromNode(processingNodes)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
-    rule.actions = getActionDataFromNodes(flowName, outputNodes)
+    rule.actions = getActionDataFromNodes(outputNodes)
     const actions = getBridgesFromNodes(outputNodes)
     const sources = getBridgesFromNodes(inputNodes)
     return { rule, actions, sources }
   }
 
   return {
+    getFromDataFromNodes,
+    getFieldsExpressionsFromNode,
     getRulesActionsSourcesFromFlowData,
   }
 }
