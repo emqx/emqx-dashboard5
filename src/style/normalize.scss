@@ -451,7 +451,8 @@
 .el-input,
 .el-textarea,
 .el-input-number,
-.el-select {
+.el-select,
+.el-autocomplete {
   transition: all 0.3s;
   width: 100%;
 }
