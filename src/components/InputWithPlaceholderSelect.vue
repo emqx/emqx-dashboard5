@@ -13,13 +13,13 @@ import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { escapeRegExp } from 'lodash'
 import { computed, defineProps, defineEmits, ref } from 'vue'
 
-const props = defineProps<{ modelValue: string }>()
+const props = defineProps<{ modelValue?: string }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
 }>()
 
 const inputValue = computed({
-  get: () => props.modelValue,
+  get: () => props.modelValue || '',
   set: (value: string) => {
     emit('update:modelValue', value)
   },
@@ -27,7 +27,7 @@ const inputValue = computed({
 
 const placeholderReg = /\$(\{[^\s\n}]*)?$/
 const getMatchPart = () => {
-  const matchRet = props.modelValue.toString().match(placeholderReg)
+  const matchRet = props.modelValue?.toString().match(placeholderReg)
   return matchRet && matchRet[0]
 }
 const { availablePlaceholders } = useSQLAvailablePlaceholder()
@@ -50,7 +50,7 @@ const handleSelect = ({ value: selected }: { value: string }) => {
   if (!matchPart) {
     return
   }
-  inputValue.value = props.modelValue.replace(placeholderReg, selected)
+  inputValue.value = props.modelValue?.replace(placeholderReg, selected) || ''
 }
 
 const AutocompleteRef = ref()
