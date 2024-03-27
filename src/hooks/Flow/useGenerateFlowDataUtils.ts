@@ -6,15 +6,18 @@ import {
 import {
   arraysAreEqual,
   getKeyPartsFromSQL,
+  ruleSelectionAliasPartReg,
+  getRuleSelectionAlias,
   getTypeAndNameFromKey,
   isForeachReg,
   splitOnComma,
   trimSpacesAndLFs,
+  judgeRuleSelectionWithFunc,
 } from '@/common/tools'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-import { escapeRegExp, isString } from 'lodash'
+import { escapeRegExp, isString, isUndefined } from 'lodash'
 import { useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'
@@ -137,20 +140,16 @@ export default (): {
     return { func: { name: funcName, args }, field: args[argIndex].toString() }
   }
 
-  const funcExpressionReg = /^\w+\((.|\n)+\)$/
-  const aliasPartReg = /\sas\s(\S+)/
-  const aliasReg = new RegExp(`.+${aliasPartReg.source}`)
   const generateFunctionFormItemFromExpression = (expressionItem: string): FunctionItem => {
     const form = createFunctionItem()
-    const withAlias = aliasReg.test(expressionItem)
-    if (withAlias) {
-      const [, alias = ''] = expressionItem.match(aliasReg) || []
+    const alias = getRuleSelectionAlias(expressionItem)
+    if (!isUndefined(alias)) {
       form.alias = alias
     }
 
-    const selection = expressionItem.replace(aliasPartReg, '')
+    const selection = expressionItem.replace(ruleSelectionAliasPartReg, '')
 
-    if (funcExpressionReg.test(selection)) {
+    if (judgeRuleSelectionWithFunc(selection)) {
       const funcData = getFuncDataFromExpression(selection)
       if (funcData) {
         return { ...form, ...funcData }

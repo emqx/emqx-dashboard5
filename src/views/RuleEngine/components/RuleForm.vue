@@ -38,7 +38,7 @@
                     :hover-provider="hoverProvider"
                     :disabled="disabled"
                     v-model="ruleValue.sql"
-                    lang="sql"
+                    lang="rulesql"
                     @change="validate"
                   />
                 </div>
