@@ -3,6 +3,8 @@ import {
   enConnectorsLabel,
   zhActionsLabel,
   zhConnectorsLabel,
+  zhIntegrationDesc,
+  enIntegrationDesc,
 } from '@emqx/shared-ui-i18n'
 import { merge } from 'lodash'
 import customActionDescEn from './action-desc-en.json'
@@ -46,11 +48,13 @@ const transformConf = (conf: TextConf, propName: 'label' | 'desc') =>
 const handleOneLang = (
   defaultLabelConf: TextConf,
   customLabelConf: TextConf,
-  descConf: TextConf,
+  defaultDescConf: TextConf,
+  customDescConf: TextConf,
   lang: 'zh' | 'en',
 ) => {
   const labelConf = merge(defaultLabelConf, customLabelConf)
   const labelRet = transformConf(labelConf, 'label')
+  const descConf = merge(defaultDescConf, customDescConf)
   const descRet = transformConf(descConf, 'desc')
 
   result[lang] = merge(labelRet, descRet)
@@ -60,12 +64,14 @@ const generateResult = () => {
   handleOneLang(
     merge(zhConnectorsLabel, zhActionsLabel),
     customActionLabelZh,
+    zhIntegrationDesc,
     customActionDescZh,
     'zh',
   )
   handleOneLang(
     merge(enConnectorsLabel, enActionsLabel),
     customActionLabelEn,
+    enIntegrationDesc,
     customActionDescEn,
     'en',
   )

@@ -1,8 +1,0 @@
-{
-  "async": "Async",
-  "sync": "Sync",
-  "get": "GET",
-  "post": "POST",
-  "delete": "DELETE",
-  "put": "PUT"
-}
