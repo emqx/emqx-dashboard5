@@ -4,7 +4,6 @@
     "ssl": "启用SSL"
   },
   "mqtt": {
-    "server": "MQTT 服务地址",
     "source_topic": "主题"
   }
 }
