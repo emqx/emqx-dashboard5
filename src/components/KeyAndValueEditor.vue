@@ -2,19 +2,36 @@
   <el-table v-if="type === 'table'" class="key-and-value-editor shadow-none" :data="tableData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
-        <el-input
-          v-if="!readonly"
-          v-model="row.key"
-          class="key-input"
-          @input="atInputChange"
-          :readonly="fixedKeys"
-        />
+        <template v-if="!readonly">
+          <InputWithPlaceholderSelect
+            v-if="supportPlaceholder?.includes('key')"
+            v-model="row.key"
+            class="key-input"
+            @input="atInputChange"
+            :readonly="fixedKeys"
+          />
+          <el-input
+            v-else
+            v-model="row.key"
+            class="key-input"
+            @input="atInputChange"
+            :readonly="fixedKeys"
+          />
+        </template>
+
         <p class="value" v-else>{{ row.key }}</p>
       </template>
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <el-input v-if="!readonly" v-model="row.value" @input="atInputChange" />
+        <template v-if="!readonly">
+          <InputWithPlaceholderSelect
+            v-if="supportPlaceholder?.includes('value')"
+            v-model="row.value"
+            @input="atInputChange"
+          />
+          <el-input v-else v-model="row.value" @input="atInputChange" />
+        </template>
         <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
@@ -59,6 +76,7 @@ import { Delete, Plus } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
 import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 
 enum State {
   OK = 0,
@@ -92,6 +110,13 @@ const props = defineProps({
   },
   readonly: {
     type: Boolean,
+  },
+  /**
+   * used in action configuration
+   * ❗️need to provide `sql` & `eventList` at some ancestor component
+   */
+  supportPlaceholder: {
+    type: Array as PropType<Array<'key' | 'value'>>,
   },
 })
 
