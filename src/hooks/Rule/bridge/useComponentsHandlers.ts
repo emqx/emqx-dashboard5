@@ -120,15 +120,17 @@ export default (
 
   const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const paramsProps = components?.parameters?.properties
-    if (paramsProps?.body?.type === 'string') {
-      paramsProps.body.format = 'sql'
+    const { body, path, headers } = components?.parameters?.properties || {}
+
+    if (body?.type === 'string') {
+      body.format = 'sql'
     }
-    if (paramsProps?.path?.type) {
-      paramsProps.path.format = 'placeholder'
+    if (path?.type) {
+      path.format = 'placeholder'
     }
-    if (paramsProps?.headers?.default) {
-      paramsProps.headers.default = pick(paramsProps.headers.default, 'content-type')
+    if (headers?.default) {
+      headers.componentProps = { supportPlaceholder: ['key', 'value'] }
+      headers.default = pick(headers.default, 'content-type')
     }
     return { components, rules }
   }

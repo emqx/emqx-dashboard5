@@ -31,18 +31,19 @@ const getMatchPart = () => {
   return matchRet && matchRet[0]
 }
 const { availablePlaceholders } = useSQLAvailablePlaceholder()
-const fetchSuggestions = () => {
+const fetchSuggestions = (queryString: string, cb: any) => {
   const matchPart = getMatchPart()
-  if (!matchPart) {
-    return []
+  let ret: Array<{ value: string }> = []
+  if (matchPart) {
+    const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
+    ret = availablePlaceholders.value.reduce((arr, value) => {
+      if (filterReg.test(value)) {
+        arr.push({ value })
+      }
+      return arr
+    }, [] as Array<{ value: string }>)
   }
-  const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
-  return availablePlaceholders.value.reduce((arr, value) => {
-    if (filterReg.test(value)) {
-      arr.push({ value })
-    }
-    return arr
-  }, [] as Array<{ value: string }>)
+  cb(ret)
 }
 
 const handleSelect = ({ value: selected }: { value: string }) => {
