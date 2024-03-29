@@ -63,21 +63,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue'
-import { BatchSettingDatabaseType } from '@/types/enum'
-import Papa from 'papaparse'
-import { ElMessage } from 'element-plus'
-import { ElUpload } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
-import { createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import useDocLink from '@/hooks/useDocLink'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BatchSettingDatabaseType } from '@/types/enum'
+import { useBatchSettings } from '@emqx/shared-ui-utils'
+import { ElMessage, ElUpload } from 'element-plus'
+import { defineEmits, defineProps, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   type: BatchSettingDatabaseType
 }>()
 const emits = defineEmits(['uploadedData'])
-const { t, tl } = useI18nTl('General')
+const { locale } = useI18n()
+const { tl } = useI18nTl('General')
 
 const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
@@ -97,130 +97,18 @@ const dbNameMap = {
   [BatchSettingDatabaseType.IoTDB]: 'IoTDB',
 }
 
-const dbTemplateContent: { [key in BatchSettingDatabaseType]: string } = {
-  [BatchSettingDatabaseType.InfluxDB]: `Field,Value,Remarks (Optional)
-temp,\${payload.temp},
-hum,\${payload.hum},
-precip,\${payload.precip}i,"${tl('influxdbTemplateRemark')}"
-`,
-  [BatchSettingDatabaseType.TDengine]: `Field,Value,Char Value,Remarks (Optional)
-ts,now,FALSE,Example Remark
-msgid,\${id},TRUE,
-mqtt_topic,\${topic},TRUE,
-qos,\${qos},FALSE,
-temp,\${payload.temp},FALSE,
-hum,\${payload.hum},FALSE,
-status,\${payload.status},FALSE,
-`,
-  [BatchSettingDatabaseType.IoTDB]: `Timestamp,Measurement,Data Type,Value,Remarks (Optional)
-now,temp,FLOAT,\${payload.temp},"${tl('iotdbTemplateRemark')}"
-now,hum,FLOAT,\${payload.hum},
-now,status,BOOLEAN,\${payload.status},
-now,clientid,TEXT,\${clientid},
-`,
-}
+const {
+  processTDengineData,
+  processIoTDBData,
+  processInfluxDBData,
+  readFileAndParse: processingUploadedFile,
+  handleDownloadTemp,
+  templateContentMap,
+} = useBatchSettings(locale.value === 'zh' ? 'zh' : 'en')
 
 function downloadTemplate() {
-  const template = dbTemplateContent[props.type]
-  if (template) {
-    const blob = new Blob([template], { type: 'text/csv' })
-    createDownloadBlobLink(blob, `EMQX_${dbNameMap[props.type]}_Template.csv`)
-  } else {
-    console.error(`Unsupported type: ${props.type}`)
-  }
-}
-
-/**
- * Processes the InfluxDB data and returns a promise that resolves to an array of key-value pairs.
- * @param {string[][]} data - The InfluxDB data to be processed.
- * @returns {Promise<{ key: string; value: string }[]>} - A promise that resolves to an array of key-value pairs.
- */
-function processInfluxDBData(data: string[][]): Promise<{ key: string; value: string }[]> {
-  return new Promise((resolve, reject) => {
-    try {
-      // Skip the first row and map each row to an object
-      const result = [] as { key: string; value: string }[]
-      for (let i = 1; i < data.length; i++) {
-        const [key, value] = data[i]
-        if (!key || !value) continue
-        result.push({ key, value })
-      }
-      resolve(result)
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
-
-/**
- * Processes TDengine data and returns a promise that resolves to a string.
- *
- * @param {string[][]} data - The TDengine data to be processed.
- * @returns {Promise<string>} - A promise that resolves to the generated SQL insert string.
- */
-function processTDengineData(data: string[][]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    try {
-      const tableName = '<table>'
-      const fields = []
-      const values = []
-      for (let i = 1; i < data.length; i++) {
-        const [field, value, isChar] = data[i]
-        if (!field || !value) continue
-        fields.push(field)
-        const isCharValue = ['true', 'TRUE', '1', '', undefined].includes(isChar?.trim())
-        const isNotCharValue = ['false', 'FALSE', '0'].includes(isChar?.trim())
-        if (isCharValue) {
-          values.push(`'${value}'`)
-        } else if (isNotCharValue) {
-          values.push(value)
-        } else {
-          throw new Error(tl('invalidIsCharFlag', { isChar }))
-        }
-      }
-      const result = `insert into ${tableName}(${fields.join(', ')}) values (${values.join(', ')})`
-      resolve(result)
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
-
-/**
- * Processes IoTDB data and returns an array of records.
- * @param {string[][]} data - The IoTDB data to be processed.
- * @returns {Promise<Array<Record<string, any>>>} - A promise that resolves to an array of records.
- * @throws {Error} - If an invalid data type is encountered.
- */
-function processIoTDBData(data: string[][]): Promise<Array<Record<string, any>>> {
-  return new Promise((resolve, reject) => {
-    try {
-      const validDataTypes = ['BOOLEAN', 'INT32', 'INT64', 'FLOAT', 'DOUBLE', 'TEXT']
-
-      const result = data
-        .slice(1)
-        .filter(
-          (row) => row.length >= 4 && row.slice(0, 4).every((item) => item && item.trim() !== ''),
-        )
-        .map((row) => {
-          const [timestamp, measurement, data_type, value] = row
-          // Check if data_type is valid
-          if (!validDataTypes.includes(data_type)) {
-            throw new Error(`Invalid data type: ${data_type}`)
-          }
-          return {
-            timestamp,
-            measurement,
-            data_type,
-            value,
-          }
-        })
-
-      resolve(result)
-    } catch (error) {
-      reject(error)
-    }
-  })
+  const template = templateContentMap[props.type]
+  handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
 /**
@@ -229,31 +117,7 @@ function processIoTDBData(data: string[][]): Promise<Array<Record<string, any>>>
  * @returns A promise that resolves to a 2D array representing the CSV data.
  */
 async function readFileAndParse(file: File): Promise<string[][]> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = (event) => {
-      if (!event.target) {
-        return reject(new Error('FileReader event target is null'))
-      }
-      const csvData = event.target.result
-      const results: any = Papa.parse(csvData as string)
-      if (results.errors.length > 0) {
-        reject(new Error('Failed to parse CSV data: ' + results.errors[0].message))
-      }
-      if (results.data.length > BATCH_UPLOAD_CSV_MAX_ROWS + 1) {
-        reject(new Error(tl('uploadMaxRowsError', { max: BATCH_UPLOAD_CSV_MAX_ROWS })))
-      } else {
-        resolve(results.data)
-      }
-    }
-    reader.onerror = () => {
-      reject(new Error('An error occurred while reading the file'))
-    }
-    reader.onabort = () => {
-      reject(new Error('File reading was aborted'))
-    }
-    reader.readAsText(file)
-  })
+  return processingUploadedFile(file, BATCH_UPLOAD_CSV_MAX_ROWS)
 }
 
 async function importData() {

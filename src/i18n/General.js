@@ -407,20 +407,4 @@ export default {
     zh: '请先上传文件',
     en: 'Please upload file first',
   },
-  uploadMaxRowsError: {
-    zh: 'CSV 文件行数超过限制，除表头外，最多支持 {max} 行数据',
-    en: 'The number of rows in the CSV file exceeds the limit. Up to {max} rows of data are supported except for the header',
-  },
-  invalidIsCharFlag: {
-    zh: '无效的字符标识符值：{isChar}',
-    en: 'Invalid Char Value field: {isChar}',
-  },
-  influxdbTemplateRemark: {
-    zh: '在字段值后追加 i，InfluxDB 则将该数值存储为整数类型。',
-    en: 'Append an i to the field value to tell InfluxDB to store the number as an integer.',
-  },
-  iotdbTemplateRemark: {
-    zh: '字段、值、数据类型是必填选项，数据类型可选的值为 BOOLEAN、INT32、INT64、FLOAT、DOUBLE、TEXT',
-    en: 'Measurement, Value, and Data Type are required fields. The Data Type can have the optional values BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT.',
-  },
 }
