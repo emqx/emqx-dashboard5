@@ -26,7 +26,7 @@ module.exports = {
   assetsDir: 'static',
   publicPath: './',
   productionSourceMap: false,
-  transpileDependencies: ['@vue-flow/core'],
+  transpileDependencies: ['@vue-flow/core', '@emqx/shared-ui-utils'],
   configureWebpack: {
     plugins: [
       new MonacoWebpackPlugin({
