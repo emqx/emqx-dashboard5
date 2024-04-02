@@ -1,41 +1,18 @@
+import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/types/plugin'
 import { ref, Ref } from 'vue'
 
-interface PluginUIConfigs {
+export interface PluginUI {
   record: Ref<Record<string, any>>
-  uiConfig: Ref<Record<string, any> | null>
+  uiConfigs: Ref<PluginUIConfigs | null>
   schema: Ref<Record<string, any> | null>
 }
 
-interface AvroSchema {
-  type: string | string[]
-  name: string
-  fields: AvroField[]
-  doc?: string
-  default?: any
-}
-
-interface AvroEnum {
-  type: string | string[]
-  name: string
-  symbols: string[]
-  default?: any
-  doc?: string
-}
-
-interface AvroArray {
-  type: string | string[]
-  items: AvroSchema | string
-  default?: any
-  doc?: string
-}
-
-interface AvroField {
-  name: string
-  type: string | string[] | AvroSchema | AvroEnum | AvroArray
-  default?: any
-  doc?: string
-}
-
+/**
+ * Returns the default value for a given basic type.
+ *
+ * @param type - The basic type for which to get the default value.
+ * @returns The default value for the given basic type.
+ */
 function getDefaultForBasicType(type: string): any {
   switch (type) {
     case 'string':
@@ -53,6 +30,12 @@ function getDefaultForBasicType(type: string): any {
   }
 }
 
+/**
+ * Constructs an object from an Avro schema.
+ *
+ * @param schema - The Avro schema to construct the object from.
+ * @returns The constructed object.
+ */
 function constructObjectFromAvroSchema(schema: AvroSchema): any {
   const configs: Record<string, any> = {}
   schema.fields.forEach((field) => {
@@ -79,33 +62,68 @@ function constructObjectFromAvroSchema(schema: AvroSchema): any {
         case 'array':
           configs[field.name] = field.default !== undefined ? field.default : []
           break
+        case 'map':
+          configs[field.name] = field.default !== undefined ? field.default : {}
+          break
+        default:
+          // For unknown types, use null as a safe default
+          configs[field.name] = null
       }
     }
   })
   return configs
 }
 
-export default function usePluginRenderForm(pluginInfo: { name: string }): PluginUIConfigs {
+/**
+ * Extracts UI configurations from a given schema.
+ *
+ * @param schema - The schema object containing fields and their configurations.
+ * @returns The extracted UI configurations in the form of an object.
+ */
+function extractUIConfigs(schema: {
+  fields: Array<{
+    name: string
+    type: any
+    default?: any
+    $ui?: any
+  }>
+}): { $form: { [key: string]: PluginUIConfigForm } } {
+  const uiConfigs: { $form: { [key: string]: PluginUIConfigForm } } = { $form: {} }
+  schema.fields.forEach((field) => {
+    if (field.$ui) {
+      const { name } = field
+      const uiConfig = { ...field.$ui }
+      uiConfigs.$form[name] = uiConfig
+    } else {
+      const { type, name } = field
+      if (typeof type === 'object' && type.type === 'record' && type.fields.length !== 0) {
+        const nestedUIConfig = extractUIConfigs({ fields: type.fields }).$form
+        uiConfigs.$form[name] = { children: nestedUIConfig }
+      }
+    }
+  })
+  return uiConfigs
+}
+
+export default function usePluginRenderForm(pluginInfo: { name: string }): PluginUI {
   const record = ref<Record<string, any>>({})
 
-  const uiConfig = ref<Record<string, any> | null>(null)
+  const uiConfigs = ref<PluginUIConfigs | null>(null)
   const schema = ref<AvroSchema | null>(null)
 
   async function fetchPluginConfigs(pluginName: string) {
-    const uiConfigUrl = `/static/${pluginName}-UI.json`
     const schemaUrl = `/static/${pluginName}-Schema.json`
 
     try {
-      const responses = await Promise.all([fetch(uiConfigUrl), fetch(schemaUrl)])
-      const [uiConfigResponse, schemaResponse] = responses
-      if (!uiConfigResponse.ok || !schemaResponse.ok) {
+      const schemaResponse = await fetch(schemaUrl)
+      if (!schemaResponse.ok) {
         console.error('Failed to fetch plugin UI configs')
         return
       }
-      uiConfig.value = Object.freeze(await uiConfigResponse.json())
-      schema.value = Object.freeze(await schemaResponse.json()) as AvroSchema
+      schema.value = Object.freeze(await schemaResponse.json())
       if (schema.value) {
-        console.log(constructObjectFromAvroSchema(schema.value))
+        record.value = constructObjectFromAvroSchema(schema.value)
+        uiConfigs.value = Object.freeze(extractUIConfigs(schema.value))
       }
     } catch (error) {
       console.error('Error fetching plugin UI configs:', error)
@@ -116,7 +134,7 @@ export default function usePluginRenderForm(pluginInfo: { name: string }): Plugi
 
   return {
     record,
-    uiConfig,
+    uiConfigs,
     schema,
   }
 }
