@@ -60,6 +60,7 @@
   <template v-else-if="!formConfigs.component && formConfigs.children">
     <plugin-form-kit-item
       v-for="(value, key) in formConfigs.children"
+      :lang="lang"
       :key="key"
       :name="`${name}.${key}`"
       :form-configs="value"
@@ -76,8 +77,7 @@ export default {
 
 <script lang="ts" setup>
 import { ConfigField } from '@/types/plugin'
-import { PropType, computed, defineProps, ref, watch, defineEmits } from 'vue'
-import { useStore } from 'vuex'
+import { PropType, defineProps, ref, watch, defineEmits } from 'vue'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import KeyValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -86,12 +86,6 @@ import ArrayEditorInput from '@/components/ArrayEditorInput.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
 import { createRandomString } from '@/common/tools'
-
-const store = useStore()
-
-const lang = computed<'zh' | 'en'>(() => {
-  return store.state.lang
-})
 
 const props = defineProps({
   modelValue: [String, Number, Array, Object, Boolean] as PropType<any>,
@@ -103,7 +97,12 @@ const props = defineProps({
     type: Object as PropType<ConfigField>,
     required: true,
   },
+  lang: {
+    type: String as PropType<'zh' | 'en'>,
+    required: true,
+  },
 })
+
 const emit = defineEmits(['update:modelValue'])
 
 const bindValue = ref(props.modelValue)
@@ -130,8 +129,8 @@ function TransMapsItemsToProperties(items: ConfigField['items']) {
       type: item.type,
       path: key,
       key: key,
-      label: item.label.en,
-      description: item.description.en,
+      label: item.label[props.lang],
+      description: item.description[props.lang],
     }
   }
   return properties

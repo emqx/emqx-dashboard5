@@ -1,0 +1,390 @@
+{
+  "type": "record",
+  "name": "ExtendedConfig",
+  "fields": [
+    {
+      "name": "hostname",
+      "type": "string",
+      "default": "localhost",
+      "$ui": {
+        "component": "input",
+        "flex": 12,
+        "required": true,
+        "label": {
+          "en": "Hostname",
+          "zh": "主机名"
+        },
+        "description": {
+          "en": "The database host name.",
+          "zh": "数据库主机名称。"
+        },
+        "rules": [
+          {
+            "type": "pattern",
+            "pattern": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$",
+            "message": {
+              "en": "Please enter a valid hostname",
+              "zh": "请输入有效的主机名"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "port",
+      "type": "int",
+      "default": 3306,
+      "$ui": {
+        "component": "input-number",
+        "flex": 12,
+        "required": true,
+        "label": {
+          "en": "Port",
+          "zh": "端口"
+        },
+        "description": {
+          "en": "The port number on which the database server is listening.",
+          "zh": "数据库服务器监听的端口号。"
+        },
+        "rules": [
+          {
+            "type": "range",
+            "min": 1,
+            "max": 65535,
+            "message": {
+              "en": "Port must be between 1 and 65535",
+              "zh": "端口必须在 1 到 65535 之间"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "isActive",
+      "type": "boolean",
+      "$ui": {
+        "component": "switch",
+        "flex": 12,
+        "required": true,
+        "label": {
+          "en": "Active",
+          "zh": "活跃状态"
+        },
+        "description": {
+          "en": "Flag to mark if the database connection is active.",
+          "zh": "标记数据库连接是否活跃。"
+        }
+      }
+    },
+    {
+      "name": "databaseType",
+      "type": {
+        "type": "enum",
+        "symbols": [
+          "PostgreSQL",
+          "MySQL",
+          "SQLite",
+          "MongoDB"
+        ]
+      },
+      "default": "MySQL",
+      "$ui": {
+        "component": "select",
+        "flex": 12,
+        "required": true,
+        "label": {
+          "en": "Database Type",
+          "zh": "数据库类型"
+        },
+        "description": {
+          "en": "The type of database.",
+          "zh": "要连接的数据库类型。"
+        },
+        "options": [
+          {
+            "label": {
+              "en": "MySQL",
+              "zh": "MySQL"
+            },
+            "value": "MySQL"
+          },
+          {
+            "label": {
+              "en": "PostgreSQL",
+              "zh": "PostgreSQL"
+            },
+            "value": "PostgreSQL"
+          },
+          {
+            "label": {
+              "en": "SQLite",
+              "zh": "SQLite"
+            },
+            "value": "SQLite"
+          },
+          {
+            "label": {
+              "en": "MongoDB",
+              "zh": "MongoDB"
+            },
+            "value": "MongoDB"
+          }
+        ]
+      }
+    },
+    {
+      "name": "maxConnections",
+      "type": "int",
+      "default": 100,
+      "$ui": {
+        "component": "input-number",
+        "flex": 12,
+        "required": true,
+        "label": {
+          "en": "Max Connections",
+          "zh": "最大连接数"
+        },
+        "description": {
+          "en": "The maximum number of database connections.",
+          "zh": "最大数据库连接数。"
+        },
+        "rules": [
+          {
+            "type": "range",
+            "min": 1,
+            "message": {
+              "en": "Max connections must be at least 1.",
+              "zh": "最大连接数至少为 1。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "connectionOptions",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "ConnectionOption",
+          "fields": [
+            {
+              "name": "optionName",
+              "type": "string"
+            },
+            {
+              "name": "optionValue",
+              "type": "string"
+            },
+            {
+              "name": "optionType",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "default": [
+        {
+          "optionName": "autoReconnect",
+          "optionValue": "true",
+          "optionType": "string"
+        }
+      ],
+      "$ui": {
+        "component": "maps-editor",
+        "flex": 24,
+        "items": {
+          "optionName": {
+            "label": {
+              "en": "Option Name",
+              "zh": "选项名称"
+            },
+            "description": {
+              "en": "The name of the option.",
+              "zh": "选项的名称。"
+            },
+            "type": "string"
+          },
+          "optionValue": {
+            "label": {
+              "en": "Option Value",
+              "zh": "选项值"
+            },
+            "description": {
+              "en": "The value of the option.",
+              "zh": "选项的值。"
+            },
+            "type": "string"
+          },
+          "optionType": {
+            "label": {
+              "en": "Option Type",
+              "zh": "选项类型"
+            },
+            "description": {
+              "en": "",
+              "zh": ""
+            },
+            "type": "string"
+          }
+        },
+        "label": {
+          "en": "Connection Options",
+          "zh": "连接选项"
+        },
+        "description": {
+          "en": "A list of additional options for the database connection.",
+          "zh": "数据库连接的附加选项列表。"
+        }
+      }
+    },
+    {
+      "name": "auth",
+      "type": {
+        "type": "record",
+        "name": "authConfigs",
+        "fields": [
+          {
+            "name": "username",
+            "type": "string",
+            "$ui": {
+              "component": "input",
+              "flex": 12,
+              "required": true,
+              "label": {
+                "en": "Username",
+                "zh": "用户名"
+              },
+              "description": {
+                "en": "The username for database access authentication.",
+                "zh": "数据库访问认证的用户名。"
+              }
+            }
+          },
+          {
+            "name": "password",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "$ui": {
+              "component": "input-password",
+              "flex": 12,
+              "label": {
+                "en": "Password",
+                "zh": "密码"
+              },
+              "description": {
+                "en": "The password for database access authentication. Can be null.",
+                "zh": "数据库访问认证的密码。可以为空。"
+              },
+              "rules": [
+                {
+                  "type": "length",
+                  "minLength": 8,
+                  "maxLength": 128,
+                  "message": {
+                    "en": "The password must be at least 8 characters long and no more than 128 characters.",
+                    "zh": "密码长度至少为8个字符，且不超过128个字符。"
+                  }
+                },
+                {
+                  "type": "pattern",
+                  "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]*$",
+                  "message": {
+                    "en": "The password must contain at least one uppercase letter, one lowercase letter, and one number.",
+                    "zh": "密码至少包含一个大写字母、一个小写字母和一个数字。"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ssl",
+      "type": {
+        "type": "record",
+        "name": "sslConfigs",
+        "fields": [
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "default": false,
+            "$ui": {
+              "component": "switch",
+              "flex": 12,
+              "label": {
+                "en": "Enable SSL",
+                "zh": "启用 SSL"
+              },
+              "description": {
+                "en": "Enable SSL for database connection.",
+                "zh": "启用 SSL 连接数据库。"
+              }
+            }
+          },
+          {
+            "name": "certificate",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "$ui": {
+              "component": "input-textarea",
+              "flex": 24,
+              "label": {
+                "en": "SSL Certificate",
+                "zh": "SSL 证书"
+              },
+              "description": {
+                "en": "The SSL certificate for database connection. Can be null.",
+                "zh": "数据库连接的 SSL 证书。可以为空。"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "sql",
+      "type": "string",
+      "$ui": {
+        "component": "code-editor",
+        "flex": 24,
+        "format": "sql",
+        "label": {
+          "en": "SQL",
+          "zh": "SQL"
+        },
+        "description": {
+          "en": "The SQL query to execute.",
+          "zh": "要执行的 SQL 查询。"
+        }
+      }
+    },
+    {
+      "name": "headers",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "default": {},
+      "$ui": {
+        "component": "key-value-editor",
+        "flex": 24,
+        "label": {
+          "en": "Headers",
+          "zh": "头部"
+        },
+        "description": {
+          "en": "A list of additional headers to include in the request.",
+          "zh": "要包含在请求中的附加头部列表。"
+        }
+      }
+    }
+  ]
+}

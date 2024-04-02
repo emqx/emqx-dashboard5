@@ -89,10 +89,12 @@ interface MultilingualLabel {
 }
 
 interface Rule {
-  type: 'number' | 'pattern' | 'ranger' | 'min' | 'max'
-  value?: string | number
+  type: 'pattern' | 'range' | 'length'
+  pattern?: string | number
   min?: number
   max?: number
+  minLength?: number
+  maxLength?: number
   message: MultilingualLabel
 }
 
