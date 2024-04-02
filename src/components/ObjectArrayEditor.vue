@@ -119,6 +119,13 @@ const props = defineProps({
   rules: {
     type: Object as PropType<FormRules>,
   },
+  /**
+   * for plugin form render
+   */
+  inPlugins: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -137,12 +144,23 @@ const TableCom = ref()
 
 const { initRecordByComponents } = useSchemaRecord()
 
+const initRecordByPluginForm = (data: Properties) => {
+  return Object.keys(data)
+    .map((key) => ({ [key]: '' }))
+    .reduce((acc, cur) => ({ ...acc, ...cur }), {})
+}
+
 const keyArr = computed(() => Array.from({ length: arr.value.length }, () => createRandomString()))
 
 const getColumnWidth = (property: Property) => (property.type === 'object' ? 300 : undefined)
 
 const addItem = () => {
-  const objData = get(initRecordByComponents(props.properties), props.propKey)
+  let objData
+  if (props.inPlugins) {
+    objData = initRecordByPluginForm(props.properties)
+  } else {
+    objData = get(initRecordByComponents(props.properties), props.propKey)
+  }
   const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
 }

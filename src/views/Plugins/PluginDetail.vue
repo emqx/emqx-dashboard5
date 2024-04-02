@@ -38,7 +38,9 @@
     <el-tabs class="detail-tabs" v-model="currTab">
       <div class="app-wrapper">
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
-          <PluginManage :plugin-name="pluginName" />
+          <el-card class="app-card">
+            <PluginManage :plugin-name="pluginName" />
+          </el-card>
         </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
           <el-card class="app-card">
