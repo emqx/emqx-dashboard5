@@ -5,7 +5,7 @@
       <el-upload
         ref="UploadRef"
         class="upload-container"
-        action="/api/v5/data/files"
+        :action="getAPIPath('/data/files')"
         name="filename"
         :limit="1"
         :headers="{
@@ -78,6 +78,7 @@
 </template>
 
 <script setup lang="ts">
+import { getAPIPath } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
 import { ref } from 'vue'
