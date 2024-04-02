@@ -107,7 +107,6 @@ function extractUIConfigs(schema: {
 
 export default function usePluginRenderForm(pluginInfo: { name: string }): PluginUI {
   const record = ref<Record<string, any>>({})
-
   const uiConfigs = ref<PluginUIConfigs | null>(null)
   const schema = ref<AvroSchema | null>(null)
 
