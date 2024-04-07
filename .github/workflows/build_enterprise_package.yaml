@@ -6,11 +6,10 @@ on:
       - 'enterprise'
       - 'dev/e/*'
   push:
-    tags:
-      - 'e1.*'
     branches:
       - 'enterprise'
       - 'dev/e/*'
+  workflow_call:
 
 jobs:
   build:
