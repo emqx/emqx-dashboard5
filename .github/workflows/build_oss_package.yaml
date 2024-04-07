@@ -6,11 +6,10 @@ on:
       - 'master'
       - 'dev/*'
   push:
-    tags:
-      - 'v1.*'
     branches:
       - 'master'
       - 'dev/*'
+  workflow_call:
 
 jobs:
   build:
