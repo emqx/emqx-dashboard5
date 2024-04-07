@@ -15,7 +15,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: node:14.15
+    container: node:16.20
     steps:
       - uses: actions/checkout@v2
       - name: install zip
