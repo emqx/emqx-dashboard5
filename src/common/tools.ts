@@ -234,11 +234,11 @@ interface SQLKeywords {
   whereStr: string
 }
 
+export const isForeachReg = /^FOREACH/i
 /**
  * Compared with the `getKeywordsFromSQL` below, the difference is that when a value cannot be obtained here, it returns undefined.
  * TODO: Merge the function below.
  */
-export const isForeachReg = /^FOREACH/i
 export const getKeyPartsFromSQL = (sqlStr: string) => {
   const sql = sqlStr.trim()
   let fieldStr = undefined
@@ -281,6 +281,21 @@ export const getKeywordsFromSQL = (sqlStr: string): SQLKeywords => {
     whereStr,
   }
 }
+
+export const ruleSelectionAliasPartReg = /\sas\s(\S+)/
+const ruleSelectionAliasReg = new RegExp(`.+${ruleSelectionAliasPartReg.source}`)
+export const getRuleSelectionAlias = (selection: string): string | undefined => {
+  const withAlias = ruleSelectionAliasReg.test(selection)
+  if (withAlias) {
+    const [, alias = ''] = selection.match(ruleSelectionAliasReg) || []
+    return alias
+  }
+  return undefined
+}
+
+const ruleSelectionWithFunc = /^\w+\((.|\n)+\)$/
+export const judgeRuleSelectionWithFunc = (selection: string): boolean =>
+  ruleSelectionWithFunc.test(selection)
 
 export const addNewlineAfterComma = (input: string): string => {
   const bracketStack: Array<string> = []

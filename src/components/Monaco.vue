@@ -12,6 +12,7 @@ export default defineComponent({
 
 <script setup>
 import * as monaco from 'monaco-editor'
+import { language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
@@ -105,19 +106,43 @@ const defineTheme = () => {
   monaco.editor.defineTheme('editor-dark', dark)
 }
 
-const registerProvider = () => {
+const registerHoverProvider = () => {
   if (prop.hoverProvider) {
     monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
   }
+}
+
+let currentCompletionProvider = undefined
+const registerCompletionProvider = () => {
   if (prop.completionProvider) {
-    monaco.languages.registerCompletionItemProvider(prop.lang, prop.completionProvider)
+    if (currentCompletionProvider) {
+      currentCompletionProvider?.dispose?.()
+    }
+    currentCompletionProvider = monaco.languages.registerCompletionItemProvider(
+      prop.lang,
+      prop.completionProvider,
+    )
   }
   if (prop.customMonacoHandler && isFunction(prop.customMonacoHandler)) {
     prop.customMonacoHandler(monaco)
   }
 }
 
-registerProvider()
+/**
+ * Distinguish between the rule's sql and the action's sql,
+ * otherwise the rule's Completion will appear in the action's sql.
+ */
+const registerRuleSql = () => {
+  const registered = monaco.languages.getLanguages().find((lang) => lang.id === 'rulesql')
+  if (!registered) {
+    monaco.languages.register({ id: 'rulesql' })
+    monaco.languages.setMonarchTokensProvider('rulesql', { ...sql })
+  }
+}
+
+registerRuleSql()
+registerHoverProvider()
+registerCompletionProvider()
 defineTheme()
 
 const initEditor = () => {
@@ -185,7 +210,7 @@ watch(
   },
 )
 
-watch(() => prop.completionProvider, registerProvider)
+watch(() => prop.completionProvider, registerCompletionProvider)
 
 watch(
   () => prop.lang,
