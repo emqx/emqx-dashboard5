@@ -5,15 +5,12 @@
       <el-upload
         ref="UploadRef"
         class="upload-container"
-        :action="getAPIPath('/data/files')"
         name="filename"
         :limit="1"
-        :headers="{
-          authorization: `Bearer ${store.state.user.token}`,
-        }"
         accept=".gz"
         :on-success="handleUploadSuccess"
         :on-error="handleUploadError"
+        :http-request="customUploadRequest"
       >
         <el-button plain :icon="Upload" :disabled="!$hasPermission('post')">
           {{ tl('upload') }}
@@ -78,9 +75,14 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
+import {
+  ElMessage,
+  ElMessageBox,
+  UploadInstance,
+  UploadRequestHandler,
+  UploadRequestOptions,
+} from 'element-plus'
 import { ref } from 'vue'
 import { Upload, Plus } from '@element-plus/icons-vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
@@ -91,12 +93,12 @@ import {
   deleteBackup,
   restoreBackup,
   downloadBackup,
+  uploadBackup,
 } from '@/api/systemModule'
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { formatSizeUnit, createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import moment from 'moment'
-import { useStore } from 'vuex'
 
 interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {
   size: number
@@ -107,7 +109,6 @@ const createLoading = ref(false)
 const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
 
-const store = useStore()
 const { pageParams, pageMeta, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { t, tl } = useI18nTl('General')
 
@@ -207,10 +208,16 @@ const handleUploadSuccess = () => {
   UploadRef.value?.clearFiles()
 }
 
-const handleUploadError = (error: any) => {
-  ElMessage.error(error.message.toString())
+const handleUploadError = () => {
   loadBackupFiles()
   UploadRef.value?.clearFiles()
+}
+
+const customUploadRequest: UploadRequestHandler = async (
+  options: UploadRequestOptions,
+): Promise<unknown> => {
+  const { filename, file } = options
+  return await uploadBackup(filename, file)
 }
 </script>
 
