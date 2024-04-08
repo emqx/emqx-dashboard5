@@ -6,15 +6,16 @@ on:
       - 'enterprise'
       - 'dev/e/*'
   push:
+    tags:
+      - 'e1.*'
     branches:
       - 'enterprise'
       - 'dev/e/*'
-  workflow_call:
 
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: node:16.20
+    container: node:14.15
     steps:
       - uses: actions/checkout@v2
       - name: install zip

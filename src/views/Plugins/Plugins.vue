@@ -6,7 +6,7 @@
         <el-radio-group v-model="filterStatus">
           <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :label="value">
             {{ label }}
-            ({{ statusCounter[value as keyof typeof statusCounter] }})
+            ({{ statusCounter[value] }})
           </el-radio-button>
         </el-radio-group>
       </div>

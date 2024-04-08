@@ -1,63 +1,50 @@
 <template>
-  <div class="plugin-detail details">
-    <div class="detail-top">
-      <detail-header :item="{ name: pluginInfo.name, path: '/plugins' }" />
-      <div class="section-header">
-        <div class="plugin-detail-hd">
-          <div class="plugin-base-info">
-            <!-- <i class="icon icon-plugin"></i> -->
-            <div>
-              <div>
-                <PluginItemStatus is-tag :plugin-data="pluginInfo" />
-                <el-tag type="info" class="section-status">
-                  {{ pluginInfo.rel_vsn }}
-                </el-tag>
-              </div>
-            </div>
-          </div>
+  <div class="plugin-detail app-wrapper">
+    <detail-header :item="{ name: pluginInfo.name, path: '/plugins' }" />
+    <div v-loading.lock="isDetailLoading">
+      <div class="plugin-detail-hd">
+        <div class="plugin-base-info">
+          <!-- <i class="icon icon-plugin"></i> -->
           <div>
-            <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
-              {{ tl('more') }}
-            </el-button>
-            <el-button
-              v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
-              @click="handleDisable"
-              :disabled="!$hasPermission('put')"
-            >
-              {{ tl('stop', 'Base') }}
-            </el-button>
-            <el-button @click="handleEnable" :disabled="!$hasPermission('put')" v-else>
-              {{ tl('start') }}
-            </el-button>
-            <el-button
-              type="danger"
-              :disabled="!$hasPermission('delete')"
-              plain
-              @click="handleUninstall"
-            >
-              {{ tl('uninstall') }}
-            </el-button>
+            <div>
+              <PluginItemStatus is-tag :plugin-data="pluginInfo" />
+              <el-tag type="info" class="section-status">
+                {{ pluginInfo.rel_vsn }}
+              </el-tag>
+            </div>
           </div>
         </div>
+        <div>
+          <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
+            {{ tl('more') }}
+          </el-button>
+          <el-button
+            v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
+            @click="handleDisable"
+            :disabled="!$hasPermission('put')"
+          >
+            {{ tl('stop', 'Base') }}
+          </el-button>
+          <el-button @click="handleEnable" :disabled="!$hasPermission('put')" v-else>
+            {{ tl('start') }}
+          </el-button>
+          <el-button
+            type="danger"
+            :disabled="!$hasPermission('delete')"
+            plain
+            @click="handleUninstall"
+          >
+            {{ tl('uninstall') }}
+          </el-button>
+        </div>
       </div>
+      <el-card class="app-card">
+        <div class="plugin-info-bd">
+          <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />
+          <PluginInfo :plugin-data="pluginInfo" />
+        </div>
+      </el-card>
     </div>
-    <el-tabs class="detail-tabs" v-model="currTab">
-      <div class="app-wrapper">
-        <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
-          <el-card class="app-card">
-            <PluginManage :plugin-name="pluginName" />
-          </el-card>
-        </el-tab-pane>
-        <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
-          <el-card class="app-card">
-            <div class="plugin-info-bd">
-              <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />
-              <PluginInfo :plugin-data="pluginInfo" />
-            </div>
-          </el-card>
-        </el-tab-pane>
-      </div>
-    </el-tabs>
   </div>
 </template>
 
@@ -74,11 +61,9 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
 import PluginItemStatus from './components/PluginItemStatus.vue'
-import PluginManage from './components/PluginManage.vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
-const currTab = ref<'configs' | 'readme'>('configs')
 
 const route = useRoute()
 

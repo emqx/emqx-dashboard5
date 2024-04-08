@@ -1,10 +1,7 @@
 <template>
   <div class="common-pagination">
     <el-pagination
-      v-if="
-        meta.count &&
-        meta.count > (meta.limit >= defaultPageSizeOpt[0] ? defaultPageSizeOpt[0] : meta.limit)
-      "
+      v-if="meta.count && meta.count > defaultPageSizeOpt[0]"
       background
       layout="total, sizes, prev, pager, next"
       :page-sizes="defaultPageSizeOpt"
