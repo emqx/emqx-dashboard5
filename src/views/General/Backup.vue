@@ -12,7 +12,7 @@
         :on-error="handleUploadError"
         :http-request="customUploadRequest"
       >
-        <el-button plain :icon="Upload" :disabled="!$hasPermission('post')">
+        <el-button plain :icon="Upload" :disabled="!$hasPermission('post')" :loading="uploading">
           {{ tl('upload') }}
         </el-button>
       </el-upload>
@@ -106,6 +106,7 @@ interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {
 
 const isTableLoading = ref(false)
 const createLoading = ref(false)
+const uploading = ref(false)
 const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
 
@@ -203,12 +204,14 @@ const handleDownloadBackup = async ({ filename, node }: BackupItem) => {
 }
 
 const handleUploadSuccess = () => {
+  uploading.value = false
   ElMessage.success(t('Dashboard.uploadedSuccessfully'))
   loadBackupFiles()
   UploadRef.value?.clearFiles()
 }
 
 const handleUploadError = () => {
+  uploading.value = false
   loadBackupFiles()
   UploadRef.value?.clearFiles()
 }
@@ -216,6 +219,7 @@ const handleUploadError = () => {
 const customUploadRequest: UploadRequestHandler = async (
   options: UploadRequestOptions,
 ): Promise<unknown> => {
+  uploading.value = true
   const { filename, file } = options
   return await uploadBackup(filename, file)
 }
