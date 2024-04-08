@@ -1,0 +1,52 @@
+name: Check Package Version
+
+on:
+  workflow_call:
+    inputs:
+      emqx-name:
+        required: true
+        type: string
+
+env:
+  IS_CI: "true"
+  EMQX_NAME: ${{ inputs.emqx-name }}
+
+jobs:
+  check_package_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.EMQX_NAME }}-docker
+          path: /tmp
+      - name: load docker image
+        run: |
+          EMQX_IMAGE_TAG=$(docker load < /tmp/${EMQX_NAME}-docker.tar.gz 2>/dev/null | sed 's/Loaded image: //g')
+          echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> $GITHUB_ENV
+      - name: run docker
+        run: |
+          CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
+          HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' $CID)
+          echo "HTTP_PORT=$HTTP_PORT" >> $GITHUB_ENV
+          echo "CID=$CID" >> $GITHUB_ENV
+          echo "HOST_URL=http://localhost:$HTTP_PORT" >> $GITHUB_ENV
+
+      - name: checkout dashboard code
+        uses: actions/checkout@v3
+
+      - name: install dep
+        run: |
+          yarn
+
+      - name: run script that checks the version of the package
+        run: |
+          node ./scripts/checkPackageVersion.js
+
+      - name: check for script errors
+        if: ${{ failure() }}
+        run: exit 1
+
+      - name: stop docker
+        run: |
+          docker stop ${CID}
