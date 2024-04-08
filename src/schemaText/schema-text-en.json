@@ -1055,7 +1055,7 @@
       "label": "Supported subprotocols"
     },
     "broker_shared_subscription_strategy": {
-      "desc": "Dispatch strategy for shared subscription.\n  - `random`: dispatch the message to a random selected subscriber\n  - `round_robin`: select the subscribers in a round-robin manner\n  - `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n  - `local`: select random local subscriber otherwise select random cluster-wide\n  - `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.\n  - `hash_clientid`: select the subscribers by hashing the `clientIds`\n  - `hash_topic`: select the subscribers by hashing the source topic"
+      "desc": "Dispatch strategy for shared subscription.\n  - `random`: dispatch the message to a random selected subscriber\n  - `round_robin`: select the subscribers in a round-robin manner\n  - `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n  - `local`: select random local subscriber otherwise select random cluster-wide\n  - `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.\n  - `hash_clientid`: select the subscribers by hashing the `clientIds` of senders.\n  - `hash_topic`: select the subscribers by hashing the source topic"
     },
     "fields_deflate_opts_mem_level": {
       "desc": "Specifies the size of the compression state.<br/>\nLower values decrease memory usage per connection.",
@@ -1349,7 +1349,7 @@
     },
     "mqtt_shared_subscription_strategy": {
       "label": "Shared Subscription Strategy",
-      "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the clientIds"
+      "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the `clientIds` of senders"
     }
   }
 }
