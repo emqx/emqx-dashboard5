@@ -12,7 +12,7 @@ export default {
     en: 'Topic Rewrite',
   },
   subscribe: {
-    zh: '代理订阅',
+    zh: '自动订阅',
     en: 'Auto Subscribe',
   },
   postpone: {
@@ -326,7 +326,7 @@ export default {
     zh: '是否开启客户端已成功取消订阅主题事件消息。',
   },
   proxySubTip: {
-    zh: '通过代理订阅为客户端订阅主题时，不会经过 AuthZ 检查权限。',
+    zh: '通过自动订阅为客户端订阅主题时，不会经过 AuthZ 检查权限。',
     en: 'The authorization will not check permission when clients subscribe to topics through Auto Subscribe.',
   },
 }
