@@ -240,7 +240,7 @@ export default {
     en: 'Topic Rewrite',
   },
   'auto-sub': {
-    zh: '代理订阅',
+    zh: '自动订阅',
     en: 'Auto Subscribe',
   },
   'delayed-pub': {
