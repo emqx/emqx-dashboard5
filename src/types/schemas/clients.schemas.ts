@@ -21,8 +21,8 @@ export const GetClientsConnState = {
 
 export type GetClientsParams = {
   page?: PublicPageParameter
-  limit?: PublicLimitParameter
   node?: string
+  limit?: PublicLimitParameter
   username?: string[]
   ip_address?: string
   conn_state?: GetClientsConnState
@@ -64,12 +64,26 @@ export type PostClientsClientidUnsubscribe404 = {
   message?: string
 }
 
+export type GetClientsClientidInflightMessages501Code =
+  typeof GetClientsClientidInflightMessages501Code[keyof typeof GetClientsClientidInflightMessages501Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidInflightMessages501Code = {
+  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
+} as const
+
+export type GetClientsClientidInflightMessages501 = {
+  code?: GetClientsClientidInflightMessages501Code
+  message?: string
+}
+
 export type GetClientsClientidInflightMessages404Code =
   typeof GetClientsClientidInflightMessages404Code[keyof typeof GetClientsClientidInflightMessages404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetClientsClientidInflightMessages404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+  CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
 } as const
 
 export type GetClientsClientidInflightMessages404 = {
@@ -103,8 +117,21 @@ export const GetClientsClientidInflightMessagesPayload = {
 export type GetClientsClientidInflightMessagesParams = {
   payload?: GetClientsClientidInflightMessagesPayload
   max_payload_bytes?: string
-  after?: PublicAfterParameter
+  position?: PublicPositionParameter
   limit?: PublicLimitParameter
+}
+
+export type GetClientsClientidMqueueMessages501Code =
+  typeof GetClientsClientidMqueueMessages501Code[keyof typeof GetClientsClientidMqueueMessages501Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidMqueueMessages501Code = {
+  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
+} as const
+
+export type GetClientsClientidMqueueMessages501 = {
+  code?: GetClientsClientidMqueueMessages501Code
+  message?: string
 }
 
 export type GetClientsClientidMqueueMessages404Code =
@@ -113,6 +140,7 @@ export type GetClientsClientidMqueueMessages404Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetClientsClientidMqueueMessages404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+  CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
 } as const
 
 export type GetClientsClientidMqueueMessages404 = {
@@ -142,6 +170,13 @@ export const GetClientsClientidMqueueMessagesPayload = {
   base64: 'base64',
   plain: 'plain',
 } as const
+
+export type GetClientsClientidMqueueMessagesParams = {
+  payload?: GetClientsClientidMqueueMessagesPayload
+  max_payload_bytes?: string
+  position?: PublicPositionParameter
+  limit?: PublicLimitParameter
+}
 
 export type PostClientsClientidSubscribe404Code =
   typeof PostClientsClientidSubscribe404Code[keyof typeof PostClientsClientidSubscribe404Code]
@@ -208,6 +243,45 @@ export type DeleteClientsClientid404 = {
   message?: string
 }
 
+export type GetClientsV2400Code = typeof GetClientsV2400Code[keyof typeof GetClientsV2400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsV2400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+} as const
+
+export type GetClientsV2400 = {
+  code?: GetClientsV2400Code
+  message?: string
+}
+
+export type GetClientsV2ConnState = typeof GetClientsV2ConnState[keyof typeof GetClientsV2ConnState]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsV2ConnState = {
+  connected: 'connected',
+  idle: 'idle',
+  disconnected: 'disconnected',
+} as const
+
+export type GetClientsV2Params = {
+  cursor?: PublicCursorParameter
+  limit?: PublicLimitParameter
+  username?: string[]
+  ip_address?: string
+  conn_state?: GetClientsV2ConnState
+  clean_start?: boolean
+  proto_ver?: string
+  like_clientid?: string
+  like_username?: string
+  gte_created_at?: number | string
+  lte_created_at?: number | string
+  gte_connected_at?: number | string
+  lte_connected_at?: number | string
+  clientid?: string[]
+  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
+}
+
 export type GetClientsClientidAuthorizationCache404Code =
   typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
 
@@ -251,18 +325,13 @@ export type GetSessionsCountParams = {
   since?: number
 }
 
+export type PublicPositionParameter = string | 'end_of_data' | 'none'
+
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
-export type PublicAfterParameter = string | 'end_of_data' | 'none'
-
-export type GetClientsClientidMqueueMessagesParams = {
-  payload?: GetClientsClientidMqueueMessagesPayload
-  max_payload_bytes?: string
-  after?: PublicAfterParameter
-  limit?: PublicLimitParameter
-}
+export type PublicCursorParameter = string | 'none'
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
   typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[keyof typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem]
@@ -317,11 +386,26 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   subscriptions_max: 'subscriptions_max',
   username: 'username',
   mountpoint: 'mountpoint',
+  durable: 'durable',
+  n_streams: 'n_streams',
+  seqno_q1_comm: 'seqno_q1_comm',
+  seqno_q1_dup: 'seqno_q1_dup',
+  seqno_q1_next: 'seqno_q1_next',
+  seqno_q2_comm: 'seqno_q2_comm',
+  seqno_q2_dup: 'seqno_q2_dup',
+  seqno_q2_rec: 'seqno_q2_rec',
+  seqno_q2_next: 'seqno_q2_next',
 } as const
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameter =
   | EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[]
   | 'all'
+
+export interface PublicMetaWithCursor {
+  count?: number
+  hasnext: boolean
+  cursor?: string
+}
 
 export interface PublicMeta {
   page?: number
@@ -330,11 +414,13 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export type PublicContinuationMetaLast = string | 'end_of_data' | 'none'
+export type PublicContinuationMetaPosition = string | 'end_of_data' | 'none'
+
+export type PublicContinuationMetaStart = string | 'none'
 
 export interface PublicContinuationMeta {
-  last: PublicContinuationMetaLast
-  count?: number
+  start: PublicContinuationMetaStart
+  position?: PublicContinuationMetaPosition
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
@@ -359,6 +445,25 @@ export interface EmqxMgmtApiClientsSubscribe {
   rh?: number
 }
 
+export type EmqxMgmtApiClientsMqueueMessageMqueuePriority = 'infinity' | number
+
+export interface EmqxMgmtApiClientsMqueueMessage {
+  msgid?: string
+  topic?: string
+  qos?: number
+  publish_at?: number
+  from_clientid?: string
+  from_username?: string
+  payload?: string
+  inserted_at?: string
+  mqueue_priority?: EmqxMgmtApiClientsMqueueMessageMqueuePriority
+}
+
+export interface EmqxMgmtApiClientsMqueueMessages {
+  data?: EmqxMgmtApiClientsMqueueMessage[]
+  meta?: PublicContinuationMeta
+}
+
 export interface EmqxMgmtApiClientsMessage {
   msgid?: string
   topic?: string
@@ -367,11 +472,7 @@ export interface EmqxMgmtApiClientsMessage {
   from_clientid?: string
   from_username?: string
   payload?: string
-}
-
-export interface EmqxMgmtApiClientsMqueueMessages {
-  data?: EmqxMgmtApiClientsMessage[]
-  meta?: PublicContinuationMeta
+  inserted_at?: string
 }
 
 export interface EmqxMgmtApiClientsInflightMessages {
@@ -434,6 +535,20 @@ export interface EmqxMgmtApiClientsClient {
   subscriptions_max?: number
   username?: string
   mountpoint?: string
+  durable?: boolean
+  n_streams?: number
+  seqno_q1_comm?: number
+  seqno_q1_dup?: number
+  seqno_q1_next?: number
+  seqno_q2_comm?: number
+  seqno_q2_dup?: number
+  seqno_q2_rec?: number
+  seqno_q2_next?: number
+}
+
+export interface EmqxMgmtApiClientsListClientsV2Response {
+  data?: EmqxMgmtApiClientsClient[]
+  meta?: PublicMetaWithCursor
 }
 
 export interface EmqxMgmtApiClientsClients {
