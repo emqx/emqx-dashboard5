@@ -19,7 +19,10 @@ const EVENT_SORT: Array<string> = [
   '$bridges/mqtt:*',
 ]
 
-const getEventIndex = (event: string) => EVENT_SORT.findIndex((item) => item === event)
+const getEventIndex = (event: string) => {
+  const index = EVENT_SORT.findIndex((item) => item === event)
+  return index === -1 ? EVENT_SORT.length : index
+}
 
 export default (): {
   getEventList: () => Promise<RuleEvent[]>
