@@ -149,7 +149,6 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'messages.qos2.received'?: number
   'messages.qos2.sent'?: number
   'messages.received'?: number
-  'messages.retained'?: number
   'messages.sent'?: number
   'packets.auth.received'?: number
   'packets.auth.sent'?: number
@@ -234,7 +233,6 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'messages.qos2.received'?: number
   'messages.qos2.sent'?: number
   'messages.received'?: number
-  'messages.retained'?: number
   'messages.sent'?: number
   'packets.auth.received'?: number
   'packets.auth.sent'?: number
@@ -286,8 +284,11 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   dropped_msg_rate?: number
+  persisted_rate?: number
   received_msg_rate?: number
   sent_msg_rate?: number
+  validation_failed_rate?: number
+  validation_succeeded_rate?: number
   subscriptions?: number
   topics?: number
   connections?: number
@@ -299,8 +300,11 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   dropped_msg_rate?: number
+  persisted_rate?: number
   received_msg_rate?: number
   sent_msg_rate?: number
+  validation_failed_rate?: number
+  validation_succeeded_rate?: number
   subscriptions?: number
   topics?: number
   connections?: number
@@ -317,5 +321,8 @@ export interface EmqxDashboardMonitorApiSampler {
   live_connections?: number
   received?: number
   sent?: number
+  validation_succeeded?: number
+  validation_failed?: number
   dropped?: number
+  persisted?: number
 }
