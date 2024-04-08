@@ -149,7 +149,6 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'messages.qos2.received'?: number
   'messages.qos2.sent'?: number
   'messages.received'?: number
-  'messages.retained'?: number
   'messages.sent'?: number
   'packets.auth.received'?: number
   'packets.auth.sent'?: number
