@@ -72,3 +72,10 @@ export const downloadBackup = (
   const params = node ? { node } : undefined
   return http.get(`/data/files/${fileName}`, { responseType: 'blob', params })
 }
+export const uploadBackup = (fileName: string, file: File): Promise<unknown> => {
+  const formData = new FormData()
+  formData.append(fileName, file)
+  return http.post('/data/files', formData, {
+    timeout: 600000,
+  })
+}
