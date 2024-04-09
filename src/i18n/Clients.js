@@ -459,4 +459,8 @@ export default {
     zh: '优先级',
     en: 'Priority',
   },
+  listener: {
+    zh: '监听器',
+    en: 'Listener',
+  },
 }

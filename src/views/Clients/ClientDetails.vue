@@ -274,6 +274,7 @@ const clientsOrganizied = {
       'clientid',
       'username',
       'proto_type',
+      'listener',
       'ip_address',
       'keepalive',
       'clean_start',
