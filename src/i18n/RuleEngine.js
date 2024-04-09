@@ -1269,4 +1269,24 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: `当前支持 JSON Schema \`draft-03\`、\`draft-04\` 和 \`draft-06\` 版本。`,
     en: `JSON Schema versions \`draft-03\`, \`draft-04\`, and \`draft-06\` are supported.`,
   },
+  sourceTopic: {
+    zh: '来源主题',
+    en: 'Source Topic',
+  },
+  actionAfterFailure: {
+    zh: '失败操作',
+    en: 'Action After Failure',
+  },
+  dropMsg: {
+    zh: '丢弃消息',
+    en: 'Drop Message',
+  },
+  disconnect: {
+    zh: '断开连接',
+    en: 'Disconnect',
+  },
+  ignore: {
+    zh: '忽略',
+    en: 'Ignore',
+  },
 }
