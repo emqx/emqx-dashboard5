@@ -3,8 +3,8 @@
     <el-form-item :required="formConfigs.required" :prop="name">
       <template #label>
         <FormItemLabel
-          :label="formConfigs.label[lang]"
-          :desc="formConfigs.description ? formConfigs.description[lang] : ''"
+          :label="formConfigs.label"
+          :desc="formConfigs.description ? formConfigs.description : ''"
           desc-marked
         />
       </template>
@@ -35,7 +35,7 @@
           <el-option
             v-for="({ label, value }, index) in formConfigs.options"
             :key="index"
-            :label="label[lang]"
+            :label="label"
             :value="value"
           ></el-option>
         </el-select>
@@ -60,7 +60,6 @@
   <template v-else-if="!formConfigs.component && formConfigs.children">
     <plugin-form-kit-item
       v-for="(value, key) in formConfigs.children"
-      :lang="lang"
       :key="key"
       :name="`${name}.${key}`"
       :form-configs="value"
@@ -97,10 +96,6 @@ const props = defineProps({
     type: Object as PropType<ConfigField>,
     required: true,
   },
-  lang: {
-    type: String as PropType<'zh' | 'en'>,
-    required: true,
-  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -129,8 +124,8 @@ function TransMapsItemsToProperties(items: ConfigField['items']) {
       type: item.type,
       path: key,
       key: key,
-      label: item.label[props.lang],
-      description: item.description[props.lang],
+      label: item.label,
+      description: item.description,
     }
   }
   return properties

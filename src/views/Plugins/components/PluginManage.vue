@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-import usePluginRenderForm from '@/hooks/Plugins/useRenderPluginForm'
+import useRenderPluginForm from '@/hooks/Plugins/useRenderPluginForm'
 import PluginFormKit from '@/components/PluginsForm/PluginFormKit.vue'
 
 const props = defineProps({
@@ -16,7 +16,9 @@ const props = defineProps({
   },
 })
 
-const { record, uiConfigs } = usePluginRenderForm({ name: props.pluginName })
+const { record, uiConfigs, fetchPluginConfigs } = useRenderPluginForm()
+
+fetchPluginConfigs(props.pluginName)
 
 function handleSubmit(data: Record<string, any>) {
   console.log(JSON.stringify(data, null, 2))
