@@ -83,11 +83,6 @@ export interface AvroArray {
   doc?: string
 }
 
-interface MultilingualLabel {
-  en: string
-  zh: string
-}
-
 interface Rule {
   type: 'pattern' | 'range' | 'length'
   pattern?: string | number
@@ -95,11 +90,11 @@ interface Rule {
   max?: number
   minLength?: number
   maxLength?: number
-  message: MultilingualLabel
+  message: string
 }
 
 interface ConfigOption {
-  label: MultilingualLabel
+  label: string
   value: string | number | boolean
 }
 
@@ -116,8 +111,8 @@ type ComponentType =
   | 'maps-editor'
 
 interface ConfigField {
-  label: MultilingualLabel
-  description: MultilingualLabel
+  label: string
+  description: string
   flex: number
   component: ComponentType
   required?: boolean
@@ -126,8 +121,8 @@ interface ConfigField {
   type?: AvroType
   items?: {
     [key: string]: {
-      label: MultilingualLabel
-      description: MultilingualLabel
+      label: string
+      description: string
       type: string
     }
   }

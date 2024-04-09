@@ -1,10 +1,14 @@
 import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/types/plugin'
-import { ref, Ref } from 'vue'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
+import { computed, ref, Ref } from 'vue'
+import { useStore } from 'vuex'
 
 export interface PluginUI {
   record: Ref<Record<string, any>>
   uiConfigs: Ref<PluginUIConfigs | null>
   schema: Ref<Record<string, any> | null>
+  i18nConfigs: Ref<Record<string, any> | null>
+  fetchPluginConfigs: (pluginName: string) => void
 }
 
 /**
@@ -105,13 +109,59 @@ function extractUIConfigs(schema: {
   return uiConfigs
 }
 
-export default function usePluginRenderForm(pluginInfo: { name: string }): PluginUI {
+/**
+ * Replaces the internationalization (i18n) placeholders in the given plugin UI configuration form
+ * with the corresponding translations based on the provided i18n configurations and language.
+ *
+ * @param configs - The plugin UI configuration form to modify.
+ * @param i18nConfigs - The i18n configurations containing the translations for the placeholders.
+ * @param lang - The language code ('zh' for Chinese, 'en' for English) to determine the translation to use.
+ * @returns The modified plugin UI configuration form with the i18n placeholders replaced.
+ */
+function replaceI18nInConfigs(
+  configs: PluginUIConfigForm,
+  i18nConfigs: Record<string, any>,
+  lang: 'zh' | 'en',
+): PluginUIConfigForm {
+  for (const key in configs) {
+    if (typeof configs[key] === 'object') {
+      replaceI18nInConfigs(configs[key], i18nConfigs, lang)
+    } else if (['label', 'description', 'message'].includes(key) && configs[key].startsWith('$')) {
+      const i18nKey = configs[key]
+      if (i18nConfigs[i18nKey]) {
+        configs[key] = i18nConfigs[i18nKey][lang]
+      }
+    }
+  }
+  return configs
+}
+
+export default function usePluginRenderForm(): PluginUI {
   const record = ref<Record<string, any>>({})
   const uiConfigs = ref<PluginUIConfigs | null>(null)
+  const i18nConfigs = ref<Record<string, any> | null>(null)
   const schema = ref<AvroSchema | null>(null)
+
+  const store = useStore()
+
+  const lang = computed<'zh' | 'en'>(() => {
+    return store.state.lang
+  })
 
   async function fetchPluginConfigs(pluginName: string) {
     const schemaUrl = `/static/${pluginName}-Schema.json`
+    const i18nUrl = `/static/${pluginName}-i18n.json`
+
+    try {
+      const i18nResponse = await fetch(i18nUrl)
+      if (i18nResponse.ok) {
+        i18nConfigs.value = await i18nResponse.json()
+      } else {
+        console.error('Failed to fetch plugin i18n configs')
+      }
+    } catch (error) {
+      console.warn('Error fetching plugin i18n configs', error)
+    }
 
     try {
       const schemaResponse = await fetch(schemaUrl)
@@ -122,18 +172,27 @@ export default function usePluginRenderForm(pluginInfo: { name: string }): Plugi
       schema.value = Object.freeze(await schemaResponse.json())
       if (schema.value) {
         record.value = constructObjectFromAvroSchema(schema.value)
-        uiConfigs.value = Object.freeze(extractUIConfigs(schema.value))
+        uiConfigs.value = extractUIConfigs(schema.value)
+        if (i18nConfigs.value !== null && !isEmptyObj(i18nConfigs.value)) {
+          if (uiConfigs.value) {
+            uiConfigs.value.$form = replaceI18nInConfigs(
+              uiConfigs.value.$form,
+              i18nConfigs.value,
+              lang.value,
+            )
+          }
+        }
       }
     } catch (error) {
-      console.error('Error fetching plugin UI configs:', error)
+      console.warn('Error fetching plugin UI configs:', error)
     }
   }
-
-  fetchPluginConfigs(pluginInfo.name)
 
   return {
     record,
     uiConfigs,
     schema,
+    i18nConfigs,
+    fetchPluginConfigs,
   }
 }

@@ -2,38 +2,48 @@ import { PluginUIConfigForm, Rule } from '@/types/plugin'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { computed } from 'vue'
 
-const checkRange = (
-  rule: Rule,
-  value: number,
-  lang: 'zh' | 'en',
-  callback: (error?: Error) => void,
-) => {
+/**
+ * Checks if a given value is within the specified range.
+ * @param rule - The rule object containing the range constraints.
+ * @param value - The value to be checked.
+ * @param lang - The language ('zh' or 'en') used to retrieve the error message.
+ * @param callback - The callback function to be called with an optional error parameter.
+ */
+const checkRange = (rule: Rule, value: number, callback: (error?: Error) => void) => {
   const { min, max, message } = rule
   if ((min !== undefined && value < min) || (max !== undefined && value > max)) {
-    callback(new Error(message[lang]))
+    callback(new Error(message))
   } else {
     callback()
   }
 }
 
-const checkPattern = (
-  rule: Rule,
-  value: string | null,
-  lang: 'zh' | 'en',
-  callback: (error?: Error) => void,
-) => {
+/**
+ * Checks if the given value matches the specified pattern and calls the callback function accordingly.
+ * @param rule - The rule object containing the pattern and message.
+ * @param value - The value to be checked against the pattern.
+ * @param lang - The language ('zh' or 'en') to determine the error message language.
+ * @param callback - The callback function to be called with an error if the value does not match the pattern.
+ */
+const checkPattern = (rule: Rule, value: string | null, callback: (error?: Error) => void) => {
   const { pattern, message } = rule
   if (pattern && value) {
     const reg = new RegExp(pattern as string)
     if (!reg.test(value)) {
-      callback(new Error(message[lang]))
+      callback(new Error(message))
       return
     }
   }
   callback()
 }
 
-const genElementUIFormRules = (formConfigs: PluginUIConfigForm, lang: 'zh' | 'en') => {
+/**
+ * Generates Element UI form rules based on the provided form configurations.
+ *
+ * @param formConfigs - The form configurations.
+ * @returns The generated Element UI form rules.
+ */
+const genElementUIFormRules = (formConfigs: PluginUIConfigForm) => {
   const res: Record<string, any> = {}
   Object.keys(formConfigs).forEach((key) => {
     const { rules } = formConfigs[key]
@@ -44,7 +54,7 @@ const genElementUIFormRules = (formConfigs: PluginUIConfigForm, lang: 'zh' | 'en
           case 'range':
             res[key].push({
               validator: (_: any, value: number, callback: (error?: Error) => Error) =>
-                checkRange(rule, value, lang, callback),
+                checkRange(rule, value, callback),
               trigger: 'blur',
             })
             break
@@ -52,20 +62,20 @@ const genElementUIFormRules = (formConfigs: PluginUIConfigForm, lang: 'zh' | 'en
             res[key].push({
               min: rule.minLength,
               max: rule.maxLength,
-              message: rule.message[lang],
+              message: rule.message,
               trigger: 'blur',
             })
             break
           case 'pattern':
             res[key].push({
               validator: (_: any, value: string, callback: (error?: Error) => Error) =>
-                checkPattern(rule, value, lang, callback),
+                checkPattern(rule, value, callback),
               trigger: 'blur',
             })
         }
       })
     } else if (formConfigs[key].children) {
-      const childRules = genElementUIFormRules(formConfigs[key].children, lang)
+      const childRules = genElementUIFormRules(formConfigs[key].children)
       if (!isEmptyObj(childRules)) {
         res[key] = childRules
       }
@@ -75,10 +85,9 @@ const genElementUIFormRules = (formConfigs: PluginUIConfigForm, lang: 'zh' | 'en
 }
 
 export default function usePluginGenFormRules(options: {
-  lang: 'zh' | 'en'
   formConfigs: PluginUIConfigForm
 }): Record<string, any> {
-  const rules = computed(() => genElementUIFormRules(options.formConfigs, options.lang))
+  const rules = computed(() => genElementUIFormRules(options.formConfigs))
   return {
     rules,
   }

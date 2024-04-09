@@ -10,7 +10,6 @@
       <plugin-form-kit-item
         v-for="(configs, name) in layouts.$form"
         v-model="configsForm[name]"
-        :lang="lang"
         :key="name"
         :name="(name as string)"
         :form-configs="configs"
@@ -27,11 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, defineProps, defineEmits, ref, watch, computed } from 'vue'
+import { PropType, defineProps, defineEmits, ref, watch } from 'vue'
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import _ from 'lodash'
-import { useStore } from 'vuex'
 import usePluginGenFormRules from '@/hooks/Plugins/useGenPluginFormRules'
 
 const props = defineProps({
@@ -47,18 +45,11 @@ const props = defineProps({
 
 const emit = defineEmits(['submit'])
 
-const store = useStore()
-
-const lang = computed<'zh' | 'en'>(() => {
-  return store.state.lang
-})
-
 const PluginForm = ref()
 
 const configsForm = ref(_.cloneDeep(props.data))
 
 const { rules } = usePluginGenFormRules({
-  lang: lang.value,
   formConfigs: props.layouts.$form,
 })
 
