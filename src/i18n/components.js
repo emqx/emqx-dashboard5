@@ -83,6 +83,10 @@ export default {
     zh: '保留消息',
     en: 'Retained Messages',
   },
+  'message-validation': {
+    zh: '数据校验',
+    en: 'Message Validation',
+  },
   schemas: {
     zh: '编解码',
     en: 'Schema Registry',
@@ -395,6 +399,10 @@ export default {
   'schema-create': {
     zh: '创建编解码',
     en: 'Create Schema',
+  },
+  'message-validation-create': {
+    zh: '创建数据校验',
+    en: 'Create Message Validation',
   },
   /* For Quick Panel End */
 }

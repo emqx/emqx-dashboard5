@@ -768,6 +768,32 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Message Validation
+  {
+    path: '/message-validation',
+    component: Layout,
+    meta: {
+      hideKey: 'message-validation',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-validation',
+        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+      },
+      {
+        path: 'create',
+        name: 'message-validation-create',
+        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+      },
+      {
+        path: ':validationName',
+        name: 'message-validation-detail',
+        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+      },
+    ],
+  },
   // Schema Registry
   {
     path: '/schema',
