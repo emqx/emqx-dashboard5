@@ -135,24 +135,26 @@ const reorderValidation = async (order: Array<string>) => {
   }
 }
 
-const relativeMove = (nowIndex: number, relativePosition: number) => {
-  const targetIndex = nowIndex + relativePosition
-  if (targetIndex < 0 || targetIndex >= validationList.value.length) {
-    return
-  }
+const moveToTargetPosition = async (nowIndex: number, targetIndex: number) => {
   const order = validationList.value.map((item) => item.name)
   const [removed] = order.splice(nowIndex, 1)
   order.splice(targetIndex, 0, removed)
   reorderValidation(order)
 }
+
+const relativeMove = (nowIndex: number, relativePosition: number) => {
+  const targetIndex = nowIndex + relativePosition
+  if (targetIndex < 0 || targetIndex >= validationList.value.length) {
+    return
+  }
+  moveToTargetPosition(nowIndex, targetIndex)
+}
+
 const absoluteMove = (nowIndex: number, absolutePosition: number) => {
   if (nowIndex === absolutePosition) {
     return
   }
-  const order = validationList.value.map((item) => item.name)
-  const [removed] = order.splice(nowIndex, 1)
-  order.splice(absolutePosition, 0, removed)
-  reorderValidation(order)
+  moveToTargetPosition(nowIndex, absolutePosition)
 }
 
 onMounted(() => {

@@ -21,25 +21,28 @@
           <el-input v-model="schemaForm.description" />
         </el-form-item>
       </el-col>
-      <el-col :span="8" />
-      <el-col :span="8">
-        <el-form-item :label="tl('type')" prop="type">
-          <el-select v-model="schemaForm.type">
-            <el-option
-              v-for="{ label, value } in schemaTypeOpts"
-              :key="value"
-              :label="label"
-              :value="value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-col>
+      <template v-if="!fixedType">
+        <el-col :span="8" />
+        <el-col :span="8">
+          <el-form-item :label="tl('type')" prop="type">
+            <el-select v-model="schemaForm.type">
+              <el-option
+                v-for="{ label, value } in schemaTypeOpts"
+                :key="value"
+                :label="label"
+                :value="value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </template>
       <el-col :span="24">
         <el-form-item label="Schema" prop="source">
           <template #label>
             <FormItemLabel
               label="Schema"
               :desc="selectedJSON ? tl('JSONSchemaVersionTip') : undefined"
+              :disabled="!selectedJSON"
               desc-marked
               popper-class="is-wider"
             />
@@ -100,6 +103,10 @@ const props = defineProps({
     required: true,
   },
   isEdit: {
+    type: Boolean,
+    default: false,
+  },
+  fixedType: {
     type: Boolean,
     default: false,
   },

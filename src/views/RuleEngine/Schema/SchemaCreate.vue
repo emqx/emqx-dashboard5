@@ -1,8 +1,13 @@
 <template>
-  <div class="schema-create app-wrapper">
-    <detail-header :item="{ name: title, routeName: 'schema' }" />
+  <div class="schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
+    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'schema' }" />
     <el-card class="app-card schema-create-card">
-      <SchemaRegistryForm class="schema-create-form" ref="FormCom" v-model="formData" />
+      <SchemaRegistryForm
+        class="schema-create-form"
+        ref="FormCom"
+        v-model="formData"
+        :fixed-type="!isInSinglePage && !!type"
+      />
       <div class="schema-create-ft">
         <el-button @click="cancel">
           {{ $t('Base.cancel') }}
@@ -24,18 +29,36 @@
 import { createSchema, querySchemaDetail } from '@/api/ruleengine'
 import { countDuplicationName } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
+import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
-import { Ref, ref } from 'vue'
+import { defineEmits, defineProps, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
+
+/**
+ * props and emit is for use this component in drawer
+ */
+const props = defineProps<{
+  type?: string
+}>()
+const emit = defineEmits<{
+  (e: 'submitted', name: string): void
+  (e: 'cancel'): void
+}>()
 
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18nTl('RuleEngine')
+
+/**
+ * diff from in component
+ */
+const isInSinglePage = ref(true)
+const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 
 const title = t('Base.createTarget', { target: t('components.schema') })
 
@@ -58,15 +81,25 @@ const checkClipStatus = async () => {
   }
 }
 
-const cancel = () => router.push({ name: 'schema' })
+const cancel = () => {
+  if (isInSinglePage.value) {
+    router.push({ name: 'schema' })
+  } else {
+    emit('cancel')
+  }
+}
 
 const submit = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    await createSchema(cloneDeep(formData.value))
-    ElMessage.success(t('Base.createSuccess'))
-    router.push({ name: 'schema' })
+    const ret = await createSchema(cloneDeep(formData.value))
+    if (isInSinglePage.value) {
+      ElMessage.success(t('Base.createSuccess'))
+      router.push({ name: 'schema' })
+    } else {
+      emit('submitted', ret.name)
+    }
   } catch (error) {
     //
   } finally {
@@ -74,7 +107,20 @@ const submit = async () => {
   }
 }
 
-checkClipStatus()
+const setTypeFromProps = () => {
+  if (props.type) {
+    formData.value.type = props.type as SchemaRegistryType
+  }
+}
+
+;(() => {
+  isInSinglePage.value = detectIsComInSinglePage()
+  if (isInSinglePage.value) {
+    checkClipStatus()
+  } else {
+    setTypeFromProps()
+  }
+})()
 </script>
 
 <style lang="scss" scoped>

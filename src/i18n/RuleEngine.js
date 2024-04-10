@@ -1273,6 +1273,14 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '来源主题',
     en: 'Source Topic',
   },
+  msgSourceTopic: {
+    zh: '消息来源主题',
+    en: 'Message Source Topic',
+  },
+  msgSourceTopicRequired: {
+    zh: '请输入至少一个消息来源主题',
+    en: 'Please enter at least one message source topic',
+  },
   actionAfterFailure: {
     zh: '失败操作',
     en: 'Action After Failure',
@@ -1288,5 +1296,37 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   ignore: {
     zh: '忽略',
     en: 'Ignore',
+  },
+  verificationMethod: {
+    zh: '验证方式',
+    en: 'Verification Method',
+  },
+  validationStrategy: {
+    zh: '验证策略',
+    en: 'Validation Strategy',
+  },
+  allPass: {
+    zh: '全部通过',
+    en: 'All Pass',
+  },
+  anyPass: {
+    zh: '任意通过',
+    en: 'Any Pass',
+  },
+  validationList: {
+    zh: '验证器列表',
+    en: 'Validation List',
+  },
+  validationListRequired: {
+    zh: '请添加至少一个验证器',
+    en: 'Please add at least one validator',
+  },
+  schema: {
+    zh: '编解码',
+    en: 'Schema',
+  },
+  logLevelNone: {
+    zh: 'none (不输出日志)',
+    en: 'none (do not output logs)',
   },
 }

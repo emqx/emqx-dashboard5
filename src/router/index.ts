@@ -785,7 +785,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: 'create',
         name: 'message-validation-create',
-        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+        component: () => import('@/views/RuleEngine/MessageValidation/ValidationCreate.vue'),
       },
       {
         path: ':validationName',
