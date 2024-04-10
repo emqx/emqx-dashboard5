@@ -10,8 +10,13 @@ import type {
   MessageValidationValidation,
   MessageValidationHttpApiReorder,
   MessageValidationHttpApiGetMetrics,
+  MessageValidationValidationChecksItem,
 } from './schemas/messageValidation.schemas'
-import { MessageValidationValidationFailureAction } from './schemas/messageValidation.schemas'
+import {
+  MessageValidationValidationFailureAction,
+  MessageValidationValidationStrategy,
+  MessageValidationLogFailureLevel,
+} from './schemas/messageValidation.schemas'
 
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer
@@ -27,4 +32,7 @@ export const AuditLogOperationResult = GetAuditOperationResult
 export type MessageValidation = MessageValidationValidation
 export type ReorderValidationParams = MessageValidationHttpApiReorder
 export type MessageValidationMetrics = MessageValidationHttpApiGetMetrics
+export type MessageValidationCheckItem = MessageValidationValidationChecksItem
 export const MessageValidationFailureAction = MessageValidationValidationFailureAction
+export const MessageValidationStrategy = MessageValidationValidationStrategy
+export const MessageValidationLogLevel = MessageValidationLogFailureLevel
