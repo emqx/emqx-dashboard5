@@ -1329,4 +1329,20 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: 'none (不输出日志)',
     en: 'none (do not output logs)',
   },
+  validationSuccessDesc: {
+    zh: '数据校验成功的次数',
+    en: 'Number of successful data validations',
+  },
+  validationFailedDesc: {
+    zh: '数据校验失败的次数',
+    en: 'Number of failed data validations',
+  },
+  validationRateBarDesc: {
+    zh: '近一分钟内校验次数趋势',
+    en: 'Trend of validation counts in the past minute',
+  },
+  validationNodesMetricsDesc: {
+    zh: '数据校验在各节点上的执行情况及效率',
+    en: 'Execution status and efficiency of data validation on each node',
+  },
 }

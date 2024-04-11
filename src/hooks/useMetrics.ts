@@ -514,3 +514,35 @@ export const useExHooksMetrics = (): {
     rateData,
   }
 }
+
+export const useMessageValidationMetrics = (): {
+  messageValidationMetricsMap: TypeMapData
+  validationMetricsTextMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('Base')
+  const messageValidationMetricsMap = {
+    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
+    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
+  }
+  const validationMetricsTextMap = {
+    matched: { label: t('Base.total') },
+    succeeded: { label: t('Base.allow'), desc: t('RuleEngine.validationSuccessDesc') },
+    failed: { label: t('Base.deny'), desc: t('RuleEngine.validationFailedDesc') },
+    rate: { label: t('Base.rateNow'), desc: t('RuleEngine.validationRateBarDesc') },
+    rate_max: { label: t('Base.rateMax') },
+    rate_last5m: { label: t('Base.rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'rate',
+    right1: 'rate_last5m',
+    right2: 'rate_max',
+  }
+  return {
+    messageValidationMetricsMap,
+    validationMetricsTextMap,
+    rateData,
+  }
+}
