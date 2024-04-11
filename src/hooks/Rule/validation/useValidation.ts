@@ -3,8 +3,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import type { MessageValidationCheckItem } from '@/types/typeAlias'
 import {
   MessageValidationFailureAction,
-  MessageValidationStrategy,
   MessageValidationLogLevel,
+  MessageValidationStrategy,
 } from '@/types/typeAlias'
 import useSchemaType from '../schema/useSchemaType'
 
