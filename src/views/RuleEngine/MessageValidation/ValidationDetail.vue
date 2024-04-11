@@ -33,7 +33,7 @@
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
         <el-tab-pane :label="tl('overview')" name="overview" lazy>
-          <!-- TODO:overview -->
+          <ValidationOverview :validation-name="validationName" />
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" name="settings">
           <el-card class="app-card">
@@ -64,7 +64,6 @@ import {
   enableDisableValidation,
   getMessageValidationDetail,
   putMessageValidation,
-  getValidationMetrics,
 } from '@/api/messageValidation'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
@@ -77,6 +76,7 @@ import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MessageValidationForm from './components/MessageValidationForm.vue'
+import ValidationOverview from './components/ValidationOverview.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -118,8 +118,6 @@ const getDetail = async () => {
     isLoading.value = false
   }
 }
-
-getValidationMetrics(validationName.value)
 
 const updateValidation = async () => {
   try {
