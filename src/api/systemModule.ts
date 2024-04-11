@@ -61,7 +61,7 @@ export const deleteBackup = (fileName: string, node?: string): Promise<void> => 
   return http.delete(`/data/files/${fileName}`, { params })
 }
 export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): Promise<void> => {
-  return http.post(`/data/import`, payload)
+  return http.post(`/data/import`, payload, { timeout: 600000 })
 }
 export const downloadBackup = (
   fileName: string,
