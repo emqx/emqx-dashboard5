@@ -73,6 +73,7 @@ import {
 import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { DetailTab } from '@/types/enum'
 import { MessageValidation } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -98,7 +99,11 @@ const getList = async () => {
 }
 
 const goDetail = (name: string) =>
-  router.push({ name: 'message-validation-detail', params: { validationName: name } })
+  router.push({
+    name: 'message-validation-detail',
+    params: { validationName: name },
+    query: { tab: DetailTab.Setting },
+  })
 
 const addValidation = () => {
   router.push({ name: 'message-validation-create' })
