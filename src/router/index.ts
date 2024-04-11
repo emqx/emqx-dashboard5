@@ -790,7 +790,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: ':validationName',
         name: 'message-validation-detail',
-        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+        component: () => import('@/views/RuleEngine/MessageValidation/ValidationDetail.vue'),
       },
     ],
   },

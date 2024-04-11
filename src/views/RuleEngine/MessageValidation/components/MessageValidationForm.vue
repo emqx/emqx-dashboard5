@@ -17,7 +17,7 @@
         <el-form-item prop="topics" :label="tl('msgSourceTopic')">
           <ul class="topic-list">
             <!-- TODO: validate topic item -->
-            <li class="topic-item" v-for="(item, $index) in formData.topics" :key="item">
+            <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
               <el-input v-model="formData.topics[$index]" />
               <el-button class="btn-del" link @click="delTopic($index)">
                 <el-icon :size="16"><Delete /></el-icon>
@@ -62,7 +62,10 @@
             <!-- TODO: validate validator item -->
             <el-table-column class-name="column-type" :label="tl('type')">
               <template #default="{ $index }">
-                <el-select v-model="formData.checks[$index].type">
+                <el-select
+                  v-model="formData.checks[$index].type"
+                  @change="handleValidatorTypeChanged($event, $index)"
+                >
                   <el-option
                     v-for="{ label, value } in validationItemTypeOpts"
                     :key="value"
@@ -98,7 +101,11 @@
                   </el-tooltip>
                 </div>
                 <div v-else class="monaco-container">
-                  <Monaco v-model="(formData.checks[$index] as any).sql" />
+                  <Monaco
+                    v-model="(formData.checks[$index] as any).sql"
+                    lang="sql"
+                    :id="createRandomString()"
+                  />
                 </div>
               </template>
             </el-table-column>
@@ -153,6 +160,7 @@
 
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
+import { createRandomString } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import {
   useFailureAction,
@@ -295,6 +303,12 @@ const handleSchemaCreated = (schemaName: string) => {
 
 const deleteValidationItem = (index: number) => {
   formData.value.checks.splice(index, 1)
+}
+
+const handleValidatorTypeChanged = (value: string, validatorIndex: number) => {
+  const target: any = formData.value.checks[validatorIndex]
+  target[isSchemaRegistry(value) ? 'schema' : 'sql'] = ''
+  Reflect.deleteProperty(target, isSchemaRegistry(value) ? 'sql' : 'schema')
 }
 
 const validate = async () => formCom.value.validate()

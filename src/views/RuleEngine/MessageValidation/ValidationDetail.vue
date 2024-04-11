@@ -1,0 +1,183 @@
+<template>
+  <div class="validation-detail" v-loading.lock="isLoading">
+    <div class="detail-top">
+      <detail-header :item="{ name: validationName, routeName: 'message-validation' }" />
+      <div class="validation-detail-hd">
+        <StatusDetailsOfEachNode :status-data="statusData" is-tag />
+        <div>
+          <el-tooltip
+            :content="validationData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch
+              class="enable-btn"
+              v-model="validationData.enable"
+              :disabled="!$hasPermission('put')"
+              @change="(val) => toggleEnable(val as boolean)"
+            />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button
+              class="icon-button"
+              type="danger"
+              :disabled="!$hasPermission('delete')"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
+            </el-button>
+          </el-tooltip>
+        </div>
+      </div>
+    </div>
+    <el-tabs class="detail-tabs" v-model="activeTab">
+      <div class="app-wrapper">
+        <el-tab-pane :label="tl('overview')" name="overview" lazy>
+          <!-- TODO:overview -->
+        </el-tab-pane>
+        <el-tab-pane :label="t('Base.setting')" name="settings">
+          <el-card class="app-card">
+            <MessageValidationForm
+              v-if="!isLoading"
+              ref="formCom"
+              v-model="validationData"
+              is-edit
+            />
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="isSubmitting"
+              @click="updateValidation"
+            >
+              {{ $t('Base.update') }}
+            </el-button>
+          </el-card>
+        </el-tab-pane>
+      </div>
+    </el-tabs>
+  </div>
+</template>
+
+<script setup lang="ts">
+import {
+  deleteValidation,
+  enableDisableValidation,
+  getMessageValidationDetail,
+  putMessageValidation,
+  getValidationMetrics,
+} from '@/api/messageValidation'
+import DetailHeader from '@/components/DetailHeader.vue'
+import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { NodeStatusClass } from '@/types/enum'
+import type { MessageValidation } from '@/types/typeAlias'
+import { Delete } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { computed, ref, Ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import MessageValidationForm from './components/MessageValidationForm.vue'
+
+const router = useRouter()
+const route = useRoute()
+
+const { t, tl } = useI18nTl('RuleEngine')
+
+const activeTab = ref('overview')
+
+const validationName = computed(() => route.params.validationName.toString())
+
+const formCom = ref()
+const isLoading = ref(false)
+const validationData: Ref<MessageValidation> = ref({} as MessageValidation)
+const isSubmitting = ref(false)
+
+const queryTab = computed(() => {
+  return route.query.tab as string
+})
+if (queryTab.value) {
+  activeTab.value = queryTab.value
+}
+
+const statusData = computed(() => {
+  const { enable } = validationData.value
+  return {
+    statusLabel: enable ? t('Base.enable') : t('Base.disabled'),
+    statusClass: enable ? NodeStatusClass.Success : NodeStatusClass.Danger,
+  }
+})
+
+const getDetail = async () => {
+  try {
+    isLoading.value = true
+    const data = await getMessageValidationDetail(validationName.value)
+    validationData.value = data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+getValidationMetrics(validationName.value)
+
+const updateValidation = async () => {
+  try {
+    isSubmitting.value = true
+    await formCom.value.validate()
+    await putMessageValidation(validationData.value)
+    ElMessage.success(t('Base.updateSuccess'))
+    router.push({ name: 'message-validation' })
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const toggleEnable = async (enable: boolean) => {
+  try {
+    await enableDisableValidation(validationName.value, enable)
+    ElMessage.success(t(enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
+  } catch (error) {
+    validationData.value.enable = !enable
+  }
+}
+
+const { confirmDel } = useOperationConfirm()
+const handleDelete = async () => {
+  try {
+    await confirmDel(() => deleteValidation(validationName.value))
+    router.push({ name: 'message-validation' })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+getDetail()
+</script>
+
+<style lang="scss" scoped>
+.validation-detail-hd {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  .validation-detail-title {
+    margin-top: 0;
+    margin-bottom: 16px;
+    line-height: 25px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+.metrics-title {
+  margin-bottom: 12px;
+}
+.metric-num {
+  font-size: 24px;
+}
+.message-validation-form {
+  width: 70%;
+  margin-bottom: 36px;
+}
+</style>
