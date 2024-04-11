@@ -32,10 +32,10 @@
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
-        <el-tab-pane :label="tl('overview')" name="overview" lazy>
+        <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" lazy>
           <ValidationOverview :validation-name="validationName" />
         </el-tab-pane>
-        <el-tab-pane :label="t('Base.setting')" name="settings">
+        <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
           <el-card class="app-card">
             <MessageValidationForm
               v-if="!isLoading"
@@ -76,6 +76,7 @@ import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MessageValidationForm from './components/MessageValidationForm.vue'
+import { DetailTab } from '@/types/enum'
 import ValidationOverview from './components/ValidationOverview.vue'
 
 const router = useRouter()
@@ -83,7 +84,7 @@ const route = useRoute()
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const activeTab = ref('overview')
+const activeTab = ref(DetailTab.Overview)
 
 const validationName = computed(() => route.params.validationName.toString())
 
@@ -93,10 +94,10 @@ const validationData: Ref<MessageValidation> = ref({} as MessageValidation)
 const isSubmitting = ref(false)
 
 const queryTab = computed(() => {
-  return route.query.tab as string
+  return route.query.tab && Number(route.query.tab)
 })
-if (queryTab.value) {
-  activeTab.value = queryTab.value
+if (queryTab.value !== undefined) {
+  activeTab.value = queryTab.value as DetailTab
 }
 
 const statusData = computed(() => {
