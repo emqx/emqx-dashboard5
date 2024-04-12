@@ -16,12 +16,13 @@
       <el-col :span="12">
         <el-form-item prop="topics" :label="tl('msgSourceTopic')">
           <ul class="topic-list">
-            <!-- TODO: validate topic item -->
             <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
-              <el-input v-model="formData.topics[$index]" />
-              <el-button class="btn-del" link @click="delTopic($index)">
-                <el-icon :size="16"><Delete /></el-icon>
-              </el-button>
+              <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
+                <el-input v-model="formData.topics[$index]" />
+                <el-button class="btn-del" link @click="delTopic($index)">
+                  <el-icon :size="16"><Delete /></el-icon>
+                </el-button>
+              </el-form-item>
             </li>
           </ul>
           <el-button
@@ -75,31 +76,34 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column :label="`${tl('schema')}/SQL`">
+            <el-table-column :label="`${tl('schema')}/SQL`" class-name="column-value">
               <template #default="{ $index }">
-                <div
-                  class="select-wrap vertical-align-center"
+                <el-form-item
                   v-if="
                     formData.checks[$index].type && isSchemaRegistry(formData.checks[$index].type)
                   "
+                  :prop="`checks.${$index}.schema`"
+                  :rules="arrayItemRule.schema"
                 >
-                  <el-select v-model="(formData.checks[$index] as any).schema">
-                    <el-option
-                      v-for="{ name } in getSchemaTypeList(formData.checks[$index].type)"
-                      :key="name"
-                      :value="name"
-                      :label="name"
-                    />
-                  </el-select>
-                  <el-tooltip :content="tl('createConnector')" placement="top">
-                    <el-button
-                      class="btn-add"
-                      :icon="Plus"
-                      :disabled="!$hasPermission('post')"
-                      @click="addSchema($index)"
-                    />
-                  </el-tooltip>
-                </div>
+                  <div class="select-wrap vertical-align-center">
+                    <el-select v-model="(formData.checks[$index] as any).schema">
+                      <el-option
+                        v-for="{ name } in getSchemaTypeList(formData.checks[$index].type)"
+                        :key="name"
+                        :value="name"
+                        :label="name"
+                      />
+                    </el-select>
+                    <el-tooltip :content="tl('createConnector')" placement="top">
+                      <el-button
+                        class="btn-add"
+                        :icon="Plus"
+                        :disabled="!$hasPermission('post')"
+                        @click="addSchema($index)"
+                      />
+                    </el-tooltip>
+                  </div>
+                </el-form-item>
                 <div v-else class="monaco-container">
                   <Monaco
                     v-model="(formData.checks[$index] as any).sql"
@@ -208,7 +212,7 @@ const formData: WritableComputedRef<MessageValidation> = computed({
 })
 
 const { t, tl } = useI18nTl('RuleEngine')
-const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
+const { createRequiredRule } = useFormRules()
 
 const formCom = ref()
 
@@ -220,7 +224,7 @@ const rules: FormRules = {
     {
       type: 'array',
       validator(rules: any, value: Array<string>, cb: (error?: Error) => void) {
-        if (value.length === 0 || value.every((item: string) => !item)) {
+        if (Array.isArray(value) && value.length === 0) {
           cb(new Error(tl('msgSourceTopicRequired')))
         } else {
           cb()
@@ -234,7 +238,7 @@ const rules: FormRules = {
     {
       type: 'array',
       validator(rules: any, value: Array<MessageValidationCheckItem>, cb: (error?: Error) => void) {
-        if (value.length === 0) {
+        if (Array.isArray(value) && value.length === 0) {
           cb(new Error(tl('validationListRequired')))
         } else {
           cb()
@@ -244,6 +248,11 @@ const rules: FormRules = {
       required: true,
     },
   ],
+}
+
+const arrayItemRule = {
+  topic: createRequiredRule(t('Base.topic')),
+  schema: createRequiredRule(tl('schema'), 'select'),
 }
 
 const { validationStrategyOpts } = useValidationStrategy()
@@ -328,9 +337,15 @@ defineExpose({
   }
 
   .topic-item {
-    display: flex;
-    align-items: center;
     margin-bottom: 12px;
+    .el-form-item {
+      width: 100%;
+    }
+    .el-form-item__content {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
     .el-button {
       margin-left: 12px;
     }
@@ -345,6 +360,9 @@ defineExpose({
   }
   .column-type.el-table__cell {
     vertical-align: top;
+  }
+  .column-value .cell {
+    overflow: visible;
   }
   .el-table .el-button {
     margin-top: 0;
