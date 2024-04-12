@@ -90,6 +90,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
+        <ClientFieldSelect v-model="tableColumnFields" />
         <el-button
           class="kick-btn"
           type="danger"
@@ -213,6 +214,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import moment from 'moment'
 import { useStore } from 'vuex'
+import ClientFieldSelect from './components/ClientFieldSelect.vue'
 
 enum Comparator {
   After = 'gte',
@@ -237,6 +239,8 @@ const fuzzyParams = ref<Record<string, any>>({
 const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+
+const tableColumnFields = ref<Array<string>>([])
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
