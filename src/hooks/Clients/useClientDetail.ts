@@ -1,6 +1,6 @@
 import { Client } from '@/types/client'
 import moment from 'moment'
-import { Ref } from 'vue'
+import { ComputedRef, Ref } from 'vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '../useI18nTl'
 import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
@@ -8,7 +8,7 @@ import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
 type GetSessionInfoItem = (msg: string) => string | number | boolean
 
 export default (
-  client: Ref<Partial<Client>>,
+  client: Ref<Partial<Client>> | ComputedRef<Partial<Client>>,
 ): {
   getSessionInfoItem: GetSessionInfoItem
 } => {
