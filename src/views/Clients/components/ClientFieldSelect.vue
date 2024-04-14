@@ -8,13 +8,15 @@
     </el-button>
     <template #dropdown>
       <div class="client-field-select-dropdown">
-        <el-checkbox-group v-model="checkList">
+        <el-checkbox-group :model-value="checkList" @update:model-value="handleChanged">
           <el-checkbox
             v-for="{ label, value } in fieldOpts"
             :key="value"
-            :label="label"
+            :label="value"
             :value="value"
-          />
+          >
+            {{ label }}
+          </el-checkbox>
         </el-checkbox-group>
       </div>
     </template>
@@ -65,9 +67,24 @@ const fieldOpts = Object.entries(clientFields).reduce(
   },
   [{ label: tl('connectedStatus'), value: 'connected' }],
 )
+const fieldOptIndex = fieldOpts.reduce((map, { value }, index) => {
+  map.set(value, index)
+  return map
+}, new Map<string, number>())
+
+// The checklist is not in order, so reorder it.
+const handleChanged = (value: Array<string>) => {
+  checkList.value = value.sort(
+    (a, b) => (fieldOptIndex.get(a) ?? 99) - (fieldOptIndex.get(b) ?? 99),
+  )
+}
 </script>
 
 <style lang="scss">
+.table-dropdown-btn {
+  // FIXME: style of plain primary button
+  height: 30px;
+}
 .client-field-select-dropdown {
   padding: 12px 20px 0px;
   .el-checkbox {
