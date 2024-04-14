@@ -110,20 +110,23 @@
         :data="tableData"
         ref="TableCom"
         row-key="clientid"
+        :key="tableColumnFields.join('-')"
         v-loading.lock="lockTable"
         @selection-change="handleSelectionChange"
       >
         <!-- TODO:fixed the tooltip content (spaces) -->
         <el-table-column type="selection" width="35" reserve-selection />
         <el-table-column
-          prop="clientid"
-          min-width="140"
-          fixed
-          :label="$t('Clients.clientId')"
-          show-overflow-tooltip
+          v-for="column in tableColumnFields"
+          :key="column"
+          :prop="column"
+          :label="getBaseLabel(column)"
+          :min-width="getColumnWidth(column)"
+          :show-overflow-tooltip="showOverflowTooltip(column)"
         >
           <template #default="{ row }">
             <router-link
+              v-if="column === 'clientid'"
               :to="{
                 name: 'clients-detail',
                 params: { clientId: row.clientid },
@@ -131,53 +134,18 @@
             >
               <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
             </router-link>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="username"
-          min-width="100"
-          :label="$t('Clients.username')"
-          show-overflow-tooltip
-        >
-          <template #default="{ row }">
-            <PreWithEllipsis>{{ row.username }}</PreWithEllipsis>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="connected"
-          :min-width="store.state.lang === 'en' ? 140 : 90"
-          :label="$t('Clients.connectedStatus')"
-        >
-          <template #default="{ row }">
-            <CheckIcon
-              :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
-              size="small"
-              :top="1"
-            />
-            <span class="text-status" :class="row.connected ? 'success' : 'danger'">
-              {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="140" prop="ip_address" :label="$t('Clients.ipAddress')">
-          <template #default="{ row }">
-            {{ row.ip_address + ':' + row.port }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
-        <el-table-column prop="clean_start" min-width="120" label="Clean Start" />
-        <el-table-column
-          prop="expiry_interval"
-          min-width="180"
-          :label="$t('Clients.expiryInterval')"
-        >
-          <template #default="{ row }">
-            <span>{{ sessionExpiryIntervalHandler(row.expiry_interval) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="connected_at" min-width="150" :label="$t('Clients.connectedAt')">
-          <template #default="{ row }">
-            {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
+            <PreWithEllipsis v-else-if="column === 'username'">{{ row.username }}</PreWithEllipsis>
+            <template v-else-if="column === 'connected'">
+              <CheckIcon
+                :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
+                size="small"
+                :top="1"
+              />
+              <span class="text-status" :class="row.connected ? 'success' : 'danger'">
+                {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
+              </span>
+            </template>
+            <ClientInfoItem v-else :client="row" :field="column" />
           </template>
         </el-table-column>
       </el-table>
@@ -202,6 +170,7 @@ import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/
 import CheckIcon from '@/components/CheckIcon.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
+import useClientFields from '@/hooks/Clients/useClientFields'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
@@ -212,9 +181,9 @@ import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
-import moment from 'moment'
 import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
+import ClientInfoItem from './components/ClientInfoItem.vue'
 
 enum Comparator {
   After = 'gte',
@@ -240,7 +209,30 @@ const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
 
-const tableColumnFields = ref<Array<string>>([])
+const tableColumnFields = ref<Array<string>>([
+  'clientid',
+  'username',
+  'connected',
+  'ip_address',
+  'keepalive',
+  'clean_start',
+  'expiry_interval',
+  'connected_at',
+])
+const { getBaseLabel } = useClientFields()
+const showOverflowTooltip = (column: string) => ['clientid', 'username'].includes(column)
+const specialColumnWidth = new Map([
+  ['clientid', 140],
+  ['username', 100],
+  ['connected', 140],
+  ['ip_address', 140],
+  ['keepalive', 100],
+  ['clean_start', 180],
+  ['expiry_interval', 180],
+  ['connected_at', 180],
+  ['awaiting_rel', 180],
+])
+const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
