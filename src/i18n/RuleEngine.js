@@ -1290,8 +1290,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Drop Message',
   },
   disconnect: {
-    zh: '断开连接',
-    en: 'Disconnect',
+    zh: '断开连接并丢弃消息',
+    en: 'Disconnect and Drop Message',
   },
   ignore: {
     zh: '忽略',
@@ -1324,6 +1324,26 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   schema: {
     zh: '编解码',
     en: 'Schema',
+  },
+  pleaseEnterSQL: {
+    zh: '请输入 SQL',
+    en: 'Please Enter SQL',
+  },
+  validationFailureOperation: {
+    zh: '验证失败操作',
+    en: 'Validation Failure Operation',
+  },
+  setting: {
+    zh: '设置',
+    en: 'Setting',
+  },
+  view: {
+    zh: '查看',
+    en: 'View',
+  },
+  outputLogs: {
+    zh: '输出日志',
+    en: 'Output Logs',
   },
   logLevelNone: {
     zh: 'none (不输出日志)',
