@@ -675,4 +675,8 @@ export default {
     zh: 'Enterprise',
     en: 'Enterprise',
   },
+  selectColumn: {
+    zh: '选择列',
+    en: 'Select Column',
+  },
 }

@@ -90,6 +90,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
+        <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
         <el-button
           class="kick-btn"
           type="danger"
@@ -109,20 +110,23 @@
         :data="tableData"
         ref="TableCom"
         row-key="clientid"
+        :key="tableColumnFields.join('-')"
         v-loading.lock="lockTable"
         @selection-change="handleSelectionChange"
       >
         <!-- TODO:fixed the tooltip content (spaces) -->
         <el-table-column type="selection" width="35" reserve-selection />
         <el-table-column
-          prop="clientid"
-          min-width="140"
-          fixed
-          :label="$t('Clients.clientId')"
-          show-overflow-tooltip
+          v-for="column in tableColumnFields"
+          :key="column"
+          :prop="column"
+          :label="getBaseLabel(column)"
+          :min-width="getColumnWidth(column)"
+          :show-overflow-tooltip="showOverflowTooltip(column)"
         >
           <template #default="{ row }">
             <router-link
+              v-if="column === 'clientid'"
               :to="{
                 name: 'clients-detail',
                 params: { clientId: row.clientid },
@@ -130,54 +134,18 @@
             >
               <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
             </router-link>
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          prop="username"
-          min-width="100"
-          :label="$t('Clients.username')"
-          show-overflow-tooltip
-        >
-          <template #default="{ row }">
-            <PreWithEllipsis>{{ row.username }}</PreWithEllipsis>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="connected"
-          :min-width="store.state.lang === 'en' ? 140 : 90"
-          :label="$t('Clients.connectedStatus')"
-        >
-          <template #default="{ row }">
-            <CheckIcon
-              :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
-              size="small"
-              :top="1"
-            />
-            <span class="text-status" :class="row.connected ? 'success' : 'danger'">
-              {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="140" prop="ip_address" :label="$t('Clients.ipAddress')">
-          <template #default="{ row }">
-            {{ row.ip_address + ':' + row.port }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="keepalive" min-width="100" :label="$t('Clients.keepalive')" />
-        <el-table-column prop="clean_start" min-width="120" label="Clean Start" />
-        <el-table-column
-          prop="expiry_interval"
-          min-width="180"
-          :label="$t('Clients.expiryInterval')"
-        >
-          <template #default="{ row }">
-            <span>{{ sessionExpiryIntervalHandler(row.expiry_interval) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="connected_at" min-width="150" :label="$t('Clients.connectedAt')">
-          <template #default="{ row }">
-            {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
+            <PreWithEllipsis v-else-if="column === 'username'">{{ row.username }}</PreWithEllipsis>
+            <template v-else-if="column === 'connected'">
+              <CheckIcon
+                :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
+                size="small"
+                :top="1"
+              />
+              <span class="text-status" :class="row.connected ? 'success' : 'danger'">
+                {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
+              </span>
+            </template>
+            <ClientInfoItem v-else :client="row" :field="column" />
           </template>
         </el-table-column>
       </el-table>
@@ -198,22 +166,23 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, listClients } from '@/api/clients'
-import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
-import useDurationStr from '@/hooks/useDurationStr'
+import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
+import { useStore } from 'vuex'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
-import moment from 'moment'
-import { useStore } from 'vuex'
+import ClientFieldSelect from './components/ClientFieldSelect.vue'
+import ClientInfoItem from './components/ClientInfoItem.vue'
 
 enum Comparator {
   After = 'gte',
@@ -223,8 +192,8 @@ enum Comparator {
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { nodes: currentNodes } = useClusterNodes()
-const { transSecondNumToSimpleStr } = useDurationStr()
 const { tl, t } = useI18nTl('Clients')
+const { state, commit } = useStore()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
@@ -235,9 +204,24 @@ const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: Comparator.After,
 })
-const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+
+const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
+const { getBaseLabel } = useClientFields()
+const showOverflowTooltip = (column: string) => ['clientid', 'username'].includes(column)
+const specialColumnWidth = new Map([
+  ['clientid', 140],
+  ['username', 100],
+  ['connected', 140],
+  ['ip_address', 140],
+  ['keepalive', 100],
+  ['clean_start', 180],
+  ['expiry_interval', 180],
+  ['connected_at', 180],
+  ['awaiting_rel', 180],
+])
+const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
@@ -249,6 +233,30 @@ const handleReset = () => {
     comparator: Comparator.After,
   }
   handleSearch()
+}
+
+const columnFieldsMap = new Map([
+  ['proto_name', ['proto_name', 'proto_ver']],
+  ['ip_address', ['ip_address', 'port']],
+  ['subscriptions', ['subscriptions_cnt', 'subscriptions_max']],
+  ['mqueue', ['mqueue_len', 'mqueue_max']],
+  ['inflight', ['inflight_cnt', 'inflight_max']],
+  ['awaiting_rel', ['awaiting_rel_cnt', 'awaiting_rel_max']],
+])
+/**
+ * Request the corresponding data based on the selected table columns
+ */
+const getClientFields = () =>
+  tableColumnFields.value
+    .reduce((arr: Array<string>, column: string) => {
+      arr.push(...(columnFieldsMap.get(column) ?? [column]))
+      return arr
+    }, [])
+    .join(',')
+const handleSelectedColumnChanged = (val: Array<string>) => {
+  tableColumnFields.value = val
+  commit('SET_CLIENT_TABLE_COLUMNS', val)
+  loadNodeClients()
 }
 
 const genQueryParams = (params: Record<string, any>) => {
@@ -274,6 +282,7 @@ const loadNodeClients = async (_params = {}) => {
     ...params.value,
     ...pageParams.value,
     ..._params,
+    fields: getClientFields(),
   }
   try {
     const { data = [], meta = {} } = await listClients(sendParams)
@@ -286,12 +295,6 @@ const loadNodeClients = async (_params = {}) => {
   } finally {
     lockTable.value = false
   }
-}
-
-const sessionExpiryIntervalHandler = (interval: number): string | number => {
-  return interval === SESSION_NEVER_EXPIRE_TIME
-    ? tl('neverExpire')
-    : transSecondNumToSimpleStr(interval)
 }
 
 const getParamsFromQuery = () => {

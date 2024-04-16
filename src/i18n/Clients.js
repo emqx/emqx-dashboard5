@@ -123,6 +123,10 @@ export default {
     zh: '断开连接',
     en: 'Disconnect',
   },
+  cleanStart: {
+    zh: 'Clean Start/清除会话',
+    en: 'Clean Session/Clean Session',
+  },
   cleanSession: {
     zh: '清除会话',
     en: 'Clean Session',
@@ -458,5 +462,9 @@ export default {
   priority: {
     zh: '优先级',
     en: 'Priority',
+  },
+  listener: {
+    zh: '监听器',
+    en: 'Listener',
   },
 }

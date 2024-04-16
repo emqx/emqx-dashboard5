@@ -1,5 +1,6 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
 import { getValueFromQuery } from '@/common/tools'
+import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { LicenseCustomerType } from '@/types/enum'
@@ -43,6 +44,12 @@ const getLeftBarCollapse = () => {
   return JSON.parse(leftBarCollapse)
 }
 
+const getClientTableColumns = () => {
+  const columns = localStorage.getItem('clientTableColumns')
+  return columns ? JSON.parse(columns) : DEFAULT_CLIENT_TABLE_COLUMNS
+}
+
+
 const getLoginBackend = () => {
   const loginBackend = localStorage.getItem('loginBackend') || 'local'
   if (loginBackend === 'undefined') {
@@ -67,6 +74,7 @@ export default createStore({
     ruleEventList: [] as Array<RuleEvent>,
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
+    clientTableColumns: getClientTableColumns(),
     loginBackend: getLoginBackend(),
   },
   actions: {
@@ -173,6 +181,10 @@ export default createStore({
       if (index !== -1) {
         state.abortControllers.splice(index, 1)
       }
+    },
+    SET_CLIENT_TABLE_COLUMNS(state, columns) {
+      state.clientTableColumns = columns
+      localStorage.setItem('clientTableColumns', JSON.stringify(columns))
     },
   },
   getters: {

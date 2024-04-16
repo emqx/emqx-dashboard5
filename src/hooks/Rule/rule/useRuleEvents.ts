@@ -11,6 +11,7 @@ const EVENT_SORT: Array<string> = [
   '$events/client_check_authz_complete',
   '$events/session_subscribed',
   '$events/session_unsubscribed',
+  '$events/message_validation_failed',
   '$events/message_delivered',
   '$events/message_acked',
   '$events/message_dropped',
@@ -19,7 +20,10 @@ const EVENT_SORT: Array<string> = [
   '$bridges/mqtt:*',
 ]
 
-const getEventIndex = (event: string) => EVENT_SORT.findIndex((item) => item === event)
+const getEventIndex = (event: string) => {
+  const index = EVENT_SORT.findIndex((item) => item === event)
+  return index === -1 ? EVENT_SORT.length : index
+}
 
 export default (): {
   getEventList: () => Promise<RuleEvent[]>

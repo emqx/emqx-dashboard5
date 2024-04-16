@@ -392,4 +392,15 @@ export const WEBHOOK_SUFFIX = '_WH_D'
  */
 export const INTEGRATION_SCHEMA_TYPES = ['bridge', 'connector', 'action', 'source']
 
+export const DEFAULT_CLIENT_TABLE_COLUMNS = [
+  'clientid',
+  'username',
+  'connected',
+  'ip_address',
+  'keepalive',
+  'clean_start',
+  'expiry_interval',
+  'connected_at',
+]
+
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048

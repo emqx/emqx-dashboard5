@@ -370,6 +370,7 @@ export type PutConfigsGlobalZone200 = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
+  session_persistence?: EmqxSessionPersistence
 }
 
 export type PutConfigsGlobalZoneBody = {
@@ -377,6 +378,7 @@ export type PutConfigsGlobalZoneBody = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
+  session_persistence?: EmqxSessionPersistence
 }
 
 export type GetConfigsGlobalZone200 = {
@@ -384,6 +386,7 @@ export type GetConfigsGlobalZone200 = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
+  session_persistence?: EmqxSessionPersistence
 }
 
 export type PutConfigsSysmon403Code =
@@ -758,6 +761,8 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
+export type EmqxMqttClientAttrsInit = EmqxClientAttrsInit | 'disabled'
+
 export type EmqxMqttPeerCertAsClientid =
   typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
 
@@ -806,6 +811,16 @@ export interface EmqxLogThrottling {
   time_window?: string
 }
 
+export type EmqxLogFileHandlerTimestampFormat =
+  typeof EmqxLogFileHandlerTimestampFormat[keyof typeof EmqxLogFileHandlerTimestampFormat]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogFileHandlerTimestampFormat = {
+  auto: 'auto',
+  epoch: 'epoch',
+  rfc3339: 'rfc3339',
+} as const
+
 export type EmqxLogFileHandlerFormatter =
   typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
 
@@ -840,6 +855,7 @@ export interface EmqxLogFileHandler {
   level?: EmqxLogFileHandlerLevel
   enable?: boolean
   formatter?: EmqxLogFileHandlerFormatter
+  timestamp_format?: EmqxLogFileHandlerTimestampFormat
   time_offset?: string
 }
 
@@ -902,6 +918,16 @@ export interface EmqxEventNames {
   client_unsubscribed?: boolean
 }
 
+export type EmqxConsoleHandlerTimestampFormat =
+  typeof EmqxConsoleHandlerTimestampFormat[keyof typeof EmqxConsoleHandlerTimestampFormat]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxConsoleHandlerTimestampFormat = {
+  auto: 'auto',
+  epoch: 'epoch',
+  rfc3339: 'rfc3339',
+} as const
+
 export type EmqxConsoleHandlerFormatter =
   typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
 
@@ -931,7 +957,26 @@ export interface EmqxConsoleHandler {
   level?: EmqxConsoleHandlerLevel
   enable?: boolean
   formatter?: EmqxConsoleHandlerFormatter
+  timestamp_format?: EmqxConsoleHandlerTimestampFormat
   time_offset?: string
+}
+
+export type EmqxClientAttrsInitExtractFrom =
+  typeof EmqxClientAttrsInitExtractFrom[keyof typeof EmqxClientAttrsInitExtractFrom]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxClientAttrsInitExtractFrom = {
+  clientid: 'clientid',
+  username: 'username',
+  cn: 'cn',
+  dn: 'dn',
+  user_property: 'user_property',
+} as const
+
+export interface EmqxClientAttrsInit {
+  extract_from?: EmqxClientAttrsInitExtractFrom
+  extract_regexp?: string
+  extract_as?: string
 }
 
 export interface EmqxBroker {

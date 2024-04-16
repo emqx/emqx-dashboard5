@@ -43,6 +43,10 @@ export default {
     en: 'Message Delivery Drop',
     zh: '消息投递丢弃',
   },
+  eventsMessageValidationFailed: {
+    en: 'Message Validation Failed',
+    zh: '消息验证失败',
+  },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',
     zh: 'MQTT 桥接消息',

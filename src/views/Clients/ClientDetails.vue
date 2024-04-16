@@ -50,50 +50,14 @@
           <el-card class="top-border client-info" v-loading="clientDetailLock">
             <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
               <el-descriptions-item :label="tl('connectedStatus')">
-                <el-tag type="info">
-                  <CheckIcon
-                    :status="record.connected ? CheckStatus.Check : CheckStatus.Close"
-                    size="small"
-                  />
-                  {{ record.connected ? tl('connected') : tl('disconnected') }}
-                </el-tag>
+                <ClientInfoItem :client="record" field="connected" />
               </el-descriptions-item>
               <el-descriptions-item
                 v-for="item in clientDetailParts.connection"
                 :key="item"
                 :label="getLabel(item)"
               >
-                <span v-if="item == 'proto_type'">
-                  <el-tag type="info">
-                    <span>{{ record.proto_name }}</span>
-                    &nbsp;
-                    <span v-if="record.proto_name === 'MQTT' && record.proto_ver !== undefined">
-                      {{ mqttVersion[record.proto_ver] }}
-                    </span>
-                    <span v-else>{{ record.proto_ver }}</span>
-                  </el-tag>
-                </span>
-                <span v-else-if="item == 'connected_at' || item == 'disconnected_at'">
-                  <span>
-                    {{ record[item] && moment(record[item]).format('YYYY-MM-DD HH:mm:ss') }}
-                  </span>
-                </span>
-                <span v-else-if="item == 'ip_address'">
-                  <span>{{ record.ip_address + ':' + record.port }}</span>
-                </span>
-                <span class="space-between vertical-align-center" v-else-if="item == 'clientid'">
-                  <span class="keep-spaces">{{ record[item] }}</span>
-                  <el-button
-                    class="btn-copy"
-                    size="small"
-                    @click="copyText(record.clientid as string)"
-                  >
-                    {{ t('Base.copy') }}
-                  </el-button>
-                </span>
-                <span v-else>
-                  <span class="keep-spaces">{{ record[item] }}</span>
-                </span>
+                <ClientInfoItem :client="record" :field="item" />
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
@@ -108,7 +72,7 @@
                 :label="getLabel(item)"
               >
                 <div>
-                  <span>{{ getSessionInfoItem(item) }}</span>
+                  <ClientInfoItem :client="record" :field="item" />
                   <el-button
                     v-if="withMsgList(item)"
                     class="btn-view-msg"
@@ -221,7 +185,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
-import { CheckStatus } from '@/types/enum'
 
 export default defineComponent({
   name: 'ClientDetails',
@@ -237,20 +200,18 @@ import {
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import CheckIcon from '@/components/CheckIcon.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import TextEasyCopy from '@/components/TextEasyCopy.vue'
-import useClientDetail from '@/hooks/Clients/useClientDetail'
-import useCopy from '@/hooks/useCopy'
+import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { Subscription } from '@/types/subscription'
+import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
 import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
@@ -278,29 +239,10 @@ const clientDetailLock = ref(true)
 const subsLockTable = ref(true)
 const doesTheClientExist = ref(true)
 const record = ref<Partial<Client>>({})
+const { clientFields, snake2pascal, getBaseLabel } = useClientFields()
 const clientsOrganizied = {
   MQTT: {
-    connection: [
-      'node',
-      'clientid',
-      'username',
-      'proto_type',
-      'ip_address',
-      'keepalive',
-      'clean_start',
-      'is_bridge',
-      'connected_at',
-      'disconnected_at',
-    ],
-    session: [
-      'expiry_interval',
-      'created_at',
-      'heap_size',
-      'subscriptions',
-      'mqueue',
-      'inflight',
-      'awaiting_rel',
-    ],
+    ...clientFields,
     bytes: ['recv_oct', 'send_oct'],
     packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
     messages: [
@@ -354,11 +296,6 @@ const clientsOrganizied = {
     messages: [],
   },
 }
-const mqttVersion: Record<number, string> = {
-  3: 'v3.1',
-  4: 'v3.1.1',
-  5: 'v5.0',
-}
 const subscriptions = ref<Subscription[]>([])
 
 const route = useRoute()
@@ -401,15 +338,6 @@ const isMQTTVersion5 = computed(() => {
   return record.value.proto_name === 'MQTT' && record.value.proto_ver === 5
 })
 
-const { getSessionInfoItem } = useClientDetail(record)
-const { copyText } = useCopy()
-
-/**
- * snake and point to camel, demo: send_msg -> sendMsg; send_msg.qos1 -> sendMsgQos1
- */
-const snake2pascal = (s: string) => {
-  return String(s).replace(/((_|\.)[a-z])/g, (m) => m.substring(1).toUpperCase())
-}
 const handleDisconnect = async () => {
   if (record.value === null) return
   let warningMsg = tl('willDisconnectTheConnection')
@@ -544,7 +472,7 @@ const getLabel = (label: string) => {
       return tl('sendSocketCnt')
     }
   }
-  return tl(snake2pascal(label))
+  return getBaseLabel(label)
 }
 
 const filterMetrics = (metrics: Array<keyof Client>) => {

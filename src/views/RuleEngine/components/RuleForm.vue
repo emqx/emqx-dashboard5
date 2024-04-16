@@ -38,7 +38,7 @@
                     :hover-provider="hoverProvider"
                     :disabled="disabled"
                     v-model="ruleValue.sql"
-                    lang="sql"
+                    lang="rulesql"
                     @change="validate"
                   />
                 </div>
@@ -118,13 +118,13 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getRuleEvents } from '@/api/ruleengine'
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
@@ -361,9 +361,10 @@ const handleTestLoadng = (val: boolean) => {
 // const eventListForFromSelect = computed(() => {
 //   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInRuleForm)
 // })
+const { getEventList } = useRuleEvents()
 const loadRuleEvents = async () => {
   try {
-    ruleEventsList.value = await getRuleEvents()
+    ruleEventsList.value = await getEventList()
   } catch (error) {
     console.error(error)
   }
