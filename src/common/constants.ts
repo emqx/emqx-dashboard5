@@ -323,3 +323,14 @@ export const WEBHOOK_SUFFIX = '_WH_D'
  * Schema types related to data integration
  */
 export const INTEGRATION_SCHEMA_TYPES = ['bridge', 'connector', 'action', 'source']
+
+export const DEFAULT_CLIENT_TABLE_COLUMNS = [
+  'clientid',
+  'username',
+  'connected',
+  'ip_address',
+  'keepalive',
+  'clean_start',
+  'expiry_interval',
+  'connected_at',
+]

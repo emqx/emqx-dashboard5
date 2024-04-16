@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { getUser, setUser, removeUser } from '@/common/auth'
+import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { UserInfo } from '@/types/common'
 import { RuleEvent } from '@/types/rule'
 
@@ -36,6 +37,11 @@ const getLeftBarCollapse = () => {
   return JSON.parse(leftBarCollapse)
 }
 
+const getClientTableColumns = () => {
+  const columns = localStorage.getItem('clientTableColumns')
+  return columns ? JSON.parse(columns) : DEFAULT_CLIENT_TABLE_COLUMNS
+}
+
 export default createStore({
   state: {
     user: (getUser() || {}) as UserInfo,
@@ -51,6 +57,7 @@ export default createStore({
     ruleEventList: [] as Array<RuleEvent>,
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
+    clientTableColumns: getClientTableColumns(),
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -144,6 +151,10 @@ export default createStore({
       if (index !== -1) {
         state.abortControllers.splice(index, 1)
       }
+    },
+    SET_CLIENT_TABLE_COLUMNS(state, columns) {
+      state.clientTableColumns = columns
+      localStorage.setItem('clientTableColumns', JSON.stringify(columns))
     },
   },
   getters: {

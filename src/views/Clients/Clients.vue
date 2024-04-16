@@ -90,7 +90,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <ClientFieldSelect v-model="tableColumnFields" />
+        <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
         <el-button
           class="kick-btn"
           type="danger"
@@ -166,22 +166,21 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, listClients } from '@/api/clients'
-import { SESSION_NEVER_EXPIRE_TIME, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
-import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
+import { useStore } from 'vuex'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
-import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 
@@ -193,8 +192,8 @@ enum Comparator {
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { nodes: currentNodes } = useClusterNodes()
-const { transSecondNumToSimpleStr } = useDurationStr()
 const { tl, t } = useI18nTl('Clients')
+const { state, commit } = useStore()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
@@ -205,20 +204,10 @@ const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: Comparator.After,
 })
-const store = useStore()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
 
-const tableColumnFields = ref<Array<string>>([
-  'clientid',
-  'username',
-  'connected',
-  'ip_address',
-  'keepalive',
-  'clean_start',
-  'expiry_interval',
-  'connected_at',
-])
+const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
 const showOverflowTooltip = (column: string) => ['clientid', 'username'].includes(column)
 const specialColumnWidth = new Map([
@@ -246,6 +235,30 @@ const handleReset = () => {
   handleSearch()
 }
 
+const columnFieldsMap = new Map([
+  ['proto_name', ['proto_name', 'proto_ver']],
+  ['ip_address', ['ip_address', 'port']],
+  ['subscriptions', ['subscriptions_cnt', 'subscriptions_max']],
+  ['mqueue', ['mqueue_len', 'mqueue_max']],
+  ['inflight', ['inflight_cnt', 'inflight_max']],
+  ['awaiting_rel', ['awaiting_rel_cnt', 'awaiting_rel_max']],
+])
+/**
+ * Request the corresponding data based on the selected table columns
+ */
+const getClientFields = () =>
+  tableColumnFields.value
+    .reduce((arr: Array<string>, column: string) => {
+      arr.push(...(columnFieldsMap.get(column) ?? [column]))
+      return arr
+    }, [])
+    .join(',')
+const handleSelectedColumnChanged = (val: Array<string>) => {
+  tableColumnFields.value = val
+  commit('SET_CLIENT_TABLE_COLUMNS', val)
+  loadNodeClients()
+}
+
 const genQueryParams = (params: Record<string, any>) => {
   let newParams: Record<string, any> = {}
   const { like_clientid, like_username, ip_address, conn_state, comparator, connected_at, node } =
@@ -269,6 +282,7 @@ const loadNodeClients = async (_params = {}) => {
     ...params.value,
     ...pageParams.value,
     ..._params,
+    fields: getClientFields(),
   }
   try {
     const { data = [], meta = {} } = await listClients(sendParams)
@@ -281,12 +295,6 @@ const loadNodeClients = async (_params = {}) => {
   } finally {
     lockTable.value = false
   }
-}
-
-const sessionExpiryIntervalHandler = (interval: number): string | number => {
-  return interval === SESSION_NEVER_EXPIRE_TIME
-    ? tl('neverExpire')
-    : transSecondNumToSimpleStr(interval)
 }
 
 const getParamsFromQuery = () => {
