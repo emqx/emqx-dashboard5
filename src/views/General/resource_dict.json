@@ -1020,6 +1020,78 @@
     }
   },
   {
+    "method": "post",
+    "path": "/message_validations/validation/:name/metrics/reset",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics for a particular validation",
+      "zh": "重置指定消息验证的指标"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_validations",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Create a new validation",
+      "zh": "创建新的消息验证"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_validations",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Update a validation",
+      "zh": "更新消息验证"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_validations/reorder",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Reorder of all validations",
+      "zh": "重新排列所有验证"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_validations/validation/:name/enable/:enable",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Enable or disable a particular validation",
+      "zh": "启用或禁用指定的消息验证"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/message_validations/validation/:name",
+    "operation_label": {
+      "en": "Message Validation",
+      "zh": "消息验证"
+    },
+    "operation_name_label": {
+      "en": "Delete a validation",
+      "zh": "删除消息验证"
+    }
+  },
+  {
     "method": "put",
     "path": "/mqtt/delayed",
     "operation_label": {
@@ -2121,6 +2193,42 @@
     "operation_name_label": {
       "en": "Upload backup file",
       "zh": "上传备份文件"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/ds/storages/:ds/replicas/:site",
+    "operation_label": {
+      "en": "Durable Storage",
+      "zh": "持久化存储"
+    },
+    "operation_name_label": {
+      "en": "Remove site as a replica for the durable storage",
+      "zh": "移除作为持久化储存副本的站点"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/ds/storages/:ds/replicas/:site",
+    "operation_label": {
+      "en": "Durable Storage",
+      "zh": "持久化存储"
+    },
+    "operation_name_label": {
+      "en": "Add site as a replica for the durable storage",
+      "zh": "添加站点作为持久化存储的副本"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/ds/storages/:ds/replicas",
+    "operation_label": {
+      "en": "Durable Storage",
+      "zh": "持久化存储"
+    },
+    "operation_name_label": {
+      "en": "Update replicas of the durable storage",
+      "zh": "更新持久化存储的副本"
     }
   }
 ]
