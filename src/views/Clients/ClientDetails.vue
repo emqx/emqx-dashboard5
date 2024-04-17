@@ -72,16 +72,21 @@
               >
                 <div>
                   <ClientInfoItem :client="record" :field="item" />
-                  <el-button
-                    v-if="withMsgList(item)"
-                    class="btn-view-msg"
-                    type="primary"
-                    plain
-                    size="small"
-                    @click="viewMsgList(item as 'mqueue' | 'inflight')"
-                  >
-                    {{ tl('viewMsg') }}
-                  </el-button>
+                  <template v-if="withMsgList(item)">
+                    <el-button
+                      class="btn-view-msg"
+                      type="primary"
+                      plain
+                      size="small"
+                      @click="viewMsgList(item as 'mqueue' | 'inflight')"
+                    >
+                      {{ tl('viewMsg') }}
+                    </el-button>
+                    <info-tooltip
+                      class="client-info-tips"
+                      :content="getClientInfoDesc(item)"
+                    ></info-tooltip>
+                  </template>
                 </div>
               </el-descriptions-item>
             </el-descriptions>
@@ -205,6 +210,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
   gateway: {
@@ -464,6 +470,10 @@ const getLabel = (label: string) => {
   return getBaseLabel(label)
 }
 
+const getClientInfoDesc = (item: string) => {
+  return tl(`${item}Desc`)
+}
+
 const filterMetrics = (metrics: Array<keyof Client>) => {
   return metrics.map((metric) => {
     const label = getLabel(metric as string)
@@ -613,6 +623,9 @@ loadSubs()
   .btn-copy,
   .btn-view-msg {
     margin-left: 16px;
+  }
+  .icon-question {
+    float: right;
   }
 }
 </style>

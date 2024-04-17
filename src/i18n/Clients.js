@@ -467,4 +467,12 @@ export default {
     zh: '监听器',
     en: 'Listener',
   },
+  mqueueDesc: {
+    zh: '消息队列用于存储因飞行窗口限制而无法发送的消息，以及在客户端离线时临时存储消息。队列有长度限制，如果达到限制，QoS 0 以及最旧的消息将被丢弃。',
+    en: 'Message queue used to store messages that cannot be sent due to the limit of inflight window, and to temporarily store messages when a client is offline. The message queue has a length limit, and if it is reached, the oldest messages will be dropped.',
+  },
+  inflightDesc: {
+    zh: 'EMQX 允许多个未确认的 QoS 1 和 QoS 2 报文同时存在于网路链路上。这些已发送但未确认的报文将被存放在 Inflight Window 中直至完成确认。',
+    en: 'EMQX allows multiple unacknowledged QoS 1 and QoS 2 packets to exist on the network link at the same time. These sent but unconfirmed packets will be stored in the Inflight Window until acknowledgment is complete.',
+  },
 }
