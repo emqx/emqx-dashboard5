@@ -18,13 +18,15 @@ export interface SlowSubStatistic {
 
 export type TraceRecord = {
   name: string
-  type: 'clientid' | 'topic' | 'ip_address'
+  type: 'clientid' | 'topic' | 'ip_address' | 'ruleid'
   topic?: string
   clientid?: string
   ip_address?: string
+  ruleid?: string
   start_at: string
   end_at: string
   payload_encode: TraceEncodeType
+  formatter?: 'json' | 'plain'
 }
 
 export type TraceFormRecord = {
