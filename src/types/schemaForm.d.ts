@@ -26,6 +26,7 @@ export interface Property {
   oneOf?: Properties[string][]
   properties?: Properties
   format?: string
+  is_template?: boolean
   /**
    * It is possible to customize the props of component here, with the highest priority.
    */
