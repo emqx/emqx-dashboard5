@@ -58,6 +58,24 @@ export default (
 
   const { completionProvider } = useAvailableProviders()
 
+  const setCompletionProvider = (parm: Property) => {
+    const walk = (prop: Property) => {
+      if (prop.properties) {
+        Object.values(prop.properties).forEach((item) => walk(item))
+      } else if (prop.type === 'oneof') {
+        prop.oneOf?.forEach((item) => walk(item))
+      } else if (prop.type === 'string' && prop.format === 'sql' && prop.is_template) {
+        if (!prop.componentProps) {
+          prop.componentProps = {}
+        }
+        prop.componentProps.completionProvider = completionProvider
+      }
+    }
+
+    walk(parm)
+    return parm
+  }
+
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -72,18 +90,11 @@ export default (
     if (comRet.tags) {
       Reflect.deleteProperty(comRet, 'tags')
     }
-    const paramsProps = components?.parameters?.properties
+    const paramsProps = components?.parameters
     if (paramsProps) {
-      for (const key in paramsProps) {
-        const prop = paramsProps[key]
-        if (prop.type === 'string' && prop?.format === 'sql') {
-          if (!prop.componentProps) {
-            prop.componentProps = {}
-          }
-          prop.componentProps.completionProvider = completionProvider
-        }
-      }
+      setCompletionProvider(paramsProps)
     }
+
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
   }
