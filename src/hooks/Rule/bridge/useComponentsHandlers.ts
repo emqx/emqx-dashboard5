@@ -105,9 +105,6 @@ export default (
     if (topic && !payload) {
       topic.labelKey = 'source_topic'
     }
-    if (topic && payload) {
-      topic.format = 'placeholder'
-    }
     if (!payload && qos?.type === 'enum' && qos.symbols) {
       /** QoS2 is not supported yet https://emqx.atlassian.net/browse/ED-1224  */
       qos.symbols = qos.symbols.filter((item) => item !== 2)
@@ -120,13 +117,10 @@ export default (
 
   const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { body, path, headers } = components?.parameters?.properties || {}
+    const { body, headers } = components?.parameters?.properties || {}
 
     if (body?.type === 'string') {
       body.format = 'sql'
-    }
-    if (path?.type) {
-      path.format = 'placeholder'
     }
     if (headers?.default) {
       headers.componentProps = { supportPlaceholder: ['key', 'value'] }
