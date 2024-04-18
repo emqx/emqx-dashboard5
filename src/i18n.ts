@@ -8,8 +8,10 @@ import enLocale from 'element-plus/es/locale/lang/en'
 import schemaTextZh from '@/schemaText/schema-text-zh.json'
 import schemaTextEn from '@/schemaText/schema-text-en.json'
 
-import symbolLabelZh from '@/schemaText/symbol-label-zh.json'
-import symbolLabelEn from '@/schemaText/symbol-label-en.json'
+import {
+  enSymbolLabel as symbolLabelEn,
+  zhSymbolLabel as symbolLabelZh,
+} from '@emqx/shared-ui-i18n'
 
 import actionText from '@/schemaText/actionText/index'
 

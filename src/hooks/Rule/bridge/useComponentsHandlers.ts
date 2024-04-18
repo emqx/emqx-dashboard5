@@ -8,6 +8,8 @@ import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
 import { get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
+import { useAvailableProviders } from '../useProvidersForMonaco'
+
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -73,6 +75,8 @@ export default (
     }, [])
   }
 
+  const { completionProvider } = useAvailableProviders()
+
   const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -86,6 +90,18 @@ export default (
     }
     if (comRet.tags) {
       Reflect.deleteProperty(comRet, 'tags')
+    }
+    const paramsProps = components?.parameters?.properties
+    if (paramsProps) {
+      for (const key in paramsProps) {
+        const prop = paramsProps[key]
+        if (prop.type === 'string' && prop?.format === 'sql') {
+          if (!prop.componentProps) {
+            prop.componentProps = {}
+          }
+          prop.componentProps.completionProvider = completionProvider
+        }
+      }
     }
     const rulesRet = addRuleForPassword(rules)
     return { components: comRet, rules: rulesRet }
@@ -108,6 +124,9 @@ export default (
     if (topic && !payload) {
       topic.labelKey = 'source_topic'
     }
+    if (topic && payload) {
+      topic.format = 'placeholder'
+    }
     if (!payload && qos?.type === 'enum' && qos.symbols) {
       /** QoS2 is not supported yet https://emqx.atlassian.net/browse/ED-1224  */
       qos.symbols = qos.symbols.filter((item) => item !== 2)
@@ -120,15 +139,17 @@ export default (
 
   const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const { parameters } = components
-    if (parameters?.properties?.body?.type === 'string') {
-      parameters.properties.body.format = 'sql'
+    const { body, path, headers } = components?.parameters?.properties || {}
+
+    if (body?.type === 'string') {
+      body.format = 'sql'
     }
-    if (parameters?.properties?.headers?.default) {
-      parameters.properties.headers.default = pick(
-        parameters.properties.headers.default,
-        'content-type',
-      )
+    if (path?.type) {
+      path.format = 'placeholder'
+    }
+    if (headers?.default) {
+      headers.componentProps = { supportPlaceholder: ['key', 'value'] }
+      headers.default = pick(headers.default, 'content-type')
     }
     return { components, rules }
   }
@@ -412,8 +433,12 @@ export default (
   }
 
   const getComponentsHandler = () => {
-    if (props.type && props.type in specialBridgeHandlerMap) {
-      return specialBridgeHandlerMap[props.type]
+    const specialHandler = props.type && specialBridgeHandlerMap[props.type]
+    if (specialHandler) {
+      return (data: { components: Properties; rules: SchemaRules }) => {
+        const ret = specialHandler(data)
+        return commonHandler(ret)
+      }
     }
     return commonHandler
   }

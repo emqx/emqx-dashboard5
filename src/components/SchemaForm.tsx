@@ -23,6 +23,7 @@ import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vu
 import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
+import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import KeyAndValueEditorVue from './KeyAndValueEditor.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
@@ -64,6 +65,7 @@ const SchemaForm = defineComponent({
     CustomInputNumber,
     AdvancedSettingContainer,
     CertFileInput,
+    InputWithPlaceholderSelect,
     BatchSettings,
   },
   props: {
@@ -332,6 +334,18 @@ const SchemaForm = defineComponent({
                 {...customProps}
               />
             )
+          } else if (format === 'placeholder') {
+            return (
+              <InputWithPlaceholderSelect
+                disabled={isPropertyDisabled}
+                placeholder={property.default?.toString()}
+                modelValue={modelValue}
+                type={inputType}
+                {...handleUpdateModelValue}
+                clearable
+                {...customProps}
+              />
+            )
           }
           return stringInput
         case 'connector':
@@ -529,7 +543,8 @@ const SchemaForm = defineComponent({
                 modelValue={modelValue}
                 {...handleUpdateModelValue}
                 lang="sql"
-                disabled={isDisabled}
+                disabled={isPropertyDisabled || props.disabled}
+                {...customProps}
               />
               {showBatchSettings && (
                 <BatchSettings

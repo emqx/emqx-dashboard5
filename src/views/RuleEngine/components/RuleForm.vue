@@ -131,7 +131,18 @@ import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
-import { Ref, defineEmits, defineExpose, defineProps, nextTick, onMounted, ref, watch } from 'vue'
+import {
+  Ref,
+  computed,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  nextTick,
+  onMounted,
+  provide,
+  ref,
+  watch,
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
@@ -181,6 +192,11 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(ruleValueDefault),
   ...cloneDeep(prop.modelValue),
 })
+
+const ruleSql = computed(() => ruleValue.value.sql)
+
+provide('sql', ruleSql)
+provide('eventList', ruleEventsList)
 
 const sqlPartValue = ref({
   from: [DEFAULT_FROM],

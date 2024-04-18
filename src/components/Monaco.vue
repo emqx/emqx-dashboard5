@@ -12,7 +12,8 @@ export default defineComponent({
 
 <script setup>
 import * as monaco from 'monaco-editor'
-import { language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
+import { conf as sqlConf, language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
+import { debounce } from 'lodash'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
@@ -106,9 +107,10 @@ const defineTheme = () => {
   monaco.editor.defineTheme('editor-dark', dark)
 }
 
+let currentHoverProvider = undefined
 const registerHoverProvider = () => {
   if (prop.hoverProvider) {
-    monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
+    currentHoverProvider = monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
   }
 }
 
@@ -136,6 +138,7 @@ const registerRuleSql = () => {
   const registered = monaco.languages.getLanguages().find((lang) => lang.id === 'rulesql')
   if (!registered) {
     monaco.languages.register({ id: 'rulesql' })
+    monaco.languages.setLanguageConfiguration('rulesql', sqlConf)
     monaco.languages.setMonarchTokensProvider('rulesql', { ...sql })
   }
 }
@@ -210,7 +213,7 @@ watch(
   },
 )
 
-watch(() => prop.completionProvider, registerCompletionProvider)
+watch(() => prop.completionProvider, debounce(registerCompletionProvider, 400))
 
 watch(
   () => prop.lang,
@@ -229,6 +232,16 @@ watch(
     })
   },
 )
+
+onUnmounted(() => {
+  // Destroy to prevent duplicate registration
+  if (currentCompletionProvider) {
+    currentCompletionProvider?.dispose?.()
+  }
+  if (currentHoverProvider) {
+    currentHoverProvider?.dispose?.()
+  }
+})
 </script>
 
 <style lang="scss">
