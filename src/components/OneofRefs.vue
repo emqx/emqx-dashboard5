@@ -43,6 +43,7 @@
             :symbols="item.symbols"
             :format="item.format"
             :customProps="item.componentProps"
+            :property="item"
           />
         </CustomFormItem>
       </el-col>
