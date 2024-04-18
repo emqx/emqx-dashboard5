@@ -8,7 +8,23 @@
     </div>
     <el-collapse-transition>
       <div v-show="showTest">
-        <div class="test-header">
+        <div class="vertical-align-center">
+          <!-- TODO: -->
+          <label> Test Target </label>
+          <el-radio-group v-model="testTarget" @change="stopTest">
+            <el-radio-button :label="TestTarget.SQL">SQL</el-radio-button>
+            <el-radio-button :label="TestTarget.Rule">Rule</el-radio-button>
+          </el-radio-group>
+        </div>
+        <div class="vertical-align-center" v-if="isTestRule">
+          <!-- TODO: -->
+          <label>Input Data </label>
+          <el-radio-group v-model="inputData" @change="stopTest">
+            <el-radio-button :label="InputData.Mock">Mock</el-radio-button>
+            <el-radio-button :label="InputData.Real">Real</el-radio-button>
+          </el-radio-group>
+        </div>
+        <div class="test-header" v-if="isMockInput">
           <label class="test-label">
             {{ tl('dataSource') }}
             <InfoTooltip :content="tl('dataSourceDesc')" />
@@ -26,7 +42,7 @@
         <el-divider />
         <el-row class="input-output-row" :gutter="26">
           <!-- Input data -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="isMockInput">
             <label class="test-label">
               {{ tl('testData') }}
               <InfoTooltip :content="tl('testDataDesc')" />
@@ -36,7 +52,7 @@
             </el-card>
           </el-col>
           <!-- Output -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="!isTestRule">
             <label class="test-label" shadow="none">
               {{ tl('outputResult') }}
               <InfoTooltip :content="tl('outputResultDesc')" />
@@ -61,53 +77,104 @@
               </div>
             </el-card>
           </el-col>
+          <el-col :span="12" v-else>
+            <label class="test-label" shadow="none">
+              {{ tl('outputResult') }}
+              <InfoTooltip :content="tl('outputResultDesc')" />
+            </label>
+            <el-card class="test-result rule-result">
+              <el-scrollbar :max-height="480">
+                <div class="collapse-wrap">
+                  <el-collapse>
+                    <el-collapse-item v-for="item in logArr" :key="item.time" :name="item.time">
+                      <template #title>
+                        <div
+                          class="log-item-hd vertical-align-center"
+                          :class="[isFailLog(item) && 'is-error']"
+                        >
+                          <p>{{ item.title }}</p>
+                          <p class="tip" v-if="item.subInfo">({{ item.subInfo }})</p>
+                          <el-icon class="icon-status">
+                            <CircleCheckFilled v-if="isSucLog(item)" class="icon-suc" />
+                            <CircleCloseFilled v-if="isFailLog(item)" class="icon-fail" />
+                          </el-icon>
+                        </div>
+                      </template>
+                      <code-view :code="item.rawData" lang="json" />
+                    </el-collapse-item>
+                  </el-collapse>
+                </div>
+              </el-scrollbar>
+            </el-card>
+          </el-col>
         </el-row>
         <el-button
+          v-if="!isTestRule && isMockInput"
           type="primary"
           :loading="testLoading"
           plain
           :icon="CaretRight"
-          @click="submitTest"
+          @click="submitTestSQL"
         >
           {{ tl('testsql') }}
         </el-button>
-        <el-button plain :icon="RefreshRight" @click="resetContext">
+        <template v-if="isTestRule">
+          <el-button v-if="!isTestStarted" type="primary" plain @click="startTest">
+            <!-- TODO: -->
+            Start Test
+          </el-button>
+          <template v-else>
+            <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
+              <!-- TODO: -->
+              Submit Test
+            </el-button>
+            <el-button plain @click="stopTest">
+              <!-- TODO: -->
+              Stop Test
+            </el-button>
+          </template>
+        </template>
+        <el-button v-if="isMockInput" plain :icon="RefreshRight" @click="resetContext">
           {{ t('Base.reset') }}
         </el-button>
       </div>
     </el-collapse-transition>
-    <el-dialog v-model="showSQLDialog" class="sql-dialog" :title="tl('sqlExample')">
-      <p>{{ eventDesc }}</p>
-      <code-view v-if="showSQLDialog" lang="sql" :code="sqlExample" :show-copy-btn="false" />
-      <template #footer>
-        <el-button @click="useSQL(sqlExample)">
-          {{ tl('useSQL') }}
-        </el-button>
-        <el-button @click="copyText(sqlExample)">
-          {{ $t('Base.copy') }}
-        </el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
+import { createRandomString, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
+import useDebugRule from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
+import {
+  CaretRight,
+  CircleCheckFilled,
+  CircleCloseFilled,
+  CopyDocument,
+  RefreshRight,
+} from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import JSONbig from 'json-bigint'
-import { PropType, Ref, defineEmits, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineProps, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
+
+const enum TestTarget {
+  SQL = 'sql',
+  Rule = 'rule',
+}
+const enum InputData {
+  Mock = 'mock',
+  Real = 'real',
+}
 
 const JSONbigNative = JSONbig({ useNativeBigInt: true })
 
@@ -119,9 +186,9 @@ interface TestParams {
 const { tl, t } = useI18nTl('RuleEngine')
 
 const props = defineProps({
-  sql: {
-    type: String,
-    default: '',
+  isEdit: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
   eventList: {
     type: Array as PropType<Array<RuleEvent>>,
@@ -131,39 +198,27 @@ const props = defineProps({
     type: Array as PropType<Array<BridgeItem>>,
     required: true,
   },
-  canSave: {
-    type: Boolean,
-    default: true,
-  },
-  customPayload: {
-    type: String,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
+  ruleData: {
+    type: Object,
+    required: true,
   },
 })
+const ruleSql = computed(() => props.ruleData?.sql || '')
+
+const testTarget = ref<TestTarget>(TestTarget.SQL)
+const isTestRule = computed(() => testTarget.value === TestTarget.Rule)
 
 const testLoading = ref(false)
 const resultData = ref<string>('')
-const emits = defineEmits(['use-sql'])
 
-const showTest = ref(false)
+const showTest = ref(true)
 const testParams: Ref<TestParams> = ref({
   context: {},
   output: '',
 })
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
-const showSQLDialog = ref(false)
-const sqlExample = ref('')
-const eventDesc = ref('')
 const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
-
-const useSQL = (SQLContent: string) => {
-  emits('use-sql', SQLContent)
-  showSQLDialog.value = false
-}
 
 const { copyText } = useCopy()
 
@@ -220,7 +275,7 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   // a warning will be issued indicating that the data type does not match the SQL
   const { eventList = [], ingressBridgeList = [] } = props
   const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
-  const { fromStr } = getKeywordsFromSQL(props.sql)
+  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
   const { context } = getTestColumns(type, value, props.eventList || [])
   setContext(context)
@@ -240,12 +295,9 @@ const handleSQLChanged = (sql: string) => {
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
 }
 
-watch(
-  () => props.sql,
-  (val) => {
-    handleSQLChanged(val)
-  },
-)
+watch(ruleSql, (val) => {
+  handleSQLChanged(val)
+})
 
 watch(dataType, (val) => {
   handleDataSourceChanged({ value: val })
@@ -263,15 +315,18 @@ const getEventTypeInContext = () => {
   return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
 }
 
-const submitTest = async () => {
-  testLoading.value = true
-  const context = {
+const getMockContext = () => {
+  return {
     ...testParams.value.context,
     event_type: getEventTypeInContext(),
   }
+}
+
+const submitTestSQL = async () => {
+  testLoading.value = true
   let res
   try {
-    res = await testsql({ context, sql: props.sql })
+    res = await testsql({ context: getMockContext(), sql: ruleSql.value })
   } catch (error) {
     //
   }
@@ -297,8 +352,8 @@ const setDataType = (type: RuleInputType, firstInput: string) => {
 }
 
 const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList } = props
-  const { fromStr } = getKeywordsFromSQL(sql)
+  const { eventList, ingressBridgeList } = props
+  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   const { context } = getTestColumns(inputType, firstInput, eventList)
@@ -306,7 +361,69 @@ const setDataTypeNContext = () => {
   testParams.value = { context, output: '' }
 }
 
+const inputData = ref<InputData>(InputData.Mock)
+const isMockInput = computed(
+  () => testTarget.value === TestTarget.SQL || inputData.value === InputData.Mock,
+)
+
+const {
+  submitRule,
+  logArr,
+  handleStopTest,
+  isSucLog,
+  isFailLog,
+  startTestRuleUseMockData,
+  submitMockDataForTestRule,
+  startTestRuleUseRealData,
+  setCbAfterPolling,
+} = useDebugRule()
+
+let isRuleCreated = false
+
+const scrollLogToBottom = async (log: string) => {
+  if (log) {
+    await waitAMoment()
+    const lastLogItem = document.querySelector('.rule-result .el-collapse-item:last-child')
+    if (lastLogItem) {
+      lastLogItem.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
+
+const isTestStarted = ref(false)
+const startTest = async () => {
+  isTestStarted.value = true
+  try {
+    const isCreateRule = !props.isEdit && !isRuleCreated
+    await submitRule(props.ruleData, isCreateRule)
+    if (isCreateRule) {
+      isRuleCreated = true
+    }
+    if (isMockInput.value) {
+      await startTestRuleUseMockData(props.ruleData.id)
+    } else {
+      await startTestRuleUseRealData(props.ruleData.id)
+    }
+    setCbAfterPolling(scrollLogToBottom)
+  } catch (error) {
+    //
+  }
+}
+const submitTestRule = async () => {
+  try {
+    await submitMockDataForTestRule(props.ruleData.id, getMockContext())
+  } catch (error) {
+    //
+  }
+}
+const stopTest = () => {
+  handleStopTest()
+  isTestStarted.value = false
+}
+
 setDataTypeNContext()
+
+watch(() => props.ruleData, stopTest)
 </script>
 
 <style lang="scss">
@@ -349,6 +466,41 @@ setDataTypeNContext()
       justify-content: flex-end;
       padding: 8px 0;
     }
+  }
+  .rule-result {
+    .el-card__body {
+      padding: 0;
+    }
+    .collapse-wrap {
+      padding: 12px 20px;
+    }
+  }
+  // FIXME: remove
+  .vertical-align-center {
+    margin: 12px 0;
+    > label {
+      margin-right: 20px;
+    }
+  }
+  .el-collapse-item__header {
+    .tip {
+      margin-left: 8px;
+      opacity: 0.7;
+    }
+  }
+  .log-item-hd {
+    &.is-error {
+      color: var(--el-color-danger);
+      .tip {
+        color: var(--el-color-danger);
+      }
+    }
+  }
+  .icon-status {
+    margin-left: 12px;
+  }
+  .icon-suc {
+    color: var(--el-color-success);
   }
 }
 </style>

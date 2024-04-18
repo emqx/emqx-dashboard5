@@ -70,13 +70,10 @@
     <el-row class="test-row">
       <SQLTest
         ref="testSQLRef"
-        :sql="ruleValue.sql"
-        :ingress-bridge-list="ingressBridgeList"
+        isEdit
+        :rule-data="modelValue"
         :event-list="ruleEventsList"
-        :custom-payload="payloadForTest"
-        @change-loading="handleTestLoadng"
-        @save="saveSQLFromTest"
-        @use-sql="useSQLTemplate"
+        :ingress-bridge-list="ingressBridgeList"
       />
     </el-row>
     <el-row class="oper-row">
