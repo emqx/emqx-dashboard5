@@ -18,6 +18,11 @@ export default () => {
 
   let traceName = ''
 
+  const logArr = ref<Array<Record<string, any>>>([])
+  const emptyLogArr = () => {
+    logArr.value = []
+  }
+
   const { getRuleDataForUpdate } = useRuleForm()
   /**
    * Create or update rule
@@ -55,7 +60,7 @@ export default () => {
         formatter: 'json',
       }
       const { name } = await addTrace(traceData)
-      logArr.value = []
+      emptyLogArr()
       traceName = name
       window.addEventListener('beforeunload', deleteCurrentTrace)
       return Promise.resolve()
@@ -63,8 +68,6 @@ export default () => {
       return Promise.reject(error)
     }
   }
-
-  const logArr = ref<Array<Record<string, any>>>([])
 
   const { getGeneralTypeLabel } = useBridgeTypeValue()
   const funcLabelMap = new Map([
@@ -187,6 +190,7 @@ export default () => {
   return {
     submitRule,
     logArr,
+    emptyLogArr,
     handleStopTest,
     getLogItemTitle,
     isSucLog,

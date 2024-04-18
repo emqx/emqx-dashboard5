@@ -11,7 +11,7 @@
         <div class="vertical-align-center">
           <!-- TODO: -->
           <label> Test Target </label>
-          <el-radio-group v-model="testTarget" @change="stopTest">
+          <el-radio-group v-model="testTarget" @change="handleTestMethodChanged">
             <el-radio-button :label="TestTarget.SQL">SQL</el-radio-button>
             <el-radio-button :label="TestTarget.Rule">Rule</el-radio-button>
           </el-radio-group>
@@ -19,7 +19,7 @@
         <div class="vertical-align-center" v-if="isTestRule">
           <!-- TODO: -->
           <label>Input Data </label>
-          <el-radio-group v-model="inputData" @change="stopTest">
+          <el-radio-group v-model="inputData" @change="handleTestMethodChanged">
             <el-radio-button :label="InputData.Mock">Mock</el-radio-button>
             <el-radio-button :label="InputData.Real">Real</el-radio-button>
           </el-radio-group>
@@ -369,6 +369,7 @@ const isMockInput = computed(
 const {
   submitRule,
   logArr,
+  emptyLogArr,
   handleStopTest,
   isSucLog,
   isFailLog,
@@ -415,6 +416,10 @@ const submitTestRule = async () => {
   } catch (error) {
     //
   }
+}
+const handleTestMethodChanged = (val: TestTarget) => {
+  emptyLogArr()
+  stopTest()
 }
 const stopTest = () => {
   handleStopTest()
