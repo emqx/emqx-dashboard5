@@ -384,7 +384,9 @@ export default (
 
       if (key === 'value' && value.type === 'oneof') {
         value.type = 'string'
+        value.is_template = value.oneOf?.some(({ is_template }) => is_template)
       } else if (key === 'tags' && value.type === 'oneof') {
+        // FIXME:
         value.type = 'object'
         value.componentProps = { type: 'input', supportPlaceholder: ['key', 'value'] }
         value.default = {}
