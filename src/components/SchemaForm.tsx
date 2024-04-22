@@ -308,6 +308,7 @@ const SchemaForm = defineComponent({
       const showPassword = inputType === 'password'
       const clearableValue = typeof clearable === 'boolean' ? clearable : true
       const customProps = property.componentProps || {}
+      const isTemplate = !!property.is_template
 
       const stringInput = (
         <el-input
@@ -334,7 +335,7 @@ const SchemaForm = defineComponent({
                 {...customProps}
               />
             )
-          } else if (format === 'placeholder') {
+          } else if (isTemplate) {
             return (
               <InputWithPlaceholderSelect
                 disabled={isPropertyDisabled}

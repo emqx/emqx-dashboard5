@@ -21,6 +21,7 @@
                 :type="(value.type as any)"
                 :symbols="(value.symbols as string[] | number[] | undefined)"
                 :custom-props="value.componentProps"
+                :property="value"
               />
             </CustomFormItem>
           </template>
@@ -71,6 +72,8 @@
               v-model="item[key]"
               :type="(value.type as any)"
               :symbols="(value.symbols as string[] | number[] | undefined)"
+              :custom-props="value.componentProps"
+              :property="value"
             />
           </CustomFormItem>
         </div>

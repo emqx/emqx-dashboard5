@@ -5,6 +5,7 @@ import { Properties } from '@/types/schemaForm'
 import { PropType, SetupContext, computed, defineComponent } from 'vue'
 import ArrayEditor from './ArrayEditor.vue'
 import CustomInputNumber from './CustomInputNumber.vue'
+import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import KeyAndValueEditor from './KeyAndValueEditor.vue'
 import OneOf from './Oneof.vue'
@@ -34,6 +35,7 @@ export default defineComponent({
     CommonTLSConfig,
     Monaco,
     CustomInputNumber,
+    InputWithPlaceholderSelect,
   },
   props: {
     modelValue: {
@@ -90,6 +92,9 @@ export default defineComponent({
     customProps: {
       type: Object,
     },
+    property: {
+      type: Object,
+    },
   },
   setup(props, ctx: SetupContext) {
     const formItemValue = computed({
@@ -113,6 +118,8 @@ export default defineComponent({
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const showPassword = inputType === 'password'
       const customProps = props.customProps || {}
+      const isTemplate = !!props.property?.is_template
+
       const stringInput = (
         <el-input
           disabled={isDisabled}
@@ -135,8 +142,19 @@ export default defineComponent({
                   v-model={formItemValue.value}
                   lang="sql"
                   disabled={isDisabled}
+                  {...customProps}
                 />
               </div>
+            )
+          } else if (isTemplate) {
+            return (
+              <InputWithPlaceholderSelect
+                v-model={formItemValue.value}
+                disabled={isDisabled}
+                type={inputType}
+                clearable
+                {...customProps}
+              />
             )
           }
           return stringInput

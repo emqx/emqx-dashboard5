@@ -13,7 +13,7 @@ import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { escapeRegExp } from 'lodash'
 import { computed, defineProps, defineEmits, ref } from 'vue'
 
-const props = defineProps<{ modelValue?: string }>()
+const props = defineProps<{ modelValue?: string; [key: string]: any }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
 }>()
