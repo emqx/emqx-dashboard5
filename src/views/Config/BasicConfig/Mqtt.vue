@@ -10,6 +10,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
+        :data-handler="handleSchema"
         @save="handleSave"
       >
       </schema-form>
@@ -21,8 +22,10 @@
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { createOrderObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
+import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
+import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
 import { defineComponent, ref } from 'vue'
@@ -71,6 +74,22 @@ export default defineComponent({
       0,
     )
 
+    const getSchemaText = (key: string) => t(`ConfigSchema.emqx_schema.${key}`)
+    const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
+      const { items } = data?.components?.mqtt?.properties?.client_attrs_init || {}
+      if (items) {
+        const { expression, set_as_attr } = items?.properties || {}
+        if (expression) {
+          expression.label = getSchemaText('client_attrs_init_expression.label')
+          expression.description = getSchemaText('client_attrs_init_expression.desc')
+        }
+        if (set_as_attr) {
+          set_as_attr.label = getSchemaText('client_attrs_init_set_as_attr.label')
+        }
+        items.properties = { set_as_attr, expression }
+      }
+    }
+
     const loadData = async () => {
       try {
         configLoading.value = true
@@ -104,6 +123,7 @@ export default defineComponent({
       state,
       SchemaFormCom,
       configs,
+      handleSchema,
       saveLoading,
       configLoading,
       propsOrderMap,
