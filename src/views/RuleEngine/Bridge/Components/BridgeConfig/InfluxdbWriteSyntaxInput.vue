@@ -31,6 +31,7 @@
           v-model="lineProtocol"
           lang="sql"
           :disabled="readonly || disabled"
+          :completion-provider="completionProvider"
         />
       </div>
     </el-form-item>
@@ -53,6 +54,7 @@ import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
+import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
 
 enum Tab {
   Raw = 'raw',
@@ -77,6 +79,8 @@ const emit = defineEmits(['update:modelValue'])
 const { tl, t } = useI18nTl('RuleEngine')
 const getText = (key: string) => t(`BridgeSchema.influxdb.${key}`)
 const activeTab = ref(Tab.JSON)
+
+const { completionProvider } = useAvailableProviders()
 
 const lineProtocol = computed({
   get() {

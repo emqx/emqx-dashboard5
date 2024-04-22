@@ -7,7 +7,7 @@
         :error="measurementErrorMsg"
         :readonly="readonly"
       >
-        <el-input
+        <InputWithPlaceholderSelect
           v-model="measurement"
           @change="updateModelValue"
           @blur="validateItemWhenBlur('measurement')"
@@ -24,7 +24,7 @@
             </template>
           </InfoTooltip>
         </template>
-        <el-input v-model="timestamp" @change="updateModelValue" />
+        <InputWithPlaceholderSelect v-model="timestamp" @change="updateModelValue" />
       </CustomFormItem>
     </el-col>
     <el-col :span="24">
@@ -51,6 +51,7 @@
           :model-value="tagMap"
           :readonly="readonly"
           :disabled="disabled"
+          :support-placeholder="['key', 'value']"
           @update:model-value="handleTabMapChanged"
         />
       </el-form-item>
@@ -75,6 +76,7 @@ import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useIn
 import useI18nTl from '@/hooks/useI18nTl'
 import { defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
+import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor
 

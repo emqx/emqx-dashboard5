@@ -2,13 +2,18 @@
   <el-table class="influxdb-fields-editor key-and-value-editor shadow-none" :data="displayData">
     <el-table-column :label="keyValueLabel.key">
       <template #default="{ row }">
-        <el-input v-if="!readonly" v-model="row.key" class="key-input" @input="atInputChange" />
+        <InputWithPlaceholderSelect
+          v-if="!readonly"
+          v-model="row.key"
+          class="key-input"
+          @input="atInputChange"
+        />
         <p class="value" v-else>{{ row.key }}</p>
       </template>
     </el-table-column>
     <el-table-column :label="keyValueLabel.value">
       <template #default="{ row }">
-        <el-input v-if="!readonly" v-model="row.value" @input="atInputChange">
+        <InputWithPlaceholderSelect v-if="!readonly" v-model="row.value" @input="atInputChange">
           <template #suffix>
             <div class="suffix-container">
               <template v-if="explicitlySpecifyTypeInValue(row.value)">
@@ -23,7 +28,7 @@
               </template>
             </div>
           </template>
-        </el-input>
+        </InputWithPlaceholderSelect>
         <p class="value" v-else>{{ row.value }}</p>
       </template>
     </el-table-column>
@@ -58,15 +63,16 @@
 </template>
 
 <script lang="ts">
+import BatchSettings from '@/components/BatchSettings.vue'
+import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BatchSettingDatabaseType } from '@/types/enum'
 import { Warning } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
 import { computed, defineComponent, ref, Ref, watch } from 'vue'
-import BatchSettings from '@/components/BatchSettings.vue'
-import { BatchSettingDatabaseType } from '@/types/enum'
 
 type kvRow = {
   key: string
@@ -74,7 +80,7 @@ type kvRow = {
 }
 
 export default defineComponent({
-  components: { Warning, BatchSettings },
+  components: { Warning, BatchSettings, InputWithPlaceholderSelect },
   emits: ['update:modelValue', 'add'],
   props: {
     modelValue: {
