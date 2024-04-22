@@ -4,7 +4,7 @@
     v-model="showDrawer"
     size="600px"
     destroy-on-close
-    custom-class="help"
+    class="help"
   >
     <el-row class="website-links" :gutter="16">
       <el-col :span="6" v-for="{ link, icon, title } in platformList" :key="link">
