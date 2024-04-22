@@ -51,8 +51,30 @@
   <div class="key-and-value-editor" v-else-if="type === 'list'">
     <ul class="key-value-list">
       <li class="key-value-item" v-for="(item, $index) in tableData" :key="$index">
-        <el-input :placeholder="keyValueLabel.key" v-model="item.key" @input="atInputChange" />
-        <el-input :placeholder="keyValueLabel.value" v-model="item.value" @input="atInputChange" />
+        <InputWithPlaceholderSelect
+          v-if="supportPlaceholder?.includes('key')"
+          v-model="item.key"
+          @input="atInputChange"
+          :placeholder="keyValueLabel.key"
+        />
+        <el-input
+          v-else
+          :placeholder="keyValueLabel.key"
+          v-model="item.key"
+          @input="atInputChange"
+        />
+        <InputWithPlaceholderSelect
+          v-if="supportPlaceholder?.includes('value')"
+          v-model="item.value"
+          :placeholder="keyValueLabel.value"
+          @input="atInputChange"
+        />
+        <el-input
+          v-else
+          :placeholder="keyValueLabel.value"
+          v-model="item.value"
+          @input="atInputChange"
+        />
         <el-button class="btn-del" link @click="deleteItem(item)">
           <el-icon :size="16"><Delete /></el-icon>
         </el-button>
@@ -62,12 +84,20 @@
       {{ t('Base.add') }}
     </el-button>
   </div>
-  <el-input
-    v-else
-    class="key-and-value-input"
-    v-model="inputValue"
-    @blur="handleInputValueChange"
-  />
+  <template v-else>
+    <el-input
+      v-if="!supportPlaceholder || supportPlaceholder.length === 0"
+      class="key-and-value-input"
+      v-model="inputValue"
+      @blur="handleInputValueChange"
+    />
+    <InputWithPlaceholderSelect
+      v-else
+      class="key-and-value-input"
+      v-model="inputValue"
+      @blur="handleInputValueChange"
+    />
+  </template>
 </template>
 
 <script lang="ts" setup>
