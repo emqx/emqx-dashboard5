@@ -5,7 +5,20 @@
     :fetch-suggestions="fetchSuggestions"
     @select="handleSelect($event)"
     @keydown.enter="handleEnter"
-  />
+  >
+    <template v-if="$slots.prefix" #prefix>
+      <slot name="prefix"></slot>
+    </template>
+    <template v-if="$slots.suffix" #suffix>
+      <slot name="suffix"></slot>
+    </template>
+    <template v-if="$slots.prepend" #prepend>
+      <slot name="prepend"></slot>
+    </template>
+    <template v-if="$slots.append" #append>
+      <slot name="append"></slot>
+    </template>
+  </el-autocomplete>
 </template>
 
 <script setup lang="ts">

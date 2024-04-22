@@ -58,7 +58,7 @@ export default (
 
   const { completionProvider } = useAvailableProviders()
 
-  const setCompletionProvider = (parm: Property) => {
+  const handleProp = (parm: Property) => {
     const walk = (prop: Property) => {
       if (prop.properties) {
         Object.values(prop.properties).forEach((item) => walk(item))
@@ -69,6 +69,11 @@ export default (
           prop.componentProps = {}
         }
         prop.componentProps.completionProvider = completionProvider
+      } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
+        if (!prop.componentProps) {
+          prop.componentProps = {}
+        }
+        prop.componentProps.supportPlaceholder = ['key', 'value']
       }
     }
 
@@ -92,7 +97,7 @@ export default (
     }
     const paramsProps = components?.parameters
     if (paramsProps) {
-      setCompletionProvider(paramsProps)
+      handleProp(paramsProps)
     }
 
     const rulesRet = addRuleForPassword(rules)
@@ -134,7 +139,6 @@ export default (
       body.format = 'sql'
     }
     if (headers?.default) {
-      headers.componentProps = { supportPlaceholder: ['key', 'value'] }
       headers.default = pick(headers.default, 'content-type')
     }
     return { components, rules }
