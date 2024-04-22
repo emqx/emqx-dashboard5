@@ -382,7 +382,7 @@ export default (
         value.type = 'string'
       } else if (key === 'tags' && value.type === 'oneof') {
         value.type = 'object'
-        value.componentProps = { type: 'input' }
+        value.componentProps = { type: 'input', supportPlaceholder: ['key', 'value'] }
         value.default = {}
       }
     })
