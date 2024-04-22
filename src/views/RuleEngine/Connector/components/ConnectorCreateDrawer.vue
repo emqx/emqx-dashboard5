@@ -3,7 +3,7 @@
     :title="tl('createConnector')"
     v-model="showDrawer"
     :lock-scroll="false"
-    custom-class="connector-create-drawer"
+    class="connector-create-drawer"
     size="60%"
     destroy-on-close
     append-to-body
