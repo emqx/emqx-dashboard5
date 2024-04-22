@@ -1302,6 +1302,17 @@
     "mqtt_shared_subscription_strategy": {
       "label": "共享订阅策略",
       "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者。"
+    },
+    "mqtt_client_attrs_init": {
+      "label": "客户端属性初始化",
+      "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
+    },
+    "client_attrs_init_set_as_attr": {
+      "label": "属性"
+    },
+    "client_attrs_init_expression": {
+      "label": "属性表达式",
+      "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`strlen(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
     }
   },
   "ssl_opts": {
