@@ -51,6 +51,15 @@
               <TestSQLContextForm v-model="testParams.context" />
             </el-card>
           </el-col>
+          <el-col :span="12" v-else>
+            <!-- TODO: -->
+            <label class="test-label">Testing With Real Data </label>
+            <el-card shadow="never" class="test-card with-border tip-card">
+              <!-- TODO: -->
+              <p class="tip" v-if="!isTestStarted">Please click Start Test</p>
+              <p class="tip" v-else>Waiting for real input to trigger rule...</p>
+            </el-card>
+          </el-col>
           <!-- Output -->
           <el-col :span="12" v-if="!isTestRule">
             <label class="test-label" shadow="none">
@@ -467,6 +476,15 @@ onUnmounted(() => {
       display: flex;
       justify-content: flex-end;
       padding: 8px 0;
+    }
+  }
+  .tip-card {
+    height: 490px;
+    .el-card__body {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .rule-result {
