@@ -2,7 +2,7 @@
   <el-drawer
     v-model="showDrawer"
     :title="tl('commonSQLTemplates')"
-    custom-class="SQL-template-drawer"
+    class="SQL-template-drawer"
     :size="660"
   >
     <el-collapse class="collapse-border">

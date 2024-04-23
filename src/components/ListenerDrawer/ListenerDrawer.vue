@@ -6,7 +6,7 @@
     :close-on-click-modal="false"
     size="50%"
     :z-index="1999"
-    custom-class="listener-drawer"
+    class="listener-drawer"
   >
     <el-form
       label-position="top"

@@ -3,7 +3,7 @@
     :title="tl('promSetupHelp')"
     v-model="showDrawer"
     :lock-scroll="false"
-    custom-class="prom-setup-drawer"
+    class="prom-setup-drawer"
     size="50%"
   >
     <p class="description summary">{{ tl('promSetupHelpDesc') }}</p>

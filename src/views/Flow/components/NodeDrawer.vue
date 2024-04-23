@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="showDrawer"
-    :custom-class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''}`"
+    :class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''}`"
     :size="width"
     :title="title"
     :z-index="1999"

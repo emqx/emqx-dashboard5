@@ -4,7 +4,7 @@
     v-model="showDrawer"
     size="350px"
     destroy-on-close
-    custom-class="settings"
+    class="settings"
   >
     <el-form
       class="configuration-form"
