@@ -11,6 +11,7 @@ import moment from 'moment'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import useBridgeTypeValue from '../bridge/useBridgeTypeValue'
+import useFormatDebugLog from './useFormatDebugLog'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 
@@ -79,8 +80,10 @@ export default () => {
       return `${funcLabelMap.get(actionInfo.func) || actionInfo.func}`
     }
   }
+  const { formatLog } = useFormatDebugLog()
   const generateLogArr = (logStr: string): Array<Record<string, any>> => {
     if (logStr) {
+      formatLog(logStr)
       return logStr
         .split('\n')
         .filter(Boolean)
