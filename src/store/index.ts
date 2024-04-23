@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import { getUser, setUser, removeUser } from '@/common/auth'
 import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { UserInfo } from '@/types/common'
+import { TestRuleTarget } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 
 const getLang = () => {
@@ -58,6 +59,11 @@ export default createStore({
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
+    /* rule page start */
+    isTesting: false,
+    savedAfterRuleChange: false,
+    testRuleTarget: TestRuleTarget.SQL,
+    /* rule page end */
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -156,6 +162,17 @@ export default createStore({
       state.clientTableColumns = columns
       localStorage.setItem('clientTableColumns', JSON.stringify(columns))
     },
+    /* rule page start */
+    SET_IS_TESTING(state, isTesting) {
+      state.isTesting = isTesting
+    },
+    SET_SAVED_AFTER_RULE_CHANGE(state, savedAfterRuleChange) {
+      state.savedAfterRuleChange = savedAfterRuleChange
+    },
+    SET_TEST_RULE_TARGET(state, testRuleTarget) {
+      state.testRuleTarget = testRuleTarget
+    },
+    /* rule page end */
   },
   getters: {
     edition: (state) => {
@@ -171,6 +188,13 @@ export default createStore({
       return (key: string) => {
         return state.schemaStoreMap.get(key)
       }
+    },
+    isRuleSaveButtonDisabled(state) {
+      return (
+        state.savedAfterRuleChange &&
+        state.isTesting &&
+        state.testRuleTarget === TestRuleTarget.Rule
+      )
     },
   },
 })

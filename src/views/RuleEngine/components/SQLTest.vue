@@ -4,16 +4,16 @@
       <label>{{ tl('test') }}</label>
       <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
-      <el-switch v-model="showTest"></el-switch>
+      <el-switch v-model="isTesting" />
     </div>
     <el-collapse-transition>
-      <div v-show="showTest">
+      <div v-show="isTesting">
         <div class="vertical-align-center">
           <!-- TODO: -->
           <label> Test Target </label>
           <el-radio-group v-model="testTarget" @change="handleTestMethodChanged">
-            <el-radio-button :label="TestTarget.SQL">SQL</el-radio-button>
-            <el-radio-button :label="TestTarget.Rule">Rule</el-radio-button>
+            <el-radio-button :label="TestRuleTarget.SQL">SQL</el-radio-button>
+            <el-radio-button :label="TestRuleTarget.Rule">Rule</el-radio-button>
           </el-radio-group>
         </div>
         <div class="vertical-align-center" v-if="isTestRule">
@@ -119,10 +119,13 @@
           {{ tl('testsql') }}
         </el-button>
         <template v-if="isTestRule">
-          <el-button v-if="!isTestStarted" type="primary" plain @click="startTest">
-            <!-- TODO: -->
-            Start Test
-          </el-button>
+          <template v-if="!isTestStarted">
+            <el-button type="primary" plain @click="startTest" :disabled="!savedAfterRuleChange">
+              <!-- TODO: -->
+              Start Test
+            </el-button>
+            <span v-if="!savedAfterRuleChange">Please save first</span>
+          </template>
           <template v-else>
             <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
               <!-- TODO: -->
@@ -152,7 +155,7 @@ import useDebugRule from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleInputType } from '@/types/enum'
+import { RuleInputType, TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import {
   CaretRight,
@@ -163,14 +166,11 @@ import {
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import JSONbig from 'json-bigint'
-import { PropType, Ref, computed, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 
-const enum TestTarget {
-  SQL = 'sql',
-  Rule = 'rule',
-}
 const enum InputData {
   Mock = 'mock',
   Real = 'real',
@@ -203,15 +203,16 @@ const props = defineProps({
     required: true,
   },
 })
+
 const ruleSql = computed(() => props.ruleData?.sql || '')
 
-const testTarget = ref<TestTarget>(TestTarget.SQL)
-const isTestRule = computed(() => testTarget.value === TestTarget.Rule)
+const isTestRule = computed(() => testTarget.value === TestRuleTarget.Rule)
+const { isTesting, savedAfterRuleChange, testTarget } = useStatusController()
 
 const testLoading = ref(false)
 const resultData = ref<string>('')
 
-const showTest = ref(true)
+// const showTest = ref(true)
 const testParams: Ref<TestParams> = ref({
   context: {},
   output: '',
@@ -363,11 +364,10 @@ const setDataTypeNContext = () => {
 
 const inputData = ref<InputData>(InputData.Mock)
 const isMockInput = computed(
-  () => testTarget.value === TestTarget.SQL || inputData.value === InputData.Mock,
+  () => testTarget.value === TestRuleTarget.SQL || inputData.value === InputData.Mock,
 )
 
 const {
-  submitRule,
   logArr,
   emptyLogArr,
   handleStopTest,
@@ -378,8 +378,6 @@ const {
   startTestRuleUseRealData,
   setCbAfterPolling,
 } = useDebugRule()
-
-let isRuleCreated = false
 
 const scrollLogToBottom = async (log: string) => {
   if (log) {
@@ -395,11 +393,6 @@ const isTestStarted = ref(false)
 const startTest = async () => {
   isTestStarted.value = true
   try {
-    const isCreateRule = !props.isEdit && !isRuleCreated
-    await submitRule(props.ruleData, isCreateRule)
-    if (isCreateRule) {
-      isRuleCreated = true
-    }
     if (isMockInput.value) {
       await startTestRuleUseMockData(props.ruleData.id)
     } else {
@@ -417,7 +410,7 @@ const submitTestRule = async () => {
     //
   }
 }
-const handleTestMethodChanged = (val: TestTarget) => {
+const handleTestMethodChanged = (val: TestRuleTarget) => {
   emptyLogArr()
   stopTest()
 }
@@ -429,6 +422,10 @@ const stopTest = () => {
 setDataTypeNContext()
 
 watch(() => props.ruleData, stopTest)
+
+onUnmounted(() => {
+  isTesting.value = false
+})
 </script>
 
 <style lang="scss">

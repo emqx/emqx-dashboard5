@@ -87,6 +87,7 @@
 <script lang="ts" setup>
 import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
@@ -115,12 +116,15 @@ const ruleInfo: Ref<RuleItem> = ref({} as RuleItem)
 let rawRuleInfo: undefined | RuleItem = undefined
 const route = useRoute()
 const router = useRouter()
+
 const { t } = useI18n()
 const id = route.params.id as string
 const iKey = ref(0)
 const infoLoading = ref(false)
 const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
+
+const { isTesting, updateSavedRule } = useStatusController(ruleInfo)
 
 const formCom = ref()
 
@@ -142,6 +146,7 @@ const loadRuleDetail = async () => {
   try {
     ruleInfo.value = await getRuleInfo(id)
     rawRuleInfo = cloneDeep(ruleInfo.value)
+    updateSavedRule(rawRuleInfo)
     ++iKey.value
   } catch (error) {
     console.error(error)
@@ -202,7 +207,11 @@ const submitUpdateRules = async () => {
     await updateRules(id, getRuleDataForUpdate(ruleInfo.value))
     ElMessage.success(t('Base.updateSuccess'))
     rawRuleInfo = ruleInfo.value
-    router.push({ name: 'rule' })
+    if (!isTesting.value) {
+      router.push({ name: 'rule' })
+    } else {
+      updateSavedRule(ruleInfo.value)
+    }
   } catch (error) {
     console.error(error)
   } finally {

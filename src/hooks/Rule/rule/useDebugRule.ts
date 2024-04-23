@@ -1,14 +1,15 @@
 import { addTrace, deleteTrace, getTraceLog } from '@/api/diagnose'
-import { applyRuleTest, createRules, updateRules } from '@/api/ruleengine'
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
+import { applyRuleTest } from '@/api/ruleengine'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
 import { RuleOutput, TraceEncodeType } from '@/types/enum'
+import { BasicRule, RuleItem } from '@/types/rule'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { isFunction, startCase } from 'lodash'
+import { cloneDeep, debounce, isEqual, isFunction, startCase } from 'lodash'
 import moment from 'moment'
-import { onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import useBridgeTypeValue from '../bridge/useBridgeTypeValue'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
@@ -21,14 +22,6 @@ export default () => {
   const logArr = ref<Array<Record<string, any>>>([])
   const emptyLogArr = () => {
     logArr.value = []
-  }
-
-  const { getRuleDataForUpdate } = useRuleForm()
-  /**
-   * Create or update rule
-   */
-  const submitRule = (rule: any, isCreate: boolean) => {
-    return isCreate ? createRules(rule) : updateRules(rule.id, getRuleDataForUpdate(rule))
   }
 
   const deleteCurrentTrace = async () => {
@@ -188,7 +181,6 @@ export default () => {
   })
 
   return {
-    submitRule,
     logArr,
     emptyLogArr,
     handleStopTest,
@@ -199,5 +191,63 @@ export default () => {
     submitMockDataForTestRule,
     startTestRuleUseRealData,
     setCbAfterPolling,
+  }
+}
+
+export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
+  const { state, commit, getters } = useStore()
+  const isTesting = computed({
+    get() {
+      return state.isTesting
+    },
+    set(val) {
+      commit('SET_IS_TESTING', val)
+    },
+  })
+  const savedAfterRuleChange = computed({
+    get() {
+      return state.savedAfterRuleChange
+    },
+    set(val) {
+      commit('SET_SAVED_AFTER_RULE_CHANGE', val)
+    },
+  })
+  const testTarget = computed({
+    get() {
+      return state.testRuleTarget
+    },
+    set(val) {
+      commit('SET_TEST_RULE_TARGET', val)
+    },
+  })
+
+  const isRuleSaveButtonDisabled = computed(() => getters.isRuleSaveButtonDisabled)
+
+  const lastSavedRule = ref<BasicRule | RuleItem>((rule && rule.value) || undefined)
+  const updateSavedRule = (savedRule: BasicRule | RuleItem) => {
+    savedAfterRuleChange.value = isEqual(savedRule, rule.value)
+    lastSavedRule.value = cloneDeep(savedRule)
+  }
+
+  const compareRuleAndUpdateSavedStatus = () => {
+    savedAfterRuleChange.value = isEqual(lastSavedRule.value, rule.value)
+  }
+
+  const handleRuleChanged = debounce(compareRuleAndUpdateSavedStatus, 300)
+
+  if (rule) {
+    watch(rule, handleRuleChanged)
+  }
+
+  onMounted(() => {
+    isTesting.value = false
+  })
+
+  return {
+    isTesting,
+    savedAfterRuleChange,
+    testTarget,
+    isRuleSaveButtonDisabled,
+    updateSavedRule,
   }
 }
