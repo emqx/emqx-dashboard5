@@ -69,6 +69,11 @@ export enum RuleSQLKeyword {
   Incase = 'incase',
 }
 
+export const enum TestRuleTarget {
+  SQL = 'sql',
+  Rule = 'rule',
+}
+
 export enum FilterLogicalOperator {
   And = 'and',
   Or = 'or',
