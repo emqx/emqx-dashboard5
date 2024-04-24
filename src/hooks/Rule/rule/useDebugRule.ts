@@ -218,14 +218,16 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
 
   const isRuleSaveButtonDisabled = computed(() => getters.isRuleSaveButtonDisabled)
 
-  const lastSavedRule = ref<BasicRule | RuleItem>((rule && rule.value) || undefined)
+  const lastSavedRule: Ref<BasicRule | RuleItem | undefined> = ref(
+    (rule && rule.value) || undefined,
+  )
   const updateSavedRule = (savedRule: BasicRule | RuleItem) => {
-    savedAfterRuleChange.value = isEqual(savedRule, rule.value)
+    savedAfterRuleChange.value = isEqual(savedRule, rule?.value)
     lastSavedRule.value = cloneDeep(savedRule)
   }
 
   const compareRuleAndUpdateSavedStatus = () => {
-    savedAfterRuleChange.value = isEqual(lastSavedRule.value, rule.value)
+    savedAfterRuleChange.value = isEqual(lastSavedRule.value, rule?.value)
   }
 
   const handleRuleChanged = debounce(compareRuleAndUpdateSavedStatus, 300)

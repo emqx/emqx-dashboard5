@@ -949,4 +949,8 @@ export default {
     zh: '过去一分钟内规则匹配速度的趋势',
     en: 'Trend of rule matching speed in the last minute',
   },
+  ruleExec: {
+    zh: '规则执行',
+    en: 'Rule Execution',
+  },
 }

@@ -8,7 +8,7 @@
     </div>
     <el-collapse-transition>
       <div v-show="isTesting">
-        <div class="vertical-align-center">
+        <div class="vertical-align-center radio-group-container">
           <!-- TODO: -->
           <label> Test Target </label>
           <el-radio-group v-model="testTarget" @change="handleTestMethodChanged">
@@ -16,7 +16,7 @@
             <el-radio-button :label="TestRuleTarget.Rule">Rule</el-radio-button>
           </el-radio-group>
         </div>
-        <div class="vertical-align-center" v-if="isTestRule">
+        <div class="vertical-align-center radio-group-container" v-if="isTestRule">
           <!-- TODO: -->
           <label>Input Data </label>
           <el-radio-group v-model="inputData" @change="handleTestMethodChanged">
@@ -94,49 +94,7 @@
             <el-card class="test-result rule-result">
               <el-scrollbar :max-height="480">
                 <div class="collapse-wrap">
-                  <el-collapse>
-                    <el-collapse-item
-                      v-for="(item, timestamp) in logData"
-                      :key="timestamp"
-                      :name="timestamp"
-                      class="execution-item"
-                    >
-                      <template #title>
-                        <div class="space-between">
-                          <div class="execution-item-base">
-                            <el-icon class="icon-status">
-                              <CircleCheckFilled
-                                v-if="item.result === LogResult.OK"
-                                class="icon-suc"
-                              />
-                              <CircleCloseFilled v-else class="icon-fail" />
-                            </el-icon>
-                            <p></p>
-                          </div>
-                          <div class="execution-item-time">{{ dateFormat(Number(timestamp)) }}</div>
-                        </div>
-                      </template>
-                      <el-collapse>
-                        <el-collapse-item
-                          v-for="(targetLogData, logTarget) in item.info"
-                          :key="logTarget"
-                          :name="logTarget"
-                        >
-                          <template #title>
-                            <el-icon class="icon-status">
-                              <CircleCheckFilled
-                                v-if="targetLogData.result === LogResult.OK"
-                                class="icon-suc"
-                              />
-                              <CircleCloseFilled v-else class="icon-fail" />
-                            </el-icon>
-                            {{ logTarget }}
-                          </template>
-                          <pre>{{ targetLogData.info }}</pre>
-                        </el-collapse-item>
-                      </el-collapse>
-                    </el-collapse-item>
-                  </el-collapse>
+                  <LogDataDisplay :log-data="logData" :rule-id="ruleData.id" />
                 </div>
               </el-scrollbar>
             </el-card>
@@ -181,29 +139,22 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, dateFormat, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
-import CodeView from '@/components/CodeView.vue'
+import { createRandomString, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import useDebugRule from '@/hooks/Rule/rule/useDebugRule'
+import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleInputType, TestRuleTarget, LogResult } from '@/types/enum'
+import { RuleInputType, TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import {
-  CaretRight,
-  CircleCheckFilled,
-  CircleCloseFilled,
-  CopyDocument,
-  RefreshRight,
-} from '@element-plus/icons-vue'
+import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import JSONbig from 'json-bigint'
 import { PropType, Ref, computed, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
+import LogDataDisplay from './LogDataDisplay.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 
 const enum InputData {
   Mock = 'mock',
@@ -512,16 +463,8 @@ onUnmounted(() => {
       align-items: center;
     }
   }
-  .rule-result {
-    .el-card__body {
-      padding: 0;
-    }
-    .collapse-wrap {
-      padding: 12px 20px;
-    }
-  }
   // FIXME: remove
-  .vertical-align-center {
+  .radio-group-container {
     margin: 12px 0;
     > label {
       margin-right: 20px;
@@ -532,23 +475,6 @@ onUnmounted(() => {
       margin-left: 8px;
       opacity: 0.7;
     }
-  }
-  .log-item-hd {
-    &.is-error {
-      color: var(--el-color-danger);
-      .tip {
-        color: var(--el-color-danger);
-      }
-    }
-  }
-  .icon-status {
-    margin-left: 12px;
-  }
-  .icon-suc {
-    color: var(--el-color-success);
-  }
-  .icon-fail {
-    color: var(--el-color-danger);
   }
 }
 </style>
