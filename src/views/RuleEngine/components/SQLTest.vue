@@ -95,21 +95,36 @@
               <el-scrollbar :max-height="480">
                 <div class="collapse-wrap">
                   <el-collapse>
-                    <el-collapse-item v-for="item in logArr" :key="item.time" :name="item.time">
+                    <el-collapse-item
+                      v-for="(item, timestamp) in logData"
+                      :key="timestamp"
+                      :name="timestamp"
+                      class="execution-item"
+                    >
                       <template #title>
-                        <div
-                          class="log-item-hd vertical-align-center"
-                          :class="[isFailLog(item) && 'is-error']"
-                        >
-                          <p>{{ item.title }}</p>
-                          <p class="tip" v-if="item.subInfo">({{ item.subInfo }})</p>
-                          <el-icon class="icon-status">
-                            <CircleCheckFilled v-if="isSucLog(item)" class="icon-suc" />
-                            <CircleCloseFilled v-if="isFailLog(item)" class="icon-fail" />
-                          </el-icon>
+                        <div class="space-between">
+                          <div class="execution-item-base">
+                            <el-icon class="icon-status">
+                              <CircleCheckFilled class="icon-suc" />
+                              <CircleCloseFilled class="icon-fail" />
+                            </el-icon>
+                            <p></p>
+                          </div>
+                          <div class="execution-item-time">{{ dateFormat(Number(timestamp)) }}</div>
                         </div>
                       </template>
-                      <code-view :code="item.rawData" lang="json" />
+                      <el-collapse>
+                        <el-collapse-item
+                          v-for="(logArr, logTarget) in item"
+                          :key="logTarget"
+                          :name="logTarget"
+                        >
+                          <template #title>
+                            {{ logTarget }}
+                          </template>
+                          <pre>{{ logArr }}</pre>
+                        </el-collapse-item>
+                      </el-collapse>
                     </el-collapse-item>
                   </el-collapse>
                 </div>
@@ -156,7 +171,7 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
+import { createRandomString, dateFormat, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -377,7 +392,7 @@ const isMockInput = computed(
 )
 
 const {
-  logArr,
+  logData,
   emptyLogArr,
   handleStopTest,
   isSucLog,

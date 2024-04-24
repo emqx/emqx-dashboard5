@@ -51,6 +51,7 @@ const ruleValue = ref(createRawRuleForm())
 let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
+let isRuleCreated = false
 const { isTesting, savedAfterRuleChange, updateSavedRule } = useStatusController(ruleValue)
 savedAfterRuleChange.value = false
 
@@ -75,11 +76,12 @@ const submitCreateRule = async () => {
   submitLoading.value = true
 
   try {
-    ;(await savedAfterRuleChange.value)
+    await (isRuleCreated
       ? updateRules(ruleValue.value.id, { ...ruleValue.value })
-      : createRules({ ...ruleValue.value })
+      : createRules({ ...ruleValue.value }))
     rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))
+    isRuleCreated = true
     if (!isTesting.value) {
       router.push({ name: 'rule' })
     } else {

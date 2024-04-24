@@ -5,12 +5,12 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
 import { RuleOutput, TraceEncodeType } from '@/types/enum'
 import { BasicRule, RuleItem } from '@/types/rule'
-import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { cloneDeep, debounce, isEqual, isFunction, startCase } from 'lodash'
+import { cloneDeep, debounce, isEqual, isFunction, merge, startCase } from 'lodash'
 import moment from 'moment'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import useBridgeTypeValue from '../bridge/useBridgeTypeValue'
+import type { FormattedLog } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
@@ -20,9 +20,9 @@ export default () => {
 
   let traceName = ''
 
-  const logArr = ref<Array<Record<string, any>>>([])
-  const emptyLogArr = () => {
-    logArr.value = []
+  const logData = ref<FormattedLog>({})
+  const emptyLogData = () => {
+    logData.value = {}
   }
 
   const deleteCurrentTrace = async () => {
@@ -54,7 +54,7 @@ export default () => {
         formatter: 'json',
       }
       const { name } = await addTrace(traceData)
-      emptyLogArr()
+      emptyLogData()
       traceName = name
       window.addEventListener('beforeunload', deleteCurrentTrace)
       return Promise.resolve()
@@ -81,24 +81,6 @@ export default () => {
     }
   }
   const { formatLog } = useFormatDebugLog()
-  const generateLogArr = (logStr: string): Array<Record<string, any>> => {
-    if (logStr) {
-      formatLog(logStr)
-      return logStr
-        .split('\n')
-        .filter(Boolean)
-        .map((item) => {
-          const obj = JSON.parse(item)
-          return {
-            ...obj,
-            title: getLogItemTitle(obj),
-            subInfo: getLogSubInfo(obj),
-            rawData: stringifyObjSafely(obj, 2),
-          }
-        })
-    }
-    return []
-  }
   const isSucLog = (item: Record<string, any>) => {
     return item?.meta?.result === 'ok'
   }
@@ -118,8 +100,8 @@ export default () => {
         bytes: BYTE_PER_PAGE,
         position: logLastPosition,
       })
-      const arr = generateLogArr(items)
-      logArr.value.push(...arr)
+      const data = formatLog(items)
+      logData.value = merge(logData.value, data)
       logLastPosition = meta.position
       if (isFunction(cbAfterPolling)) {
         cbAfterPolling(items)
@@ -184,8 +166,8 @@ export default () => {
   })
 
   return {
-    logArr,
-    emptyLogArr,
+    logData: logData,
+    emptyLogArr: emptyLogData,
     handleStopTest,
     getLogItemTitle,
     isSucLog,
