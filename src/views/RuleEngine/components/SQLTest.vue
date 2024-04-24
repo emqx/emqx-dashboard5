@@ -105,8 +105,11 @@
                         <div class="space-between">
                           <div class="execution-item-base">
                             <el-icon class="icon-status">
-                              <CircleCheckFilled class="icon-suc" />
-                              <CircleCloseFilled class="icon-fail" />
+                              <CircleCheckFilled
+                                v-if="item.result === LogResult.OK"
+                                class="icon-suc"
+                              />
+                              <CircleCloseFilled v-else class="icon-fail" />
                             </el-icon>
                             <p></p>
                           </div>
@@ -115,14 +118,21 @@
                       </template>
                       <el-collapse>
                         <el-collapse-item
-                          v-for="(logArr, logTarget) in item"
+                          v-for="(targetLogData, logTarget) in item.info"
                           :key="logTarget"
                           :name="logTarget"
                         >
                           <template #title>
+                            <el-icon class="icon-status">
+                              <CircleCheckFilled
+                                v-if="targetLogData.result === LogResult.OK"
+                                class="icon-suc"
+                              />
+                              <CircleCloseFilled v-else class="icon-fail" />
+                            </el-icon>
                             {{ logTarget }}
                           </template>
-                          <pre>{{ logArr }}</pre>
+                          <pre>{{ targetLogData.info }}</pre>
                         </el-collapse-item>
                       </el-collapse>
                     </el-collapse-item>
@@ -179,7 +189,7 @@ import useDebugRule from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleInputType, TestRuleTarget } from '@/types/enum'
+import { RuleInputType, TestRuleTarget, LogResult } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import {
   CaretRight,
@@ -536,6 +546,9 @@ onUnmounted(() => {
   }
   .icon-suc {
     color: var(--el-color-success);
+  }
+  .icon-fail {
+    color: var(--el-color-danger);
   }
 }
 </style>
