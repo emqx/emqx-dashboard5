@@ -3,9 +3,12 @@ import { LogResult, RuleOutput } from '@/types/enum'
 import { groupBy } from 'lodash'
 
 /**
- * log will have an error, but it is thrown because of the setting
+ * Some Special Log Msg
  */
-const SPECIAL_ERROR_MSG = 'action_stopped_after_template_rendering'
+const enum LogMsg {
+  RuleActivated = 'rule_activated',
+  StopRendering = 'action_stopped_after_template_rendering',
+}
 
 export interface LogItem {
   time: string
@@ -20,6 +23,7 @@ export interface FormattedLog {
    */
   [key: string]: {
     result: LogResult
+    trigger: { event?: string; topic?: string }
     info: {
       /**
        * action id or rule id
@@ -39,7 +43,7 @@ type TargetLogMap = FormattedLog[string]['info']
  */
 const detectLogResult = (log: LogItem): boolean => {
   if (log.meta.reason) {
-    return log.msg !== SPECIAL_ERROR_MSG ? false : true
+    return log.msg !== LogMsg.StopRendering ? false : true
   }
   return true
 }
@@ -52,6 +56,15 @@ export default () => {
       .split('\n')
       .filter(Boolean)
       .map((item) => JSON.parse(item))
+
+  const findTrigger = (totalLogArr: Array<LogItem>) => {
+    const log = totalLogArr.find((item) => item.msg === LogMsg.RuleActivated)
+    if (log) {
+      const { event, topic } = log.meta?.input || {}
+      return { event, topic }
+    }
+    return {}
+  }
 
   const groupLogByTarget = (logArr: Array<LogItem>) => {
     return groupBy(logArr, (item) => {
@@ -76,8 +89,6 @@ export default () => {
       return item.meta.rule_trigger_time || item.meta.rule_trigger_times?.[0]
     })
     Object.entries(timeGroupedMap).forEach(([key, logArr]) => {
-      const executionResult = detectLogArrResult(logArr)
-
       const targetGroupedLogItemInfo = groupLogByTarget(logArr)
       const targetLogMap = Object.keys(targetGroupedLogItemInfo).reduce(
         (obj: TargetLogMap, key) => {
@@ -90,7 +101,8 @@ export default () => {
         {},
       )
       ret[key] = {
-        result: executionResult,
+        result: detectLogArrResult(logArr),
+        trigger: findTrigger(logArr),
         info: targetLogMap,
       }
     })

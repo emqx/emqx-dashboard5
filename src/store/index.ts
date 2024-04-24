@@ -60,9 +60,13 @@ export default createStore({
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
     /* rule page start */
-    isTesting: false,
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    isTesting: true,
     savedAfterRuleChange: false,
-    testRuleTarget: TestRuleTarget.SQL,
+    testRuleTarget: TestRuleTarget.Rule,
     /* rule page end */
   },
   actions: {
