@@ -327,3 +327,8 @@ export const enum LDAPAuthMethod {
   Bind = 'bind',
   Hash = 'hash',
 }
+
+export const enum LogResult {
+  OK = 'ok',
+  Error = 'error',
+}

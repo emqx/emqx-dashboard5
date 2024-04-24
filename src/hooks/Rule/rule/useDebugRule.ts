@@ -5,12 +5,13 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
 import { RuleOutput, TraceEncodeType } from '@/types/enum'
 import { BasicRule, RuleItem } from '@/types/rule'
-import { cloneDeep, debounce, isEqual, isFunction, merge, startCase } from 'lodash'
+import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
+import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import useBridgeTypeValue from '../bridge/useBridgeTypeValue'
-import type { FormattedLog } from './useFormatDebugLog'
+import type { FormattedLog, LogItem } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
@@ -93,6 +94,15 @@ export default () => {
     cbAfterPolling = cb
   }
 
+  const mergeCustomize = (arr1: Array<LogItem>, arr2: Array<LogItem>) => {
+    if (isArray(arr1) && isArray(arr2)) {
+      return arr1.concat(arr2)
+    }
+  }
+  const addNewLogToCurrentLog = (currentLog: FormattedLog, newLog: FormattedLog) => {
+    return mergeWith(currentLog, newLog, mergeCustomize)
+  }
+
   let logLastPosition = 0
   const getNewestLog = async () => {
     try {
@@ -101,7 +111,7 @@ export default () => {
         position: logLastPosition,
       })
       const data = formatLog(items)
-      logData.value = merge(logData.value, data)
+      logData.value = addNewLogToCurrentLog(logData.value, data)
       logLastPosition = meta.position
       if (isFunction(cbAfterPolling)) {
         cbAfterPolling(items)
