@@ -953,4 +953,48 @@ export default {
     zh: '规则执行',
     en: 'Rule Execution',
   },
+  testTarget: {
+    zh: '测试目标',
+    en: 'Test Target',
+  },
+  inputData: {
+    zh: '输入数据',
+    en: 'Input Data',
+  },
+  mockData: {
+    zh: '模拟数据',
+    en: 'Mock Data',
+  },
+  realData: {
+    zh: '真实数据',
+    en: 'Real Data',
+  },
+  testingWithRealData: {
+    zh: '使用真实数据测试',
+    en: 'Testing with Real Data',
+  },
+  pleaseClickStartTest: {
+    zh: '请点击开始测试',
+    en: 'Please click Start Test',
+  },
+  waitingRealData: {
+    zh: '等待真实输入触发规则...',
+    en: 'Waiting for real input to trigger rule...',
+  },
+  startTest: {
+    zh: '开始测试',
+    en: 'Start Test',
+  },
+  stopTest: {
+    zh: '停止测试',
+    en: 'Stop Test',
+  },
+  submitTest: {
+    zh: '提交测试',
+    en: 'Submit Test',
+  },
+  pleaseSaveFirst: {
+    zh: '请先保存规则',
+    en: 'Please save first',
+  },
 }

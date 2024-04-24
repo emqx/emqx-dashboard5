@@ -9,19 +9,17 @@
     <el-collapse-transition>
       <div v-show="isTesting">
         <div class="vertical-align-center radio-group-container">
-          <!-- TODO: -->
-          <label> Test Target </label>
+          <label> {{ tl('testTarget') }} </label>
           <el-radio-group v-model="testTarget" @change="handleTestMethodChanged">
             <el-radio-button :label="TestRuleTarget.SQL">SQL</el-radio-button>
-            <el-radio-button :label="TestRuleTarget.Rule">Rule</el-radio-button>
+            <el-radio-button :label="TestRuleTarget.Rule">{{ tl('rule') }}</el-radio-button>
           </el-radio-group>
         </div>
         <div class="vertical-align-center radio-group-container" v-if="isTestRule">
-          <!-- TODO: -->
-          <label>Input Data </label>
+          <label>{{ tl('inputData') }}</label>
           <el-radio-group v-model="inputData" @change="handleTestMethodChanged">
-            <el-radio-button :label="InputData.Mock">Mock</el-radio-button>
-            <el-radio-button :label="InputData.Real">Real</el-radio-button>
+            <el-radio-button :label="InputData.Mock">{{ tl('mockData') }}</el-radio-button>
+            <el-radio-button :label="InputData.Real">{{ tl('realData') }}</el-radio-button>
           </el-radio-group>
         </div>
         <div class="test-header" v-if="isMockInput">
@@ -52,12 +50,10 @@
             </el-card>
           </el-col>
           <el-col :span="12" v-else>
-            <!-- TODO: -->
-            <label class="test-label">Testing With Real Data </label>
+            <label class="test-label">{{ tl('testingWithRealData') }}</label>
             <el-card shadow="never" class="test-card with-border tip-card">
-              <!-- TODO: -->
-              <p class="tip" v-if="!isTestStarted">Please click Start Test</p>
-              <p class="tip" v-else>Waiting for real input to trigger rule...</p>
+              <p class="tip" v-if="!isTestStarted">{{ tl('pleaseClickStartTest') }}</p>
+              <p class="tip" v-else>{{ tl('waitingRealData') }}</p>
             </el-card>
           </el-col>
           <!-- Output -->
@@ -100,38 +96,45 @@
             </el-card>
           </el-col>
         </el-row>
-        <el-button
-          v-if="!isTestRule && isMockInput"
-          type="primary"
-          :loading="testLoading"
-          plain
-          :icon="CaretRight"
-          @click="submitTestSQL"
-        >
-          {{ tl('testsql') }}
-        </el-button>
-        <template v-if="isTestRule">
-          <template v-if="!isTestStarted">
-            <el-button type="primary" plain @click="startTest" :disabled="!savedAfterRuleChange">
-              <!-- TODO: -->
-              Start Test
-            </el-button>
-            <span v-if="!savedAfterRuleChange">Please save first</span>
+        <div class="buttons-bar">
+          <el-button
+            v-if="!isTestRule && isMockInput"
+            type="primary"
+            :loading="testLoading"
+            plain
+            :icon="CaretRight"
+            @click="submitTestSQL"
+          >
+            {{ tl('testsql') }}
+          </el-button>
+          <template v-if="isTestRule">
+            <template v-if="!isTestStarted">
+              <div class="btn-start-container">
+                <el-button
+                  type="primary"
+                  plain
+                  @click="startTest"
+                  :icon="CaretRight"
+                  :disabled="!savedAfterRuleChange"
+                >
+                  {{ tl('startTest') }}
+                </el-button>
+                <p class="tip" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
+              </div>
+            </template>
+            <template v-else>
+              <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
+                {{ tl('submitTest') }}
+              </el-button>
+              <el-button plain @click="stopTest">
+                {{ tl('stopTest') }}
+              </el-button>
+            </template>
           </template>
-          <template v-else>
-            <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
-              <!-- TODO: -->
-              Submit Test
-            </el-button>
-            <el-button plain @click="stopTest">
-              <!-- TODO: -->
-              Stop Test
-            </el-button>
-          </template>
-        </template>
-        <el-button v-if="isMockInput" plain :icon="RefreshRight" @click="resetContext">
-          {{ t('Base.reset') }}
-        </el-button>
+          <el-button v-if="isMockInput" plain :icon="RefreshRight" @click="resetContext">
+            {{ t('Base.reset') }}
+          </el-button>
+        </div>
       </div>
     </el-collapse-transition>
   </div>
@@ -356,8 +359,6 @@ const {
   logData,
   emptyLogArr,
   handleStopTest,
-  isSucLog,
-  isFailLog,
   startTestRuleUseMockData,
   submitMockDataForTestRule,
   startTestRuleUseRealData,
@@ -470,11 +471,22 @@ onUnmounted(() => {
       margin-right: 20px;
     }
   }
-  .el-collapse-item__header {
-    .tip {
-      margin-left: 8px;
-      opacity: 0.7;
+  .buttons-bar {
+    display: flex;
+    align-items: start;
+    > div {
+      margin-right: 12px;
     }
+  }
+  .tip {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    opacity: 0.7;
+  }
+  .btn-start-container {
+    position: relative;
+    padding-bottom: 20px;
   }
 }
 </style>
