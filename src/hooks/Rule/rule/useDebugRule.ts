@@ -64,30 +64,10 @@ export default () => {
     }
   }
 
-  const { getGeneralTypeLabel } = useBridgeTypeValue()
-  const funcLabelMap = new Map([
-    [RuleOutput.Console, tl('consoleOutput')],
-    [RuleOutput.Republish, tl('republish')],
-  ])
   const getLogItemTitle = (item: Record<string, any>) => {
     return startCase(item.msg)
   }
-  const getLogSubInfo = (item: Record<string, any>) => {
-    const actionInfo = item?.meta?.action_info || {}
-    if (actionInfo.type && actionInfo.name) {
-      return `${getGeneralTypeLabel(actionInfo.type)}: ${actionInfo.name}`
-    }
-    if (actionInfo.func) {
-      return `${funcLabelMap.get(actionInfo.func) || actionInfo.func}`
-    }
-  }
   const { formatLog } = useFormatDebugLog()
-  const isSucLog = (item: Record<string, any>) => {
-    return item?.meta?.result === 'ok'
-  }
-  const isFailLog = (item: Record<string, any>) => {
-    return !!item?.meta?.reason
-  }
 
   let cbAfterPolling: undefined | ((log: string) => void) = undefined
   const setCbAfterPolling = (cb: (logContent: string) => void) => {
@@ -180,8 +160,6 @@ export default () => {
     emptyLogArr: emptyLogData,
     handleStopTest,
     getLogItemTitle,
-    isSucLog,
-    isFailLog,
     startTestRuleUseMockData,
     submitMockDataForTestRule,
     startTestRuleUseRealData,
