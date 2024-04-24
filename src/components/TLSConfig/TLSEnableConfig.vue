@@ -6,6 +6,7 @@
         :disabled="readonly || disabledVerify"
         :active-value="SSL_VERIFY_VALUE_MAP.get(true)"
         :inactive-value="SSL_VERIFY_VALUE_MAP.get(false)"
+        @change="handleVerifyChange"
       />
     </el-form-item>
     <CustomFormItem
@@ -152,7 +153,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'verifyChange'])
 
 const record: WritableComputedRef<SSL> = computed({
   get() {
@@ -179,6 +180,10 @@ const getFormItemProp = (key: string) => {
     return `${props.basePath}.${key}`
   }
   return undefined
+}
+
+const handleVerifyChange = (val: string | number | boolean) => {
+  emit('verifyChange', val)
 }
 </script>
 

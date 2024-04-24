@@ -52,6 +52,7 @@ interface UseListenerDialogReturns {
   submit: () => Promise<void>
   onDelete: () => void
   transPort: (port: string) => string
+  handleTLSVerifyChange: (val: string | number | boolean) => void
 }
 
 export default (props: Props, emit: Emit): UseListenerDialogReturns => {
@@ -316,6 +317,14 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     }
   })
 
+  // If 'fail_if_no_peer_cert' is true while TLS verification is 'verify_none', it will cause an update error
+  const handleTLSVerifyChange = (val: string | number | boolean) => {
+    const { fail_if_no_peer_cert } = listenerRecord.value[SSLConfigKey.value]
+    if (val === 'verify_none' && fail_if_no_peer_cert === true) {
+      listenerRecord.value[SSLConfigKey.value].fail_if_no_peer_cert = false
+    }
+  }
+
   return {
     showDialog,
     isLoading,
@@ -339,5 +348,6 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     submit,
     onDelete,
     transPort,
+    handleTLSVerifyChange,
   }
 }
