@@ -4,6 +4,7 @@ import { groupBy } from 'lodash'
 
 /**
  * Some Special Log Msg
+ * The list is not exhaustive
  */
 const enum LogMsg {
   RuleActivated = 'rule_activated',
@@ -14,11 +15,25 @@ const enum LogMsg {
   ApplyRuleFailed = 'apply_rule_failed',
   SQLYieldedNoResult = 'SQL_yielded_no_result',
   StopRendering = 'action_stopped_after_template_rendering',
+  /* Do Not Need Start */
+  CallActionFunction = 'call_action_function',
+  RepublishMessage = 'republish_message',
+  PublishTo = 'publish_to',
+  BridgeAction = 'bridge_action',
+  HTTPConnectorReceived = 'http_connector_received',
+  /* Do Not Need End */
 }
+const EXCLUDED_LOGS = [
+  LogMsg.CallActionFunction,
+  LogMsg.RepublishMessage,
+  LogMsg.PublishTo,
+  LogMsg.BridgeAction,
+  LogMsg.HTTPConnectorReceived,
+]
 
 export interface LogItem {
   time: string
-  msg: string
+  msg: LogMsg
   meta: Record<string, any>
   level: string
 }
@@ -125,9 +140,10 @@ export default () => {
       const targetLogMap = Object.entries(targetGroupedLogItemInfo).reduce(
         (obj: TargetLogMap, [key, logArr]) => {
           const isRule = logArr.some(({ msg }) => msg === LogMsg.RuleActivated)
+          const filteredLogArr = logArr.filter(({ msg }) => !EXCLUDED_LOGS.includes(msg))
           obj[key] = {
             result: isRule ? detectRuleExecLogArrResult(logArr) : detectActionLogArrResult(logArr),
-            info: logArr,
+            info: filteredLogArr,
           }
           return obj
         },
