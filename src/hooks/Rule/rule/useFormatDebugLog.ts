@@ -7,6 +7,12 @@ import { groupBy } from 'lodash'
  */
 const enum LogMsg {
   RuleActivated = 'rule_activated',
+  SQLSelectClauseException = 'SELECT_clause_exception',
+  SQLWhereClauseException = 'WHERE_clause_exception',
+  SQLForeachClauseException = 'FOREACH_clause_exception',
+  SQLIncaseClauseException = 'INCASE_clause_exception',
+  ApplyRuleFailed = 'apply_rule_failed',
+  SQLYieldedNoResult = 'SQL_yielded_no_result',
   StopRendering = 'action_stopped_after_template_rendering',
 }
 
@@ -41,14 +47,40 @@ type TargetLogMap = FormattedLog[string]['info']
 /**
  * return true is ok, false is error
  */
-const detectLogResult = (log: LogItem): boolean => {
+const detectLogItemResult = (log: LogItem): boolean => {
   if (log.meta.reason) {
     return log.msg !== LogMsg.StopRendering ? false : true
   }
   return true
 }
-const detectLogArrResult = (logArr: Array<LogItem>): LogResult =>
-  logArr.every(detectLogResult) ? LogResult.OK : LogResult.Error
+
+const detectRuleExecLogArrResult = (logArr: Array<LogItem>): LogResult => {
+  for (const item of logArr) {
+    if (item.msg === LogMsg.SQLYieldedNoResult) {
+      return LogResult.NoResult
+    }
+    if (item.meta.reason) {
+      return LogResult.Error
+    }
+  }
+  return LogResult.OK
+}
+
+const detectTotalLogResult = (resultArr: Array<LogResult>): LogResult => {
+  for (const item of resultArr) {
+    if (item !== LogResult.OK) {
+      return item
+    }
+  }
+  return LogResult.OK
+}
+
+const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
+  if (logArr.every(({ meta }) => !meta.result && !meta.reason)) {
+    return LogResult.Pending
+  }
+  return logArr.every(detectLogItemResult) ? LogResult.OK : LogResult.Error
+}
 
 export default () => {
   const convertLogStrToLogArr = (logStr: string): Array<LogItem> =>
@@ -90,18 +122,19 @@ export default () => {
     })
     Object.entries(timeGroupedMap).forEach(([key, logArr]) => {
       const targetGroupedLogItemInfo = groupLogByTarget(logArr)
-      const targetLogMap = Object.keys(targetGroupedLogItemInfo).reduce(
-        (obj: TargetLogMap, key) => {
+      const targetLogMap = Object.entries(targetGroupedLogItemInfo).reduce(
+        (obj: TargetLogMap, [key, logArr]) => {
+          const isRule = logArr.some(({ msg }) => msg === LogMsg.RuleActivated)
           obj[key] = {
-            result: detectLogArrResult(targetGroupedLogItemInfo[key]),
-            info: targetGroupedLogItemInfo[key],
+            result: isRule ? detectRuleExecLogArrResult(logArr) : detectActionLogArrResult(logArr),
+            info: logArr,
           }
           return obj
         },
         {},
       )
       ret[key] = {
-        result: detectLogArrResult(logArr),
+        result: detectTotalLogResult(Object.entries(targetLogMap).map(([, { result }]) => result)),
         trigger: findTrigger(logArr),
         info: targetLogMap,
       }

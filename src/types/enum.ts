@@ -329,6 +329,8 @@ export const enum LDAPAuthMethod {
 }
 
 export const enum LogResult {
-  OK = 'ok',
-  Error = 'error',
+  OK,
+  NoResult,
+  Pending,
+  Error,
 }

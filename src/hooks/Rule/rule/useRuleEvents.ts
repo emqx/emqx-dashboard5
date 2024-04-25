@@ -44,13 +44,13 @@ export default (): {
     try {
       let eventList: Array<RuleEvent> = state.ruleEventList
       if (!eventList.length) {
-        if (!state.ruleEventRequest) {
+        if (!state.ruleEventRequest || !state.ruleEventRequest.length) {
           const request = queryRuleEvents()
           commit('SET_RULE_EVENT_REQUEST', request)
         }
         const data: Array<RuleEvent> = await state.ruleEventRequest
         eventList = setLabelToEventList(
-          data.sort((a, b) => getEventIndex(a.event) - getEventIndex(b.event)),
+          data?.sort((a, b) => getEventIndex(a.event) - getEventIndex(b.event)),
         )
         commit('SET_RULE_EVENT_LIST', eventList)
       }
