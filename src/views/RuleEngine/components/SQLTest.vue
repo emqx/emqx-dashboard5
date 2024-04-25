@@ -88,7 +88,7 @@
               <InfoTooltip :content="tl('outputResultDesc')" />
             </label>
             <el-card class="test-result rule-result">
-              <el-scrollbar :max-height="480">
+              <el-scrollbar :max-height="490" ref="ScrollbarCom">
                 <div class="collapse-wrap">
                   <LogDataDisplay :log-data="logData" :rule-id="ruleData.id" />
                 </div>
@@ -365,12 +365,22 @@ const {
   setCbAfterPolling,
 } = useDebugRule()
 
+const ScrollbarCom = ref()
 const scrollLogToBottom = async (log: string) => {
   if (log) {
+    let isScrollToBottom = false
+    const scrollWrap = ScrollbarCom.value.wrapRef
+    const scrollContent = scrollWrap?.firstChild
+    if (scrollWrap && scrollContent) {
+      isScrollToBottom =
+        Math.abs(scrollWrap.clientHeight + scrollWrap.scrollTop - scrollContent.clientHeight) < 5
+    }
     await waitAMoment()
-    const lastLogItem = document.querySelector('.rule-result .el-collapse-item:last-child')
-    if (lastLogItem) {
-      lastLogItem.scrollIntoView({ behavior: 'smooth' })
+    if (isScrollToBottom) {
+      ScrollbarCom.value.scrollTo({
+        top: scrollContent.clientHeight - scrollWrap.clientHeight,
+        behavior: 'smooth',
+      })
     }
   }
 }
@@ -477,12 +487,20 @@ onUnmounted(() => {
     > div {
       margin-right: 12px;
     }
+    .tip {
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      opacity: 0.7;
+    }
   }
-  .tip {
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    opacity: 0.7;
+  .rule-result {
+    > .el-card__body {
+      padding: 0;
+    }
+    .collapse-wrap {
+      padding: 24px;
+    }
   }
   .btn-start-container {
     position: relative;
