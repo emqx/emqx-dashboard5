@@ -32,7 +32,7 @@
                   :class="getResultIconClass(targetLogData.result)"
                 />
               </el-icon>
-              {{ getLogTargetTitle(logTarget as string) }}
+              {{ getLogTargetTitle(targetLogData) }}
             </template>
             <pre>{{ targetLogData.info }}</pre>
           </el-collapse-item>
@@ -46,11 +46,12 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import type { FormattedLog } from '@/hooks/Rule/rule/useFormatDebugLog'
+import type { FormattedLog, TargetLog } from '@/hooks/Rule/rule/useFormatDebugLog'
+import { LogTargetType } from '@/hooks/Rule/rule/useFormatDebugLog'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useI18nTl from '@/hooks/useI18nTl'
-import { LogResult, RuleOutput } from '@/types/enum'
+import { LogResult } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import {
   CircleCheckFilled,
@@ -61,7 +62,7 @@ import {
 import { escapeRegExp } from 'lodash'
 import { defineProps } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   logData: FormattedLog
   ruleId: string
 }>()
@@ -96,18 +97,18 @@ const getTriggerTitle = (trigger: string) => {
   return event ? getEventLabel(event.title) : trigger
 }
 
-const getLogTargetTitle = (target: string) => {
-  if (target === props.ruleId) {
-    return tl('ruleExec')
-  }
-  if (target === RuleOutput.Console) {
-    return tl('consoleOutput')
+const targetTypeMap = new Map([
+  [LogTargetType.Rule, tl('ruleExec')],
+  [LogTargetType.Console, tl('consoleOutput')],
+  [LogTargetType.Republish, tl('republish')],
+])
+const getLogTargetTitle = ({ type: targetType, target }: TargetLog) => {
+  const title = targetTypeMap.get(targetType)
+  if (title) {
+    return title
   }
   try {
     const { type } = getTypeAndNameFromKey(target) as any
-    if (type === RuleOutput.Republish) {
-      return tl('republish')
-    }
     return getGeneralTypeLabel(type)
   } catch (error) {
     return target

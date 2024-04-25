@@ -950,8 +950,8 @@ export default {
     en: 'Trend of rule matching speed in the last minute',
   },
   ruleExec: {
-    zh: '规则执行',
-    en: 'Rule Execution',
+    zh: '规则执行与输出',
+    en: 'Rule Execution and Output',
   },
   testTarget: {
     zh: '测试目标',

@@ -90,7 +90,7 @@
             <el-card class="test-result rule-result">
               <el-scrollbar :max-height="490" ref="ScrollbarCom">
                 <div class="collapse-wrap">
-                  <LogDataDisplay :log-data="logData" :rule-id="ruleData.id" />
+                  <LogDataDisplay :log-data="logData" />
                 </div>
               </el-scrollbar>
             </el-card>
@@ -484,14 +484,9 @@ onUnmounted(() => {
   .buttons-bar {
     display: flex;
     align-items: start;
+    padding-bottom: 12px;
     > div {
       margin-right: 12px;
-    }
-    .tip {
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      opacity: 0.7;
     }
   }
   .rule-result {
@@ -504,7 +499,13 @@ onUnmounted(() => {
   }
   .btn-start-container {
     position: relative;
-    padding-bottom: 20px;
+    .tip {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      transform: translateY(100%);
+      opacity: 0.7;
+    }
   }
 }
 </style>

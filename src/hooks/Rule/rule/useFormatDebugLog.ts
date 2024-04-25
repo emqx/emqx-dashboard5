@@ -38,6 +38,31 @@ export interface LogItem {
   level: string
 }
 
+export const LogTargetType = {
+  Rule: 'rule',
+  Console: RuleOutput.Console,
+  Republish: RuleOutput.Republish,
+  Action: RuleOutput.DataBridge,
+}
+export type LogTargetTypeValue = typeof LogTargetType[keyof typeof LogTargetType]
+
+export interface TargetLogInfo {
+  [key: string]: Record<string, any>
+}
+export interface TargetLog {
+  target: string
+  result: LogResult
+  type: LogTargetTypeValue
+  info: TargetLogInfo
+  rawLogArr: Array<LogItem>
+}
+export interface TargetLogMap {
+  /**
+   * action id or rule id
+   */
+  [key: string]: TargetLog
+}
+
 export interface FormattedLog {
   /**
    * trigger time
@@ -45,19 +70,9 @@ export interface FormattedLog {
   [key: string]: {
     result: LogResult
     trigger: { event?: string; topic?: string }
-    info: {
-      /**
-       * action id or rule id
-       */
-      [key: string]: {
-        result: LogResult
-        info: Array<LogItem>
-      }
-    }
+    info: TargetLogMap
   }
 }
-
-type TargetLogMap = FormattedLog[string]['info']
 
 /**
  * return true is ok, false is error
@@ -91,7 +106,7 @@ const detectTotalLogResult = (resultArr: Array<LogResult>): LogResult => {
 }
 
 const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
-  if (logArr.every(({ meta }) => !meta.result && !meta.reason)) {
+  if (logArr.length === 0 || logArr.every(({ meta }) => !meta.result && !meta.reason)) {
     return LogResult.Pending
   }
   return logArr.every(detectLogItemResult) ? LogResult.OK : LogResult.Error
@@ -113,21 +128,28 @@ export default () => {
     return {}
   }
 
-  const groupLogByTarget = (logArr: Array<LogItem>) => {
-    return groupBy(logArr, (item) => {
-      if (item.meta.action_info) {
-        const { type, name, func, args } = item.meta.action_info
-        if (type && name) {
-          return getBridgeKey({ type, name })
-        }
-        if (func === RuleOutput.Republish && args.topic) {
-          return `${func}:${args.topic}`
-        }
-        return func
+  const getLogTypeAndTarget = (log: LogItem): { target: string; type: LogTargetTypeValue } => {
+    if (log.meta.action_info) {
+      const { type, name, func, args } = log.meta.action_info
+      if (type && name) {
+        return { target: getBridgeKey({ type, name }), type: LogTargetType.Action }
       }
-      return item.meta.rule_id || item.meta.rule_ids?.[0]
-    })
+      if (func === RuleOutput.Republish && args.topic) {
+        return { target: `${func}:${args.topic}`, type: LogTargetType.Republish }
+      }
+      return { target: func, type: LogTargetType.Console }
+    }
+    return { target: log.meta.rule_id || log.meta.rule_ids?.[0], type: LogTargetType.Rule }
   }
+
+  const generateRuleExecLogInfo = () => {}
+  const generateConsoleLogInfo = () => {}
+  const generateRepublishLogInfo = () => {}
+  const generateMQTTLogInfo = () => {}
+  const generateHTTPLogInfo = () => {}
+  const generateBridgeLogInfo = () => {}
+
+  const generateLogInfo = () => {}
 
   const formatLog = (logStr: string) => {
     const ret: FormattedLog = {}
@@ -136,19 +158,26 @@ export default () => {
       return item.meta.rule_trigger_time || item.meta.rule_trigger_times?.[0]
     })
     Object.entries(timeGroupedMap).forEach(([key, logArr]) => {
-      const targetGroupedLogItemInfo = groupLogByTarget(logArr)
-      const targetLogMap = Object.entries(targetGroupedLogItemInfo).reduce(
-        (obj: TargetLogMap, [key, logArr]) => {
-          const isRule = logArr.some(({ msg }) => msg === LogMsg.RuleActivated)
-          const filteredLogArr = logArr.filter(({ msg }) => !EXCLUDED_LOGS.includes(msg))
-          obj[key] = {
-            result: isRule ? detectRuleExecLogArrResult(logArr) : detectActionLogArrResult(logArr),
-            info: filteredLogArr,
+      const targetLogMap: Record<string, TargetLog> = logArr.reduce(
+        (obj: Record<string, TargetLog>, logItem) => {
+          const { target, type } = getLogTypeAndTarget(logItem)
+          if (!obj[target]) {
+            obj[target] = { result: LogResult.OK, type, target, info: {}, rawLogArr: [] }
           }
+          if (EXCLUDED_LOGS.includes(logItem.msg)) {
+            return obj
+          }
+          obj[target].info[logItem.msg] = logItem
+          obj[target].rawLogArr.push(logItem)
           return obj
         },
         {},
       )
+      Object.entries(targetLogMap).forEach(([key, { type, rawLogArr }]) => {
+        targetLogMap[key].result = (
+          type === LogTargetType.Rule ? detectRuleExecLogArrResult : detectActionLogArrResult
+        )(rawLogArr)
+      })
       ret[key] = {
         result: detectTotalLogResult(Object.entries(targetLogMap).map(([, { result }]) => result)),
         trigger: findTrigger(logArr),
