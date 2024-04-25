@@ -6,8 +6,10 @@
           <div class="space-between">
             <div class="execution-item-base vertical-align-center">
               <el-icon class="icon-status" :size="16">
-                <CircleCheckFilled v-if="item.result === LogResult.OK" class="icon-suc" />
-                <CircleCloseFilled v-else class="icon-fail" />
+                <component
+                  :is="getResultIcon(item.result)"
+                  :class="getResultIconClass(item.result)"
+                />
               </el-icon>
               <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
               <p v-if="item.trigger.topic">{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
@@ -25,8 +27,10 @@
           >
             <template #title>
               <el-icon class="icon-status">
-                <CircleCheckFilled v-if="targetLogData.result === LogResult.OK" class="icon-suc" />
-                <CircleCloseFilled v-else class="icon-fail" />
+                <component
+                  :is="getResultIcon(targetLogData.result)"
+                  :class="getResultIconClass(targetLogData.result)"
+                />
               </el-icon>
               {{ getLogTargetTitle(logTarget as string) }}
             </template>
@@ -48,7 +52,12 @@ import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { LogResult, RuleOutput } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
-import { CircleCheckFilled, CircleCloseFilled } from '@element-plus/icons-vue'
+import {
+  CircleCheckFilled,
+  CircleCloseFilled,
+  Loading,
+  WarningFilled,
+} from '@element-plus/icons-vue'
 import { escapeRegExp } from 'lodash'
 import { defineProps } from 'vue'
 
@@ -104,6 +113,21 @@ const getLogTargetTitle = (target: string) => {
     return target
   }
 }
+
+const iconMap = new Map([
+  [LogResult.OK, CircleCheckFilled],
+  [LogResult.Pending, Loading],
+  [LogResult.Error, CircleCloseFilled],
+  [LogResult.NoResult, WarningFilled],
+])
+const getResultIcon = (result: LogResult) => iconMap.get(result)
+const classMap = new Map([
+  [LogResult.OK, 'icon-suc'],
+  [LogResult.Pending, 'icon-pending'],
+  [LogResult.Error, 'icon-fail'],
+  [LogResult.NoResult, 'icon-no-result'],
+])
+const getResultIconClass = (result: LogResult) => classMap.get(result)
 </script>
 
 <style lang="scss">
@@ -145,6 +169,20 @@ const getLogTargetTitle = (target: string) => {
   }
   .icon-fail {
     color: var(--el-color-danger);
+  }
+  .icon-no-result {
+    color: var(--el-color-info);
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .icon-pending {
+    animation: rotate 3s linear infinite;
   }
 }
 </style>
