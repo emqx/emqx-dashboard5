@@ -34,7 +34,7 @@
               </el-icon>
               {{ getLogTargetTitle(targetLogData) }}
             </template>
-            <pre>{{ targetLogData.info }}</pre>
+            <CodeView :code="stringifyObjSafely(targetLogData.info, 2)" />
           </el-collapse-item>
         </el-collapse>
       </el-collapse-item>
@@ -45,6 +45,7 @@
 <script setup lang="ts">
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
+import CodeView from '@/components/CodeView.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import type { FormattedLog, TargetLog } from '@/hooks/Rule/rule/useFormatDebugLog'
 import { LogTargetType } from '@/hooks/Rule/rule/useFormatDebugLog'
@@ -59,12 +60,12 @@ import {
   Loading,
   WarningFilled,
 } from '@element-plus/icons-vue'
+import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import { escapeRegExp } from 'lodash'
 import { defineProps } from 'vue'
 
 defineProps<{
   logData: FormattedLog
-  ruleId: string
 }>()
 
 const { t, tl } = useI18nTl('RuleEngine')
