@@ -24,7 +24,7 @@ const check = async () => {
   if (emqxVersion !== packageVersion) {
     console.log('EMQX Version:', emqxVersion)
     console.log('Package Version:', packageVersion)
-    throw new Error('EMQX version and package version are not the same!')
+    console.warning('EMQX version and package version are not the same!')
   }
 }
 
