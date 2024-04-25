@@ -34,7 +34,31 @@
               </el-icon>
               {{ getLogTargetTitle(targetLogData) }}
             </template>
-            <CodeView :code="stringifyObjSafely(targetLogData.info, 2)" />
+            <div class="info-wrap">
+              <el-tabs
+                v-if="needTabsShowInfo(targetLogData.info)"
+                :modelValue="
+                  getTabsModelValue(timestamp, logTarget, Object.keys(targetLogData.info))
+                "
+                @update:modelValue="setTabsModelValue(timestamp, logTarget, $event)"
+              >
+                <el-tab-pane
+                  v-for="(logItem, logMsg) in targetLogData.info"
+                  :key="logMsg"
+                  :label="logMsg"
+                  :name="logMsg"
+                >
+                  {{ dateFormat(logItem.time) }}
+                  <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
+                </el-tab-pane>
+              </el-tabs>
+              <template v-else>
+                <template v-for="(logItem, logMsg) in targetLogData.info" :key="logMsg">
+                  {{ dateFormat(logItem.time) }}
+                  <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
+                </template>
+              </template>
+            </div>
           </el-collapse-item>
         </el-collapse>
       </el-collapse-item>
@@ -48,6 +72,7 @@ import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import type { FormattedLog, TargetLog } from '@/hooks/Rule/rule/useFormatDebugLog'
+import { TargetLogInfo } from '@/hooks/Rule/rule/useFormatDebugLog'
 import { LogTargetType } from '@/hooks/Rule/rule/useFormatDebugLog'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
@@ -61,8 +86,8 @@ import {
   WarningFilled,
 } from '@element-plus/icons-vue'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { escapeRegExp } from 'lodash'
-import { defineProps } from 'vue'
+import { escapeRegExp, get, set } from 'lodash'
+import { defineProps, ref } from 'vue'
 
 defineProps<{
   logData: FormattedLog
@@ -130,6 +155,34 @@ const classMap = new Map([
   [LogResult.NoResult, 'icon-no-result'],
 ])
 const getResultIconClass = (result: LogResult) => classMap.get(result)
+
+const needTabsShowInfo = (info: TargetLogInfo) =>
+  info && typeof info === 'object' && Object.keys(info).length > 1
+
+const tabsActiveData = ref({})
+const getTabsKey = (timestamp: string | number, logTarget: string | number) =>
+  `${timestamp}.${logTarget}`
+const getTabsModelValue = (
+  timestamp: string | number,
+  logTarget: string | number,
+  infoKeys: Array<string>,
+) => {
+  const ret = get(tabsActiveData.value, getTabsKey(timestamp, logTarget))
+  if (ret) {
+    return ret
+  } else {
+    const defaultValue = infoKeys[0]
+    setTabsModelValue(timestamp, logTarget, defaultValue)
+    return defaultValue
+  }
+}
+const setTabsModelValue = (
+  timestamp: string | number,
+  logTarget: string | number,
+  value: string,
+) => {
+  set(tabsActiveData, getTabsKey(timestamp, logTarget), value)
+}
 </script>
 
 <style lang="scss">

@@ -50,7 +50,10 @@ export const LogTargetType = {
 export type LogTargetTypeValue = typeof LogTargetType[keyof typeof LogTargetType]
 
 export interface TargetLogInfo {
-  [key: string]: Record<string, any>
+  [key: string]: {
+    time: string
+    logContent: Record<string, any>
+  }
 }
 export interface TargetLog {
   target: string
@@ -171,55 +174,49 @@ export default () => {
     [LogMsg.ApplyRuleFailed, 'meta.reason'],
   ])
   type TargetLogGenerator = (log: TargetLogInfo) => TargetLogInfo
-  const generateRuleExecLogInfo: TargetLogGenerator = (log) => {
-    return Object.entries(log).reduce((obj: TargetLogInfo, [key, item]) => {
-      const neededKey = neededInfoMap.get(item.msg)
+  const handleRuleExecLogInfo: TargetLogGenerator = (log) => {
+    Object.values(log).forEach((item) => {
+      const { logContent } = item
+      const neededKey = neededInfoMap.get(logContent.msg)
       if (neededKey) {
-        obj[key] = get(item, neededKey)
-      } else {
-        obj[key] = item
+        item.logContent = get(logContent, neededKey)
       }
-      return obj
-    }, {})
+    })
+    return log
   }
-  const generateConsoleLogInfo: TargetLogGenerator = (log) => {
-    return Object.entries(log).reduce((obj: TargetLogInfo, [key, item]) => {
-      obj[key] = item
-      return obj
-    }, {})
+  const handleConsoleLogInfo: TargetLogGenerator = (log) => {
+    return log
   }
-  const generateRepublishLogInfo: TargetLogGenerator = (log) => {
-    return Object.entries(log).reduce((obj: TargetLogInfo, [key, item]) => {
-      if (item.msg === LogMsg.ActionSuccess) {
-        obj[key] = omit(item.meta.action_info, 'args.preprocessed_tmpl')
-      } else {
-        obj[key] = item
+  const handleRepublishLogInfo: TargetLogGenerator = (log) => {
+    Object.values(log).forEach((item) => {
+      const { logContent } = item
+      if (logContent.msg === LogMsg.ActionSuccess) {
+        item.logContent = omit(logContent.meta.action_info, 'args.preprocessed_tmpl')
       }
-      return obj
-    }, {})
+    })
+    return log
   }
-  const generateMQTTLogInfo: TargetLogGenerator = (log) => log
-  const generateHTTPLogInfo: TargetLogGenerator = (log) => {
-    return Object.entries(log).reduce((obj: TargetLogInfo, [key, item]) => {
-      if ([LogMsg.ActionSuccess, LogMsg.ActionTemplateRendered].includes(item.msg)) {
-        obj[key] = item.meta.result
-      } else {
-        obj[key] = item
+  const handleMQTTLogInfo: TargetLogGenerator = (log) => log
+  const handleHTTPLogInfo: TargetLogGenerator = (log) => {
+    Object.values(log).forEach((item) => {
+      const { logContent } = item
+      if ([LogMsg.ActionSuccess, LogMsg.ActionTemplateRendered].includes(logContent.msg)) {
+        item.logContent = logContent.meta.result
       }
-      return obj
-    }, {})
+    })
+    return log
   }
   const bridgeLogGenerateMap = new Map([
-    [BridgeType.MQTT, generateMQTTLogInfo],
-    [BridgeType.Webhook, generateHTTPLogInfo],
+    [BridgeType.MQTT, handleMQTTLogInfo],
+    [BridgeType.Webhook, handleHTTPLogInfo],
   ])
-  const generateActionLogInfo = (targetLog: TargetLog): TargetLog => {
+  const handleActionLogInfo = (targetLog: TargetLog): TargetLog => {
     const { targetInfo } = targetLog
     const { type } = targetInfo || {}
     if (type) {
-      const generator = bridgeLogGenerateMap.get(type as BridgeType)
-      if (generator) {
-        targetLog.info = generator(targetLog.info)
+      const handler = bridgeLogGenerateMap.get(type as BridgeType)
+      if (handler) {
+        targetLog.info = handler(targetLog.info)
       }
     }
     return targetLog
@@ -228,13 +225,13 @@ export default () => {
   const handleTargetLog = (targetLogData: TargetLog) => {
     const { type, info } = targetLogData
     if (type === LogTargetType.Rule) {
-      targetLogData.info = generateRuleExecLogInfo(info)
+      targetLogData.info = handleRuleExecLogInfo(info)
     } else if (type === LogTargetType.Console) {
-      targetLogData.info = generateConsoleLogInfo(info)
+      targetLogData.info = handleConsoleLogInfo(info)
     } else if (type === LogTargetType.Republish) {
-      targetLogData.info = generateRepublishLogInfo(info)
+      targetLogData.info = handleRepublishLogInfo(info)
     } else if (type === LogTargetType.Action) {
-      generateActionLogInfo(targetLogData)
+      handleActionLogInfo(targetLogData)
     }
   }
 
@@ -261,7 +258,7 @@ export default () => {
           if (EXCLUDED_LOGS.includes(logItem.msg)) {
             return obj
           }
-          obj[target].info[logItem.msg] = logItem
+          obj[target].info[logItem.msg] = { time: logItem.time, logContent: logItem }
           obj[target].rawLogArr.push(logItem)
           return obj
         },
