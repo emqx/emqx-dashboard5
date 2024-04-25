@@ -107,6 +107,7 @@
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
               :verify-label="t('Base.tlsVerifyClient')"
+              @verify-change="handleTLSVerifyChange"
             />
           </el-col>
           <template v-if="!isQUIC && listenerRecord[SSLConfigKey].verify !== 'verify_none'">
@@ -462,6 +463,7 @@ const {
   listenerFormRules,
   submit,
   onDelete,
+  handleTLSVerifyChange,
 } = useListenerDialog(props, emit)
 
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
