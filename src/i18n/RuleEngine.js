@@ -1017,4 +1017,8 @@ export default {
     zh: '响应结果',
     en: 'Response',
   },
+  stoppedRendering: {
+    zh: '无响应结果：禁止发起请求',
+    en: 'No response: Request is disabled',
+  },
 }

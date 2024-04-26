@@ -1,6 +1,7 @@
 import { getBridgeKey } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, LogResult, RuleOutput } from '@/types/enum'
+import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import { groupBy, get, omit, startCase } from 'lodash'
 
 /**
@@ -289,21 +290,22 @@ export default () => {
 export const useShowLog = () => {
   const { tl } = useI18nTl('RuleEngine')
   const ruleLogMsgMap = new Map([[LogMsg.RuleActivated, tl('eventData')]])
-  const getRuleLogMsgMap = (logMsg: LogMsg) => {
+  const getRuleLogMsgTitle = (logMsg: LogMsg) => {
     const title = ruleLogMsgMap.get(logMsg)
     return title ? title : tl('executionResult')
   }
   const republishLogMsgMap = new Map([[LogMsg.ActionSuccess, tl('messagePublishParameters')]])
-  const getRepublishLogMsgMap = (logMsg: LogMsg) => {
+  const getRepublishLogMsgTitle = (logMsg: LogMsg) => {
     const title = republishLogMsgMap.get(logMsg)
     return title ? title : startCase(logMsg)
   }
   const httpActionLogMsgMap = new Map([
     [LogMsg.ActionTemplateRendered, tl('requestParameter')],
     [LogMsg.ActionSuccess, tl('responseResult')],
+    [LogMsg.StopRendering, tl('responseResult')],
   ])
   const actionTypeLogMsgMap = new Map([[BridgeType.Webhook, httpActionLogMsgMap]])
-  const getActionLogMsgMap = (targetLogData: TargetLog, logMsg: LogMsg) => {
+  const getActionLogMsgTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
     const { type } = targetLogData.targetInfo || {}
     let title = startCase(logMsg)
     if (type) {
@@ -320,17 +322,61 @@ export const useShowLog = () => {
   const getLogItemTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
     const { type } = targetLogData
     if (type === LogTargetType.Rule) {
-      return getRuleLogMsgMap(logMsg)
+      return getRuleLogMsgTitle(logMsg)
     }
     if (type === LogTargetType.Republish) {
-      return getRepublishLogMsgMap(logMsg)
+      return getRepublishLogMsgTitle(logMsg)
     }
     if (type === LogTargetType.Action) {
-      return getActionLogMsgMap(targetLogData, logMsg)
+      return getActionLogMsgTitle(targetLogData, logMsg)
     }
     return startCase(logMsg)
   }
+
+  const getRuleLogMsgContent = (
+    logMsg: string,
+    logContent: Record<string, any>,
+  ): string | undefined => {
+    if (logMsg === LogMsg.SQLYieldedNoResult) {
+      return `SQL ${tl('failedNoResult')}`
+    }
+    if (logContent.reason) {
+      return logContent.reason
+    }
+  }
+  const getHTTPLogMsgContent = (targetLogData: TargetLog, logMsg: LogMsg) => {
+    if (logMsg === LogMsg.StopRendering) {
+      return tl('stoppedRendering')
+    }
+  }
+  const actionTypeLogContentMap = new Map([[BridgeType.Webhook, getHTTPLogMsgContent]])
+  const getActionLogMsgContent = (targetLogData: TargetLog, logMsg: LogMsg) => {
+    const { type } = targetLogData.targetInfo || {}
+    let msg: string | undefined = ''
+    if (type) {
+      const handler = actionTypeLogContentMap.get(type as BridgeType)
+      if (handler) {
+        msg = handler(targetLogData, logMsg)
+      }
+    }
+    return msg
+  }
+  const getLogItemContent = (
+    targetLogData: TargetLog,
+    logMsg: LogMsg,
+    logContent: Record<string, any>,
+  ) => {
+    let msg: string | undefined = undefined
+    const { type } = targetLogData
+    if (type === LogTargetType.Rule) {
+      msg = getRuleLogMsgContent(logMsg, logContent)
+    } else if (type === LogTargetType.Action) {
+      msg = getActionLogMsgContent(targetLogData, logMsg)
+    }
+    return msg ? msg : stringifyObjSafely(logContent, 2)
+  }
   return {
     getLogItemTitle,
+    getLogItemContent,
   }
 }
