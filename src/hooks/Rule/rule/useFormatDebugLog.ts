@@ -20,6 +20,7 @@ export const enum LogMsg {
   StopRendering = 'action_stopped_after_template_rendering',
   ActionSuccess = 'action_success',
   ActionTemplateRendered = 'action_template_rendered',
+  AsyncSendMsgToRemoteNode = 'async_send_msg_to_remote_node',
   /* Do Not Need Start */
   CallActionFunction = 'call_action_function',
   RepublishMessage = 'republish_message',
@@ -34,6 +35,10 @@ const EXCLUDED_LOGS = [
   LogMsg.PublishTo,
   LogMsg.BridgeAction,
   LogMsg.HTTPConnectorReceived,
+  // TODO:TODO:TODO:TODO:TODO:TODO:TODO: maybe remove
+  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+  LogMsg.AsyncSendMsgToRemoteNode,
 ]
 
 export interface LogItem {
@@ -87,6 +92,8 @@ export interface FormattedLog {
     info: TargetLogMap
   }
 }
+
+type TargetLogGenerator = (log: TargetLogInfo) => TargetLogInfo
 
 /**
  * return true is ok, false is error
@@ -175,16 +182,20 @@ export default () => {
     [LogMsg.SQLIncaseClauseException, 'meta.reason'],
     [LogMsg.ApplyRuleFailed, 'meta.reason'],
   ])
-  type TargetLogGenerator = (log: TargetLogInfo) => TargetLogInfo
+  const ruleLogMsgOrder: Map<string, number> = new Map([[LogMsg.RuleActivated, 99]])
   const handleRuleExecLogInfo: TargetLogGenerator = (log) => {
-    Object.values(log).forEach((item) => {
-      const { logContent } = item
-      const neededKey = neededInfoMap.get(logContent.msg)
-      if (neededKey) {
-        item.logContent = get(logContent, neededKey)
-      }
-    })
-    return log
+    return Object.keys(log)
+      .sort((a, b) => (ruleLogMsgOrder.get(a) || 0) - (ruleLogMsgOrder.get(b) || 0))
+      .reduce((obj: TargetLogInfo, key) => {
+        const item = log[key]
+        const { logContent } = item
+        const neededKey = neededInfoMap.get(logContent.msg)
+        if (neededKey) {
+          item.logContent = get(logContent, neededKey)
+        }
+        obj[key] = item
+        return obj
+      }, {})
   }
   const handleConsoleLogInfo: TargetLogGenerator = (log) => {
     return log
