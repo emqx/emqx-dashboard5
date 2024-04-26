@@ -39,7 +39,7 @@
       <div class="app-wrapper">
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
           <el-card class="app-card">
-            <PluginManage :plugin-name="pluginName" />
+            <PluginManage :plugin-name="pluginName" :plugin-version="pluginVersion" />
           </el-card>
         </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">

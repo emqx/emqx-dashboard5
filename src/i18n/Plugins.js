@@ -123,4 +123,8 @@ export default {
     zh: '插件信息',
     en: 'Plugin information',
   },
+  noPluginConfig: {
+    zh: '此插件不支持在 Dashboard 中进行配置。',
+    en: 'This plugin does not support configuration via the Dashboard.',
+  },
 }
