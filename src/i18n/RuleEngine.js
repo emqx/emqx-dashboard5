@@ -1025,4 +1025,8 @@ export default {
     zh: '无响应结果：禁止发起请求',
     en: 'No response: Request is disabled',
   },
+  actionExecutionLog: {
+    zh: '动作执行日志',
+    en: 'Action Execution Log',
+  },
 }
