@@ -1,15 +1,10 @@
-import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/types/plugin'
-import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { computed, ref, Ref } from 'vue'
 import { useStore } from 'vuex'
-
-export interface PluginUI {
-  record: Ref<Record<string, any>>
-  uiConfigs: Ref<PluginUIConfigs | null>
-  schema: Ref<Record<string, any> | null>
-  i18nConfigs: Ref<Record<string, any> | null>
-  fetchPluginConfigs: (pluginName: string) => void
-}
+import { isEmptyObj } from '@emqx/shared-ui-utils'
+import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/types/plugin'
+import { getPluginConfigs, getPluginSchema, updatePluginConfigs } from '@/api/plugins'
+import { AvroJsonToObject, objectToAvroJson } from './avroUtils'
+import avro from 'avsc'
 
 /**
  * Returns the default value for a given basic type.
@@ -136,11 +131,27 @@ function replaceI18nInConfigs(
   return configs
 }
 
+export interface PluginUI {
+  record: Ref<Record<string, any>>
+  uiConfigs: Ref<PluginUIConfigs | null>
+  schema: Ref<Record<string, any> | null>
+  schemaLoading: Ref<boolean>
+  i18nConfigs: Ref<Record<string, any> | null>
+  fetchPluginSchema: (pluginName: string, pluginVersion: string) => Promise<void>
+  fetchPluginConfigs: (pluginName: string, pluginVersion: string) => Promise<void>
+  savePluginsConfigs: (
+    pluginName: string,
+    pluginVersion: string,
+    data: Record<string, any>,
+  ) => Promise<void>
+}
+
 export default function usePluginRenderForm(): PluginUI {
   const record = ref<Record<string, any>>({})
   const uiConfigs = ref<PluginUIConfigs | null>(null)
   const i18nConfigs = ref<Record<string, any> | null>(null)
   const schema = ref<AvroSchema | null>(null)
+  const schemaLoading = ref(false)
 
   const store = useStore()
 
@@ -148,28 +159,12 @@ export default function usePluginRenderForm(): PluginUI {
     return store.state.lang
   })
 
-  async function fetchPluginConfigs(pluginName: string) {
-    const schemaUrl = `/static/${pluginName}-Schema.json`
-    const i18nUrl = `/static/${pluginName}-i18n.json`
-
+  async function fetchPluginSchema(pluginName: string, pluginVersion: string) {
+    schemaLoading.value = true
     try {
-      const i18nResponse = await fetch(i18nUrl)
-      if (i18nResponse.ok) {
-        i18nConfigs.value = await i18nResponse.json()
-      } else {
-        console.error('Failed to fetch plugin i18n configs')
-      }
-    } catch (error) {
-      console.warn('Error fetching plugin i18n configs', error)
-    }
-
-    try {
-      const schemaResponse = await fetch(schemaUrl)
-      if (!schemaResponse.ok) {
-        console.error('Failed to fetch plugin UI configs')
-        return
-      }
-      schema.value = Object.freeze(await schemaResponse.json())
+      const { avsc, i18n } = await getPluginSchema(pluginName, pluginVersion)
+      schema.value = avsc
+      i18nConfigs.value = i18n
       if (schema.value) {
         record.value = constructObjectFromAvroSchema(schema.value)
         uiConfigs.value = extractUIConfigs(schema.value)
@@ -184,15 +179,43 @@ export default function usePluginRenderForm(): PluginUI {
         }
       }
     } catch (error) {
-      console.warn('Error fetching plugin UI configs:', error)
+      // ignore error
+    } finally {
+      schemaLoading.value = false
     }
+  }
+
+  async function fetchPluginConfigs(pluginName: string, pluginVersion: string) {
+    try {
+      const configs = await getPluginConfigs(pluginName, pluginVersion)
+      if (configs !== null && !isEmptyObj(configs)) {
+        const decodeConfigs = await AvroJsonToObject(schema.value as avro.Schema, configs)
+        record.value = decodeConfigs
+      } else if (schema.value) {
+        record.value = constructObjectFromAvroSchema(schema.value)
+      }
+    } catch (error) {
+      // ignore error
+    }
+  }
+
+  async function savePluginsConfigs(
+    pluginName: string,
+    pluginVersion: string,
+    data: Record<string, any>,
+  ): Promise<void> {
+    const encodedData = await objectToAvroJson(schema.value as avro.Schema, data)
+    return await updatePluginConfigs(pluginName, pluginVersion, encodedData)
   }
 
   return {
     record,
     uiConfigs,
     schema,
+    schemaLoading,
     i18nConfigs,
+    fetchPluginSchema,
     fetchPluginConfigs,
+    savePluginsConfigs,
   }
 }

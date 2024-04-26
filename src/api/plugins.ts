@@ -1,6 +1,6 @@
 import http from '@/common/http'
 import { PluginStatus, StatusCommandSendToPlugin } from '@/types/enum'
-import { PluginDetail, PluginItem } from '@/types/plugin'
+import { AvroSchema, PluginDetail, PluginItem } from '@/types/plugin'
 
 export const queryPlugins = (status?: PluginStatus): Promise<Array<PluginItem>> => {
   return http.get(`/plugins`, { status })
@@ -29,4 +29,29 @@ export const updatePluginStatus = (
 
 export const movePluginPosition = (nameWithVersion: string, position: string): Promise<void> => {
   return http.post(`/plugins/${nameWithVersion}/move`, { position })
+}
+
+export const getPluginSchema = (
+  pluginName: string,
+  pluginVersion: string,
+): Promise<{
+  avsc: AvroSchema
+  i18n: Record<string, any>
+}> => {
+  return http.get(`/plugins/${pluginName}-${pluginVersion}/schema`)
+}
+
+export const getPluginConfigs = (
+  pluginName: string,
+  pluginVersion: string,
+): Promise<Record<string, any>> => {
+  return http.get(`/plugins/${pluginName}-${pluginVersion}/config`)
+}
+
+export const updatePluginConfigs = (
+  pluginName: string,
+  pluginVersion: string,
+  data: Record<string, any>,
+): Promise<void> => {
+  return http.put(`/plugins/${pluginName}-${pluginVersion}/config`, data)
 }
