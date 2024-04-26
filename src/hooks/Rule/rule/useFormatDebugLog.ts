@@ -1,12 +1,13 @@
 import { getBridgeKey } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, LogResult, RuleOutput } from '@/types/enum'
-import { groupBy, get, omit } from 'lodash'
+import { groupBy, get, omit, startCase } from 'lodash'
 
 /**
  * Some Special Log Msg
  * The list is not exhaustive
  */
-const enum LogMsg {
+export const enum LogMsg {
   RuleActivated = 'rule_activated',
   SQLSelectClauseException = 'SELECT_clause_exception',
   SQLWhereClauseException = 'WHERE_clause_exception',
@@ -282,5 +283,54 @@ export default () => {
 
   return {
     formatLog,
+  }
+}
+
+export const useShowLog = () => {
+  const { tl } = useI18nTl('RuleEngine')
+  const ruleLogMsgMap = new Map([[LogMsg.RuleActivated, tl('eventData')]])
+  const getRuleLogMsgMap = (logMsg: LogMsg) => {
+    const title = ruleLogMsgMap.get(logMsg)
+    return title ? title : tl('executionResult')
+  }
+  const republishLogMsgMap = new Map([[LogMsg.ActionSuccess, tl('messagePublishParameters')]])
+  const getRepublishLogMsgMap = (logMsg: LogMsg) => {
+    const title = republishLogMsgMap.get(logMsg)
+    return title ? title : startCase(logMsg)
+  }
+  const httpActionLogMsgMap = new Map([
+    [LogMsg.ActionTemplateRendered, tl('requestParameter')],
+    [LogMsg.ActionSuccess, tl('responseResult')],
+  ])
+  const actionTypeLogMsgMap = new Map([[BridgeType.Webhook, httpActionLogMsgMap]])
+  const getActionLogMsgMap = (targetLogData: TargetLog, logMsg: LogMsg) => {
+    const { type } = targetLogData.targetInfo || {}
+    let title = startCase(logMsg)
+    if (type) {
+      const map = actionTypeLogMsgMap.get(type as BridgeType)
+      if (map) {
+        const sTitle = map.get(logMsg)
+        if (sTitle) {
+          title = sTitle
+        }
+      }
+    }
+    return title
+  }
+  const getLogItemTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
+    const { type } = targetLogData
+    if (type === LogTargetType.Rule) {
+      return getRuleLogMsgMap(logMsg)
+    }
+    if (type === LogTargetType.Republish) {
+      return getRepublishLogMsgMap(logMsg)
+    }
+    if (type === LogTargetType.Action) {
+      return getActionLogMsgMap(targetLogData, logMsg)
+    }
+    return startCase(logMsg)
+  }
+  return {
+    getLogItemTitle,
   }
 }
