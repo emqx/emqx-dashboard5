@@ -997,4 +997,24 @@ export default {
     zh: '请先保存规则',
     en: 'Please save first',
   },
+  eventData: {
+    zh: '事件数据',
+    en: 'Event Data',
+  },
+  executionResult: {
+    zh: '执行结果',
+    en: 'Execution Result',
+  },
+  messagePublishParameters: {
+    zh: '消息发布参数',
+    en: 'Message Publish Parameters',
+  },
+  requestParameter: {
+    zh: '请求参数',
+    en: 'Request',
+  },
+  responseResult: {
+    zh: '响应结果',
+    en: 'Response',
+  },
 }

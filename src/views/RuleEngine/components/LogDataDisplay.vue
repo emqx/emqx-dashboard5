@@ -37,6 +37,7 @@
             <div class="info-wrap">
               <el-tabs
                 v-if="needTabsShowInfo(targetLogData.info)"
+                class="info-tabs"
                 :modelValue="
                   getTabsModelValue(timestamp, logTarget, Object.keys(targetLogData.info))
                 "
@@ -45,16 +46,19 @@
                 <el-tab-pane
                   v-for="(logItem, logMsg) in targetLogData.info"
                   :key="logMsg"
-                  :label="logMsg"
+                  :label="getLogItemTitle(targetLogData, logMsg as LogMsg)"
                   :name="logMsg"
                 >
-                  {{ dateFormat(logItem.time) }}
+                  <span class="log-time">{{ dateFormat(logItem.time) }}</span>
                   <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
                 </el-tab-pane>
               </el-tabs>
               <template v-else>
                 <template v-for="(logItem, logMsg) in targetLogData.info" :key="logMsg">
-                  {{ dateFormat(logItem.time) }}
+                  <div class="log-item-hd space-between">
+                    <p>{{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}</p>
+                    <span class="log-time">{{ dateFormat(logItem.time) }}</span>
+                  </div>
                   <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
                 </template>
               </template>
@@ -71,9 +75,8 @@ import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import type { FormattedLog, TargetLog } from '@/hooks/Rule/rule/useFormatDebugLog'
-import { TargetLogInfo } from '@/hooks/Rule/rule/useFormatDebugLog'
-import { LogTargetType } from '@/hooks/Rule/rule/useFormatDebugLog'
+import type { FormattedLog, TargetLog, TargetLogInfo } from '@/hooks/Rule/rule/useFormatDebugLog'
+import { LogTargetType, useShowLog, LogMsg } from '@/hooks/Rule/rule/useFormatDebugLog'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -183,9 +186,13 @@ const setTabsModelValue = (
 ) => {
   set(tabsActiveData, getTabsKey(timestamp, logTarget), value)
 }
+
+const { getLogItemTitle } = useShowLog()
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .log-data-display {
   border-top: none;
   border-bottom: none;
@@ -238,6 +245,41 @@ const setTabsModelValue = (
   }
   .icon-pending {
     animation: rotate 3s linear infinite;
+  }
+
+  .info-wrap {
+    position: relative;
+    border: 1px solid red;
+    border-radius: 10px;
+    $line-height: 40px;
+    $tab-height: 40px;
+    .log-item-hd p,
+    .log-time {
+      height: $line-height;
+      line-height: $line-height;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .info-tabs {
+      .log-time {
+        position: absolute;
+        right: 0;
+        // 24 is tab header margin bottom
+        top: -24px - $tab-height + math.div($tab-height -$line-height, 2);
+        border: 1px solid blue;
+      }
+    }
+  }
+  .el-tabs__item {
+    padding: 0 12px;
+  }
+  .el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top::before,
+  .el-tabs.el-tabs--top:not(.el-tabs--card) .el-tabs__item.is-top::after {
+    width: 12px;
+  }
+  .code-view {
+    margin-top: 0;
   }
 }
 </style>
