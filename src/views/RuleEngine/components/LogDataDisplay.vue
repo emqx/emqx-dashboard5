@@ -50,7 +50,9 @@
                   :name="logMsg"
                 >
                   <span class="log-time">{{ dateFormat(logItem.time) }}</span>
-                  <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
+                  <CodeView
+                    :code="getLogItemContent(targetLogData, logMsg as LogMsg, logItem.logContent)"
+                  />
                 </el-tab-pane>
               </el-tabs>
               <template v-else>
@@ -59,7 +61,9 @@
                     <p>{{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}</p>
                     <span class="log-time">{{ dateFormat(logItem.time) }}</span>
                   </div>
-                  <CodeView :code="stringifyObjSafely(logItem.logContent, 2)" />
+                  <CodeView
+                    :code="getLogItemContent(targetLogData, logMsg as LogMsg, logItem.logContent)"
+                  />
                 </template>
               </template>
             </div>
@@ -187,7 +191,7 @@ const setTabsModelValue = (
   set(tabsActiveData, getTabsKey(timestamp, logTarget), value)
 }
 
-const { getLogItemTitle } = useShowLog()
+const { getLogItemTitle, getLogItemContent } = useShowLog()
 </script>
 
 <style lang="scss">
@@ -249,7 +253,6 @@ const { getLogItemTitle } = useShowLog()
 
   .info-wrap {
     position: relative;
-    border: 1px solid red;
     border-radius: 10px;
     $line-height: 40px;
     $tab-height: 40px;
@@ -267,7 +270,6 @@ const { getLogItemTitle } = useShowLog()
         right: 0;
         // 24 is tab header margin bottom
         top: -24px - $tab-height + math.div($tab-height -$line-height, 2);
-        border: 1px solid blue;
       }
     }
   }
