@@ -176,11 +176,11 @@ export default () => {
   const neededInfoMap = new Map([
     [LogMsg.RuleActivated, 'meta.input'],
     [LogMsg.SQLYieldedResult, 'meta.result'],
-    [LogMsg.SQLSelectClauseException, 'meta.reason'],
-    [LogMsg.SQLWhereClauseException, 'meta.reason'],
-    [LogMsg.SQLForeachClauseException, 'meta.reason'],
-    [LogMsg.SQLIncaseClauseException, 'meta.reason'],
-    [LogMsg.ApplyRuleFailed, 'meta.reason'],
+    [LogMsg.SQLSelectClauseException, 'meta'],
+    [LogMsg.SQLWhereClauseException, 'meta'],
+    [LogMsg.SQLForeachClauseException, 'meta'],
+    [LogMsg.SQLIncaseClauseException, 'meta'],
+    [LogMsg.ApplyRuleFailed, 'meta'],
   ])
   const ruleLogMsgOrder: Map<string, number> = new Map([[LogMsg.RuleActivated, 99]])
   const handleRuleExecLogInfo: TargetLogGenerator = (log) => {
@@ -318,7 +318,7 @@ export const useShowLog = () => {
   const actionTypeLogMsgMap = new Map([[BridgeType.Webhook, httpActionLogMsgMap]])
   const getActionLogMsgTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
     const { type } = targetLogData.targetInfo || {}
-    let title = startCase(logMsg)
+    let title: undefined | string = undefined
     if (type) {
       const map = actionTypeLogMsgMap.get(type as BridgeType)
       if (map) {
@@ -328,7 +328,10 @@ export const useShowLog = () => {
         }
       }
     }
-    return title
+    if (!title && logMsg === LogMsg.ActionSuccess) {
+      title = tl('actionExecutionLog')
+    }
+    return title || startCase(logMsg)
   }
   const getLogItemTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
     const { type } = targetLogData
@@ -352,7 +355,7 @@ export const useShowLog = () => {
       return `SQL ${tl('failedNoResult')}`
     }
     if (logContent.reason) {
-      return logContent.reason
+      return `SQL ${tl('failedException')}\n${logContent.reason}`
     }
   }
   const getHTTPLogMsgContent = (targetLogData: TargetLog, logMsg: LogMsg) => {

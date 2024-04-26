@@ -92,7 +92,6 @@ import {
   Loading,
   WarningFilled,
 } from '@element-plus/icons-vue'
-import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import { escapeRegExp, get, set } from 'lodash'
 import { defineProps, ref } from 'vue'
 
