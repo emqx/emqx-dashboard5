@@ -23,6 +23,10 @@ export default {
     zh: '创建',
     en: 'Create',
   },
+  backToRuleList: {
+    zh: '返回规则列表',
+    en: 'Back to Rule List',
+  },
   actionType: {
     zh: '动作类型',
     en: 'Type of Action',

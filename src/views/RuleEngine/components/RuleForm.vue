@@ -83,10 +83,7 @@
     <el-row class="oper-row">
       <el-col :span="24">
         <el-button @click="$router.push({ name: 'rule' })">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button type="primary" plain :disabled="disabled" @click="saveAsCopy" v-if="isEdit">
-          {{ tl('saveAsCopy') }}
+          {{ savedAfterRuleChange ? tl('backToRuleList') : $t('Base.cancel') }}
         </el-button>
         <el-button
           type="primary"
@@ -95,6 +92,9 @@
           @click="$emit('save')"
         >
           {{ isEdit ? $t('Base.update') : $t('Base.save') }}
+        </el-button>
+        <el-button type="primary" plain :disabled="disabled" @click="saveAsCopy" v-if="isEdit">
+          {{ tl('saveAsCopy') }}
         </el-button>
       </el-col>
     </el-row>
@@ -195,7 +195,7 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(prop.modelValue),
 })
 
-const { isRuleSaveButtonDisabled } = useStatusController()
+const { savedAfterRuleChange, isRuleSaveButtonDisabled } = useStatusController()
 
 const ruleSql = computed(() => ruleValue.value.sql)
 

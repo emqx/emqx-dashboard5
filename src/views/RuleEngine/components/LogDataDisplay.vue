@@ -254,6 +254,9 @@ const { getLogItemTitle, getLogItemContent } = useShowLog()
   .info-wrap {
     position: relative;
     border-radius: 10px;
+    .el-tabs .el-tabs__header {
+      padding: 0;
+    }
     $line-height: 40px;
     $tab-height: 40px;
     .log-item-hd p,
@@ -273,6 +276,7 @@ const { getLogItemTitle, getLogItemContent } = useShowLog()
       }
     }
   }
+
   .el-tabs__item {
     padding: 0 12px;
   }
