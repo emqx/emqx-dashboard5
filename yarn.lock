@@ -3521,6 +3521,11 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
+avsc@^5.4.7:
+  version "5.7.7"
+  resolved "https://registry.yarnpkg.com/avsc/-/avsc-5.7.7.tgz#8d1b5fd85904cc96a1e439450633ff33f4aff57b"
+  integrity sha512-9cYNccliXZDByFsFliVwk5GvTq058Fj513CiR4E60ndDwmuXzTJEp/Bp8FyuRmGyYupLjHLs+JA9/CBoVS4/NQ==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -8471,6 +8476,15 @@ json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
+
+json-to-avro@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/json-to-avro/-/json-to-avro-1.1.1.tgz#6e05463aeded550855537611cd0d95f78b0ddbe3"
+  integrity sha512-w3QC4kF0Sg8Dki89EXBY0NsECdTZfTTYMKiLUDsSneBwA7/s3Qs4e+YH1/2IAglUndXTxeKCisSV2+RfO66Kuw==
+  dependencies:
+    avsc "^5.4.7"
+    debug "^4.1.1"
+    lodash "^4.17.11"
 
 json3@^3.3.3:
   version "3.3.3"

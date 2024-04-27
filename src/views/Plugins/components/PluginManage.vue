@@ -1,11 +1,21 @@
 <template>
   <div class="plugin-manage">
-    <plugin-form-kit v-if="uiConfigs" :data="record" :layouts="uiConfigs" @submit="handleSubmit" />
+    <plugin-form-kit
+      v-if="uiConfigs"
+      :data="record"
+      :layouts="uiConfigs"
+      :save-func="handleSubmit"
+      @saved="fetchPluginConfigs(pluginName, pluginVersion)"
+    />
+    <template v-else>
+      <el-skeleton v-if="schemaLoading" :rows="6" animated />
+      <div v-else-if="!schemaLoading">{{ $t('Plugins.noPluginConfig') }}</div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted } from 'vue'
 import useRenderPluginForm from '@/hooks/Plugins/useRenderPluginForm'
 import PluginFormKit from '@/components/PluginsForm/PluginFormKit.vue'
 
@@ -14,14 +24,27 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  pluginVersion: {
+    type: String,
+    required: true,
+  },
 })
 
-const { record, uiConfigs, fetchPluginConfigs } = useRenderPluginForm()
+const {
+  record,
+  uiConfigs,
+  schemaLoading,
+  fetchPluginSchema,
+  fetchPluginConfigs,
+  savePluginsConfigs,
+} = useRenderPluginForm()
 
-fetchPluginConfigs(props.pluginName)
-
-function handleSubmit(data: Record<string, any>) {
-  console.log(JSON.stringify(data, null, 2))
-  // TODO: Implement API usage here
+async function handleSubmit(data: Record<string, any>) {
+  return await savePluginsConfigs(props.pluginName, props.pluginVersion, data)
 }
+
+onMounted(async () => {
+  await fetchPluginSchema(props.pluginName, props.pluginVersion)
+  await fetchPluginConfigs(props.pluginName, props.pluginVersion)
+})
 </script>

@@ -1304,7 +1304,7 @@
       "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者。"
     },
     "mqtt_client_attrs_init": {
-      "label": "客户端属性初始化",
+      "label": "客户端属性",
       "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
     },
     "client_attrs_init_set_as_attr": {
