@@ -55,6 +55,9 @@
                   />
                 </el-tab-pane>
               </el-tabs>
+              <div class="loading-container" v-else-if="needShowLoading(targetLogData)">
+                <el-icon><Loading class="icon-pending" /></el-icon>
+              </div>
               <template v-else>
                 <template v-for="(logItem, logMsg) in targetLogData.info" :key="logMsg">
                   <div class="log-item-hd space-between">
@@ -164,6 +167,10 @@ const getResultIconClass = (result: LogResult) => classMap.get(result)
 
 const needTabsShowInfo = (info: TargetLogInfo) =>
   info && typeof info === 'object' && Object.keys(info).length > 1
+
+const needShowLoading = (targetLog: TargetLog) => {
+  return targetLog.result === LogResult.Pending && Object.keys(targetLog.info).length === 0
+}
 
 const tabsActiveData = ref({})
 const getTabsKey = (timestamp: string | number, logTarget: string | number) =>
@@ -285,6 +292,12 @@ const { getLogItemTitle, getLogItemContent } = useShowLog()
   }
   .code-view {
     margin-top: 0;
+  }
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
   }
 }
 </style>
