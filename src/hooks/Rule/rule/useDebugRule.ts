@@ -1,24 +1,20 @@
 import { addTrace, deleteTrace, getTraceLog } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
-import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
-import { RuleOutput, TraceEncodeType } from '@/types/enum'
+import { TraceEncodeType } from '@/types/enum'
 import { BasicRule, RuleItem } from '@/types/rule'
 import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
 import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
-import useBridgeTypeValue from '../bridge/useBridgeTypeValue'
 import type { FormattedLog, LogItem } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 
 export default () => {
-  const { tl } = useI18nTl('RuleEngine')
-
   let traceName = ''
 
   const logData = ref<FormattedLog>({})
@@ -215,14 +211,7 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
   }
 
   onMounted(() => {
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // isTesting.value = false
+    isTesting.value = false
   })
 
   return {

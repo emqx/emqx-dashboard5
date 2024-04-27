@@ -1029,4 +1029,8 @@ export default {
     zh: '动作执行日志',
     en: 'Action Execution Log',
   },
+  debugLeaveConfirm: {
+    zh: '离开页面将停止测试，是否确认离开？',
+    en: 'Leaving the page will stop the test, is it confirmed to leave?',
+  },
 }

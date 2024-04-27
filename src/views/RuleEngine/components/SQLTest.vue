@@ -148,6 +148,7 @@ import Monaco from '@/components/Monaco.vue'
 import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType, TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
@@ -406,7 +407,7 @@ const submitTestRule = async () => {
     //
   }
 }
-const handleTestMethodChanged = (val: TestRuleTarget) => {
+const handleTestMethodChanged = () => {
   emptyLogArr()
   stopTest()
 }
@@ -414,6 +415,9 @@ const stopTest = () => {
   handleStopTest()
   isTestStarted.value = false
 }
+
+const judgeNeedRemindUser = () => isTestStarted.value
+useDataNotSaveConfirm(judgeNeedRemindUser, 'RuleEngine.debugLeaveConfirm')
 
 setDataTypeNContext()
 
@@ -483,7 +487,7 @@ onUnmounted(() => {
   }
   .buttons-bar {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     padding-bottom: 12px;
     > div {
       margin-right: 12px;
