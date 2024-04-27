@@ -392,6 +392,9 @@ const startTest = async () => {
   try {
     if (isMockInput.value) {
       await startTestRuleUseMockData(props.ruleData.id)
+      // TODO:TODO:TODO:TODO:confirm
+      await waitAMoment(1000)
+      await submitMockDataForTestRule(props.ruleData.id, getMockContext())
     } else {
       await startTestRuleUseRealData(props.ruleData.id)
     }
