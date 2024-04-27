@@ -60,11 +60,7 @@ export default createStore({
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
     /* rule page start */
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    isTesting: true,
+    isTesting: false,
     savedAfterRuleChange: false,
     testRuleTarget: TestRuleTarget.Rule,
     /* rule page end */
@@ -186,7 +182,8 @@ export default createStore({
       return e == 'enterprise' ? 0b01 : 0b10
     },
     isDev() {
-      return process.env.NODE_ENV === 'development'
+      return false
+      // return process.env.NODE_ENV === 'development'
     },
     getSchema(state) {
       return (key: string) => {

@@ -27,17 +27,21 @@ export const useCheckDataChanged = (
 }
 
 export default (
-  countIsRecordChanged?: () => boolean,
+  judgeNeedBlock?: () => boolean,
+  leaveTipKey = 'Base.unloadTip',
 ): {
   updateIsSubmitted: () => void
 } => {
   const { t } = useI18nTl('RuleEngine')
 
+  /**
+   * just for the flow page
+   */
   let isSubmitted = false
 
   const { getters } = useStore()
   const unloadHandler = (event: BeforeUnloadEvent) => {
-    if (isFunction(countIsRecordChanged) && !countIsRecordChanged()) {
+    if (isFunction(judgeNeedBlock) && !judgeNeedBlock()) {
       return
     }
     event.preventDefault()
@@ -62,7 +66,7 @@ export default (
     return ElMessageBox({
       type: 'info',
       title: t('Base.leavePage'),
-      message: t('Base.unloadTip'),
+      message: t(leaveTipKey ?? 'Base.unloadTip'),
       showCancelButton: true,
       confirmButtonText: t('Base.leave'),
       showClose: false,
@@ -72,7 +76,9 @@ export default (
     })
   }
 
-  const updateIsSubmitted = () => (isSubmitted = true)
+  const updateIsSubmitted = () => {
+    isSubmitted = true
+  }
 
   onBeforeRouteLeave(async (to) => {
     try {
@@ -80,7 +86,7 @@ export default (
       if (to.name === 'login' || isSubmitted) {
         return
       }
-      if (!isFunction(countIsRecordChanged) || countIsRecordChanged()) {
+      if (!isFunction(judgeNeedBlock) || judgeNeedBlock()) {
         await customPopupWarning()
       }
       return
