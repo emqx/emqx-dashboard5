@@ -363,7 +363,9 @@ const handleSchemaCreated = (schemaName: string) => {
 
 const showSQLContentDialog = ref(false)
 const currentSQL = computed(() =>
-  currentSchemaIndex.value >= 0 ? formData.value.checks[currentSchemaIndex.value].sql : '',
+  currentSchemaIndex.value >= 0
+    ? (formData.value.checks[currentSchemaIndex.value] as any)?.sql || ''
+    : '',
 )
 const editSQL = (index: number) => {
   currentSchemaIndex.value = index
