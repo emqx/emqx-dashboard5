@@ -761,8 +761,6 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
-export type EmqxMqttClientAttrsInit = EmqxClientAttrsInit | 'disabled'
-
 export type EmqxMqttPeerCertAsClientid =
   typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
 
@@ -961,22 +959,9 @@ export interface EmqxConsoleHandler {
   time_offset?: string
 }
 
-export type EmqxClientAttrsInitExtractFrom =
-  typeof EmqxClientAttrsInitExtractFrom[keyof typeof EmqxClientAttrsInitExtractFrom]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxClientAttrsInitExtractFrom = {
-  clientid: 'clientid',
-  username: 'username',
-  cn: 'cn',
-  dn: 'dn',
-  user_property: 'user_property',
-} as const
-
 export interface EmqxClientAttrsInit {
-  extract_from?: EmqxClientAttrsInitExtractFrom
-  extract_regexp?: string
-  extract_as?: string
+  expression?: string
+  set_as_attr?: string
 }
 
 export interface EmqxBroker {

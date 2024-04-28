@@ -4,11 +4,25 @@
       <label>{{ tl('test') }}</label>
       <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
-      <el-switch v-model="showTest" :disabled="!$hasPermission('post')"></el-switch>
+      <el-switch v-model="isTesting" :disabled="!$hasPermission('post')" />
     </div>
     <el-collapse-transition>
-      <div v-show="showTest">
-        <div class="test-header">
+      <div v-show="isTesting">
+        <div class="vertical-align-center radio-group-container">
+          <label> {{ tl('testTarget') }} </label>
+          <el-radio-group v-model="testTarget" @change="handleTestMethodChanged">
+            <el-radio-button :label="TestRuleTarget.SQL">SQL</el-radio-button>
+            <el-radio-button :label="TestRuleTarget.Rule">{{ tl('rule') }}</el-radio-button>
+          </el-radio-group>
+        </div>
+        <div class="vertical-align-center radio-group-container" v-if="isTestRule">
+          <label>{{ tl('inputData') }}</label>
+          <el-radio-group v-model="inputData" @change="handleTestMethodChanged">
+            <el-radio-button :label="InputData.Mock">{{ tl('mockData') }}</el-radio-button>
+            <el-radio-button :label="InputData.Real">{{ tl('realData') }}</el-radio-button>
+          </el-radio-group>
+        </div>
+        <div class="test-header" v-if="isMockInput">
           <label class="test-label">
             {{ tl('dataSource') }}
             <InfoTooltip :content="tl('dataSourceDesc')" />
@@ -26,7 +40,7 @@
         <el-divider />
         <el-row class="input-output-row" :gutter="26">
           <!-- Input data -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="isMockInput">
             <label class="test-label">
               {{ tl('testData') }}
               <InfoTooltip :content="tl('testDataDesc')" />
@@ -35,8 +49,15 @@
               <TestSQLContextForm v-model="testParams.context" />
             </el-card>
           </el-col>
+          <el-col :span="12" v-else>
+            <label class="test-label">{{ tl('testingWithRealData') }}</label>
+            <el-card shadow="never" class="test-card with-border tip-card">
+              <p class="tip" v-if="!isTestStarted">{{ tl('pleaseClickStartTest') }}</p>
+              <p class="tip" v-else>{{ tl('waitingRealData') }}</p>
+            </el-card>
+          </el-col>
           <!-- Output -->
-          <el-col :span="12">
+          <el-col :span="12" v-if="!isTestRule">
             <label class="test-label" shadow="none">
               {{ tl('outputResult') }}
               <InfoTooltip :content="tl('outputResultDesc')" />
@@ -61,54 +82,89 @@
               </div>
             </el-card>
           </el-col>
+          <el-col :span="12" v-else>
+            <label class="test-label" shadow="none">
+              {{ tl('outputResult') }}
+              <InfoTooltip :content="tl('outputResultDesc')" />
+            </label>
+            <el-card class="test-result rule-result">
+              <el-scrollbar :max-height="490" ref="ScrollbarCom">
+                <div class="collapse-wrap">
+                  <LogDataDisplay :log-data="logData" />
+                </div>
+              </el-scrollbar>
+            </el-card>
+          </el-col>
         </el-row>
-        <el-button
-          type="primary"
-          :loading="testLoading"
-          plain
-          :icon="CaretRight"
-          :disabled="!$hasPermission('post')"
-          @click="submitTest"
-        >
-          {{ tl('testsql') }}
-        </el-button>
-        <el-button plain :icon="RefreshRight" @click="resetContext">
-          {{ t('Base.reset') }}
-        </el-button>
+        <div class="buttons-bar">
+          <el-button
+            v-if="!isTestRule && isMockInput"
+            type="primary"
+            :loading="testLoading"
+            plain
+            :icon="CaretRight"
+            :disabled="!$hasPermission('post')"
+            @click="submitTestSQL"
+          >
+            {{ tl('testsql') }}
+          </el-button>
+          <template v-if="isTestRule">
+            <template v-if="!isTestStarted">
+              <div class="btn-start-container">
+                <el-button
+                  type="primary"
+                  plain
+                  @click="startTest"
+                  :icon="CaretRight"
+                  :disabled="!savedAfterRuleChange"
+                >
+                  {{ tl('startTest') }}
+                </el-button>
+                <p class="tip" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
+              </div>
+            </template>
+            <template v-else>
+              <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
+                {{ tl('submitTest') }}
+              </el-button>
+              <el-button plain @click="stopTest">
+                {{ tl('stopTest') }}
+              </el-button>
+            </template>
+          </template>
+          <el-button v-if="isMockInput" plain :icon="RefreshRight" @click="resetContext">
+            {{ t('Base.reset') }}
+          </el-button>
+        </div>
       </div>
     </el-collapse-transition>
-    <el-dialog v-model="showSQLDialog" class="sql-dialog" :title="tl('sqlExample')">
-      <p>{{ eventDesc }}</p>
-      <code-view v-if="showSQLDialog" lang="sql" :code="sqlExample" :show-copy-btn="false" />
-      <template #footer>
-        <el-button @click="useSQL(sqlExample)">
-          {{ tl('useSQL') }}
-        </el-button>
-        <el-button @click="copyText(sqlExample)">
-          {{ $t('Base.copy') }}
-        </el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
-import CodeView from '@/components/CodeView.vue'
+import { createRandomString, getKeywordsFromSQL, waitAMoment } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
+import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useCopy from '@/hooks/useCopy'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleInputType } from '@/types/enum'
+import { RuleInputType, TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import JSONbig from 'json-bigint'
-import { PropType, Ref, defineEmits, defineProps, ref, watch } from 'vue'
+import { PropType, Ref, computed, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
+import LogDataDisplay from './LogDataDisplay.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
+
+const enum InputData {
+  Mock = 'mock',
+  Real = 'real',
+}
 
 const JSONbigNative = JSONbig({ useNativeBigInt: true })
 
@@ -120,9 +176,9 @@ interface TestParams {
 const { tl, t } = useI18nTl('RuleEngine')
 
 const props = defineProps({
-  sql: {
-    type: String,
-    default: '',
+  isEdit: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
   eventList: {
     type: Array as PropType<Array<RuleEvent>>,
@@ -132,39 +188,28 @@ const props = defineProps({
     type: Array as PropType<Array<BridgeItem>>,
     required: true,
   },
-  canSave: {
-    type: Boolean,
-    default: true,
-  },
-  customPayload: {
-    type: String,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
+  ruleData: {
+    type: Object,
+    required: true,
   },
 })
 
+const ruleSql = computed(() => props.ruleData?.sql || '')
+
+const isTestRule = computed(() => testTarget.value === TestRuleTarget.Rule)
+const { isTesting, savedAfterRuleChange, testTarget } = useStatusController()
+
 const testLoading = ref(false)
 const resultData = ref<string>('')
-const emits = defineEmits(['use-sql'])
 
-const showTest = ref(false)
+// const showTest = ref(true)
 const testParams: Ref<TestParams> = ref({
   context: {},
   output: '',
 })
 const dataType: Ref<string> = ref('')
 const isDataTypeNoMatchSQL = ref(false)
-const showSQLDialog = ref(false)
-const sqlExample = ref('')
-const eventDesc = ref('')
 const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
-
-const useSQL = (SQLContent: string) => {
-  emits('use-sql', SQLContent)
-  showSQLDialog.value = false
-}
 
 const { copyText } = useCopy()
 
@@ -221,7 +266,7 @@ const handleDataSourceChanged = ({ value }: { value: string }) => {
   // a warning will be issued indicating that the data type does not match the SQL
   const { eventList = [], ingressBridgeList = [] } = props
   const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
-  const { fromStr } = getKeywordsFromSQL(props.sql)
+  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
   const { context } = getTestColumns(type, value, props.eventList || [])
   setContext(context)
@@ -241,12 +286,9 @@ const handleSQLChanged = (sql: string) => {
   isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
 }
 
-watch(
-  () => props.sql,
-  (val) => {
-    handleSQLChanged(val)
-  },
-)
+watch(ruleSql, (val) => {
+  handleSQLChanged(val)
+})
 
 watch(dataType, (val) => {
   handleDataSourceChanged({ value: val })
@@ -264,15 +306,18 @@ const getEventTypeInContext = () => {
   return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
 }
 
-const submitTest = async () => {
-  testLoading.value = true
-  const context = {
+const getMockContext = () => {
+  return {
     ...testParams.value.context,
     event_type: getEventTypeInContext(),
   }
+}
+
+const submitTestSQL = async () => {
+  testLoading.value = true
   let res
   try {
-    res = await testsql({ context, sql: props.sql })
+    res = await testsql({ context: getMockContext(), sql: ruleSql.value })
   } catch (error) {
     //
   }
@@ -298,8 +343,8 @@ const setDataType = (type: RuleInputType, firstInput: string) => {
 }
 
 const setDataTypeNContext = () => {
-  const { sql, eventList, ingressBridgeList } = props
-  const { fromStr } = getKeywordsFromSQL(sql)
+  const { eventList, ingressBridgeList } = props
+  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
   const [firstInput = ''] = transFromStrToFromArr(fromStr)
   const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
   const { context } = getTestColumns(inputType, firstInput, eventList)
@@ -307,7 +352,84 @@ const setDataTypeNContext = () => {
   testParams.value = { context, output: '' }
 }
 
+const inputData = ref<InputData>(InputData.Mock)
+const isMockInput = computed(
+  () => testTarget.value === TestRuleTarget.SQL || inputData.value === InputData.Mock,
+)
+
+const {
+  logData,
+  emptyLogArr,
+  handleStopTest,
+  startTestRuleUseMockData,
+  submitMockDataForTestRule,
+  startTestRuleUseRealData,
+  setCbAfterPolling,
+} = useDebugRule()
+
+const ScrollbarCom = ref()
+const scrollLogToBottom = async (log: string) => {
+  if (log) {
+    let isScrollToBottom = false
+    const scrollWrap = ScrollbarCom.value.wrapRef
+    const scrollContent = scrollWrap?.firstChild
+    if (scrollWrap && scrollContent) {
+      isScrollToBottom =
+        Math.abs(scrollWrap.clientHeight + scrollWrap.scrollTop - scrollContent.clientHeight) < 5
+    }
+    await waitAMoment()
+    if (isScrollToBottom) {
+      ScrollbarCom.value.scrollTo({
+        top: scrollContent.clientHeight - scrollWrap.clientHeight,
+        behavior: 'smooth',
+      })
+    }
+  }
+}
+
+const isTestStarted = ref(false)
+const startTest = async () => {
+  isTestStarted.value = true
+  try {
+    if (isMockInput.value) {
+      await startTestRuleUseMockData(props.ruleData.id)
+      // TODO:TODO:TODO:TODO:confirm
+      await waitAMoment(1000)
+      await submitMockDataForTestRule(props.ruleData.id, getMockContext())
+    } else {
+      await startTestRuleUseRealData(props.ruleData.id)
+    }
+    setCbAfterPolling(scrollLogToBottom)
+  } catch (error) {
+    //
+  }
+}
+const submitTestRule = async () => {
+  try {
+    await submitMockDataForTestRule(props.ruleData.id, getMockContext())
+  } catch (error) {
+    //
+  }
+}
+const handleTestMethodChanged = () => {
+  emptyLogArr()
+  stopTest()
+}
+const stopTest = () => {
+  handleStopTest()
+  isTestStarted.value = false
+}
+
+const judgeNeedRemindUser = () => isTestStarted.value
+useDataNotSaveConfirm(judgeNeedRemindUser, 'RuleEngine.debugLeaveConfirm')
+
 setDataTypeNContext()
+
+watch(() => props.ruleData, stopTest)
+
+onUnmounted(() => {
+  isTesting.value = false
+})
 </script>
 
 <style lang="scss">
@@ -349,6 +471,48 @@ setDataTypeNContext()
       display: flex;
       justify-content: flex-end;
       padding: 8px 0;
+    }
+  }
+  .tip-card {
+    height: 490px;
+    .el-card__body {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  // FIXME: remove
+  .radio-group-container {
+    margin: 12px 0;
+    > label {
+      margin-right: 20px;
+    }
+  }
+  .buttons-bar {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 12px;
+    > div {
+      margin-right: 12px;
+    }
+  }
+  .rule-result {
+    > .el-card__body {
+      padding: 0;
+    }
+    .collapse-wrap {
+      padding: 24px;
+    }
+  }
+  .btn-start-container {
+    position: relative;
+    .tip {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      transform: translateY(100%);
+      opacity: 0.7;
     }
   }
 }

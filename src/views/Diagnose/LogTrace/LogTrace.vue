@@ -144,19 +144,24 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="record.type === 'topic'">
+          <el-col :span="12" v-if="record.type === LogTraceType.Topic">
             <el-form-item :label="$t('Base.topic')" prop="topic">
               <el-input v-model="record.topic" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="record.type === 'clientid'">
+          <el-col :span="12" v-if="record.type === LogTraceType.ClientID">
             <el-form-item :label="$t('Base.clientid')" prop="clientid">
               <el-input v-model="record.clientid" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="record.type === 'ip_address'">
+          <el-col :span="12" v-if="record.type === LogTraceType.IPAddress">
             <el-form-item :label="$t('Base.ip')" prop="ip_address">
               <el-input v-model="record.ip_address" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" v-if="record.type === LogTraceType.RuleID">
+            <el-form-item :label="`${startCase(t('RuleEngine.rule'))} ID`" prop="ruleid">
+              <el-input v-model="record.ruleid" />
             </el-form-item>
           </el-col>
           <el-col :span="12" style="clear: both">
@@ -213,10 +218,10 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
-import { CheckStatus, TraceEncodeType } from '@/types/enum'
+import { CheckStatus, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { omit } from 'lodash'
+import { omit, startCase } from 'lodash'
 import moment from 'moment'
 import { Ref, defineComponent, nextTick, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -225,10 +230,11 @@ const DEFAULT_DURATION = 30 * 60 * 1000
 
 const createRawTraceForm = () => ({
   name: '',
-  type: 'clientid' as const,
+  type: LogTraceType.ClientID,
   clientid: '',
   ip_address: '',
   topic: '',
+  ruleid: '',
   startTime: ['', ''] as [string, string],
   payload_encode: TraceEncodeType.Text,
 })
@@ -249,16 +255,20 @@ export default defineComponent({
     const createLoading = ref(false)
     const typeOptions = [
       {
-        value: 'clientid',
+        value: LogTraceType.ClientID,
         label: t('Base.clientid'),
       },
       {
-        value: 'topic',
+        value: LogTraceType.Topic,
         label: t('Base.topic'),
       },
       {
-        value: 'ip_address',
+        value: LogTraceType.IPAddress,
         label: t('Base.ip'),
+      },
+      {
+        value: LogTraceType.RuleID,
+        label: `${startCase(t('RuleEngine.rule'))} ID`,
       },
     ]
     const record: Ref<TraceFormRecord> = ref(createRawTraceForm())
@@ -269,9 +279,10 @@ export default defineComponent({
       topic: [{ required: true, message: t('General.pleaseEnter') }],
       clientid: [{ required: true, message: t('General.pleaseEnter') }],
       ip_address: [{ required: true, message: t('General.pleaseEnter') }],
+      ruleid: [{ required: true, message: t('General.pleaseEnter') }],
       startTime: [
         {
-          validator(r, v, cb) {
+          validator(r: any, v: Array<string>, cb: (error?: Error) => void) {
             // eslint-disable-next-line no-unused-expressions
             v && v[0] && v[1] ? cb() : cb(new Error(t('LogTrace.needStartTime')))
           },
@@ -317,21 +328,24 @@ export default defineComponent({
       createForm.value?.validate(async (valid: boolean) => {
         if (!valid) return
         createLoading.value = true
-        const { clientid, topic, ip_address, startTime, type } = record.value
+        const { clientid, topic, ip_address, ruleid, startTime, type } = record.value
         let targetInfo: TraceRecord = {
           ...omit(record.value, ['clientid', 'topic', 'ip_address', 'startTime']),
           start_at: new Date(startTime[0]).toISOString(),
           end_at: new Date(startTime[1]).toISOString(),
         }
         switch (type) {
-          case typeOptions[0].value:
+          case LogTraceType.ClientID:
             targetInfo.clientid = clientid
             break
-          case typeOptions[1].value:
+          case LogTraceType.Topic:
             targetInfo.topic = topic
             break
-          case typeOptions[2].value:
+          case LogTraceType.IPAddress:
             targetInfo.ip_address = ip_address
+            break
+          case LogTraceType.RuleID:
+            targetInfo.ruleid = ruleid
             break
           default:
             break
@@ -416,6 +430,7 @@ export default defineComponent({
 
     return {
       Plus,
+      t,
       tl: (key: string) => t('LogTrace.' + key),
       traceTbLoading,
       traceTable,
@@ -424,6 +439,8 @@ export default defineComponent({
       typeOptions,
       record,
       encodeTypeOpt,
+      LogTraceType,
+      startCase,
       transMemorySizeNumToStr,
       getTypeLabelByValue,
       getEncodeTypeLabelByValue,

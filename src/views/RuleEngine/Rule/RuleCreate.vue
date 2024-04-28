@@ -6,6 +6,7 @@
         ref="formCom"
         v-model="ruleValue"
         :submit-loading="submitLoading"
+        :name-disabled="savedAfterRuleChange"
         @save="submitCreateRule"
       />
     </el-card>
@@ -21,9 +22,10 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { createRules, getRuleInfo } from '@/api/ruleengine'
+import { createRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { countDuplicationName } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
@@ -38,6 +40,7 @@ const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
+
 const submitLoading = ref(false)
 
 // const mode = 'sql'
@@ -47,6 +50,10 @@ const { createRawRuleForm } = useRuleForm()
 const ruleValue = ref(createRawRuleForm())
 let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
+
+let isRuleCreated = false
+const { isTesting, savedAfterRuleChange, updateSavedRule } = useStatusController(ruleValue)
+savedAfterRuleChange.value = false
 
 const formCom = ref()
 
@@ -69,10 +76,17 @@ const submitCreateRule = async () => {
   submitLoading.value = true
 
   try {
-    await createRules({ ...ruleValue.value })
+    await (isRuleCreated
+      ? updateRules(ruleValue.value.id, { ...ruleValue.value })
+      : createRules({ ...ruleValue.value }))
     rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))
-    router.push({ name: 'rule' })
+    isRuleCreated = true
+    if (!isTesting.value) {
+      router.push({ name: 'rule' })
+    } else {
+      updateSavedRule(ruleValue.value)
+    }
   } catch (error) {
     //
   } finally {

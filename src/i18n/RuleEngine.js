@@ -23,6 +23,10 @@ export default {
     zh: '创建',
     en: 'Create',
   },
+  backToRuleList: {
+    zh: '返回规则列表',
+    en: 'Back to Rule List',
+  },
   actionType: {
     zh: '动作类型',
     en: 'Type of Action',
@@ -1244,6 +1248,86 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   ruleRateBarDesc: {
     zh: '过去一分钟内规则匹配速度的趋势',
     en: 'Trend of rule matching speed in the last minute',
+  },
+  ruleExec: {
+    zh: '规则执行与输出',
+    en: 'Rule Execution and Output',
+  },
+  testTarget: {
+    zh: '测试目标',
+    en: 'Test Target',
+  },
+  inputData: {
+    zh: '输入数据',
+    en: 'Input Data',
+  },
+  mockData: {
+    zh: '模拟数据',
+    en: 'Mock Data',
+  },
+  realData: {
+    zh: '真实数据',
+    en: 'Real Data',
+  },
+  testingWithRealData: {
+    zh: '使用真实数据测试',
+    en: 'Testing with Real Data',
+  },
+  pleaseClickStartTest: {
+    zh: '请点击开始测试',
+    en: 'Please click Start Test',
+  },
+  waitingRealData: {
+    zh: '等待真实输入触发规则...',
+    en: 'Waiting for real input to trigger rule...',
+  },
+  startTest: {
+    zh: '开始测试',
+    en: 'Start Test',
+  },
+  stopTest: {
+    zh: '停止测试',
+    en: 'Stop Test',
+  },
+  submitTest: {
+    zh: '提交测试',
+    en: 'Submit Test',
+  },
+  pleaseSaveFirst: {
+    zh: '请先保存规则',
+    en: 'Please save first',
+  },
+  eventData: {
+    zh: '事件数据',
+    en: 'Event Data',
+  },
+  executionResult: {
+    zh: '执行结果',
+    en: 'Execution Result',
+  },
+  messagePublishParameters: {
+    zh: '消息发布参数',
+    en: 'Message Publish Parameters',
+  },
+  requestParameter: {
+    zh: '请求参数',
+    en: 'Request',
+  },
+  responseResult: {
+    zh: '响应结果',
+    en: 'Response',
+  },
+  stoppedRendering: {
+    zh: '无响应结果：禁止发起请求',
+    en: 'No response: Request is disabled',
+  },
+  actionExecutionLog: {
+    zh: '动作执行日志',
+    en: 'Action Execution Log',
+  },
+  debugLeaveConfirm: {
+    zh: '离开页面将停止测试，是否确认离开？',
+    en: 'Leaving the page will stop the test, is it confirmed to leave?',
   },
   errorKeyValuePair: {
     zh: '错误的键值对输入',

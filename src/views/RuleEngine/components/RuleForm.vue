@@ -13,7 +13,11 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item required prop="id">
-                <el-input v-model="ruleValue.id" placeholder="ID" :disabled="isEdit" />
+                <el-input
+                  v-model="ruleValue.id"
+                  placeholder="ID"
+                  :disabled="isEdit || nameDisabled"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -70,19 +74,23 @@
     <el-row class="test-row">
       <SQLTest
         ref="testSQLRef"
-        :sql="ruleValue.sql"
-        :ingress-bridge-list="ingressBridgeList"
+        isEdit
+        :rule-data="modelValue"
         :event-list="ruleEventsList"
-        :custom-payload="payloadForTest"
-        @change-loading="handleTestLoadng"
-        @save="saveSQLFromTest"
-        @use-sql="useSQLTemplate"
+        :ingress-bridge-list="ingressBridgeList"
       />
     </el-row>
     <el-row class="oper-row">
       <el-col :span="24">
         <el-button @click="$router.push({ name: 'rule' })">
-          {{ $t('Base.cancel') }}
+          {{ savedAfterRuleChange ? tl('backToRuleList') : $t('Base.cancel') }}
+        </el-button>
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post') || disabled || isRuleSaveButtonDisabled"
+          @click="$emit('save')"
+        >
+          {{ isEdit ? $t('Base.update') : $t('Base.save') }}
         </el-button>
         <el-button
           type="primary"
@@ -93,14 +101,6 @@
         >
           {{ tl('saveAsCopy') }}
         </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post') || disabled"
-          :loading="submitLoading"
-          @click="$emit('save')"
-        >
-          {{ isEdit ? $t('Base.update') : $t('Base.create') }}
-        </el-button>
       </el-col>
     </el-row>
   </div>
@@ -108,9 +108,7 @@
 </template>
 
 <script lang="ts">
-import useSourceList from '@/hooks/Rule/action/useSourceList'
 import { defineComponent } from 'vue'
-import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'rule-form',
@@ -123,6 +121,8 @@ import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/commo
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import useSourceList from '@/hooks/Rule/action/useSourceList'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
@@ -144,6 +144,7 @@ import {
   watch,
 } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
@@ -163,6 +164,13 @@ const prop = defineProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * for in create rule page but already saved
+   */
+  nameDisabled: {
+    type: Boolean,
+    default: false,
+  },
   disabled: {
     type: Boolean,
     default: false,
@@ -178,7 +186,6 @@ const ingressBridgeList: Ref<Array<BridgeItem>> = ref([])
 const ruleEventsList: Ref<Array<RuleEvent>> = ref([])
 const briefEditType = ref(false)
 const testSQLRef = ref()
-const testLoading = ref(false)
 
 const ruleValueDefault = {
   id: '',
@@ -192,6 +199,8 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(ruleValueDefault),
   ...cloneDeep(prop.modelValue),
 })
+
+const { savedAfterRuleChange, isRuleSaveButtonDisabled } = useStatusController()
 
 const ruleSql = computed(() => ruleValue.value.sql)
 
@@ -213,7 +222,6 @@ const fieldLabelMap = {
 }
 
 const testSQL = ref('')
-const payloadForTest = ref('')
 const showSQLTemplateDrawer = ref(false)
 
 enum RightTab {
@@ -365,12 +373,6 @@ const useSQLTemplate = (SQLTemp: string) => {
 
 const openTemplateDrawer = () => {
   showSQLTemplateDrawer.value = true
-}
-
-const saveSQLFromTest = useSQLTemplate
-
-const handleTestLoadng = (val: boolean) => {
-  testLoading.value = val
 }
 
 // const eventDoNotNeedInRuleForm = '$events/message_publish'

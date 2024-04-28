@@ -3,7 +3,7 @@ import { getValueFromQuery } from '@/common/tools'
 import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
-import { LicenseCustomerType } from '@/types/enum'
+import { TestRuleTarget, LicenseCustomerType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { createStore } from 'vuex'
 
@@ -49,7 +49,6 @@ const getClientTableColumns = () => {
   return columns ? JSON.parse(columns) : DEFAULT_CLIENT_TABLE_COLUMNS
 }
 
-
 const getLoginBackend = () => {
   const loginBackend = localStorage.getItem('loginBackend') || 'local'
   if (loginBackend === 'undefined') {
@@ -75,6 +74,11 @@ export default createStore({
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
+    /* rule page start */
+    isTesting: false,
+    savedAfterRuleChange: false,
+    testRuleTarget: TestRuleTarget.Rule,
+    /* rule page end */
     loginBackend: getLoginBackend(),
   },
   actions: {
@@ -186,6 +190,17 @@ export default createStore({
       state.clientTableColumns = columns
       localStorage.setItem('clientTableColumns', JSON.stringify(columns))
     },
+    /* rule page start */
+    SET_IS_TESTING(state, isTesting) {
+      state.isTesting = isTesting
+    },
+    SET_SAVED_AFTER_RULE_CHANGE(state, savedAfterRuleChange) {
+      state.savedAfterRuleChange = savedAfterRuleChange
+    },
+    SET_TEST_RULE_TARGET(state, testRuleTarget) {
+      state.testRuleTarget = testRuleTarget
+    },
+    /* rule page end */
   },
   getters: {
     edition: (state) => {
@@ -195,12 +210,20 @@ export default createStore({
       return e == 'enterprise' ? 0b01 : 0b10
     },
     isDev() {
-      return process.env.NODE_ENV === 'development'
+      return false
+      // return process.env.NODE_ENV === 'development'
     },
     getSchema(state) {
       return (key: string) => {
         return state.schemaStoreMap.get(key)
       }
+    },
+    isRuleSaveButtonDisabled(state) {
+      return (
+        state.savedAfterRuleChange &&
+        state.isTesting &&
+        state.testRuleTarget === TestRuleTarget.Rule
+      )
     },
     isEvaluationLicense(state) {
       return state.licenseData.customer_type === LicenseCustomerType.Evaluation
