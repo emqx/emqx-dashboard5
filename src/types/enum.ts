@@ -337,6 +337,11 @@ export enum LogTraceType {
   RuleID = 'ruleid',
 }
 
+export enum LogTraceFormatter {
+  JSON = 'json',
+  Text = 'text',
+}
+
 export const enum TraceEncodeType {
   Text = 'text',
   HEX = 'hex',

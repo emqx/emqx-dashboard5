@@ -191,6 +191,18 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item prop="formatter" :label="tl('formatter')">
+              <el-select v-model="record.formatter">
+                <el-option
+                  v-for="{ label, value } in formatterOpt"
+                  :key="value"
+                  :value="value"
+                  :label="label"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
@@ -218,7 +230,7 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
-import { CheckStatus, LogTraceType, TraceEncodeType } from '@/types/enum'
+import { CheckStatus, LogTraceType, TraceEncodeType, LogTraceFormatter } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { omit, startCase } from 'lodash'
@@ -237,6 +249,7 @@ const createRawTraceForm = () => ({
   ruleid: '',
   startTime: ['', ''] as [string, string],
   payload_encode: TraceEncodeType.Text,
+  formatter: LogTraceFormatter.Text,
 })
 
 type TraceItemInTable = TraceItem & {
@@ -297,6 +310,11 @@ export default defineComponent({
       { label: 'Hidden', value: TraceEncodeType.Hidden },
     ]
 
+    const formatterOpt = [
+      { label: 'JSON', value: LogTraceFormatter.JSON },
+      { label: 'Text', value: LogTraceFormatter.Text },
+    ]
+
     const countTotalLogSize = (sizeMap: Record<string, number>) => {
       return Object.keys(sizeMap).reduce((total, currentNode) => total + sizeMap[currentNode], 0)
     }
@@ -328,11 +346,12 @@ export default defineComponent({
       createForm.value?.validate(async (valid: boolean) => {
         if (!valid) return
         createLoading.value = true
-        const { clientid, topic, ip_address, ruleid, startTime, type } = record.value
+        const { clientid, topic, ip_address, ruleid, startTime, type, formatter } = record.value
         let targetInfo: TraceRecord = {
           ...omit(record.value, ['clientid', 'topic', 'ip_address', 'startTime']),
           start_at: new Date(startTime[0]).toISOString(),
           end_at: new Date(startTime[1]).toISOString(),
+          ...(formatter ? { formatter } : {}),
         }
         switch (type) {
           case LogTraceType.ClientID:
@@ -439,6 +458,7 @@ export default defineComponent({
       typeOptions,
       record,
       encodeTypeOpt,
+      formatterOpt,
       LogTraceType,
       startCase,
       transMemorySizeNumToStr,
