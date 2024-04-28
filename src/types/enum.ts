@@ -312,6 +312,13 @@ export enum BannedType {
   AddressRange = 'peerhost_net',
 }
 
+export enum LogTraceType {
+  ClientID = 'clientid',
+  Topic = 'topic',
+  IPAddress = 'ip_address',
+  RuleID = 'ruleid',
+}
+
 export const enum TraceEncodeType {
   Text = 'text',
   HEX = 'hex',
