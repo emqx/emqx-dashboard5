@@ -130,7 +130,7 @@
                         isSchemaRegistry(formData.checks[$index].type)
                       "
                     >
-                      <el-tooltip :content="tl('createConnector')" placement="top">
+                      <el-tooltip :content="t('components.schema-create')" placement="top">
                         <el-button
                           class="btn-add"
                           :icon="Plus"

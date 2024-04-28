@@ -3,7 +3,7 @@
     :title="t('components.schema-create')"
     v-model="showDrawer"
     :lock-scroll="false"
-    custom-class="schema-create-drawer"
+    class="schema-create-drawer"
     :size="700"
     destroy-on-close
     append-to-body
