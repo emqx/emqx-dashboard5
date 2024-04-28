@@ -164,13 +164,14 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.DynamoDB]: createOrderObj(
-      getPathArrInParameters(['table', 'template']),
+      getPathArrInParameters(['table', 'hash_key', 'range_key', 'template']),
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
       getPathArrInParameters([
         'topic',
         'template',
+        'strategy',
         'refresh_interval',
         'send_buffer',
         'sync_timeout',
@@ -279,6 +280,7 @@ export default (
   const advancedFieldsMap: Record<string, Array<string>> = {
     [BridgeType.Webhook]: [`parameters.max_retries`],
     [BridgeType.RocketMQ]: getPathArrInParameters([
+      'strategy',
       'refresh_interval',
       'send_buffer',
       'sync_timeout',

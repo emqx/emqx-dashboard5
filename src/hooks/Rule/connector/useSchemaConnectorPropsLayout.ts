@@ -226,7 +226,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
-      ['servers', 'access_key', 'secret_key', 'security_token'],
+      ['servers', 'namespace', 'access_key', 'secret_key', 'security_token'],
       fieldStartIndex,
     ),
     [BridgeType.ClickHouse]: createOrderObj(
@@ -246,7 +246,7 @@ export default (
     ),
     [BridgeType.HStream]: createOrderObj(['url', 'grpc_timeout', 'ssl'], fieldStartIndex),
     [BridgeType.DynamoDB]: createOrderObj(
-      ['url', 'aws_access_key_id', 'aws_secret_access_key'],
+      ['region', 'url', 'aws_access_key_id', 'aws_secret_access_key'],
       fieldStartIndex,
     ),
     [BridgeType.Pulsar]: createOrderObj(['servers', 'authentication', 'ssl'], fieldStartIndex),
