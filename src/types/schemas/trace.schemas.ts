@@ -106,6 +106,12 @@ export type PostTrace400 = {
   message?: string
 }
 
+export type PostTraceBodyFormatter =
+  typeof PostTraceBodyFormatter[keyof typeof PostTraceBodyFormatter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostTraceBodyFormatter = { json: 'json', text: 'text' } as const
+
 export type PostTraceBodyEndAt = number | string
 
 export type PostTraceBodyStartAt = number | string
@@ -127,6 +133,7 @@ export const PostTraceBodyType = {
   clientid: 'clientid',
   topic: 'topic',
   ip_address: 'ip_address',
+  ruleid: 'ruleid',
 } as const
 
 export type PostTraceBody = {
@@ -135,9 +142,11 @@ export type PostTraceBody = {
   topic?: string
   clientid?: string
   ip_address?: string
+  ruleid?: string
   payload_encode?: PostTraceBodyPayloadEncode
   start_at?: PostTraceBodyStartAt
   end_at?: PostTraceBodyEndAt
+  formatter?: PostTraceBodyFormatter
 }
 
 export type GetTraceNameDownload404Code =
@@ -177,6 +186,11 @@ export type GetTraceNameDownloadParams = {
 
 export type TraceBytesParameter = number
 
+export type TraceTraceFormatter = typeof TraceTraceFormatter[keyof typeof TraceTraceFormatter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TraceTraceFormatter = { json: 'json', text: 'text' } as const
+
 export type TraceTraceLogSizeItem = { [key: string]: any }
 
 export type TraceTraceEndAt = number | string
@@ -209,6 +223,7 @@ export const TraceTraceType = {
   clientid: 'clientid',
   topic: 'topic',
   ip_address: 'ip_address',
+  ruleid: 'ruleid',
 } as const
 
 export interface TraceTrace {
@@ -217,11 +232,13 @@ export interface TraceTrace {
   topic?: string
   clientid?: string
   ip_address?: string
+  ruleid?: string
   status?: TraceTraceStatus
   payload_encode?: TraceTracePayloadEncode
   start_at?: TraceTraceStartAt
   end_at?: TraceTraceEndAt
   log_size?: TraceTraceLogSizeItem[]
+  formatter?: TraceTraceFormatter
 }
 
 export interface TraceLogFileDetail {
