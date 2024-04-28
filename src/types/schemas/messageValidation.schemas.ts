@@ -1,16 +1,3 @@
-export type DeleteMessageValidationsValidationName404Code =
-  typeof DeleteMessageValidationsValidationName404Code[keyof typeof DeleteMessageValidationsValidationName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageValidationsValidationName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMessageValidationsValidationName404 = {
-  code?: DeleteMessageValidationsValidationName404Code
-  message?: string
-}
-
 export type GetMessageValidationsValidationName404Code =
   typeof GetMessageValidationsValidationName404Code[keyof typeof GetMessageValidationsValidationName404Code]
 
@@ -21,6 +8,19 @@ export const GetMessageValidationsValidationName404Code = {
 
 export type GetMessageValidationsValidationName404 = {
   code?: GetMessageValidationsValidationName404Code
+  message?: string
+}
+
+export type DeleteMessageValidationsValidationName404Code =
+  typeof DeleteMessageValidationsValidationName404Code[keyof typeof DeleteMessageValidationsValidationName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMessageValidationsValidationName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteMessageValidationsValidationName404 = {
+  code?: DeleteMessageValidationsValidationName404Code
   message?: string
 }
 
@@ -79,19 +79,6 @@ export type PostMessageValidationsReorder400 = {
   message?: string
 }
 
-export type PostMessageValidations400Code =
-  typeof PostMessageValidations400Code[keyof typeof PostMessageValidations400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageValidations400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-} as const
-
-export type PostMessageValidations400 = {
-  code?: PostMessageValidations400Code
-  message?: string
-}
-
 export type PutMessageValidations404Code =
   typeof PutMessageValidations404Code[keyof typeof PutMessageValidations404Code]
 
@@ -115,6 +102,19 @@ export const PutMessageValidations400Code = {
 
 export type PutMessageValidations400 = {
   code?: PutMessageValidations400Code
+  message?: string
+}
+
+export type PostMessageValidations400Code =
+  typeof PostMessageValidations400Code[keyof typeof PostMessageValidations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMessageValidations400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostMessageValidations400 = {
+  code?: PostMessageValidations400Code
   message?: string
 }
 

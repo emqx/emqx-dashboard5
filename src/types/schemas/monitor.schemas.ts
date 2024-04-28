@@ -13,9 +13,15 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusAuth200Two = { [key: string]: any }
 
+export type GetPrometheusAuthParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusStats200Two = { [key: string]: any }
 
 export type GetPrometheusDataIntegration200Two = { [key: string]: any }
+
+export type GetPrometheusMessageValidation200Two = { [key: string]: any }
 
 export type EmqxPrometheusApiModeParameter =
   typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
@@ -27,15 +33,15 @@ export const EmqxPrometheusApiModeParameter = {
   all_nodes_unaggregated: 'all_nodes_unaggregated',
 } as const
 
-export type GetPrometheusAuthParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
 export type GetPrometheusStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
 export type GetPrometheusDataIntegrationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusMessageValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 

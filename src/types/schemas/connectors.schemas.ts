@@ -717,6 +717,7 @@ export interface RocketmqPutConnector {
   tags?: string[]
   description?: string
   servers: string
+  namespace?: string
   access_key?: string
   secret_key?: string
   security_token?: string
@@ -731,6 +732,7 @@ export interface RocketmqPostConnector {
   tags?: string[]
   description?: string
   servers: string
+  namespace?: string
   access_key?: string
   secret_key?: string
   security_token?: string
@@ -749,6 +751,7 @@ export interface RocketmqGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   servers: string
+  namespace?: string
   access_key?: string
   secret_key?: string
   security_token?: string
@@ -1297,6 +1300,7 @@ export type IotdbPutIotdbVersion = typeof IotdbPutIotdbVersion[keyof typeof Iotd
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -1329,6 +1333,7 @@ export type IotdbPostIotdbVersion = typeof IotdbPostIotdbVersion[keyof typeof Io
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -1370,6 +1375,7 @@ export type IotdbGetIotdbVersion = typeof IotdbGetIotdbVersion[keyof typeof Iotd
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -3525,6 +3531,7 @@ export interface BridgeDynamoPutConnector {
   tags?: string[]
   description?: string
   url: string
+  region: string
   aws_access_key_id: string
   aws_secret_access_key: string
   pool_size?: number
@@ -3573,6 +3580,7 @@ export interface BridgeDynamoPostConnector {
   tags?: string[]
   description?: string
   url: string
+  region: string
   aws_access_key_id: string
   aws_secret_access_key: string
   pool_size?: number
@@ -3592,6 +3600,7 @@ export interface BridgeDynamoGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   url: string
+  region: string
   aws_access_key_id: string
   aws_secret_access_key: string
   pool_size?: number
