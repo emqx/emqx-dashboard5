@@ -159,6 +159,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item prop="formatter" :label="tl('formatter')">
+              <el-select v-model="record.formatter">
+                <el-option
+                  v-for="{ label, value } in formatterOpt"
+                  :key="value"
+                  :value="value"
+                  :label="label"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item prop="payload_encode">
               <FormItemLabel
                 :label="$t('LogTrace.payload')"
@@ -168,18 +180,6 @@
               <el-select v-model="record.payload_encode">
                 <el-option
                   v-for="{ label, value } in encodeTypeOpt"
-                  :key="value"
-                  :value="value"
-                  :label="label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item prop="formatter" :label="tl('formatter')">
-              <el-select v-model="record.formatter">
-                <el-option
-                  v-for="{ label, value } in formatterOpt"
                   :key="value"
                   :value="value"
                   :label="label"
