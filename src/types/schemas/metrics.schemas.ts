@@ -296,6 +296,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   node_uptime?: number
   retained_msg_count?: number
   shared_subscriptions?: number
+  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
@@ -311,6 +312,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   live_connections?: number
   retained_msg_count?: number
   shared_subscriptions?: number
+  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSampler {

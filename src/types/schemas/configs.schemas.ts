@@ -125,6 +125,7 @@ export const GetConfigsKey = {
   limiter: 'limiter',
   listeners: 'listeners',
   log: 'log',
+  message_validation: 'message_validation',
   mqtt: 'mqtt',
   node: 'node',
   opentelemetry: 'opentelemetry',
@@ -706,6 +707,16 @@ export interface EmqxSslClientOpts {
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
 
+export interface EmqxSessionPersistence {
+  enable?: boolean
+  batch_size?: number
+  idle_poll_interval?: string
+  last_alive_update_interval?: string
+  session_gc_interval?: string
+  session_gc_batch_size?: number
+  message_retention_period?: string
+}
+
 export type EmqxMqttMaxSubscriptions = 'infinity' | number
 
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
@@ -718,40 +729,6 @@ export const EmqxMqttMqueueDefaultPriority = {
   highest: 'highest',
   lowest: 'lowest',
 } as const
-
-export interface EmqxMqtt {
-  idle_timeout?: EmqxMqttIdleTimeout
-  max_packet_size?: string
-  max_clientid_len?: number
-  max_topic_levels?: number
-  max_topic_alias?: number
-  retain_available?: boolean
-  wildcard_subscription?: boolean
-  shared_subscription?: boolean
-  shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
-  exclusive_subscription?: boolean
-  ignore_loop_deliver?: boolean
-  strict_mode?: boolean
-  response_information?: string
-  server_keepalive?: EmqxMqttServerKeepalive
-  keepalive_multiplier?: number
-  retry_interval?: string
-  use_username_as_clientid?: boolean
-  peer_cert_as_username?: EmqxMqttPeerCertAsUsername
-  peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
-  session_expiry_interval?: string
-  message_expiry_interval?: EmqxMqttMessageExpiryInterval
-  max_awaiting_rel?: EmqxMqttMaxAwaitingRel
-  max_qos_allowed?: number
-  mqueue_priorities?: EmqxMqttMqueuePriorities
-  mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
-  mqueue_store_qos0?: boolean
-  max_mqueue_len?: EmqxMqttMaxMqueueLen
-  max_inflight?: number
-  max_subscriptions?: EmqxMqttMaxSubscriptions
-  upgrade_qos?: boolean
-  await_rel_timeout?: string
-}
 
 export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: any }
 
@@ -805,6 +782,41 @@ export const EmqxMqttSharedSubscriptionStrategy = {
 
 export type EmqxMqttIdleTimeout = string | 'infinity'
 
+export interface EmqxMqtt {
+  idle_timeout?: EmqxMqttIdleTimeout
+  max_packet_size?: string
+  max_clientid_len?: number
+  max_topic_levels?: number
+  max_topic_alias?: number
+  retain_available?: boolean
+  wildcard_subscription?: boolean
+  shared_subscription?: boolean
+  shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
+  exclusive_subscription?: boolean
+  ignore_loop_deliver?: boolean
+  strict_mode?: boolean
+  response_information?: string
+  server_keepalive?: EmqxMqttServerKeepalive
+  keepalive_multiplier?: number
+  retry_interval?: string
+  use_username_as_clientid?: boolean
+  peer_cert_as_username?: EmqxMqttPeerCertAsUsername
+  peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
+  client_attrs_init?: EmqxClientAttrsInit[]
+  session_expiry_interval?: string
+  message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  max_awaiting_rel?: EmqxMqttMaxAwaitingRel
+  max_qos_allowed?: number
+  mqueue_priorities?: EmqxMqttMqueuePriorities
+  mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
+  mqueue_store_qos0?: boolean
+  max_mqueue_len?: EmqxMqttMaxMqueueLen
+  max_inflight?: number
+  max_subscriptions?: EmqxMqttMaxSubscriptions
+  upgrade_qos?: boolean
+  await_rel_timeout?: string
+}
+
 export interface EmqxLogThrottling {
   time_window?: string
 }
@@ -857,6 +869,16 @@ export interface EmqxLogFileHandler {
   time_offset?: string
 }
 
+export type EmqxLogAuditHandlerTimestampFormat =
+  typeof EmqxLogAuditHandlerTimestampFormat[keyof typeof EmqxLogAuditHandlerTimestampFormat]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogAuditHandlerTimestampFormat = {
+  auto: 'auto',
+  epoch: 'epoch',
+  rfc3339: 'rfc3339',
+} as const
+
 export type EmqxLogAuditHandlerRotationSize = string | 'infinity'
 
 export interface EmqxLogAuditHandler {
@@ -866,6 +888,7 @@ export interface EmqxLogAuditHandler {
   max_filter_size?: number
   ignore_high_frequency_request?: boolean
   enable?: boolean
+  timestamp_format?: EmqxLogAuditHandlerTimestampFormat
   time_offset?: string
 }
 

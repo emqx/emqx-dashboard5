@@ -518,12 +518,16 @@ export type PutBridgesIdMetricsReset404 = {
   message?: string
 }
 
+export type RocketmqPutStrategy = string | 'roundrobin'
+
 export interface RocketmqPut {
   enable?: boolean
   template?: string
   local_topic?: string
+  strategy?: RocketmqPutStrategy
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
+  namespace?: string
   topic?: string
   access_key?: string
   secret_key?: string
@@ -535,6 +539,8 @@ export interface RocketmqPut {
   /** @deprecated */
   auto_reconnect?: boolean
 }
+
+export type RocketmqPostStrategy = string | 'roundrobin'
 
 export type RocketmqPostType = typeof RocketmqPostType[keyof typeof RocketmqPostType]
 
@@ -549,8 +555,10 @@ export interface RocketmqPost {
   enable?: boolean
   template?: string
   local_topic?: string
+  strategy?: RocketmqPostStrategy
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
+  namespace?: string
   topic?: string
   access_key?: string
   secret_key?: string
@@ -562,6 +570,8 @@ export interface RocketmqPost {
   /** @deprecated */
   auto_reconnect?: boolean
 }
+
+export type RocketmqGetStrategy = string | 'roundrobin'
 
 export type RocketmqGetType = typeof RocketmqGetType[keyof typeof RocketmqGetType]
 
@@ -589,8 +599,10 @@ export interface RocketmqGet {
   enable?: boolean
   template?: string
   local_topic?: string
+  strategy?: RocketmqGetStrategy
   resource_opts?: ResourceSchemaCreationOpts
   servers: string
+  namespace?: string
   topic?: string
   access_key?: string
   secret_key?: string
@@ -3566,6 +3578,7 @@ export type BridgeIotdbPutIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPutIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -3603,6 +3616,7 @@ export type BridgeIotdbPostIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPostIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -3649,6 +3663,7 @@ export type BridgeIotdbGetIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbGetIotdbVersion = {
+  v13x: 'v1.3.x',
   v11x: 'v1.1.x',
   v10x: 'v1.0.x',
   v013x: 'v0.13.x',
@@ -3697,6 +3712,8 @@ export interface BridgeIotdbCreationOpts {
   query_mode?: BridgeIotdbCreationOptsQueryMode
   request_ttl?: BridgeIotdbCreationOptsRequestTtl
   inflight_window?: number
+  batch_size?: number
+  batch_time?: string
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
@@ -4621,8 +4638,11 @@ export interface BridgeDynamoPut {
   enable?: boolean
   template?: string
   local_topic?: string
+  hash_key: string
+  range_key?: string
   resource_opts?: BridgeDynamoCreationOpts
   url: string
+  region: string
   table: string
   aws_access_key_id: string
   aws_secret_access_key: string
@@ -4644,8 +4664,11 @@ export interface BridgeDynamoPost {
   enable?: boolean
   template?: string
   local_topic?: string
+  hash_key: string
+  range_key?: string
   resource_opts?: BridgeDynamoCreationOpts
   url: string
+  region: string
   table: string
   aws_access_key_id: string
   aws_secret_access_key: string
@@ -4713,8 +4736,11 @@ export interface BridgeDynamoGet {
   enable?: boolean
   template?: string
   local_topic?: string
+  hash_key: string
+  range_key?: string
   resource_opts?: BridgeDynamoCreationOpts
   url: string
+  region: string
   table: string
   aws_access_key_id: string
   aws_secret_access_key: string

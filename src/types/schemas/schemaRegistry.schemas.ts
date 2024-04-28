@@ -11,9 +11,10 @@ export type PutSchemaRegistryName404 = {
   message?: string
 }
 
-export type PutSchemaRegistryName200 = SchemaRegistryProtobuf | SchemaRegistryAvro
-
-export type PutSchemaRegistryNameBody = SchemaRegistryProtobuf | SchemaRegistryAvro
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+  | SchemaRegistryAvro
 
 export type GetSchemaRegistryName404Code =
   typeof GetSchemaRegistryName404Code[keyof typeof GetSchemaRegistryName404Code]
@@ -28,7 +29,10 @@ export type GetSchemaRegistryName404 = {
   message?: string
 }
 
-export type GetSchemaRegistryName200 = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
+export type GetSchemaRegistryName200 =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
 
 export type DeleteSchemaRegistryName404Code =
   typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
@@ -56,9 +60,15 @@ export type PostSchemaRegistry400 = {
   message?: string
 }
 
-export type PostSchemaRegistry201 = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
+export type PostSchemaRegistry201 =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
 
-export type GetSchemaRegistry200Item = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
+export type GetSchemaRegistry200Item =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
 
 export type SchemaRegistryProtobufType =
   typeof SchemaRegistryProtobufType[keyof typeof SchemaRegistryProtobufType]
@@ -74,6 +84,25 @@ export interface SchemaRegistryProtobuf {
   description?: string
 }
 
+export type SchemaRegistryJsonType =
+  typeof SchemaRegistryJsonType[keyof typeof SchemaRegistryJsonType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryJsonType = {
+  json: 'json',
+} as const
+
+export interface SchemaRegistryJson {
+  type: SchemaRegistryJsonType
+  source: string
+  description?: string
+}
+
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+  | SchemaRegistryAvro
+
 export type SchemaRegistryGetProtobufType =
   typeof SchemaRegistryGetProtobufType[keyof typeof SchemaRegistryGetProtobufType]
 
@@ -85,6 +114,21 @@ export const SchemaRegistryGetProtobufType = {
 export interface SchemaRegistryGetProtobuf {
   name: string
   type: SchemaRegistryGetProtobufType
+  source: string
+  description?: string
+}
+
+export type SchemaRegistryGetJsonType =
+  typeof SchemaRegistryGetJsonType[keyof typeof SchemaRegistryGetJsonType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryGetJsonType = {
+  json: 'json',
+} as const
+
+export interface SchemaRegistryGetJson {
+  name: string
+  type: SchemaRegistryGetJsonType
   source: string
   description?: string
 }
@@ -104,7 +148,10 @@ export interface SchemaRegistryGetAvro {
   description?: string
 }
 
-export type PostSchemaRegistryBody = SchemaRegistryGetProtobuf | SchemaRegistryGetAvro
+export type PostSchemaRegistryBody =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
 
 export type SchemaRegistryAvroType =
   typeof SchemaRegistryAvroType[keyof typeof SchemaRegistryAvroType]
