@@ -259,12 +259,12 @@ const outputLogs = computed({
 })
 
 const { t, tl } = useI18nTl('RuleEngine')
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 
 const formCom = ref()
 
 const rules: FormRules = {
-  name: [...createRequiredRule(tl('name'))],
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   strategy: [...createRequiredRule(tl('validationStrategy'), 'select')],
   failure_action: [...createRequiredRule(tl('actionAfterFailure'), 'select')],
   topics: [

@@ -12,7 +12,7 @@
       </el-button>
     </div>
     <el-table :data="validationList" v-loading="isLoading">
-      <el-table-column :label="t('Base.name')" row-key="name">
+      <el-table-column :label="t('Base.name')" row-key="name" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
             :to="{ name: 'message-validation-detail', params: { validationName: row.name } }"
