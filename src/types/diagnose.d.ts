@@ -1,4 +1,4 @@
-import { LogTraceType, SlowSubType, TraceEncodeType } from './enum'
+import { LogTraceFormatter, LogTraceType, SlowSubType, TraceEncodeType } from './enum'
 
 export interface SlowSubConfig {
   enable: boolean
@@ -26,7 +26,7 @@ export type TraceRecord = {
   start_at: string
   end_at: string
   payload_encode: TraceEncodeType
-  formatter?: 'json' | 'plain'
+  formatter?: LogTraceFormatter
 }
 
 export type TraceFormRecord = {
@@ -38,6 +38,7 @@ export type TraceFormRecord = {
   ruleid: string
   startTime: [string, string] | [Date, Date]
   payload_encode: TraceEncodeType
+  formatter?: LogTraceFormatter
 }
 
 export interface TraceItem {
