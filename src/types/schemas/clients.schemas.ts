@@ -431,6 +431,7 @@ export interface EmqxMgmtApiSubscriptionsSubscription {
   nl?: number
   rap?: number
   rh?: number
+  durable?: boolean
 }
 
 export interface EmqxMgmtApiClientsUnsubscribe {

@@ -37,6 +37,7 @@ export type GetSubscriptionsParams = {
   topic?: string
   match_topic?: string
   share_group?: string
+  durable?: boolean
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
@@ -47,4 +48,5 @@ export interface EmqxMgmtApiSubscriptionsSubscription {
   nl?: number
   rap?: number
   rh?: number
+  durable?: boolean
 }
