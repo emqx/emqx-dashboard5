@@ -2,7 +2,7 @@ import { addTrace, deleteTrace, getTraceLog } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
-import { TraceEncodeType } from '@/types/enum'
+import { LogTraceFormatter, TraceEncodeType } from '@/types/enum'
 import { BasicRule, RuleItem } from '@/types/rule'
 import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
@@ -48,7 +48,7 @@ export default () => {
         payload_encode: TraceEncodeType.Text,
         start_at: new Date().toISOString(),
         end_at: new Date(oneDayLaterTimestamp).toISOString(),
-        formatter: 'json',
+        formatter: LogTraceFormatter.JSON,
       }
       const { name } = await addTrace(traceData)
       emptyLogData()
