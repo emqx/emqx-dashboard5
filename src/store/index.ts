@@ -77,7 +77,7 @@ export default createStore({
     /* rule page start */
     isTesting: false,
     savedAfterRuleChange: false,
-    testRuleTarget: TestRuleTarget.Rule,
+    testRuleTarget: TestRuleTarget.SQL,
     /* rule page end */
     loginBackend: getLoginBackend(),
   },
