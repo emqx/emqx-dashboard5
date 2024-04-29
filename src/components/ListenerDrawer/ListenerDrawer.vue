@@ -41,8 +41,7 @@
         <el-col :span="12">
           <el-form-item label="MQTT Path">
             <template #label>
-              <label>MQTT Path</label>
-              <InfoTooltip :content="$t('BasicConfig.mqttPath')" />
+              <FormItemLabel label="MQTT Path" :desc="$t('BasicConfig.mqttPath')" desc-marked />
             </template>
             <el-input v-model="listenerRecord.websocket.mqtt_path" placeholder="/mqtt" />
           </el-form-item>

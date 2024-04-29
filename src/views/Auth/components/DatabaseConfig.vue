@@ -111,6 +111,15 @@
                 </el-form-item>
               </el-col>
             </template>
+            <el-col :span="12">
+              <el-form-item>
+                <FormItemLabel
+                  :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
+                  :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
+                />
+                <el-input v-model="databaseConfig.use_legacy_protocol" />
+              </el-form-item>
+            </el-col>
           </template>
 
           <el-col :span="24">
@@ -265,6 +274,8 @@
 <script lang="ts">
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
@@ -274,10 +285,9 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
 import { ElMessageBox } from 'element-plus'
-import { computed, defineComponent, ref, PropType } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
@@ -288,6 +298,7 @@ export default defineComponent({
     Monaco,
     HelpBlock,
     CustomInputNumber,
+    FormItemLabel,
   },
 
   props: {
