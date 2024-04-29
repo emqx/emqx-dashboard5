@@ -89,6 +89,7 @@ export default function useAuthzCreate() {
       filter: '',
       r_mode: 'master',
       w_mode: 'unsafe',
+      use_legacy_protocol: 'auto',
       pool_size: 8,
       ssl: createSSLForm(),
       topology: {

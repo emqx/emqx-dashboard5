@@ -95,6 +95,7 @@ export default function useAuthnCreate() {
       salt_field: 'salt',
       r_mode: 'master',
       w_mode: 'unsafe',
+      use_legacy_protocol: 'auto',
       ...getPasswordHashAlgorithmObj(),
       pool_size: 8,
       ssl: createSSLForm(),
