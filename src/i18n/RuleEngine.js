@@ -794,8 +794,8 @@ export default {
     en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
   },
   deleteIngressActionSecondConfirm: {
-    zh: '下方规则使用了此 Source，是否确认继续？',
-    en: 'The rule below uses this source. Are you sure you want to continue?',
+    zh: '请先移除下方规则中的 source，再进行删除操作。',
+    en: 'Please remove the source in rules below before deleting.',
   },
   deleteFakeConnectorConfirm: {
     zh: '该连接器被动作使用，继续操作将删除其相关动作。是否确认继续？',
