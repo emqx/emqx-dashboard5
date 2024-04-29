@@ -6,7 +6,6 @@ import { computed } from 'vue'
  * Checks if a given value is within the specified range.
  * @param rule - The rule object containing the range constraints.
  * @param value - The value to be checked.
- * @param lang - The language ('zh' or 'en') used to retrieve the error message.
  * @param callback - The callback function to be called with an optional error parameter.
  */
 const checkRange = (rule: Rule, value: number, callback: (error?: Error) => void) => {
@@ -22,7 +21,6 @@ const checkRange = (rule: Rule, value: number, callback: (error?: Error) => void
  * Checks if the given value matches the specified pattern and calls the callback function accordingly.
  * @param rule - The rule object containing the pattern and message.
  * @param value - The value to be checked against the pattern.
- * @param lang - The language ('zh' or 'en') to determine the error message language.
  * @param callback - The callback function to be called with an error if the value does not match the pattern.
  */
 const checkPattern = (rule: Rule, value: string | null, callback: (error?: Error) => void) => {
