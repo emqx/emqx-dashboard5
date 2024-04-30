@@ -895,3 +895,19 @@ code {
     --vf-handle: #babcbe;
   }
 }
+.table-cell-tooltip {
+  max-height: 200px;
+  overflow-y: scroll;
+  line-height: 20px;
+
+  &.is-dark {
+    &::-webkit-scrollbar-thumb {
+      background-color: #ddda;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #ddd7;
+    }
+  }
+  .el-popper__arrow {
+  }
+}

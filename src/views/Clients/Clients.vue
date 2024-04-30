@@ -122,7 +122,9 @@
           :prop="column"
           :label="getBaseLabel(column)"
           :min-width="getColumnWidth(column)"
-          :show-overflow-tooltip="showOverflowTooltip(column)"
+          :show-overflow-tooltip="{
+            popperClass: 'table-cell-tooltip',
+          }"
         >
           <template #default="{ row }">
             <router-link
