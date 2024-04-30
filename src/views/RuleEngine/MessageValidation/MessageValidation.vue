@@ -11,7 +11,13 @@
         {{ t('Base.create') }}
       </el-button>
     </div>
-    <el-table :data="validationList" v-loading="isLoading">
+    <el-table
+      ref="tableCom"
+      :data="validationList"
+      v-loading="isLoading"
+      class="table-with-draggable"
+      row-key="name"
+    >
       <el-table-column :label="t('Base.name')" row-key="name" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
@@ -73,11 +79,13 @@ import {
 import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
+import useSortableTable from '@/hooks/useSortableTable'
 import { DetailTab } from '@/types/enum'
 import { MessageValidation } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { Ref, onMounted, ref } from 'vue'
+import { SortableEvent } from 'sortablejs'
+import { Ref, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 
@@ -91,6 +99,8 @@ const getList = async () => {
   try {
     isLoading.value = true
     validationList.value = await getMessageValidations()
+    await nextTick()
+    initSortable()
   } catch (error) {
     console.error(error)
   } finally {
@@ -161,6 +171,16 @@ const absoluteMove = (nowIndex: number, absolutePosition: number) => {
   }
   moveToTargetPosition(nowIndex, absolutePosition)
 }
+
+const handleOrderChanged = async (evt: SortableEvent) => {
+  const { newIndex, oldIndex } = evt
+  if (newIndex === undefined || oldIndex === undefined) {
+    return
+  }
+  absoluteMove(oldIndex, newIndex)
+}
+
+const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
 onMounted(() => {
   getList()
