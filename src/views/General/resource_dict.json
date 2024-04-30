@@ -564,6 +564,18 @@
     }
   },
   {
+    "method": "post",
+    "path": "/rules/:id/test",
+    "operation_label": {
+      "en": "Rules",
+      "zh": "规则引擎"
+    },
+    "operation_name_label": {
+      "en": "Apply a rule with the given message and environment",
+      "zh": "根据给定的上下文应用规则"
+    }
+  },
+  {
     "method": "put",
     "path": "/rules/:id",
     "operation_label": {
