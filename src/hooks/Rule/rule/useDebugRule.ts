@@ -63,7 +63,7 @@ export default () => {
   const getLogItemTitle = (item: Record<string, any>) => {
     return startCase(item.msg)
   }
-  const { formatLog } = useFormatDebugLog()
+  const { formatLog, detectTotalLogResult } = useFormatDebugLog()
 
   let cbAfterPolling: undefined | ((log: string) => void) = undefined
   const setCbAfterPolling = (cb: (logContent: string) => void) => {
@@ -76,7 +76,12 @@ export default () => {
     }
   }
   const addNewLogToCurrentLog = (currentLog: FormattedLog, newLog: FormattedLog) => {
-    return mergeWith(currentLog, newLog, mergeCustomize)
+    const ret = mergeWith(currentLog, newLog, mergeCustomize)
+    // calc total result
+    Object.values(ret).forEach((logData) => {
+      logData.result = detectTotalLogResult(Object.values(logData.info).map(({ result }) => result))
+    })
+    return ret
   }
 
   let logLastPosition = 0
