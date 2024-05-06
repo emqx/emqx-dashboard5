@@ -68,6 +68,46 @@ export type PostBridgesIdOperation400 = {
   message?: string
 }
 
+export type DeleteBridgesId503Code =
+  typeof DeleteBridgesId503Code[keyof typeof DeleteBridgesId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteBridgesId503 = {
+  code?: DeleteBridgesId503Code
+  message?: string
+}
+
+export type DeleteBridgesId404Code =
+  typeof DeleteBridgesId404Code[keyof typeof DeleteBridgesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteBridgesId404 = {
+  code?: DeleteBridgesId404Code
+  message?: string
+}
+
+export type DeleteBridgesId400Code =
+  typeof DeleteBridgesId400Code[keyof typeof DeleteBridgesId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteBridgesId400 = {
+  rules?: string[]
+  code?: DeleteBridgesId400Code
+  message?: string
+}
+
 export type PutBridgesId404Code = typeof PutBridgesId404Code[keyof typeof PutBridgesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -109,46 +149,6 @@ export type GetBridgesId404 = {
 }
 
 export type GetBridgesId200 = BridgeHttpGet | BridgeMqttGet
-
-export type DeleteBridgesId503Code =
-  typeof DeleteBridgesId503Code[keyof typeof DeleteBridgesId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteBridgesId503 = {
-  code?: DeleteBridgesId503Code
-  message?: string
-}
-
-export type DeleteBridgesId404Code =
-  typeof DeleteBridgesId404Code[keyof typeof DeleteBridgesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteBridgesId404 = {
-  code?: DeleteBridgesId404Code
-  message?: string
-}
-
-export type DeleteBridgesId400Code =
-  typeof DeleteBridgesId400Code[keyof typeof DeleteBridgesId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteBridgesId400 = {
-  rules?: string[]
-  code?: DeleteBridgesId400Code
-  message?: string
-}
 
 export type GetBridgesIdMetrics404Code =
   typeof GetBridgesIdMetrics404Code[keyof typeof GetBridgesIdMetrics404Code]

@@ -14,19 +14,6 @@ export type GetMqttDelayedMessagesParams = {
   limit?: PublicLimitParameter
 }
 
-export type PutMqttTopicMetrics404Code =
-  typeof PutMqttTopicMetrics404Code[keyof typeof PutMqttTopicMetrics404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMqttTopicMetrics404Code = {
-  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
-} as const
-
-export type PutMqttTopicMetrics404 = {
-  code?: PutMqttTopicMetrics404Code
-  message?: string
-}
-
 export type PostMqttTopicMetrics409Code =
   typeof PostMqttTopicMetrics409Code[keyof typeof PostMqttTopicMetrics409Code]
 
@@ -58,6 +45,19 @@ export type PostMqttTopicMetricsBody = {
   topic: string
 }
 
+export type PutMqttTopicMetrics404Code =
+  typeof PutMqttTopicMetrics404Code[keyof typeof PutMqttTopicMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutMqttTopicMetrics404Code = {
+  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
+} as const
+
+export type PutMqttTopicMetrics404 = {
+  code?: PutMqttTopicMetrics404Code
+  message?: string
+}
+
 export type DeleteMqttDelayedMessagesTopic404Code =
   typeof DeleteMqttDelayedMessagesTopic404Code[keyof typeof DeleteMqttDelayedMessagesTopic404Code]
 
@@ -84,19 +84,6 @@ export type DeleteMqttDelayedMessagesTopic400 = {
   message?: string
 }
 
-export type GetMqttTopicMetricsTopic404Code =
-  typeof GetMqttTopicMetricsTopic404Code[keyof typeof GetMqttTopicMetricsTopic404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttTopicMetricsTopic404Code = {
-  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
-} as const
-
-export type GetMqttTopicMetricsTopic404 = {
-  code?: GetMqttTopicMetricsTopic404Code
-  message?: string
-}
-
 export type DeleteMqttTopicMetricsTopic404Code =
   typeof DeleteMqttTopicMetricsTopic404Code[keyof typeof DeleteMqttTopicMetricsTopic404Code]
 
@@ -107,6 +94,19 @@ export const DeleteMqttTopicMetricsTopic404Code = {
 
 export type DeleteMqttTopicMetricsTopic404 = {
   code?: DeleteMqttTopicMetricsTopic404Code
+  message?: string
+}
+
+export type GetMqttTopicMetricsTopic404Code =
+  typeof GetMqttTopicMetricsTopic404Code[keyof typeof GetMqttTopicMetricsTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttTopicMetricsTopic404Code = {
+  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
+} as const
+
+export type GetMqttTopicMetricsTopic404 = {
+  code?: GetMqttTopicMetricsTopic404Code
   message?: string
 }
 
@@ -136,33 +136,6 @@ export type PutMqttTopicRewrite400 = {
   message?: string
 }
 
-export type GetMqttDelayedMessagesNodeMsgid404Code =
-  typeof GetMqttDelayedMessagesNodeMsgid404Code[keyof typeof GetMqttDelayedMessagesNodeMsgid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttDelayedMessagesNodeMsgid404Code = {
-  MESSAGE_ID_NOT_FOUND: 'MESSAGE_ID_NOT_FOUND',
-} as const
-
-export type GetMqttDelayedMessagesNodeMsgid404 = {
-  code?: GetMqttDelayedMessagesNodeMsgid404Code
-  message?: string
-}
-
-export type GetMqttDelayedMessagesNodeMsgid400Code =
-  typeof GetMqttDelayedMessagesNodeMsgid400Code[keyof typeof GetMqttDelayedMessagesNodeMsgid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttDelayedMessagesNodeMsgid400Code = {
-  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
-  INVALID_NODE: 'INVALID_NODE',
-} as const
-
-export type GetMqttDelayedMessagesNodeMsgid400 = {
-  code?: GetMqttDelayedMessagesNodeMsgid400Code
-  message?: string
-}
-
 export type DeleteMqttDelayedMessagesNodeMsgid404Code =
   typeof DeleteMqttDelayedMessagesNodeMsgid404Code[keyof typeof DeleteMqttDelayedMessagesNodeMsgid404Code]
 
@@ -187,6 +160,33 @@ export const DeleteMqttDelayedMessagesNodeMsgid400Code = {
 
 export type DeleteMqttDelayedMessagesNodeMsgid400 = {
   code?: DeleteMqttDelayedMessagesNodeMsgid400Code
+  message?: string
+}
+
+export type GetMqttDelayedMessagesNodeMsgid404Code =
+  typeof GetMqttDelayedMessagesNodeMsgid404Code[keyof typeof GetMqttDelayedMessagesNodeMsgid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttDelayedMessagesNodeMsgid404Code = {
+  MESSAGE_ID_NOT_FOUND: 'MESSAGE_ID_NOT_FOUND',
+} as const
+
+export type GetMqttDelayedMessagesNodeMsgid404 = {
+  code?: GetMqttDelayedMessagesNodeMsgid404Code
+  message?: string
+}
+
+export type GetMqttDelayedMessagesNodeMsgid400Code =
+  typeof GetMqttDelayedMessagesNodeMsgid400Code[keyof typeof GetMqttDelayedMessagesNodeMsgid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttDelayedMessagesNodeMsgid400Code = {
+  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
+  INVALID_NODE: 'INVALID_NODE',
+} as const
+
+export type GetMqttDelayedMessagesNodeMsgid400 = {
+  code?: GetMqttDelayedMessagesNodeMsgid400Code
   message?: string
 }
 

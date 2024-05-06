@@ -94,6 +94,19 @@ export type GetAuthentication200Item =
   | AuthnMysql
   | AuthnBuiltinDb
 
+export type DeleteAuthenticationId404Code =
+  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationId404 = {
+  code?: DeleteAuthenticationId404Code
+  message?: string
+}
+
 export type PutAuthenticationId409Code =
   typeof PutAuthenticationId409Code[keyof typeof PutAuthenticationId409Code]
 
@@ -183,19 +196,6 @@ export type GetAuthenticationId200 =
   | AuthnPostgresql
   | AuthnMysql
   | AuthnBuiltinDb
-
-export type DeleteAuthenticationId404Code =
-  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationId404 = {
-  code?: DeleteAuthenticationId404Code
-  message?: string
-}
 
 export type GetAuthenticationIdStatus500Code =
   typeof GetAuthenticationIdStatus500Code[keyof typeof GetAuthenticationIdStatus500Code]
@@ -314,6 +314,19 @@ export type PostAuthenticationIdImportUsersParams = {
   type: PostAuthenticationIdImportUsersType
 }
 
+export type DeleteAuthenticationIdUsersUserId404Code =
+  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationIdUsersUserId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationIdUsersUserId404 = {
+  code?: DeleteAuthenticationIdUsersUserId404Code
+  message?: string
+}
+
 export type PutAuthenticationIdUsersUserId404Code =
   typeof PutAuthenticationIdUsersUserId404Code[keyof typeof PutAuthenticationIdUsersUserId404Code]
 
@@ -350,19 +363,6 @@ export const GetAuthenticationIdUsersUserId404Code = {
 
 export type GetAuthenticationIdUsersUserId404 = {
   code?: GetAuthenticationIdUsersUserId404Code
-  message?: string
-}
-
-export type DeleteAuthenticationIdUsersUserId404Code =
-  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationIdUsersUserId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationIdUsersUserId404 = {
-  code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
 }
 
@@ -1172,6 +1172,7 @@ export interface AuthnJwtPublicKey {
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -1209,6 +1210,7 @@ export interface AuthnJwtJwks {
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtJwksVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -1244,6 +1246,7 @@ export interface AuthnJwtHmac {
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtHmacVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }
@@ -1283,15 +1286,15 @@ export interface AuthnHttpPost {
   body?: AuthnHttpPostBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHttpGetBody = { [key: string]: any }
@@ -1328,15 +1331,15 @@ export interface AuthnHttpGet {
   body?: AuthnHttpGetBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]

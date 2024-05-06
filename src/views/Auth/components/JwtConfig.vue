@@ -127,7 +127,7 @@ export default defineComponent({
     const { formCom, rules, validate } = useJWTConfigForm()
 
     const { createSSLForm } = useSSL()
-    const handleUseJWKSChanged = (val: boolean) => {
+    const handleUseJWKSChanged = (val: boolean | string | number): any => {
       if (val && !('ssl' in jwtConfig)) {
         jwtConfig.ssl = createSSLForm()
       }
