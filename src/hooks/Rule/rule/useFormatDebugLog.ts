@@ -117,15 +117,6 @@ const detectRuleExecLogArrResult = (logArr: Array<LogItem>): LogResult => {
   return LogResult.OK
 }
 
-const detectTotalLogResult = (resultArr: Array<LogResult>): LogResult => {
-  for (const item of resultArr) {
-    if (item !== LogResult.OK) {
-      return item
-    }
-  }
-  return LogResult.OK
-}
-
 const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
   if (logArr.length === 0 || logArr.every(({ meta }) => !meta.result && !meta.reason)) {
     return LogResult.Pending
@@ -248,6 +239,17 @@ export default () => {
     }
   }
 
+  const resultOrder = [LogResult.Error, LogResult.Pending, LogResult.NoResult]
+  const detectTotalLogResult = (resultArr: Array<LogResult>): LogResult => {
+    for (const resultItem of resultOrder) {
+      const withResult = resultArr.includes(resultItem)
+      if (withResult) {
+        return resultItem
+      }
+    }
+    return LogResult.OK
+  }
+
   const formatLog = (logStr: string) => {
     const ret: FormattedLog = {}
     const logArr = convertLogStrToLogArr(logStr)
@@ -294,6 +296,7 @@ export default () => {
   }
 
   return {
+    detectTotalLogResult,
     formatLog,
   }
 }
