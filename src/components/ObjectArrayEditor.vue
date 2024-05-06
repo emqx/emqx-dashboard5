@@ -127,6 +127,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  columnsWidth: {
+    type: Object,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -153,7 +156,13 @@ const initRecordByPluginForm = (data: Properties) => {
 
 const keyArr = computed(() => Array.from({ length: arr.value.length }, () => createRandomString()))
 
-const getColumnWidth = (property: Property) => (property.type === 'object' ? 300 : undefined)
+const getColumnWidth = (property: Property) => {
+  const { key, type } = property
+  if (key && props.columnsWidth && props.columnsWidth[key] !== undefined) {
+    return props.columnsWidth[key]
+  }
+  return type === 'object' ? 300 : undefined
+}
 
 const addItem = () => {
   let objData
