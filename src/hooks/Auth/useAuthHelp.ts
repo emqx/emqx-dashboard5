@@ -4,6 +4,7 @@ import {
   AUTHZ_HTTP_PLACEHOLDERS,
   AUTHZ_MONGODB_PLACEHOLDERS,
   AUTH_PLACEHOLDERS,
+  AUTH_PLACEHOLDER_CLIENT_ATTRS,
 } from '@/common/constants'
 import codeMapInHelpOfAuth from '@/common/codeMapInHelpOfAuth'
 import { computed, ComputedRef, inject } from 'vue'
@@ -79,7 +80,11 @@ export default (context: {
     if (!databaseType) {
       return []
     }
-    return helpTextMap[authType][databaseType]
+    let ret = helpTextMap[authType][databaseType]
+    if (gateway) {
+      ret = ret.map((item) => item.replace(AUTH_PLACEHOLDER_CLIENT_ATTRS, ''))
+    }
+    return ret
   })
 
   const helpCode = computed(() => {
