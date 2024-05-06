@@ -250,12 +250,17 @@ export default () => {
     return LogResult.OK
   }
 
-  const formatLog = (logStr: string) => {
+  const getLogItemTriggerTime = ({ meta }: LogItem) => {
+    return meta.rule_trigger_time || meta.rule_trigger_times?.[0]
+  }
+
+  const filterExpiredLog = (logArr: Array<LogItem>, startTimestamp: number) => {
+    return logArr.filter((item) => getLogItemTriggerTime(item) >= startTimestamp)
+  }
+
+  const formatLog = (logArr: Array<LogItem>) => {
     const ret: FormattedLog = {}
-    const logArr = convertLogStrToLogArr(logStr)
-    const timeGroupedMap = groupBy(logArr, (item) => {
-      return item.meta.rule_trigger_time || item.meta.rule_trigger_times?.[0]
-    })
+    const timeGroupedMap = groupBy(logArr, getLogItemTriggerTime)
     Object.entries(timeGroupedMap).forEach(([key, logArr]) => {
       const targetLogMap: Record<string, TargetLog> = logArr.reduce(
         (obj: Record<string, TargetLog>, logItem) => {
@@ -296,6 +301,8 @@ export default () => {
   }
 
   return {
+    convertLogStrToLogArr,
+    filterExpiredLog,
     detectTotalLogResult,
     formatLog,
   }

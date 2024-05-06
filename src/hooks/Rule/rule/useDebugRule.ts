@@ -16,6 +16,7 @@ const BYTE_PER_PAGE = Math.pow(2, 30)
 
 export default () => {
   let traceName = ''
+  let traceStartTime: undefined | number = undefined
 
   const logData = ref<FormattedLog>({})
   const emptyLogData = () => {
@@ -27,6 +28,7 @@ export default () => {
       if (traceName) {
         await deleteTrace(traceName)
         traceName = ''
+        traceStartTime = undefined
         window.removeEventListener('beforeunload', deleteCurrentTrace)
       }
     } catch (error) {
@@ -53,6 +55,7 @@ export default () => {
       const { name } = await addTrace(traceData)
       emptyLogData()
       traceName = name
+      traceStartTime = nowTimestamp
       window.addEventListener('beforeunload', deleteCurrentTrace)
       return Promise.resolve()
     } catch (error) {
@@ -63,7 +66,8 @@ export default () => {
   const getLogItemTitle = (item: Record<string, any>) => {
     return startCase(item.msg)
   }
-  const { formatLog, detectTotalLogResult } = useFormatDebugLog()
+  const { convertLogStrToLogArr, filterExpiredLog, formatLog, detectTotalLogResult } =
+    useFormatDebugLog()
 
   let cbAfterPolling: undefined | ((log: string) => void) = undefined
   const setCbAfterPolling = (cb: (logContent: string) => void) => {
@@ -91,7 +95,9 @@ export default () => {
         bytes: BYTE_PER_PAGE,
         position: logLastPosition,
       })
-      const data = formatLog(items)
+      const logArr = convertLogStrToLogArr(items)
+      const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
+      const data = formatLog(filteredLogArr)
       logData.value = addNewLogToCurrentLog(logData.value, data)
       logLastPosition = meta.position
       if (isFunction(cbAfterPolling)) {
