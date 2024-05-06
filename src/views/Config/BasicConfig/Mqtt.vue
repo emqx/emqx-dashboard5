@@ -76,7 +76,15 @@ export default defineComponent({
 
     const getSchemaText = (key: string) => t(`ConfigSchema.emqx_schema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
-      const { items } = data?.components?.mqtt?.properties?.client_attrs_init || {}
+      const { client_attrs_init } = data?.components?.mqtt?.properties || {}
+      if (client_attrs_init) {
+        if (!client_attrs_init.componentProps) {
+          client_attrs_init.componentProps = {}
+        }
+        client_attrs_init.componentProps.columnsWidth = { expression: 260 }
+      }
+
+      const { items } = client_attrs_init || {}
       if (items) {
         const { expression, set_as_attr } = items?.properties || {}
         if (expression) {
@@ -88,6 +96,7 @@ export default defineComponent({
         }
         items.properties = { set_as_attr, expression }
       }
+      return data
     }
 
     const loadData = async () => {
