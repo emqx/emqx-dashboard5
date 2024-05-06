@@ -139,18 +139,22 @@ export const MQTT_VERSION_LIST = [
   { label: 'v5', value: 'v5' },
 ]
 
+export const AUTH_PLACEHOLDER_CLIENT_ATTRS = ', ${client_attrs.<attribute>}'
+
 export const AUTH_PLACEHOLDERS =
-  '${clientid}, ${username}, ${password}, ${client_attrs.<attribute>}'
+  '${clientid}, ${username}, ${password}' + AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 /* MySQL, PgSQL, Redis */
 export const AUTHZ_COMMON_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}, ${cert_common_name}, ${cert_subject}, ${client_attrs.<attribute>}'
+  '${username}, ${clientid}, ${peerhost}, ${cert_common_name}, ${cert_subject}' +
+  AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const AUTHZ_MONGODB_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}, ${client_attrs.<attribute>}'
+  '${username}, ${clientid}, ${peerhost}' + AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const AUTHZ_HTTP_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}, ${mountpoint}, ${topic}, ${action}, ${client_attrs.<attribute>}'
+  '${username}, ${clientid}, ${peerhost}, ${mountpoint}, ${topic}, ${action}' +
+  AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const MQTT_V3_RES_CODES = ['01', '02', '03', '04', '05']
 
