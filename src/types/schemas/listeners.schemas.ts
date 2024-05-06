@@ -1,3 +1,37 @@
+export type PostListenersId400Code =
+  typeof PostListenersId400Code[keyof typeof PostListenersId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostListenersId400Code = {
+  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostListenersId400 = {
+  code?: PostListenersId400Code
+  message?: string
+}
+
+export type PostListenersIdBody =
+  | ListenersWssRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersQuicRequiredBind
+
+export type DeleteListenersId404Code =
+  typeof DeleteListenersId404Code[keyof typeof DeleteListenersId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteListenersId404Code = {
+  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+} as const
+
+export type DeleteListenersId404 = {
+  code?: DeleteListenersId404Code
+  message?: string
+}
+
 export type PutListenersId404Code = typeof PutListenersId404Code[keyof typeof PutListenersId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -23,35 +57,7 @@ export type PutListenersId400 = {
   message?: string
 }
 
-export type PutListenersIdBody =
-  | ListenersWssNotRequiredBind
-  | ListenersWsNotRequiredBind
-  | ListenersTcpNotRequiredBind
-  | ListenersSslNotRequiredBind
-  | ListenersQuicNotRequiredBind
-
-export type PostListenersId400Code =
-  typeof PostListenersId400Code[keyof typeof PostListenersId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostListenersId400Code = {
-  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostListenersId400 = {
-  code?: PostListenersId400Code
-  message?: string
-}
-
-export type PostListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
-
-export type PostListenersIdBody =
+export type PutListenersId200 =
   | ListenersWssRequiredBind
   | ListenersWsRequiredBind
   | ListenersTcpRequiredBind
@@ -77,19 +83,6 @@ export type GetListenersId200 =
   | ListenersTcpRequiredBind
   | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
-
-export type DeleteListenersId404Code =
-  typeof DeleteListenersId404Code[keyof typeof DeleteListenersId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteListenersId404Code = {
-  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
-} as const
-
-export type DeleteListenersId404 = {
-  code?: DeleteListenersId404Code
-  message?: string
-}
 
 export type PostListenersIdRestart400Code =
   typeof PostListenersIdRestart400Code[keyof typeof PostListenersIdRestart400Code]
@@ -205,6 +198,7 @@ export interface ListenersWssRequiredBind {
   acceptors?: number
   max_connections?: ListenersWssRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWssRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -217,7 +211,7 @@ export interface ListenersWssRequiredBind {
   websocket?: EmqxWsOpts
 }
 
-export type PutListenersId200 =
+export type PostListenersId200 =
   | ListenersWssRequiredBind
   | ListenersWsRequiredBind
   | ListenersTcpRequiredBind
@@ -254,6 +248,7 @@ export interface ListenersWssNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersWssNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWssNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -265,6 +260,13 @@ export interface ListenersWssNotRequiredBind {
   ssl_options?: EmqxListenerWssOpts
   websocket?: EmqxWsOpts
 }
+
+export type PutListenersIdBody =
+  | ListenersWssNotRequiredBind
+  | ListenersWsNotRequiredBind
+  | ListenersTcpNotRequiredBind
+  | ListenersSslNotRequiredBind
+  | ListenersQuicNotRequiredBind
 
 export type ListenersWsRequiredBindEnableAuthn =
   typeof ListenersWsRequiredBindEnableAuthn[keyof typeof ListenersWsRequiredBindEnableAuthn]
@@ -296,6 +298,7 @@ export interface ListenersWsRequiredBind {
   acceptors?: number
   max_connections?: ListenersWsRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWsRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -337,6 +340,7 @@ export interface ListenersWsNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersWsNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWsNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -378,6 +382,7 @@ export interface ListenersWithNameWssRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameWssRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameWssRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -420,6 +425,7 @@ export interface ListenersWithNameWsRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameWsRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameWsRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -503,6 +509,7 @@ export interface ListenersWithNameQuicRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameQuicRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -539,6 +546,7 @@ export interface ListenersTcpRequiredBind {
   acceptors?: number
   max_connections?: ListenersTcpRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersTcpRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -579,6 +587,7 @@ export interface ListenersTcpNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersTcpNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersTcpNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -629,6 +638,7 @@ export interface ListenersSslRequiredBind {
   acceptors?: number
   max_connections?: ListenersSslRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersSslRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -670,6 +680,7 @@ export interface ListenersSslNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersSslNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersSslNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -713,6 +724,7 @@ export interface ListenersQuicRequiredBind {
   acceptors?: number
   max_connections?: ListenersQuicRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersQuicRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -751,6 +763,7 @@ export interface ListenersQuicNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersQuicNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersQuicNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -858,6 +871,7 @@ export interface ListenersWithNameTcpRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -985,6 +999,7 @@ export interface ListenersWithNameSslRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameSslRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string

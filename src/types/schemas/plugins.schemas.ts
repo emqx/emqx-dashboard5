@@ -43,15 +43,45 @@ export type PutPluginsNameAction404 = {
   message?: string
 }
 
-export type GetPluginsName404Code = typeof GetPluginsName404Code[keyof typeof GetPluginsName404Code]
+export type PutPluginsNameConfig404Code =
+  typeof PutPluginsNameConfig404Code[keyof typeof PutPluginsNameConfig404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetPluginsName404Code = {
+export const PutPluginsNameConfig404Code = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type GetPluginsName404 = {
-  code?: GetPluginsName404Code
+export type PutPluginsNameConfig404 = {
+  code?: PutPluginsNameConfig404Code
+  message?: string
+}
+
+export type PutPluginsNameConfig400Code =
+  typeof PutPluginsNameConfig400Code[keyof typeof PutPluginsNameConfig400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameConfig400Code = {
+  BAD_CONFIG: 'BAD_CONFIG',
+  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
+} as const
+
+export type PutPluginsNameConfig400 = {
+  code?: PutPluginsNameConfig400Code
+  message?: string
+}
+
+export type PutPluginsNameConfigBody = { [key: string]: any }
+
+export type GetPluginsNameConfig404Code =
+  typeof GetPluginsNameConfig404Code[keyof typeof GetPluginsNameConfig404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameConfig404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetPluginsNameConfig404 = {
+  code?: GetPluginsNameConfig404Code
   message?: string
 }
 
@@ -78,6 +108,32 @@ export const DeletePluginsName400Code = {
 
 export type DeletePluginsName400 = {
   code?: DeletePluginsName400Code
+  message?: string
+}
+
+export type GetPluginsName404Code = typeof GetPluginsName404Code[keyof typeof GetPluginsName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetPluginsName404 = {
+  code?: GetPluginsName404Code
+  message?: string
+}
+
+export type GetPluginsNameSchema404Code =
+  typeof GetPluginsNameSchema404Code[keyof typeof GetPluginsNameSchema404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameSchema404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
+} as const
+
+export type GetPluginsNameSchema404 = {
+  code?: GetPluginsNameSchema404Code
   message?: string
 }
 
