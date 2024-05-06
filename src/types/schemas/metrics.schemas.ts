@@ -284,9 +284,9 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   dropped_msg_rate?: number
-  sent_msg_rate?: number
-  received_msg_rate?: number
   persisted_rate?: number
+  received_msg_rate?: number
+  sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
   subscriptions?: number
@@ -300,9 +300,9 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   dropped_msg_rate?: number
-  sent_msg_rate?: number
-  received_msg_rate?: number
   persisted_rate?: number
+  received_msg_rate?: number
+  sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
   subscriptions?: number

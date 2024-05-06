@@ -85,6 +85,18 @@ export type GetPluginsNameConfig404 = {
   message?: string
 }
 
+export type GetPluginsName404Code = typeof GetPluginsName404Code[keyof typeof GetPluginsName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetPluginsName404 = {
+  code?: GetPluginsName404Code
+  message?: string
+}
+
 export type DeletePluginsName404Code =
   typeof DeletePluginsName404Code[keyof typeof DeletePluginsName404Code]
 
@@ -108,18 +120,6 @@ export const DeletePluginsName400Code = {
 
 export type DeletePluginsName400 = {
   code?: DeletePluginsName400Code
-  message?: string
-}
-
-export type GetPluginsName404Code = typeof GetPluginsName404Code[keyof typeof GetPluginsName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetPluginsName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetPluginsName404 = {
-  code?: GetPluginsName404Code
   message?: string
 }
 
