@@ -294,6 +294,25 @@ export type PostGatewaysNameAuthentication400 = {
   message?: string
 }
 
+export type PostGatewaysNameAuthentication201 =
+  | AuthnGcpDevice
+  | AuthnLdapDeprecated
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
 export type PostGatewaysNameAuthenticationBody =
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -424,6 +443,16 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -439,6 +468,8 @@ export interface LdapSsl {
   certfile?: string
   keyfile?: string
   verify?: LdapSslVerify
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -470,6 +501,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -486,6 +528,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -673,41 +717,6 @@ export type AuthnPostgresqlPasswordHashAlgorithm =
   | AuthnHashPbkdf2
   | AuthnHashBcrypt
 
-export interface AuthnPostgresql {
-  mechanism: AuthnPostgresqlMechanism
-  backend: AuthnPostgresqlBackend
-  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
-  query: string
-  enable?: boolean
-  server: string
-  database: string
-  pool_size?: number
-  username: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-}
-
-export type PostGatewaysNameAuthentication201 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type AuthnPostgresqlBackend =
   typeof AuthnPostgresqlBackend[keyof typeof AuthnPostgresqlBackend]
 
@@ -723,6 +732,22 @@ export type AuthnPostgresqlMechanism =
 export const AuthnPostgresqlMechanism = {
   password_based: 'password_based',
 } as const
+
+export interface AuthnPostgresql {
+  mechanism: AuthnPostgresqlMechanism
+  backend: AuthnPostgresqlBackend
+  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
+  query: string
+  enable?: boolean
+  server: string
+  database: string
+  pool_size?: number
+  username: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+}
 
 export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
@@ -1078,7 +1103,6 @@ export interface AuthnJwtPublicKey {
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -1116,7 +1140,6 @@ export interface AuthnJwtJwks {
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtJwksVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -1152,7 +1175,6 @@ export interface AuthnJwtHmac {
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtHmacVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }

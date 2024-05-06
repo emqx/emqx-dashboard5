@@ -131,8 +131,8 @@ export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof Ge
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourceTypes200Item = {
   rabbitmq: 'rabbitmq',
-  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
   kafka_consumer: 'kafka_consumer',
+  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
   mqtt: 'mqtt',
 } as const
 
@@ -345,6 +345,7 @@ export const KafkaConsumerSourceParametersOffsetResetPolicy = {
 
 export interface KafkaConsumerSourceParameters {
   topic: string
+  group_id?: string
   max_batch_bytes?: string
   offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
   offset_commit_interval_seconds?: string

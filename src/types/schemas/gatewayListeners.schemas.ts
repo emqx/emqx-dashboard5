@@ -568,6 +568,16 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -583,6 +593,8 @@ export interface LdapSsl {
   certfile?: string
   keyfile?: string
   verify?: LdapSslVerify
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -647,6 +659,17 @@ export const GatewayDtlsOptsLogLevel = {
   all: 'all',
 } as const
 
+export type GatewayDtlsOptsPartialChain =
+  typeof GatewayDtlsOptsPartialChain[keyof typeof GatewayDtlsOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayDtlsOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type GatewayDtlsOptsVerify = typeof GatewayDtlsOptsVerify[keyof typeof GatewayDtlsOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -654,31 +677,6 @@ export const GatewayDtlsOptsVerify = {
   verify_peer: 'verify_peer',
   verify_none: 'verify_none',
 } as const
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: GatewayDtlsOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: GatewayDtlsOptsLogLevel
-  hibernate_after?: string
-  dhfile?: string
-  fail_if_no_peer_cert?: boolean
-  honor_cipher_order?: boolean
-  client_renegotiation?: boolean
-  handshake_timeout?: string
-  gc_after_handshake?: boolean
-  ocsp?: EmqxOcsp
-  enable_crl_check?: boolean
-}
 
 export interface EmqxTcpOpts {
   active_n?: number
@@ -713,6 +711,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -729,6 +738,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -749,6 +760,33 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
 }
 
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: GatewayDtlsOptsVerify
+  partial_chain?: GatewayDtlsOptsPartialChain
+  verify_peer_ext_key_usage?: string
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: GatewayDtlsOptsLogLevel
+  hibernate_after?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+  gc_after_handshake?: boolean
+  ocsp?: EmqxOcsp
+  enable_crl_check?: boolean
+}
+
 export type EmqxListenerWssOptsLogLevel =
   typeof EmqxListenerWssOptsLogLevel[keyof typeof EmqxListenerWssOptsLogLevel]
 
@@ -764,6 +802,17 @@ export const EmqxListenerWssOptsLogLevel = {
   debug: 'debug',
   none: 'none',
   all: 'all',
+} as const
+
+export type EmqxListenerWssOptsPartialChain =
+  typeof EmqxListenerWssOptsPartialChain[keyof typeof EmqxListenerWssOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerWssOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
 } as const
 
 export type EmqxListenerWssOptsVerify =
@@ -782,6 +831,8 @@ export interface EmqxListenerWssOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxListenerWssOptsVerify
+  partial_chain?: EmqxListenerWssOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -814,6 +865,17 @@ export const EmqxListenerSslOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxListenerSslOptsPartialChain =
+  typeof EmqxListenerSslOptsPartialChain[keyof typeof EmqxListenerSslOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxListenerSslOptsVerify =
   typeof EmqxListenerSslOptsVerify[keyof typeof EmqxListenerSslOptsVerify]
 
@@ -830,6 +892,8 @@ export interface EmqxListenerSslOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxListenerSslOptsVerify
+  partial_chain?: EmqxListenerSslOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -1738,7 +1802,6 @@ export interface AuthnJwtPublicKey {
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -1776,7 +1839,6 @@ export interface AuthnJwtJwks {
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtJwksVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -1812,7 +1874,6 @@ export interface AuthnJwtHmac {
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtHmacVerifyClaims
-  disconnect_after_expire?: boolean
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }

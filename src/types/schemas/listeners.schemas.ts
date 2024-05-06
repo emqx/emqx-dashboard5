@@ -23,6 +23,13 @@ export type PutListenersId400 = {
   message?: string
 }
 
+export type PutListenersId200 =
+  | ListenersWssRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersQuicRequiredBind
+
 export type PutListenersIdBody =
   | ListenersWssNotRequiredBind
   | ListenersWsNotRequiredBind
@@ -217,13 +224,6 @@ export interface ListenersWssRequiredBind {
   ssl_options?: EmqxListenerWssOpts
   websocket?: EmqxWsOpts
 }
-
-export type PutListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
 
 export type ListenersWssNotRequiredBindEnableAuthn =
   typeof ListenersWssNotRequiredBindEnableAuthn[keyof typeof ListenersWssNotRequiredBindEnableAuthn]
@@ -456,6 +456,27 @@ export type ListenersWithNameTcpRequiredBindType =
 export const ListenersWithNameTcpRequiredBindType = {
   tcp: 'tcp',
 } as const
+
+export interface ListenersWithNameTcpRequiredBind {
+  type: ListenersWithNameTcpRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
+  mountpoint?: string
+  zone?: string
+  enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
+  access_rules?: string[]
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  tcp_options?: EmqxTcpOpts
+}
 
 export type ListenersWithNameSslRequiredBindEnableAuthn =
   typeof ListenersWithNameSslRequiredBindEnableAuthn[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
@@ -861,27 +882,6 @@ export interface EmqxTcpOpts {
   keepalive?: string
 }
 
-export interface ListenersWithNameTcpRequiredBind {
-  type: ListenersWithNameTcpRequiredBindType
-  running?: boolean
-  name: string
-  current_connections?: number
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
-  mountpoint?: string
-  zone?: string
-  enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
-  access_rules?: string[]
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  tcp_options?: EmqxTcpOpts
-}
-
 export interface EmqxOcsp {
   enable_ocsp_stapling?: boolean
   responder_url?: string
@@ -907,6 +907,17 @@ export const EmqxListenerWssOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxListenerWssOptsPartialChain =
+  typeof EmqxListenerWssOptsPartialChain[keyof typeof EmqxListenerWssOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerWssOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxListenerWssOptsVerify =
   typeof EmqxListenerWssOptsVerify[keyof typeof EmqxListenerWssOptsVerify]
 
@@ -923,6 +934,8 @@ export interface EmqxListenerWssOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxListenerWssOptsVerify
+  partial_chain?: EmqxListenerWssOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -955,6 +968,17 @@ export const EmqxListenerSslOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxListenerSslOptsPartialChain =
+  typeof EmqxListenerSslOptsPartialChain[keyof typeof EmqxListenerSslOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxListenerSslOptsVerify =
   typeof EmqxListenerSslOptsVerify[keyof typeof EmqxListenerSslOptsVerify]
 
@@ -971,6 +995,8 @@ export interface EmqxListenerSslOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxListenerSslOptsVerify
+  partial_chain?: EmqxListenerSslOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string

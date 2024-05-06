@@ -441,41 +441,6 @@ export type PostConnectorsProbe400 = {
   message?: string
 }
 
-export type PostConnectorsProbeBody =
-  | BridgeTimescalePostConnector
-  | BridgeMongodbPostConnector
-  | GcpPubsubProducerPostConnector
-  | ElasticsearchPost
-  | SyskeeperForwarderPost
-  | PulsarPost
-  | RocketmqPostConnector
-  | KafkaConsumerPostConnector
-  | BridgeMatrixPostConnector
-  | BridgeSqlserverPostConnector
-  | BridgeInfluxdbPostConnector
-  | BridgeClickhousePostConnector
-  | GcpPubsubConsumerPostConnector
-  | BridgeCassaPostConnector
-  | BridgeHstreamdbPostConnector
-  | BridgeOraclePostConnector
-  | OpentsConnectorPost
-  | BridgeGreptimedbPostConnector
-  | BridgeS3PostConnector
-  | TdengineConnectorPost
-  | BridgeDynamoPostConnector
-  | RedisPostConnector
-  | RabbitmqPost
-  | ConnectorMqttPostConnector
-  | BridgeMysqlPostConnector
-  | ConnectorPostgresPostConnector
-  | ConnectorSyskeeperProxyPost
-  | BridgeKinesisPostConnector
-  | BridgeKafkaPostConnector
-  | BridgeAzureEventHubPostConnector
-  | IotdbPost
-  | ConfluentPostConnector
-  | BridgeHttpPostConnector
-
 export interface TdengineConnectorPut {
   enable?: boolean
   tags?: string[]
@@ -604,6 +569,41 @@ export interface SyskeeperForwarderPost {
   pool_size?: number
   resource_opts?: SyskeeperForwarderConnectorResourceOpts
 }
+
+export type PostConnectorsProbeBody =
+  | BridgeTimescalePostConnector
+  | BridgeMongodbPostConnector
+  | GcpPubsubProducerPostConnector
+  | ElasticsearchPost
+  | SyskeeperForwarderPost
+  | PulsarPost
+  | RocketmqPostConnector
+  | KafkaConsumerPostConnector
+  | BridgeMatrixPostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeClickhousePostConnector
+  | GcpPubsubConsumerPostConnector
+  | BridgeCassaPostConnector
+  | BridgeHstreamdbPostConnector
+  | BridgeOraclePostConnector
+  | OpentsConnectorPost
+  | BridgeGreptimedbPostConnector
+  | BridgeS3PostConnector
+  | TdengineConnectorPost
+  | BridgeDynamoPostConnector
+  | RedisPostConnector
+  | RabbitmqPost
+  | ConnectorMqttPostConnector
+  | BridgeMysqlPostConnector
+  | ConnectorPostgresPostConnector
+  | ConnectorSyskeeperProxyPost
+  | BridgeKinesisPostConnector
+  | BridgeKafkaPostConnector
+  | BridgeAzureEventHubPostConnector
+  | IotdbPost
+  | ConfluentPostConnector
+  | BridgeHttpPostConnector
 
 export type SyskeeperForwarderGetAckMode =
   typeof SyskeeperForwarderGetAckMode[keyof typeof SyskeeperForwarderGetAckMode]
@@ -834,17 +834,6 @@ export const RedisPostConnectorType = {
   redis: 'redis',
 } as const
 
-export interface RedisPostConnector {
-  type: RedisPostConnectorType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  parameters: RedisPostConnectorParameters
-  resource_opts?: RedisConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-}
-
 export type RedisGetConnectorParameters =
   | RedisRedisClusterConnector
   | RedisRedisSentinelConnector
@@ -879,6 +868,17 @@ export interface RedisPutConnector {
   tags?: string[]
   description?: string
   parameters: RedisPutConnectorParameters
+  resource_opts?: RedisConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+}
+
+export interface RedisPostConnector {
+  type: RedisPostConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  parameters: RedisPostConnectorParameters
   resource_opts?: RedisConnectorResourceOpts
   ssl?: EmqxSslClientOpts
 }
@@ -920,6 +920,22 @@ export const RabbitmqPostType = {
   rabbitmq: 'rabbitmq',
 } as const
 
+export type RabbitmqGetStatus = typeof RabbitmqGetStatus[keyof typeof RabbitmqGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RabbitmqGetStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface RabbitmqConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface RabbitmqPost {
   type: RabbitmqPostType
   name: string
@@ -936,22 +952,6 @@ export interface RabbitmqPost {
   heartbeat?: string
   ssl?: EmqxSslClientOpts
   resource_opts?: RabbitmqConnectorResourceOpts
-}
-
-export type RabbitmqGetStatus = typeof RabbitmqGetStatus[keyof typeof RabbitmqGetStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RabbitmqGetStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface RabbitmqConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
 }
 
 export interface RabbitmqGet {
@@ -1219,6 +1219,7 @@ export interface KafkaConsumerPutConnector {
   metadata_request_timeout?: string
   authentication?: KafkaConsumerPutConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -1248,6 +1249,7 @@ export interface KafkaConsumerPostConnector {
   metadata_request_timeout?: string
   authentication?: KafkaConsumerPostConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -1292,6 +1294,7 @@ export interface KafkaConsumerGetConnector {
   metadata_request_timeout?: string
   authentication?: KafkaConsumerGetConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -1616,6 +1619,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -1632,6 +1646,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -2146,12 +2162,25 @@ export const ConfluentSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type ConfluentSslClientOptsPartialChain =
+  typeof ConfluentSslClientOptsPartialChain[keyof typeof ConfluentSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export interface ConfluentSslClientOpts {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
   keyfile?: string
+  partial_chain?: ConfluentSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -2173,6 +2202,7 @@ export interface ConfluentPutConnector {
   metadata_request_timeout?: string
   authentication: ConfluentAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: ConfluentSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -2197,6 +2227,7 @@ export interface ConfluentPostConnector {
   metadata_request_timeout?: string
   authentication: ConfluentAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: ConfluentSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -2241,6 +2272,7 @@ export interface ConfluentGetConnector {
   metadata_request_timeout?: string
   authentication: ConfluentAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: ConfluentSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -2342,21 +2374,6 @@ export interface BridgeTimescaleGetConnector {
   resource_opts?: ConnectorPostgresResourceOpts
 }
 
-export interface BridgeSqlserverPutConnector {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  driver?: string
-  server: string
-  database: string
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  resource_opts?: BridgeSqlserverConnectorResourceOpts
-}
-
 export type BridgeSqlserverPostConnectorType =
   typeof BridgeSqlserverPostConnectorType[keyof typeof BridgeSqlserverPostConnectorType]
 
@@ -2388,6 +2405,21 @@ export interface BridgeSqlserverConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface BridgeSqlserverPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  driver?: string
+  server: string
+  database: string
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  resource_opts?: BridgeSqlserverConnectorResourceOpts
 }
 
 export interface BridgeSqlserverPostConnector {
@@ -2999,6 +3031,17 @@ export const BridgeKafkaSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type BridgeKafkaSslClientOptsPartialChain =
+  typeof BridgeKafkaSslClientOptsPartialChain[keyof typeof BridgeKafkaSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type BridgeKafkaSslClientOptsVerify =
   typeof BridgeKafkaSslClientOptsVerify[keyof typeof BridgeKafkaSslClientOptsVerify]
 
@@ -3015,6 +3058,8 @@ export interface BridgeKafkaSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: BridgeKafkaSslClientOptsVerify
+  partial_chain?: BridgeKafkaSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -3082,6 +3127,7 @@ export interface BridgeKafkaPutConnector {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPutConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -3098,6 +3144,7 @@ export interface BridgeKafkaPostConnector {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPostConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -3118,6 +3165,7 @@ export interface BridgeKafkaGetConnector {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaGetConnectorAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -3449,6 +3497,18 @@ export interface BridgeHstreamdbGetConnector {
   resource_opts?: BridgeHstreamdbConnectorResourceOpts
 }
 
+export interface BridgeGreptimedbPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server?: string
+  dbname: string
+  username?: string
+  password?: string
+  ssl?: EmqxSslClientOpts
+  resource_opts?: BridgeGreptimedbConnectorResourceOpts
+}
+
 export type BridgeGreptimedbPostConnectorType =
   typeof BridgeGreptimedbPostConnectorType[keyof typeof BridgeGreptimedbPostConnectorType]
 
@@ -3496,18 +3556,6 @@ export interface BridgeGreptimedbConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface BridgeGreptimedbPutConnector {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server?: string
-  dbname: string
-  username?: string
-  password?: string
-  ssl?: EmqxSslClientOpts
-  resource_opts?: BridgeGreptimedbConnectorResourceOpts
-}
-
 export interface BridgeGreptimedbGetConnector {
   type: BridgeGreptimedbGetConnectorType
   name: string
@@ -3526,7 +3574,17 @@ export interface BridgeGreptimedbGetConnector {
   resource_opts?: BridgeGreptimedbConnectorResourceOpts
 }
 
-export interface BridgeDynamoPutConnector {
+export type BridgeDynamoPostConnectorType =
+  typeof BridgeDynamoPostConnectorType[keyof typeof BridgeDynamoPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeDynamoPostConnectorType = {
+  dynamo: 'dynamo',
+} as const
+
+export interface BridgeDynamoPostConnector {
+  type: BridgeDynamoPostConnectorType
+  name: string
   enable?: boolean
   tags?: string[]
   description?: string
@@ -3539,14 +3597,6 @@ export interface BridgeDynamoPutConnector {
   auto_reconnect?: boolean
   resource_opts?: BridgeDynamoConnectorResourceOpts
 }
-
-export type BridgeDynamoPostConnectorType =
-  typeof BridgeDynamoPostConnectorType[keyof typeof BridgeDynamoPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeDynamoPostConnectorType = {
-  dynamo: 'dynamo',
-} as const
 
 export type BridgeDynamoGetConnectorStatus =
   typeof BridgeDynamoGetConnectorStatus[keyof typeof BridgeDynamoGetConnectorStatus]
@@ -3573,9 +3623,7 @@ export interface BridgeDynamoConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface BridgeDynamoPostConnector {
-  type: BridgeDynamoPostConnectorType
-  name: string
+export interface BridgeDynamoPutConnector {
   enable?: boolean
   tags?: string[]
   description?: string
@@ -3808,6 +3856,17 @@ export const BridgeAzureEventHubSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type BridgeAzureEventHubSslClientOptsPartialChain =
+  typeof BridgeAzureEventHubSslClientOptsPartialChain[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeAzureEventHubSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type BridgeAzureEventHubSslClientOptsVerify =
   typeof BridgeAzureEventHubSslClientOptsVerify[keyof typeof BridgeAzureEventHubSslClientOptsVerify]
 
@@ -3824,6 +3883,8 @@ export interface BridgeAzureEventHubSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: BridgeAzureEventHubSslClientOptsVerify
+  partial_chain?: BridgeAzureEventHubSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -3846,6 +3907,7 @@ export interface BridgeAzureEventHubPutConnector {
   metadata_request_timeout?: string
   authentication: BridgeAzureEventHubAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: BridgeAzureEventHubSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -3870,6 +3932,7 @@ export interface BridgeAzureEventHubPostConnector {
   metadata_request_timeout?: string
   authentication: BridgeAzureEventHubAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: BridgeAzureEventHubSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }
@@ -3913,6 +3976,7 @@ export interface BridgeAzureEventHubGetConnector {
   metadata_request_timeout?: string
   authentication: BridgeAzureEventHubAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl: BridgeAzureEventHubSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
 }

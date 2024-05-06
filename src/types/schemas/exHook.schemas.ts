@@ -153,6 +153,17 @@ export const ExhookSslConfLogLevel = {
   all: 'all',
 } as const
 
+export type ExhookSslConfPartialChain =
+  typeof ExhookSslConfPartialChain[keyof typeof ExhookSslConfPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ExhookSslConfPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type ExhookSslConfVerify = typeof ExhookSslConfVerify[keyof typeof ExhookSslConfVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -168,6 +179,8 @@ export interface ExhookSslConf {
   certfile?: string
   keyfile?: string
   verify?: ExhookSslConfVerify
+  partial_chain?: ExhookSslConfPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
