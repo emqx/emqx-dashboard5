@@ -83,6 +83,11 @@
           </el-col>
         </template>
         <el-col :span="24">
+          <el-form-item :label="$t('Auth.disconnect_after_expire')">
+            <el-switch v-model="jwtConfig.disconnect_after_expire"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
           <el-form-item label="Payload">
             <key-and-value-editor
               v-model="jwtConfig.verify_claims"

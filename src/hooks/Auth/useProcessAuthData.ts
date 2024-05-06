@@ -92,12 +92,14 @@ export default function useProcessAuthData() {
       refresh_interval,
       verify_claims,
       ssl,
+      disconnect_after_expire,
     } = data
     let tempData: any = {
       enable,
       from,
       use_jwks,
       verify_claims,
+      disconnect_after_expire,
     }
     if (use_jwks) {
       tempData = {
