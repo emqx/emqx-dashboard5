@@ -42,6 +42,13 @@ export const PutAuthorizationSettings200NoMatch = {
   deny: 'deny',
 } as const
 
+export interface EmqxAuthzCache {
+  enable: boolean
+  max_size?: number
+  ttl?: string
+  excludes?: string[]
+}
+
 export type PutAuthorizationSettings200 = {
   no_match: PutAuthorizationSettings200NoMatch
   deny_action: PutAuthorizationSettings200DenyAction
@@ -481,6 +488,16 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -496,6 +513,8 @@ export interface LdapSsl {
   certfile?: string
   keyfile?: string
   verify?: LdapSslVerify
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -527,6 +546,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -543,6 +573,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -553,13 +585,6 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
-}
-
-export interface EmqxAuthzCache {
-  enable: boolean
-  max_size?: number
-  ttl?: string
-  excludes?: string[]
 }
 
 export interface EmqxAuthzSchemaResourceMetrics {

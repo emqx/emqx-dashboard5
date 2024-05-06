@@ -216,6 +216,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -232,6 +243,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string

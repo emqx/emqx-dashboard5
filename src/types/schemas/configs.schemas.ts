@@ -533,6 +533,16 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -548,6 +558,8 @@ export interface LdapSsl {
   certfile?: string
   keyfile?: string
   verify?: LdapSslVerify
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -680,6 +692,17 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsVerify =
   typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
 
@@ -696,6 +719,8 @@ export interface EmqxSslClientOpts {
   certfile?: string
   keyfile?: string
   verify?: EmqxSslClientOptsVerify
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -1016,6 +1041,17 @@ export const DashboardSslOptionsLogLevel = {
   all: 'all',
 } as const
 
+export type DashboardSslOptionsPartialChain =
+  typeof DashboardSslOptionsPartialChain[keyof typeof DashboardSslOptionsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSslOptionsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type DashboardSslOptionsVerify =
   typeof DashboardSslOptionsVerify[keyof typeof DashboardSslOptionsVerify]
 
@@ -1032,6 +1068,8 @@ export interface DashboardSslOptions {
   certfile?: string
   keyfile?: string
   verify?: DashboardSslOptionsVerify
+  partial_chain?: DashboardSslOptionsPartialChain
+  verify_peer_ext_key_usage?: string
   reuse_sessions?: boolean
   depth?: number
   password?: string
@@ -1041,6 +1079,7 @@ export interface DashboardSslOptions {
   log_level?: DashboardSslOptionsLogLevel
   hibernate_after?: string
   dhfile?: string
+  fail_if_no_peer_cert?: boolean
   honor_cipher_order?: boolean
   client_renegotiation?: boolean
   handshake_timeout?: string
@@ -1098,6 +1137,7 @@ export interface DashboardListeners {
 
 export interface DashboardDashboard {
   listeners?: DashboardListeners
+  readonly default_password: string
   token_expired_time?: string
   cors?: boolean
   swagger_support?: boolean
