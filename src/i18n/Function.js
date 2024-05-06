@@ -213,4 +213,16 @@ export default {
     zh: '字节序',
     en: 'Endian',
   },
+  SchemaName: {
+    zh: '编解码名称',
+    en: 'Schema',
+  },
+  Data: {
+    zh: '数据',
+    en: 'Data',
+  },
+  Type: {
+    zh: '消息类型',
+    en: 'Message Type',
+  },
 }
