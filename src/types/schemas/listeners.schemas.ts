@@ -205,6 +205,7 @@ export interface ListenersWssRequiredBind {
   acceptors?: number
   max_connections?: ListenersWssRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWssRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -254,6 +255,7 @@ export interface ListenersWssNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersWssNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWssNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -296,6 +298,7 @@ export interface ListenersWsRequiredBind {
   acceptors?: number
   max_connections?: ListenersWsRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWsRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -337,6 +340,7 @@ export interface ListenersWsNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersWsNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWsNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -378,6 +382,7 @@ export interface ListenersWithNameWssRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameWssRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameWssRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -420,6 +425,7 @@ export interface ListenersWithNameWsRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameWsRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameWsRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -503,6 +509,7 @@ export interface ListenersWithNameQuicRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameQuicRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -539,6 +546,7 @@ export interface ListenersTcpRequiredBind {
   acceptors?: number
   max_connections?: ListenersTcpRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersTcpRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -579,6 +587,7 @@ export interface ListenersTcpNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersTcpNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersTcpNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -629,6 +638,7 @@ export interface ListenersSslRequiredBind {
   acceptors?: number
   max_connections?: ListenersSslRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersSslRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -670,6 +680,7 @@ export interface ListenersSslNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersSslNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersSslNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -713,6 +724,7 @@ export interface ListenersQuicRequiredBind {
   acceptors?: number
   max_connections?: ListenersQuicRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersQuicRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -751,6 +763,7 @@ export interface ListenersQuicNotRequiredBind {
   acceptors?: number
   max_connections?: ListenersQuicNotRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersQuicNotRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -858,6 +871,7 @@ export interface ListenersWithNameTcpRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string
@@ -985,6 +999,7 @@ export interface ListenersWithNameSslRequiredBind {
   acceptors?: number
   max_connections?: ListenersWithNameSslRequiredBindMaxConnections
   mountpoint?: string
+  zone?: string
   enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
   max_conn_rate?: string
   messages_rate?: string

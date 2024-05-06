@@ -559,4 +559,8 @@ export default {
     zh: '请先选择文件',
     en: 'Please select a file first',
   },
+  disconnect_after_expire: {
+    zh: '过期后断开连接',
+    en: 'Disconnect After Expiration',
+  },
 }

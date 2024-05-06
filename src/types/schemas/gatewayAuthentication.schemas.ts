@@ -1078,6 +1078,7 @@ export interface AuthnJwtPublicKey {
   mechanism: AuthnJwtPublicKeyMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtPublicKeyFrom
   enable?: boolean
 }
@@ -1115,6 +1116,7 @@ export interface AuthnJwtJwks {
   mechanism: AuthnJwtJwksMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtJwksVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtJwksFrom
   enable?: boolean
 }
@@ -1150,6 +1152,7 @@ export interface AuthnJwtHmac {
   mechanism: AuthnJwtHmacMechanism
   acl_claim_name?: string
   verify_claims?: AuthnJwtHmacVerifyClaims
+  disconnect_after_expire?: boolean
   from?: AuthnJwtHmacFrom
   enable?: boolean
 }

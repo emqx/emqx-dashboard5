@@ -83,6 +83,11 @@
           </el-col>
         </template>
         <el-col :span="24">
+          <el-form-item :label="$t('Auth.disconnect_after_expire')">
+            <el-switch v-model="jwtConfig.disconnect_after_expire"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
           <el-form-item label="Payload">
             <key-and-value-editor
               v-model="jwtConfig.verify_claims"
@@ -127,7 +132,7 @@ export default defineComponent({
     const { formCom, rules, validate } = useJWTConfigForm()
 
     const { createSSLForm } = useSSL()
-    const handleUseJWKSChanged = (val: boolean) => {
+    const handleUseJWKSChanged = (val: boolean | string | number): any => {
       if (val && !('ssl' in jwtConfig)) {
         jwtConfig.ssl = createSSLForm()
       }

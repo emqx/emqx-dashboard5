@@ -16,6 +16,7 @@ export default function useAuthnCreate() {
     processJwtConfig,
     processPasswordHashAlgorithmData,
   } = useProcessAuthData()
+
   const getBuiltInConfig = (type: string) => {
     if (type === 'password_based') {
       return {
@@ -111,6 +112,7 @@ export default function useAuthnCreate() {
       algorithm: 'hmac-based',
       secret: 'emqxsecret',
       secret_base64_encoded: false,
+      disconnect_after_expire: true,
       endpoint: 'http://127.0.0.1:8080',
       refresh_interval: 300,
       verify_claims: {},

@@ -57,6 +57,7 @@ export const PutConfigsMode = {
 
 export type PutConfigsParams = {
   mode?: PutConfigsMode
+  ignore_readonly?: boolean
 }
 
 export type GetConfigs500Code = typeof GetConfigs500Code[keyof typeof GetConfigs500Code]
