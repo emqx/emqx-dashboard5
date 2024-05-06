@@ -28,8 +28,8 @@ export default {
     en: 'The configuration group to which the listener belongs. A Zone defines a set of configuration items (such as the maximum number of connections), and a Listener can specify a Zone to use all the configurations in the Zone. Multiple Listeners can share the same Zone.',
   },
   mqttPath: {
-    zh: 'WebSocket 连接的路径，例如 /mqtt，作用是指定 WebSocket 连接的路径，以便在服务器上找到正确的 WebSocket 端点。<br/>在路径末尾添加 `/[...]` 将使 EMQX 接受任何子路径。<br/>例如，指定 `mqtt/[...]` 将允许客户端连接到 `mqtt/org1` 或 `mqtt/group2` 等路径。<br/>注意：未匹配的路径将导致客户端在 HTTP 层立即被拒绝，这意味着在 MQTT 层无法追踪它。',
-    en: 'The path of the WebSocket connection, such as /mqtt, is used to specify the path of the WebSocket connection so that the correct WebSocket endpoint can be found on the server. <br/>Append `/[...]` to the end of the path to make EMQX accept any subpath.<br/>For example, specifying `mqtt/[...]` would allow clients to connect at paths like `mqtt/org1` or `mqtt/group2`, etc.<br/>NOTE: An unmatched path will cause the client to be rejected immediately at the HTTP layer,    meaning it will not be traceable at the MQTT layer.',
+    zh: "WebSocket 连接 URL 中的路径，应以 `/` 开头，并支持子路径。默认情况下，WebSocket 客户端连接的完整 URL 为 `ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt`。<br/>支持在路径末尾添加 `/[...]` 表示任意子路径。例如，当设置为 `/mqtt/[...]` 时，可以接受 `/mqtt/org1`、`/mqtt/org1/app1` 等连接。<br/>注意，如果客户端连接的路径与配置不匹配，则连接将在 HTTP 层被拒绝。",
+    en: "The path in the WebSocket connection URL, which should start with `/` and supports subpaths. By default, the full URL of a WebSocket client connection is `ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt`.<br/>It is supported to add `/[...] ` at the end of the path to make EMOX accept any subpath. For example, specifying `/mqtt/[...]` would allow clients to connect at paths like `mqtt/org1` or `mqtt/org1/app1`, etc.<br/><br/>NOTE: An unmatched path will cause the client to be rejected immediately at the HTTP  laver.",
   },
   readOnlyTip: {
     zh: '此配置项不支持热配置，请到配置文件内修改并重启服务',

@@ -1,7 +1,7 @@
 <template>
   <div class="table-dropdown">
     <el-button
-      v-if="type !== 'built_in_database'"
+      v-if="type !== 'built_in_database' && isAuthItem"
       size="small"
       @click="$emit('setting', rowData, 'settings')"
     >
@@ -47,7 +47,11 @@
             <el-icon><Bottom /></el-icon>
             {{ $t('Base.moveToBottom') }}
           </el-dropdown-item>
-          <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
+          <el-dropdown-item
+            :disabled="!$hasPermission('delete')"
+            command="delete"
+            v-if="isAuthItem"
+          >
             <el-icon><Delete /></el-icon>
             {{ $t('Base.delete') }}
           </el-dropdown-item>
@@ -81,6 +85,13 @@ export default defineComponent({
     position: {
       required: true,
       type: Number,
+    },
+    /**
+     * for auth item, show setting and delete button
+     */
+    isAuthItem: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['setting', 'delete', 'move-up', 'move-down', 'move-to-top', 'move-to-bottom'],

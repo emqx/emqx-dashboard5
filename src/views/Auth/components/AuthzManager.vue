@@ -7,7 +7,7 @@
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
       <div class="searchbar-content">
-        <template v-if="type !== 'all'">
+        <template v-if="!isTypeAll">
           <el-input
             v-model="searchVal"
             clearable
@@ -36,7 +36,14 @@
         </el-button>
       </el-tooltip>
     </div>
-    <el-table v-if="type === 'all'" :data="allTableData" v-loading.lock="lockTable">
+    <el-table
+      ref="tableCom"
+      v-if="isTypeAll"
+      :data="allTableData"
+      v-loading.lock="lockTable"
+      row-key="topic"
+      class="table-with-draggable"
+    >
       <el-table-column v-if="false" type="expand" />
       <el-table-column prop="action" :label="$t('Auth.action')">
         <template #default="{ row }">
@@ -70,6 +77,16 @@
           >
             {{ $t('Base.delete') }}
           </el-button>
+          <TableDropdown
+            :row-data="row"
+            :position="$index"
+            :is-auth-item="false"
+            :table-data-len="allTableData.length"
+            @move-up="relativeMove($index, -1)"
+            @move-down="relativeMove($index, 1)"
+            @move-to-top="absoluteMove($index, 0)"
+            @move-to-bottom="absoluteMove($index, allTableData.length - 1)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -140,7 +157,7 @@
         label-position="top"
         require-asterisk-position="right"
       >
-        <template v-if="type === 'all'">
+        <template v-if="isTypeAll">
           <el-form-item prop="action" :label="$t('Auth.action')">
             <el-select v-model="record.action">
               <el-option
@@ -252,7 +269,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import {
   loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
@@ -271,9 +288,18 @@ import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import TableDropdown from './TableDropdown.vue'
+import useSortableTable from '@/hooks/useSortableTable'
+import { SortableEvent } from 'sortablejs'
+
+interface AllTableDataItem {
+  action: string
+  permission: string
+  topic: string
+}
 
 export default defineComponent({
-  components: { commonPagination, InfoTooltip },
+  components: { commonPagination, InfoTooltip, TableDropdown },
   name: 'AuthzManager',
   setup() {
     const { t } = useI18n()
@@ -321,6 +347,8 @@ export default defineComponent({
       { value: 'allow', label: t('Base.allow') },
       { value: 'deny', label: t('Base.deny') },
     ]
+
+    const isTypeAll = computed(() => type.value === BuiltInDBType.All)
 
     const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
@@ -385,11 +413,16 @@ export default defineComponent({
       if (searchVal.value) {
         sendParams[`like_${getKeyByCurrentType()}`] = searchVal.value
       }
-      const res = await loadBuiltInDatabaseData(type.value, sendParams).catch(() => {
+      const res = await loadBuiltInDatabaseData(
+        type.value,
+        isTypeAll.value ? {} : sendParams,
+      ).catch(() => {
         lockTable.value = false
       })
-      if (type.value === 'all') {
+      if (isTypeAll.value) {
         allTableData.value = res.rules
+        await nextTick()
+        initSortable()
       } else {
         tableData.value = res?.data
         setPageMeta(res?.meta)
@@ -469,7 +502,7 @@ export default defineComponent({
         type: 'warning',
       })
         .then(async () => {
-          if (type.value !== 'all') {
+          if (!isTypeAll.value) {
             const key = getKeyByCurrentType()
             await deleteBuiltInDatabaseData(type.value, row[key]).catch(() => {
               // ignore error
@@ -491,7 +524,7 @@ export default defineComponent({
       dialogVisible.value = true
       isEdit.value = true
       editIndex.value = 0
-      if (type.value !== 'all') {
+      if (!isTypeAll.value) {
         const _row = row as BuiltInDBItem
         const key = getKeyByCurrentType()
         record[key] = _row[key]
@@ -535,14 +568,58 @@ export default defineComponent({
       loadData()
     }
 
+    const reorderAllTableData = async (rules: Array<AllTableDataItem>) => {
+      try {
+        await updateAllBuiltInDatabaseData({ rules })
+      } catch (error) {
+        //
+      } finally {
+        loadData()
+      }
+    }
+
+    const moveToTargetPosition = async (nowIndex: number, targetIndex: number) => {
+      const order = [...allTableData.value]
+      const [removed] = order.splice(nowIndex, 1)
+      order.splice(targetIndex, 0, removed)
+      reorderAllTableData(order)
+    }
+
+    const relativeMove = (nowIndex: number, relativePosition: number) => {
+      const targetIndex = nowIndex + relativePosition
+      if (targetIndex < 0 || targetIndex >= allTableData.value.length) {
+        return
+      }
+      moveToTargetPosition(nowIndex, targetIndex)
+    }
+
+    const absoluteMove = (nowIndex: number, absolutePosition: number) => {
+      if (nowIndex === absolutePosition) {
+        return
+      }
+      moveToTargetPosition(nowIndex, absolutePosition)
+    }
+
+    const handleOrderChanged = async (evt: SortableEvent) => {
+      const { newIndex, oldIndex } = evt
+      if (newIndex === undefined || oldIndex === undefined) {
+        return
+      }
+      absoluteMove(oldIndex, newIndex)
+    }
+
+    const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
+
     return {
       BuiltInDBType,
       Plus,
       Search,
       Refresh,
+      tableCom,
       recordForm,
       type,
       typeList,
+      isTypeAll,
       record,
       dialogVisible,
       lockTable,
@@ -568,6 +645,8 @@ export default defineComponent({
       getCurrSearchValTip,
       replaceSpaceForHTML,
       getLabelFromValueInOptionList,
+      relativeMove,
+      absoluteMove,
     }
   },
 })
@@ -605,6 +684,9 @@ export default defineComponent({
         margin-left: 5px;
       }
     }
+  }
+  .table-dropdown {
+    display: inline-flex;
   }
 }
 </style>

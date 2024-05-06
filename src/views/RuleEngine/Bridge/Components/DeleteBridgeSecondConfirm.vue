@@ -13,7 +13,7 @@
         </i>
         <div class="el-message-box__message">
           {{
-            direction === BridgeDirection.Egress
+            isEgress
               ? tl('deleteEgressActionSecondConfirm')
               : tl('deleteIngressActionSecondConfirm')
           }}
@@ -43,6 +43,7 @@
           plain
           @click="submit"
           :loading="isSubmitting"
+          v-if="isEgress"
         >
           {{ $t('Base.confirm') }}
         </el-button>
@@ -86,6 +87,8 @@ const showDialog = computed({
     emit('update:modelValue', val)
   },
 })
+
+const isEgress = computed(() => props.direction === BridgeDirection.Egress)
 
 const { deleteAction } = useHandleActionItem()
 const { deleteSource } = useHandleSourceItem()
