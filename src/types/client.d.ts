@@ -49,6 +49,7 @@ export interface Client {
   username: string
   will_msg: string
   zone: string
+  durable: boolean
   [key: string]: any
 }
 
