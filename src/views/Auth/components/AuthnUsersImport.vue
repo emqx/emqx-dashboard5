@@ -6,6 +6,7 @@
         type="primary"
         plain
         :icon="Upload"
+        :disabled="!$hasPermission('post')"
         @click="dialogVisible = true"
       >
       </el-button>

@@ -23,7 +23,7 @@
                   <el-button
                     class="btn-del"
                     :icon="Delete"
-                    :disabled="formData.topics.length <= 1"
+                    :disabled="formData.topics.length <= 1 || !$hasPermission('delete')"
                     @click="delTopic($index)"
                   />
                   <el-button
@@ -124,7 +124,7 @@
               </el-table-column>
               <el-table-column width="120">
                 <template #header>
-                  <el-button link @click="addValidationItem">
+                  <el-button link @click="addValidationItem" :disabled="!$hasPermission('post')">
                     {{ $t('Base.add') }}
                   </el-button>
                 </template>
@@ -133,6 +133,7 @@
                     <el-button
                       class="btn-del"
                       :icon="Delete"
+                      :disabled="!$hasPermission('delete')"
                       @click="deleteValidationItem($index)"
                     />
                     <template
