@@ -221,10 +221,6 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
     watch(rule, handleRuleChanged)
   }
 
-  onMounted(() => {
-    isTesting.value = false
-  })
-
   return {
     isTesting,
     savedAfterRuleChange,
