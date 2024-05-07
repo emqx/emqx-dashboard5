@@ -21,6 +21,10 @@ export default (
       case 'subscriptions':
         return msg.subscriptions_cnt + '/' + msg.subscriptions_max
       case 'mqueue':
+        // 'durable: true' enables session persistence, making 'mqueue' unavailable.
+        if (msg.durable && msg.mqueue_max === undefined) {
+          return '-'
+        }
         return msg.mqueue_len + '/' + msg.mqueue_max
       case 'inflight':
         return msg.inflight_cnt + '/' + msg.inflight_max
