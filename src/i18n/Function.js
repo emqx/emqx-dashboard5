@@ -214,7 +214,7 @@ export default {
     en: 'Endian',
   },
   SchemaName: {
-    zh: '编解码名称',
+    zh: 'Schema',
     en: 'Schema',
   },
   Data: {

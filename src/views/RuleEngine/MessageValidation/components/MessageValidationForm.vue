@@ -83,20 +83,31 @@
               </el-table-column>
               <el-table-column :label="`${tl('schema')}/SQL`" class-name="column-value">
                 <template #default="{ row, $index }">
-                  <el-form-item
-                    v-if="row.type && isSchemaRegistry(row.type)"
-                    :prop="`checks.${$index}.schema`"
-                    :rules="arrayItemRule.schema"
-                  >
-                    <el-select v-model="(formData.checks[$index] as any).schema">
-                      <el-option
-                        v-for="{ name } in getSchemaTypeList(formData.checks[$index].type)"
-                        :key="name"
-                        :value="name"
-                        :label="name"
-                      />
-                    </el-select>
-                  </el-form-item>
+                  <template v-if="row.type && isSchemaRegistry(row.type)">
+                    <div class="space-between">
+                      <el-form-item :prop="`checks.${$index}.schema`" :rules="arrayItemRule.schema">
+                        <el-select v-model="(formData.checks[$index] as any).schema">
+                          <el-option
+                            v-for="{ name } in getSchemaTypeList(formData.checks[$index].type as string)"
+                            :key="name"
+                            :value="name"
+                            :label="name"
+                          />
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item
+                        v-if="formData.checks[$index].type === SchemaRegistryType.Protobuf"
+                        :prop="`checks.${$index}.message_name`"
+                        :rules="arrayItemRule.message_name"
+                      >
+                        <el-input
+                          v-model="(formData.checks[$index] as any).message_name"
+                          :placeholder="tl('messageType')"
+                        />
+                      </el-form-item>
+                    </div>
+                  </template>
+
                   <el-form-item v-else :prop="`checks.${$index}.sql`" :rules="arrayItemRule.sql">
                     <el-input
                       :modelValue="formatSQLInInput((formData.checks[$index] as any).sql)"
@@ -207,6 +218,7 @@ import {
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
+import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { MessageValidation, MessageValidationCheckItem } from '@/types/typeAlias'
 import { MessageValidationLogLevel } from '@/types/typeAlias'
@@ -301,6 +313,7 @@ const arrayItemRule = {
   topic: createRequiredRule(t('Base.topic')),
   schema: createRequiredRule(tl('schema'), 'select'),
   sql: createRequiredRule('SQL'),
+  message_name: createRequiredRule(tl('messageType')),
 }
 
 const { validationStrategyOpts } = useValidationStrategy()
@@ -388,6 +401,9 @@ const handleValidatorTypeChanged = (value: string, validatorIndex: number) => {
   const target: any = formData.value.checks[validatorIndex]
   target[isSchemaRegistry(value) ? 'schema' : 'sql'] = ''
   Reflect.deleteProperty(target, isSchemaRegistry(value) ? 'sql' : 'schema')
+  if (value !== SchemaRegistryType.Protobuf) {
+    Reflect.deleteProperty(target, 'message_name')
+  }
 }
 
 const validate = async () => formCom.value.validate()
@@ -429,6 +445,14 @@ defineExpose({
   }
   .column-value .cell {
     overflow: visible;
+  }
+  .column-value {
+    .el-form-item {
+      flex-grow: 1;
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
   }
   .el-table .el-button {
     margin-top: 0;

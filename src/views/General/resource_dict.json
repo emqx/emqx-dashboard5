@@ -1000,7 +1000,7 @@
     "path": "/schema_registry",
     "operation_label": {
       "en": "Schema Registry",
-      "zh": "编解码"
+      "zh": "Schema Registry"
     },
     "operation_name_label": {
       "en": "Create a new schema",
@@ -1012,7 +1012,7 @@
     "path": "/schema_registry/:name",
     "operation_label": {
       "en": "Schema Registry",
-      "zh": "编解码"
+      "zh": "Schema Registry"
     },
     "operation_name_label": {
       "en": "Update a schema",
@@ -1024,7 +1024,7 @@
     "path": "/schema_registry/:name",
     "operation_label": {
       "en": "Schema Registry",
-      "zh": "编解码"
+      "zh": "Schema Registry"
     },
     "operation_name_label": {
       "en": "Delete a schema",

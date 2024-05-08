@@ -1406,8 +1406,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Please add at least one validator',
   },
   schema: {
-    zh: '编解码',
+    zh: 'Schema',
     en: 'Schema',
+  },
+  messageType: {
+    zh: '消息类型',
+    en: 'Message Type',
   },
   pleaseEnterSQL: {
     zh: '请输入 SQL',
