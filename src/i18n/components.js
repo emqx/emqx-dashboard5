@@ -88,7 +88,7 @@ export default {
     en: 'Message Validation',
   },
   schemas: {
-    zh: '编解码',
+    zh: 'Schema Registry',
     en: 'Schema Registry',
   },
   rule: {
@@ -276,7 +276,7 @@ export default {
     en: 'Actions (Sink)',
   },
   schema: {
-    zh: '编解码',
+    zh: 'Schema',
     en: 'Schema',
   },
   source: {
@@ -397,7 +397,7 @@ export default {
     en: 'Slow Subscriptions Settings',
   },
   'schema-create': {
-    zh: '创建编解码',
+    zh: '创建 Schema',
     en: 'Create Schema',
   },
   'message-validation-create': {
