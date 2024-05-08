@@ -962,8 +962,8 @@ export default {
     en: 'Test Target',
   },
   inputData: {
-    zh: '输入数据',
-    en: 'Input Data',
+    zh: '测试方法',
+    en: 'Test Method',
   },
   mockData: {
     zh: '模拟数据',

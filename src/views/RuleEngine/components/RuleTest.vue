@@ -7,7 +7,7 @@
         <el-radio-button :label="InputData.Real">{{ tl('realData') }}</el-radio-button>
       </el-radio-group>
     </div>
-    <el-row class="input-output-row" :gutter="26">
+    <!-- <el-row class="input-output-row" :gutter="26">
       <el-col :span="12" v-if="!isMockInput">
         <label class="test-label">{{ tl('testingWithRealData') }}</label>
         <el-card shadow="never" class="test-card with-border tip-card">
@@ -28,7 +28,9 @@
           </el-scrollbar>
         </el-card>
       </el-col>
-    </el-row>
+    </el-row> -->
+    <LogDataDisplay :log-data="logData" />
+
     <div class="buttons-bar">
       <div class="btn-start-container" v-if="!isTestStarted" :key="createRandomString()">
         <el-button
@@ -100,7 +102,7 @@ const ScrollbarCom = ref()
 const scrollLogToBottom = async (log: string) => {
   if (log) {
     let isScrollToBottom = false
-    const scrollWrap = ScrollbarCom.value.wrapRef
+    const scrollWrap = ScrollbarCom.value?.wrapRef
     const scrollContent = scrollWrap?.firstChild
     if (scrollWrap && scrollContent) {
       isScrollToBottom =
@@ -155,4 +157,10 @@ useDataNotSaveConfirm(judgeNeedRemindUser, 'RuleEngine.debugLeaveConfirm')
 watch(() => props.ruleData, stopTest)
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.rule-test {
+  .log-data-display {
+    margin-bottom: 16px;
+  }
+}
+</style>
