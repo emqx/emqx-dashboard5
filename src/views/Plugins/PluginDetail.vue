@@ -43,6 +43,11 @@
     </div>
     <el-tabs class="detail-tabs" v-model="currTab">
       <div class="app-wrapper">
+        <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
+          <el-card class="app-card">
+            <PluginManage :plugin-name="pluginName" :plugin-version="pluginVersion" />
+          </el-card>
+        </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
           <el-card class="app-card">
             <div class="plugin-info-bd">
@@ -69,10 +74,11 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import PluginManage from './components/PluginManage.vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
-const currTab = ref('readme')
+const currTab = ref<'configs' | 'readme'>('configs')
 
 const route = useRoute()
 

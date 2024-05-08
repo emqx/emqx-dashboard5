@@ -17,7 +17,12 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <el-button type="primary" @click="save" :loading="saveLoading">
+        <el-button
+          type="primary"
+          @click="save"
+          :loading="saveLoading"
+          :disabled="!$hasPermission('put')"
+        >
           {{ $t('Base.saveChanges') }}
         </el-button>
       </el-col>
