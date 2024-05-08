@@ -215,7 +215,7 @@ export default {
     zh: '启用抖动检测',
     en: 'Enable Flapping Detection',
   },
-  enableDesc: {
+  enableFlappingDesc: {
     zh: '启用连接抖动的检测功能',
     en: 'Enable connection flapping detection feature',
   },
@@ -406,5 +406,61 @@ export default {
   pleaseUploadFile: {
     zh: '请先上传文件',
     en: 'Please upload file first',
+  },
+  enableSessionPersistence: {
+    zh: '启用会话持久化',
+    en: 'Enable Session Persistence',
+  },
+  enableSessionPersistenceDesc: {
+    zh: '启用客户端会话的持久化存储。如果启用，配置为超过客户端连接生命周期的会话及其相关消息将被持久化存储并在代理服务器停机时保留。注意：此选项无法在 Dashboard 中开启，需要手动在配置文件中启用。',
+    en: 'Use durable storage for client sessions persistence. If enabled, sessions configured to outlive client connections, along with their corresponding messages, will be durably stored and survive broker downtime. Note: This option cannot be enabled from the Dashboard, it needs to be manually enabled in the configuration file.',
+  },
+  batchSize: {
+    zh: '批量大小',
+    en: 'Batch Size',
+  },
+  batchSizeDesc: {
+    zh: '此值影响持久会话的流控。持久会话批量查询持久消息存储。此值指定批量的大小。',
+    en: 'This value affects the flow control for the persistent sessions. Persistent session queries the durable message storage in batches. This value specifies the size of the batch.',
+  },
+  idlePollInterval: {
+    zh: '空闲轮询间隔',
+    en: 'Idle Poll Interval',
+  },
+  idlePollIntervalDesc: {
+    zh: '指定空闲状态下会话轮询消息存储的间隔。',
+    en: 'Specifies the interval at which the session polls the message storage in idle state.',
+  },
+  lastAliveUpdateInterval: {
+    zh: '最后活动更新间隔',
+    en: 'Last Alive Update Interval',
+  },
+  lastAliveUpdateIntervalDesc: {
+    zh: '更新会话最后活动状态的间隔。',
+    en: 'The interval at which the last alive status of the session is updated.',
+  },
+  sessionGcInterval: {
+    zh: '会话垃圾收集间隔',
+    en: 'Session GC Interval',
+  },
+  sessionGcIntervalDesc: {
+    zh: '执行持久会话的会话垃圾收集的间隔。',
+    en: 'The interval at which session GC is executed for persistent sessions.',
+  },
+  sessionGcBatchSize: {
+    zh: '会话垃圾收集批量大小',
+    en: 'Session GC Batch Size',
+  },
+  sessionGcBatchSizeDesc: {
+    zh: '每次迭代要收集的过期持久会话批次的大小。',
+    en: 'The size of each batch of expired persistent sessions to be garbage collected per iteration.',
+  },
+  messageRetentionPeriod: {
+    zh: '消息保留期',
+    en: 'Message Retention Period',
+  },
+  messageRetentionPeriodDesc: {
+    zh: '指定持久会话中消息的最长保留时间。',
+    en: 'Specifies the maximum retention period for messages in persistent sessions.',
   },
 }
