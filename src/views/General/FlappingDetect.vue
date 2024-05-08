@@ -18,7 +18,7 @@
             <el-col :span="21" class="custom-col">
               <el-form-item prop="enable">
                 <template #label>
-                  <FormItemLabel :label="tl('enableFlapping')" :desc="tl('enableDesc')" />
+                  <FormItemLabel :label="tl('enableFlapping')" :desc="tl('enableFlappingDesc')" />
                 </template>
                 <el-switch v-model="flappingDetectConfig.enable" />
               </el-form-item>

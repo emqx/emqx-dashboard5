@@ -572,6 +572,11 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Config/BasicConfig/Session.vue'),
       },
       {
+        path: 'session-persistence',
+        name: 'mqtt-session-persistence',
+        component: () => import('@/views/Config/BasicConfig/SessionPersistence.vue'),
+      },
+      {
         path: 'retainer',
         name: 'mqtt-retainer',
         component: () => import('@/views/Config/BasicConfig/Retainer.vue'),
