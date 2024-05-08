@@ -347,6 +347,10 @@ export default {
     zh: '帮助',
     en: 'Help',
   },
+  'mqtt-session-persistence': {
+    zh: '会话持久化',
+    en: 'Session Persistence',
+  },
   /* For Quick Panel Start */
   'rule-create': {
     zh: '创建规则',
