@@ -74,15 +74,23 @@
                 <div>
                   <ClientInfoItem :client="record" :field="item" />
                   <template v-if="withMsgList(item)">
-                    <el-button
-                      class="btn-view-msg"
-                      type="primary"
-                      plain
-                      size="small"
-                      @click="viewMsgList(item as 'mqueue' | 'inflight')"
+                    <el-tooltip
+                      :disabled="!record.durable"
+                      :content="tl('cannotViewMsg')"
+                      :show-after="500"
+                      placement="top"
                     >
-                      {{ tl('viewMsg') }}
-                    </el-button>
+                      <el-button
+                        class="btn-view-msg"
+                        type="primary"
+                        :plain="!record.durable"
+                        :disabled="record.durable"
+                        size="small"
+                        @click="viewMsgList(item as 'mqueue' | 'inflight')"
+                      >
+                        {{ tl('viewMsg') }}
+                      </el-button>
+                    </el-tooltip>
                     <info-tooltip
                       class="client-info-tips"
                       :content="getClientInfoDesc(item)"

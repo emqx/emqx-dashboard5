@@ -475,4 +475,8 @@ export default {
     zh: 'EMQX 允许多个未确认的 QoS 1 和 QoS 2 报文同时存在于网路链路上。这些已发送但未确认的报文将被存放在 Inflight Window 中直至完成确认。',
     en: 'EMQX allows multiple unacknowledged QoS 1 and QoS 2 packets to exist on the network link at the same time. These sent but unconfirmed packets will be stored in the Inflight Window until acknowledgment is complete.',
   },
+  cannotViewMsg: {
+    zh: '当开启持久会话时，将无法查看消息列表',
+    en: 'Message list is unavailable when persistent session is enabled',
+  },
 }
