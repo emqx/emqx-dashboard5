@@ -7,11 +7,11 @@
       <el-switch v-model="isTesting" />
     </div>
     <el-collapse-transition>
-      <div v-show="isTesting">
+      <div v-if="isTesting">
         <label> {{ tl('testTarget') }} </label>
         <!-- @tab-change="handleTestMethodChanged" -->
-        <el-tabs v-model="testTarget">
-          <el-tab-pane label="SQL" :name="TestRuleTarget.SQL" lazy>
+        <el-tabs v-model="testTarget" lazy>
+          <el-tab-pane label="SQL" :name="TestRuleTarget.SQL">
             <div>
               <div class="test-header">
                 <label class="test-label">
@@ -91,41 +91,27 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, getKeywordsFromSQL } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import { useMockData, useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RuleInputType, TestRuleTarget } from '@/types/enum'
-import { BridgeItem, RuleEvent } from '@/types/rule'
+import { TestRuleTarget } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import JSONbig from 'json-bigint'
-import { PropType, Ref, computed, defineProps, onMounted, ref, watch } from 'vue'
+import { PropType, computed, defineProps, onMounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
-import TestSQLContextForm from './TestSQLContextForm.vue'
 import RuleTest from './RuleTest.vue'
+import TestSQLContextForm from './TestSQLContextForm.vue'
 
 const JSONbigNative = JSONbig({ useNativeBigInt: true })
-
-interface TestParams {
-  context: Record<string, string>
-  output: string
-}
 
 const { tl, t } = useI18nTl('RuleEngine')
 
 const props = defineProps({
-  isEdit: {
-    type: Boolean as PropType<boolean>,
-    default: false,
-  },
-  eventList: {
-    type: Array as PropType<Array<RuleEvent>>,
-    required: true,
-  },
   ingressBridgeList: {
     type: Array as PropType<Array<BridgeItem>>,
     required: true,
@@ -136,8 +122,6 @@ const props = defineProps({
   },
 })
 
-const ruleSql = computed(() => props.ruleData?.sql || '')
-
 const isTestRule = computed(() => testTarget.value === TestRuleTarget.Rule)
 const { isTesting, testTarget } = useStatusController()
 
@@ -145,115 +129,19 @@ const testLoading = ref(false)
 const resultData = ref<string>('')
 
 // const showTest = ref(true)
-const testParams: Ref<TestParams> = ref({
-  context: {},
-  output: '',
-})
-const dataType: Ref<string> = ref('')
-const isDataTypeNoMatchSQL = ref(false)
-const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } = useRuleUtils()
+
+const {
+  ruleSql,
+  dataType,
+  testParams,
+  isDataTypeNoMatchSQL,
+  eventList,
+  resetContext,
+  getMockContext,
+  setDataTypeNContext,
+} = useMockData(props)
 
 const { copyText } = useCopy()
-
-const resetContext = () => {
-  ElMessageBox.confirm(tl('confirmReset'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    type: 'warning',
-  })
-    .then(() => {
-      handleDataSourceChanged({ value: dataType.value })
-    })
-    .catch(() => {
-      // ignore
-    })
-}
-
-const compareTargetNFromStr = (
-  targetType: RuleInputType,
-  target: BridgeItem | RuleEvent | string,
-  fromStr: string,
-): boolean => {
-  const inputs = transFromStrToFromArr(fromStr)
-  const { eventList = [], ingressBridgeList = [] } = props
-  const typeNeedToCompares = inputs.map((input) => {
-    const { type: typeInSQL } = findInputTypeNTarget(input, eventList, ingressBridgeList)
-    const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : input
-    return typeNeedToCompare
-  })
-  // when comparing, if the type is topic, compare the TOPIC_EVENT;
-  // if type is event, compare target.event
-  // if type is bridge, compare bridge.id
-  let targetStrToCompare = ''
-  switch (targetType) {
-    case RuleInputType.Topic:
-      targetStrToCompare = target as string
-      break
-    case RuleInputType.Event:
-      targetStrToCompare = (target as RuleEvent).event
-      break
-    case RuleInputType.Bridge:
-      targetStrToCompare = (target as BridgeItem).idForRuleFrom
-      break
-  }
-  return typeNeedToCompares.includes(targetStrToCompare)
-}
-
-const setContext = (obj: Record<string, string>) => {
-  testParams.value.context = obj
-}
-
-const handleDataSourceChanged = ({ value }: { value: string }) => {
-  // The data type switch will not change the SQL, but if the data type does not match the SQL,
-  // a warning will be issued indicating that the data type does not match the SQL
-  const { eventList = [], ingressBridgeList = [] } = props
-  const { type, target } = findInputTypeNTarget(value, eventList, ingressBridgeList)
-  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
-  isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-  const { context } = getTestColumns(type, value, props.eventList || [])
-  setContext(context)
-}
-
-watch(
-  () => props.eventList,
-  () => {
-    handleDataSourceChanged({ value: dataType.value })
-  },
-)
-
-const handleSQLChanged = (sql: string) => {
-  const { eventList = [], ingressBridgeList = [] } = props
-  const { type, target } = findInputTypeNTarget(dataType.value, eventList, ingressBridgeList)
-  const { fromStr } = getKeywordsFromSQL(sql)
-  isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-}
-
-watch(ruleSql, (val) => {
-  handleSQLChanged(val)
-})
-
-watch(dataType, (val) => {
-  handleDataSourceChanged({ value: val })
-})
-
-const getEventTypeInContext = () => {
-  const { eventList = [], ingressBridgeList = [] } = props
-  const { type, target } = findInputTypeNTarget(dataType.value, eventList, ingressBridgeList)
-  if (type === RuleInputType.Event) {
-    return dataType.value.match(/(\$events\/)([\w]+)/)?.[2]
-  }
-  if (type === RuleInputType.Bridge) {
-    return `$bridges/${(target as BridgeItem).type}:*`
-  }
-  return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
-}
-
-const getMockContext = () => {
-  return {
-    ...testParams.value.context,
-    event_type: getEventTypeInContext(),
-  }
-}
 
 const submitTestSQL = async () => {
   testLoading.value = true
@@ -276,29 +164,19 @@ const submitTestSQL = async () => {
   }
 }
 
-const setDataType = (type: RuleInputType, firstInput: string) => {
-  if (type === RuleInputType.Topic) {
-    dataType.value = TOPIC_EVENT
-  } else {
-    dataType.value = firstInput
-  }
-}
-
-const setDataTypeNContext = () => {
-  const { eventList, ingressBridgeList } = props
-  const { fromStr } = getKeywordsFromSQL(ruleSql.value)
-  const [firstInput = ''] = transFromStrToFromArr(fromStr)
-  const { type: inputType } = findInputTypeNTarget(firstInput, eventList, ingressBridgeList)
-  const { context } = getTestColumns(inputType, firstInput, eventList)
-  setDataType(inputType, firstInput)
-  testParams.value = { context, output: '' }
-}
-
 onMounted(() => {
   isTesting.value = false
 })
 
-setDataTypeNContext()
+watch(
+  () => isTesting.value,
+  async (val) => {
+    await waitAMoment()
+    if (val) {
+      setDataTypeNContext()
+    }
+  },
+)
 </script>
 
 <style lang="scss">
