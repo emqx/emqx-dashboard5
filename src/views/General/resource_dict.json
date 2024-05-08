@@ -1632,6 +1632,18 @@
     }
   },
   {
+    "method": "put",
+    "path": "/plugins/:name/config",
+    "operation_label": {
+      "en": "Plugins",
+      "zh": "插件"
+    },
+    "operation_name_label": {
+      "en": "Update plugin config. Config schema defined by user's schema.avsc file",
+      "zh": "更新插件配置。配置 schema 由用户的 schema.avsc 文件定义"
+    }
+  },
+  {
     "method": "post",
     "path": "/exhooks",
     "operation_label": {
