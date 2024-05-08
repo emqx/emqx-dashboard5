@@ -967,7 +967,7 @@ export default {
   },
   mockData: {
     zh: '模拟数据',
-    en: 'Mock Data',
+    en: 'Simulated Data',
   },
   realData: {
     zh: '真实数据',
@@ -1032,5 +1032,9 @@ export default {
   debugLeaveConfirm: {
     zh: '离开页面将停止测试，是否确认离开？',
     en: 'Leaving the page will stop the test, is it confirmed to leave?',
+  },
+  inputSimulatedData: {
+    zh: '输入模拟数据',
+    en: 'Input Simulated Data',
   },
 }

@@ -34,6 +34,7 @@
     <div class="buttons-bar">
       <div class="btn-start-container" v-if="!isTestStarted" :key="createRandomString()">
         <el-button
+          v-if="!isMockInput"
           type="primary"
           plain
           @click="startTest"
@@ -41,6 +42,15 @@
           :disabled="!savedAfterRuleChange"
         >
           {{ tl('startTest') }}
+        </el-button>
+        <el-button
+          v-else
+          type="primary"
+          plain
+          @click="openMockDataDrawer"
+          :disabled="!savedAfterRuleChange"
+        >
+          {{ tl('inputSimulatedData') }}
         </el-button>
         <p class="tip" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
       </div>
@@ -53,19 +63,27 @@
         </el-button>
       </div>
     </div>
+    <MockDataDrawer
+      v-model="showMockDataDrawer"
+      :rule-data="ruleData"
+      :ingress-bridge-list="ingressBridgeList"
+      :is-test-started="isTestStarted"
+      @submit="handleSubmitMockData"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { createRandomString, waitAMoment } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { TestRuleTarget } from '@/types/enum'
+import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
-import { computed, defineProps, ref, watch } from 'vue'
+import { PropType, computed, defineProps, ref, watch } from 'vue'
 import LogDataDisplay from './LogDataDisplay.vue'
+import MockDataDrawer from './MockDataDrawer.vue'
 
 const enum InputData {
   Mock = 'mock',
@@ -75,6 +93,10 @@ const enum InputData {
 const props = defineProps({
   ruleData: {
     type: Object,
+    required: true,
+  },
+  ingressBridgeList: {
+    type: Array as PropType<Array<BridgeItem>>,
     required: true,
   },
 })
@@ -87,6 +109,8 @@ const isMockInput = computed(
 )
 
 const { isTesting, savedAfterRuleChange, testTarget } = useStatusController()
+
+const showMockDataDrawer = ref(false)
 
 const {
   logData,
@@ -122,15 +146,26 @@ const isTestStarted = ref(false)
 const startTest = async () => {
   isTestStarted.value = true
   try {
-    if (isMockInput.value) {
-      await startTestRuleUseMockData(props.ruleData.id)
-      // TODO:TODO:TODO:TODO:confirm
-      await waitAMoment(1000)
-      // TODO:TODO:TODO:TODO:TODO:
-    } else {
-      await startTestRuleUseRealData(props.ruleData.id)
-    }
+    await startTestRuleUseRealData(props.ruleData.id)
     setCbAfterPolling(scrollLogToBottom)
+  } catch (error) {
+    //
+  }
+}
+
+const openMockDataDrawer = () => {
+  showMockDataDrawer.value = true
+}
+const handleSubmitMockData = async (context: Record<string, any>) => {
+  try {
+    if (!isTestStarted.value) {
+      await startTestRuleUseMockData(props.ruleData.id)
+      isTestStarted.value = true
+      await waitAMoment(1500)
+    }
+    await submitMockDataForTestRule(props.ruleData.id, context)
+    setCbAfterPolling(scrollLogToBottom)
+    showMockDataDrawer.value = false
   } catch (error) {
     //
   }
