@@ -81,7 +81,11 @@
             </div>
           </el-tab-pane>
           <el-tab-pane :label="tl('rule')" :name="TestRuleTarget.Rule" lazy>
-            <RuleTest :key="createRandomString()" :rule-data="ruleData" />
+            <RuleTest
+              :key="createRandomString()"
+              :rule-data="ruleData"
+              :ingress-bridge-list="ingressBridgeList"
+            />
           </el-tab-pane>
         </el-tabs>
       </div>
