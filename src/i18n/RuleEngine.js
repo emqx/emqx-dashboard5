@@ -1037,4 +1037,12 @@ export default {
     zh: '输入模拟数据',
     en: 'Input Simulated Data',
   },
+  editSimulatedData: {
+    zh: '编辑模拟数据',
+    en: 'Edit Simulated Data',
+  },
+  noLogDataTip: {
+    zh: '暂无测试结果',
+    en: 'No test results yet',
+  },
 }
