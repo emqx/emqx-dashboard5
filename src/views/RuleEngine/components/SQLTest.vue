@@ -81,11 +81,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane :label="tl('rule')" :name="TestRuleTarget.Rule" lazy>
-            <RuleTest
-              :key="createRandomString()"
-              :rule-data="ruleData"
-              :ingress-bridge-list="ingressBridgeList"
-            />
+            <RuleTest :rule-data="ruleData" :ingress-bridge-list="ingressBridgeList" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -95,7 +91,7 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { createRandomString } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import { useMockData, useStatusController } from '@/hooks/Rule/rule/useDebugRule'
@@ -106,7 +102,7 @@ import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import JSONbig from 'json-bigint'
-import { PropType, computed, defineProps, onMounted, ref, watch } from 'vue'
+import { PropType, computed, defineProps, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
@@ -168,9 +164,9 @@ const submitTestSQL = async () => {
   }
 }
 
-onMounted(() => {
-  isTesting.value = false
-})
+// onMounted(() => {
+//   isTesting.value = false
+// })
 
 watch(
   () => isTesting.value,
@@ -226,38 +222,12 @@ setDataTypeNContext()
     }
   }
 
-  // FIXME: remove
-  .radio-group-container {
-    margin: 12px 0;
-    > label {
-      margin-right: 20px;
-    }
-  }
   .buttons-bar {
     display: flex;
     align-items: flex-start;
     padding-bottom: 12px;
     > div {
       margin-right: 12px;
-    }
-  }
-  .rule-result {
-    > .el-card__body {
-      padding: 0;
-    }
-    .collapse-wrap {
-      padding: 24px;
-    }
-  }
-  .btn-start-container {
-    position: relative;
-    .tip {
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 200px;
-      transform: translateY(100%);
-      opacity: 0.7;
     }
   }
 }

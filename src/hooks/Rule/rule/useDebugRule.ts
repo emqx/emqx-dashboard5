@@ -121,12 +121,6 @@ export default () => {
     syncPolling(getNewestLog, 1500)
   }
 
-  /**
-   * If testing with mock data, poll after submitting mock data
-   */
-  const startTestRuleUseMockData = (ruleId: string) => {
-    createTrace(ruleId)
-  }
   const submitMockDataForTestRule = async (ruleId: string, data: Record<string, any>) => {
     try {
       await applyRuleTest(ruleId, data)
@@ -172,7 +166,6 @@ export default () => {
     emptyLogArr: emptyLogData,
     handleStopTest,
     getLogItemTitle,
-    startTestRuleUseMockData,
     submitMockDataForTestRule,
     startTestRuleUseRealData,
     setCbAfterPolling,
