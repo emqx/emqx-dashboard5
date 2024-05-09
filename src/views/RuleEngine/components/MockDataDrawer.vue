@@ -20,19 +20,13 @@
         {{ tl('testData') }}
         <InfoTooltip :content="tl('testDataDesc')" />
       </label>
-      <el-card shadow="never" class="test-card with-border">
-        <TestSQLContextForm v-model="testParams.context" />
-      </el-card>
+      <TestSQLContextForm v-model="testParams.context" />
     </div>
     <template #footer>
-      <el-button
-        v-if="!isTestStarted"
-        type="primary"
-        plain
-        @click="submit"
-        :icon="CaretRight"
-        :loading="isSubmitting"
-      >
+      <el-button @click="showDrawer = false" :disabled="isSubmitting">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button type="primary" plain :icon="CaretRight" :loading="isSubmitting" @click="submit">
         {{ !isTestStarted ? tl('startTest') : tl('submitTest') }}
       </el-button>
     </template>
@@ -102,9 +96,16 @@ watch(showDrawer, (val) => {
 
 const isSubmitting = ref(false)
 const submit = () => {
+  isSubmitting.value = true
   const context = getMockContext()
   emit('submit', context)
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.mock-data-drawer {
+  .test-sql-context-form {
+    margin-top: 12px;
+  }
+}
+</style>

@@ -7,32 +7,19 @@
         <el-radio-button :label="InputData.Real">{{ tl('realData') }}</el-radio-button>
       </el-radio-group>
     </div>
-    <!-- <el-row class="input-output-row" :gutter="26">
-      <el-col :span="12" v-if="!isMockInput">
-        <label class="test-label">{{ tl('testingWithRealData') }}</label>
-        <el-card shadow="never" class="test-card with-border tip-card">
-          <p class="tip" v-if="!isTestStarted">{{ tl('pleaseClickStartTest') }}</p>
-          <p class="tip" v-else>{{ tl('waitingRealData') }}</p>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <label class="test-label" shadow="none">
-          {{ tl('outputResult') }}
-          <InfoTooltip :content="tl('outputResultDesc')" />
-        </label>
-        <el-card class="test-result rule-result">
-          <el-scrollbar :max-height="490" ref="ScrollbarCom">
-            <div class="collapse-wrap">
-              <LogDataDisplay :log-data="logData" />
-            </div>
-          </el-scrollbar>
-        </el-card>
-      </el-col>
-    </el-row> -->
-    <LogDataDisplay :log-data="logData" />
-
+    <LogDataDisplay
+      :log-data="logData"
+      :is-mock-input="isMockInput"
+      :is-test-started="isTestStarted"
+      @start-test="startTest"
+      @input-simulated-data="openMockDataDrawer"
+    />
     <div class="buttons-bar">
-      <div class="btn-start-container" v-if="!isTestStarted" :key="createRandomString()">
+      <div
+        class="btn-start-container"
+        v-if="!isTestStarted && !showStartTestInChild"
+        :key="createRandomString()"
+      >
         <el-button
           v-if="!isMockInput"
           type="primary"
@@ -44,7 +31,7 @@
           {{ tl('startTest') }}
         </el-button>
         <el-button
-          v-else
+          v-else-if="isMockInput"
           type="primary"
           plain
           @click="openMockDataDrawer"
@@ -52,11 +39,13 @@
         >
           {{ tl('inputSimulatedData') }}
         </el-button>
-        <p class="tip" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
+        <p class="tip" v-if="!savedAfterRuleChange">
+          {{ tl('pleaseSaveFirst') }}
+        </p>
       </div>
       <div v-if="isTestStarted" :key="createRandomString()">
-        <el-button v-if="isMockInput" type="primary" plain @click="submitTestRule">
-          {{ tl('submitTest') }}
+        <el-button v-if="isMockInput" type="primary" plain @click="openMockDataDrawer">
+          {{ tl('editSimulatedData') }}
         </el-button>
         <el-button plain @click="stopTest">
           {{ tl('stopTest') }}
@@ -101,14 +90,14 @@ const props = defineProps({
   },
 })
 
-const { tl, t } = useI18nTl('RuleEngine')
+const { tl } = useI18nTl('RuleEngine')
 
 const inputData = ref<InputData>(InputData.Mock)
 const isMockInput = computed(
   () => testTarget.value === TestRuleTarget.SQL || inputData.value === InputData.Mock,
 )
 
-const { isTesting, savedAfterRuleChange, testTarget } = useStatusController()
+const { savedAfterRuleChange, testTarget } = useStatusController()
 
 const showMockDataDrawer = ref(false)
 
@@ -121,6 +110,8 @@ const {
   startTestRuleUseRealData,
   setCbAfterPolling,
 } = useDebugRule()
+
+const showStartTestInChild = computed(() => Object.keys(logData.value).length === 0)
 
 const ScrollbarCom = ref()
 const scrollLogToBottom = async (log: string) => {
@@ -170,13 +161,7 @@ const handleSubmitMockData = async (context: Record<string, any>) => {
     //
   }
 }
-const submitTestRule = async () => {
-  try {
-    // TODO:TODO:TODO:TODO:TODO:
-  } catch (error) {
-    //
-  }
-}
+
 const handleTestMethodChanged = () => {
   emptyLogArr()
   stopTest()

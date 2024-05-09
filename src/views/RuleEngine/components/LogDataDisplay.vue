@@ -1,81 +1,118 @@
 <template>
   <el-card class="log-data-display">
-    <div class="log-data-content">
-      <div class="log-data-left">
-        <ul class="execution-list">
-          <li
-            class="execution-item space-between"
-            v-for="(item, timestamp) in logData"
-            :key="timestamp"
-            :class="{ 'is-selected': timestamp === activeExecutionTimestamp }"
-            @click="selectExecution(timestamp)"
-          >
-            <div class="execution-item-base vertical-align-center">
-              <el-icon class="icon-status" :size="16">
-                <component
-                  :is="getResultIcon(item.result)"
-                  :class="getResultIconClass(item.result)"
-                />
-              </el-icon>
-              <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
-              <p v-if="item.trigger.topic">{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
+    <div class="log-data-left" v-if="Object.keys(logData).length">
+      <ul class="execution-list">
+        <li
+          class="execution-item space-between"
+          v-for="(item, timestamp) in logData"
+          :key="timestamp"
+          :class="{ 'is-selected': timestamp === activeExecutionTimestamp }"
+          @click="selectExecution(timestamp)"
+        >
+          <div class="execution-item-base vertical-align-center">
+            <el-icon class="icon-status" :size="16">
+              <component
+                :is="getResultIcon(item.result)"
+                :class="getResultIconClass(item.result)"
+              />
+            </el-icon>
+            <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
+            <p v-if="item.trigger.topic">{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
+          </div>
+          <div class="execution-item-time">
+            {{ dateFormat(Number(timestamp)) }}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <el-card
+      class="log-data-right"
+      v-if="Object.keys(logData).length && activeExecutionInfo"
+      :key="activeExecutionTimestamp"
+    >
+      <el-collapse class="execution-log-content">
+        <el-collapse-item
+          v-for="(targetLogData, logTarget) in activeExecutionInfo"
+          :key="logTarget"
+          :name="logTarget"
+        >
+          <template #title>
+            <el-icon class="icon-status">
+              <component
+                :is="getResultIcon(targetLogData.result)"
+                :class="getResultIconClass(targetLogData.result)"
+              />
+            </el-icon>
+            {{ getLogTargetTitle(targetLogData) }}
+          </template>
+          <div class="info-wrap">
+            <div class="loading-container" v-if="needShowLoading(targetLogData)">
+              <el-icon><Loading class="icon-pending" /></el-icon>
             </div>
-            <div class="execution-item-time">
-              {{ dateFormat(Number(timestamp)) }}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <el-card class="log-data-right" v-if="activeExecutionInfo" :key="activeExecutionTimestamp">
-        <el-collapse class="execution-log-content">
-          <el-collapse-item
-            v-for="(targetLogData, logTarget) in activeExecutionInfo"
-            :key="logTarget"
-            :name="logTarget"
-          >
-            <template #title>
-              <el-icon class="icon-status">
-                <component
-                  :is="getResultIcon(targetLogData.result)"
-                  :class="getResultIconClass(targetLogData.result)"
-                />
-              </el-icon>
-              {{ getLogTargetTitle(targetLogData) }}
-            </template>
-            <div class="info-wrap">
-              <div class="loading-container" v-if="needShowLoading(targetLogData)">
-                <el-icon><Loading class="icon-pending" /></el-icon>
-              </div>
-              <template v-else>
-                <div class="space-between target-info-hd">
-                  <el-radio-group
-                    v-if="needTabsShowInfo(targetLogData.info)"
-                    :modelValue="getSelectedBlock(logTarget)"
-                    @update:modelValue="setSelectedBlockValue(logTarget, $event)"
+            <template v-else>
+              <div class="space-between target-info-hd">
+                <el-radio-group
+                  v-if="needTabsShowInfo(targetLogData.info)"
+                  :modelValue="getSelectedBlock(logTarget)"
+                  @update:modelValue="setSelectedBlockValue(logTarget, $event)"
+                >
+                  <el-radio-button
+                    v-for="(logItem, logMsg) in targetLogData.info"
+                    :key="logMsg"
+                    :label="logMsg"
                   >
-                    <el-radio-button
-                      v-for="(logItem, logMsg) in targetLogData.info"
-                      :key="logMsg"
-                      :label="logMsg"
-                    >
-                      {{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}
-                    </el-radio-button>
-                  </el-radio-group>
-                  <p v-else>
-                    {{ getLogItemTitle(targetLogData, getSelectedBlock(logTarget)) }}
-                  </p>
-                  <span class="log-time">
-                    {{ dateFormat(targetLogData.info[getSelectedBlock(logTarget)].time) }}
-                  </span>
-                </div>
-                <div class="info-content">
-                  <CodeView :code="getTargetLogContentCode(logTarget)" />
-                </div>
-              </template>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </el-card>
+                    {{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}
+                  </el-radio-button>
+                </el-radio-group>
+                <p v-else>
+                  {{ getLogItemTitle(targetLogData, getSelectedBlock(logTarget)) }}
+                </p>
+                <span class="log-time">
+                  {{ dateFormat(targetLogData.info[getSelectedBlock(logTarget)].time) }}
+                </span>
+              </div>
+              <div class="info-content">
+                <CodeView :code="getTargetLogContentCode(logTarget)" />
+              </div>
+            </template>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </el-card>
+    <div class="empty-placeholder" v-if="!Object.keys(logData).length">
+      <div class="img-container">
+        <img
+          class="img-placeholder"
+          width="520"
+          src="@/assets/img/log-placeholder.png"
+          alt="empty_placeholder"
+        />
+        <p class="tip">{{ tl('noLogDataTip') }}</p>
+      </div>
+      <template v-if="!isTestStarted">
+        <el-button
+          v-if="!isMockInput"
+          type="primary"
+          plain
+          :icon="CaretRight"
+          :disabled="!savedAfterRuleChange"
+          @click="startTest"
+        >
+          {{ tl('startTest') }}
+        </el-button>
+        <el-button
+          v-if="isMockInput"
+          type="primary"
+          plain
+          :disabled="!savedAfterRuleChange"
+          @click="inputSimulatedData"
+        >
+          {{ tl('inputSimulatedData') }}
+        </el-button>
+      </template>
+      <div class="tip-wrap">
+        <p class="tip tip-save" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
+      </div>
     </div>
   </el-card>
 </template>
@@ -85,6 +122,7 @@ import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import type { FormattedLog, TargetLog, TargetLogInfo } from '@/hooks/Rule/rule/useFormatDebugLog'
 import { LogMsg, LogTargetType, useShowLog } from '@/hooks/Rule/rule/useFormatDebugLog'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
@@ -93,22 +131,27 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { LogResult } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import {
+  CaretRight,
   CircleCheckFilled,
   CircleCloseFilled,
   Loading,
   WarningFilled,
 } from '@element-plus/icons-vue'
 import { escapeRegExp, get, set } from 'lodash'
-import { computed, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps<{
   logData: FormattedLog
+  isMockInput: boolean
+  isTestStarted: boolean
 }>()
+const emit = defineEmits(['input-simulated-data', 'start-test'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const { getEventList } = useRuleEvents()
+const { savedAfterRuleChange } = useStatusController()
 
 let eventInfoMap: Map<string, RuleEvent> = new Map()
 const reg = /^\$events\/(\w+)_/
@@ -233,6 +276,14 @@ const selectExecution = (timestamp: string | number) => {
   activeExecutionTimestamp.value = timestamp.toString()
 }
 
+const startTest = () => {
+  emit('start-test')
+}
+
+const inputSimulatedData = () => {
+  emit('input-simulated-data')
+}
+
 watch(
   () => (typeof props.logData === 'object' ? Object.keys(props.logData).length : 0),
   (v) => {
@@ -250,8 +301,11 @@ watch(
 .log-data-display {
   height: 500px;
   background-color: var(--color-bg-table-hd);
+  & > .el-card__body {
+    display: flex;
+  }
   & > .el-card__body,
-  .log-data-content,
+  .empty-placeholder,
   .log-data-left,
   .log-data-right,
   .log-data-right > .el-card__body {
@@ -262,13 +316,42 @@ watch(
     overflow-y: scroll;
   }
   .log-data-left {
-    padding-left: 6px;
+    padding-right: 6px;
   }
   .log-data-right > .el-card__body {
     padding: 16px 24px;
   }
-  .log-data-content {
+  .empty-placeholder {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    .img-container {
+      position: relative;
+      margin-bottom: 20px;
+      .tip {
+        bottom: 20px;
+      }
+    }
+    .tip {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+    }
+    .el-button {
+      margin-bottom: 12px;
+    }
+    .tip-wrap {
+      position: relative;
+    }
+    .tip-save {
+      top: 0;
+    }
   }
 
   .log-data-left {

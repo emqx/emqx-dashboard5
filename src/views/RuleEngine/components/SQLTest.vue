@@ -175,12 +175,13 @@ onMounted(() => {
 watch(
   () => isTesting.value,
   async (val) => {
-    await waitAMoment()
     if (val) {
       setDataTypeNContext()
     }
   },
 )
+
+setDataTypeNContext()
 </script>
 
 <style lang="scss">
@@ -224,15 +225,7 @@ watch(
       padding: 8px 0;
     }
   }
-  .tip-card {
-    height: 490px;
-    .el-card__body {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
+
   // FIXME: remove
   .radio-group-container {
     margin: 12px 0;
@@ -262,6 +255,7 @@ watch(
       position: absolute;
       bottom: -8px;
       left: 0;
+      width: 200px;
       transform: translateY(100%);
       opacity: 0.7;
     }
