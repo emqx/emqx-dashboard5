@@ -19,6 +19,7 @@
               <el-form-item prop="enable">
                 <template #label>
                   <FormItemLabel
+                    desc-marked
                     :label="tl('enableSessionPersistence')"
                     :desc="tl('enableSessionPersistenceDesc')"
                   />
