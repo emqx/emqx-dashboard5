@@ -250,6 +250,7 @@ export const useMockData = (
   testParams: Ref<TestParams>
   isDataTypeNoMatchSQL: Ref<boolean>
   eventList: Ref<Array<RuleEvent>>
+  isFormModified: ComputedRef<boolean>
   resetContext: () => void
   getMockContext: () => Record<string, any>
   setDataTypeNContext: () => void
@@ -260,6 +261,17 @@ export const useMockData = (
 
   const ruleSql = computed(() => props.ruleData?.sql || '')
   const testParams: Ref<TestParams> = ref({ context: {} })
+
+  /**
+   * Used to check if the form has been modified
+   */
+  const initialTestParams = ref<null | Record<string, any>>(null)
+  const isFormModified = computed(() => {
+    if (!initialTestParams.value) {
+      return false
+    }
+    return !isEqual(testParams.value, initialTestParams.value)
+  })
 
   const dataType: Ref<string> = ref('')
   const isDataTypeNoMatchSQL = ref(false)
@@ -295,6 +307,7 @@ export const useMockData = (
 
   const setContext = (obj: Record<string, string>) => {
     testParams.value.context = obj
+    initialTestParams.value = cloneDeep(testParams.value)
   }
 
   const compareTargetNFromStr = (
@@ -399,6 +412,7 @@ export const useMockData = (
     testParams,
     isDataTypeNoMatchSQL,
     eventList,
+    isFormModified,
     resetContext,
     getMockContext,
     setDataTypeNContext,

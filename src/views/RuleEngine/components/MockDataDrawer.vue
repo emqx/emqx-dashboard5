@@ -23,6 +23,9 @@
       <TestSQLContextForm v-model="testParams.context" />
     </div>
     <template #footer>
+      <el-button v-if="isFormModified" plain :icon="RefreshRight" @click="resetContext">
+        {{ t('Base.reset') }}
+      </el-button>
       <el-button @click="showDrawer = false" :disabled="isSubmitting">
         {{ $t('Base.cancel') }}
       </el-button>
@@ -35,13 +38,13 @@
 
 <script setup lang="ts">
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { useMockData, useStatusController } from '@/hooks/Rule/rule/useDebugRule'
+import { useMockData } from '@/hooks/Rule/rule/useDebugRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { PropType, WritableComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
-import { CaretRight } from '@element-plus/icons-vue'
+import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
@@ -72,15 +75,14 @@ const showDrawer: WritableComputedRef<boolean> = computed({
   },
 })
 
-const { tl } = useI18nTl('RuleEngine')
-
-const { isTesting, testTarget } = useStatusController()
+const { t, tl } = useI18nTl('RuleEngine')
 
 const {
   dataType,
   testParams,
   isDataTypeNoMatchSQL,
   eventList,
+  isFormModified,
   resetContext,
   getMockContext,
   setDataTypeNContext,
