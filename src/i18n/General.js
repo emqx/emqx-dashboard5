@@ -240,8 +240,8 @@ export default {
     en: 'Enable Session Persistence',
   },
   enableSessionPersistenceDesc: {
-    zh: '暂不支持通过热配置修改，请在配置文件中设置 `session_persistence.enable = true | false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
-    en: "Not supported by hot config, please set `session_persistence.enable = true | false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
+    zh: '暂不支持通过热配置修改，请在配置文件中设置 `session_persistence.enable = true｜false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
+    en: "Not supported by hot config, please set `session_persistence.enable = true｜false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
   },
   batchSize: {
     zh: '消息查询批大小',
