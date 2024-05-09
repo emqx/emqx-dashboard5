@@ -251,6 +251,7 @@ export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
 
 const defaultUnexposedConfig = {
+  zone: 'default',
   access_rules: ['allow all'],
   enable_authn: true,
 }
