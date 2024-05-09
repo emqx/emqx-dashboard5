@@ -30,7 +30,7 @@
         {{ $t('Base.cancel') }}
       </el-button>
       <el-button type="primary" plain :icon="CaretRight" :loading="isSubmitting" @click="submit">
-        {{ !isTestStarted ? tl('startTest') : tl('submitTest') }}
+        {{ tl('submitTest') }}
       </el-button>
     </template>
   </el-drawer>
@@ -56,10 +56,6 @@ const props = defineProps({
   },
   ruleData: {
     type: Object,
-    required: true,
-  },
-  isTestStarted: {
-    type: Boolean,
     required: true,
   },
 })

@@ -1,27 +1,14 @@
 <template>
   <div class="rule-test">
-    <div class="vertical-align-center radio-group-container">
-      <label>{{ tl('inputData') }}</label>
-      <el-radio-group v-model="inputData" @change="handleTestMethodChanged">
-        <el-radio-button :label="InputData.Mock">{{ tl('mockData') }}</el-radio-button>
-        <el-radio-button :label="InputData.Real">{{ tl('realData') }}</el-radio-button>
-      </el-radio-group>
-    </div>
     <LogDataDisplay
       :log-data="logData"
-      :is-mock-input="isMockInput"
       :is-test-started="isTestStarted"
       @start-test="startTest"
       @input-simulated-data="openMockDataDrawer"
     />
     <div class="buttons-bar">
-      <div
-        class="btn-start-container"
-        v-if="!isTestStarted && !showStartTestInChild"
-        :key="createRandomString()"
-      >
+      <div class="btn-start-container" v-if="!isTestStarted && !showStartTestInChild">
         <el-button
-          v-if="!isMockInput"
           type="primary"
           plain
           @click="startTest"
@@ -30,22 +17,13 @@
         >
           {{ tl('startTest') }}
         </el-button>
-        <el-button
-          v-else-if="isMockInput"
-          type="primary"
-          plain
-          @click="openMockDataDrawer"
-          :disabled="!savedAfterRuleChange"
-        >
-          {{ tl('inputSimulatedData') }}
-        </el-button>
         <p class="tip" v-if="!savedAfterRuleChange">
           {{ tl('pleaseSaveFirst') }}
         </p>
       </div>
-      <div v-if="isTestStarted" :key="createRandomString()">
-        <el-button v-if="isMockInput" type="primary" plain @click="openMockDataDrawer">
-          {{ tl('editSimulatedData') }}
+      <div v-if="isTestStarted">
+        <el-button type="primary" plain @click="openMockDataDrawer">
+          {{ tl('inputSimulatedData') }}
         </el-button>
         <el-button plain @click="stopTest">
           {{ tl('stopTest') }}
@@ -56,28 +34,21 @@
       v-model="showMockDataDrawer"
       :rule-data="ruleData"
       :ingress-bridge-list="ingressBridgeList"
-      :is-test-started="isTestStarted"
       @submit="handleSubmitMockData"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { waitAMoment } from '@/common/tools'
 import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
 import { PropType, computed, defineProps, ref, watch } from 'vue'
 import LogDataDisplay from './LogDataDisplay.vue'
 import MockDataDrawer from './MockDataDrawer.vue'
-
-const enum InputData {
-  Mock = 'mock',
-  Real = 'real',
-}
 
 const props = defineProps({
   ruleData: {
@@ -92,20 +63,13 @@ const props = defineProps({
 
 const { tl } = useI18nTl('RuleEngine')
 
-const inputData = ref<InputData>(InputData.Mock)
-const isMockInput = computed(
-  () => testTarget.value === TestRuleTarget.SQL || inputData.value === InputData.Mock,
-)
-
-const { savedAfterRuleChange, testTarget } = useStatusController()
+const { savedAfterRuleChange } = useStatusController()
 
 const showMockDataDrawer = ref(false)
 
 const {
   logData,
-  emptyLogArr,
   handleStopTest,
-  startTestRuleUseMockData,
   submitMockDataForTestRule,
   startTestRuleUseRealData,
   setCbAfterPolling,
@@ -149,11 +113,6 @@ const openMockDataDrawer = () => {
 }
 const handleSubmitMockData = async (context: Record<string, any>) => {
   try {
-    if (!isTestStarted.value) {
-      await startTestRuleUseMockData(props.ruleData.id)
-      isTestStarted.value = true
-      await waitAMoment(1500)
-    }
     await submitMockDataForTestRule(props.ruleData.id, context)
     setCbAfterPolling(scrollLogToBottom)
     showMockDataDrawer.value = false
@@ -162,10 +121,6 @@ const handleSubmitMockData = async (context: Record<string, any>) => {
   }
 }
 
-const handleTestMethodChanged = () => {
-  emptyLogArr()
-  stopTest()
-}
 const stopTest = () => {
   handleStopTest()
   isTestStarted.value = false
@@ -181,6 +136,17 @@ watch(() => props.ruleData, stopTest)
 .rule-test {
   .log-data-display {
     margin-bottom: 16px;
+  }
+  .btn-start-container {
+    position: relative;
+    .tip {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 200px;
+      transform: translateY(100%);
+      opacity: 0.7;
+    }
   }
 }
 </style>

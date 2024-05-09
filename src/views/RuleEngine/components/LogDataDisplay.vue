@@ -87,11 +87,10 @@
           src="@/assets/img/log-placeholder.png"
           alt="empty_placeholder"
         />
-        <p class="tip">{{ tl('noLogDataTip') }}</p>
+        <p class="tip">{{ emptyPlaceholderTip }}</p>
       </div>
       <template v-if="!isTestStarted">
         <el-button
-          v-if="!isMockInput"
           type="primary"
           plain
           :icon="CaretRight"
@@ -100,19 +99,7 @@
         >
           {{ tl('startTest') }}
         </el-button>
-        <el-button
-          v-if="isMockInput"
-          type="primary"
-          plain
-          :disabled="!savedAfterRuleChange"
-          @click="inputSimulatedData"
-        >
-          {{ tl('inputSimulatedData') }}
-        </el-button>
       </template>
-      <div class="tip-wrap">
-        <p class="tip tip-save" v-if="!savedAfterRuleChange">{{ tl('pleaseSaveFirst') }}</p>
-      </div>
     </div>
   </el-card>
 </template>
@@ -142,12 +129,21 @@ import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps<{
   logData: FormattedLog
-  isMockInput: boolean
   isTestStarted: boolean
 }>()
 const emit = defineEmits(['input-simulated-data', 'start-test'])
 
 const { t, tl } = useI18nTl('RuleEngine')
+
+const emptyPlaceholderTip = computed(() => {
+  if (!savedAfterRuleChange.value) {
+    return tl('pleaseSaveFirst')
+  }
+  if (!props.isTestStarted) {
+    return tl('noLogDataTip')
+  }
+  return tl('noLogData')
+})
 
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const { getEventList } = useRuleEvents()
@@ -280,10 +276,6 @@ const startTest = () => {
   emit('start-test')
 }
 
-const inputSimulatedData = () => {
-  emit('input-simulated-data')
-}
-
 watch(
   () => (typeof props.logData === 'object' ? Object.keys(props.logData).length : 0),
   (v) => {
@@ -341,16 +333,10 @@ watch(
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      width: 200px;
+      width: 340px;
     }
     .el-button {
       margin-bottom: 12px;
-    }
-    .tip-wrap {
-      position: relative;
-    }
-    .tip-save {
-      top: 0;
     }
   }
 

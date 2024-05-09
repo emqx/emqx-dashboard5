@@ -998,8 +998,8 @@ export default {
     en: 'Submit Test',
   },
   pleaseSaveFirst: {
-    zh: '请先保存规则',
-    en: 'Please save first',
+    zh: '请先保存规则以开始测试',
+    en: 'Please save first to start testing',
   },
   eventData: {
     zh: '事件数据',
@@ -1037,12 +1037,12 @@ export default {
     zh: '输入模拟数据',
     en: 'Input Simulated Data',
   },
-  editSimulatedData: {
-    zh: '编辑模拟数据',
-    en: 'Edit Simulated Data',
-  },
   noLogDataTip: {
-    zh: '暂无测试结果',
-    en: 'No test results yet',
+    zh: '暂无测试结果, 请先开始测试',
+    en: 'No test results yet, please start testing first',
+  },
+  noLogData: {
+    zh: '测试模式已启动，请输入模拟数据或使用真实客户端触发规则以进行测试',
+    en: 'Test mode has been started, please enter simulated data or use a real client to trigger the rule for testing',
   },
 }
