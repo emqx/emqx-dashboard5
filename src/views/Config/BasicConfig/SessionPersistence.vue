@@ -114,7 +114,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" class="btn-col">
-              <el-button type="primary" :loading="saveLoading" @click="updateConfigData()">
+              <el-button
+                type="primary"
+                :loading="saveLoading"
+                :disabled="!$hasPermission('put')"
+                @click="updateConfigData()"
+              >
                 {{ $t('Base.saveChanges') }}
               </el-button>
             </el-col>
