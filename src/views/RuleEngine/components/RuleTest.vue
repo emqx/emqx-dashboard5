@@ -3,7 +3,7 @@
     <LogDataDisplay
       :log-data="logData"
       :is-test-started="isTestStarted"
-      @start-test="startTest"
+      @start-test="handleStartTest"
       @input-simulated-data="openMockDataDrawer"
     />
     <div class="buttons-bar">
@@ -11,7 +11,7 @@
         <el-button
           type="primary"
           plain
-          @click="startTest"
+          @click="handleStartTest"
           :icon="CaretRight"
           :disabled="!savedAfterRuleChange"
         >
@@ -67,13 +67,8 @@ const { savedAfterRuleChange } = useStatusController()
 
 const showMockDataDrawer = ref(false)
 
-const {
-  logData,
-  handleStopTest,
-  submitMockDataForTestRule,
-  startTestRuleUseRealData,
-  setCbAfterPolling,
-} = useDebugRule()
+const { logData, handleStopTest, submitMockDataForTestRule, startTest, setCbAfterPolling } =
+  useDebugRule()
 
 const showStartTestInChild = computed(() => Object.keys(logData.value).length === 0)
 
@@ -98,10 +93,10 @@ const scrollLogToBottom = async (log: string) => {
 }
 
 const isTestStarted = ref(false)
-const startTest = async () => {
+const handleStartTest = async () => {
   isTestStarted.value = true
   try {
-    await startTestRuleUseRealData(props.ruleData.id)
+    await startTest(props.ruleData.id)
     setCbAfterPolling(scrollLogToBottom)
   } catch (error) {
     //

@@ -48,7 +48,7 @@ import Monaco from '@/components/Monaco.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { IScrollEvent } from 'monaco-editor'
 import { useRoute } from 'vue-router'
-import { getTraceLog, downloadTrace, getTraceDetail } from '@/api/diagnose'
+import { getTraceLog, downloadTrace, getTraceNodesMsg } from '@/api/diagnose'
 import { ElMessage as M } from 'element-plus'
 
 let LOG_VIEW_POSITION = 0
@@ -92,7 +92,7 @@ export default defineComponent({
 
     const loadNodeOpts = async () => {
       try {
-        const data = await getTraceDetail(viewLogName)
+        const data = await getTraceNodesMsg(viewLogName)
         nodeOpts.value = sortNodesByTime(data)
         selectedNode.value = nodeOpts.value[0].node
       } catch (error) {

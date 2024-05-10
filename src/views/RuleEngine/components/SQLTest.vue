@@ -1,14 +1,14 @@
 <template>
   <div class="sql-test">
     <div class="test-header">
-      <label>{{ tl('test') }}</label>
+      <label class="bold">{{ tl('test') }}</label>
       <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
       <el-switch v-model="isTesting" />
     </div>
     <el-collapse-transition>
       <div v-if="isTesting">
-        <label> {{ tl('testTarget') }} </label>
+        <p class="bold"> {{ tl('testTarget') }} </p>
         <!-- @tab-change="handleTestMethodChanged" -->
         <el-tabs v-model="testTarget" lazy>
           <el-tab-pane label="SQL" :name="TestRuleTarget.SQL">
@@ -80,7 +80,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane :label="tl('rule')" :name="TestRuleTarget.Rule" lazy>
+          <el-tab-pane :label="startCase(tl('rule'))" :name="TestRuleTarget.Rule" lazy>
             <RuleTest :rule-data="ruleData" :ingress-bridge-list="ingressBridgeList" />
           </el-tab-pane>
         </el-tabs>
@@ -102,6 +102,7 @@ import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import JSONbig from 'json-bigint'
+import { startCase } from 'lodash'
 import { PropType, computed, defineProps, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
