@@ -112,12 +112,16 @@ axios.interceptors.response.use(
           Array.isArray(error.config.errorsHandleCustom) &&
           error.config.errorsHandleCustom.includes(status)
         if (!handleErrorSelf) {
-          if (data?.code === NAME_PWD_ERROR) {
+          if (data.code === NAME_PWD_ERROR) {
             ElNotification.error(i18n.global.t('Base.namePwdError'))
-          } else if (data?.code || data?.message) {
-            CustomMessage.error(`${status} ${data?.code ?? ''}: ${data?.message?.toString() ?? ''}`)
+          } else if (data.code || data.message) {
+            data.message =
+              typeof data.message === 'object' ? JSON.stringify(data.message) : data.message
+            const code = data.code !== null && data.code !== undefined ? data.code : ''
+            const message = data.message ? data.message.toString() : ''
+            CustomMessage.error(`${status} ${code}: ${message}`)
           } else {
-            CustomMessage.error(status + ' Network error')
+            CustomMessage.error(`${status} Network error`)
           }
         }
 
