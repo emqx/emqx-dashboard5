@@ -1,4 +1,4 @@
-import { addTrace, deleteTrace, getTraceLog } from '@/api/diagnose'
+import { addTrace, deleteTrace, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
 import { getKeywordsFromSQL } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -93,21 +93,43 @@ export default () => {
     return ret
   }
 
-  let logLastPosition = 0
+  const logLastPositionMap: Map<string, number> = new Map()
+  const getCurrentTraceNodesMsg = async () => {
+    try {
+      const data = await getTraceNodesMsg(traceName)
+      const currentNodes = data.map(({ node }) => node)
+      logLastPositionMap.forEach((position, node) => {
+        if (!currentNodes.includes(node)) {
+          logLastPositionMap.delete(node)
+        }
+      })
+      data.forEach(({ node }) => {
+        if (!logLastPositionMap.has(node)) {
+          logLastPositionMap.set(node, 0)
+        }
+      })
+    } catch (error) {
+      //
+    }
+  }
   const getNewestLog = async () => {
     try {
-      const { items, meta } = await getTraceLog(traceName, {
-        bytes: BYTE_PER_PAGE,
-        position: logLastPosition,
+      await getCurrentTraceNodesMsg()
+      logLastPositionMap.forEach(async (position, node) => {
+        const { items, meta } = await getTraceLog(traceName, {
+          node,
+          bytes: BYTE_PER_PAGE,
+          position: position,
+        })
+        const logArr = convertLogStrToLogArr(items)
+        const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
+        const data = formatLog(filteredLogArr)
+        logData.value = addNewLogToCurrentLog(logData.value, data)
+        logLastPositionMap.set(node, meta.position)
+        if (isFunction(cbAfterPolling)) {
+          cbAfterPolling(items)
+        }
       })
-      const logArr = convertLogStrToLogArr(items)
-      const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
-      const data = formatLog(filteredLogArr)
-      logData.value = addNewLogToCurrentLog(logData.value, data)
-      logLastPosition = meta.position
-      if (isFunction(cbAfterPolling)) {
-        cbAfterPolling(items)
-      }
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
@@ -136,9 +158,9 @@ export default () => {
   /**
    * If testing with real data, polling starts when clicking start test
    */
-  const startTestRuleUseRealData = (ruleId: string) => {
+  const startTest = async (ruleId: string) => {
     try {
-      createTrace(ruleId)
+      await createTrace(ruleId)
       if (!needPolling.value) {
         needPolling.value = true
         startPolling()
@@ -151,7 +173,7 @@ export default () => {
   const handleStopTest = () => {
     deleteCurrentTrace()
     needPolling.value = false
-    logLastPosition = 0
+    logLastPositionMap.clear()
   }
 
   onUnmounted(() => {
@@ -167,7 +189,7 @@ export default () => {
     handleStopTest,
     getLogItemTitle,
     submitMockDataForTestRule,
-    startTestRuleUseRealData,
+    startTest,
     setCbAfterPolling,
   }
 }
