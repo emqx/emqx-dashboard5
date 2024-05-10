@@ -11,8 +11,8 @@
         <p class="bold">{{ tl('testTarget') }}</p>
         <!-- @tab-change="handleTestMethodChanged" -->
         <el-tabs class="target-tabs" v-model="testTarget" lazy>
-          <el-tab-pane label="SQL" :name="TestRuleTarget.SQL">
-            <div>
+          <el-tab-pane label="SQL" :name="TestRuleTarget.SQL" :key="TestRuleTarget.SQL">
+            <div v-if="testTarget === TestRuleTarget.SQL">
               <div class="test-header">
                 <label class="test-label">
                   {{ tl('dataSource') }}
@@ -38,7 +38,7 @@
                     <TestSQLContextForm v-model="testParams.context" />
                   </el-card>
                 </el-col>
-                <el-col :span="12" v-if="!isTestRule">
+                <el-col :span="12">
                   <label class="test-label" shadow="none">
                     {{ tl('outputResult') }}
                     <InfoTooltip :content="tl('outputResultDesc')" />
@@ -80,7 +80,12 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane :label="startCase(tl('rule'))" :name="TestRuleTarget.Rule" lazy>
+          <el-tab-pane
+            :label="startCase(tl('rule'))"
+            :key="TestRuleTarget.SQL"
+            :name="TestRuleTarget.Rule"
+            lazy
+          >
             <RuleTest :rule-data="ruleData" :ingress-bridge-list="ingressBridgeList" />
           </el-tab-pane>
         </el-tabs>
@@ -103,7 +108,7 @@ import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import JSONbig from 'json-bigint'
 import { startCase } from 'lodash'
-import { PropType, computed, defineProps, ref, watch } from 'vue'
+import { PropType, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
@@ -123,7 +128,6 @@ const props = defineProps({
   },
 })
 
-const isTestRule = computed(() => testTarget.value === TestRuleTarget.Rule)
 const { isTesting, testTarget } = useStatusController()
 
 const testLoading = ref(false)
@@ -165,9 +169,9 @@ const submitTestSQL = async () => {
   }
 }
 
-// onMounted(() => {
-//   isTesting.value = false
-// })
+onUnmounted(() => {
+  isTesting.value = false
+})
 
 watch(
   () => isTesting.value,
