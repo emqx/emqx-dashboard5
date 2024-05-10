@@ -8,9 +8,9 @@
     </div>
     <el-collapse-transition>
       <div v-if="isTesting">
-        <p class="bold"> {{ tl('testTarget') }} </p>
+        <p class="bold">{{ tl('testTarget') }}</p>
         <!-- @tab-change="handleTestMethodChanged" -->
-        <el-tabs v-model="testTarget" lazy>
+        <el-tabs class="target-tabs" v-model="testTarget" lazy>
           <el-tab-pane label="SQL" :name="TestRuleTarget.SQL">
             <div>
               <div class="test-header">
@@ -229,6 +229,13 @@ setDataTypeNContext()
     padding-bottom: 12px;
     > div {
       margin-right: 12px;
+    }
+  }
+
+  .el-tabs.target-tabs {
+    .el-tabs__header {
+      padding: 0 0;
+      margin-bottom: 28px;
     }
   }
 }

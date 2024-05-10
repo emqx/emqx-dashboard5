@@ -89,8 +89,9 @@
         />
         <p class="tip">{{ emptyPlaceholderTip }}</p>
       </div>
-      <template v-if="!isTestStarted">
+      <div class="btn-wrap">
         <el-button
+          v-if="!isTestStarted"
           type="primary"
           plain
           :icon="CaretRight"
@@ -99,7 +100,7 @@
         >
           {{ tl('startTest') }}
         </el-button>
-      </template>
+      </div>
     </div>
   </el-card>
 </template>
@@ -431,6 +432,15 @@ watch(
     justify-content: center;
     align-items: center;
     height: 50px;
+  }
+  .btn-wrap {
+    position: relative;
+    .el-button {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 </style>
