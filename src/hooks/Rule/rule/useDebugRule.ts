@@ -146,16 +146,8 @@ export default () => {
     syncPolling(getNewestLog, 1500)
   }
 
-  const submitMockDataForTestRule = async (ruleId: string, data: Record<string, any>) => {
-    try {
-      await applyRuleTest(ruleId, data)
-      if (!needPolling.value) {
-        needPolling.value = true
-        startPolling()
-      }
-    } catch (error) {
-      //
-    }
+  const submitMockDataForTestRule = (ruleId: string, data: Record<string, any>) => {
+    return applyRuleTest(ruleId, data)
   }
 
   /**

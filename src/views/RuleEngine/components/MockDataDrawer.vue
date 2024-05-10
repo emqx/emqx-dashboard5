@@ -64,6 +64,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isSubmitting: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'submit'])
@@ -93,14 +97,10 @@ const {
 watch(showDrawer, (val) => {
   if (val) {
     setDataTypeNContext()
-  } else {
-    isSubmitting.value = false
   }
 })
 
-const isSubmitting = ref(false)
 const submit = () => {
-  isSubmitting.value = true
   const context = getMockContext()
   emit('submit', context)
 }
