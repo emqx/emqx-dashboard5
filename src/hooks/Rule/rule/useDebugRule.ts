@@ -1,16 +1,21 @@
-import { addTrace, deleteTrace, getTraceLog } from '@/api/diagnose'
+import { addTrace, deleteTrace, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
+import { getKeywordsFromSQL } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
-import { LogTraceFormatter, TraceEncodeType } from '@/types/enum'
-import { BasicRule, RuleItem } from '@/types/rule'
+import { LogTraceFormatter, RuleInputType, TraceEncodeType } from '@/types/enum'
+import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
+import { ElMessageBox } from 'element-plus'
 import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
-import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import type { FormattedLog, LogItem } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'
+import { useRuleUtils } from './useRule'
+import useRuleEvents from './useRuleEvents'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 
@@ -88,21 +93,43 @@ export default () => {
     return ret
   }
 
-  let logLastPosition = 0
+  const logLastPositionMap: Map<string, number> = new Map()
+  const getCurrentTraceNodesMsg = async () => {
+    try {
+      const data = await getTraceNodesMsg(traceName)
+      const currentNodes = data.map(({ node }) => node)
+      logLastPositionMap.forEach((position, node) => {
+        if (!currentNodes.includes(node)) {
+          logLastPositionMap.delete(node)
+        }
+      })
+      data.forEach(({ node }) => {
+        if (!logLastPositionMap.has(node)) {
+          logLastPositionMap.set(node, 0)
+        }
+      })
+    } catch (error) {
+      //
+    }
+  }
   const getNewestLog = async () => {
     try {
-      const { items, meta } = await getTraceLog(traceName, {
-        bytes: BYTE_PER_PAGE,
-        position: logLastPosition,
+      await getCurrentTraceNodesMsg()
+      logLastPositionMap.forEach(async (position, node) => {
+        const { items, meta } = await getTraceLog(traceName, {
+          node,
+          bytes: BYTE_PER_PAGE,
+          position: position,
+        })
+        const logArr = convertLogStrToLogArr(items)
+        const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
+        const data = formatLog(filteredLogArr)
+        logData.value = addNewLogToCurrentLog(logData.value, data)
+        logLastPositionMap.set(node, meta.position)
+        if (isFunction(cbAfterPolling)) {
+          cbAfterPolling(items)
+        }
       })
-      const logArr = convertLogStrToLogArr(items)
-      const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
-      const data = formatLog(filteredLogArr)
-      logData.value = addNewLogToCurrentLog(logData.value, data)
-      logLastPosition = meta.position
-      if (isFunction(cbAfterPolling)) {
-        cbAfterPolling(items)
-      }
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
@@ -116,12 +143,6 @@ export default () => {
     syncPolling(getNewestLog, 1500)
   }
 
-  /**
-   * If testing with mock data, poll after submitting mock data
-   */
-  const startTestRuleUseMockData = (ruleId: string) => {
-    createTrace(ruleId)
-  }
   const submitMockDataForTestRule = async (ruleId: string, data: Record<string, any>) => {
     try {
       await applyRuleTest(ruleId, data)
@@ -137,9 +158,9 @@ export default () => {
   /**
    * If testing with real data, polling starts when clicking start test
    */
-  const startTestRuleUseRealData = (ruleId: string) => {
+  const startTest = async (ruleId: string) => {
     try {
-      createTrace(ruleId)
+      await createTrace(ruleId)
       if (!needPolling.value) {
         needPolling.value = true
         startPolling()
@@ -152,7 +173,7 @@ export default () => {
   const handleStopTest = () => {
     deleteCurrentTrace()
     needPolling.value = false
-    logLastPosition = 0
+    logLastPositionMap.clear()
   }
 
   onUnmounted(() => {
@@ -167,9 +188,8 @@ export default () => {
     emptyLogArr: emptyLogData,
     handleStopTest,
     getLogItemTitle,
-    startTestRuleUseMockData,
     submitMockDataForTestRule,
-    startTestRuleUseRealData,
+    startTest,
     setCbAfterPolling,
   }
 }
@@ -221,15 +241,195 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
     watch(rule, handleRuleChanged)
   }
 
-  onMounted(() => {
-    isTesting.value = false
-  })
-
   return {
     isTesting,
     savedAfterRuleChange,
     testTarget,
     isRuleSaveButtonDisabled,
     updateSavedRule,
+  }
+}
+
+interface TestParams {
+  context: Record<string, string>
+}
+
+export const useMockData = (
+  props: Readonly<{
+    ingressBridgeList: BridgeItem[]
+    ruleData: Record<string, any>
+  }>,
+): {
+  ruleSql: ComputedRef<string>
+  dataType: Ref<string>
+  testParams: Ref<TestParams>
+  isDataTypeNoMatchSQL: Ref<boolean>
+  eventList: Ref<Array<RuleEvent>>
+  isFormModified: ComputedRef<boolean>
+  resetContext: () => void
+  getMockContext: () => Record<string, any>
+  setDataTypeNContext: () => void
+} => {
+  const { tl, t } = useI18nTl('RuleEngine')
+
+  const eventList = ref<Array<RuleEvent>>([])
+
+  const ruleSql = computed(() => props.ruleData?.sql || '')
+  const testParams: Ref<TestParams> = ref({ context: {} })
+
+  /**
+   * Used to check if the form has been modified
+   */
+  const initialTestParams = ref<null | Record<string, any>>(null)
+  const isFormModified = computed(() => {
+    if (!initialTestParams.value) {
+      return false
+    }
+    return !isEqual(testParams.value, initialTestParams.value)
+  })
+
+  const dataType: Ref<string> = ref('')
+  const isDataTypeNoMatchSQL = ref(false)
+
+  const { getEventList } = useRuleEvents()
+  const loadRuleEvents = async () => {
+    try {
+      eventList.value = await getEventList()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } =
+    useRuleUtils()
+
+  const findSourceTypeAndTarget = (fromTarget: string) =>
+    findInputTypeNTarget(fromTarget, eventList.value, props.ingressBridgeList)
+
+  const resetContext = () => {
+    ElMessageBox.confirm(tl('confirmReset'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+      .then(() => {
+        handleDataSourceChanged({ value: dataType.value })
+      })
+      .catch(() => {
+        // ignore
+      })
+  }
+
+  const setContext = (obj: Record<string, string>) => {
+    testParams.value.context = obj
+    initialTestParams.value = cloneDeep(testParams.value)
+  }
+
+  const compareTargetNFromStr = (
+    targetType: RuleInputType,
+    target: BridgeItem | RuleEvent | string,
+    fromStr: string,
+  ): boolean => {
+    const inputs = transFromStrToFromArr(fromStr)
+    const typeNeedToCompares = inputs.map((input) => {
+      const { type: typeInSQL } = findSourceTypeAndTarget(input)
+      const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : input
+      return typeNeedToCompare
+    })
+    // when comparing, if the type is topic, compare the TOPIC_EVENT;
+    // if type is event, compare target.event
+    // if type is bridge, compare bridge.id
+    let targetStrToCompare = ''
+    switch (targetType) {
+      case RuleInputType.Topic:
+        targetStrToCompare = target as string
+        break
+      case RuleInputType.Event:
+        targetStrToCompare = (target as RuleEvent).event
+        break
+      case RuleInputType.Bridge:
+        targetStrToCompare = (target as BridgeItem).idForRuleFrom
+        break
+    }
+    return typeNeedToCompares.includes(targetStrToCompare)
+  }
+
+  const handleDataSourceChanged = ({ value }: { value: string }) => {
+    // The data type switch will not change the SQL, but if the data type does not match the SQL,
+    // a warning will be issued indicating that the data type does not match the SQL
+    const { type, target } = findSourceTypeAndTarget(value)
+    const { fromStr } = getKeywordsFromSQL(ruleSql.value)
+    isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+    const { context } = getTestColumns(type, value, eventList.value || [])
+    setContext(context)
+  }
+
+  const handleSQLChanged = (sql: string) => {
+    const { type, target } = findSourceTypeAndTarget(dataType.value)
+    const { fromStr } = getKeywordsFromSQL(sql)
+    isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+  }
+
+  const getEventTypeInContext = () => {
+    const { type, target } = findSourceTypeAndTarget(dataType.value)
+    if (type === RuleInputType.Event) {
+      return dataType.value.match(/(\$events\/)([\w]+)/)?.[2]
+    }
+    if (type === RuleInputType.Bridge) {
+      return `$bridges/${(target as BridgeItem).type}:*`
+    }
+    return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
+  }
+
+  const getMockContext = () => {
+    return {
+      ...testParams.value.context,
+      event_type: getEventTypeInContext(),
+    }
+  }
+
+  const setDataType = (type: RuleInputType, firstInput: string) => {
+    if (type === RuleInputType.Topic) {
+      dataType.value = TOPIC_EVENT
+    } else {
+      dataType.value = firstInput
+    }
+  }
+  const setDataTypeNContext = () => {
+    const { fromStr } = getKeywordsFromSQL(ruleSql.value)
+    const [firstInput = ''] = transFromStrToFromArr(fromStr)
+    const { type: inputType } = findSourceTypeAndTarget(firstInput)
+    const { context } = getTestColumns(inputType, firstInput, eventList.value)
+    setDataType(inputType, firstInput)
+    testParams.value = { context }
+  }
+
+  watch(
+    () => eventList.value,
+    () => {
+      handleDataSourceChanged({ value: dataType.value })
+    },
+  )
+
+  watch(ruleSql, (val) => {
+    handleSQLChanged(val)
+  })
+
+  watch(dataType, (val) => {
+    handleDataSourceChanged({ value: val })
+  })
+
+  loadRuleEvents()
+
+  return {
+    ruleSql,
+    dataType,
+    testParams,
+    isDataTypeNoMatchSQL,
+    eventList,
+    isFormModified,
+    resetContext,
+    getMockContext,
+    setDataTypeNContext,
   }
 }

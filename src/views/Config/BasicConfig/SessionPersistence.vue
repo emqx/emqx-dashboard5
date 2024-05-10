@@ -1,10 +1,10 @@
 <template>
-  <div class="flapping-detect app-wrapper with-padding-top">
+  <div class="session-persistence app-wrapper">
     <el-card class="allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
-          ref="flappingDetectForm"
+          ref="sessionPersistenceForm"
           class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
@@ -19,11 +19,27 @@
               <el-form-item prop="enable">
                 <template #label>
                   <FormItemLabel
+                    desc-marked
                     :label="tl('enableSessionPersistence')"
                     :desc="tl('enableSessionPersistenceDesc')"
                   />
                 </template>
                 <el-switch disabled v-model="sessionPersistenceConfig.enable" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="message_retention_period">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('messageRetentionPeriod')"
+                    :desc="tl('messageRetentionPeriodDesc')"
+                  />
+                </template>
+                <TimeInputWithUnitSelect
+                  v-model="sessionPersistenceConfig.message_retention_period"
+                  number-placeholder="5000"
+                  :enabled-units="['d', 'h', 'm']"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -95,21 +111,6 @@
                   v-model.number="sessionPersistenceConfig.session_gc_batch_size"
                   placeholder="100"
                   :min="0"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="message_retention_period">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('messageRetentionPeriod')"
-                    :desc="tl('messageRetentionPeriodDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.message_retention_period"
-                  number-placeholder="5000"
-                  :enabled-units="['d', 'h', 'm']"
                 />
               </el-form-item>
             </el-col>

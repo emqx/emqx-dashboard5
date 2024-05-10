@@ -327,6 +327,12 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
   const transPort = (port: string) =>
     portNeedsToTransReg.test(port) ? port.replace(':', '') : port
 
+  /**
+   * Extracts the differences between the default configuration object and the provided data object.
+   * @param type - The type of the configuration object.
+   * @param data - The data object to compare with the default configuration.
+   * @returns An object containing the differences between the default configuration and the provided data.
+   */
   function extractDifferences(type: keyof typeof unexposedConfigs, data: any) {
     const defaultConfig = unexposedConfigs[type]
     const diff: Record<string, any> = {}

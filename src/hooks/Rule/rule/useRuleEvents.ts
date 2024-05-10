@@ -44,7 +44,7 @@ export default (): {
     try {
       let eventList: Array<RuleEvent> = state.ruleEventList
       if (!eventList.length) {
-        if (!state.ruleEventRequest || !state.ruleEventRequest.length) {
+        if (!state.ruleEventRequest) {
           const request = queryRuleEvents()
           commit('SET_RULE_EVENT_REQUEST', request)
         }

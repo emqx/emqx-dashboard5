@@ -125,7 +125,7 @@ export default {
   },
   cleanStart: {
     zh: 'Clean Start/清除会话',
-    en: 'Clean Session/Clean Session',
+    en: 'Clean Start/Clean Session',
   },
   cleanSession: {
     zh: '清除会话',

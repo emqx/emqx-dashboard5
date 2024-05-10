@@ -1258,12 +1258,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Test Target',
   },
   inputData: {
-    zh: '输入数据',
-    en: 'Input Data',
+    zh: '测试方法',
+    en: 'Test Method',
   },
   mockData: {
     zh: '模拟数据',
-    en: 'Mock Data',
+    en: 'Simulated Data',
   },
   realData: {
     zh: '真实数据',
@@ -1294,8 +1294,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Submit Test',
   },
   pleaseSaveFirst: {
-    zh: '请先保存规则',
-    en: 'Please save first',
+    zh: '请先保存规则以开始测试',
+    en: 'Please save first to start testing',
   },
   eventData: {
     zh: '事件数据',
@@ -1328,6 +1328,18 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   debugLeaveConfirm: {
     zh: '离开页面将停止测试，是否确认离开？',
     en: 'Leaving the page will stop the test, is it confirmed to leave?',
+  },
+  inputSimulatedData: {
+    zh: '输入模拟数据',
+    en: 'Input Simulated Data',
+  },
+  noLogDataTip: {
+    zh: '暂无测试结果, 请先开始测试',
+    en: 'No test results yet, please start testing first',
+  },
+  tipForTesting: {
+    zh: '测试模式已启动，请输入模拟数据或使用真实客户端触发规则以进行测试',
+    en: 'Test mode has been started, please enter simulated data or use a real client to trigger the rule for testing',
   },
   errorKeyValuePair: {
     zh: '错误的键值对输入',

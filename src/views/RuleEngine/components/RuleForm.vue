@@ -72,13 +72,7 @@
       </el-col>
     </el-row>
     <el-row class="test-row">
-      <SQLTest
-        ref="testSQLRef"
-        isEdit
-        :rule-data="modelValue"
-        :event-list="ruleEventsList"
-        :ingress-bridge-list="ingressBridgeList"
-      />
+      <SQLTest ref="testSQLRef" :rule-data="modelValue" :ingress-bridge-list="ingressBridgeList" />
     </el-row>
     <el-row class="oper-row">
       <el-col :span="24">

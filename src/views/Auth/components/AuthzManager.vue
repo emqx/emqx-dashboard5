@@ -239,10 +239,18 @@
                   </a>
                 </template>
                 <template #default="{ row, $index }">
-                  <a href="javascript:;" class="btn" @click="handleUp(row, $index)">
+                  <a
+                    href="javascript:;"
+                    :class="['btn', { disabled: $index === 0 }]"
+                    @click="handleUp(row, $index)"
+                  >
                     {{ $t('Base.up') }}
                   </a>
-                  <a href="javascript:;" class="btn" @click="handleDown(row, $index)">
+                  <a
+                    href="javascript:;"
+                    :class="['btn', { disabled: $index === rulesData.length - 1 }]"
+                    @click="handleDown(row, $index)"
+                  >
                     {{ $t('Base.down') }}
                   </a>
                   <a href="javascript:;" class="btn" @click="deleteItem(row, $index)">
@@ -680,8 +688,12 @@ export default defineComponent({
   }
   .form-table {
     .cell {
+      .btn.disabled {
+        cursor: not-allowed;
+        color: var(--color-text-placeholder);
+      }
       .btn + .btn {
-        margin-left: 5px;
+        margin-left: 8px;
       }
     }
   }
