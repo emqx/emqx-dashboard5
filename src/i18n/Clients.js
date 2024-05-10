@@ -479,4 +479,8 @@ export default {
     zh: '当开启持久会话时，将无法查看消息列表',
     en: 'Message list is unavailable when persistent session is enabled',
   },
+  validation: {
+    zh: '数据校验名称',
+    en: 'Message Validation Name',
+  },
 }
