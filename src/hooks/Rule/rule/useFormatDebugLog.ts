@@ -21,6 +21,9 @@ export const enum LogMsg {
   ActionSuccess = 'action_success',
   ActionTemplateRendered = 'action_template_rendered',
   AsyncSendMsgToRemoteNode = 'async_send_msg_to_remote_node',
+  OutOfService = 'out_of_service',
+  ActionFailed = 'action_failed',
+  RequestExpired = 'request_expired',
   /* Do Not Need Start */
   CallActionFunction = 'call_action_function',
   RepublishMessage = 'republish_message',
@@ -101,6 +104,8 @@ type TargetLogGenerator = (log: TargetLogInfo) => TargetLogInfo
 const detectLogItemResult = (log: LogItem): boolean => {
   if (log.meta.reason) {
     return log.msg !== LogMsg.StopRendering ? false : true
+  } else if (log.msg === LogMsg.OutOfService) {
+    return false
   }
   return true
 }
@@ -118,7 +123,10 @@ const detectRuleExecLogArrResult = (logArr: Array<LogItem>): LogResult => {
 }
 
 const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
-  if (logArr.length === 0 || logArr.every(({ meta }) => !meta.result && !meta.reason)) {
+  if (
+    logArr.length === 0 ||
+    logArr.every(({ meta, msg }) => !meta.result && !meta.reason && msg !== LogMsg.OutOfService)
+  ) {
     return LogResult.Pending
   }
   return logArr.every(detectLogItemResult) ? LogResult.OK : LogResult.Error
@@ -258,6 +266,23 @@ export default () => {
     return logArr.filter((item) => getLogItemTriggerTime(item) >= startTimestamp)
   }
 
+  /**
+   * return true if the log need be dropped
+   */
+  const detectLogNeedBeDropped = (log: LogItem) => {
+    let needBeDropped = false
+    if (EXCLUDED_LOGS.includes(log.msg)) {
+      needBeDropped = true
+    }
+    if (/connector/i.test(log.msg) && log.meta.connector) {
+      needBeDropped = true
+    }
+    if (/msg =>/.test(log.msg) && !log.meta.action_info) {
+      needBeDropped = true
+    }
+    return needBeDropped
+  }
+
   const formatLog = (logArr: Array<LogItem>) => {
     const ret: FormattedLog = {}
     const timeGroupedMap = groupBy(logArr, getLogItemTriggerTime)
@@ -275,7 +300,7 @@ export default () => {
               rawLogArr: [],
             }
           }
-          if (EXCLUDED_LOGS.includes(logItem.msg)) {
+          if (detectLogNeedBeDropped(logItem)) {
             return obj
           }
           obj[target].info[logItem.msg] = { time: logItem.time, logContent: logItem }
@@ -310,22 +335,43 @@ export default () => {
 
 export const useShowLog = () => {
   const { tl } = useI18nTl('RuleEngine')
+  const commonActionLogMsgMap = new Map([
+    [LogMsg.ActionTemplateRendered, tl('requestParameter')],
+    [LogMsg.ActionSuccess, tl('actionExecutionLog')],
+    [LogMsg.OutOfService, tl('actionOutOfService')],
+    [LogMsg.ActionFailed, tl('actionFailed')],
+    [LogMsg.RequestExpired, tl('requestExpired')],
+  ])
   const ruleLogMsgMap = new Map([[LogMsg.RuleActivated, tl('eventData')]])
   const getRuleLogMsgTitle = (logMsg: LogMsg) => {
     const title = ruleLogMsgMap.get(logMsg)
     return title ? title : tl('executionResult')
   }
-  const republishLogMsgMap = new Map([[LogMsg.ActionSuccess, tl('messagePublishParameters')]])
+  const republishLogMsgMap = new Map([[LogMsg.ActionTemplateRendered, tl('requestParameter')]])
   const getRepublishLogMsgTitle = (logMsg: LogMsg) => {
-    const title = republishLogMsgMap.get(logMsg)
+    let title = republishLogMsgMap.get(logMsg)
+    if (!title) {
+      const sTitle = commonActionLogMsgMap.get(logMsg)
+      if (sTitle) {
+        title = sTitle
+      }
+    }
+    return title ? title : startCase(logMsg)
+  }
+  const consoleLogMsgMap = new Map([
+    [LogMsg.ActionTemplateRendered, tl('consoleActionTemplateRendered')],
+    [LogMsg.ActionSuccess, tl('actionExecutionLog')],
+  ])
+  const getConsoleLogMsgTitle = (logMsg: LogMsg) => {
+    const title = consoleLogMsgMap.get(logMsg)
     return title ? title : startCase(logMsg)
   }
   const httpActionLogMsgMap = new Map([
-    [LogMsg.ActionTemplateRendered, tl('requestParameter')],
     [LogMsg.ActionSuccess, tl('responseResult')],
     [LogMsg.StopRendering, tl('responseResult')],
   ])
   const actionTypeLogMsgMap = new Map([[BridgeType.Webhook, httpActionLogMsgMap]])
+
   const getActionLogMsgTitle = (targetLogData: TargetLog, logMsg: LogMsg) => {
     const { type } = targetLogData.targetInfo || {}
     let title: undefined | string = undefined
@@ -338,8 +384,11 @@ export const useShowLog = () => {
         }
       }
     }
-    if (!title && logMsg === LogMsg.ActionSuccess) {
-      title = tl('actionExecutionLog')
+    if (!title) {
+      const sTitle = commonActionLogMsgMap.get(logMsg)
+      if (sTitle) {
+        title = sTitle
+      }
     }
     return title || startCase(logMsg)
   }
@@ -350,6 +399,9 @@ export const useShowLog = () => {
     }
     if (type === LogTargetType.Republish) {
       return getRepublishLogMsgTitle(logMsg)
+    }
+    if (type === LogTargetType.Console) {
+      return getConsoleLogMsgTitle(logMsg)
     }
     if (type === LogTargetType.Action) {
       return getActionLogMsgTitle(targetLogData, logMsg)
