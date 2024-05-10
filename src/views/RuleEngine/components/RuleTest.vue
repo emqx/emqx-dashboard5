@@ -21,13 +21,14 @@
           {{ tl('pleaseSaveFirst') }}
         </p>
       </div>
-      <div v-if="isTestStarted">
+      <div class="btn-testing-container" v-if="isTestStarted">
         <el-button type="primary" plain @click="openMockDataDrawer">
           {{ tl('inputSimulatedData') }}
         </el-button>
         <el-button plain @click="stopTest">
           {{ tl('stopTest') }}
         </el-button>
+        <p class="tip" v-if="!showStartTestInChild">{{ tl('tipForTesting') }}</p>
       </div>
     </div>
     <MockDataDrawer
@@ -141,6 +142,14 @@ watch(() => props.ruleData, stopTest)
       width: 200px;
       transform: translateY(100%);
       opacity: 0.7;
+    }
+  }
+  .btn-testing-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .tip {
+      margin-left: 16px;
     }
   }
 }

@@ -1041,7 +1041,7 @@ export default {
     zh: '暂无测试结果, 请先开始测试',
     en: 'No test results yet, please start testing first',
   },
-  noLogData: {
+  tipForTesting: {
     zh: '测试模式已启动，请输入模拟数据或使用真实客户端触发规则以进行测试',
     en: 'Test mode has been started, please enter simulated data or use a real client to trigger the rule for testing',
   },
