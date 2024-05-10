@@ -69,7 +69,7 @@
                     {{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}
                   </el-radio-button>
                 </el-radio-group>
-                <p v-else>
+                <p class="log-item-title" v-else>
                   {{ getLogItemTitle(targetLogData, getSelectedBlock(logTarget)) }}
                 </p>
                 <!-- <span class="log-time">
@@ -388,11 +388,7 @@ watch(
       margin-right: 16px;
     }
     .event {
-      flex-grow: 2;
       flex-shrink: 0;
-    }
-    .topic {
-      flex-grow: 1;
     }
   }
   .execution-item-time,
@@ -422,6 +418,11 @@ watch(
   .target-info-hd {
     align-items: center;
     margin-bottom: 12px;
+    .log-item-title {
+      margin-top: 4px;
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
   }
   .icon-status {
     margin-right: 8px;

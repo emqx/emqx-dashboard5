@@ -1313,8 +1313,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '消息发布参数',
     en: 'Message Publish Parameters',
   },
+  consoleActionTemplateRendered: {
+    zh: '动作模板渲染结果',
+    en: 'Action Template Rendered Result',
+  },
   requestParameter: {
-    zh: '请求参数',
+    zh: '请求信息',
     en: 'Request',
   },
   responseResult: {
@@ -1326,8 +1330,20 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'No response: Request is disabled',
   },
   actionExecutionLog: {
-    zh: '动作执行日志',
-    en: 'Action Execution Log',
+    zh: '执行结果',
+    en: 'Result',
+  },
+  actionOutOfService: {
+    zh: '服务不可用',
+    en: 'Out of Service',
+  },
+  actionFailed: {
+    zh: '动作执行失败',
+    en: 'Action Failed',
+  },
+  requestExpired: {
+    zh: '请求超时',
+    en: 'Request Expired',
   },
   debugLeaveConfirm: {
     zh: '离开页面将停止测试，是否确认离开？',

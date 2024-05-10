@@ -35,6 +35,7 @@
       v-model="showMockDataDrawer"
       :rule-data="ruleData"
       :ingress-bridge-list="ingressBridgeList"
+      :is-submitting="isSubmittingMockData"
       @submit="handleSubmitMockData"
     />
   </div>
@@ -67,6 +68,7 @@ const { tl } = useI18nTl('RuleEngine')
 const { savedAfterRuleChange } = useStatusController()
 
 const showMockDataDrawer = ref(false)
+const isSubmittingMockData = ref(false)
 
 const { logData, handleStopTest, submitMockDataForTestRule, startTest, setCbAfterPolling } =
   useDebugRule()
@@ -114,6 +116,8 @@ const handleSubmitMockData = async (context: Record<string, any>) => {
     showMockDataDrawer.value = false
   } catch (error) {
     //
+  } finally {
+    isSubmittingMockData.value = false
   }
 }
 
