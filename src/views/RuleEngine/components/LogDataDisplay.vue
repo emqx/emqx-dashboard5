@@ -142,7 +142,7 @@ const emptyPlaceholderTip = computed(() => {
   if (!props.isTestStarted) {
     return tl('noLogDataTip')
   }
-  return tl('noLogData')
+  return tl('tipForTesting')
 })
 
 const { getGeneralTypeLabel } = useBridgeTypeValue()
