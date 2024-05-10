@@ -16,8 +16,12 @@
                 :class="getResultIconClass(item.result)"
               />
             </el-icon>
-            <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
-            <p v-if="item.trigger.topic">{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
+            <div class="base-info event">
+              <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
+            </div>
+            <div class="base-info topic" v-if="item.trigger.topic">
+              <p>{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
+            </div>
           </div>
           <div class="execution-item-time">
             {{ dateFormat(Number(timestamp)) }}
@@ -54,6 +58,7 @@
                 <el-radio-group
                   v-if="needTabsShowInfo(targetLogData.info)"
                   :modelValue="getSelectedBlock(logTarget)"
+                  size="small"
                   @update:modelValue="setSelectedBlockValue(logTarget, $event)"
                 >
                   <el-radio-button
@@ -67,9 +72,9 @@
                 <p v-else>
                   {{ getLogItemTitle(targetLogData, getSelectedBlock(logTarget)) }}
                 </p>
-                <span class="log-time">
+                <!-- <span class="log-time">
                   {{ dateFormat(targetLogData.info[getSelectedBlock(logTarget)].time) }}
-                </span>
+                </span> -->
               </div>
               <div class="info-content">
                 <CodeView :code="getTargetLogContentCode(logTarget)" />
@@ -151,7 +156,7 @@ const { getEventList } = useRuleEvents()
 const { savedAfterRuleChange } = useStatusController()
 
 let eventInfoMap: Map<string, RuleEvent> = new Map()
-const reg = /^\$events\/(\w+)_/
+const reg = /^\$events\/([^._]+)_/
 const convertToLogEvent = (e: string) => e.replace(reg, (a1: string, a2: string) => `${a2}.`)
 
 ;(async () => {
@@ -357,7 +362,7 @@ watch(
   }
   .execution-item {
     align-items: center;
-    padding: 16px 24px;
+    padding: 12px 20px;
     border-radius: 8px;
     background: var(--color-bg-content);
     cursor: pointer;
@@ -374,14 +379,34 @@ watch(
     p {
       margin-top: 0;
       margin-bottom: 0;
-      &:not(:last-child) {
-        margin-right: 16px;
-      }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .base-info {
+      overflow: hidden;
+      margin-right: 16px;
+    }
+    .event {
+      flex-grow: 2;
+      flex-shrink: 0;
+    }
+    .topic {
+      flex-grow: 1;
     }
   }
   .execution-item-time,
   .log-time {
     color: var(--color-text-secondary);
+  }
+  $time-width: 130px;
+  .execution-item-time {
+    width: $time-width;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .execution-item-base {
+    width: calc(100% - #{$time-width} - 12px);
   }
 
   .el-collapse {

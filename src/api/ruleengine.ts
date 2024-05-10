@@ -145,5 +145,8 @@ export function applyRuleTest(
   ruleId: string,
   context: Record<string, any>,
 ): Promise<Array<string>> {
-  return http.post(`/rules/${ruleId}/test`, { context, stop_action_after_template_rendering: true })
+  return http.post(`/rules/${ruleId}/test`, {
+    context,
+    stop_action_after_template_rendering: false,
+  })
 }
