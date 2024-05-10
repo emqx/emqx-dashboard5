@@ -205,7 +205,7 @@ export const MessageValidationCheckProtobufType = {
 export interface MessageValidationCheckProtobuf {
   type?: MessageValidationCheckProtobufType
   schema: string
-  message_name: string
+  message_type: string
 }
 
 export type MessageValidationCheckJsonType =

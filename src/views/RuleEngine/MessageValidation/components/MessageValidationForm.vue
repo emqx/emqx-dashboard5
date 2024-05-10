@@ -97,11 +97,11 @@
                       </el-form-item>
                       <el-form-item
                         v-if="formData.checks[$index].type === SchemaRegistryType.Protobuf"
-                        :prop="`checks.${$index}.message_name`"
-                        :rules="arrayItemRule.message_name"
+                        :prop="`checks.${$index}.message_type`"
+                        :rules="arrayItemRule.message_type"
                       >
                         <el-input
-                          v-model="(formData.checks[$index] as any).message_name"
+                          v-model="(formData.checks[$index] as any).message_type"
                           :placeholder="tl('messageType')"
                         />
                       </el-form-item>
@@ -314,7 +314,7 @@ const arrayItemRule = {
   topic: createRequiredRule(t('Base.topic')),
   schema: createRequiredRule(tl('schema'), 'select'),
   sql: createRequiredRule('SQL'),
-  message_name: createRequiredRule(tl('messageType')),
+  message_type: createRequiredRule(tl('messageType')),
 }
 
 const { validationStrategyOpts } = useValidationStrategy()
@@ -403,7 +403,7 @@ const handleValidatorTypeChanged = (value: string, validatorIndex: number) => {
   target[isSchemaRegistry(value) ? 'schema' : 'sql'] = ''
   Reflect.deleteProperty(target, isSchemaRegistry(value) ? 'sql' : 'schema')
   if (value !== SchemaRegistryType.Protobuf) {
-    Reflect.deleteProperty(target, 'message_name')
+    Reflect.deleteProperty(target, 'message_type')
   }
 }
 
