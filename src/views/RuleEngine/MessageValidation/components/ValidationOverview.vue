@@ -3,6 +3,7 @@
     <OverviewMetrics
       :totals="{ validation: 'matched' }"
       :request-metrics="getMetrics"
+      :request-reset="resetMetrics"
       :type-metrics-maps="[{ name: 'validation', data: messageValidationMetricsMap }]"
       :text-map="validationMetricsTextMap"
       :rate-metrics="rateData"
@@ -28,7 +29,7 @@ import { defineProps } from 'vue'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { useMessageValidationMetrics } from '@/hooks/useMetrics'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { getValidationMetrics } from '@/api/messageValidation'
+import { getValidationMetrics, resetValidationMetrics } from '@/api/messageValidation'
 
 const props = defineProps({
   validationName: {
@@ -53,5 +54,12 @@ const getMetrics = () => {
     return
   }
   return getValidationMetrics(props.validationName)
+}
+
+const resetMetrics = () => {
+  if (!props.validationName) {
+    return
+  }
+  return resetValidationMetrics(props.validationName)
 }
 </script>
