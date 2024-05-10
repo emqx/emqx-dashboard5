@@ -198,6 +198,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
+import { GatewayName } from '@/types/enum'
 
 export default defineComponent({
   name: 'ClientDetails',
@@ -244,7 +245,7 @@ const props = defineProps({
   },
 })
 
-type ClientTypes = 'MQTT' | 'LWM2M' | 'others' | 'MQISDP'
+type ClientTypes = 'MQTT' | 'LWM2M' | 'MQISDP' | 'others' | 'OCPP'
 
 const emit = defineEmits(['refreshGateway'])
 
@@ -292,6 +293,22 @@ const clientsOrganizied = {
     bytes: ['recv_oct', 'send_oct'],
     packets: ['recv_cnt', 'send_cnt', 'recv_pkt'],
     messages: ['send_lw_pkt'],
+  },
+  OCPP: {
+    connection: [
+      'node',
+      'clientid',
+      'username',
+      'proto_type',
+      'ip_address',
+      'keepalive',
+      'connected_at',
+      'disconnected_at',
+    ],
+    session: ['subscriptions', 'heap_size', 'reductions'],
+    bytes: ['recv_oct', 'send_oct'],
+    packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
+    messages: [],
   },
   others: {
     connection: [
@@ -345,6 +362,9 @@ const clientDetailParts = computed(() => {
   }
   if (Array.prototype.includes.call(allParts, clientType.value)) {
     return clientsOrganizied[clientType.value]
+  }
+  if (props.gateway === GatewayName.OCPP) {
+    return clientsOrganizied.OCPP
   }
   return clientsOrganizied.others
 })
