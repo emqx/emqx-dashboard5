@@ -171,6 +171,7 @@ const submitTestSQL = async () => {
 
 onUnmounted(() => {
   isTesting.value = false
+  testTarget.value = TestRuleTarget.SQL
 })
 
 watch(

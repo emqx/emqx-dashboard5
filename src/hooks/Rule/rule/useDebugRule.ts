@@ -96,6 +96,9 @@ export default () => {
   const logLastPositionMap: Map<string, number> = new Map()
   const getCurrentTraceNodesMsg = async () => {
     try {
+      if (!traceName) {
+        return Promise.reject()
+      }
       const data = await getTraceNodesMsg(traceName)
       const currentNodes = data.map(({ node }) => node)
       logLastPositionMap.forEach((position, node) => {
