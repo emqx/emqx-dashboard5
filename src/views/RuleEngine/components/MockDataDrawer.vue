@@ -1,5 +1,11 @@
 <template>
-  <el-drawer v-model="showDrawer" :title="tl('mockData')" class="mock-data-drawer" :size="660">
+  <el-drawer
+    v-model="showDrawer"
+    destroy-on-close
+    class="mock-data-drawer"
+    :size="660"
+    :title="tl('mockData')"
+  >
     <div class="test-header">
       <label class="test-label">
         {{ tl('dataSource') }}
