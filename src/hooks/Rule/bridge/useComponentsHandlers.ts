@@ -10,7 +10,6 @@ import { get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 import { useAvailableProviders } from '../useProvidersForMonaco'
 
-
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
   rules: SchemaRules
@@ -175,6 +174,7 @@ export default (
       command_template.type = 'string'
       command_template.format = 'sql'
       command_template.default = ''
+      command_template.is_template = true
     }
     if (
       rules?.['parameters.command_template'] &&
@@ -388,6 +388,7 @@ export default (
 
       if (key === 'value' && value.type === 'oneof') {
         value.type = 'string'
+        value.is_template = true
       } else if (key === 'tags' && value.type === 'oneof') {
         value.type = 'object'
         value.componentProps = { type: 'input', supportPlaceholder: ['key', 'value'] }
