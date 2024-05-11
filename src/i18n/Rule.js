@@ -67,4 +67,8 @@ export default {
     zh: '可配置的最大值为 {max}',
     en: 'Configurable maximum value is {max}',
   },
+  incompleteTableError: {
+    zh: '请完整填写表格',
+    en: 'Please complete the table',
+  },
 }
