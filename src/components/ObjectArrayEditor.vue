@@ -6,7 +6,7 @@
     ref="TableCom"
     :data="arr"
   >
-    <el-table-column v-for="(value, key) in properties" :key="key" :width="getColumnWidth(value)">
+    <el-table-column v-for="(value, key) in properties" :key="key" v-bind="getColumnProps(value)">
       <template #header>
         <label :class="getFormItemRules(key) && 'is-required'">
           {{ value.label }}
@@ -31,7 +31,7 @@
         </template>
       </template>
     </el-table-column>
-    <el-table-column width="100px" v-if="!disabled">
+    <el-table-column width="80px" v-if="!disabled">
       <template #header>
         <a href="javascript:;" @click="addItem">
           {{ $t('Base.add') }}
@@ -127,7 +127,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  columnsWidth: {
+  columnsProps: {
     type: Object,
   },
 })
@@ -156,12 +156,12 @@ const initRecordByPluginForm = (data: Properties) => {
 
 const keyArr = computed(() => Array.from({ length: arr.value.length }, () => createRandomString()))
 
-const getColumnWidth = (property: Property) => {
+const getColumnProps = (property: Property) => {
   const { key, type } = property
-  if (key && props.columnsWidth && props.columnsWidth[key] !== undefined) {
-    return props.columnsWidth[key]
+  if (key && props.columnsProps && props.columnsProps[key] !== undefined) {
+    return props.columnsProps[key]
   }
-  return type === 'object' ? 300 : undefined
+  return type === 'object' ? { width: 300 } : {}
 }
 
 const addItem = () => {

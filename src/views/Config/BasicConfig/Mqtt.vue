@@ -81,7 +81,10 @@ export default defineComponent({
         if (!client_attrs_init.componentProps) {
           client_attrs_init.componentProps = {}
         }
-        client_attrs_init.componentProps.columnsWidth = { expression: 260 }
+        client_attrs_init.componentProps.columnsProps = {
+          set_as_attr: { minWidth: 140 },
+          expression: { minWidth: 200 },
+        }
       }
 
       const { items } = client_attrs_init || {}
