@@ -140,4 +140,8 @@ export default {
     zh: '注意：如果更改非 QUIC 类型的监听器端口，将会断开所有已存在的连接，是否继续？',
     en: 'Note: If the port of listeners (except QUIC type) is changed, all existing connections will be disconnected. Continue?',
   },
+  duplicatedAttrError: {
+    zh: '存在相同的属性',
+    en: 'Duplicated Attribute',
+  },
 }

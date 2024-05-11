@@ -4,6 +4,7 @@
       <schema-form
         ref="SchemaFormCom"
         type="mqtt"
+        need-rules
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
         :form="configs"
         :form-props="{ labelWidth: state.lang === 'zh' ? 240 : 284 }"
@@ -84,6 +85,29 @@ export default defineComponent({
         client_attrs_init.componentProps.columnsProps = {
           set_as_attr: { minWidth: 140 },
           expression: { minWidth: 200 },
+        }
+        if (client_attrs_init.path) {
+          if (!data.rules[client_attrs_init.path]) {
+            data.rules[client_attrs_init.path] = []
+          }
+          data.rules[client_attrs_init.path].push({
+            validator(rules: any, value: any, cb: (errors?: Error) => void) {
+              if (
+                value?.some?.(
+                  ({ set_as_attr, expression }: { expression: string; set_as_attr: string }) =>
+                    !set_as_attr || !expression,
+                )
+              ) {
+                cb(new Error(t('Rule.incompleteTableError')))
+              }
+              const setAsAttrArr = value?.map?.((item: any) => item.set_as_attr)
+              const uniqueSetAsAttrArr = [...new Set(setAsAttrArr)]
+              if (setAsAttrArr.length !== uniqueSetAsAttrArr.length) {
+                cb(new Error(t('BasicConfig.duplicatedAttrError')))
+              }
+              cb()
+            },
+          })
         }
       }
 
