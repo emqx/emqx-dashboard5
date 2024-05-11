@@ -64,7 +64,11 @@ export default (
         Object.values(prop.properties).forEach((item) => walk(item))
       } else if (prop.type === 'oneof') {
         prop.oneOf?.forEach((item) => walk(item))
-      } else if (prop.type === 'string' && prop.format === 'sql' && prop.is_template) {
+      } else if (
+        ['string', 'sql'].includes(prop.type) &&
+        prop.format === 'sql' &&
+        prop.is_template
+      ) {
         if (!prop.componentProps) {
           prop.componentProps = {}
         }
