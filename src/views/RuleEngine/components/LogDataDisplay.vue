@@ -20,7 +20,9 @@
               <p>{{ getTriggerTitle(item.trigger.event || '') }}</p>
             </div>
             <div class="base-info topic" v-if="item.trigger.topic">
-              <p>{{ t('Base.topic') }}: {{ item.trigger.topic }}</p>
+              <el-tooltip class="box-item" :content="`${t('Base.topic')}: ${item.trigger.topic}`">
+                <p class="topic-container">{{ t('Base.topic') }}:&nbsp;{{ item.trigger.topic }}</p>
+              </el-tooltip>
             </div>
           </div>
           <div class="execution-item-time">
