@@ -2,7 +2,7 @@
   <!-- TABLE -->
   <div v-if="editMode !== 'list'" class="object-array-editor">
     <el-table class="key-and-value-editor shadow-none" ref="TableCom" :data="displayTableData">
-      <el-table-column v-for="(value, key) in properties" :key="key" :width="getColumnWidth(value)">
+      <el-table-column v-for="(value, key) in properties" :key="key" v-bind="getColumnProps(value)">
         <template #header>
           <label :class="getFormItemRules(key) && 'is-required'">
             {{ value.label }}
@@ -141,7 +141,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  columnsWidth: {
+  columnsProps: {
     type: Object,
   },
   dbType: {
@@ -196,12 +196,12 @@ const initRecordByPluginForm = (data: Properties) => {
 
 const keyArr = computed(() => Array.from({ length: arr.value.length }, () => createRandomString()))
 
-const getColumnWidth = (property: Property) => {
+const getColumnProps = (property: Property) => {
   const { key, type } = property
-  if (key && props.columnsWidth && props.columnsWidth[key] !== undefined) {
-    return props.columnsWidth[key]
+  if (key && props.columnsProps && props.columnsProps[key] !== undefined) {
+    return props.columnsProps[key]
   }
-  return type === 'object' ? 300 : undefined
+  return type === 'object' ? { width: 300 } : {}
 }
 
 const addItem = () => {
