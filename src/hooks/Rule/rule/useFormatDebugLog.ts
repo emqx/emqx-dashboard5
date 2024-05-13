@@ -258,6 +258,26 @@ export default () => {
     return LogResult.OK
   }
 
+  /**
+   * if `rule_trigger_times` is [time1, time2]
+   * then copy the log item to two items, one with `rule_trigger_time` = time1, another with `rule_trigger_time` = time2
+   * Make it could show up in both execution results
+   */
+  const copyLogItemIfWithMultipleTriggerTime = (logArr: Array<LogItem>) => {
+    const ret: Array<LogItem> = []
+    logArr.forEach((item) => {
+      const { rule_trigger_times } = item.meta
+      if (rule_trigger_times?.length > 1) {
+        rule_trigger_times.forEach((triggerTime: string) => {
+          ret.push({ ...item, meta: { ...item.meta, rule_trigger_time: triggerTime } })
+        })
+      } else {
+        ret.push(item)
+      }
+    })
+    return ret
+  }
+
   const getLogItemTriggerTime = ({ meta }: LogItem) => {
     return meta.rule_trigger_time || meta.rule_trigger_times?.[0]
   }
@@ -285,7 +305,10 @@ export default () => {
 
   const formatLog = (logArr: Array<LogItem>) => {
     const ret: FormattedLog = {}
-    const timeGroupedMap = groupBy(logArr, getLogItemTriggerTime)
+    const timeGroupedMap = groupBy(
+      copyLogItemIfWithMultipleTriggerTime(logArr),
+      getLogItemTriggerTime,
+    )
     Object.entries(timeGroupedMap).forEach(([key, logArr]) => {
       const targetLogMap: Record<string, TargetLog> = logArr.reduce(
         (obj: Record<string, TargetLog>, logItem) => {
