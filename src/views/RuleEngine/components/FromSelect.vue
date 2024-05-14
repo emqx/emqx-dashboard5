@@ -37,7 +37,7 @@
         </div>
       </el-option>
     </el-option-group>
-    <el-option-group
+    <!-- <el-option-group
       v-if="bridgeOptions && bridgeOptions.length"
       :key="tl('action')"
       :label="tl('action')"
@@ -54,7 +54,7 @@
           <span class="item-id">{{ item.idForRuleFrom }}</span>
         </div>
       </el-option>
-    </el-option-group>
+    </el-option-group> -->
   </el-select>
 </template>
 
