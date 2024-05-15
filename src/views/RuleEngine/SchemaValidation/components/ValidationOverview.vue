@@ -4,7 +4,7 @@
       :totals="{ validation: 'matched' }"
       :request-metrics="getMetrics"
       :request-reset="resetMetrics"
-      :type-metrics-maps="[{ name: 'validation', data: messageValidationMetricsMap }]"
+      :type-metrics-maps="[{ name: 'validation', data: schemaValidationMetricsMap }]"
       :text-map="validationMetricsTextMap"
       :rate-metrics="rateData"
       show-rate
@@ -37,7 +37,7 @@ const props = defineProps({
   },
 })
 
-const { messageValidationMetricsMap, validationMetricsTextMap, rateData } =
+const { schemaValidationMetricsMap, validationMetricsTextMap, rateData } =
   useSchemaValidationMetrics()
 
 const { tl, t } = useI18nTl('Base')
