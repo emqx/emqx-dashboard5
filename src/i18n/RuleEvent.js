@@ -44,8 +44,8 @@ export default {
     zh: '消息投递丢弃',
   },
   eventsSchemaValidationFailed: {
-    en: 'Message Validation Failed',
-    zh: '消息校验失败',
+    en: 'Schema Validation Failed',
+    zh: 'Schema 校验失败',
   },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',
