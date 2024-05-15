@@ -516,12 +516,12 @@ export const useExHooksMetrics = (): {
 }
 
 export const useSchemaValidationMetrics = (): {
-  messageValidationMetricsMap: TypeMapData
+  schemaValidationMetricsMap: TypeMapData
   validationMetricsTextMap: Record<string, { label: string; desc?: string }>
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
-  const messageValidationMetricsMap = {
+  const schemaValidationMetricsMap = {
     [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
     [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
   }
@@ -541,7 +541,7 @@ export const useSchemaValidationMetrics = (): {
     right2: 'rate_max',
   }
   return {
-    messageValidationMetricsMap,
+    schemaValidationMetricsMap,
     validationMetricsTextMap,
     rateData,
   }
