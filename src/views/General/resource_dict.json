@@ -1033,46 +1033,46 @@
   },
   {
     "method": "post",
-    "path": "/message_validations/validation/:name/metrics/reset",
+    "path": "/schema_validations/validation/:name/metrics/reset",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Reset metrics for a particular validation",
-      "zh": "重置指定消息验证的指标"
+      "zh": "重置指定 Schema 验证的指标"
     }
   },
   {
     "method": "post",
-    "path": "/message_validations",
+    "path": "/schema_validations",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Create a new validation",
-      "zh": "创建新的消息验证"
+      "zh": "创建新的 Schema 验证"
     }
   },
   {
     "method": "put",
-    "path": "/message_validations",
+    "path": "/schema_validations",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Update a validation",
-      "zh": "更新消息验证"
+      "zh": "更新 Schema 验证"
     }
   },
   {
     "method": "post",
-    "path": "/message_validations/reorder",
+    "path": "/schema_validations/reorder",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Reorder of all validations",
@@ -1081,26 +1081,26 @@
   },
   {
     "method": "post",
-    "path": "/message_validations/validation/:name/enable/:enable",
+    "path": "/schema_validations/validation/:name/enable/:enable",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Enable or disable a particular validation",
-      "zh": "启用或禁用指定的消息验证"
+      "zh": "启用或禁用指定的 Schema 验证"
     }
   },
   {
     "method": "delete",
-    "path": "/message_validations/validation/:name",
+    "path": "/schema_validations/validation/:name",
     "operation_label": {
-      "en": "Message Validation",
-      "zh": "消息验证"
+      "en": "Schema Validation",
+      "zh": "Schema 验证"
     },
     "operation_name_label": {
       "en": "Delete a validation",
-      "zh": "删除消息验证"
+      "zh": "删除 Schema 验证"
     }
   },
   {
