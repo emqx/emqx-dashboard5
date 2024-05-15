@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { isObject, get } = require('lodash')
+const { isObject, get, set } = require('lodash')
 
 const paramRefReg = /^#\/components\/parameters\//
 const schemaRefReg = /^#\/components\/schemas\//
@@ -21,14 +21,28 @@ const removeAllDesc = (swaggerJSON) => {
   return swaggerJSON
 }
 
-const getTargetRequestArr = (swaggerJSON, tags) => {
+const filterUselessRequest = (swaggerJSON, tag) => {
+  const ret = swaggerJSON
+  const { paths } = swaggerJSON
+  Object.entries(paths).forEach(([path, methodRequestMap]) => {
+    Object.entries(methodRequestMap).forEach(([method, request]) => {
+      if (!request.tags.includes(tag)) {
+        Reflect.deleteProperty(methodRequestMap, method)
+      }
+    })
+    if (Object.keys(methodRequestMap).length === 0) {
+      Reflect.deleteProperty(paths, path)
+    }
+  })
+  return ret
+}
+
+const getTargetRequestArr = (swaggerJSON) => {
   const { paths } = swaggerJSON
   const targetRequestArr = []
   Object.entries(paths).forEach(([, methods]) => {
     Object.entries(methods).forEach(([, request]) => {
-      if (request.tags.includes(tags)) {
-        targetRequestArr.push(request)
-      }
+      targetRequestArr.push(request)
     })
   })
   return targetRequestArr
@@ -136,15 +150,64 @@ const keepTargetSchema = (swaggerJSON, refs) => {
   return swaggerJSON
 }
 
-const filterTargetSchema = (swaggerJSON, tags) => {
-  const targetRequestArr = getTargetRequestArr(swaggerJSON, tags)
+const handleActionJSON = (swaggerJSON) => {
+  const path = [
+    'paths',
+    '/action_types',
+    'get',
+    'responses',
+    '200',
+    'content',
+    'application/json',
+    'schema',
+    'items',
+    'enum',
+  ]
+  const enums = get(swaggerJSON, path)
+  if (enums) {
+    set(swaggerJSON, path, enums.sort())
+  }
+  return swaggerJSON
+}
 
+const handleSourceJSON = (swaggerJSON) => {
+  const path = [
+    'paths',
+    '/source_types',
+    'get',
+    'responses',
+    '200',
+    'content',
+    'application/json',
+    'schema',
+    'items',
+    'enum',
+  ]
+  const enums = get(swaggerJSON, path)
+  if (enums) {
+    set(swaggerJSON, path, enums.sort())
+  }
+  return swaggerJSON
+}
+
+const specialHandlers = new Map([
+  ['Actions', handleActionJSON],
+  ['Sources', handleSourceJSON],
+])
+
+const filterTargetSchema = (swaggerJSON, tag) => {
+  const filteredUselessPathsJSON = filterUselessRequest(swaggerJSON, tag)
+  const targetRequestArr = getTargetRequestArr(filteredUselessPathsJSON, tag)
   const paramRefs = getParamRefsInRequestArr(targetRequestArr)
 
   const firstLevelRefs = getSchemaRefsInRequestArr(targetRequestArr)
-  const schemaRefs = getAllRefsByRefArr(swaggerJSON, firstLevelRefs)
+  const schemaRefs = getAllRefsByRefArr(filteredUselessPathsJSON, firstLevelRefs)
 
-  const ret = keepTargetParam(keepTargetSchema(swaggerJSON, schemaRefs), paramRefs)
+  let ret = keepTargetParam(keepTargetSchema(filteredUselessPathsJSON, schemaRefs), paramRefs)
+  const specialHandler = specialHandlers.get(tag)
+  if (specialHandler) {
+    ret = specialHandler(ret)
+  }
   return removeAllDesc(ret)
 }
 
