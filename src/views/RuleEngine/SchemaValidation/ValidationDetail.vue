@@ -1,7 +1,7 @@
 <template>
   <div class="validation-detail" v-loading.lock="isLoading">
     <div class="detail-top">
-      <detail-header :item="{ name: validationName, routeName: 'message-validation' }" />
+      <detail-header :item="{ name: validationName, routeName: 'schema-validation' }" />
       <div class="validation-detail-hd">
         <StatusDetailsOfEachNode :status-data="statusData" is-tag />
         <div>
@@ -37,7 +37,7 @@
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
           <el-card class="app-card">
-            <MessageValidationForm
+            <SchemaValidationForm
               v-if="!isLoading"
               ref="formCom"
               v-model="validationData"
@@ -62,20 +62,20 @@
 import {
   deleteValidation,
   enableDisableValidation,
-  getMessageValidationDetail,
-  putMessageValidation,
-} from '@/api/messageValidation'
+  getSchemaValidationDetail,
+  putSchemaValidation,
+} from '@/api/schemaValidation'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { NodeStatusClass } from '@/types/enum'
-import type { MessageValidation } from '@/types/typeAlias'
+import type { SchemaValidation } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import MessageValidationForm from './components/MessageValidationForm.vue'
+import SchemaValidationForm from './components/SchemaValidationForm.vue'
 import { DetailTab } from '@/types/enum'
 import ValidationOverview from './components/ValidationOverview.vue'
 
@@ -90,7 +90,7 @@ const validationName = computed(() => route.params.validationName.toString())
 
 const formCom = ref()
 const isLoading = ref(false)
-const validationData: Ref<MessageValidation> = ref({} as MessageValidation)
+const validationData: Ref<SchemaValidation> = ref({} as SchemaValidation)
 const isSubmitting = ref(false)
 
 const queryTab = computed(() => {
@@ -111,7 +111,7 @@ const statusData = computed(() => {
 const getDetail = async () => {
   try {
     isLoading.value = true
-    const data = await getMessageValidationDetail(validationName.value)
+    const data = await getSchemaValidationDetail(validationName.value)
     validationData.value = data
   } catch (error) {
     console.error(error)
@@ -124,9 +124,9 @@ const updateValidation = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
-    await putMessageValidation(validationData.value)
+    await putSchemaValidation(validationData.value)
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'message-validation' })
+    router.push({ name: 'schema-validation' })
   } catch (error) {
     console.error(error)
   } finally {
@@ -147,7 +147,7 @@ const { confirmDel } = useOperationConfirm()
 const handleDelete = async () => {
   try {
     await confirmDel(() => deleteValidation(validationName.value))
-    router.push({ name: 'message-validation' })
+    router.push({ name: 'schema-validation' })
   } catch (error) {
     console.error(error)
   }

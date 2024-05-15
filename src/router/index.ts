@@ -773,29 +773,29 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Message Validation
+  // Schema Validation
   {
-    path: '/message-validation',
+    path: '/schema-validation',
     component: Layout,
     meta: {
-      hideKey: 'message-validation',
+      hideKey: 'schema-validation',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'message-validation',
-        component: () => import('@/views/RuleEngine/MessageValidation/MessageValidation.vue'),
+        name: 'schema-validation',
+        component: () => import('@/views/RuleEngine/SchemaValidation/SchemaValidation.vue'),
       },
       {
         path: 'create',
-        name: 'message-validation-create',
-        component: () => import('@/views/RuleEngine/MessageValidation/ValidationCreate.vue'),
+        name: 'schema-validation-create',
+        component: () => import('@/views/RuleEngine/SchemaValidation/ValidationCreate.vue'),
       },
       {
         path: ':validationName',
-        name: 'message-validation-detail',
-        component: () => import('@/views/RuleEngine/MessageValidation/ValidationDetail.vue'),
+        name: 'schema-validation-detail',
+        component: () => import('@/views/RuleEngine/SchemaValidation/ValidationDetail.vue'),
       },
     ],
   },

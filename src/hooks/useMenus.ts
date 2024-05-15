@@ -59,7 +59,7 @@ export default (): {
     { title: 'flowDesigner', path: '/flow' },
     { title: 'rules', path: '/rule' },
     { title: 'connector', path: '/connector' },
-    { title: 'message-validation', path: '/message-validation' },
+    { title: 'schema-validation', path: '/schema-validation' },
     { title: 'schema', path: '/schema' },
   ]
 

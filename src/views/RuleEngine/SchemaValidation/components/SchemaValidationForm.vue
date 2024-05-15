@@ -221,8 +221,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
-import type { MessageValidation, MessageValidationCheckItem } from '@/types/typeAlias'
-import { MessageValidationLogLevel } from '@/types/typeAlias'
+import type { SchemaValidation, SchemaValidationCheckItem } from '@/types/typeAlias'
+import { SchemaValidationLogLevel } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import {
   PropType,
@@ -238,7 +238,7 @@ import SQLContentDialog from './SQLContentDialog.vue'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<MessageValidation>,
+    type: Object as PropType<SchemaValidation>,
     default: () => ({}),
   },
   isEdit: {
@@ -249,7 +249,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const formData: WritableComputedRef<MessageValidation> = computed({
+const formData: WritableComputedRef<SchemaValidation> = computed({
   get() {
     return props.modelValue
   },
@@ -259,15 +259,15 @@ const formData: WritableComputedRef<MessageValidation> = computed({
 })
 const outputLogs = computed({
   get() {
-    return formData.value.log_failure?.level !== MessageValidationLogLevel.none
+    return formData.value.log_failure?.level !== SchemaValidationLogLevel.none
   },
   set(val) {
     if (!formData.value.log_failure) {
       formData.value.log_failure = {}
     }
     formData.value.log_failure.level = val
-      ? MessageValidationLogLevel.warning
-      : MessageValidationLogLevel.none
+      ? SchemaValidationLogLevel.warning
+      : SchemaValidationLogLevel.none
   },
 })
 
@@ -297,7 +297,7 @@ const rules: FormRules = {
   checks: [
     {
       type: 'array',
-      validator(rules: any, value: Array<MessageValidationCheckItem>, cb: (error?: Error) => void) {
+      validator(rules: any, value: Array<SchemaValidationCheckItem>, cb: (error?: Error) => void) {
         if (Array.isArray(value) && value.length === 0) {
           cb(new Error(tl('validationListRequired')))
         } else {
@@ -321,7 +321,7 @@ const { validationStrategyOpts } = useValidationStrategy()
 const { failureActionOpts } = useFailureAction()
 const { validationLogLevelOpts: rawValidationLogLevelOpts } = useValidationLogLevel()
 const validationLogLevelOpts = rawValidationLogLevelOpts.filter(
-  (item) => item.value !== MessageValidationLogLevel.none,
+  (item) => item.value !== SchemaValidationLogLevel.none,
 )
 const { validationItemTypeOpts, isSchemaRegistry } = useValidationItemType()
 
@@ -344,7 +344,7 @@ const addValidationItem = () => {
   formData.value.checks.push({
     type: validationItemTypeOpts[0].value,
     schema: '',
-  } as MessageValidationCheckItem)
+  } as SchemaValidationCheckItem)
 }
 
 const schemasList = ref<Array<SchemaRegistry>>([])

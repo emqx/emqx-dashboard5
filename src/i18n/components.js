@@ -83,9 +83,9 @@ export default {
     zh: '保留消息',
     en: 'Retained Messages',
   },
-  'message-validation': {
-    zh: '数据校验',
-    en: 'Message Validation',
+  'schema-validation': {
+    zh: 'Schema 校验',
+    en: 'Schema Validation',
   },
   schemas: {
     zh: 'Schema Registry',
@@ -404,9 +404,9 @@ export default {
     zh: '创建 Schema',
     en: 'Create Schema',
   },
-  'message-validation-create': {
-    zh: '创建数据校验',
-    en: 'Create Message Validation',
+  'schema-validation-create': {
+    zh: '创建 Schema 校验',
+    en: 'Create Schema Validation',
   },
   /* For Quick Panel End */
 }
