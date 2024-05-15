@@ -480,7 +480,7 @@ export default {
     en: 'Message list is unavailable when persistent session is enabled',
   },
   validation: {
-    zh: '数据校验名称',
-    en: 'Message Validation Name',
+    zh: 'Schema 校验名称',
+    en: 'Schema Validation Name',
   },
 }
