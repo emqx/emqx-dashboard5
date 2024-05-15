@@ -101,6 +101,45 @@ export type GetRules200 = {
   meta?: PublicMeta
 }
 
+export type PostRulesIdTest412Code =
+  typeof PostRulesIdTest412Code[keyof typeof PostRulesIdTest412Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostRulesIdTest412Code = {
+  NOT_MATCH: 'NOT_MATCH',
+} as const
+
+export type PostRulesIdTest412 = {
+  code?: PostRulesIdTest412Code
+  message?: string
+}
+
+export type PostRulesIdTest404Code =
+  typeof PostRulesIdTest404Code[keyof typeof PostRulesIdTest404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostRulesIdTest404Code = {
+  RULE_NOT_FOUND: 'RULE_NOT_FOUND',
+} as const
+
+export type PostRulesIdTest404 = {
+  code?: PostRulesIdTest404Code
+  message?: string
+}
+
+export type PostRulesIdTest400Code =
+  typeof PostRulesIdTest400Code[keyof typeof PostRulesIdTest400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostRulesIdTest400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostRulesIdTest400 = {
+  code?: PostRulesIdTest400Code
+  message?: string
+}
+
 export type PostRuleTest412Code = typeof PostRuleTest412Code[keyof typeof PostRuleTest412Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -210,7 +249,7 @@ export const RuleEngineRuleEventsEvent = {
   '$events/message_delivered': '$events/message_delivered',
   '$events/message_acked': '$events/message_acked',
   '$events/message_dropped': '$events/message_dropped',
-  '$events/message_validation_failed': '$events/message_validation_failed',
+  '$events/schema_validation_failed': '$events/schema_validation_failed',
   '$events/delivery_dropped': '$events/delivery_dropped',
 } as const
 
@@ -243,6 +282,11 @@ export interface RuleEngineRuleCreation {
   enable?: boolean
   description?: string
   metadata?: RuleEngineRuleCreationMetadata
+}
+
+export interface RuleEngineRuleApplyTest {
+  context?: RuleEngineRuleApplyTestContext
+  stop_action_after_template_rendering?: boolean
 }
 
 export interface RuleEngineRepublishMqttProperties {
@@ -440,6 +484,20 @@ export interface RuleEngineCtxDelivered {
   publish_received_at?: number
   qos?: number
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
 
 export type RuleEngineCtxConnectedEventType =
   typeof RuleEngineCtxConnectedEventType[keyof typeof RuleEngineCtxConnectedEventType]
