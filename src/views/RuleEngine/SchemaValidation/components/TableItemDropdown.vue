@@ -47,14 +47,14 @@
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { MessageValidation } from '@/types/typeAlias'
+import { SchemaValidation } from '@/types/typeAlias'
 import { defineEmits, defineProps, PropType, ref, Ref } from 'vue'
 import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 defineProps({
   rowData: {
     required: true,
-    type: Object as PropType<MessageValidation>,
+    type: Object as PropType<SchemaValidation>,
   },
   rowIndex: {
     type: Number,

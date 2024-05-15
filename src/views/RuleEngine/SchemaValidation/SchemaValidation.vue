@@ -21,7 +21,7 @@
       <el-table-column :label="t('Base.name')" row-key="name" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
-            :to="{ name: 'message-validation-detail', params: { validationName: row.name } }"
+            :to="{ name: 'schema-validation-detail', params: { validationName: row.name } }"
             class="table-data-without-break"
           >
             {{ row.name }}
@@ -73,15 +73,15 @@
 import {
   deleteValidation,
   enableDisableValidation,
-  getMessageValidations,
+  getSchemaValidations,
   reorderAllValidations,
-} from '@/api/messageValidation'
+} from '@/api/schemaValidation'
 import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
 import { DetailTab } from '@/types/enum'
-import { MessageValidation } from '@/types/typeAlias'
+import { SchemaValidation } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { SortableEvent } from 'sortablejs'
@@ -92,13 +92,13 @@ import TableItemDropdown from './components/TableItemDropdown.vue'
 const router = useRouter()
 const { tl, t } = useI18nTl('RuleEngine')
 
-const validationList: Ref<Array<MessageValidation>> = ref([])
+const validationList: Ref<Array<SchemaValidation>> = ref([])
 const isLoading = ref(false)
 
 const getList = async () => {
   try {
     isLoading.value = true
-    validationList.value = await getMessageValidations()
+    validationList.value = await getSchemaValidations()
     await nextTick()
     initSortable()
   } catch (error) {
@@ -110,13 +110,13 @@ const getList = async () => {
 
 const goDetail = (name: string) =>
   router.push({
-    name: 'message-validation-detail',
+    name: 'schema-validation-detail',
     params: { validationName: name },
     query: { tab: DetailTab.Setting },
   })
 
 const addValidation = () => {
-  router.push({ name: 'message-validation-create' })
+  router.push({ name: 'schema-validation-create' })
 }
 
 const { confirmDel } = useOperationConfirm()
@@ -129,7 +129,7 @@ const handleDel = async (name: string) => {
   }
 }
 
-const toggleValidationEnable = async (data: MessageValidation) => {
+const toggleValidationEnable = async (data: SchemaValidation) => {
   try {
     await enableDisableValidation(data.name, data.enable ?? true)
     ElMessage.success(t(data.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))

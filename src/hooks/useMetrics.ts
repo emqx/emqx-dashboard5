@@ -515,7 +515,7 @@ export const useExHooksMetrics = (): {
   }
 }
 
-export const useMessageValidationMetrics = (): {
+export const useSchemaValidationMetrics = (): {
   messageValidationMetricsMap: TypeMapData
   validationMetricsTextMap: Record<string, { label: string; desc?: string }>
   rateData: Rate

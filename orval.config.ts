@@ -49,7 +49,7 @@ const tagArr = [
   'Dashboard Single Sign-On',
   'Audit',
   'Data Backup',
-  'Message Validation',
+  'Schema Validation',
 ]
 
 const typesFolder = './src/types/schemas/'

@@ -1,15 +1,15 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import type { MessageValidationCheckItem } from '@/types/typeAlias'
+import type { SchemaValidationCheckItem } from '@/types/typeAlias'
 import {
-  MessageValidationFailureAction,
-  MessageValidationLogLevel,
-  MessageValidationStrategy,
+  SchemaValidationFailureAction,
+  SchemaValidationLogLevel,
+  SchemaValidationStrategy,
 } from '@/types/typeAlias'
 import useSchemaType from '../schema/useSchemaType'
 
 type FailureActionValue =
-  typeof MessageValidationFailureAction[keyof typeof MessageValidationFailureAction]
+  typeof SchemaValidationFailureAction[keyof typeof SchemaValidationFailureAction]
 
 export const useFailureAction = (): {
   failureActionOpts: { label: string; value: FailureActionValue }[]
@@ -18,9 +18,9 @@ export const useFailureAction = (): {
   const { tl } = useI18nTl('RuleEngine')
 
   const failureActionOpts: Array<{ label: string; value: FailureActionValue }> = [
-    { label: tl('dropMsg'), value: MessageValidationFailureAction.drop },
-    { label: tl('disconnect'), value: MessageValidationFailureAction.disconnect },
-    { label: tl('ignore'), value: MessageValidationFailureAction.ignore },
+    { label: tl('dropMsg'), value: SchemaValidationFailureAction.drop },
+    { label: tl('disconnect'), value: SchemaValidationFailureAction.disconnect },
+    { label: tl('ignore'), value: SchemaValidationFailureAction.ignore },
   ]
 
   const getLabelByValue = (value: FailureActionValue) =>
@@ -30,7 +30,7 @@ export const useFailureAction = (): {
 }
 
 type ValidationStrategyValue =
-  typeof MessageValidationStrategy[keyof typeof MessageValidationStrategy]
+  typeof SchemaValidationStrategy[keyof typeof SchemaValidationStrategy]
 
 export const useValidationStrategy = (): {
   validationStrategyOpts: { label: string; value: ValidationStrategyValue }[]
@@ -39,8 +39,8 @@ export const useValidationStrategy = (): {
   const { tl } = useI18nTl('RuleEngine')
 
   const validationStrategyOpts: Array<{ label: string; value: ValidationStrategyValue }> = [
-    { label: tl('allPass'), value: MessageValidationStrategy.all_pass },
-    { label: tl('anyPass'), value: MessageValidationStrategy.any_pass },
+    { label: tl('allPass'), value: SchemaValidationStrategy.all_pass },
+    { label: tl('anyPass'), value: SchemaValidationStrategy.any_pass },
   ]
 
   const getLabelByValue = (value: ValidationStrategyValue) =>
@@ -50,7 +50,7 @@ export const useValidationStrategy = (): {
 }
 
 type ValidationLogLevelValue =
-  typeof MessageValidationLogLevel[keyof typeof MessageValidationLogLevel]
+  typeof SchemaValidationLogLevel[keyof typeof SchemaValidationLogLevel]
 
 export const useValidationLogLevel = (): {
   validationLogLevelOpts: { label: string; value: ValidationLogLevelValue }[]
@@ -59,12 +59,12 @@ export const useValidationLogLevel = (): {
   const { tl } = useI18nTl('RuleEngine')
 
   const validationLogLevelOpts: Array<{ label: string; value: ValidationLogLevelValue }> = [
-    { label: 'error', value: MessageValidationLogLevel.error },
-    { label: 'warning', value: MessageValidationLogLevel.warning },
-    { label: 'notice', value: MessageValidationLogLevel.notice },
-    { label: 'info', value: MessageValidationLogLevel.info },
-    { label: 'debug', value: MessageValidationLogLevel.debug },
-    { label: tl('logLevelNone'), value: MessageValidationLogLevel.none },
+    { label: 'error', value: SchemaValidationLogLevel.error },
+    { label: 'warning', value: SchemaValidationLogLevel.warning },
+    { label: 'notice', value: SchemaValidationLogLevel.notice },
+    { label: 'info', value: SchemaValidationLogLevel.info },
+    { label: 'debug', value: SchemaValidationLogLevel.debug },
+    { label: tl('logLevelNone'), value: SchemaValidationLogLevel.none },
   ]
 
   const getLabelByValue = (value: ValidationLogLevelValue) =>
@@ -73,7 +73,7 @@ export const useValidationLogLevel = (): {
   return { validationLogLevelOpts, getLabelByValue }
 }
 
-type ValidationItemType = MessageValidationCheckItem['type']
+type ValidationItemType = SchemaValidationCheckItem['type']
 export const useValidationItemType = (): {
   validationItemTypeOpts: Array<{ label: string; value: ValidationItemType }>
   isSchemaRegistry: (value: string) => boolean

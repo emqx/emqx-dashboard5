@@ -27,9 +27,9 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { MetricsData } from '@/types/common'
 import { defineProps } from 'vue'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import { useMessageValidationMetrics } from '@/hooks/useMetrics'
+import { useSchemaValidationMetrics } from '@/hooks/useMetrics'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { getValidationMetrics, resetValidationMetrics } from '@/api/messageValidation'
+import { getValidationMetrics, resetValidationMetrics } from '@/api/schemaValidation'
 
 const props = defineProps({
   validationName: {
@@ -38,7 +38,7 @@ const props = defineProps({
 })
 
 const { messageValidationMetricsMap, validationMetricsTextMap, rateData } =
-  useMessageValidationMetrics()
+  useSchemaValidationMetrics()
 
 const { tl, t } = useI18nTl('Base')
 

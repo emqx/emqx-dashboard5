@@ -7,16 +7,16 @@ import {
 } from './schemas/audit.schemas'
 import { EmqxLog } from './schemas/configs.schemas'
 import type {
-  MessageValidationValidation,
-  MessageValidationHttpApiReorder,
-  MessageValidationHttpApiGetMetrics,
-  MessageValidationValidationChecksItem,
-} from './schemas/messageValidation.schemas'
+  SchemaValidationValidation,
+  SchemaValidationHttpApiReorder,
+  SchemaValidationHttpApiGetMetrics,
+  SchemaValidationValidationChecksItem,
+} from './schemas/schemaValidation.schemas'
 import {
-  MessageValidationValidationFailureAction,
-  MessageValidationValidationStrategy,
-  MessageValidationLogFailureLevel,
-} from './schemas/messageValidation.schemas'
+  SchemaValidationValidationFailureAction,
+  SchemaValidationValidationStrategy,
+  SchemaValidationLogFailureLevel,
+} from './schemas/schemaValidation.schemas'
 
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer
@@ -29,10 +29,10 @@ export const AuditLogFrom = GetAuditFrom
 export const AuditLogOperationResult = GetAuditOperationResult
 
 /* MESSAGE VALIDATION */
-export type MessageValidation = MessageValidationValidation
-export type ReorderValidationParams = MessageValidationHttpApiReorder
-export type MessageValidationMetrics = MessageValidationHttpApiGetMetrics
-export type MessageValidationCheckItem = MessageValidationValidationChecksItem
-export const MessageValidationFailureAction = MessageValidationValidationFailureAction
-export const MessageValidationStrategy = MessageValidationValidationStrategy
-export const MessageValidationLogLevel = MessageValidationLogFailureLevel
+export type SchemaValidation = SchemaValidationValidation
+export type ReorderValidationParams = SchemaValidationHttpApiReorder
+export type SchemaValidationMetrics = SchemaValidationHttpApiGetMetrics
+export type SchemaValidationCheckItem = SchemaValidationValidationChecksItem
+export const SchemaValidationFailureAction = SchemaValidationValidationFailureAction
+export const SchemaValidationStrategy = SchemaValidationValidationStrategy
+export const SchemaValidationLogLevel = SchemaValidationLogFailureLevel
