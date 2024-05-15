@@ -86,7 +86,11 @@
             :name="TestRuleTarget.Rule"
             lazy
           >
-            <RuleTest :rule-data="ruleData" :ingress-bridge-list="ingressBridgeList" />
+            <RuleTest
+              ref="RuleTestRef"
+              :rule-data="ruleData"
+              :ingress-bridge-list="ingressBridgeList"
+            />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -108,7 +112,7 @@ import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import JSONbig from 'json-bigint'
 import { startCase } from 'lodash'
-import { PropType, defineProps, onUnmounted, ref, watch } from 'vue'
+import { PropType, defineExpose, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
@@ -169,6 +173,11 @@ const submitTestSQL = async () => {
   }
 }
 
+const RuleTestRef = ref()
+const stopTest = () => {
+  RuleTestRef.value?.stopTest?.()
+}
+
 onUnmounted(() => {
   isTesting.value = false
   testTarget.value = TestRuleTarget.SQL
@@ -184,6 +193,8 @@ watch(
 )
 
 setDataTypeNContext()
+
+defineExpose({ stopTest })
 </script>
 
 <style lang="scss">
