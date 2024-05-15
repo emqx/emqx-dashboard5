@@ -62,11 +62,10 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="21">
           <el-form-item prop="checks" :label="tl('validationList')">
             <el-table class="key-and-value-editor shadow-none" :data="formData.checks">
-              <!-- TODO: validate validator item -->
-              <el-table-column class-name="column-type" :label="tl('type')">
+              <el-table-column class-name="column-type" :label="tl('type')" :min-width="180">
                 <template #default="{ $index }">
                   <el-select
                     v-model="formData.checks[$index].type"
@@ -81,7 +80,11 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column :label="`${tl('schema')}/SQL`" class-name="column-value">
+              <el-table-column
+                class-name="column-value"
+                :min-width="300"
+                :label="`${tl('schema')}/SQL`"
+              >
                 <template #default="{ row, $index }">
                   <template v-if="row.type && isSchemaRegistry(row.type)">
                     <div class="space-between">
