@@ -43,7 +43,7 @@ export default {
     en: 'Message Delivery Drop',
     zh: '消息投递丢弃',
   },
-  eventsMessageValidationFailed: {
+  eventsSchemaValidationFailed: {
     en: 'Message Validation Failed',
     zh: '消息校验失败',
   },

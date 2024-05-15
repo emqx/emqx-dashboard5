@@ -132,6 +132,16 @@ const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
   return logArr.every(detectLogItemResult) ? LogResult.OK : LogResult.Error
 }
 
+const neededInfoMap = new Map([
+  [LogMsg.RuleActivated, 'meta.input'],
+  [LogMsg.SQLYieldedResult, 'meta.result'],
+  [LogMsg.SQLSelectClauseException, 'meta'],
+  [LogMsg.SQLWhereClauseException, 'meta'],
+  [LogMsg.SQLForeachClauseException, 'meta'],
+  [LogMsg.SQLIncaseClauseException, 'meta'],
+  [LogMsg.ApplyRuleFailed, 'meta'],
+])
+
 export default () => {
   const convertLogStrToLogArr = (logStr: string): Array<LogItem> =>
     logStr
@@ -172,15 +182,6 @@ export default () => {
     return { target: log.meta.rule_id || log.meta.rule_ids?.[0], type: LogTargetType.Rule }
   }
 
-  const neededInfoMap = new Map([
-    [LogMsg.RuleActivated, 'meta.input'],
-    [LogMsg.SQLYieldedResult, 'meta.result'],
-    [LogMsg.SQLSelectClauseException, 'meta'],
-    [LogMsg.SQLWhereClauseException, 'meta'],
-    [LogMsg.SQLForeachClauseException, 'meta'],
-    [LogMsg.SQLIncaseClauseException, 'meta'],
-    [LogMsg.ApplyRuleFailed, 'meta'],
-  ])
   const ruleLogMsgOrder: Map<string, number> = new Map([[LogMsg.RuleActivated, 99]])
   const handleRuleExecLogInfo: TargetLogGenerator = (log) => {
     return Object.keys(log)
@@ -439,7 +440,8 @@ export const useShowLog = () => {
     if (logMsg === LogMsg.SQLYieldedNoResult) {
       return `SQL ${tl('failedNoResult')}`
     }
-    if (logContent.reason) {
+    const infoKey = neededInfoMap.get(logMsg as LogMsg)
+    if ((infoKey === 'meta' && logContent.reason) || (!infoKey && logContent.meta.reason)) {
       return `SQL ${tl('failedException')}\n${logContent.reason}`
     }
   }
