@@ -19,9 +19,9 @@ export type GetPrometheusAuthParams = {
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
-export type GetPrometheusDataIntegration200Two = { [key: string]: any }
+export type GetPrometheusSchemaValidation200Two = { [key: string]: any }
 
-export type GetPrometheusMessageValidation200Two = { [key: string]: any }
+export type GetPrometheusDataIntegration200Two = { [key: string]: any }
 
 export type EmqxPrometheusApiModeParameter =
   typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
@@ -37,11 +37,11 @@ export type GetPrometheusStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusDataIntegrationParams = {
+export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusMessageValidationParams = {
+export type GetPrometheusDataIntegrationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 

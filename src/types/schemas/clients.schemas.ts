@@ -352,6 +352,7 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   inflight_max: 'inflight_max',
   ip_address: 'ip_address',
   is_bridge: 'is_bridge',
+  is_expired: 'is_expired',
   keepalive: 'keepalive',
   mailbox_len: 'mailbox_len',
   mqueue_dropped: 'mqueue_dropped',
@@ -502,6 +503,7 @@ export interface EmqxMgmtApiClientsClient {
   inflight_max?: number
   ip_address?: string
   is_bridge?: boolean
+  is_expired?: boolean
   keepalive?: number
   mailbox_len?: number
   mqueue_dropped?: number
