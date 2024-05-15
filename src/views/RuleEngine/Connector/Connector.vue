@@ -83,7 +83,7 @@
                   :targetLabel="t('components.connector')"
                 >
                   <TableItemDropDown
-                    can-create-rule
+                    :can-create-rule="row.type !== BridgeType.SysKeeperProxy"
                     :row-data="row"
                     :disabled="row.canNotView || judgeIsWebhookConnector(row)"
                     @copy="copyConnectorItem(row)"
@@ -117,7 +117,7 @@ import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorIte
 import useConnectorList from '@/hooks/Rule/connector/useConnectorList'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ConnectionStatus } from '@/types/enum'
+import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
