@@ -11,15 +11,21 @@
         {{ tl('dataSource') }}
         <InfoTooltip :content="tl('dataSourceDesc')" />
       </label>
-      <p v-if="isDataTypeNoMatchSQL" class="no-match-tip">
-        {{ tl('dataTypeSQLNoMatch') }}
-      </p>
-      <FromSelect
-        v-model="dataType"
-        :ingress-bridge-list="ingressBridgeList"
-        :event-list="eventList"
-        for-test
-      />
+      <el-row :gutter="26">
+        <el-col :span="12">
+          <FromSelect
+            v-model="dataType"
+            :ingress-bridge-list="ingressBridgeList"
+            :event-list="eventList"
+            for-test
+          />
+        </el-col>
+        <el-col :span="12" v-if="isDataTypeNoMatchSQL">
+          <p class="no-match-tip">
+            {{ tl('dataTypeSQLNoMatch') }}
+          </p>
+        </el-col>
+      </el-row>
     </div>
     <div>
       <label class="test-label">
@@ -110,6 +116,14 @@ const submit = () => {
 .mock-data-drawer {
   .test-sql-context-form {
     margin-top: 12px;
+  }
+  .test-header {
+    .from-select {
+      width: 100%;
+    }
+    .no-match-tip {
+      position: static;
+    }
   }
 }
 </style>
