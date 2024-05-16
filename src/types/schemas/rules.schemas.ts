@@ -101,6 +101,17 @@ export type GetRules200 = {
   meta?: PublicMeta
 }
 
+export type GetRulesParams = {
+  enable?: boolean
+  from?: string
+  like_id?: string
+  like_from?: string
+  like_description?: string
+  match_from?: string
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+}
+
 export type PostRulesIdTest412Code =
   typeof PostRulesIdTest412Code[keyof typeof PostRulesIdTest412Code]
 
@@ -168,17 +179,6 @@ export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
-export type GetRulesParams = {
-  enable?: boolean
-  from?: string
-  like_id?: string
-  like_from?: string
-  like_description?: string
-  match_from?: string
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-}
-
 export type RuleEngineUserProvidedFunctionArgs = { [key: string]: any }
 
 export interface RuleEngineUserProvidedFunction {
@@ -187,6 +187,7 @@ export interface RuleEngineUserProvidedFunction {
 }
 
 export type RuleEngineRuleTestContext =
+  | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxDeliveryDropped
   | RuleEngineCtxBridgeMqtt
   | RuleEngineCtxCheckAuthzComplete
@@ -381,6 +382,41 @@ export interface RuleEngineCtxSub {
   qos?: number
 }
 
+export type RuleEngineCtxSchemaValidationFailedEventType =
+  typeof RuleEngineCtxSchemaValidationFailedEventType[keyof typeof RuleEngineCtxSchemaValidationFailedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxSchemaValidationFailedEventType = {
+  schema_validation_failed: 'schema_validation_failed',
+} as const
+
+export interface RuleEngineCtxSchemaValidationFailed {
+  event_type: RuleEngineCtxSchemaValidationFailedEventType
+  validation?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
+
 export type RuleEngineCtxPubEventType =
   typeof RuleEngineCtxPubEventType[keyof typeof RuleEngineCtxPubEventType]
 
@@ -484,20 +520,6 @@ export interface RuleEngineCtxDelivered {
   publish_received_at?: number
   qos?: number
 }
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxPub
 
 export type RuleEngineCtxConnectedEventType =
   typeof RuleEngineCtxConnectedEventType[keyof typeof RuleEngineCtxConnectedEventType]
