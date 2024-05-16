@@ -122,7 +122,8 @@ import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
 import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { BridgeDirection, BridgeType, TestRuleTarget } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
 import {
@@ -194,7 +195,8 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(prop.modelValue),
 })
 
-const { savedAfterRuleChange, isRuleSaveButtonDisabled } = useStatusController()
+const { isTesting, testTarget, savedAfterRuleChange, isRuleSaveButtonDisabled } =
+  useStatusController()
 
 const ruleSql = computed(() => ruleValue.value.sql)
 
@@ -391,8 +393,17 @@ const loadRuleEvents = async () => {
 //   briefEditType.value = !briefEditType.value
 // }
 
-const saveAsCopy = () => {
-  emit('save-as-copy')
+const { operationWarning } = useOperationConfirm()
+const saveAsCopy = async () => {
+  try {
+    if (isTesting.value && testTarget.value === TestRuleTarget.Rule) {
+      await operationWarning(tl('saveRuleStopTestingTip'))
+      testSQLRef.value?.stopTest?.()
+    }
+    emit('save-as-copy')
+  } catch (error) {
+    //
+  }
 }
 
 const selfValidate = () => {

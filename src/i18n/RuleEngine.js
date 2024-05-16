@@ -1301,6 +1301,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '请先保存规则以开始测试',
     en: 'Please save first to start testing',
   },
+  saveRuleStopTestingTip: {
+    zh: '保存为副本将停止测试，是否确认保存？',
+    en: 'Saving as copy will stop the test, are you sure to save?',
+  },
   eventData: {
     zh: '事件数据',
     en: 'Event Data',
