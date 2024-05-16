@@ -126,7 +126,7 @@ export default () => {
         })
         const logArr = convertLogStrToLogArr(items)
         const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
-        const data = formatLog(filteredLogArr)
+        const data = formatLog(logArr)
         logData.value = addNewLogToCurrentLog(logData.value, data)
         logLastPositionMap.set(node, meta.position)
         if (isFunction(cbAfterPolling)) {
