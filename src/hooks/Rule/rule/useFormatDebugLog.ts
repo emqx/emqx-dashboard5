@@ -44,6 +44,17 @@ const EXCLUDED_LOGS = [
   LogMsg.AsyncSendMsgToRemoteNode,
 ]
 
+const RULE_LOGS = [
+  LogMsg.RuleActivated,
+  LogMsg.SQLSelectClauseException,
+  LogMsg.SQLWhereClauseException,
+  LogMsg.SQLForeachClauseException,
+  LogMsg.SQLIncaseClauseException,
+  LogMsg.ApplyRuleFailed,
+  LogMsg.SQLYieldedResult,
+  LogMsg.SQLYieldedNoResult,
+]
+
 export interface LogItem {
   time: string
   msg: LogMsg
@@ -161,7 +172,7 @@ export default () => {
   const getLogTypeAndTarget = (
     log: LogItem,
   ): { target: string; type: LogTargetTypeValue; targetInfo?: TargetLog['targetInfo'] } => {
-    if (log.meta.action_info) {
+    if (log.meta.action_info && !RULE_LOGS.includes(log.msg)) {
       const { type, name, func, args } = log.meta.action_info
       if (type && name) {
         return {
