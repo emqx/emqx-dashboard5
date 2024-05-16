@@ -114,9 +114,11 @@ const reset = () => {
 </script>
 
 <style lang="scss">
-.table-dropdown-btn {
-  // FIXME: style of plain primary button
-  height: 30px;
+.client-field-select {
+  .table-dropdown-btn {
+    // FIXME: style of plain primary button
+    height: 30px;
+  }
 }
 .client-field-select-dropdown {
   padding: 4px;

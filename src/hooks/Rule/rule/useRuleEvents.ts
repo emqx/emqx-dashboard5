@@ -56,6 +56,7 @@ export default (): {
       }
       return Promise.resolve(eventList)
     } catch (error) {
+      commit('SET_RULE_EVENT_REQUEST', null)
       return Promise.reject(error)
     }
   }
