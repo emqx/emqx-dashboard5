@@ -4,7 +4,7 @@ import { getKeywordsFromSQL } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
-import { LogTraceFormatter, RuleInputType, TraceEncodeType } from '@/types/enum'
+import { EventForRule, LogTraceFormatter, RuleInputType, TraceEncodeType } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
@@ -126,7 +126,7 @@ export default () => {
         })
         const logArr = convertLogStrToLogArr(items)
         const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
-        const data = formatLog(logArr)
+        const data = formatLog(filteredLogArr)
         logData.value = addNewLogToCurrentLog(logData.value, data)
         logLastPositionMap.set(node, meta.position)
         if (isFunction(cbAfterPolling)) {
@@ -386,6 +386,8 @@ export const useMockData = (
   const setDataType = (type: RuleInputType, firstInput: string) => {
     if (type === RuleInputType.Topic) {
       dataType.value = TOPIC_EVENT
+    } else if (type === RuleInputType.Bridge) {
+      dataType.value = EventForRule.MessagePublish
     } else {
       dataType.value = firstInput
     }
