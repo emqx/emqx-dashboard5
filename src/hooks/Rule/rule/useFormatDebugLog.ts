@@ -295,7 +295,7 @@ export default () => {
     if (EXCLUDED_LOGS.includes(log.msg)) {
       needBeDropped = true
     }
-    if (/connector/i.test(log.msg) && log.meta.connector) {
+    if (/connector/i.test(log.msg) && !log.meta.action_info) {
       needBeDropped = true
     }
     if (/msg =>/.test(log.msg) && !log.meta.action_info) {
