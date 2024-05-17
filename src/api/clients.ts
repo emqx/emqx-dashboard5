@@ -4,7 +4,7 @@ import { pick } from 'lodash'
 import qs from 'qs'
 
 export function listClients(params = {}) {
-  return http.get('/clients', {
+  return http.get('/clients_v2', {
     params,
     // Multi-search support
     paramsSerializer: (params: any) => {
