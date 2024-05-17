@@ -1,5 +1,6 @@
 import { PageData } from '@/types/common'
 import { computed, ref, Ref, WritableComputedRef } from 'vue'
+import type { ComputedRef } from 'vue'
 
 export default (): {
   page: Ref<number>
@@ -43,5 +44,51 @@ export default (): {
     count,
     pageParams,
     resetPageNum,
+  }
+}
+
+const FIRST_CURSOR = undefined
+export const useCursorPagination = (): {
+  page: Ref<number>
+  currentCursor: ComputedRef<string | undefined>
+  pageParams: ComputedRef<{
+    cursor: string | undefined
+    limit: number
+  }>
+  hasNext: ComputedRef<boolean>
+  setCursor: (pageNo: number, cursor: string) => void
+  resetPage: () => void
+} => {
+  const page = ref(1)
+  const limit = ref(20)
+
+  const cursorMap = ref(new Map<number, string | undefined>([[1, FIRST_CURSOR]]))
+
+  const currentCursor = computed(() => cursorMap.value.get(page.value) ?? FIRST_CURSOR)
+
+  const hasNext = computed(() => {
+    return !!cursorMap.value.get(page.value + 1)
+  })
+
+  const pageParams = computed(() => ({
+    cursor: currentCursor.value,
+    limit: limit.value,
+  }))
+
+  const setCursor = (pageNo: number, cursor: string) => {
+    cursorMap.value.set(pageNo, cursor)
+  }
+
+  const resetPage = () => {
+    page.value = 1
+  }
+
+  return {
+    page,
+    currentCursor,
+    pageParams,
+    hasNext,
+    setCursor,
+    resetPage,
   }
 }
