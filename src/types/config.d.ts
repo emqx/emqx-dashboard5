@@ -193,7 +193,7 @@ export interface Zone {
   conn_congestion: ConnCongestion
   force_gc: ForceGc
   overload_protection: OverloadProtection
-  session_persistence: SessionPersistence
+  durable_sessions: DurableSessions
 }
 
 export interface Mqtt {
@@ -343,7 +343,7 @@ export interface Limiter {
   messages_rate: string
 }
 
-export interface SessionPersistence {
+export interface DurableSessions {
   enable: boolean
   batch_size: number
   idle_poll_interval: string
