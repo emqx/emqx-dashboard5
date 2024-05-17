@@ -13,6 +13,10 @@ export default (
     pageParams: Partial<Pick<PageData, 'limit' | 'page'>>
     filterParams: Record<string, any>
   }
+  checkClientParamsInQuery: (resetQuery?: boolean) => {
+    pageParams: Partial<{ page?: number; cursor?: string }>
+    filterParams: Record<string, any>
+  }
   resetRouteQuery: () => void
   setParamsFromQuery: (pageParams: Ref<PageData>, filterParams: Ref<Record<string, any>>) => void
   updateParams: (p: Record<string, any>) => void
@@ -31,6 +35,22 @@ export default (
     const pageParams: Partial<Pick<PageData, 'limit' | 'page'>> = {}
     if (query.limit) {
       pageParams.limit = Number(query.limit)
+    }
+    if (query.page) {
+      pageParams.page = Number(query.page)
+    }
+    const filterParams = omit(query, ['limit', 'page'])
+    if (resetQuery) {
+      resetRouteQuery()
+    }
+    return { pageParams, filterParams }
+  }
+
+  const checkClientParamsInQuery = (resetQuery = true) => {
+    const { query } = route
+    const pageParams: Partial<{ page?: number; cursor?: string }> = {}
+    if (query.cursor) {
+      pageParams.cursor = query.cursor.toString()
     }
     if (query.page) {
       pageParams.page = Number(query.page)
@@ -65,6 +85,7 @@ export default (
 
   return {
     checkParamsInQuery,
+    checkClientParamsInQuery,
     resetRouteQuery,
     setParamsFromQuery,
     updateParams,
