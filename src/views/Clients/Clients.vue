@@ -162,7 +162,11 @@
         </el-table-column>
       </el-table>
       <div class="emq-table-footer">
-        <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
+        <MiniPagination
+          :current-page="page"
+          :hasnext="hasNext"
+          @current-change="handlePageChange"
+        />
       </div>
     </div>
   </div>
@@ -181,18 +185,19 @@ import { batchDisconnectClients, listClients } from '@/api/clients'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import CommonPagination from '@/components/commonPagination.vue'
+import MiniPagination from '@/components/MiniPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
+import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import useClusterNodes from '@/hooks/useClusterNodes'
-import { useStore } from 'vuex'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
+import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 
@@ -223,7 +228,9 @@ const queryParams = ref<Record<string, any>>({
   clientidSearchType: SearchType.Exact,
   usernameSearchType: SearchType.Exact,
 })
-const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+const { pageMeta } = usePaginationWithHasNext()
+
+const { page, pageParams, hasNext, setCursor, resetPage } = useCursorPagination()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
@@ -246,7 +253,8 @@ const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
   params.value = genQueryParams(queryParams.value)
-  loadNodeClients({ page: 1 })
+  resetPage()
+  loadNodeClients()
 }
 
 const handleReset = () => {
@@ -320,22 +328,26 @@ const genQueryParams = (params: Record<string, any>) => {
   return newParams
 }
 
-const loadNodeClients = async (_params = {}) => {
+const handlePageChange = (no: number) => {
+  page.value = no
+  loadNodeClients()
+}
+
+const loadNodeClients = async () => {
   lockTable.value = true
   const sendParams = {
     ...params.value,
     ...pageParams.value,
-    ..._params,
     fields: getClientFields(),
   }
   try {
     const { data = [], meta = {} } = await listClients(sendParams)
     tableData.value = data
-    setPageMeta(meta)
+    setCursor(page.value + 1, meta.cursor)
     updateParams({ ...pick(meta, ['limit', 'page']), ...params.value })
   } catch (error) {
     tableData.value = []
-    initPageMeta()
+    resetPage()
   } finally {
     lockTable.value = false
   }
@@ -343,6 +355,7 @@ const loadNodeClients = async (_params = {}) => {
 
 const getParamsFromQuery = () => {
   const { pageParams, filterParams } = checkParamsInQuery()
+  // TODO:TODO:TODO:
   pageMeta.value = { ...pageMeta.value, ...pageParams }
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
@@ -381,7 +394,8 @@ const cleanBatchClients = async () => {
     batchDeleteLoading.value = true
     try {
       await batchDisconnectClients(clientIds)
-      loadNodeClients({ page: 1 })
+      resetPage()
+      loadNodeClients()
       ElMessage.success(tl('kickedOutSuc'))
       TableCom.value?.clearSelection()
     } catch (error) {
