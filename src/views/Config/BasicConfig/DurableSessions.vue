@@ -20,8 +20,8 @@
                 <template #label>
                   <FormItemLabel
                     desc-marked
-                    :label="tl('enableSessionPersistence')"
-                    :desc="tl('enableSessionPersistenceDesc')"
+                    :label="tl('enableDurableSessions')"
+                    :desc="tl('enableDurableSessionsDesc')"
                   />
                 </template>
                 <el-switch disabled v-model="sessionPersistenceConfig.enable" />
@@ -143,7 +143,7 @@ const { t, tl } = useI18nTl('General')
 const configLoading = ref(false)
 const saveLoading = ref(false)
 const store = useStore()
-const sessionPersistenceConfig = ref<Zone['session_persistence']>({
+const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   enable: false,
   batch_size: 100,
   idle_poll_interval: '100ms',
@@ -157,7 +157,7 @@ const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getDefaultZoneConfigs()
-    sessionPersistenceConfig.value = res.session_persistence
+    sessionPersistenceConfig.value = res.durable_sessions
   } catch (error) {
     //
   } finally {
@@ -169,7 +169,7 @@ const updateConfigData = async () => {
   saveLoading.value = true
   try {
     const zoneData: Zone = await getDefaultZoneConfigs()
-    zoneData.session_persistence = sessionPersistenceConfig.value
+    zoneData.durable_sessions = sessionPersistenceConfig.value
     await updateDefaultZoneConfigs(zoneData)
     ElMessage.success(t('Base.updateSuccess'))
   } catch (err) {
