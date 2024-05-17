@@ -44,6 +44,17 @@ const EXCLUDED_LOGS = [
   LogMsg.AsyncSendMsgToRemoteNode,
 ]
 
+const RULE_LOGS = [
+  LogMsg.RuleActivated,
+  LogMsg.SQLSelectClauseException,
+  LogMsg.SQLWhereClauseException,
+  LogMsg.SQLForeachClauseException,
+  LogMsg.SQLIncaseClauseException,
+  LogMsg.ApplyRuleFailed,
+  LogMsg.SQLYieldedResult,
+  LogMsg.SQLYieldedNoResult,
+]
+
 export interface LogItem {
   time: string
   msg: LogMsg
@@ -132,6 +143,16 @@ const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
   return logArr.every(detectLogItemResult) ? LogResult.OK : LogResult.Error
 }
 
+const neededInfoMap = new Map([
+  [LogMsg.RuleActivated, 'meta.input'],
+  [LogMsg.SQLYieldedResult, 'meta.result'],
+  [LogMsg.SQLSelectClauseException, 'meta'],
+  [LogMsg.SQLWhereClauseException, 'meta'],
+  [LogMsg.SQLForeachClauseException, 'meta'],
+  [LogMsg.SQLIncaseClauseException, 'meta'],
+  [LogMsg.ApplyRuleFailed, 'meta'],
+])
+
 export default () => {
   const convertLogStrToLogArr = (logStr: string): Array<LogItem> =>
     logStr
@@ -151,7 +172,7 @@ export default () => {
   const getLogTypeAndTarget = (
     log: LogItem,
   ): { target: string; type: LogTargetTypeValue; targetInfo?: TargetLog['targetInfo'] } => {
-    if (log.meta.action_info) {
+    if (log.meta.action_info && !RULE_LOGS.includes(log.msg)) {
       const { type, name, func, args } = log.meta.action_info
       if (type && name) {
         return {
@@ -172,15 +193,6 @@ export default () => {
     return { target: log.meta.rule_id || log.meta.rule_ids?.[0], type: LogTargetType.Rule }
   }
 
-  const neededInfoMap = new Map([
-    [LogMsg.RuleActivated, 'meta.input'],
-    [LogMsg.SQLYieldedResult, 'meta.result'],
-    [LogMsg.SQLSelectClauseException, 'meta'],
-    [LogMsg.SQLWhereClauseException, 'meta'],
-    [LogMsg.SQLForeachClauseException, 'meta'],
-    [LogMsg.SQLIncaseClauseException, 'meta'],
-    [LogMsg.ApplyRuleFailed, 'meta'],
-  ])
   const ruleLogMsgOrder: Map<string, number> = new Map([[LogMsg.RuleActivated, 99]])
   const handleRuleExecLogInfo: TargetLogGenerator = (log) => {
     return Object.keys(log)
@@ -294,7 +306,7 @@ export default () => {
     if (EXCLUDED_LOGS.includes(log.msg)) {
       needBeDropped = true
     }
-    if (/connector/i.test(log.msg) && log.meta.connector) {
+    if (/connector/i.test(log.msg) && !log.meta.action_info) {
       needBeDropped = true
     }
     if (/msg =>/.test(log.msg) && !log.meta.action_info) {
@@ -439,7 +451,8 @@ export const useShowLog = () => {
     if (logMsg === LogMsg.SQLYieldedNoResult) {
       return `SQL ${tl('failedNoResult')}`
     }
-    if (logContent.reason) {
+    const infoKey = neededInfoMap.get(logMsg as LogMsg)
+    if ((infoKey === 'meta' && logContent.reason) || (!infoKey && logContent.meta.reason)) {
       return `SQL ${tl('failedException')}\n${logContent.reason}`
     }
   }

@@ -53,10 +53,10 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { useMockData } from '@/hooks/Rule/rule/useDebugRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
-import { PropType, WritableComputedRef, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
+import { PropType, WritableComputedRef, computed, defineEmits, defineProps, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
-import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
