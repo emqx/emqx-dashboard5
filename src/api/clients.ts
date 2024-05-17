@@ -3,7 +3,7 @@ import http from '@/common/http'
 import { pick } from 'lodash'
 
 export function listClients(params = {}) {
-  return http.get('/clients', { params })
+  return http.get('/clients_v2', { params })
 }
 
 export function searchClients(clientId: string) {
