@@ -179,12 +179,10 @@ import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
 import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
@@ -209,10 +207,9 @@ const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: Comparator.After,
 })
-const { pageMeta } = usePaginationWithHasNext()
 
 const { page, pageParams, hasNext, setCursor, resetPage } = useCursorPagination()
-const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+const { updateParams, checkClientParamsInQuery } = usePaginationRemember('clients-detail')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
@@ -303,7 +300,7 @@ const loadNodeClients = async () => {
     const { data = [], meta = {} } = await listClients(sendParams)
     tableData.value = data
     setCursor(page.value + 1, meta.cursor)
-    updateParams({ ...pick(meta, ['limit', 'page']), ...params.value })
+    updateParams({ page: page.value, ...pageParams.value, ...params.value })
   } catch (error) {
     tableData.value = []
     resetPage()
@@ -313,9 +310,9 @@ const loadNodeClients = async () => {
 }
 
 const getParamsFromQuery = () => {
-  const { pageParams, filterParams } = checkParamsInQuery()
-  // TODO:TODO:TODO:
-  pageMeta.value = { ...pageMeta.value, ...pageParams }
+  const { pageParams, filterParams } = checkClientParamsInQuery()
+  page.value = pageParams.page || 1
+  setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
       if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
