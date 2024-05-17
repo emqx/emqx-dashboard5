@@ -56,7 +56,7 @@ export const useCursorPagination = (): {
     limit: number
   }>
   hasNext: ComputedRef<boolean>
-  setCursor: (pageNo: number, cursor: string) => void
+  setCursor: (pageNo: number, cursor: string | undefined) => void
   resetPage: () => void
 } => {
   const page = ref(1)
@@ -75,7 +75,7 @@ export const useCursorPagination = (): {
     limit: limit.value,
   }))
 
-  const setCursor = (pageNo: number, cursor: string) => {
+  const setCursor = (pageNo: number, cursor: string | undefined) => {
     cursorMap.value.set(pageNo, cursor)
   }
 
