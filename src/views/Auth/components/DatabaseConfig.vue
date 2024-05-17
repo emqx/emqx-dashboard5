@@ -117,7 +117,11 @@
                   :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
                   :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
                 />
-                <el-input v-model="databaseConfig.use_legacy_protocol" />
+                <el-select v-model="databaseConfig.use_legacy_protocol">
+                  <el-option value="auto" label="auto" />
+                  <el-option value="true" label="true" />
+                  <el-option value="false" label="false" />
+                </el-select>
               </el-form-item>
             </el-col>
           </template>
