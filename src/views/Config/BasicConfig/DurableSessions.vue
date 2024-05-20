@@ -70,7 +70,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="last_alive_update_interval">
+              <el-form-item prop="heartbeat_interval">
                 <template #label>
                   <FormItemLabel
                     :label="tl('lastAliveUpdateInterval')"
@@ -78,7 +78,7 @@
                   />
                 </template>
                 <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.last_alive_update_interval"
+                  v-model="sessionPersistenceConfig.heartbeat_interval"
                   number-placeholder="5000"
                   :enabled-units="['m', 's', 'ms']"
                 />
@@ -147,7 +147,7 @@ const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   enable: false,
   batch_size: 100,
   idle_poll_interval: '100ms',
-  last_alive_update_interval: '5000ms',
+  heartbeat_interval: '5000ms',
   session_gc_interval: '10m',
   session_gc_batch_size: 100,
   message_retention_period: '1d',
