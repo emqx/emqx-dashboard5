@@ -44,7 +44,7 @@ export type GetMonitorCurrentNodesNode404 = {
   message?: string
 }
 
-export type GetStats200 = EmqxMgmtApiStatsAggergateData[] | EmqxMgmtApiStatsNodeStatsData
+export type GetStats200 = EmqxMgmtApiStatsAggregatedData | EmqxMgmtApiStatsPerNodeData[]
 
 export type GetStatsParams = {
   aggregate?: EmqxMgmtApiStatsAggregateParameter
@@ -58,7 +58,9 @@ export type GetMetricsParams = {
 
 export type EmqxMgmtApiStatsAggregateParameter = boolean
 
-export interface EmqxMgmtApiStatsNodeStatsData {
+export interface EmqxMgmtApiStatsPerNodeData {
+  node?: string
+  'durable_subscriptions.count'?: number
   'channels.count'?: number
   'channels.max'?: number
   'connections.count'?: number
@@ -85,8 +87,7 @@ export interface EmqxMgmtApiStatsNodeStatsData {
   'topics.max'?: number
 }
 
-export interface EmqxMgmtApiStatsAggergateData {
-  node?: string
+export interface EmqxMgmtApiStatsAggregatedData {
   'channels.count'?: number
   'channels.max'?: number
   'connections.count'?: number
@@ -289,6 +290,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
+  durable_subscriptions?: number
   subscriptions?: number
   topics?: number
   connections?: number
@@ -305,6 +307,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
+  durable_subscriptions?: number
   subscriptions?: number
   topics?: number
   connections?: number
@@ -315,6 +318,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
 
 export interface EmqxDashboardMonitorApiSampler {
   time_stamp?: number
+  durable_subscriptions?: number
   subscriptions?: number
   topics?: number
   connections?: number
