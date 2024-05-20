@@ -261,7 +261,7 @@ export default {
   },
   lastAliveUpdateInterval: {
     zh: '会话心跳间隔',
-    en: 'Session heartbeat interval',
+    en: 'Session Heartbeat Interval',
   },
   lastAliveUpdateIntervalDesc: {
     zh: '以设置的时间间隔，持续更新会话最后一次存活的时间戳。当会话非正常终止（例如，EMQX 节点以 kill -9 终止），会话垃圾回收器将根据会话最后存活时间计算过期时间，并销毁过期离线会话。',

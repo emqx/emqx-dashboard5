@@ -347,7 +347,7 @@ export interface DurableSessions {
   enable: boolean
   batch_size: number
   idle_poll_interval: string
-  last_alive_update_interval: string
+  heartbeat_interval: string
   session_gc_interval: string
   session_gc_batch_size: number
   message_retention_period: string
