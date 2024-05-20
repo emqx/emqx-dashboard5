@@ -13,10 +13,12 @@ export default (
     pageParams: Partial<Pick<PageData, 'limit' | 'page'>>
     filterParams: Record<string, any>
   }
-  checkClientParamsInQuery: (resetQuery?: boolean) => {
+  checkNewCursorParamsInQuery: (resetQuery?: boolean) => {
     pageParams: Partial<{ page?: number; cursor?: string }>
     filterParams: Record<string, any>
   }
+  updateCursorMap: (listPageName: string, cursorMap: Map<number, string | undefined>) => void
+  getCursorMap: (listPageName: string) => Map<any, any>
   resetRouteQuery: () => void
   setParamsFromQuery: (pageParams: Ref<PageData>, filterParams: Ref<Record<string, any>>) => void
   updateParams: (p: Record<string, any>) => void
@@ -46,7 +48,7 @@ export default (
     return { pageParams, filterParams }
   }
 
-  const checkClientParamsInQuery = (resetQuery = true) => {
+  const checkNewCursorParamsInQuery = (resetQuery = true) => {
     const { query } = route
     const pageParams: Partial<{ page?: number; cursor?: string }> = {}
     if (query.cursor) {
@@ -60,6 +62,27 @@ export default (
       resetRouteQuery()
     }
     return { pageParams, filterParams }
+  }
+
+  const updateCursorMap = (listPageName: string, cursorMap: Map<number, string | undefined>) => {
+    const storageKey = `${listPageName}_cursor_map`
+    const obj = Object.fromEntries(cursorMap)
+    sessionStorage.setItem(storageKey, JSON.stringify(obj))
+  }
+
+  const getCursorMap = (listPageName: string) => {
+    const storageKey = `${listPageName}_cursor_map`
+    const obj = parseJSONSafely(sessionStorage.getItem(storageKey))
+    const map = new Map<number, string | undefined>([])
+    if (obj) {
+      Object.entries(obj).forEach(([key, value]) => {
+        map.set(Number(key), value)
+      })
+      if (!map.get(1)) {
+        map.set(1, undefined)
+      }
+    }
+    return map
   }
 
   const setParamsFromQuery = (
@@ -85,7 +108,9 @@ export default (
 
   return {
     checkParamsInQuery,
-    checkClientParamsInQuery,
+    checkNewCursorParamsInQuery,
+    updateCursorMap,
+    getCursorMap,
     resetRouteQuery,
     setParamsFromQuery,
     updateParams,
