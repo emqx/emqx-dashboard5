@@ -194,7 +194,10 @@ import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
@@ -214,6 +217,7 @@ const CONNECTED_AT_SUFFIX = '_connected_at'
 const { nodes: currentNodes } = useClusterNodes()
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
+const route = useRoute()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
@@ -227,8 +231,10 @@ const queryParams = ref<Record<string, any>>({
   usernameSearchType: SearchType.Exact,
 })
 
-const { page, pageParams, hasNext, setCursor, resetPage } = useCursorPagination()
-const { updateParams, checkClientParamsInQuery } = usePaginationRemember('clients-detail')
+const { page, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
+const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
+  usePaginationRemember('clients-detail')
+const routeName = computed(() => route.name?.toString() || 'clients')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
@@ -342,6 +348,7 @@ const loadNodeClients = async () => {
     tableData.value = data
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
+    updateCursorMap(routeName.value, cursorMap.value)
   } catch (error) {
     tableData.value = []
     resetPage()
@@ -351,7 +358,14 @@ const loadNodeClients = async () => {
 }
 
 const getParamsFromQuery = () => {
-  const { pageParams, filterParams } = checkClientParamsInQuery()
+  const { pageParams, filterParams } = checkNewCursorParamsInQuery()
+  if (isEmptyObj(pageParams) && isEmptyObj(filterParams)) {
+    return
+  }
+  const storageCursorMap = getCursorMap(routeName.value)
+  if (storageCursorMap) {
+    cursorMap.value = storageCursorMap
+  }
   page.value = pageParams.page || 1
   setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
