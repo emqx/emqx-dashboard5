@@ -132,9 +132,11 @@ import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
+import { isEqual, cloneDeep } from 'lodash'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -143,6 +145,7 @@ const { t, tl } = useI18nTl('General')
 const configLoading = ref(false)
 const saveLoading = ref(false)
 const store = useStore()
+let rawData: any = undefined
 const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   enable: false,
   batch_size: 100,
@@ -153,11 +156,15 @@ const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   message_retention_period: '1d',
 })
 
+const checkDataIsChanged = () => !isEqual(sessionPersistenceConfig.value, rawData)
+useDataNotSaveConfirm(checkDataIsChanged)
+
 const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getDefaultZoneConfigs()
     sessionPersistenceConfig.value = res.durable_sessions
+    rawData = cloneDeep(sessionPersistenceConfig.value)
   } catch (error) {
     //
   } finally {
@@ -172,6 +179,7 @@ const updateConfigData = async () => {
     zoneData.durable_sessions = sessionPersistenceConfig.value
     await updateDefaultZoneConfigs(zoneData)
     ElMessage.success(t('Base.updateSuccess'))
+    rawData = cloneDeep(sessionPersistenceConfig.value)
   } catch (err) {
     loadData()
   } finally {
