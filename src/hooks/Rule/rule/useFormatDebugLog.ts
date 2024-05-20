@@ -24,6 +24,7 @@ export const enum LogMsg {
   OutOfService = 'out_of_service',
   ActionFailed = 'action_failed',
   RequestExpired = 'request_expired',
+  RecursiveRepublishDetected = 'recursive_republish_detected',
   /* Do Not Need Start */
   CallActionFunction = 'call_action_function',
   RepublishMessage = 'republish_message',
@@ -38,11 +39,10 @@ const EXCLUDED_LOGS = [
   LogMsg.PublishTo,
   LogMsg.BridgeAction,
   LogMsg.HTTPConnectorReceived,
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO: maybe remove
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
   LogMsg.AsyncSendMsgToRemoteNode,
 ]
+
+const ERROR_LOG_MSGS = [LogMsg.OutOfService, LogMsg.RecursiveRepublishDetected]
 
 const RULE_LOGS = [
   LogMsg.RuleActivated,
@@ -115,7 +115,7 @@ type TargetLogGenerator = (log: TargetLogInfo) => TargetLogInfo
 const detectLogItemResult = (log: LogItem): boolean => {
   if (log.meta.reason) {
     return log.msg !== LogMsg.StopRendering ? false : true
-  } else if (log.msg === LogMsg.OutOfService) {
+  } else if (ERROR_LOG_MSGS.includes(log.msg)) {
     return false
   }
   return true
@@ -384,7 +384,10 @@ export const useShowLog = () => {
     const title = ruleLogMsgMap.get(logMsg)
     return title ? title : tl('executionResult')
   }
-  const republishLogMsgMap = new Map([[LogMsg.ActionTemplateRendered, tl('requestParameter')]])
+  const republishLogMsgMap = new Map([
+    [LogMsg.ActionTemplateRendered, tl('requestParameter')],
+    [LogMsg.RecursiveRepublishDetected, tl('recursiveRepublishDetected')],
+  ])
   const getRepublishLogMsgTitle = (logMsg: LogMsg) => {
     let title = republishLogMsgMap.get(logMsg)
     if (!title) {

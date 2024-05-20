@@ -1029,6 +1029,10 @@ export default {
     zh: '请求信息',
     en: 'Request',
   },
+  recursiveRepublishDetected: {
+    zh: '递归重发布',
+    en: 'Recursive Republish',
+  },
   responseResult: {
     zh: '响应结果',
     en: 'Response',
