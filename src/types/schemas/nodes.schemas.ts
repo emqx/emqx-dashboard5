@@ -36,7 +36,7 @@ export type GetNodesNodeStats404 = {
   message?: string
 }
 
-export interface EmqxMgmtApiStatsNodeStatsData {
+export interface EmqxMgmtApiStatsAggregatedData {
   'channels.count'?: number
   'channels.max'?: number
   'connections.count'?: number
