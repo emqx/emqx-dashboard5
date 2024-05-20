@@ -50,6 +50,7 @@ export default (): {
 const FIRST_CURSOR = undefined
 export const useCursorPagination = (): {
   page: Ref<number>
+  cursorMap: Ref<Map<number, string | undefined>>
   currentCursor: ComputedRef<string | undefined>
   pageParams: ComputedRef<{
     cursor: string | undefined
@@ -85,6 +86,7 @@ export const useCursorPagination = (): {
 
   return {
     page,
+    cursorMap,
     currentCursor,
     pageParams,
     hasNext,
