@@ -306,10 +306,12 @@ export default () => {
     if (EXCLUDED_LOGS.includes(log.msg)) {
       needBeDropped = true
     }
-    if (/connector/i.test(log.msg) && !log.meta.action_info) {
-      needBeDropped = true
-    }
-    if (/msg =>/.test(log.msg) && !log.meta.action_info) {
+    // about connector or useless msg
+    if (
+      (/connector/i.test(log.msg) || log.meta.connector || /msg =>/.test(log.msg)) &&
+      !log.meta.action_info
+    ) {
+      console.warn(log)
       needBeDropped = true
     }
     return needBeDropped

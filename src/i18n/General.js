@@ -407,13 +407,13 @@ export default {
     zh: '请先上传文件',
     en: 'Please upload file first',
   },
-  enableSessionPersistence: {
+  enableDurableSessions: {
     zh: '启用会话持久化',
-    en: 'Enable Session Persistence',
+    en: 'Enable Durable Sessions',
   },
-  enableSessionPersistenceDesc: {
-    zh: '暂不支持通过热配置修改，请在配置文件中设置 `session_persistence.enable = true｜false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
-    en: "Not supported by hot config, please set `session_persistence.enable = true｜false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
+  enableDurableSessionsDesc: {
+    zh: '暂不支持通过热配置修改，请在配置文件中设置 `durable_sessions.enable = true｜false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
+    en: "Not supported by hot config, please set `durable_sessions.enable = true｜false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
   },
   batchSize: {
     zh: '消息查询批大小',

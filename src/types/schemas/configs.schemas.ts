@@ -372,7 +372,7 @@ export type PutConfigsGlobalZone200 = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
-  session_persistence?: EmqxSessionPersistence
+  durable_sessions?: EmqxDurableSessions
 }
 
 export type PutConfigsGlobalZoneBody = {
@@ -380,7 +380,7 @@ export type PutConfigsGlobalZoneBody = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
-  session_persistence?: EmqxSessionPersistence
+  durable_sessions?: EmqxDurableSessions
 }
 
 export type GetConfigsGlobalZone200 = {
@@ -388,7 +388,7 @@ export type GetConfigsGlobalZone200 = {
   flapping_detect?: EmqxFlappingDetect
   force_shutdown?: EmqxForceShutdown
   force_gc?: EmqxForceGc
-  session_persistence?: EmqxSessionPersistence
+  durable_sessions?: EmqxDurableSessions
 }
 
 export type PutConfigsSysmon403Code =
@@ -940,6 +940,16 @@ export interface EmqxEventNames {
   client_unsubscribed?: boolean
 }
 
+export interface EmqxDurableSessions {
+  enable?: boolean
+  batch_size?: number
+  idle_poll_interval?: string
+  last_alive_update_interval?: string
+  session_gc_interval?: string
+  session_gc_batch_size?: number
+  message_retention_period?: string
+}
+
 export type EmqxConsoleHandlerTimestampFormat =
   typeof EmqxConsoleHandlerTimestampFormat[keyof typeof EmqxConsoleHandlerTimestampFormat]
 
@@ -993,8 +1003,16 @@ export interface EmqxBroker {
   session_history_retain?: string
 }
 
+export type EmqxAlarmActionsItem = typeof EmqxAlarmActionsItem[keyof typeof EmqxAlarmActionsItem]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAlarmActionsItem = {
+  log: 'log',
+  publish: 'publish',
+} as const
+
 export interface EmqxAlarm {
-  actions?: string[]
+  actions?: EmqxAlarmActionsItem[]
   size_limit?: number
   validity_period?: string
 }
