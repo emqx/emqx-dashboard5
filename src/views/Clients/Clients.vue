@@ -291,11 +291,12 @@ const genQueryParams = (params: Record<string, any>) => {
 }
 
 const handlePageChange = (no: number) => {
+  const isBack = no < page.value
   page.value = no
-  loadNodeClients()
+  loadNodeClients(isBack)
 }
 
-const loadNodeClients = async () => {
+const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
   const sendParams = {
     ...params.value,
@@ -308,6 +309,10 @@ const loadNodeClients = async () => {
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
     updateCursorMap(routeName.value, cursorMap.value)
+    if (isBack && page.value !== 1 && data.length === 0) {
+      ElMessage.warning(tl('pageJumpTip'))
+      handlePageChange(1)
+    }
   } catch (error) {
     tableData.value = []
     resetPage()
