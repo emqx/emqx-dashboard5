@@ -787,6 +787,18 @@ export default {
     zh: '发送的 AUTH 报文数量',
     en: 'Number of sent AUTH packets',
   },
+  messages_persisted: {
+    zh: '持久化的消息数量',
+    en: 'Number of persisted messages',
+  },
+  messages_validation_failed: {
+    zh: 'Schema 验证失败',
+    en: 'Schema validation failed',
+  },
+  messages_validation_succeeded: {
+    zh: 'Schema 验证成功',
+    en: 'Schema validation succeeded',
+  },
   multiVersionWarning: {
     zh: '当前集群下存在不同 EMQX 版本的节点，请前往',
     en: 'Different versions of EMQX nodes exist in the cluster, please go to ',

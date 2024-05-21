@@ -70,7 +70,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="last_alive_update_interval">
+              <el-form-item prop="heartbeat_interval">
                 <template #label>
                   <FormItemLabel
                     :label="tl('lastAliveUpdateInterval')"
@@ -78,7 +78,7 @@
                   />
                 </template>
                 <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.last_alive_update_interval"
+                  v-model="sessionPersistenceConfig.heartbeat_interval"
                   number-placeholder="5000"
                   :enabled-units="['m', 's', 'ms']"
                 />
@@ -137,9 +137,11 @@ import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
+import { isEqual, cloneDeep } from 'lodash'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -148,21 +150,26 @@ const { t, tl } = useI18nTl('General')
 const configLoading = ref(false)
 const saveLoading = ref(false)
 const store = useStore()
+let rawData: any = undefined
 const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   enable: false,
   batch_size: 100,
   idle_poll_interval: '100ms',
-  last_alive_update_interval: '5000ms',
+  heartbeat_interval: '5000ms',
   session_gc_interval: '10m',
   session_gc_batch_size: 100,
   message_retention_period: '1d',
 })
+
+const checkDataIsChanged = () => !isEqual(sessionPersistenceConfig.value, rawData)
+useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getDefaultZoneConfigs()
     sessionPersistenceConfig.value = res.durable_sessions
+    rawData = cloneDeep(sessionPersistenceConfig.value)
   } catch (error) {
     //
   } finally {
@@ -177,6 +184,7 @@ const updateConfigData = async () => {
     zoneData.durable_sessions = sessionPersistenceConfig.value
     await updateDefaultZoneConfigs(zoneData)
     ElMessage.success(t('Base.updateSuccess'))
+    rawData = cloneDeep(sessionPersistenceConfig.value)
   } catch (err) {
     loadData()
   } finally {
