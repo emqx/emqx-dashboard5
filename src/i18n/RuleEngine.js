@@ -654,7 +654,7 @@ export default {
     en: 'Trigger rule when a message is published to one or more of the specified topics, and the MQTT topic can be used directly in the SQL',
   },
   schemaValidationFailedDesc: {
-    zh: '消息没有通过配置的 Schema 校验',
+    zh: '消息没有通过配置的 Schema 验证',
     en: 'Messages that do not pass configured validations',
   },
   messageDeliveredDesc: {

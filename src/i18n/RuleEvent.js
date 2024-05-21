@@ -45,7 +45,7 @@ export default {
   },
   eventsSchemaValidationFailed: {
     en: 'Schema Validation Failed',
-    zh: 'Schema 校验失败',
+    zh: 'Schema 验证失败',
   },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',
