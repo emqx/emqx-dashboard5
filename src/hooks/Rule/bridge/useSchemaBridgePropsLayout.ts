@@ -241,7 +241,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.S3]: createOrderObj(
-      getPathArrInParameters(['bucket', 'key', 'acl', 'content']),
+      getPathArrInParameters(['bucket', 'key', 'acl', 'content', 'headers']),
       fieldStartIndex,
     ),
     [BridgeType.Pulsar]: createOrderObj(
@@ -275,6 +275,7 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
+    [BridgeType.S3]: { 'parameters.mode': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
@@ -295,6 +296,7 @@ export default (
     [BridgeType.KafkaConsumer]: kafkaConsumerAdvancedProps,
     [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
+    [BridgeType.S3]: ['parameters.headers'],
   }
 
   const advancedFields = computed(() => {

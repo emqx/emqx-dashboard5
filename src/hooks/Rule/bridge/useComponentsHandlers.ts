@@ -6,7 +6,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
-import { get, pick } from 'lodash'
+import { get, omit, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 import { useAvailableProviders } from '../useProvidersForMonaco'
 
@@ -401,11 +401,16 @@ export default (
 
   const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-
+    const directItem = components?.parameters?.oneOf?.find?.((item) =>
+      /direct/i.test(item?.$ref || ''),
+    )
+    if (directItem) {
+      components.parameters = { ...omit(components.parameters, ['type', 'oneOf']), ...directItem }
+      Object.assign(rules, directItem.rules)
+    }
     if (components?.parameters?.properties?.content?.type === 'string') {
       components.parameters.properties.content.format = 'sql'
     }
-
     return { components, rules }
   }
   const pulsarHandler = (data: { components: Properties; rules: SchemaRules }) => {
