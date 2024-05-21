@@ -271,31 +271,32 @@ export default () => {
   }
 
   /**
-   * if `rule_trigger_times` is [time1, time2]
-   * then copy the log item to two items, one with `rule_trigger_time` = time1, another with `rule_trigger_time` = time2
+   * if `rule_trigger_ts` is [time1, time2]
+   * then copy the log item to two items, one with `_timestamp` = time1, another with `_timestamp` = time2
    * Make it could show up in both execution results
    */
   const copyLogItemIfWithMultipleTriggerTime = (logArr: Array<LogItem>) => {
     const ret: Array<LogItem> = []
     logArr.forEach((item) => {
-      const { rule_trigger_times } = item.meta
-      if (rule_trigger_times?.length > 1) {
-        rule_trigger_times.forEach((triggerTime: string) => {
-          ret.push({ ...item, meta: { ...item.meta, rule_trigger_time: triggerTime } })
-        })
-      } else {
-        ret.push(item)
-      }
+      const { rule_trigger_ts: timestampArr } = item.meta
+      timestampArr.forEach((triggerTime: string) => {
+        ret.push({ ...item, meta: { ...item.meta, _timestamp: triggerTime } })
+      })
     })
     return ret
   }
 
-  const getLogItemTriggerTime = ({ meta }: LogItem) => {
-    return meta.rule_trigger_time || meta.rule_trigger_times?.[0]
-  }
+  const getLogItemTriggerTime = ({ meta }: LogItem) => meta._timestamp
 
+  /**
+   * also filter the trigger time which is less than `startTimestamp`
+   */
   const filterExpiredLog = (logArr: Array<LogItem>, startTimestamp: number) => {
-    return logArr.filter((item) => getLogItemTriggerTime(item) >= startTimestamp)
+    return logArr.filter(({ meta }) => {
+      meta.rule_trigger_ts = meta.rule_trigger_ts.filter((ts: number) => ts >= startTimestamp)
+      const { rule_trigger_ts: timestampArr } = meta
+      return timestampArr.length && timestampArr.some((ts: number) => ts >= startTimestamp)
+    })
   }
 
   /**
@@ -490,7 +491,9 @@ export const useShowLog = () => {
     } else if (type === LogTargetType.Action) {
       msg = getActionLogMsgContent(targetLogData, logMsg)
     }
-    return msg ? msg : stringifyObjSafely(logContent, 2)
+    // `_timestamp` is for dashboard to group execution results
+    // filter it out when showing the log content
+    return msg ? msg : stringifyObjSafely(omit(logContent, ['_timestamp', 'meta._timestamp']), 2)
   }
   return {
     getLogItemTitle,
