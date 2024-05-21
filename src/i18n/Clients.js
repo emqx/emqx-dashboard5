@@ -487,4 +487,8 @@ export default {
     zh: 'Schema 校验名称',
     en: 'Schema Validation Name',
   },
+  pageJumpTip: {
+    zh: '该页暂无数据，已自动跳转至第一页。',
+    en: 'No data available on this page. Redirected to the first page.',
+  },
 }
