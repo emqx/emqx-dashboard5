@@ -39,13 +39,12 @@
       <el-col :span="24">
         <el-form-item label="Schema" prop="source">
           <template #label>
-            <FormItemLabel
-              label="Schema"
-              :desc="selectedJSON ? tl('JSONSchemaVersionTip') : undefined"
-              :disabled="!selectedJSON"
-              desc-marked
-              popper-class="is-wider"
-            />
+            <span>Schema</span>
+            <InfoTooltip v-if="selectedJSON" popper-class="is-wider">
+              <template #content>
+                <MarkdownContent :content="tl('JSONSchemaVersionTip')" />
+              </template>
+            </InfoTooltip>
           </template>
           <div class="monaco-container">
             <Monaco
@@ -75,6 +74,8 @@
 <script lang="ts" setup>
 import { createRandomString } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import Monaco from '@/components/Monaco.vue'
 import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
 import useFormRules from '@/hooks/useFormRules'
