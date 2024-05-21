@@ -708,16 +708,6 @@ export interface EmqxSslClientOpts {
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
 
-export interface EmqxSessionPersistence {
-  enable?: boolean
-  batch_size?: number
-  idle_poll_interval?: string
-  last_alive_update_interval?: string
-  session_gc_interval?: string
-  session_gc_batch_size?: number
-  message_retention_period?: string
-}
-
 export type EmqxMqttMaxSubscriptions = 'infinity' | number
 
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
