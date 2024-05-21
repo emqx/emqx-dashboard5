@@ -1,14 +1,18 @@
 import {
   postConnector,
   putConnector,
+  putConnectorEnable,
   getConnectorDetail as requestConnectorDetail,
   deleteConnector as requestDelConnector,
   reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
 import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
+import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
+import { ElMessage } from 'element-plus'
+import { isFunction } from 'lodash'
 import { Ref, ref } from 'vue'
 import { useConnectorDataHandler } from '../useDataHandler'
 
@@ -21,6 +25,7 @@ interface ConnectorHandlerResult {
   updateConnector: (data: Connector) => Promise<Connector>
   deleteConnector: (id: string, withDep?: boolean) => Promise<void>
   reconnectConnector: (id: string) => Promise<void>
+  toggleConnectorEnable: (id: string, isEnable: boolean, sucCb?: () => void) => Promise<void>
   handleDataForCopy: (data: Connector) => Connector
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
@@ -84,6 +89,27 @@ export default (): ConnectorHandlerResult => {
     return requestReconnectConnector(id)
   }
 
+  const { operationWarning, confirmDel } = useOperationConfirm()
+
+  const { t } = useI18nTl('RuleEngine')
+  const toggleConnectorEnable = async (id: string, isEnable: boolean, sucCb?: () => void) => {
+    const sucMessage = isEnable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
+    try {
+      if (!isEnable) {
+        await operationWarning(t('Base.confirmDisabled'))
+      }
+      await putConnectorEnable(id, isEnable)
+      if (isFunction(sucCb)) {
+        sucCb()
+      }
+      ElMessage.success(t(sucMessage))
+      return Promise.resolve()
+    } catch (error) {
+      console.error(error)
+      return Promise.reject()
+    }
+  }
+
   const { isTesting, testConnectivity: testConnectorConnectivity } = useTestConnector()
   const testConnectivity = async (data: NowConnector): Promise<void> =>
     testConnectorConnectivity(data as Connector)
@@ -91,8 +117,6 @@ export default (): ConnectorHandlerResult => {
   const showDelTip = ref(false)
   const associatedActionList = ref<Array<string>>([])
   const currentDelType = ref('')
-
-  const { confirmDel } = useOperationConfirm()
 
   const deleteTrueConnector = async (id: string) => {
     return confirmDel(() => deleteConnector(id))
@@ -133,6 +157,7 @@ export default (): ConnectorHandlerResult => {
     updateConnector,
     deleteConnector,
     reconnectConnector,
+    toggleConnectorEnable,
     handleDataForCopy,
     isTesting,
     testConnectivity,

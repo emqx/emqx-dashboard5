@@ -40,6 +40,22 @@
             <TargetItemStatus type="connector" :target="row" />
           </template>
         </el-table-column>
+        <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+          <template #default="{ row }">
+            <OperateWebhookAssociatedPopover
+              :disabled="!judgeIsWebhookConnector(row)"
+              :name="row.name"
+              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+              :targetLabel="tl('action')"
+            >
+              <el-switch
+                :model-value="row.enable"
+                :disabled="judgeIsWebhookConnector(row)"
+                @update:modelValue="enableOrDisableConnector(row)"
+              />
+            </OperateWebhookAssociatedPopover>
+          </template>
+        </el-table-column>
         <!-- <el-table-column :label="tl('associativeDataBridge')">
           <template #default="{ row }"> TODO:{{ row.XXXXXXX }} </template>
         </el-table-column> -->
@@ -69,8 +85,6 @@
                 >
                   {{ $t('Base.setting') }}
                 </el-button>
-                <!-- TODO:disable del -->
-                <!-- :disable-del="row.XXXXXX" -->
                 <OperateWebhookAssociatedPopover
                   :disabled="!judgeIsWebhookConnector(row)"
                   :name="row.name"
@@ -108,8 +122,8 @@
 
 <script setup lang="ts">
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useConnectorList from '@/hooks/Rule/connector/useConnectorList'
+import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
@@ -157,6 +171,7 @@ const isErrorStatus = ({ status }: Connector) =>
 const {
   handleDeleteConnector,
   reconnectConnector,
+  toggleConnectorEnable,
   showDelTip,
   currentDelName,
   showDeleteWebhookAssociatedTip,
@@ -181,6 +196,14 @@ const getDetailPageRoute = ({ id }: Connector) => ({
   name: 'connector-detail',
   params: { id },
 })
+
+const enableOrDisableConnector = async ({ enable, id }: Connector) => {
+  try {
+    await toggleConnectorEnable(id, !enable, getList)
+  } catch (error) {
+    //
+  }
+}
 
 const showCreateRuleDialog = ref(false)
 const createdConnector = ref<undefined | Connector>(undefined)
