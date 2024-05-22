@@ -15,6 +15,17 @@
           </div>
         </div>
         <div>
+          <el-tooltip
+            :content="connectorData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch
+              class="enable-btn"
+              :model-value="connectorData.enable"
+              :disabled="isWebhookConnector"
+              @update:modelValue="enableOrDisableConnector"
+            />
+          </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
               class="icon-button"
@@ -183,6 +194,7 @@ const { getTypeStr } = useConnectorTypeValue()
 const {
   getConnectorDetail,
   updateConnector,
+  toggleConnectorEnable,
   isTesting,
   testConnectivity,
   handleDeleteConnector,
@@ -224,6 +236,17 @@ const handleTest = async () => {
     await customValidate(FormCom.value)
     await testConnectivity(connectorData.value)
     ElMessage.success(tl('connectionSuccessful'))
+  } catch (error) {
+    //
+  }
+}
+
+const enableOrDisableConnector = async () => {
+  try {
+    const targetValue = !connectorData.value.enable
+    await toggleConnectorEnable(id.value, targetValue, () => {
+      connectorData.value.enable = targetValue
+    })
   } catch (error) {
     //
   }

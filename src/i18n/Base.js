@@ -323,6 +323,10 @@ export default {
     zh: '是否确认替换当前内容？',
     en: 'Are you sure you want to replace the current content?',
   },
+  confirmDisabled: {
+    zh: '是否确认停用？',
+    en: 'Are you sure you want to disable?',
+  },
   import: {
     zh: '导入',
     en: 'Import',
