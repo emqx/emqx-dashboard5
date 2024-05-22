@@ -212,12 +212,6 @@ export default () => {
     return log
   }
   const handleRepublishLogInfo: TargetLogGenerator = (log) => {
-    Object.values(log).forEach((item) => {
-      const { logContent } = item
-      if (logContent.msg === LogMsg.ActionSuccess) {
-        item.logContent = omit(logContent.meta.action_info, 'args.preprocessed_tmpl')
-      }
-    })
     return log
   }
   const handleMQTTLogInfo: TargetLogGenerator = (log) => log
@@ -459,7 +453,7 @@ export const useShowLog = () => {
     }
     const infoKey = neededInfoMap.get(logMsg as LogMsg)
     if ((infoKey === 'meta' && logContent.reason) || (!infoKey && logContent.meta.reason)) {
-      return `SQL ${tl('failedException')}\n${logContent.reason}`
+      return `SQL ${tl('failedException')}\n${logContent.reason || logContent.meta.reason}`
     }
   }
   const getHTTPLogMsgContent = (targetLogData: TargetLog, logMsg: LogMsg) => {
