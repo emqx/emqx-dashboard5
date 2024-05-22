@@ -285,5 +285,8 @@ watch(
       margin-right: 16px;
     }
   }
+  .value {
+    margin: 0;
+  }
 }
 </style>

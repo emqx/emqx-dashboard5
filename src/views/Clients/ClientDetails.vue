@@ -56,7 +56,12 @@
                 :key="item"
                 :label="getLabel(item)"
               >
-                <ClientInfoItem :client="record" :field="item" />
+                <ClientInfoItem v-if="item !== 'client_attrs'" :client="record" :field="item" />
+                <template v-else>
+                  <el-button type="primary" size="small" plain @click="viewClientAttrs">
+                    {{ t('Base.view') }}
+                  </el-button>
+                </template>
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
@@ -183,6 +188,7 @@
     </div>
   </div>
   <MessageListDialog v-model="showMsgListDialog" :client-id="clientId" :type="msgListType" />
+  <ClientAttrsDialog v-model="showClientAttrs" :value="record.client_attrs" />
 </template>
 
 <script lang="ts">
@@ -218,6 +224,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
+import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const props = defineProps({
@@ -536,6 +543,11 @@ const withMsgList = (item: string) => ['mqueue', 'inflight'].includes(item)
 const viewMsgList = (type: 'mqueue' | 'inflight') => {
   msgListType.value = type
   showMsgListDialog.value = true
+}
+
+const showClientAttrs = ref(false)
+const viewClientAttrs = () => {
+  showClientAttrs.value = true
 }
 
 loadData()
