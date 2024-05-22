@@ -290,6 +290,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
+  disconnected_durable_sessions?: number
   durable_subscriptions?: number
   subscriptions?: number
   topics?: number
@@ -307,6 +308,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   sent_msg_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
+  disconnected_durable_sessions?: number
   durable_subscriptions?: number
   subscriptions?: number
   topics?: number
@@ -318,6 +320,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
 
 export interface EmqxDashboardMonitorApiSampler {
   time_stamp?: number
+  disconnected_durable_sessions?: number
   durable_subscriptions?: number
   subscriptions?: number
   topics?: number

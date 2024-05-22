@@ -243,45 +243,6 @@ export type DeleteClientsClientid404 = {
   message?: string
 }
 
-export type GetClientsV2400Code = typeof GetClientsV2400Code[keyof typeof GetClientsV2400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsV2400Code = {
-  INVALID_PARAMETER: 'INVALID_PARAMETER',
-} as const
-
-export type GetClientsV2400 = {
-  code?: GetClientsV2400Code
-  message?: string
-}
-
-export type GetClientsV2ConnState = typeof GetClientsV2ConnState[keyof typeof GetClientsV2ConnState]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsV2ConnState = {
-  connected: 'connected',
-  idle: 'idle',
-  disconnected: 'disconnected',
-} as const
-
-export type GetClientsV2Params = {
-  cursor?: PublicCursorParameter
-  limit?: PublicLimitParameter
-  username?: string[]
-  ip_address?: string
-  conn_state?: GetClientsV2ConnState
-  clean_start?: boolean
-  proto_ver?: string
-  like_clientid?: string
-  like_username?: string
-  gte_created_at?: number | string
-  lte_created_at?: number | string
-  gte_connected_at?: number | string
-  lte_connected_at?: number | string
-  clientid?: string[]
-  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
-}
-
 export type GetClientsClientidAuthorizationCache404Code =
   typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
 
@@ -330,8 +291,6 @@ export type PublicPositionParameter = string | 'end_of_data' | 'none'
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
-
-export type PublicCursorParameter = string | 'none'
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
   typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[keyof typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem]
@@ -401,12 +360,6 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
 export type EmqxMgmtApiClientsRequestedClientFieldsParameter =
   | EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[]
   | 'all'
-
-export interface PublicMetaWithCursor {
-  count?: number
-  hasnext: boolean
-  cursor?: string
-}
 
 export interface PublicMeta {
   page?: number
@@ -547,11 +500,6 @@ export interface EmqxMgmtApiClientsClient {
   seqno_q2_dup?: number
   seqno_q2_rec?: number
   seqno_q2_next?: number
-}
-
-export interface EmqxMgmtApiClientsListClientsV2Response {
-  data?: EmqxMgmtApiClientsClient[]
-  meta?: PublicMetaWithCursor
 }
 
 export interface EmqxMgmtApiClientsClients {
