@@ -303,7 +303,10 @@ export default () => {
     }
     // about connector or useless msg
     if (
-      (/connector/i.test(log.msg) || log.meta.connector || /msg =>/.test(log.msg)) &&
+      (/connector/i.test(log.msg) ||
+        log.meta.connector ||
+        /msg =>/.test(log.msg) ||
+        !RULE_LOGS.includes(log.msg)) &&
       !log.meta.action_info
     ) {
       console.warn(log)
