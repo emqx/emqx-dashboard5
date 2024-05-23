@@ -29,6 +29,7 @@ import KeyAndValueEditorVue from './KeyAndValueEditor.vue'
 import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
+import OneofRefsSelect from './OneofRefsSelect.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
 
@@ -53,6 +54,7 @@ const SchemaForm = defineComponent({
     ArrayEditorInput,
     ArrayEditorTable,
     Oneof,
+    OneofRefsSelect,
     Setting,
     CommonTLSConfig,
     InfoTooltip,
@@ -169,7 +171,7 @@ const SchemaForm = defineComponent({
       props.needRules,
     )
 
-    const { initRecordByComponents } = useSchemaRecord()
+    const { createInitValueByType, initRecordByComponents } = useSchemaRecord()
 
     let formEle: any = null
 
@@ -254,6 +256,24 @@ const SchemaForm = defineComponent({
 
     const isComplexOneof = (prop: Property) =>
       prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
+
+    const handleSelectOneof = (parentProperty: Property, property: Property) => {
+      parentProperty.selectedOneof = property.properties
+      parentProperty.default = property.default
+      const fieldValue = parentProperty.path && _.get(configForm.value, parentProperty.path)
+      if (fieldValue) {
+        Object.keys(fieldValue).forEach((key) => {
+          if (!property.properties?.[key]) {
+            Reflect.deleteProperty(fieldValue, key)
+          }
+        })
+      }
+      Object.values(property.properties || {}).forEach((prop) => {
+        if (prop.path) {
+          _.set(configForm.value, prop.path, createInitValueByType(prop))
+        }
+      })
+    }
 
     const sortOneofProperties = (oneOfArr: Property['oneOf']): Property['oneOf'] => {
       if (!Array.isArray(oneOfArr)) {
@@ -488,6 +508,22 @@ const SchemaForm = defineComponent({
             if (isComplexOneof(property)) {
               propToBind.oneOf = sortOneofProperties(propToBind.oneOf)
               bindProps.items = propToBind.oneOf
+            }
+            if (property.useNewCom) {
+              return (
+                <OneofRefsSelect
+                  {...bindProps}
+                  key={property.path}
+                  fieldValue={modelValue}
+                  property={propToBind}
+                  colSpan={getColSpan(property)}
+                  getText={getText}
+                  customColClass={props.customColClass}
+                  onChange={(selectedProperty: any) =>
+                    handleSelectOneof(property, selectedProperty)
+                  }
+                />
+              )
             }
             return (
               <OneofRefs
@@ -936,7 +972,8 @@ const SchemaForm = defineComponent({
             }
           }
 
-          if (property.properties && !isSSLAndNeedConcise) {
+          const isComplexOneofProp = isComplexOneof(property)
+          if (property.properties && !isSSLAndNeedConcise && !isComplexOneofProp) {
             const { label, properties } = property
             levelName = label
             setComponents(properties)
@@ -957,6 +994,9 @@ const SchemaForm = defineComponent({
               advancedFieldElement.push(elFormItem)
             } else {
               elements.push(elFormItem)
+            }
+            if (isComplexOneofProp && property.selectedOneof) {
+              setComponents(property.selectedOneof)
             }
           }
         })
