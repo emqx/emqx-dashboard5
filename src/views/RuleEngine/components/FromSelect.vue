@@ -136,12 +136,12 @@ const eventOptions = computed(() =>
     ),
 )
 
-const bridgeOptions = computed(() =>
-  props.ingressBridgeList?.filter(
-    ({ name, idForRuleFrom }) =>
-      name.indexOf(filterStr.value) > -1 || idForRuleFrom.lastIndexOf(filterStr.value) > -1,
-  ),
-)
+// const bridgeOptions = computed(() =>
+//   props.ingressBridgeList?.filter(
+//     ({ name, idForRuleFrom }) =>
+//       name.indexOf(filterStr.value) > -1 || idForRuleFrom.lastIndexOf(filterStr.value) > -1,
+//   ),
+// )
 
 let selectedValueForProxyTopic = ref('')
 
