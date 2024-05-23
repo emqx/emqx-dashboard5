@@ -96,8 +96,10 @@ function extractUIConfigs(schema: {
     } else {
       const { type, name } = field
       if (typeof type === 'object' && type.type === 'record' && type.fields.length !== 0) {
-        const nestedUIConfig = extractUIConfigs({ fields: type.fields }).$form
-        uiConfigs.$form[name] = { children: nestedUIConfig }
+        const extracted = extractUIConfigs({ fields: type.fields })
+        if (!isEmptyObj(extracted.$form)) {
+          uiConfigs.$form[name] = { children: extracted.$form }
+        }
       }
     }
   })
@@ -167,15 +169,19 @@ export default function usePluginRenderForm(): PluginUI {
       i18nConfigs.value = i18n
       if (schema.value) {
         record.value = constructObjectFromAvroSchema(schema.value)
-        uiConfigs.value = extractUIConfigs(schema.value)
-        if (i18nConfigs.value !== null && !isEmptyObj(i18nConfigs.value)) {
-          if (uiConfigs.value) {
-            uiConfigs.value.$form = replaceI18nInConfigs(
-              uiConfigs.value.$form,
-              i18nConfigs.value,
-              lang.value,
-            )
-          }
+        const extracted = extractUIConfigs(schema.value)
+        uiConfigs.value = isEmptyObj(extracted.$form) ? null : extracted
+        if (
+          i18nConfigs.value !== null &&
+          !isEmptyObj(i18nConfigs.value) &&
+          uiConfigs.value !== null &&
+          !isEmptyObj(uiConfigs.value.$form)
+        ) {
+          uiConfigs.value.$form = replaceI18nInConfigs(
+            uiConfigs.value.$form,
+            i18nConfigs.value,
+            lang.value,
+          )
         }
       }
     } catch (error) {
