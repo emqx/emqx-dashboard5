@@ -377,7 +377,6 @@
 import { INFINITY_VALUE } from '@/common/constants'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
