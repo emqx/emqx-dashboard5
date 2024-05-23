@@ -964,7 +964,7 @@
       "label": "允许排它订阅"
     },
     "mqtt_retain_available": {
-      "desc": "是否启用对 MQTT 保留消息的支持。",
+      "desc": "是否启用对 MQTT 保留消息的支持。禁用此选项时，客户端将无法发布保留消息。",
       "label": "启用保留消息"
     },
     "fields_tcp_opts_reuseaddr": {
