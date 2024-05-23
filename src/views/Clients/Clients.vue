@@ -120,7 +120,7 @@
           v-for="column in tableColumnFields"
           :key="column"
           :prop="column"
-          :label="getBaseLabel(column)"
+          :label="getColumnLabel(column)"
           :min-width="getColumnWidth(column)"
           :show-overflow-tooltip="showOverflowTooltip(column)"
         >
@@ -209,6 +209,9 @@ const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-deta
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
+const getColumnLabel = (column: string) =>
+  column === 'connected' ? tl('connectedStatus') : getBaseLabel(column)
+
 const showOverflowTooltip = (column: string) => ['clientid', 'username'].includes(column)
 const specialColumnWidth = new Map([
   ['clientid', 140],
