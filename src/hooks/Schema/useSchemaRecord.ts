@@ -3,10 +3,14 @@ import { Properties, Property } from '@/types/schemaForm'
 import { set } from 'lodash'
 
 export default (): {
+  createInitValueByType: (prop: Property) => any
   initRecordByComponents: (data: Properties) => Record<string, any>
 } => {
-  const createInitValueByType = (prop: Property) => {
-    const { type } = prop
+  const createInitValueByType = (prop: Property): any => {
+    const { type, default: dV } = prop
+    if (dV !== undefined) {
+      return dV
+    }
     switch (type) {
       case PropType.Array:
         return []
@@ -28,7 +32,7 @@ export default (): {
     const walkALevel = (components: Properties) => {
       Object.keys(components).forEach((key) => {
         const propItem = components[key]
-        const { default: defaultValue, path, properties } = propItem
+        const { path, properties } = propItem
         if (!path) {
           return
         }
@@ -36,8 +40,7 @@ export default (): {
           set(ret, path, {})
           walkALevel(properties)
         } else {
-          const valueToSet =
-            defaultValue !== undefined ? defaultValue : createInitValueByType(propItem)
+          const valueToSet = createInitValueByType(propItem)
           set(ret, path, valueToSet)
         }
       })
@@ -47,6 +50,7 @@ export default (): {
   }
 
   return {
+    createInitValueByType,
     initRecordByComponents,
   }
 }

@@ -25,6 +25,9 @@ export interface Property {
   clearable: boolean
   oneOf?: Properties[string][]
   properties?: Properties
+  // these two is for oneof
+  selectedOneof?: Properties
+  useNewCom?: boolean
   format?: string
   is_template?: boolean
   /**
