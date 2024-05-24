@@ -408,6 +408,10 @@ export default (
       components.parameters = { ...omit(components.parameters, ['type', 'oneOf']), ...directItem }
       Object.assign(rules, directItem.rules)
     }
+    const batchSize = components?.resource_opts?.properties?.batch_size
+    if (batchSize && batchSize.default > 1) {
+      batchSize.default = 1
+    }
     if (components?.parameters?.properties?.content?.type === 'string') {
       components.parameters.properties.content.format = 'sql'
     }

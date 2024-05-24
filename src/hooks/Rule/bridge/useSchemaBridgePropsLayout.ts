@@ -275,7 +275,7 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
-    [BridgeType.S3]: { 'parameters.mode': 'col-hidden' },
+    [BridgeType.S3]: { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
