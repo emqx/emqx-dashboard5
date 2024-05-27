@@ -6,9 +6,10 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
-import { get, omit, pick } from 'lodash'
+import { cloneDeep, get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 import { useAvailableProviders } from '../useProvidersForMonaco'
+import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -75,6 +76,7 @@ export default (
   }
 
   const { completionProvider } = useAvailableProviders()
+  const { availableFields } = useSQLAvailablePlaceholder()
 
   const handleProp = (parm: Property) => {
     const walk = (prop: Property) => {
@@ -401,22 +403,41 @@ export default (
 
   const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
-    const directItem = components?.parameters?.oneOf?.find?.((item) =>
-      /direct/i.test(item?.$ref || ''),
-    )
-    if (directItem) {
-      components.parameters = { ...omit(components.parameters, ['type', 'oneOf']), ...directItem }
-      Object.assign(rules, directItem.rules)
+    const { parameters } = components
+    const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
+
+    if (parameters && directItem) {
+      parameters.default = cloneDeep(directItem.default)
+      parameters.useNewCom = true
+      if (!parameters.componentProps) {
+        parameters.componentProps = {}
+      }
+      parameters.componentProps.type = 'radio'
+
+      if (directItem?.properties?.content?.type === 'string') {
+        directItem.properties.content.format = 'sql'
+      }
     }
-    const batchSize = components?.resource_opts?.properties?.batch_size
-    if (batchSize && batchSize.default > 1) {
-      batchSize.default = 1
+    // const batchSize = components?.resource_opts?.properties?.batch_size
+    // if (batchSize && batchSize.default > 1) {
+    //   batchSize.default = 1
+    // }
+
+    const aggItem = parameters?.oneOf?.find((item) => /aggregated/i.test(item.$ref || ''))
+    const aggType = aggItem?.properties?.container?.properties?.type
+    const columnOrder = aggItem?.properties?.container?.properties?.column_order
+    if (columnOrder) {
+      if (!columnOrder.componentProps) {
+        columnOrder.componentProps = {}
+      }
+      columnOrder.componentProps.default = availableFields.value
     }
-    if (components?.parameters?.properties?.content?.type === 'string') {
-      components.parameters.properties.content.format = 'sql'
+    if (aggType) {
+      aggType.title = tl('aggregationSettings')
     }
     return { components, rules }
   }
+
   const pulsarHandler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
 
