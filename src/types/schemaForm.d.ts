@@ -12,6 +12,8 @@ export interface Property {
   deprecated: string | boolean
   label: string
   labelKey?: string
+  // for block title
+  title?: string
   default: any
   symbols?: Array<string | number | boolean>
   type: string

@@ -688,11 +688,11 @@ const SchemaForm = defineComponent({
     /**
      * if property with special col span, return it, else return undefined
      */
-    const getColSpan = ({ path, format, type }: Property): number | undefined => {
+    const getColSpan = ({ path, format, type, items }: Property): number | undefined => {
       if (
         (path && SSL_PATH_REG.test(path)) ||
         format === 'sql' ||
-        type === 'array' ||
+        (type === 'array' && items.type !== 'string') ||
         type === 'object'
       ) {
         return 24
@@ -720,6 +720,12 @@ const SchemaForm = defineComponent({
        */
       const doNotNeedWrap = isComplexOneof(property)
 
+      const title = property.title ? (
+        <el-col span={24}>
+          {' '}
+          <p class="part-header">{property.title}</p>{' '}
+        </el-col>
+      ) : null
       const colItem = doNotNeedWrap ? (
         formItemContent || <div></div>
       ) : (
@@ -742,13 +748,19 @@ const SchemaForm = defineComponent({
           )}
         </el-col>
       )
+      const colItemWithTitle = (
+        <>
+          {title}
+          {colItem}
+        </>
+      )
       // Cluster form add Invite Node component
       if (props.type === 'cluster' && property.path === 'discovery_strategy') {
         const isManualCluster = configForm.value[property.path] === 'manual'
         if (isManualCluster) {
           return (
             <>
-              {colItem}
+              {colItemWithTitle}
               <el-col span={colSpan}>{ctx.slots['invite-node']?.()}</el-col>
             </>
           )
@@ -760,11 +772,11 @@ const SchemaForm = defineComponent({
             <el-col span={23}>
               <el-divider />
             </el-col>
-            {colItem}
+            {colItemWithTitle}
           </>
         )
       }
-      return colItem
+      return colItemWithTitle
     }
 
     const save = () => {

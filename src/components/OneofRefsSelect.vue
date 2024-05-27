@@ -5,7 +5,7 @@
       :readonly="readonly"
       :value="getLabelFromValueInOptionList(typeIndex, typeOpts)"
     >
-      <el-select v-model="typeIndex" @change="handleTypeChanged">
+      <el-select v-if="type === 'select'" v-model="typeIndex" @change="handleTypeChanged">
         <el-option
           v-for="{ value, label } in typeOpts"
           :key="value"
@@ -13,6 +13,11 @@
           :label="label"
         />
       </el-select>
+      <el-radio-group v-else v-model="typeIndex" @change="handleTypeChanged">
+        <el-radio v-for="{ value, label } in typeOpts" :key="value" :label="value" border>
+          <span>{{ label }}</span>
+        </el-radio>
+      </el-radio-group>
     </CustomFormItem>
   </el-col>
 </template>
@@ -55,6 +60,10 @@ const props = defineProps({
   },
   getText: {
     type: Function as PropType<(property: Property) => { label: string; desc?: string }>,
+  },
+  type: {
+    type: String as PropType<'select' | 'radio'>,
+    default: 'select',
   },
 })
 const emit = defineEmits(['change'])
