@@ -329,4 +329,8 @@ export default {
     zh: '通过自动订阅为客户端订阅主题时，不会经过 AuthZ 检查权限。',
     en: 'The authorization will not check permission when clients subscribe to topics through Auto Subscribe.',
   },
+  rewriteTip: {
+    zh: '通过主题重写新订阅的主题不会经过 AuthZ 检查权限。',
+    en: 'The authorization will not check permission when clients subscribe to topics through Topic Rewrite.',
+  },
 }
