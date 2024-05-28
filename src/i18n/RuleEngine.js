@@ -1493,4 +1493,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '数据校验在各节点上的执行情况及效率',
     en: 'Execution status and efficiency of data validation on each node',
   },
+  aggregationSettings: {
+    zh: '聚合设置',
+    en: 'Aggregation Settings',
+  },
 }

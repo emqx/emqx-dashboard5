@@ -241,7 +241,20 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.S3]: createOrderObj(
-      getPathArrInParameters(['bucket', 'key', 'acl', 'content', 'headers']),
+      [
+        'parameters',
+        'bucket',
+        'key',
+        'acl',
+        'content',
+        'container',
+        'type',
+        'column_order',
+        'aggregation',
+        'max_records',
+        'time_interval',
+        'headers',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.Pulsar]: createOrderObj(
