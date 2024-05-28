@@ -38,6 +38,7 @@ import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Setting } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { isEqual } from 'lodash'
 import { defineEmits, defineProps, ref, watch } from 'vue'
 
@@ -99,6 +100,10 @@ const fieldOptIndex = fieldOpts.reduce((map, { value }, index) => {
 
 const DropdownCom = ref()
 const confirm = () => {
+  if (!checkList.value.length) {
+    ElMessage.warning(t('Base.oneColumnRequired'))
+    return
+  }
   // The checklist is not in order, so reorder it.
   const list = checkList.value.sort(
     (a, b) => (fieldOptIndex.get(a) ?? 99) - (fieldOptIndex.get(b) ?? 99),
