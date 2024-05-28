@@ -22,6 +22,7 @@ export default (): {
       'keepalive',
       'clean_start',
       'is_bridge',
+      'client_attrs',
       'connected_at',
       'disconnected_at',
     ],
