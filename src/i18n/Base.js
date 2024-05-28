@@ -631,4 +631,8 @@ export default {
     zh: '选择列',
     en: 'Select Column',
   },
+  oneColumnRequired: {
+    zh: '至少选择一列',
+    en: 'At least one column is required',
+  },
 }
