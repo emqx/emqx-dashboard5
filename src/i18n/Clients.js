@@ -467,6 +467,10 @@ export default {
     zh: '监听器',
     en: 'Listener',
   },
+  clientAttrs: {
+    zh: '客户端属性',
+    en: 'Client Attributes',
+  },
   mqueueDesc: {
     zh: '消息队列用于存储因飞行窗口限制而无法发送的消息，以及在客户端离线时临时存储消息。队列有长度限制，如果达到限制，QoS 0 以及最旧的消息将被丢弃。',
     en: 'Message queue used to store messages that cannot be sent due to the limit of inflight window, and to temporarily store messages when a client is offline. The message queue has a length limit, and if it is reached, the oldest messages will be dropped.',
@@ -482,5 +486,9 @@ export default {
   validation: {
     zh: 'Schema 验证名称',
     en: 'Schema Validation Name',
+  },
+  pageJumpTip: {
+    zh: '该页暂无数据，已自动跳转至第一页。',
+    en: 'No data available on this page. Redirected to the first page.',
   },
 }
