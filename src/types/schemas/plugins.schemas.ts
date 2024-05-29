@@ -85,6 +85,19 @@ export type GetPluginsNameConfig404 = {
   message?: string
 }
 
+export type GetPluginsNameConfig400Code =
+  typeof GetPluginsNameConfig400Code[keyof typeof GetPluginsNameConfig400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameConfig400Code = {
+  BAD_CONFIG: 'BAD_CONFIG',
+} as const
+
+export type GetPluginsNameConfig400 = {
+  code?: GetPluginsNameConfig400Code
+  message?: string
+}
+
 export type GetPluginsName404Code = typeof GetPluginsName404Code[keyof typeof GetPluginsName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
