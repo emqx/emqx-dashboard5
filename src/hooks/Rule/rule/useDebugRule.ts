@@ -9,7 +9,7 @@ import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import type { FormattedLog, LogItem } from './useFormatDebugLog'
@@ -19,7 +19,15 @@ import useRuleEvents from './useRuleEvents'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 
-export default () => {
+export default (): {
+  logData: Ref<FormattedLog>
+  emptyLogArr: () => void
+  handleStopTest: () => void
+  getLogItemTitle: (item: Record<string, any>) => string
+  submitMockDataForTestRule: (ruleId: string, data: Record<string, any>) => Promise<any>
+  startTest: (ruleId: string) => Promise<void>
+  setCbAfterPolling: (cb: (logContent: string) => void) => void
+} => {
   let traceName = ''
   let traceStartTime: undefined | number = undefined
 
@@ -179,7 +187,7 @@ export default () => {
   })
 
   return {
-    logData: logData,
+    logData,
     emptyLogArr: emptyLogData,
     handleStopTest,
     getLogItemTitle,
@@ -189,9 +197,17 @@ export default () => {
   }
 }
 
-export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
+export const useStatusController = (
+  rule?: Ref<BasicRule | RuleItem>,
+): {
+  isTesting: WritableComputedRef<boolean>
+  savedAfterRuleChange: WritableComputedRef<boolean>
+  testTarget: WritableComputedRef<BasicRule | RuleItem>
+  isRuleSaveButtonDisabled: ComputedRef<boolean>
+  updateSavedRule: (savedRule: BasicRule | RuleItem) => void
+} => {
   const { state, commit, getters } = useStore()
-  const isTesting = computed({
+  const isTesting = computed<boolean>({
     get() {
       return state.isTesting
     },
@@ -199,7 +215,7 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
       commit('SET_IS_TESTING', val)
     },
   })
-  const savedAfterRuleChange = computed({
+  const savedAfterRuleChange = computed<boolean>({
     get() {
       return state.savedAfterRuleChange
     },
@@ -207,7 +223,7 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
       commit('SET_SAVED_AFTER_RULE_CHANGE', val)
     },
   })
-  const testTarget = computed({
+  const testTarget = computed<BasicRule | RuleItem>({
     get() {
       return state.testRuleTarget
     },
@@ -216,7 +232,7 @@ export const useStatusController = (rule?: Ref<BasicRule | RuleItem>) => {
     },
   })
 
-  const isRuleSaveButtonDisabled = computed(() => getters.isRuleSaveButtonDisabled)
+  const isRuleSaveButtonDisabled = computed<boolean>(() => getters.isRuleSaveButtonDisabled)
 
   const lastSavedRule: Ref<BasicRule | RuleItem | undefined> = ref(
     (rule && rule.value) || undefined,

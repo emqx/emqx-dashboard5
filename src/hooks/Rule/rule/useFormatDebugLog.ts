@@ -153,7 +153,12 @@ const neededInfoMap = new Map([
   [LogMsg.ApplyRuleFailed, 'meta'],
 ])
 
-export default () => {
+export default (): {
+  convertLogStrToLogArr: (logStr: string) => Array<LogItem>
+  filterExpiredLog: (logArr: Array<LogItem>, startTimestamp: number) => Array<LogItem>
+  detectTotalLogResult: (resultArr: Array<LogResult>) => LogResult
+  formatLog: (logArr: Array<LogItem>) => FormattedLog
+} => {
   const convertLogStrToLogArr = (logStr: string): Array<LogItem> =>
     logStr
       .split('\n')
@@ -315,7 +320,7 @@ export default () => {
     return needBeDropped
   }
 
-  const formatLog = (logArr: Array<LogItem>) => {
+  const formatLog = (logArr: Array<LogItem>): FormattedLog => {
     const ret: FormattedLog = {}
     const timeGroupedMap = groupBy(
       copyLogItemIfWithMultipleTriggerTime(logArr),
@@ -368,7 +373,14 @@ export default () => {
   }
 }
 
-export const useShowLog = () => {
+export const useShowLog = (): {
+  getLogItemTitle: (targetLogData: TargetLog, logMsg: LogMsg) => string
+  getLogItemContent: (
+    targetLogData: TargetLog,
+    logMsg: LogMsg,
+    logContent: Record<string, any>,
+  ) => string
+} => {
   const { tl } = useI18nTl('RuleEngine')
   const commonActionLogMsgMap = new Map([
     [LogMsg.ActionTemplateRendered, tl('requestParameter')],
