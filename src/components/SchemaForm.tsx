@@ -276,17 +276,24 @@ const SchemaForm = defineComponent({
       parentProperty.default = property.default
       const fieldValue = parentProperty.path && _.get(configForm.value, parentProperty.path)
       if (fieldValue) {
+        // Remove unneeded fields
         Object.keys(fieldValue).forEach((key) => {
           if (!property.properties?.[key]) {
+            // remove field
             Reflect.deleteProperty(fieldValue, key)
+            // remove rule
+            const totalPath = `${parentProperty.path}.${key}`
+            Reflect.deleteProperty(rules.value, totalPath)
           }
         })
       }
+      // Add new fields
       Object.values(property.properties || {}).forEach((prop) => {
         if (prop.path) {
           _.set(configForm.value, prop.path, createInitValueByType(prop))
         }
       })
+      rules.value = { ...rules.value, ...property.rules }
     }
 
     const sortOneofProperties = (oneOfArr: Property['oneOf']): Property['oneOf'] => {

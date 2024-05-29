@@ -159,6 +159,7 @@ const updateConfigData = async () => {
     saveLoading.value = true
     await updateSystemTopicConfig(sysTopics.value)
     ElMessage.success(t('Base.updateSuccess'))
+    setRawData(sysTopics.value)
   } catch (error) {
     // ignore error
   } finally {

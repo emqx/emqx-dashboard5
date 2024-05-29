@@ -42,6 +42,7 @@
     :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('rewrite')"
     @close="initForm"
   >
+    <TipContainer :content="tl('rewriteTip')" />
     <el-form
       ref="rewriteForm"
       :model="rewriteInput"
@@ -87,6 +88,7 @@
 <script lang="ts" setup>
 import { editTopicRewrite, getTopicRewrite } from '@/api/extension'
 import { getLabelFromValueInOptionList } from '@/common/tools'
+import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Rewrite } from '@/types/extension'
 import { Plus } from '@element-plus/icons-vue'
@@ -131,7 +133,6 @@ let validatorRules = [
 let rewriteRules = {
   action: validatorRules,
   source_topic: validatorRules,
-  re: validatorRules,
   dest_topic: validatorRules,
 }
 
