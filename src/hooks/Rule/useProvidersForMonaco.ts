@@ -4,6 +4,7 @@ import { BridgeItem, RuleEvent } from '@/types/rule'
 import { camelCase } from 'lodash'
 import * as monaco from 'monaco-editor'
 import { computed, Ref, ref } from 'vue'
+import type { ComputedRef } from 'vue'
 import useI18nTl from '../useI18nTl'
 import keysInRule from './KeysInRule'
 import useRuleSourceEvents from './rule/useRuleSourceEvents'
@@ -255,7 +256,10 @@ export default (): {
   }
 }
 
-export const useAvailableProviders = () => {
+export const useAvailableProviders = (): {
+  sql: Ref<string> | undefined
+  completionProvider: ComputedRef<monaco.languages.CompletionItemProvider | undefined>
+} => {
   const { sql, availablePlaceholders } = useSQLAvailablePlaceholder()
   const { createCompletionProvider } = useProviderUtils()
 

@@ -266,14 +266,6 @@ const loadBridgeInfo = async () => {
   }
 }
 
-/**
- * because each component will fill empty value to the bridgeInfo, so we need to
- * reset the raw bridge info to prevent compare error
- */
-const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
-  rawBridgeInfo = _.cloneDeep(bridgeInfo)
-}
-
 const setBridgeInfoFromSchemaForm = () => {
   if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
     bridgeInfo.value = formCom.value.getFormRecord()
