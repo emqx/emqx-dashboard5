@@ -52,12 +52,22 @@ export default (): {
   const checkIsTopic = (str: string) =>
     !ruleInputBridgeReg.test(str) && !ruleInputEventReg.test(str)
 
+  /**
+   * if is `xxx`, output `xxx`
+   * if is `xxx.yyy`, output `xxx`
+   */
+  const withLevelReg = new RegExp(/^[^.]+/)
+  const getOutputValue = (value: string): string => {
+    const withLevel = withLevelReg.exec(value)
+    return withLevel ? withLevel[0] : value
+  }
+
   const availableFields = computed<Array<string>>(() => {
     if (selectList.value.length === 0) {
       return []
     }
     let valueSet: Set<string> = new Set()
-    // if select `*`
+    // if select `*`, fields is from `from`
     if (selectList.value.length === 1 && /^\*$/.test(selectList.value[0])) {
       if (!eventList) {
         return []
@@ -77,10 +87,10 @@ export default (): {
         const alias = getRuleSelectionAlias(item)
         // If using a function and not specifying an alias,
         // emqx will randomize a name of the variable, so it is not dealt with
-        if (withFunc && isUndefined(alias)) {
-          return set
+        if (!withFunc || !isUndefined(alias)) {
+          const value = !isUndefined(alias) ? alias : item
+          set.add(getOutputValue(value))
         }
-        set.add(!isUndefined(alias) ? alias : item)
         return set
       }, new Set() as Set<string>)
     }
