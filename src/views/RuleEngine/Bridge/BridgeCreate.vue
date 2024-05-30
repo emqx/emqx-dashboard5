@@ -158,7 +158,7 @@ const { getDetail, addAction, isTesting, testConnectivity } = useHandleActionIte
 
 const targetLoading = ref(false)
 const checkBridgeClipStatus = async () => {
-  if (!isCopy.value) {
+  if (!/action/i.test(route.name?.toString() || '') || !isCopy.value) {
     return
   }
   try {
