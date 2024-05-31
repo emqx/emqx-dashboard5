@@ -1,14 +1,14 @@
 <template>
   <div class="webhook-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: fullName, routeName: 'webhook' }" />
-      <div class="section-header">
-        <div>
-          <span class="title-n-status">
+      <detail-header :item="{ name: fullName, routeName: 'webhook' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <p class="block-title">{{ fullName }}</p>
             <StatusDetailsOfEachNode :status-data="statusData" is-tag />
-          </span>
-        </div>
-        <div>
+          </div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="webhookData?.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -33,8 +33,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">

@@ -59,24 +59,8 @@
     .section-header {
       margin-top: 0;
     }
-    .section-header__block {
-      display: flex;
-      align-items: center;
-      min-height: 64px;
-      .img-wrap {
-          line-height: 0;
-        }
-      & > div {
-        margin-right: 20px;
-      }
-    }
     .section-header__title {
       margin-bottom: 8px;
-    }
-  }
-  .info-tags {
-    :not(:last-child) {
-      margin-right: 12px;
     }
   }
   .el-badge__content.is-fixed {
@@ -102,9 +86,12 @@
   }
   // Gateway Authn page
   .embed-gateway {
-    position: absolute;
-    left: -20px;
+    position: relative;
     z-index: 1;
+
+    h2 {
+      margin: 0;
+    }
   }
   .detail-tabs {
     min-height: 400px;
