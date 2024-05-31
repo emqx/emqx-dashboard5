@@ -30,6 +30,7 @@ import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
 import OneofRefsSelect from './OneofRefsSelect.vue'
+import SelectAllowInput from './SelectAllowInput.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
 import BatchSettings from './BatchSettings.vue'
@@ -68,6 +69,7 @@ const SchemaForm = defineComponent({
     AdvancedSettingContainer,
     CertFileInput,
     InputWithPlaceholderSelect,
+    SelectAllowInput,
     BatchSettings,
   },
   props: {
@@ -400,6 +402,19 @@ const SchemaForm = defineComponent({
           )
         }
         case 'enum':
+          if (customProps.allowCreate && !customProps.multiple) {
+            return (
+              <SelectAllowInput
+                disabled={isPropertyDisabled}
+                placeholder={property.default?.toString()}
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                clearable={clearableValue}
+                options={property.symbols}
+                {...customProps}
+              />
+            )
+          }
           return (
             <el-select
               disabled={isPropertyDisabled}
