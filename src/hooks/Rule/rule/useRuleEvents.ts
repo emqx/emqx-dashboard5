@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 
 const EVENT_SORT: Array<string> = [
+  '$events/client_check_authn_complete',
   '$events/client_connected',
   '$events/client_disconnected',
   '$events/client_connack',
