@@ -3,6 +3,9 @@
     <template #content v-if="$slots.content">
       <slot name="content" />
     </template>
+    <template #extra v-if="$slots.extra">
+      <slot name="extra" />
+    </template>
   </el-page-header>
 </template>
 
@@ -54,7 +57,6 @@ const goBack = () => {
 .detail-header {
   margin-top: 32px;
   margin-bottom: 24px;
-  max-width: 90%;
   .el-page-header__breadcrumb {
     display: none;
   }
@@ -62,6 +64,9 @@ const goBack = () => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    :not(:last-child) {
+      margin-right: 12px;
+    }
   }
 }
 </style>
