@@ -1,39 +1,34 @@
 <template>
   <div class="plugin-detail details">
     <div class="detail-top">
-      <detail-header :item="{ name: pluginInfo.name, path: '/plugins' }" />
-      <div class="section-header">
-        <div class="plugin-detail-hd">
-          <div class="plugin-base-info">
-            <!-- <i class="icon icon-plugin"></i> -->
-            <div>
-              <div>
-                <PluginItemStatus is-tag :plugin-data="pluginInfo" />
-                <el-tag type="info" class="section-status">
-                  {{ pluginInfo.rel_vsn }}
-                </el-tag>
-              </div>
-            </div>
+      <detail-header :item="{ name: pluginInfo.name, path: '/plugins' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <p class="block-title">{{ pluginInfo.name }}</p>
+            <PluginItemStatus is-tag :plugin-data="pluginInfo" />
+            <el-tag type="info" class="section-status">
+              {{ pluginInfo.rel_vsn }}
+            </el-tag>
           </div>
-          <div>
-            <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
-              {{ tl('more') }}
-            </el-button>
-            <el-button
-              v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
-              @click="handleDisable"
-            >
-              {{ tl('stop', 'Base') }}
-            </el-button>
-            <el-button @click="handleEnable" v-else>
-              {{ tl('start') }}
-            </el-button>
-            <el-button type="danger" plain @click="handleUninstall">
-              {{ tl('uninstall') }}
-            </el-button>
-          </div>
-        </div>
-      </div>
+        </template>
+        <template #extra>
+          <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
+            {{ tl('more') }}
+          </el-button>
+          <el-button
+            v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
+            @click="handleDisable"
+          >
+            {{ tl('stop', 'Base') }}
+          </el-button>
+          <el-button @click="handleEnable" v-else>
+            {{ tl('start') }}
+          </el-button>
+          <el-button type="danger" plain @click="handleUninstall">
+            {{ tl('uninstall') }}
+          </el-button>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="currTab">
       <div class="app-wrapper">
@@ -114,36 +109,9 @@ getPluginDetail()
 
 <style lang="scss" scoped>
 @import './style/pluginInfo.scss';
-.plugin-detail-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-.plugin-base-info {
-  display: flex;
-  line-height: 1;
-  :deep(.node-status) {
-    margin-right: 8px;
-  }
+.plugin-detail {
   .el-tag {
-    vertical-align: top;
+    margin-right: 12px;
   }
-}
-.icon-plugin {
-  display: inline-block;
-  width: 56px;
-  height: 56px;
-  margin-right: 10px;
-  background: #f4fdff;
-}
-.plugin-name {
-  position: relative;
-  top: -4px;
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 22px;
 }
 </style>
