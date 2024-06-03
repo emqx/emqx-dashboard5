@@ -1,38 +1,28 @@
 <template>
-  <el-card class="type-metrics">
-    <transition name="slide-fade-back">
-      <div class="side front" v-if="!showBack">
-        <div class="side-main">
-          <div class="front-hd">
-            <i class="dot-type"></i>
-            <p class="metric-name">{{ data.title }}</p>
-            <InfoTooltip v-if="hasNoDetails && oneDetailData.desc" :content="oneDetailData.desc" />
-          </div>
-          <div class="front-body">
-            <div class="num-container">
-              <p class="metric-num">{{ formatNumber(data.count) }}</p>
-              <span
-                v-if="diff && data.count !== undefined"
-                class="num-diff"
-                :class="{ 'is-red': diff < 0, 'need-plus': diff > 0 }"
-              >
-                {{ formatNumber(diff) }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div v-if="!hasNoDetails" class="side-trigger" @click="toggleShow">
-          <el-icon class="icon-arrow" :size="20"><ArrowRight /></el-icon>
+  <div class="type-metrics">
+    <div class="metrics-main">
+      <div class="metrics-hd">
+        <i class="dot-type"></i>
+        <p class="metric-name">{{ data.title }}</p>
+        <InfoTooltip v-if="hasNoDetails && oneDetailData.desc" :content="oneDetailData.desc" />
+      </div>
+      <div class="metrics-body">
+        <div class="num-container">
+          <p class="metric-num">{{ formatNumber(data.count) }}</p>
+          <span
+            v-if="diff && data.count !== undefined"
+            class="num-diff"
+            :class="{ 'is-red': diff < 0, 'need-plus': diff > 0 }"
+          >
+            {{ formatNumber(diff) }}
+          </span>
         </div>
       </div>
-    </transition>
-    <transition name="slide-fade">
-      <div class="back-wrap" v-if="showBack">
-        <div class="side back">
-          <div class="side-trigger" @click="toggleShow">
-            <el-icon class="icon-arrow" :size="20"><ArrowRight /></el-icon>
-          </div>
-          <div class="side-main">
+    </div>
+    <div v-if="!hasNoDetails" class="detail-trigger">
+      <el-tooltip effect="dark" placement="bottom" trigger="click">
+        <template #content>
+          <div class="metrics-details">
             <el-scrollbar>
               <div class="desc-container">
                 <el-descriptions :column="2">
@@ -49,15 +39,16 @@
               </div>
             </el-scrollbar>
           </div>
-        </div>
-      </div>
-    </transition>
-  </el-card>
+        </template>
+        <el-icon class="icon-arrow" :size="18"><MoreFilled /></el-icon>
+      </el-tooltip>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
-import { ArrowRight } from '@element-plus/icons-vue'
+import { MoreFilled } from '@element-plus/icons-vue'
 import { computed, defineProps, PropType, ref, watch } from 'vue'
 import { MetricType, TYPE_COLOR_MAP } from '@/hooks/useMetrics'
 import InfoTooltip from '../InfoTooltip.vue'
@@ -86,9 +77,6 @@ const props = defineProps({
 })
 const typeColor = computed(() => TYPE_COLOR_MAP[props.type])
 
-const showBack = ref(false)
-const toggleShow = () => (showBack.value = !showBack.value)
-
 const hasNoDetails = computed(() => props.data.detail.length === 1)
 
 const oneDetailData = computed<DetailItem>(() => props.data.detail[0])
@@ -106,30 +94,19 @@ watch(
 
 <style lang="scss">
 .type-metrics {
-  position: relative;
+  display: flex;
   user-select: none;
-  .el-card__body {
-    padding: 0;
-    height: 100%;
-    line-height: 1;
-  }
-  .side {
-    display: flex;
-    height: 100%;
-  }
-  .front {
-    padding: 30px 24px;
-  }
-  .back {
-    padding: 0 0 0 24px;
-  }
+  padding: 40px 32px;
   .desc-container {
     padding: 30px 24px 30px 0;
   }
-  .front-hd {
+  .metrics-main {
+    flex-grow: 1;
+  }
+  .metrics-hd {
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   .dot-type {
@@ -165,7 +142,7 @@ watch(
     }
   }
 
-  .side-trigger {
+  .detail-trigger {
     display: flex;
     align-items: center;
     width: 20px;
@@ -173,24 +150,13 @@ watch(
   .side-main {
     flex-grow: 1;
   }
-  .back-wrap {
-    // display: none;
-    height: 100%;
-  }
-  .back {
-    background: var(--color-bg);
-    .side-trigger {
-      margin-right: 20px;
-    }
-    .icon-arrow {
-      transform: rotate(180deg);
-      color: var(--color-text-placeholder);
-    }
-  }
   .icon-arrow {
     position: relative;
     cursor: pointer;
     padding: 2px;
+    transform: rotate(90deg);
+    color: var(--color-text-secondary);
+    opacity: 0.7;
     &::after {
       content: '';
       position: absolute;
@@ -209,36 +175,12 @@ watch(
       height: 28px;
     }
   }
-
-  // &:hover {
-  //   .front {
-  //     display: none;
-  //   }
-  //   .back-wrap {
-  //     display: block;
-  //   }
-  // }
-  .slide-fade-enter-active,
-  .slide-fade-back-leave-active {
-    transition: all 0.25s ease-out;
+}
+.metrics-details {
+  padding: 16px;
+  .el-descriptions {
+    background: transparent;
   }
-
-  .slide-fade-leave-active,
-  .slide-fade-back-enter-active {
-    transition: all 0.05s ease-out;
-  }
-
-  .slide-fade-enter-from,
-  .slide-fade-leave-to {
-    transform: translateX(60px);
-    opacity: 0.6;
-  }
-  .slide-fade-back-enter-from,
-  .slide-fade-back-leave-to {
-    transform: translateX(-60px);
-    opacity: 0.6;
-  }
-
   .el-descriptions__body {
     background-color: transparent;
   }
@@ -258,18 +200,22 @@ watch(
     padding-bottom: 0;
   }
 
+  .el-descriptions .el-descriptions__content {
+    float: right;
+    padding-right: 8px;
+    color: #fff;
+  }
+
   .el-descriptions__body .el-descriptions__table .el-descriptions__cell {
     line-height: 21px;
   }
+
   .el-descriptions .el-descriptions__label,
   .icon-question {
     color: #bac1cd;
   }
   .icon-question {
     margin-left: 2px;
-  }
-  .el-descriptions .el-descriptions__content {
-    color: #fff;
   }
 }
 </style>
