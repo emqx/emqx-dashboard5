@@ -31,6 +31,10 @@ export default {
     en: 'Client Check Authz Complete',
     zh: '授权完成',
   },
+  eventsClientCheckAuthnComplete: {
+    en: 'Client Check Authn Complete',
+    zh: '认证完成',
+  },
   eventsSessionSubscribed: {
     en: 'Session Subscribed',
     zh: '会话订阅',

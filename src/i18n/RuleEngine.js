@@ -689,6 +689,10 @@ export default {
     zh: '当客户端鉴权结束时触发规则',
     en: `The rule event is triggered when the client check acl complete.`,
   },
+  clientCheckAuthnCompleteDesc: {
+    zh: '当客户端认证结束时触发规则',
+    en: `The rule event is triggered when the client check authentication complete.`,
+  },
   sessionSubscribedDesc: {
     zh: '当终端订阅成功时触发规则',
     en: `Trigger the rule when the terminal subscribes successfully`,

@@ -93,6 +93,7 @@ export enum EventForRule {
   ClientConnected = '$events/client_connected',
   ClientDisconnected = '$events/client_disconnected',
   ClientConnack = '$events/client_connack',
+  ClientCheckAuthnComplete = '$events/client_check_authn_complete',
   ClientCheckAuthzComplete = '$events/client_check_authz_complete',
   SessionSubscribed = '$events/session_subscribed',
   SessionUnsubscribed = '$events/session_unsubscribed',
