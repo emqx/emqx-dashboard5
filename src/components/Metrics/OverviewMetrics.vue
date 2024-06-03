@@ -47,21 +47,11 @@
           </el-card>
         </el-col>
         <!-- Number Stats -->
-        <el-col :span="isFlowNode ? 24 : 16">
-          <el-card class="metric-types">
-            <el-row :gutter="0">
-              <el-col
-                v-for="stat in typeMetricsData.stats"
-                :key="stat.type"
-                :span="getTypeColSpan(typeMetricsData.stats)"
-                class="col-type-metrics"
-              >
-                <!-- set key to eliminate the diff when change node -->
-                <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
+        <TypeMetrics
+          :data="typeMetricsData.stats"
+          :is-flow-node="isFlowNode"
+          :selected-node="selectedNode"
+        />
       </el-row>
     </div>
     <!-- Rate Stats -->
@@ -153,20 +143,11 @@
             </el-card>
           </el-col>
           <!-- Number Stats -->
-          <el-col :span="isFlowNode ? 24 : 16">
-            <el-card class="metric-types">
-              <el-row :gutter="0">
-                <el-col
-                  v-for="stat in typeMetricsDataChild.stats"
-                  :key="stat.type"
-                  :span="getTypeColSpan(typeMetricsDataChild.stats)"
-                  class="col-type-metrics"
-                >
-                  <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-col>
+          <TypeMetrics
+            :data="typeMetricsDataChild.stats"
+            :is-flow-node="isFlowNode"
+            :selected-node="selectedNode"
+          />
         </el-row>
       </div>
     </div>
@@ -199,7 +180,6 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { isArray } from 'lodash'
 import { ComputedRef, Ref, computed, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 
@@ -319,14 +299,6 @@ const setChartId = (name: string) => {
   return `pie-chart-${name}`
 }
 const { updatePieData } = usePieChart()
-
-/* TYPE DATA */
-const getTypeColSpan = (typeStats: TypeMetricDataItem[]) => {
-  if (!typeStats || !isArray(typeStats) || typeStats.length === 0) {
-    return 0
-  }
-  return 24 / typeStats.length
-}
 
 /* RATE */
 const rateDataLength = 20
@@ -510,6 +482,16 @@ const { syncPolling } = useSyncPolling()
           height: 50%;
           background-color: var(--color-border-card);
         }
+      }
+    }
+    .flow-node-col {
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-bottom: 24px;
+      }
+      .type-metrics {
+        padding-top: 24px;
+        padding-bottom: 24px;
       }
     }
     .el-row {
