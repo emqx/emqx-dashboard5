@@ -85,7 +85,9 @@ export default (): {
           : checkIsTopic(item)
           ? RuleInputType.Topic
           : RuleInputType.Event
-        const targetEvent = getTestTargetEvent(itemType, item, totalEventList.value)
+        const value =
+          itemType === RuleInputType.Bridge ? item.replace(ruleInputBridgeReg, '') : item
+        const targetEvent = getTestTargetEvent(itemType, value, totalEventList.value)
         if (targetEvent) {
           targetEvent.columns.forEach((item) => set.add(item))
         }

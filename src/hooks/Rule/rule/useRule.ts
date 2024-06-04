@@ -109,6 +109,9 @@ export const useRuleUtils = (): {
     return bridgeType as BridgeType
   }
 
+  /**
+   * @param value if type is source, value is source id
+   */
   const getTestTargetEvent = (
     type: RuleInputType,
     value: string,
