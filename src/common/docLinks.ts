@@ -68,7 +68,7 @@ const QUERY_FOR_GO_UPGRADE = createQueryStr({
 })
 const QUERY_FOR_LICENSE = createQueryStr({ version: 5, utm_campaign: 'dashboard-to-license' })
 
-export default (lang: string): DocMap => {
+const createDocLinks = (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
   return {
     sqlGrammar: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,
@@ -93,10 +93,7 @@ export default (lang: string): DocMap => {
     ruleEngine: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
     mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
-    mqttClient:
-      lang === 'zh'
-        ? `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`
-        : `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`,
+    mqttClient: `https://www.emqx.com/${lang}/mqtt-client-sdk?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
     twitterHome: 'https://twitter.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
@@ -122,3 +119,5 @@ export default (lang: string): DocMap => {
     )}`,
   }
 }
+
+export default createDocLinks
