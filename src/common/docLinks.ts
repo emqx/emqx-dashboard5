@@ -15,7 +15,7 @@ type DocKey =
   | 'mqttV5'
   | 'mqttClient'
   | 'githubHome'
-  | 'twitterHome'
+  | 'xHome'
   | 'youtubeHome'
   | 'linkedInHome'
   | 'emqxEnterprise'
@@ -84,7 +84,7 @@ const createDocLinks = (lang: string): DocMap => {
     mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
     mqttClient: `https://www.emqx.com/${lang}/mqtt-client-sdk?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
-    twitterHome: 'https://twitter.com/EMQTech',
+    xHome: 'https://x.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
