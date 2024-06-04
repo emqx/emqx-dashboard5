@@ -57,47 +57,46 @@ const QUERY_FOR_GO_UPGRADE = createQueryStr({
   utm_campaign: 'dashboard-header-to-upgrade',
 })
 
-export default (lang: string): DocMap => {
+const createDocLinks = (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
   return {
-    sqlGrammar: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,
+    sqlGrammar: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,
     cloud: `https://${accountsLink}/signup?${QUERY_FOR_GO_CLOUD}`,
     // TODO: version
-    documentation: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/?${QUERY_FOR_HELP}`,
-    forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
+    documentation: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/?${QUERY_FOR_HELP}`,
+    forum: lang === 'en' ? `https://forum.emqx.io/` : `https://askemq.com/`,
     gitHub: `https://github.com/emqx/emqx`,
-    ruleEvent: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html`,
-    bridgeAsFrom: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
+    ruleEvent: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html`,
+    bridgeAsFrom: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? '数据桥接' : 'data-bridges'
     }`,
-    ruleEventMsgPub: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
+    ruleEventMsgPub: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
       lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
     }`,
     upgrade: `https://www.emqx.com/${lang}/lp/upgrade-emqx/enterprise?${QUERY_FOR_GO_UPGRADE}`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
-    dashboard: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/dashboard/introduction.html?${QUERY_FOR_HELP}`,
-    emqxGettingStarted: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
-    accessControl: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/dashboard/acloverview.html?${QUERY_FOR_HELP}`,
-    dataBridge: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/data-bridges.html?${QUERY_FOR_HELP}`,
-    ruleEngine: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/data-integration/rules.html?${QUERY_FOR_HELP}`,
+    dashboard: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/dashboard/introduction.html?${QUERY_FOR_HELP}`,
+    emqxGettingStarted: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/getting-started/getting-started.html?${QUERY_FOR_HELP}`,
+    accessControl: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/dashboard/acloverview.html?${QUERY_FOR_HELP}`,
+    dataBridge: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridges.html?${QUERY_FOR_HELP}`,
+    ruleEngine: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
     mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
-    mqttClient:
-      lang === 'zh'
-        ? `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`
-        : `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`,
+    mqttClient: `https://www.emqx.com/${lang}/mqtt-client-sdk?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
     twitterHome: 'https://twitter.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
     cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
-    resetPassword: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/admin/cli.html#admins`,
+    resetPassword: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/admin/cli.html#admins`,
     moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
     contactUs: `https://www.emqx.com/${lang}/contact?${QUERY_FOR_HELP}`,
-    feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://www.emqx.io/forum/c/emqx/5',
-    learnConfig: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
-    restAPI: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,
-    faq: `https://www.emqx.io/docs/${lang}/${EMQX_VERSION}/faq/faq.html?${QUERY_FOR_HELP}`,
+    feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://forum.emqx.io/c/emqx/5',
+    learnConfig: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
+    restAPI: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,
+    faq: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/faq/faq.html?${QUERY_FOR_HELP}`,
   }
 }
+
+export default createDocLinks
