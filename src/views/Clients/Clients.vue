@@ -150,7 +150,11 @@
         </el-table-column>
       </el-table>
       <div class="emq-table-footer">
-        <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
+        <MiniPagination
+          :current-page="page"
+          :hasnext="hasNext"
+          @current-change="handlePageChange"
+        />
       </div>
     </div>
   </div>
@@ -168,19 +172,21 @@ export default defineComponent({
 import { batchDisconnectClients, listClients } from '@/api/clients'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
+import MiniPagination from '@/components/MiniPagination.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-import CommonPagination from '@/components/commonPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationRemember from '@/hooks/usePaginationRemember'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
-import { useStore } from 'vuex'
+import useI18nTl from '@/hooks/useI18nTl'
+import { useCursorPagination } from '@/hooks/usePagination'
+import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 
@@ -194,6 +200,7 @@ const CONNECTED_AT_SUFFIX = '_connected_at'
 const { nodes: currentNodes } = useClusterNodes()
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
+const route = useRoute()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
@@ -204,8 +211,11 @@ const params = ref({})
 const fuzzyParams = ref<Record<string, any>>({
   comparator: Comparator.After,
 })
-const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+
+const { page, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
+const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
+  usePaginationRemember('clients-detail')
+const routeName = computed(() => route.name?.toString() || 'clients')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
@@ -228,7 +238,8 @@ const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
   params.value = genQueryParams(fuzzyParams.value)
-  loadNodeClients({ page: 1 })
+  resetPage()
+  loadNodeClients()
 }
 
 const handleReset = () => {
@@ -279,30 +290,48 @@ const genQueryParams = (params: Record<string, any>) => {
   return newParams
 }
 
-const loadNodeClients = async (_params = {}) => {
+const handlePageChange = (no: number) => {
+  const isBack = no < page.value
+  page.value = no
+  loadNodeClients(isBack)
+}
+
+const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
   const sendParams = {
     ...params.value,
     ...pageParams.value,
-    ..._params,
     fields: getClientFields(),
   }
   try {
     const { data = [], meta = {} } = await listClients(sendParams)
     tableData.value = data
-    setPageMeta(meta)
-    updateParams({ ...pick(meta, ['limit', 'page']), ...params.value })
+    setCursor(page.value + 1, meta.cursor)
+    updateParams({ page: page.value, ...pageParams.value, ...params.value })
+    updateCursorMap(routeName.value, cursorMap.value)
+    if (isBack && page.value !== 1 && data.length === 0) {
+      ElMessage.warning(tl('pageJumpTip'))
+      handlePageChange(1)
+    }
   } catch (error) {
     tableData.value = []
-    initPageMeta()
+    resetPage()
   } finally {
     lockTable.value = false
   }
 }
 
 const getParamsFromQuery = () => {
-  const { pageParams, filterParams } = checkParamsInQuery()
-  pageMeta.value = { ...pageMeta.value, ...pageParams }
+  const { pageParams, filterParams } = checkNewCursorParamsInQuery()
+  if (isEmptyObj(pageParams) && isEmptyObj(filterParams)) {
+    return
+  }
+  const storageCursorMap = getCursorMap(routeName.value)
+  if (storageCursorMap) {
+    cursorMap.value = storageCursorMap
+  }
+  page.value = pageParams.page || 1
+  setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
       if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
@@ -340,7 +369,8 @@ const cleanBatchClients = async () => {
     batchDeleteLoading.value = true
     try {
       await batchDisconnectClients(clientIds)
-      loadNodeClients({ page: 1 })
+      resetPage()
+      loadNodeClients()
       ElMessage.success(tl('kickedOutSuc'))
       TableCom.value?.clearSelection()
     } catch (error) {
