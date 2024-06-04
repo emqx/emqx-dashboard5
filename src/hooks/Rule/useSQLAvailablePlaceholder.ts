@@ -14,7 +14,20 @@ import type { ComputedRef, Ref } from 'vue'
 import { computed, inject, ref } from 'vue'
 
 // store kafka, rabbit columns...can not get from api like mqtt
-const _events: Array<RuleEvent> = [] as Array<RuleEvent>
+const _events: Array<RuleEvent> = [
+  {
+    columns: ['payload', 'event', 'metadata', 'timestamp', 'node'],
+    event: '$bridges/rabbitmq:*',
+  },
+  {
+    columns: ['headers', 'key', 'offset', 'topic', 'ts', 'ts_type', 'value'],
+    event: '$bridges/kafka_consumer:*',
+  },
+  {
+    columns: ['attributes', 'message_id', 'ordering_key', 'publishing_time', 'topic', 'value'],
+    event: '$bridges/gcp_pubsub_consumer:*',
+  },
+] as Array<RuleEvent>
 
 export default (): {
   sql: Ref<string> | undefined
