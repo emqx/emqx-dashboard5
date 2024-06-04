@@ -277,7 +277,11 @@ const SchemaForm = defineComponent({
       }
       // Add new fields
       Object.values(property.properties || {}).forEach((prop) => {
-        if (prop.path) {
+        if (!prop.path) {
+          return
+        }
+        const currentValue = _.get(configForm.value, prop.path)
+        if (_.isUndefined(currentValue)) {
           _.set(configForm.value, prop.path, createInitValueByType(prop))
         }
       })
