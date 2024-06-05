@@ -1367,7 +1367,7 @@ export interface BridgeS3S3DirectUploadParameters {
   key: string
   acl?: BridgeS3S3DirectUploadParametersAcl
   headers?: BridgeS3S3DirectUploadParametersHeaders
-  mode: BridgeS3S3DirectUploadParametersMode
+  mode?: BridgeS3S3DirectUploadParametersMode
   content?: string
 }
 

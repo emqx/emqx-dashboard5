@@ -1849,6 +1849,7 @@ export interface ConnectorPostgresPutConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -1874,6 +1875,7 @@ export interface ConnectorPostgresPostConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -1914,6 +1916,7 @@ export interface ConnectorPostgresGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2267,6 +2270,7 @@ export interface BridgeTimescalePutConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2292,6 +2296,7 @@ export interface BridgeTimescalePostConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2332,6 +2337,7 @@ export interface BridgeTimescaleGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2828,6 +2834,7 @@ export interface BridgeMatrixPutConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2853,6 +2860,7 @@ export interface BridgeMatrixPostConnector {
   tags?: string[]
   description?: string
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
@@ -2893,6 +2901,7 @@ export interface BridgeMatrixGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string
