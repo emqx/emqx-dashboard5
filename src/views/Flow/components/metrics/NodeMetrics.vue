@@ -1,11 +1,15 @@
 <template>
-  <div class="node-metrics">
+  <div class="node-metrics" v-if="!infoLoading">
     <BridgeItemOverview
-      v-if="!infoLoading"
+      v-if="node?.type && node?.type !== FlowNodeType.Default"
       :bridge-id="id"
       :bridge-msg="bridgeInfo"
       :is-source="isSource"
       @reconnect="loadBridgeInfo"
+    />
+    <RuleItemOverview
+      v-if="node?.type && node?.data?.rulesUsed?.[0] && node?.type === FlowNodeType.Default"
+      :rule-id="node.data.rulesUsed[0]"
     />
   </div>
 </template>
@@ -16,6 +20,7 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import { BridgeItem } from '@/types/rule'
 import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
+import RuleItemOverview from '@/views/RuleEngine/Rule/components/RuleItemOverview.vue'
 import { Node } from '@vue-flow/core'
 import { Ref, computed, defineProps, onMounted, provide, ref } from 'vue'
 
