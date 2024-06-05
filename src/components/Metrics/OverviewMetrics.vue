@@ -109,7 +109,7 @@
       </el-row>
     </div>
     <!-- Children Stats -->
-    <div class="metric-block" v-if="showChildrenStats && !isFlowNode">
+    <div class="metric-block" v-if="showChildrenStats">
       <div class="block-hd">
         <p class="block-title">
           {{ tl('action') }}
