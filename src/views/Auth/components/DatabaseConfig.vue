@@ -186,6 +186,20 @@
               </el-form-item>
             </el-col>
           </template>
+          <template v-if="isPgSQL">
+            <el-col :span="12">
+              <el-form-item prop="disable_prepared_statements">
+                <template #label>
+                  <FormItemLabel
+                    :label="t('BridgeSchema.common.disable_prepared_statements.label')"
+                    :desc="t('BridgeSchema.common.disable_prepared_statements.desc')"
+                  />
+                </template>
+                <el-switch v-model="databaseConfig.disable_prepared_statements" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" />
+          </template>
           <!-- MySQL & PgSQL -->
           <el-col :span="24" v-if="isMySQL || isPgSQL">
             <el-form-item required prop="query" class="label-whole-line">
