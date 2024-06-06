@@ -98,7 +98,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     getListenerNameNTypeById,
     transPort,
     extractDifferences,
-    stringToObject,
+    hoconToObject,
   } = useListenerUtils(props.gatewayName)
 
   const listenerTypeOptList = computed(() => {
@@ -182,7 +182,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const validateCustomConfig = async () => {
     try {
       if (customConfig.value) {
-        await stringToObject(customConfig.value.rawListener)
+        await hoconToObject(customConfig.value.rawListener)
       }
       return Promise.resolve()
     } catch (error) {

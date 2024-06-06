@@ -357,7 +357,7 @@ export default {
     en: 'Custom Configuration',
   },
   customConfigDescription: {
-    zh: '使用键值对配置更多监听器参数。',
-    en: 'Use key-value pairs to configure more listener parameters.',
+    zh: '使用 Hocon 配置更多监听器参数。',
+    en: 'Use hocon to configure more listener parameters.',
   },
 }
