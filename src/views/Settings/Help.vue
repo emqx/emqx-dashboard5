@@ -7,7 +7,7 @@
     class="help"
   >
     <el-row class="website-links" :gutter="16">
-      <el-col :span="6" v-for="{ link, icon, title } in platformList" :key="link">
+      <el-col :span="8" v-for="{ link, icon, title } in platformList" :key="link">
         <a :href="link" target="_blank">
           <el-card class="card-link" shadow="never">
             <img :src="icon" />
@@ -120,11 +120,6 @@ const platformList = [
     link: docMap.forum,
     icon: require('@/assets/img/help-forum.png'),
     title: tl('forum'),
-  },
-  {
-    link: docMap.gitHub,
-    icon: require('@/assets/img/help-github.png'),
-    title: tl('gitHub'),
   },
   {
     link: docMap.blog,
