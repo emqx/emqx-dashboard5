@@ -15,7 +15,7 @@ type DocKey =
   | 'mqttV5'
   | 'mqttClient'
   | 'githubHome'
-  | 'twitterHome'
+  | 'xHome'
   | 'youtubeHome'
   | 'linkedInHome'
   | 'emqxEnterprise'
@@ -32,6 +32,7 @@ type DocKey =
   | 'learnConfig'
   | 'restAPI'
   | 'faq'
+  | 'datadogIntegration'
   | 'applyLicense'
   | 'influxDbBatchSettings'
   | 'iotDbBatchSettings'
@@ -95,7 +96,7 @@ const createDocLinks = (lang: string): DocMap => {
     mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
     mqttClient: `https://www.emqx.com/${lang}/mqtt-client-sdk?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
-    twitterHome: 'https://twitter.com/EMQTech',
+    xHome: 'https://x.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
@@ -104,6 +105,7 @@ const createDocLinks = (lang: string): DocMap => {
     applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?${QUERY_FOR_LICENSE}`,
     moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
     contactUs: `https://www.emqx.com/${lang}/contact?${QUERY_FOR_HELP}`,
+    datadogIntegration: `https://docs.datadoghq.com/integrations/emqx/`,
     feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://www.emqx.io/forum/c/emqx/5',
     learnConfig: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
     restAPI: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,

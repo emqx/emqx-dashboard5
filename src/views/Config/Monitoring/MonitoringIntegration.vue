@@ -9,7 +9,7 @@
           :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
-            <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="12">
+            <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
@@ -19,7 +19,12 @@
                 </template>
                 <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
                   <el-row :gutter="28">
-                    <el-col v-for="item in platformOpts" :key="item.label" :span="12">
+                    <el-col
+                      v-for="item in platformOpts"
+                      :key="item.label"
+                      :span="12"
+                      class="col-radio"
+                    >
                       <el-radio class="platform-radio" :label="item.label" border>
                         <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
                         <span class="platform-name"> {{ item.label }} </span>
@@ -209,10 +214,23 @@
               </template>
             </el-row>
           </template>
+          <!-- OpenTelemetry -->
+          <el-form-item v-if="selectedPlatform === DATADOG">
+            <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
+              <template #docUse>
+                <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
+              </template>
+              <template #docIntegration>
+                <a :href="docMap.datadogIntegration" target="_blank">
+                  {{ tl('datadogIntegration') }}
+                </a>
+              </template>
+            </i18n-t>
+          </el-form-item>
           <el-col class="btn-col" :span="24">
             <el-button
               type="primary"
-              :disabled="!$hasPermission('put')"
+              :disabled="selectedPlatform === DATADOG || !$hasPermission('put')"
               :loading="isSubmitting"
               @click="submit"
             >
@@ -233,6 +251,7 @@
 import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from '@/api/common'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
+import dataDogImg from '@/assets/img/datadog.png'
 import { checkNOmitFromObj } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -249,13 +268,17 @@ import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 import useSSL from '@/hooks/useSSL'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useDocLink from '@/hooks/useDocLink'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'
+const DATADOG = 'Datadog'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
 const { createSSLForm } = useSSL()
+
+const { docMap } = useDocLink()
 
 const platformOpts = [
   {
@@ -267,6 +290,11 @@ const platformOpts = [
     label: OPENTELEMETRY,
     value: OPENTELEMETRY,
     img: opentelemetryImg,
+  },
+  {
+    label: DATADOG,
+    value: DATADOG,
+    img: dataDogImg,
   },
 ]
 
@@ -415,6 +443,9 @@ const { addObserverToFooter } = useConfFooterStyle()
   .platform-radio-group {
     margin-top: 8px;
     width: 100%;
+    .col-radio:nth-child(3) {
+      margin-top: 20px;
+    }
     .el-row {
       width: 100%;
     }

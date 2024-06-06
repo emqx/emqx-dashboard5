@@ -842,6 +842,7 @@ export interface AuthzPostgresql {
   type: AuthzPostgresqlType
   enable?: boolean
   server: string
+  disable_prepared_statements?: boolean
   database: string
   pool_size?: number
   username: string

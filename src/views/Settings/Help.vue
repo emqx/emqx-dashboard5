@@ -169,7 +169,7 @@ const productList = [
 
 const followUsList = [
   { link: docMap.githubHome, icon: 'icon-github' },
-  { link: docMap.twitterHome, icon: 'icon-twitter' },
+  { link: docMap.xHome, icon: 'icon-x' },
   { link: docMap.youtubeHome, icon: 'icon-youtube' },
   { link: docMap.linkedInHome, icon: 'icon-linkedin' },
 ]
@@ -245,10 +245,6 @@ const handleLinkGo = (key: 'feedback' | 'contactUs') => {
         display: block;
         .iconfont {
           color: var(--color-text-secondary);
-          &.icon-twitter {
-            position: relative;
-            top: 2px;
-          }
           &:hover {
             color: var(--color-primary);
           }
