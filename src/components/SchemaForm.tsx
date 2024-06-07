@@ -260,6 +260,7 @@ const SchemaForm = defineComponent({
       prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
 
     const handleSelectOneof = (parentProperty: Property, property: Property) => {
+      const isInit = _.isUndefined(parentProperty.selectedOneof)
       parentProperty.selectedOneof = property.properties
       parentProperty.default = property.default
       const fieldValue = parentProperty.path && _.get(configForm.value, parentProperty.path)
@@ -275,16 +276,13 @@ const SchemaForm = defineComponent({
           }
         })
       }
-      // Add new fields
-      Object.values(property.properties || {}).forEach((prop) => {
-        if (!prop.path) {
-          return
-        }
-        const currentValue = _.get(configForm.value, prop.path)
-        if (_.isUndefined(currentValue)) {
-          _.set(configForm.value, prop.path, createInitValueByType(prop))
-        }
-      })
+      // If it is initial and, props.needRecord is false, do not set
+      if ((!isInit || props.needRecord) && property.properties && parentProperty.path) {
+        // Add new fields
+        const newRecord = initRecordByComponents(property.properties)
+        _.set(configForm.value, parentProperty.path, _.get(newRecord, parentProperty.path))
+      }
+
       rules.value = { ...rules.value, ...property.rules }
     }
 
