@@ -6,9 +6,6 @@ type DocKey =
   | 'documentation'
   | 'forum'
   | 'gitHub'
-  | 'ruleEvent'
-  | 'bridgeAsFrom'
-  | 'ruleEventMsgPub'
   | 'upgrade'
   | 'dashboard'
   | 'mqttStudy'
@@ -78,13 +75,6 @@ const createDocLinks = (lang: string): DocMap => {
     documentation: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/?${QUERY_FOR_HELP}`,
     forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
     gitHub: `https://github.com/emqx/emqx`,
-    ruleEvent: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html`,
-    bridgeAsFrom: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
-      lang === 'zh' ? '数据桥接' : 'data-bridges'
-    }`,
-    ruleEventMsgPub: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
-      lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
-    }`,
     upgrade: `https://www.emqx.com/${lang}/lp/upgrade-emqx/enterprise?${QUERY_FOR_GO_UPGRADE}`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/dashboard/introduction.html?${QUERY_FOR_HELP}`,

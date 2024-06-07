@@ -13,7 +13,7 @@ jobs:
     env:
       EMQX_NAME: ${{ inputs.emqx-name }}
       OTP_VSN: '25.3.2-2'
-      ELIXIR_VSN: '1.14.5'
+      ELIXIR_VSN: '1.15.7'
 
     steps:
       - name: checkout emqx code
