@@ -132,7 +132,6 @@
       v-model="showSecondConfirm"
       :rule-list="usingBridgeRules"
       :id="currentDeleteBridgeId"
-      :direction="delBridgeDirection"
       @submitted="handleDeleteSuc"
     />
     <DeleteWebhookAssociatedTip
@@ -284,7 +283,7 @@ const testConnection = async () => {
     await customValidate(formCom.value)
     isTesting.value = true
     const data = await getDataForSubmit()
-    await testConnectivity(_.omit(data, 'id'))
+    await testConnectivity(_.omit(data, 'id') as any)
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -311,7 +310,7 @@ const updateBridgeInfo = async () => {
 
     updateLoading.value = true
     const data = await getDataForSubmit()
-    const res = await updateAction(data)
+    const res = await updateAction(data as any)
     if (!isFromRule.value) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
@@ -361,7 +360,6 @@ const {
   showDeleteWebhookAssociatedTip,
   currentDelName,
   handleDeleteSuc,
-  delBridgeDirection,
   handleDeleteBridge,
 } = useDeleteBridge(goBack)
 const handleDelete = async () => {
