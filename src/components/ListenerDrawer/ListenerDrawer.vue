@@ -7,6 +7,7 @@
     size="50%"
     :z-index="1999"
     class="listener-drawer"
+    destroy-on-close
   >
     <el-form
       label-position="top"

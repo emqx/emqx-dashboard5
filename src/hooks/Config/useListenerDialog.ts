@@ -313,6 +313,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     } else {
       // for prevent form throw error
       listenerRecord.value = createRawListener()
+      listenerCustomConfigs.value = {}
       isLoading.value = false
     }
   })

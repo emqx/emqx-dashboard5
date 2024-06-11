@@ -60,7 +60,10 @@ export default (): {
   })
   const { transFromStrToFromArr, getTestTargetEvent } = useRuleUtils()
   const selectList = computed<Array<string>>(() => {
-    return splitOnComma(sqlKeyParts.value.fieldStr ?? '').map((item) => trimSpacesAndLFs(item))
+    if (isUndefined(sqlKeyParts.value.fieldStr)) {
+      return []
+    }
+    return splitOnComma(sqlKeyParts.value.fieldStr).map((item) => trimSpacesAndLFs(item))
   })
   const fromList = computed(() => transFromStrToFromArr(sqlKeyParts.value.fromStr || ''))
 
