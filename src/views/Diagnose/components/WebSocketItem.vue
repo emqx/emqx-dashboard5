@@ -88,22 +88,27 @@
       <el-row>
         <el-col :span="24" class="footer-area">
           <el-button
+            v-if="
+              !compareConnStatus(WEB_SOCKET_STATUS.Connected) &&
+              !compareConnStatus(WEB_SOCKET_STATUS.Disconnecting)
+            "
+            type="primary"
+            @click="createConnection"
+            :loading="
+              compareConnStatus(WEB_SOCKET_STATUS.Connecting) ||
+              compareConnStatus(WEB_SOCKET_STATUS.Reconnecting)
+            "
+          >
+            {{ $t('Tools.connect') }}
+          </el-button>
+          <el-button
+            v-else
             type="danger"
             plain
             @click="destroyConnection"
-            :disabled="
-              compareConnStatus(WEB_SOCKET_STATUS.Disconnecting) ||
-              compareConnStatus(WEB_SOCKET_STATUS.Disconnected)
-            "
+            :loading="compareConnStatus(WEB_SOCKET_STATUS.Disconnecting)"
           >
             {{ $t('Tools.disconnect') }}
-          </el-button>
-          <el-button
-            type="primary"
-            @click="createConnection"
-            :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Disconnected)"
-          >
-            {{ $t('Tools.connect') }}
           </el-button>
         </el-col>
       </el-row>
