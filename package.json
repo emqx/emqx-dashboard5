@@ -3,10 +3,10 @@
   "version": "5.7.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "serve:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build:enterprise": "VUE_APP_VERSION=enterprise vue-cli-service build",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "serve:enterprise": "NODE_OPTIONS=--openssl-legacy-provider VUE_APP_VERSION=enterprise vue-cli-service serve",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
+    "build:enterprise": "NODE_OPTIONS=--openssl-legacy-provider VUE_APP_VERSION=enterprise vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.tsx\" \"src/**/*.vue\" \"src/**/*.scss\"",
@@ -93,5 +93,8 @@
     "*.{vue,js,scss}": [
       "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.vue\" \"src/**/*.scss\""
     ]
+  },
+  "engines": {
+    "node": ">=18.0.0 <19.0.0"
   }
 }
