@@ -26,7 +26,7 @@
           <el-form-item :label="tl('heartbeat')">
             <TimeInputWithUnitSelect
               v-model="cValue.heartbeat"
-              :number-placeholder="parseInt(cValueDefault.heartbeat).toString()"
+              :number-placeholder="parseInt(createDefault().heartbeat).toString()"
               :enabled-units="['s']"
             />
           </el-form-item>
@@ -112,15 +112,19 @@ export default defineComponent({
       return source
     }
 
-    watch(cValue, (v) => {
-      context.emit('update:value', checkHeartBeat(v))
-    })
+    watch(
+      () => cValue.connection_required,
+      () => {
+        context.emit('update:value', checkHeartBeat(cValue))
+      },
+    )
     onMounted(() => {
       context.emit('update:value', checkHeartBeat(cValue))
     })
 
     return {
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
+      createDefault,
       cValueDefault,
       cValue,
     }
