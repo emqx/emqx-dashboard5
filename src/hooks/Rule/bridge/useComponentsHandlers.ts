@@ -5,6 +5,7 @@ import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
 import { useAvailableProviders } from '../useProvidersForMonaco'
+import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -60,6 +61,7 @@ export default (
     prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
   }
 
+  const { availablePlaceholders } = useSQLAvailablePlaceholder()
   const { completionProvider } = useAvailableProviders()
 
   const handleProp = (parm: Property) => {
@@ -111,12 +113,16 @@ export default (
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
       qos.type = 'enum'
-      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
+      qos.symbols = [
+        ...(getSymbolsFromOneOfArr(qos.oneOf) || []),
+        '${qos}',
+        ...availablePlaceholders.value,
+      ]
       setComponentProps(qos, { filterable: true, allowCreate: true })
     }
     if (retain?.type === 'oneof') {
       retain.type = 'enum'
-      retain.symbols = [true, false, '${flags.retain}']
+      retain.symbols = [true, false, '${flags.retain}', ...availablePlaceholders.value]
       setComponentProps(retain, { filterable: true, allowCreate: true })
     }
     // for detect whether it is source or action

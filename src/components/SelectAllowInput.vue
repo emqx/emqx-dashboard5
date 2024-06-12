@@ -1,15 +1,20 @@
 <!-- Only one can be selected -->
 <template>
-  <el-autocomplete v-model="inputValue" clearable :fetch-suggestions="querySearch" />
+  <el-autocomplete
+    v-model="inputValue"
+    clearable
+    :fetch-suggestions="querySearch"
+    v-bind="$attrs"
+  />
 </template>
 
 <script setup lang="ts">
-import { isObject, isUndefined } from 'lodash'
+import { escapeRegExp, isObject, isUndefined } from 'lodash'
 import { computed, defineEmits, defineProps, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string
+    modelValue?: string | boolean | number
     options: Array<Record<string, any>> | Array<string> | Array<number>
     valueKey?: string
     labelKey?: string
@@ -21,11 +26,11 @@ const props = withDefaults(
   },
 )
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: string | number | boolean): void
 }>()
 
 const inputValue = computed({
-  get: () => props.modelValue,
+  get: () => props.modelValue?.toString?.(),
   set: (val) => emit('update:modelValue', val),
 })
 
@@ -45,6 +50,20 @@ const opts = computed(() => {
 })
 
 const querySearch = (queryString: string, cb: (arg0: Array<Record<string, any>>) => void) => {
-  cb(opts.value)
+  if (!queryString) {
+    cb(opts.value)
+  } else {
+    const filterReg = new RegExp(escapeRegExp(queryString), 'i')
+    const ret = opts.value.reduce(
+      (arr: Array<{ value: string }>, { value }: { value: string; item: string }) => {
+        if (filterReg.test(value)) {
+          arr.push({ value })
+        }
+        return arr
+      },
+      [] as Array<{ value: string }>,
+    )
+    cb(ret)
+  }
 }
 </script>
