@@ -428,6 +428,7 @@ export default (
 
     const aggItem = parameters?.oneOf?.find((item) => /aggregated/i.test(item.$ref || ''))
     const aggType = aggItem?.properties?.container?.properties?.type
+    const aggKeyPara = aggItem?.properties?.key
     const columnOrder = aggItem?.properties?.container?.properties?.column_order
     if (columnOrder) {
       if (!columnOrder.componentProps) {
@@ -437,6 +438,21 @@ export default (
     }
     if (aggType) {
       aggType.title = tl('aggregationSettings')
+    }
+    if (aggKeyPara) {
+      setComponentProps(aggKeyPara, {
+        customPlaceholders: [
+          '${action}',
+          '${node}',
+          '${datetime.rfc3339utc}',
+          '${datetime.rfc3339}',
+          '${datetime.unix}',
+          '${datetime_until.rfc3339utc}',
+          '${datetime_until.rfc3339}',
+          '${datetime_until.unix}',
+          '${sequence}',
+        ],
+      })
     }
     return { components, rules }
   }
