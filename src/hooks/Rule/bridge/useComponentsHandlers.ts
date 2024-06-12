@@ -75,6 +75,11 @@ export default (
     }, [])
   }
 
+  const setComponentProps = (prop: Property, componentProps: Record<string, any>) => {
+    prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
+  }
+
+  const { availablePlaceholders } = useSQLAvailablePlaceholder()
   const { completionProvider } = useAvailableProviders()
   const { availableFields } = useSQLAvailablePlaceholder()
 
@@ -89,15 +94,9 @@ export default (
         prop.format === 'sql' &&
         prop.is_template
       ) {
-        if (!prop.componentProps) {
-          prop.componentProps = {}
-        }
-        prop.componentProps.completionProvider = completionProvider
+        setComponentProps(prop, { completionProvider })
       } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
-        if (!prop.componentProps) {
-          prop.componentProps = {}
-        }
-        prop.componentProps.supportPlaceholder = ['key', 'value']
+        setComponentProps(prop, { supportPlaceholder: ['key', 'value'] })
       }
     }
 
@@ -133,13 +132,17 @@ export default (
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
       qos.type = 'enum'
-      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
-      qos.componentProps = { filterable: true, allowCreate: true }
+      qos.symbols = [
+        ...(getSymbolsFromOneOfArr(qos.oneOf) || []),
+        '${qos}',
+        ...availablePlaceholders.value,
+      ]
+      setComponentProps(qos, { filterable: true, allowCreate: true })
     }
     if (retain?.type === 'oneof') {
       retain.type = 'enum'
-      retain.symbols = [true, false, '${flags.retain}']
-      retain.componentProps = { filterable: true, allowCreate: true }
+      retain.symbols = [true, false, '${flags.retain}', ...availablePlaceholders.value]
+      setComponentProps(retain, { filterable: true, allowCreate: true })
     }
     // for detect whether it is source or action
     if (topic && !payload) {

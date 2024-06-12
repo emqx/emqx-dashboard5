@@ -44,6 +44,7 @@
               json-without-validate
               :disabled="readonly"
               :id="createRandomString()"
+              :completion-provider="completionProvider"
             />
           </div>
         </CustomFormItem>
@@ -137,8 +138,9 @@ import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import Monaco from '@/components/Monaco.vue'
 import SelectAllowInput from '@/components/SelectAllowInput.vue'
+import Monaco from '@/components/Monaco.vue'
+import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
 import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -188,6 +190,7 @@ const togglePubPropsEnabled = (val: string | number | boolean) => {
 }
 
 const { availablePlaceholders } = useSQLAvailablePlaceholder()
+const { completionProvider } = useAvailableProviders()
 
 const QoSOptions = [...defaultQoSOptions, '${qos}', ...availablePlaceholders.value]
 
