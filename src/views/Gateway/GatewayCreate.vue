@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper gateway-create">
+  <div class="app-wrapper with-padding-top gateway-create">
     <el-card>
       <div class="section-header">
         {{ `${tl('initial')} ${transGatewayName(name)}` }}
