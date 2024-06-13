@@ -51,6 +51,10 @@ export default {
     en: 'Message Validation Failed',
     zh: '消息校验失败',
   },
+  eventsMessageTransformationFailed: {
+    en: 'Message Transformation Failed',
+    zh: '消息转换失败',
+  },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',
     zh: 'MQTT 桥接消息',
