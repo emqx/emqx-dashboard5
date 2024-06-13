@@ -236,8 +236,8 @@ export default {
     en: 'Socket Packets Received',
   },
   recvMsg: {
-    zh: '接收的 PUBLISH 消息数量',
-    en: 'Received PUBLISH Messages',
+    zh: '消息流入总数',
+    en: 'Received Messages',
   },
   recvOct: {
     zh: '接收字节数',
@@ -256,8 +256,8 @@ export default {
     en: 'Socket Packets Sent',
   },
   sendMsg: {
-    zh: '发送的 PUBLISH 消息数量',
-    en: 'PUBLISH Messages Sent',
+    zh: '消息流出总数',
+    en: 'Messages Sent',
   },
   sendOct: {
     zh: '发送字节数',
