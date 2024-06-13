@@ -17,6 +17,12 @@ export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
+export type GetPrometheusMessageTransformation200Two = { [key: string]: any }
+
+export type GetPrometheusMessageTransformationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusStats200Two = { [key: string]: any }
 
 export type GetPrometheusSchemaValidation200Two = { [key: string]: any }

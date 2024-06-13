@@ -126,6 +126,7 @@ export const GetConfigsKey = {
   limiter: 'limiter',
   listeners: 'listeners',
   log: 'log',
+  message_transformation: 'message_transformation',
   mqtt: 'mqtt',
   node: 'node',
   opentelemetry: 'opentelemetry',
