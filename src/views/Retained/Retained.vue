@@ -47,14 +47,9 @@
         </el-tooltip>
       </div>
       <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
-        <el-table-column
-          :label="$t('Base.topic')"
-          prop="topic"
-          min-width="100"
-          show-overflow-tooltip
-        >
+        <el-table-column :label="$t('Base.topic')" prop="topic" min-width="100">
           <template #default="{ row }">
-            <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+            <CommonOverflowTooltip :content="row.topic" />
           </template>
         </el-table-column>
         <el-table-column :label="'QoS'" prop="qos" min-width="30" />
@@ -110,7 +105,7 @@ import {
 } from '@/api/extension'
 import { dateFormat } from '@/common/tools'
 import PayloadDialog from '@/components/PayloadDialog.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'

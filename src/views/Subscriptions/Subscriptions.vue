@@ -88,14 +88,14 @@
         </el-button>
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
-        <el-table-column prop="clientid" :label="$t('Clients.clientId')" show-overflow-tooltip>
+        <el-table-column prop="clientid" :label="$t('Clients.clientId')">
           <template #default="{ row }">
-            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+            <CommonOverflowTooltip :content="row.clientid" />
           </template>
         </el-table-column>
-        <el-table-column prop="topic" :label="$t('Subs.topic')" show-overflow-tooltip>
+        <el-table-column prop="topic" :label="$t('Subs.topic')">
           <template #default="{ row }">
-            <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+            <CommonOverflowTooltip :content="row.topic" />
           </template>
         </el-table-column>
         <el-table-column prop="qos" label="QoS" />
@@ -130,8 +130,8 @@ export default defineComponent({
 import { listSubscriptions } from '@/api/common'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
