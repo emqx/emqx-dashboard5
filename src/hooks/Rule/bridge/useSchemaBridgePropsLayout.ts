@@ -254,6 +254,8 @@ export default (
         'max_records',
         'time_interval',
         'headers',
+        'min_part_size',
+        'max_part_size',
       ],
       fieldStartIndex,
     ),
@@ -309,7 +311,7 @@ export default (
     [BridgeType.KafkaConsumer]: kafkaConsumerAdvancedProps,
     [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
-    [BridgeType.S3]: ['parameters.headers'],
+    [BridgeType.S3]: getPathArrInParameters(['headers', 'min_part_size', 'max_part_size']),
   }
 
   const advancedFields = computed(() => {
