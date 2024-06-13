@@ -28,9 +28,9 @@
         </el-button>
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
-        <el-table-column prop="topic" :label="$t('Topics.topic')" show-overflow-tooltip>
+        <el-table-column prop="topic" :label="$t('Topics.topic')">
           <template #default="{ row }">
-            <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+            <CommonOverflowTooltip :content="row.topic" />
           </template>
         </el-table-column>
         <el-table-column prop="node" :label="$t('Clients.node')" />
@@ -80,7 +80,7 @@ import { Search, Refresh, RefreshLeft } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const router = useRouter()
 const { tl } = useI18nTl('Subs')

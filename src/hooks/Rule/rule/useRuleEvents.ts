@@ -13,6 +13,7 @@ const EVENT_SORT: Array<string> = [
   '$events/session_subscribed',
   '$events/session_unsubscribed',
   '$events/schema_validation_failed',
+  '$events/message_transformation_failed',
   '$events/message_delivered',
   '$events/message_acked',
   '$events/message_dropped',

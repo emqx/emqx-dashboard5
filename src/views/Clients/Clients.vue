@@ -114,7 +114,6 @@
         v-loading.lock="lockTable"
         @selection-change="handleSelectionChange"
       >
-        <!-- TODO:fixed the tooltip content (spaces) -->
         <el-table-column type="selection" width="35" reserve-selection />
         <el-table-column
           v-for="column in tableColumnFields"
@@ -122,7 +121,6 @@
           :prop="column"
           :label="getColumnLabel(column)"
           :min-width="getColumnWidth(column)"
-          :show-overflow-tooltip="showOverflowTooltip(column)"
         >
           <template #default="{ row }">
             <router-link
@@ -132,9 +130,9 @@
                 params: { clientId: row.clientid },
               }"
             >
-              <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+              <CommonOverflowTooltip :content="row.clientid" />
             </router-link>
-            <PreWithEllipsis v-else-if="column === 'username'">{{ row.username }}</PreWithEllipsis>
+            <CommonOverflowTooltip v-else-if="column === 'username'" :content="row.username" />
             <template v-else-if="column === 'connected'">
               <CheckIcon
                 :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
@@ -168,7 +166,7 @@ export default defineComponent({
 import { batchDisconnectClients, listClients } from '@/api/clients'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -212,7 +210,6 @@ const { getBaseLabel } = useClientFields()
 const getColumnLabel = (column: string) =>
   column === 'connected' ? tl('connectedStatus') : getBaseLabel(column)
 
-const showOverflowTooltip = (column: string) => ['clientid', 'username'].includes(column)
 const specialColumnWidth = new Map([
   ['clientid', 140],
   ['username', 100],

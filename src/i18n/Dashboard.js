@@ -799,6 +799,14 @@ export default {
     zh: 'Schema 验证成功',
     en: 'Schema validation succeeded',
   },
+  messages_transformation_failed: {
+    zh: '消息转换失败',
+    en: 'Message transformation failed',
+  },
+  messages_transformation_succeeded: {
+    zh: '消息转换成功',
+    en: 'Message transformation succeeded',
+  },
   multiVersionWarning: {
     zh: '当前集群下存在不同 EMQX 版本的节点，请前往',
     en: 'Different versions of EMQX nodes exist in the cluster, please go to ',
