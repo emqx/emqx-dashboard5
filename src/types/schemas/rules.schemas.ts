@@ -251,6 +251,7 @@ export const RuleEngineRuleEventsEvent = {
   '$events/message_delivered': '$events/message_delivered',
   '$events/message_acked': '$events/message_acked',
   '$events/message_dropped': '$events/message_dropped',
+  '$events/message_transformation_failed': '$events/message_transformation_failed',
   '$events/schema_validation_failed': '$events/schema_validation_failed',
   '$events/delivery_dropped': '$events/delivery_dropped',
 } as const

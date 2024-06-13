@@ -288,6 +288,8 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   persisted_rate?: number
   received_msg_rate?: number
   sent_msg_rate?: number
+  transformation_failed_rate?: number
+  transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
   disconnected_durable_sessions?: number
@@ -306,6 +308,8 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   persisted_rate?: number
   received_msg_rate?: number
   sent_msg_rate?: number
+  transformation_failed_rate?: number
+  transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
   disconnected_durable_sessions?: number
@@ -330,6 +334,8 @@ export interface EmqxDashboardMonitorApiSampler {
   sent?: number
   validation_succeeded?: number
   validation_failed?: number
+  transformation_succeeded?: number
+  transformation_failed?: number
   dropped?: number
   persisted?: number
 }
