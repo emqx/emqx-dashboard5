@@ -515,6 +515,15 @@
     box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset !important;
   }
 }
+.el-select__popper {
+  max-width: 100vw;
+  .el-select-dropdown__item:only-child {
+    height: auto;
+    text-overflow: clip;
+    word-break: break-all;
+    white-space: normal;
+  }
+}
 
 
 /* Date Edtior */
