@@ -147,9 +147,9 @@
         </div>
       </div>
       <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
-        <el-table-column prop="topic" show-overflow-tooltip :label="$t('Base.topic')">
+        <el-table-column prop="topic" :label="$t('Base.topic')">
           <template #default="{ row }">
-            <span class="keep-spaces">{{ row.topic }}</span>
+            <CommonOverflowTooltip :content="row.topic" />
           </template>
         </el-table-column>
         <el-table-column prop="qos" min-width="110px" label="QoS" />
@@ -226,6 +226,7 @@ import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
 import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const props = defineProps({
   gateway: {

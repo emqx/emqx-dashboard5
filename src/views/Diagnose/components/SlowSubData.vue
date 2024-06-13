@@ -16,16 +16,16 @@
       </div>
     </div>
     <el-table ref="TableCom" :data="statistics" @sort-change="sortTable">
-      <el-table-column prop="clientid" :label="$t('Base.clientid')" show-overflow-tooltip>
+      <el-table-column prop="clientid" :label="$t('Base.clientid')">
         <template #default="{ row }">
           <router-link :to="getRoute(row.clientid)">
-            <PreWithEllipsis>{{ row.clientid }}</PreWithEllipsis>
+            <CommonOverflowTooltip :content="row.clientid" />
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="topic" :label="tl('topic')" show-overflow-tooltip>
+      <el-table-column prop="topic" :label="tl('topic')">
         <template #default="{ row }">
-          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+          <CommonOverflowTooltip :content="row.topic" />
         </template>
       </el-table-column>
       <el-table-column prop="timespan" :label="tl('duration')" sortable="custom">
@@ -56,7 +56,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import commonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePageController from '@/hooks/usePagination'
