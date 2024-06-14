@@ -50,6 +50,7 @@ const tagArr = [
   'Audit',
   'Data Backup',
   'Schema Validation',
+  'Message Transformation',
 ]
 
 const typesFolder = './src/types/schemas/'

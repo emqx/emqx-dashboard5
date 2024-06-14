@@ -1,11 +1,11 @@
 <template>
-  <div class="message-validation app-wrapper">
+  <div class="message-transform app-wrapper">
     <div class="section-header">
       <div></div>
       <el-button
         :disabled="!$hasPermission('post')"
         type="primary"
-        @click="addValidation"
+        @click="addTransform"
         :icon="Plus"
       >
         {{ t('Base.create') }}
@@ -13,7 +13,7 @@
     </div>
     <el-table
       ref="tableCom"
-      :data="validationList"
+      :data="tableData"
       v-loading="isLoading"
       class="table-with-draggable"
       row-key="name"
@@ -21,7 +21,7 @@
       <el-table-column :label="t('Base.name')" row-key="name" show-overflow-tooltip>
         <template #default="{ row }">
           <router-link
-            :to="{ name: 'schema-validation-detail', params: { validationName: row.name } }"
+            :to="{ name: 'message-transform-detail', params: { transformName: row.name } }"
             class="table-data-without-break"
           >
             {{ row.name }}
@@ -38,7 +38,7 @@
           <el-switch
             v-model="row.enable"
             :disabled="!$hasPermission('put')"
-            @change="toggleValidationEnable(row)"
+            @change="toggleTransformEnable(row)"
           />
         </template>
       </el-table-column>
@@ -54,13 +54,13 @@
             {{ t('Base.setting') }}
           </el-button>
           <MovableItemTableItemDrop
-            :table-data-len="validationList.length"
+            :table-data-len="tableData.length"
             :row-index="$index"
             @delete="handleDel(row.name)"
             @move-up="relativeMove($index, -1)"
             @move-down="relativeMove($index, 1)"
             @move-to-top="absoluteMove($index, 0)"
-            @move-to-bottom="absoluteMove($index, validationList.length - 1)"
+            @move-to-bottom="absoluteMove($index, tableData.length - 1)"
           />
         </template>
       </el-table-column>
@@ -70,17 +70,17 @@
 
 <script lang="ts" setup>
 import {
-  deleteValidation,
-  enableDisableValidation,
-  getSchemaValidations,
-  reorderAllValidations,
-} from '@/api/schemaValidation'
+  deleteMessageTransform,
+  enableDisableMessageTransform,
+  getMessageTransforms,
+  reorderMessageTransforms,
+} from '@/api/messageTransformation'
 import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
 import { DetailTab } from '@/types/enum'
-import { SchemaValidation } from '@/types/typeAlias'
+import { MessageTransform } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { SortableEvent } from 'sortablejs'
@@ -91,13 +91,13 @@ import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue
 const router = useRouter()
 const { tl, t } = useI18nTl('RuleEngine')
 
-const validationList: Ref<Array<SchemaValidation>> = ref([])
+const tableData: Ref<Array<MessageTransform>> = ref([])
 const isLoading = ref(false)
 
 const getList = async () => {
   try {
     isLoading.value = true
-    validationList.value = await getSchemaValidations()
+    tableData.value = await getMessageTransforms()
     await nextTick()
     initSortable()
   } catch (error) {
@@ -109,28 +109,28 @@ const getList = async () => {
 
 const goDetail = (name: string) =>
   router.push({
-    name: 'schema-validation-detail',
-    params: { validationName: name },
+    name: 'message-transform-detail',
+    params: { transformName: name },
     query: { tab: DetailTab.Setting },
   })
 
-const addValidation = () => {
-  router.push({ name: 'schema-validation-create' })
+const addTransform = () => {
+  router.push({ name: 'message-transform-create' })
 }
 
 const { confirmDel } = useOperationConfirm()
 const handleDel = async (name: string) => {
   try {
-    await confirmDel(() => deleteValidation(name))
+    await confirmDel(() => deleteMessageTransform(name))
     getList()
   } catch (error) {
     //
   }
 }
 
-const toggleValidationEnable = async (data: SchemaValidation) => {
+const toggleTransformEnable = async (data: MessageTransform) => {
   try {
-    await enableDisableValidation(data.name, data.enable ?? true)
+    await enableDisableMessageTransform(data.name, data.enable ?? true)
     ElMessage.success(t(data.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
   } catch (error) {
     data.enable = !data.enable
@@ -139,9 +139,9 @@ const toggleValidationEnable = async (data: SchemaValidation) => {
 
 const { getLabelByValue } = useFailureAction()
 
-const reorderValidation = async (order: Array<string>) => {
+const reorderTransform = async (order: Array<string>) => {
   try {
-    await reorderAllValidations({ order })
+    await reorderMessageTransforms({ order })
   } catch (error) {
     //
   } finally {
@@ -150,15 +150,15 @@ const reorderValidation = async (order: Array<string>) => {
 }
 
 const moveToTargetPosition = async (nowIndex: number, targetIndex: number) => {
-  const order = validationList.value.map((item) => item.name)
+  const order = tableData.value.map((item) => item.name)
   const [removed] = order.splice(nowIndex, 1)
   order.splice(targetIndex, 0, removed)
-  reorderValidation(order)
+  reorderTransform(order)
 }
 
 const relativeMove = (nowIndex: number, relativePosition: number) => {
   const targetIndex = nowIndex + relativePosition
-  if (targetIndex < 0 || targetIndex >= validationList.value.length) {
+  if (targetIndex < 0 || targetIndex >= tableData.value.length) {
     return
   }
   moveToTargetPosition(nowIndex, targetIndex)

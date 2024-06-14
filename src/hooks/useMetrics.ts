@@ -546,3 +546,35 @@ export const useSchemaValidationMetrics = (): {
     rateData,
   }
 }
+
+export const useMessageTransformMetrics = (): {
+  transformMetricsMap: TypeMapData
+  transformMetricsTextMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('Base')
+  const transformMetricsMap = {
+    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
+    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
+  }
+  const transformMetricsTextMap = {
+    matched: { label: t('Base.total') },
+    succeeded: { label: t('Base.allow'), desc: t('RuleEngine.transformationSuccessDesc') },
+    failed: { label: t('Base.deny'), desc: t('RuleEngine.transformationFailedDesc') },
+    rate: { label: t('Base.rateNow'), desc: t('RuleEngine.transformationRateBarDesc') },
+    rate_max: { label: t('Base.rateMax') },
+    rate_last5m: { label: t('Base.rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'rate',
+    right1: 'rate_last5m',
+    right2: 'rate_max',
+  }
+  return {
+    transformMetricsMap,
+    transformMetricsTextMap,
+    rateData,
+  }
+}
