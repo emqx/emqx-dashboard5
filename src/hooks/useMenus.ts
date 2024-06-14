@@ -61,6 +61,7 @@ export default (): {
     { title: 'connector', path: '/connector' },
     { title: 'schema-validation', path: '/schema-validation' },
     { title: 'schema', path: '/schema' },
+    { title: 'message-transform', path: '/message-transform' },
   ]
 
   const diagnose = [

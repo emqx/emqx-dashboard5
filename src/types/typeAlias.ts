@@ -17,6 +17,14 @@ import {
   SchemaValidationValidationStrategy,
   SchemaValidationLogFailureLevel,
 } from './schemas/schemaValidation.schemas'
+import type {
+  MessageTransformationTransformation,
+  MessageTransformationOperation,
+} from './schemas/messageTransformation.schemas'
+import {
+  MessageTransformationTransformationFailureAction,
+  MessageTransformationLogFailureLevel,
+} from './schemas/messageTransformation.schemas'
 import type { SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
 import {
   SsoOidcPreferredAuthMethodsItem,
@@ -48,3 +56,9 @@ export type SchemaValidationCheckItem = SchemaValidationValidationChecksItem
 export const SchemaValidationFailureAction = SchemaValidationValidationFailureAction
 export const SchemaValidationStrategy = SchemaValidationValidationStrategy
 export const SchemaValidationLogLevel = SchemaValidationLogFailureLevel
+
+/* MESSAGE TRANSFORM */
+export type MessageTransform = MessageTransformationTransformation
+export type MessageTransformOperation = MessageTransformationOperation
+export const MessageTransformFailureAction = MessageTransformationTransformationFailureAction
+export const MessageTransformLogLevel = MessageTransformationLogFailureLevel

@@ -1465,6 +1465,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '验证失败操作',
     en: 'Validation Failure Operation',
   },
+  transformationFailureOperation: {
+    zh: '转换失败后的操作',
+    en: 'Transformation Failure Operation',
+  },
   setting: {
     zh: '设置',
     en: 'Setting',
@@ -1493,9 +1497,25 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '近一分钟内校验次数趋势',
     en: 'Trend of validation counts in the past minute',
   },
+  transformationSuccessDesc: {
+    zh: '消息转换成功的次数',
+    en: 'Number of successful message transformations',
+  },
+  transformationFailedDesc: {
+    zh: '消息转换失败的次数',
+    en: 'Number of failed message transformations',
+  },
+  transformationRateBarDesc: {
+    zh: '近一分钟内转换次数趋势',
+    en: 'Trend of transformation counts in the past minute',
+  },
   validationNodesMetricsDesc: {
     zh: '数据校验在各节点上的执行情况及效率',
     en: 'Execution status and efficiency of data validation on each node',
+  },
+  transformNodesMetricsDesc: {
+    zh: '消息转换在各节点上的执行情况及效率',
+    en: 'Execution status and efficiency of message validation on each node',
   },
   aggregationSettings: {
     zh: '聚合设置',
