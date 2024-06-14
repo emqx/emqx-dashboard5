@@ -91,6 +91,10 @@ export default {
     zh: 'Schema Registry',
     en: 'Schema Registry',
   },
+  'message-transform': {
+    zh: '消息转换',
+    en: 'Message Transform',
+  },
   rule: {
     zh: '规则',
     en: 'Rule',
@@ -407,6 +411,10 @@ export default {
   'schema-validation-create': {
     zh: '创建 Schema 验证',
     en: 'Create Schema Validation',
+  },
+  'message-transform-create': {
+    zh: '创建消息转换',
+    en: 'Create Message Transform',
   },
   /* For Quick Panel End */
 }

@@ -799,6 +799,32 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Message Transform
+  {
+    path: '/message-transform',
+    component: Layout,
+    meta: {
+      hideKey: 'message-transform',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-transform',
+        component: () => import('@/views/RuleEngine/MessageTransform/MessageTransform.vue'),
+      },
+      {
+        path: 'create',
+        name: 'message-transform-create',
+        component: () => import('@/views/RuleEngine/MessageTransform/TransformCreate.vue'),
+      },
+      {
+        path: ':transformName',
+        name: 'message-transform-detail',
+        component: () => import('@/views/RuleEngine/MessageTransform/TransformDetail.vue'),
+      },
+    ],
+  },
   // Schema Registry
   {
     path: '/schema',
