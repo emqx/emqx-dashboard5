@@ -4,23 +4,37 @@
       <el-row :gutter="20">
         <el-col v-bind="colProps">
           <el-input
-            v-model="fuzzyParams.like_clientid"
+            v-model="queryParams.clientid"
             :placeholder="$t('Clients.clientId')"
             clearable
             @clear="handleSearch"
-          />
+          >
+            <template #prepend>
+              <el-select v-model="queryParams.clientidSearchType">
+                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
+                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
+              </el-select>
+            </template>
+          </el-input>
         </el-col>
         <el-col v-bind="colProps">
           <el-input
-            v-model="fuzzyParams.like_username"
+            v-model="queryParams.username"
             :placeholder="$t('Clients.username')"
             clearable
             @clear="handleSearch"
-          />
+          >
+            <template #prepend>
+              <el-select v-model="queryParams.usernameSearchType">
+                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
+                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
+              </el-select>
+            </template>
+          </el-input>
         </el-col>
         <el-col v-bind="colProps">
           <el-select
-            v-model="fuzzyParams.node"
+            v-model="queryParams.node"
             :placeholder="$t('Clients.node')"
             clearable
             @clear="handleSearch"
@@ -31,7 +45,7 @@
         <template class="more" v-if="showMoreQuery">
           <el-col v-bind="colProps">
             <el-input
-              v-model="fuzzyParams.ip_address"
+              v-model="queryParams.ip_address"
               :placeholder="$t('Clients.ipAddress')"
               clearable
               @clear="handleSearch"
@@ -39,7 +53,7 @@
           </el-col>
           <el-col v-bind="colProps">
             <el-select
-              v-model="fuzzyParams.conn_state"
+              v-model="queryParams.conn_state"
               :placeholder="$t('Clients.connectedStatus')"
               clearable
               @clear="handleSearch"
@@ -50,12 +64,12 @@
           </el-col>
           <el-col v-bind="colProps">
             <div class="like-input">
-              <el-select v-model="fuzzyParams.comparator">
+              <el-select v-model="queryParams.comparator">
                 <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
                 <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
               </el-select>
               <el-date-picker
-                v-model="fuzzyParams.connected_at"
+                v-model="queryParams.connected_at"
                 type="datetime"
                 :placeholder="$t('Clients.connectedAt')"
                 clearable
@@ -187,6 +201,11 @@ enum Comparator {
   Before = 'lte',
 }
 
+enum SearchType {
+  Exact = 'exact',
+  Fuzzy = 'fuzzy',
+}
+
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { nodes: currentNodes } = useClusterNodes()
@@ -199,8 +218,10 @@ const lockTable = ref(false)
 const TableCom = ref()
 const batchDeleteLoading = ref(false)
 const params = ref({})
-const fuzzyParams = ref<Record<string, any>>({
+const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
+  clientidSearchType: 'exact',
+  usernameSearchType: 'exact',
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
@@ -224,13 +245,15 @@ const specialColumnWidth = new Map([
 const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
-  params.value = genQueryParams(fuzzyParams.value)
+  params.value = genQueryParams(queryParams.value)
   loadNodeClients({ page: 1 })
 }
 
 const handleReset = () => {
-  fuzzyParams.value = {
+  queryParams.value = {
     comparator: Comparator.After,
+    clientidSearchType: 'exact',
+    usernameSearchType: 'exact',
   }
   handleSearch()
 }
@@ -260,19 +283,37 @@ const handleSelectedColumnChanged = (val: Array<string>) => {
 }
 
 const genQueryParams = (params: Record<string, any>) => {
-  let newParams: Record<string, any> = {}
-  const { like_clientid, like_username, ip_address, conn_state, comparator, connected_at, node } =
-    params
-  newParams = {
-    like_clientid: like_clientid || undefined,
-    like_username: like_username || undefined,
+  const {
+    clientid,
+    username,
+    ip_address,
+    conn_state,
+    comparator,
+    connected_at,
+    node,
+    usernameSearchType,
+    clientidSearchType,
+  } = params
+
+  const addLikeParam = (key: string, value: string, searchType: string) => {
+    if (value) {
+      return { [`${searchType === SearchType.Exact ? key : `like_${key}`}`]: value }
+    }
+    return {}
+  }
+
+  let newParams: Record<string, any> = {
+    ...addLikeParam('clientid', clientid, clientidSearchType),
+    ...addLikeParam('username', username, usernameSearchType),
     ip_address: ip_address || undefined,
     conn_state: conn_state || undefined,
     node: node || undefined,
   }
+
   if (connected_at) {
     newParams[`${comparator}${CONNECTED_AT_SUFFIX}`] = new Date(connected_at).toISOString()
   }
+
   return newParams
 }
 
@@ -303,19 +344,19 @@ const getParamsFromQuery = () => {
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
       if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
-        fuzzyParams.value[key] = filterParams[key]
+        queryParams.value[key] = filterParams[key]
       } else {
-        fuzzyParams.value.connected_at = filterParams[key]
-        fuzzyParams.value.comparator =
+        queryParams.value.connected_at = filterParams[key]
+        queryParams.value.comparator =
           key.indexOf(Comparator.After) > -1 ? Comparator.After : Comparator.Before
       }
     })
   }
-  params.value = genQueryParams(fuzzyParams.value)
+  params.value = genQueryParams(queryParams.value)
   if (
-    fuzzyParams.value.ip_address ||
-    fuzzyParams.value.conn_state ||
-    fuzzyParams.value.connected_at
+    queryParams.value.ip_address ||
+    queryParams.value.conn_state ||
+    queryParams.value.connected_at
   ) {
     showMoreQuery.value = true
   }
