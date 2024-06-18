@@ -1,4 +1,4 @@
-import { getLabelFromValueInOptionList } from '@/common/tools'
+import { createRandomString, getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
 
@@ -48,4 +48,39 @@ export const useMessageTransformLogLevel = (): {
     getLabelFromValueInOptionList(value, messageTransformLogLevelOpts)
 
   return { messageTransformLogLevelOpts, getLabelByValue }
+}
+
+export enum PropBelong {
+  Topic = 'topic',
+  Payload = 'payload',
+  ClientID = 'clientid',
+}
+
+export enum TargetBelong {
+  ClientAttrs = 'client_attrs',
+  Timestamp = 'timestamp',
+  Expression = 'expression',
+}
+
+export const useMessageTransformForm = () => {
+  const propBelongOpts = Object.values(PropBelong)
+  const targetBelongOpts = Object.values(TargetBelong)
+
+  const propsCanGetSub = [PropBelong.Payload]
+  const targetsCanSetSub = [TargetBelong.ClientAttrs]
+
+  const canGetSubProp = (prop: PropBelong) => propsCanGetSub.includes(prop)
+  const canSetSubTarget = (target: TargetBelong) => targetsCanSetSub.includes(target)
+
+  const subPropReg = new RegExp(`^(${propBelongOpts.join('|')})\\.`)
+  const targetBelongReg = new RegExp(`^(${Object.values(TargetBelong).join('|')})\\.`)
+
+  return {
+    propBelongOpts,
+    targetBelongOpts,
+    subPropReg,
+    targetBelongReg,
+    canGetSubProp,
+    canSetSubTarget,
+  }
 }
