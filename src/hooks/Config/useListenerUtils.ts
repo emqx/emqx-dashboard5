@@ -275,6 +275,12 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
             record[v].supported_subprotocols = record[v].supported_subprotocols.join(', ')
           }
           break
+        case 'ssl_options':
+          // QUIC does not pass the cacertfile field when it's empty
+          if (record.type === ListenerType.QUIC && record[v].cacertfile === '') {
+            delete record[v].cacertfile
+          }
+          break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {
             result[v] = record[v]
