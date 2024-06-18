@@ -296,10 +296,13 @@ const genQueryParams = (params: Record<string, any>) => {
   } = params
 
   const addLikeParam = (key: string, value: string, searchType: string) => {
-    if (value) {
-      return { [`${searchType === SearchType.Exact ? key : `like_${key}`}`]: value }
-    }
-    return {}
+    if (!value) return undefined
+
+    const isFuzzy = searchType === SearchType.Fuzzy
+    const _key = isFuzzy ? `like_${key}` : key
+    const _value = isFuzzy ? value : value.split(',')
+
+    return { [_key]: _value }
   }
 
   let newParams: Record<string, any> = {
