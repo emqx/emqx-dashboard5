@@ -220,8 +220,8 @@ const batchDeleteLoading = ref(false)
 const params = ref({})
 const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
-  clientidSearchType: 'exact',
-  usernameSearchType: 'exact',
+  clientidSearchType: SearchType.Exact,
+  usernameSearchType: SearchType.Exact,
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
@@ -252,8 +252,8 @@ const handleSearch = async () => {
 const handleReset = () => {
   queryParams.value = {
     comparator: Comparator.After,
-    clientidSearchType: 'exact',
-    usernameSearchType: 'exact',
+    clientidSearchType: SearchType.Exact,
+    usernameSearchType: SearchType.Exact,
   }
   handleSearch()
 }
