@@ -1469,6 +1469,14 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '转换失败后的操作',
     en: 'Transformation Failure Operation',
   },
+  transformationProperties: {
+    zh: '转换属性',
+    en: 'Transformation Properties',
+  },
+  targetValue: {
+    zh: '目标值',
+    en: 'Target Value',
+  },
   setting: {
     zh: '设置',
     en: 'Setting',
