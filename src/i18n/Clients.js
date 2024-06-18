@@ -487,4 +487,12 @@ export default {
     zh: 'Schema 校验名称',
     en: 'Schema Validation Name',
   },
+  exactQuery: {
+    zh: '精准查询',
+    en: 'Exact Query',
+  },
+  fuzzySearch: {
+    zh: '模糊搜索',
+    en: 'Fuzzy Search',
+  },
 }
