@@ -71,7 +71,11 @@
       <el-table-column :label="tl('lifetime')" prop="lifetime" v-if="name === 'lwm2m'" />
       <el-table-column :label="tl('status')" v-else>
         <template #default="{ row }">
-          <CheckIcon :status="row.connected ? 'check' : 'close'" size="small" :top="1" />
+          <CheckIcon
+            :status="row.connected ? CheckStatus.Check : CheckStatus.Close"
+            size="small"
+            :top="1"
+          />
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
@@ -116,6 +120,7 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import { CheckStatus } from '@/types/enum'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
@@ -223,6 +228,7 @@ export default defineComponent({
       disconnectClient,
       name: gname,
       pageMeta,
+      CheckStatus,
     }
   },
 })

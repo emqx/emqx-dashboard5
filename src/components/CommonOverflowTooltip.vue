@@ -15,7 +15,7 @@ import OverflowTooltip from './OverflowTooltip.vue'
 import PreWithEllipsis from './PreWithEllipsis.vue'
 import PreWrap from './PreWrap.vue'
 
-defineProps<{ content: string }>()
+defineProps<{ content: string | null }>()
 </script>
 
 <style lang="scss">
