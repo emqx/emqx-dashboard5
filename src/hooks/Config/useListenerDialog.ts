@@ -241,7 +241,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
       let data = normalizeStructure(input)
       if (!isEdit.value) {
-        data = checkNOmitFromObj(normalizeStructure(input), filePaths)
+        data = checkNOmitFromObj(data, filePaths)
       }
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
