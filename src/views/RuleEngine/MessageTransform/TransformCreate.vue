@@ -40,7 +40,7 @@ const createRawTransformForm = (): MessageTransform => ({
   name: '',
   description: '',
   topics: ['t/#'],
-  operations: [{ key: 'payload', value: 'clientAttrs.payload' }],
+  operations: [{ key: '', value: '' }],
   log_failure: { level: MessageTransformLogLevel.warning },
   failure_action: MessageTransformFailureAction.drop,
 })
