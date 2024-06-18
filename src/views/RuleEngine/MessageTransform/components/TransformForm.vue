@@ -48,7 +48,9 @@
     <div>
       <p class="part-header">{{ tl('verificationMethod') }}</p>
       <el-row :gutter="24">
-        <el-col :span="21"> </el-col>
+        <el-col :span="21">
+          <OperationsTable v-model="formData.operations" />
+        </el-col>
       </el-row>
     </div>
     <div>
@@ -110,6 +112,7 @@ import {
   defineProps,
   ref,
 } from 'vue'
+import OperationsTable from './OperationsTable.vue'
 
 const props = defineProps({
   modelValue: {
@@ -192,10 +195,6 @@ const addTopic = () => {
   } else {
     throw new Error('topics is not an array')
   }
-}
-
-const addOperationItem = () => {
-  formData.value.operations.push({ key: '', value: '' })
 }
 
 const validate = async () => formCom.value.validate()
