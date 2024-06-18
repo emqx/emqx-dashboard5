@@ -6,7 +6,7 @@
     placeholder="Please input"
   >
     <template #prepend>
-      <el-select v-model="targetValue.targetBelong">
+      <el-select v-model="targetValue.targetBelong" @change="handleBelongChanged">
         <el-option v-for="item in targetBelongOpts" :key="item" :label="item" :value="item" />
       </el-select>
     </template>
@@ -39,6 +39,12 @@ const targetValue = computed({
 })
 
 const { canSetSubTarget } = useMessageTransformForm()
+
+const handleBelongChanged = (val: TargetBelong) => {
+  if (!canSetSubTarget(val) && targetValue.value.targetValue) {
+    targetValue.value.targetValue = ''
+  }
+}
 </script>
 
 <style lang="scss"></style>
