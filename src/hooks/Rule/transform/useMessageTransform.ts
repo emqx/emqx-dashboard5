@@ -58,22 +58,23 @@ export enum PropBelong {
 
 export enum TargetBelong {
   ClientAttrs = 'client_attrs',
+  ClientAttrsSub = 'client_attrs.',
   Timestamp = 'timestamp',
   Expression = 'expression',
 }
 
 export const useMessageTransformForm = () => {
+  const propsCanGetSub = [PropBelong.Payload]
+  const targetsCanSetSub = [TargetBelong.ClientAttrsSub, TargetBelong.Expression]
+
   const propBelongOpts = Object.values(PropBelong)
   const targetBelongOpts = Object.values(TargetBelong)
-
-  const propsCanGetSub = [PropBelong.Payload]
-  const targetsCanSetSub = [TargetBelong.ClientAttrs]
 
   const canGetSubProp = (prop: PropBelong) => propsCanGetSub.includes(prop)
   const canSetSubTarget = (target: TargetBelong) => targetsCanSetSub.includes(target)
 
   const subPropReg = new RegExp(`^(${propBelongOpts.join('|')})\\.`)
-  const targetBelongReg = new RegExp(`^(${Object.values(TargetBelong).join('|')})\\.`)
+  const targetBelongReg = new RegExp(`^(${targetsCanSetSub.join('|')})`)
 
   return {
     propBelongOpts,
