@@ -83,11 +83,17 @@ import TargetValue from './TargetValue.vue'
 
 interface SubOperation {
   propValue: string
+  /**
+   * ❗️❗️❗️If targetValue has a value, targetBelong ends with a dot
+   */
   targetBelong: TargetBelong | ''
   targetValue?: string
 }
 
 interface OperationTarget {
+  /**
+   * ❗️❗️❗️If targetValue has a value, targetBelong ends with a dot
+   */
   targetBelong: TargetBelong | ''
   targetValue?: string
 }
@@ -101,7 +107,8 @@ interface Operation {
   convert: OperationTarget | Array<SubOperation>
 }
 
-const { propBelongOpts, subPropReg, targetBelongReg, canGetSubProp } = useMessageTransformForm()
+const { propBelongOpts, targetBelongOpts, subPropReg, targetBelongReg, canGetSubProp } =
+  useMessageTransformForm()
 
 const props = defineProps<{ modelValue: Array<MessageTransformOperation> }>()
 const emit = defineEmits<{
@@ -113,47 +120,71 @@ const { tl } = useI18nTl('RuleEngine')
 const tableData = ref<Operation[]>([])
 
 let operationsCache: Array<MessageTransformOperation> = []
+
+const analyzeOperation = ({
+  key,
+  value,
+}: {
+  key: string
+  value: string
+}): {
+  propBelong: PropBelong | ''
+  propValue?: string
+  targetBelong: TargetBelong | ''
+  targetValue?: string
+} => {
+  const targetWithBelong = targetBelongReg.test(value)
+  let targetBelong: TargetBelong | '' = ''
+  let targetValue = ''
+  if (value) {
+    if (targetWithBelong) {
+      targetBelong = value.match(targetBelongReg)?.[0] as TargetBelong
+      targetValue = value.replace(targetBelong, '')
+    } else if (targetBelongOpts.includes(value as TargetBelong)) {
+      targetBelong = value as TargetBelong
+    } else {
+      targetBelong = TargetBelong.Expression
+      targetValue = value
+    }
+  }
+  if (subPropReg.test(key)) {
+    const parentProp = key.match(subPropReg)?.[1]
+    const propValue = key.replace(subPropReg, '')
+    return { propBelong: parentProp as PropBelong, propValue, targetBelong, targetValue }
+  }
+  return { propBelong: key as PropBelong, targetBelong, targetValue }
+}
+
 const updateTableDataByModel = () => {
   if (isUndefined(props.modelValue)) {
     return
   }
   tableData.value = []
   let currentParentProp: undefined | string = undefined
-  props.modelValue.forEach(({ key, value }) => {
-    const targetWithBelong = targetBelongReg.test(value)
-    const targetBelong: TargetBelong | '' = !value
-      ? ''
-      : targetWithBelong
-      ? (value.match(targetBelongReg)?.[1] as TargetBelong)
-      : TargetBelong.Expression
-    const targetValue: string | undefined = targetWithBelong
-      ? value.replace(targetBelongReg, '')
-      : value
-    if (subPropReg.test(key)) {
-      const parentProp = key.match(subPropReg)?.[1]
-      const propValue = key.replace(subPropReg, '')
-
+  props.modelValue.forEach((item) => {
+    const { propBelong, propValue, targetBelong, targetValue } = analyzeOperation(item)
+    if (propValue) {
       const convertItem = { propValue, targetBelong, targetValue }
-      if (currentParentProp === parentProp) {
+      if (currentParentProp === propBelong) {
         // combine same parent
         const lastItem = tableData.value[tableData.value.length - 1]
         // second confirmation
-        if (lastItem.propBelong === parentProp && Array.isArray(lastItem.convert)) {
+        if (lastItem.propBelong === propBelong && Array.isArray(lastItem.convert)) {
           lastItem.convert.push(convertItem)
         }
       } else {
         // create new operation items
         tableData.value.push({
           id: createRandomString(),
-          propBelong: parentProp as PropBelong,
+          propBelong: propBelong as PropBelong,
           convert: [convertItem],
         })
       }
-      currentParentProp = parentProp
+      currentParentProp = propBelong
     } else {
       tableData.value.push({
         id: createRandomString(),
-        propBelong: key as PropBelong,
+        propBelong,
         convert: { targetBelong, targetValue },
       })
       currentParentProp = undefined
@@ -171,8 +202,12 @@ watch(
   },
 )
 
-const getTargetValue = ({ targetValue, targetBelong }: OperationTarget & unknown) =>
-  targetValue ? `${targetBelong}.${targetValue}` : targetBelong
+const getTargetValue = ({ targetValue, targetBelong }: OperationTarget & unknown) => {
+  if (targetBelong !== TargetBelong.Expression) {
+    return `${targetBelong}${targetValue}`
+  }
+  return targetValue as string
+}
 
 const getOperationsByTableData = () => {
   const operations: Array<MessageTransformOperation> = []
