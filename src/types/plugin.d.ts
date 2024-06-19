@@ -25,6 +25,7 @@ export interface PluginItem {
   rel_vsn: string
   repo: string
   git_commit_or_build_date: string
+  with_config_schema?: boolean
 }
 
 export interface PluginDetail extends PluginItem {

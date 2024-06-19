@@ -45,7 +45,11 @@
       <div class="app-wrapper">
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
           <el-card class="app-card">
-            <PluginManage :plugin-name="pluginName" :plugin-version="pluginVersion" />
+            <PluginManage
+              :plugin-name="pluginName"
+              :plugin-version="pluginVersion"
+              :plugin-with-config="pluginWithConfig"
+            />
           </el-card>
         </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
@@ -87,11 +91,11 @@ const isDetailLoading = ref(false)
 
 const pluginName: ComputedRef<string> = computed(() => route.params.pluginName.toString())
 const pluginVersion: ComputedRef<string> = computed(() => route.params.pluginVersion.toString())
+const isReadMoreEnable = computed(() => pluginInfo.value?.builder?.website)
+const pluginWithConfig = computed(() => pluginInfo.value?.with_config_schema)
 
 const { NAME_VERSION_JOINER, goDoc, disablePlugin, uninstall, enablePlugin, getTheWorstStatus } =
   usePluginItem()
-
-const isReadMoreEnable = computed(() => pluginInfo.value?.builder?.website)
 
 const getPluginDetail = async () => {
   try {

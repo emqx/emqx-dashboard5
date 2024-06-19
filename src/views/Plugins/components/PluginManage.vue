@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted } from 'vue'
+import { defineProps, watch } from 'vue'
 import useRenderPluginForm from '@/hooks/Plugins/useRenderPluginForm'
 import PluginFormKit from '@/components/PluginsForm/PluginFormKit.vue'
 
@@ -28,7 +28,20 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  pluginWithConfig: {
+    type: Boolean,
+  },
 })
+
+watch(
+  () => props.pluginWithConfig,
+  async (val) => {
+    if (val) {
+      await fetchPluginSchema(props.pluginName, props.pluginVersion)
+      await fetchPluginConfigs(props.pluginName, props.pluginVersion)
+    }
+  },
+)
 
 const {
   record,
@@ -42,9 +55,4 @@ const {
 async function handleSubmit(data: Record<string, any>) {
   return await savePluginsConfigs(props.pluginName, props.pluginVersion, data)
 }
-
-onMounted(async () => {
-  await fetchPluginSchema(props.pluginName, props.pluginVersion)
-  await fetchPluginConfigs(props.pluginName, props.pluginVersion)
-})
 </script>
