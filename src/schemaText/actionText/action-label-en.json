@@ -48,5 +48,8 @@
   },
   "hstreamdb": {
     "hstream_batch_size": "HStreamDB Batch Size"
+  },
+  "s3": {
+    "aggregated_key": "Object Key"
   }
 }

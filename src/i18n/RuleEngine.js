@@ -1501,4 +1501,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '聚合设置',
     en: 'Aggregation Settings',
   },
+  somePlaceholderRequired: {
+    zh: '请使用到所有必需的占位符',
+    en: 'Please use all required placeholders',
+  },
 }

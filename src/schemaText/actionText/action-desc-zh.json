@@ -1,5 +1,8 @@
 {
   "mqtt": {
     "source_topic": "消息订阅主题，支持使用 + 和 # 通配符。当 EMQX 运行在集群模式下或连接器配置了连接池时，为了避免消息重复，必须使用共享订阅。"
+  },
+  "s3": {
+    "aggregated_key": "以下是聚合上传的 S3 对象键模板。<br/>模板可以包含以下变量的占位符：<ul>  <li><code>${'{'}action{'}'}</code>：动作名称（必需）。</li>  <li><code>${'{'}node{'}'}</code>：执行上传的 EMQX 节点名称（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合开始的日期和时间，格式根据 <code>{'{'}format{'}'}</code> 字符串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和时间，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地时区格式的 RFC3339 日期和时间，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 时间戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合结束的日期和时间，格式选项与上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同时间间隔内聚合上传的序列号（必需）。</li></ul>所有其他占位符均视为无效。请注意，如果模板中没有使用标记为必需的占位符，这些占位符将作为路径后缀添加到 S3 对象键中。"
   }
 }
