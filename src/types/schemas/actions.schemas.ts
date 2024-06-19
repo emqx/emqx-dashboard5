@@ -1420,8 +1420,8 @@ export interface BridgeS3S3AggregatedUploadParameters {
   key: string
   acl?: BridgeS3S3AggregatedUploadParametersAcl
   headers?: BridgeS3S3AggregatedUploadParametersHeaders
-  min_part_size: string
-  max_part_size: string
+  min_part_size?: string
+  max_part_size?: string
 }
 
 export type BridgeS3PutBridgeV2Parameters =

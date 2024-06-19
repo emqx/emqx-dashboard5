@@ -150,8 +150,8 @@ export interface FileTransferS3Exporter {
   host: string
   port: number
   transport_options?: S3TransportOptions
-  min_part_size: string
-  max_part_size: string
+  min_part_size?: string
+  max_part_size?: string
   url_expire_time?: string
   bucket: string
   acl?: FileTransferS3ExporterAcl
@@ -199,6 +199,17 @@ export interface FileTransferFileTransfer {
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsLogLevel =
   typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
 
@@ -240,6 +251,8 @@ export interface EmqxSslClientOpts {
   secure_renegotiate?: boolean
   log_level?: EmqxSslClientOptsLogLevel
   hibernate_after?: string
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }

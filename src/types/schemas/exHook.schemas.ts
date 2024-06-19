@@ -137,6 +137,17 @@ export type DeleteExhooksName404 = {
 
 export type ExhookSslConfServerNameIndication = string | 'disable'
 
+export type ExhookSslConfPartialChain =
+  typeof ExhookSslConfPartialChain[keyof typeof ExhookSslConfPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ExhookSslConfPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type ExhookSslConfLogLevel = typeof ExhookSslConfLogLevel[keyof typeof ExhookSslConfLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -176,6 +187,8 @@ export interface ExhookSslConf {
   secure_renegotiate?: boolean
   log_level?: ExhookSslConfLogLevel
   hibernate_after?: string
+  partial_chain?: ExhookSslConfPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: ExhookSslConfServerNameIndication
 }

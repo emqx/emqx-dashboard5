@@ -108,6 +108,8 @@ export type PostSsoLoginBackend200 = {
   license?: PostSsoLoginBackend200License
 }
 
+export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin
+
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
 
@@ -189,8 +191,6 @@ export interface SsoLogin {
   password?: string
 }
 
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin
-
 export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -213,6 +213,16 @@ export interface SsoLdap {
 }
 
 export type LdapSslServerNameIndication = string | 'disable'
+
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
 
 export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
 
@@ -253,6 +263,8 @@ export interface LdapSsl {
   secure_renegotiate?: boolean
   log_level?: LdapSslLogLevel
   hibernate_after?: string
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: LdapSslServerNameIndication
 }
