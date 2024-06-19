@@ -23,6 +23,13 @@ export type PutListenersId400 = {
   message?: string
 }
 
+export type PutListenersId200 =
+  | ListenersWssRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersQuicRequiredBind
+
 export type PutListenersIdBody =
   | ListenersWssNotRequiredBind
   | ListenersWsNotRequiredBind
@@ -217,13 +224,6 @@ export interface ListenersWssRequiredBind {
   ssl_options?: EmqxListenerWssOpts
   websocket?: EmqxWsOpts
 }
-
-export type PutListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
 
 export type ListenersWssNotRequiredBindEnableAuthn =
   typeof ListenersWssNotRequiredBindEnableAuthn[keyof typeof ListenersWssNotRequiredBindEnableAuthn]
@@ -456,6 +456,27 @@ export type ListenersWithNameTcpRequiredBindType =
 export const ListenersWithNameTcpRequiredBindType = {
   tcp: 'tcp',
 } as const
+
+export interface ListenersWithNameTcpRequiredBind {
+  type: ListenersWithNameTcpRequiredBindType
+  running?: boolean
+  name: string
+  current_connections?: number
+  enable?: boolean
+  bind: string
+  acceptors?: number
+  max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
+  mountpoint?: string
+  zone?: string
+  enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
+  max_conn_rate?: string
+  messages_rate?: string
+  bytes_rate?: string
+  access_rules?: string[]
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  tcp_options?: EmqxTcpOpts
+}
 
 export type ListenersWithNameSslRequiredBindEnableAuthn =
   typeof ListenersWithNameSslRequiredBindEnableAuthn[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
@@ -861,27 +882,6 @@ export interface EmqxTcpOpts {
   keepalive?: string
 }
 
-export interface ListenersWithNameTcpRequiredBind {
-  type: ListenersWithNameTcpRequiredBindType
-  running?: boolean
-  name: string
-  current_connections?: number
-  enable?: boolean
-  bind: string
-  acceptors?: number
-  max_connections?: ListenersWithNameTcpRequiredBindMaxConnections
-  mountpoint?: string
-  zone?: string
-  enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
-  max_conn_rate?: string
-  messages_rate?: string
-  bytes_rate?: string
-  access_rules?: string[]
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  tcp_options?: EmqxTcpOpts
-}
-
 export interface EmqxOcsp {
   enable_ocsp_stapling?: boolean
   responder_url?: string
@@ -889,6 +889,17 @@ export interface EmqxOcsp {
   refresh_interval?: string
   refresh_http_timeout?: string
 }
+
+export type EmqxListenerWssOptsPartialChain =
+  typeof EmqxListenerWssOptsPartialChain[keyof typeof EmqxListenerWssOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerWssOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
 
 export type EmqxListenerWssOptsLogLevel =
   typeof EmqxListenerWssOptsLogLevel[keyof typeof EmqxListenerWssOptsLogLevel]
@@ -931,12 +942,25 @@ export interface EmqxListenerWssOpts {
   secure_renegotiate?: boolean
   log_level?: EmqxListenerWssOptsLogLevel
   hibernate_after?: string
+  partial_chain?: EmqxListenerWssOptsPartialChain
+  verify_peer_ext_key_usage?: string
   dhfile?: string
   fail_if_no_peer_cert?: boolean
   honor_cipher_order?: boolean
   client_renegotiation?: boolean
   handshake_timeout?: string
 }
+
+export type EmqxListenerSslOptsPartialChain =
+  typeof EmqxListenerSslOptsPartialChain[keyof typeof EmqxListenerSslOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
 
 export type EmqxListenerSslOptsLogLevel =
   typeof EmqxListenerSslOptsLogLevel[keyof typeof EmqxListenerSslOptsLogLevel]
@@ -979,6 +1003,8 @@ export interface EmqxListenerSslOpts {
   secure_renegotiate?: boolean
   log_level?: EmqxListenerSslOptsLogLevel
   hibernate_after?: string
+  partial_chain?: EmqxListenerSslOptsPartialChain
+  verify_peer_ext_key_usage?: string
   dhfile?: string
   fail_if_no_peer_cert?: boolean
   honor_cipher_order?: boolean

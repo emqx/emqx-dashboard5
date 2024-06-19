@@ -538,6 +538,7 @@ export interface RocketmqPut {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
 }
 
 export type RocketmqPostStrategy = string | 'roundrobin'
@@ -569,6 +570,7 @@ export interface RocketmqPost {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
 }
 
 export type RocketmqGetStrategy = string | 'roundrobin'
@@ -613,6 +615,7 @@ export interface RocketmqGet {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
 }
 
 export type ResourceSchemaCreationOptsRequestTtl = 'infinity' | string
@@ -668,6 +671,17 @@ export interface MongoTopology {
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsLogLevel =
   typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
 
@@ -709,6 +723,8 @@ export interface EmqxSslClientOpts {
   secure_renegotiate?: boolean
   log_level?: EmqxSslClientOptsLogLevel
   hibernate_after?: string
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
@@ -1192,27 +1208,6 @@ export const BridgeRedisPostSentinelRedisType = {
   sentinel: 'sentinel',
 } as const
 
-export interface BridgeRedisPostSentinel {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisSentinel
-  servers: string
-  redis_type?: BridgeRedisPostSentinelRedisType
-  sentinel: string
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisPostSentinelType
-  name: string
-}
-
 export type BridgeRedisPostClusterType =
   typeof BridgeRedisPostClusterType[keyof typeof BridgeRedisPostClusterType]
 
@@ -1228,25 +1223,6 @@ export type BridgeRedisPostClusterRedisType =
 export const BridgeRedisPostClusterRedisType = {
   cluster: 'cluster',
 } as const
-
-export interface BridgeRedisPostCluster {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisCluster
-  servers: string
-  redis_type?: BridgeRedisPostClusterRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisPostClusterType
-  name: string
-}
 
 export type BridgeRedisGetSingleStatus =
   typeof BridgeRedisGetSingleStatus[keyof typeof BridgeRedisGetSingleStatus]
@@ -1274,29 +1250,6 @@ export type BridgeRedisGetSingleRedisType =
 export const BridgeRedisGetSingleRedisType = {
   single: 'single',
 } as const
-
-export interface BridgeRedisGetSingle {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisSingle
-  server: string
-  redis_type?: BridgeRedisGetSingleRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisGetSingleType
-  name: string
-  status?: BridgeRedisGetSingleStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-}
 
 export type BridgeRedisGetSentinelStatus =
   typeof BridgeRedisGetSentinelStatus[keyof typeof BridgeRedisGetSentinelStatus]
@@ -1431,6 +1384,29 @@ export interface BridgeRedisCreationOptsRedisSingle {
   max_buffer_bytes?: string
 }
 
+export interface BridgeRedisGetSingle {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisSingle
+  server: string
+  redis_type?: BridgeRedisGetSingleRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisGetSingleType
+  name: string
+  status?: BridgeRedisGetSingleStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+}
+
 export type BridgeRedisCreationOptsRedisSentinelRequestTtl = 'infinity' | string
 
 export type BridgeRedisCreationOptsRedisSentinelQueryMode =
@@ -1464,6 +1440,27 @@ export interface BridgeRedisCreationOptsRedisSentinel {
   max_buffer_bytes?: string
 }
 
+export interface BridgeRedisPostSentinel {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisSentinel
+  servers: string
+  redis_type?: BridgeRedisPostSentinelRedisType
+  sentinel: string
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisPostSentinelType
+  name: string
+}
+
 export type BridgeRedisCreationOptsRedisClusterRequestTtl = 'infinity' | string
 
 export type BridgeRedisCreationOptsRedisClusterQueryMode =
@@ -1493,6 +1490,25 @@ export interface BridgeRedisCreationOptsRedisCluster {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface BridgeRedisPostCluster {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisCluster
+  servers: string
+  redis_type?: BridgeRedisPostClusterRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisPostClusterType
+  name: string
 }
 
 export type BridgeRabbitmqPutDeliveryMode =
@@ -1592,6 +1608,32 @@ export const BridgeRabbitmqGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeRabbitmqGet {
+  status?: BridgeRabbitmqGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeRabbitmqGetType
+  name: string
+  enable?: boolean
+  local_topic?: string
+  resource_opts?: BridgeRabbitmqCreationOpts
+  server?: string
+  port?: number
+  username: string
+  password: string
+  pool_size?: number
+  timeout?: string
+  virtual_host?: string
+  heartbeat?: string
+  ssl?: EmqxSslClientOpts
+  wait_for_publish_confirmations?: boolean
+  publish_confirmation_timeout?: string
+  exchange: string
+  routing_key: string
+  delivery_mode?: BridgeRabbitmqGetDeliveryMode
+  payload_template?: string
+}
+
 export type BridgeRabbitmqCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeRabbitmqCreationOptsQueryMode =
@@ -1623,32 +1665,6 @@ export interface BridgeRabbitmqCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeRabbitmqGet {
-  status?: BridgeRabbitmqGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeRabbitmqGetType
-  name: string
-  enable?: boolean
-  local_topic?: string
-  resource_opts?: BridgeRabbitmqCreationOpts
-  server?: string
-  port?: number
-  username: string
-  password: string
-  pool_size?: number
-  timeout?: string
-  virtual_host?: string
-  heartbeat?: string
-  ssl?: EmqxSslClientOpts
-  wait_for_publish_confirmations?: boolean
-  publish_confirmation_timeout?: string
-  exchange: string
-  routing_key: string
-  delivery_mode?: BridgeRabbitmqGetDeliveryMode
-  payload_template?: string
 }
 
 export type BridgePulsarPutProducerStrategy =
@@ -1684,23 +1700,6 @@ export interface BridgePulsarProducerResourceOpts {
   start_timeout?: string
 }
 
-export type BridgePulsarProducerBufferMode =
-  typeof BridgePulsarProducerBufferMode[keyof typeof BridgePulsarProducerBufferMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgePulsarProducerBufferMode = {
-  memory: 'memory',
-  disk: 'disk',
-  hybrid: 'hybrid',
-} as const
-
-export interface BridgePulsarProducerBuffer {
-  mode?: BridgePulsarProducerBufferMode
-  per_partition_limit?: string
-  segment_bytes?: string
-  memory_overload_protection?: boolean
-}
-
 export interface BridgePulsarPutProducer {
   enable?: boolean
   servers: string
@@ -1719,6 +1718,23 @@ export interface BridgePulsarPutProducer {
   buffer?: BridgePulsarProducerBuffer
   local_topic?: string
   resource_opts?: BridgePulsarProducerResourceOpts
+}
+
+export type BridgePulsarProducerBufferMode =
+  typeof BridgePulsarProducerBufferMode[keyof typeof BridgePulsarProducerBufferMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgePulsarProducerBufferMode = {
+  memory: 'memory',
+  disk: 'disk',
+  hybrid: 'hybrid',
+} as const
+
+export interface BridgePulsarProducerBuffer {
+  mode?: BridgePulsarProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
+  memory_overload_protection?: boolean
 }
 
 export type BridgePulsarPostProducerStrategy =
@@ -2856,32 +2872,6 @@ export const BridgeMongodbGetRsStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface BridgeMongodbGetRs {
-  status?: BridgeMongodbGetRsStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  mongo_type: BridgeMongodbGetRsMongoType
-  servers: string
-  w_mode?: BridgeMongodbGetRsWMode
-  r_mode?: BridgeMongodbGetRsRMode
-  replica_set_name: string
-  srv_record?: boolean
-  pool_size?: number
-  username?: string
-  password?: string
-  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
-  auth_source?: string
-  database: string
-  topology?: MongoTopology
-  ssl?: EmqxSslClientOpts
-  enable?: boolean
-  collection?: string
-  payload_template?: string
-  resource_opts: BridgeMongodbCreationOpts
-  type: BridgeMongodbGetRsType
-  name: string
-}
-
 export type BridgeMongodbCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeMongodbCreationOptsQueryMode =
@@ -2911,6 +2901,32 @@ export interface BridgeMongodbCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface BridgeMongodbGetRs {
+  status?: BridgeMongodbGetRsStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  mongo_type: BridgeMongodbGetRsMongoType
+  servers: string
+  w_mode?: BridgeMongodbGetRsWMode
+  r_mode?: BridgeMongodbGetRsRMode
+  replica_set_name: string
+  srv_record?: boolean
+  pool_size?: number
+  username?: string
+  password?: string
+  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
+  auth_source?: string
+  database: string
+  topology?: MongoTopology
+  ssl?: EmqxSslClientOpts
+  enable?: boolean
+  collection?: string
+  payload_template?: string
+  resource_opts: BridgeMongodbCreationOpts
+  type: BridgeMongodbGetRsType
+  name: string
 }
 
 export interface BridgeMatrixPut {
@@ -3106,6 +3122,17 @@ export interface BridgeKinesisCreationOpts {
 
 export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
+export type BridgeKafkaSslClientOptsPartialChain =
+  typeof BridgeKafkaSslClientOptsPartialChain[keyof typeof BridgeKafkaSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type BridgeKafkaSslClientOptsLogLevel =
   typeof BridgeKafkaSslClientOptsLogLevel[keyof typeof BridgeKafkaSslClientOptsLogLevel]
 
@@ -3147,6 +3174,8 @@ export interface BridgeKafkaSslClientOpts {
   secure_renegotiate?: boolean
   log_level?: BridgeKafkaSslClientOptsLogLevel
   hibernate_after?: string
+  partial_chain?: BridgeKafkaSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: BridgeKafkaSslClientOptsServerNameIndication
 }
@@ -4950,6 +4979,17 @@ export const BridgeAzureEventHubSslClientOptsEnable = {
   true: 'true',
 } as const
 
+export type BridgeAzureEventHubSslClientOptsPartialChain =
+  typeof BridgeAzureEventHubSslClientOptsPartialChain[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeAzureEventHubSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type BridgeAzureEventHubSslClientOptsLogLevel =
   typeof BridgeAzureEventHubSslClientOptsLogLevel[keyof typeof BridgeAzureEventHubSslClientOptsLogLevel]
 
@@ -4991,6 +5031,8 @@ export interface BridgeAzureEventHubSslClientOpts {
   secure_renegotiate?: boolean
   log_level?: BridgeAzureEventHubSslClientOptsLogLevel
   hibernate_after?: string
+  partial_chain?: BridgeAzureEventHubSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: BridgeAzureEventHubSslClientOptsEnable
   server_name_indication?: BridgeAzureEventHubSslClientOptsServerNameIndication
 }
