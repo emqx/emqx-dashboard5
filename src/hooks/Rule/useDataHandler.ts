@@ -280,9 +280,17 @@ export const useActionDataHandler = (): {
     }
   }
 
+  const handleS3ActionData = async (bridgeData: any) => {
+    if (/direct/i.test(bridgeData?.parameters?.mode)) {
+      bridgeData.resource_opts.batch_size = 1
+    }
+    return bridgeData
+  }
+
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
     [BridgeType.Redis, handleRedisBridgeData],
+    [BridgeType.S3, handleS3ActionData],
   ])
 
   /**

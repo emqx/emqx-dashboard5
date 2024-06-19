@@ -483,6 +483,8 @@ export default (
         ],
       })
       aggKeyPara.default = '${action}/${node}/${datetime.rfc3339utc}_N${sequence}.csv'
+    }
+    if (aggItem?.rules) {
       addRules(
         {
           'parameters.key': [
