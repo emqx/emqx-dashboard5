@@ -297,6 +297,7 @@ export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
+  client_attrs: 'client_attrs',
   awaiting_rel_cnt: 'awaiting_rel_cnt',
   awaiting_rel_max: 'awaiting_rel_max',
   clean_start: 'clean_start',
