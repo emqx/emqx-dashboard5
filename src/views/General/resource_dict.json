@@ -2326,5 +2326,17 @@
       "en": "Reset metrics for a particular transformation",
       "zh": "重置指定消息转换的指标"
     }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations/dryrun",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Test an input against a transformation",
+      "zh": "针对消息转换测试输入"
+    }
   }
 ]
