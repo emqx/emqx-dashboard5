@@ -503,7 +503,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
-              units={['MB', 'GB', 'KB']}
+              units={['MB', 'GB', 'KB', 'B']}
               {...customProps}
             />
           )

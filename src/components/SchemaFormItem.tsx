@@ -204,7 +204,7 @@ export default defineComponent({
             <input-with-unit
               disabled={isDisabled}
               v-model={formItemValue.value}
-              units={['MB', 'GB', 'KB']}
+              units={['MB', 'GB', 'KB', 'B']}
             />
           )
         case 'percent':
