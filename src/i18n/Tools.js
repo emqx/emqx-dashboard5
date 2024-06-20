@@ -132,12 +132,12 @@ export default {
     en: 'Add Topic',
   },
   msgIn: {
-    en: 'Incoming Messages',
-    zh: '消息流入',
+    en: 'Publishing Messages',
+    zh: '消息发布',
   },
   msgOut: {
-    en: 'Outgoing Messages',
-    zh: '消息流出',
+    en: 'Incoming Messages',
+    zh: '消息接收',
   },
   msgDrop: {
     en: 'Dropped Messages',
