@@ -120,7 +120,7 @@ const configLoading = ref(true)
 const isSchemaLoading = ref(false)
 const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
 
-const labelWidth = computed(() => (state.lang === 'zh' ? 200 : 230))
+const labelWidth = computed(() => (state.lang === 'zh' ? 210 : 230))
 
 const propsOrderMap = {
   basic: createOrderObj([], 0),
@@ -216,6 +216,8 @@ const advancedFields = {
       'secure_renegotiate',
       'log_level',
       'hibernate_after',
+      'partial_chain',
+      'verify_peer_ext_key_usage',
     ].map(getSSLConfPath),
   ],
 }

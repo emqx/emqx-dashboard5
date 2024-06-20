@@ -1373,6 +1373,14 @@
     "log_level": {
       "desc": "SSL 通信的日志级别。默认为 '通知'。设置为 'debug' 可检查 TLS 握手信息",
       "label": "SSL 日志级别"
+    },
+    "partial_chain": {
+      "desc": "启用或禁用使用 partial_chain 进行对等验证。当本地在 x509 路径验证过程中验证对等证书时，它会构建一个从对等证书开始，以信任锚结束的证书链。默认情况下，如果设置为 `false`，信任锚是根 CA，证书链必须完整。然而，如果设置为 `true` 或 `cacert_from_cacertfile`，则 `cacertfile` 中的最后一个证书将被用作信任锚证书（中间 CA）。这在路径验证中创建了一个部分链。或者，如果配置为 `two_cacerts_from_cacertfile`，`cacertfile` 中的最后两个证书之一将被用作信任锚证书，形成部分链。此选项对于中间 CA 证书轮换特别有用。然而，请注意，它会带来一些额外的开销，因此应仅用于证书轮换目的。",
+      "label": "启用部分链验证"
+    },
+    "verify_peer_ext_key_usage": {
+      "desc": "验证对等证书中的扩展密钥用法<br/>为了进行额外的对等证书验证，这里定义的值必须使用 [rfc5280](https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.12) 中定义的对等证书的“扩展密钥用法”。<br/>允许的值有<br/>- `clientAuth`<br/>- `serverAuth`<br/>- `codeSigning`<br/>- `emailProtection`<br/>- `timeStamping`<br/>- `ocspSigning`<br/>- 原始 OID，例如：\"OID:1.3.6.1.5.5.7.3.2\" 意味着 `id-pk 2`，相当于 `clientAuth`<br/>也支持逗号分隔的字符串来验证多个密钥用法。<br/>例如，`\"serverAuth,OID:1.3.6.1.5.5.7.3.2\"`",
+      "label": "验证扩展密钥用法"
     }
   },
   "file_trans": {

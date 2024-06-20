@@ -314,6 +314,8 @@ export const SSL_FIELDS = [
   'enable',
   'ciphers',
   'log_level',
+  'partial_chain',
+  'verify_peer_ext_key_usage',
 ]
 
 export const EMQX_VERSION = process.env.VUE_APP_EMQX_VERSION
