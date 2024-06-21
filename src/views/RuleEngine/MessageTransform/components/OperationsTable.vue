@@ -70,8 +70,8 @@
 <script lang="ts" setup>
 import { createRandomString } from '@/common/tools'
 import {
-  PropBelong,
-  TargetBelong,
+  AvailableKey,
+  TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -86,7 +86,7 @@ interface SubOperation {
   /**
    * ❗️❗️❗️If targetValue has a value, targetBelong ends with a dot
    */
-  targetBelong: TargetBelong | ''
+  targetBelong: string
   targetValue?: string
 }
 
@@ -94,7 +94,7 @@ interface OperationTarget {
   /**
    * ❗️❗️❗️If targetValue has a value, targetBelong ends with a dot
    */
-  targetBelong: TargetBelong | ''
+  targetBelong: string
   targetValue?: string
 }
 
@@ -103,7 +103,7 @@ interface Operation {
    * for table component
    */
   id: string
-  propBelong: PropBelong | ''
+  propBelong: AvailableKey | ''
   convert: OperationTarget | Array<SubOperation>
 }
 
@@ -128,31 +128,31 @@ const analyzeOperation = ({
   key: string
   value: string
 }): {
-  propBelong: PropBelong | ''
+  propBelong: AvailableKey | ''
   propValue?: string
-  targetBelong: TargetBelong | ''
+  targetBelong: string
   targetValue?: string
 } => {
   const targetWithBelong = targetBelongReg.test(value)
-  let targetBelong: TargetBelong | '' = ''
+  let targetBelong = ''
   let targetValue = ''
   if (value) {
     if (targetWithBelong) {
-      targetBelong = value.match(targetBelongReg)?.[0] as TargetBelong
+      targetBelong = value.match(targetBelongReg)?.[0] as string
       targetValue = value.replace(targetBelong, '')
-    } else if (targetBelongOpts.includes(value as TargetBelong)) {
-      targetBelong = value as TargetBelong
+    } else if (targetBelongOpts.includes(value)) {
+      targetBelong = value
     } else {
-      targetBelong = TargetBelong.Expression
+      targetBelong = TARGET_EXPRESSION
       targetValue = value
     }
   }
   if (subPropReg.test(key)) {
     const parentProp = key.match(subPropReg)?.[1]
     const propValue = key.replace(subPropReg, '')
-    return { propBelong: parentProp as PropBelong, propValue, targetBelong, targetValue }
+    return { propBelong: parentProp as AvailableKey, propValue, targetBelong, targetValue }
   }
-  return { propBelong: key as PropBelong, targetBelong, targetValue }
+  return { propBelong: key as AvailableKey, targetBelong, targetValue }
 }
 
 const updateTableDataByModel = () => {
@@ -176,7 +176,7 @@ const updateTableDataByModel = () => {
         // create new operation items
         tableData.value.push({
           id: createRandomString(),
-          propBelong: propBelong as PropBelong,
+          propBelong: propBelong as AvailableKey,
           convert: [convertItem],
         })
       }
@@ -203,7 +203,7 @@ watch(
 )
 
 const getTargetValue = ({ targetValue, targetBelong }: OperationTarget & unknown) => {
-  if (targetBelong !== TargetBelong.Expression) {
+  if (targetBelong !== TARGET_EXPRESSION) {
     return `${targetBelong}${targetValue}`
   }
   return targetValue as string

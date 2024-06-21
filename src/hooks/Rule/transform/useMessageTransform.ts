@@ -1,4 +1,4 @@
-import { createRandomString, getLabelFromValueInOptionList } from '@/common/tools'
+import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
 
@@ -50,28 +50,184 @@ export const useMessageTransformLogLevel = (): {
   return { messageTransformLogLevelOpts, getLabelByValue }
 }
 
-export enum PropBelong {
+export enum AvailableKey {
   Topic = 'topic',
+  Qos = 'qos',
   Payload = 'payload',
-  ClientID = 'clientid',
-}
-
-export enum TargetBelong {
+  UserProperty = 'pub_props.User-Property',
   ClientAttrs = 'client_attrs',
-  ClientAttrsSub = 'client_attrs.',
   Timestamp = 'timestamp',
-  Expression = 'expression',
+  Event = 'event',
+  Username = 'username',
+  ClientID = 'clientid',
+  PeerHost = 'peerhost',
+  PublishReceivedAt = 'publish_received_at',
+  PubProps = 'pub_props',
+  Node = 'node',
+  ID = 'id',
+  Retain = 'flags.retain',
+  Dup = 'flags.dup',
 }
+export const TARGET_EXPRESSION = 'expression'
+
+const availableKeyConf = [
+  {
+    key: AvailableKey.Topic,
+    allowSet: true,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.Qos,
+    allowSet: true,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.Payload,
+    canUseProp: true,
+    keys: '*',
+    allowSet: true,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.UserProperty,
+    configKey: 'pub_props.User-Property.{key}',
+    canUseProp: true,
+    keys: '*',
+    allowSet: true,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.ClientAttrs,
+    configKey: 'client_attrs.{key}',
+    canUseProp: true,
+    keys: '*',
+    allowSet: false,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.Timestamp,
+    allowSet: false,
+    allowUse: true,
+  },
+  {
+    key: AvailableKey.Event,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.Username,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.ClientID,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.PeerHost,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.PublishReceivedAt,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.PubProps,
+    configKey: 'pub_props.{key}',
+    canUseProp: true,
+    // MQTT 发布属性
+    keys: [
+      'Message-Expiry-Interval',
+      'Topic-Alias',
+      'User-Property',
+      'User-Property-Pairs',
+      'Subscription-Identifier',
+      'Response-Topic',
+      'Correlation-Data',
+      'Content-Type',
+    ],
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.Node,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.ID,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.Retain,
+    allowSet: true,
+    allowUse: true,
+    advanced: true,
+  },
+  {
+    key: AvailableKey.Dup,
+    allowSet: false,
+    allowUse: true,
+    advanced: true,
+  },
+]
+
+const availablePropKeyMap = availableKeyConf.reduce((map, cur) => {
+  map.set(cur.key, cur)
+  return map
+}, new Map())
+
+const propBelongs = Object.values(AvailableKey).reduce((arr: Array<AvailableKey>, value) => {
+  const conf = availablePropKeyMap.get(value)
+  if (conf?.allowUse) {
+    arr.push(value)
+  }
+  return arr
+}, [])
+
+const targetBelongs = Object.values(AvailableKey).reduce((arr: Array<AvailableKey>, value) => {
+  const conf = availablePropKeyMap.get(value)
+  if (conf?.allowSet) {
+    arr.push(value)
+  }
+  return arr
+}, [])
 
 export const useMessageTransformForm = () => {
-  const propsCanGetSub = [PropBelong.Payload]
-  const targetsCanSetSub = [TargetBelong.ClientAttrsSub, TargetBelong.Expression]
+  const propsCanUseSub = availableKeyConf.reduce((arr: Array<AvailableKey>, item) => {
+    if (item.canUseProp) {
+      arr.push(item.key)
+    }
+    return arr
+  }, [])
+  const targetsCanSetSub = propsCanUseSub.map((target) => `${target}.`)
 
-  const propBelongOpts = Object.values(PropBelong)
-  const targetBelongOpts = Object.values(TargetBelong)
+  const propBelongOpts = [...propBelongs]
+  const targetBelongOpts = targetBelongs.reduce((acc: Array<string>, cur, index) => {
+    acc.push(cur)
+    if (propsCanUseSub.includes(cur)) {
+      acc.push(`${cur}.`)
+    }
+    if (index === targetBelongs.length - 1) {
+      acc.push(TARGET_EXPRESSION)
+    }
+    return acc
+  }, [])
 
-  const canGetSubProp = (prop: PropBelong) => propsCanGetSub.includes(prop)
-  const canSetSubTarget = (target: TargetBelong) => targetsCanSetSub.includes(target)
+  const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
+  const canSetSubTarget = (target: string) => targetsCanSetSub.includes(target)
 
   const subPropReg = new RegExp(`^(${propBelongOpts.join('|')})\\.`)
   const targetBelongReg = new RegExp(`^(${targetsCanSetSub.join('|')})`)
