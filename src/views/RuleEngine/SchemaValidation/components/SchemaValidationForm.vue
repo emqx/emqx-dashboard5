@@ -236,8 +236,8 @@ import {
   defineProps,
   ref,
 } from 'vue'
+import SQLContentDialog from '../../components/SQLContentDialog.vue'
 import SchemaCreateDrawer from './SchemaCreateDrawer.vue'
-import SQLContentDialog from './SQLContentDialog.vue'
 
 const props = defineProps({
   modelValue: {
