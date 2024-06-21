@@ -61,7 +61,7 @@
         v-else-if="oneOfInfo.propEnabled.type === 'byteSize'"
         v-model="valueProxy"
         :disabled="disabled"
-        :units="['MB', 'GB', 'KB']"
+        :units="['MB', 'GB', 'KB', 'B']"
       />
       <el-input
         v-model="valueProxy"

@@ -236,8 +236,8 @@ export default {
     en: 'Socket Packets Received',
   },
   recvMsg: {
-    zh: '消息流入总数',
-    en: 'Received Messages',
+    zh: '消息发布总数',
+    en: 'Published Messages',
   },
   recvOct: {
     zh: '接收字节数',
@@ -256,8 +256,8 @@ export default {
     en: 'Socket Packets Sent',
   },
   sendMsg: {
-    zh: '消息流出总数',
-    en: 'Messages Sent',
+    zh: '消息接收总数',
+    en: 'Messages Received',
   },
   sendOct: {
     zh: '发送字节数',
@@ -272,52 +272,52 @@ export default {
     en: 'Messages Sent',
   },
   recvMsgQos0: {
-    zh: 'QoS 0 消息流入',
-    en: 'QoS 0 Messages Received',
+    zh: 'QoS 0 消息发布',
+    en: 'QoS 0 Messages Published',
   },
   recvMsgQos1: {
-    zh: 'QoS 1 消息流入',
-    en: 'QoS 1 Messages Received',
+    zh: 'QoS 1 消息发布',
+    en: 'QoS 1 Messages Published',
   },
   recvMsgQos2: {
-    zh: 'QoS 2 消息流入',
-    en: 'QoS 2 Messages Received',
+    zh: 'QoS 2 消息发布',
+    en: 'QoS 2 Messages Published',
   },
   recvMsgDropped: {
-    zh: '消息流入丢弃数',
-    en: 'Dropped Incoming Messages',
+    zh: '消息发布丢弃数',
+    en: 'Dropped Published Messages',
   },
   recvMsgDroppedAwaitPubrelTimeout: {
-    zh: '消息流入丢弃数（过期）',
-    en: 'Dropped Incoming Messages (Expired)',
+    zh: '消息发布丢弃数（过期）',
+    en: 'Dropped Published Messages (Expired)',
   },
   sendMsgQos0: {
-    zh: 'QoS 0 消息流出',
-    en: 'QoS 0 Messages Sent',
+    zh: 'QoS 0 消息接收',
+    en: 'QoS 0 Messages Received',
   },
   sendMsgQos1: {
-    zh: 'QoS 1 消息流出',
-    en: 'QoS 1 Messages Sent',
+    zh: 'QoS 1 消息接收',
+    en: 'QoS 1 Messages Received',
   },
   sendMsgQos2: {
-    zh: 'QoS 2 消息流出',
-    en: 'QoS 2 Messages Sent',
+    zh: 'QoS 2 消息接收',
+    en: 'QoS 2 Messages Received',
   },
   sendMsgDropped: {
-    zh: '消息流出丢弃数',
-    en: 'Dropped Outgoing Messages',
+    zh: '消息接收丢弃数',
+    en: 'Dropped Incoming Messages',
   },
   sendMsgDroppedExpired: {
-    zh: '消息流出丢弃数（过期）',
-    en: 'Dropped Outgoing Messages (Expired)',
+    zh: '消息接收丢弃数（过期）',
+    en: 'Dropped Incoming Messages (Expired)',
   },
   sendMsgDroppedQueueFull: {
-    zh: '消息流出丢弃数（队列已满）',
-    en: 'Dropped Outgoing Messages (Queue Full)',
+    zh: '消息接收丢弃数（队列已满）',
+    en: 'Dropped Incoming Messages (Queue Full)',
   },
   sendMsgDroppedTooLarge: {
-    zh: '消息流出丢弃数（消息过大）',
-    en: 'Dropped Outgoing Messages (Oversize)',
+    zh: '消息接收丢弃数（消息过大）',
+    en: 'Dropped Incoming Messages (Oversize)',
   },
   kickOut: {
     zh: '踢除',

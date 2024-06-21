@@ -168,20 +168,20 @@ export default {
     en: 'sec',
   },
   messageOut: {
-    zh: '消息发出',
-    en: 'Outgoing Messages',
+    zh: '消息接收',
+    en: 'Receiving Messages',
   },
   currentMessageOutRate: {
-    zh: '消息流出速率：',
-    en: 'Outgoing Rate:',
+    zh: '消息接收速率：',
+    en: 'Incoming Rate:',
   },
   messageIn: {
-    zh: '消息流入',
-    en: 'Incoming Messages',
+    zh: '消息发布',
+    en: 'Publishing Messages',
   },
   currentMessageInRate: {
-    zh: '消息流入速率：',
-    en: 'Incoming Rate:',
+    zh: '消息发布速率：',
+    en: 'Publishing Rate:',
   },
   subscriptionNumber: {
     zh: '订阅数',
