@@ -212,7 +212,7 @@ export const useMessageTransformForm = () => {
     }
     return arr
   }, [])
-  const targetsCanSetSub = propsCanUseSub.map((target) => `${target}.`)
+  const targetsCanSetSub = [...propsCanUseSub.map((target) => `${target}.`)]
 
   const propBelongOpts = [...propBelongs]
   const targetBelongOpts = targetBelongs.reduce((acc: Array<string>, cur, index) => {
@@ -227,7 +227,8 @@ export const useMessageTransformForm = () => {
   }, [])
 
   const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
-  const canSetSubTarget = (target: string) => targetsCanSetSub.includes(target)
+  const canSetSubTarget = (target: string) =>
+    targetsCanSetSub.includes(target) || target === TARGET_EXPRESSION
 
   const subPropReg = new RegExp(`^(${propBelongOpts.join('|')})\\.`)
   const targetBelongReg = new RegExp(`^(${targetsCanSetSub.join('|')})`)
