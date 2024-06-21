@@ -18,11 +18,11 @@
 
 <script setup lang="ts">
 import { computed, defineProps, defineEmits } from 'vue'
-import { TargetBelong, useMessageTransformForm } from '@/hooks/Rule/transform/useMessageTransform'
+import { useMessageTransformForm } from '@/hooks/Rule/transform/useMessageTransform'
 
 const { targetBelongOpts } = useMessageTransformForm()
 
-type TargetValue = { targetBelong: TargetBelong; targetValue?: string } & unknown
+type TargetValue = { targetBelong: string; targetValue?: string } & unknown
 
 const props = defineProps<{
   modelValue: TargetValue
@@ -40,7 +40,7 @@ const targetValue = computed({
 
 const { canSetSubTarget } = useMessageTransformForm()
 
-const handleBelongChanged = (val: TargetBelong) => {
+const handleBelongChanged = (val: string) => {
   if (!canSetSubTarget(val) && targetValue.value.targetValue) {
     targetValue.value.targetValue = ''
   }
