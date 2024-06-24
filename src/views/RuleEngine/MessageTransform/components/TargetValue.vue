@@ -6,14 +6,13 @@
     :readonly="isExpression"
   >
     <template #prepend>
-      <el-select v-model="targetValue.targetBelong" @change="handleBelongChanged">
-        <el-option
-          v-for="item in targetBelongOpts"
-          :key="item"
-          :value="item"
-          :label="getOptLabel(item)"
-        />
-      </el-select>
+      <el-cascader
+        v-model="targetValue.targetBelong"
+        :options="targetBelongOpts"
+        :show-all-levels="false"
+        :props="{ emitPath: false }"
+        @change="handleBelongChanged"
+      />
     </template>
     <template #suffix v-if="isExpression">
       <el-button link type="primary" @click="openContentDialog">
@@ -21,14 +20,14 @@
       </el-button>
     </template>
   </el-input>
-  <el-select v-else v-model="targetValue.targetBelong">
-    <el-option
-      v-for="item in targetBelongOpts"
-      :key="item"
-      :value="item"
-      :label="getOptLabel(item)"
-    />
-  </el-select>
+
+  <el-cascader
+    v-else
+    v-model="targetValue.targetBelong"
+    :options="targetBelongOpts"
+    :show-all-levels="false"
+    :props="{ emitPath: false }"
+  />
   <SQLContentDialog
     v-model="showSQLContentDialog"
     :sql="targetValue.targetValue"
@@ -65,7 +64,7 @@ const targetValue = computed({
   },
 })
 
-const { getOptLabel, canSetSubTarget } = useMessageTransformForm()
+const { canSetSubTarget } = useMessageTransformForm()
 
 const handleBelongChanged = (val: string) => {
   if (!canSetSubTarget(val) && targetValue.value.targetValue) {
