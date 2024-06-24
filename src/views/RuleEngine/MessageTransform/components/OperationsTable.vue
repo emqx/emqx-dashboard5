@@ -12,7 +12,12 @@
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
           <el-select v-model="row.propBelong">
-            <el-option v-for="item in propBelongOpts" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in propBelongOpts"
+              :key="item"
+              :value="item"
+              :label="getOptLabel(item)"
+            />
           </el-select>
           <el-button
             v-if="canGetSubProp(row.propBelong)"
@@ -25,7 +30,12 @@
         <!-- CHILD -->
         <div v-else class="sub-convert-container">
           <el-select v-if="isPubPropsParent($index)" v-model="row.propValue">
-            <el-option v-for="item in pubPropsKeys" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in pubPropsKeys"
+              :key="item"
+              :value="item"
+              :label="getOptLabel(item)"
+            />
           </el-select>
           <el-input v-else v-model="row.propValue" />
         </div>
@@ -116,6 +126,7 @@ const {
   targetBelongOpts,
   subPropReg,
   targetBelongReg,
+  getOptLabel,
   canGetSubProp,
 } = useMessageTransformForm()
 

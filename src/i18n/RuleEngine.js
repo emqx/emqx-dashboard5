@@ -1477,6 +1477,22 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '目标值',
     en: 'Target Value',
   },
+  timestamp: {
+    zh: '时间戳',
+    en: 'Timestamp',
+  },
+  peerHost: {
+    zh: '客户端地址',
+    en: 'Peer Host',
+  },
+  publishedTime: {
+    zh: '发布时间',
+    en: 'Published Time',
+  },
+  pubProps: {
+    zh: '发布属性',
+    en: 'Publish Properties',
+  },
   setting: {
     zh: '设置',
     en: 'Setting',
