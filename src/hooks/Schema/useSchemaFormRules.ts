@@ -56,15 +56,21 @@ export default (): {
         ruleMap[pathToSet] = [
           {
             validator: (rule, value, callback) => {
-              const msNum = transTimeStrToMS(value)
-              const min = minimum ? transTimeStrToMS(minimum as string) : undefined
-              const max = maximum ? transTimeStrToMS(maximum as string) : undefined
-              if (typeof msNum === 'number') {
-                if (!isUndefined(min) && !isString(min) && msNum < min) {
-                  return callback(new Error(tl('durationMinimumError', { min: minimum as string })))
-                }
-                if (!isUndefined(max) && !isString(max) && msNum > max) {
-                  return callback(new Error(tl('durationMaximumError', { max: maximum as string })))
+              if (!isUndefined(value)) {
+                const msNum = transTimeStrToMS(value)
+                const min = minimum ? transTimeStrToMS(minimum as string) : undefined
+                const max = maximum ? transTimeStrToMS(maximum as string) : undefined
+                if (typeof msNum === 'number') {
+                  if (!isUndefined(min) && !isString(min) && msNum < min) {
+                    return callback(
+                      new Error(tl('durationMinimumError', { min: minimum as string })),
+                    )
+                  }
+                  if (!isUndefined(max) && !isString(max) && msNum > max) {
+                    return callback(
+                      new Error(tl('durationMaximumError', { max: maximum as string })),
+                    )
+                  }
                 }
               }
               callback()
