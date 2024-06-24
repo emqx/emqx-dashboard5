@@ -427,7 +427,7 @@ export default {
     en: 'Number of client authorization passes',
   },
   authorization_deny: {
-    zh: '总的拒绝授权次数（包括命中缓存，和规则未匹配时默认通过的）',
+    zh: '总的拒绝授权次数（包括命中缓存，和规则未匹配时默认拒绝的）',
     en: 'Number of client authorization failures',
   },
   authorization_matched_allow: {
@@ -478,8 +478,8 @@ export default {
     en: 'Number of messages dropped due to no subscribers',
   },
   messages_dropped_await_pubrel_timeout: {
-    zh: '由于等待 PUBREL 报文超时',
-    en: 'Number of messages dropped due to await PUBREL timeout',
+    zh: '由于等待 PUBREL 报文超时而被丢弃的消息数量',
+    en: 'Number of messages dropped due to timeout waiting for PUBREL message',
   },
   messages_forward: {
     zh: '向其他节点转发的消息数量',
@@ -656,8 +656,8 @@ export default {
     en: 'Number of received PUBCOMP messages with occupied identifiers',
   },
   packets_pubcomp_missed: {
-    zh: '发送的 PUBCOMP 报文数量',
-    en: 'Number of missed PUBCOMP packets',
+    zh: '接收的未知报文标识符 PUBCOMP 报文数量',
+    en: 'Number of received PUBCOMP messages with unknown identifiers',
   },
   packets_subscribe_received: {
     zh: '接收的 SUBSCRIBE 报文数量',
