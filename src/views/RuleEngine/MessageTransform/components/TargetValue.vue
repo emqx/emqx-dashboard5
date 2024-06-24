@@ -7,7 +7,12 @@
   >
     <template #prepend>
       <el-select v-model="targetValue.targetBelong" @change="handleBelongChanged">
-        <el-option v-for="item in targetBelongOpts" :key="item" :label="item" :value="item" />
+        <el-option
+          v-for="item in targetBelongOpts"
+          :key="item"
+          :value="item"
+          :label="getOptLabel(item)"
+        />
       </el-select>
     </template>
     <template #suffix v-if="isExpression">
@@ -17,7 +22,12 @@
     </template>
   </el-input>
   <el-select v-else v-model="targetValue.targetBelong">
-    <el-option v-for="item in targetBelongOpts" :key="item" :label="item" :value="item" />
+    <el-option
+      v-for="item in targetBelongOpts"
+      :key="item"
+      :value="item"
+      :label="getOptLabel(item)"
+    />
   </el-select>
   <SQLContentDialog
     v-model="showSQLContentDialog"
@@ -55,7 +65,7 @@ const targetValue = computed({
   },
 })
 
-const { canSetSubTarget } = useMessageTransformForm()
+const { getOptLabel, canSetSubTarget } = useMessageTransformForm()
 
 const handleBelongChanged = (val: string) => {
   if (!canSetSubTarget(val) && targetValue.value.targetValue) {
