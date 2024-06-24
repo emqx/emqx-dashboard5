@@ -87,7 +87,7 @@ const createDocLinks = (lang: string): DocMap => {
     learnConfig: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
     restAPI: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,
     faq: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/faq/faq.html?${QUERY_FOR_HELP}`,
-    datadogIntegration: `https://docs.datadoghq.com/integrations/emqx/`,
+    datadogIntegration: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/observability/datadog.html`,
   }
 }
 
