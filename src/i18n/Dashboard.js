@@ -165,15 +165,15 @@ export default {
   },
   messageOut: {
     zh: '消息接收',
-    en: 'Receiving Messages',
+    en: 'Received Messages',
   },
   currentMessageOutRate: {
     zh: '消息接收速率：',
-    en: 'Incoming Rate:',
+    en: 'Receiving Rate:',
   },
   messageIn: {
     zh: '消息发布',
-    en: 'Publishing Messages',
+    en: 'Published Messages',
   },
   currentMessageInRate: {
     zh: '消息发布速率：',
