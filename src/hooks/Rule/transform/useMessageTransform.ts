@@ -52,7 +52,7 @@ export const useMessageTransformLogLevel = (): {
 
 export enum AvailableKey {
   Topic = 'topic',
-  Qos = 'qos',
+  QoS = 'qos',
   Payload = 'payload',
   UserProperty = 'pub_props.User-Property',
   ClientAttrs = 'client_attrs',
@@ -71,78 +71,86 @@ export enum AvailableKey {
 export const TARGET_EXPRESSION = 'expression'
 
 export const useMessageTransformForm = () => {
+  const { t, tl } = useI18nTl('RuleEngine')
+
   const availableKeyConf = [
     {
       key: AvailableKey.Topic,
+      label: t('Base.topic'),
       allowSet: true,
       allowUse: true,
     },
     {
-      key: AvailableKey.Qos,
+      key: AvailableKey.QoS,
+      label: 'QoS',
       allowSet: true,
       allowUse: true,
     },
     {
       key: AvailableKey.Payload,
+      label: t('Clients.payload'),
       canUseProp: true,
-      keys: '*',
       allowSet: true,
       allowUse: true,
     },
     {
       key: AvailableKey.UserProperty,
-      configKey: 'pub_props.User-Property.{key}',
+      label: tl('userProperties'),
       canUseProp: true,
-      keys: '*',
       allowSet: true,
       allowUse: true,
     },
     {
       key: AvailableKey.ClientAttrs,
-      configKey: 'client_attrs.{key}',
+      label: t('Clients.clientAttrs'),
       canUseProp: true,
-      keys: '*',
       allowSet: false,
       allowUse: true,
     },
     {
       key: AvailableKey.Timestamp,
+      label: tl('timestamp'),
       allowSet: false,
       allowUse: true,
     },
     {
       key: AvailableKey.Event,
+      label: tl('event'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.Username,
+      label: t('Base.username'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.ClientID,
+      label: t('Base.clientid'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.PeerHost,
+      label: tl('peerHost'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.PublishReceivedAt,
+      label: tl('publishedTime'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.PubProps,
-      configKey: 'pub_props.{key}',
+      label: tl('pubProps'),
       canUseProp: true,
       keys: [
         'Message-Expiry-Interval',
@@ -160,24 +168,28 @@ export const useMessageTransformForm = () => {
     },
     {
       key: AvailableKey.Node,
+      label: t('Base.node'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.ID,
+      label: t('Base.msgId'),
       allowSet: false,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.Retain,
+      label: 'Retain',
       allowSet: true,
       allowUse: true,
       advanced: true,
     },
     {
       key: AvailableKey.Dup,
+      label: 'Dup',
       allowSet: false,
       allowUse: true,
       advanced: true,
@@ -225,6 +237,8 @@ export const useMessageTransformForm = () => {
     return acc
   }, [])
 
+  const getOptLabel = (key: string) => availablePropKeyMap.get(key)?.label || key
+
   const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
   const canSetSubTarget = (target: string) =>
     targetsCanSetSub.includes(target) || target === TARGET_EXPRESSION
@@ -238,6 +252,7 @@ export const useMessageTransformForm = () => {
     targetBelongOpts,
     subPropReg,
     targetBelongReg,
+    getOptLabel,
     canGetSubProp,
     canSetSubTarget,
   }
