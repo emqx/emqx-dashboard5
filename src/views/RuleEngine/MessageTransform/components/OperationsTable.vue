@@ -11,14 +11,12 @@
       <template #default="{ row, $index }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
-          <el-select v-model="row.propBelong">
-            <el-option
-              v-for="item in propBelongOpts"
-              :key="item"
-              :value="item"
-              :label="getOptLabel(item)"
-            />
-          </el-select>
+          <el-cascader
+            v-model="row.propBelong"
+            :options="propBelongOpts"
+            :show-all-levels="false"
+            :props="{ emitPath: false }"
+          />
           <el-button
             v-if="canGetSubProp(row.propBelong)"
             class="btn-add"
@@ -30,12 +28,7 @@
         <!-- CHILD -->
         <div v-else class="sub-convert-container">
           <el-select v-if="isPubPropsParent($index)" v-model="row.propValue">
-            <el-option
-              v-for="item in pubPropsKeys"
-              :key="item"
-              :value="item"
-              :label="getOptLabel(item)"
-            />
+            <el-option v-for="item in pubPropsKeys" :key="item" :value="item" />
           </el-select>
           <el-input v-else v-model="row.propValue" />
         </div>
@@ -123,10 +116,9 @@ interface Operation {
 const {
   availablePropKeyMap,
   propBelongOpts,
-  targetBelongOpts,
+  targetBelongArr,
   subPropReg,
   targetBelongReg,
-  getOptLabel,
   canGetSubProp,
 } = useMessageTransformForm()
 
@@ -160,7 +152,7 @@ const analyzeOperation = ({
     if (targetWithBelong) {
       targetBelong = value.match(targetBelongReg)?.[0] as string
       targetValue = value.replace(targetBelong, '')
-    } else if (targetBelongOpts.includes(value)) {
+    } else if (targetBelongArr.includes(value)) {
       targetBelong = value
     } else {
       targetBelong = TARGET_EXPRESSION
@@ -368,6 +360,13 @@ const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
   .el-input,
   .sub-convert-container {
     flex-grow: 1;
+  }
+  .el-cascader {
+    width: 100%;
+  }
+  .el-input-group--prepend .el-input-group__prepend .el-cascader .el-input .el-input__wrapper {
+    box-shadow: none;
+    background-color: transparent;
   }
   .el-select,
   .el-input {

@@ -1477,6 +1477,14 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '目标值',
     en: 'Target Value',
   },
+  moreProp: {
+    zh: '更多属性选项',
+    en: 'More Properties Options',
+  },
+  expression: {
+    zh: '表达式',
+    en: 'Expression',
+  },
   timestamp: {
     zh: '时间戳',
     en: 'Timestamp',

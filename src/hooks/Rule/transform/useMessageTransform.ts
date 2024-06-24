@@ -70,6 +70,14 @@ export enum AvailableKey {
 }
 export const TARGET_EXPRESSION = 'expression'
 
+interface BelongOptItem {
+  label: string
+  value: string
+  children?: Array<BelongOptItem>
+}
+
+type BelongOpts = Array<BelongOptItem>
+
 export const useMessageTransformForm = () => {
   const { t, tl } = useI18nTl('RuleEngine')
 
@@ -224,35 +232,62 @@ export const useMessageTransformForm = () => {
     return arr
   }, [])
   const targetsCanSetSub = [...propsCanUseSub.map((target) => `${target}.`)]
-
-  const propBelongOpts = [...propBelongs]
-  const targetBelongOpts = targetBelongs.reduce((acc: Array<string>, cur, index) => {
+  /**
+   * All the available values for prop belong
+   */
+  const propBelongArr = [...propBelongs]
+  /**
+   * All the available values for target belong
+   */
+  const targetBelongArr = targetBelongs.reduce((acc: Array<string>, cur, index) => {
     acc.push(cur)
     if (propsCanUseSub.includes(cur)) {
       acc.push(`${cur}.`)
     }
-    if (index === targetBelongs.length - 1) {
-      acc.push(TARGET_EXPRESSION)
-    }
     return acc
   }, [])
 
-  const getOptLabel = (key: string) => availablePropKeyMap.get(key)?.label || key
+  const ADVANCED_ITEM_VALUE = 'advanced'
+
+  const createOpts = (valueArr: Array<string>) => {
+    return valueArr.reduce(
+      (arr: BelongOpts, item) => {
+        const conf = availablePropKeyMap.get(item)
+        const optItem = { label: conf?.label || item, value: item }
+        if (conf?.advanced) {
+          const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
+          if (!advancedItem) {
+            arr.push({ label: tl('moreProp'), value: ADVANCED_ITEM_VALUE, children: [optItem] })
+          } else {
+            advancedItem.children?.push(optItem)
+          }
+        } else {
+          arr.push(optItem)
+        }
+        return arr
+      },
+      [{ label: tl('expression'), value: TARGET_EXPRESSION }],
+    )
+  }
+
+  const propBelongOpts = createOpts(propBelongArr)
+  const targetBelongOpts = createOpts(targetBelongArr)
 
   const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
   const canSetSubTarget = (target: string) =>
     targetsCanSetSub.includes(target) || target === TARGET_EXPRESSION
 
-  const subPropReg = new RegExp(`^(${propBelongOpts.join('|')})\\.`)
+  const subPropReg = new RegExp(`^(${propBelongArr.join('|')})\\.`)
   const targetBelongReg = new RegExp(`^(${targetsCanSetSub.join('|')})`)
 
   return {
     availablePropKeyMap,
+    propBelongArr,
     propBelongOpts,
+    targetBelongArr,
     targetBelongOpts,
     subPropReg,
     targetBelongReg,
-    getOptLabel,
     canGetSubProp,
     canSetSubTarget,
   }
