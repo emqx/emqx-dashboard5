@@ -8,7 +8,7 @@
     :tree-props="{ children: 'convert' }"
   >
     <el-table-column :label="tl('transformationProperties')">
-      <template #default="{ row, $index }">
+      <template #default="{ row }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
           <el-cascader
@@ -27,10 +27,7 @@
         </div>
         <!-- CHILD -->
         <div v-else class="sub-convert-container">
-          <el-select v-if="isPubPropsParent($index)" v-model="row.propValue">
-            <el-option v-for="item in pubPropsKeys" :key="item" :value="item" />
-          </el-select>
-          <el-input v-else v-model="row.propValue" />
+          <el-input v-model="row.propValue" />
         </div>
       </template>
     </el-table-column>
@@ -113,14 +110,8 @@ interface Operation {
   convert: OperationTarget | Array<SubOperation>
 }
 
-const {
-  availablePropKeyMap,
-  propBelongOpts,
-  targetBelongArr,
-  subPropReg,
-  targetBelongReg,
-  canGetSubProp,
-} = useMessageTransformForm()
+const { propBelongOpts, targetBelongArr, subPropReg, targetBelongReg, canGetSubProp } =
+  useMessageTransformForm()
 
 const props = defineProps<{ modelValue: Array<MessageTransformOperation> }>()
 const emit = defineEmits<{
@@ -312,11 +303,6 @@ const deleteSubOperation = (index: number) => {
     }
   }
 }
-
-const isPubPropsParent = (rowIndex: number) => {
-  return findOperationParent(rowIndex)?.parent?.propBelong === AvailableKey.PubProps
-}
-const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
 </script>
 
 <style lang="scss">
@@ -369,6 +355,7 @@ const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
     background-color: transparent;
   }
   .el-select,
+  .el-cascader,
   .el-input {
     margin-right: 16px;
   }

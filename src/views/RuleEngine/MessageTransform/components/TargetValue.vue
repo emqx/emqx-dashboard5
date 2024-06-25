@@ -1,25 +1,46 @@
 <template>
-  <el-input
-    v-if="canSetSubTarget(targetValue.targetBelong)"
-    class="input-target-value"
-    v-model="targetValue.targetValue"
-    :readonly="isExpression"
-  >
-    <template #prepend>
-      <el-cascader
-        v-model="targetValue.targetBelong"
-        :options="targetBelongOpts"
-        :show-all-levels="false"
-        :props="{ emitPath: false }"
-        @change="handleBelongChanged"
-      />
-    </template>
-    <template #suffix v-if="isExpression">
-      <el-button link type="primary" @click="openContentDialog">
-        {{ t('Base.edit') }}
-      </el-button>
-    </template>
-  </el-input>
+  <template v-if="canSetSubTarget(targetValue.targetBelong)">
+    <div
+      v-if="isPubPropsParent"
+      class="el-input el-input-group el-input-group--prepend el-input--suffix input-target-value"
+    >
+      <div class="el-input-group__prepend">
+        <el-cascader
+          v-model="targetValue.targetBelong"
+          :options="targetBelongOpts"
+          :show-all-levels="false"
+          :props="{ emitPath: false }"
+          @change="handleBelongChanged"
+        />
+      </div>
+      <div class="el-input__wrapper mock-wrapper">
+        <el-select v-model="targetValue.targetValue">
+          <el-option v-for="item in pubPropsKeys" :key="item" :label="item" :value="item" />
+        </el-select>
+      </div>
+    </div>
+    <el-input
+      v-else
+      class="input-target-value"
+      v-model="targetValue.targetValue"
+      :readonly="isExpression"
+    >
+      <template #prepend>
+        <el-cascader
+          v-model="targetValue.targetBelong"
+          :options="targetBelongOpts"
+          :show-all-levels="false"
+          :props="{ emitPath: false }"
+          @change="handleBelongChanged"
+        />
+      </template>
+      <template #suffix v-if="isExpression">
+        <el-button link type="primary" @click="openContentDialog">
+          {{ t('Base.edit') }}
+        </el-button>
+      </template>
+    </el-input>
+  </template>
 
   <el-cascader
     v-else
@@ -36,15 +57,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmits, ref } from 'vue'
 import {
-  useMessageTransformForm,
+  AvailableKey,
   TARGET_EXPRESSION,
+  useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
-import SQLContentDialog from '../../components/SQLContentDialog.vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import { computed, defineEmits, defineProps, ref } from 'vue'
+import SQLContentDialog from '../../components/SQLContentDialog.vue'
 
-const { targetBelongOpts } = useMessageTransformForm()
+const { availablePropKeyMap, targetBelongOpts } = useMessageTransformForm()
 
 type TargetValue = { targetBelong: string; targetValue?: string } & unknown
 
@@ -82,6 +104,27 @@ const openContentDialog = () => {
 const handleSQLContentDialogSubmitted = (sql: string) => {
   targetValue.value.targetValue = sql
 }
+
+const isPubPropsParent = computed(
+  () => targetValue.value.targetBelong === `${AvailableKey.PubProps}.`,
+)
+const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.input-target-value {
+  .mock-wrapper {
+    padding: 0;
+    .el-input,
+    .el-select {
+      margin-right: 0;
+    }
+    .el-input__wrapper {
+      box-shadow: none;
+      background-color: transparent;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+</style>

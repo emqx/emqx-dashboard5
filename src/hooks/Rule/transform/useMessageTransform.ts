@@ -54,7 +54,7 @@ export enum AvailableKey {
   Topic = 'topic',
   QoS = 'qos',
   Payload = 'payload',
-  UserProperty = 'pub_props.User-Property',
+  UserProperty = 'user_property',
   ClientAttrs = 'client_attrs',
   Timestamp = 'timestamp',
   Event = 'event',
@@ -65,7 +65,7 @@ export enum AvailableKey {
   PubProps = 'pub_props',
   Node = 'node',
   ID = 'id',
-  Retain = 'flags.retain',
+  Retain = 'retain',
   Dup = 'flags.dup',
 }
 export const TARGET_EXPRESSION = 'expression'
@@ -83,6 +83,15 @@ export const useMessageTransformForm = () => {
 
   const availableKeyConf = [
     {
+      key: AvailableKey.Payload,
+      label: t('Clients.payload'),
+      canUseSubProp: true,
+      allowSet: true,
+      setKeys: ['payload.*', 'payload'],
+      allowUse: true,
+      useKeys: ['payload.*', 'payload'],
+    },
+    {
       key: AvailableKey.Topic,
       label: t('Base.topic'),
       allowSet: true,
@@ -95,25 +104,28 @@ export const useMessageTransformForm = () => {
       allowUse: true,
     },
     {
-      key: AvailableKey.Payload,
-      label: t('Clients.payload'),
-      canUseProp: true,
+      key: AvailableKey.Retain,
+      label: 'Retain',
       allowSet: true,
       allowUse: true,
     },
     {
       key: AvailableKey.UserProperty,
       label: tl('userProperties'),
-      canUseProp: true,
+      canUseSubProp: true,
+      setKeys: ['user_property'],
       allowSet: true,
       allowUse: true,
+      useKeys: ['user_property.*', 'user_property'],
     },
     {
       key: AvailableKey.ClientAttrs,
       label: t('Clients.clientAttrs'),
-      canUseProp: true,
+      configKey: 'client_attrs.{key}',
+      canUseSubProp: true,
       allowSet: false,
       allowUse: true,
+      useKeys: ['client_attrs.*', 'client_attrs'],
     },
     {
       key: AvailableKey.Timestamp,
@@ -159,7 +171,8 @@ export const useMessageTransformForm = () => {
     {
       key: AvailableKey.PubProps,
       label: tl('pubProps'),
-      canUseProp: true,
+      configKey: 'pub_props.{key}',
+      canUseSubProp: true,
       keys: [
         'Message-Expiry-Interval',
         'Topic-Alias',
@@ -189,13 +202,6 @@ export const useMessageTransformForm = () => {
       advanced: true,
     },
     {
-      key: AvailableKey.Retain,
-      label: 'Retain',
-      allowSet: true,
-      allowUse: true,
-      advanced: true,
-    },
-    {
       key: AvailableKey.Dup,
       label: 'Dup',
       allowSet: false,
@@ -209,15 +215,7 @@ export const useMessageTransformForm = () => {
     return map
   }, new Map())
 
-  const propBelongs = Object.values(AvailableKey).reduce((arr: Array<AvailableKey>, value) => {
-    const conf = availablePropKeyMap.get(value)
-    if (conf?.allowUse) {
-      arr.push(value)
-    }
-    return arr
-  }, [])
-
-  const targetBelongs = Object.values(AvailableKey).reduce((arr: Array<AvailableKey>, value) => {
+  const propBelongs = availableKeyConf.reduce((arr: Array<AvailableKey>, { key: value }) => {
     const conf = availablePropKeyMap.get(value)
     if (conf?.allowSet) {
       arr.push(value)
@@ -225,8 +223,16 @@ export const useMessageTransformForm = () => {
     return arr
   }, [])
 
+  const targetBelongs = availableKeyConf.reduce((arr: Array<AvailableKey>, { key: value }) => {
+    const conf = availablePropKeyMap.get(value)
+    if (conf?.allowUse) {
+      arr.push(value)
+    }
+    return arr
+  }, [])
+
   const propsCanUseSub = availableKeyConf.reduce((arr: Array<AvailableKey>, item) => {
-    if (item.canUseProp) {
+    if (item.canUseSubProp) {
       arr.push(item.key)
     }
     return arr
@@ -239,7 +245,7 @@ export const useMessageTransformForm = () => {
   /**
    * All the available values for target belong
    */
-  const targetBelongArr = targetBelongs.reduce((acc: Array<string>, cur, index) => {
+  const targetBelongArr = targetBelongs.reduce((acc: Array<string>, cur) => {
     acc.push(cur)
     if (propsCanUseSub.includes(cur)) {
       acc.push(`${cur}.`)
@@ -250,7 +256,7 @@ export const useMessageTransformForm = () => {
   const ADVANCED_ITEM_VALUE = 'advanced'
 
   const createOpts = (valueArr: Array<string>) => {
-    return valueArr.reduce((arr: BelongOpts, item) => {
+    const ret = valueArr.reduce((arr: BelongOpts, item) => {
       const conf = availablePropKeyMap.get(item)
       const optItem = { label: conf?.label || item, value: item }
       if (conf?.advanced) {
@@ -265,6 +271,13 @@ export const useMessageTransformForm = () => {
       }
       return arr
     }, [])
+    const advancedItemIndex = ret.findIndex((item) => item.value === ADVANCED_ITEM_VALUE)
+    if (advancedItemIndex > -1 && advancedItemIndex < ret.length - 1) {
+      const advancedItem = ret[advancedItemIndex]
+      ret.splice(advancedItemIndex, 1)
+      ret.push(advancedItem)
+    }
+    return ret
   }
 
   const propBelongOpts = createOpts(propBelongArr)
