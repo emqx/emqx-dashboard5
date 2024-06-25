@@ -41,6 +41,7 @@ export interface ListenerUtils {
   extractDifferences: (type: keyof typeof unexposedConfigs, data: any) => Record<string, any>
   objectToHocon(obj: Record<string, any>): string
   hoconToObject: (hoconData: string) => Record<string, any>
+  resetCustomConfig: (data: Listener, defaultConfig: Listener) => Listener
 }
 
 export default (gatewayName?: string | undefined): ListenerUtils => {
@@ -416,13 +417,41 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
 
   const hoconToObject = (hoconData: string): Record<string, any> => {
     try {
-      console.log(hoconData)
       const parsedData = parseHoconToObject(hoconData)
-      console.log(parsedData)
       return Promise.resolve(parsedData)
     } catch (error) {
       return Promise.reject(error)
     }
+  }
+
+  /**
+   * Resets the custom configuration by merging it with the default configuration.
+   * If a property in the custom configuration is undefined, null, empty string, or an empty object,
+   * it will be replaced with the corresponding property from the default configuration.
+   * If a property in the custom configuration is an object and the corresponding property in the default configuration is also an object,
+   * the function will recursively reset the nested properties.
+   *
+   * @param customData - The custom configuration to be reset.
+   * @param defaultCustomConfig - The default configuration to merge with the custom configuration.
+   * @returns The custom configuration after resetting.
+   */
+  const resetCustomConfig = (customData: Listener, defaultCustomConfig: Listener): Listener => {
+    for (const key in defaultCustomConfig) {
+      if (
+        customData[key] === undefined ||
+        customData[key] === null ||
+        customData[key] === '' ||
+        (typeof customData[key] === 'object' && isEmptyObj(customData[key]))
+      ) {
+        customData[key] = defaultCustomConfig[key]
+      } else if (
+        typeof customData[key] === 'object' &&
+        typeof defaultCustomConfig[key] === 'object'
+      ) {
+        customData[key] = resetCustomConfig(customData[key], defaultCustomConfig[key])
+      }
+    }
+    return customData
   }
 
   return {
@@ -451,5 +480,6 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     extractDifferences,
     objectToHocon,
     hoconToObject,
+    resetCustomConfig,
   }
 }

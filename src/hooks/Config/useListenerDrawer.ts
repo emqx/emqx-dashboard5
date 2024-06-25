@@ -1,6 +1,6 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
+import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, unexposedConfigs } from '@/common/constants'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -99,6 +99,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     transPort,
     extractDifferences,
     hoconToObject,
+    resetCustomConfig,
   } = useListenerUtils(props.gatewayName)
 
   const listenerTypeOptList = computed(() => {
@@ -206,8 +207,10 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       delete data.ssl_options.ocsp
     }
     // Handle the custom configs
-    if (!isEmptyObj(listenerCustomConfigs.value)) {
-      merge(data, listenerCustomConfigs.value)
+    if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
+      const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
+      const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
+      merge(data, customConfigs)
     }
     return data
   }
