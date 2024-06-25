@@ -183,7 +183,7 @@ export const useMessageTransformForm = () => {
     },
     {
       key: AvailableKey.ID,
-      label: t('Base.msgId'),
+      label: t('Clients.msgId'),
       allowSet: false,
       allowUse: true,
       advanced: true,
@@ -250,28 +250,28 @@ export const useMessageTransformForm = () => {
   const ADVANCED_ITEM_VALUE = 'advanced'
 
   const createOpts = (valueArr: Array<string>) => {
-    return valueArr.reduce(
-      (arr: BelongOpts, item) => {
-        const conf = availablePropKeyMap.get(item)
-        const optItem = { label: conf?.label || item, value: item }
-        if (conf?.advanced) {
-          const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
-          if (!advancedItem) {
-            arr.push({ label: tl('moreProp'), value: ADVANCED_ITEM_VALUE, children: [optItem] })
-          } else {
-            advancedItem.children?.push(optItem)
-          }
+    return valueArr.reduce((arr: BelongOpts, item) => {
+      const conf = availablePropKeyMap.get(item)
+      const optItem = { label: conf?.label || item, value: item }
+      if (conf?.advanced) {
+        const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
+        if (!advancedItem) {
+          arr.push({ label: tl('moreProp'), value: ADVANCED_ITEM_VALUE, children: [optItem] })
         } else {
-          arr.push(optItem)
+          advancedItem.children?.push(optItem)
         }
-        return arr
-      },
-      [{ label: tl('expression'), value: TARGET_EXPRESSION }],
-    )
+      } else {
+        arr.push(optItem)
+      }
+      return arr
+    }, [])
   }
 
   const propBelongOpts = createOpts(propBelongArr)
-  const targetBelongOpts = createOpts(targetBelongArr)
+  const targetBelongOpts = [
+    { label: tl('expression'), value: TARGET_EXPRESSION },
+    ...createOpts(targetBelongArr),
+  ]
 
   const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
   const canSetSubTarget = (target: string) =>
