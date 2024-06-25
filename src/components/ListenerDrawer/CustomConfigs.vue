@@ -69,7 +69,6 @@ async function resetRawData() {
   } catch (error) {
     const err = error as Error
     errorMsg.value = err.toString()
-    // ElMessage.error(err.toString())
   }
 }
 
