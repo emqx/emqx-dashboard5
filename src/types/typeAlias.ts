@@ -1,3 +1,4 @@
+import type { Merge } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
 import {
   GetAuditParams as GetAuditParamsType,
@@ -32,6 +33,13 @@ import {
   SsoOidcBackend,
 } from './schemas/dashboardSingleSignOn.schemas'
 
+export type OverrideProperties<
+  T,
+  U extends Partial<Record<keyof T, unknown>> & {
+    [Key in keyof U]: Key extends keyof T ? U[Key] : never
+  },
+> = Merge<T, U>
+
 /* SSO */
 export type OIDBForm = SsoOidc
 export const OIDCPreferredAuthMethods = SsoOidcPreferredAuthMethodsItem
@@ -58,7 +66,13 @@ export const SchemaValidationStrategy = SchemaValidationValidationStrategy
 export const SchemaValidationLogLevel = SchemaValidationLogFailureLevel
 
 /* MESSAGE TRANSFORM */
-export type MessageTransform = MessageTransformationTransformation
+export type MessageTransform = OverrideProperties<
+  MessageTransformationTransformation,
+  {
+    payload_decoder: { type: string; schema?: string }
+    payload_encoder: { type: string }
+  }
+>
 export type MessageTransformOperation = MessageTransformationOperation
 export const MessageTransformFailureAction = MessageTransformationTransformationFailureAction
 export const MessageTransformLogLevel = MessageTransformationLogFailureLevel

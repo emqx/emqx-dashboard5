@@ -43,6 +43,8 @@ const createRawTransformForm = (): MessageTransform => ({
   operations: [{ key: '', value: '' }],
   log_failure: { level: MessageTransformLogLevel.warning },
   failure_action: MessageTransformFailureAction.drop,
+  payload_decoder: { type: '' },
+  payload_encoder: { type: '' },
 })
 
 const formCom = ref()
