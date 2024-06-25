@@ -46,7 +46,51 @@
       </el-col>
     </el-row>
     <div>
-      <p class="part-header">{{ tl('verificationMethod') }}</p>
+      <p class="part-header">{{ tl('messageFormatTransformation') }}</p>
+      <p class="tip">{{ tl('formatTransDesc') }}</p>
+      <el-row :gutter="24">
+        <el-col :span="7">
+          <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
+            <el-select v-model="(formData.payload_decoder as any).type">
+              <el-option
+                v-for="{ label, value } in formatOpts"
+                :key="value"
+                :value="value"
+                :label="label"
+                :disabled="isDisabledDecodeType(value)"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item
+            v-if="showSchemaTypeSelect"
+            prop="payload_decoder.schema"
+            :label="tl('selectSchema')"
+          >
+            <el-select v-model="(formData.payload_decoder as any).schema">
+              <el-option v-for="{ name } in schemaOpts" :key="name" :value="name" :label="name" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item prop="payload_encoder.type" :label="tl('outputFormat')">
+            <el-select v-model="(formData.payload_encoder as any).type">
+              <el-option
+                v-for="{ label, value } in formatOpts"
+                :key="value"
+                :value="value"
+                :label="label"
+                :disabled="isDisabledEncodeType(value)"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+      <p class="part-header">{{ tl('messagePropsTransformation') }}</p>
+      <p class="tip">{{ tl('propsTransDesc') }}</p>
       <el-row :gutter="24">
         <el-col :span="21">
           <OperationsTable v-model="formData.operations" />
@@ -93,6 +137,7 @@
 </template>
 
 <script setup lang="ts">
+import { querySchemas } from '@/api/ruleengine'
 import {
   useFailureAction,
   useMessageTransformLogLevel,
@@ -100,7 +145,9 @@ import {
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
-import type { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
+import { SchemaRegistryType } from '@/types/enum'
+import { SchemaRegistry } from '@/types/rule'
+import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformLogLevel } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import {
@@ -111,6 +158,7 @@ import {
   defineExpose,
   defineProps,
   ref,
+  watch,
 } from 'vue'
 import OperationsTable from './OperationsTable.vue'
 
@@ -197,6 +245,69 @@ const addTopic = () => {
   }
 }
 
+const formatOpts = [
+  { value: 'none', label: t('Base.none') },
+  { value: SchemaRegistryType.Avro, label: 'Avro' },
+  { value: SchemaRegistryType.JSON, label: 'JSON' },
+  { value: SchemaRegistryType.Protobuf, label: 'Protobuf' },
+]
+const schemasList = ref<Array<SchemaRegistry>>([])
+const querySchemasList = async () => {
+  try {
+    schemasList.value = await querySchemas()
+  } catch (error) {
+    //
+  }
+}
+querySchemasList()
+
+const isDisabledDecodeType = (type: string | SchemaRegistryType) => {}
+const isDisabledEncodeType = (type: string | SchemaRegistryType) => {}
+
+const showSchemaTypeSelect = computed(() => {
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  const { payload_decoder, payload_encoder } = formData.value
+  return [payload_decoder.type, payload_encoder.type].some(
+    (type) => !['none', SchemaRegistryType.JSON].includes(type),
+  )
+})
+watch(showSchemaTypeSelect, (nV, oV) => {
+  if (oV && !nV && (formData.value?.payload_decoder as any)?.schema) {
+    Reflect.deleteProperty(formData.value.payload_decoder as any, 'schema')
+  }
+})
+
+const schemaType = computed(() => {
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  const { payload_decoder, payload_encoder } = formData.value
+  return [payload_decoder.type, payload_encoder.type].find(
+    (type) => !['none', SchemaRegistryType.JSON].includes(type),
+  )
+})
+
+const getSchemaTypeList = (type: string) => {
+  return schemasList.value.filter((item) => item.type === type)
+}
+
+const schemaOpts = computed(() => {
+  if (!schemaType.value) {
+    return []
+  }
+  return getSchemaTypeList(schemaType.value)
+})
+
 const validate = async () => formCom.value.validate()
 
 defineExpose({
@@ -230,6 +341,9 @@ defineExpose({
     top: 0;
     right: -12px;
     transform: translateX(100%);
+  }
+  .part-header + .tip {
+    margin-bottom: 20px;
   }
   .column-type.el-table__cell {
     vertical-align: top;

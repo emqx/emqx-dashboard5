@@ -1465,6 +1465,34 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '验证失败操作',
     en: 'Validation Failure Operation',
   },
+  messageFormatTransformation: {
+    zh: '消息格式转换',
+    en: 'Message Format Transformation',
+  },
+  formatTransDesc: {
+    zh: '如果输入格式和输出格式相同，则不进行转换。',
+    en: 'If the input and output formats are the same, no transformation will be performed.',
+  },
+  messagePropsTransformation: {
+    zh: '消息属性转换',
+    en: 'Message Properties Transformation',
+  },
+  propsTransDesc: {
+    zh: '转换消息的其他属性。仅当目标格式为 JSON 时，才可对 Payload 的属性执行操作。',
+    en: 'Transform other properties of the message. Only the payload properties can be operated on when the target format is JSON.',
+  },
+  inputFormat: {
+    zh: '输入格式',
+    en: 'Format of Input',
+  },
+  selectSchema: {
+    zh: '选择 Schema',
+    en: 'Select Schema',
+  },
+  outputFormat: {
+    zh: '输出格式',
+    en: 'Format of Output',
+  },
   transformationFailureOperation: {
     zh: '转换失败后的操作',
     en: 'Transformation Failure Operation',
