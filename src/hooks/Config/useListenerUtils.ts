@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash'
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
 import parseHoconToObject from 'hocon-parser'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 
 export interface ListenerUtils {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
@@ -385,6 +386,9 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
   }
 
   const objectToHocon = (data: Record<string, any>): string => {
+    if (isEmptyObj(data)) {
+      return ''
+    }
     let result = ''
     const walk = (data: Record<string, any>, level = 0) => {
       for (const key in data) {
@@ -412,7 +416,9 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
 
   const hoconToObject = (hoconData: string): Record<string, any> => {
     try {
+      console.log(hoconData)
       const parsedData = parseHoconToObject(hoconData)
+      console.log(parsedData)
       return Promise.resolve(parsedData)
     } catch (error) {
       return Promise.reject(error)

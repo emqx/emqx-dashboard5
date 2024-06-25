@@ -29,7 +29,7 @@ type Props = Readonly<
 
 type Emit = (event: 'update:modelValue' | 'submit' | 'submitted' | 'delete', ...args: any[]) => void
 
-interface UseListenerDialogReturns {
+interface useListenerDrawerReturns {
   showDialog: WritableComputedRef<boolean>
   isEdit: ComputedRef<boolean>
   canBeDeleted: ComputedRef<boolean>
@@ -55,7 +55,7 @@ interface UseListenerDialogReturns {
   handleTLSVerifyChange: (val: string | number | boolean) => void
 }
 
-export default (props: Props, emit: Emit): UseListenerDialogReturns => {
+export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   const showDialog = computed({
     get: () => props.modelValue,
     set: (val: boolean) => {
