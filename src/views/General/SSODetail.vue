@@ -43,6 +43,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
+import OIDCForm from './components/SSOForm/OIDCForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -59,6 +60,7 @@ const FormCom = ref()
 const formComMap: Record<string, Component> = {
   [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
   [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
+  [DashboardSsoBackendStatusBackend.oidc]: OIDCForm,
 }
 
 const formCom = computed(() =>

@@ -17,6 +17,18 @@ import {
   SchemaValidationValidationStrategy,
   SchemaValidationLogFailureLevel,
 } from './schemas/schemaValidation.schemas'
+import type { SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
+import {
+  SsoOidcPreferredAuthMethodsItem,
+  SsoOidcProvider,
+  SsoOidcBackend,
+} from './schemas/dashboardSingleSignOn.schemas'
+
+/* SSO */
+export type OIDBForm = SsoOidc
+export const OIDCPreferredAuthMethods = SsoOidcPreferredAuthMethodsItem
+export const OIDCProvider = SsoOidcProvider
+export const SSOOIDCBackend = SsoOidcBackend
 
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer

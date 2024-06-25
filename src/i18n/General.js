@@ -315,6 +315,42 @@ export default {
     zh: '元数据地址',
     en: 'Metadata Address',
   },
+  issuer: {
+    zh: 'Issuer URL',
+    en: 'Issuer URL',
+  },
+  scopes: {
+    zh: 'Scopes',
+    en: 'Scopes',
+  },
+  nameVar: {
+    zh: '名称变量',
+    en: 'Name Variable',
+  },
+  sessionExpiry: {
+    zh: '会话过期',
+    en: 'Session Expiry',
+  },
+  requirePkce: {
+    zh: '是否需要 PKCE',
+    en: 'Require PKCE',
+  },
+  preferredAuthMethods: {
+    zh: '首选认证方法',
+    en: 'Preferred Authentication Methods',
+  },
+  provider: {
+    zh: '提供商',
+    en: 'Provider',
+  },
+  fallbackMethods: {
+    zh: '备用方法',
+    en: 'Fallback Methods',
+  },
+  JWK: {
+    zh: 'JSON Web 密钥',
+    en: 'JSON Web Key (JWK)',
+  },
   publisher: {
     zh: '消息发布者',
     en: 'Publisher',
