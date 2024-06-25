@@ -88,6 +88,24 @@
                 />
                 <input class="el-button el-button--info is-link" type="submit" value="SAML" />
               </form>
+              <!-- for call api by browser -->
+              <form
+                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.oidc)"
+                :action="oidcLoginUrl"
+                method="post"
+                class="form-example"
+                enctype="multipart/form-data"
+              >
+                <input
+                  v-show="false"
+                  type="text"
+                  name="backend"
+                  id="backend"
+                  required
+                  v-model="oidcBackend"
+                />
+                <input class="el-button el-button--info is-link" type="submit" value="OIDC" />
+              </form>
             </div>
           </div>
         </div>
@@ -229,6 +247,8 @@ const { docMap } = useDocLink()
 const {
   samlLoginUrl,
   samlBackend,
+  oidcLoginUrl,
+  oidcBackend,
   enabledSSOList,
   currentLoginBackend,
   isSSOLoading,

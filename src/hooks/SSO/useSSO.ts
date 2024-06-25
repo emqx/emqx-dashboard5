@@ -28,6 +28,8 @@ interface LdapLoginResult {
 export default function useSSO(): {
   samlLoginUrl: string
   samlBackend: Ref<'saml'>
+  oidcLoginUrl: string
+  oidcBackend: Ref<'oidc'>
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
@@ -38,15 +40,19 @@ export default function useSSO(): {
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
-  const ldapRecord = reactive<SsoLogin>({
+  // FIXME: remove any
+  const ldapRecord = reactive<SsoLogin | any>({
     username: '',
     password: '',
     backend: 'ldap',
   })
   const currentLoginBackend = ref<LoginBackend>('local')
 
-  const samlLoginUrl = `${API_BASE_URL}/sso/login/saml`
+  const samlLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.saml}`
   const samlBackend = ref(DashboardSamlBackend.saml)
+
+  const oidcLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.oidc}`
+  const oidcBackend = ref(DashboardSsoBackendStatusBackend.oidc)
 
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 
@@ -75,6 +81,8 @@ export default function useSSO(): {
     currentLoginBackend,
     samlLoginUrl,
     samlBackend,
+    oidcLoginUrl,
+    oidcBackend,
     isSSOLoading,
     enabledSSOList,
     ldapRecord,
