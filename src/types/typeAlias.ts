@@ -69,8 +69,8 @@ export const SchemaValidationLogLevel = SchemaValidationLogFailureLevel
 export type MessageTransform = OverrideProperties<
   MessageTransformationTransformation,
   {
-    payload_decoder: { type: string; schema?: string }
-    payload_encoder: { type: string }
+    payload_decoder: { type: string; schema?: string; message_type?: string }
+    payload_encoder: { type: string; schema?: string; message_type?: string }
   }
 >
 export type MessageTransformOperation = MessageTransformationOperation
