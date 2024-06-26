@@ -93,7 +93,9 @@
       <p class="tip">{{ tl('propsTransDesc') }}</p>
       <el-row :gutter="24">
         <el-col :span="21">
-          <OperationsTable v-model="formData.operations" />
+          <el-form-item prop="operations">
+            <OperationsTable v-model="formData.operations" />
+          </el-form-item>
         </el-col>
       </el-row>
     </div>
@@ -138,6 +140,7 @@
 
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
+import { customValidate } from '@/common/tools'
 import {
   useFailureAction,
   useMessageTransformLogLevel,
@@ -214,6 +217,36 @@ const rules: FormRules = {
         } else {
           cb()
         }
+      },
+      trigger: 'blur',
+      required: true,
+    },
+  ],
+  operations: [
+    {
+      type: 'array',
+      validator(rules: any, value: Array<any>, cb: (error?: Error) => void) {
+        const { payload_decoder, payload_encoder } = formData.value
+        const doNotNeedOperations =
+          (payload_decoder.type === SchemaRegistryType.JSON &&
+            [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
+              payload_encoder.type as SchemaRegistryType,
+            )) ||
+          (payload_encoder.type === SchemaRegistryType.JSON &&
+            [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
+              payload_decoder.type as SchemaRegistryType,
+            ))
+        let error = undefined
+        if (!doNotNeedOperations && Array.isArray(value) && value.length === 0) {
+          error = new Error(tl('operationsListRequired'))
+        } else if (Array.isArray(value)) {
+          if (value.some(({ key, value }) => !key || !value)) {
+            error = new Error(tl('operationFillRequired'))
+          } else if ([...new Set(value.map(({ key }) => key))].length < value.length) {
+            error = new Error(tl('operationKeyRepeat'))
+          }
+        }
+        cb(error)
       },
       trigger: 'blur',
       required: true,
@@ -308,7 +341,7 @@ const schemaOpts = computed(() => {
   return getSchemaTypeList(schemaType.value)
 })
 
-const validate = async () => formCom.value.validate()
+const validate = async () => customValidate(formCom.value)
 
 defineExpose({
   validate,
