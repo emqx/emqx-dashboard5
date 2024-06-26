@@ -49,6 +49,7 @@
       <p class="part-header">{{ tl('messageFormatTransformation') }}</p>
       <p class="tip">{{ tl('formatTransDesc') }}</p>
       <el-row :gutter="24">
+        <!-- DECODER -->
         <el-col :span="7">
           <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
             <el-select v-model="(formData.payload_decoder as any).type">
@@ -57,22 +58,23 @@
                 :key="value"
                 :value="value"
                 :label="label"
-                :disabled="isDisabledDecodeType(value)"
               />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="7">
-          <el-form-item
-            v-if="showSchemaTypeSelect"
-            prop="payload_decoder.schema"
-            :label="tl('selectSchema')"
-          >
+          <el-form-item prop="payload_decoder.schema" :label="tl('selectSchema')">
             <el-select v-model="(formData.payload_decoder as any).schema">
               <el-option v-for="{ name } in schemaOpts" :key="name" :value="name" :label="name" />
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="7">
+          <el-form-item prop="payload_decoder.schema" label="Message Type">
+            <el-input v-model="(formData.payload_decoder as any).message_type" />
+          </el-form-item>
+        </el-col>
+        <!-- -----ENCODER----- -->
         <el-col :span="7">
           <el-form-item prop="payload_encoder.type" :label="tl('outputFormat')">
             <el-select v-model="(formData.payload_encoder as any).type">
@@ -81,9 +83,20 @@
                 :key="value"
                 :value="value"
                 :label="label"
-                :disabled="isDisabledEncodeType(value)"
               />
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item prop="payload_encoder.schema" :label="tl('selectSchema')">
+            <el-select v-model="(formData.payload_encoder as any).schema">
+              <el-option v-for="{ name } in schemaOpts" :key="name" :value="name" :label="name" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item prop="payload_encoder.schema" label="Message Type">
+            <el-input v-model="(formData.payload_encoder as any).message_type" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -94,7 +107,7 @@
       <el-row :gutter="24">
         <el-col :span="21">
           <el-form-item prop="operations">
-            <OperationsTable v-model="formData.operations" />
+            <OperationsTable v-model="formData.operations" :transformation-form="formData" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -142,6 +155,7 @@
 import { querySchemas } from '@/api/ruleengine'
 import { customValidate } from '@/common/tools'
 import {
+  MESSAGE_TYPE_NONE,
   useFailureAction,
   useMessageTransformLogLevel,
 } from '@/hooks/Rule/transform/useMessageTransform'
@@ -226,15 +240,18 @@ const rules: FormRules = {
     {
       type: 'array',
       validator(rules: any, value: Array<any>, cb: (error?: Error) => void) {
-        const { payload_decoder, payload_encoder } = formData.value
+        const {
+          payload_decoder: { type: decoderType } = {},
+          payload_encoder: { type: encoderType } = {},
+        } = formData.value
         const doNotNeedOperations =
-          (payload_decoder.type === SchemaRegistryType.JSON &&
+          (decoderType === SchemaRegistryType.JSON &&
             [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
-              payload_encoder.type as SchemaRegistryType,
+              encoderType as SchemaRegistryType,
             )) ||
-          (payload_encoder.type === SchemaRegistryType.JSON &&
+          (encoderType === SchemaRegistryType.JSON &&
             [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
-              payload_decoder.type as SchemaRegistryType,
+              decoderType as SchemaRegistryType,
             ))
         let error = undefined
         if (!doNotNeedOperations && Array.isArray(value) && value.length === 0) {
@@ -279,7 +296,7 @@ const addTopic = () => {
 }
 
 const formatOpts = [
-  { value: 'none', label: t('Base.none') },
+  { value: MESSAGE_TYPE_NONE, label: t('Base.none') },
   { value: SchemaRegistryType.Avro, label: 'Avro' },
   { value: SchemaRegistryType.JSON, label: 'JSON' },
   { value: SchemaRegistryType.Protobuf, label: 'Protobuf' },
@@ -307,7 +324,7 @@ const showSchemaTypeSelect = computed(() => {
   // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
   const { payload_decoder, payload_encoder } = formData.value
   return [payload_decoder.type, payload_encoder.type].some(
-    (type) => !['none', SchemaRegistryType.JSON].includes(type),
+    (type) => ![MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(type),
   )
 })
 watch(showSchemaTypeSelect, (nV, oV) => {
@@ -326,7 +343,7 @@ const schemaType = computed(() => {
   // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
   const { payload_decoder, payload_encoder } = formData.value
   return [payload_decoder.type, payload_encoder.type].find(
-    (type) => !['none', SchemaRegistryType.JSON].includes(type),
+    (type) => ![MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(type),
   )
 })
 
