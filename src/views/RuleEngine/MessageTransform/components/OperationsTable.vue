@@ -19,7 +19,7 @@
             @change="handlePropBelongChanged($index)"
           />
           <el-button
-            v-if="canSetSubProp(row.propBelong)"
+            v-if="showAddSubButton(row.propBelong)"
             class="btn-add"
             :icon="Plus"
             :disabled="!$hasPermission('post')"
@@ -75,14 +75,16 @@
 import { createRandomString } from '@/common/tools'
 import {
   AvailableKey,
+  MESSAGE_TYPE_NONE,
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
-import { MessageTransformOperation } from '@/types/typeAlias'
+import { SchemaRegistryType } from '@/types/enum'
+import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { isEqual, isUndefined } from 'lodash'
-import { defineEmits, defineProps, ref, watch } from 'vue'
+import { cloneDeep, isEqual, isUndefined } from 'lodash'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import TargetValue from './TargetValue.vue'
 
 interface SubOperation {
@@ -111,10 +113,18 @@ interface Operation {
   convert: OperationTarget | Array<SubOperation>
 }
 
-const { propBelongOpts, targetBelongArr, subPropReg, targetBelongReg, canSetSubProp } =
-  useMessageTransformForm()
+const {
+  propBelongOpts: rawPropsBelongOpts,
+  targetBelongArr,
+  subPropReg,
+  targetBelongReg,
+  canSetSubProp,
+} = useMessageTransformForm()
 
-const props = defineProps<{ modelValue: Array<MessageTransformOperation> }>()
+const props = defineProps<{
+  modelValue: Array<MessageTransformOperation>
+  transformationForm: MessageTransform
+}>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Array<{ key: string; value: string }>): void
 }>()
@@ -124,6 +134,42 @@ const { tl } = useI18nTl('RuleEngine')
 const tableData = ref<Operation[]>([])
 
 let operationsCache: Array<MessageTransformOperation> = []
+
+/**
+ * from PM
+ */
+const canNotSetToPayload = computed(() => {
+  const { payload_decoder: { type: inType } = {}, payload_encoder: { type: outType } = {} } =
+    props.transformationForm || ({} as any)
+  return (
+    inType === outType &&
+    [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(inType as SchemaRegistryType)
+  )
+})
+
+const copiedPropsBelongOpts = cloneDeep(rawPropsBelongOpts)
+const propBelongOpts = computed(() => {
+  return copiedPropsBelongOpts.map((item: { value: string; label: string; disabled?: boolean }) => {
+    item.disabled = item.value === AvailableKey.Payload && canNotSetToPayload.value
+    return item
+  })
+})
+
+const canSetToPayloadSub = computed(() => {
+  const { payload_decoder: { type: inType } = {}, payload_encoder: { type: outType } = {} } =
+    props.transformationForm || ({} as any)
+  return !(
+    outType === MESSAGE_TYPE_NONE &&
+    [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(inType as SchemaRegistryType)
+  )
+})
+
+const showAddSubButton = (key: AvailableKey) => {
+  if (key === AvailableKey.Payload) {
+    return canSetToPayloadSub.value
+  }
+  return canSetSubProp(key)
+}
 
 const analyzeOperation = ({
   key,
@@ -284,7 +330,7 @@ const handlePropBelongChanged = (rowIndex: number) => {
   const findRet = findOperationParent(rowIndex)
   if (findRet) {
     const { parent } = findRet
-    if (parent.propBelong && !canSetSubProp(parent.propBelong)) {
+    if (parent.propBelong && !showAddSubButton(parent.propBelong)) {
       parent.convert = createRawOperationTarget()
     }
   }
