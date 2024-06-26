@@ -332,8 +332,12 @@ export default {
     en: 'Session Expiry',
   },
   requirePkce: {
-    zh: '是否需要 PKCE',
-    en: 'Require PKCE',
+    zh: '开启 PKCE',
+    en: 'Enable PKCE',
+  },
+  signInRedirectUri: {
+    zh: '登录重定向地址',
+    en: 'Sign-in Redirect URI',
   },
   preferredAuthMethods: {
     zh: '首选认证方法',
@@ -342,6 +346,10 @@ export default {
   provider: {
     zh: '提供商',
     en: 'Provider',
+  },
+  generic: {
+    zh: '通用',
+    en: 'Generic',
   },
   fallbackMethods: {
     zh: '备用方法',
