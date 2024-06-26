@@ -26,6 +26,7 @@
 import { postMessageTransform } from '@/api/messageTransformation'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import { SchemaRegistryType } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
@@ -43,8 +44,8 @@ const createRawTransformForm = (): MessageTransform => ({
   operations: [{ key: '', value: '' }],
   log_failure: { level: MessageTransformLogLevel.warning },
   failure_action: MessageTransformFailureAction.drop,
-  payload_decoder: { type: '' },
-  payload_encoder: { type: '' },
+  payload_decoder: { type: SchemaRegistryType.JSON },
+  payload_encoder: { type: SchemaRegistryType.JSON },
 })
 
 const formCom = ref()

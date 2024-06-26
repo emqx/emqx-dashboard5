@@ -1,5 +1,5 @@
 <template>
-  <template v-if="canSetSubTarget(targetValue.targetBelong)">
+  <template v-if="canGetSubTarget(targetValue.targetBelong)">
     <div
       v-if="isPubPropsParent"
       class="el-input el-input-group el-input-group--prepend el-input--suffix input-target-value"
@@ -86,10 +86,10 @@ const targetValue = computed({
   },
 })
 
-const { canSetSubTarget } = useMessageTransformForm()
+const { canGetSubTarget } = useMessageTransformForm()
 
 const handleBelongChanged = (val: string) => {
-  if (!canSetSubTarget(val) && targetValue.value.targetValue) {
+  if (!canGetSubTarget(val) && targetValue.value.targetValue) {
     targetValue.value.targetValue = ''
   }
 }
