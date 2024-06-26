@@ -1529,6 +1529,18 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '发布属性',
     en: 'Publish Properties',
   },
+  operationsListRequired: {
+    zh: '请添加至少一条转换操作',
+    en: 'Please add at least one transformation operation',
+  },
+  operationFillRequired: {
+    zh: '请完整填写转换操作',
+    en: 'Please fill in the transformation operation completely',
+  },
+  operationKeyRepeat: {
+    zh: '检查到属性重复',
+    en: 'Duplicate properties detected',
+  },
   setting: {
     zh: '设置',
     en: 'Setting',
