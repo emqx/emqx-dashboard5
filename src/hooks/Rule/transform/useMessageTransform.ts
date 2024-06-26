@@ -85,11 +85,10 @@ export const useMessageTransformForm = () => {
     {
       key: AvailableKey.Payload,
       label: t('Clients.payload'),
-      canUseSubProp: true,
       allowSet: true,
-      setKeys: ['payload.*', 'payload'],
+      canGetSubProp: true,
       allowUse: true,
-      useKeys: ['payload.*', 'payload'],
+      canUseSubProp: true,
     },
     {
       key: AvailableKey.Topic,
@@ -112,20 +111,20 @@ export const useMessageTransformForm = () => {
     {
       key: AvailableKey.UserProperty,
       label: tl('userProperties'),
-      canUseSubProp: true,
-      setKeys: ['user_property'],
+      /**
+       * ‼️ for user property, just can set sub prop
+       */
+      canSetSubProp: true,
       allowSet: true,
       allowUse: true,
-      useKeys: ['user_property.*', 'user_property'],
+      canUseSubProp: true,
     },
     {
       key: AvailableKey.ClientAttrs,
       label: t('Clients.clientAttrs'),
-      configKey: 'client_attrs.{key}',
-      canUseSubProp: true,
       allowSet: false,
       allowUse: true,
-      useKeys: ['client_attrs.*', 'client_attrs'],
+      canUseSubProp: true,
     },
     {
       key: AvailableKey.Timestamp,
@@ -172,7 +171,6 @@ export const useMessageTransformForm = () => {
       key: AvailableKey.PubProps,
       label: tl('pubProps'),
       configKey: 'pub_props.{key}',
-      canUseSubProp: true,
       keys: [
         'Message-Expiry-Interval',
         'Topic-Alias',
@@ -185,6 +183,7 @@ export const useMessageTransformForm = () => {
       ],
       allowSet: false,
       allowUse: true,
+      canUseSubProp: true,
       advanced: true,
     },
     {
@@ -231,13 +230,20 @@ export const useMessageTransformForm = () => {
     return arr
   }, [])
 
-  const propsCanUseSub = availableKeyConf.reduce((arr: Array<AvailableKey>, item) => {
+  const propsCanSetSub = availableKeyConf.reduce((arr: Array<AvailableKey>, item) => {
+    if (item.canSetSubProp) {
+      arr.push(item.key)
+    }
+    return arr
+  }, [])
+  const targetArrCanUseSub = availableKeyConf.reduce((arr: Array<AvailableKey>, item) => {
     if (item.canUseSubProp) {
       arr.push(item.key)
     }
     return arr
   }, [])
-  const targetsCanSetSub = [...propsCanUseSub.map((target) => `${target}.`)]
+  const targetsCanUseSub = targetArrCanUseSub.map((item) => `${item}.`)
+
   /**
    * All the available values for prop belong
    */
@@ -247,7 +253,7 @@ export const useMessageTransformForm = () => {
    */
   const targetBelongArr = targetBelongs.reduce((acc: Array<string>, cur) => {
     acc.push(cur)
-    if (propsCanUseSub.includes(cur)) {
+    if (targetArrCanUseSub.includes(cur)) {
       acc.push(`${cur}.`)
     }
     return acc
@@ -286,12 +292,12 @@ export const useMessageTransformForm = () => {
     ...createOpts(targetBelongArr),
   ]
 
-  const canSetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
+  const canSetSubProp = (prop: AvailableKey) => propsCanSetSub.includes(prop)
   const canGetSubTarget = (target: string) =>
-    targetsCanSetSub.includes(target) || target === TARGET_EXPRESSION
+    targetsCanUseSub.includes(target) || target === TARGET_EXPRESSION
 
   const subPropReg = new RegExp(`^(${propBelongArr.join('|')})\\.`)
-  const targetBelongReg = new RegExp(`^(${targetsCanSetSub.join('|')})`)
+  const targetBelongReg = new RegExp(`^(${targetsCanUseSub.join('|')})`)
 
   return {
     availablePropKeyMap,
