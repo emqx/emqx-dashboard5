@@ -258,7 +258,7 @@ export const useMessageTransformForm = () => {
   const createOpts = (valueArr: Array<string>) => {
     const ret = valueArr.reduce((arr: BelongOpts, item) => {
       const conf = availablePropKeyMap.get(item)
-      const optItem = { label: conf?.label || item, value: item }
+      const optItem = { label: item, value: item }
       if (conf?.advanced) {
         const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
         if (!advancedItem) {
@@ -286,8 +286,8 @@ export const useMessageTransformForm = () => {
     ...createOpts(targetBelongArr),
   ]
 
-  const canGetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
-  const canSetSubTarget = (target: string) =>
+  const canSetSubProp = (prop: AvailableKey) => propsCanUseSub.includes(prop)
+  const canGetSubTarget = (target: string) =>
     targetsCanSetSub.includes(target) || target === TARGET_EXPRESSION
 
   const subPropReg = new RegExp(`^(${propBelongArr.join('|')})\\.`)
@@ -301,7 +301,7 @@ export const useMessageTransformForm = () => {
     targetBelongOpts,
     subPropReg,
     targetBelongReg,
-    canGetSubProp,
-    canSetSubTarget,
+    canSetSubProp,
+    canGetSubTarget,
   }
 }

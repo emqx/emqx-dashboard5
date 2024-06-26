@@ -8,7 +8,7 @@
     :tree-props="{ children: 'convert' }"
   >
     <el-table-column :label="tl('transformationProperties')">
-      <template #default="{ row }">
+      <template #default="{ row, $index }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
           <el-cascader
@@ -16,9 +16,10 @@
             :options="propBelongOpts"
             :show-all-levels="false"
             :props="{ emitPath: false }"
+            @change="handlePropBelongChanged($index)"
           />
           <el-button
-            v-if="canGetSubProp(row.propBelong)"
+            v-if="canSetSubProp(row.propBelong)"
             class="btn-add"
             :icon="Plus"
             :disabled="!$hasPermission('post')"
@@ -110,7 +111,7 @@ interface Operation {
   convert: OperationTarget | Array<SubOperation>
 }
 
-const { propBelongOpts, targetBelongArr, subPropReg, targetBelongReg, canGetSubProp } =
+const { propBelongOpts, targetBelongArr, subPropReg, targetBelongReg, canSetSubProp } =
   useMessageTransformForm()
 
 const props = defineProps<{ modelValue: Array<MessageTransformOperation> }>()
@@ -277,6 +278,16 @@ const findOperationParent = (
     start = end
   }
   return null
+}
+
+const handlePropBelongChanged = (rowIndex: number) => {
+  const findRet = findOperationParent(rowIndex)
+  if (findRet) {
+    const { parent } = findRet
+    if (parent.propBelong && !canSetSubProp(parent.propBelong)) {
+      parent.convert = createRawOperationTarget()
+    }
+  }
 }
 
 const deleteOperation = (rowIndex: number) => {
