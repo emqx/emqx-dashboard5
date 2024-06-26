@@ -70,6 +70,8 @@ export enum AvailableKey {
 }
 export const TARGET_EXPRESSION = 'expression'
 
+export const MESSAGE_TYPE_NONE = 'none'
+
 interface BelongOptItem {
   label: string
   value: string
