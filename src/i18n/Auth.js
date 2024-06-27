@@ -43,7 +43,7 @@ export default {
     zh: 'Secret 使用 Base64 编码',
     en: 'Secret Base64 Encoded',
   },
-  scramDesc: {
+  enhancedAuthDesc: {
     zh: 'MQTT 5.0 增强认证',
     en: 'MQTT 5 Enhanced Authentication',
   },
@@ -55,7 +55,7 @@ export default {
     zh: '选择存储权限数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authorization data is stored or the HTTP server that provides the authorization data function',
   },
-  dataSourceScramDesc: {
+  dataSourceenhancedAuthDesc: {
     zh: '选择存储认证数据的数据库',
     en: 'Select the database where the authentication data is stored',
   },
@@ -562,5 +562,21 @@ export default {
   disconnect_after_expire: {
     zh: '过期后断开连接',
     en: 'Disconnect After Expiration',
+  },
+  principal: {
+    zh: '主体',
+    en: 'Principal',
+  },
+  keytabFile: {
+    zh: '密钥表文件',
+    en: 'Keytab File',
+  },
+  principalDesc: {
+    zh: "SASL GSSAPI 认证 Kerberos 主体。例如 `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`，注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。",
+    en: "SASL GSSAPI authentication Kerberos principal. For example, `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`. <strong>NOTE</strong>: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.",
+  },
+  keytabFileDesc: {
+    zh: 'SASL GSSAPI 认证 Kerberos 密钥表文件路径。注意：该文件必须放置在 EMQX 节点中，并且 EMQX 服务运行用户需要读取权限。',
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. **NOTE**: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
   },
 }

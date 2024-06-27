@@ -216,6 +216,7 @@ export enum AuthnMechanismType {
   PasswordBased = 'password_based',
   JWT = 'jwt',
   SCRAM = 'scram',
+  GSSAPI = 'gssapi',
 }
 
 export enum DatabasesType {
