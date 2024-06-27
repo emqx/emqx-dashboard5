@@ -12,6 +12,7 @@ export const useAuthnMechanismType = (): {
     { value: AuthnMechanismType.PasswordBased, label: 'Password-Based' },
     { value: AuthnMechanismType.JWT, label: 'JWT' },
     { value: AuthnMechanismType.SCRAM, label: 'SCRAM' },
+    { value: AuthnMechanismType.GSSAPI, label: 'GSSAPI' },
   ]
 
   const getLabelByValue = (value: AuthnMechanismType) =>

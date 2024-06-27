@@ -140,6 +140,14 @@ export default function useAuthnCreate() {
     }
   }
 
+  const getKerberosConfig = () => {
+    return {
+      enable: true,
+      keytab_file: '',
+      principal: '',
+    }
+  }
+
   const factory = (mechanism: string, backend: string) => {
     switch (mechanism) {
       case 'password_based':
@@ -164,6 +172,10 @@ export default function useAuthnCreate() {
         break
       case 'jwt':
         return getJwtConfig()
+      case 'gssapi':
+        if (backend === 'kerberos') {
+          return getKerberosConfig()
+        }
     }
   }
   const create = (config: any, backend: string, mechanism: string) => {
