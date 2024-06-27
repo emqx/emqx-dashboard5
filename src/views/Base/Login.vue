@@ -75,7 +75,7 @@
                 v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.saml)"
                 :action="samlLoginUrl"
                 method="post"
-                class="form-example"
+                class="form-sso"
                 enctype="multipart/form-data"
               >
                 <input
@@ -93,8 +93,9 @@
                 v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.oidc)"
                 :action="oidcLoginUrl"
                 method="post"
-                class="form-example"
+                class="form-sso"
                 enctype="multipart/form-data"
+                v-loading="isSSOSubmitting"
               >
                 <input
                   v-show="false"
@@ -104,7 +105,12 @@
                   required
                   v-model="oidcBackend"
                 />
-                <input class="el-button el-button--info is-link" type="submit" value="OIDC" />
+                <input
+                  class="el-button el-button--info is-link"
+                  type="submit"
+                  value="OIDC"
+                  @click="isSSOSubmitting = true"
+                />
               </form>
             </div>
           </div>
@@ -269,6 +275,8 @@ const newPasswordRecord = reactive({
   passwordRepeat: '',
 })
 const isSubmitting = ref(false)
+
+const isSSOSubmitting = ref(false)
 
 const showChangePwdForm = ref(false)
 const isUsingDefaultPwd = ref(false)
@@ -528,6 +536,12 @@ const submitNewPwd = async () => {
     }
     .buttons-container {
       justify-content: center;
+    }
+  }
+
+  .form-sso {
+    .el-loading-spinner {
+      transform: scale(0.3);
     }
   }
 
