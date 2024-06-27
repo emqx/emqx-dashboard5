@@ -1493,6 +1493,22 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '输出格式',
     en: 'Format of Output',
   },
+  noSupportTransformationWarning: {
+    zh: '转换规则不支持，已切换目标格式为 JSON',
+    en: 'Transformation is not supported, the target format has been switched to JSON',
+  },
+  canNotSetPayloadTip: {
+    zh: '当前转换规则不支持直接设置 Payload',
+    en: 'The current transformation rule does not support setting the payload directly',
+  },
+  canNotSetPayloadSubTip: {
+    zh: '当前转换规则不支持设置 Payload 下的属性值',
+    en: 'The current transformation does not support setting the value of the properties under the payload',
+  },
+  canNotSetMultiLevelUserProperty: {
+    zh: '用户属性请勿设置多级属性',
+    en: 'Do not set multi-level properties for user property',
+  },
   transformationFailureOperation: {
     zh: '转换失败后的操作',
     en: 'Transformation Failure Operation',

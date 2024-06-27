@@ -190,9 +190,11 @@
 import { querySchemas } from '@/api/ruleengine'
 import { customValidate } from '@/common/tools'
 import {
+  AvailableKey,
   MESSAGE_TYPE_NONE,
   useFailureAction,
   useMessageTransformLogLevel,
+  useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -213,6 +215,7 @@ import {
   watch,
 } from 'vue'
 import OperationsTable from './OperationsTable.vue'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   modelValue: {
@@ -259,6 +262,20 @@ const specialTypeBrothers = [SchemaRegistryType.Avro, SchemaRegistryType.Protobu
 
 const formCom = ref()
 
+const withSetPayloadDirectly = (arr: Array<{ key: string; value: string }>) => {
+  return arr.some(({ key }) => key === AvailableKey.Payload)
+}
+const payloadSubReg = new RegExp(`^${AvailableKey.Payload}\\.(\\w|-)+`)
+const withSetPayloadSub = (arr: Array<{ key: string; value: string }>) => {
+  return arr.some(({ key }) => payloadSubReg.test(key))
+}
+
+const userPropSubReg = new RegExp(`^${AvailableKey.UserProperty}\\.(\\w|-)+`)
+const detectSetMultiLevelUserProperty = (arr: Array<{ key: string; value: string }>) => {
+  return arr.some(({ key }) => userPropSubReg.test(key) && key.split('.').length > 2)
+}
+
+const { detectCanSetToPayload, detectCanSetToPayloadSub } = useMessageTransformForm()
 const rules: FormRules = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   failure_action: [...createRequiredRule(tl('actionAfterFailure'), 'select')],
@@ -301,12 +318,23 @@ const rules: FormRules = {
             error = new Error(tl('operationFillRequired'))
           } else if ([...new Set(value.map(({ key }) => key))].length < value.length) {
             error = new Error(tl('operationKeyRepeat'))
+          } else if (
+            withSetPayloadDirectly(value) &&
+            !detectCanSetToPayload(decoderType, encoderType)
+          ) {
+            error = new Error(tl('canNotSetPayloadTip'))
+          } else if (
+            withSetPayloadSub(value) &&
+            !detectCanSetToPayloadSub(decoderType, encoderType)
+          ) {
+            error = new Error(tl('canNotSetPayloadSubTip'))
+          } else if (detectSetMultiLevelUserProperty(value)) {
+            error = new Error(tl('canNotSetMultiLevelUserProperty'))
           }
         }
         cb(error)
       },
       trigger: 'blur',
-      required: true,
     },
   ],
 }
@@ -394,6 +422,7 @@ const handleDecoderTypeChanged = (data: MessageTransform['payload_decoder']) => 
   handleTypeChanged(data)
   const { payload_encoder: { type: encoderType } = {} } = formData.value
   if (encoderType && isDisabledEncodeType(encoderType)) {
+    ElMessage.warning(tl('noSupportTransformationWarning'))
     formData.value.payload_encoder = { type: SchemaRegistryType.JSON }
   }
 }
