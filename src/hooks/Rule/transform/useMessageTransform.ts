@@ -1,5 +1,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import { SchemaRegistryType } from '@/types/enum'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
 
 export type TypeMessageTransformFailureAction =
@@ -301,6 +302,33 @@ export const useMessageTransformForm = () => {
   const subPropReg = new RegExp(`^(${propBelongArr.join('|')})\\.`)
   const targetBelongReg = new RegExp(`^(${targetsCanUseSub.join('|')})`)
 
+  /* 
+  |                      | none (to encoder) | json              | arvo              | protobuf          |
+  | -------------------- | ----------------- | ----------------- | ----------------- | ----------------- |
+  | none (from decoder)  | only payload      | only payload      | ✘                 | ✘                 |
+  | json                 | all               | all               | all               | all               |
+  | arvo                 | ✘                 | only payload.x    | only payload.x    | only payload.x    |
+  | protobuf             | ✘                 | only payload.x    | only payload.x    | only payload.x    |
+   */
+  const detectCanSetToPayload = (inType?: string, outType?: string) => {
+    if (!inType || !outType) {
+      return true
+    }
+
+    return ![SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
+      inType as SchemaRegistryType,
+    )
+  }
+
+  const detectCanSetToPayloadSub = (inType?: string, outType?: string) => {
+    if (!inType || !outType) {
+      return true
+    }
+    return !(
+      outType === MESSAGE_TYPE_NONE && [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(inType)
+    )
+  }
+
   return {
     availablePropKeyMap,
     propBelongArr,
@@ -311,5 +339,7 @@ export const useMessageTransformForm = () => {
     targetBelongReg,
     canSetSubProp,
     canGetSubTarget,
+    detectCanSetToPayload,
+    detectCanSetToPayloadSub,
   }
 }

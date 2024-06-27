@@ -11,13 +11,14 @@
       <template #default="{ row, $index }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
-          <el-cascader
-            v-model="row.propBelong"
-            :options="propBelongOpts"
-            :show-all-levels="false"
-            :props="{ emitPath: false }"
-            @change="handlePropBelongChanged($index)"
-          />
+          <el-select v-model="row.propBelong" @change="handlePropBelongChanged($index)">
+            <el-option
+              v-for="{ value, label } in propBelongOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
           <el-button
             v-if="showAddSubButton(row.propBelong)"
             class="btn-add"
@@ -28,7 +29,7 @@
         </div>
         <!-- CHILD -->
         <div v-else class="sub-convert-container">
-          <el-input v-model="row.propValue" />
+          <el-input v-model="row.propValue" :validate-event="false" />
         </div>
       </template>
     </el-table-column>
@@ -75,15 +76,13 @@
 import { createRandomString } from '@/common/tools'
 import {
   AvailableKey,
-  MESSAGE_TYPE_NONE,
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRegistryType } from '@/types/enum'
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { cloneDeep, isEqual, isUndefined } from 'lodash'
+import { isEqual, isUndefined } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import TargetValue from './TargetValue.vue'
 
@@ -114,11 +113,12 @@ interface Operation {
 }
 
 const {
-  propBelongOpts: rawPropsBelongOpts,
+  propBelongOpts,
   targetBelongArr,
   subPropReg,
   targetBelongReg,
   canSetSubProp,
+  detectCanSetToPayloadSub,
 } = useMessageTransformForm()
 
 const props = defineProps<{
@@ -135,33 +135,10 @@ const tableData = ref<Operation[]>([])
 
 let operationsCache: Array<MessageTransformOperation> = []
 
-/**
- * from PM
- */
-const canNotSetToPayload = computed(() => {
-  const { payload_decoder: { type: inType } = {}, payload_encoder: { type: outType } = {} } =
-    props.transformationForm || ({} as any)
-  return (
-    inType === outType &&
-    [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(inType as SchemaRegistryType)
-  )
-})
-
-const copiedPropsBelongOpts = cloneDeep(rawPropsBelongOpts)
-const propBelongOpts = computed(() => {
-  return copiedPropsBelongOpts.map((item: { value: string; label: string; disabled?: boolean }) => {
-    item.disabled = item.value === AvailableKey.Payload && canNotSetToPayload.value
-    return item
-  })
-})
-
 const canSetToPayloadSub = computed(() => {
   const { payload_decoder: { type: inType } = {}, payload_encoder: { type: outType } = {} } =
     props.transformationForm || ({} as any)
-  return !(
-    outType === MESSAGE_TYPE_NONE &&
-    [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(inType as SchemaRegistryType)
-  )
+  return detectCanSetToPayloadSub(inType, outType)
 })
 
 const showAddSubButton = (key: AvailableKey) => {
