@@ -59,8 +59,19 @@
       <el-form-item prop="name_var" :label="tl('nameVar')">
         <el-input v-model="formData.name_var" />
       </el-form-item>
-      <el-form-item prop="session_expiry" :label="tl('sessionExpiry')">
-        <TimeInputWithUnitSelect v-model="formData.session_expiry" />
+      <el-form-item
+        prop="session_expiry"
+        :label="`${tl('sessionExpiry')}${
+          !formData.session_expiry || typeof formData.session_expiry === 'number'
+            ? `(${t('Exhook.second')})`
+            : ''
+        }`"
+      >
+        <TimeInputWithUnitSelect
+          v-if="typeof formData.session_expiry === 'string'"
+          v-model="formData.session_expiry"
+        />
+        <CustomInputNumber v-else v-model="formData.session_expiry" />
       </el-form-item>
       <el-form-item prop="require_pkce" :label="tl('requirePkce')">
         <el-switch v-model="formData.require_pkce" />
@@ -109,6 +120,7 @@
 import { createRandomString } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import ArrayEditor from '@/components/ArrayEditor.vue'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
