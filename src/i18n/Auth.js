@@ -55,7 +55,7 @@ export default {
     zh: '选择存储权限数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authorization data is stored or the HTTP server that provides the authorization data function',
   },
-  dataSourceenhancedAuthDesc: {
+  dataSourceEnhancedAuthDesc: {
     zh: '选择存储认证数据的数据库',
     en: 'Select the database where the authentication data is stored',
   },
