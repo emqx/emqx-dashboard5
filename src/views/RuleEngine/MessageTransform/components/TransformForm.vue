@@ -70,7 +70,10 @@
                 class="space-between schema-select-container"
                 v-if="showSchemaSelect(formData.payload_decoder.type)"
               >
-                <el-form-item prop="payload_decoder.schema" :label="tl('selectSchema')">
+                <el-form-item
+                  prop="payload_decoder.schema"
+                  :label="`${getSchemaTypeLabel(formData.payload_decoder.type)} Schema`"
+                >
                   <el-select v-model="(formData.payload_decoder as any).schema">
                     <el-option
                       v-for="{ name } in getSchemaTypeList(formData.payload_decoder.type)"
@@ -111,7 +114,10 @@
                 class="space-between schema-select-container"
                 v-if="showSchemaSelect(formData.payload_encoder.type)"
               >
-                <el-form-item prop="payload_encoder.schema" :label="tl('selectSchema')">
+                <el-form-item
+                  prop="payload_encoder.schema"
+                  :label="`${getSchemaTypeLabel(formData.payload_encoder.type)} Schema`"
+                >
                   <el-select v-model="(formData.payload_encoder as any).schema">
                     <el-option
                       v-for="{ name } in getSchemaTypeList(formData.payload_encoder.type)"
@@ -188,13 +194,13 @@
 
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
-import { customValidate } from '@/common/tools'
+import { customValidate, getLabelFromValueInOptionList } from '@/common/tools'
 import {
   AvailableKey,
   MESSAGE_TYPE_NONE,
   useFailureAction,
-  useMessageTransformLogLevel,
   useMessageTransformForm,
+  useMessageTransformLogLevel,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -204,6 +210,7 @@ import { SchemaRegistry } from '@/types/rule'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformLogLevel } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import {
   PropType,
   WritableComputedRef,
@@ -212,10 +219,8 @@ import {
   defineExpose,
   defineProps,
   ref,
-  watch,
 } from 'vue'
 import OperationsTable from './OperationsTable.vue'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   modelValue: {
@@ -378,6 +383,10 @@ const querySchemasList = async () => {
   }
 }
 querySchemasList()
+
+const getSchemaTypeLabel = (type: string) => {
+  return getLabelFromValueInOptionList(type, formatOpts)
+}
 
 const showSchemaSelect = (type: string | SchemaRegistryType) =>
   type && ![MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(type)
