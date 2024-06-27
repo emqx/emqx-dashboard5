@@ -1478,20 +1478,20 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Message Properties Transformation',
   },
   propsTransDesc: {
-    zh: '转换消息的其他属性。仅当目标格式为 JSON 时，才可对 Payload 的属性执行操作。',
-    en: 'Transform other properties of the message. Only the payload properties can be operated on when the target format is JSON.',
+    zh: '部分消息格式转换规则下，无法操作 Payload 或其属性。',
+    en: 'Under some message format transformations, the payload or its properties cannot be operated on.',
   },
   inputFormat: {
-    zh: '输入格式',
-    en: 'Format of Input',
+    zh: '源格式',
+    en: 'Source Format',
   },
   selectSchema: {
     zh: '选择 Schema',
     en: 'Select Schema',
   },
   outputFormat: {
-    zh: '输出格式',
-    en: 'Format of Output',
+    zh: '目标格式',
+    en: 'Target Format',
   },
   noSupportTransformationWarning: {
     zh: '转换规则不支持，已切换目标格式为 JSON',
@@ -1514,8 +1514,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Transformation Failure Operation',
   },
   transformationProperties: {
-    zh: '转换属性',
-    en: 'Transformation Properties',
+    zh: '属性',
+    en: 'Properties',
   },
   targetValue: {
     zh: '目标值',
