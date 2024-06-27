@@ -49,7 +49,7 @@
           <p class="item-description">
             {{
               mechanism === 'scram'
-                ? $t('Auth.dataSourceenhancedAuthDesc')
+                ? $t('Auth.dataSourceEnhancedAuthDesc')
                 : $t('Auth.dataSourceDesc')
             }}
           </p>
@@ -407,7 +407,6 @@ const handleCreate = async function () {
   saveLoading.value = true
   const formData = cloneDeep(configData.value)
   const data = create(formData, backend.value, mechanism.value)
-  console.log(data)
   try {
     if (props.gateway) {
       await props.createFunc({
