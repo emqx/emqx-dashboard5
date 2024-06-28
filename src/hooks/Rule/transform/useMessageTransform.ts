@@ -266,7 +266,8 @@ export const useMessageTransformForm = () => {
 
   const createOpts = (valueArr: Array<string>) => {
     const ret = valueArr.reduce((arr: BelongOpts, item) => {
-      const conf = availablePropKeyMap.get(item)
+      const keyForGetConf = item.endsWith('.') ? item.slice(0, -1) : item
+      const conf = availablePropKeyMap.get(keyForGetConf)
       const optItem = { label: item, value: item }
       if (conf?.advanced) {
         const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
