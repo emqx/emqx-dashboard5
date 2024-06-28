@@ -1,4 +1,5 @@
 import { BridgeType } from '@/types/enum'
+import { isFunction } from 'lodash'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
 import useSyncConfiguration from './useSyncConfiguration'
 
@@ -254,6 +255,8 @@ export default (
         'max_records',
         'time_interval',
         'headers',
+        'min_part_size',
+        'max_part_size',
       ],
       fieldStartIndex,
     ),
@@ -282,13 +285,21 @@ export default (
   })
 
   const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
-  const typeColClassMap: Record<string, Record<string, string>> = {
+  const typeColClassMap: Record<
+    string,
+    Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
+  > = {
     [BridgeType.MicrosoftSQLServer]: { driver: 'dividing-line-below' },
     [BridgeType.KafkaProducer]: kafkaProducerColClassMap,
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
-    [BridgeType.S3]: { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' },
+    [BridgeType.S3]: (formData: Record<string, any>): Record<string, string> => {
+      if (/direct/i.test(formData?.parameters?.mode)) {
+        return { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' }
+      }
+      return { 'parameters.mode': 'col-hidden' }
+    },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
@@ -309,7 +320,7 @@ export default (
     [BridgeType.KafkaConsumer]: kafkaConsumerAdvancedProps,
     [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
-    [BridgeType.S3]: ['parameters.headers'],
+    [BridgeType.S3]: getPathArrInParameters(['headers', 'min_part_size', 'max_part_size']),
   }
 
   const advancedFields = computed(() => {
@@ -334,7 +345,10 @@ export default (
 
   const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
   const customColClass = computed(() => {
-    const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    let externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    if (isFunction(externalClass)) {
+      externalClass = externalClass(bridgeRecord.value)
+    }
     const { nameClass, connectorClass, descClass } = getFirstRowClass()
     return {
       ...syncEtcFieldsClassMap.value,

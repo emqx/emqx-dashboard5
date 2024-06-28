@@ -16,28 +16,12 @@
       </el-col>
       <el-col :span="getColSpan(6)">
         <CustomFormItem label="QoS" :readonly="readonly">
-          <el-select
-            v-model="record.args.qos"
-            :placeholder="tl('selectOrInput')"
-            filterable
-            allow-create
-          >
-            <el-option v-for="item in QoSOptions" :value="item" :key="item" />
-          </el-select>
+          <SelectAllowInput v-model="record.args.qos" :options="QoSOptions" />
         </CustomFormItem>
       </el-col>
       <el-col :span="getColSpan(6)">
         <CustomFormItem label="Retain" :readonly="readonly">
-          <el-select
-            v-model="record.args.retain"
-            :placeholder="tl('selectOrInput')"
-            filterable
-            allow-create
-          >
-            <el-option label="true" :value="true" />
-            <el-option label="false" :value="false" />
-            <el-option label="${flags.retain}" value="${flags.retain}" />
-          </el-select>
+          <SelectAllowInput v-model="record.args.retain" :options="retainOptions" />
         </CustomFormItem>
       </el-col>
       <el-col :span="24">
@@ -60,6 +44,7 @@
               json-without-validate
               :disabled="readonly"
               :id="createRandomString()"
+              :completion-provider="completionProvider"
             />
           </div>
         </CustomFormItem>
@@ -153,7 +138,10 @@ import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import SelectAllowInput from '@/components/SelectAllowInput.vue'
 import Monaco from '@/components/Monaco.vue'
+import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
+import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
@@ -201,7 +189,12 @@ const togglePubPropsEnabled = (val: string | number | boolean) => {
   }
 }
 
-const QoSOptions = [...defaultQoSOptions, '${qos}']
+const { availablePlaceholders } = useSQLAvailablePlaceholder()
+const { completionProvider } = useAvailableProviders()
+
+const QoSOptions = [...defaultQoSOptions, '${qos}', ...availablePlaceholders.value]
+
+const retainOptions = [true, false, '${flags.retain}', ...availablePlaceholders.value]
 
 const record = computed({
   get() {

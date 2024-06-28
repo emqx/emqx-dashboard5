@@ -1,9 +1,10 @@
 import { checkNOmitFromObj } from '@/common/tools'
 import {
+  DashboardSamlBackend,
   DashboardSsoBackendStatusBackend,
   SsoLdapBackend,
-  DashboardSamlBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { OIDCPreferredAuthMethods, OIDCProvider, SSOOIDCBackend } from '@/types/typeAlias'
 import useSSL from '../useSSL'
 
 export default (): {
@@ -31,10 +32,31 @@ export default (): {
     sp_public_key: '',
     sp_private_key: '',
   })
+  const createRawOIDCForm = (): any => ({
+    enable: true,
+    backend: SSOOIDCBackend.oidc,
+    issuer: '',
+    clientid: '',
+    secret: '',
+    scopes: ['openid'],
+    name_var: '${sub}',
+    dashboard_addr: location.origin + location.pathname.slice(0, -1),
+    session_expiry: '30s',
+    require_pkce: false,
+    preferred_auth_methods: [
+      OIDCPreferredAuthMethods.client_secret_post,
+      OIDCPreferredAuthMethods.client_secret_basic,
+      OIDCPreferredAuthMethods.none,
+    ],
+    provider: OIDCProvider.generic,
+    fallback_methods: ['RS256'],
+    client_jwks: 'none',
+  })
 
   const formCreatorMap: Map<string, () => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
     [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
+    [DashboardSsoBackendStatusBackend.oidc, createRawOIDCForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)

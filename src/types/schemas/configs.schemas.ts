@@ -126,6 +126,7 @@ export const GetConfigsKey = {
   limiter: 'limiter',
   listeners: 'listeners',
   log: 'log',
+  message_transformation: 'message_transformation',
   mqtt: 'mqtt',
   node: 'node',
   opentelemetry: 'opentelemetry',
@@ -517,6 +518,16 @@ export interface S3TransportOptions {
 
 export type LdapSslServerNameIndication = string | 'disable'
 
+export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -556,6 +567,8 @@ export interface LdapSsl {
   secure_renegotiate?: boolean
   log_level?: LdapSslLogLevel
   hibernate_after?: string
+  partial_chain?: LdapSslPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: LdapSslServerNameIndication
 }
@@ -583,8 +596,8 @@ export interface FileTransferS3Exporter {
   host: string
   port: number
   transport_options?: S3TransportOptions
-  min_part_size: string
-  max_part_size: string
+  min_part_size?: string
+  max_part_size?: string
   url_expire_time?: string
   bucket: string
   acl?: FileTransferS3ExporterAcl
@@ -663,6 +676,17 @@ export interface EmqxSysTopics {
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
+export type EmqxSslClientOptsPartialChain =
+  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type EmqxSslClientOptsLogLevel =
   typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
 
@@ -704,6 +728,8 @@ export interface EmqxSslClientOpts {
   secure_renegotiate?: boolean
   log_level?: EmqxSslClientOptsLogLevel
   hibernate_after?: string
+  partial_chain?: EmqxSslClientOptsPartialChain
+  verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
@@ -1007,6 +1033,17 @@ export interface EmqxAlarm {
   validity_period?: string
 }
 
+export type DashboardSslOptionsPartialChain =
+  typeof DashboardSslOptionsPartialChain[keyof typeof DashboardSslOptionsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSslOptionsPartialChain = {
+  true: 'true',
+  false: 'false',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
 export type DashboardSslOptionsLogLevel =
   typeof DashboardSslOptionsLogLevel[keyof typeof DashboardSslOptionsLogLevel]
 
@@ -1048,6 +1085,8 @@ export interface DashboardSslOptions {
   secure_renegotiate?: boolean
   log_level?: DashboardSslOptionsLogLevel
   hibernate_after?: string
+  partial_chain?: DashboardSslOptionsPartialChain
+  verify_peer_ext_key_usage?: string
   dhfile?: string
   honor_cipher_order?: boolean
   client_renegotiation?: boolean

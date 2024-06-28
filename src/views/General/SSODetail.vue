@@ -43,6 +43,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
+import OIDCForm from './components/SSOForm/OIDCForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -59,6 +60,7 @@ const FormCom = ref()
 const formComMap: Record<string, Component> = {
   [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
   [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
+  [DashboardSsoBackendStatusBackend.oidc]: OIDCForm,
 }
 
 const formCom = computed(() =>
@@ -117,4 +119,53 @@ const saveConfig = async () => {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.sso-detail {
+  .info-idp-block {
+    margin-bottom: 24px;
+  }
+  .info-desc {
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+  $padding-vertical: 8px;
+  .info-item {
+    position: relative;
+    padding: $padding-vertical 48px $padding-vertical 180px;
+    line-height: 24px;
+    border-radius: 4px;
+    background: var(--color-bg-main);
+    &.is-first {
+      margin-bottom: 8px;
+    }
+  }
+  .info-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 180px;
+    padding: $padding-vertical 16px;
+    font-size: 14px;
+    text-align: right;
+    color: var(--color-text-primary);
+  }
+  .info-value {
+    overflow: hidden;
+    margin: 0;
+    color: var(--color-text-primary);
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+  .btn-copy {
+    position: absolute;
+    right: 24px;
+    top: $padding-vertical;
+    &.el-button.is-link:focus,
+    &.el-button.is-link:not(.is-disabled):active {
+      color: inherit;
+    }
+  }
+}
+</style>

@@ -7,7 +7,7 @@
     class="help"
   >
     <el-row class="website-links" :gutter="16">
-      <el-col :span="6" v-for="{ link, icon, title } in platformList" :key="link">
+      <el-col :span="8" v-for="{ link, icon, title } in platformList" :key="link">
         <a :href="link" target="_blank">
           <el-card class="card-link" shadow="never">
             <img :src="icon" />
@@ -122,11 +122,6 @@ const platformList = [
     title: tl('forum'),
   },
   {
-    link: docMap.gitHub,
-    icon: require('@/assets/img/help-github.png'),
-    title: tl('gitHub'),
-  },
-  {
     link: docMap.blog,
     icon: require('@/assets/img/help-blog.png'),
     title: tl('blog'),
@@ -169,7 +164,7 @@ const productList = [
 
 const followUsList = [
   { link: docMap.githubHome, icon: 'icon-github' },
-  { link: docMap.twitterHome, icon: 'icon-twitter' },
+  { link: docMap.xHome, icon: 'icon-x' },
   { link: docMap.youtubeHome, icon: 'icon-youtube' },
   { link: docMap.linkedInHome, icon: 'icon-linkedin' },
 ]
@@ -245,10 +240,6 @@ const handleLinkGo = (key: 'feedback' | 'contactUs') => {
         display: block;
         .iconfont {
           color: var(--color-text-secondary);
-          &.icon-twitter {
-            position: relative;
-            top: 2px;
-          }
           &:hover {
             color: var(--color-primary);
           }

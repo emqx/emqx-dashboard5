@@ -152,14 +152,14 @@ export default function useSchemaForm(
 
           if ($ref) {
             const component = getComponentByRef(schema, $ref)
-            property.properties = transComponents(component, property.path)
+            property.properties = transComponents(component, property.path, withRules)
           } else if (property.properties && property.type === 'object') {
             lastLabel = label
             const component: Component = {
               properties: property.properties,
               type: property.type,
             }
-            property.properties = transComponents(component, property.path)
+            property.properties = transComponents(component, property.path, withRules)
           } else if (property.type === 'array' && property.items) {
             if (property.items.oneOf) {
               property.items.oneOf.forEach((item) => {
@@ -168,7 +168,7 @@ export default function useSchemaForm(
                   item.path = property.path
                   // TODO:maybe useless?
                   item.key = key
-                  item.properties = transComponents(component, item.path)
+                  item.properties = transComponents(component, item.path, withRules)
                 }
               })
             } else if (property.items.$ref) {
@@ -178,7 +178,7 @@ export default function useSchemaForm(
                * Here's a bug that could be exploited
                * The rule set for array type items is wrong.
                */
-              property.items.properties = transComponents(component, property.items.path)
+              property.items.properties = transComponents(component, property.items.path, withRules)
             }
           } else if (oneOf) {
             property.oneOf = oneOf.map((item) => {
@@ -189,10 +189,14 @@ export default function useSchemaForm(
                 if (property.path) {
                   // Because when oneof refs takes the default, it does not take the default of the fields in sequence,
                   // but the default of the ref, so it needs to be processed here.
-                  item.default = get(initRecordByComponents(item.properties), property.path)
+                  item.default = get(
+                    initRecordByComponents(item.properties),
+                    property.path,
+                    withRules,
+                  )
                 }
               } else if (item.type === 'object' && item.properties) {
-                return transComponents(item as Component, property.path)
+                return transComponents(item as Component, property.path, withRules)
               } else {
                 setTypeForProperty(item)
               }

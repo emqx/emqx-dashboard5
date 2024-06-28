@@ -75,7 +75,11 @@ const handleQuery = async () => {
      * Currently, if info is from location.search, it's using single sign-on;
      * if it's from route.query, it's from ECP (i.e., no backend)
      */
-    const backend = location.search ? DashboardSamlBackend.saml : undefined
+    const backend = info.backend
+      ? info.backend
+      : location.search
+      ? DashboardSamlBackend.saml
+      : undefined
     updateBaseInfo(info.username, info, backend)
     // if in login page, redirect to overview page
     if (/login/i.test(location.hash.split('?')[0])) {

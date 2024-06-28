@@ -30,6 +30,7 @@ import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
 import OneofRefsSelect from './OneofRefsSelect.vue'
+import SelectAllowInput from './SelectAllowInput.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
 import BatchSettings from './BatchSettings.vue'
@@ -68,6 +69,7 @@ const SchemaForm = defineComponent({
     AdvancedSettingContainer,
     CertFileInput,
     InputWithPlaceholderSelect,
+    SelectAllowInput,
     BatchSettings,
   },
   props: {
@@ -272,21 +274,30 @@ const SchemaForm = defineComponent({
       prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
 
     const handleSelectOneof = (parentProperty: Property, property: Property) => {
+      const isInit = _.isUndefined(parentProperty.selectedOneof)
       parentProperty.selectedOneof = property.properties
       parentProperty.default = property.default
       const fieldValue = parentProperty.path && _.get(configForm.value, parentProperty.path)
       if (fieldValue) {
+        // Remove unneeded fields
         Object.keys(fieldValue).forEach((key) => {
           if (!property.properties?.[key]) {
+            // remove field
             Reflect.deleteProperty(fieldValue, key)
+            // remove rule
+            const totalPath = `${parentProperty.path}.${key}`
+            Reflect.deleteProperty(rules.value, totalPath)
           }
         })
       }
-      Object.values(property.properties || {}).forEach((prop) => {
-        if (prop.path) {
-          _.set(configForm.value, prop.path, createInitValueByType(prop))
-        }
-      })
+      // If it is initial and, props.needRecord is false, do not set
+      if ((!isInit || props.needRecord) && property.properties && parentProperty.path) {
+        // Add new fields
+        const newRecord = initRecordByComponents(property.properties)
+        _.set(configForm.value, parentProperty.path, _.get(newRecord, parentProperty.path))
+      }
+
+      rules.value = { ...rules.value, ...property.rules }
     }
 
     const sortOneofProperties = (oneOfArr: Property['oneOf']): Property['oneOf'] => {
@@ -393,6 +404,19 @@ const SchemaForm = defineComponent({
           )
         }
         case 'enum':
+          if (customProps.allowCreate && !customProps.multiple) {
+            return (
+              <SelectAllowInput
+                disabled={isPropertyDisabled}
+                placeholder={property.default?.toString()}
+                modelValue={modelValue}
+                {...handleUpdateModelValue}
+                clearable={clearableValue}
+                options={property.symbols}
+                {...customProps}
+              />
+            )
+          }
           return (
             <el-select
               disabled={isPropertyDisabled}
@@ -494,7 +518,7 @@ const SchemaForm = defineComponent({
               disabled={isPropertyDisabled}
               modelValue={modelValue}
               {...handleUpdateModelValue}
-              units={['MB', 'GB', 'KB']}
+              units={['MB', 'GB', 'KB', 'B']}
               {...customProps}
             />
           )

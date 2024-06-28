@@ -6,6 +6,8 @@ import { Listener } from '@/types/listener'
 import { cloneDeep } from 'lodash'
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
+import parseHoconToObject from 'hocon-parser'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 
 export interface ListenerUtils {
   completeGatewayListenerTypeList: ListenerTypeForGateway[]
@@ -37,8 +39,9 @@ export interface ListenerUtils {
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
   transPort: (port: string) => string
   extractDifferences: (type: keyof typeof unexposedConfigs, data: any) => Record<string, any>
-  objectToString: (obj: Record<string, any>, parentKey?: string) => string
-  stringToObject: (str: string) => Record<string, any>
+  objectToHocon(obj: Record<string, any>): string
+  hoconToObject: (hoconData: string) => Record<string, any>
+  resetCustomConfig: (data: Listener, defaultConfig: Listener) => Listener
 }
 
 export default (gatewayName?: string | undefined): ListenerUtils => {
@@ -276,6 +279,12 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
             record[v].supported_subprotocols = record[v].supported_subprotocols.join(', ')
           }
           break
+        case 'ssl_options':
+          // QUIC does not pass the cacertfile field when it's empty
+          if (record.type === ListenerType.QUIC && record[v].cacertfile === '') {
+            delete record[v].cacertfile
+          }
+          break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {
             result[v] = record[v]
@@ -369,77 +378,82 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     return diff
   }
 
-  /**
-   * Converts an object to a string representation.
-   *
-   * @param {Record<string, any>} obj - The object to convert.
-   * @param {string} [parentKey=''] - The parent key for nested objects.
-   * @returns {string} The string representation of the object.
-   */
-  function objectToString(obj: Record<string, any>, parentKey = '') {
-    let str = ''
-    Object.keys(obj).forEach((key) => {
-      const value = obj[key]
-      const newKey = parentKey ? `${parentKey}.${key}` : key
-      if (typeof value === 'object' && !Array.isArray(value)) {
-        str += objectToString(value, newKey)
-      } else {
-        if (Array.isArray(value)) {
-          str += `${newKey}: ${value.join(', ')}\n`
+  const wordReg = /^[a-zA-Z_]+$/
+  const numReg = /^[\d]+$/
+
+  const getValueStr = (value: string) => {
+    if (wordReg.test(value) || numReg.test(value)) {
+      return value
+    }
+    return `"${value}"`
+  }
+
+  const objectToHocon = (data: Record<string, any>): string => {
+    if (isEmptyObj(data)) {
+      return ''
+    }
+    let result = ''
+    const walk = (data: Record<string, any>, level = 0) => {
+      for (const key in data) {
+        const value = data[key]
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          result += `${'  '.repeat(level)}${key} {\n`
+          walk(value, level + 1)
+          result += `${'  '.repeat(level)}}\n`
+        } else if (Array.isArray(value)) {
+          result += `${'  '.repeat(level)}${key} = [\n`
+          for (const item of value) {
+            result += `${'  '.repeat(level + 1)}${getValueStr(item)}\n`
+          }
+          result += `${'  '.repeat(level)}]\n`
         } else {
-          str += `${newKey}: ${value}\n`
+          result += `${'  '.repeat(level)}${key} = ${getValueStr(value)}\n`
         }
       }
-    })
-    return str
+    }
+
+    walk(data, 1)
+
+    return `{\n${result}}`
   }
 
-  type NestedObject = {
-    [key: string]: string | number | boolean | NestedObject | string[]
-  }
-  function parseValue(value: string): string | number | boolean | string[] {
-    if (value === 'true') return true
-    if (value === 'false') return false
-    if (!isNaN(Number(value))) return Number(value)
-    if (value.includes(', ')) return value.split(', ').map((v) => v.trim())
-    return value
+  const hoconToObject = (hoconData: string): Record<string, any> => {
+    try {
+      const parsedData = parseHoconToObject(hoconData)
+      return Promise.resolve(parsedData)
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 
   /**
-   * Converts a string into a nested object.
+   * Resets the custom configuration by merging it with the default configuration.
+   * If a property in the custom configuration is undefined, null, empty string, or an empty object,
+   * it will be replaced with the corresponding property from the default configuration.
+   * If a property in the custom configuration is an object and the corresponding property in the default configuration is also an object,
+   * the function will recursively reset the nested properties.
    *
-   * @param str - The string to convert.
-   * @returns A promise that resolves to the nested object.
-   * @throws If the string has an invalid format or if there is a path conflict or invalid nesting.
+   * @param customData - The custom configuration to be reset.
+   * @param defaultCustomConfig - The default configuration to merge with the custom configuration.
+   * @returns The custom configuration after resetting.
    */
-  function stringToObject(str: string): Promise<NestedObject> {
-    return new Promise((resolve, reject) => {
-      const result: NestedObject = {}
-      const lines = str.split('\n').filter((line) => line.trim() !== '')
-      lines.forEach((line) => {
-        const parts = line.split(/:(.+)/).map((part) => part.trim())
-        if (parts.length < 2 || !parts[0] || !parts[1]) {
-          reject(new Error(`Invalid format for line: "${line}". Expected 'key: value'.`))
-        }
-        const [rawKey, value] = parts
-        const keys = rawKey.split('.')
-        let current: Record<string, NestedObject | string | number | boolean | string[]> = result
-        keys.forEach((key, index) => {
-          if (index === keys.length - 1) {
-            current[key] = parseValue(value)
-          } else {
-            if (!(key in current)) {
-              current[key] = {}
-            }
-            if (typeof current[key] !== 'object' || Array.isArray(current[key])) {
-              reject(new Error(`Path conflict or invalid nesting for key: "${rawKey}".`))
-            }
-            current = current[key] as NestedObject
-          }
-        })
-      })
-      resolve(result)
-    })
+  const resetCustomConfig = (customData: Listener, defaultCustomConfig: Listener): Listener => {
+    for (const key in defaultCustomConfig) {
+      if (
+        customData[key] === undefined ||
+        customData[key] === null ||
+        customData[key] === '' ||
+        (typeof customData[key] === 'object' && isEmptyObj(customData[key]))
+      ) {
+        customData[key] = defaultCustomConfig[key]
+      } else if (
+        typeof customData[key] === 'object' &&
+        typeof defaultCustomConfig[key] === 'object'
+      ) {
+        customData[key] = resetCustomConfig(customData[key], defaultCustomConfig[key])
+      }
+    }
+    return customData
   }
 
   return {
@@ -466,7 +480,8 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     handleListenerDataWhenItIsIndependent,
     transPort,
     extractDifferences,
-    objectToString,
-    stringToObject,
+    objectToHocon,
+    hoconToObject,
+    resetCustomConfig,
   }
 }

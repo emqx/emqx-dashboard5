@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40606647",
+      "name": "x",
+      "font_class": "x",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
       "icon_id": "792496",
       "name": "bird-小鸟",
       "font_class": "twitter",

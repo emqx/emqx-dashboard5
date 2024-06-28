@@ -24,6 +24,11 @@ export const useRuleUtils = (): {
     target: BridgeItem | RuleEvent | string
   }
   getEventForShow: (event: string) => string
+  getTestTargetEvent: (
+    type: RuleInputType,
+    value: string,
+    eventList: Array<RuleEvent>,
+  ) => RuleEvent | undefined
   getTestColumns: (
     type: RuleInputType,
     value: string,
@@ -105,6 +110,24 @@ export const useRuleUtils = (): {
   }
 
   /**
+   * @param value if type is source, value is source id
+   */
+  const getTestTargetEvent = (
+    type: RuleInputType,
+    value: string,
+    eventList: Array<RuleEvent>,
+  ): RuleEvent | undefined => {
+    if (type === RuleInputType.Event) {
+      return eventList.find(({ event }) => event === value)
+    }
+    if (type === RuleInputType.Bridge) {
+      const bridgeType = judgeBridgeTypeById(value)
+      return eventList.find(({ event }) => event === `$bridges/${bridgeType}:*`)
+    }
+    return eventList.find(({ event }) => event === TOPIC_EVENT)
+  }
+
+  /**
    * event: use event test columns
    * bridge: use '$bridges/${bridge type}:*' event test columns
    * topic: use '$events/message_publish' event test columns
@@ -116,16 +139,8 @@ export const useRuleUtils = (): {
     value: string,
     eventList: Array<RuleEvent>,
   ): { context: Record<string, string>; descMap: Record<string, string> } => {
-    let test_columns: Record<string, TestColumnItem> = {}
-    if (type === RuleInputType.Event) {
-      test_columns = eventList.find(({ event }) => event === value)?.test_columns || {}
-    } else if (type === RuleInputType.Bridge) {
-      const bridgeType = judgeBridgeTypeById(value)
-      test_columns =
-        eventList.find(({ event }) => event === `$bridges/${bridgeType}:*`)?.test_columns || {}
-    } else {
-      test_columns = eventList.find(({ event }) => event === TOPIC_EVENT)?.test_columns || {}
-    }
+    const targetEvent = getTestTargetEvent(type, value, eventList)
+    const test_columns: Record<string, TestColumnItem> = targetEvent?.test_columns || {}
     const context: Record<string, string> = {}
     const descMap: Record<string, string> = {}
     Object.keys(test_columns).forEach((key) => {
@@ -200,6 +215,7 @@ export const useRuleUtils = (): {
     TOPIC_EVENT,
     allMsgsAndEvents,
     findInputTypeNTarget,
+    getTestTargetEvent,
     getTestColumns,
     transFromStrToFromArr,
     transFromDataArrToStr,

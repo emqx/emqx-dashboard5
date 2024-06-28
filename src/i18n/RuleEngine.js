@@ -689,6 +689,10 @@ export default {
     zh: '当客户端鉴权结束时触发规则',
     en: `The rule event is triggered when the client check acl complete.`,
   },
+  clientCheckAuthnCompleteDesc: {
+    zh: '当客户端认证结束时触发规则',
+    en: `The rule event is triggered when the client check authentication complete.`,
+  },
   sessionSubscribedDesc: {
     zh: '当终端订阅成功时触发规则',
     en: `Trigger the rule when the terminal subscribes successfully`,
@@ -1496,5 +1500,9 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   aggregationSettings: {
     zh: '聚合设置',
     en: 'Aggregation Settings',
+  },
+  somePlaceholderRequired: {
+    zh: '请使用到所有必需的占位符',
+    en: 'Please use all required placeholders',
   },
 }

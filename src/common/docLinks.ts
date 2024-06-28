@@ -6,16 +6,13 @@ type DocKey =
   | 'documentation'
   | 'forum'
   | 'gitHub'
-  | 'ruleEvent'
-  | 'bridgeAsFrom'
-  | 'ruleEventMsgPub'
   | 'upgrade'
   | 'dashboard'
   | 'mqttStudy'
   | 'mqttV5'
   | 'mqttClient'
   | 'githubHome'
-  | 'twitterHome'
+  | 'xHome'
   | 'youtubeHome'
   | 'linkedInHome'
   | 'emqxEnterprise'
@@ -32,6 +29,7 @@ type DocKey =
   | 'learnConfig'
   | 'restAPI'
   | 'faq'
+  | 'datadogIntegration'
   | 'applyLicense'
   | 'influxDbBatchSettings'
   | 'iotDbBatchSettings'
@@ -68,7 +66,7 @@ const QUERY_FOR_GO_UPGRADE = createQueryStr({
 })
 const QUERY_FOR_LICENSE = createQueryStr({ version: 5, utm_campaign: 'dashboard-to-license' })
 
-export default (lang: string): DocMap => {
+const createDocLinks = (lang: string): DocMap => {
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
   return {
     sqlGrammar: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,
@@ -77,13 +75,6 @@ export default (lang: string): DocMap => {
     documentation: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/?${QUERY_FOR_HELP}`,
     forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
     gitHub: `https://github.com/emqx/emqx`,
-    ruleEvent: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html`,
-    bridgeAsFrom: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
-      lang === 'zh' ? '数据桥接' : 'data-bridges'
-    }`,
-    ruleEventMsgPub: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rule-sql-events-and-fields.html#${
-      lang === 'zh' ? 'mqtt-消息' : 'mqtt-message'
-    }`,
     upgrade: `https://www.emqx.com/${lang}/lp/upgrade-emqx/enterprise?${QUERY_FOR_GO_UPGRADE}`,
     blog: `https://www.emqx.com/${lang}/blog/category/emqx?${QUERY_FOR_HELP}`,
     dashboard: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/dashboard/introduction.html?${QUERY_FOR_HELP}`,
@@ -93,12 +84,9 @@ export default (lang: string): DocMap => {
     ruleEngine: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/data-integration/rules.html?${QUERY_FOR_HELP}`,
     mqttStudy: `https://www.emqx.com/${lang}/mqtt?${QUERY_FOR_HELP}`,
     mqttV5: `https://www.emqx.com/${lang}/blog/introduction-to-mqtt-5?${QUERY_FOR_HELP}`,
-    mqttClient:
-      lang === 'zh'
-        ? `https://www.emqx.io/zh/mqtt-client?${QUERY_FOR_HELP}`
-        : `https://www.emqx.io/mqtt-client?${QUERY_FOR_HELP}`,
+    mqttClient: `https://www.emqx.com/${lang}/mqtt-client-sdk?${QUERY_FOR_HELP}`,
     githubHome: 'https://github.com/emqx',
-    twitterHome: 'https://twitter.com/EMQTech',
+    xHome: 'https://x.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
     emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
@@ -107,6 +95,7 @@ export default (lang: string): DocMap => {
     applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?${QUERY_FOR_LICENSE}`,
     moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
     contactUs: `https://www.emqx.com/${lang}/contact?${QUERY_FOR_HELP}`,
+    datadogIntegration: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/observability/datadog.html`,
     feedback: lang === 'zh' ? 'https://askemq.com/c/emqx/5' : 'https://www.emqx.io/forum/c/emqx/5',
     learnConfig: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/configuration/configuration.html?${QUERY_FOR_HELP}`,
     restAPI: `https://docs.emqx.com/${lang}/enterprise/${EMQX_VERSION}/admin/api.html?${QUERY_FOR_HELP}`,
@@ -122,3 +111,5 @@ export default (lang: string): DocMap => {
     )}`,
   }
 }
+
+export default createDocLinks

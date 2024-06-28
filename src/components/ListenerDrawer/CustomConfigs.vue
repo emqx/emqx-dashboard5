@@ -35,11 +35,11 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue'])
 
-const { objectToString, stringToObject } = useListenerUtils()
+const { objectToHocon, hoconToObject } = useListenerUtils()
 
 const errorMsg = ref('')
 
-const rawListener = ref(objectToString(props.modelValue))
+const rawListener = ref(objectToHocon(props.modelValue))
 
 watch(
   () => props.type,
@@ -51,25 +51,24 @@ watch(
 watch(
   () => props.modelValue,
   (val) => {
-    rawListener.value = objectToString(val)
+    rawListener.value = objectToHocon(val)
   },
 )
 
 const defaultPlaceHolder = ref('')
 
 function setDefaultPlaceHolder(type: 'ssl' | 'tcp' | 'ws' | 'wss') {
-  defaultPlaceHolder.value = objectToString(unexposedConfigs[type])
+  defaultPlaceHolder.value = objectToHocon(unexposedConfigs[type])
 }
 setDefaultPlaceHolder(props.type)
 
 async function resetRawData() {
   try {
-    const parsed = await stringToObject(rawListener.value)
+    const parsed = await hoconToObject(rawListener.value)
     emits('update:modelValue', parsed)
   } catch (error) {
     const err = error as Error
     errorMsg.value = err.toString()
-    // ElMessage.error(err.toString())
   }
 }
 

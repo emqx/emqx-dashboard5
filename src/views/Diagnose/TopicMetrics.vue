@@ -71,14 +71,9 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('Base.topic')"
-        prop="topic"
-        :min-width="120"
-        show-overflow-tooltip
-      >
+      <el-table-column :label="$t('Base.topic')" prop="topic" :min-width="120">
         <template #default="{ row }">
-          <PreWithEllipsis>{{ row.topic }}</PreWithEllipsis>
+          <CommonOverflowTooltip :content="row.topic" />
         </template>
       </el-table-column>
       <el-table-column
@@ -193,13 +188,13 @@ import { useI18n } from 'vue-i18n'
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
-import PreWithEllipsis from '@/components/PreWithEllipsis'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const DEFAULT_QOS = 'all'
 
 export default defineComponent({
   name: 'TopicMetrics',
-  components: { PreWithEllipsis },
+  components: { CommonOverflowTooltip },
   data: function () {
     return {
       topicRules: {

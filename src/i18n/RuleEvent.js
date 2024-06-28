@@ -31,6 +31,10 @@ export default {
     en: 'Client Check Authz Complete',
     zh: '授权完成',
   },
+  eventsClientCheckAuthnComplete: {
+    en: 'Client Check Authn Complete',
+    zh: '认证完成',
+  },
   eventsSessionSubscribed: {
     en: 'Session Subscribed',
     zh: '会话订阅',
@@ -46,6 +50,10 @@ export default {
   eventsSchemaValidationFailed: {
     en: 'Schema Validation Failed',
     zh: 'Schema 验证失败',
+  },
+  eventsMessageTransformationFailed: {
+    en: 'Message Transformation Failed',
+    zh: '消息转换失败',
   },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',

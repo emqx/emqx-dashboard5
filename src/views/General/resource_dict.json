@@ -2254,5 +2254,89 @@
       "en": "Update replicas of the durable storage",
       "zh": "更新持久化存储的副本"
     }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Append a new transformation",
+      "zh": "添加新的消息转换"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_transformations",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Update a transformation",
+      "zh": "更新消息转换"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations/reorder",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Reorder of all transformations",
+      "zh": "重新排序所有消息转换"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/message_transformations/transformation/:name",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Delete a transformation",
+      "zh": "删除消息转换"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations/transformation/:name/enable/:enable",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Enable or disable a particular transformation",
+      "zh": "启用或禁用指定消息转换"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations/transformation/:name/metrics/reset",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics for a particular transformation",
+      "zh": "重置指定消息转换的指标"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_transformations/dryrun",
+    "operation_label": {
+      "en": "Message Transformation",
+      "zh": "消息转换"
+    },
+    "operation_name_label": {
+      "en": "Test an input against a transformation",
+      "zh": "针对消息转换测试输入"
+    }
   }
 ]

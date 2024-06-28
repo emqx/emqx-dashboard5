@@ -7,6 +7,7 @@
     size="50%"
     :z-index="1999"
     class="listener-drawer"
+    destroy-on-close
   >
     <el-form
       label-position="top"
@@ -405,7 +406,7 @@ import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import useListenerDialog from '@/hooks/Config/useListenerDialog'
+import useListenerDrawer from '@/hooks/Config/useListenerDrawer'
 import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
@@ -462,7 +463,7 @@ const {
   submit,
   onDelete,
   handleTLSVerifyChange,
-} = useListenerDialog(props, emit)
+} = useListenerDrawer(props, emit)
 
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
 

@@ -88,7 +88,7 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const pgSqlOrderMap = createOrderObj(
-    ['server', 'database', 'username', 'password', 'ssl'],
+    ['server', 'database', 'username', 'password', 'disable_prepared_statements', 'ssl'],
     fieldStartIndex,
   )
   const IoTDBOrderMap = createOrderObj(

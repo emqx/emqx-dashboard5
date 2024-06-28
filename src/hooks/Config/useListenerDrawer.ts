@@ -1,6 +1,6 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP } from '@/common/constants'
+import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, unexposedConfigs } from '@/common/constants'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
@@ -29,7 +29,7 @@ type Props = Readonly<
 
 type Emit = (event: 'update:modelValue' | 'submit' | 'submitted' | 'delete', ...args: any[]) => void
 
-interface UseListenerDialogReturns {
+interface useListenerDrawerReturns {
   showDialog: WritableComputedRef<boolean>
   isEdit: ComputedRef<boolean>
   canBeDeleted: ComputedRef<boolean>
@@ -55,7 +55,7 @@ interface UseListenerDialogReturns {
   handleTLSVerifyChange: (val: string | number | boolean) => void
 }
 
-export default (props: Props, emit: Emit): UseListenerDialogReturns => {
+export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   const showDialog = computed({
     get: () => props.modelValue,
     set: (val: boolean) => {
@@ -98,7 +98,8 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     getListenerNameNTypeById,
     transPort,
     extractDifferences,
-    stringToObject,
+    hoconToObject,
+    resetCustomConfig,
   } = useListenerUtils(props.gatewayName)
 
   const listenerTypeOptList = computed(() => {
@@ -182,7 +183,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
   const validateCustomConfig = async () => {
     try {
       if (customConfig.value) {
-        await stringToObject(customConfig.value.rawListener)
+        await hoconToObject(customConfig.value.rawListener)
       }
       return Promise.resolve()
     } catch (error) {
@@ -206,8 +207,10 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
       delete data.ssl_options.ocsp
     }
     // Handle the custom configs
-    if (!isEmptyObj(listenerCustomConfigs.value)) {
-      merge(data, listenerCustomConfigs.value)
+    if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
+      const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
+      const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
+      merge(data, customConfigs)
     }
     return data
   }
@@ -241,7 +244,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
 
       let data = normalizeStructure(input)
       if (!isEdit.value) {
-        data = checkNOmitFromObj(normalizeStructure(input), filePaths)
+        data = checkNOmitFromObj(data, filePaths)
       }
       props.gatewayName ? await submitGatewayListenerInfo(data) : await submitListener(data)
       ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
@@ -313,6 +316,7 @@ export default (props: Props, emit: Emit): UseListenerDialogReturns => {
     } else {
       // for prevent form throw error
       listenerRecord.value = createRawListener()
+      listenerCustomConfigs.value = {}
       isLoading.value = false
     }
   })

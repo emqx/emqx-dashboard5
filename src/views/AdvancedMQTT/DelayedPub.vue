@@ -99,6 +99,7 @@ const updateDelayedConfig = async function () {
     saveLoading.value = true
     await requestUpdateConfig(delayedConfig)
     ElMessage({ type: 'success', message: t('Base.updateSuccess') })
+    setRawData(delayedConfig)
   } catch (error) {
     //
   } finally {

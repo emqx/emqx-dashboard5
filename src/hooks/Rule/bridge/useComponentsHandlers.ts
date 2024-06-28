@@ -3,10 +3,11 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { FormItemRule } from 'element-plus'
-import { cloneDeep, get, pick } from 'lodash'
+import { cloneDeep, escapeRegExp, get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 import { useAvailableProviders } from '../useProvidersForMonaco'
 import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
@@ -75,6 +76,21 @@ export default (
     }, [])
   }
 
+  const setComponentProps = (prop: Property, componentProps: Record<string, any>) => {
+    prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
+  }
+  const addRules = (rulesNeedAdd: FormRules, totalRules: FormRules) => {
+    Object.entries(rulesNeedAdd).forEach(([key, value]) => {
+      if (!totalRules[key]) {
+        totalRules[key] = []
+      }
+      if (Array.isArray(value)) {
+        totalRules[key].push(...value)
+      }
+    })
+  }
+
+  const { availablePlaceholders } = useSQLAvailablePlaceholder()
   const { completionProvider } = useAvailableProviders()
   const { availableFields } = useSQLAvailablePlaceholder()
 
@@ -89,15 +105,9 @@ export default (
         prop.format === 'sql' &&
         prop.is_template
       ) {
-        if (!prop.componentProps) {
-          prop.componentProps = {}
-        }
-        prop.componentProps.completionProvider = completionProvider
+        setComponentProps(prop, { completionProvider })
       } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
-        if (!prop.componentProps) {
-          prop.componentProps = {}
-        }
-        prop.componentProps.supportPlaceholder = ['key', 'value']
+        setComponentProps(prop, { supportPlaceholder: ['key', 'value'] })
       }
     }
 
@@ -133,13 +143,17 @@ export default (
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
       qos.type = 'enum'
-      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
-      qos.componentProps = { filterable: true, allowCreate: true }
+      qos.symbols = [
+        ...(getSymbolsFromOneOfArr(qos.oneOf) || []),
+        '${qos}',
+        ...availablePlaceholders.value,
+      ]
+      setComponentProps(qos, { filterable: true, allowCreate: true })
     }
     if (retain?.type === 'oneof') {
       retain.type = 'enum'
-      retain.symbols = [true, false, '${flags.retain}']
-      retain.componentProps = { filterable: true, allowCreate: true }
+      retain.symbols = [true, false, '${flags.retain}', ...availablePlaceholders.value]
+      setComponentProps(retain, { filterable: true, allowCreate: true })
     }
     // for detect whether it is source or action
     if (topic && !payload) {
@@ -401,6 +415,27 @@ export default (
     return { components, rules }
   }
 
+  const enum S3AggKeyPlaceholder {
+    Action = '${action}',
+    Node = '${node}',
+    DataTime = '${datetime.{format}}',
+    DateTimeUntil = '${datetime_until.{format}}',
+    Sequence = '${sequence}',
+  }
+  const s3AggKeyRequiredPlaceholder = [
+    S3AggKeyPlaceholder.Action,
+    S3AggKeyPlaceholder.Node,
+    S3AggKeyPlaceholder.DataTime,
+    S3AggKeyPlaceholder.Sequence,
+  ]
+  const s3AggKeyRequiredReg = s3AggKeyRequiredPlaceholder.map((item) => {
+    if (item === S3AggKeyPlaceholder.DataTime) {
+      return new RegExp(escapeRegExp(item).replace('\\{format\\}', '\\w+'))
+    }
+    return new RegExp(escapeRegExp(item))
+  })
+  const timeFormat = ['rfc3339utc', 'rfc3339', 'unix']
+
   const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
@@ -425,6 +460,7 @@ export default (
 
     const aggItem = parameters?.oneOf?.find((item) => /aggregated/i.test(item.$ref || ''))
     const aggType = aggItem?.properties?.container?.properties?.type
+    const aggKeyPara = aggItem?.properties?.key
     const columnOrder = aggItem?.properties?.container?.properties?.column_order
     if (columnOrder) {
       if (!columnOrder.componentProps) {
@@ -435,6 +471,39 @@ export default (
     if (aggType) {
       aggType.title = tl('aggregationSettings')
     }
+    if (aggKeyPara) {
+      aggKeyPara.labelKey = 'aggregated_key'
+      setComponentProps(aggKeyPara, {
+        customPlaceholders: [
+          S3AggKeyPlaceholder.Action,
+          S3AggKeyPlaceholder.Node,
+          ...timeFormat.map((f) => S3AggKeyPlaceholder.DataTime.replace('{format}', f)),
+          ...timeFormat.map((f) => S3AggKeyPlaceholder.DateTimeUntil.replace('{format}', f)),
+          S3AggKeyPlaceholder.Sequence,
+        ],
+      })
+      aggKeyPara.default = '${action}/${node}/${datetime.rfc3339utc}_N${sequence}.csv'
+    }
+    if (aggItem?.rules) {
+      addRules(
+        {
+          'parameters.key': [
+            {
+              validator(rules, value, cb) {
+                cb(
+                  !s3AggKeyRequiredReg.every((reg) => reg.test(value))
+                    ? new Error(tl('somePlaceholderRequired'))
+                    : undefined,
+                )
+              },
+              trigger: 'blur',
+            },
+          ],
+        },
+        aggItem.rules,
+      )
+    }
+
     return { components, rules }
   }
 

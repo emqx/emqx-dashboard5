@@ -36,7 +36,6 @@
         v-if="editingMethod === EditingMethod.Flow"
         :data="flowData"
       />
-      <SQLEditor v-if="editingMethod === EditingMethod.SQL" />
     </div>
   </div>
   <FlowNameDialog
@@ -62,7 +61,6 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FlowEditor from './components/FlowEditor.vue'
 import FlowNameDialog from './components/FlowNameDialog.vue'
-import SQLEditor from './components/SQLEditor.vue'
 
 interface FlowBasicInfo {
   name: string

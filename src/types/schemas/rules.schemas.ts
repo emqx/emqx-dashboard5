@@ -190,6 +190,7 @@ export type RuleEngineRuleTestContext =
   | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxDeliveryDropped
   | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
   | RuleEngineCtxCheckAuthzComplete
   | RuleEngineCtxConnack
   | RuleEngineCtxDisconnected
@@ -250,6 +251,7 @@ export const RuleEngineRuleEventsEvent = {
   '$events/message_delivered': '$events/message_delivered',
   '$events/message_acked': '$events/message_acked',
   '$events/message_dropped': '$events/message_dropped',
+  '$events/message_transformation_failed': '$events/message_transformation_failed',
   '$events/schema_validation_failed': '$events/schema_validation_failed',
   '$events/delivery_dropped': '$events/delivery_dropped',
 } as const
@@ -401,21 +403,6 @@ export interface RuleEngineCtxSchemaValidationFailed {
   publish_received_at?: number
   qos?: number
 }
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxPub
 
 export type RuleEngineCtxPubEventType =
   typeof RuleEngineCtxPubEventType[keyof typeof RuleEngineCtxPubEventType]
@@ -587,6 +574,24 @@ export interface RuleEngineCtxCheckAuthzComplete {
   result?: string
 }
 
+export type RuleEngineCtxCheckAuthnCompleteEventType =
+  typeof RuleEngineCtxCheckAuthnCompleteEventType[keyof typeof RuleEngineCtxCheckAuthnCompleteEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxCheckAuthnCompleteEventType = {
+  client_check_authn_complete: 'client_check_authn_complete',
+} as const
+
+export interface RuleEngineCtxCheckAuthnComplete {
+  event_type: RuleEngineCtxCheckAuthnCompleteEventType
+  clientid?: string
+  username?: string
+  reason_code?: string
+  peername?: string
+  is_anonymous?: boolean
+  is_superuser?: boolean
+}
+
 export type RuleEngineCtxBridgeMqttEventType =
   typeof RuleEngineCtxBridgeMqttEventType[keyof typeof RuleEngineCtxBridgeMqttEventType]
 
@@ -606,6 +611,22 @@ export interface RuleEngineCtxBridgeMqtt {
   message_received_at?: number
   qos?: number
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
 
 export type RuleEngineCtxAckedEventType =
   typeof RuleEngineCtxAckedEventType[keyof typeof RuleEngineCtxAckedEventType]
