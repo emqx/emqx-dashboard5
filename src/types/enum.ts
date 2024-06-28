@@ -140,6 +140,7 @@ export enum BridgeType {
   SysKeeperForwarder = 'syskeeper_forwarder',
   Elasticsearch = 'elasticsearch',
   S3 = 's3',
+  AzureBlobStorage = 'azure_blob_storage',
 }
 
 export enum PulsarType {

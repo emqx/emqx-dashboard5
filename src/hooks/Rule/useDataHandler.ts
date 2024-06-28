@@ -291,6 +291,7 @@ export const useActionDataHandler = (): {
     [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.S3, handleS3ActionData],
+    [BridgeType.AzureBlobStorage, handleS3ActionData],
   ])
 
   /**
