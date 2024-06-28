@@ -436,6 +436,25 @@ export default (
   })
   const timeFormat = ['rfc3339utc', 'rfc3339', 'unix']
 
+  const S3SpecialPlaceholder = [
+    S3AggKeyPlaceholder.Action,
+    S3AggKeyPlaceholder.Node,
+    ...timeFormat.map((f) => S3AggKeyPlaceholder.DataTime.replace('{format}', f)),
+    ...timeFormat.map((f) => S3AggKeyPlaceholder.DateTimeUntil.replace('{format}', f)),
+    S3AggKeyPlaceholder.Sequence,
+  ]
+  const S3SpecialPlaceholderDefault = '${action}/${node}/${datetime.rfc3339utc}_N${sequence}.csv'
+  const S3SpecialPlaceholderRule: FormItemRule = {
+    validator(rules, value, cb) {
+      cb(
+        !s3AggKeyRequiredReg.every((reg) => reg.test(value))
+          ? new Error(tl('somePlaceholderRequired'))
+          : undefined,
+      )
+    },
+    trigger: 'blur',
+  }
+
   const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
@@ -444,19 +463,12 @@ export default (
     if (parameters && directItem) {
       parameters.default = cloneDeep(directItem.default)
       parameters.useNewCom = true
-      if (!parameters.componentProps) {
-        parameters.componentProps = {}
-      }
-      parameters.componentProps.type = 'radio'
+      setComponentProps(parameters, { type: 'radio' })
 
       if (directItem?.properties?.content?.type === 'string') {
         directItem.properties.content.format = 'sql'
       }
     }
-    // const batchSize = components?.resource_opts?.properties?.batch_size
-    // if (batchSize && batchSize.default > 1) {
-    //   batchSize.default = 1
-    // }
 
     const aggItem = parameters?.oneOf?.find((item) => /aggregated/i.test(item.$ref || ''))
     const aggType = aggItem?.properties?.container?.properties?.type
@@ -473,35 +485,52 @@ export default (
     }
     if (aggKeyPara) {
       aggKeyPara.labelKey = 'aggregated_key'
-      setComponentProps(aggKeyPara, {
-        customPlaceholders: [
-          S3AggKeyPlaceholder.Action,
-          S3AggKeyPlaceholder.Node,
-          ...timeFormat.map((f) => S3AggKeyPlaceholder.DataTime.replace('{format}', f)),
-          ...timeFormat.map((f) => S3AggKeyPlaceholder.DateTimeUntil.replace('{format}', f)),
-          S3AggKeyPlaceholder.Sequence,
-        ],
-      })
-      aggKeyPara.default = '${action}/${node}/${datetime.rfc3339utc}_N${sequence}.csv'
+      setComponentProps(aggKeyPara, { customPlaceholders: S3SpecialPlaceholder })
+      aggKeyPara.default = S3SpecialPlaceholderDefault
     }
     if (aggItem?.rules) {
-      addRules(
-        {
-          'parameters.key': [
-            {
-              validator(rules, value, cb) {
-                cb(
-                  !s3AggKeyRequiredReg.every((reg) => reg.test(value))
-                    ? new Error(tl('somePlaceholderRequired'))
-                    : undefined,
-                )
-              },
-              trigger: 'blur',
-            },
-          ],
-        },
-        aggItem.rules,
-      )
+      addRules({ 'parameters.key': [S3SpecialPlaceholderRule] }, aggItem.rules)
+    }
+
+    return { components, rules }
+  }
+
+  const azureBlobHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+    const { parameters } = components
+    const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
+
+    if (parameters && directItem) {
+      parameters.default = cloneDeep(directItem.default)
+      parameters.useNewCom = true
+      setComponentProps(parameters, { type: 'radio' })
+
+      if (directItem?.properties?.content?.type === 'string') {
+        directItem.properties.content.format = 'sql'
+      }
+    }
+
+    const aggItem = parameters?.oneOf?.find((item) => /aggre/i.test(item.$ref || ''))
+    const aggType = aggItem?.properties?.aggregation?.properties?.container?.properties?.type
+    const blobPara = aggItem?.properties?.blob
+    const columnOrder =
+      aggItem?.properties?.aggregation?.properties?.container?.properties?.column_order
+    if (columnOrder) {
+      if (!columnOrder.componentProps) {
+        columnOrder.componentProps = {}
+      }
+      columnOrder.componentProps.default = availableFields.value
+    }
+    if (aggType) {
+      aggType.title = tl('aggregationSettings')
+    }
+    if (blobPara) {
+      blobPara.labelKey = 'aggregated_blob'
+      setComponentProps(blobPara, { customPlaceholders: S3SpecialPlaceholder })
+      blobPara.default = S3SpecialPlaceholderDefault
+    }
+    if (aggItem?.rules) {
+      addRules({ 'parameters.blob': [S3SpecialPlaceholderRule] }, aggItem.rules)
     }
 
     return { components, rules }
@@ -542,6 +571,7 @@ export default (
     [BridgeType.Elasticsearch]: elasticsearchHandler,
     [BridgeType.OpenTSDB]: openTSDBHandler,
     [BridgeType.S3]: S3Handler,
+    [BridgeType.AzureBlobStorage]: azureBlobHandler,
     [BridgeType.Pulsar]: pulsarHandler,
   }
 

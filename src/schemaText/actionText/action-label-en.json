@@ -51,5 +51,8 @@
   },
   "s3": {
     "aggregated_key": "Object Key"
+  },
+  "azure_blob_storage": {
+    "aggregated_blob": "Blob Name"
   }
 }

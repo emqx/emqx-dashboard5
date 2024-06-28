@@ -260,6 +260,20 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.AzureBlobStorage]: createOrderObj(
+      [
+        'parameters',
+        'container',
+        'blob',
+        'content',
+        'type',
+        'column_order',
+        'aggregation',
+        'max_records',
+        'time_interval',
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.Pulsar]: createOrderObj(
       [
         ...getPathArrInParameters([
@@ -285,6 +299,12 @@ export default (
   })
 
   const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
+  const S3ColClassMap = (formData: Record<string, any>): Record<string, string> => {
+    if (/direct/i.test(formData?.parameters?.mode)) {
+      return { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' }
+    }
+    return { 'parameters.mode': 'col-hidden' }
+  }
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -294,12 +314,8 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
-    [BridgeType.S3]: (formData: Record<string, any>): Record<string, string> => {
-      if (/direct/i.test(formData?.parameters?.mode)) {
-        return { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' }
-      }
-      return { 'parameters.mode': 'col-hidden' }
-    },
+    [BridgeType.S3]: S3ColClassMap,
+    [BridgeType.AzureBlobStorage]: S3ColClassMap,
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
