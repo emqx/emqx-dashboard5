@@ -129,6 +129,19 @@ export type PutAuthorizationSourcesOrder400 = {
   message?: string
 }
 
+export type DeleteAuthorizationSourcesType400Code =
+  typeof DeleteAuthorizationSourcesType400Code[keyof typeof DeleteAuthorizationSourcesType400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesType400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteAuthorizationSourcesType400 = {
+  code?: DeleteAuthorizationSourcesType400Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesType400Code =
   typeof PutAuthorizationSourcesType400Code[keyof typeof PutAuthorizationSourcesType400Code]
 
@@ -185,19 +198,6 @@ export type GetAuthorizationSourcesType200 =
   | AuthzBuiltinDb
   | AuthzApiFile
 
-export type DeleteAuthorizationSourcesType400Code =
-  typeof DeleteAuthorizationSourcesType400Code[keyof typeof DeleteAuthorizationSourcesType400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesType400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteAuthorizationSourcesType400 = {
-  code?: DeleteAuthorizationSourcesType400Code
-  message?: string
-}
-
 export type PostAuthorizationSourcesTypeMove404Code =
   typeof PostAuthorizationSourcesTypeMove404Code[keyof typeof PostAuthorizationSourcesTypeMove404Code]
 
@@ -237,32 +237,6 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRules400 = {
   message?: string
 }
 
-export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
-  typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
-  code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
-  message?: string
-}
-
-export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
-  typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
-  code?: GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
-  message?: string
-}
-
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
   typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
 
@@ -286,6 +260,32 @@ export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code 
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
   code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
+  message?: string
+}
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
+  typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
+  typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
   message?: string
 }
 
@@ -343,32 +343,6 @@ export type GetAuthorizationSourcesTypeStatus400 = {
   message?: string
 }
 
-export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
-  typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
-  code?: PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code
-  message?: string
-}
-
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
-  typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
-  code?: GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code
-  message?: string
-}
-
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
   typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
 
@@ -392,6 +366,32 @@ export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Cod
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
   code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code
+  message?: string
+}
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
+  typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
+  typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code
   message?: string
 }
 

@@ -12,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EMQX_NAME: ${{ inputs.emqx-name }}
-      OTP_VSN: '25.3.2-2'
+      OTP_VSN: '26.2.5-3'
       ELIXIR_VSN: '1.15.7'
+
 
     steps:
       - name: checkout emqx code

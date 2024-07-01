@@ -815,6 +815,7 @@ export interface EmqxMqtt {
   response_information?: string
   server_keepalive?: EmqxMqttServerKeepalive
   keepalive_multiplier?: number
+  keepalive_check_interval?: string
   retry_interval?: string
   use_username_as_clientid?: boolean
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername

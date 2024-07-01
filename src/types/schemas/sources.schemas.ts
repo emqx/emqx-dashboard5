@@ -234,6 +234,42 @@ export type DeleteSourcesIdParams = {
   also_delete_dep_actions?: boolean
 }
 
+export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSourcesId404 = {
+  code?: PutSourcesId404Code
+  message?: string
+}
+
+export type PutSourcesId400Code = typeof PutSourcesId400Code[keyof typeof PutSourcesId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutSourcesId400 = {
+  code?: PutSourcesId400Code
+  message?: string
+}
+
+export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSourcesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetSourcesId404 = {
+  code?: GetSourcesId404Code
+  message?: string
+}
+
 export type PostSources400Code = typeof PostSources400Code[keyof typeof PostSources400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
