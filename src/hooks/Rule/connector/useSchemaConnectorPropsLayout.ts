@@ -88,7 +88,7 @@ export default (
     ...createOrderObj(azureAdvancedProps, 150),
   }
   const pgSqlOrderMap = createOrderObj(
-    ['server', 'database', 'username', 'password', 'disable_prepared_statements', 'ssl'],
+    ['server', 'database', 'username', 'password', 'ssl', 'disable_prepared_statements'],
     fieldStartIndex,
   )
   const IoTDBOrderMap = createOrderObj(
@@ -273,6 +273,7 @@ export default (
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
   }
 
+  const pgSqlAdvancedFields = ['disable_prepared_statements']
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight'],
     [BridgeType.Webhook]: httpAdvancedProps,
@@ -288,6 +289,9 @@ export default (
     [BridgeType.Elasticsearch]: IoTDBAdvancedProps,
     [BridgeType.RabbitMQ]: ['heartbeat', 'timeout'],
     [BridgeType.S3]: S3AdvancedProps,
+    [BridgeType.PgSQL]: pgSqlAdvancedFields,
+    [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
+    [BridgeType.MatrixDB]: pgSqlAdvancedFields,
   }
 
   const advancedFields = computed(() => {
