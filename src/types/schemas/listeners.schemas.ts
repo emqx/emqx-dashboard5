@@ -12,6 +12,13 @@ export type PostListenersId400 = {
   message?: string
 }
 
+export type PostListenersId200 =
+  | ListenersWssRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersQuicRequiredBind
+
 export type PostListenersIdBody =
   | ListenersWssRequiredBind
   | ListenersWsRequiredBind
@@ -58,41 +65,6 @@ export type PutListenersId400 = {
 }
 
 export type PutListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
-
-export type PutListenersIdBody =
-  | ListenersWssNotRequiredBind
-  | ListenersWsNotRequiredBind
-  | ListenersTcpNotRequiredBind
-  | ListenersSslNotRequiredBind
-  | ListenersQuicNotRequiredBind
-
-export type PostListenersId400Code =
-  typeof PostListenersId400Code[keyof typeof PostListenersId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostListenersId400Code = {
-  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostListenersId400 = {
-  code?: PostListenersId400Code
-  message?: string
-}
-
-export type PostListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersQuicRequiredBind
-
-export type PostListenersIdBody =
   | ListenersWssRequiredBind
   | ListenersWsRequiredBind
   | ListenersTcpRequiredBind

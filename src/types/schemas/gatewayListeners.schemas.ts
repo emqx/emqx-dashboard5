@@ -319,71 +319,6 @@ export type GetGatewaysNameListeners200Item =
   | EmqxGatewayApiListenersSslListener
   | EmqxGatewayApiListenersTcpListener
 
-export type PutGatewaysNameListenersIdAuthentication404Code =
-  typeof PutGatewaysNameListenersIdAuthentication404Code[keyof typeof PutGatewaysNameListenersIdAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameListenersIdAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PutGatewaysNameListenersIdAuthentication404 = {
-  code?: PutGatewaysNameListenersIdAuthentication404Code
-  message?: string
-}
-
-export type PutGatewaysNameListenersIdAuthentication400Code =
-  typeof PutGatewaysNameListenersIdAuthentication400Code[keyof typeof PutGatewaysNameListenersIdAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameListenersIdAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutGatewaysNameListenersIdAuthentication400 = {
-  code?: PutGatewaysNameListenersIdAuthentication400Code
-  message?: string
-}
-
-export type PutGatewaysNameListenersIdAuthentication200 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameListenersIdAuthenticationBody =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type PostGatewaysNameListenersIdAuthentication404Code =
   typeof PostGatewaysNameListenersIdAuthentication404Code[keyof typeof PostGatewaysNameListenersIdAuthentication404Code]
 
@@ -504,6 +439,7 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -522,6 +458,7 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -2061,6 +1998,15 @@ export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
   enable?: boolean
 }
+
+export type AuthnBuiltinDbBootstrapType =
+  typeof AuthnBuiltinDbBootstrapType[keyof typeof AuthnBuiltinDbBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
 
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]

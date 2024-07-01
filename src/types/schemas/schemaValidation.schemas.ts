@@ -24,6 +24,19 @@ export type PostSchemaValidationsValidationNameEnableEnable400 = {
   message?: string
 }
 
+export type PostSchemaValidations400Code =
+  typeof PostSchemaValidations400Code[keyof typeof PostSchemaValidations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaValidations400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostSchemaValidations400 = {
+  code?: PostSchemaValidations400Code
+  message?: string
+}
+
 export type PutSchemaValidations404Code =
   typeof PutSchemaValidations404Code[keyof typeof PutSchemaValidations404Code]
 
@@ -50,16 +63,16 @@ export type PutSchemaValidations400 = {
   message?: string
 }
 
-export type PostSchemaValidations400Code =
-  typeof PostSchemaValidations400Code[keyof typeof PostSchemaValidations400Code]
+export type DeleteSchemaValidationsValidationName404Code =
+  typeof DeleteSchemaValidationsValidationName404Code[keyof typeof DeleteSchemaValidationsValidationName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSchemaValidations400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
+export const DeleteSchemaValidationsValidationName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type PostSchemaValidations400 = {
-  code?: PostSchemaValidations400Code
+export type DeleteSchemaValidationsValidationName404 = {
+  code?: DeleteSchemaValidationsValidationName404Code
   message?: string
 }
 
@@ -73,19 +86,6 @@ export const GetSchemaValidationsValidationName404Code = {
 
 export type GetSchemaValidationsValidationName404 = {
   code?: GetSchemaValidationsValidationName404Code
-  message?: string
-}
-
-export type DeleteSchemaValidationsValidationName404Code =
-  typeof DeleteSchemaValidationsValidationName404Code[keyof typeof DeleteSchemaValidationsValidationName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaValidationsValidationName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaValidationsValidationName404 = {
-  code?: DeleteSchemaValidationsValidationName404Code
   message?: string
 }
 
