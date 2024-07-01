@@ -24,32 +24,6 @@ export type GetMqttRetainer404 = {
   message?: string
 }
 
-export type GetMqttRetainerMessageTopic404Code =
-  typeof GetMqttRetainerMessageTopic404Code[keyof typeof GetMqttRetainerMessageTopic404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttRetainerMessageTopic404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMqttRetainerMessageTopic404 = {
-  code?: GetMqttRetainerMessageTopic404Code
-  message?: string
-}
-
-export type GetMqttRetainerMessageTopic400Code =
-  typeof GetMqttRetainerMessageTopic400Code[keyof typeof GetMqttRetainerMessageTopic400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttRetainerMessageTopic400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetMqttRetainerMessageTopic400 = {
-  code?: GetMqttRetainerMessageTopic400Code
-  message?: string
-}
-
 export type DeleteMqttRetainerMessageTopic404Code =
   typeof DeleteMqttRetainerMessageTopic404Code[keyof typeof DeleteMqttRetainerMessageTopic404Code]
 
@@ -73,6 +47,32 @@ export const DeleteMqttRetainerMessageTopic400Code = {
 
 export type DeleteMqttRetainerMessageTopic400 = {
   code?: DeleteMqttRetainerMessageTopic400Code
+  message?: string
+}
+
+export type GetMqttRetainerMessageTopic404Code =
+  typeof GetMqttRetainerMessageTopic404Code[keyof typeof GetMqttRetainerMessageTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttRetainerMessageTopic404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMqttRetainerMessageTopic404 = {
+  code?: GetMqttRetainerMessageTopic404Code
+  message?: string
+}
+
+export type GetMqttRetainerMessageTopic400Code =
+  typeof GetMqttRetainerMessageTopic400Code[keyof typeof GetMqttRetainerMessageTopic400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttRetainerMessageTopic400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMqttRetainerMessageTopic400 = {
+  code?: GetMqttRetainerMessageTopic400Code
   message?: string
 }
 

@@ -29,6 +29,33 @@ export type PostGatewaysNameListenersIdAuthenticationImportUsersBody = {
   filename?: Blob
 }
 
+export type DeleteGatewaysNameAuthenticationUsersUid404Code =
+  typeof DeleteGatewaysNameAuthenticationUsersUid404Code[keyof typeof DeleteGatewaysNameAuthenticationUsersUid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameAuthenticationUsersUid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameAuthenticationUsersUid404 = {
+  code?: DeleteGatewaysNameAuthenticationUsersUid404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameAuthenticationUsersUid400Code =
+  typeof DeleteGatewaysNameAuthenticationUsersUid400Code[keyof typeof DeleteGatewaysNameAuthenticationUsersUid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameAuthenticationUsersUid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameAuthenticationUsersUid400 = {
+  code?: DeleteGatewaysNameAuthenticationUsersUid400Code
+  message?: string
+}
+
 export type PutGatewaysNameAuthenticationUsersUid404Code =
   typeof PutGatewaysNameAuthenticationUsersUid404Code[keyof typeof PutGatewaysNameAuthenticationUsersUid404Code]
 
@@ -80,33 +107,6 @@ export const GetGatewaysNameAuthenticationUsersUid400Code = {
 
 export type GetGatewaysNameAuthenticationUsersUid400 = {
   code?: GetGatewaysNameAuthenticationUsersUid400Code
-  message?: string
-}
-
-export type DeleteGatewaysNameAuthenticationUsersUid404Code =
-  typeof DeleteGatewaysNameAuthenticationUsersUid404Code[keyof typeof DeleteGatewaysNameAuthenticationUsersUid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthenticationUsersUid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameAuthenticationUsersUid404 = {
-  code?: DeleteGatewaysNameAuthenticationUsersUid404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameAuthenticationUsersUid400Code =
-  typeof DeleteGatewaysNameAuthenticationUsersUid400Code[keyof typeof DeleteGatewaysNameAuthenticationUsersUid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthenticationUsersUid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameAuthenticationUsersUid400 = {
-  code?: DeleteGatewaysNameAuthenticationUsersUid400Code
   message?: string
 }
 
@@ -202,69 +202,6 @@ export type PostGatewaysNameAuthenticationImportUsersBody = {
   filename?: Blob
 }
 
-export type PutGatewaysNameAuthentication404Code =
-  typeof PutGatewaysNameAuthentication404Code[keyof typeof PutGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PutGatewaysNameAuthentication404 = {
-  code?: PutGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication400Code =
-  typeof PutGatewaysNameAuthentication400Code[keyof typeof PutGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutGatewaysNameAuthentication400 = {
-  code?: PutGatewaysNameAuthentication400Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication200 =
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameAuthenticationBody =
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type PostGatewaysNameAuthentication404Code =
   typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
 
@@ -328,6 +265,96 @@ export type PostGatewaysNameAuthenticationBody =
   | AuthnMysql
   | AuthnBuiltinDb
 
+export type DeleteGatewaysNameAuthentication404Code =
+  typeof DeleteGatewaysNameAuthentication404Code[keyof typeof DeleteGatewaysNameAuthentication404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameAuthentication404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameAuthentication404 = {
+  code?: DeleteGatewaysNameAuthentication404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameAuthentication400Code =
+  typeof DeleteGatewaysNameAuthentication400Code[keyof typeof DeleteGatewaysNameAuthentication400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameAuthentication400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameAuthentication400 = {
+  code?: DeleteGatewaysNameAuthentication400Code
+  message?: string
+}
+
+export type PutGatewaysNameAuthentication404Code =
+  typeof PutGatewaysNameAuthentication404Code[keyof typeof PutGatewaysNameAuthentication404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutGatewaysNameAuthentication404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type PutGatewaysNameAuthentication404 = {
+  code?: PutGatewaysNameAuthentication404Code
+  message?: string
+}
+
+export type PutGatewaysNameAuthentication400Code =
+  typeof PutGatewaysNameAuthentication400Code[keyof typeof PutGatewaysNameAuthentication400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutGatewaysNameAuthentication400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutGatewaysNameAuthentication400 = {
+  code?: PutGatewaysNameAuthentication400Code
+  message?: string
+}
+
+export type PutGatewaysNameAuthentication200 =
+  | AuthnLdapDeprecated
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
+export type PutGatewaysNameAuthenticationBody =
+  | AuthnLdapDeprecated
+  | AuthnLdap
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
 export type GetGatewaysNameAuthentication404Code =
   typeof GetGatewaysNameAuthentication404Code[keyof typeof GetGatewaysNameAuthentication404Code]
 
@@ -372,33 +399,6 @@ export type GetGatewaysNameAuthentication200 =
   | AuthnPostgresql
   | AuthnMysql
   | AuthnBuiltinDb
-
-export type DeleteGatewaysNameAuthentication404Code =
-  typeof DeleteGatewaysNameAuthentication404Code[keyof typeof DeleteGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameAuthentication404 = {
-  code?: DeleteGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameAuthentication400Code =
-  typeof DeleteGatewaysNameAuthentication400Code[keyof typeof DeleteGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameAuthentication400 = {
-  code?: DeleteGatewaysNameAuthentication400Code
-  message?: string
-}
 
 export interface PublicMeta {
   page?: number
@@ -1188,15 +1188,15 @@ export interface AuthnHttpPost {
   body?: AuthnHttpPostBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHttpGetBody = { [key: string]: any }
@@ -1233,15 +1233,15 @@ export interface AuthnHttpGet {
   body?: AuthnHttpGetBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]
@@ -1256,6 +1256,15 @@ export interface AuthnHashMethod {
   password_attribute?: string
   is_superuser_attribute?: string
 }
+
+export type AuthnBuiltinDbBootstrapType =
+  typeof AuthnBuiltinDbBootstrapType[keyof typeof AuthnBuiltinDbBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
 
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]
@@ -1292,6 +1301,8 @@ export interface AuthnBuiltinDb {
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
   enable?: boolean
+  bootstrap_file?: string
+  bootstrap_type?: AuthnBuiltinDbBootstrapType
 }
 
 export type AuthnBindMethodType = typeof AuthnBindMethodType[keyof typeof AuthnBindMethodType]
