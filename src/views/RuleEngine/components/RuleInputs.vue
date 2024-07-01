@@ -16,13 +16,23 @@
               <el-button size="small" :disabled="disabled" @click="editInput($index)">
                 {{ $t('Base.edit') }}
               </el-button>
-              <el-button size="small" plain :disabled="disabled" @click="deleteInput($index)">
+              <el-button
+                size="small"
+                plain
+                :disabled="!$hasPermission('put') || disabled"
+                @click="deleteInput($index)"
+              >
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
           </div>
         </template>
-        <el-button class="btn-add" type="primary" :disabled="disabled" @click="addInput()">
+        <el-button
+          class="btn-add"
+          type="primary"
+          :disabled="!$hasPermission('post') || disabled"
+          @click="addInput()"
+        >
           <el-icon><plus /></el-icon>
           <span>{{ tl('addInput') }}</span>
         </el-button>
