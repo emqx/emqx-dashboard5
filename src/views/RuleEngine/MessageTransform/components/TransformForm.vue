@@ -298,6 +298,12 @@ const rules: FormRules = {
       required: true,
     },
   ],
+  'payload_decoder.type': createRequiredRule(tl('inputFormat'), 'select'),
+  'payload_decoder.schema': createRequiredRule('Schema', 'select'),
+  'payload_decoder.message_type': createRequiredRule(tl('messageType')),
+  'payload_encoder.type': createRequiredRule(tl('outputFormat'), 'select'),
+  'payload_encoder.schema': createRequiredRule('Schema', 'select'),
+  'payload_encoder.message_type': createRequiredRule(tl('messageType')),
   operations: [
     {
       type: 'array',
@@ -344,7 +350,7 @@ const rules: FormRules = {
   ],
 }
 
-const arrayItemRule = {}
+const arrayItemRule = { topic: createRequiredRule(t('Base.topic')) }
 
 const { failureActionOpts } = useFailureAction()
 const { messageTransformLogLevelOpts: rawMessageTransformLogLevelOpts } =

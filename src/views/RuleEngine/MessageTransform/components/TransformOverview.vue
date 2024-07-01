@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import {
-getMessageTransformMetrics,
-resetMessageTransformMetrics,
+  getMessageTransformMetrics,
+  resetMessageTransformMetrics,
 } from '@/api/messageTransformation'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
