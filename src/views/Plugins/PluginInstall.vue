@@ -3,7 +3,7 @@
     <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
     <el-card class="app-card plugin-install-card">
       <el-upload
-        class="plugin-uploader"
+        class="object-uploader plugin-uploader"
         drag
         :before-upload="setFile"
         :file-list="fileList"
@@ -92,40 +92,6 @@ const submit = async () => {
 }
 .plugin-uploader {
   margin-bottom: 24px;
-}
-.upload-tip {
-  width: 540px;
-  margin-bottom: 24px;
-  font-size: 14px;
-  line-height: 20px;
-}
-.plugin-uploader {
-  width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  .icon-plus {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin-right: auto;
-    margin-left: auto;
-    color: var(--color-text-placeholder);
-    margin-bottom: 12px;
-  }
-  .upload-placeholder {
-    color: var(--color-text-placeholder);
-    font-size: 16px;
-  }
-  :deep(.el-upload) {
-    width: 100%;
-    .el-upload-dragger {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 200px;
-    }
-  }
 }
 .file-name {
   padding: 0 28px;

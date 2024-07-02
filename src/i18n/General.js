@@ -507,4 +507,44 @@ export default {
     zh: '持久会话中消息保留时长，超期的消息不会发送到订阅者。',
     en: 'The duration of message retention in a persistent session,  messages that expire are not delivered to subscribers.',
   },
+  version: {
+    zh: '版本号',
+    en: 'Version',
+  },
+  availableVersions: {
+    zh: '适用版本',
+    en: 'Available Versions',
+  },
+  buildDate: {
+    zh: '构建日期',
+    en: 'Build Date',
+  },
+  upgradePackageUpload: {
+    zh: '升级包上传',
+    en: 'Upgrade Package Upload',
+  },
+  currentVersion: {
+    zh: '当前版本',
+    en: 'Current Version',
+  },
+  upgradeableVersion: {
+    zh: '可升级版本',
+    en: 'Upgradeable Version',
+  },
+  packageTip: {
+    zh: '请上传 EMQ 支持人员提供的 .tar.gz 格式的升级包',
+    en: 'Please upload the .tar.gz upgrade package provided by EMQ support',
+  },
+  selectUpgradePackage: {
+    zh: '选择升级包',
+    en: 'Select Upgrade Package',
+  },
+  upgradePackageInfo: {
+    zh: '升级包信息',
+    en: 'Upgrade Package Information',
+  },
+  startUpgrade: {
+    zh: '开始升级',
+    en: 'Start Upgrade',
+  },
 }
