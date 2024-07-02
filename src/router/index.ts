@@ -773,6 +773,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/cluster-link',
+    component: Layout,
+    meta: {
+      hideKey: 'cluster-link',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'cluster-link',
+        component: () => import('@/views/Config/ClusterLink/ClusterLink.vue'),
+      },
+    ],
+  },
   // Schema Validation
   {
     path: '/schema-validation',

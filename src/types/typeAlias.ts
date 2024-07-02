@@ -32,6 +32,7 @@ import {
   SsoOidcProvider,
   SsoOidcBackend,
 } from './schemas/dashboardSingleSignOn.schemas'
+import { ClusterLink as TypeClusterLink } from './schemas/cluster.schemas'
 
 export type OverrideProperties<
   T,
@@ -76,3 +77,6 @@ export type MessageTransform = OverrideProperties<
 export type MessageTransformOperation = MessageTransformationOperation
 export const MessageTransformFailureAction = MessageTransformationTransformationFailureAction
 export const MessageTransformLogLevel = MessageTransformationLogFailureLevel
+
+/* CLUSTER LINK */
+export type ClusterLink = TypeClusterLink
