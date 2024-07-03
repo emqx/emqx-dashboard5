@@ -207,6 +207,18 @@ export default {
     zh: '备份与恢复',
     en: 'Backup & Restore',
   },
+  'hot-upgrade': {
+    zh: '热升级',
+    en: 'Hot Upgrade',
+  },
+  'hot-upgrade-nodes': {
+    zh: '升级管理',
+    en: 'Upgrade Nodes',
+  },
+  'hot-upgrade-packages': {
+    zh: '升级包管理',
+    en: 'Upgrade Packages',
+  },
   users: {
     zh: '用户',
     en: 'Users',
