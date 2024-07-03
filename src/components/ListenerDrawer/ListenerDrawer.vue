@@ -117,27 +117,36 @@
         <el-col :span="12" />
         <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
           <el-form-item :label="t('Gateway.maxConnRate')" prop="max_conn_rate">
-            <InputWithUnit
+            <Oneof
+              class="in-one-row"
               v-model="listenerRecord.max_conn_rate"
-              :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
+              :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubRate')" prop="messages_rate">
-            <InputWithUnit
+            <Oneof
+              class="in-one-row"
               v-model="listenerRecord.messages_rate"
-              :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
+              :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubTraffic')" prop="bytes_rate">
-            <InputWithUnit
+            <Oneof
+              class="in-one-row"
               v-model="listenerRecord.bytes_rate"
-              :units="[
-                { label: `MB/${t('Base.second')}`, value: 'MB/s' },
-                { label: `KB/${t('Base.second')}`, value: 'KB/s' },
+              :items="[
+                {
+                  type: 'rate',
+                  units: [
+                    { label: `MB/${t('Base.second')}`, value: 'MB/s' },
+                    { label: `KB/${t('Base.second')}`, value: 'KB/s' },
+                  ],
+                },
+                { symbols: [INFINITY_VALUE], type: 'enum' },
               ]"
             />
           </el-form-item>

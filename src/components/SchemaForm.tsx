@@ -173,7 +173,7 @@ const SchemaForm = defineComponent({
       props.needRules,
     )
 
-    const { createInitValueByType, initRecordByComponents } = useSchemaRecord()
+    const { initRecordByComponents } = useSchemaRecord()
 
     let formEle: any = null
 
