@@ -384,7 +384,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Users
+  // Backup
   {
     path: '/backup',
     component: Layout,
@@ -397,6 +397,29 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'backup',
         component: () => import('@/views/General/Backup.vue'),
+      },
+    ],
+  },
+  // Hot Upgrade
+  {
+    path: '/hot-upgrade',
+    redirect: '/hot-upgrade/nodes',
+    component: Layout,
+    meta: {
+      hideKey: 'hot-upgrade',
+      authRequired: true,
+      subMenu: true,
+    },
+    children: [
+      {
+        path: 'nodes',
+        name: 'hot-upgrade-nodes',
+        component: () => import('@/views/General/HotUpgrade.vue'),
+      },
+      {
+        path: 'packages',
+        name: 'hot-upgrade-packages',
+        component: () => import('@/views/General/UpgradePackages.vue'),
       },
     ],
   },
