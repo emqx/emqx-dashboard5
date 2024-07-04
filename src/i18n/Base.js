@@ -687,4 +687,16 @@ export default {
     zh: '至少选择一列',
     en: 'At least one column is required',
   },
+  min: {
+    zh: '最小值',
+    en: 'Minimum',
+  },
+  avg: {
+    zh: '平均值',
+    en: 'Average',
+  },
+  last: {
+    zh: '末尾值',
+    en: 'Last',
+  },
 }
