@@ -199,7 +199,7 @@ const drawChart = () => {
           title: '',
           emphasis: {
             iconStyle: {
-              borderColor: '#00b173',
+              borderColor: '#5e4eff',
             },
           },
         },
@@ -209,7 +209,7 @@ const drawChart = () => {
           title: '',
           emphasis: {
             iconStyle: {
-              borderColor: '#00b173',
+              borderColor: '#5e4eff',
             },
           },
         },
