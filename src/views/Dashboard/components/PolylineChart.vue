@@ -11,16 +11,18 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, ref, watch, onMounted, PropType, Ref } from 'vue'
+import { defineProps, ref, watch, onMounted, PropType, Ref, defineExpose, computed } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
+import 'echarts/lib/component/toolbox'
 import useEchartResize from '@/hooks/useEchartResize'
 import useI18nTl from '@/hooks/useI18nTl'
 import { isUndefined } from 'lodash'
 import Moment from 'moment'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   chartId: {
@@ -61,11 +63,22 @@ const props = defineProps({
   unitTextKey: {
     type: String,
   },
+  showFullScreen: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const store = useStore()
+const theme = computed(() => {
+  return store.state.theme
 })
 
 const seriesConfig: Ref<Array<any>> = ref([])
 const chart: Ref<undefined | any> = shallowRef(undefined)
 const { addListener } = useEchartResize()
+
+defineExpose({ chart })
 
 watch(
   () => props.chartData,
@@ -166,10 +179,11 @@ const drawChart = () => {
   let Dom = document.getElementById(props.chartId)
 
   if (!chart.value) {
-    chart.value = echarts.init(Dom)
+    chart.value = echarts.init(Dom, theme.value === 'dark' ? 'dark' : 'light')
     addListener(chart.value)
   }
   const option = {
+    backgroundColor: 'transparent',
     color: props.chartColors,
     grid: {
       top: '5%',
@@ -178,9 +192,50 @@ const drawChart = () => {
       left: 24,
       containLabel: true,
     },
+    toolbox: {
+      feature: {
+        saveAsImage: {
+          show: props.showFullScreen,
+          title: '',
+          emphasis: {
+            iconStyle: {
+              borderColor: '#00b173',
+            },
+          },
+        },
+        dataZoom: {
+          show: props.showFullScreen,
+          yAxisIndex: false,
+          title: '',
+          emphasis: {
+            iconStyle: {
+              borderColor: '#00b173',
+            },
+          },
+        },
+      },
+    },
     tooltip: {
       trigger: 'axis',
       confine: true,
+      axisPointer: {
+        type: 'cross',
+        label: {
+          show: props.showFullScreen,
+          formatter(params: { value: string | number; axisDimension: string }) {
+            const { value, axisDimension } = params
+            if (axisDimension === 'x') {
+              return `${_formatTime(value as string, 'MM/DD')} ${_formatTime(
+                value as string,
+                'HH:mm',
+              )}`.trim()
+            } else if (axisDimension === 'y') {
+              return `${Math.round(value as number)}`.trim()
+            }
+            return ''
+          },
+        },
+      },
       formatter: (params: Array<any>) => {
         if (!params[0]) {
           return ''
@@ -221,6 +276,9 @@ const drawChart = () => {
           return `${_formatTime(value, 'MM/DD')} ${_formatTime(value, 'HH:mm')}`
         },
       },
+      splitLine: {
+        show: props.showFullScreen,
+      },
     },
     yAxis: {
       type: 'value',
@@ -230,7 +288,7 @@ const drawChart = () => {
         },
       },
       splitLine: {
-        show: false,
+        show: props.showFullScreen,
       },
       axisLabel: {
         color: props.axisColor.colorAxisLabel,

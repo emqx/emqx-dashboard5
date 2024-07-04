@@ -739,4 +739,12 @@ export default {
     zh: '查看各节点的版本信息。',
     en: ' to check the version information of each node.',
   },
+  chartMessages: {
+    zh: '显示每 10 秒或 20 秒内 {type} 的总数。',
+    en: 'Displays the total number of {type} every 10 or 20 seconds.',
+  },
+  chartConnection: {
+    zh: '显示当前时间下的 {type}。',
+    en: 'Displays the {type} at the current time.',
+  },
 }
