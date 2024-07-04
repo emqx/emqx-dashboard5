@@ -229,7 +229,7 @@ const showPayload = ({ topic, payload }: MsgItem) => {
 }
 
 const handleScroll = debounce(async (scrollArg: any) => {
-  if (!isUndefined(scrollArg?.scrollTop)) {
+  if (!isUndefined(scrollArg?.scrollTop) && scrollArg.scrollTop > 0) {
     scrollTop.value = scrollArg.scrollTop
     if (totalLength.value && isScrollToBottom.value) {
       getList()
