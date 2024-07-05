@@ -1,4 +1,5 @@
-import { ref, Ref, Component, nextTick } from 'vue'
+import type { Ref, Component } from 'vue'
+import { ref, nextTick } from 'vue'
 import { listAuthn, queryAuthnItemMetrics } from '@/api/auth'
 import { AuthnItem, Metrics } from '@/types/auth'
 import useSortableTable from '@/hooks/useSortableTable'

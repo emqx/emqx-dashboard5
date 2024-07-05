@@ -1,4 +1,5 @@
-import { ref, Ref, reactive } from 'vue'
+import type { Ref } from 'vue'
+import { ref, reactive } from 'vue'
 import _ from 'lodash'
 import { compareVersions } from 'compare-versions'
 import { loadNodes } from '@/api/common'

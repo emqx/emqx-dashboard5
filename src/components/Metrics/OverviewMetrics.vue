@@ -172,7 +172,7 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { ComputedRef, Ref, computed, defineProps, inject, ref } from 'vue'
+import { computed, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
@@ -216,7 +216,7 @@ const isFlowNode = inject('isFlowNode', false)
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const metricsData: Ref<MetricsData> = ref({ metrics: {}, node_metrics: [] })
+const metricsData = ref<MetricsData>({ metrics: {}, node_metrics: [] })
 
 const CLUSTER = 'cluster'
 const clusterOpt = { label: t('BasicConfig.cluster'), value: CLUSTER }
@@ -248,7 +248,7 @@ const showChildrenStats = computed(() => {
 /**
  * base on selectedNode
  */
-const currentMetrics: ComputedRef<Metrics> = computed(() => {
+const currentMetrics = computed<Metrics>(() => {
   const { metrics, node_metrics } = metricsData.value
   if (selectedNode.value === CLUSTER) {
     return metrics
@@ -263,7 +263,7 @@ const initTypeMetricsData = (typeMapData: TypeMapData): Array<TypeMetricDataItem
 const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData) => {
   return generateMetricTypeDataFunc(metrics, typeMapData, props.textMap)
 }
-const typeMetricsDataSets: Ref<SetItem[]> = ref([
+const typeMetricsDataSets = ref<SetItem[]>([
   {
     name: '',
     stats: [],

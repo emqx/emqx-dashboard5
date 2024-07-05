@@ -1,5 +1,6 @@
 import { PageData } from '@/types/common'
-import { computed, ref, Ref, WritableComputedRef } from 'vue'
+import type { Ref } from 'vue'
+import { computed, ref, WritableComputedRef } from 'vue'
 
 export default (): {
   page: Ref<number>
