@@ -7,7 +7,10 @@
     default-expand-all
     :tree-props="{ children: 'convert' }"
   >
-    <el-table-column :label="tl('transformationProperties')">
+    <el-table-column>
+      <template #header>
+        <label class="mock-required-label">{{ tl('transformationProperties') }}</label>
+      </template>
       <template #default="{ row, $index }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
@@ -36,7 +39,7 @@
     <el-table-column>
       <template #header>
         <div class="target-value-header">
-          <span>{{ tl('targetValue') }}</span>
+          <label class="mock-required-label">{{ tl('targetValue') }}</label>
           <el-button
             type="primary"
             :icon="Plus"

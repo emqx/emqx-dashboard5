@@ -1529,6 +1529,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '表达式',
     en: 'Expression',
   },
+  pleaseEnterExp: {
+    zh: '请输入表达式',
+    en: 'Please Enter Expression',
+  },
   timestamp: {
     zh: '时间戳',
     en: 'Timestamp',
