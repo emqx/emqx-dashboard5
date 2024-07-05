@@ -147,8 +147,12 @@
       <p class="tip">{{ tl('propsTransDesc') }}</p>
       <el-row :gutter="24">
         <el-col :span="21">
-          <el-form-item prop="operations">
-            <OperationsTable v-model="formData.operations" :transformation-form="formData" />
+          <el-form-item prop="operations" ref="OperationsFormItemRef">
+            <OperationsTable
+              v-model="formData.operations"
+              :transformation-form="formData"
+              @blur="validateOperations"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -218,6 +222,7 @@ import {
   defineEmits,
   defineExpose,
   defineProps,
+  nextTick,
   ref,
 } from 'vue'
 import OperationsTable from './OperationsTable.vue'
@@ -439,6 +444,14 @@ const handleDecoderTypeChanged = (data: MessageTransform['payload_decoder']) => 
   if (encoderType && isDisabledEncodeType(encoderType)) {
     ElMessage.warning(tl('noSupportTransformationWarning'))
     formData.value.payload_encoder = { type: SchemaRegistryType.JSON }
+  }
+}
+
+const OperationsFormItemRef = ref()
+const validateOperations = async () => {
+  await nextTick()
+  if (OperationsFormItemRef.value.validateState === 'error') {
+    formCom.value.validateField('operations')
   }
 }
 
