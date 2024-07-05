@@ -316,7 +316,7 @@ export default {
     en: 'Metadata Address',
   },
   issuer: {
-    zh: 'Issuer URL',
+    zh: '签发者 URL',
     en: 'Issuer URL',
   },
   scopes: {
