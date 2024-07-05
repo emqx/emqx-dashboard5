@@ -197,6 +197,7 @@ const drawChart = () => {
         saveAsImage: {
           show: props.showFullScreen,
           title: '',
+          name: 'emqx-dashboard',
           emphasis: {
             iconStyle: {
               borderColor: '#00b173',
