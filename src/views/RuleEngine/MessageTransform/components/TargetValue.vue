@@ -23,7 +23,9 @@
       v-else
       class="input-target-value"
       v-model="targetValue.targetValue"
+      :validate-event="false"
       :readonly="isExpression"
+      @click="handleClickInput"
     >
       <template #prepend>
         <el-cascader
@@ -52,6 +54,7 @@
   <SQLContentDialog
     v-model="showSQLContentDialog"
     :sql="targetValue.targetValue"
+    :title="tl('pleaseEnterExp')"
     @submit="handleSQLContentDialogSubmitted"
   />
 </template>
@@ -77,7 +80,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', val: TargetValue): void
 }>()
 
-const { t } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const targetValue = computed({
   get: () => props.modelValue,
@@ -100,6 +103,11 @@ const showSQLContentDialog = ref(false)
 
 const openContentDialog = () => {
   showSQLContentDialog.value = true
+}
+const handleClickInput = () => {
+  if (isExpression.value) {
+    openContentDialog()
+  }
 }
 const handleSQLContentDialogSubmitted = (sql: string) => {
   targetValue.value.targetValue = sql

@@ -115,6 +115,7 @@
                     <el-input
                       :modelValue="formatSQLInInput((formData.checks[$index] as any).sql)"
                       readonly
+                      @click="editSQL($index)"
                     >
                       <template #suffix>
                         <el-button link type="primary" @click="editSQL($index)">
@@ -206,6 +207,7 @@
     <SQLContentDialog
       v-model="showSQLContentDialog"
       :sql="currentSQL"
+      :title="tl('pleaseEnterSQL')"
       @submit="handleSQLContentDialogSubmitted"
     />
   </el-form>
