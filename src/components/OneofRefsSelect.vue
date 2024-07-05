@@ -27,7 +27,8 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
 import { isEqual, isFunction, snakeCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { PropType } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 
 type OneOfItem = Property | Properties
@@ -70,7 +71,7 @@ const emit = defineEmits(['change'])
 
 const isFixedEnum = (item: OneOfItem) => Array.isArray(item.symbols) && item.symbols.length === 1
 
-const typeIndex: Ref<undefined | number> = ref(undefined)
+const typeIndex = ref<undefined | number>(undefined)
 
 const propertyPath = computed(() => props.property.path || '')
 

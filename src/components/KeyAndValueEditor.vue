@@ -104,7 +104,8 @@
 import { splitOnComma, splitOnSymbol } from '@/common/tools'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 
@@ -157,7 +158,7 @@ const rowData: kvRow = {
   value: '',
   state: State.OK,
 }
-const tableData: Ref<kvRow[]> = ref([])
+const tableData = ref<kvRow[]>([])
 
 let lastTimeObjData = {}
 

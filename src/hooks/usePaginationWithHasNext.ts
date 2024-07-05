@@ -1,5 +1,6 @@
 import { PageData } from '@/types/common'
-import { computed, Ref, ref, ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const generateDefaultPageMeta = (): PageData => ({
   limit: 20,
