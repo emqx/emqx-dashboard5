@@ -10,11 +10,12 @@
           :options="targetBelongOpts"
           :show-all-levels="false"
           :props="{ emitPath: false }"
+          @blur="handleBlur"
           @change="handleBelongChanged"
         />
       </div>
       <div class="el-input__wrapper mock-wrapper">
-        <el-select v-model="targetValue.targetValue">
+        <el-select v-model="targetValue.targetValue" @blur="handleBlur">
           <el-option v-for="item in pubPropsKeys" :key="item" :label="item" :value="item" />
         </el-select>
       </div>
@@ -33,6 +34,7 @@
           :options="targetBelongOpts"
           :show-all-levels="false"
           :props="{ emitPath: false }"
+          @blur="handleBlur"
           @change="handleBelongChanged"
         />
       </template>
@@ -50,6 +52,7 @@
     :options="targetBelongOpts"
     :show-all-levels="false"
     :props="{ emitPath: false }"
+    @blur="handleBlur"
   />
   <SQLContentDialog
     v-model="showSQLContentDialog"
@@ -78,6 +81,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', val: TargetValue): void
+  (e: 'blur'): void
 }>()
 
 const { t, tl } = useI18nTl('RuleEngine')
@@ -117,6 +121,8 @@ const isPubPropsParent = computed(
   () => targetValue.value.targetBelong === `${AvailableKey.PubProps}.`,
 )
 const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
+
+const handleBlur = () => emit('blur')
 </script>
 
 <style lang="scss">
