@@ -108,6 +108,7 @@ export const GetConfigsKey = {
   authentication: 'authentication',
   authorization: 'authorization',
   auto_subscribe: 'auto_subscribe',
+  banned: 'banned',
   bridges: 'bridges',
   cluster: 'cluster',
   conn_congestion: 'conn_congestion',

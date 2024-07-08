@@ -609,6 +609,7 @@ export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
 
 export interface EmqxAuthzSchemaMetrics {
   total?: number
+  ignore?: number
   allow?: number
   deny?: number
   nomatch?: number
