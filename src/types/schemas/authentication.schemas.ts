@@ -1356,6 +1356,15 @@ export interface AuthnHashMethod {
   is_superuser_attribute?: string
 }
 
+export type AuthnBuiltinDbApiBootstrapType =
+  typeof AuthnBuiltinDbApiBootstrapType[keyof typeof AuthnBuiltinDbApiBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
+
 export type AuthnBuiltinDbApiUserIdType =
   typeof AuthnBuiltinDbApiUserIdType[keyof typeof AuthnBuiltinDbApiUserIdType]
 
@@ -1391,6 +1400,8 @@ export interface AuthnBuiltinDbApi {
   mechanism: AuthnBuiltinDbApiMechanism
   backend: AuthnBuiltinDbApiBackend
   user_id_type: AuthnBuiltinDbApiUserIdType
+  bootstrap_file?: string
+  bootstrap_type?: AuthnBuiltinDbApiBootstrapType
   enable?: boolean
 }
 
@@ -1432,9 +1443,9 @@ export interface AuthnBuiltinDb {
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
-  enable?: boolean
   bootstrap_file?: string
   bootstrap_type?: AuthnBuiltinDbBootstrapType
+  enable?: boolean
 }
 
 export type AuthnBindMethodType = typeof AuthnBindMethodType[keyof typeof AuthnBindMethodType]
