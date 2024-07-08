@@ -118,6 +118,11 @@
     type="connector"
     :name="currentDelName"
   />
+  <DisableConnectorConfirm
+    v-model="showDisableConfirm"
+    :connector="(currentConnector as Connector)"
+    @submitted="getList"
+  />
 </template>
 
 <script setup lang="ts">
@@ -137,6 +142,7 @@ import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
+import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
 
 const router = useRouter()
 
@@ -171,7 +177,9 @@ const isErrorStatus = ({ status }: Connector) =>
 const {
   handleDeleteConnector,
   reconnectConnector,
-  toggleConnectorEnable,
+  showDisableConfirm,
+  currentConnector,
+  handleToggleConnectorEnable,
   showDelTip,
   currentDelName,
   showDeleteWebhookAssociatedTip,
@@ -197,9 +205,9 @@ const getDetailPageRoute = ({ id }: Connector) => ({
   params: { id },
 })
 
-const enableOrDisableConnector = async ({ enable, id }: Connector) => {
+const enableOrDisableConnector = async (connector: Connector) => {
   try {
-    await toggleConnectorEnable(id, !enable, getList)
+    await handleToggleConnectorEnable(connector, getList)
   } catch (error) {
     //
   }
