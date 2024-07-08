@@ -2,7 +2,6 @@
   <div class="sql-test">
     <div class="test-header">
       <label class="bold">{{ tl('test') }}</label>
-      <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
       <el-switch v-model="isTesting" />
     </div>

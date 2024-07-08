@@ -514,12 +514,8 @@ export default {
     en: 'Enable Test',
   },
   testTip: {
-    zh: '启用调试后，可模拟数据源数据，并查看测试规则 SQL 的结果。',
-    en: 'Test enabled, simulate data source and view the test rule SQL result.',
-  },
-  testDesc: {
-    zh: '在创建规则之前，您可以使用测试数据来执行您刚才编辑的 SQL。这样可以帮助您确保结果符合预期，并且可以放心地创建并使用规则。',
-    en: 'Before creating a rule, you can test rule SQL by using test data. This will help ensure that the results meet your expectations and allow you to confidently use the rule.',
+    zh: '使用模拟数据来执行您刚刚输入的 SQL，或者在保存规则后测试整个规则，以确保结果符合预期。',
+    en: 'Use simulated data to execute the SQL you just inputed, or test the entire rule after saving it to ensure the results meet your expectations.',
   },
   connectionSuccessful: {
     zh: '连接成功',
@@ -794,8 +790,8 @@ export default {
     en: 'Please remove the following actions {ext} that use this connector before deleting the connector.',
   },
   deleteEgressActionSecondConfirm: {
-    zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
-    en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
+    zh: '此动作正在被以下规则使用，确认删除并将其从规则中移除？',
+    en: 'This action is being used by the following rule. Do you confirm deletion and removal from the rule?',
   },
   deleteIngressActionSecondConfirm: {
     zh: '请先移除下方规则中的 source，再进行删除操作。',
