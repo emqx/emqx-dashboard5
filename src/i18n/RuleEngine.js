@@ -749,6 +749,14 @@ export default {
     zh: '暂不支持通过 Dashboard 管理此连接器',
     en: 'This connector cannot be managed through the dashboard at the moment',
   },
+  disabledConnectorTip: {
+    zh: '此连接器目前被以下{target}使用，确认停用？',
+    en: 'This connector is currently being used by the following {target}. Confirm disable?',
+  },
+  actionsAndSources: {
+    zh: '动作和 Source ',
+    en: 'Actions and Sources',
+  },
   console: {
     zh: '打印结果输出到控制台',
     en: 'Print the result to the Console',
