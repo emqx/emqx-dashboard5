@@ -95,11 +95,12 @@
                         {{ tl('viewMsg') }}
                       </el-button>
                     </el-tooltip>
-                    <info-tooltip
-                      class="client-info-tips"
-                      :content="getClientInfoDesc(item)"
-                    ></info-tooltip>
                   </template>
+                  <info-tooltip
+                    v-if="withItemDesc(item)"
+                    class="client-info-tips"
+                    :content="getClientInfoDesc(item)"
+                  ></info-tooltip>
                 </div>
               </el-descriptions-item>
             </el-descriptions>
@@ -541,6 +542,7 @@ const handleUnsubscriptionGateway = async (clientid: Subscription['clientid'], t
 }
 
 const withMsgList = (item: string) => ['mqueue', 'inflight'].includes(item)
+const withItemDesc = (item: string) => withMsgList(item) || ['reductions'].includes(item)
 const viewMsgList = (type: 'mqueue' | 'inflight') => {
   msgListType.value = type
   showMsgListDialog.value = true
