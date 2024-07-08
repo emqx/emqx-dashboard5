@@ -25,6 +25,9 @@ interface ConnectorHandlerResult {
   updateConnector: (data: Connector) => Promise<Connector>
   deleteConnector: (id: string, withDep?: boolean) => Promise<void>
   reconnectConnector: (id: string) => Promise<void>
+  showDisableConfirm: Ref<boolean>
+  currentConnector: Ref<undefined | Connector>
+  handleToggleConnectorEnable: (connector: Connector, sucCb?: () => void) => Promise<void>
   toggleConnectorEnable: (id: string, isEnable: boolean, sucCb?: () => void) => Promise<void>
   handleDataForCopy: (data: Connector) => Connector
   isTesting: Ref<boolean>
@@ -110,6 +113,22 @@ export default (): ConnectorHandlerResult => {
     }
   }
 
+  const showDisableConfirm = ref(false)
+  const currentConnector = ref<undefined | Connector>(undefined)
+  const handleToggleConnectorEnable = async (connector: Connector, sucCb?: () => void) => {
+    const { enable, id, actions, sources } = connector
+    if ((actions?.length || sources?.length) && enable) {
+      currentConnector.value = connector
+      showDisableConfirm.value = true
+      return
+    }
+    try {
+      await toggleConnectorEnable(id, !enable, sucCb)
+    } catch (error) {
+      //
+    }
+  }
+
   const { isTesting, testConnectivity: testConnectorConnectivity } = useTestConnector()
   const testConnectivity = async (data: NowConnector): Promise<void> =>
     testConnectorConnectivity(data as Connector)
@@ -158,6 +177,9 @@ export default (): ConnectorHandlerResult => {
     deleteConnector,
     reconnectConnector,
     toggleConnectorEnable,
+    showDisableConfirm,
+    currentConnector,
+    handleToggleConnectorEnable,
     handleDataForCopy,
     isTesting,
     testConnectivity,
