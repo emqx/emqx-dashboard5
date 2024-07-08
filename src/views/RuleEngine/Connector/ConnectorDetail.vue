@@ -118,6 +118,11 @@
     type="connector"
     :name="connectorData.name"
   />
+  <DisableConnectorConfirm
+    v-model="showDisableConfirm"
+    :connector="(currentConnector as Connector)"
+    @submitted="toggleEnableValue"
+  />
 </template>
 
 <script setup lang="ts">
@@ -145,6 +150,7 @@ import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
+import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
 
 const props = defineProps<{
   /**
@@ -192,7 +198,9 @@ const { getTypeStr } = useConnectorTypeValue()
 const {
   getConnectorDetail,
   updateConnector,
-  toggleConnectorEnable,
+  showDisableConfirm,
+  currentConnector,
+  handleToggleConnectorEnable,
   isTesting,
   testConnectivity,
   handleDeleteConnector,
@@ -239,15 +247,12 @@ const handleTest = async () => {
   }
 }
 
-const enableOrDisableConnector = async () => {
-  try {
-    const targetValue = !connectorData.value.enable
-    await toggleConnectorEnable(id.value, targetValue, () => {
-      connectorData.value.enable = targetValue
-    })
-  } catch (error) {
-    //
-  }
+const enableOrDisableConnector = () => {
+  handleToggleConnectorEnable(connectorData.value, toggleEnableValue)
+}
+
+const toggleEnableValue = () => {
+  connectorData.value.enable = !connectorData.value.enable
 }
 
 const { handleConnectorDataForSaveAsCopy } = useConnectorDataHandler()
