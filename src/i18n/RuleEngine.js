@@ -511,7 +511,7 @@ export default {
   },
   test: {
     zh: '启用调试',
-    en: 'Enable Test',
+    en: 'Try It Out',
   },
   testTip: {
     zh: '使用模拟数据来执行您刚刚输入的 SQL，或者在保存规则后测试整个规则，以确保结果符合预期。',
