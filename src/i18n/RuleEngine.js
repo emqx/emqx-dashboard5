@@ -789,6 +789,18 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
+  deleteRuleConfirm: {
+    zh: '确认删除规则？',
+    en: 'Confirm delete rule?',
+  },
+  deleteActionAndSourceSameTime: {
+    zh: '同时删除关联的动作与 Source',
+    en: 'Delete the associated action and source at the same time',
+  },
+  deleteError: {
+    zh: '删除{target}时发生错误，请尝试手动删除',
+    en: 'An error occurred while deleting {target}, please try to delete it manually',
+  },
   deleteSourceConnectorTip: {
     zh: '请先移除使用该连接器的下列 sources，然后再删除该连接器。',
     en: 'Please remove the following sources that use this connector before deleting the connector.',
