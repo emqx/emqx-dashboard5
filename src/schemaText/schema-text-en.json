@@ -1361,6 +1361,10 @@
     "client_attrs_init_expression": {
       "label": "Attribute Expression",
       "desc": "A single-line expression that dynamically extracts attribute values from existing client information can use the following fields:<br/><br/>- `clientid`: client ID<br/>- `username`: user name<br/>- `cn`: CN field of TLS certificate<br/>- `dn`: DN field of TLS certificate<br/>- `user_property.*`: extracts the property value from the `User-Property` of the MQTT CONNECT packet, e.g. `user_property.foo`<br/><br/>You can use predefined string functions to dynamically process the information. For example, to extract the prefix of a dot-separated client ID: `nth(1, tokens(clientid, '.'))`; to extract a partial username: `substr(username, 0, 5)`. You can read more about variform expressions in EMQX docs.<br/>"
+    },
+    "mqtt_keepalive_check_interval": {
+      "label": "Keep Alive Check Interval",
+      "desc": "The frequency of checking for incoming MQTT packets determines how often the server will check for new MQTT packets.<br />If a certain amount of time passes without any packets being sent from the client, this time will be added up.<br />Once the accumulated time exceeds `keepalive-interval * keepalive-multiplier`, the connection will be terminated.<br />The default is set to 30 seconds, with a minimum value of 1 second and a maximum value of `keepalive-interval / 2`.<br />"
     }
   }
 }
