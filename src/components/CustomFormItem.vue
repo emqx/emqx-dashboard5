@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { isFunction } from 'lodash'
-import { Ref, defineProps, onMounted, ref, useSlots } from 'vue'
+import { defineProps, onMounted, ref, useSlots } from 'vue'
 
 const props = defineProps({
   readonly: {
@@ -30,7 +30,7 @@ const props = defineProps({
  * !!! Note that if the modelValue changes after the component is loaded,
  * it will not cause the view to change
  */
-const valueForShow: Ref<string | number | boolean> = ref('')
+const valueForShow = ref<string | number | boolean>('')
 
 const slots = useSlots()
 const getValue = () => {

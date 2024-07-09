@@ -200,8 +200,12 @@ export default {
     en: 'Heap Size',
   },
   reductions: {
-    zh: '调度递减计数',
-    en: 'Reductions',
+    zh: 'Erlang Reduction',
+    en: 'Erlang Reduction',
+  },
+  reductionsDesc: {
+    zh: '该客户端 Erlang 进程在执行过程中消耗的 CPU 时间计数。当消耗了足够多的 CPU 时间后，调度器会将该进程挂起，切换到其他进程执行，以确保所有进程都能公平地使用 CPU 资源。',
+    en: "The client Erlang process's CPU time consumption count during execution. When a sufficient amount of CPU time has been consumed, the scheduler will suspend the process and switch to other processes to ensure that all processes have fair access to CPU resources.",
   },
   mailbox: {
     zh: '进程邮箱中的消息数量',

@@ -56,7 +56,8 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual, isFunction, snakeCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'
@@ -100,7 +101,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const isFixedEnum = (item: OneOfItem) => Array.isArray(item.symbols) && item.symbols.length === 1
 
-const typeIndex: Ref<undefined | number> = ref(undefined)
+const typeIndex = ref<undefined | number>(undefined)
 
 const propertyPath = computed(() => props.property.path || '')
 
@@ -136,7 +137,7 @@ const handleTypeChanged = (value: number) => {
 const getFormItemProp = (key: string) =>
   `${propertyPath.value}${propertyPath.value ? '.' : ''}${key}`
 
-const fieldValue: Ref<string | number | boolean | Record<string, any>> = ref('')
+const fieldValue = ref<string | number | boolean | Record<string, any>>('')
 
 const judgeTypeIndexByValue = (value: FieldValue, items: Array<OneOfItem>): number => {
   if (!value) {
