@@ -1399,6 +1399,15 @@ export interface AuthnGcpDevice {
   enable?: boolean
 }
 
+export type AuthnBuiltinDbApiBootstrapType =
+  typeof AuthnBuiltinDbApiBootstrapType[keyof typeof AuthnBuiltinDbApiBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
+
 export type AuthnBuiltinDbApiUserIdType =
   typeof AuthnBuiltinDbApiUserIdType[keyof typeof AuthnBuiltinDbApiUserIdType]
 
