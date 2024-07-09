@@ -10,8 +10,8 @@ import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType, EventForRule, RuleInputType, RuleSQLKeyword } from '@/types/enum'
-import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
+import { BridgeType, EventForRule, RuleInputType, RuleOutput, RuleSQLKeyword } from '@/types/enum'
+import { BridgeItem, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import { ComputedRef, computed, ref } from 'vue'
 import useRuleEvents from './useRuleEvents'
 import { escapeRegExp } from 'lodash'
@@ -334,5 +334,30 @@ export const useRuleInputs = (): {
     isNotBridgeSourceTypes,
     sourceOptList,
     getRuleSourceIcon,
+  }
+}
+
+export const useRuleOutputs = (): {
+  judgeOutputType: (output: OutputItem) => RuleOutput
+} => {
+  const ACTION_TYPE_NAME_CONNECTOR = ':'
+  const judgeOutputType = (output: OutputItem): RuleOutput => {
+    if (typeof output === 'string') {
+      if (output.indexOf(ACTION_TYPE_NAME_CONNECTOR) > -1) {
+        // bridge
+        return RuleOutput.DataBridge
+      }
+    } else if (
+      typeof output === 'object' &&
+      'function' in output &&
+      (output.function === RuleOutput.Republish || output.function === RuleOutput.Console)
+    ) {
+      return output.function
+    }
+    return RuleOutput.DataBridge
+  }
+
+  return {
+    judgeOutputType,
   }
 }
