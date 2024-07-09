@@ -1522,8 +1522,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Target Value',
   },
   moreProp: {
-    zh: '更多属性选项',
-    en: 'More Properties Options',
+    zh: '更多属性',
+    en: 'More Properties',
   },
   expression: {
     zh: '表达式',
