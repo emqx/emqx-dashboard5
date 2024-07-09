@@ -92,6 +92,19 @@ export type GetMessageTransformationsTransformationNameMetrics404 = {
   message?: string
 }
 
+export type PostMessageTransformationsDryrun400Code =
+  typeof PostMessageTransformationsDryrun400Code[keyof typeof PostMessageTransformationsDryrun400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMessageTransformationsDryrun400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostMessageTransformationsDryrun400 = {
+  code?: PostMessageTransformationsDryrun400Code
+  message?: string
+}
+
 export type PostMessageTransformations400Code =
   typeof PostMessageTransformations400Code[keyof typeof PostMessageTransformations400Code]
 
@@ -220,4 +233,22 @@ export interface MessageTransformationHttpApiMetrics {
 export interface MessageTransformationHttpApiGetMetrics {
   metrics?: MessageTransformationHttpApiMetrics
   node_metrics?: MessageTransformationHttpApiNodeMetrics
+}
+
+export interface MessageTransformationHttpApiDryrunTransformation {
+  transformation: MessageTransformationTransformation
+  message: MessageTransformationHttpApiDryrunInputMessage
+}
+
+export type MessageTransformationHttpApiDryrunInputMessageUserProperty = { [key: string]: any }
+
+export type MessageTransformationHttpApiDryrunInputMessageClientAttrs = { [key: string]: any }
+
+export interface MessageTransformationHttpApiDryrunInputMessage {
+  client_attrs?: MessageTransformationHttpApiDryrunInputMessageClientAttrs
+  payload: string
+  qos?: number
+  retain?: boolean
+  topic: string
+  user_property?: MessageTransformationHttpApiDryrunInputMessageUserProperty
 }

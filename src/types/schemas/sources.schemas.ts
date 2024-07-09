@@ -136,60 +136,6 @@ export const GetSourceTypes200Item = {
   rabbitmq: 'rabbitmq',
 } as const
 
-export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSourcesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutSourcesId404 = {
-  code?: PutSourcesId404Code
-  message?: string
-}
-
-export type PutSourcesId400Code = typeof PutSourcesId400Code[keyof typeof PutSourcesId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSourcesId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutSourcesId400 = {
-  code?: PutSourcesId400Code
-  message?: string
-}
-
-export type PutSourcesId200 =
-  | BridgeRabbitmqGetSource
-  | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
-  | GcpPubsubConsumerGetSource
-
-export type PutSourcesIdBody =
-  | BridgeRabbitmqPutSource
-  | BridgeMqttPublisherPutSource
-  | KafkaConsumerPutSource
-  | GcpPubsubConsumerPutSource
-
-export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSourcesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetSourcesId404 = {
-  code?: GetSourcesId404Code
-  message?: string
-}
-
-export type GetSourcesId200 =
-  | BridgeRabbitmqGetSource
-  | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
-  | GcpPubsubConsumerGetSource
-
 export type DeleteSourcesId503Code =
   typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
 
@@ -258,6 +204,18 @@ export type PutSourcesId400 = {
   message?: string
 }
 
+export type PutSourcesId200 =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
+
+export type PutSourcesIdBody =
+  | BridgeRabbitmqPutSource
+  | BridgeMqttPublisherPutSource
+  | KafkaConsumerPutSource
+  | GcpPubsubConsumerPutSource
+
 export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -269,6 +227,12 @@ export type GetSourcesId404 = {
   code?: GetSourcesId404Code
   message?: string
 }
+
+export type GetSourcesId200 =
+  | BridgeRabbitmqGetSource
+  | BridgeMqttPublisherGetSource
+  | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
 
 export type PostSources400Code = typeof PostSources400Code[keyof typeof PostSources400Code]
 

@@ -202,71 +202,6 @@ export type PostGatewaysNameAuthenticationImportUsersBody = {
   filename?: Blob
 }
 
-export type PutGatewaysNameAuthentication404Code =
-  typeof PutGatewaysNameAuthentication404Code[keyof typeof PutGatewaysNameAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PutGatewaysNameAuthentication404 = {
-  code?: PutGatewaysNameAuthentication404Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication400Code =
-  typeof PutGatewaysNameAuthentication400Code[keyof typeof PutGatewaysNameAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutGatewaysNameAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutGatewaysNameAuthentication400 = {
-  code?: PutGatewaysNameAuthentication400Code
-  message?: string
-}
-
-export type PutGatewaysNameAuthentication200 =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
-export type PutGatewaysNameAuthenticationBody =
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
-
 export type PostGatewaysNameAuthentication404Code =
   typeof PostGatewaysNameAuthentication404Code[keyof typeof PostGatewaysNameAuthentication404Code]
 
@@ -387,6 +322,7 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -405,6 +341,7 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameAuthenticationBody =
+  | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
   | AuthnJwtJwks
@@ -1362,6 +1299,15 @@ export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
   enable?: boolean
 }
+
+export type AuthnBuiltinDbBootstrapType =
+  typeof AuthnBuiltinDbBootstrapType[keyof typeof AuthnBuiltinDbBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
 
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]

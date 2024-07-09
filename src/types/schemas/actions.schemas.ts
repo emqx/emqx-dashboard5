@@ -68,6 +68,50 @@ export type GetActionsIdMetrics200 = {
   node_metrics?: BridgeNodeMetrics[]
 }
 
+export type DeleteActionsId503Code =
+  typeof DeleteActionsId503Code[keyof typeof DeleteActionsId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteActionsId503 = {
+  code?: DeleteActionsId503Code
+  message?: string
+}
+
+export type DeleteActionsId404Code =
+  typeof DeleteActionsId404Code[keyof typeof DeleteActionsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteActionsId404 = {
+  code?: DeleteActionsId404Code
+  message?: string
+}
+
+export type DeleteActionsId400Code =
+  typeof DeleteActionsId400Code[keyof typeof DeleteActionsId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteActionsId400 = {
+  rules?: string[]
+  code?: DeleteActionsId400Code
+  message?: string
+}
+
+export type DeleteActionsIdParams = {
+  also_delete_dep_actions?: boolean
+}
+
 export type PutActionsId404Code = typeof PutActionsId404Code[keyof typeof PutActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -199,92 +243,6 @@ export type GetActionsId200 =
   | BridgeClickhouseGetBridgeV2
   | BridgeCassaGetBridgeV2
   | BridgeAzureEventHubGetBridgeV2
-
-export type DeleteActionsId503Code =
-  typeof DeleteActionsId503Code[keyof typeof DeleteActionsId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteActionsId503 = {
-  code?: DeleteActionsId503Code
-  message?: string
-}
-
-export type DeleteActionsId404Code =
-  typeof DeleteActionsId404Code[keyof typeof DeleteActionsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteActionsId404 = {
-  code?: DeleteActionsId404Code
-  message?: string
-}
-
-export type DeleteActionsId400Code =
-  typeof DeleteActionsId400Code[keyof typeof DeleteActionsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteActionsId400 = {
-  rules?: string[]
-  code?: DeleteActionsId400Code
-  message?: string
-}
-
-export type DeleteActionsIdParams = {
-  also_delete_dep_actions?: boolean
-}
-
-export type PutActionsId404Code = typeof PutActionsId404Code[keyof typeof PutActionsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutActionsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutActionsId404 = {
-  code?: PutActionsId404Code
-  message?: string
-}
-
-export type PutActionsId400Code = typeof PutActionsId400Code[keyof typeof PutActionsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutActionsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutActionsId400 = {
-  code?: PutActionsId400Code
-  message?: string
-}
-
-export type PutActionsId200 = BridgeMqttPublisherGetBridgeV2 | BridgeHttpGetBridgeV2
-
-export type PutActionsIdBody = BridgeMqttPublisherPutBridgeV2 | BridgeHttpPutBridgeV2
-
-export type GetActionsId404Code = typeof GetActionsId404Code[keyof typeof GetActionsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetActionsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetActionsId404 = {
-  code?: GetActionsId404Code
-  message?: string
-}
-
-export type GetActionsId200 = BridgeMqttPublisherGetBridgeV2 | BridgeHttpGetBridgeV2
 
 export type GetActionTypes200Item = typeof GetActionTypes200Item[keyof typeof GetActionTypes200Item]
 
