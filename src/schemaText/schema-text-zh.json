@@ -1313,6 +1313,10 @@
     "client_attrs_init_expression": {
       "label": "属性表达式",
       "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`substr(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
+    },
+    "mqtt_keepalive_check_interval": {
+      "label": "保活检查间隔",
+      "desc": "检查传入 MQTT 数据包的频率决定了服务器检查新 MQTT 数据包的频率。<br />如果客户端在一定时间内没有发送任何数据包，这段时间将会累积。<br />一旦累积时间超过 `keepalive-interval * keepalive-multiplier`，连接将会被终止。<br />默认值设置为 30 秒，最小值为 1 秒，最大值为 `keepalive-interval / 2`。"
     }
   },
   "ssl_opts": {
