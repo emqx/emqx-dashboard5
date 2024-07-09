@@ -430,10 +430,10 @@ const getSchemaTypeList = (type: string) => {
 
 const handleTypeChanged = (data: MessageTransform['payload_decoder']) => {
   data.schema = ''
-  if (!showSchemaSelect(data.type) && (data.schema || data.message_type)) {
+  if (!showSchemaSelect(data.type)) {
     Reflect.deleteProperty(data, 'schema')
     Reflect.deleteProperty(data, 'message_type')
-  } else if (!showMessageTypeSelect(data.type) && data.message_type) {
+  } else if (!showMessageTypeSelect(data.type)) {
     Reflect.deleteProperty(data, 'message_type')
   }
 }
