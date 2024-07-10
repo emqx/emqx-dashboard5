@@ -97,6 +97,19 @@ export type GetAuthentication200Item =
   | AuthnMysql
   | AuthnBuiltinDb
 
+export type DeleteAuthenticationId404Code =
+  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationId404 = {
+  code?: DeleteAuthenticationId404Code
+  message?: string
+}
+
 export type PutAuthenticationId409Code =
   typeof PutAuthenticationId409Code[keyof typeof PutAuthenticationId409Code]
 
@@ -188,19 +201,6 @@ export type GetAuthenticationId200 =
   | AuthnPostgresql
   | AuthnMysql
   | AuthnBuiltinDb
-
-export type DeleteAuthenticationId404Code =
-  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationId404 = {
-  code?: DeleteAuthenticationId404Code
-  message?: string
-}
 
 export type GetAuthenticationIdStatus500Code =
   typeof GetAuthenticationIdStatus500Code[keyof typeof GetAuthenticationIdStatus500Code]
@@ -319,6 +319,19 @@ export type PostAuthenticationIdImportUsersParams = {
   type: PostAuthenticationIdImportUsersType
 }
 
+export type DeleteAuthenticationIdUsersUserId404Code =
+  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationIdUsersUserId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationIdUsersUserId404 = {
+  code?: DeleteAuthenticationIdUsersUserId404Code
+  message?: string
+}
+
 export type PutAuthenticationIdUsersUserId404Code =
   typeof PutAuthenticationIdUsersUserId404Code[keyof typeof PutAuthenticationIdUsersUserId404Code]
 
@@ -355,19 +368,6 @@ export const GetAuthenticationIdUsersUserId404Code = {
 
 export type GetAuthenticationIdUsersUserId404 = {
   code?: GetAuthenticationIdUsersUserId404Code
-  message?: string
-}
-
-export type DeleteAuthenticationIdUsersUserId404Code =
-  typeof DeleteAuthenticationIdUsersUserId404Code[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationIdUsersUserId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationIdUsersUserId404 = {
-  code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
 }
 
@@ -1317,15 +1317,15 @@ export interface AuthnHttpPost {
   body?: AuthnHttpPostBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHttpGetBody = { [key: string]: any }
@@ -1362,15 +1362,15 @@ export interface AuthnHttpGet {
   body?: AuthnHttpGetBody
   request_timeout?: string
   enable?: boolean
+  request?: ConnectorHttpRequest
+  ssl?: EmqxSslClientOpts
   connect_timeout?: string
-  enable_pipelining?: number
+  pool_size?: number
   /** @deprecated */
   max_retries?: number
-  pool_size?: number
-  request?: ConnectorHttpRequest
   /** @deprecated */
   retry_interval?: string
-  ssl?: EmqxSslClientOpts
+  enable_pipelining?: number
 }
 
 export type AuthnHashMethodType = typeof AuthnHashMethodType[keyof typeof AuthnHashMethodType]
@@ -1398,6 +1398,15 @@ export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
   enable?: boolean
 }
+
+export type AuthnBuiltinDbApiBootstrapType =
+  typeof AuthnBuiltinDbApiBootstrapType[keyof typeof AuthnBuiltinDbApiBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbApiBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
 
 export type AuthnBuiltinDbApiUserIdType =
   typeof AuthnBuiltinDbApiUserIdType[keyof typeof AuthnBuiltinDbApiUserIdType]
@@ -1434,8 +1443,19 @@ export interface AuthnBuiltinDbApi {
   mechanism: AuthnBuiltinDbApiMechanism
   backend: AuthnBuiltinDbApiBackend
   user_id_type: AuthnBuiltinDbApiUserIdType
+  bootstrap_file?: string
+  bootstrap_type?: AuthnBuiltinDbApiBootstrapType
   enable?: boolean
 }
+
+export type AuthnBuiltinDbBootstrapType =
+  typeof AuthnBuiltinDbBootstrapType[keyof typeof AuthnBuiltinDbBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
 
 export type AuthnBuiltinDbUserIdType =
   typeof AuthnBuiltinDbUserIdType[keyof typeof AuthnBuiltinDbUserIdType]
@@ -1466,6 +1486,8 @@ export interface AuthnBuiltinDb {
   mechanism: AuthnBuiltinDbMechanism
   backend: AuthnBuiltinDbBackend
   user_id_type: AuthnBuiltinDbUserIdType
+  bootstrap_file?: string
+  bootstrap_type?: AuthnBuiltinDbBootstrapType
   enable?: boolean
 }
 

@@ -35,6 +35,7 @@
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
 import { dateFormat, waitAMoment } from '@/common/tools'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import PayloadDialog from '@/components/PayloadDialog.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MessageItem } from '@/types/client'
@@ -125,7 +126,7 @@ const columns = [
         rowData.mqueue_priority === 0 ||
         isUndefined(rowData.mqueue_priority)
       ) {
-        return rowData.msgid
+        return <CommonOverflowTooltip content={rowData.msgid} />
       }
       return (
         <>
@@ -137,9 +138,21 @@ const columns = [
       )
     },
   },
-  { title: t('Base.topic'), key: 'topic', dataKey: 'topic', width: topicWidth },
+  {
+    title: t('Base.topic'),
+    key: 'topic',
+    dataKey: 'topic',
+    width: topicWidth,
+    cellRenderer: ({ rowData }: any) => <CommonOverflowTooltip content={rowData.topic} />,
+  },
   { title: 'QoS', key: 'qos', dataKey: 'qos', width: qosWidth },
-  { title: t('Base.clientid'), key: 'from_clientid', dataKey: 'from_clientid', width: topicWidth },
+  {
+    title: t('Base.clientid'),
+    key: 'from_clientid',
+    dataKey: 'from_clientid',
+    width: topicWidth,
+    cellRenderer: ({ rowData }: any) => <CommonOverflowTooltip content={rowData.from_clientid} />,
+  },
   {
     title: t('Extension.publishTime'),
     key: 'publish_at',
@@ -229,7 +242,7 @@ const showPayload = ({ topic, payload }: MsgItem) => {
 }
 
 const handleScroll = debounce(async (scrollArg: any) => {
-  if (!isUndefined(scrollArg?.scrollTop)) {
+  if (!isUndefined(scrollArg?.scrollTop) && scrollArg.scrollTop > 0) {
     scrollTop.value = scrollArg.scrollTop
     if (totalLength.value && isScrollToBottom.value) {
       getList()
@@ -256,6 +269,9 @@ const handleScroll = debounce(async (scrollArg: any) => {
   }
   .el-tag {
     margin-left: 6px;
+  }
+  .common-overflow-tooltip {
+    width: 100%;
   }
 }
 </style>

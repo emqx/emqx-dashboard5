@@ -72,7 +72,7 @@ const submit = async () => {
 
 <style lang="scss" scoped>
 .message-transform-form {
-  width: 70%;
+  width: 80%;
   margin-bottom: 36px;
 }
 </style>

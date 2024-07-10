@@ -7,7 +7,10 @@
     default-expand-all
     :tree-props="{ children: 'convert' }"
   >
-    <el-table-column :label="tl('transformationProperties')">
+    <el-table-column>
+      <template #header>
+        <label class="mock-required-label">{{ tl('transformationProperties') }}</label>
+      </template>
       <template #default="{ row, $index }">
         <!-- PARENT -->
         <div class="prop-belong-container" v-if="row.convert">
@@ -36,7 +39,7 @@
     <el-table-column>
       <template #header>
         <div class="target-value-header">
-          <span>{{ tl('targetValue') }}</span>
+          <label class="mock-required-label">{{ tl('targetValue') }}</label>
           <el-button
             type="primary"
             :icon="Plus"
@@ -49,7 +52,7 @@
       <template #default="data">
         <!-- PARENT -->
         <template v-if="data.row.convert && !Array.isArray(data.row.convert)">
-          <TargetValue v-model="data.row.convert" />
+          <TargetValue v-model="data.row.convert" @blur="handleBlur" />
           <el-button
             class="btn-del"
             :icon="Delete"
@@ -59,7 +62,7 @@
         </template>
         <!-- CHILD -->
         <template v-else-if="!data.row.convert">
-          <TargetValue v-model="data.row" />
+          <TargetValue v-model="data.row" @blur="handleBlur" />
           <el-button
             class="btn-del"
             :icon="Delete"
@@ -127,6 +130,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Array<{ key: string; value: string }>): void
+  (e: 'blur'): void
 }>()
 
 const { tl } = useI18nTl('RuleEngine')
@@ -337,6 +341,8 @@ const deleteSubOperation = (index: number) => {
     }
   }
 }
+
+const handleBlur = () => emit('blur')
 </script>
 
 <style lang="scss">

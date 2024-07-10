@@ -108,6 +108,7 @@ export const GetConfigsKey = {
   authentication: 'authentication',
   authorization: 'authorization',
   auto_subscribe: 'auto_subscribe',
+  banned: 'banned',
   bridges: 'bridges',
   cluster: 'cluster',
   conn_congestion: 'conn_congestion',
@@ -472,6 +473,52 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
+export type SsoOidcProvider = typeof SsoOidcProvider[keyof typeof SsoOidcProvider]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcProvider = {
+  okta: 'okta',
+  generic: 'generic',
+} as const
+
+export type SsoOidcPreferredAuthMethodsItem =
+  typeof SsoOidcPreferredAuthMethodsItem[keyof typeof SsoOidcPreferredAuthMethodsItem]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcPreferredAuthMethodsItem = {
+  private_key_jwt: 'private_key_jwt',
+  client_secret_jwt: 'client_secret_jwt',
+  client_secret_post: 'client_secret_post',
+  client_secret_basic: 'client_secret_basic',
+  none: 'none',
+} as const
+
+export type SsoOidcBackend = typeof SsoOidcBackend[keyof typeof SsoOidcBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcBackend = {
+  oidc: 'oidc',
+} as const
+
+export interface SsoOidc {
+  enable?: boolean
+  backend: SsoOidcBackend
+  issuer: string
+  clientid: string
+  secret: string
+  scopes?: string[]
+  name_var?: string
+  dashboard_addr?: string
+  session_expiry?: string
+  require_pkce?: boolean
+  preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
+  provider?: SsoOidcProvider
+  fallback_methods?: string[]
+  client_jwks?: SsoOidcClientJwks
+}
+
 export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -491,6 +538,18 @@ export interface SsoLdap {
   filter?: string
   request_timeout?: string
   ssl?: LdapSsl
+}
+
+export type SsoClientFileJwksType = typeof SsoClientFileJwksType[keyof typeof SsoClientFileJwksType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoClientFileJwksType = {
+  file: 'file',
+} as const
+
+export interface SsoClientFileJwks {
+  type: SsoClientFileJwksType
+  file: string
 }
 
 export type S3TransportOptionsHeaders = { [key: string]: any }
@@ -815,6 +874,7 @@ export interface EmqxMqtt {
   response_information?: string
   server_keepalive?: EmqxMqttServerKeepalive
   keepalive_multiplier?: number
+  keepalive_check_interval?: string
   retry_interval?: string
   use_username_as_clientid?: boolean
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
@@ -1112,6 +1172,7 @@ export interface DashboardSaml {
 
 export interface DashboardSso {
   ldap?: SsoLdap
+  oidc?: SsoOidc
   saml?: DashboardSaml
 }
 

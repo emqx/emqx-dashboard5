@@ -1,4 +1,5 @@
-import { nextTick, ref, Ref, Component } from 'vue'
+import type { Component, Ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { listAuthz, queryAuthzItemMetrics } from '@/api/auth'
 import { AuthzSourceItem, Metrics } from '@/types/auth'
 import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'

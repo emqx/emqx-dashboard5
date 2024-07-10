@@ -13,7 +13,7 @@
               class="enable-btn"
               v-model="transformData.enable"
               :disabled="!$hasPermission('put')"
-              @change="(val) => toggleEnable(val as boolean)"
+              @change="(val: boolean) => toggleEnable(val)"
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">

@@ -15,12 +15,17 @@
         <template v-for="item in messageDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
-              <div class="card-title">{{ item.text }}</div>
+              <div class="card-title">
+                <span>{{ item.text }}</span>
+                <a class="show-full-screen" href="javascript:;" @click="showChartDetails(item)">
+                  <el-icon><full-screen /></el-icon>
+                </a>
+              </div>
               <polyline-chart
                 :chart-id="`${item.value}-polyline`"
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
-                :chartColors="chartColorList[item.value]"
+                :chart-colors="chartColorList[item.value]"
                 :unit-text-key="dataUnitTextKey[item.value]"
               ></polyline-chart>
             </el-card>
@@ -33,12 +38,17 @@
         <template v-for="item in connectionDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
-              <div class="card-title">{{ item.text }}</div>
+              <div class="card-title">
+                <span>{{ item.text }}</span>
+                <a class="show-full-screen" href="javascript:;" @click="showChartDetails(item)">
+                  <el-icon><full-screen /></el-icon>
+                </a>
+              </div>
               <polyline-chart
                 :chart-id="`${item.value}-polyline`"
                 :y-title="[item.text]"
                 :chart-data="metricLog[item.value]"
-                :chartColors="chartColorList[item.value]"
+                :chart-colors="chartColorList[item.value]"
                 :unit-text-key="dataUnitTextKey[item.value]"
                 is-instantaneous-value
               ></polyline-chart>
@@ -47,6 +57,54 @@
         </template>
       </el-row>
     </div>
+    <el-dialog
+      v-model="showFullScreen"
+      width="95%"
+      top="24px"
+      destroy-on-close
+      align-center
+      @opened="openedFullScreen"
+      class="full-screen-dialog"
+    >
+      <template #header="{ titleId, titleClass }">
+        <div class="full-screen-header">
+          <div :id="titleId" :class="titleClass">{{ selectedChartItem?.text }}</div>
+          <info-tooltip place="right" :content="selectedChartTooltip" />
+        </div>
+      </template>
+      <el-row class="full-screen-chart" v-if="selectedChartItem">
+        <el-col :span="4">
+          <el-select class="interval-select" v-model="timeRange">
+            <el-option
+              v-for="time in timeRangeOptions"
+              :key="time.label"
+              :label="time.label"
+              :value="time.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="24">
+          <polyline-chart
+            ref="fullScreenChart"
+            :chart-id="`${selectedChartItem.value}-polyline-full-screen`"
+            :y-title="[selectedChartItem.text]"
+            :chart-data="metricLog[selectedChartItem.value]"
+            :chart-colors="chartColorList[selectedChartItem.value]"
+            :unit-text-key="dataUnitTextKey[selectedChartItem.value]"
+            height="65vh"
+            show-full-screen
+          ></polyline-chart>
+        </el-col>
+        <el-col :span="24">
+          <el-table :data="[calculateStatistics(metricLog[selectedChartItem.value][0].yData)]">
+            <el-table-column prop="last" :label="$t('Base.last')"></el-table-column>
+            <el-table-column prop="max" :label="$t('Base.max')"></el-table-column>
+            <el-table-column prop="min" :label="$t('Base.min')"></el-table-column>
+            <el-table-column prop="avg" :label="$t('Base.avg')"></el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -60,11 +118,13 @@ export default defineComponent({
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
 import { loadChartData } from '@/api/common'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
+import { FullScreen } from '@element-plus/icons-vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const POLLING_INTERVAL = 60000
 
@@ -73,12 +133,20 @@ type ChartData = Array<{
   yData: Array<number>
 }>
 
+// Define an interface for the structure you expect
+interface ChartContainerDOM {
+  chart?: {
+    resize: () => void
+  }
+}
+
 const { t } = useI18n()
 const { tl } = useI18nTl('Dashboard')
 
 const timeRange = ref(3600)
-
+const showFullScreen = ref(false)
 const isLoading = ref(false)
+const fullScreenChart = ref<ChartContainerDOM | null>(null)
 
 const timeRangeOptions = [
   { label: tl('lastHour'), value: 3600 },
@@ -134,6 +202,9 @@ const dataTypeList: Array<ChartType> = reactive([
   ChartType.Received,
 ])
 
+const selectedChartItem = ref<null | { text: string; value: string }>(null)
+const selectedChartTooltip = ref('')
+
 const messageDataTypeFilter = computed(() => {
   return Object.entries(messageDataTypeMap).map(([value, text]) => ({
     text,
@@ -187,6 +258,32 @@ const loadChartMetrics = async () => {
   }
 }
 
+const showChartDetails = (chartItem: { text: string; value: string }) => {
+  showFullScreen.value = true
+  selectedChartItem.value = chartItem
+  const chartTypeKey = [ChartType.Received, ChartType.Dropped, ChartType.Sent].includes(
+    chartItem.value as ChartType,
+  )
+    ? 'Dashboard.chartMessages'
+    : 'Dashboard.chartConnection'
+
+  selectedChartTooltip.value = t(chartTypeKey, { type: chartItem.text })
+}
+
+const openedFullScreen = async () => {
+  await nextTick()
+  fullScreenChart.value?.chart?.resize()
+}
+
+const calculateStatistics = (data: number[]) => {
+  const max = Math.max(...data)
+  const min = Math.min(...data)
+  const sum = data.reduce((acc, val) => acc + val, 0)
+  const avg = Math.round(sum / data.length)
+  const last = data[data.length - 1]
+  return { max, min, avg, last }
+}
+
 syncPolling(loadChartMetrics, POLLING_INTERVAL)
 </script>
 
@@ -211,11 +308,34 @@ syncPolling(loadChartMetrics, POLLING_INTERVAL)
     .card-title {
       font-size: 16px;
       color: var(--color-title-primary);
-      margin: 2px 0 10px 6px;
+      display: flex;
+      margin: 0px 10px 8px;
+      justify-content: space-between;
+      .show-full-screen {
+        visibility: hidden;
+        color: var(--color-text-primary);
+        &:hover {
+          color: var(--color-primary);
+        }
+      }
+    }
+    &:hover {
+      .show-full-screen {
+        visibility: visible;
+      }
     }
   }
   .polyline-card {
     height: 255px;
+  }
+}
+.full-screen-dialog {
+  .full-screen-header {
+    display: flex;
+    align-items: center;
+  }
+  .el-table {
+    margin-top: 12px;
   }
 }
 </style>

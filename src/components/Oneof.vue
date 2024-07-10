@@ -63,6 +63,12 @@
         :disabled="disabled"
         :units="['MB', 'GB', 'KB', 'B']"
       />
+      <input-with-unit
+        v-else-if="oneOfInfo.propEnabled.type === 'rate'"
+        v-model="valueProxy"
+        :disabled="disabled"
+        :units="oneOfInfo.propEnabled.units ?? [{ label: `/${$t('Base.second')}`, value: '/s' }]"
+      />
       <el-input
         v-model="valueProxy"
         v-else-if="oneOfInfo.propEnabled.type === 'ip_port'"

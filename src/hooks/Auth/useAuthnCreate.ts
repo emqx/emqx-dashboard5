@@ -117,6 +117,9 @@ export default function useAuthnCreate() {
       refresh_interval: 300,
       verify_claims: {},
       ssl: createSSLForm(),
+      headers: {
+        Accept: 'application/json',
+      },
     }
   }
 

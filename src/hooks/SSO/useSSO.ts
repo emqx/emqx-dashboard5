@@ -12,6 +12,7 @@ export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => s
   const backendsLabelMap: Map<string, string> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, 'LDAP'],
     [DashboardSsoBackendStatusBackend.saml, 'SAML 2.0'],
+    [DashboardSsoBackendStatusBackend.oidc, 'OIDC'],
   ])
   const getBackendLabel = (backend: string): string => backendsLabelMap.get(backend) || ''
 

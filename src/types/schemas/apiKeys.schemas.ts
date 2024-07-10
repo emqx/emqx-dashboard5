@@ -1,3 +1,16 @@
+export type DeleteApiKeyName404Code =
+  typeof DeleteApiKeyName404Code[keyof typeof DeleteApiKeyName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteApiKeyName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteApiKeyName404 = {
+  code?: DeleteApiKeyName404Code
+  message?: string
+}
+
 export type PutApiKeyName404Code = typeof PutApiKeyName404Code[keyof typeof PutApiKeyName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -66,19 +79,6 @@ export type GetApiKeyName200 = {
   enable?: boolean
   expired?: boolean
   role?: string
-}
-
-export type DeleteApiKeyName404Code =
-  typeof DeleteApiKeyName404Code[keyof typeof DeleteApiKeyName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteApiKeyName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteApiKeyName404 = {
-  code?: DeleteApiKeyName404Code
-  message?: string
 }
 
 export type PostApiKey400Code = typeof PostApiKey400Code[keyof typeof PostApiKey400Code]

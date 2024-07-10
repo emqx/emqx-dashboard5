@@ -81,7 +81,33 @@ interface BelongOptItem {
 
 type BelongOpts = Array<BelongOptItem>
 
-export const useMessageTransformForm = () => {
+interface AvailableKeyConf {
+  key: AvailableKey
+  label: string
+  configKey?: string
+  keys?: Array<string>
+  allowSet: boolean
+  canSetSubProp?: boolean
+  allowUse: boolean
+  canUseSubProp?: boolean
+  advanced?: boolean
+}
+
+type UseMessageTransformFormReturn = {
+  availablePropKeyMap: Map<AvailableKey, AvailableKeyConf>
+  propBelongArr: Array<AvailableKey>
+  propBelongOpts: BelongOpts
+  targetBelongArr: Array<string>
+  targetBelongOpts: BelongOpts
+  subPropReg: RegExp
+  targetBelongReg: RegExp
+  canSetSubProp: (prop: AvailableKey) => boolean
+  canGetSubTarget: (target: string) => boolean
+  detectCanSetToPayload: (inType?: string, outType?: string) => boolean
+  detectCanSetToPayloadSub: (inType?: string, outType?: string) => boolean
+}
+
+export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
   const { t, tl } = useI18nTl('RuleEngine')
 
   const availableKeyConf = [

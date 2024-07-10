@@ -78,6 +78,7 @@ export default defineComponent({
     const getSchemaText = (key: string) => t(`ConfigSchema.emqx_schema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
       const { client_attrs_init } = data?.components?.mqtt?.properties || {}
+      const { max_packet_size } = data?.components?.mqtt.properties || {}
       if (client_attrs_init) {
         if (!client_attrs_init.componentProps) {
           client_attrs_init.componentProps = {}
@@ -109,6 +110,10 @@ export default defineComponent({
             },
           })
         }
+      }
+      if (max_packet_size) {
+        max_packet_size.componentProps = max_packet_size.componentProps || {}
+        max_packet_size.componentProps.units = ['MB', 'KB', 'B']
       }
 
       const { items } = client_attrs_init || {}

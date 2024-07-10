@@ -147,8 +147,12 @@
       <p class="tip">{{ tl('propsTransDesc') }}</p>
       <el-row :gutter="24">
         <el-col :span="21">
-          <el-form-item prop="operations">
-            <OperationsTable v-model="formData.operations" :transformation-form="formData" />
+          <el-form-item prop="operations" ref="OperationsFormItemRef">
+            <OperationsTable
+              v-model="formData.operations"
+              :transformation-form="formData"
+              @blur="validateOperations"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -218,6 +222,7 @@ import {
   defineEmits,
   defineExpose,
   defineProps,
+  nextTick,
   ref,
 } from 'vue'
 import OperationsTable from './OperationsTable.vue'
@@ -298,6 +303,12 @@ const rules: FormRules = {
       required: true,
     },
   ],
+  'payload_decoder.type': createRequiredRule(tl('inputFormat'), 'select'),
+  'payload_decoder.schema': createRequiredRule('Schema', 'select'),
+  'payload_decoder.message_type': createRequiredRule(tl('messageType')),
+  'payload_encoder.type': createRequiredRule(tl('outputFormat'), 'select'),
+  'payload_encoder.schema': createRequiredRule('Schema', 'select'),
+  'payload_encoder.message_type': createRequiredRule(tl('messageType')),
   operations: [
     {
       type: 'array',
@@ -344,7 +355,7 @@ const rules: FormRules = {
   ],
 }
 
-const arrayItemRule = {}
+const arrayItemRule = { topic: createRequiredRule(t('Base.topic')) }
 
 const { failureActionOpts } = useFailureAction()
 const { messageTransformLogLevelOpts: rawMessageTransformLogLevelOpts } =
@@ -419,10 +430,10 @@ const getSchemaTypeList = (type: string) => {
 
 const handleTypeChanged = (data: MessageTransform['payload_decoder']) => {
   data.schema = ''
-  if (!showSchemaSelect(data.type) && (data.schema || data.message_type)) {
+  if (!showSchemaSelect(data.type)) {
     Reflect.deleteProperty(data, 'schema')
     Reflect.deleteProperty(data, 'message_type')
-  } else if (!showMessageTypeSelect(data.type) && data.message_type) {
+  } else if (!showMessageTypeSelect(data.type)) {
     Reflect.deleteProperty(data, 'message_type')
   }
 }
@@ -433,6 +444,14 @@ const handleDecoderTypeChanged = (data: MessageTransform['payload_decoder']) => 
   if (encoderType && isDisabledEncodeType(encoderType)) {
     ElMessage.warning(tl('noSupportTransformationWarning'))
     formData.value.payload_encoder = { type: SchemaRegistryType.JSON }
+  }
+}
+
+const OperationsFormItemRef = ref()
+const validateOperations = async () => {
+  await nextTick()
+  if (OperationsFormItemRef.value.validateState === 'error') {
+    formCom.value.validateField('operations')
   }
 }
 

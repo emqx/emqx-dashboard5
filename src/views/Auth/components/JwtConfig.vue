@@ -78,6 +78,11 @@
               </el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <el-form-item :label="$t('RuleEngine.headers')">
+              <key-and-value-editor v-model="jwtConfig.headers" />
+            </el-form-item>
+          </el-col>
           <el-col :span="20">
             <CommonTLSConfig v-model="jwtConfig.ssl" :is-edit="isEdit" />
           </el-col>

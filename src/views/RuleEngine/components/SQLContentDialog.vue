@@ -3,7 +3,7 @@
     v-model="showDialog"
     :width="500"
     class="common-dialog"
-    :title="tl('pleaseEnterSQL')"
+    :title="title"
     destroy-on-close
   >
     <el-form ref="FormCom" label-position="top" :rules="rules" :model="form" hide-required-asterisk>
@@ -32,15 +32,7 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  sql: {
-    type: String,
-  },
-})
+const props = defineProps<{ modelValue: boolean; sql?: string; title?: string }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: boolean): void
   (e: 'submit', v: string): void

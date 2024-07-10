@@ -112,7 +112,8 @@ import { CER_FILE_ACCEPTS, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
-import { PropType, Ref, WritableComputedRef, computed, defineEmits, defineProps, ref } from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 import CustomFormItem from '../CustomFormItem.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
@@ -165,7 +166,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'verifyChange'])
 
-const record: WritableComputedRef<SSL> = computed({
+const record = computed<SSL>({
   get() {
     return props.modelValue
   },
@@ -174,7 +175,7 @@ const record: WritableComputedRef<SSL> = computed({
   },
 })
 
-const openResetMap: Ref<Record<ConfigItemKey, boolean>> = ref({
+const openResetMap = ref<Record<ConfigItemKey, boolean>>({
   certfile: false,
   keyfile: false,
   cacertfile: false,
