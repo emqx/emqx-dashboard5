@@ -1,9 +1,5 @@
 import http from '@/common/http'
 import { TraceRecord, TraceItem } from '@/types/diagnose'
-import { downloadBlobData } from '@/common/tools'
-import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
-import { ElMessage } from 'element-plus'
-import { getLocalMessage } from '@/i18n'
 
 export function getTraceList(): Promise<Array<TraceItem>> {
   return http.get('/trace')
@@ -27,23 +23,6 @@ export function getTraceLog(
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
 }
 
-export async function downloadTrace(name: string, node?: string): Promise<void> {
-  try {
-    const res = await http.get(`/trace/${encodeURIComponent(name)}/download`, {
-      params: { node },
-      responseType: 'blob',
-      timeout: 45000,
-      handleTimeoutSelf: true,
-    })
-    downloadBlobData(res)
-    return Promise.resolve()
-  } catch (error: any) {
-    if (error.code === REQUEST_TIMEOUT_CODE) {
-      ElMessage.error(getLocalMessage('LogTrace.logTraceDownloadTimeout'))
-    }
-    return Promise.reject(error)
-  }
-}
 export function stopTrace(name: string): Promise<{ enable: boolean; name: string }> {
   return http.put(`/trace/${encodeURIComponent(name)}/stop`)
 }
