@@ -241,6 +241,8 @@ export interface FilterParamsForQueryRules {
   like_from?: string
   like_description?: string
   match_from?: string
+  source?: string
+  action?: string
 }
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams
