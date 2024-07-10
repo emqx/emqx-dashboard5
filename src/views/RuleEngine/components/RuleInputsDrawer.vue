@@ -93,8 +93,8 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
+import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -130,7 +130,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const { getBridgeIdFromInput, detectInputType } = useGenerateFlowDataUtils()
+const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
 
 const isEdit = computed(() => !!props.input)
 
