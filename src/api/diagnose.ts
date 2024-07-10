@@ -1,38 +1,9 @@
 import http from '@/common/http'
-import {
-  SlowSubConfig,
-  SlowSubStatistic,
-  TopicMetricItem,
-  TraceRecord,
-  TraceItem,
-} from '@/types/diagnose'
+import { TopicMetricItem, TraceRecord, TraceItem } from '@/types/diagnose'
 import { downloadBlobData } from '@/common/tools'
 import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { ElMessage } from 'element-plus'
 import { getLocalMessage } from '@/i18n'
-
-export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
-  return http.get('/slow_subscriptions/settings')
-}
-
-export const updateSlowSubConfig = (data: SlowSubConfig): Promise<SlowSubConfig> => {
-  return http.put('/slow_subscriptions/settings', data)
-}
-
-export const clearSlowSubData = (): Promise<void> => {
-  return http.delete('/slow_subscriptions')
-}
-
-export const querySlowSubStatistics = async (): Promise<Array<SlowSubStatistic>> => {
-  try {
-    const { data = [] } = await http.get('/slow_subscriptions', {
-      params: { limit: 1000, page: 1 },
-    })
-    return Promise.resolve(data)
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
 
 export function getTraceList(): Promise<Array<TraceItem>> {
   return http.get('/trace')

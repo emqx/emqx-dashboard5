@@ -155,10 +155,6 @@ export default {
     zh: '主题监控',
     en: 'Topic Metrics',
   },
-  'slow-sub': {
-    zh: '慢订阅',
-    en: 'Slow Subscriptions',
-  },
   'mqtt-general': {
     zh: '通用',
     en: 'General',
@@ -375,10 +371,6 @@ export default {
   'exhook-create': {
     zh: '创建 ExHook',
     en: 'Create ExHook',
-  },
-  'slow-sub-config': {
-    zh: '慢订阅设置',
-    en: 'Slow Subscriptions Settings',
   },
   /* For Quick Panel End */
 }
