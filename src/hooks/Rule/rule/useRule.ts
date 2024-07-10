@@ -2,9 +2,10 @@ import {
   MULTI_LEVEL_WILDCARD,
   RULE_FROM_SEPARATOR,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
+  RULE_INPUT_EVENT_PREFIX,
   TOPIC_EVENT,
 } from '@/common/constants'
-import { addNewlineAfterComma, splitOnComma } from '@/common/tools'
+import { addNewlineAfterComma, getTypeAndNameFromKey, splitOnComma } from '@/common/tools'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, EventForRule, RuleInputType, RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
@@ -223,5 +224,42 @@ export const useRuleUtils = (): {
     replaceTargetPartInSQL,
     isMsgPubEvent,
     getEventForShow,
+  }
+}
+
+/**
+ * Unlike RuleInputType, the action here is specific to what type of action it is.
+ */
+export const SourceType = {
+  Message: 'message',
+  Event: 'event',
+  MQTTBroker: BridgeType.MQTT,
+}
+export const useRuleInputs = (): {
+  getBridgeIdFromInput: (input: string) => string
+  detectInputType: (from: string) => string
+} => {
+  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
+
+  const getBridgeTypeFromId = (id: string): string => getTypeAndNameFromKey(id).type
+  const eventInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
+  const bridgeInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+  /**
+   * @returns If the returned type is a bridge type, it is a specific bridge type
+   */
+  const detectInputType = (from: string): string => {
+    if (eventInputReg.test(from)) {
+      return SourceType.Event
+    }
+    // now has mqtt & http
+    if (bridgeInputReg.test(from)) {
+      return getBridgeTypeFromId(from.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, ''))
+    }
+    return SourceType.Message
+  }
+
+  return {
+    getBridgeIdFromInput,
+    detectInputType,
   }
 }
