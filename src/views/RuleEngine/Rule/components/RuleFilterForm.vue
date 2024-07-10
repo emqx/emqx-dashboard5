@@ -65,7 +65,48 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :ms="12" :md="12" :lg="18" />
+        <el-col v-bind="colProps">
+          <el-form-item>
+            <div
+              class="
+                el-input el-input-group el-input-group--prepend
+                el-input--suffix
+                input-target-value
+              "
+            >
+              <div class="el-input-group__prepend">
+                <el-select class="select-topic-type" v-model="keyForFilterActionOrSource">
+                  <el-option
+                    v-for="{ label, value } in FILTER_ACTION_OR_SOURCE_OPTIONS"
+                    :key="value"
+                    :label="label"
+                    :value="value"
+                  />
+                </el-select>
+              </div>
+              <div class="el-input__wrapper mock-wrapper">
+                <el-select
+                  type="text"
+                  v-model="filterParams[keyForFilterActionOrSource]"
+                  clearable
+                  @clear="searchRule"
+                >
+                  <el-option
+                    v-for="{ name, type, id } in endpointOpts"
+                    class="space-between"
+                    :key="id"
+                    :value="id"
+                    :label="name"
+                  >
+                    <span>{{ name }}</span>
+                    <p class="tip">{{ getGeneralTypeLabel(type) }}</p>
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+          </el-form-item>
+        </el-col>
+        <el-col :sm="12" :md="12" :lg="12" />
       </template>
       <el-col v-bind="colProps" class="col-oper">
         <el-button plain type="primary" :icon="Search" @click="searchRule">
@@ -93,11 +134,14 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useActionList from '@/hooks/Rule/action/useActionList'
+import useSourceList from '@/hooks/Rule/action/useSourceList'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
 import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
-import { Ref, defineEmits, defineProps, ref } from 'vue'
+import { Ref, computed, defineEmits, defineProps, ref } from 'vue'
 
 const props = defineProps({
   initialValue: {
@@ -114,11 +158,23 @@ const createRawFilterParams = () => ({
 
   enable: undefined,
   like_description: undefined,
+
+  source: undefined,
+  action: undefined,
 })
 const { tl, t } = useI18nTl('RuleEngine')
 const KEYS_FOR_SEARCH_TOPIC: Array<{ value: 'like_from' | 'match_from'; label: string }> = [
   { value: 'like_from', label: t('Base.topic') },
   { value: 'match_from', label: t('Clients.wildcard') },
+]
+
+const enum Endpoint {
+  Source = 'source',
+  Action = 'action',
+}
+const FILTER_ACTION_OR_SOURCE_OPTIONS: Array<{ value: Endpoint; label: string }> = [
+  { value: Endpoint.Action, label: tl('action') },
+  { value: Endpoint.Source, label: 'Source' },
 ]
 
 const emit = defineEmits(['search', 'refresh'])
@@ -127,6 +183,24 @@ const showMoreQuery = ref(false)
 
 const filterParams: Ref<FilterParamsForQueryRules> = ref(createRawFilterParams())
 const keyForSearchTopic: Ref<'like_from' | 'match_from'> = ref(KEYS_FOR_SEARCH_TOPIC[0].value)
+const keyForFilterActionOrSource: Ref<Endpoint> = ref(FILTER_ACTION_OR_SOURCE_OPTIONS[0].value)
+
+/**
+ * all created action list
+ */
+const actionList = ref<Array<any>>([])
+const { getActionList } = useActionList()
+;(async () => (actionList.value = await getActionList()))()
+
+const sourceList = ref<Array<any>>([])
+const { getSourceList } = useSourceList()
+;(async () => (sourceList.value = await getSourceList()))()
+
+const { getGeneralTypeLabel } = useBridgeTypeValue()
+
+const endpointOpts = computed(() =>
+  keyForFilterActionOrSource.value === Endpoint.Source ? sourceList.value : actionList.value,
+)
 
 const handleInitialValue = () => {
   filterParams.value = { ...filterParams.value, ...props.initialValue }
@@ -183,6 +257,19 @@ const handleReset = () => {
   .select-topic-type {
     .el-input {
       width: 100%;
+    }
+  }
+  .mock-wrapper {
+    padding: 0;
+    .el-input,
+    .el-select {
+      margin-right: 0;
+    }
+    .el-input__wrapper {
+      box-shadow: none;
+      background-color: transparent;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 }
