@@ -35,7 +35,6 @@ const tagArr = [
   'Retainer',
   'Alarms',
   'Subscriptions',
-  'Slow Subscriptions',
   'API Keys',
   'Banned',
   'Connectors',

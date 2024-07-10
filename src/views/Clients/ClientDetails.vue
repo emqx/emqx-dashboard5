@@ -320,14 +320,7 @@ const { getBackRoute } = useReceiveParams('clients')
 const showMsgListDialog = ref(false)
 const msgListType = ref<'mqueue' | 'inflight'>('mqueue')
 
-const isFromSlowSub = computed(() => {
-  return route.query.from === 'slow-sub'
-})
-
-const backRoute = computed(() => {
-  let routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
-  return getBackRoute({ name: routeName })
-})
+const backRoute = computed(() => getBackRoute({ name: 'clients' }))
 
 const clientId = computed<string>((): string => {
   return (route.params.clientId as string) || (props.clientid as string)
