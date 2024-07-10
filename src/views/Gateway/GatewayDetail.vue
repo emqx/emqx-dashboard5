@@ -1,19 +1,19 @@
 <template>
   <div class="app-wrapper gateway-detail">
-    <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }" />
-    <div class="section-header">
-      <div>
-        <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
-        <span class="title-n-status">
+    <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }">
+      <template #content>
+        <div class="vertical-align-center">
+          <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
+          <p class="block-title">{{ transGatewayName(gname) }}</p>
           <el-tag type="info" class="section-status">
             <span>
               <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
               <span>{{ gInfo.status }}</span>
             </span>
           </el-tag>
-        </span>
-      </div>
-    </div>
+        </div>
+      </template>
+    </detail-header>
     <el-menu router :default-active="matchedUrl" mode="horizontal">
       <template v-for="item in types" :key="item">
         <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
@@ -76,9 +76,12 @@ loadGatewayInfo()
     display: flex;
     align-items: center;
   }
+  .el-page-header__content {
+    line-height: 1;
+  }
   .g-icon::before {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     content: '';
     display: inline-block;
     background-size: contain;

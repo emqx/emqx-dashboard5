@@ -87,19 +87,15 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
-import { RuleItem } from '@/types/rule'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { queryRuleMetrics, resetRuleMetrics } from '@/api/ruleengine'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import { lowerCase } from 'lodash'
-import { useRuleMetrics } from '@/hooks/useMetrics'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useRuleMetrics } from '@/hooks/useMetrics'
+import { lowerCase } from 'lodash'
+import { defineProps } from 'vue'
 
 const props = defineProps({
-  ruleMsg: {
-    type: Object as PropType<RuleItem>,
-  },
   ruleId: {
     type: String,
     required: true,

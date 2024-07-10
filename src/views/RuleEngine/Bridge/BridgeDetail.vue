@@ -1,20 +1,18 @@
 <template>
   <div class="bridge-detail">
     <div class="detail-top">
-      <detail-header v-if="!isFromRule" :item="{ name: bridgeInfo.name, routeName: 'actions' }" />
-      <div v-if="!isFromRule" class="section-header">
-        <div>
-          <img :src="getBridgeIcon(bridgeInfo.type)" />
-          <div class="title-n-status">
-            <div class="info-tags">
-              <TargetItemStatus type="action" :target="bridgeInfo" is-tag />
-              <el-tag type="info" class="section-status">
-                {{ getGeneralTypeLabel(bridgeInfo.type) }}
-              </el-tag>
-            </div>
+      <detail-header v-if="!isFromRule" :item="{ name: bridgeInfo.name, routeName: 'actions' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <img :src="getBridgeIcon(bridgeInfo.type)" />
+            <p class="block-title">{{ bridgeInfo.name }}</p>
+            <TargetItemStatus type="action" :target="bridgeInfo" is-tag />
+            <el-tag type="info" class="section-status">
+              {{ getGeneralTypeLabel(bridgeInfo.type) }}
+            </el-tag>
           </div>
-        </div>
-        <div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="bridgeInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -48,8 +46,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
       <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">

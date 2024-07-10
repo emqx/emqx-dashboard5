@@ -1,14 +1,14 @@
 <template>
   <div class="rule-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'rule' }) }" />
-      <div class="section-header">
-        <div>
-          <span class="title-n-status">
+      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'rule' }) }">
+        <template #content>
+          <div class="vertical-align-center">
+            <p class="block-title">{{ ruleInfo.id }}</p>
             <RuleItemStatus :rule="ruleInfo" is-tag />
-          </span>
-        </div>
-        <div>
+          </div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -31,8 +31,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">

@@ -1,19 +1,15 @@
 <template>
   <div class="auth auth-details details">
     <div class="detail-top">
-      <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
-      <div class="section-header">
-        <div class="section-header__block">
-          <div>
-            <img :src="currImg" height="64" />
+      <detail-header :item="{ name: titleMap[type], path: '/authorization' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <img :src="currImg" height="40" />
+            <p class="block-title">{{ titleMap[type] }}</p>
+            <AuthItemStatus is-tag :metrics="authMetrics" />
           </div>
-          <div>
-            <div class="info-tags">
-              <AuthItemStatus is-tag :metrics="authMetrics" />
-            </div>
-          </div>
-        </div>
-        <div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -36,14 +32,8 @@
             >
             </el-button>
           </el-tooltip>
-          <!-- <el-button @click="handleUpdate(configData)">
-          {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
-        </el-button>
-        <el-button type="danger" plain @click="handleDelete">
-          {{ $t('Base.delete') }}
-        </el-button> -->
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
       <div class="app-wrapper">
