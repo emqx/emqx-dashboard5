@@ -707,22 +707,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Topic Metrics
-  {
-    path: '/topic-metrics',
-    component: Layout,
-    meta: {
-      hideKey: 'topicMetrics',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'topic-metrics',
-        component: () => import('@/views/Diagnose/TopicMetrics.vue'),
-      },
-    ],
-  },
   // Log Trace
   {
     path: '/log-trace',
