@@ -491,6 +491,10 @@ export default {
     zh: 'Schema 验证名称',
     en: 'Schema Validation Name',
   },
+  transformation: {
+    zh: '数据转换名称',
+    en: 'Data Transformation Name',
+  },
   exactQuery: {
     zh: '精准查询',
     en: 'Exact Query',

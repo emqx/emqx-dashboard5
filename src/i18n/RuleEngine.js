@@ -701,6 +701,10 @@ export default {
     zh: '当取消终端订阅成功时触发规则',
     en: `Triggered when the terminal subscription is cancelled successfully`,
   },
+  messageTransformationFailedDesc: {
+    zh: '消息转换失败时触发规则',
+    en: 'Trigger when message transformation fails',
+  },
   useAction: {
     zh: '使用动作',
     en: 'Use action',
@@ -1607,7 +1611,7 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   },
   transformNodesMetricsDesc: {
     zh: '消息转换在各节点上的执行情况及效率',
-    en: 'Execution status and efficiency of message validation on each node',
+    en: 'Execution status and efficiency of message transformation on each node',
   },
   aggregationSettings: {
     zh: '聚合设置',
