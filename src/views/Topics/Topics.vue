@@ -46,9 +46,6 @@
                 <el-button size="small" plain disabled> {{ tl('addMetric') }}</el-button>
               </span>
             </el-tooltip>
-            <el-button v-else size="small" plain @click="createMetricForTopic(row.topic)">
-              {{ tl('addMetric') }}
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -71,12 +68,10 @@ export default defineComponent({
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
 import { Search, Refresh, RefreshLeft } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
-const router = useRouter()
 const { tl } = useI18nTl('Subs')
 
 const tableData = ref([])
@@ -115,10 +110,6 @@ const loadTopics = async (_params = {}) => {
 
 const wildcardReg = /\/(#|\+)/
 const isTopicCanCreateTopic = (topic: string) => !wildcardReg.test(topic)
-
-const createMetricForTopic = (topic: string) => {
-  router.push({ name: 'topic-metrics', query: { topic } })
-}
 
 loadTopics()
 </script>

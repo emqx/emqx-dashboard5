@@ -247,10 +247,6 @@ export default {
     zh: '延迟发布',
     en: 'Delayed Publish',
   },
-  topicMetrics: {
-    zh: 'Topic Metrics',
-    en: 'Topic Metrics',
-  },
   actions: {
     zh: '动作 (Sink)',
     en: 'Actions (Sink)',
