@@ -36,10 +36,3 @@ export interface TraceItem {
   status: string
   log_size: Record<string, number>
 }
-
-export interface TopicMetricItem {
-  topic: string
-  create_time: string
-  reset_time: string
-  metrics: Record<string, number>
-}
