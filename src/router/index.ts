@@ -723,27 +723,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Slow Sub
-  {
-    path: '/slow-sub',
-    component: Layout,
-    meta: {
-      hideKey: 'slowSub',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'slow-sub',
-        component: () => import('@/views/Diagnose/SlowSub.vue'),
-      },
-      {
-        path: 'config',
-        name: 'slow-sub-config',
-        component: () => import('@/views/Diagnose/SlowSubConfig.vue'),
-      },
-    ],
-  },
   // Log Trace
   {
     path: '/log-trace',

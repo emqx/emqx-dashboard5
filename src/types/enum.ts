@@ -169,12 +169,6 @@ export enum NodeStatusClass {
   Danger = 'danger',
 }
 
-export enum SlowSubType {
-  Response = 'response',
-  Internal = 'internal',
-  Whole = 'whole',
-}
-
 export enum ChartType {
   Connections = 'connections',
   Dropped = 'dropped',
