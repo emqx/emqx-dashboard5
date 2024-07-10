@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import { TopicMetricItem, TraceRecord, TraceItem } from '@/types/diagnose'
+import { TraceRecord, TraceItem } from '@/types/diagnose'
 import { downloadBlobData } from '@/common/tools'
 import { REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { ElMessage } from 'element-plus'
@@ -50,26 +50,4 @@ export function stopTrace(name: string): Promise<{ enable: boolean; name: string
 
 export function deleteTrace(name: string): Promise<void> {
   return http.delete(`/trace/${encodeURIComponent(name)}`)
-}
-
-export function getTopicMetrics(topic: null | string = null): Promise<Array<TopicMetricItem>> {
-  if (null === topic) {
-    return http.get('/mqtt/topic_metrics')
-  }
-  return http.get('/mqtt/topic_metrics/' + encodeURIComponent(topic))
-}
-
-export function addTopicMetrics(topic: string): Promise<TopicMetricItem> {
-  const data = { topic: topic }
-  return http.post('/mqtt/topic_metrics', data)
-}
-
-export function deleteTopicMetrics(topic: string): Promise<any> | undefined {
-  if (topic == null) return
-  return http.delete('/mqtt/topic_metrics/' + encodeURIComponent(topic))
-}
-
-export function resetTopicMetrics(topic: string): any {
-  if (topic == null) return
-  return http.put(`/mqtt/topic_metrics`, { action: 'reset', topic })
 }
