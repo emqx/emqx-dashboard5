@@ -1,20 +1,4 @@
-import { LogTraceFormatter, LogTraceType, SlowSubType, TraceEncodeType } from './enum'
-
-export interface SlowSubConfig {
-  enable: boolean
-  threshold: string
-  expire_interval: string
-  top_k_num: number
-  stats_type: SlowSubType
-}
-
-export interface SlowSubStatistic {
-  clientid: string
-  node: string
-  topic: string
-  timespan: string
-  last_update_time: string
-}
+import { LogTraceFormatter, LogTraceType, TraceEncodeType } from './enum'
 
 export type TraceRecord = {
   name: string
