@@ -49,6 +49,7 @@
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
+        @nodes-change="updateEdges"
         @edges-change="checkEdges"
         @edge-mouse-enter="handleMouseEnterEdge"
         @edge-mouse-leave="handleMouseLeaveEdge"
@@ -146,18 +147,28 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, removeEdges, getNodes, getEdges } =
-  useVueFlow({
-    id: flowEditorId,
-    deleteKeyCode: 'Delete',
-    defaultEdgeOptions: { type: 'custom' },
-  })
+const {
+  addNodes,
+  onConnect,
+  addEdges,
+  findNode,
+  removeNodes,
+  removeEdges,
+  setEdges,
+  getNodes,
+  getEdges,
+} = useVueFlow({
+  id: flowEditorId,
+  deleteKeyCode: 'Delete',
+  defaultEdgeOptions: { type: 'custom' },
+})
 
 const {
   nodeArr: rawNodeArr,
   flowData,
   nodeTypeOnlyByOne,
   createFlowNodeDataFromEvent,
+  countNeededEdges,
 } = useFlowEditor(FlowerInstance, FlowWrapper)
 const nodeArr = computed(() => {
   const reg = new RegExp(`${searchText.value}`, `i`)
@@ -210,6 +221,11 @@ const onDragOver = (event: DragEvent) => {
   if (event.dataTransfer) {
     event.dataTransfer.dropEffect = 'move'
   }
+}
+
+const updateEdges = () => {
+  const neededEdges = countNeededEdges(getNodes.value)
+  setEdges(neededEdges)
 }
 
 const onDrop = (event: DragEvent) => {

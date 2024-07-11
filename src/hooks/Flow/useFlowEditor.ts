@@ -8,6 +8,7 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
 } from './useFlowNode'
+import useGenerateFlowDataUtils from './useGenerateFlowDataUtils'
 
 export const enum MsgKey {
   // This type of node is an input or output or normal
@@ -36,6 +37,7 @@ interface Ret {
     event: DragEvent,
     positionOffset: { x: number; y: number },
   ) => Node | undefined
+  countNeededEdges: (nodes: Array<Node>) => Edge[]
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
@@ -113,10 +115,26 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     }
   }
 
+  const { generateEdgesFromNodes } = useGenerateFlowDataUtils()
+  const countNeededEdges = (nodes: Array<Node>) => {
+    const groupedNodes = {
+      [NodeType.Source]: nodes.filter((node) => node.type === FlowNodeType.Input),
+      [ProcessingType.Function]: nodes.filter(
+        ({ data }) => data.specificType === ProcessingType.Function,
+      ),
+      [ProcessingType.Filter]: nodes.filter(
+        ({ data }) => data.specificType === ProcessingType.Filter,
+      ),
+      [NodeType.Sink]: nodes.filter((node) => node.type === FlowNodeType.Output),
+    }
+    return generateEdgesFromNodes(groupedNodes)
+  }
+
   return {
     nodeArr,
     flowData,
     nodeTypeOnlyByOne,
     createFlowNodeDataFromEvent,
+    countNeededEdges,
   }
 }
