@@ -42,6 +42,7 @@ export default (
     keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
 
   const commonAdvancedFields = [
+    'pipelining',
     'pool_type',
     'pool_size',
     'connect_timeout',
@@ -254,6 +255,7 @@ export default (
       ['server', 'database', 'username', 'password', 'driver'],
       fieldStartIndex,
     ),
+    [BridgeType.Couchbase]: createOrderObj(['server', 'username', 'password'], fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
@@ -281,8 +283,6 @@ export default (
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.KafkaConsumer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
-    [BridgeType.GCPProducer]: ['pipelining'],
-    [BridgeType.GCPConsumer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
     [BridgeType.IoTDB]: IoTDBAdvancedProps,

@@ -141,6 +141,7 @@ export enum BridgeType {
   Elasticsearch = 'elasticsearch',
   S3 = 's3',
   AzureBlobStorage = 'azure_blob_storage',
+  Couchbase = 'couchbase',
 }
 
 export enum PulsarType {

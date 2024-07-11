@@ -552,6 +552,17 @@ export default (
     return { components, rules }
   }
 
+  const couchbaseHandler = (data: { components: Properties; rules: SchemaRules }) => {
+    const { components, rules } = commonHandler(data)
+
+    const { parameters } = components
+    if (parameters?.properties?.sql) {
+      parameters.properties.sql.format = 'sql'
+    }
+
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -573,6 +584,7 @@ export default (
     [BridgeType.S3]: S3Handler,
     [BridgeType.AzureBlobStorage]: azureBlobHandler,
     [BridgeType.Pulsar]: pulsarHandler,
+    [BridgeType.Couchbase]: couchbaseHandler,
   }
 
   const getComponentsHandler = () => {
