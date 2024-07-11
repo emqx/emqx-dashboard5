@@ -62,16 +62,16 @@ import {
 } from '@/api/messageTransformation'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
+import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
-import { NodeStatusClass } from '@/types/enum'
+import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TransformForm from './components/TransformForm.vue'
-import { DetailTab } from '@/types/enum'
 import TransformOverview from './components/TransformOverview.vue'
 
 const router = useRouter()
@@ -115,11 +115,12 @@ const getDetail = async () => {
   }
 }
 
+const { handleDataBeforeSubmit } = handleTransformData()
 const updateTransform = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
-    await putMessageTransform(transformData.value)
+    await putMessageTransform(handleDataBeforeSubmit(transformData.value))
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'message-transform' })
   } catch (error) {

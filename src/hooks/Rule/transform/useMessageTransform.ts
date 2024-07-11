@@ -1,7 +1,12 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
-import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
+import {
+  MessageTransform,
+  MessageTransformFailureAction,
+  MessageTransformLogLevel,
+} from '@/types/typeAlias'
+import { cloneDeep } from 'lodash'
 
 export type TypeMessageTransformFailureAction =
   typeof MessageTransformFailureAction[keyof typeof MessageTransformFailureAction]
@@ -368,5 +373,20 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
     canGetSubTarget,
     detectCanSetToPayload,
     detectCanSetToPayloadSub,
+  }
+}
+
+export const handleTransformData = (): {
+  handleDataBeforeSubmit: (data: MessageTransform) => MessageTransform
+} => {
+  const handleDataBeforeSubmit = (data: MessageTransform): MessageTransform => {
+    const ret = cloneDeep(data)
+    if (ret.operations.length === 0) {
+      Reflect.deleteProperty(ret, 'operations')
+    }
+    return ret
+  }
+  return {
+    handleDataBeforeSubmit,
   }
 }
