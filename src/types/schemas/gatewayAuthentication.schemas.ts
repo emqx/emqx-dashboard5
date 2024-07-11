@@ -1096,6 +1096,8 @@ export const AuthnJwtJwksMechanism = {
   jwt: 'jwt',
 } as const
 
+export type AuthnJwtJwksHeaders = { [key: string]: any }
+
 export type AuthnJwtJwksUseJwks = typeof AuthnJwtJwksUseJwks[keyof typeof AuthnJwtJwksUseJwks]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1106,6 +1108,7 @@ export const AuthnJwtJwksUseJwks = {
 export interface AuthnJwtJwks {
   use_jwks: AuthnJwtJwksUseJwks
   endpoint: string
+  headers?: AuthnJwtJwksHeaders
   pool_size?: number
   refresh_interval?: number
   ssl?: EmqxSslClientOpts
