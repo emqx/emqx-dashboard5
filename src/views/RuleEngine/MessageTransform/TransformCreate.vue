@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { postMessageTransform } from '@/api/messageTransformation'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
@@ -55,11 +56,12 @@ const isSubmitting = ref(false)
 
 const cancel = () => router.push({ name: 'message-transform' })
 
+const { handleDataBeforeSubmit } = handleTransformData()
 const submit = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
-    await postMessageTransform(formData.value)
+    await postMessageTransform(handleDataBeforeSubmit(formData.value))
     ElMessage.success(t('Base.createSuccess'))
     router.push({ name: 'message-transform' })
   } catch (error) {

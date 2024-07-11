@@ -9,7 +9,9 @@
   >
     <el-table-column>
       <template #header>
-        <label class="mock-required-label">{{ tl('transformationProperties') }}</label>
+        <label :class="required ? 'mock-required-label' : ''">
+          {{ tl('transformationProperties') }}
+        </label>
       </template>
       <template #default="{ row, $index }">
         <!-- PARENT -->
@@ -39,7 +41,7 @@
     <el-table-column>
       <template #header>
         <div class="target-value-header">
-          <label class="mock-required-label">{{ tl('targetValue') }}</label>
+          <label :class="required ? 'mock-required-label' : ''">{{ tl('targetValue') }}</label>
           <el-button
             type="primary"
             :icon="Plus"
@@ -127,6 +129,7 @@ const {
 const props = defineProps<{
   modelValue: Array<MessageTransformOperation>
   transformationForm: MessageTransform
+  required: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Array<{ key: string; value: string }>): void
