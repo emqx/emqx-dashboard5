@@ -75,6 +75,7 @@ export default (): {
   countNodePositionWhileEditing: (nodes: GroupedNode) => void
   isRemovedBridge: (node: Node) => boolean
   addFlagToRemovedBridgeNode: (node: Node) => Node
+  generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
   const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
     useFlowNode()
@@ -562,5 +563,6 @@ export default (): {
     countNodePositionWhileEditing,
     isRemovedBridge,
     addFlagToRemovedBridgeNode,
+    generateEdgesFromNodes,
   }
 }
