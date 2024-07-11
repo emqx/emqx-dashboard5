@@ -4,6 +4,7 @@
     :width="500"
     class="common-dialog"
     :title="title"
+    append-to-body
     destroy-on-close
   >
     <el-form ref="FormCom" label-position="top" :rules="rules" :model="form" hide-required-asterisk>
