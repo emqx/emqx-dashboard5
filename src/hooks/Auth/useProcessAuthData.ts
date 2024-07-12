@@ -101,7 +101,6 @@ export default function useProcessAuthData() {
       use_jwks,
       verify_claims,
       disconnect_after_expire,
-      headers,
     }
     if (use_jwks) {
       tempData = {
@@ -109,6 +108,7 @@ export default function useProcessAuthData() {
         endpoint,
         refresh_interval,
         ssl,
+        headers,
       }
     } else {
       tempData = { ...tempData, algorithm }
