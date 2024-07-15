@@ -492,8 +492,8 @@ export default {
     en: 'Schema Validation Name',
   },
   transformation: {
-    zh: '数据转换名称',
-    en: 'Data Transformation Name',
+    zh: '消息转换名称',
+    en: 'Message Transformation Name',
   },
   exactQuery: {
     zh: '精准查询',
