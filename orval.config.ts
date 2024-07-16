@@ -33,7 +33,6 @@ const tagArr = [
   'Gateway Authentication',
   'CoAP Gateways',
   'Retainer',
-  'Alarms',
   'Subscriptions',
   'API Keys',
   'Banned',

@@ -13,7 +13,6 @@ export default (): {
     { title: 'clients', path: '/clients' },
     { title: 'subscriptions', path: '/subscriptions' },
     { title: 'retained', path: '/retained' },
-    { title: 'alarm', path: '/alarm' },
   ]
 
   const accessControl = [
@@ -30,7 +29,6 @@ export default (): {
         { title: 'mqtt', path: '/mqtt' },
         { title: 'listener', path: '/listener' },
         { title: 'log', path: '/log' },
-        { title: 'monitoring', path: '/monitoring' },
         // { title: 'limiter', path: '/limiter' },
       ],
     },

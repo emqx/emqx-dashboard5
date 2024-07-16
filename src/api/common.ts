@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { ListDataWithPagination } from '@/types/common'
 import {
-  Alarm,
   ChartDataItem,
   NodeInfo,
   NodeStatisticalData,
@@ -84,20 +82,6 @@ export async function loadStats(): Promise<Array<NodeStatisticalData>> {
 
 export function loadNodeStats(node: string): Promise<NodeStatisticalData> {
   return http.get(`/nodes/${encodeURIComponent(node)}/stats`)
-}
-
-//Alarms
-export async function loadAlarm(
-  history = false,
-  params = {},
-): Promise<ListDataWithPagination<Alarm>> {
-  return http.get('/alarms', {
-    params: { activated: String(!history), ...params },
-  })
-}
-
-export async function clearHistoryAlarm() {
-  return http.delete('/alarms')
 }
 
 // invite node
