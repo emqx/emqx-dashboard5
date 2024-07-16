@@ -1,12 +1,6 @@
 import http from '@/common/http'
 import { transMemorySizeNumToStr } from '@/common/tools'
-import {
-  AutoSubscribe,
-  Retainer,
-  RetainerMessage,
-  RetainerMessageDetail,
-  SysTopics,
-} from '@/types/extension'
+import { Retainer, RetainerMessage, RetainerMessageDetail, SysTopics } from '@/types/extension'
 import { ListDataWithPagination } from '@/types/common'
 
 /* Retainer */
@@ -66,14 +60,4 @@ export function getSystemTopicsConfig(): Promise<SysTopics> {
 
 export function updateSystemTopicConfig(params: SysTopics): Promise<SysTopics> {
   return http.put('/configs/sys_topics', params)
-}
-
-/* Proxy subscription */
-export function getSubscribe(): Promise<Array<AutoSubscribe>> {
-  return http.get('/mqtt/auto_subscribe')
-}
-
-export function editSubscribe(body: Array<AutoSubscribe>): Promise<Array<AutoSubscribe>> {
-  const data = typeof body === 'object' && body !== null ? body : []
-  return http.put('/mqtt/auto_subscribe', data)
 }

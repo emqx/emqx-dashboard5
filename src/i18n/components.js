@@ -223,10 +223,6 @@ export default {
     zh: 'MQTT 高级特性',
     en: 'Advanced MQTT',
   },
-  'auto-sub': {
-    zh: '自动订阅',
-    en: 'Auto Subscribe',
-  },
   actions: {
     zh: '动作 (Sink)',
     en: 'Actions (Sink)',
