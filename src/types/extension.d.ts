@@ -37,13 +37,6 @@ export interface RetainerMessageDetail extends RetainerMessage {
   payload: string
 }
 
-export interface Rewrite {
-  action: string
-  source_topic: string
-  dest_topic: string
-  re: string
-}
-
 export interface AutoSubscribe {
   topic: string
   qos: QoSLevel
