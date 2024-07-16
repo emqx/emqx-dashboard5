@@ -255,7 +255,6 @@ const supportBackendMap: any = {
     postgresql: 'PostgreSQL',
     http: tl('HTTPServer'),
     redis: 'Redis',
-    ldap: 'LDAP',
   },
   jwt: {},
   scram: {
