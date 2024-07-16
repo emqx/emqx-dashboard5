@@ -17,16 +17,6 @@
         {{ $t('Base.upgrade') }}<el-icon><right /></el-icon>
       </el-button>
 
-      <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
-        <div class="func-item">
-          <el-badge :is-dot="!!alertCount">
-            <router-link class="link-alarm" to="/alarm">
-              <el-icon class="bell"><bell /></el-icon>
-            </router-link>
-          </el-badge>
-        </div>
-      </el-tooltip>
-
       <el-tooltip
         effect="dark"
         :content="$t('components.help')"
@@ -75,12 +65,11 @@
 </template>
 
 <script lang="ts">
-import { loadAlarm } from '@/api/common'
 import { toLogin } from '@/router'
 import { useStore } from 'vuex'
-import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
+import { Right, Setting, Search } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
@@ -92,7 +81,6 @@ export default defineComponent({
   name: 'NavHeader',
   components: {
     Right,
-    Bell,
     Setting,
     Settings,
     Help,
@@ -110,34 +98,13 @@ export default defineComponent({
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
-    const alertCount = computed(() => {
-      return store.state.alertCount
-    })
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
     })
     const user = computed(() => {
       return store.state.user
     })
-    const alertText = computed(() => {
-      return alertCount.value > 0
-        ? `${t('components.theSystemHas')} ${alertCount.value} ${t(
-            'components.noteAlertClickView',
-          )}`
-        : t('components.noWarning')
-    })
-    const visibilityChangeFunc = () => {
-      return document.visibilityState === 'visible' && loadData()
-    }
 
-    const loadData = async () => {
-      try {
-        const { data } = await loadAlarm()
-        store.dispatch('SET_ALERT_COUNT', (data || []).length)
-      } catch (error) {
-        //
-      }
-    }
     const logout = () => {
       ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
         confirmButtonText: t('components.signOut'),
@@ -179,13 +146,7 @@ export default defineComponent({
     const openQuickPanel = () => {
       ctx.emit('open-quick-panel')
     }
-    loadData()
-    onMounted(() => {
-      document.addEventListener('visibilitychange', visibilityChangeFunc)
-    })
-    onBeforeUnmount(() => {
-      document.removeEventListener('visibilitychange', visibilityChangeFunc)
-    })
+
     return {
       t,
       IS_ENTERPRISE,
@@ -193,13 +154,10 @@ export default defineComponent({
       showHelp,
       store,
       leftBarCollapse,
-      alertCount,
-      alertText,
       user,
       downloadEnterprise,
       handleDropdownCommand,
       logout,
-      visibilityChangeFunc,
       handleShowSettings,
       handleShowHelp,
       isMac,
@@ -327,7 +285,6 @@ export default defineComponent({
     color: var(--color-primary);
   }
 }
-.link-alarm,
 .settings-alarm {
   width: 24px;
   height: 24px;
