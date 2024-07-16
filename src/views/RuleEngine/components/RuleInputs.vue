@@ -50,9 +50,8 @@
 <script setup lang="ts">
 import { getKeywordsFromSQL, getTypeAndNameFromKey } from '@/common/tools'
 import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import { useRuleInputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
@@ -113,7 +112,7 @@ const getEventLabel = (event: string) => {
 }
 
 /* Process Input String to Input Item */
-const { getBridgeIdFromInput, detectInputType } = useGenerateFlowDataUtils()
+const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
 const { getNodeIcon } = useFlowNode()
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const processToInputItem = (input: string): InputItem => {

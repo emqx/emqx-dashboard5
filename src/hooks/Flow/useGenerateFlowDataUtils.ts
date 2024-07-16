@@ -1,8 +1,4 @@
-import {
-  DEFAULT_SELECT,
-  RULE_INPUT_BRIDGE_TYPE_PREFIX,
-  RULE_INPUT_EVENT_PREFIX,
-} from '@/common/constants'
+import { DEFAULT_SELECT } from '@/common/constants'
 import {
   arraysAreEqual,
   getKeyPartsFromSQL,
@@ -17,8 +13,8 @@ import {
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-import { escapeRegExp, isString, isUndefined } from 'lodash'
-import { useRuleUtils } from '../Rule/rule/useRule'
+import { isString, isUndefined } from 'lodash'
+import { useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
@@ -202,7 +198,7 @@ export default (): {
   }
 
   /* SOURCE */
-  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
+  const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
   const getFormDataByType = (type: string, value: string) => {
     if (type === SourceType.Event) {
       return createEventForm(value)
@@ -212,21 +208,7 @@ export default (): {
     const bridgeId = getBridgeIdFromInput(value)
     return { name: getBridgeNameFromId(bridgeId), id: bridgeId }
   }
-  const eventInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
-  const bridgeInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
-  /**
-   * @returns If the returned type is a bridge type, it is a specific bridge type
-   */
-  const detectInputType = (from: string): string => {
-    if (eventInputReg.test(from)) {
-      return SourceType.Event
-    }
-    // now has mqtt & http
-    if (bridgeInputReg.test(from)) {
-      return getBridgeTypeFromId(from.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, ''))
-    }
-    return SourceType.Message
-  }
+
   /**
    * generate input node
    * - Message
