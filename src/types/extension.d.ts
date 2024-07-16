@@ -36,11 +36,3 @@ export interface RetainerMessage {
 export interface RetainerMessageDetail extends RetainerMessage {
   payload: string
 }
-
-export interface AutoSubscribe {
-  topic: string
-  qos: QoSLevel
-  rh: number
-  rap: number
-  nl: number
-}
