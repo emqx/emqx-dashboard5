@@ -223,10 +223,6 @@ export default {
     zh: 'MQTT 高级特性',
     en: 'Advanced MQTT',
   },
-  'topic-rewrite': {
-    zh: '主题重写',
-    en: 'Topic Rewrite',
-  },
   'auto-sub': {
     zh: '自动订阅',
     en: 'Auto Subscribe',
