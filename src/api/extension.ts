@@ -5,7 +5,6 @@ import {
   Retainer,
   RetainerMessage,
   RetainerMessageDetail,
-  Rewrite,
   SysTopics,
 } from '@/types/extension'
 import { ListDataWithPagination } from '@/types/common'
@@ -67,16 +66,6 @@ export function getSystemTopicsConfig(): Promise<SysTopics> {
 
 export function updateSystemTopicConfig(params: SysTopics): Promise<SysTopics> {
   return http.put('/configs/sys_topics', params)
-}
-
-/* Rewrite */
-export function getTopicRewrite(): Promise<Array<Rewrite>> {
-  return http.get('/mqtt/topic_rewrite')
-}
-
-export function editTopicRewrite(body: Array<Rewrite>): Promise<Array<Rewrite>> {
-  const data = typeof body === 'object' && body !== null ? body : {}
-  return http.put('/mqtt/topic_rewrite', data)
 }
 
 /* Proxy subscription */
