@@ -19,7 +19,6 @@ export default (): {
     { title: 'authentication', path: '/authentication' },
     { title: 'authorization', path: '/authorization' },
     { title: 'banned-clients', path: '/banned-clients' },
-    { title: 'flapping-detect', path: '/flapping-detect' },
   ]
 
   const management = [

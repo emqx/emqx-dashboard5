@@ -187,10 +187,6 @@ export default {
     zh: '黑名单',
     en: 'Banned Clients',
   },
-  'flapping-detect': {
-    zh: '连接抖动',
-    en: 'Flapping Detect',
-  },
   backup: {
     zh: '备份',
     en: 'Backup',
