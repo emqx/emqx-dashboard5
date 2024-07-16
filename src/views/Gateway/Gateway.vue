@@ -191,6 +191,7 @@ export default defineComponent({
 
 <style lang="scss">
 .gateway {
+  padding-bottom: 24px;
   .el-table {
     .status {
       color: #00b299;

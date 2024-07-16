@@ -127,15 +127,30 @@ export const GATEWAY_DISABLED_DATABASES_MAP = {
   | GB32960 | ✔︎    |      | ✔︎    |      |     |     |
 */
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
-  [GatewayName.CoAP]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
-  [GatewayName.LwM2M]: [ListenerTypeForGateway.TCP, ListenerTypeForGateway.SSL],
+  [GatewayName.CoAP]: [
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
+  [GatewayName.LwM2M]: [
+    ListenerTypeForGateway.TCP,
+    ListenerTypeForGateway.SSL,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
   [GatewayName.MQTT_SN]: [
     ListenerTypeForGateway.TCP,
     ListenerTypeForGateway.SSL,
     ListenerTypeForGateway.WS,
     ListenerTypeForGateway.WSS,
   ],
-  [GatewayName.STOMP]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
+  [GatewayName.STOMP]: [
+    ListenerTypeForGateway.UDP,
+    ListenerTypeForGateway.DTLS,
+    ListenerTypeForGateway.WS,
+    ListenerTypeForGateway.WSS,
+  ],
   [GatewayName.GBT32960]: [
     ListenerTypeForGateway.UDP,
     ListenerTypeForGateway.DTLS,

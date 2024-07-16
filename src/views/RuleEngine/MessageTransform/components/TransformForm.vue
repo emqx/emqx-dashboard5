@@ -151,6 +151,7 @@
             <OperationsTable
               v-model="formData.operations"
               :transformation-form="formData"
+              :required="isOperationsRequired"
               @blur="validateOperations"
             />
           </el-form-item>
@@ -285,6 +286,18 @@ const detectSetMultiLevelUserProperty = (arr: Array<{ key: string; value: string
   return arr.some(({ key }) => userPropSubReg.test(key) && key.split('.').length > 2)
 }
 
+const isOperationsRequired = computed(() => {
+  const {
+    payload_decoder: { type: decoderType } = {},
+    payload_encoder: { type: encoderType } = {},
+  } = formData.value
+  const doNotNeedOperations =
+    (decoderType === SchemaRegistryType.JSON &&
+      specialTypeBrothers.includes(encoderType as SchemaRegistryType)) ||
+    (encoderType === SchemaRegistryType.JSON &&
+      specialTypeBrothers.includes(decoderType as SchemaRegistryType))
+  return !doNotNeedOperations
+})
 const { detectCanSetToPayload, detectCanSetToPayloadSub } = useMessageTransformForm()
 const rules: FormRules = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
@@ -317,15 +330,7 @@ const rules: FormRules = {
           payload_decoder: { type: decoderType } = {},
           payload_encoder: { type: encoderType } = {},
         } = formData.value
-        const doNotNeedOperations =
-          (decoderType === SchemaRegistryType.JSON &&
-            [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
-              encoderType as SchemaRegistryType,
-            )) ||
-          (encoderType === SchemaRegistryType.JSON &&
-            [SchemaRegistryType.Avro, SchemaRegistryType.Protobuf].includes(
-              decoderType as SchemaRegistryType,
-            ))
+        const doNotNeedOperations = !isOperationsRequired.value
         let error = undefined
         if (!doNotNeedOperations && Array.isArray(value) && value.length === 0) {
           error = new Error(tl('operationsListRequired'))
