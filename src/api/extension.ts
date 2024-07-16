@@ -2,8 +2,6 @@ import http from '@/common/http'
 import { transMemorySizeNumToStr } from '@/common/tools'
 import {
   AutoSubscribe,
-  Delayed,
-  DelayedMessage,
   Retainer,
   RetainerMessage,
   RetainerMessageDetail,
@@ -89,31 +87,4 @@ export function getSubscribe(): Promise<Array<AutoSubscribe>> {
 export function editSubscribe(body: Array<AutoSubscribe>): Promise<Array<AutoSubscribe>> {
   const data = typeof body === 'object' && body !== null ? body : []
   return http.put('/mqtt/auto_subscribe', data)
-}
-
-/* Delayed */
-export function getDelayedConfig(): Promise<Delayed> {
-  return http.get('/mqtt/delayed')
-}
-
-export function updateDelayedConfig(body: Delayed): Promise<any> {
-  const data = typeof body === 'object' && body !== null ? body : {}
-  return http.put('/mqtt/delayed', data)
-}
-
-export function getDelayedList(params: {
-  page: number
-  limit: number
-}): Promise<ListDataWithPagination<DelayedMessage>> {
-  return http.get('/mqtt/delayed/messages', { params: params })
-}
-
-export function getDelayedInfo(node: string, id: string): Promise<DelayedMessage> | undefined {
-  if (!node || id == null) return
-  return http.get(`/mqtt/delayed/messages/${encodeURIComponent(node)}/${encodeURIComponent(id)}`)
-}
-
-export function delDelayedInfo(node: string, id: string): Promise<any> | undefined {
-  if (!node || null == id) return
-  return http.delete(`/mqtt/delayed/messages/${encodeURIComponent(node)}/${encodeURIComponent(id)}`)
 }

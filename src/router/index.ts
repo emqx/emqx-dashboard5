@@ -150,23 +150,6 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // Delayed Pub
-  {
-    path: '/delayed-pub',
-    component: Layout,
-    meta: {
-      hideKey: 'delayed-pub',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'delayed-pub',
-        component: () => import('@/views/DelayedPub/DelayedPub.vue'),
-      },
-    ],
-  },
-
   // Users
   {
     path: '/users',
@@ -616,21 +599,6 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'auto-sub',
         component: () => import('@/views/AdvancedMQTT/AutoSub.vue'),
-      },
-    ],
-  },
-  {
-    path: '/delayed-pub-configuration',
-    component: Layout,
-    meta: {
-      hideKey: 'delayed-pub-configuration',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'delayed-pub-configuration',
-        component: () => import('@/views/AdvancedMQTT/DelayedPub.vue'),
       },
     ],
   },
