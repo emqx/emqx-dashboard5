@@ -159,21 +159,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  {
-    path: '/flapping-detect',
-    meta: {
-      hideKey: 'flapping-detect',
-      authRequired: true,
-    },
-    component: Layout,
-    children: [
-      {
-        path: '',
-        name: 'flapping-detect',
-        component: () => import('@/views/General/FlappingDetect.vue'),
-      },
-    ],
-  },
   // Auth
   {
     path: '/authentication',
