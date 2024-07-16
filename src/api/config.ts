@@ -1,14 +1,5 @@
 import http from '@/common/http'
-import {
-  AlarmSettings,
-  Cluster,
-  Dashboard,
-  Limiter,
-  Log,
-  TeleStatus,
-  Zone,
-  Zones,
-} from '@/types/config'
+import { Cluster, Dashboard, Limiter, Log, TeleStatus, Zone, Zones } from '@/types/config'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -42,8 +33,3 @@ export const updateLimiters = (data: Limiter): Promise<Limiter> =>
 
 export const updateTeleStatus = (data: TeleStatus): Promise<TeleStatus> =>
   http.put('telemetry/status', data)
-
-export const getSysMon = (): Promise<AlarmSettings> => http.get('/configs/sysmon')
-
-export const updateSysMon = (data: AlarmSettings): Promise<AlarmSettings> =>
-  http.put('/configs/sysmon', data)

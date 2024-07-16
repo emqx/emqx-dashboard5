@@ -127,10 +127,6 @@ export default {
     zh: '主题监控',
     en: 'Topic metrics',
   },
-  alarm: {
-    zh: '告警',
-    en: 'Alarms',
-  },
   plugins: {
     zh: '插件',
     en: 'Plugins',
@@ -275,10 +271,6 @@ export default {
     zh: '条告警，点击查看',
     en: 'alerts, Click to view',
   },
-  noWarning: {
-    zh: '暂无告警',
-    en: 'No alarm',
-  },
   loggedOut: {
     zh: '已退出登录',
     en: 'Logged out',
@@ -314,18 +306,6 @@ export default {
   'monitoring-integration': {
     zh: '监控集成',
     en: 'Integration',
-  },
-  'alarm-settings': {
-    zh: '系统',
-    en: 'System',
-  },
-  'current-alarm': {
-    zh: '当前告警',
-    en: 'Active',
-  },
-  'history-alarm': {
-    zh: '历史告警',
-    en: 'History',
   },
   help: {
     zh: '帮助',

@@ -50,7 +50,6 @@ export default createStore({
     syncOsTheme: getSyncOSTheme(),
     lang: getLang(),
     leftBarCollapse: getLeftBarCollapse(),
-    alertCount: 0,
     request_queue: 0,
     edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
@@ -66,9 +65,6 @@ export default createStore({
     /* rule page end */
   },
   actions: {
-    SET_ALERT_COUNT({ commit }, count = 0) {
-      commit('SET_ALERT_COUNT', count)
-    },
     SET_LANGUAGE({ commit }, lang) {
       commit('SET_LANGUAGE', lang)
     },
@@ -86,9 +82,6 @@ export default createStore({
     },
   },
   mutations: {
-    SET_ALERT_COUNT(state, count) {
-      state.alertCount = count
-    },
     UPDATE_USER_INFO(state, userInfo) {
       const { logOut = false } = userInfo
       if (logOut) {
