@@ -63,30 +63,6 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
-  // Alarm
-  {
-    path: '/alarm',
-    component: Layout,
-    redirect: '/alarm/current-alarm',
-    meta: {
-      hideKey: 'alarm',
-      authRequired: true,
-      subMenu: true,
-    },
-    children: [
-      {
-        path: 'current-alarm',
-        name: 'current-alarm',
-        component: () => import('@/views/Alarm/CurrentAlarm.vue'),
-      },
-      {
-        path: 'history-alarm',
-        name: 'history-alarm',
-        component: () => import('@/views/Alarm/HistoryAlarm.vue'),
-      },
-    ],
-  },
-
   // Connections
   {
     path: '/clients',
@@ -634,28 +610,6 @@ export const routes: Array<RouteRecordRaw> = [
   //     },
   //   ],
   // },
-  // Monitoring integration
-  {
-    path: '/monitoring',
-    component: Layout,
-    redirect: '/monitoring/alarm-settings',
-    meta: {
-      authRequired: true,
-      subMenu: true,
-    },
-    children: [
-      {
-        path: 'alarm-settings',
-        name: 'alarm-settings',
-        component: () => import('@/views/Config/Monitoring/AlarmSettings.vue'),
-      },
-      {
-        path: 'integration',
-        name: 'monitoring-integration',
-        component: () => import('@/views/Config/Monitoring/MonitoringIntegration.vue'),
-      },
-    ],
-  },
   // WebSocket
   {
     path: '/websocket',
