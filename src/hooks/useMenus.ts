@@ -33,10 +33,7 @@ export default (): {
     },
     {
       title: 'advancedMQTT',
-      children: [
-        { title: 'topic-rewrite', path: '/topic-rewrite' },
-        { title: 'auto-sub', path: '/auto-sub' },
-      ],
+      children: [{ title: 'auto-sub', path: '/auto-sub' }],
     },
     {
       title: 'extensions',

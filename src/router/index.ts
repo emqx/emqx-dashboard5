@@ -534,21 +534,6 @@ export const routes: Array<RouteRecordRaw> = [
   },
   // Advanced MQTT
   {
-    path: '/topic-rewrite',
-    component: Layout,
-    meta: {
-      hideKey: 'topic-rewrite',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'topic-rewrite',
-        component: () => import('@/views/AdvancedMQTT/Rewrite.vue'),
-      },
-    ],
-  },
-  {
     path: '/auto-sub',
     component: Layout,
     meta: {
