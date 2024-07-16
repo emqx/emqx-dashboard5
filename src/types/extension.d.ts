@@ -51,22 +51,3 @@ export interface AutoSubscribe {
   rap: number
   nl: number
 }
-
-export interface Delayed {
-  enable: boolean
-  max_delayed_messages: number
-}
-
-export interface DelayedMessage {
-  msgid: string
-  node: string
-  publish_at: string
-  delayed_interval: number
-  delayed_remaining: number
-  expected_at: string
-  topic: string
-  qos: string
-  from_clientid: string
-  from_username: string
-  payload: string
-}
