@@ -629,6 +629,27 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Log Trace
+  {
+    path: '/log-trace',
+    component: Layout,
+    meta: {
+      hideKey: 'logTrace',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'log-trace',
+        component: () => import('@/views/Diagnose/LogTrace/LogTrace.vue'),
+      },
+      {
+        path: 'detail/:id',
+        name: 'log-trace-detail',
+        component: () => import('@/views/Diagnose/LogTrace/LogTraceDetail.vue'),
+      },
+    ],
+  },
   {
     path: '/:pathMatch(.*)*',
     component: Layout,
