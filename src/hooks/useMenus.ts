@@ -13,7 +13,6 @@ export default (): {
     { title: 'clients', path: '/clients' },
     { title: 'subscriptions', path: '/subscriptions' },
     { title: 'retained', path: '/retained' },
-    { title: 'delayed-pub', path: '/delayed-pub' },
     { title: 'alarm', path: '/alarm' },
   ]
 
@@ -40,7 +39,6 @@ export default (): {
       children: [
         { title: 'topic-rewrite', path: '/topic-rewrite' },
         { title: 'auto-sub', path: '/auto-sub' },
-        { title: 'delayed-pub', path: '/delayed-pub-configuration' },
       ],
     },
     {

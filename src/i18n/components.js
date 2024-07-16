@@ -239,14 +239,6 @@ export default {
     zh: '自动订阅',
     en: 'Auto Subscribe',
   },
-  'delayed-pub': {
-    zh: '延迟发布',
-    en: 'Delayed Publish',
-  },
-  'delayed-pub-configuration': {
-    zh: '延迟发布',
-    en: 'Delayed Publish',
-  },
   actions: {
     zh: '动作 (Sink)',
     en: 'Actions (Sink)',
