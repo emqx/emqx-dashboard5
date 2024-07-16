@@ -288,12 +288,6 @@ export interface PerClient {
   failure_strategy: string
 }
 
-export interface AlarmSettings {
-  vm: VM
-  os: OS
-  top: Top
-}
-
 interface Top {
   num_items: number
   sample_interval: string
