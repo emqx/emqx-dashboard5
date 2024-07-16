@@ -32,10 +32,6 @@ export default (): {
       ],
     },
     {
-      title: 'advancedMQTT',
-      children: [{ title: 'auto-sub', path: '/auto-sub' }],
-    },
-    {
       title: 'extensions',
       children: [
         { title: 'gateway', path: '/gateway' },
