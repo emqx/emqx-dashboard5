@@ -532,22 +532,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Advanced MQTT
-  {
-    path: '/auto-sub',
-    component: Layout,
-    meta: {
-      hideKey: 'auto-sub',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'auto-sub',
-        component: () => import('@/views/AdvancedMQTT/AutoSub.vue'),
-      },
-    ],
-  },
   // log config
   {
     path: '/log',
