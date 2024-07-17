@@ -99,10 +99,6 @@ export default {
     zh: '集成',
     en: 'Integration',
   },
-  flowDesigner: {
-    zh: 'Flow 设计器',
-    en: 'Flow Designer',
-  },
   flow: {
     zh: 'Flows',
     en: 'Flows',
@@ -219,10 +215,6 @@ export default {
     zh: '监听器',
     en: 'Listeners',
   },
-  advancedMQTT: {
-    zh: 'MQTT 高级特性',
-    en: 'Advanced MQTT',
-  },
   actions: {
     zh: '动作 (Sink)',
     en: 'Actions (Sink)',
@@ -250,14 +242,6 @@ export default {
   logOut: {
     zh: '退出登录',
     en: 'Logout',
-  },
-  theSystemHas: {
-    zh: '系统有',
-    en: 'The system has',
-  },
-  noteAlertClickView: {
-    zh: '条告警，点击查看',
-    en: 'alerts, Click to view',
   },
   loggedOut: {
     zh: '已退出登录',
