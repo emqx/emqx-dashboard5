@@ -355,9 +355,9 @@ export default {
     zh: '速率',
     en: 'Rate',
   },
-  notPromptAgain: {
-    zh: '不再提示',
-    en: "Don't show me again",
+  manageLicense: {
+    zh: '管理 License',
+    en: 'Manage License',
   },
   know: {
     zh: '知道了',
