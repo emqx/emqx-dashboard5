@@ -131,18 +131,6 @@ export default {
     zh: '添加主题',
     en: 'Add Topic',
   },
-  msgIn: {
-    en: 'Published Messages',
-    zh: '消息发布',
-  },
-  msgOut: {
-    en: 'Received Messages',
-    zh: '消息接收',
-  },
-  msgDrop: {
-    en: 'Dropped Messages',
-    zh: '消息丢弃',
-  },
   startTime: {
     en: 'Start At',
     zh: '起始时间',
@@ -162,9 +150,5 @@ export default {
   neverExpire: {
     zh: '永不过期',
     en: 'Never Expire',
-  },
-  topicExistedTip: {
-    zh: '该主题已添加，自动跳转至该主题下查看监控数据',
-    en: 'Topic already registered, automatically redirecting to the topic to view the monitoring data',
   },
 }

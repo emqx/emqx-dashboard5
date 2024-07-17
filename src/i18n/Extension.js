@@ -23,10 +23,6 @@ export default {
     zh: '消息存储',
     en: 'Storage',
   },
-  policy: {
-    en: 'Policy',
-    zh: '策略设置',
-  },
   flowControl: {
     en: 'Flow Control',
     zh: '流控',
@@ -67,10 +63,6 @@ export default {
     zh: '启用',
     en: 'Enable',
   },
-  enableDelayed: {
-    zh: '启用延迟发布',
-    en: 'Enable Delayed Publish',
-  },
   enableRetained: {
     zh: '启用保留消息',
     en: 'Enable Retained Messages',
@@ -78,10 +70,6 @@ export default {
   enableDesc: {
     zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
     en: 'Enable retainer feature, disabling will not clear the saved retained messages',
-  },
-  enableDelayedDesc: {
-    zh: '启用延迟发布功能，停用将终止延迟列表',
-    en: 'Enable the delayed publish and disable it to delete the delayed list',
   },
   createDate: {
     zh: '发布时间',
@@ -102,14 +90,6 @@ export default {
   dTopic: {
     zh: '目标主题',
     en: 'Destination Topic',
-  },
-  delayedTime: {
-    zh: '延迟时间',
-    en: 'Delay',
-  },
-  remainTime: {
-    zh: '剩余时间',
-    en: 'Remaining',
   },
   publishTime: {
     zh: '发布时间',
@@ -167,14 +147,6 @@ export default {
     zh: '数据管理',
     en: 'Manage Data',
   },
-  maxDelayedMsg: {
-    zh: '最大延迟消息数',
-    en: 'Max Delayed Messages',
-  },
-  maxDelayedMsgDesc: {
-    zh: '最大延迟消息数，超过此数量将不再接收新的延迟消息',
-    en: 'Max delayed messages, no new delayed messages will be accepted when the number is exceeded',
-  },
   builtInDatabase: {
     zh: '内置数据库',
     en: 'Built-in Database',
@@ -198,10 +170,6 @@ export default {
   disable: {
     en: 'Disabled',
     zh: '禁用',
-  },
-  releaseInterval: {
-    en: 'Quota Release Interval',
-    zh: '单次发布周期',
   },
   openPayload: {
     en: 'Show Payload',
@@ -320,9 +288,5 @@ export default {
   sysEventClientUnsubscribedDesc: {
     en: 'Enable to publish event message that client unsubscribed a topic successfully.',
     zh: '是否开启客户端已成功取消订阅主题事件消息。',
-  },
-  proxySubTip: {
-    zh: '通过自动订阅为客户端订阅主题时，不会经过 AuthZ 检查权限。',
-    en: 'The authorization will not check permission when clients subscribe to topics through Auto Subscribe.',
   },
 }
