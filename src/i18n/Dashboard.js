@@ -215,41 +215,13 @@ export default {
     zh: '暂无数据',
     en: 'No data',
   },
-  customer: {
-    zh: '签发对象',
-    en: 'Customer',
-  },
-  numberOfConnectionLines: {
-    zh: 'License 使用情况',
-    en: 'License usage',
-  },
-  issuanceOfEmail: {
-    zh: '签发邮箱',
-    en: 'email',
-  },
-  issuedAt: {
-    zh: '签发时间',
-    en: 'Issued At',
-  },
   expireAt: {
     zh: '到期时间',
     en: 'Expire At',
   },
-  beforeTheCertificateExpires: {
-    zh: '证书到期前 EMQ 将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
-    en: 'EMQ will send license expiration reminder by email. Please pay attention to the contact email inbox.',
-  },
-  forTrialEdition: {
-    zh: '当前 License 为试用版',
-    en: 'The license is for trial',
-  },
   license: {
     zh: 'License 信息',
     en: 'License',
-  },
-  trialEdition: {
-    zh: '试用版',
-    en: 'For Trial',
   },
   messageDrop: {
     zh: '消息丢弃',
@@ -282,10 +254,6 @@ export default {
   rate: {
     zh: '速率',
     en: 'Rate',
-  },
-  notPromptAgain: {
-    zh: '不再提示',
-    en: 'Stop showing this',
   },
   expired: {
     zh: '过期',
