@@ -33,14 +33,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item
-            v-if="inputForm.type === SourceType.Event"
+            v-if="inputForm.type === RuleSourceType.Event"
             :label="tl('event')"
             prop="event"
           >
             <RuleInputEventSelect v-model="inputForm.event" :is-event-disabled="isEventDisabled" />
           </el-form-item>
           <el-form-item
-            v-else-if="inputForm.type === SourceType.Message"
+            v-else-if="inputForm.type === RuleSourceType.Message"
             :label="t('Base.topic')"
             prop="topic"
           >
@@ -92,9 +92,8 @@
 <script setup lang="ts">
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
-import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
+import { RuleSourceType, useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
@@ -130,7 +129,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
+const { getBridgeIdFromInput, detectInputType, sourceOptList, getRuleSourceIcon } = useRuleInputs()
 
 const isEdit = computed(() => !!props.input)
 
@@ -140,7 +139,7 @@ const initInputForm = () => {
 
 const initData = () => {
   initInputForm()
-  inputForm.value.type = SourceType.Message
+  inputForm.value.type = RuleSourceType.Message
 }
 
 const setFormWhenOpening = () => {
@@ -151,9 +150,9 @@ const setFormWhenOpening = () => {
 
   const type = detectInputType(input)
   inputForm.value.type = type
-  if (type === SourceType.Event) {
+  if (type === RuleSourceType.Event) {
     inputForm.value.event = input
-  } else if (type === SourceType.Message) {
+  } else if (type === RuleSourceType.Message) {
     inputForm.value.topic = input
   } else {
     inputForm.value.sourceId = getBridgeIdFromInput(input)
@@ -168,11 +167,10 @@ watch(showDrawer, (val) => {
   }
 })
 
-const { sourceNodeList, getNodeIcon } = useFlowNode()
-const inputTypeOpts = sourceNodeList.map(({ name, specificType }) => ({
-  value: specificType,
-  label: name,
-  icon: getNodeIcon(specificType),
+const inputTypeOpts = sourceOptList.map(({ label, value }) => ({
+  value,
+  label,
+  icon: getRuleSourceIcon(value),
 }))
 
 const inputForm = ref({
@@ -203,7 +201,7 @@ const handleTypeChanged = initInputForm
 const disabledSourceList = computed(() => {
   return props.addedList.reduce((arr: Array<string>, item) => {
     const type = detectInputType(item)
-    if (type === SourceType.Message || type === SourceType.Event) {
+    if (type === RuleSourceType.Message || type === RuleSourceType.Event) {
       return arr
     }
     return [...arr, getBridgeIdFromInput(item)]
@@ -212,7 +210,7 @@ const disabledSourceList = computed(() => {
 const isEventDisabled = (event: string) =>
   Array.isArray(props.addedList) && props.addedList.includes(event)
 
-const notSourceType = [SourceType.Message, SourceType.Event]
+const notSourceType = [RuleSourceType.Message, RuleSourceType.Event]
 const isInputFromSource = computed(() => {
   const { type } = inputForm.value
   return type && !notSourceType.includes(type)
@@ -287,9 +285,9 @@ const submit = async () => {
     await FormCom.value?.validate?.()
     isSubmitting.value = true
     const { type, event, sourceId, topic } = inputForm.value
-    if (type === SourceType.Message) {
+    if (type === RuleSourceType.Message) {
       emit('submit', topic)
-    } else if (type === SourceType.Event) {
+    } else if (type === RuleSourceType.Event) {
       emit('submit', event)
     } else {
       let selectedSourceId = sourceId

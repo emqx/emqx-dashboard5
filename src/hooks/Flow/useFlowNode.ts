@@ -7,6 +7,7 @@ import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
 import { startCase } from 'lodash'
+import { RuleSourceType, useRuleInputs } from '../Rule/rule/useRule'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '../Rule/rule/useRuleSourceEvents'
 import useI18nTl from '../useI18nTl'
@@ -19,11 +20,7 @@ export const enum NodeType {
   Sink,
 }
 
-export const SourceType = {
-  Message: 'message',
-  Event: 'event',
-  MQTTBroker: BridgeType.MQTT,
-}
+export const SourceType = RuleSourceType
 
 /**
  * Cannot be added, only for show webhook
@@ -155,9 +152,6 @@ export default (): {
   }
 
   const typeLabelMap = {
-    [SourceType.Message]: t('RuleEngine.messages'),
-    [SourceType.Event]: t('RuleEngine.event'),
-    [SourceType.MQTTBroker]: t('RuleEngine.mqttBroker'),
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
     [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
@@ -208,10 +202,10 @@ export default (): {
       (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
   }
+  const { sourceOptList, isNotBridgeSourceTypes, getRuleSourceIcon } = useRuleInputs()
 
   const isNotBridgeTypes = [
-    SourceType.Event,
-    SourceType.Message,
+    ...isNotBridgeSourceTypes,
     ProcessingType.Filter,
     ProcessingType.Function,
     SinkType.RePub,
@@ -276,9 +270,6 @@ export default (): {
    * others in @/assets/img
    */
   const typesIconNew: Array<string> = [
-    SourceType.Event,
-    SourceType.Message,
-    BridgeType.MQTT,
     SourceTypeAllMsgsAndEvents,
     ProcessingType.Filter,
     ProcessingType.Function,
@@ -292,6 +283,9 @@ export default (): {
     try {
       if (!type) {
         return ''
+      }
+      if (Object.values(SourceType).includes(type)) {
+        return getRuleSourceIcon(type)
       }
       const adjustedType = adjustTypeForSpecialCases(type)
       const iconSuffix = disabled ? '-disabled' : ''
@@ -328,9 +322,10 @@ export default (): {
     ...bridgeOrderIndex,
   }
 
-  const sourceNodeList: Array<NodeItem> = Object.entries(SourceType).map(([, value]) =>
-    generateNodeByType(value),
-  )
+  const sourceNodeList: Array<NodeItem> = sourceOptList.map(({ value, label }) => ({
+    specificType: value,
+    name: label,
+  }))
   const processingNodeList: Array<NodeItem> = [
     generateNodeByType(ProcessingType.Function),
     generateNodeByType(ProcessingType.Filter),
