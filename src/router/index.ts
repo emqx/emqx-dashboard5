@@ -437,32 +437,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Flow
-  {
-    path: '/flow',
-    component: Layout,
-    meta: {
-      hideKey: 'flow',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'flow',
-        component: () => import('@/views/Flow/Index.vue'),
-      },
-      {
-        path: 'create',
-        name: 'flow-create',
-        component: () => import('@/views/Flow/FlowHandler.vue'),
-      },
-      {
-        path: ':id',
-        name: 'flow-detail',
-        component: () => import('@/views/Flow/FlowHandler.vue'),
-      },
-    ],
-  },
   // configs
   // {
   //   path: '/cluster',
