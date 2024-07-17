@@ -39,9 +39,8 @@
 
 <script setup lang="ts">
 import { getKeywordsFromSQL, getTypeAndNameFromKey } from '@/common/tools'
-import useFlowNode, { SourceType } from '@/hooks/Flow/useFlowNode'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleInputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import { RuleSourceType, useRuleInputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
@@ -102,8 +101,7 @@ const getEventLabel = (event: string) => {
 }
 
 /* Process Input String to Input Item */
-const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
-const { getNodeIcon } = useFlowNode()
+const { getBridgeIdFromInput, detectInputType, getRuleSourceIcon } = useRuleInputs()
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const processToInputItem = (input: string): InputItem => {
   const type = detectInputType(input)
@@ -111,12 +109,12 @@ const processToInputItem = (input: string): InputItem => {
   let info = ''
 
   switch (type) {
-    case SourceType.Message: {
+    case RuleSourceType.Message: {
       title = tl('message')
       info = `${t('Base.topic')}: ${input}`
       break
     }
-    case SourceType.Event: {
+    case RuleSourceType.Event: {
       title = tl('event')
       const eventLabel = getEventLabel(input)
       info = eventLabel ? `${t('RuleEngine.event')}: ${eventLabel}` : ''
@@ -130,7 +128,7 @@ const processToInputItem = (input: string): InputItem => {
       break
     }
   }
-  return { value: input, type, title, info, icon: getNodeIcon(type) }
+  return { value: input, type, title, info, icon: getRuleSourceIcon(type) }
 }
 
 /* SQL ↔ Input List */
