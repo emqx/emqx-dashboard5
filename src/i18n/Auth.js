@@ -156,11 +156,11 @@ export default {
     en: 'UserID Type',
   },
   server: {
-    zh: '服务',
+    zh: '服务器地址',
     en: 'Server',
   },
   servers: {
-    zh: '服务列表',
+    zh: '服务器列表',
     en: 'Servers',
   },
   enableTLS: {
