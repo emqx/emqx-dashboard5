@@ -43,7 +43,6 @@ export default (): {
 
   const integration = [
     { title: 'webhook', path: '/webhook' },
-    { title: 'flowDesigner', path: '/flow' },
     { title: 'rules', path: '/rule' },
     { title: 'connector', path: '/connector' },
   ]
