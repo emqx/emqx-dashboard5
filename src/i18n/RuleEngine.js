@@ -267,10 +267,6 @@ export default {
     zh: '类型',
     en: 'Type',
   },
-  dataProcessing: {
-    zh: '数据处理',
-    en: 'Data Processing',
-  },
   matched: {
     zh: '命中',
     en: 'Matched',

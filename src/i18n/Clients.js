@@ -223,10 +223,6 @@ export default {
     zh: '取消订阅',
     en: 'Unsubscribe',
   },
-  onLine: {
-    zh: '在线',
-    en: 'Online',
-  },
   unsubscribeTitle: {
     zh: '此操作将取消订阅该主题',
     en: 'This action will cancel subscription to the topic',
@@ -398,10 +394,6 @@ export default {
   retainHandling: {
     zh: '保留消息处理',
     en: 'Retain Handling',
-  },
-  topicRequired: {
-    zh: '主题不能为空',
-    en: 'Topic is required',
   },
   topic: {
     zh: '主题',
