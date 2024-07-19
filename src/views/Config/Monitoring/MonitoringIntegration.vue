@@ -214,26 +214,8 @@
               </template>
             </el-row>
           </template>
-          <!-- OpenTelemetry -->
-          <el-form-item v-if="selectedPlatform === DATADOG">
-            <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
-              <template #docUse>
-                <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
-              </template>
-              <template #docIntegration>
-                <a :href="docMap.datadogIntegration" target="_blank">
-                  {{ tl('datadogIntegration') }}
-                </a>
-              </template>
-            </i18n-t>
-          </el-form-item>
           <el-col class="btn-col" :span="24">
-            <el-button
-              type="primary"
-              :loading="isSubmitting"
-              :disabled="selectedPlatform === DATADOG"
-              @click="submit"
-            >
+            <el-button type="primary" :loading="isSubmitting" @click="submit">
               {{ $t('Base.saveChanges') }}
             </el-button>
             <el-button v-if="selectedPlatform === 'Prometheus'" @click="showPromSetup = true">
@@ -251,7 +233,6 @@
 import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from '@/api/common'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
-import dataDogImg from '@/assets/img/datadog.png'
 import { checkNOmitFromObj } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -268,17 +249,13 @@ import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 import useSSL from '@/hooks/useSSL'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useDocLink from '@/hooks/useDocLink'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'
-const DATADOG = 'Datadog'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
 const { createSSLForm } = useSSL()
-
-const { docMap } = useDocLink()
 
 const platformOpts = [
   {
@@ -290,11 +267,6 @@ const platformOpts = [
     label: OPENTELEMETRY,
     value: OPENTELEMETRY,
     img: opentelemetryImg,
-  },
-  {
-    label: DATADOG,
-    value: DATADOG,
-    img: dataDogImg,
   },
 ]
 
