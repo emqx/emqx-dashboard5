@@ -182,16 +182,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '日志级别',
     en: 'Logs Level',
   },
-  dataDogTip: {
-    zh: '无需配置额外参数，请参考{docUse}了解使用方法。更多详情请参阅 {docIntegration}。',
-    en: 'No extra configuration is required, please refer to {docUse} for usage. See {docIntegration} for more details.',
-  },
   thisDoc: {
     zh: '此文档',
     en: 'this doc',
-  },
-  datadogIntegration: {
-    zh: 'Datadog - EMQX 集成',
-    en: 'Datadog - EMQX Integration',
   },
 }
