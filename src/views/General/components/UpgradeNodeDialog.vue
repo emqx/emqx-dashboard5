@@ -43,7 +43,7 @@
                   :on-change="handleReUpload"
                   accept=".gz"
                 >
-                  <el-button type="danger" :loading="isUploading" @click="handleReUpload">
+                  <el-button type="danger" :loading="isUploading">
                     {{ tl('deleteAndReUpload') }}
                   </el-button>
                 </el-upload>
@@ -103,7 +103,12 @@
       <el-button @click="goPreStep" v-if="currentStep > 0" :disabled="isSubmitting">
         {{ $t('Base.backStep') }}
       </el-button>
-      <el-button v-if="currentStep < 2 && nodePackage" type="primary" @click="goNextStep">
+      <el-button
+        v-if="currentStep < 2 && nodePackage"
+        type="primary"
+        :disabled="isUploading"
+        @click="goNextStep"
+      >
         {{ t('Base.nextStep') }}
       </el-button>
       <el-button
@@ -204,17 +209,17 @@ const handleReUpload = async (file: UploadFile) => {
     isUploading.value = true
     await deleteUpgradePackage()
     await uploadUpgradePackage(file.raw)
+    await getCurrentPackage(false)
   } catch (error) {
     //
   } finally {
     isUploading.value = false
-    getCurrentPackage()
   }
 }
 
-const getCurrentPackage = async () => {
+const getCurrentPackage = async (toggleLoading = true) => {
   try {
-    isLoading.value = true
+    isLoading.value = toggleLoading && true
     nodePackage.value = await getUpgradePackage()
   } catch (error: any) {
     if (error.code === 404) {

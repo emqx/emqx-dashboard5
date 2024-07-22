@@ -2,13 +2,13 @@ import http from '@/common/http'
 import { NodeUpgradeData, HotUpgradePackage } from '@/types/typeAlias'
 
 export const upgradeNode = (node: string): Promise<void> => {
-  return http.post(`/relup/upgrade/${encodeURIComponent(node)}`)
+  return http.post(`/relup/upgrade/${encodeURIComponent(node)}`, { timeout: 600000 })
 }
 
 export const uploadUpgradePackage = (file: Blob): Promise<void> => {
   const formData = new FormData()
   formData.append('plugin', file)
-  return http.post(`/relup/package/upload`, formData)
+  return http.post(`/relup/package/upload`, formData, { timeout: 600000 })
 }
 
 export const getAllNodeStatus = (): Promise<Array<NodeUpgradeData>> => {
@@ -16,7 +16,7 @@ export const getAllNodeStatus = (): Promise<Array<NodeUpgradeData>> => {
 }
 
 export const getUpgradePackage = (): Promise<HotUpgradePackage> => {
-  return http.get(`/relup/package`, { errorsHandleCustom: [404] })
+  return http.get(`/relup/package`, { errorsHandleCustom: [404], timeout: 600000 })
 }
 
 export const deleteUpgradePackage = (): Promise<void> => {
