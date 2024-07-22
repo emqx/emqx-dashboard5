@@ -217,7 +217,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       ],
       allowSet: false,
       allowUse: true,
-      canUseSubProp: false,
+      canUseSubProp: true,
       advanced: true,
     },
     {
