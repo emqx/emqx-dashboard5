@@ -1074,7 +1074,7 @@
       "label": "Per-listener authentication override"
     },
     "fields_trace_payload_encode": {
-      "desc": "Determine the format of the payload format in the trace file.<br/>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br/>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\n`hidden`: payload is obfuscated as `******`",
+      "desc": "Determine the format of the payload format in the trace log file.<br/>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br/>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\n`hidden`: payload is obfuscated as `******`",
       "label": "Payload encode"
     },
     "mqtt_response_information": {

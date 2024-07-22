@@ -214,7 +214,7 @@
               </template>
             </el-row>
           </template>
-          <!-- OpenTelemetry -->
+          <!-- DATADOG -->
           <el-form-item v-if="selectedPlatform === DATADOG">
             <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
               <template #docUse>

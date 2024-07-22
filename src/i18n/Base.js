@@ -220,7 +220,7 @@ export default {
     en: 'Other',
   },
   server: {
-    zh: '服务',
+    zh: '服务器地址',
     en: 'Server',
   },
   enable: {

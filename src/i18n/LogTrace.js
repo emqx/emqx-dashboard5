@@ -112,7 +112,7 @@ export default {
     en: 'The default selected node is the node which generated the log latest, or you can manually select another node to view the log',
   },
   payload: {
-    zh: '负载编码',
+    zh: 'Payload 编码',
     en: 'Payload Encode',
   },
   payloadDesc: {
