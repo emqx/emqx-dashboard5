@@ -27,7 +27,7 @@
       <el-table-column :label="t('Clients.result')">
         <template #default="{ row }">
           <span>{{ getResultLabel(row.result) }}</span>
-          <InfoTooltip v-if="!isSucResult(row.result)" :content="row.result" />
+          <InfoTooltip v-if="!isSucResult(row.result)" :content="stringifyObjSafely(row.result)" />
         </template>
       </el-table-column>
     </el-table>
@@ -43,6 +43,7 @@
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeUpgradeData } from '@/types/typeAlias'
+import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import moment from 'moment'
 import { computed, defineEmits, defineProps } from 'vue'
 
