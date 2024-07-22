@@ -32,6 +32,13 @@ import {
   SsoOidcProvider,
   SsoOidcBackend,
 } from './schemas/dashboardSingleSignOn.schemas'
+import type {
+  PostRelupPackageUploadBody,
+  RelupRunningStatus,
+  RelupPackage,
+  RelupRunningStatusStatus as TypeRelupRunningStatusStatus,
+} from './schemas/relup.schemas'
+import { RelupRunningStatusStatus } from './schemas/relup.schemas'
 
 export type OverrideProperties<
   T,
@@ -76,3 +83,10 @@ export type MessageTransform = OverrideProperties<
 export type MessageTransformOperation = MessageTransformationOperation
 export const MessageTransformFailureAction = MessageTransformationTransformationFailureAction
 export const MessageTransformLogLevel = MessageTransformationLogFailureLevel
+
+/* HOT UPGRADE */
+export type HotUpgradePackageUploadBody = PostRelupPackageUploadBody
+export type NodeUpgradeData = RelupRunningStatus
+export type HotUpgradePackage = RelupPackage
+export type TypeNodeUpgradeStatus = TypeRelupRunningStatusStatus
+export const NodeUpgradeStatus = RelupRunningStatusStatus

@@ -403,23 +403,16 @@ export const routes: Array<RouteRecordRaw> = [
   // Hot Upgrade
   {
     path: '/hot-upgrade',
-    redirect: '/hot-upgrade/nodes',
     component: Layout,
     meta: {
       hideKey: 'hot-upgrade',
       authRequired: true,
-      subMenu: true,
     },
     children: [
       {
-        path: 'nodes',
-        name: 'hot-upgrade-nodes',
+        path: '',
+        name: 'hot-upgrade',
         component: () => import('@/views/General/HotUpgrade.vue'),
-      },
-      {
-        path: 'packages',
-        name: 'hot-upgrade-packages',
-        component: () => import('@/views/General/UpgradePackages.vue'),
       },
     ],
   },

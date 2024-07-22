@@ -527,9 +527,9 @@ export default {
     zh: '当前版本',
     en: 'Current Version',
   },
-  upgradeableVersion: {
-    zh: '可升级版本',
-    en: 'Upgradeable Version',
+  upgradeRecords: {
+    zh: '升级记录',
+    en: 'Upgrade Records',
   },
   packageTip: {
     zh: '请上传 EMQ 支持人员提供的 .tar.gz 格式的升级包',
@@ -547,9 +547,53 @@ export default {
     zh: '开始升级',
     en: 'Start Upgrade',
   },
-  selectPackageTip: {
-    zh: '为该节点选择可用的升级包：',
-    en: 'Select an available upgrade package for this node:',
+  uploadPackageTip: {
+    zh: '暂无升级包，请先上传。',
+    en: 'No upgrade package available, please upload first.',
+  },
+  packageRequired: {
+    zh: '请先上传升级包',
+    en: 'Please upload upgrade package first',
+  },
+  deleteAndReUpload: {
+    zh: '删除并重新上传',
+    en: 'Delete and Re-upload',
+  },
+  confirmDeleteAndReUpload: {
+    zh: '确认删除并重新上传？',
+    en: 'Confirm to delete and re-upload?',
+  },
+  startedAt: {
+    zh: '开始时间',
+    en: 'Started At',
+  },
+  finishedAt: {
+    zh: '结束时间',
+    en: 'Finished At',
+  },
+  fromVsn: {
+    zh: '升级前版本',
+    en: 'From Version',
+  },
+  targetVsn: {
+    zh: '升级后版本',
+    en: 'Target Version',
+  },
+  upgradeOpts: {
+    zh: '升级选项',
+    en: 'Upgrade Options',
+  },
+  idle: {
+    zh: '空闲',
+    en: 'Idle',
+  },
+  upgrading: {
+    zh: '升级中',
+    en: 'Upgrading',
+  },
+  finished: {
+    zh: '已完成',
+    en: 'Finished',
   },
   packageConfirm: {
     zh: '确认升级包信息：',
