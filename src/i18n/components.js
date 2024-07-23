@@ -19,6 +19,10 @@ export default {
     zh: '监控',
     en: 'Monitoring',
   },
+  'cluster-linking': {
+    zh: '集群连接',
+    en: 'Cluster Linking',
+  },
   management: {
     zh: '管理',
     en: 'Management',
