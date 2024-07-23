@@ -32,6 +32,7 @@ export default (): {
         { title: 'listener', path: '/listener' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
+        { title: 'cluster-linking', path: '/cluster-link' },
         // { title: 'limiter', path: '/limiter' },
       ],
     },

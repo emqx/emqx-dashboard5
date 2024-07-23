@@ -789,6 +789,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/cluster-linking',
+    component: Layout,
+    meta: {
+      hideKey: 'cluster-linking',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'cluster-linking',
+        component: () => import('@/views/Config/ClusterLinking/ClusterLinking.vue'),
+      },
+    ],
+  },
   // Schema Validation
   {
     path: '/schema-validation',
