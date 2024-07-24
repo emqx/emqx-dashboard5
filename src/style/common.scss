@@ -950,3 +950,28 @@ code {
     line-height: 20px;
   }
 }
+
+.el-table {
+  .topic-list {
+    margin-bottom: -4px;
+    line-height: 1;
+    .topic-item {
+      box-sizing: border-box;
+      display: inline-block;
+      max-width: 100%;
+      height: 24px;
+      padding: 0 10px;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      line-height: 22px;
+      white-space: nowrap;
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-primary);
+      border-radius: 8px;
+      background-color: var(--color-bg-split);
+      --el-tag-hover-color: var(--el-color-info);
+      --el-tag-text-color: var(--el-color-info);
+    }
+  }
+}

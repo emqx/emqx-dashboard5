@@ -30,7 +30,11 @@
       </el-table-column>
       <el-table-column :label="tl('sourceTopic')">
         <template #default="{ row }">
-          {{ row.topics?.join(', ') }}
+          <div class="topic-list">
+            <span class="topic-item" v-for="item in row.topics || []" :key="item">
+              <CommonOverflowTooltip :content="item" />
+            </span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="t('Base.isEnabled')">
@@ -75,6 +79,7 @@ import {
   getSchemaValidations,
   reorderAllValidations,
 } from '@/api/schemaValidation'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
