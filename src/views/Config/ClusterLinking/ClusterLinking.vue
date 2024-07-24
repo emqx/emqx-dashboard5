@@ -17,9 +17,9 @@
       <el-table-column :label="t('components.topics')">
         <template #default="{ row }">
           <div class="topic-list">
-            <el-tag class="input-item" type="info" v-for="item in row.topics || []" :key="item">
+            <span class="topic-item" v-for="item in row.topics || []" :key="item">
               <CommonOverflowTooltip :content="item" />
-            </el-tag>
+            </span>
           </div>
         </template>
       </el-table-column>
@@ -126,20 +126,3 @@ const handleDelete = async (name: string) => {
 
 loadLinks()
 </script>
-
-<style lang="scss">
-@import '~@/style/management.scss';
-.cluster-linking {
-  .topic-list {
-    .el-tag {
-      max-width: 100%;
-      margin-right: 4px;
-      margin-bottom: 4px;
-    }
-    .el-tag__content {
-      display: block;
-      max-width: 100%;
-    }
-  }
-}
-</style>
