@@ -126,6 +126,9 @@ export default (): {
   const getNewestLog = async () => {
     try {
       await getCurrentTraceNodesMsg()
+      if (!needPolling.value) {
+        return
+      }
       logLastPositionMap.forEach(async (position, node) => {
         const { items, meta } = await getTraceLog(traceName, {
           node,
@@ -174,9 +177,9 @@ export default (): {
   }
 
   const handleStopTest = () => {
-    deleteCurrentTrace()
     needPolling.value = false
     logLastPositionMap.clear()
+    deleteCurrentTrace()
   }
 
   onUnmounted(() => {
