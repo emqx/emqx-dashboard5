@@ -103,11 +103,12 @@ const statusData = computed(() => {
   }
 })
 
+const { handleDataBeforeSubmit, handleFetchedData } = handleTransformData()
 const getDetail = async () => {
   try {
     isLoading.value = true
     const data = await getMessageTransformDetail(transformName.value)
-    transformData.value = data
+    transformData.value = handleFetchedData(data)
   } catch (error) {
     console.error(error)
   } finally {
@@ -115,7 +116,6 @@ const getDetail = async () => {
   }
 }
 
-const { handleDataBeforeSubmit } = handleTransformData()
 const updateTransform = async () => {
   try {
     isSubmitting.value = true
