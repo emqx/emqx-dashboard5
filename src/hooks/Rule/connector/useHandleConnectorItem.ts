@@ -35,8 +35,6 @@ interface ConnectorHandlerResult {
   showDelTip: Ref<boolean>
   currentDelName: Ref<string>
   showDeleteWebhookAssociatedTip: Ref<boolean>
-  associatedActionList: Ref<string[]>
-  currentDelType: Ref<string>
   handleDeleteConnector: (data: Connector, callback: () => void | Promise<void>) => Promise<void>
 }
 
@@ -134,8 +132,6 @@ export default (): ConnectorHandlerResult => {
     testConnectorConnectivity(data as Connector)
 
   const showDelTip = ref(false)
-  const associatedActionList = ref<Array<string>>([])
-  const currentDelType = ref('')
 
   const deleteTrueConnector = async (id: string) => {
     return confirmDel(() => deleteConnector(id))
@@ -149,16 +145,15 @@ export default (): ConnectorHandlerResult => {
     connector: Connector,
     callback: () => void | Promise<void>,
   ) => {
-    const { id, type, actions, name } = connector
+    const { id, actions, sources, name } = connector
     if (judgeIsWebhookConnector(connector)) {
       currentDelName.value = name
       showDeleteWebhookAssociatedTip.value = true
       return
     }
-    if (actions && actions.length) {
+    if ((actions && actions.length) || (sources && sources.length)) {
+      currentConnector.value = connector
       showDelTip.value = true
-      associatedActionList.value = actions
-      currentDelType.value = type
       return
     }
     try {
@@ -186,8 +181,6 @@ export default (): ConnectorHandlerResult => {
     showDelTip,
     currentDelName,
     showDeleteWebhookAssociatedTip,
-    associatedActionList,
-    currentDelType,
     handleDeleteConnector,
   }
 }
