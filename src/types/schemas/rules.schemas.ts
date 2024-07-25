@@ -187,6 +187,7 @@ export interface RuleEngineUserProvidedFunction {
 }
 
 export type RuleEngineRuleTestContext =
+  | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxDeliveryDropped
   | RuleEngineCtxBridgeMqtt
@@ -286,6 +287,23 @@ export interface RuleEngineRuleCreation {
   description?: string
   metadata?: RuleEngineRuleCreationMetadata
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
 
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext
@@ -415,6 +433,26 @@ export const RuleEngineCtxPubEventType = {
 export interface RuleEngineCtxPub {
   event_type: RuleEngineCtxPubEventType
   id?: string
+  clientid?: string
+  username?: string
+  payload?: string
+  peerhost?: string
+  topic?: string
+  publish_received_at?: number
+  qos?: number
+}
+
+export type RuleEngineCtxMessageTransformationFailedEventType =
+  typeof RuleEngineCtxMessageTransformationFailedEventType[keyof typeof RuleEngineCtxMessageTransformationFailedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxMessageTransformationFailedEventType = {
+  message_transformation_failed: 'message_transformation_failed',
+} as const
+
+export interface RuleEngineCtxMessageTransformationFailed {
+  event_type: RuleEngineCtxMessageTransformationFailedEventType
+  transformation?: string
   clientid?: string
   username?: string
   payload?: string
@@ -611,22 +649,6 @@ export interface RuleEngineCtxBridgeMqtt {
   message_received_at?: number
   qos?: number
 }
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxPub
 
 export type RuleEngineCtxAckedEventType =
   typeof RuleEngineCtxAckedEventType[keyof typeof RuleEngineCtxAckedEventType]
