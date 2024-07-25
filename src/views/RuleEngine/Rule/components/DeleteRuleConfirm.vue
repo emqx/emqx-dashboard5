@@ -5,7 +5,7 @@
     :width="400"
     :z-index="2000"
   >
-    <div>
+    <div v-loading="isLoading">
       <div class="el-message-box__container">
         <i class="el-icon el-message-box__status el-message-box-icon--warning">
           <WarningFilled />
@@ -14,11 +14,13 @@
           {{ tl('deleteRuleConfirm') }}
         </div>
       </div>
-      <el-checkbox v-if="withSourceOrAction" v-model="deleteSourceAndActionSameTime">
-        {{ tl('deleteActionAndSourceSameTime') }}
-      </el-checkbox>
+      <div class="checkbox-wrapper">
+        <el-checkbox v-if="withSourceOrAction" v-model="deleteSourceAndActionSameTime">
+          {{ tl('deleteActionAndSourceSameTime') }}
+        </el-checkbox>
+      </div>
     </div>
-    <template #footer>
+    <template v-if="!isLoading" #footer>
       <span class="dialog-footer">
         <el-button @click="showDialog = false">
           {{ $t('Base.cancel') }}
@@ -62,6 +64,7 @@ const showDialog = computed({
 watch(showDialog, (val) => {
   if (val) {
     deleteSourceAndActionSameTime.value = true
+    refreshList()
   }
 })
 
@@ -70,7 +73,13 @@ watch(showDialog, (val) => {
  */
 const actionList = ref<Array<any>>([])
 const { getActionList } = useActionList()
-;(async () => (actionList.value = await getActionList()))()
+const refreshActionList = async () => {
+  try {
+    actionList.value = await getActionList()
+  } catch (error) {
+    //
+  }
+}
 
 const ruleEvent = ref<Array<RuleEvent>>([])
 const { getEventList } = useRuleEvents()
@@ -78,7 +87,25 @@ const { getEventList } = useRuleEvents()
 
 const sourceList = ref<Array<any>>([])
 const { getSourceList } = useSourceList()
-;(async () => (sourceList.value = await getSourceList()))()
+const refreshSourceList = async () => {
+  try {
+    sourceList.value = await getSourceList()
+  } catch (error) {
+    //
+  }
+}
+
+const isLoading = ref(false)
+const refreshList = async () => {
+  try {
+    isLoading.value = true
+    await Promise.all([refreshActionList(), refreshSourceList()])
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const { findInputTypeNTarget } = useRuleUtils()
 const { judgeOutputType } = useRuleOutputs()
@@ -98,17 +125,18 @@ const actions = computed(() => {
 
 const sources = computed(() => {
   const allSources = props.rule?.from || []
-  const sourceIdList = allSources.filter((source) => {
-    const { type } = findInputTypeNTarget(source, actionList.value, ruleEvent.value)
+  const sourceFromIdList = allSources.filter((source) => {
+    const { type } = findInputTypeNTarget(source, ruleEvent.value, sourceList.value)
     return type === RuleInputType.Bridge
   })
-  return sourceIdList.reduce((arr: Array<any>, id) => {
-    const item = sourceList.value.find((source) => source.id === id)
+  const ret = sourceFromIdList.reduce((arr: Array<any>, fromId) => {
+    const item = sourceList.value.find((source) => source.idForRuleFrom === fromId)
     if (item) {
       arr.push(item)
     }
     return arr
   }, [])
+  return ret
 })
 
 /**
@@ -116,8 +144,7 @@ const sources = computed(() => {
  * if it is not (there are multiple rules), skip it.
  */
 const withSourceOrAction = computed(() =>
-  // TODO:TODO:TODO:TODO:TODO:TODO:
-  [...sources.value, ...actions.value].every((item) => item.rules === 1),
+  [...sources.value, ...actions.value].every((item) => item.rules.length === 1),
 )
 const deleteSourceAndActionSameTime = ref(true)
 
@@ -150,4 +177,13 @@ const submit = async () => {
 
 <style lang="scss">
 @import '~@/style/rule.scss';
+.delete-second-confirm {
+  .checkbox-wrapper {
+    padding: 12px 0 8px 36px;
+  }
+  .el-loading-mask {
+    top: -5px;
+    background-color: var(--color-bg-content) !important;
+  }
+}
 </style>
