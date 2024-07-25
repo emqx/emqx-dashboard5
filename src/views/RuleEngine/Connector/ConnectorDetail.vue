@@ -108,11 +108,7 @@
     </div>
   </div>
   <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
-  <DelConnectorTip
-    v-model="showDelTip"
-    :action-list="associatedActionList"
-    :connector-type="currentDelType"
-  />
+  <DelConnectorTip v-model="showDelTip" :connector="connectorData" />
   <DeleteWebhookAssociatedTip
     v-model="showDeleteWebhookAssociatedTip"
     type="connector"
@@ -206,8 +202,6 @@ const {
   handleDeleteConnector,
   showDelTip,
   showDeleteWebhookAssociatedTip,
-  associatedActionList,
-  currentDelType,
 } = useHandleConnectorItem()
 
 /* Webhook associated */
