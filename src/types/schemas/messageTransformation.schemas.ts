@@ -193,7 +193,7 @@ export interface MessageTransformationTransformation {
   log_failure?: MessageTransformationLogFailure
   payload_decoder?: MessageTransformationTransformationPayloadDecoder
   payload_encoder?: MessageTransformationTransformationPayloadEncoder
-  operations: MessageTransformationOperation[]
+  operations?: MessageTransformationOperation[]
 }
 
 export type MessageTransformationLogFailureLevel =
