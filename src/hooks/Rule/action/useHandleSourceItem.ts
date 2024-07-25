@@ -147,7 +147,11 @@ export const useDeleteSource = (
 
   const { deleteSource } = useHandleSourceItem()
   const handleDeleteSource = async (item: Source) => {
-    const { id } = item
+    if (item.rules?.length) {
+      currentDeleteBridgeId.value = item.id
+      secondConfirmToDelete(item.rules)
+      return
+    }
     await ElMessageBox.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
@@ -155,16 +159,10 @@ export const useDeleteSource = (
       type: 'warning',
     })
     try {
-      await deleteSource(id)
+      await deleteSource(item.id)
       handleDeleteSuc()
     } catch (error: any) {
-      const { status, data } = error?.response || {}
-      if (status === 400) {
-        currentDeleteBridgeId.value = id
-        secondConfirmToDelete(data?.rules || [])
-      } else {
-        console.error(error)
-      }
+      //
     }
   }
 

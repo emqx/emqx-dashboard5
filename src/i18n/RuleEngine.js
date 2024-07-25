@@ -801,13 +801,9 @@ export default {
     zh: '删除{target}时发生错误，请尝试手动删除',
     en: 'An error occurred while deleting {target}, please try to delete it manually',
   },
-  deleteSourceConnectorTip: {
-    zh: '请先移除使用该连接器的下列 sources，然后再删除该连接器。',
-    en: 'Please remove the following sources that use this connector before deleting the connector.',
-  },
-  deleteActionConnectorTip: {
-    zh: '请先移除使用该连接器的下列动作{ext}，然后再删除该连接器。',
-    en: 'Please remove the following actions {ext} that use this connector before deleting the connector.',
+  deleteConnectorTip: {
+    zh: '请先移除使用该连接器的下列{target}，然后再删除该连接器。',
+    en: 'Please remove the following {target} that use this connector before deleting the connector.',
   },
   deleteEgressActionSecondConfirm: {
     zh: '此动作正在被以下规则使用，确认删除并将其从规则中移除？',
@@ -1088,5 +1084,9 @@ export default {
   tipForTesting: {
     zh: '测试模式已启动，请输入模拟数据或使用真实客户端触发规则以进行测试',
     en: 'Test mode has been started, please enter simulated data or use a real client to trigger the rule for testing',
+  },
+  associatedRules: {
+    zh: '关联规则',
+    en: 'Associated Rules',
   },
 }

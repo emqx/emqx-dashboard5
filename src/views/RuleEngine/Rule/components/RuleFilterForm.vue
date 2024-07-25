@@ -207,6 +207,10 @@ const handleInitialValue = () => {
   if (filterParams.value.like_from || filterParams.value.match_from) {
     keyForSearchTopic.value = filterParams.value.like_from ? 'like_from' : 'match_from'
   }
+  if (filterParams.value.action || filterParams.value.source) {
+    keyForFilterActionOrSource.value = filterParams.value.source ? Endpoint.Source : Endpoint.Action
+    showMoreQuery.value = true
+  }
   if (filterParams.value.like_description) {
     showMoreQuery.value = true
   }
