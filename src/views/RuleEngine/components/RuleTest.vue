@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import { waitAMoment } from '@/common/tools'
 import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -70,37 +69,15 @@ const { savedAfterRuleChange } = useStatusController()
 const showMockDataDrawer = ref(false)
 const isSubmittingMockData = ref(false)
 
-const { logData, handleStopTest, submitMockDataForTestRule, startTest, setCbAfterPolling } =
-  useDebugRule()
+const { logData, handleStopTest, submitMockDataForTestRule, startTest } = useDebugRule()
 
 const showStartTestInChild = computed(() => Object.keys(logData.value).length === 0)
-
-const ScrollbarCom = ref()
-const scrollLogToBottom = async (log: string) => {
-  if (log) {
-    let isScrollToBottom = false
-    const scrollWrap = ScrollbarCom.value?.wrapRef
-    const scrollContent = scrollWrap?.firstChild
-    if (scrollWrap && scrollContent) {
-      isScrollToBottom =
-        Math.abs(scrollWrap.clientHeight + scrollWrap.scrollTop - scrollContent.clientHeight) < 5
-    }
-    await waitAMoment()
-    if (isScrollToBottom) {
-      ScrollbarCom.value.scrollTo({
-        top: scrollContent.clientHeight - scrollWrap.clientHeight,
-        behavior: 'smooth',
-      })
-    }
-  }
-}
 
 const isTestStarted = ref(false)
 const handleStartTest = async () => {
   isTestStarted.value = true
   try {
     await startTest(props.ruleData.id)
-    setCbAfterPolling(scrollLogToBottom)
   } catch (error) {
     //
   }
@@ -113,7 +90,6 @@ const handleSubmitMockData = async (context: Record<string, any>) => {
   try {
     isSubmittingMockData.value = true
     await submitMockDataForTestRule(props.ruleData.id, context)
-    setCbAfterPolling(scrollLogToBottom)
     showMockDataDrawer.value = false
   } catch (error) {
     //
