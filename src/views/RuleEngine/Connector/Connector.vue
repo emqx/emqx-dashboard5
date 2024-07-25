@@ -108,11 +108,7 @@
     </div>
     <CreateRuleWithConnector v-model="showCreateRuleDialog" :connector="createdConnector" />
   </div>
-  <DelConnectorTip
-    v-model="showDelTip"
-    :action-list="associatedActionList"
-    :connector-type="currentDelType"
-  />
+  <DelConnectorTip v-model="showDelTip" :connector="currentConnector" />
   <DeleteWebhookAssociatedTip
     v-model="showDeleteWebhookAssociatedTip"
     type="connector"
@@ -183,8 +179,6 @@ const {
   showDelTip,
   currentDelName,
   showDeleteWebhookAssociatedTip,
-  associatedActionList,
-  currentDelType,
 } = useHandleConnectorItem()
 const { judgeIsWebhookConnector } = useWebhookUtils()
 

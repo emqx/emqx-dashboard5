@@ -80,6 +80,7 @@ export interface BridgeBaseData {
   }>
   status: ConnectionStatus
   status_reason?: string
+  rules: Array<string>
   type: BridgeType
   realType?: string
   local_topic?: string
@@ -183,6 +184,7 @@ export interface Action {
   id: string
   status: ConnectionStatus
   status_reason?: string
+  rules: Array<string>
   enable: boolean
   connector: string
   resource_opts: ResourceOpt
