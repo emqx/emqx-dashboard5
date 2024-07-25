@@ -378,15 +378,23 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
 
 export const handleTransformData = (): {
   handleDataBeforeSubmit: (data: MessageTransform) => MessageTransform
+  handleFetchedData: (data: MessageTransform) => MessageTransform
 } => {
   const handleDataBeforeSubmit = (data: MessageTransform): MessageTransform => {
     const ret = cloneDeep(data)
-    if (ret.operations.length === 0) {
+    if (ret.operations?.length === 0) {
       Reflect.deleteProperty(ret, 'operations')
     }
     return ret
   }
+  const handleFetchedData = (data: MessageTransform): MessageTransform => {
+    if (!data.operations) {
+      data.operations = []
+    }
+    return data
+  }
   return {
     handleDataBeforeSubmit,
+    handleFetchedData,
   }
 }
