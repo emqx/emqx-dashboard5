@@ -1,6 +1,6 @@
 <template>
   <span>{{ label }}</span>
-  <InfoTooltip v-bind="$attrs">
+  <InfoTooltip v-if="desc" v-bind="$attrs">
     <template #content>
       <template v-if="!descMarked">{{ desc }}</template>
       <MarkdownContent v-else :content="desc" />
