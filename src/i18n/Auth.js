@@ -399,7 +399,11 @@ export default {
     zh: '请输入正确的 JSON',
     en: 'Please enter the correct JSON',
   },
-  httpHeaderTip: {
+  httpHeaderDesc: {
+    zh: 'HTTP 请求头列表（不包含 `content-type`）',
+    en: 'List of HTTP headers (without `content-type`).',
+  },
+  httpBodyTip: {
     zh: '配置中指定的 Body 必须被格式化为 JSON 对象。方法为 POST 的 HTTP 请求中的 Body 的最终表现形式取决于 `content-type` 头被设置为 `application/json` 还是 `application/x-www-form-urlencoded`。',
     en: 'Please note that the body specified in the configuration must be formatted as a JSON object. The final representation of the HTTP POST body depends on the `content-type` header being set to either `application/json` or `application/x-www-form-urlencoded`.',
   },

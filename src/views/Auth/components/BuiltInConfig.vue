@@ -21,20 +21,28 @@
           </el-col>
           <password-hash-algorithm-form-items v-model="builtConfig" is-built-in-database />
         </template>
-        <el-col v-else :span="12">
-          <el-form-item :label="$t('Auth.passwordHash')">
-            <el-select v-model="builtConfig.algorithm" clearable>
-              <el-option value="sha256" />
-              <el-option value="sha512" />
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <template v-else>
+          <el-col :span="12">
+            <el-form-item :label="$t('Auth.passwordHash')">
+              <el-select v-model="builtConfig.algorithm" clearable>
+                <el-option value="sha256" />
+                <el-option value="sha512" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('iterationCount')">
+              <CustomInputNumber v-model="builtConfig.iteration_count" />
+            </el-form-item>
+          </el-col>
+        </template>
       </el-row>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { defineComponent, reactive, watch, ref } from 'vue'
@@ -46,6 +54,7 @@ export default defineComponent({
 
   components: {
     PasswordHashAlgorithmFormItems,
+    CustomInputNumber,
   },
 
   props: {
@@ -80,6 +89,7 @@ export default defineComponent({
       ctx.emit('update:modelValue', value)
     })
     return {
+      tl,
       builtConfig,
       formCom,
       rules,
