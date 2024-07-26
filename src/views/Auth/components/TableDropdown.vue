@@ -1,10 +1,6 @@
 <template>
   <div class="table-dropdown">
-    <el-button
-      v-if="type !== 'built_in_database' && isAuthItem"
-      size="small"
-      @click="$emit('setting', rowData, 'settings')"
-    >
+    <el-button v-if="isAuthItem" size="small" @click="$emit('setting', rowData, 'settings')">
       {{ $t('Base.setting') }}
     </el-button>
     <el-dropdown
@@ -57,10 +53,6 @@ export default defineComponent({
   name: 'TableDropdown',
   components: { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown },
   props: {
-    type: {
-      required: false,
-      type: String,
-    },
     tableDataLen: {
       required: true,
       type: Number,
