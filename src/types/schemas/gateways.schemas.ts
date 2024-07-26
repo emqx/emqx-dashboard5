@@ -25,6 +25,16 @@ export type PutGatewaysName400 = {
   message?: string
 }
 
+export interface EmqxGatewayApiUpdateExproto {
+  server: GatewayExprotoGrpcServer
+  handler: GatewayExprotoGrpcHandler
+  mountpoint?: string
+  enable?: boolean
+  enable_stats?: boolean
+  idle_timeout?: string
+  clientinfo_override?: GatewayClientinfoOverride
+}
+
 export type PutGatewaysNameBody =
   | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiUpdateMqttsn
@@ -103,6 +113,11 @@ export interface GatewayUdpOpts {
   sndbuf?: string
   buffer?: string
   reuseaddr?: boolean
+}
+
+export interface GatewayUdpHealthCheck {
+  request?: string
+  reply?: string
 }
 
 export interface GatewayTranslator {
@@ -419,16 +434,6 @@ export interface EmqxGatewayApiUpdateLwm2m {
   clientinfo_override?: GatewayClientinfoOverride
 }
 
-export interface EmqxGatewayApiUpdateExproto {
-  server: GatewayExprotoGrpcServer
-  handler: GatewayExprotoGrpcHandler
-  mountpoint?: string
-  enable?: boolean
-  enable_stats?: boolean
-  idle_timeout?: string
-  clientinfo_override?: GatewayClientinfoOverride
-}
-
 export type EmqxGatewayApiUpdateCoapPublishQos =
   typeof EmqxGatewayApiUpdateCoapPublishQos[keyof typeof EmqxGatewayApiUpdateCoapPublishQos]
 
@@ -489,6 +494,7 @@ export interface EmqxGatewayApiUdpListener {
   type?: EmqxGatewayApiUdpListenerType
   name?: string
   running?: boolean
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string
@@ -748,6 +754,7 @@ export interface EmqxGatewayApiDtlsListener {
   name?: string
   running?: boolean
   acceptors?: number
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string

@@ -625,6 +625,11 @@ export interface GatewayUdpOpts {
   reuseaddr?: boolean
 }
 
+export interface GatewayUdpHealthCheck {
+  request?: string
+  reply?: string
+}
+
 export type GatewayDtlsOptsLogLevel =
   typeof GatewayDtlsOptsLogLevel[keyof typeof GatewayDtlsOptsLogLevel]
 
@@ -966,6 +971,7 @@ export interface EmqxGatewayApiUdpListener {
   type?: EmqxGatewayApiUdpListenerType
   name?: string
   running?: boolean
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string
@@ -1049,6 +1055,7 @@ export interface EmqxGatewayApiDtlsListener {
   name?: string
   running?: boolean
   acceptors?: number
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string
@@ -1075,6 +1082,7 @@ export interface EmqxGatewayApiListenersUdpListener {
   type?: EmqxGatewayApiListenersUdpListenerType
   name?: string
   running?: boolean
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string
@@ -1164,6 +1172,7 @@ export interface EmqxGatewayApiListenersDtlsListener {
   name?: string
   running?: boolean
   acceptors?: number
+  health_check?: GatewayUdpHealthCheck
   udp_options?: GatewayUdpOpts
   enable?: boolean
   bind?: string
