@@ -211,6 +211,7 @@ export default (
       [
         ...getPathArrInParameters([
           'topic',
+          'group_id',
           'key_encoding_mode',
           'value_encoding_mode',
           'offset_reset_policy',
