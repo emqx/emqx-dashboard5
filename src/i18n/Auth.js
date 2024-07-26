@@ -143,6 +143,14 @@ export default {
     zh: '密码加密方式',
     en: 'Password Hash',
   },
+  maxRules: {
+    zh: '最大规则数',
+    en: 'Max Rules',
+  },
+  maxRulesDesc: {
+    zh: '每个客户端/用户的最大规则数。请注意，随着规则数量的增加，性能可能会降低。',
+    en: 'Maximum number of rules per client/user. Note that performance may decrease as number of rules increases.',
+  },
   saltPosition: {
     zh: '加盐方式',
     en: 'Salt Position',
@@ -254,10 +262,6 @@ export default {
   builtInDatabase: {
     zh: '内置数据库',
     en: 'Built-in Database',
-  },
-  builtInDatabaseDesc: {
-    zh: '内置数据库授权无需配置参数，请点击创建按钮完成操作',
-    en: 'Built-in database authorization does not require configuration parameters, please click the Create button to complete the operation',
   },
   HTTPServer: {
     zh: 'HTTP 服务',

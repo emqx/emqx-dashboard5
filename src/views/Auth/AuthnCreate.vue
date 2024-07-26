@@ -131,6 +131,7 @@
             v-else-if="backend === 'built_in_database'"
             v-model="configData"
             ref="formCom"
+            auth-type="authn"
             :type="mechanism"
           />
           <ldap-config
