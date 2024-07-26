@@ -56,9 +56,12 @@
           ref="formCom"
         >
         </ldap-config>
-        <p v-else-if="type === 'built_in_database'" class="item-description">
-          {{ $t('Auth.builtInDatabaseDesc') }}
-        </p>
+        <built-in-config
+          v-else-if="type === 'built_in_database'"
+          v-model="configData"
+          auth-type="authz"
+          ref="formCom"
+        />
         <database-config
           v-else-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
           ref="formCom"
@@ -85,6 +88,7 @@ import FileConfig from './components/FileConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
+import BuiltInConfig from './components/BuiltInConfig.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
 import useGuide from '@/hooks/useGuide'
@@ -106,6 +110,7 @@ export default defineComponent({
     DatabaseConfig,
     HttpConfig,
     LdapConfig,
+    BuiltInConfig,
   },
   setup() {
     const { t, tl } = useI18nTl('Auth')
