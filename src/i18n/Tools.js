@@ -53,7 +53,7 @@ export default {
   },
   disconnecting: {
     zh: '断开连接中',
-    en: 'Disonnecting',
+    en: 'Disconnecting',
   },
   reconnecting: {
     zh: '重新连接中',
@@ -132,11 +132,11 @@ export default {
     en: 'Add Topic',
   },
   msgIn: {
-    en: 'Publishing Messages',
+    en: 'Published Messages',
     zh: '消息发布',
   },
   msgOut: {
-    en: 'Incoming Messages',
+    en: 'Received Messages',
     zh: '消息接收',
   },
   msgDrop: {
