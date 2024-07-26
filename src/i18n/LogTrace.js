@@ -116,8 +116,8 @@ export default {
     en: 'Payload Encode',
   },
   payloadDesc: {
-    zh: `确定跟踪文件中有效负载格式的格式。<br/>\`text\`：基于文本的协议或纯文本协议。建议在有效负载为JSON编码时使用<br/>\`hex\`：二进制十六进制编码。当有效负载是自定义二进制协议时，建议使用此选项<br/>\`hidden\`：有效负载被模糊化为 \`******\``,
-    en: `Determine the format of the payload format in the trace file.<br/>\`text\`: Text-based protocol or plain text protocol.It is recommended when payload is JSON encoded.<br/>\`hex\`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\`hidden\`: payload is obfuscated as \`******\``,
+    zh: '确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`',
+    en: 'Determine the format of the payload format in the trace log file.<br/>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br/>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\n`hidden`: payload is obfuscated as `******`',
   },
   formatter: {
     zh: '日志格式',
