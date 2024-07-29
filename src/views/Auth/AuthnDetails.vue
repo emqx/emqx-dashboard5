@@ -82,6 +82,7 @@
               <built-in-config
                 v-else-if="currBackend === 'built_in_database'"
                 ref="formCom"
+                auth-type="authn"
                 :type="configData.mechanism"
                 v-model="configData"
               />

@@ -135,6 +135,7 @@
             v-else-if="backend === 'built_in_database'"
             v-model="configData"
             ref="formCom"
+            auth-type="authn"
             :type="mechanism"
           />
           <ldap-config
@@ -267,7 +268,6 @@ const supportBackendMap: any = {
     postgresql: 'PostgreSQL',
     http: tl('HTTPServer'),
     redis: 'Redis',
-    ldap: 'LDAP',
   },
   jwt: {},
   scram: {

@@ -25,6 +25,13 @@
           <TargetItemStatus type="action" :target="row" />
         </template>
       </el-table-column>
+      <el-table-column :label="tl('associatedRules')" :min-width="120">
+        <template #default="{ row }">
+          <router-link :to="{ name: 'rule', query: { source: row.id } }">
+            {{ row.rules?.length || 0 }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
         <template #default="{ row }">
           <el-switch

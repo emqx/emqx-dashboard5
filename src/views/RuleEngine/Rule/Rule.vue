@@ -93,7 +93,7 @@
                 :row-data="row"
                 :disabled="judgeIsWebhookRule(row)"
                 @copy="copyRuleItem(row)"
-                @delete="submitDeleteRules"
+                @delete="deleteRule"
               />
             </OperateWebhookAssociatedPopover>
           </template>
@@ -109,10 +109,11 @@
     type="rule"
     :name="currentDelId"
   />
+  <DeleteRuleConfirm v-model="showDeleteConfirm" :rule="currentRule" @submitted="handleDeleteSuc" />
 </template>
 
 <script lang="ts" setup>
-import { deleteRules, getRules, updateRules } from '@/api/ruleengine'
+import { getRules, updateRules } from '@/api/ruleengine'
 import CodeView from '@/components/CodeView.vue'
 import commonPagination from '@/components/commonPagination.vue'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
@@ -121,13 +122,14 @@ import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { Plus, Refresh } from '@element-plus/icons-vue'
-import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { ElMessage as M } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
+import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
 import RuleFilterForm from './components/RuleFilterForm.vue'
 
 const { t } = useI18n()
@@ -187,7 +189,9 @@ const currentDelId = ref('')
 const showDeleteWebhookAssociatedTip = ref(false)
 const { judgeIsWebhookRule } = useWebhookUtils()
 
-const submitDeleteRules = async (rule: RuleItem) => {
+const showDeleteConfirm = ref(false)
+const currentRule = ref<undefined | RuleItem>(undefined)
+const deleteRule = async (rule: RuleItem) => {
   const { id } = rule || {}
   if (!id) {
     return
@@ -197,24 +201,13 @@ const submitDeleteRules = async (rule: RuleItem) => {
     showDeleteWebhookAssociatedTip.value = true
     return
   }
-  await MB.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    confirmButtonClass: 'confirm-danger',
-    type: 'warning',
-  })
-  ruleLoading.value = true
+  currentRule.value = rule
+  showDeleteConfirm.value = true
+}
 
-  try {
-    await deleteRules(id)
-    M.success(t('Base.deleteSuccess'))
-    pageMeta.value.page = resetPageNum(ruleTable.value, pageMeta.value.page)
-    getRulesList()
-  } catch (error) {
-    console.error(error)
-  } finally {
-    ruleLoading.value = false
-  }
+const handleDeleteSuc = () => {
+  pageMeta.value.page = resetPageNum(ruleTable.value, pageMeta.value.page)
+  getRulesList()
 }
 
 onMounted(() => {

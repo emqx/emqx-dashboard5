@@ -1,9 +1,8 @@
 <template>
   <el-dialog
     v-model="showDialog"
-    :width="400"
     class="common-dialog delete-second-confirm"
-    :title="t('Base.confirmDelete')"
+    :width="400"
     :z-index="2000"
   >
     <div>
@@ -12,7 +11,7 @@
           <WarningFilled />
         </i>
         <div class="el-message-box__message">
-          {{ deleteTip }}
+          {{ tipContent }}
         </div>
       </div>
       <ul class="data-list">
@@ -37,24 +36,24 @@
         <el-button @click="showDialog = false">
           {{ $t('Base.cancel') }}
         </el-button>
+        <el-button type="danger" plain @click="submit" :loading="isSubmitting">
+          {{ $t('Base.confirm') }}
+        </el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
+import { putConnectorEnable } from '@/api/connector'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps } from 'vue'
+import { ElDialog, ElMessage } from 'element-plus'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
-const props = defineProps<{
-  modelValue: boolean
-  connectorType: string
-  connector?: Connector
-}>()
-const emit = defineEmits(['update:modelValue'])
+const props = defineProps<{ modelValue: boolean; connector: Connector }>()
+const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -68,7 +67,7 @@ const showDialog = computed({
 const actions = computed(() => props.connector?.actions || [])
 const sources = computed(() => props.connector?.sources || [])
 
-const deleteTip = computed(() => {
+const tipContent = computed(() => {
   let target: undefined | string = undefined
   if (actions.value.length && sources.value.length) {
     target = tl('actionsAndSources')
@@ -77,15 +76,26 @@ const deleteTip = computed(() => {
   } else if (sources.value.length) {
     target = 'Sources'
   }
-  return t('RuleEngine.deleteConnectorTip', { target })
+  return t('RuleEngine.disabledConnectorTip', { target })
 })
 
 const getRoute = (name: string, target: 'action' | 'source') => {
   return {
     name: `${target}-detail`,
-    params: { id: `${props.connector?.type}:${name}` },
+    params: { id: `${props.connector.type}:${name}` },
     query: { tab: 'settings' },
   }
+}
+
+const isSubmitting = ref(false)
+const submit = async () => {
+  if (!props.connector) {
+    return
+  }
+  await putConnectorEnable(props.connector.id, false)
+  ElMessage.success(t('Base.disabledSuccess'))
+  emit('submitted')
+  showDialog.value = false
 }
 </script>
 

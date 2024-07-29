@@ -67,7 +67,6 @@
             :row-data="row"
             :table-data-len="authzList.length"
             :position="$index"
-            :type="row.type"
             @delete="handleDelete"
             @setting="routeToDetail"
             @move-up="moveAuthzUp($index)"

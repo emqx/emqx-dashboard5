@@ -25,6 +25,9 @@ interface ConnectorHandlerResult {
   updateConnector: (data: Connector) => Promise<Connector>
   deleteConnector: (id: string, withDep?: boolean) => Promise<void>
   reconnectConnector: (id: string) => Promise<void>
+  showDisableConfirm: Ref<boolean>
+  currentConnector: Ref<undefined | Connector>
+  handleToggleConnectorEnable: (connector: Connector, sucCb?: () => void) => Promise<void>
   toggleConnectorEnable: (id: string, isEnable: boolean, sucCb?: () => void) => Promise<void>
   handleDataForCopy: (data: Connector) => Connector
   isTesting: Ref<boolean>
@@ -32,8 +35,6 @@ interface ConnectorHandlerResult {
   showDelTip: Ref<boolean>
   currentDelName: Ref<string>
   showDeleteWebhookAssociatedTip: Ref<boolean>
-  associatedActionList: Ref<string[]>
-  currentDelType: Ref<string>
   handleDeleteConnector: (data: Connector, callback: () => void | Promise<void>) => Promise<void>
 }
 
@@ -110,13 +111,27 @@ export default (): ConnectorHandlerResult => {
     }
   }
 
+  const showDisableConfirm = ref(false)
+  const currentConnector = ref<undefined | Connector>(undefined)
+  const handleToggleConnectorEnable = async (connector: Connector, sucCb?: () => void) => {
+    const { enable, id, actions, sources } = connector
+    if ((actions?.length || sources?.length) && enable) {
+      currentConnector.value = connector
+      showDisableConfirm.value = true
+      return
+    }
+    try {
+      await toggleConnectorEnable(id, !enable, sucCb)
+    } catch (error) {
+      //
+    }
+  }
+
   const { isTesting, testConnectivity: testConnectorConnectivity } = useTestConnector()
   const testConnectivity = async (data: NowConnector): Promise<void> =>
     testConnectorConnectivity(data as Connector)
 
   const showDelTip = ref(false)
-  const associatedActionList = ref<Array<string>>([])
-  const currentDelType = ref('')
 
   const deleteTrueConnector = async (id: string) => {
     return confirmDel(() => deleteConnector(id))
@@ -130,16 +145,15 @@ export default (): ConnectorHandlerResult => {
     connector: Connector,
     callback: () => void | Promise<void>,
   ) => {
-    const { id, type, actions, name } = connector
+    const { id, actions, sources, name } = connector
     if (judgeIsWebhookConnector(connector)) {
       currentDelName.value = name
       showDeleteWebhookAssociatedTip.value = true
       return
     }
-    if (actions && actions.length) {
+    if ((actions && actions.length) || (sources && sources.length)) {
+      currentConnector.value = connector
       showDelTip.value = true
-      associatedActionList.value = actions
-      currentDelType.value = type
       return
     }
     try {
@@ -158,14 +172,15 @@ export default (): ConnectorHandlerResult => {
     deleteConnector,
     reconnectConnector,
     toggleConnectorEnable,
+    showDisableConfirm,
+    currentConnector,
+    handleToggleConnectorEnable,
     handleDataForCopy,
     isTesting,
     testConnectivity,
     showDelTip,
     currentDelName,
     showDeleteWebhookAssociatedTip,
-    associatedActionList,
-    currentDelType,
     handleDeleteConnector,
   }
 }
