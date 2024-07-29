@@ -13,7 +13,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.method')" required prop="method">
-              <el-select v-model="httpConfig.method">
+              <el-select v-model="httpConfig.method" @change="handleMethodChanged">
                 <el-option value="get" label="GET" />
                 <el-option value="post" label="POST" />
               </el-select>
@@ -24,8 +24,14 @@
               <el-input v-model="httpConfig.url" />
             </el-form-item>
           </el-col>
+
           <el-col :span="24">
-            <el-form-item :label="$t('RuleEngine.headers')">
+            <el-form-item>
+              <FormItemLabel
+                :label="$t('RuleEngine.headers')"
+                :desc="isMethodGet ? tl('httpHeaderDesc') : undefined"
+                desc-marked
+              />
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
@@ -60,6 +66,21 @@
               <time-input-with-unit-select v-model="httpConfig.request_timeout" />
             </el-form-item>
           </el-col>
+          <template v-if="type === 'scram'">
+            <el-col :span="12">
+              <el-form-item :label="tl('passwordHash')">
+                <el-select v-model="httpConfig.algorithm" clearable>
+                  <el-option value="sha256" />
+                  <el-option value="sha512" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="tl('iterationCount')">
+                <CustomInputNumber v-model="httpConfig.iteration_count" />
+              </el-form-item>
+            </el-col>
+          </template>
         </el-row>
       </div>
 
@@ -72,7 +93,7 @@
               <template #label>
                 <FormItemLabel
                   :label="$t('RuleEngine.body')"
-                  :desc="tl('httpHeaderTip')"
+                  :desc="tl('httpBodyTip')"
                   desc-marked
                 />
                 <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
@@ -105,11 +126,12 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
+import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox } from 'element-plus'
 import { isEqual } from 'lodash'
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({
@@ -136,6 +158,10 @@ export default defineComponent({
     isEdit: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String,
+      required: true,
     },
   },
   setup(props, ctx) {
@@ -168,6 +194,17 @@ export default defineComponent({
 
     const needHelp = ref(false)
 
+    const isMethodGet = computed(() => httpConfig.value.method === 'get')
+    const { factory } = useAuthnCreate()
+    const { headers: defaultHeaders } = factory('password_based', 'http')
+    const handleMethodChanged = () => {
+      if (isMethodGet.value && isEqual(httpConfig.value.headers, defaultHeaders)) {
+        httpConfig.value.headers = {}
+      } else if (!isMethodGet.value && isEqual(httpConfig.value.headers, {})) {
+        httpConfig.value.headers = defaultHeaders
+      }
+    }
+
     const stringifyBody = () => {
       const { body } = httpConfig.value || {}
       if (!body) {
@@ -198,6 +235,8 @@ export default defineComponent({
       needHelp,
       formCom,
       rules,
+      isMethodGet,
+      handleMethodChanged,
       validate,
       toggleNeedHelp,
       setDefaultContent,

@@ -1070,8 +1070,8 @@
       "label": "每个监听器的认证覆盖"
     },
     "fields_trace_payload_encode": {
-      "desc": "确定跟踪文件中有效负载格式的格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在有效负载为JSON编码时使用<br/>\n`hex`：二进制十六进制编码。当有效负载是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：有效负载被模糊化为 `******`",
-      "label": "有效负载编码"
+      "desc": "确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`",
+      "label": "Payload 编码"
     },
     "mqtt_response_information": {
       "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 `reqrsp/`，此时请求和应答客户端都需要使用 `reqrsp/` 前缀的主题来完成通讯。如希望禁用此功能，请在下方的文字框中输入`\"\"`；仅适用于 MQTT 5.0 客户端。",

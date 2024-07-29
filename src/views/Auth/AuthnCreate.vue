@@ -82,7 +82,7 @@
                 v-for="item in others"
                 :key="item.value"
                 :value="$t('Base.added')"
-                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
+                :hidden="((!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean)"
                 class="item"
               >
                 <el-radio
@@ -128,7 +128,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="backend as DatabaseAndServerDOM"
+            :database="(backend as DatabaseAndServerDOM)"
             auth-type="authn"
           />
           <built-in-config
@@ -149,6 +149,7 @@
             v-else-if="backend === 'http'"
             v-model="configData"
             ref="formCom"
+            :type="mechanism"
           />
           <kerberos-config v-else-if="backend === 'kerberos'" v-model="configData" ref="formCom" />
         </template>
@@ -271,6 +272,7 @@ const supportBackendMap: any = {
   jwt: {},
   scram: {
     built_in_database: tl('builtInDatabase'),
+    http: tl('HTTPServer'),
   },
   gssapi: {
     kerberos: 'Kerberos',

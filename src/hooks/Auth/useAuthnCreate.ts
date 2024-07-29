@@ -26,10 +26,11 @@ export default function useAuthnCreate() {
     } else if (type === 'scram') {
       return {
         algorithm: 'sha256',
+        iteration_count: 4096,
       }
     }
   }
-  const getHttpConfig = () => {
+  const getHttpConfig = (type: 'password_based' | 'scram') => {
     return {
       method: 'post',
       url: 'http://127.0.0.1:8080',
@@ -49,6 +50,12 @@ export default function useAuthnCreate() {
       request_timeout: '5s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
+      ...(type === 'scram'
+        ? {
+            algorithm: 'sha256',
+            iteration_count: 4096,
+          }
+        : {}),
     }
   }
   const getDatabaseConfig = (backend: string) => {
@@ -155,7 +162,7 @@ export default function useAuthnCreate() {
     switch (mechanism) {
       case 'password_based':
         if (backend === 'http') {
-          return getHttpConfig()
+          return getHttpConfig('password_based')
         } else if (backend === 'built_in_database') {
           return getBuiltInConfig('password_based')
         } else if (backend === 'mysql' || backend === 'postgresql') {
@@ -171,6 +178,8 @@ export default function useAuthnCreate() {
       case 'scram':
         if (backend === 'built_in_database') {
           return getBuiltInConfig('scram')
+        } else if (backend === 'http') {
+          return getHttpConfig('scram')
         }
         break
       case 'jwt':

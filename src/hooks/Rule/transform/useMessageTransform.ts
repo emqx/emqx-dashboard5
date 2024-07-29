@@ -63,10 +63,9 @@ export enum AvailableKey {
   UserProperty = 'user_property',
   ClientAttrs = 'client_attrs',
   Timestamp = 'timestamp',
-  Event = 'event',
   Username = 'username',
   ClientID = 'clientid',
-  PeerHost = 'peerhost',
+  PeerHost = 'peername',
   PublishReceivedAt = 'publish_received_at',
   PubProps = 'pub_props',
   Node = 'node',
@@ -167,13 +166,6 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       allowUse: true,
     },
     {
-      key: AvailableKey.Event,
-      label: tl('event'),
-      allowSet: false,
-      allowUse: true,
-      advanced: true,
-    },
-    {
       key: AvailableKey.Username,
       label: t('Base.username'),
       allowSet: false,
@@ -217,7 +209,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       ],
       allowSet: false,
       allowUse: true,
-      canUseSubProp: false,
+      canUseSubProp: true,
       advanced: true,
     },
     {
@@ -378,15 +370,23 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
 
 export const handleTransformData = (): {
   handleDataBeforeSubmit: (data: MessageTransform) => MessageTransform
+  handleFetchedData: (data: MessageTransform) => MessageTransform
 } => {
   const handleDataBeforeSubmit = (data: MessageTransform): MessageTransform => {
     const ret = cloneDeep(data)
-    if (ret.operations.length === 0) {
+    if (ret.operations?.length === 0) {
       Reflect.deleteProperty(ret, 'operations')
     }
     return ret
   }
+  const handleFetchedData = (data: MessageTransform): MessageTransform => {
+    if (!data.operations) {
+      data.operations = []
+    }
+    return data
+  }
   return {
     handleDataBeforeSubmit,
+    handleFetchedData,
   }
 }
