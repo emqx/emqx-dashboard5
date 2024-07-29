@@ -1,7 +1,6 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="80px"
     class="function-block"
     label-position="right"
     :rules="rules"
@@ -9,62 +8,78 @@
     :validate-on-rule-change="false"
     :hide-required-asterisk="readonly"
   >
-    <CustomFormItem :readonly="readonly" :label="t('components.field')" prop="field">
-      <el-autocomplete
-        v-model="record.field"
-        :fetch-suggestions="getFieldList"
-        clearable
-        class="common-fields"
-        popper-class="is-wider"
-        @change="handleFieldChanged"
-        @select="handleFieldChanged($event.value)"
-      />
-    </CustomFormItem>
-    <CustomFormItem :readonly="readonly" :label="t('Flow.transform')" prop="func.name">
-      <el-cascader
-        v-model="record.func.name"
-        filterable
-        class="select-func"
-        :show-all-levels="false"
-        :options="(funcOptList as any)"
-        :props="cascaderProps"
-        @change="handleSelectFunc"
-      />
-    </CustomFormItem>
+    <el-row :gutter="12" class="row-select">
+      <el-col :span="7">
+        <CustomFormItem :readonly="readonly" prop="field">
+          <el-autocomplete
+            v-model="record.field"
+            :fetch-suggestions="getFieldList"
+            :placeholder="t('components.field')"
+            clearable
+            class="common-fields"
+            popper-class="is-wider"
+            @change="handleFieldChanged"
+            @select="handleFieldChanged($event.value)"
+          />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="10">
+        <CustomFormItem :readonly="readonly" prop="func.name">
+          <el-cascader
+            v-model="record.func.name"
+            filterable
+            class="select-func"
+            :show-all-levels="false"
+            :options="(funcOptList as any)"
+            :props="cascaderProps"
+            :placeholder="t('Flow.transform')"
+            @change="handleSelectFunc"
+          />
+        </CustomFormItem>
+      </el-col>
+      <el-col :span="1" class="col-as">as</el-col>
+      <el-col :span="6">
+        <CustomFormItem :readonly="readonly" prop="alias" class="item-alias">
+          <el-input v-model="record.alias" :placeholder="t('Flow.alias')" />
+        </CustomFormItem>
+      </el-col>
+    </el-row>
     <div class="args-block" v-if="showArgsBlock">
       <CustomFormItem
         v-for="(item, $index) in args"
         :readonly="readonly"
-        :label="tl(item.name)"
         :prop="`func.args.${$index}`"
         :key="`${record.func.name}-${item.name}`"
-        label-width="120px"
       >
-        <el-select
-          v-if="item.type === ArgumentType.Enum"
-          clearable
-          filterable
-          allow-create
-          v-model="record.func.args[$index]"
-          @change="handleSelectFunc"
-        >
-          <el-option
-            v-for="value in item.optionalValues"
-            :key="value"
-            :label="value"
-            :value="value"
-          />
-        </el-select>
-        <el-input
-          v-else
-          v-model="record.func.args[$index]"
-          @change="handleArgChanged($event, $index, item.type)"
-        />
+        <el-row :gutter="12" class="row-para">
+          <el-col :span="7" class="col-para-label">
+            <label>{{ tl(item.name) }}</label>
+          </el-col>
+          <el-col :span="10">
+            <el-select
+              v-if="item.type === ArgumentType.Enum"
+              clearable
+              filterable
+              allow-create
+              v-model="record.func.args[$index]"
+              @change="handleSelectFunc"
+            >
+              <el-option
+                v-for="value in item.optionalValues"
+                :key="value"
+                :label="value"
+                :value="value"
+              />
+            </el-select>
+            <el-input
+              v-else
+              v-model="record.func.args[$index]"
+              @change="handleArgChanged($event, $index, item.type)"
+            />
+          </el-col>
+        </el-row>
       </CustomFormItem>
     </div>
-    <CustomFormItem :readonly="readonly" :label="t('Flow.alias')" prop="alias">
-      <el-input v-model="record.alias" />
-    </CustomFormItem>
   </el-form>
 </template>
 
@@ -217,25 +232,54 @@ defineExpose({ validate })
 
 <style lang="scss">
 .function-block {
-  padding: 24px;
-  border-radius: 8px;
-  background-color: var(--color-bg-split);
-
+  position: relative;
+  padding-bottom: 4px;
+  .row-select {
+    .el-col {
+      padding-bottom: 16px;
+    }
+    .el-form-item {
+      margin-bottom: 0;
+    }
+    .el-cascader {
+      flex-grow: 1;
+    }
+  }
+  .item-alias {
+    .el-form-item__error {
+      white-space: wrap;
+    }
+  }
+  .col-as {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .args-block {
     // same as label width
-    margin-left: 80px;
-    margin-right: 40px;
     margin-bottom: 16px;
-    padding: 16px;
+    padding: 16px 0;
     border-radius: 8px;
-    background-color: var(--color-bg-table-hd);
+    background-color: var(--color-bg-split);
+    .el-form-item:last-child {
+      margin-bottom: 0;
+    }
   }
-
+  .row-para {
+    flex-grow: 1;
+  }
+  .col-para-label {
+    display: flex;
+    text-align: right;
+    line-height: 1.2;
+    align-items: center;
+    justify-content: flex-end;
+    label {
+      word-break: break-all;
+    }
+  }
   .common-fields {
     width: 100%;
-  }
-  .select-func {
-    width: 50%;
   }
 }
 </style>

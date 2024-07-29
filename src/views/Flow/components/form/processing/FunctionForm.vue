@@ -203,6 +203,7 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
+@use 'sass:math';
 .function-form {
   ul {
     list-style: none;
@@ -216,10 +217,21 @@ defineExpose({ validate })
     position: relative;
     padding-right: 36px;
     margin-bottom: 16px;
+    &:not(:last-child) {
+      &::after {
+        width: 100%;
+        height: 1px;
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: var(--color-border-card);
+      }
+    }
   }
   .btn-del {
     position: absolute;
-    top: 0;
+    top: math.div((30px - 22px), 2);
     right: 0;
   }
 }
