@@ -108,7 +108,7 @@
         </el-col>
       </el-row>
     </div>
-    <!-- Chilren Stats -->
+    <!-- Children Stats -->
     <div class="metric-block" v-if="showChildrenStats">
       <div class="block-hd">
         <p class="block-title">
