@@ -188,6 +188,7 @@ import { Minus, Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   modelValue: boolean
@@ -198,8 +199,13 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 const { t, tl } = useI18nTl('BasicConfig')
 const getLabel = (key: string) => t(`BridgeSchema.common.${key}.label`)
 
+const { locale } = useI18n()
+const isZh = /zh/i.test(locale.value)
 const dialogTitle = computed(
-  () => `${props.editData ? t('Base.edit') : t('Base.create')} ${t('components.cluster-linking')}`,
+  () =>
+    `${props.editData ? t('Base.edit') : t('Base.create')}${isZh ? '' : ' '}${t(
+      'components.cluster-linking',
+    )}`,
 )
 
 const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
