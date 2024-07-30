@@ -20,7 +20,12 @@
       </div>
     </div>
     <div v-if="!hasNoDetails" class="detail-trigger">
-      <el-tooltip effect="dark" placement="bottom" trigger="click">
+      <el-tooltip
+        effect="dark"
+        placement="bottom"
+        trigger="click"
+        popper-class="type-detail-tooltip"
+      >
         <template #content>
           <div class="metrics-details">
             <el-scrollbar>
@@ -174,6 +179,11 @@ watch(
       width: 28px;
       height: 28px;
     }
+  }
+}
+.el-popper:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown):not(.el-autocomplete__popper) {
+  &.type-detail-tooltip {
+    max-width: 400px;
   }
 }
 .metrics-details {

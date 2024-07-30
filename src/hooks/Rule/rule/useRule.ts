@@ -247,6 +247,7 @@ export const useRuleInputs = (): {
   detectInputType: (from: string) => string
   isNotBridgeSourceTypes: Array<string>
   sourceOptList: Array<{ value: string; label: string }>
+  inputTypesIconNew: string[]
   getRuleSourceIcon: (type: string) => string
 } => {
   const isNotBridgeSourceTypes = [RuleSourceType.Event, RuleSourceType.Message]
@@ -337,6 +338,7 @@ export const useRuleInputs = (): {
     detectInputType,
     isNotBridgeSourceTypes,
     sourceOptList,
+    inputTypesIconNew: typesIconNew,
     getRuleSourceIcon,
   }
 }
