@@ -402,6 +402,7 @@ export const useAuthMetrics = (): {
     { type: MetricType.Green, title: t('Base.allow'), contains: ['allow'] },
     { type: MetricType.Red, title: t('Base.deny'), contains: ['deny'] },
     { type: MetricType.Gray, title: t('Base.nomatch'), contains: ['nomatch'] },
+    { type: MetricType.Gray, title: tl('ignored'), contains: ['ignore'] },
   ]
   const authnTextMap = {
     total: { label: t('Base.total'), desc: tl('authnTotalDesc') },
@@ -417,6 +418,7 @@ export const useAuthMetrics = (): {
     allow: { label: t('Base.allow'), desc: tl('authzSuccessDesc') },
     deny: { label: t('Base.deny'), desc: tl('authzFailedDesc') },
     nomatch: { label: t('Base.nomatch'), desc: tl('authzNomatchDesc') },
+    ignore: { label: tl('ignored'), desc: tl('ignoredDesc') },
     rate: { label: t('Base.rateNow'), desc: tl('authzRateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
