@@ -47,7 +47,6 @@
     <div class="args-block" v-if="showArgsBlock">
       <CustomFormItem
         v-for="(item, $index) in args"
-        :readonly="readonly"
         :prop="`func.args.${$index}`"
         :key="`${record.func.name}-${item.name}`"
       >
@@ -56,26 +55,29 @@
             <label>{{ tl(item.name) }}</label>
           </el-col>
           <el-col :span="10">
-            <el-select
-              v-if="item.type === ArgumentType.Enum"
-              clearable
-              filterable
-              allow-create
-              v-model="record.func.args[$index]"
-              @change="handleSelectFunc"
-            >
-              <el-option
-                v-for="value in item.optionalValues"
-                :key="value"
-                :label="value"
-                :value="value"
+            <template v-if="!readonly">
+              <el-select
+                v-if="item.type === ArgumentType.Enum"
+                clearable
+                filterable
+                allow-create
+                v-model="record.func.args[$index]"
+                @change="handleSelectFunc"
+              >
+                <el-option
+                  v-for="value in item.optionalValues"
+                  :key="value"
+                  :label="value"
+                  :value="value"
+                />
+              </el-select>
+              <el-input
+                v-else
+                v-model="record.func.args[$index]"
+                @change="handleArgChanged($event, $index, item.type)"
               />
-            </el-select>
-            <el-input
-              v-else
-              v-model="record.func.args[$index]"
-              @change="handleArgChanged($event, $index, item.type)"
-            />
+            </template>
+            <p class="value" v-else>{{ record.func.args[$index] }}</p>
           </el-col>
         </el-row>
       </CustomFormItem>
