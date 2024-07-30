@@ -231,7 +231,8 @@ export default (): {
       (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
   }
-  const { sourceOptList, isNotBridgeSourceTypes, getRuleSourceIcon } = useRuleInputs()
+  const { sourceOptList, isNotBridgeSourceTypes, inputTypesIconNew, getRuleSourceIcon } =
+    useRuleInputs()
 
   const isNotBridgeTypes = [
     ...isNotBridgeSourceTypes,
@@ -299,6 +300,7 @@ export default (): {
    * others in @/assets/img
    */
   const typesIconNew: Array<string> = [
+    ...inputTypesIconNew,
     SourceTypeAllMsgsAndEvents,
     ProcessingType.Filter,
     ProcessingType.Function,
