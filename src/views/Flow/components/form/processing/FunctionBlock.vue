@@ -2,7 +2,7 @@
   <el-form
     ref="FormCom"
     class="function-block"
-    label-position="right"
+    label-position="top"
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
@@ -10,7 +10,7 @@
   >
     <el-row :gutter="12" class="row-select">
       <el-col :span="7">
-        <CustomFormItem :readonly="readonly" prop="field">
+        <CustomFormItem :label="t('components.field')" :readonly="readonly" prop="field">
           <el-autocomplete
             v-model="record.field"
             :fetch-suggestions="getFieldList"
@@ -24,8 +24,10 @@
         </CustomFormItem>
       </el-col>
       <el-col :span="10">
-        <CustomFormItem :readonly="readonly" prop="func.name">
+        <CustomFormItem :label="t('Flow.transform')" prop="func.name">
+          <p class="value" v-if="readonly">{{ record.func.name || '-' }}</p>
           <el-cascader
+            v-else
             v-model="record.func.name"
             filterable
             class="select-func"
@@ -39,8 +41,9 @@
       </el-col>
       <el-col :span="1" class="col-as">as</el-col>
       <el-col :span="6">
-        <CustomFormItem :readonly="readonly" prop="alias" class="item-alias">
-          <el-input v-model="record.alias" :placeholder="t('Flow.alias')" />
+        <CustomFormItem :label="t('Flow.alias')" prop="alias" class="item-alias">
+          <p class="value" v-if="readonly">{{ record.alias || '-' }}</p>
+          <el-input v-else v-model="record.alias" :placeholder="t('Flow.alias')" />
         </CustomFormItem>
       </el-col>
     </el-row>
@@ -237,6 +240,9 @@ defineExpose({ validate })
   position: relative;
   padding-bottom: 4px;
   .row-select {
+    .el-form-item__label {
+      padding-left: 12px;
+    }
     .el-col {
       padding-bottom: 16px;
     }
@@ -254,7 +260,8 @@ defineExpose({ validate })
   }
   .col-as {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    line-height: 32px;
     justify-content: center;
   }
   .args-block {

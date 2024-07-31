@@ -50,6 +50,7 @@ export default (): {
   const drawerDefaultWidth = '560px'
   const drawerWidthMap: Record<string, string> = {
     [ProcessingType.Filter]: '960px',
+    [ProcessingType.Function]: '680px',
   }
   const getDrawerWidth = (type: string) => drawerWidthMap[type] || drawerDefaultWidth
 
