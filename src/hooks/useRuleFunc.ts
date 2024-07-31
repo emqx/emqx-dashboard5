@@ -1,4 +1,7 @@
 import RuleFunc from '@/hooks/Rule/RuleFunc.json'
+import type { ComputedRef, WritableComputedRef } from 'vue'
+import { computed } from 'vue'
+import { FunctionItem } from './Flow/useFlowNode'
 import useI18nTl from './useI18nTl'
 
 export const enum ArgumentType {
@@ -39,7 +42,7 @@ interface GroupFuncData {
 
 type FuncData = Array<GroupFuncData>
 
-export default (): {
+const useRuleFunc = (): {
   funcOptList: FuncData
   getFuncItemByName: (name: string) => FuncItem | null
   getFuncGroupByName: (name: string) => string | null
@@ -104,5 +107,110 @@ export default (): {
     getFuncItemByName,
     getFuncGroupByName,
     getArgIndex,
+  }
+}
+
+export default useRuleFunc
+
+type FunctionItemProps = Readonly<{
+  modelValue: FunctionItem
+  readonly: boolean
+  availableFields: Array<string>
+}>
+export const useFunctionItemData = (
+  props: FunctionItemProps,
+  emit: { (e: 'update:modelValue', value: FunctionItem): void } & unknown,
+): {
+  record: WritableComputedRef<FunctionItem>
+  getFieldList: (queryString: string, cb: any) => void
+  handleFieldChanged: (val: string) => void
+  funcOptList: FuncData
+  args: ComputedRef<ArgItem[]>
+  handleSelectFunc: (funcName: string) => void
+  handleArgChanged: (val: string, index: number, type: ArgumentType) => void
+} => {
+  const { funcOptList, getFuncItemByName, getFuncGroupByName, getArgIndex } = useRuleFunc()
+
+  const record = computed<FunctionItem>({
+    get() {
+      return props.modelValue
+    },
+    set(val) {
+      emit('update:modelValue', val)
+    },
+  })
+
+  const fillParams = (
+    field: string,
+    { groupLabel, func }: { groupLabel: string; func: FuncItem },
+  ) => {
+    const targetIndex = getArgIndex(func, groupLabel)
+    return func.args.map((_, index) => (index === targetIndex ? field : ''))
+  }
+
+  const selectedFunc = computed(() => {
+    const funcName = record.value?.func?.name
+    return funcName ? getFuncItemByName(funcName) : null
+  })
+
+  const args = computed(() => (selectedFunc.value ? selectedFunc.value.args : []))
+
+  const showArgsBlock = computed(() => {
+    return !(args.value.length === 0 || (args.value.length === 1 && args.value[0].required))
+  })
+
+  const handleSelectFunc = (funcName: string) => {
+    if (!funcName) {
+      record.value.func.args = []
+      return
+    }
+    const groupLabel = getFuncGroupByName(funcName)
+    if (!groupLabel || !selectedFunc.value) {
+      return
+    }
+    if (showArgsBlock.value) {
+      record.value.func.args = fillParams(record.value.field, {
+        groupLabel,
+        func: selectedFunc.value,
+      })
+    } else {
+      record.value.func.args = [record.value.field]
+    }
+  }
+
+  const totalList = computed(() => props.availableFields.map((value) => ({ value })))
+  const getFieldList = (queryString: string, cb: any) => {
+    if (!queryString) {
+      cb(totalList.value)
+    }
+    const ret = totalList.value.filter(({ value }) => value.includes(queryString))
+    cb(ret)
+  }
+
+  const handleFieldChanged = (val: string) => {
+    if (args.value.length && !showArgsBlock.value) {
+      record.value.func.args = [val]
+    }
+  }
+
+  const numberTypes = [ArgumentType.Number, ArgumentType.Float, ArgumentType.Integer]
+  /**
+   * When the type of the parameter is a number type and
+   * no placeholder is used, convert the type of its value
+   */
+  const handleArgChanged = (val: string, index: number, type: ArgumentType) => {
+    if (numberTypes.includes(type) && val !== '' && !Number.isNaN(Number(val))) {
+      record.value.func.args[index] = Number(val)
+    }
+  }
+
+  return {
+    record,
+    getFieldList,
+    handleFieldChanged,
+    funcOptList,
+    args,
+    handleSelectFunc,
+    handleArgChanged,
   }
 }
