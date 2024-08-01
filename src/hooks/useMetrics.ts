@@ -18,7 +18,7 @@ export const enum MetricType {
   Gray,
 }
 
-export type TypeMapData = { [key in MetricType]?: { title: string; contains: Array<string> } }
+export type TypeMapData = Array<{ type: MetricType; title: string; contains: Array<string> }>
 
 const BLUE = '#469cf7'
 
@@ -241,7 +241,7 @@ export const useChartDataUtils = (): {
   const getMetricItemLabel = (key: string, textMap: TextMap) => textMap[key]?.label || key
   const getMetricItemDesc = (key: string, textMap: TextMap) => textMap[key]?.desc || ''
   const generateMetricTypeData = (metrics: Metrics, typeMapData: TypeMapData, textMap: TextMap) => {
-    return Object.entries(typeMapData).reduce((arr: Array<TypeMetricDataItem>, [key, value]) => {
+    return typeMapData.reduce((arr: Array<TypeMetricDataItem>, { type: key, ...value }) => {
       if (!value) {
         return arr
       }
@@ -262,7 +262,7 @@ export const useChartDataUtils = (): {
     }, [] as Array<TypeMetricDataItem>)
   }
   const generateEmptyMetricTypeData = (typeMapData: TypeMapData): Array<TypeMetricDataItem> => {
-    return Object.entries(typeMapData).reduce((arr: Array<TypeMetricDataItem>, [key, value]) => {
+    return typeMapData.reduce((arr: Array<TypeMetricDataItem>, { type: key, ...value }) => {
       if (!value) {
         return arr
       }
@@ -279,7 +279,7 @@ export const useChartDataUtils = (): {
 
   /* PIE */
   const generatePieData = (metrics: Metrics, typeMapData: TypeMapData): Array<PieDataItem> => {
-    return Object.entries(typeMapData).reduce((arr: Array<PieDataItem>, [key, dataItem]) => {
+    return typeMapData.reduce((arr: Array<PieDataItem>, { type: key, ...dataItem }) => {
       if (!dataItem) {
         return arr
       }
@@ -326,11 +326,12 @@ export const useBridgeMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
-  const egressTypeMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['success'] },
-    [MetricType.Blue]: { title: tl('processing'), contains: ['queuing', 'inflight'] },
-    [MetricType.Red]: { title: t('Base.failed'), contains: ['failed'] },
-    [MetricType.Gray]: {
+  const egressTypeMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['success'] },
+    { type: MetricType.Blue, title: tl('processing'), contains: ['queuing', 'inflight'] },
+    { type: MetricType.Red, title: t('Base.failed'), contains: ['failed'] },
+    {
+      type: MetricType.Gray,
       title: tl('dropped'),
       contains: [
         'dropped.expired',
@@ -340,10 +341,10 @@ export const useBridgeMetrics = (): {
         'dropped.other',
       ],
     },
-  }
-  const ingressTypeMetricsMap = {
-    [MetricType.Green]: { title: tl('received'), contains: ['received'] },
-  }
+  ]
+  const ingressTypeMetricsMap = [
+    { type: MetricType.Green, title: tl('received'), contains: ['received'] },
+  ]
   const textMap = {
     matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
     inflight: { label: tl('sentInflight'), desc: tl('sentInflightDesc') },
@@ -392,16 +393,17 @@ export const useAuthMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Auth')
-  const authnTypeMetricsMap = {
-    [MetricType.Green]: { title: t('Base.allow'), contains: ['success'] },
-    [MetricType.Red]: { title: t('Base.deny'), contains: ['failed'] },
-    [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
-  }
-  const authzTypeMetricsMap = {
-    [MetricType.Green]: { title: t('Base.allow'), contains: ['allow'] },
-    [MetricType.Red]: { title: t('Base.deny'), contains: ['deny'] },
-    [MetricType.Gray]: { title: t('Base.nomatch'), contains: ['nomatch'] },
-  }
+  const authnTypeMetricsMap = [
+    { type: MetricType.Green, title: t('Base.allow'), contains: ['success'] },
+    { type: MetricType.Red, title: t('Base.deny'), contains: ['failed'] },
+    { type: MetricType.Gray, title: t('Base.nomatch'), contains: ['nomatch'] },
+  ]
+  const authzTypeMetricsMap = [
+    { type: MetricType.Green, title: t('Base.allow'), contains: ['allow'] },
+    { type: MetricType.Red, title: t('Base.deny'), contains: ['deny'] },
+    { type: MetricType.Gray, title: t('Base.nomatch'), contains: ['nomatch'] },
+    { type: MetricType.Gray, title: tl('ignored'), contains: ['ignore'] },
+  ]
   const authnTextMap = {
     total: { label: t('Base.total'), desc: tl('authnTotalDesc') },
     success: { label: t('Base.allow'), desc: tl('authnSuccessDesc') },
@@ -416,6 +418,7 @@ export const useAuthMetrics = (): {
     allow: { label: t('Base.allow'), desc: tl('authzSuccessDesc') },
     deny: { label: t('Base.deny'), desc: tl('authzFailedDesc') },
     nomatch: { label: t('Base.nomatch'), desc: tl('authzNomatchDesc') },
+    ignore: { label: tl('ignored'), desc: tl('ignoredDesc') },
     rate: { label: t('Base.rateNow'), desc: tl('authzRateBarDesc') },
     rate_max: { label: t('Base.rateMax') },
     rate_last5m: { label: t('Base.rateLast5M') },
@@ -443,21 +446,15 @@ export const useRuleMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
-  const ruleTypeMetricsMap = {
-    [MetricType.Green]: { title: tl('passed'), contains: ['passed'] },
-    [MetricType.Gray]: { title: tl('failedNoResult'), contains: ['failed.no_result'] },
-    [MetricType.Red]: {
-      title: t('Base.failed'),
-      contains: ['failed.exception'],
-    },
-  }
-  const actionTypeMetricsMap = {
-    [MetricType.Green]: { title: tl('actionsSuccess'), contains: ['actions.success'] },
-    [MetricType.Red]: {
-      title: tl('actionsFailed'),
-      contains: ['actions.failed'],
-    },
-  }
+  const ruleTypeMetricsMap = [
+    { type: MetricType.Green, title: tl('passed'), contains: ['passed'] },
+    { type: MetricType.Gray, title: tl('failedNoResult'), contains: ['failed.no_result'] },
+    { type: MetricType.Red, title: t('Base.failed'), contains: ['failed.exception'] },
+  ]
+  const actionTypeMetricsMap = [
+    { type: MetricType.Green, title: tl('actionsSuccess'), contains: ['actions.success'] },
+    { type: MetricType.Red, title: tl('actionsFailed'), contains: ['actions.failed'] },
+  ]
   const textMap = {
     matched: { label: tl('ruleMatched'), desc: tl('bridgeMatchedDesc') },
     passed: { label: tl('passed'), desc: tl('passedDesc') },
@@ -490,13 +487,10 @@ export const useExHooksMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Exhook')
-  const exHooksTypeMetricsMap = {
-    [MetricType.Green]: { title: t('Base.success'), contains: ['succeed'] },
-    [MetricType.Red]: {
-      title: t('Base.failed'),
-      contains: ['failed'],
-    },
-  }
+  const exHooksTypeMetricsMap = [
+    { type: MetricType.Green, title: t('Base.success'), contains: ['succeed'] },
+    { type: MetricType.Red, title: t('Base.failed'), contains: ['failed'] },
+  ]
   const textMap = {
     rate: { label: t('Base.rateNow'), desc: tl('rateBarDesc') },
     max_rate: { label: t('Base.rateMax') },
@@ -521,10 +515,10 @@ export const useSchemaValidationMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
-  const schemaValidationMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
-    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
-  }
+  const schemaValidationMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['succeeded'] },
+    { type: MetricType.Red, title: tl('failed'), contains: ['failed'] },
+  ]
   const validationMetricsTextMap = {
     matched: { label: t('Base.total') },
     succeeded: { label: t('Base.allow'), desc: t('RuleEngine.validationSuccessDesc') },
@@ -553,10 +547,10 @@ export const useMessageTransformMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
-  const transformMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
-    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
-  }
+  const transformMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['succeeded'] },
+    { type: MetricType.Red, title: tl('failed'), contains: ['failed'] },
+  ]
   const transformMetricsTextMap = {
     matched: { label: t('Base.total') },
     succeeded: { label: t('Base.allow'), desc: t('RuleEngine.transformationSuccessDesc') },
