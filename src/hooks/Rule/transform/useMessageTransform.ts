@@ -201,7 +201,6 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
         'Message-Expiry-Interval',
         'Topic-Alias',
         'User-Property',
-        'User-Property-Pairs',
         'Subscription-Identifier',
         'Response-Topic',
         'Correlation-Data',
