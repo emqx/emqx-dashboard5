@@ -515,10 +515,10 @@ export const useSchemaValidationMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
-  const schemaValidationMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
-    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
-  }
+  const schemaValidationMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['succeeded'] },
+    { type: MetricType.Red, title: tl('failed'), contains: ['failed'] },
+  ]
   const validationMetricsTextMap = {
     matched: { label: t('Base.total') },
     succeeded: { label: t('Base.allow'), desc: t('RuleEngine.validationSuccessDesc') },
@@ -547,10 +547,10 @@ export const useMessageTransformMetrics = (): {
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
-  const transformMetricsMap = {
-    [MetricType.Green]: { title: tl('success'), contains: ['succeeded'] },
-    [MetricType.Red]: { title: tl('failed'), contains: ['failed'] },
-  }
+  const transformMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['succeeded'] },
+    { type: MetricType.Red, title: tl('failed'), contains: ['failed'] },
+  ]
   const transformMetricsTextMap = {
     matched: { label: t('Base.total') },
     succeeded: { label: t('Base.allow'), desc: t('RuleEngine.transformationSuccessDesc') },
