@@ -12,8 +12,17 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item prop="rules" required>
-            <div class="viewer-container" ref="monacoContainer">
-              <monaco id="acl-file-editor" v-model="fileConfig.rules" lang="plaintext"></monaco>
+            <div
+              class="viewer-container"
+              :style="{ height: `${editorHeight}px` }"
+              ref="containerRef"
+            >
+              <monaco
+                id="acl-file-editor"
+                v-model="fileConfig.rules"
+                lang="plaintext"
+                @change="updateEditorHeight"
+              ></monaco>
             </div>
           </el-form-item>
         </el-col>
@@ -23,10 +32,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from 'vue'
+import { defineComponent, watch, ref, computed } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { isEqual } from 'lodash'
+import { useAdaptiveEditor } from '@/hooks/useAdaptiveEditor'
 
 export default defineComponent({
   name: 'FileConfig',
@@ -48,6 +58,10 @@ export default defineComponent({
       rules: createRequiredRule('ACL File'),
     }
 
+    const { editorHeight, containerRef, updateEditorHeight } = useAdaptiveEditor({
+      initialContent: computed(() => fileConfig.value.rules || ''),
+    })
+
     const validate = () => {
       return formCom.value.validate()
     }
@@ -66,10 +80,13 @@ export default defineComponent({
     )
 
     return {
+      editorHeight,
       fileConfig,
       formCom,
       rules,
       validate,
+      containerRef,
+      updateEditorHeight,
     }
   },
 })
@@ -77,9 +94,4 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../style/authConfig.scss';
-.file-config {
-  .viewer-container {
-    height: 480px;
-  }
-}
 </style>
