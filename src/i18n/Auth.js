@@ -567,4 +567,12 @@ export default {
     zh: '过期后断开连接',
     en: 'Disconnect After Expiration',
   },
+  ignored: {
+    zh: '忽略',
+    en: 'Ignored',
+  },
+  ignoredDesc: {
+    zh: '被忽略的查询计数。每当授权源尝试授权请求，但该请求不适用，或遇到错误导致结果无法确定时，此计数器就会增加。',
+    en: "Count of query ignored.  This counter is increased whenever the authorization source attempts to authorize a request, but either it's not applicable, or an error was encountered and the result is undecidable",
+  },
 }
