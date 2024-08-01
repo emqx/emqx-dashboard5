@@ -48,12 +48,12 @@
             </CustomFormItem>
           </template>
         </el-table-column>
-        <el-table-column v-if="!readonly" :label="t('Auth.action')" prop="alias" width="80">
+        <el-table-column v-if="!readonly" :label="t('Auth.action')" width="80">
           <template #default="{ $index }">
             <el-button
-              v-if="record.form.length > 1"
               link
               class="btn-del"
+              :disabled="record.form.length < 2"
               @click="deleteItem($index)"
             >
               <el-icon :size="16" class="icon-del"><Delete /></el-icon>
