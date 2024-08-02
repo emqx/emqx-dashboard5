@@ -60,7 +60,7 @@ export default createStore({
     clientTableColumns: getClientTableColumns(),
     /* rule page start */
     isTesting: false,
-    savedAfterRuleChange: false,
+    savedAfterDataChange: false,
     testRuleTarget: TestRuleTarget.SQL,
     /* rule page end */
   },
@@ -159,8 +159,8 @@ export default createStore({
     SET_IS_TESTING(state, isTesting) {
       state.isTesting = isTesting
     },
-    SET_SAVED_AFTER_RULE_CHANGE(state, savedAfterRuleChange) {
-      state.savedAfterRuleChange = savedAfterRuleChange
+    SET_SAVED_AFTER_DATA_CHANGE(state, savedAfterDataChange) {
+      state.savedAfterDataChange = savedAfterDataChange
     },
     SET_TEST_RULE_TARGET(state, testRuleTarget) {
       state.testRuleTarget = testRuleTarget
@@ -183,9 +183,9 @@ export default createStore({
         return state.schemaStoreMap.get(key)
       }
     },
-    isRuleSaveButtonDisabled(state) {
+    isDataSaveButtonDisabled(state) {
       return (
-        state.savedAfterRuleChange &&
+        state.savedAfterDataChange &&
         state.isTesting &&
         state.testRuleTarget === TestRuleTarget.Rule
       )

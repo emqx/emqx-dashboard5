@@ -126,7 +126,7 @@ const infoLoading = ref(false)
 const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
-const { isTesting, updateSavedRule } = useStatusController(ruleInfo)
+const { isTesting, updateSavedData } = useStatusController(ruleInfo)
 
 const formCom = ref()
 
@@ -148,7 +148,7 @@ const loadRuleDetail = async () => {
   try {
     ruleInfo.value = await getRuleInfo(id)
     rawRuleInfo = cloneDeep(ruleInfo.value)
-    updateSavedRule(rawRuleInfo)
+    updateSavedData(rawRuleInfo)
     ++iKey.value
   } catch (error) {
     console.error(error)
@@ -208,7 +208,7 @@ const submitUpdateRules = async () => {
     if (!isTesting.value) {
       router.push({ name: 'rule' })
     } else {
-      updateSavedRule(ruleInfo.value)
+      updateSavedData(ruleInfo.value)
     }
   } catch (error) {
     console.error(error)

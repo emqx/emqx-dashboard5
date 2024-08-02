@@ -196,14 +196,15 @@ export default (): {
   }
 }
 
+type DataType = BasicRule | RuleItem
 export const useStatusController = (
-  rule?: Ref<BasicRule | RuleItem>,
+  data?: Ref<DataType>,
 ): {
   isTesting: WritableComputedRef<boolean>
-  savedAfterRuleChange: WritableComputedRef<boolean>
+  savedAfterDataChange: WritableComputedRef<boolean>
   testTarget: WritableComputedRef<TestRuleTarget>
-  isRuleSaveButtonDisabled: ComputedRef<boolean>
-  updateSavedRule: (savedRule: BasicRule | RuleItem) => void
+  isDataSaveButtonDisabled: ComputedRef<boolean>
+  updateSavedData: (savedRule: DataType) => void
 } => {
   const { state, commit, getters } = useStore()
   const isTesting = computed<boolean>({
@@ -214,12 +215,12 @@ export const useStatusController = (
       commit('SET_IS_TESTING', val)
     },
   })
-  const savedAfterRuleChange = computed<boolean>({
+  const savedAfterDataChange = computed<boolean>({
     get() {
-      return state.savedAfterRuleChange
+      return state.savedAfterDataChange
     },
     set(val) {
-      commit('SET_SAVED_AFTER_RULE_CHANGE', val)
+      commit('SET_SAVED_AFTER_DATA_CHANGE', val)
     },
   })
   const testTarget = computed<TestRuleTarget>({
@@ -231,32 +232,30 @@ export const useStatusController = (
     },
   })
 
-  const isRuleSaveButtonDisabled = computed<boolean>(() => getters.isRuleSaveButtonDisabled)
+  const isDataSaveButtonDisabled = computed<boolean>(() => getters.isDataSaveButtonDisabled)
 
-  const lastSavedRule: Ref<BasicRule | RuleItem | undefined> = ref(
-    (rule && rule.value) || undefined,
-  )
-  const updateSavedRule = (savedRule: BasicRule | RuleItem) => {
-    savedAfterRuleChange.value = isEqual(savedRule, rule?.value)
-    lastSavedRule.value = cloneDeep(savedRule)
+  const lastSavedData: Ref<DataType | undefined> = ref((data && data.value) || undefined)
+  const updateSavedData = (savedData: DataType) => {
+    savedAfterDataChange.value = isEqual(savedData, data?.value)
+    lastSavedData.value = cloneDeep(savedData)
   }
 
-  const compareRuleAndUpdateSavedStatus = () => {
-    savedAfterRuleChange.value = isEqual(lastSavedRule.value, rule?.value)
+  const compareDataAndUpdateSavedStatus = () => {
+    savedAfterDataChange.value = isEqual(lastSavedData.value, data?.value)
   }
 
-  const handleRuleChanged = debounce(compareRuleAndUpdateSavedStatus, 300)
+  const handleDataChanged = debounce(compareDataAndUpdateSavedStatus, 300)
 
-  if (rule) {
-    watch(rule, handleRuleChanged)
+  if (data) {
+    watch(data, handleDataChanged)
   }
 
   return {
     isTesting,
-    savedAfterRuleChange,
+    savedAfterDataChange,
     testTarget,
-    isRuleSaveButtonDisabled,
-    updateSavedRule,
+    isDataSaveButtonDisabled,
+    updateSavedData,
   }
 }
 

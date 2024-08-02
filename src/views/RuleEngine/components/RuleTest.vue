@@ -13,11 +13,11 @@
           plain
           @click="handleStartTest"
           :icon="CaretRight"
-          :disabled="!savedAfterRuleChange"
+          :disabled="!savedAfterDataChange"
         >
           {{ tl('startTest') }}
         </el-button>
-        <p class="tip" v-if="!savedAfterRuleChange">
+        <p class="tip" v-if="!savedAfterDataChange">
           {{ tl('pleaseSaveFirst') }}
         </p>
       </div>
@@ -64,7 +64,7 @@ const props = defineProps({
 
 const { tl } = useI18nTl('RuleEngine')
 
-const { savedAfterRuleChange } = useStatusController()
+const { savedAfterDataChange } = useStatusController()
 
 const showMockDataDrawer = ref(false)
 const isSubmittingMockData = ref(false)
