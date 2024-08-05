@@ -77,11 +77,12 @@
     <el-row class="oper-row">
       <el-col :span="24">
         <el-button @click="$router.push({ name: 'rule' })">
-          {{ savedAfterRuleChange ? tl('backToRuleList') : $t('Base.cancel') }}
+          {{ savedAfterDataChange ? tl('backToRuleList') : $t('Base.cancel') }}
         </el-button>
         <el-button
           type="primary"
-          :disabled="!$hasPermission('post') || disabled || isRuleSaveButtonDisabled"
+          :disabled="!$hasPermission('post') || disabled || isDataSaveButtonDisabled"
+          :loading="submitLoading"
           @click="$emit('save')"
         >
           {{ isEdit ? $t('Base.update') : $t('Base.save') }}
@@ -195,7 +196,7 @@ const ruleValue: Ref<BasicRule | RuleForm> = ref({
   ...cloneDeep(prop.modelValue),
 })
 
-const { isTesting, testTarget, savedAfterRuleChange, isRuleSaveButtonDisabled } =
+const { isTesting, testTarget, savedAfterDataChange, isDataSaveButtonDisabled } =
   useStatusController()
 
 const ruleSql = computed(() => ruleValue.value.sql)

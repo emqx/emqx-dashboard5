@@ -6,7 +6,7 @@
         ref="formCom"
         v-model="ruleValue"
         :submit-loading="submitLoading"
-        :name-disabled="savedAfterRuleChange"
+        :name-disabled="savedAfterDataChange"
         @save="submitCreateRule"
       />
     </el-card>
@@ -52,8 +52,8 @@ let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
 let isRuleCreated = false
-const { isTesting, savedAfterRuleChange, updateSavedRule } = useStatusController(ruleValue)
-savedAfterRuleChange.value = false
+const { isTesting, savedAfterDataChange, updateSavedData } = useStatusController(ruleValue)
+savedAfterDataChange.value = false
 
 const formCom = ref()
 
@@ -85,7 +85,7 @@ const submitCreateRule = async () => {
     if (!isTesting.value) {
       router.push({ name: 'rule' })
     } else {
-      updateSavedRule(ruleValue.value)
+      updateSavedData(ruleValue.value)
     }
   } catch (error) {
     //
