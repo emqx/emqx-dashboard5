@@ -77,6 +77,7 @@
                 v-else-if="currBackend === 'http'"
                 ref="formCom"
                 v-model="configData"
+                :type="configData.mechanism"
                 is-edit
               />
               <built-in-config
