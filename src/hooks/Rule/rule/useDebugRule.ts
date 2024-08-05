@@ -12,6 +12,7 @@ import {
   TraceEncodeType,
 } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
+import { Edge, Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, debounce, isArray, isEqual, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
@@ -196,7 +197,7 @@ export default (): {
   }
 }
 
-type DataType = BasicRule | RuleItem
+type DataType = BasicRule | RuleItem | { nodes: Array<Node>; edges: Array<Edge> }
 export const useStatusController = (
   data?: Ref<DataType>,
 ): {
@@ -234,7 +235,7 @@ export const useStatusController = (
 
   const isDataSaveButtonDisabled = computed<boolean>(() => getters.isDataSaveButtonDisabled)
 
-  const lastSavedData: Ref<DataType | undefined> = ref((data && data.value) || undefined)
+  const lastSavedData = ref<DataType | undefined>((data && data.value) || undefined)
   const updateSavedData = (savedData: DataType) => {
     savedAfterDataChange.value = isEqual(savedData, data?.value)
     lastSavedData.value = cloneDeep(savedData)

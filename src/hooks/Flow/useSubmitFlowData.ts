@@ -1,6 +1,6 @@
 import { createRules, updateRules } from '@/api/ruleengine'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { BasicRule, BridgeItem } from '@/types/rule'
+import { BasicRule, BridgeItem, RuleItem } from '@/types/rule'
 import { groupBy } from 'lodash'
 import { Ref, ref } from 'vue'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
@@ -18,8 +18,8 @@ interface GroupedFlowData {
 
 export default (): {
   isSubmitting: Ref<boolean>
-  createFlow: (data: GroupedFlowData) => Promise<void>
-  updateFlow: (data: GroupedFlowData) => Promise<void>
+  createFlow: (data: GroupedFlowData) => Promise<RuleItem>
+  updateFlow: (data: GroupedFlowData) => Promise<RuleItem>
 } => {
   const isSubmitting = ref(false)
   const { addAction, updateAction, deleteAction } = useHandleActionItem()
@@ -105,9 +105,9 @@ export default (): {
       await submitActions(actions)
       await submitSources(sources)
 
-      await createRules(rule as any)
+      const ruleRet = await createRules(rule as any)
       isSubmitting.value = false
-      return Promise.resolve()
+      return Promise.resolve(ruleRet)
     } catch (error) {
       isSubmitting.value = false
       return Promise.reject()
@@ -124,9 +124,9 @@ export default (): {
       await submitActions(actions)
       await submitSources(sources)
 
-      await updateRules(rule.id, rule as any)
+      const ruleRet = await updateRules(rule.id, rule as any)
       isSubmitting.value = false
-      return Promise.resolve()
+      return Promise.resolve(ruleRet)
     } catch (error) {
       console.error(error)
       isSubmitting.value = false

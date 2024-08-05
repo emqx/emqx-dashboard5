@@ -1,6 +1,7 @@
 <template>
   <div class="rule-test">
     <LogDataDisplay
+      :is-flow="isFlow"
       :log-data="logData"
       :is-test-started="isTestStarted"
       @start-test="handleStartTest"
@@ -8,18 +9,23 @@
     />
     <div class="buttons-bar">
       <div class="btn-start-container" v-if="!isTestStarted && !showStartTestInChild">
-        <el-button
-          type="primary"
-          plain
-          @click="handleStartTest"
-          :icon="CaretRight"
-          :disabled="!savedAfterDataChange"
-        >
-          {{ tl('startTest') }}
+        <template v-if="!isFlow">
+          <el-button
+            type="primary"
+            plain
+            @click="handleStartTest"
+            :icon="CaretRight"
+            :disabled="!savedAfterDataChange"
+          >
+            {{ tl('startTest') }}
+          </el-button>
+          <p class="tip" v-if="!savedAfterDataChange">
+            {{ tl('pleaseSaveFirst') }}
+          </p>
+        </template>
+        <el-button plain @click="handleCloseTest">
+          {{ tl('closeTest') }}
         </el-button>
-        <p class="tip" v-if="!savedAfterDataChange">
-          {{ tl('pleaseSaveFirst') }}
-        </p>
       </div>
       <div class="btn-testing-container" v-if="isTestStarted">
         <el-button type="primary" plain @click="openMockDataDrawer">
@@ -47,7 +53,8 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
-import { PropType, computed, defineExpose, defineProps, ref, watch } from 'vue'
+import type { PropType } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import LogDataDisplay from './LogDataDisplay.vue'
 import MockDataDrawer from './MockDataDrawer.vue'
 
@@ -60,7 +67,17 @@ const props = defineProps({
     type: Array as PropType<Array<BridgeItem>>,
     required: true,
   },
+  /**
+   * diff interaction for flow and rule
+   */
+  isFlow: {
+    type: Boolean,
+  },
 })
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'testing-status-change', data: boolean): void
+}>()
 
 const { tl } = useI18nTl('RuleEngine')
 
@@ -71,7 +88,9 @@ const isSubmittingMockData = ref(false)
 
 const { logData, handleStopTest, submitMockDataForTestRule, startTest } = useDebugRule()
 
-const showStartTestInChild = computed(() => Object.keys(logData.value).length === 0)
+const showStartTestInChild = computed(
+  () => Object.keys(logData.value).length === 0 && !props.isFlow,
+)
 
 const isTestStarted = ref(false)
 const handleStartTest = async () => {
@@ -82,6 +101,8 @@ const handleStartTest = async () => {
     //
   }
 }
+
+const handleCloseTest = () => emit('close')
 
 const openMockDataDrawer = () => {
   showMockDataDrawer.value = true
@@ -107,8 +128,11 @@ const judgeNeedRemindUser = () => isTestStarted.value
 useDataNotSaveConfirm(judgeNeedRemindUser, 'RuleEngine.debugLeaveConfirm')
 
 watch(() => props.ruleData, stopTest)
+watch(isTestStarted, (value) => {
+  emit('testing-status-change', value)
+})
 
-defineExpose({ stopTest })
+defineExpose({ handleStartTest, stopTest })
 </script>
 
 <style lang="scss">
