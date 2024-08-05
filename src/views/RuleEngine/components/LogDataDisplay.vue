@@ -98,7 +98,7 @@
       </div>
       <div class="btn-wrap">
         <el-button
-          v-if="!isTestStarted"
+          v-if="!isTestStarted && !isFlow"
           type="primary"
           plain
           :icon="CaretRight"
@@ -138,6 +138,7 @@ import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 const props = defineProps<{
   logData: FormattedLog
   isTestStarted: boolean
+  isFlow: boolean
 }>()
 const emit = defineEmits(['input-simulated-data', 'start-test'])
 

@@ -1313,12 +1313,16 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '停止测试',
     en: 'Stop Test',
   },
+  closeTest: {
+    zh: '关闭测试',
+    en: 'Close Test',
+  },
   submitTest: {
     zh: '提交测试',
     en: 'Submit Test',
   },
   pleaseSaveFirst: {
-    zh: '请先保存规则以开始测试',
+    zh: '请先保存以开始测试',
     en: 'Please save first to start testing',
   },
   saveRuleStopTestingTip: {
