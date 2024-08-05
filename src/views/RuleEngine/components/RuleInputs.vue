@@ -168,7 +168,7 @@ const showInputDrawer = ref(false)
  */
 const currentEditIndex = ref(-1)
 const currentEditInput: ComputedRef<undefined | string> = computed(() =>
-  currentEditIndex.value < 0 ? undefined : inputList.value[currentEditIndex.value].value,
+  currentEditIndex.value < 0 ? undefined : inputList.value[currentEditIndex.value]?.value,
 )
 
 const editInput = (index: number) => {
