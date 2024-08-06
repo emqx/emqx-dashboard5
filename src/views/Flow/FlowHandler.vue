@@ -297,6 +297,15 @@ const syncTestingStatusChanged = (val: boolean) => {
     height: calc(100% - #{$hd-height});
     flex-grow: 1;
   }
+  .rule-test {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .log-data-display {
+      flex-grow: 1;
+    }
+  }
+
   .basic-info {
     line-height: $hd-line-height;
   }
