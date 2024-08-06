@@ -45,6 +45,7 @@
       <VueFlow
         :id="flowEditorId"
         class="editor"
+        :style="{ height: $slots.test ? `calc(100% - ${testSlotHeight}px - 8px)` : '100%' }"
         v-show="flowData.length"
         ref="FlowerInstance"
         v-model="flowData"
@@ -78,9 +79,18 @@
           />
         </template>
       </VueFlow>
+      <Resizer
+        v-if="$slots.test"
+        v-model="testSlotHeight"
+        :is-forward="false"
+        :min="360"
+        :max="700"
+        @resize="keepZoomFitView"
+      />
       <div
         class="test-content"
         v-if="$slots.test"
+        :style="{ height: `${testSlotHeight}px` }"
         @vnode-mounted="handleOpenTest"
         @vnode-before-unmount="handleCloseTest"
       >
@@ -101,6 +111,7 @@
 
 <script setup lang="ts">
 import { createRandomString, waitAMoment } from '@/common/tools'
+import Resizer from '@/components/Resizer.vue'
 import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
@@ -482,6 +493,8 @@ watch(
   },
 )
 
+const testSlotHeight = ref(450)
+
 defineExpose({ validate, getFlowData })
 </script>
 
@@ -620,10 +633,12 @@ defineExpose({ validate, getFlowData })
   }
 
   .flow-wrap {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     flex-grow: 1;
+  }
+
+  .vue-flow {
+    height: auto;
   }
 
   .vue-flow,
