@@ -1,9 +1,18 @@
 <template>
-  <div ref="ResizerRef" class="resizer" />
+  <div
+    ref="ResizerRef"
+    class="resizer"
+    :class="{ 'monaco-resizer': forMonaco }"
+    @mousedown="handleMouseDown"
+  >
+    <el-icon v-if="forMonaco"><More /></el-icon>
+    <div v-else class="handler"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, withDefaults, onMounted, onUnmounted } from 'vue'
+import { More } from '@element-plus/icons-vue'
+import { defineEmits, defineProps, onUnmounted, ref, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -14,6 +23,7 @@ const props = withDefaults(
      * Whether the resizer is forward or not
      */
     isForward?: boolean
+    forMonaco?: boolean
   }>(),
   {
     min: 40,
@@ -34,8 +44,8 @@ function setWidth(width: number) {
 
 const resize = (event: MouseEvent) => {
   const max = props.max || Number.MAX_SAFE_INTEGER
-  const yDiff = Math.floor(event.pageY) - lastYPosition
-  let targetHeight = props.modelValue + (props.isForward ? yDiff : -yDiff)
+  const offset = Math.floor(event.pageY) - lastYPosition
+  let targetHeight = props.modelValue + (props.isForward ? offset : -offset)
   if (targetHeight <= props.min) {
     targetHeight = props.min
   } else if (targetHeight >= max) {
@@ -58,41 +68,48 @@ const handleMouseDown = (event: MouseEvent) => {
   event.preventDefault()
 }
 
-onMounted(() => {
-  ResizerRef.value?.addEventListener('mousedown', handleMouseDown)
-})
-
 onUnmounted(() => {
-  ResizerRef.value?.removeEventListener('mousedown', handleMouseDown)
   window.removeEventListener('mousemove', resize)
 })
 </script>
 
 <style lang="scss">
 .resizer {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   height: 8px;
+  z-index: 1;
   padding-left: 16px;
   padding-right: 16px;
   cursor: row-resize;
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    border-bottom: 1px solid var(--color-border-primary);
-    border-top: 1px solid var(--color-border-primary);
+
+  &.monaco-resizer {
+    background: var(--color-border-primary);
   }
-  &::before {
-    top: -2px;
-    height: 2px;
-  }
-  &::after {
-    top: 4px;
-    border-bottom: none;
+
+  .handler {
+    position: relative;
+    height: 100%;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      border-bottom: 1px solid var(--color-border-primary);
+      border-top: 1px solid var(--color-border-primary);
+    }
+    &::before {
+      top: -2px;
+      height: 2px;
+    }
+    &::after {
+      top: 4px;
+      border-bottom: none;
+    }
   }
 }
 </style>
