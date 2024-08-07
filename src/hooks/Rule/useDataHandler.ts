@@ -16,6 +16,7 @@ const keysDoNotNeedForAPI = [
   'idForRuleFrom',
   'actions',
   'id',
+  'rules',
 ]
 
 const keysNeedDel = {
