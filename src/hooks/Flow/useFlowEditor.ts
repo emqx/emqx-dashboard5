@@ -87,16 +87,13 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     event: DragEvent,
     positionOffset: { x: number; y: number },
   ) => {
-    const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
-    const type: NodeType = (event.dataTransfer?.getData(MsgKey.Type) ||
-      NodeType.Processing) as NodeType
-    const name = event.dataTransfer?.getData(MsgKey.Name)
-    const specificType = event.dataTransfer?.getData(MsgKey.SpecificType)
-
-    // check if the dropped element is valid
-    if (typeof type === 'undefined' || !type) {
+    if (!event.dataTransfer?.getData(MsgKey.Type)) {
       return
     }
+    const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
+    const type: NodeType = Number(event.dataTransfer.getData(MsgKey.Type)) as NodeType
+    const name = event.dataTransfer?.getData(MsgKey.Name)
+    const specificType = event.dataTransfer?.getData(MsgKey.SpecificType)
 
     const position = FlowerInstance.value.project({
       x: event.clientX - reactFlowBounds.left - positionOffset.x,
