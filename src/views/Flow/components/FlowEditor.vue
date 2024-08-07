@@ -515,10 +515,12 @@ defineExpose({ validate, getFlowData, getNodes, setNodes })
     margin-top: 0;
   }
 
+  $panel-width: 264px;
   .nodes-panel {
     height: 100%;
-    flex-basis: 264px;
+    flex-basis: $panel-width;
     flex-grow: 0;
+    flex-shrink: 0;
     padding: 16px 12px;
     border-right: 1px solid var(--color-border-primary);
     overflow-y: scroll;
@@ -637,6 +639,7 @@ defineExpose({ validate, getFlowData, getNodes, setNodes })
   .flow-wrap {
     height: 100%;
     flex-grow: 1;
+    width: calc(100% - #{$panel-width});
   }
 
   .vue-flow {
