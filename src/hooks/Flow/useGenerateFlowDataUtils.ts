@@ -60,6 +60,7 @@ export type GroupedNode = {
 export default (): {
   getBridgeIdFromInput: (input: string) => string
   detectInputType: (from: string) => string
+  detectOutputType: (action: OutputItem) => string
   detectFieldsExpressionsEditedWay: (functionForm: Array<FunctionItem>) => EditedWay
   detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
   generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
@@ -537,6 +538,7 @@ export default (): {
   return {
     getBridgeIdFromInput,
     detectInputType,
+    detectOutputType,
     detectFieldsExpressionsEditedWay,
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
