@@ -133,6 +133,7 @@ const props = defineProps({
 })
 
 const { isTesting, testTarget } = useStatusController()
+testTarget.value = TestRuleTarget.SQL
 
 const testLoading = ref(false)
 const resultData = ref<string>('')
