@@ -182,6 +182,7 @@ const {
   removeNodes,
   removeEdges,
   setEdges,
+  setNodes,
   getNodes,
   getEdges,
 } = useVueFlow({
@@ -488,6 +489,7 @@ watch(
   async (nVal) => {
     if (nVal && nVal.length) {
       flowData.value = nVal
+      await nextTick()
       fitView()
     }
   },
@@ -495,7 +497,7 @@ watch(
 
 const testSlotHeight = ref(450)
 
-defineExpose({ validate, getFlowData })
+defineExpose({ validate, getFlowData, getNodes, setNodes })
 </script>
 
 <style lang="scss">

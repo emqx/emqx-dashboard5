@@ -74,9 +74,10 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { createRandomString, getBridgeKey, waitAMoment } from '@/common/tools'
 import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
+import useFlowNode from '@/hooks/Flow/useFlowNode'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
 import useSourceList from '@/hooks/Rule/action/useSourceList'
 import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
@@ -114,7 +115,7 @@ const { t, tl } = useI18nTl('Flow')
 const initName = createRandomString()
 const flowBasicInfo = ref({ name: initName, desc: '' })
 
-const { flowId, flowData, ruleData, getData } = useEditFlow()
+const { flowId, flowData, ruleData, addBridgeFormDataToNodes, getData } = useEditFlow()
 const isCreate = computed(() => !flowId.value)
 const editingMethod = ref(EditingMethod.Flow)
 
@@ -196,8 +197,10 @@ const submit = async () => {
     const request = isCallCreate ? createFlow : updateFlow
     currentRule.value = await request(data)
     ElMessage.success(t(`Base.${isCallCreate ? 'createSuccess' : 'updateSuccess'}`))
+    updateFlowData()
+    await nextTick()
     updateIsSubmitted()
-    updateNewestSavedFlowData(flowData)
+    updateNewestSavedFlowData(FlowEditorCom.value.getFlowData())
   } catch (error) {
     //
   }
@@ -234,6 +237,24 @@ const updateNewestSavedFlowData = (data: { nodes: Array<Node>; edges: Array<Edge
 const sourceList = ref<Array<BridgeItem>>([])
 const { getSourceList } = useSourceList()
 ;(async () => (sourceList.value = await getSourceList()))()
+
+const { isBridgerNode } = useFlowNode()
+/**
+ * After the first created source/action is saved, the node data
+ * should be updated to set it to select an existing source/action
+ */
+const updateFlowData = async () => {
+  // The reason for using getNodes here instead of getFlowData
+  //  elsewhere is that getFlowData doesn't have node location information.
+  const nodes = FlowEditorCom.value.getNodes
+  nodes.forEach((node: Node) => {
+    if (isBridgerNode(node) && !node.data.formData.id) {
+      node.data.formData.id = getBridgeKey(node.data.formData)
+    }
+  })
+  const newNodes = await addBridgeFormDataToNodes(nodes)
+  FlowEditorCom.value.setNodes(newNodes)
+}
 
 const RuleTestRef = ref()
 const {

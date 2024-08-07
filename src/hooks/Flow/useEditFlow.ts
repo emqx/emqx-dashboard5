@@ -13,6 +13,7 @@ export default (): {
   flowId: ComputedRef<string>
   ruleData: Ref<RuleItem | undefined>
   flowData: Ref<(Node<any, any, string> | Edge)[] | undefined>
+  addBridgeFormDataToNodes: (nodes: Node[]) => Promise<Node[]>
   getData: () => Promise<void>
 } => {
   const route = useRoute()
@@ -106,6 +107,7 @@ export default (): {
     flowId,
     ruleData,
     flowData,
+    addBridgeFormDataToNodes,
     getData,
   }
 }
