@@ -230,8 +230,8 @@ const updateCurrentFlowData = (data: { nodes: Array<Node>; edges: Array<Edge> })
 }
 
 const updateNewestSavedFlowData = (data: { nodes: Array<Node>; edges: Array<Edge> }) => {
-  updateSavedData(data)
   updateCurrentFlowData(data)
+  updateSavedData(data)
 }
 
 const sourceList = ref<Array<BridgeItem>>([])
@@ -257,6 +257,7 @@ const updateFlowData = async () => {
 }
 
 const RuleTestRef = ref()
+
 const {
   isTesting: isTestingPanelOpen,
   savedAfterDataChange,
@@ -265,6 +266,7 @@ const {
   updateSavedData,
 } = useStatusController(currentFlowData)
 testTarget.value = TestRuleTarget.Rule
+savedAfterDataChange.value = false
 const isTestStarted = ref(false)
 const handleStartTest = async () => {
   isTestingPanelOpen.value = true
