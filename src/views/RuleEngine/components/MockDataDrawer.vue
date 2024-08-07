@@ -6,7 +6,7 @@
     :size="660"
     :title="tl('mockData')"
   >
-    <div class="test-header">
+    <div class="form-item-source">
       <label class="test-label">
         {{ tl('dataSource') }}
         <InfoTooltip :content="tl('dataSourceDesc')" />
@@ -114,10 +114,12 @@ const submit = () => {
 
 <style lang="scss">
 .mock-data-drawer {
-  .test-sql-context-form {
-    margin-top: 12px;
+  .test-label {
+    display: block;
+    margin-bottom: 8px;
   }
-  .test-header {
+  .form-item-source {
+    margin-bottom: 32px;
     .from-select {
       width: 100%;
     }
