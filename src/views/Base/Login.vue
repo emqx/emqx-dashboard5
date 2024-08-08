@@ -89,7 +89,7 @@
                 <input class="el-button el-button--info is-link" type="submit" value="SAML" />
               </form>
               <!-- for call api by browser -->
-              <!-- <form
+              <form
                 v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.oidc)"
                 :action="oidcLoginUrl"
                 method="post"
@@ -111,7 +111,7 @@
                   value="OIDC"
                   @click="isSSOSubmitting = true"
                 />
-              </form> -->
+              </form>
             </div>
           </div>
         </div>
