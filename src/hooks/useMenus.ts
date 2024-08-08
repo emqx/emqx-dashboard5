@@ -49,7 +49,6 @@ export default (): {
 
   const diagnose = [
     { title: 'websocket', path: '/websocket' },
-    { title: 'topic-metrics', path: '/topic-metrics' },
     { title: 'log-trace', path: '/log-trace' },
   ]
 
