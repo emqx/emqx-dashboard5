@@ -10,12 +10,6 @@
       </defs>
       <g>
         <g v-if="isSelected">
-          <polygon
-            v-if="nodesNum === 1"
-            :points="getPoints(OUTER_SIDE_MULTIPLES)"
-            :fill="`url(#${id})`"
-            opacity="0.3"
-          />
           <polygon :points="getPoints(INNER_SIDE_MULTIPLES)" :fill="`url(#${id})`" opacity="0.6" />
         </g>
         <polygon :points="getPoints()" :fill="`url(#${id})`" @mouseenter="selectNode" />
@@ -31,13 +25,7 @@ import { PropType, computed, defineProps, watch, defineEmits } from 'vue'
 import { Handle } from '@vue-flow/core'
 import { NodeStatus } from '@/types/enum'
 
-const {
-  OUTER_SIDE_MULTIPLES,
-  INNER_SIDE_MULTIPLES,
-  coreNodeHeight,
-  coreNodeWidth,
-  setCoreNodeHeight,
-} = useCoreNodeSize()
+const { INNER_SIDE_MULTIPLES, coreNodeHeight, coreNodeWidth, setCoreNodeHeight } = useCoreNodeSize()
 
 const props = defineProps({
   height: {
