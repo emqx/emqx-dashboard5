@@ -328,11 +328,11 @@ export interface BridgeNodeMetrics {
 
 export interface BridgeMqttPublisherPutBridgeV2 {
   local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherActionParameters
   resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
@@ -348,11 +348,11 @@ export interface BridgeMqttPublisherPostBridgeV2 {
   type: BridgeMqttPublisherPostBridgeV2Type
   name: string
   local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherActionParameters
   resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
@@ -382,11 +382,11 @@ export interface BridgeMqttPublisherGetBridgeV2 {
   status_reason?: string
   node_status?: BridgeNodeStatus[]
   local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherActionParameters
   resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 

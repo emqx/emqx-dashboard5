@@ -1163,6 +1163,7 @@ export const AuthzBuiltinDbType = {
 export interface AuthzBuiltinDb {
   type: AuthzBuiltinDbType
   enable?: boolean
+  max_rules?: number
 }
 
 export type AuthzApiFileType = typeof AuthzApiFileType[keyof typeof AuthzApiFileType]
