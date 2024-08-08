@@ -27,7 +27,6 @@ export interface FlowEdgeData {
 export type FlowDataItem = FlowNodeData | FlowEdgeData
 
 export const useCoreNodeSize = (): {
-  OUTER_SIDE_MULTIPLES: number
   INNER_SIDE_MULTIPLES: number
   coreNodeHeight: Ref<number>
   coreNodeWidth: Ref<number>
@@ -35,8 +34,7 @@ export const useCoreNodeSize = (): {
   SVGWidth: Ref<number>
   setCoreNodeHeight: (height: number) => void
 } => {
-  const OUTER_SIDE_MULTIPLES = 2
-  const INNER_SIDE_MULTIPLES = 1 + (OUTER_SIDE_MULTIPLES - 1) / 2
+  const INNER_SIDE_MULTIPLES = 1.5
 
   const coreNodeHeight = ref(0)
   const coreNodeWidth = ref(0)
@@ -49,11 +47,11 @@ export const useCoreNodeSize = (): {
   }
 
   const countSVGWidth = () => {
-    return coreNodeWidth.value * OUTER_SIDE_MULTIPLES
+    return coreNodeWidth.value * INNER_SIDE_MULTIPLES
   }
 
   const countSVGHeight = () => {
-    return coreNodeHeight.value * OUTER_SIDE_MULTIPLES
+    return coreNodeHeight.value * INNER_SIDE_MULTIPLES
   }
 
   // Height in non-active state (outer circle diameter)
@@ -65,7 +63,6 @@ export const useCoreNodeSize = (): {
   }
 
   return {
-    OUTER_SIDE_MULTIPLES,
     INNER_SIDE_MULTIPLES,
     coreNodeHeight,
     coreNodeWidth,
