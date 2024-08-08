@@ -108,6 +108,8 @@ export type GetRulesParams = {
   like_from?: string
   like_description?: string
   match_from?: string
+  action?: string[]
+  source?: string[]
   page?: PublicPageParameter
   limit?: PublicLimitParameter
 }
