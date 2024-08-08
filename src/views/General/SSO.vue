@@ -35,7 +35,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import {
   DashboardSsoBackendStatus,
-  DashboardSsoBackendStatusBackend as SSOBackend,
+  DashboardSsoBackendStatusBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { computed, ComputedRef, ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -48,12 +48,7 @@ const router = useRouter()
 const createdSSOList: Ref<Array<DashboardSsoBackendStatus>> = ref([])
 const isLoading = ref(false)
 
-const SSOBackendList = Object.entries(SSOBackend).reduce((arr: Array<SSOBackend>, [, value]) => {
-  if (value !== SSOBackend.oidc) {
-    arr.push(value)
-  }
-  return arr
-}, [])
+const SSOBackendList = Object.entries(DashboardSsoBackendStatusBackend).map(([, value]) => value)
 const SSOList: ComputedRef<Array<SSOItem>> = computed(() => {
   return SSOBackendList.map((backend) => {
     const createdItem = createdSSOList.value.find((item) => item.backend === backend)
