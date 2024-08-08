@@ -104,7 +104,7 @@ import useNodeForm from '@/hooks/Flow/useNodeForm'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, Role } from '@/types/enum'
+import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
@@ -196,7 +196,7 @@ const { isBridgeType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message, SourceTypeAllMsgsAndEvents],
-  [FlowNodeType.Default]: [ProcessingType.Filter, ProcessingType.Function],
+  [FlowNodeType.Default]: [ProcessingType.Filter],
   [FlowNodeType.Output]: [SinkType.Console, SinkType.RePub],
 }
 const withMetrics = computed(() => {

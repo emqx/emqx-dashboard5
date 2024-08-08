@@ -98,11 +98,11 @@
       </div>
       <div class="btn-wrap">
         <el-button
-          v-if="!isTestStarted"
+          v-if="!isTestStarted && !isFlow"
           type="primary"
           plain
           :icon="CaretRight"
-          :disabled="!savedAfterRuleChange"
+          :disabled="!savedAfterDataChange"
           @click="startTest"
         >
           {{ tl('startTest') }}
@@ -138,13 +138,14 @@ import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 const props = defineProps<{
   logData: FormattedLog
   isTestStarted: boolean
+  isFlow: boolean
 }>()
 const emit = defineEmits(['input-simulated-data', 'start-test'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 
 const emptyPlaceholderTip = computed(() => {
-  if (!savedAfterRuleChange.value) {
+  if (!savedAfterDataChange.value) {
     return tl('pleaseSaveFirst')
   }
   if (!props.isTestStarted) {
@@ -155,7 +156,7 @@ const emptyPlaceholderTip = computed(() => {
 
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const { getEventList } = useRuleEvents()
-const { savedAfterRuleChange } = useStatusController()
+const { savedAfterDataChange } = useStatusController()
 
 let eventInfoMap: Map<string, RuleEvent> = new Map()
 const reg = /^\$events\/([^._]+)_/

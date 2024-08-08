@@ -51,5 +51,8 @@
   },
   "s3": {
     "aggregated_key": "对象键"
+  },
+  "azure_blob_storage": {
+    "aggregated_blob": "Blob 名称"
   }
 }

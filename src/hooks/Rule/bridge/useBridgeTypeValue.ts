@@ -38,6 +38,7 @@ const bridgesOrder = [
   BridgeType.HStream,
   BridgeType.Elasticsearch,
   BridgeType.S3,
+  BridgeType.AzureBlobStorage,
   BridgeType.SysKeeperProxy,
   BridgeType.SysKeeperForwarder,
 ]
@@ -93,6 +94,8 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.SysKeeperForwarder, label: tl('sysKeeperForwarder') },
     { value: BridgeType.Elasticsearch, label: 'Elasticsearch' },
     { value: BridgeType.S3, label: 'Amazon S3' },
+    { value: BridgeType.AzureBlobStorage, label: 'Azure Blob Storage' },
+    { value: BridgeType.Couchbase, label: 'Couchbase' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -321,6 +324,8 @@ export const useConnectorSchema = (): {
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '', 'post')],
+    [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'connector_')],
+    [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -366,6 +371,8 @@ export const useActionSchema = (): {
     [BridgeType.Cassandra, getRef('cassa')],
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '')],
+    [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'action_')],
+    [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

@@ -292,10 +292,6 @@ p.description {
   i {
     vertical-align: middle;
   }
-
-  .title-n-status {
-    margin-left: 10px;
-  }
 }
 
 .part-header {
@@ -916,5 +912,66 @@ code {
     content: "*";
     color: var(--el-color-danger);
     margin-left: 4px;
+  }
+}
+
+.object-uploader {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  .icon-plus {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-right: auto;
+    margin-left: auto;
+    color: var(--color-text-placeholder);
+    margin-bottom: 12px;
+  }
+  .upload-placeholder {
+    color: var(--color-text-placeholder);
+    font-size: 16px;
+  }
+  .el-upload {
+    width: 100%;
+    .el-upload-dragger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 200px;
+    }
+  }
+
+  & + .upload-tip {
+    width: 540px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.el-table {
+  .topic-list {
+    margin-bottom: -4px;
+    line-height: 1;
+    .topic-item {
+      box-sizing: border-box;
+      display: inline-block;
+      max-width: 100%;
+      height: 24px;
+      padding: 0 10px;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      line-height: 22px;
+      white-space: nowrap;
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-primary);
+      border-radius: 8px;
+      background-color: var(--color-bg-split);
+      --el-tag-hover-color: var(--el-color-info);
+      --el-tag-text-color: var(--el-color-info);
+    }
   }
 }

@@ -23,7 +23,7 @@
                   <el-radio :label="PayloadType.Plaintext">Plaintext</el-radio>
                 </el-radio-group>
               </div>
-              <StretchHeight v-model="payloadEditorHeight" class="payload" />
+              <Resizer v-model="payloadEditorHeight" class="payload" for-monaco is-forward />
             </template>
           </el-form-item>
         </el-col>
@@ -43,7 +43,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, PropType, watch } from 'vue'
 import Monaco from '@/components/Monaco.vue'
-import StretchHeight from './StretchHeight.vue'
+import Resizer from '@/components/Resizer.vue'
 import { createRandomString } from '@/common/tools'
 
 enum PayloadType {

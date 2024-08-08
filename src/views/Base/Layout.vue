@@ -158,10 +158,7 @@ export default defineComponent({
     }
 
     const tryOpenLicenseDialog = () => {
-      showLicenseTipDialog.value =
-        (isEvaluationLicense.value &&
-          localStorage.getItem('licenseTipVisible') !== false.toString()) ||
-        store.state.licenseData.expiry
+      showLicenseTipDialog.value = isEvaluationLicense.value || store.state.licenseData.expiry
     }
 
     onMounted(async () => {

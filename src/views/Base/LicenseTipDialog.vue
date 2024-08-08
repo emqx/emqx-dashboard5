@@ -20,13 +20,11 @@
         <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
       </i18n-t>
     </div>
-    <div v-if="!isLicenseExpiry" class="tip-checkbox">
-      <el-checkbox v-model="noPromptAnyMore" @change="liceEvaTipShowChange">
-        {{ tl('notPromptAgain') }}
-      </el-checkbox>
-    </div>
     <template #footer>
       <span class="dialog-footer">
+        <el-button link type="primary" @click="goLicense">
+          {{ tl('manageLicense') }}
+        </el-button>
         <el-button type="primary" @click="licenseTipVisible = false">
           {{ tl('know') }}
         </el-button>
@@ -39,7 +37,8 @@
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineProps } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 const props = defineProps({
@@ -56,8 +55,6 @@ const store = useStore()
 const { tl } = useI18nTl('Dashboard')
 const { docMap } = useDocLink()
 
-const noPromptAnyMore = ref(false)
-
 const licenseTipVisible = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
@@ -69,10 +66,10 @@ const license = computed(() => store.state.licenseData)
 const isLicenseExpiry = computed(() => license.value.expiry)
 const licenseTipWidth = computed(() => (isLicenseExpiry.value ? 600 : 520))
 
-const liceEvaTipShowChange = (val: boolean) => {
-  if (val) {
-    localStorage.setItem('licenseTipVisible', false.toString())
-  }
+const router = useRouter()
+const goLicense = () => {
+  router.push({ name: 'license' })
+  licenseTipVisible.value = false
 }
 </script>
 

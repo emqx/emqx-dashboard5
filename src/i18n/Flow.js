@@ -100,8 +100,8 @@ export default {
     en: 'Switch to Form',
   },
   aliasRequired: {
-    zh: '调用函数后，需指定一个别名',
-    en: 'Need to specify an alias after calling the function',
+    zh: '需指定一个别名',
+    en: 'Need to specify an alias',
   },
   incorrectConnection: {
     zh: '错误的连线',

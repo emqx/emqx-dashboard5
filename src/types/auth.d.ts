@@ -81,6 +81,13 @@ export interface Banned {
   until: string
 }
 
-export type DatabaseAndServer = 'mysql' | 'postgresql' | 'mongodb' | 'redis' | 'http' | 'ldap'
+export type DatabaseAndServer =
+  | 'mysql'
+  | 'postgresql'
+  | 'mongodb'
+  | 'redis'
+  | 'http'
+  | 'ldap'
+  | 'kerberos'
 
 export default {}

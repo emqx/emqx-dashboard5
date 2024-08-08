@@ -43,7 +43,7 @@ export default {
     zh: 'Secret 使用 Base64 编码',
     en: 'Secret Base64 Encoded',
   },
-  scramDesc: {
+  enhancedAuthDesc: {
     zh: 'MQTT 5.0 增强认证',
     en: 'MQTT 5 Enhanced Authentication',
   },
@@ -55,7 +55,7 @@ export default {
     zh: '选择存储权限数据的数据库或提供认证数据功能的 HTTP 服务器',
     en: 'Select the database where the authorization data is stored or the HTTP server that provides the authorization data function',
   },
-  dataSourceScramDesc: {
+  dataSourceEnhancedAuthDesc: {
     zh: '选择存储认证数据的数据库',
     en: 'Select the database where the authentication data is stored',
   },
@@ -142,6 +142,14 @@ export default {
   passwordHash: {
     zh: '密码加密方式',
     en: 'Password Hash',
+  },
+  maxRules: {
+    zh: '最大规则数',
+    en: 'Max Rules',
+  },
+  maxRulesDesc: {
+    zh: '每个客户端/用户的最大规则数。请注意，随着规则数量的增加，性能可能会降低。',
+    en: 'Maximum number of rules per client/user. Note that performance may decrease as number of rules increases.',
   },
   saltPosition: {
     zh: '加盐方式',
@@ -250,10 +258,6 @@ export default {
   builtInDatabase: {
     zh: '内置数据库',
     en: 'Built-in Database',
-  },
-  builtInDatabaseDesc: {
-    zh: '内置数据库授权无需配置参数，请点击创建按钮完成操作',
-    en: 'Built-in database authorization does not require configuration parameters, please click the Create button to complete the operation',
   },
   HTTPServer: {
     zh: 'HTTP 服务',
@@ -574,5 +578,21 @@ export default {
   ignoredDesc: {
     zh: '被忽略的查询计数。每当授权源尝试授权请求，但该请求不适用，或遇到错误导致结果无法确定时，此计数器就会增加。',
     en: "Count of query ignored.  This counter is increased whenever the authorization source attempts to authorize a request, but either it's not applicable, or an error was encountered and the result is undecidable",
+  },
+  principal: {
+    zh: '主体',
+    en: 'Principal',
+  },
+  keytabFile: {
+    zh: '密钥表文件',
+    en: 'Keytab File',
+  },
+  principalDesc: {
+    zh: "SASL GSSAPI 认证 Kerberos 主体。例如 `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`，注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。",
+    en: "SASL GSSAPI authentication Kerberos principal. For example, `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`. <strong>NOTE</strong>: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.",
+  },
+  keytabFileDesc: {
+    zh: 'SASL GSSAPI 认证 Kerberos 密钥表文件路径。注意：该文件必须放置在 EMQX 节点中，并且 EMQX 服务运行用户需要读取权限。',
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. **NOTE**: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
   },
 }

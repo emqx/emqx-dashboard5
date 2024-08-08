@@ -16,16 +16,16 @@
         </div>
       </div>
       <ul class="data-list">
-        <li v-for="item in actionList" :key="item" class="data-item">
+        <li v-for="item in actions" :key="item" class="data-item">
           <el-tag size="large">
-            <router-link
-              :to="{
-                name: 'action-detail',
-                params: { id: getBridgeKey({ name: item, type: connectorType }) },
-                query: { tab: 'settings' },
-              }"
-              target="_blank"
-            >
+            <router-link :to="getRoute(item, 'action')" target="_blank">
+              {{ item }}
+            </router-link>
+          </el-tag>
+        </li>
+        <li v-for="item in sources" :key="item" class="data-item">
+          <el-tag size="large">
+            <router-link :to="getRoute(item, 'source')" target="_blank">
               {{ item }}
             </router-link>
           </el-tag>
@@ -43,19 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-import { getBridgeKey } from '@/common/tools'
-import { useConnectorDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
-import { lowerCase } from 'lodash'
 import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean
   connectorType: string
-  actionList: Array<string>
+  connector?: Connector
 }>()
 const emit = defineEmits(['update:modelValue'])
 
@@ -68,21 +65,28 @@ const showDialog = computed({
   },
 })
 
-const { judgeConnectorTypeDirection } = useConnectorDirection()
+const actions = computed(() => props.connector?.actions || [])
+const sources = computed(() => props.connector?.sources || [])
 
 const deleteTip = computed(() => {
-  const direction = judgeConnectorTypeDirection(props.connectorType as BridgeType)
-  switch (direction) {
-    case BridgeDirection.Ingress:
-      return tl('deleteSourceConnectorTip')
-    case BridgeDirection.Both:
-      return tl('deleteActionConnectorTip', {
-        ext: lowerCase(`${tl('or')} ${t('components.source')}`),
-      })
-    default:
-      return tl('deleteActionConnectorTip')
+  let target: undefined | string = undefined
+  if (actions.value.length && sources.value.length) {
+    target = tl('actionsAndSources')
+  } else if (actions.value.length) {
+    target = tl('actions')
+  } else if (sources.value.length) {
+    target = 'Sources'
   }
+  return t('RuleEngine.deleteConnectorTip', { target })
 })
+
+const getRoute = (name: string, target: 'action' | 'source') => {
+  return {
+    name: `${target}-detail`,
+    params: { id: `${props.connector?.type}:${name}` },
+    query: { tab: 'settings' },
+  }
+}
 </script>
 
 <style lang="scss">

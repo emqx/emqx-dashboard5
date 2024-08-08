@@ -46,6 +46,11 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
       showDeleteWebhookAssociatedTip.value = true
       return
     }
+    if (item.rules?.length) {
+      currentDeleteBridgeId.value = item.id
+      secondConfirmToDelete(item.rules)
+      return
+    }
     const { id } = item
     await ElMessageBox.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
@@ -57,13 +62,7 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
       await deleteAction(id)
       handleDeleteSuc()
     } catch (error: any) {
-      const { status, data } = error?.response || {}
-      if (status === 400) {
-        currentDeleteBridgeId.value = id
-        secondConfirmToDelete(data?.rules || [])
-      } else {
-        console.error(error)
-      }
+      //
     }
   }
 

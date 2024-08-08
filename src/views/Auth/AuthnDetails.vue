@@ -4,24 +4,32 @@
       <detail-header
         v-if="!gateway"
         :item="{ name: titleMap[currBackend], path: '/authentication' }"
-      />
-      <h2 v-else>{{ titleMap[currBackend] }}</h2>
-      <div :class="{ 'section-header': true, 'embed-gateway': !!gateway }">
-        <div class="section-header__block">
-          <template v-if="!gateway">
-            <div class="img-wrap">
-              <img :src="currImg" height="64" />
-            </div>
-            <div>
-              <div class="info-tags">
-                <AuthItemStatus is-tag :metrics="authMetrics" />
-                <el-tag type="info" class="section-status">
-                  {{ configData.mechanism }}
-                </el-tag>
-              </div>
-            </div>
-          </template>
-        </div>
+      >
+        <template #content>
+          <div class="vertical-align-center">
+            <img :src="currImg" height="40" />
+            <p class="block-title">{{ titleMap[currBackend] }}</p>
+            <AuthItemStatus is-tag :metrics="authMetrics" />
+            <el-tag type="info" class="section-status">
+              {{ configData.mechanism }}
+            </el-tag>
+          </div>
+        </template>
+        <template #extra>
+          <el-tooltip
+            :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
+            placement="top"
+          >
+            <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+          </el-tooltip>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            </el-button>
+          </el-tooltip>
+        </template>
+      </detail-header>
+      <div v-else class="section-header embed-gateway">
+        <h2>{{ titleMap[currBackend] }}</h2>
         <div>
           <el-tooltip
             :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
@@ -75,6 +83,7 @@
               <built-in-config
                 v-else-if="currBackend === 'built_in_database'"
                 ref="formCom"
+                auth-type="authn"
                 :type="configData.mechanism"
                 v-model="configData"
               />

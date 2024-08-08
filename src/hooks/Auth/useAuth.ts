@@ -16,6 +16,7 @@ export default function useAuth(): {
     mongodb: 'MongoDB',
     file: 'File',
     ldap: 'LDAP',
+    kerberos: 'Kerberos',
   }
   return {
     titleMap,

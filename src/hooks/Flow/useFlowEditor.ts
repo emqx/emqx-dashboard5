@@ -8,6 +8,7 @@ import useFlowNode, {
   ProcessingType,
   SinkType,
 } from './useFlowNode'
+import useGenerateFlowDataUtils from './useGenerateFlowDataUtils'
 
 export const enum MsgKey {
   // This type of node is an input or output or normal
@@ -36,6 +37,7 @@ interface Ret {
     event: DragEvent,
     positionOffset: { x: number; y: number },
   ) => Node | undefined
+  countNeededEdges: (nodes: Array<Node>) => Edge[]
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
@@ -85,16 +87,13 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     event: DragEvent,
     positionOffset: { x: number; y: number },
   ) => {
-    const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
-    const type: NodeType = (event.dataTransfer?.getData(MsgKey.Type) ||
-      NodeType.Processing) as NodeType
-    const name = event.dataTransfer?.getData(MsgKey.Name)
-    const specificType = event.dataTransfer?.getData(MsgKey.SpecificType)
-
-    // check if the dropped element is valid
-    if (typeof type === 'undefined' || !type) {
+    if (!event.dataTransfer?.getData(MsgKey.Type)) {
       return
     }
+    const reactFlowBounds = FlowWrapper.value.getBoundingClientRect()
+    const type: NodeType = Number(event.dataTransfer.getData(MsgKey.Type)) as NodeType
+    const name = event.dataTransfer?.getData(MsgKey.Name)
+    const specificType = event.dataTransfer?.getData(MsgKey.SpecificType)
 
     const position = FlowerInstance.value.project({
       x: event.clientX - reactFlowBounds.left - positionOffset.x,
@@ -113,10 +112,26 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     }
   }
 
+  const { generateEdgesFromNodes } = useGenerateFlowDataUtils()
+  const countNeededEdges = (nodes: Array<Node>) => {
+    const groupedNodes = {
+      [NodeType.Source]: nodes.filter((node) => node.type === FlowNodeType.Input),
+      [ProcessingType.Function]: nodes.filter(
+        ({ data }) => data.specificType === ProcessingType.Function,
+      ),
+      [ProcessingType.Filter]: nodes.filter(
+        ({ data }) => data.specificType === ProcessingType.Filter,
+      ),
+      [NodeType.Sink]: nodes.filter((node) => node.type === FlowNodeType.Output),
+    }
+    return generateEdgesFromNodes(groupedNodes)
+  }
+
   return {
     nodeArr,
     flowData,
     nodeTypeOnlyByOne,
     createFlowNodeDataFromEvent,
+    countNeededEdges,
   }
 }

@@ -160,4 +160,20 @@ export default {
     zh: 'S3 存储',
     en: 'S3 Storage',
   },
+  clusterName: {
+    zh: '集群名称',
+    en: 'Cluster Name',
+  },
+  serverAddress: {
+    zh: '服务器地址',
+    en: 'Server Address',
+  },
+  clientIdPrefix: {
+    zh: '客户端 ID 前缀',
+    en: 'Client ID Prefix',
+  },
+  disabledDeleteTopicTopic: {
+    zh: '请先禁用再删除主题',
+    en: 'Please disable the link before deleting',
+  },
 }

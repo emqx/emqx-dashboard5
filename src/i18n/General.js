@@ -507,4 +507,124 @@ export default {
     zh: '持久会话中消息保留时长，超期的消息不会发送到订阅者。',
     en: 'The duration of message retention in a persistent session,  messages that expire are not delivered to subscribers.',
   },
+  version: {
+    zh: '版本号',
+    en: 'Version',
+  },
+  availableVersions: {
+    zh: '适用版本',
+    en: 'Available Versions',
+  },
+  buildDate: {
+    zh: '构建日期',
+    en: 'Build Date',
+  },
+  upgradePackageUpload: {
+    zh: '升级包上传',
+    en: 'Upgrade Package Upload',
+  },
+  currentVersion: {
+    zh: '当前版本',
+    en: 'Current Version',
+  },
+  upgradeRecords: {
+    zh: '升级记录',
+    en: 'Upgrade Records',
+  },
+  packageTip: {
+    zh: '请上传 EMQ 支持人员提供的 .tar.gz 格式的升级包',
+    en: 'Please upload the .tar.gz upgrade package provided by EMQ support',
+  },
+  selectUpgradePackage: {
+    zh: '选择升级包',
+    en: 'Select Upgrade Package',
+  },
+  upgradePackageInfo: {
+    zh: '升级包信息',
+    en: 'Upgrade Package Information',
+  },
+  startUpgrade: {
+    zh: '开始升级',
+    en: 'Start Upgrade',
+  },
+  uploadPackageTip: {
+    zh: '暂无升级包，请先上传。',
+    en: 'No upgrade package available, please upload first.',
+  },
+  packageRequired: {
+    zh: '请先上传升级包',
+    en: 'Please upload upgrade package first',
+  },
+  deleteAndReUpload: {
+    zh: '删除并重新上传',
+    en: 'Delete and Re-upload',
+  },
+  confirmDeleteAndReUpload: {
+    zh: '确认删除并重新上传？',
+    en: 'Confirm to delete and re-upload?',
+  },
+  startedAt: {
+    zh: '开始时间',
+    en: 'Started At',
+  },
+  finishedAt: {
+    zh: '结束时间',
+    en: 'Finished At',
+  },
+  fromVsn: {
+    zh: '升级前版本',
+    en: 'From Version',
+  },
+  targetVsn: {
+    zh: '升级后版本',
+    en: 'Target Version',
+  },
+  upgradeOpts: {
+    zh: '升级选项',
+    en: 'Upgrade Options',
+  },
+  idle: {
+    zh: '空闲',
+    en: 'Idle',
+  },
+  upgrading: {
+    zh: '升级中',
+    en: 'Upgrading',
+  },
+  finished: {
+    zh: '已完成',
+    en: 'Finished',
+  },
+  packageConfirm: {
+    zh: '确认升级包信息：',
+    en: 'Confirm the upgrade package information:',
+  },
+  packageCheckCode: {
+    zh: '文件校验码',
+    en: 'Package Check Code',
+  },
+  updateLog: {
+    zh: '更新日志',
+    en: 'Update Log',
+  },
+  upgradeWarning: {
+    zh: `1. 请务必使用 EMQ 支持人员提供的升级包，并在其指导下进行升级。 
+2. 升级前，请备份重要数据。
+3. 在升级过程中，请勿进行其他操作。`,
+    en: `1. Be sure to use the upgrade package provided by EMQ support and upgrade under their guidance. 
+2. Backup important data before upgrading. 
+3. Do not perform other operations during the upgrade process.`,
+  },
+  upgradeConfirm: {
+    zh: '我已确认以上信息',
+    en: 'I have confirmed the above information',
+  },
+  selectPackageRequired: {
+    zh: '请选择升级包',
+    en: 'Please select upgrade package',
+  },
+  confirmUpgradeRequired: {
+    zh: '请确认信息并勾选已确认',
+    en: 'Please confirm the information and check the confirmation box',
+  },
 }

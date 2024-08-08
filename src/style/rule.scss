@@ -37,12 +37,8 @@
 }
 
 .bridge-detail {
-  .section-header img {
-    height: 64px;
-    vertical-align: top;
-  }
-  .title-n-status {
-    vertical-align: top;
+  .detail-header img {
+    height: 40px;
   }
   .info-tags {
     .el-tag,
@@ -213,7 +209,7 @@
     display: none;
   }
   .el-dialog__body {
-    padding-top: 20px;
+    padding-top: 28px;
     padding-bottom: 0px;
   }
   .el-dialog__footer {

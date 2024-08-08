@@ -10,7 +10,7 @@
             <img :src="getOutputImage(item)" />
             <div class="io-item-bd">
               <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
-                {{ (item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[1] }}
+                {{ (item as string).split(ACTION_TYPE_NAME_CONNECTOR)[1] }}
               </div>
               <div class="io-desc">
                 {{ getOutputTypeLabel(item) }}
@@ -63,6 +63,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useRuleOutputs } from '@/hooks/Rule/rule/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
@@ -71,7 +72,7 @@ import { ElMessageBox as MB } from 'element-plus'
 import { computed, defineEmits, defineProps, PropType, ref, Ref, WritableComputedRef } from 'vue'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 
-const BRIDGE_TYPE_ID_CONNECTOR = ':'
+const ACTION_TYPE_NAME_CONNECTOR = ':'
 
 const props = defineProps({
   modelValue: {
@@ -169,20 +170,7 @@ const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
   calcDisableList()
 }
 
-const judgeOutputType = (output: OutputItem) => {
-  if (typeof output === 'string') {
-    if (output.indexOf(BRIDGE_TYPE_ID_CONNECTOR) > -1) {
-      // bridge
-      return RuleOutput.DataBridge
-    }
-  } else if (
-    typeof output === 'object' &&
-    'function' in output &&
-    (output.function === RuleOutput.Republish || output.function === RuleOutput.Console)
-  ) {
-    return output.function
-  }
-}
+const { judgeOutputType } = useRuleOutputs()
 
 const getOutputImage = (item: OutputItem) => {
   if (!item) {
@@ -192,7 +180,7 @@ const getOutputImage = (item: OutputItem) => {
   let keyForIcon = ''
   switch (itemType) {
     case RuleOutput.DataBridge:
-      keyForIcon = getBridgeIconKey((item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0])
+      keyForIcon = getBridgeIconKey((item as string).split(ACTION_TYPE_NAME_CONNECTOR)[0])
       break
     case RuleOutput.Console:
       keyForIcon = (item as OutputItemObj).function
@@ -217,7 +205,9 @@ const getOutputTypeLabel = (item: OutputItem) => {
   const itemType = judgeOutputType(item)
   switch (itemType) {
     case RuleOutput.DataBridge:
-      return getGeneralTypeLabel((item as string).split(BRIDGE_TYPE_ID_CONNECTOR)[0] as BridgeType)
+      return getGeneralTypeLabel(
+        (item as string).split(ACTION_TYPE_NAME_CONNECTOR)[0] as BridgeType,
+      )
     case RuleOutput.Console:
       return tl('consoleOutput')
     case RuleOutput.Republish:

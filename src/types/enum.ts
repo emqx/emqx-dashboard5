@@ -140,6 +140,8 @@ export enum BridgeType {
   SysKeeperForwarder = 'syskeeper_forwarder',
   Elasticsearch = 'elasticsearch',
   S3 = 's3',
+  AzureBlobStorage = 'azure_blob_storage',
+  Couchbase = 'couchbase',
 }
 
 export enum PulsarType {
@@ -217,6 +219,7 @@ export enum AuthnMechanismType {
   PasswordBased = 'password_based',
   JWT = 'jwt',
   SCRAM = 'scram',
+  GSSAPI = 'gssapi',
 }
 
 export enum DatabasesType {

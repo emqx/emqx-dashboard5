@@ -9,7 +9,17 @@
       label-position="top"
       require-asterisk-position="right"
     >
-      <el-row :gutter="20">
+      <el-row :gutter="20" v-if="authType === 'authz'">
+        <el-col :span="12">
+          <el-form-item prop="max_rules">
+            <template #label>
+              <FormItemLabel :label="$t('Auth.maxRules')" :desc="$t('Auth.maxRulesDesc')" />
+            </template>
+            <CustomInputNumber v-model="builtConfig.max_rules" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" v-else>
         <template v-if="type !== 'scram'">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.userIdType')" required prop="user_id_type">
@@ -43,11 +53,13 @@
 
 <script lang="ts">
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import { usePasswordHashRules } from '@/hooks/Auth/usePasswordHashAlgorithmData'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineComponent, reactive, watch, ref } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
-import { usePasswordHashRules } from '@/hooks/Auth/usePasswordHashAlgorithmData'
 
 export default defineComponent({
   name: 'BuiltInConfig',
@@ -55,12 +67,17 @@ export default defineComponent({
   components: {
     PasswordHashAlgorithmFormItems,
     CustomInputNumber,
+    FormItemLabel,
   },
 
   props: {
     modelValue: {
       type: Object,
       required: true,
+    },
+    authType: {
+      required: true,
+      type: String as PropType<'authn' | 'authz'>,
     },
     type: {
       type: String,
@@ -74,11 +91,12 @@ export default defineComponent({
     const builtConfig = reactive(props.modelValue) as any
 
     const formCom = ref()
-    const { createRequiredRule } = useFormRules()
+    const { createRequiredRule, createNumRangeRule } = useFormRules()
     const { passwordHashRules } = usePasswordHashRules()
     const rules = {
       user_id_type: createRequiredRule(tl('userIdType')),
       ...passwordHashRules,
+      max_rules: createNumRangeRule(1),
     }
 
     const validate = () => {

@@ -515,15 +515,11 @@ export default {
   },
   test: {
     zh: '启用调试',
-    en: 'Enable Test',
+    en: 'Try It Out',
   },
   testTip: {
-    zh: '启用调试后，可模拟数据源数据，并查看测试规则 SQL 的结果。',
-    en: 'Test enabled, simulate data source and view the test rule SQL result.',
-  },
-  testDesc: {
-    zh: '在创建规则之前，您可以使用测试数据来执行您刚才编辑的 SQL。这样可以帮助您确保结果符合预期，并且可以放心地创建并使用规则。',
-    en: 'Before creating a rule, you can test rule SQL by using test data. This will help ensure that the results meet your expectations and allow you to confidently use the rule.',
+    zh: '使用模拟数据来执行您刚刚输入的 SQL，或者在保存规则后测试整个规则，以确保结果符合预期。',
+    en: 'Use simulated data to execute the SQL you just inputed, or test the entire rule after saving it to ensure the results meet your expectations.',
   },
   connectionSuccessful: {
     zh: '连接成功',
@@ -761,6 +757,14 @@ export default {
     zh: '暂不支持通过 Dashboard 管理此连接器',
     en: 'This connector cannot be managed through the dashboard at the moment',
   },
+  disabledConnectorTip: {
+    zh: '此连接器目前被以下{target}使用，确认停用？',
+    en: 'This connector is currently being used by the following {target}. Confirm disable?',
+  },
+  actionsAndSources: {
+    zh: '动作和 Source ',
+    en: 'Actions and Sources',
+  },
   console: {
     zh: '打印结果输出到控制台',
     en: 'Print the result to the Console',
@@ -793,17 +797,25 @@ export default {
     zh: '由于未知错误导致的规则调用失败次数',
     en: 'The number of times the rule calling action failed due to an unknown error',
   },
-  deleteSourceConnectorTip: {
-    zh: '请先移除使用该连接器的下列 sources，然后再删除该连接器。',
-    en: 'Please remove the following sources that use this connector before deleting the connector.',
+  deleteRuleConfirm: {
+    zh: '确认删除规则？',
+    en: 'Confirm delete rule?',
   },
-  deleteActionConnectorTip: {
-    zh: '请先移除使用该连接器的下列动作{ext}，然后再删除该连接器。',
-    en: 'Please remove the following actions {ext} that use this connector before deleting the connector.',
+  deleteActionAndSourceSameTime: {
+    zh: '同时删除关联的动作与 Source',
+    en: 'Delete the associated action and source at the same time',
+  },
+  deleteError: {
+    zh: '删除{target}时发生错误，请尝试手动删除',
+    en: 'An error occurred while deleting {target}, please try to delete it manually',
+  },
+  deleteConnectorTip: {
+    zh: '请先移除使用该连接器的下列{target}，然后再删除该连接器。',
+    en: 'Please remove the following {target} that use this connector before deleting the connector.',
   },
   deleteEgressActionSecondConfirm: {
-    zh: '删除该动作会影响下方规则的数据流。如果该动作已被添加到规则的动作中，则会立即删除。是否确认继续？',
-    en: 'Deleting this action will affect the data flow for the rules listed below. If the action has been added to the actions of any rules, it will be removed immediately, continue?',
+    zh: '此动作正在被以下规则使用，确认删除并将其从规则中移除？',
+    en: 'This action is being used by the following rule. Do you confirm deletion and removal from the rule?',
   },
   deleteIngressActionSecondConfirm: {
     zh: '请先移除下方规则中的 source，再进行删除操作。',
@@ -1301,12 +1313,16 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '停止测试',
     en: 'Stop Test',
   },
+  closeTest: {
+    zh: '关闭测试',
+    en: 'Close Test',
+  },
   submitTest: {
     zh: '提交测试',
     en: 'Submit Test',
   },
   pleaseSaveFirst: {
-    zh: '请先保存规则以开始测试',
+    zh: '请先保存以开始测试',
     en: 'Please save first to start testing',
   },
   saveRuleStopTestingTip: {
@@ -1620,5 +1636,9 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   somePlaceholderRequired: {
     zh: '请使用到所有必需的占位符',
     en: 'Please use all required placeholders',
+  },
+  associatedRules: {
+    zh: '关联规则',
+    en: 'Associated Rules',
   },
 }

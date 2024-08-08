@@ -32,6 +32,7 @@ export default (): {
         { title: 'listener', path: '/listener' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
+        { title: 'cluster-linking', path: '/cluster-linking' },
         // { title: 'limiter', path: '/limiter' },
       ],
     },
@@ -78,6 +79,7 @@ export default (): {
     { title: 'license', path: '/license' },
     { title: 'sso', path: '/sso' },
     { title: 'backup', path: '/backup' },
+    { title: 'hot-upgrade', path: '/hot-upgrade' },
   ]
 
   const menuList = [

@@ -45,6 +45,7 @@ export default function useAuthzCreate() {
 `,
     }
   }
+  const getBuiltInConfig = () => ({ max_rules: 100 })
   const getDatabaseConfig = () => {
     return {
       server: '',
@@ -142,7 +143,7 @@ export default function useAuthzCreate() {
       case 'redis':
         return getRedisConfig()
       case 'built_in_database':
-        return {}
+        return getBuiltInConfig()
       case 'ldap':
         return getLdapConfig()
     }

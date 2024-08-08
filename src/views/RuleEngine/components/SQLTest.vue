@@ -2,7 +2,6 @@
   <div class="sql-test">
     <div class="test-header">
       <label class="bold">{{ tl('test') }}</label>
-      <InfoTooltip :content="tl('testDesc')" />
       <p class="sub-block-desc">{{ tl('testTip') }}</p>
       <el-switch v-model="isTesting" :disabled="!$hasPermission('post')" />
     </div>
@@ -134,6 +133,7 @@ const props = defineProps({
 })
 
 const { isTesting, testTarget } = useStatusController()
+testTarget.value = TestRuleTarget.SQL
 
 const testLoading = ref(false)
 const resultData = ref<string>('')

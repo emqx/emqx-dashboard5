@@ -2,15 +2,20 @@ import {
   MULTI_LEVEL_WILDCARD,
   RULE_FROM_SEPARATOR,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
+  RULE_INPUT_EVENT_PREFIX,
   TOPIC_EVENT,
 } from '@/common/constants'
-import { addNewlineAfterComma, splitOnComma } from '@/common/tools'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType, EventForRule, RuleInputType, RuleSQLKeyword } from '@/types/enum'
-import { BridgeItem, RuleEvent, TestColumnItem } from '@/types/rule'
+import { addNewlineAfterComma, getTypeAndNameFromKey, splitOnComma } from '@/common/tools'
+import useBridgeTypeValue, {
+  typesWithProducerAndConsumer,
+  useBridgeTypeIcon,
+} from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { BridgeType, EventForRule, RuleInputType, RuleOutput, RuleSQLKeyword } from '@/types/enum'
+import { BridgeItem, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
 import { ComputedRef, computed, ref } from 'vue'
 import useRuleEvents from './useRuleEvents'
 import { escapeRegExp } from 'lodash'
+import useI18nTl from '@/hooks/useI18nTl'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
@@ -223,5 +228,142 @@ export const useRuleUtils = (): {
     replaceTargetPartInSQL,
     isMsgPubEvent,
     getEventForShow,
+  }
+}
+
+/**
+ * Unlike RuleInputType, the action here is specific to what type of action it is.
+ */
+export const RuleSourceType = {
+  Message: 'message',
+  Event: 'event',
+  MQTTBroker: BridgeType.MQTT,
+  Kafka: BridgeType.KafkaConsumer,
+  GCP: BridgeType.GCPConsumer,
+  RabbitMQ: BridgeType.RabbitMQ,
+}
+export const useRuleInputs = (): {
+  getBridgeIdFromInput: (input: string) => string
+  detectInputType: (from: string) => string
+  isNotBridgeSourceTypes: Array<string>
+  sourceOptList: Array<{ value: string; label: string }>
+  inputTypesIconNew: string[]
+  getRuleSourceIcon: (type: string) => string
+} => {
+  const isNotBridgeSourceTypes = [RuleSourceType.Event, RuleSourceType.Message]
+  const isBridgeType = (type: string) => {
+    const isBridge = Object.entries(BridgeType).some(([, value]) => value === type)
+    return !isNotBridgeSourceTypes.includes(type) && isBridge
+  }
+
+  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
+
+  const { tl } = useI18nTl('RuleEngine')
+
+  const typeLabelMap = {
+    [RuleSourceType.Message]: tl('messages'),
+    [RuleSourceType.Event]: tl('event'),
+    [RuleSourceType.MQTTBroker]: tl('mqttBroker'),
+    [RuleSourceType.Kafka]: `${tl('kafka')} ${tl('consumer')}`,
+  }
+  const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+  const getTypeLabel = (specificType: string): string => {
+    let ret: string | undefined = typeLabelMap[specificType]
+    if (!ret && isBridgeType(specificType)) {
+      ret = getBridgeLabelByTypeValue(specificType as BridgeType)
+    }
+    return ret || specificType
+  }
+
+  const sourceOptList = Object.entries(RuleSourceType).map(([, value]) => ({
+    value,
+    label: getTypeLabel(value),
+  }))
+
+  const getBridgeTypeFromId = (id: string): string => getTypeAndNameFromKey(id).type
+  const eventInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
+  const bridgeInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+  /**
+   * @returns If the returned type is a bridge type, it is a specific bridge type
+   */
+  const detectInputType = (from: string): string => {
+    if (eventInputReg.test(from)) {
+      return RuleSourceType.Event
+    }
+    // now has mqtt & http
+    if (bridgeInputReg.test(from)) {
+      return getBridgeTypeFromId(from.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, ''))
+    }
+    return RuleSourceType.Message
+  }
+
+  const adjustTypeForSpecialCases = (type: string): string => {
+    const match = typesWithProducerAndConsumer.find((item) => type.includes(item))
+    return match || type
+  }
+
+  /**
+   * these types icon in @/assets/flowIcon
+   * others in @/assets/img
+   */
+  const typesIconNew: Array<string> = [
+    RuleSourceType.Event,
+    RuleSourceType.Message,
+    BridgeType.MQTT,
+  ]
+
+  const isTypeUsingNewIcon = (type: string) => typesIconNew.includes(type)
+  const { getBridgeIcon } = useBridgeTypeIcon()
+  const getRuleSourceIcon = (type: string): string => {
+    try {
+      if (!type) {
+        return ''
+      }
+      const adjustedType = adjustTypeForSpecialCases(type)
+
+      if (isTypeUsingNewIcon(adjustedType)) {
+        return require(`@/assets/flowIcon/${adjustedType}.png`)
+      }
+      if (isBridgeType(type)) {
+        return getBridgeIcon(type)
+      }
+      return require(`@/assets/img/${adjustedType}.png`)
+    } catch (error) {
+      return ''
+    }
+  }
+
+  return {
+    getBridgeIdFromInput,
+    detectInputType,
+    isNotBridgeSourceTypes,
+    sourceOptList,
+    inputTypesIconNew: typesIconNew,
+    getRuleSourceIcon,
+  }
+}
+
+export const useRuleOutputs = (): {
+  judgeOutputType: (output: OutputItem) => RuleOutput
+} => {
+  const ACTION_TYPE_NAME_CONNECTOR = ':'
+  const judgeOutputType = (output: OutputItem): RuleOutput => {
+    if (typeof output === 'string') {
+      if (output.indexOf(ACTION_TYPE_NAME_CONNECTOR) > -1) {
+        // bridge
+        return RuleOutput.DataBridge
+      }
+    } else if (
+      typeof output === 'object' &&
+      'function' in output &&
+      (output.function === RuleOutput.Republish || output.function === RuleOutput.Console)
+    ) {
+      return output.function
+    }
+    return RuleOutput.DataBridge
+  }
+
+  return {
+    judgeOutputType,
   }
 }

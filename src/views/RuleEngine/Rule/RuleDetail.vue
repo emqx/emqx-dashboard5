@@ -1,14 +1,14 @@
 <template>
   <div class="rule-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'rule' }) }" />
-      <div class="section-header">
-        <div>
-          <span class="title-n-status">
+      <detail-header :item="{ name: ruleInfo.id, route: getBackRoute({ name: 'rule' }) }">
+        <template #content>
+          <div class="vertical-align-center">
+            <p class="block-title">{{ ruleInfo.id }}</p>
             <RuleItemStatus :rule="ruleInfo" is-tag />
-          </span>
-        </div>
-        <div>
+          </div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="ruleInfo.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -31,8 +31,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
@@ -82,10 +82,11 @@
     type="rule"
     :name="currentDelId"
   />
+  <DeleteRuleConfirm v-model="showDeleteConfirm" :rule="currentRule" @submitted="handleDeleteSuc" />
 </template>
 
 <script lang="ts" setup>
-import { deleteRules, getRuleInfo, updateRules } from '@/api/ruleengine'
+import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
@@ -96,7 +97,7 @@ import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual, lowerCase } from 'lodash'
 import { ComputedRef, Ref, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -104,6 +105,7 @@ import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import RuleForm from '../components/RuleForm.vue'
+import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
 import RuleItemStatus from './components/RuleItemStatus.vue'
 
@@ -124,7 +126,7 @@ const infoLoading = ref(false)
 const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
-const { isTesting, updateSavedRule } = useStatusController(ruleInfo)
+const { isTesting, updateSavedData } = useStatusController(ruleInfo)
 
 const formCom = ref()
 
@@ -146,7 +148,7 @@ const loadRuleDetail = async () => {
   try {
     ruleInfo.value = await getRuleInfo(id)
     rawRuleInfo = cloneDeep(ruleInfo.value)
-    updateSavedRule(rawRuleInfo)
+    updateSavedData(rawRuleInfo)
     ++iKey.value
   } catch (error) {
     console.error(error)
@@ -181,23 +183,19 @@ const webhookRoute = computed(() => ({
   query: { tab: DetailTab.Setting },
 }))
 
+const showDeleteConfirm = ref(false)
+const currentRule = ref<undefined | RuleItem>(undefined)
 const deleteRule = async () => {
   if (isWebhookRule.value) {
     currentDelId.value = id
     showDeleteWebhookAssociatedTip.value = true
     return
   }
-  await ElMessageBox.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    confirmButtonClass: 'confirm-danger',
-    type: 'warning',
-  })
-  await deleteRules(id)
-  ElMessage.success(t('Base.deleteSuccess'))
-  rawRuleInfo = ruleInfo.value
-  router.push({ name: 'rule' })
+  currentRule.value = ruleInfo.value
+  showDeleteConfirm.value = true
 }
+
+const handleDeleteSuc = () => router.push({ name: 'rule' })
 
 const { getRuleDataForUpdate } = useRuleForm()
 const submitUpdateRules = async () => {
@@ -210,7 +208,7 @@ const submitUpdateRules = async () => {
     if (!isTesting.value) {
       router.push({ name: 'rule' })
     } else {
-      updateSavedRule(ruleInfo.value)
+      updateSavedData(ruleInfo.value)
     }
   } catch (error) {
     console.error(error)

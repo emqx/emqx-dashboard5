@@ -384,7 +384,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Users
+  // Backup
   {
     path: '/backup',
     component: Layout,
@@ -397,6 +397,22 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'backup',
         component: () => import('@/views/General/Backup.vue'),
+      },
+    ],
+  },
+  // Hot Upgrade
+  {
+    path: '/hot-upgrade',
+    component: Layout,
+    meta: {
+      hideKey: 'hot-upgrade',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'hot-upgrade',
+        component: () => import('@/views/General/HotUpgrade.vue'),
       },
     ],
   },
@@ -770,6 +786,21 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'integration',
         name: 'monitoring-integration',
         component: () => import('@/views/Config/Monitoring/MonitoringIntegration.vue'),
+      },
+    ],
+  },
+  {
+    path: '/cluster-linking',
+    component: Layout,
+    meta: {
+      hideKey: 'cluster-linking',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'cluster-linking',
+        component: () => import('@/views/Config/ClusterLinking/ClusterLinking.vue'),
       },
     ],
   },

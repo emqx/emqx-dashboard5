@@ -4,10 +4,17 @@ import { getKeywordsFromSQL } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
-import { EventForRule, LogTraceFormatter, RuleInputType, TraceEncodeType } from '@/types/enum'
+import {
+  EventForRule,
+  LogTraceFormatter,
+  RuleInputType,
+  TestRuleTarget,
+  TraceEncodeType,
+} from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
+import { Edge, Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
-import { cloneDeep, debounce, isArray, isEqual, isFunction, mergeWith, startCase } from 'lodash'
+import { cloneDeep, debounce, isArray, isEqual, mergeWith, startCase } from 'lodash'
 import moment from 'moment'
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { computed, onUnmounted, ref, watch } from 'vue'
@@ -26,7 +33,6 @@ export default (): {
   getLogItemTitle: (item: Record<string, any>) => string
   submitMockDataForTestRule: (ruleId: string, data: Record<string, any>) => Promise<any>
   startTest: (ruleId: string) => Promise<void>
-  setCbAfterPolling: (cb: (logContent: string) => void) => void
 } => {
   let traceName = ''
   let traceStartTime: undefined | number = undefined
@@ -82,11 +88,6 @@ export default (): {
   const { convertLogStrToLogArr, filterExpiredLog, formatLog, detectTotalLogResult } =
     useFormatDebugLog()
 
-  let cbAfterPolling: undefined | ((log: string) => void) = undefined
-  const setCbAfterPolling = (cb: (logContent: string) => void) => {
-    cbAfterPolling = cb
-  }
-
   const mergeCustomize = (arr1: Array<LogItem>, arr2: Array<LogItem>) => {
     if (isArray(arr1) && isArray(arr2)) {
       return arr1.concat(arr2)
@@ -140,9 +141,6 @@ export default (): {
         const data = formatLog(filteredLogArr)
         logData.value = addNewLogToCurrentLog(logData.value, data)
         logLastPositionMap.set(node, meta.position)
-        if (isFunction(cbAfterPolling)) {
-          cbAfterPolling(items)
-        }
       })
       return Promise.resolve()
     } catch (error) {
@@ -196,18 +194,18 @@ export default (): {
     getLogItemTitle,
     submitMockDataForTestRule,
     startTest,
-    setCbAfterPolling,
   }
 }
 
+type DataType = BasicRule | RuleItem | { nodes: Array<Node>; edges: Array<Edge> }
 export const useStatusController = (
-  rule?: Ref<BasicRule | RuleItem>,
+  data?: Ref<DataType>,
 ): {
   isTesting: WritableComputedRef<boolean>
-  savedAfterRuleChange: WritableComputedRef<boolean>
-  testTarget: WritableComputedRef<BasicRule | RuleItem>
-  isRuleSaveButtonDisabled: ComputedRef<boolean>
-  updateSavedRule: (savedRule: BasicRule | RuleItem) => void
+  savedAfterDataChange: WritableComputedRef<boolean>
+  testTarget: WritableComputedRef<TestRuleTarget>
+  isDataSaveButtonDisabled: ComputedRef<boolean>
+  updateSavedData: (savedRule: DataType) => void
 } => {
   const { state, commit, getters } = useStore()
   const isTesting = computed<boolean>({
@@ -218,15 +216,15 @@ export const useStatusController = (
       commit('SET_IS_TESTING', val)
     },
   })
-  const savedAfterRuleChange = computed<boolean>({
+  const savedAfterDataChange = computed<boolean>({
     get() {
-      return state.savedAfterRuleChange
+      return state.savedAfterDataChange
     },
     set(val) {
-      commit('SET_SAVED_AFTER_RULE_CHANGE', val)
+      commit('SET_SAVED_AFTER_DATA_CHANGE', val)
     },
   })
-  const testTarget = computed<BasicRule | RuleItem>({
+  const testTarget = computed<TestRuleTarget>({
     get() {
       return state.testRuleTarget
     },
@@ -235,32 +233,30 @@ export const useStatusController = (
     },
   })
 
-  const isRuleSaveButtonDisabled = computed<boolean>(() => getters.isRuleSaveButtonDisabled)
+  const isDataSaveButtonDisabled = computed<boolean>(() => getters.isDataSaveButtonDisabled)
 
-  const lastSavedRule: Ref<BasicRule | RuleItem | undefined> = ref(
-    (rule && rule.value) || undefined,
-  )
-  const updateSavedRule = (savedRule: BasicRule | RuleItem) => {
-    savedAfterRuleChange.value = isEqual(savedRule, rule?.value)
-    lastSavedRule.value = cloneDeep(savedRule)
+  const lastSavedData = ref<DataType | undefined>((data && data.value) || undefined)
+  const updateSavedData = (savedData: DataType) => {
+    savedAfterDataChange.value = isEqual(savedData, data?.value)
+    lastSavedData.value = cloneDeep(savedData)
   }
 
-  const compareRuleAndUpdateSavedStatus = () => {
-    savedAfterRuleChange.value = isEqual(lastSavedRule.value, rule?.value)
+  const compareDataAndUpdateSavedStatus = () => {
+    savedAfterDataChange.value = isEqual(lastSavedData.value, data?.value)
   }
 
-  const handleRuleChanged = debounce(compareRuleAndUpdateSavedStatus, 300)
+  const handleDataChanged = debounce(compareDataAndUpdateSavedStatus, 300)
 
-  if (rule) {
-    watch(rule, handleRuleChanged)
+  if (data) {
+    watch(data, handleDataChanged)
   }
 
   return {
     isTesting,
-    savedAfterRuleChange,
+    savedAfterDataChange,
     testTarget,
-    isRuleSaveButtonDisabled,
-    updateSavedRule,
+    isDataSaveButtonDisabled,
+    updateSavedData,
   }
 }
 

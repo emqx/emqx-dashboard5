@@ -47,7 +47,11 @@
       <div v-if="step === 1" class="create-form">
         <template v-if="mechanism !== 'jwt'">
           <p class="item-description">
-            {{ mechanism === 'scram' ? $t('Auth.dataSourceScramDesc') : $t('Auth.dataSourceDesc') }}
+            {{
+              mechanism === 'scram'
+                ? $t('Auth.dataSourceEnhancedAuthDesc')
+                : $t('Auth.dataSourceDesc')
+            }}
           </p>
           <el-radio-group
             v-if="hasDatabaseToChoose"
@@ -131,6 +135,7 @@
             v-else-if="backend === 'built_in_database'"
             v-model="configData"
             ref="formCom"
+            auth-type="authn"
             :type="mechanism"
           />
           <ldap-config
@@ -147,6 +152,7 @@
             ref="formCom"
             :type="mechanism"
           />
+          <kerberos-config v-else-if="backend === 'kerberos'" v-model="configData" ref="formCom" />
         </template>
         <jwt-config v-else v-model="configData" ref="formCom" />
         <!-- Result -->
@@ -191,6 +197,7 @@ import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
+import KerberosConfig from './components/KerberosConfig.vue'
 import useGuide from '@/hooks/useGuide'
 import { createAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
@@ -268,6 +275,9 @@ const supportBackendMap: any = {
     built_in_database: tl('builtInDatabase'),
     http: tl('HTTPServer'),
   },
+  gssapi: {
+    kerberos: 'Kerberos',
+  },
 }
 provide('gateway', props.gateway)
 const saveLoading = ref(false)
@@ -282,7 +292,8 @@ const mechanismDesc = computed(
     ({
       password_based: tl('passwordBasedDesc'),
       jwt: tl('jwtDesc'),
-      scram: tl('scramDesc'),
+      scram: tl('enhancedAuthDesc'),
+      gssapi: tl('enhancedAuthDesc'),
     }[mechanism.value] || ''),
 )
 const hasDatabaseToChoose = computed(() => {

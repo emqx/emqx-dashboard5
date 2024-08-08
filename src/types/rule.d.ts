@@ -87,6 +87,7 @@ export interface BridgeBaseData {
   }>
   status: ConnectionStatus
   status_reason?: string
+  rules: Array<string>
   type: BridgeType
   realType?: string
   local_topic?: string
@@ -190,6 +191,7 @@ export interface Action {
   id: string
   status: ConnectionStatus
   status_reason?: string
+  rules: Array<string>
   enable: boolean
   connector: string
   resource_opts: ResourceOpt
@@ -249,6 +251,8 @@ export interface FilterParamsForQueryRules {
   like_from?: string
   like_description?: string
   match_from?: string
+  source?: string
+  action?: string
 }
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams

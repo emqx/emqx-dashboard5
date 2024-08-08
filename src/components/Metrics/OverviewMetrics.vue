@@ -36,24 +36,27 @@
         <!-- Pie Chart Stats -->
         <el-col v-if="totals && totals[typeMetricsData.name]" :span="isFlowNode ? 24 : 8">
           <el-card class="metric-pie">
-            <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
-            <p class="metric-num">
-              {{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}
-            </p>
-            <div class="pie-container" :id="setChartId(typeMetricsData.name)"></div>
+            <el-row>
+              <el-col :span="12" class="pie-base">
+                <div>
+                  <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
+                  <p class="metric-num">
+                    {{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}
+                  </p>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="pie-container" :id="setChartId(typeMetricsData.name)"></div>
+              </el-col>
+            </el-row>
           </el-card>
         </el-col>
         <!-- Number Stats -->
-        <el-col :span="isFlowNode ? 24 : 16">
-          <div class="metric-types">
-            <el-row :gutter="24">
-              <el-col :span="12" v-for="stat in typeMetricsData.stats" :key="stat.type">
-                <!-- set key to eliminate the diff when change node -->
-                <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
+        <TypeMetrics
+          :data="typeMetricsData.stats"
+          :is-flow-node="isFlowNode"
+          :selected-node="selectedNode"
+        />
       </el-row>
     </div>
     <!-- Rate Stats -->
@@ -66,7 +69,7 @@
           <el-card class="metric-bar">
             <div class="metric-bar-hd">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.current) }}</p>
-              <p class="metric-num-s">
+              <p class="metric-num">
                 <span class="num">
                   {{ formatNumber(currentMetrics[rateMetrics.current]) }}
                 </span>
@@ -86,7 +89,7 @@
           <el-card class="metric-rate">
             <div v-if="rateMetrics.right1" class="metric-rate-item">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right1) }}</p>
-              <p class="metric-num-s">
+              <p class="metric-num">
                 <span class="num">
                   {{ formatNumber(currentMetrics[rateMetrics.right1]) }}
                 </span>
@@ -97,7 +100,7 @@
             </div>
             <div v-if="rateMetrics.right2" class="metric-rate-item">
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right2) }}</p>
-              <p class="metric-num-s">
+              <p class="metric-num">
                 <span class="num">
                   {{ formatNumber(currentMetrics[rateMetrics.right2]) }}
                 </span>
@@ -111,7 +114,7 @@
       </el-row>
     </div>
     <!-- Children Stats -->
-    <div class="metric-block" v-if="showChildrenStats && !isFlowNode">
+    <div class="metric-block" v-if="showChildrenStats">
       <div class="block-hd">
         <p class="block-title">
           {{ tl('action') }}
@@ -127,25 +130,29 @@
           <!-- Pie Chart Stats -->
           <el-col v-if="totals && totals[typeMetricsDataChild.name]" :span="isFlowNode ? 24 : 8">
             <el-card class="metric-pie">
-              <p class="metric-name">
-                {{ getMetricItemLabel(totals[typeMetricsDataChild.name]) }}
-              </p>
-              <p class="metric-num">
-                {{ formatNumber(currentMetrics[totals[typeMetricsDataChild.name]]) }}
-              </p>
-              <div class="pie-container" :id="setChartId(typeMetricsDataChild.name)"></div>
+              <el-row>
+                <el-col :span="12" class="pie-base">
+                  <div>
+                    <p class="metric-name">
+                      {{ getMetricItemLabel(totals[typeMetricsDataChild.name]) }}
+                    </p>
+                    <p class="metric-num">
+                      {{ formatNumber(currentMetrics[totals[typeMetricsDataChild.name]]) }}
+                    </p>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="pie-container" :id="setChartId(typeMetricsDataChild.name)"></div>
+                </el-col>
+              </el-row>
             </el-card>
           </el-col>
           <!-- Number Stats -->
-          <el-col :span="isFlowNode ? 24 : 16">
-            <div class="metric-types">
-              <el-row :gutter="24">
-                <el-col :span="12" v-for="stat in typeMetricsDataChild.stats" :key="stat.type">
-                  <TypeMetrics :data="stat" :type="stat.type" :key="selectedNode" />
-                </el-col>
-              </el-row>
-            </div>
-          </el-col>
+          <TypeMetrics
+            :data="typeMetricsDataChild.stats"
+            :is-flow-node="isFlowNode"
+            :selected-node="selectedNode"
+          />
         </el-row>
       </div>
     </div>
@@ -165,6 +172,7 @@
 
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import {
   TypeMapData,
@@ -179,7 +187,6 @@ import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>
 
@@ -392,20 +399,14 @@ const { syncPolling } = useSyncPolling()
     color: var(--color-text-primary);
     line-height: 24px;
   }
-  .metric-num,
-  .metric-num-s {
-    color: var(--color-title-primary);
-    font-weight: 600;
-  }
   .metric-num {
-    height: 44px;
-    font-size: 32px;
-    line-height: 44px;
-  }
-  .metric-num-s {
     height: 32px;
     font-size: 22px;
     line-height: 32px;
+    color: var(--color-title-primary);
+    font-weight: 400;
+  }
+  .metric-num {
     .unit {
       margin-left: 2px;
       font-size: 14px;
@@ -442,45 +443,67 @@ const { syncPolling } = useSyncPolling()
   .metric-block {
     margin-bottom: 24px;
   }
-  $pie-card-side-length: 300px;
   $column-gap: 24px;
   .metric-pie {
-    min-width: $pie-card-side-length;
-    height: $pie-card-side-length;
+    height: 144px;
     flex-shrink: 0;
     .el-card__body {
       display: flex;
-      flex-direction: column;
-      padding: 40px 46px;
+      align-items: center;
+      padding: 32px 24px;
       height: 100%;
+    }
+    .pie-base {
+      display: flex;
+      align-items: center;
+    }
+    .el-row {
+      width: 100%;
     }
     .metric-name {
       margin-bottom: 4px;
     }
-    .metric-num {
-      margin-bottom: 32px;
-    }
     .pie-container {
-      flex-grow: 1;
-      margin-left: -8px;
-      margin-right: -8px;
+      height: 80px;
     }
   }
   .metric-types {
     flex-grow: 1;
+    .el-card__body {
+      padding: 0;
+    }
+    .col-type-metrics {
+      position: relative;
+      margin-bottom: 0;
+      &:not(:last-child) {
+        &::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          display: block;
+          width: 1px;
+          height: 50%;
+          background-color: var(--color-border-card);
+        }
+      }
+    }
+    .flow-node-col {
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-bottom: 24px;
+      }
+      .type-metrics {
+        padding-top: 24px;
+        padding-bottom: 24px;
+      }
+    }
     .el-row {
       height: 100%;
     }
-    $row-gap: 16px;
-    .el-col {
-      height: calc(math.div($pie-card-side-length, 2) - math.div($row-gap, 2));
-    }
     .el-card {
       height: 100%;
-    }
-    .el-col:nth-child(1),
-    .el-col:nth-child(2) {
-      margin-bottom: 16px;
     }
   }
   .metric-bar,
@@ -490,7 +513,7 @@ const { syncPolling } = useSyncPolling()
       padding: 40px 24px;
     }
     .metric-name {
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
   }
 

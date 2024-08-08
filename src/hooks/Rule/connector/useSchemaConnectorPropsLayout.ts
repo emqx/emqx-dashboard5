@@ -1,4 +1,5 @@
 import { BridgeType } from '@/types/enum'
+import { omit } from 'lodash'
 import { computed, ComputedRef, WritableComputedRef } from 'vue'
 import useSyncConfiguration from '../bridge/useSyncConfiguration'
 
@@ -42,6 +43,7 @@ export default (
     keyArr.reduce((obj, key, index) => ({ ...obj, [key]: index + beginning }), {})
 
   const commonAdvancedFields = [
+    'pipelining',
     'pool_type',
     'pool_size',
     'connect_timeout',
@@ -59,6 +61,7 @@ export default (
   const httpAdvancedProps = ['pool_type', 'pool_size', 'connect_timeout', 'enable_pipelining']
 
   const azureAdvancedProps = [
+    'health_check_topic',
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
     'socket_opts.sndbuf',
@@ -82,10 +85,11 @@ export default (
 
   const azureOrderMap = {
     ...createOrderObj(
-      ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl'],
+      ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl', 'health_check_topic'],
       fieldStartIndex,
     ),
-    ...createOrderObj(azureAdvancedProps, 150),
+    // put health_check_topic at the start
+    ...omit(createOrderObj(azureAdvancedProps, 150), 'health_check_topic'),
   }
   const pgSqlOrderMap = createOrderObj(
     ['server', 'database', 'username', 'password', 'ssl', 'disable_prepared_statements'],
@@ -254,6 +258,7 @@ export default (
       ['server', 'database', 'username', 'password', 'driver'],
       fieldStartIndex,
     ),
+    [BridgeType.Couchbase]: createOrderObj(['server', 'username', 'password'], fieldStartIndex),
   }
 
   const propsOrderMap = computed(() => {
@@ -281,8 +286,6 @@ export default (
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.KafkaConsumer]: azureAdvancedProps,
     [BridgeType.Confluent]: azureAdvancedProps,
-    [BridgeType.GCPProducer]: ['pipelining'],
-    [BridgeType.GCPConsumer]: ['pipelining'],
     [BridgeType.MongoDB]: ['w_mode', /topology/],
     [BridgeType.SysKeeperForwarder]: ['ack_mode', 'ack_timeout'],
     [BridgeType.IoTDB]: IoTDBAdvancedProps,

@@ -20,13 +20,27 @@
           <el-radio-button :label="EditingMethod.Flow">Flow</el-radio-button>
           <el-radio-button :label="EditingMethod.SQL">SQL</el-radio-button>
         </el-radio-group> -->
+        <el-tooltip
+          v-if="!isTestingPanelOpen || !isTestStarted"
+          :content="t('RuleEngine.pleaseSaveFirst')"
+          :disabled="savedAfterDataChange"
+        >
+          <el-button
+            type="primary"
+            plain
+            @click="handleStartTest"
+            :disabled="!savedAfterDataChange"
+          >
+            {{ t('RuleEngine.startTest') }}
+          </el-button>
+        </el-tooltip>
         <el-button
           type="primary"
-          :disabled="!$hasPermission('post')"
+          :disabled="!$hasPermission('post') || isDataSaveButtonDisabled"
           :loading="isSubmitting"
           @click="submit"
         >
-          {{ t(`Base.${isCreate ? 'create' : 'update'}`) }}
+          {{ t('Base.save') }}
         </el-button>
       </div>
     </div>
@@ -35,7 +49,20 @@
         ref="FlowEditorCom"
         v-if="editingMethod === EditingMethod.Flow"
         :data="flowData"
-      />
+        @update="updateCurrentFlowData"
+      >
+        <template #test v-if="isTestingPanelOpen && currentRule">
+          <RuleTest
+            v-if="isTestingPanelOpen && currentRule"
+            ref="RuleTestRef"
+            :rule-data="currentRule"
+            :ingress-bridge-list="sourceList"
+            is-flow
+            @close="closeTest"
+            @testing-status-change="syncTestingStatusChanged"
+          />
+        </template>
+      </FlowEditor>
     </div>
   </div>
   <FlowNameDialog
@@ -47,18 +74,23 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, waitAMoment } from '@/common/tools'
+import { createRandomString, getBridgeKey, waitAMoment } from '@/common/tools'
 import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
+import useFlowNode from '@/hooks/Flow/useFlowNode'
 import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
+import useSourceList from '@/hooks/Rule/action/useSourceList'
+import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { TestRuleTarget } from '@/types/enum'
+import { BridgeItem, RuleItem } from '@/types/rule'
 import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
 import { Edge, Node } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
-import { isEqual } from 'lodash'
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { cloneDeep, isEqual } from 'lodash'
+import { computed, nextTick, ref } from 'vue'
+import RuleTest from '../RuleEngine/components/RuleTest.vue'
 import FlowEditor from './components/FlowEditor.vue'
 import FlowNameDialog from './components/FlowNameDialog.vue'
 
@@ -77,14 +109,13 @@ const enum EditingMethod {
   SQL,
 }
 
-const router = useRouter()
 const { t, tl } = useI18nTl('Flow')
 
 // Set name and desc to rule
 const initName = createRandomString()
 const flowBasicInfo = ref({ name: initName, desc: '' })
 
-const { flowId, flowData, ruleData, getData } = useEditFlow()
+const { flowId, flowData, ruleData, addBridgeFormDataToNodes, getData } = useEditFlow()
 const isCreate = computed(() => !flowId.value)
 const editingMethod = ref(EditingMethod.Flow)
 
@@ -140,7 +171,10 @@ const getFlowDetail = async () => {
     if (ruleData.value) {
       const { id, description } = ruleData.value
       flowBasicInfo.value = { name: id, desc: description }
+      currentRule.value = ruleData.value
     }
+    await nextTick()
+    updateNewestSavedFlowData(FlowEditorCom.value.getFlowData())
   } catch (error) {
     //
   } finally {
@@ -157,20 +191,95 @@ const { getRulesActionsSourcesFromFlowData } = useFlowEditorDataHandler()
 const { isSubmitting, createFlow, updateFlow } = useSubmitFlowData()
 const submit = async () => {
   try {
-    if (editingMethod.value === EditingMethod.Flow) {
-      const flowData = FlowEditorCom.value.getFlowData()
-      const data = await getRulesActionsSourcesFromFlowData(flowBasicInfo.value, flowData)
-      const request = isCreate.value ? createFlow : updateFlow
-      await request(data)
-      ElMessage.success(t(`Base.${isCreate.value ? 'createSuccess' : 'updateSuccess'}`))
-      updateIsSubmitted()
-      router.push({ name: 'flow' })
-    } else {
-      // TODO:form
-    }
+    const flowData = FlowEditorCom.value.getFlowData()
+    const data = await getRulesActionsSourcesFromFlowData(flowBasicInfo.value, flowData)
+    const isCallCreate = isCreate.value && !isFlowCreated.value
+    const request = isCallCreate ? createFlow : updateFlow
+    currentRule.value = await request(data)
+    ElMessage.success(t(`Base.${isCallCreate ? 'createSuccess' : 'updateSuccess'}`))
+    updateFlowData()
+    await nextTick()
+    updateIsSubmitted()
+    updateNewestSavedFlowData(FlowEditorCom.value.getFlowData())
   } catch (error) {
     //
   }
+}
+
+/**
+ * The `currentRule` is used to bind the prop when testing rule,
+ * and assigns a value when the data is saved or edited for the first time.
+ * The `ruleData` is used to get name and desc
+ */
+const currentRule = ref<RuleItem | undefined>(undefined)
+const isFlowCreated = computed(() => !!currentRule.value)
+
+/**
+ * To check if the data has been saved or modified for rule testing
+ */
+const currentFlowData = ref<{ nodes: Array<Node>; edges: Array<Edge> }>({ nodes: [], edges: [] })
+/**
+ * Called when the flow editor has changed or when getting details
+ */
+const updateCurrentFlowData = (data: { nodes: Array<Node>; edges: Array<Edge> }) => {
+  if (isTestingPanelOpen.value && !isEqual(currentFlowData.value, data)) {
+    RuleTestRef.value?.stopTest?.()
+    isTestStarted.value = false
+  }
+  currentFlowData.value = cloneDeep(data)
+}
+
+const updateNewestSavedFlowData = (data: { nodes: Array<Node>; edges: Array<Edge> }) => {
+  updateCurrentFlowData(data)
+  updateSavedData(data)
+}
+
+const sourceList = ref<Array<BridgeItem>>([])
+const { getSourceList } = useSourceList()
+;(async () => (sourceList.value = await getSourceList()))()
+
+const { isBridgerNode } = useFlowNode()
+/**
+ * After the first created source/action is saved, the node data
+ * should be updated to set it to select an existing source/action
+ */
+const updateFlowData = async () => {
+  // The reason for using getNodes here instead of getFlowData
+  //  elsewhere is that getFlowData doesn't have node location information.
+  const nodes = FlowEditorCom.value.getNodes
+  nodes.forEach((node: Node) => {
+    if (isBridgerNode(node) && !node.data.formData.id) {
+      node.data.formData.id = getBridgeKey(node.data.formData)
+    }
+  })
+  const newNodes = await addBridgeFormDataToNodes(nodes)
+  FlowEditorCom.value.setNodes(newNodes)
+}
+
+const RuleTestRef = ref()
+
+const {
+  isTesting: isTestingPanelOpen,
+  savedAfterDataChange,
+  isDataSaveButtonDisabled,
+  testTarget,
+  updateSavedData,
+} = useStatusController(currentFlowData)
+testTarget.value = TestRuleTarget.Rule
+savedAfterDataChange.value = false
+const isTestStarted = ref(false)
+const handleStartTest = async () => {
+  isTestingPanelOpen.value = true
+  isTestStarted.value = true
+  await nextTick()
+  RuleTestRef.value?.handleStartTest?.()
+}
+const closeTest = () => {
+  isTestingPanelOpen.value = false
+  isTestStarted.value = false
+}
+const syncTestingStatusChanged = (val: boolean) => {
+  isTestStarted.value = val
 }
 </script>
 
@@ -211,6 +320,15 @@ const submit = async () => {
     height: calc(100% - #{$hd-height});
     flex-grow: 1;
   }
+  .rule-test {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .log-data-display {
+      flex-grow: 1;
+    }
+  }
+
   .basic-info {
     line-height: $hd-line-height;
   }

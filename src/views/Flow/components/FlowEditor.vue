@@ -45,16 +45,22 @@
       <VueFlow
         :id="flowEditorId"
         class="editor"
+        :style="{ height: $slots.test ? `calc(100% - ${testSlotHeight}px - 8px)` : '100%' }"
         v-show="flowData.length"
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
-        @edges-change="checkEdges"
+        @nodes-change="updateEdges"
+        @edges-change="checkEdges($event), handleFlowDataUpdated()"
         @edge-mouse-enter="handleMouseEnterEdge"
         @edge-mouse-leave="handleMouseLeaveEdge"
       >
+        <!-- Why don't call handleFlowDataUpdated when node change but when node is deleted? -->
+        <!-- Do not want to stop the test when the node is dragged and dropped before it is saved. -->
         <template #node-custom_input="data">
-          <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
+          <el-icon class="icon-del" @click.stop="delNode(data), handleFlowDataUpdated()">
+            <CircleCloseFilled />
+          </el-icon>
           <FlowNode :data="data" />
         </template>
         <template #node-custom_default="data">
@@ -73,13 +79,30 @@
           />
         </template>
       </VueFlow>
+      <Resizer
+        v-if="$slots.test"
+        v-model="testSlotHeight"
+        :is-forward="false"
+        :min="360"
+        :max="700"
+        @resize="keepZoomFitView"
+      />
+      <div
+        class="test-content"
+        v-if="$slots.test"
+        :style="{ height: `${testSlotHeight}px` }"
+        @vnode-mounted="handleOpenTest"
+        @vnode-before-unmount="handleCloseTest"
+      >
+        <slot name="test"></slot>
+      </div>
     </div>
   </div>
   <NodeDrawer
     v-model="isDrawerVisible"
     :nodes="getNodes"
     :node="currentNode"
-    @save="saveDataToNode"
+    @save="saveDataToNode($event), handleFlowDataUpdated()"
     @saveAsNew="saveAsNewNode"
     @close="resetDrawerData"
     @cancel="handleCancelEditing"
@@ -88,7 +111,7 @@
 
 <script setup lang="ts">
 import { createRandomString, waitAMoment } from '@/common/tools'
-import { isEmptyObj } from '@emqx/shared-ui-utils'
+import Resizer from '@/components/Resizer.vue'
 import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
@@ -98,11 +121,13 @@ import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import {
   Edge,
   EdgeAddChange,
   EdgeChange,
   EdgeMouseEvent,
+  FitViewParams,
   Node,
   NodeMouseEvent,
   NodeProps,
@@ -111,10 +136,10 @@ import {
 } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual, pick } from 'lodash'
+import type { PropType, Ref } from 'vue'
 import {
-  PropType,
-  Ref,
   computed,
+  defineEmits,
   defineExpose,
   defineProps,
   nextTick,
@@ -137,6 +162,9 @@ const props = defineProps({
     type: Array as PropType<Array<Node | Edge>>,
   },
 })
+const emit = defineEmits<{
+  (e: 'update', data: { nodes: Array<Node>; edges: Array<Edge> }): void
+}>()
 
 const { t } = useI18nTl('Flow')
 
@@ -146,18 +174,29 @@ const FlowWrapper = ref()
 const FlowerInstance = ref()
 
 const flowEditorId = createRandomString()
-const { addNodes, onConnect, addEdges, findNode, removeNodes, removeEdges, getNodes, getEdges } =
-  useVueFlow({
-    id: flowEditorId,
-    deleteKeyCode: 'Delete',
-    defaultEdgeOptions: { type: 'custom' },
-  })
+const {
+  addNodes,
+  onConnect,
+  addEdges,
+  findNode,
+  removeNodes,
+  removeEdges,
+  setEdges,
+  setNodes,
+  getNodes,
+  getEdges,
+} = useVueFlow({
+  id: flowEditorId,
+  deleteKeyCode: 'Delete',
+  defaultEdgeOptions: { type: 'custom' },
+})
 
 const {
   nodeArr: rawNodeArr,
   flowData,
   nodeTypeOnlyByOne,
   createFlowNodeDataFromEvent,
+  countNeededEdges,
 } = useFlowEditor(FlowerInstance, FlowWrapper)
 const nodeArr = computed(() => {
   const reg = new RegExp(`${searchText.value}`, `i`)
@@ -210,6 +249,11 @@ const onDragOver = (event: DragEvent) => {
   if (event.dataTransfer) {
     event.dataTransfer.dropEffect = 'move'
   }
+}
+
+const updateEdges = () => {
+  const neededEdges = countNeededEdges(getNodes.value)
+  setEdges(neededEdges)
 }
 
 const onDrop = (event: DragEvent) => {
@@ -386,8 +430,8 @@ const validate = () => {
 const nodeNeededKeys = ['id', 'data', 'type']
 const edgeNeededKeys = ['source', 'sourceNode', 'target', 'targetNode']
 const getFlowData = () => {
-  const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys))
-  const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys))
+  const nodes = getNodes.value.map((item) => pick(item, nodeNeededKeys) as Node)
+  const edges = getEdges.value.map((item) => pick(item, edgeNeededKeys) as Edge)
   return { nodes, edges }
 }
 
@@ -423,18 +467,37 @@ const sql = computed(() => {
 })
 provide('sql', sql)
 
+const fitView = async (params?: FitViewParams) => {
+  await waitAMoment()
+  FlowerInstance.value?.fitView(params)
+}
+const keepZoomFitView = () => {
+  const currentZoom = FlowerInstance.value?.viewport.zoom
+  fitView({ maxZoom: currentZoom })
+}
+
+const handleOpenTest = keepZoomFitView
+const handleCloseTest = keepZoomFitView
+
+const handleFlowDataUpdated = () => {
+  const data = getFlowData()
+  emit('update', data)
+}
+
 watch(
   () => props.data,
   async (nVal) => {
     if (nVal && nVal.length) {
       flowData.value = nVal
-      await waitAMoment()
-      FlowerInstance.value?.fitView()
+      await nextTick()
+      fitView()
     }
   },
 )
 
-defineExpose({ validate, getFlowData })
+const testSlotHeight = ref(450)
+
+defineExpose({ validate, getFlowData, getNodes, setNodes })
 </script>
 
 <style lang="scss">
@@ -452,10 +515,12 @@ defineExpose({ validate, getFlowData })
     margin-top: 0;
   }
 
+  $panel-width: 264px;
   .nodes-panel {
     height: 100%;
-    flex-basis: 264px;
+    flex-basis: $panel-width;
     flex-grow: 0;
+    flex-shrink: 0;
     padding: 16px 12px;
     border-right: 1px solid var(--color-border-primary);
     overflow-y: scroll;
@@ -574,10 +639,19 @@ defineExpose({ validate, getFlowData })
   .flow-wrap {
     height: 100%;
     flex-grow: 1;
+    width: calc(100% - #{$panel-width});
   }
 
   .vue-flow {
-    height: 100%;
+    height: auto;
+  }
+
+  .vue-flow,
+  .test-content {
+    flex-grow: 1;
+  }
+  .test-content {
+    padding: 0 16px 16px;
   }
 }
 </style>

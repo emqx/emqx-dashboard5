@@ -1,19 +1,15 @@
 <template>
   <div class="auth auth-details details">
     <div class="detail-top">
-      <detail-header :item="{ name: titleMap[type], path: '/authorization' }" />
-      <div class="section-header">
-        <div class="section-header__block">
-          <div>
-            <img :src="currImg" height="64" />
+      <detail-header :item="{ name: titleMap[type], path: '/authorization' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <img :src="currImg" height="40" />
+            <p class="block-title">{{ titleMap[type] }}</p>
+            <AuthItemStatus is-tag :metrics="authMetrics" />
           </div>
-          <div>
-            <div class="info-tags">
-              <AuthItemStatus is-tag :metrics="authMetrics" />
-            </div>
-          </div>
-        </div>
-        <div>
+        </template>
+        <template #extra>
           <el-tooltip
             :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -36,14 +32,8 @@
             >
             </el-button>
           </el-tooltip>
-          <!-- <el-button @click="handleUpdate(configData)">
-          {{ configData.enable ? $t('Base.disable') : $t('Base.enable') }}
-        </el-button>
-        <el-button type="danger" plain @click="handleDelete">
-          {{ $t('Base.delete') }}
-        </el-button> -->
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
       <div class="app-wrapper">
@@ -58,7 +48,7 @@
         >
           <authz-manager />
         </el-tab-pane>
-        <el-tab-pane v-else :label="$t('Base.setting')" name="settings" :lazy="true">
+        <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
           <el-card v-if="!authzDetailLock" class="app-card">
             <database-config
               v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
@@ -84,6 +74,12 @@
               is-edit
             >
             </ldap-config>
+            <built-in-config
+              v-else-if="type === 'built_in_database'"
+              auth-type="authz"
+              v-model="configData"
+              ref="formCom"
+            />
             <el-button @click="$router.push('/authorization')">
               {{ $t('Base.cancel') }}
             </el-button>
@@ -119,6 +115,7 @@ import useAuth from '@/hooks/Auth/useAuth'
 import AuthzManager from './components/AuthzManager.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
+import BuiltInConfig from './components/BuiltInConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
@@ -138,6 +135,7 @@ export default defineComponent({
     LdapConfig,
     AuthItemOverview,
     AuthItemStatus,
+    BuiltInConfig,
   },
   setup() {
     const { t } = useI18n()
