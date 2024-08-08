@@ -56,7 +56,7 @@
               <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
                 <el-select
                   v-model="(formData.payload_decoder as any).type"
-                  @change="handleDecoderTypeChanged(formData.payload_decoder)"
+                  @change="handleDecoderTypeChanged(formData.payload_decoder), checkOperations()"
                 >
                   <el-option
                     v-for="{ label, value } in formatOpts"
@@ -99,7 +99,7 @@
               <el-form-item prop="payload_encoder.type" :label="tl('outputFormat')">
                 <el-select
                   v-model="(formData.payload_encoder as any).type"
-                  @change="handleTypeChanged(formData.payload_encoder)"
+                  @change="handleTypeChanged(formData.payload_encoder), checkOperations()"
                 >
                   <el-option
                     v-for="{ label, value } in formatOpts"
@@ -460,7 +460,24 @@ const validateOperations = async () => {
   }
 }
 
-const validate = async () => customValidate(formCom.value)
+const validationResult = ref<undefined | Record<string, any>>(undefined)
+const validate = async () => {
+  try {
+    validationResult.value = undefined
+    await customValidate(formCom.value)
+    return Promise.resolve()
+  } catch (error: any) {
+    validationResult.value = error
+    return Promise.reject(error)
+  }
+}
+
+const checkOperations = async () => {
+  await nextTick()
+  if (validationResult.value?.operations) {
+    formCom.value.validateField('operations')
+  }
+}
 
 defineExpose({
   validate,
