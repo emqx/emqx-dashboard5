@@ -185,5 +185,15 @@ const submit = async () => {
     top: -5px;
     background-color: var(--color-bg-content) !important;
   }
+  .el-checkbox__input {
+    top: 1px;
+  }
+  .el-checkbox {
+    align-items: flex-start;
+  }
+  .el-checkbox__label {
+    white-space: normal;
+    line-height: 1.2;
+  }
 }
 </style>
