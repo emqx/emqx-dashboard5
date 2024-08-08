@@ -68,6 +68,8 @@ const useCommonDataHandler = () => {
   }
 }
 
+const connectorKeysDoNotNeedForAPI = ['sources']
+
 type ConnectorDataHandler = (connector: Connector) => Connector
 export const useConnectorDataHandler = (): {
   likePasswordFieldKeys: string[]
@@ -84,7 +86,10 @@ export const useConnectorDataHandler = (): {
     handleDataForSaveAsCopy,
   } = useCommonDataHandler()
 
-  const handleConnectorDataBeforeSubmit = handleDataBeforeSubmit
+  const handleConnectorDataBeforeSubmit: ConnectorDataHandler = (data) => {
+    const ret: Connector = handleDataBeforeSubmit(data)
+    return omit(ret, connectorKeysDoNotNeedForAPI) as Connector
+  }
 
   const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
     const ret: Connector = handleConnectorDataBeforeSubmit(data)
