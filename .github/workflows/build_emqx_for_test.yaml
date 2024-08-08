@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: emqx/emqx
-          ref: release-57
+          ref: release-58
 
       - name: build and export to Docker
         id: build

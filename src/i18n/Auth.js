@@ -576,8 +576,8 @@ export default {
     en: 'Ignored',
   },
   ignoredDesc: {
-    zh: '被忽略的查询计数。每当授权源尝试授权请求，但该请求不适用，或遇到错误导致结果无法确定时，此计数器就会增加。',
-    en: "Count of query ignored.  This counter is increased whenever the authorization source attempts to authorize a request, but either it's not applicable, or an error was encountered and the result is undecidable",
+    zh: '被忽略的授权请求计数。当授权源尝试对请求进行授权但遇到不适用的情况或出现错误导致结果无法确定时，此计数器会增加。',
+    en: 'Count of authorization requests ignored. This counter increments when an authorization source attempts to authorize a request but encounters scenarios where the authorizer is not applicable or encounters an error, resulting in an undecidable outcome.',
   },
   principal: {
     zh: '主体',

@@ -77,6 +77,8 @@ const useCommonDataHandler = () => {
   }
 }
 
+const connectorKeysDoNotNeedForAPI = ['sources']
+
 type ConnectorDataHandler = (connector: Connector) => Connector
 export const useConnectorDataHandler = (): {
   likePasswordFieldKeys: string[]
@@ -120,7 +122,8 @@ export const useConnectorDataHandler = (): {
       if (handler) {
         ret = await handler(ret)
       }
-      return Promise.resolve(handleDataBeforeSubmit(ret))
+      ret = handleDataBeforeSubmit(data)
+      return Promise.resolve(omit(ret, connectorKeysDoNotNeedForAPI) as Connector)
     } catch (error) {
       console.error(error)
       return Promise.reject()

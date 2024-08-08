@@ -1142,6 +1142,7 @@ export interface BridgeNodeMetrics {
 
 export interface BridgeTimescalePutBridgeV2 {
   local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
   enable?: boolean
   connector: string
   tags?: string[]

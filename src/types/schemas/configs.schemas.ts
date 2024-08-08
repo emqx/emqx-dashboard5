@@ -116,6 +116,7 @@ export const GetConfigsKey = {
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
+  durable_sessions: 'durable_sessions',
   durable_storage: 'durable_storage',
   exhook: 'exhook',
   file_transfer: 'file_transfer',
@@ -840,6 +841,8 @@ export const EmqxMqttPeerCertAsUsername = {
   md5: 'md5',
 } as const
 
+export type EmqxMqttRetryInterval = string | 'infinity'
+
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
 export type EmqxMqttSharedSubscriptionStrategy =
@@ -875,7 +878,7 @@ export interface EmqxMqtt {
   server_keepalive?: EmqxMqttServerKeepalive
   keepalive_multiplier?: number
   keepalive_check_interval?: string
-  retry_interval?: string
+  retry_interval?: EmqxMqttRetryInterval
   use_username_as_clientid?: boolean
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
   peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
@@ -1148,6 +1151,7 @@ export interface DashboardSslOptions {
   partial_chain?: DashboardSslOptionsPartialChain
   verify_peer_ext_key_usage?: string
   dhfile?: string
+  fail_if_no_peer_cert?: boolean
   honor_cipher_order?: boolean
   client_renegotiation?: boolean
   handshake_timeout?: string
@@ -1206,6 +1210,7 @@ export interface DashboardListeners {
 
 export interface DashboardDashboard {
   listeners?: DashboardListeners
+  readonly default_password: string
   token_expired_time?: string
   cors?: boolean
   swagger_support?: boolean

@@ -611,22 +611,22 @@ export interface BridgeMqttPublisherIngressParameters {
 }
 
 export interface BridgeMqttPublisherPutSource {
+  parameters: BridgeMqttPublisherIngressParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
 
 export interface BridgeMqttPublisherPostSource {
   type: BridgeMqttPublisherPostSourceType
   name: string
+  parameters: BridgeMqttPublisherIngressParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
 
@@ -655,11 +655,11 @@ export interface BridgeMqttPublisherGetSource {
   status?: BridgeMqttPublisherGetSourceStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
+  parameters: BridgeMqttPublisherIngressParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
 
