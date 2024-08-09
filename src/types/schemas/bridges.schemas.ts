@@ -3120,6 +3120,73 @@ export interface BridgeKinesisCreationOpts {
   max_buffer_bytes?: string
 }
 
+export type BridgeKafkaV1ProducerKafkaOptsQueryMode =
+  typeof BridgeKafkaV1ProducerKafkaOptsQueryMode[keyof typeof BridgeKafkaV1ProducerKafkaOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaV1ProducerKafkaOptsQueryMode = {
+  async: 'async',
+  sync: 'sync',
+} as const
+
+export type BridgeKafkaV1ProducerKafkaOptsPartitionsLimit = number | 'all_partitions'
+
+export type BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode =
+  typeof BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode[keyof typeof BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode = {
+  none: 'none',
+  json: 'json',
+} as const
+
+export type BridgeKafkaV1ProducerKafkaOptsRequiredAcks =
+  typeof BridgeKafkaV1ProducerKafkaOptsRequiredAcks[keyof typeof BridgeKafkaV1ProducerKafkaOptsRequiredAcks]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaV1ProducerKafkaOptsRequiredAcks = {
+  all_isr: 'all_isr',
+  leader_only: 'leader_only',
+  none: 'none',
+} as const
+
+export type BridgeKafkaV1ProducerKafkaOptsPartitionStrategy =
+  typeof BridgeKafkaV1ProducerKafkaOptsPartitionStrategy[keyof typeof BridgeKafkaV1ProducerKafkaOptsPartitionStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaV1ProducerKafkaOptsPartitionStrategy = {
+  random: 'random',
+  key_dispatch: 'key_dispatch',
+} as const
+
+export type BridgeKafkaV1ProducerKafkaOptsCompression =
+  typeof BridgeKafkaV1ProducerKafkaOptsCompression[keyof typeof BridgeKafkaV1ProducerKafkaOptsCompression]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaV1ProducerKafkaOptsCompression = {
+  no_compression: 'no_compression',
+  snappy: 'snappy',
+  gzip: 'gzip',
+} as const
+
+export interface BridgeKafkaV1ProducerKafkaOpts {
+  topic: string
+  message?: BridgeKafkaKafkaMessage
+  max_batch_bytes?: string
+  compression?: BridgeKafkaV1ProducerKafkaOptsCompression
+  partition_strategy?: BridgeKafkaV1ProducerKafkaOptsPartitionStrategy
+  required_acks?: BridgeKafkaV1ProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  partitions_limit?: BridgeKafkaV1ProducerKafkaOptsPartitionsLimit
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: BridgeKafkaV1ProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
+}
+
 export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeKafkaSslClientOptsPartialChain =
@@ -3202,10 +3269,11 @@ export interface BridgeKafkaPutProducer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPutProducerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaV1ProducerKafkaOpts
 }
 
 export type BridgeKafkaPutConsumerValueEncodingMode =
@@ -3226,11 +3294,6 @@ export const BridgeKafkaPutConsumerKeyEncodingMode = {
   base64: 'base64',
 } as const
 
-export type BridgeKafkaPutConsumerAuthentication =
-  | BridgeKafkaAuthGssapiKerberos
-  | BridgeKafkaAuthUsernamePassword
-  | 'none'
-
 export interface BridgeKafkaPutConsumer {
   enable?: boolean
   tags?: string[]
@@ -3241,6 +3304,7 @@ export interface BridgeKafkaPutConsumer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPutConsumerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   kafka?: BridgeKafkaConsumerKafkaOpts
@@ -3249,76 +3313,9 @@ export interface BridgeKafkaPutConsumer {
   value_encoding_mode?: BridgeKafkaPutConsumerValueEncodingMode
 }
 
-export type BridgeKafkaProducerKafkaOptsQueryMode =
-  typeof BridgeKafkaProducerKafkaOptsQueryMode[keyof typeof BridgeKafkaProducerKafkaOptsQueryMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerKafkaOptsQueryMode = {
-  async: 'async',
-  sync: 'sync',
-} as const
-
-export type BridgeKafkaProducerKafkaOptsPartitionsLimit = number | 'all_partitions'
-
-export type BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode =
-  typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode[keyof typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode = {
-  none: 'none',
-  json: 'json',
-} as const
-
-export type BridgeKafkaProducerKafkaOptsRequiredAcks =
-  typeof BridgeKafkaProducerKafkaOptsRequiredAcks[keyof typeof BridgeKafkaProducerKafkaOptsRequiredAcks]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerKafkaOptsRequiredAcks = {
-  all_isr: 'all_isr',
-  leader_only: 'leader_only',
-  none: 'none',
-} as const
-
-export type BridgeKafkaProducerKafkaOptsPartitionStrategy =
-  typeof BridgeKafkaProducerKafkaOptsPartitionStrategy[keyof typeof BridgeKafkaProducerKafkaOptsPartitionStrategy]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerKafkaOptsPartitionStrategy = {
-  random: 'random',
-  key_dispatch: 'key_dispatch',
-} as const
-
-export type BridgeKafkaProducerKafkaOptsCompression =
-  typeof BridgeKafkaProducerKafkaOptsCompression[keyof typeof BridgeKafkaProducerKafkaOptsCompression]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaProducerKafkaOptsCompression = {
-  no_compression: 'no_compression',
-  snappy: 'snappy',
-  gzip: 'gzip',
-} as const
-
 export interface BridgeKafkaProducerKafkaExtHeaders {
   kafka_ext_header_key: string
   kafka_ext_header_value: string
-}
-
-export interface BridgeKafkaProducerKafkaOpts {
-  topic: string
-  message?: BridgeKafkaKafkaMessage
-  max_batch_bytes?: string
-  compression?: BridgeKafkaProducerKafkaOptsCompression
-  partition_strategy?: BridgeKafkaProducerKafkaOptsPartitionStrategy
-  required_acks?: BridgeKafkaProducerKafkaOptsRequiredAcks
-  kafka_headers?: string
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode
-  partition_count_refresh_interval?: string
-  partitions_limit?: BridgeKafkaProducerKafkaOptsPartitionsLimit
-  max_inflight?: number
-  buffer?: BridgeKafkaProducerBuffer
-  query_mode?: BridgeKafkaProducerKafkaOptsQueryMode
-  sync_query_timeout?: string
 }
 
 export type BridgeKafkaProducerBufferMode =
@@ -3365,10 +3362,11 @@ export interface BridgeKafkaPostProducer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPostProducerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaV1ProducerKafkaOpts
 }
 
 export type BridgeKafkaPostConsumerValueEncodingMode =
@@ -3416,6 +3414,7 @@ export interface BridgeKafkaPostConsumer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaPostConsumerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   kafka?: BridgeKafkaConsumerKafkaOpts
@@ -3471,10 +3470,11 @@ export interface BridgeKafkaGetProducer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaGetProducerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaV1ProducerKafkaOpts
 }
 
 export type BridgeKafkaGetConsumerValueEncodingMode =
@@ -3559,6 +3559,7 @@ export interface BridgeKafkaGetConsumer {
   metadata_request_timeout?: string
   authentication?: BridgeKafkaGetConsumerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   kafka?: BridgeKafkaConsumerKafkaOpts
@@ -3587,6 +3588,11 @@ export interface BridgeKafkaAuthGssapiKerberos {
   kerberos_principal: string
   kerberos_keytab_file: string
 }
+
+export type BridgeKafkaPutConsumerAuthentication =
+  | BridgeKafkaAuthGssapiKerberos
+  | BridgeKafkaAuthUsernamePassword
+  | 'none'
 
 export type BridgeKafkaGetConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
@@ -5052,10 +5058,11 @@ export interface BridgeAzureEventHubPutProducer {
   metadata_request_timeout?: string
   authentication?: BridgeAzureEventHubPutProducerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaV1ProducerKafkaOpts
 }
 
 export type BridgeAzureEventHubProducerKafkaOptsQueryMode =
@@ -5133,6 +5140,7 @@ export interface BridgeAzureEventHubPostProducer {
   metadata_request_timeout?: string
   authentication: BridgeAzureEventHubAuthUsernamePassword
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeAzureEventHubSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
@@ -5185,10 +5193,11 @@ export interface BridgeAzureEventHubGetProducer {
   metadata_request_timeout?: string
   authentication?: BridgeAzureEventHubGetProducerAuthentication
   socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
   ssl?: BridgeKafkaSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
   local_topic?: string
-  kafka: BridgeKafkaProducerKafkaOpts
+  kafka: BridgeKafkaV1ProducerKafkaOpts
 }
 
 export interface BridgeAzureEventHubAuthUsernamePassword {

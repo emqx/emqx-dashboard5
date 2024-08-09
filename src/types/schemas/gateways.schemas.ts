@@ -25,16 +25,6 @@ export type PutGatewaysName400 = {
   message?: string
 }
 
-export interface EmqxGatewayApiUpdateExproto {
-  server: GatewayExprotoGrpcServer
-  handler: GatewayExprotoGrpcHandler
-  mountpoint?: string
-  enable?: boolean
-  enable_stats?: boolean
-  idle_timeout?: string
-  clientinfo_override?: GatewayClientinfoOverride
-}
-
 export type PutGatewaysNameBody =
   | EmqxGatewayApiUpdateStomp
   | EmqxGatewayApiUpdateOcpp

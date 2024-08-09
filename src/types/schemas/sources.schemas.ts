@@ -345,6 +345,7 @@ export const KafkaConsumerSourceParametersOffsetResetPolicy = {
 
 export interface KafkaConsumerSourceParameters {
   topic: string
+  group_id?: string
   max_batch_bytes?: string
   offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
   offset_commit_interval_seconds?: string
@@ -353,11 +354,11 @@ export interface KafkaConsumerSourceParameters {
 }
 
 export interface KafkaConsumerPutSource {
+  parameters: KafkaConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: KafkaConsumerSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
@@ -372,11 +373,11 @@ export const KafkaConsumerPostSourceType = {
 export interface KafkaConsumerPostSource {
   type: KafkaConsumerPostSourceType
   name: string
+  parameters: KafkaConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: KafkaConsumerSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
@@ -405,11 +406,11 @@ export interface KafkaConsumerGetSource {
   status?: KafkaConsumerGetSourceStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
+  parameters: KafkaConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: KafkaConsumerSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
@@ -426,11 +427,11 @@ export interface GcpPubsubConsumerSourceParameters {
 }
 
 export interface GcpPubsubConsumerPutSource {
+  parameters: GcpPubsubConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: GcpPubsubConsumerSourceParameters
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
 }
 
@@ -445,11 +446,11 @@ export const GcpPubsubConsumerPostSourceType = {
 export interface GcpPubsubConsumerPostSource {
   type: GcpPubsubConsumerPostSourceType
   name: string
+  parameters: GcpPubsubConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: GcpPubsubConsumerSourceParameters
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
 }
 
@@ -478,11 +479,11 @@ export interface GcpPubsubConsumerGetSource {
   status?: GcpPubsubConsumerGetSourceStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
+  parameters: GcpPubsubConsumerSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: GcpPubsubConsumerSourceParameters
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
 }
 
@@ -533,11 +534,11 @@ export interface BridgeRabbitmqSourceParameters {
 }
 
 export interface BridgeRabbitmqPutSource {
+  parameters: BridgeRabbitmqSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeRabbitmqSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
@@ -552,11 +553,11 @@ export const BridgeRabbitmqPostSourceType = {
 export interface BridgeRabbitmqPostSource {
   type: BridgeRabbitmqPostSourceType
   name: string
+  parameters: BridgeRabbitmqSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeRabbitmqSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 
@@ -585,11 +586,11 @@ export interface BridgeRabbitmqGetSource {
   status?: BridgeRabbitmqGetSourceStatus
   status_reason?: string
   node_status?: BridgeNodeStatus[]
+  parameters: BridgeRabbitmqSourceParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeRabbitmqSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
 }
 

@@ -38,8 +38,8 @@ export type PostAuthentication400 = {
 }
 
 export type PostAuthentication200 =
-  | AuthnScramHttpPost
-  | AuthnScramHttpGet
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -60,8 +60,8 @@ export type PostAuthentication200 =
   | AuthnBuiltinDb
 
 export type PostAuthenticationBody =
-  | AuthnScramHttpPost
-  | AuthnScramHttpGet
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -82,8 +82,8 @@ export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
 
 export type GetAuthentication200Item =
-  | AuthnScramHttpPost
-  | AuthnScramHttpGet
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -156,8 +156,8 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
-  | AuthnScramHttpPost
-  | AuthnScramHttpGet
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -191,8 +191,8 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
-  | AuthnScramHttpPost
-  | AuthnScramHttpGet
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -584,53 +584,53 @@ export interface ConnectorHttpRequest {
   request_timeout?: string
 }
 
-export type AuthnScramHttpPostBody = { [key: string]: any }
+export type AuthnScramRestapiPostBody = { [key: string]: any }
 
-export type AuthnScramHttpPostAlgorithm =
-  typeof AuthnScramHttpPostAlgorithm[keyof typeof AuthnScramHttpPostAlgorithm]
+export type AuthnScramRestapiPostAlgorithm =
+  typeof AuthnScramRestapiPostAlgorithm[keyof typeof AuthnScramRestapiPostAlgorithm]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpPostAlgorithm = {
+export const AuthnScramRestapiPostAlgorithm = {
   sha256: 'sha256',
   sha512: 'sha512',
 } as const
 
-export type AuthnScramHttpPostBackend =
-  typeof AuthnScramHttpPostBackend[keyof typeof AuthnScramHttpPostBackend]
+export type AuthnScramRestapiPostBackend =
+  typeof AuthnScramRestapiPostBackend[keyof typeof AuthnScramRestapiPostBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpPostBackend = {
+export const AuthnScramRestapiPostBackend = {
   http: 'http',
 } as const
 
-export type AuthnScramHttpPostMechanism =
-  typeof AuthnScramHttpPostMechanism[keyof typeof AuthnScramHttpPostMechanism]
+export type AuthnScramRestapiPostMechanism =
+  typeof AuthnScramRestapiPostMechanism[keyof typeof AuthnScramRestapiPostMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpPostMechanism = {
+export const AuthnScramRestapiPostMechanism = {
   scram: 'scram',
 } as const
 
-export type AuthnScramHttpPostHeaders = { [key: string]: any }
+export type AuthnScramRestapiPostHeaders = { [key: string]: any }
 
-export type AuthnScramHttpPostMethod =
-  typeof AuthnScramHttpPostMethod[keyof typeof AuthnScramHttpPostMethod]
+export type AuthnScramRestapiPostMethod =
+  typeof AuthnScramRestapiPostMethod[keyof typeof AuthnScramRestapiPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpPostMethod = {
+export const AuthnScramRestapiPostMethod = {
   post: 'post',
 } as const
 
-export interface AuthnScramHttpPost {
-  method: AuthnScramHttpPostMethod
-  headers?: AuthnScramHttpPostHeaders
+export interface AuthnScramRestapiPost {
+  method: AuthnScramRestapiPostMethod
+  headers?: AuthnScramRestapiPostHeaders
   enable?: boolean
-  mechanism: AuthnScramHttpPostMechanism
-  backend: AuthnScramHttpPostBackend
-  algorithm?: AuthnScramHttpPostAlgorithm
+  mechanism: AuthnScramRestapiPostMechanism
+  backend: AuthnScramRestapiPostBackend
+  algorithm?: AuthnScramRestapiPostAlgorithm
   iteration_count?: number
   url: string
-  body?: AuthnScramHttpPostBody
+  body?: AuthnScramRestapiPostBody
   request_timeout?: string
   connect_timeout?: string
   /** @deprecated */
@@ -643,53 +643,53 @@ export interface AuthnScramHttpPost {
   ssl?: EmqxSslClientOpts
 }
 
-export type AuthnScramHttpGetBody = { [key: string]: any }
+export type AuthnScramRestapiGetBody = { [key: string]: any }
 
-export type AuthnScramHttpGetAlgorithm =
-  typeof AuthnScramHttpGetAlgorithm[keyof typeof AuthnScramHttpGetAlgorithm]
+export type AuthnScramRestapiGetAlgorithm =
+  typeof AuthnScramRestapiGetAlgorithm[keyof typeof AuthnScramRestapiGetAlgorithm]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpGetAlgorithm = {
+export const AuthnScramRestapiGetAlgorithm = {
   sha256: 'sha256',
   sha512: 'sha512',
 } as const
 
-export type AuthnScramHttpGetBackend =
-  typeof AuthnScramHttpGetBackend[keyof typeof AuthnScramHttpGetBackend]
+export type AuthnScramRestapiGetBackend =
+  typeof AuthnScramRestapiGetBackend[keyof typeof AuthnScramRestapiGetBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpGetBackend = {
+export const AuthnScramRestapiGetBackend = {
   http: 'http',
 } as const
 
-export type AuthnScramHttpGetMechanism =
-  typeof AuthnScramHttpGetMechanism[keyof typeof AuthnScramHttpGetMechanism]
+export type AuthnScramRestapiGetMechanism =
+  typeof AuthnScramRestapiGetMechanism[keyof typeof AuthnScramRestapiGetMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpGetMechanism = {
+export const AuthnScramRestapiGetMechanism = {
   scram: 'scram',
 } as const
 
-export type AuthnScramHttpGetHeaders = { [key: string]: any }
+export type AuthnScramRestapiGetHeaders = { [key: string]: any }
 
-export type AuthnScramHttpGetMethod =
-  typeof AuthnScramHttpGetMethod[keyof typeof AuthnScramHttpGetMethod]
+export type AuthnScramRestapiGetMethod =
+  typeof AuthnScramRestapiGetMethod[keyof typeof AuthnScramRestapiGetMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnScramHttpGetMethod = {
+export const AuthnScramRestapiGetMethod = {
   get: 'get',
 } as const
 
-export interface AuthnScramHttpGet {
-  method: AuthnScramHttpGetMethod
-  headers?: AuthnScramHttpGetHeaders
+export interface AuthnScramRestapiGet {
+  method: AuthnScramRestapiGetMethod
+  headers?: AuthnScramRestapiGetHeaders
   enable?: boolean
-  mechanism: AuthnScramHttpGetMechanism
-  backend: AuthnScramHttpGetBackend
-  algorithm?: AuthnScramHttpGetAlgorithm
+  mechanism: AuthnScramRestapiGetMechanism
+  backend: AuthnScramRestapiGetBackend
+  algorithm?: AuthnScramRestapiGetAlgorithm
   iteration_count?: number
   url: string
-  body?: AuthnScramHttpGetBody
+  body?: AuthnScramRestapiGetBody
   request_timeout?: string
   connect_timeout?: string
   /** @deprecated */
