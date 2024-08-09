@@ -34,20 +34,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="node" :label="$t('Clients.node')" />
-        <el-table-column :label="$t('Base.operation')">
-          <template #default="{ row }">
-            <el-tooltip
-              v-if="!isTopicCanCreateTopic(row.topic)"
-              class="box-item"
-              effect="dark"
-              :content="tl('wildcardNotSupport')"
-            >
-              <span>
-                <el-button size="small" plain disabled> {{ tl('addMetric') }}</el-button>
-              </span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
       </el-table>
       <div class="emq-table-footer">
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadTopics" />
