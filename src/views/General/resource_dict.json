@@ -2338,5 +2338,113 @@
       "en": "Test an input against a transformation",
       "zh": "针对消息转换测试输入"
     }
+  },
+  {
+    "method": "post",
+    "path": "/relup/upgrade/:node",
+    "operation_label": {
+      "en": "Hot Upgrade",
+      "zh": "热升级"
+    },
+    "operation_name_label": {
+      "en": "Upgrade a specified node to the target version with the installed package.",
+      "zh": "将指定节点升级到安装包中的目标版本。"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/relup/upgrade",
+    "operation_label": {
+      "en": "Hot Upgrade",
+      "zh": "热升级"
+    },
+    "operation_name_label": {
+      "en": "Upgrade all nodes to the target version with the installed package.",
+      "zh": "将所有节点升级到安装包中的目标版本。"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/relup/package/upload",
+    "operation_label": {
+      "en": "Hot Upgrade",
+      "zh": "热升级"
+    },
+    "operation_name_label": {
+      "en": "Upload a hot upgrade package. Note that only one package is alllowed to be installed at a time.",
+      "zh": "上传热升级包。请注意，一次只能安装一个包。"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/relup/package",
+    "operation_label": {
+      "en": "Hot Upgrade",
+      "zh": "热升级"
+    },
+    "operation_name_label": {
+      "en": "Delete the installed hot upgrade package.",
+      "zh": "删除已安装的热升级包。"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/cluster/links",
+    "operation_label": {
+      "en": "Cluster Linking",
+      "zh": "集群连接"
+    },
+    "operation_name_label": {
+      "en": "Create a cluster link",
+      "zh": "创建一个集群连接。"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/cluster/links/link/:name",
+    "operation_label": {
+      "en": "Cluster Linking",
+      "zh": "集群连接"
+    },
+    "operation_name_label": {
+      "en": "Update a cluster link configuration",
+      "zh": "更新集群链接配置。"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/cluster/links/link/:name",
+    "operation_label": {
+      "en": "Cluster Linking",
+      "zh": "集群连接"
+    },
+    "operation_name_label": {
+      "en": "Delete a cluster link",
+      "zh": "删除一个集群链接。"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/durable_queues/:id",
+    "operation_label": {
+      "en": "Durable Queue",
+      "zh": "持久队列"
+    },
+    "operation_name_label": {
+      "en": "Create a durable queue.",
+      "zh": "创建一个持久队列。"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/durable_queues/:id",
+    "operation_label": {
+      "en": "Durable Queue",
+      "zh": "持久队列"
+    },
+    "operation_name_label": {
+      "en": "Delete a durable queue.",
+      "zh": "删除一个持久队列。"
+    }
   }
 ]
