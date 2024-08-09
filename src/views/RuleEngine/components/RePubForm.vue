@@ -45,6 +45,7 @@
               :disabled="readonly"
               :id="createRandomString()"
               :completion-provider="completionProvider"
+              @keyup.stop
             />
           </div>
         </CustomFormItem>
