@@ -35,39 +35,6 @@
               />
             </el-form-item>
           </el-col>
-
-          <!-- TLS -->
-          <el-col :span="24">
-            <CommonTLSConfig class="TLS-config" v-model="ldapConfig.ssl" :is-edit="isEdit" />
-            <el-divider />
-          </el-col>
-
-          <!-- Connection Pool Size -->
-          <el-col :span="12">
-            <el-form-item :label="$t('RuleEngine.connectionPoolSize')" prop="pool_size">
-              <el-input v-model.number="ldapConfig.pool_size" />
-            </el-form-item>
-          </el-col>
-
-          <!-- Query Timeout -->
-          <el-col :span="12">
-            <el-form-item :label="tl('queryTimeout')" prop="query_timeout">
-              <time-input-with-unit-select v-model="ldapConfig.query_timeout" />
-            </el-form-item>
-          </el-col>
-
-          <!-- Base DN -->
-          <el-col :span="12">
-            <el-form-item :label="tl('base_dn')" prop="base_dn">
-              <el-input
-                v-model="ldapConfig.base_dn"
-                :placeholder="
-                  authType === 'authz' ? 'uid=${username},ou=testdevice,dc=emqx,dc=io' : ''
-                "
-              />
-            </el-form-item>
-          </el-col>
-
           <template v-if="authType === 'authn'">
             <el-col :span="12">
               <el-form-item :label="tl('pwdMethod')" prop="method.type">
@@ -127,6 +94,23 @@
             </el-col>
           </template>
 
+          <!-- Base DN -->
+          <el-col :span="12">
+            <el-form-item :label="tl('base_dn')" prop="base_dn">
+              <el-input
+                v-model="ldapConfig.base_dn"
+                :placeholder="
+                  authType === 'authz' ? 'uid=${username},ou=testdevice,dc=emqx,dc=io' : ''
+                "
+              />
+            </el-form-item>
+          </el-col>
+
+          <!-- TLS -->
+          <el-col :span="24">
+            <CommonTLSConfig class="TLS-config" v-model="ldapConfig.ssl" :is-edit="isEdit" />
+          </el-col>
+
           <!-- Filter -->
           <el-col :span="24">
             <el-form-item :label="tl('filter')" prop="filter">
@@ -136,20 +120,35 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <AdvancedSettingContainer>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item :label="$t('RuleEngine.connectionPoolSize')" prop="pool_size">
+                <el-input v-model.number="ldapConfig.pool_size" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="tl('queryTimeout')" prop="query_timeout">
+                <time-input-with-unit-select v-model="ldapConfig.query_timeout" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </AdvancedSettingContainer>
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { PropType, ref, defineProps, watch, defineEmits, defineExpose } from 'vue'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
+import Monaco from '@/components/Monaco.vue'
+import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useLdapConfigFrom from '@/hooks/Auth/useLdapConfigForm'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import Monaco from '@/components/Monaco.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { LDAPAuthMethod } from '@/types/enum'
+import { defineEmits, defineExpose, defineProps, PropType, ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {

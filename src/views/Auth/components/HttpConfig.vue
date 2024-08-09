@@ -35,18 +35,7 @@
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <!-- TLS -->
-            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
-          </el-col>
-          <el-col :span="24"><el-divider /></el-col>
-        </el-row>
-      </div>
-
-      <!-- Connect Config -->
-      <div class="config-sub-block" v-if="type === 'scram'">
-        <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="12" v-if="type === 'scram'">
             <el-form-item :label="tl('passwordHash')">
               <el-select v-model="httpConfig.algorithm" clearable>
                 <el-option value="sha256" />
@@ -54,10 +43,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('iterationCount')">
-              <CustomInputNumber v-model="httpConfig.iteration_count" />
-            </el-form-item>
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
           </el-col>
         </el-row>
       </div>
@@ -112,6 +100,11 @@
             <el-col :span="12">
               <el-form-item :label="$t('Auth.requestTimeout')">
                 <time-input-with-unit-select v-model="httpConfig.request_timeout" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="type === 'scram'">
+              <el-form-item :label="tl('iterationCount')">
+                <CustomInputNumber v-model="httpConfig.iteration_count" />
               </el-form-item>
             </el-col>
           </el-row>
