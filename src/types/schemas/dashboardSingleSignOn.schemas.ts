@@ -205,6 +205,19 @@ export type GetSsoOidcCallback401 = {
   message?: string
 }
 
+export type GetSsoOidcCallback400Code =
+  typeof GetSsoOidcCallback400Code[keyof typeof GetSsoOidcCallback400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoOidcCallback400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetSsoOidcCallback400 = {
+  code?: GetSsoOidcCallback400Code
+  message?: string
+}
+
 export type GetSsoOidcCallback200LicenseEdition =
   typeof GetSsoOidcCallback200LicenseEdition[keyof typeof GetSsoOidcCallback200LicenseEdition]
 

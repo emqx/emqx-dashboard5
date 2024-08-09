@@ -116,6 +116,7 @@ export const GetConfigsKey = {
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
+  durable_queues: 'durable_queues',
   durable_sessions: 'durable_sessions',
   durable_storage: 'durable_storage',
   exhook: 'exhook',
