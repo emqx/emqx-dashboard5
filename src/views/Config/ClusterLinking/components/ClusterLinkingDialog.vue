@@ -61,11 +61,7 @@
                       <el-button
                         class="btn-del"
                         :icon="Minus"
-                        :disabled="
-                          record.topics.length <= 1 ||
-                          disabledEditTopic($index) ||
-                          !$hasPermission('delete')
-                        "
+                        :disabled="disabledEditTopic($index) || !$hasPermission('delete')"
                         @click="delTopic($index)"
                       />
                     </el-tooltip>
@@ -80,6 +76,13 @@
                 </el-form-item>
               </li>
             </ul>
+            <el-button
+              v-if="!record.topics.length"
+              class="btn-add"
+              :icon="Plus"
+              :disabled="!$hasPermission('post')"
+              @click="addTopic"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -243,15 +246,12 @@ const rules = {
       type: 'array',
       validator(rules: any, value: Array<string>, cb: (error?: Error) => void) {
         let error = undefined
-        if (Array.isArray(value) && value.length === 0) {
-          error = new Error(tl('msgSourceTopicRequired'))
-        } else if (Array.isArray(value) && [...new Set(value)].length < value.length) {
+        if (Array.isArray(value) && [...new Set(value)].length < value.length) {
           error = new Error(t('RuleEngine.repeatedTopic'))
         }
         cb(error)
       },
       trigger: 'blur',
-      required: true,
     },
   ],
 }
