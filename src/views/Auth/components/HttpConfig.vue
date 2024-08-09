@@ -37,35 +37,8 @@
         </el-row>
       </div>
 
-      <!-- Connect Config -->
-      <div class="config-sub-block">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
-              <el-input v-model.number="httpConfig.pool_size" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.connectTimeout')">
-              <time-input-with-unit-select v-model="httpConfig.connect_timeout" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.httpPipelining')">
-              <CustomInputNumber v-model="httpConfig.enable_pipelining" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.requestTimeout')">
-              <time-input-with-unit-select v-model="httpConfig.request_timeout" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-
       <!-- Auth Config -->
       <div class="config-sub-block">
-        <div class="create-form-title"></div>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item class="label-whole-line" prop="body">
@@ -93,12 +66,38 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <!-- Connect Config -->
+        <AdvancedSettingContainer>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
+                <el-input v-model.number="httpConfig.pool_size" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.connectTimeout')">
+                <time-input-with-unit-select v-model="httpConfig.connect_timeout" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.httpPipelining')">
+                <CustomInputNumber v-model="httpConfig.enable_pipelining" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Auth.requestTimeout')">
+                <time-input-with-unit-select v-model="httpConfig.request_timeout" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </AdvancedSettingContainer>
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -122,6 +121,7 @@ export default defineComponent({
     HelpBlock,
     FormItemLabel,
     CustomInputNumber,
+    AdvancedSettingContainer,
   },
 
   props: {

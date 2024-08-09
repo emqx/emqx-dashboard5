@@ -87,10 +87,20 @@
               />
             </el-form-item>
           </el-col>
+          <el-col v-if="isAuthn && isMongoDB" :span="12">
+            <el-form-item :label="$t('Auth.passwordHashField')">
+              <el-input v-model="databaseConfig.password_hash_field" placeholder="password_hash" />
+            </el-form-item>
+          </el-col>
+          <PasswordHashAlgorithmFormItems
+            v-if="isAuthn"
+            v-model="databaseConfig"
+            @change="handleSaltChanged"
+          />
           <template v-if="isMongoDB">
-            <el-col :span="12">
-              <el-form-item :label="$t('Auth.mongoAuthSource')">
-                <el-input v-model="databaseConfig.auth_source" />
+            <el-col v-if="isAuthn && isEnableSalt" :span="12">
+              <el-form-item :label="$t('Auth.saltField')">
+                <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
               </el-form-item>
             </el-col>
             <template v-if="databaseConfig.mongo_type === 'rs'">
@@ -111,73 +121,7 @@
                 </el-form-item>
               </el-col>
             </template>
-            <el-col :span="12">
-              <el-form-item>
-                <FormItemLabel
-                  :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
-                  :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
-                />
-                <el-select v-model="databaseConfig.use_legacy_protocol">
-                  <el-option value="auto" label="auto" />
-                  <el-option value="true" label="true" />
-                  <el-option value="false" label="false" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </template>
-
-          <el-col :span="24">
-            <!-- TLS -->
-            <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />
-          </el-col>
-          <el-col :span="24"><el-divider /></el-col>
-        </el-row>
-      </div>
-
-      <!-- Auth Config -->
-      <div class="config-sub-block">
-        <div class="part-header"></div>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
-              <el-input v-model.number="databaseConfig.pool_size" />
-            </el-form-item>
-          </el-col>
-          <el-col v-if="isMongoDB" :span="12">
-            <el-form-item :label="$t('Auth.connectTimeout')">
-              <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
-            </el-form-item>
-          </el-col>
-          <el-col v-if="isAuthn && isMySQL" :span="12">
-            <el-form-item :label="$t('Auth.queryTimeout')">
-              <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="12" v-if="!isMongoDB">
-            <el-form-item :label="t('RuleEngine.autoRestartInterval')">
-              <Oneof
-                v-model="databaseConfig.resource_opts.auto_restart_interval"
-                :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
-              />
-            </el-form-item>
-          </el-col> -->
-          <template v-if="isAuthn">
-            <el-col v-if="isMongoDB" :span="12">
-              <el-form-item :label="$t('Auth.passwordHashField')">
-                <el-input
-                  v-model="databaseConfig.password_hash_field"
-                  placeholder="password_hash"
-                />
-              </el-form-item>
-            </el-col>
-            <PasswordHashAlgorithmFormItems v-model="databaseConfig" @change="handleSaltChanged" />
-            <el-col v-if="isMongoDB && isEnableSalt" :span="12">
-              <el-form-item :label="$t('Auth.saltField')">
-                <el-input v-model="databaseConfig.salt_field" placeholder="salt" />
-              </el-form-item>
-            </el-col>
-
-            <el-col v-if="isMongoDB" :span="12">
+            <el-col v-if="isAuthn" :span="12">
               <el-form-item :label="$t('Auth.superuserField')">
                 <el-input
                   v-model="databaseConfig.is_superuser_field"
@@ -186,20 +130,25 @@
               </el-form-item>
             </el-col>
           </template>
-          <template v-if="isPgSQL">
-            <el-col :span="12">
-              <el-form-item prop="disable_prepared_statements">
-                <template #label>
-                  <FormItemLabel
-                    :label="t('BridgeSchema.common.disable_prepared_statements.label')"
-                    :desc="t('BridgeSchema.common.disable_prepared_statements.desc')"
-                  />
-                </template>
-                <el-switch v-model="databaseConfig.disable_prepared_statements" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12" />
-          </template>
+
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />
+          </el-col>
+        </el-row>
+      </div>
+
+      <!-- Auth Config -->
+      <div class="config-sub-block">
+        <el-row :gutter="20">
+          <!-- <el-col :span="12" v-if="!isMongoDB">
+            <el-form-item :label="t('RuleEngine.autoRestartInterval')">
+              <Oneof
+                v-model="databaseConfig.resource_opts.auto_restart_interval"
+                :items="[{ type: 'duration' }, { symbols: ['infinity'], type: 'enum' }]"
+              />
+            </el-form-item>
+          </el-col> -->
           <!-- MySQL & PgSQL -->
           <el-col :span="24" v-if="isMySQL || isPgSQL">
             <el-form-item required prop="query" class="label-whole-line">
@@ -284,6 +233,57 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <AdvancedSettingContainer>
+          <el-row :gutter="20">
+            <template v-if="isMongoDB">
+              <el-col :span="12">
+                <el-form-item :label="$t('Auth.mongoAuthSource')">
+                  <el-input v-model="databaseConfig.auth_source" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item>
+                  <FormItemLabel
+                    :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
+                    :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
+                  />
+                  <el-select v-model="databaseConfig.use_legacy_protocol">
+                    <el-option value="auto" label="auto" />
+                    <el-option value="true" label="true" />
+                    <el-option value="false" label="false" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </template>
+
+            <el-col :span="12">
+              <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
+                <el-input v-model.number="databaseConfig.pool_size" />
+              </el-form-item>
+            </el-col>
+            <el-col v-if="isAuthn && isMySQL" :span="12">
+              <el-form-item :label="$t('Auth.queryTimeout')">
+                <time-input-with-unit-select v-model="databaseConfig.query_timeout" />
+              </el-form-item>
+            </el-col>
+            <el-col v-if="isMongoDB" :span="12">
+              <el-form-item :label="$t('Auth.connectTimeout')">
+                <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
+              </el-form-item>
+            </el-col>
+            <el-col v-if="isPgSQL" :span="12">
+              <el-form-item prop="disable_prepared_statements">
+                <template #label>
+                  <FormItemLabel
+                    :label="t('BridgeSchema.common.disable_prepared_statements.label')"
+                    :desc="t('BridgeSchema.common.disable_prepared_statements.desc')"
+                  />
+                </template>
+                <el-switch v-model="databaseConfig.disable_prepared_statements" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </AdvancedSettingContainer>
       </div>
     </el-form>
   </div>
@@ -292,6 +292,7 @@
 <script lang="ts">
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -317,6 +318,7 @@ export default defineComponent({
     HelpBlock,
     CustomInputNumber,
     FormItemLabel,
+    AdvancedSettingContainer,
   },
 
   props: {
