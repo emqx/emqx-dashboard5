@@ -7,7 +7,7 @@ const editionConfigs = {
   enterprise: {
     title: 'Base.enterpriseEdition',
     banner: require('@/assets/img/login-banner-enterprise.png'),
-    logo: require('@/assets/img/emqx-logo-enterprise.svg'),
+    logo: require('@/assets/img/emqx-logo-enterprise.png'),
   },
   openSource: {
     title: 'Base.openSourceEdition',
