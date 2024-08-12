@@ -125,6 +125,7 @@ interface ConfigField {
       label: string
       description: string
       type: string
+      order?: number
     }
   }
   format: 'sql' | 'json'

@@ -85,6 +85,7 @@ import ArrayEditorInput from '@/components/ArrayEditorInput.vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
 import { createRandomString } from '@/common/tools'
+import { isUndefined } from 'lodash'
 
 const props = defineProps({
   modelValue: [String, Number, Array, Object, Boolean] as PropType<any>,
@@ -116,6 +117,16 @@ watch(
   },
 )
 
+const getPropOrder = (prop: any) => (!isUndefined(prop?.order) ? prop.order : 9999)
+const sortProps = (props: any) => {
+  if (Object.values(props).every(({ order }: any) => isUndefined(order))) {
+    return props
+  }
+  return Object.entries(props)
+    .sort((a, b) => getPropOrder(a[1]) - getPropOrder(b[1]))
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+}
+
 function TransMapsItemsToProperties(items: ConfigField['items']) {
   const properties: any = {}
   for (const key in items) {
@@ -126,8 +137,9 @@ function TransMapsItemsToProperties(items: ConfigField['items']) {
       key: key,
       label: item.label,
       description: item.description,
+      order: item?.order,
     }
   }
-  return properties
+  return sortProps(properties)
 }
 </script>
