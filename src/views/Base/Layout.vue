@@ -317,7 +317,7 @@ $header-heigh: 60px;
   img {
     max-width: initial;
     max-height: 100%;
-    height: 36px;
+    height: 56px;
     transition: all 0.3s;
   }
 }
@@ -326,7 +326,7 @@ $header-heigh: 60px;
   width: 60px;
   padding-left: 25px;
   img {
-    height: 36px;
+    height: 38px;
   }
 }
 
