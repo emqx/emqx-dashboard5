@@ -205,6 +205,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
         'Response-Topic',
         'Correlation-Data',
         'Content-Type',
+        'Payload-Format-Indicator',
       ],
       allowSet: false,
       allowUse: true,
