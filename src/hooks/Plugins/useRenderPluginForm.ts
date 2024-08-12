@@ -5,6 +5,7 @@ import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/typ
 import { getPluginConfigs, getPluginSchema, updatePluginConfigs } from '@/api/plugins'
 import { AvroJsonToObject, objectToAvroJson } from './avroUtils'
 import avro from 'avsc'
+import { isUndefined } from 'lodash'
 
 /**
  * Returns the default value for a given basic type.
@@ -73,22 +74,28 @@ function constructObjectFromAvroSchema(schema: AvroSchema): any {
   return configs
 }
 
+interface Field {
+  name: string
+  type: any
+  default?: any
+  $ui?: any
+}
+
+const getFieldOrder = (field: Field) => (!isUndefined(field.$ui?.order) ? field.$ui.order : 9999)
+const orderFields = (fields: Array<Field>) =>
+  fields.sort((a, b) => getFieldOrder(a) - getFieldOrder(b))
+
 /**
  * Extracts UI configurations from a given schema.
  *
  * @param schema - The schema object containing fields and their configurations.
  * @returns The extracted UI configurations in the form of an object.
  */
-function extractUIConfigs(schema: {
-  fields: Array<{
-    name: string
-    type: any
-    default?: any
-    $ui?: any
-  }>
-}): { $form: { [key: string]: PluginUIConfigForm } } {
+function extractUIConfigs(schema: { fields: Array<Field> }): {
+  $form: { [key: string]: PluginUIConfigForm }
+} {
   const uiConfigs: { $form: { [key: string]: PluginUIConfigForm } } = { $form: {} }
-  schema.fields.forEach((field) => {
+  orderFields(schema.fields).forEach((field) => {
     if (field.$ui) {
       const { name } = field
       const uiConfig = { ...field.$ui }
