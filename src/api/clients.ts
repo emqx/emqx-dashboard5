@@ -17,7 +17,7 @@ export function searchClients(clientId: string) {
   return http.get(`/clients/${encodeURIComponent(clientId)}`)
 }
 
-// 搜索单个节点的连接
+// Search for connections of a single node
 export function searchNodeClients(nodeName: string, clientId: string) {
   return http.get(`/nodes/${nodeName}/clients/${encodeURIComponent(clientId)}`)
 }
