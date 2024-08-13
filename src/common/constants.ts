@@ -11,8 +11,6 @@ import {
 
 export const API_BASE_URL = 'api/v5'
 
-export const QoS_LIST = [0, 1, 2]
-
 export const WEB_SOCKET_STATUS = {
   Connecting: 'MCONNECTING',
   Connected: 'MCONNECTED',
