@@ -12,7 +12,13 @@
       </el-button>
     </div>
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="name" :label="tl('clusterName')" />
+      <el-table-column prop="name" :label="tl('clusterName')">
+        <template #default="{ row }">
+          <router-link :to="getDetailRoute(row.name)" class="table-data-without-break">
+            {{ row.name }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column prop="server" :label="tl('serverAddress')" />
       <el-table-column :label="t('components.topics')">
         <template #default="{ row }">
@@ -28,14 +34,14 @@
           <el-switch
             :model-value="row.enable"
             :disabled="!$hasPermission('put')"
-            @update:modelValue="toggleEnable(row)"
+            @update:modelValue="handleTogglerEnable(row)"
           />
         </template>
       </el-table-column>
 
       <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row, $index }">
-          <el-button size="small" @click="editLink($index)">
+        <template #default="{ row }">
+          <el-button size="small" @click="editLink(row.name)">
             {{ $t('Base.setting') }}
           </el-button>
           <el-button
@@ -50,20 +56,19 @@
       </el-table-column>
     </el-table>
   </div>
-  <ClusterLinkingDialog v-model="showDialog" :edit-data="currentLink" @submitted="loadLinks" />
 </template>
 
 <script lang="ts" setup>
 import { deleteClusterLinking, getClusterLinking } from '@/api/cluster'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import useClusterLinking from '@/hooks/Config/useClusterLinking'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { computed, ref } from 'vue'
-import ClusterLinkingDialog from './components/ClusterLinkingDialog.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const { t, tl } = useI18nTl('BasicConfig')
 
@@ -82,38 +87,26 @@ const loadLinks = async () => {
   }
 }
 
-const { toggleClusterLinkingEnable } = useClusterLinking()
+const { handleTogglerEnable } = useClusterLinking()
 
-const showDialog = ref(false)
-const currentLinkIndex = ref<number>(-1)
-const currentLink = computed(() =>
-  currentLinkIndex.value > -1 ? tableData.value[currentLinkIndex.value] : undefined,
-)
+const router = useRouter()
 const createLink = () => {
-  currentLinkIndex.value = -1
-  showDialog.value = true
+  router.push({ name: 'cluster-linking-create' })
 }
 
-const editLink = (index: number) => {
-  currentLinkIndex.value = index
-  showDialog.value = true
-}
-
-const { confirmDel, operationWarning } = useOperationConfirm()
-
-const toggleEnable = async (data: CreatedClusterLinking) => {
-  try {
-    const { enable } = data
-    if (enable) {
-      await operationWarning(t('Base.confirmDisabled'))
-    }
-    await toggleClusterLinkingEnable({ ...data, enable: !enable })
-    data.enable = !data.enable
-    ElMessage.success(t(data.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
-  } catch (error) {
-    //
+const getDetailRoute = (name: string, query?: Record<string, any>) => {
+  return {
+    name: 'cluster-linking-detail',
+    params: { linkingName: name },
+    query,
   }
 }
+
+const editLink = (name: string) => {
+  router.push(getDetailRoute(name, { tab: DetailTab.Setting }))
+}
+
+const { confirmDel } = useOperationConfirm()
 
 const handleDelete = async (name: string) => {
   try {

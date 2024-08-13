@@ -802,6 +802,16 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'cluster-linking',
         component: () => import('@/views/Config/ClusterLinking/ClusterLinking.vue'),
       },
+      {
+        path: 'create',
+        name: 'cluster-linking-create',
+        component: () => import('@/views/Config/ClusterLinking/ClusterLinkingCreate.vue'),
+      },
+      {
+        path: ':linkingName',
+        name: 'cluster-linking-detail',
+        component: () => import('@/views/Config/ClusterLinking/ClusterLinkingDetail.vue'),
+      },
     ],
   },
   // Schema Validation

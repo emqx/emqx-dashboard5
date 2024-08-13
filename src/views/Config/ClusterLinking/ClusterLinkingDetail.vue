@@ -1,19 +1,19 @@
 <template>
-  <div class="transform-detail" v-loading.lock="isLoading">
+  <div class="linking-detail" v-loading.lock="isLoading">
     <div class="detail-top">
-      <detail-header :item="{ name: transformName, routeName: 'message-transform' }" />
-      <div class="transform-detail-hd">
+      <detail-header :item="{ name: linkingName, routeName: 'cluster-linking' }" />
+      <div class="linking-detail-hd">
         <StatusDetailsOfEachNode :status-data="statusData" is-tag />
         <div>
           <el-tooltip
-            :content="transformData.enable ? $t('Base.disable') : $t('Base.enable')"
+            :content="clusterLinkingData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
             <el-switch
               class="enable-btn"
-              v-model="transformData.enable"
+              :model-value="clusterLinkingData.enable"
               :disabled="!$hasPermission('put')"
-              @change="(val: boolean) => toggleEnable(val)"
+              @update:modelValue="toggleEnable"
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
@@ -33,16 +33,22 @@
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
         <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" lazy>
-          <TransformOverview :transform-name="transformName" />
+          <ClusterLinkingOverview :linking-name="linkingName" />
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
           <el-card class="app-card">
-            <TransformForm v-if="!isLoading" ref="formCom" v-model="transformData" is-edit />
+            <ClusterLinkingForm
+              v-if="!isLoading"
+              ref="formCom"
+              v-model="clusterLinkingData"
+              :edit-data-topic-length="editDataTopicLength"
+              is-edit
+            />
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"
               :loading="isSubmitting"
-              @click="updateTransform"
+              @click="updateLinking"
             >
               {{ $t('Base.update') }}
             </el-button>
@@ -54,25 +60,20 @@
 </template>
 
 <script setup lang="ts">
-import {
-  deleteMessageTransform,
-  enableDisableMessageTransform,
-  getMessageTransformDetail,
-  putMessageTransform,
-} from '@/api/messageTransformation'
+import { deleteClusterLinking, getClusterLinkingDetail, putClusterLinking } from '@/api/cluster'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
+import useClusterLinking from '@/hooks/Config/useClusterLinking'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab, NodeStatusClass } from '@/types/enum'
-import type { MessageTransform } from '@/types/typeAlias'
+import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import TransformForm from './components/TransformForm.vue'
-import TransformOverview from './components/TransformOverview.vue'
+import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
+import ClusterLinkingOverview from './components/ClusterLinkingOverview.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -81,11 +82,12 @@ const { t, tl } = useI18nTl('RuleEngine')
 
 const activeTab = ref(DetailTab.Overview)
 
-const transformName = computed(() => route.params.transformName.toString())
+const linkingName = computed(() => route.params.linkingName.toString())
 
 const formCom = ref()
 const isLoading = ref(false)
-const transformData: Ref<MessageTransform> = ref({} as MessageTransform)
+const clusterLinkingData: Ref<ClusterLinkingFormData> = ref({} as ClusterLinkingFormData)
+const editDataTopicLength = ref(0)
 const isSubmitting = ref(false)
 
 const queryTab = computed(() => {
@@ -96,33 +98,36 @@ if (queryTab.value !== undefined) {
 }
 
 const statusData = computed(() => {
-  const { enable } = transformData.value
+  const { enable } = clusterLinkingData.value
   return {
     statusLabel: enable ? t('Base.enable') : t('Base.disabled'),
     statusClass: enable ? NodeStatusClass.Success : NodeStatusClass.Danger,
   }
 })
 
-const { handleDataBeforeSubmit, handleFetchedData } = handleTransformData()
 const getDetail = async () => {
   try {
     isLoading.value = true
-    const data = await getMessageTransformDetail(transformName.value)
-    transformData.value = handleFetchedData(data)
+    clusterLinkingData.value = await getClusterLinkingDetail(linkingName.value)
+    editDataTopicLength.value = clusterLinkingData.value.topics.length
   } catch (error) {
     console.error(error)
   } finally {
     isLoading.value = false
   }
 }
+const { handleLinkingDataBeforeSubmit, handleTogglerEnable } = useClusterLinking()
 
-const updateTransform = async () => {
+const updateLinking = async () => {
   try {
     isSubmitting.value = true
     await formCom.value.validate()
-    await putMessageTransform(handleDataBeforeSubmit(transformData.value))
+    await putClusterLinking(
+      clusterLinkingData.value.name,
+      handleLinkingDataBeforeSubmit(clusterLinkingData.value),
+    )
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'message-transform' })
+    router.push({ name: 'cluster-linking' })
   } catch (error) {
     console.error(error)
   } finally {
@@ -130,20 +135,15 @@ const updateTransform = async () => {
   }
 }
 
-const toggleEnable = async (enable: boolean) => {
-  try {
-    await enableDisableMessageTransform(transformName.value, enable)
-    ElMessage.success(t(enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
-  } catch (error) {
-    transformData.value.enable = !enable
-  }
+const toggleEnable = async () => {
+  handleTogglerEnable(clusterLinkingData.value)
 }
 
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async () => {
   try {
-    await confirmDel(() => deleteMessageTransform(transformName.value))
-    router.push({ name: 'message-transform' })
+    await confirmDel(() => deleteClusterLinking(linkingName.value))
+    router.push({ name: 'cluster-linking' })
   } catch (error) {
     console.error(error)
   }
@@ -153,7 +153,7 @@ getDetail()
 </script>
 
 <style lang="scss" scoped>
-.transform-detail-hd {
+.linking-detail-hd {
   display: flex;
   justify-content: space-between;
   padding-bottom: 12px;
@@ -163,9 +163,5 @@ getDetail()
 }
 .metric-num {
   font-size: 24px;
-}
-.message-transform-form {
-  width: 70%;
-  margin-bottom: 36px;
 }
 </style>
