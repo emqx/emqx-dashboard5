@@ -1,3 +1,4 @@
+import useRuleFunc, { ArgumentType, numberArgTypes } from '../useRuleFunc'
 import {
   EditedWay,
   FilterForm,
@@ -14,20 +15,44 @@ export default (): {
   getFilterExpressionFromForm: (filterData: FilterForm, level?: number) => string
 } => {
   /* FUNCTION */
-  const getExpressionFromFunctionItem = ({
-    name,
-    args,
-  }: {
-    name: string
-    args: Array<string | number>
-  }): string => {
-    const argsStr = args.filter((item) => item !== '' && item !== undefined).join(', ')
+  const { getFuncItemByName } = useRuleFunc()
+  const getExpressionFromFunctionItem = (
+    {
+      name,
+      args,
+    }: {
+      name: string
+      args: Array<string | number>
+    },
+    field: string,
+  ): string => {
+    const argsStr = args.reduce((result, argItem, index) => {
+      if (argItem === '' || argItem === undefined) {
+        return result
+      }
+      const funcItem = getFuncItemByName(name)
+      const argInfo = funcItem?.args[index]
+      const isStringType =
+        argInfo?.type === ArgumentType.String ||
+        (argInfo?.type === ArgumentType.Enum &&
+          typeof argInfo?.optionalValues?.find((enumItem) => enumItem === argItem) === 'string')
+      const isNumType = argInfo?.type && numberArgTypes.includes(argInfo?.type)
+      let argResult = argItem
+      if (argItem !== field) {
+        if (isStringType) {
+          argResult = `'${argItem}'`
+        } else if (isNumType && Number(argItem).toString() === argItem) {
+          argResult = Number(argItem)
+        }
+      }
+      return result ? `${result}, ${argResult}` : `${argResult}`
+    }, '')
     return `${name}(${argsStr})`
   }
 
   const getFuncExpressionFromFormItem = (formItem: FunctionItem) => {
     const { field, func, alias } = formItem
-    const selection = func.name ? getExpressionFromFunctionItem(func) : field
+    const selection = func.name ? getExpressionFromFunctionItem(func, field) : field
     const aliasStr = alias ? ` as ${alias}` : ''
     return selection + aliasStr
   }
