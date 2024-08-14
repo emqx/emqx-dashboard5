@@ -176,4 +176,12 @@ export default {
     zh: '请先禁用再删除主题',
     en: 'Please disable the link before deleting',
   },
+  linkingRateBarDesc: {
+    zh: '近一分钟内消息转发次数趋势',
+    en: 'Message forwarding times trend in the last minute',
+  },
+  linkingNodesMetricsDesc: {
+    zh: '消息转发在各节点上的执行情况及效率',
+    en: 'Execution status and efficiency of message forwarding on each node',
+  },
 }
