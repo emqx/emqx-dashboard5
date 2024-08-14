@@ -289,9 +289,11 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
 
   const createOpts = (valueArr: Array<string>) => {
     const ret = valueArr.reduce((arr: BelongOpts, item) => {
-      const keyForGetConf = item.endsWith('.') ? item.slice(0, -1) : item
+      const isParentOpt = item.endsWith('.')
+      const keyForGetConf = isParentOpt ? item.slice(0, -1) : item
       const conf = availablePropKeyMap.get(keyForGetConf)
-      const optItem = { label: item, value: item }
+      const label = isParentOpt ? `${item}*` : item
+      const optItem = { label, value: item }
       if (conf?.advanced) {
         const advancedItem = arr.find((item) => item.value === ADVANCED_ITEM_VALUE)
         if (!advancedItem) {
@@ -304,6 +306,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       }
       return arr
     }, [])
+    // put advanced item to the end
     const advancedItemIndex = ret.findIndex((item) => item.value === ADVANCED_ITEM_VALUE)
     if (advancedItemIndex > -1 && advancedItemIndex < ret.length - 1) {
       const advancedItem = ret[advancedItemIndex]
