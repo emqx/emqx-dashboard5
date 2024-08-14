@@ -23,7 +23,7 @@
             {{ tl('pleaseSaveFirst') }}
           </p>
         </template>
-        <el-button plain @click="handleCloseTest">
+        <el-button v-else plain @click="handleCloseTest">
           {{ tl('closeTest') }}
         </el-button>
       </div>
