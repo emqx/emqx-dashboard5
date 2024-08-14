@@ -25,6 +25,7 @@ import type {
 import {
   MessageTransformationTransformationFailureAction,
   MessageTransformationLogFailureLevel,
+  MessageTransformationHttpApiDryrunTransformation,
 } from './schemas/messageTransformation.schemas'
 import type { SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
 import {
@@ -87,6 +88,7 @@ export type MessageTransform = OverrideProperties<
   }
 >
 export type MessageTransformOperation = MessageTransformationOperation
+export type TestMessageTransformData = MessageTransformationHttpApiDryrunTransformation
 export const MessageTransformFailureAction = MessageTransformationTransformationFailureAction
 export const MessageTransformLogLevel = MessageTransformationLogFailureLevel
 

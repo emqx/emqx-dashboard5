@@ -1581,6 +1581,22 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '检查到属性重复',
     en: 'Duplicate properties detected',
   },
+  preview: {
+    zh: '预览',
+    en: 'Preview',
+  },
+  runTheTransformation: {
+    zh: '运行转换',
+    en: 'Run the Transformation',
+  },
+  clientAttrsAndUserProps: {
+    zh: '客户端属性与用户属性',
+    en: 'Client Attributes and User Properties',
+  },
+  transformationResult: {
+    zh: '转换结果',
+    en: 'Transformation Result',
+  },
   setting: {
     zh: '设置',
     en: 'Setting',
