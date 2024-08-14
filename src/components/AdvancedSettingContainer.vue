@@ -1,6 +1,6 @@
 <template>
   <div class="btn-container">
-    <AdvancedSettingsBtn v-model="showAdvancedSettings" />
+    <AdvancedSettingsBtn v-model="showAdvancedSettings" :button-text="buttonText" />
   </div>
   <el-collapse-transition>
     <div class="advanced-settings" v-if="showAdvancedSettings">
@@ -10,9 +10,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
+import { defineProps, ref } from 'vue'
 import { useStore } from 'vuex'
+
+defineProps<{
+  buttonText?: string
+}>()
 
 const showAdvancedSettings = ref(false)
 const { getters } = useStore()

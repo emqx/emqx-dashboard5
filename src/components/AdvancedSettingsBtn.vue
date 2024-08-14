@@ -7,7 +7,7 @@
     link
     @click="toggle"
   >
-    {{ tl('advancedSettings') }}
+    {{ buttonText ?? tl('advancedSettings') }}
     <el-icon :class="{ 'is-rotate': modelValue }"><ArrowRight /></el-icon>
   </div>
 </template>
@@ -21,6 +21,9 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
+  },
+  buttonText: {
+    type: String,
   },
 })
 const emit = defineEmits(['update:modelValue'])

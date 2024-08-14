@@ -5,6 +5,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { toLogin } from '@/router'
 import store from '@/store'
+import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import _ from 'lodash'
 import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { BAD_TOKEN, TOKEN_TIME_OUT, NAME_PWD_ERROR } from '@/common/customErrorCode'
@@ -56,6 +57,25 @@ const readBlobResponse = async (data) => {
   } catch (error) {
     return {}
   }
+}
+
+const getErrorMessage = (data, status) => {
+  if (!data) {
+    return `${status} Network error`
+  }
+  if (typeof data !== 'object') {
+    return `${status}: ${data.toString()}`
+  }
+  const { code, message } = data
+  if (code || message) {
+    const popupMsg = message
+      ? typeof message === 'object'
+        ? JSON.stringify(message)
+        : message.toString()
+      : ''
+    return `${status} ${code ?? ''}: ${popupMsg}`
+  }
+  return `${status}: ${stringifyObjSafely(data)}`
 }
 
 /**
@@ -114,14 +134,8 @@ axios.interceptors.response.use(
         if (!handleErrorSelf) {
           if (data.code === NAME_PWD_ERROR) {
             ElNotification.error(i18n.global.t('Base.namePwdError'))
-          } else if (data.code || data.message) {
-            data.message =
-              typeof data.message === 'object' ? JSON.stringify(data.message) : data.message
-            const code = data.code !== null && data.code !== undefined ? data.code : ''
-            const message = data.message ? data.message.toString() : ''
-            CustomMessage.error(`${status} ${code}: ${message}`)
           } else {
-            CustomMessage.error(`${status} Network error`)
+            CustomMessage.error(getErrorMessage(data, status))
           }
         }
 
