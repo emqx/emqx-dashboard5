@@ -4,6 +4,7 @@
     v-model="showDialog"
     class="upgrade-dialog"
     destroy-on-close
+    width="860px"
   >
     <div v-loading="isLoading">
       <GuideBar :guide-list="stepList" :active-guide-index-list="activeGuideIndexList" />
