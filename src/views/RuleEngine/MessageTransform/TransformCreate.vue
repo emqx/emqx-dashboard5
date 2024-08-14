@@ -9,6 +9,9 @@
         <el-button @click="cancel">
           {{ t('Base.cancel') }}
         </el-button>
+        <el-button type="primary" plain @click="openTest">
+          {{ tl('preview') }}
+        </el-button>
         <el-button
           type="primary"
           :disabled="!$hasPermission('post')"
@@ -20,6 +23,7 @@
       </div>
     </el-card>
   </div>
+  <TestDrawer :message-transform="formData" v-model="showTestDrawer" />
 </template>
 
 <script setup lang="ts">
@@ -34,10 +38,11 @@ import { ElMessage } from 'element-plus'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 
 const router = useRouter()
-const { t } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const createRawTransformForm = (): MessageTransform => ({
   name: '',
@@ -55,6 +60,12 @@ const formData: Ref<MessageTransform> = ref(createRawTransformForm())
 const isSubmitting = ref(false)
 
 const cancel = () => router.push({ name: 'message-transform' })
+
+const showTestDrawer = ref(false)
+const openTest = async () => {
+  await formCom.value.validate()
+  showTestDrawer.value = true
+}
 
 const { handleDataBeforeSubmit } = handleTransformData()
 const submit = async () => {

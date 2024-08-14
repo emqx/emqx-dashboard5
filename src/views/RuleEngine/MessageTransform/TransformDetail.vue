@@ -38,19 +38,25 @@
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
           <el-card class="app-card">
             <TransformForm v-if="!isLoading" ref="formCom" v-model="transformData" is-edit />
-            <el-button
-              type="primary"
-              :disabled="!$hasPermission('put')"
-              :loading="isSubmitting"
-              @click="updateTransform"
-            >
-              {{ $t('Base.update') }}
-            </el-button>
+            <div>
+              <el-button type="primary" plain @click="openTest">
+                {{ tl('preview') }}
+              </el-button>
+              <el-button
+                type="primary"
+                :disabled="!$hasPermission('put')"
+                :loading="isSubmitting"
+                @click="updateTransform"
+              >
+                {{ $t('Base.update') }}
+              </el-button>
+            </div>
           </el-card>
         </el-tab-pane>
       </div>
     </el-tabs>
   </div>
+  <TestDrawer :message-transform="transformData" v-model="showTestDrawer" />
 </template>
 
 <script setup lang="ts">
@@ -71,6 +77,7 @@ import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed, ref, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 import TransformOverview from './components/TransformOverview.vue'
 
@@ -114,6 +121,12 @@ const getDetail = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+const showTestDrawer = ref(false)
+const openTest = async () => {
+  await formCom.value.validate()
+  showTestDrawer.value = true
 }
 
 const updateTransform = async () => {
