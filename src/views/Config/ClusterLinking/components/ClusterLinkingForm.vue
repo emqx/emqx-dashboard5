@@ -9,12 +9,18 @@
   >
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item :label="tl('clusterName')" prop="name">
+        <el-form-item prop="name">
+          <template #label>
+            <FormItemLabel :label="tl('clusterName')" :desc="tl('clusterNameDesc')" desc-marked />
+          </template>
           <el-input v-model="record.name" :disabled="isEdit" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item :label="tl('serverAddress')" prop="server">
+        <el-form-item prop="server">
+          <template #label>
+            <FormItemLabel :label="tl('serverAddress')" :desc="tl('serverAddressDesc')" />
+          </template>
           <el-input v-model="record.server" />
         </el-form-item>
       </el-col>
@@ -39,7 +45,14 @@
         </el-form-item>
       </el-col>
       <el-col :span="15">
-        <el-form-item prop="topics" :label="t('components.topics')">
+        <el-form-item prop="topics">
+          <template #label>
+            <FormItemLabel
+              :label="t('components.topics')"
+              :desc="tl('linkingTopicsDesc')"
+              desc-marked
+            />
+          </template>
           <ul class="topic-list">
             <li class="topic-item" v-for="(item, $index) in record.topics" :key="$index">
               <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
@@ -157,6 +170,7 @@
 import { customValidate } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
