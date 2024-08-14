@@ -95,7 +95,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <CommonTLSConfig v-model="record.ssl" />
+    <CommonTLSConfig v-model="(record as any).ssl" :is-edit="isEdit" />
     <AdvancedSettingContainer>
       <el-row :gutter="20">
         <el-col :span="12">
