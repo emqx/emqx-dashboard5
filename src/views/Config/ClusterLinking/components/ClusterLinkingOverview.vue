@@ -1,20 +1,20 @@
 <template>
   <div class="resource-item-overview">
     <OverviewMetrics
-      :totals="{ transform: 'matched' }"
+      :totals="{ linking: 'forwarding.matched' }"
       :request-metrics="getMetrics"
-      :type-metrics-maps="[{ name: 'transform', data: transformMetricsMap }]"
-      :text-map="transformMetricsTextMap"
+      :type-metrics-maps="[{ name: 'linking', data: linkingMetricsMap }]"
+      :text-map="linkingMetricsTextMap"
       :rate-metrics="rateData"
       show-rate
-      :node-status-desc="t('RuleEngine.transformNodesMetricsDesc')"
+      :node-status-desc="t('RuleEngine.linkingNodesMetricsDesc')"
     >
       <template #table="{ data }">
         <el-table :data="nodeStatusTableData(data)">
           <el-table-column :label="tl('name')" prop="node" />
-          <el-table-column :label="t('Base.success')" prop="metrics.succeeded" />
-          <el-table-column :label="t('Base.failed')" prop="metrics.failed" />
-          <el-table-column :label="t('Base.rateNow')" prop="metrics.rate" />
+          <el-table-column :label="t('Base.success')" prop="metrics.forwarding.success" />
+          <el-table-column :label="t('Base.failed')" prop="metrics.forwarding.failed" />
+          <el-table-column :label="t('Base.rateNow')" prop="metrics.forwarding.rate" />
         </el-table>
       </template>
     </OverviewMetrics>
@@ -25,7 +25,7 @@
 import { getClusterLinkingMetrics } from '@/api/cluster'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { useMessageTransformMetrics } from '@/hooks/useMetrics'
+import { useClusterLinkingMetrics } from '@/hooks/useMetrics'
 import { MetricsData } from '@/types/common'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { defineProps } from 'vue'
@@ -36,7 +36,7 @@ const props = defineProps({
   },
 })
 
-const { transformMetricsMap, transformMetricsTextMap, rateData } = useMessageTransformMetrics()
+const { linkingMetricsMap, linkingMetricsTextMap, rateData } = useClusterLinkingMetrics()
 
 const { tl, t } = useI18nTl('Base')
 

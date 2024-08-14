@@ -572,3 +572,38 @@ export const useMessageTransformMetrics = (): {
     rateData,
   }
 }
+
+export const useClusterLinkingMetrics = (): {
+  linkingMetricsMap: TypeMapData
+  linkingMetricsTextMap: Record<string, { label: string; desc?: string }>
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('Base')
+  const linkingMetricsMap = [
+    { type: MetricType.Green, title: tl('success'), contains: ['forwarding.success'] },
+    { type: MetricType.Red, title: tl('failed'), contains: ['forwarding.failed'] },
+  ]
+  const linkingMetricsTextMap = {
+    'forwarding.matched': { label: t('Base.total') },
+    succeeded: { label: t('Base.allow'), desc: t('RuleEngine.transformationSuccessDesc') },
+    failed: { label: t('Base.deny'), desc: t('RuleEngine.transformationFailedDesc') },
+    'forwarding.rate': {
+      label: t('Base.rateNow'),
+      desc: t('BasicConfig.linkingRateBarDesc'),
+    },
+    'forwarding.rate_max': { label: t('Base.rateMax') },
+    'forwarding.rate_last5m': { label: t('Base.rateLast5M') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'forwarding.rate',
+    right1: 'forwarding.rate_last5m',
+    right2: 'forwarding.rate_max',
+  }
+  return {
+    linkingMetricsMap,
+    linkingMetricsTextMap,
+    rateData,
+  }
+}
