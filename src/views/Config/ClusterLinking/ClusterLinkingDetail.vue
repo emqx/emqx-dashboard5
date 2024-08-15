@@ -1,10 +1,12 @@
 <template>
   <div class="linking-detail" v-loading.lock="isLoading">
     <div class="detail-top">
-      <detail-header :item="{ name: linkingName, routeName: 'cluster-linking' }" />
-      <div class="linking-detail-hd">
-        <StatusDetailsOfEachNode :status-data="statusData" is-tag />
-        <div>
+      <detail-header :item="{ name: linkingName, routeName: 'cluster-linking' }">
+        <template #content>
+          <StatusDetailsOfEachNode :status-data="statusData" is-tag />
+        </template>
+
+        <template #extra>
           <el-tooltip
             :content="clusterLinkingData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -27,8 +29,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
@@ -151,17 +153,3 @@ const handleDelete = async () => {
 
 getDetail()
 </script>
-
-<style lang="scss" scoped>
-.linking-detail-hd {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 12px;
-}
-.metrics-title {
-  margin-bottom: 12px;
-}
-.metric-num {
-  font-size: 24px;
-}
-</style>

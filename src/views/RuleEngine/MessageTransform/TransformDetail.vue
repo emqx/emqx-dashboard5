@@ -1,10 +1,11 @@
 <template>
   <div class="transform-detail" v-loading.lock="isLoading">
     <div class="detail-top">
-      <detail-header :item="{ name: transformName, routeName: 'message-transform' }" />
-      <div class="transform-detail-hd">
-        <StatusDetailsOfEachNode :status-data="statusData" is-tag />
-        <div>
+      <detail-header :item="{ name: transformName, routeName: 'message-transform' }">
+        <template #content>
+          <StatusDetailsOfEachNode :status-data="statusData" is-tag />
+        </template>
+        <template #extra>
           <el-tooltip
             :content="transformData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
@@ -27,8 +28,8 @@
             >
             </el-button>
           </el-tooltip>
-        </div>
-      </div>
+        </template>
+      </detail-header>
     </div>
     <el-tabs class="detail-tabs" v-model="activeTab">
       <div class="app-wrapper">
@@ -166,17 +167,6 @@ getDetail()
 </script>
 
 <style lang="scss" scoped>
-.transform-detail-hd {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 12px;
-}
-.metrics-title {
-  margin-bottom: 12px;
-}
-.metric-num {
-  font-size: 24px;
-}
 .message-transform-form {
   width: 70%;
   margin-bottom: 36px;
