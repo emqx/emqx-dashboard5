@@ -1657,4 +1657,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '关联规则',
     en: 'Associated Rules',
   },
+  illegalGroupId: {
+    zh: '非法的 Group ID',
+    en: 'Illegal Group ID',
+  },
 }

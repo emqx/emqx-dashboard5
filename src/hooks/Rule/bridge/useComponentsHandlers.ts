@@ -183,7 +183,7 @@ export default (
   }
 
   const { commandReg } = useRedisCommandCheck()
-  const redisComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const redisComponentsHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { command_template } = components?.parameters?.properties || {}
     if (command_template?.type === 'array' && command_template?.items?.type === 'string') {
@@ -209,7 +209,7 @@ export default (
     return { components, rules }
   }
 
-  const mongoComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const mongoComponentsHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
@@ -220,7 +220,7 @@ export default (
     return { components, rules }
   }
 
-  const GCPProducerComponentsHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const GCPProducerComponentsHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
 
@@ -239,7 +239,7 @@ export default (
     return { components, rules }
   }
 
-  const dynamoDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const dynamoDBHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     if (components?.parameters?.properties?.template?.type === 'string') {
@@ -249,7 +249,7 @@ export default (
     return { components, rules }
   }
 
-  const rocketMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const rocketMQHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     if (components?.parameters?.properties?.template?.type === 'string') {
@@ -259,7 +259,7 @@ export default (
     return { components, rules }
   }
 
-  const rabbitMQHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const rabbitMQHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     if (components?.parameters?.properties?.payload_template?.type === 'string') {
@@ -269,7 +269,7 @@ export default (
     return { components, rules }
   }
 
-  const hStreamHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const hStreamHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     if (components?.parameters?.properties?.record_template?.type === 'string') {
@@ -281,7 +281,7 @@ export default (
     return { components, rules }
   }
 
-  const kafkaProducerHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const kafkaProducerHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
@@ -311,7 +311,16 @@ export default (
     return { components, rules }
   }
 
-  const amazonKinesisHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const kafkaConsumerHandler: Handler = (data) => {
+    const { rules } = commonHandler(data)
+    addRules(
+      { 'parameters.group_id': [{ pattern: /^[a-zA-Z0-9._-]*$/, message: tl('illegalGroupId') }] },
+      rules,
+    )
+    return { ...data, rules }
+  }
+
+  const amazonKinesisHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     if (components?.parameters?.properties?.payload_template?.type === 'string') {
@@ -321,7 +330,7 @@ export default (
     return { components, rules }
   }
 
-  const syskeeperDbHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const syskeeperDbHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
     if (parameters?.properties?.template) {
@@ -335,7 +344,7 @@ export default (
     return { components, rules }
   }
 
-  const IoTDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const IoTDBHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const dataProps = components?.parameters?.properties?.data?.items?.properties
     if (dataProps) {
@@ -364,7 +373,7 @@ export default (
   const elaActionTypeOrder = [/create/i, /update/i, /delete/i]
   const getElaActionTypeOrder = (ref: string) =>
     elaActionTypeOrder.findIndex((reg) => reg.test(ref))
-  const elasticsearchHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const elasticsearchHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components || {}
     const oneOfArr = parameters?.oneOf
@@ -393,7 +402,7 @@ export default (
     return { components, rules }
   }
 
-  const openTSDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const openTSDBHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
@@ -455,7 +464,7 @@ export default (
     trigger: 'blur',
   }
 
-  const S3Handler = (data: { components: Properties; rules: SchemaRules }) => {
+  const S3Handler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
     const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
@@ -495,7 +504,7 @@ export default (
     return { components, rules }
   }
 
-  const azureBlobHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const azureBlobHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { parameters } = components
     const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
@@ -536,7 +545,7 @@ export default (
     return { components, rules }
   }
 
-  const pulsarHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const pulsarHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
@@ -552,7 +561,7 @@ export default (
     return { components, rules }
   }
 
-  const couchbaseHandler = (data: { components: Properties; rules: SchemaRules }) => {
+  const couchbaseHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
 
     const { parameters } = components
@@ -574,6 +583,7 @@ export default (
     [BridgeType.RabbitMQ]: rabbitMQHandler,
     [BridgeType.HStream]: hStreamHandler,
     [BridgeType.KafkaProducer]: kafkaProducerHandler,
+    [BridgeType.KafkaConsumer]: kafkaConsumerHandler,
     [BridgeType.AzureEventHubs]: kafkaProducerHandler,
     [BridgeType.Confluent]: kafkaProducerHandler,
     [BridgeType.AmazonKinesis]: amazonKinesisHandler,
