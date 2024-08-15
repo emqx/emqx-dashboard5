@@ -10,7 +10,7 @@ import keysInRule from './KeysInRule'
 import useRuleSourceEvents from './rule/useRuleSourceEvents'
 import useSQLAvailablePlaceholder from './useSQLAvailablePlaceholder'
 
-const { syntaxKeys, allFieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
+const { syntaxKeys, fieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
 
 interface EventDepItem {
   label: string
@@ -106,11 +106,30 @@ export default (): {
     return ret
   })
 
-  const fieldsDependencyProposals = allFieldsCanUse.map((field) => ({
-    label: field,
-    kind: monaco.languages.CompletionItemKind.Field,
-    insertText: field,
-  }))
+  let fieldsDependencyProposals: Array<{
+    label: string
+    kind: monaco.languages.CompletionItemKind
+    insertText: string
+  }> = []
+
+  const initFieldsDependencyProposals = (totalEvents: Array<RuleEvent>) => {
+    const allFieldList = [
+      ...new Set(
+        totalEvents.reduce(
+          (arr: Array<string>, { columns }) => {
+            arr.push(...columns)
+            return arr
+          },
+          [...fieldsCanUse],
+        ),
+      ),
+    ]
+    fieldsDependencyProposals = allFieldList.map((field) => ({
+      label: field,
+      kind: monaco.languages.CompletionItemKind.Field,
+      insertText: field,
+    }))
+  }
 
   const createFuncDoc = (funcName: string) => ({
     value: `<b>${tl(`${camelCase(funcName)}Desc`)}</b><br /><br />${tl('parameter')}<br />${tl(
@@ -244,6 +263,7 @@ export default (): {
       ({ event }) => !(eventDoNotNeedShow.includes(event) || isMsgPubEvent(event)),
     )
     bridgeList = bridges.map(({ id }) => id)
+    initFieldsDependencyProposals(events)
     createEventDependencyProposals()
     createBridgeDependencyProposals()
     createProviders()
