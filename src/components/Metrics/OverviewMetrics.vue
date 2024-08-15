@@ -71,10 +71,10 @@
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.current) }}</p>
               <p class="metric-num">
                 <span class="num">
-                  {{ formatNumber(currentMetrics[rateMetrics.current]) }}
+                  {{ formatNumber(get(currentMetrics, rateMetrics.current)) }}
                 </span>
                 <span class="unit">
-                  {{ t(rateMetrics.unitKey, currentMetrics[rateMetrics.current]) }}
+                  {{ t(rateMetrics.unitKey, get(currentMetrics, rateMetrics.current)) }}
                 </span>
               </p>
             </div>
@@ -91,10 +91,10 @@
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right1) }}</p>
               <p class="metric-num">
                 <span class="num">
-                  {{ formatNumber(currentMetrics[rateMetrics.right1]) }}
+                  {{ formatNumber(get(currentMetrics, rateMetrics.right1)) }}
                 </span>
                 <span class="unit">
-                  {{ t(rateMetrics.unitKey, currentMetrics[rateMetrics.right1]) }}
+                  {{ t(rateMetrics.unitKey, get(currentMetrics, rateMetrics.right1)) }}
                 </span>
               </p>
             </div>
@@ -102,10 +102,10 @@
               <p class="metric-name">{{ getMetricItemLabel(rateMetrics.right2) }}</p>
               <p class="metric-num">
                 <span class="num">
-                  {{ formatNumber(currentMetrics[rateMetrics.right2]) }}
+                  {{ formatNumber(get(currentMetrics, rateMetrics.right2)) }}
                 </span>
                 <span class="unit">
-                  {{ t(rateMetrics.unitKey, currentMetrics[rateMetrics.right2]) }}
+                  {{ t(rateMetrics.unitKey, get(currentMetrics, rateMetrics.right2)) }}
                 </span>
               </p>
             </div>
@@ -137,7 +137,7 @@
                       {{ getMetricItemLabel(totals[typeMetricsDataChild.name]) }}
                     </p>
                     <p class="metric-num">
-                      {{ formatNumber(currentMetrics[totals[typeMetricsDataChild.name]]) }}
+                      {{ formatNumber(get(currentMetrics, totals[typeMetricsDataChild.name])) }}
                     </p>
                   </div>
                 </el-col>
@@ -185,6 +185,7 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { get } from 'lodash'
 import { computed, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 

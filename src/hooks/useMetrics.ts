@@ -8,6 +8,7 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
+import { get } from 'lodash'
 import moment from 'moment'
 import useI18nTl from './useI18nTl'
 
@@ -248,12 +249,13 @@ export const useChartDataUtils = (): {
       const { title, contains: values } = value
       let typeCount = 0
       const typeList = values.reduce((ret, key) => {
+        const value = get(metrics, key)
         const item = {
-          value: metrics[key],
+          value,
           label: getMetricItemLabel(key, textMap),
           desc: getMetricItemDesc(key, textMap),
         }
-        typeCount = accAdd(typeCount, metrics[key])
+        typeCount = accAdd(typeCount, value)
         ret.push(item)
         return ret
       }, [] as Array<{ value: number; label: string; desc?: string }>)
