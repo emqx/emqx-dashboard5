@@ -51,7 +51,6 @@ import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean
-  connectorType: string
   connector?: Connector
 }>()
 const emit = defineEmits(['update:modelValue'])
