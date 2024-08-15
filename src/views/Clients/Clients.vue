@@ -33,24 +33,14 @@
           </el-input>
         </el-col>
         <el-col v-bind="colProps">
-          <el-select
-            v-model="queryParams.node"
-            :placeholder="$t('Clients.node')"
+          <el-input
+            v-model="queryParams.ip_address"
+            :placeholder="$t('Clients.ipAddress')"
             clearable
             @clear="handleSearch"
-          >
-            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
-          </el-select>
+          />
         </el-col>
         <template class="more" v-if="showMoreQuery">
-          <el-col v-bind="colProps">
-            <el-input
-              v-model="queryParams.ip_address"
-              :placeholder="$t('Clients.ipAddress')"
-              clearable
-              @clear="handleSearch"
-            />
-          </el-col>
           <el-col v-bind="colProps">
             <el-select
               v-model="queryParams.conn_state"
@@ -79,7 +69,7 @@
           </el-col>
           <el-col v-bind="colProps" />
         </template>
-        <el-col v-bind="colProps" class="col-oper">
+        <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
@@ -187,7 +177,6 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import MiniPagination from '@/components/MiniPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
-import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
@@ -214,7 +203,6 @@ enum SearchType {
 
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
-const { nodes: currentNodes } = useClusterNodes()
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
 const route = useRoute()
@@ -301,7 +289,6 @@ const genQueryParams = (params: Record<string, any>) => {
     conn_state,
     comparator,
     connected_at,
-    node,
     usernameSearchType,
     clientidSearchType,
   } = params
@@ -321,7 +308,6 @@ const genQueryParams = (params: Record<string, any>) => {
     ...addLikeParam('username', username, usernameSearchType),
     ip_address: ip_address || undefined,
     conn_state: conn_state || undefined,
-    node: node || undefined,
   }
 
   if (connected_at) {
@@ -439,7 +425,7 @@ const cleanBatchClients = async () => {
         z-index: 20;
       }
     }
-    $select-width: 100px;
+    $select-width: 120px;
     > .el-select {
       width: $select-width;
       .el-input__wrapper {
