@@ -17,6 +17,7 @@
             :before-upload="setFile"
             :show-file-list="false"
             accept=".gz"
+            :disabled="isUploading"
           >
             <div v-if="!file?.name">
               <el-icon class="icon-plus">
@@ -91,7 +92,7 @@
         <el-button
           size="large"
           type="primary"
-          :loading="isLoading"
+          :loading="isUploading"
           :disabled="!$hasPermission('post')"
           @click="uploadPackage"
         >
