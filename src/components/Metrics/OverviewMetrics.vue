@@ -307,7 +307,7 @@ const { updateBarData } = useRateChart()
 const getInitRateData = () => createEmptyRateData(rateDataLength)
 let rateData = getInitRateData()
 const updateRateData = (metrics: Metrics) => {
-  const rate = metrics[props.rateMetrics.current]
+  const rate = get(metrics, props.rateMetrics.current)
   return addRateDataItem(rate, rateData, rateDataLength)
 }
 
