@@ -455,6 +455,10 @@
     "common_handler_time_window": {
       "desc": "日志节流的时间窗口，在设定的时间窗口内同一事件类型的日志只被记录一次以防止日志泛滥。时间窗口结束时将生成反映该时间段内的日志活动的详细日志。该窗口的最小可设置值为1秒。<br/>支持的事件如下：<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
       "label": "时间窗口"
+    },
+    "common_handler_payload_encode": {
+      "desc": "日志中 Payload 的编码方式。",
+      "label": "Payload 编码"
     }
   },
   "emqx_limiter_schema": {
