@@ -1,7 +1,7 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
 import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, unexposedConfigs } from '@/common/constants'
-import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import { checkNOmitFromObj, emptyObject, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
@@ -46,6 +46,7 @@ interface useListenerDrawerReturns {
   showUDPConfig: ComputedRef<boolean>
   showSSLConfig: ComputedRef<boolean>
   isDTLS: ComputedRef<boolean>
+  isCoAP: ComputedRef<boolean>
   SSLConfigKey: ComputedRef<string>
   showWSConfig: ComputedRef<boolean>
   listenerFormRules: ComputedRef<FormRules>
@@ -123,6 +124,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   const showTCPConfig = computed(() => hasTCPConfig(listenerRecord.value.type))
   const showUDPConfig = computed(() => hasUDPConfig(listenerRecord.value.type))
   const isDTLS = computed(() => listenerRecord.value.type === ListenerTypeForGateway.DTLS)
+  const isCoAP = computed(() => props.gatewayName === GatewayName.CoAP)
   const showSSLConfig = computed(() => hasSSLConfig(listenerRecord.value.type) || isDTLS.value)
   /**
    * the config data put in `dtls` field then type is DTLS
@@ -199,6 +201,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       needDeletedKeys.forEach((key) => {
         delete data[key]
       })
+    }
+    if (!isCoAP.value || (!data.health_check?.request && !data.health_check?.reply)) {
+      delete data.health_check
     }
     if (listenerRecord.value.type === ListenerTypeForGateway.UDP) {
       data.acceptors = ''
@@ -297,7 +302,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   watch(showDialog, async (val) => {
     if (val) {
       if (props.listener) {
-        listenerRecord.value = assign(createRawListener(), cloneDeep(props.listener))
+        const initForm = createRawListener()
+        initForm.health_check = emptyObject(initForm.health_check)
+        listenerRecord.value = assign(initForm, cloneDeep(props.listener))
         if (!props.gatewayName) {
           loadListenerData()
         }
@@ -347,6 +354,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     showSSLConfig,
     showWSConfig,
     isDTLS,
+    isCoAP,
     SSLConfigKey,
     listenerFormRules,
     submit,
