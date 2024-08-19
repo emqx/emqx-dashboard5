@@ -218,7 +218,12 @@ const handleInitialValue = () => {
 handleInitialValue()
 
 const getFilterParams = () => {
-  const filterParamsData = omit(filterParams.value, ['like_from', 'match_from'])
+  const filterParamsData = omit(filterParams.value, [
+    'like_from',
+    'match_from',
+    Endpoint.Source,
+    Endpoint.Action,
+  ])
   const ret: FilterParamsForQueryRules = (
     Object.keys(filterParamsData) as Array<keyof typeof filterParamsData>
   ).reduce((obj, currentKey) => {
@@ -230,6 +235,9 @@ const getFilterParams = () => {
   }, {})
   if (filterParams.value[keyForSearchTopic.value]) {
     ret[keyForSearchTopic.value] = filterParams.value[keyForSearchTopic.value]
+  }
+  if (filterParams.value[keyForFilterActionOrSource.value]) {
+    ret[keyForFilterActionOrSource.value] = filterParams.value[keyForFilterActionOrSource.value]
   }
   return ret
 }

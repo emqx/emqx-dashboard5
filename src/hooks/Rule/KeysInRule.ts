@@ -21,7 +21,10 @@ export default {
     'END',
     'as',
   ],
-  allFieldsCanUse: RuleField,
+  /**
+   * Only the fields that are not provided by columns in `/rule_events` are included here.
+   */
+  fieldsCanUse: RuleField,
   builtInSQLFuncs: funcList,
   jqFunc: ['jq'],
 }

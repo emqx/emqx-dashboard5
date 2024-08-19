@@ -460,6 +460,10 @@
       "desc": "The time window for log throttling ensures that the same type of event is only logged once within the designated time frame to prevent log overflow. A detailed log encapsulating the activities within that period is generated at the end of the time window. The minimum configurable value for this window is one second.<br/>The following events are throttled:<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
       "label": "Time Window"
     },
+    "common_handler_payload_encode": {
+      "desc": "The encoding method of payload in logs",
+      "label": "Payload Encode"
+    },
     "audit_handler_path": {
       "desc": "Name the audit log file.",
       "label": "Audit Log File Name"

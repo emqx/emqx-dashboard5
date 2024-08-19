@@ -206,6 +206,10 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     websocket: {
       mqtt_path: '',
     },
+    health_check: {
+      request: '',
+      reply: '',
+    },
   })
 
   const listenerIdReg = new RegExp(`^(?<type>${listenerTypeList.join('|')}):(?<name>.+)`)
@@ -284,6 +288,9 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
           if (record.type === ListenerType.QUIC && record[v].cacertfile === '') {
             delete record[v].cacertfile
           }
+          break
+        case 'health_check':
+          result[v] = record[v]
           break
         default:
           if (typeof record[v] !== 'object' || record[v] === null) {
