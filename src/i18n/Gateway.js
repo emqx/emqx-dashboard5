@@ -360,4 +360,20 @@ export default {
     zh: '使用 Hocon 配置更多监听器参数。',
     en: 'Use hocon to configure more listener parameters.',
   },
+  healthCheck: {
+    zh: '健康检查',
+    en: 'Health Check',
+  },
+  healthCheckDesc: {
+    zh: '健康检查请求内容',
+    en: 'Health Check Request Content',
+  },
+  healthCheckResponse: {
+    zh: '健康检查响应',
+    en: 'Health Check Response',
+  },
+  healthCheckResponseDesc: {
+    zh: '健康检查响应内容',
+    en: 'Health Check Response Content',
+  },
 }
