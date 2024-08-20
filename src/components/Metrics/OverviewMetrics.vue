@@ -41,7 +41,7 @@
                 <div>
                   <p class="metric-name">{{ getMetricItemLabel(totals[typeMetricsData.name]) }}</p>
                   <p class="metric-num">
-                    {{ formatNumber(currentMetrics[totals[typeMetricsData.name]]) }}
+                    {{ formatNumber(get(currentMetrics, totals[typeMetricsData.name])) }}
                   </p>
                 </div>
               </el-col>
@@ -117,7 +117,7 @@
     <div class="metric-block" v-if="showChildrenStats">
       <div class="block-hd">
         <p class="block-title">
-          {{ tl('action') }}
+          {{ childrenTitle ?? tl('action') }}
         </p>
       </div>
       <div v-for="(typeMetricsData, index) in typeMetricsDataSets" :key="index">
@@ -222,6 +222,7 @@ const props = defineProps<{
   title?: string
   tableData?: Array<string>
   nodeStatusDesc?: string
+  childrenTitle?: string
 }>()
 
 // Special handling of metric styles under Flow nodes
