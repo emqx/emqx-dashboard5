@@ -14,7 +14,6 @@ export default (): {
   const rules: ComputedRef<FormRules> = computed(() => {
     return {
       principal: createRequiredRule(tl('principal'), 'input'),
-      keytab_file: createRequiredRule(tl('keytabFile'), 'input'),
     }
   })
 
