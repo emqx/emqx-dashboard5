@@ -1587,7 +1587,7 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   },
   runTheTransformation: {
     zh: '运行转换',
-    en: 'Run the Transformation',
+    en: 'Execute Transformation',
   },
   clientAttrsAndUserProps: {
     zh: '客户端属性与用户属性',
@@ -1657,8 +1657,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '关联规则',
     en: 'Associated Rules',
   },
-  illegalGroupId: {
-    zh: '非法的 Group ID',
-    en: 'Illegal Group ID',
+  invalidGroupId: {
+    zh: '无效的 Group ID',
+    en: 'Invalid Group ID',
   },
 }

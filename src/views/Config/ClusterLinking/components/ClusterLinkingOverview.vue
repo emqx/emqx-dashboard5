@@ -1,20 +1,36 @@
 <template>
   <div class="resource-item-overview">
     <OverviewMetrics
-      :totals="{ linking: 'forwarding.matched' }"
+      :totals="{ forwarding: 'forwarding.matched' }"
       :request-metrics="getMetrics"
-      :type-metrics-maps="[{ name: 'linking', data: linkingMetricsMap }]"
+      :type-metrics-maps="[
+        {
+          name: 'forwarding',
+          data: linkingMetricsMap,
+          children: [
+            {
+              name: 'other',
+              data: linkingOtherMetricsMap,
+            },
+          ],
+        },
+      ]"
       :text-map="linkingMetricsTextMap"
       :rate-metrics="rateData"
       show-rate
-      :node-status-desc="t('RuleEngine.linkingNodesMetricsDesc')"
+      :node-status-desc="t('BasicConfig.linkingNodesMetricsDesc')"
+      :children-title="t('BasicConfig.others')"
     >
       <template #table="{ data }">
         <el-table :data="nodeStatusTableData(data)">
           <el-table-column :label="tl('name')" prop="node" />
-          <el-table-column :label="t('Base.success')" prop="metrics.forwarding.success" />
+          <el-table-column :label="t('BasicConfig.routes')" prop="metrics.router.routes" />
+          <el-table-column :label="t('BasicConfig.matched')" prop="metrics.forwarding.matched" />
+          <el-table-column :label="t('RuleEngine.success')" prop="metrics.forwarding.success" />
           <el-table-column :label="t('Base.failed')" prop="metrics.forwarding.failed" />
-          <el-table-column :label="t('Base.rateNow')" prop="metrics.forwarding.rate" />
+          <el-table-column :label="t('BasicConfig.dropped')" prop="metrics.forwarding.dropped" />
+          <el-table-column :label="t('BasicConfig.retried')" prop="metrics.forwarding.retried" />
+          <el-table-column :label="t('Base.rate')" prop="metrics.forwarding.rate" />
         </el-table>
       </template>
     </OverviewMetrics>
@@ -36,7 +52,8 @@ const props = defineProps({
   },
 })
 
-const { linkingMetricsMap, linkingMetricsTextMap, rateData } = useClusterLinkingMetrics()
+const { linkingMetricsMap, linkingOtherMetricsMap, linkingMetricsTextMap, rateData } =
+  useClusterLinkingMetrics()
 
 const { tl, t } = useI18nTl('Base')
 

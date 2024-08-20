@@ -578,23 +578,52 @@ export const useMessageTransformMetrics = (): {
 export const useClusterLinkingMetrics = (): {
   linkingMetricsMap: TypeMapData
   linkingMetricsTextMap: Record<string, { label: string; desc?: string }>
+  linkingOtherMetricsMap: TypeMapData
   rateData: Rate
 } => {
   const { t, tl } = useI18nTl('Base')
   const linkingMetricsMap = [
-    { type: MetricType.Green, title: tl('success'), contains: ['forwarding.success'] },
-    { type: MetricType.Red, title: tl('failed'), contains: ['forwarding.failed'] },
+    {
+      type: MetricType.Green,
+      title: tl('success'),
+      contains: ['forwarding.success'],
+    },
+    {
+      type: MetricType.Blue,
+      title: t('RuleEngine.processing'),
+      contains: ['forwarding.inflight', 'forwarding.queuing'],
+    },
+    {
+      type: MetricType.Red,
+      title: tl('failed'),
+      contains: ['forwarding.failed'],
+    },
+    {
+      type: MetricType.Gray,
+      title: t('RuleEngine.dropped'),
+      contains: ['forwarding.dropped'],
+    },
   ]
+
+  const linkingOtherMetricsMap = [
+    { type: MetricType.Purple, title: t('BasicConfig.routes'), contains: ['router.routes'] },
+    { type: MetricType.Yellow, title: t('BasicConfig.retried'), contains: ['forwarding.retried'] },
+  ]
+
   const linkingMetricsTextMap = {
     'forwarding.matched': { label: t('Base.total') },
-    succeeded: { label: t('Base.allow'), desc: t('RuleEngine.transformationSuccessDesc') },
-    failed: { label: t('Base.deny'), desc: t('RuleEngine.transformationFailedDesc') },
+    succeeded: { label: t('Base.allow') },
+    failed: { label: t('Base.deny') },
+    'forwarding.inflight': { label: t('RuleEngine.sentInflight') },
+    'forwarding.queuing': { label: t('RuleEngine.queuing') },
     'forwarding.rate': {
       label: t('Base.rateNow'),
       desc: t('BasicConfig.linkingRateBarDesc'),
     },
     'forwarding.rate_max': { label: t('Base.rateMax') },
     'forwarding.rate_last5m': { label: t('Base.rateLast5M') },
+    'router.routes': { label: t('BasicConfig.routes') },
+    'forwarding.retried': { label: t('BasicConfig.retried') },
   }
 
   const rateData = {
@@ -606,6 +635,7 @@ export const useClusterLinkingMetrics = (): {
   return {
     linkingMetricsMap,
     linkingMetricsTextMap,
+    linkingOtherMetricsMap,
     rateData,
   }
 }
