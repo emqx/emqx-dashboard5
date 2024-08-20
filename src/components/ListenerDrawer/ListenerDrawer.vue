@@ -112,7 +112,15 @@
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('showLimiter')"> </el-form-item>
+          <el-form-item>
+            <template #label>
+              <form-item-label
+                :label="tl('showLimiter')"
+                :desc="tl('showLimiterDesc')"
+                desc-marked
+              />
+            </template>
+          </el-form-item>
         </el-col>
         <el-col :span="12" />
         <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
