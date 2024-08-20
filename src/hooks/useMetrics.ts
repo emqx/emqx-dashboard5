@@ -17,6 +17,8 @@ export const enum MetricType {
   Blue,
   Red,
   Gray,
+  Purple,
+  Yellow,
 }
 
 export type TypeMapData = Array<{ type: MetricType; title: string; contains: Array<string> }>
@@ -28,6 +30,8 @@ export const TYPE_COLOR_MAP: Record<MetricType, string> = {
   [MetricType.Blue]: BLUE,
   [MetricType.Red]: '#fdafa6',
   [MetricType.Gray]: '#bac1cd',
+  [MetricType.Purple]: '#c5a3e5',
+  [MetricType.Yellow]: '#ffd78e',
 }
 
 const COLOR_NONE = '#c2c8d1'
@@ -286,7 +290,7 @@ export const useChartDataUtils = (): {
         return arr
       }
       const { title, contains: values } = dataItem
-      const value = values.reduce((sum, item) => accAdd(sum, metrics[item] || 0), 0)
+      const value = values.reduce((sum, item) => accAdd(sum, get(metrics, item) || 0), 0)
       return [...arr, { type: Number(key) as MetricType, name: title, value }]
     }, [] as Array<PieDataItem>)
   }
