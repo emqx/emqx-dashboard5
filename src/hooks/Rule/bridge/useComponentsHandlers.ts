@@ -314,7 +314,7 @@ export default (
   const kafkaConsumerHandler: Handler = (data) => {
     const { rules } = commonHandler(data)
     addRules(
-      { 'parameters.group_id': [{ pattern: /^[a-zA-Z0-9._-]*$/, message: tl('illegalGroupId') }] },
+      { 'parameters.group_id': [{ pattern: /^[a-zA-Z0-9._-]*$/, message: tl('invalidGroupId') }] },
       rules,
     )
     return { ...data, rules }
