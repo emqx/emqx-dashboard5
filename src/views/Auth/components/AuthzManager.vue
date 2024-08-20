@@ -285,7 +285,7 @@ import {
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
-import _ from 'lodash'
+import _, { cloneDeep } from 'lodash'
 import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
@@ -536,7 +536,7 @@ export default defineComponent({
         const _row = row as BuiltInDBItem
         const key = getKeyByCurrentType()
         record[key] = _row[key]
-        rulesData.value = _row.rules
+        rulesData.value = cloneDeep(_row.rules)
       } else {
         const _row = row as BuiltInDBRule
         editIndex.value = index
