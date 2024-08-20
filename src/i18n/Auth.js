@@ -583,16 +583,8 @@ export default {
     zh: '主体',
     en: 'Principal',
   },
-  keytabFile: {
-    zh: '密钥表文件',
-    en: 'Keytab File',
-  },
   principalDesc: {
-    zh: "SASL GSSAPI 认证 Kerberos 主体。例如 `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`，注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。",
-    en: "SASL GSSAPI authentication Kerberos principal. For example, `client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM`. <strong>NOTE</strong>: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.",
-  },
-  keytabFileDesc: {
-    zh: 'SASL GSSAPI 认证 Kerberos 密钥表文件路径。注意：该文件必须放置在 EMQX 节点中，并且 EMQX 服务运行用户需要读取权限。',
-    en: 'SASL GSSAPI authentication Kerberos keytab file path. **NOTE**: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
+    zh: '服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net@MY.REALM.COM`。\n注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。',
+    en: 'Kerberos principal for server. For example, `mqtt/cluster1.my.net@MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.',
   },
 }

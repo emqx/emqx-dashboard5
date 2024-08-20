@@ -17,14 +17,6 @@
             <el-input v-model="kerberosConfig.principal" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="keytab_file">
-            <template #label>
-              <form-item-label :label="tl('keytabFile')" :desc="tl('keytabFileDesc')" descMarked />
-            </template>
-            <el-input v-model="kerberosConfig.keytab_file" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
   </div>
