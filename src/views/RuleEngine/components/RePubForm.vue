@@ -131,6 +131,20 @@
         </el-col>
       </el-row>
     </el-collapse-transition>
+    <el-row :gutter="26">
+      <el-col :span="getColSpan(24)">
+        <CustomFormItem>
+          <template #label>
+            <FormItemLabel
+              :label="tl('directDispatch')"
+              :desc="tl('directDispatchDesc')"
+              desc-marked
+            />
+          </template>
+          <el-switch v-model="record.args.direct_dispatch" :disabled="readonly" />
+        </CustomFormItem>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 
