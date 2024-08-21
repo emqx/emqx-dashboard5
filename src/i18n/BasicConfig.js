@@ -204,6 +204,10 @@ export default {
     zh: '路由',
     en: 'Routes',
   },
+  routesDesc: {
+    zh: '从远程集群复制到本集群的路由数量',
+    en: 'Number of replicated routes from remote cluster to this cluster',
+  },
   matched: {
     zh: '匹配',
     en: 'Matched',
