@@ -13,7 +13,7 @@ export function listClients(params = {}) {
   })
 }
 
-export function searchClients(clientId: string) {
+export function exactSearchClient(clientId: string) {
   return http.get(`/clients/${encodeURIComponent(clientId)}`)
 }
 

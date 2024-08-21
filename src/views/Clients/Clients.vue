@@ -171,7 +171,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { batchDisconnectClients, listClients } from '@/api/clients'
+import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
@@ -201,6 +201,17 @@ enum SearchType {
   Fuzzy = 'fuzzy',
 }
 
+type QueryParams = {
+  like_username?: string
+  username?: string
+  like_clientid?: string
+  clientid?: string
+  ip_address?: string
+  conn_state?: string
+  gte_connected_at?: string
+  lte_connected_at?: string
+}
+
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { tl, t } = useI18nTl('Clients')
@@ -212,7 +223,7 @@ const selectedClients = ref<Client[]>([])
 const lockTable = ref(false)
 const TableCom = ref()
 const batchDeleteLoading = ref(false)
-const params = ref({})
+const params = ref<QueryParams>({})
 const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
   clientidSearchType: SearchType.Exact,
@@ -323,6 +334,50 @@ const handlePageChange = (no: number) => {
   loadNodeClients(isBack)
 }
 
+const handleExactSearchClient = async (params: Record<string, any>) => {
+  try {
+    const {
+      clientid,
+
+      username,
+      ip_address,
+      conn_state,
+      like_username,
+      gte_connected_at,
+      lte_connected_at,
+    } = params
+    const data = await exactSearchClient(clientid)
+    let isMatchOther = true
+    if (username && data.username !== username) {
+      isMatchOther = false
+    }
+    if (ip_address && data.ip_address !== ip_address) {
+      isMatchOther = false
+    }
+    if (conn_state && data.connected !== (conn_state === 'connected')) {
+      isMatchOther = false
+    }
+    if (like_username && data.username.indexOf(like_username) === -1) {
+      isMatchOther = false
+    }
+    if (
+      gte_connected_at &&
+      new Date(data.connected_at).getTime() < new Date(gte_connected_at).getTime()
+    ) {
+      isMatchOther = false
+    }
+    if (
+      lte_connected_at &&
+      new Date(data.connected_at).getTime() > new Date(lte_connected_at).getTime()
+    ) {
+      isMatchOther = false
+    }
+    return Promise.resolve({ data: isMatchOther ? [data] : [], meta: { count: 1 } })
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
   const sendParams = {
@@ -331,7 +386,9 @@ const loadNodeClients = async (isBack = false) => {
     fields: getClientFields(),
   }
   try {
-    const { data = [], meta = {} } = await listClients(sendParams)
+    const { data = [], meta = {} } = sendParams.clientid
+      ? await handleExactSearchClient(sendParams)
+      : await listClients(sendParams)
     tableData.value = data
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
