@@ -230,6 +230,7 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -249,6 +250,7 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -322,6 +324,7 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -341,6 +344,7 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameAuthenticationBody =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -387,6 +391,7 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -1070,6 +1075,28 @@ export interface AuthnLdap {
   request_timeout?: string
   ssl?: LdapSsl
   method?: AuthnLdapMethod
+}
+
+export type AuthnKerberosBackend = typeof AuthnKerberosBackend[keyof typeof AuthnKerberosBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosBackend = {
+  kerberos: 'kerberos',
+} as const
+
+export type AuthnKerberosMechanism =
+  typeof AuthnKerberosMechanism[keyof typeof AuthnKerberosMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosMechanism = {
+  gssapi: 'gssapi',
+} as const
+
+export interface AuthnKerberos {
+  enable?: boolean
+  mechanism: AuthnKerberosMechanism
+  backend: AuthnKerberosBackend
+  principal: string
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]

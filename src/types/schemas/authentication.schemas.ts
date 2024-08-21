@@ -38,6 +38,7 @@ export type PostAuthentication400 = {
 }
 
 export type PostAuthentication200 =
+  | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
   | AuthnGcpDevice
@@ -60,6 +61,7 @@ export type PostAuthentication200 =
   | AuthnBuiltinDb
 
 export type PostAuthenticationBody =
+  | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
   | AuthnGcpDevice
@@ -82,6 +84,7 @@ export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
 
 export type GetAuthentication200Item =
+  | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
   | AuthnGcpDevice
@@ -156,6 +159,7 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
+  | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
   | AuthnGcpDevice
@@ -191,6 +195,7 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
+  | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
   | AuthnGcpDevice
@@ -1297,6 +1302,28 @@ export interface AuthnLdap {
   request_timeout?: string
   ssl?: LdapSsl
   method?: AuthnLdapMethod
+}
+
+export type AuthnKerberosBackend = typeof AuthnKerberosBackend[keyof typeof AuthnKerberosBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosBackend = {
+  kerberos: 'kerberos',
+} as const
+
+export type AuthnKerberosMechanism =
+  typeof AuthnKerberosMechanism[keyof typeof AuthnKerberosMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosMechanism = {
+  gssapi: 'gssapi',
+} as const
+
+export interface AuthnKerberos {
+  enable?: boolean
+  mechanism: AuthnKerberosMechanism
+  backend: AuthnKerberosBackend
+  principal: string
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]

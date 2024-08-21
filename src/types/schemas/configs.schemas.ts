@@ -961,6 +961,16 @@ export interface EmqxLogFileHandler {
   payload_encode?: EmqxLogFileHandlerPayloadEncode
 }
 
+export type EmqxLogAuditHandlerPayloadEncode =
+  typeof EmqxLogAuditHandlerPayloadEncode[keyof typeof EmqxLogAuditHandlerPayloadEncode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogAuditHandlerPayloadEncode = {
+  hex: 'hex',
+  text: 'text',
+  hidden: 'hidden',
+} as const
+
 export type EmqxLogAuditHandlerTimestampFormat =
   typeof EmqxLogAuditHandlerTimestampFormat[keyof typeof EmqxLogAuditHandlerTimestampFormat]
 
@@ -982,6 +992,7 @@ export interface EmqxLogAuditHandler {
   enable?: boolean
   timestamp_format?: EmqxLogAuditHandlerTimestampFormat
   time_offset?: string
+  payload_encode?: EmqxLogAuditHandlerPayloadEncode
 }
 
 export type EmqxLogFileOneOf = {
@@ -1093,12 +1104,6 @@ export interface EmqxConsoleHandler {
   timestamp_format?: EmqxConsoleHandlerTimestampFormat
   time_offset?: string
   payload_encode?: EmqxConsoleHandlerPayloadEncode
-}
-
-export interface EmqxLog {
-  console?: EmqxConsoleHandler
-  file?: EmqxLogFile
-  throttling?: EmqxLogThrottling
 }
 
 export interface EmqxClientAttrsInit {
