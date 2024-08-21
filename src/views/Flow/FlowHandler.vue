@@ -89,7 +89,7 @@ import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
 import { Edge, Node } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual } from 'lodash'
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 import RuleTest from '../RuleEngine/components/RuleTest.vue'
 import FlowEditor from './components/FlowEditor.vue'
 import FlowNameDialog from './components/FlowNameDialog.vue'
@@ -222,7 +222,7 @@ const currentFlowData = ref<{ nodes: Array<Node>; edges: Array<Edge> }>({ nodes:
  * Called when the flow editor has changed or when getting details
  */
 const updateCurrentFlowData = (data: { nodes: Array<Node>; edges: Array<Edge> }) => {
-  if (isTestingPanelOpen.value && !isEqual(currentFlowData.value, data)) {
+  if (isTestingPanelOpen.value && isTestStarted.value && !isEqual(currentFlowData.value, data)) {
     RuleTestRef.value?.stopTest?.()
     isTestStarted.value = false
   }
@@ -281,6 +281,10 @@ const closeTest = () => {
 const syncTestingStatusChanged = (val: boolean) => {
   isTestStarted.value = val
 }
+
+onUnmounted(() => {
+  isTestingPanelOpen.value = false
+})
 </script>
 
 <style lang="scss">
