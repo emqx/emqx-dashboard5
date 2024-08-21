@@ -159,6 +159,7 @@ const createRawOutputForm = (): OutputForm => ({
     retain: false,
     mqtt_properties: {},
     user_properties: '',
+    direct_dispatch: false,
   },
 })
 
