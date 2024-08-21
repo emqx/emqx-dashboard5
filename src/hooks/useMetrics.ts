@@ -618,15 +618,18 @@ export const useClusterLinkingMetrics = (): {
     'forwarding.matched': { label: t('Base.total') },
     succeeded: { label: t('Base.allow') },
     failed: { label: t('Base.deny') },
-    'forwarding.inflight': { label: t('RuleEngine.sentInflight') },
-    'forwarding.queuing': { label: t('RuleEngine.queuing') },
+    'forwarding.inflight': {
+      label: t('RuleEngine.sentInflight'),
+      desc: t('RuleEngine.sentInflightDesc'),
+    },
+    'forwarding.queuing': { label: t('RuleEngine.queuing'), desc: t('RuleEngine.queuingDesc') },
     'forwarding.rate': {
       label: t('Base.rateNow'),
       desc: t('BasicConfig.linkingRateBarDesc'),
     },
     'forwarding.rate_max': { label: t('Base.rateMax') },
     'forwarding.rate_last5m': { label: t('Base.rateLast5M') },
-    'router.routes': { label: t('BasicConfig.routes') },
+    'router.routes': { label: t('BasicConfig.routes'), desc: t('BasicConfig.routesDesc') },
     'forwarding.retried': { label: t('BasicConfig.retried') },
   }
 
