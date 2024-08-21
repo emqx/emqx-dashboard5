@@ -1661,4 +1661,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '无效的 Group ID',
     en: 'Invalid Group ID',
   },
+  directDispatch: {
+    zh: '直接派发',
+    en: 'Direct Dispatch',
+  },
+  directDispatchDesc: {
+    zh: '启用后直接分发消息到订阅者，跳过常规处理流程。限制如下：\n\n* 输出消息不会被保留\n* 不触发其他基于此主题触发规则\n* 不激活 `$events/message_publish` 规则\n* 不触发 `message.publish` 钩子\n* 不收集主题指标',
+    en: 'When enabled, directly dispatches messages to subscribers, bypassing regular processing. Limitations:\n\n* Output message is not retained\n* Does not trigger other rules based on this topic\n* Does not activate `$events/message_publish` rules\n* Does not trigger `message.publish` hook\n* Does not collect topic metrics',
+  },
 }
