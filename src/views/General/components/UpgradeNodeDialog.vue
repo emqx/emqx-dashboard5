@@ -88,7 +88,7 @@
     </div>
     <template #footer v-if="!isLoading">
       <div class="first-step-ft" v-if="currentStep === 0 && !nodePackage">
-        <el-button size="large" @click="showDialog = false">{{ t('Base.cancel') }}</el-button>
+        <el-button size="large" @click="cancel">{{ t('Base.cancel') }}</el-button>
         <el-button
           size="large"
           type="primary"
@@ -142,6 +142,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElDialog, ElMessage, UploadFile } from 'element-plus'
 import moment from 'moment'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 const props = defineProps<{ modelValue: boolean; node?: NodeUpgradeData }>()
 const emit = defineEmits<{
@@ -170,6 +171,9 @@ const goPreStep = () => {
   currentStep.value -= 1
 }
 const goNextStep = () => {
+  if (currentStep.value === 1) {
+    isConfirm.value = false
+  }
   currentStep.value += 1
 }
 
@@ -253,6 +257,12 @@ const infoList = computed(() => {
 
 const isConfirm = ref(false)
 
+const store = useStore()
+const cancel = () => {
+  store.commit('CLEAR_ABORT_CONTROLLERS')
+  showDialog.value = false
+}
+
 const submit = async () => {
   try {
     if (!props.node?.node) {
@@ -279,8 +289,8 @@ watch(showDialog, (val) => {
     getCurrentPackage()
   } else {
     currentStep.value = 0
-    isConfirm.value = false
     nodePackage.value = undefined
+    file.value = undefined
   }
 })
 </script>
