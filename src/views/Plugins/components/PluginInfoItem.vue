@@ -35,6 +35,8 @@ defineProps({
   }
   .content {
     color: var(--color-title-primary);
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 }
 </style>

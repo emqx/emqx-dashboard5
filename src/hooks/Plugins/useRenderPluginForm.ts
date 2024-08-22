@@ -151,7 +151,8 @@ export default function usePluginRenderForm(): PluginUI {
   const uiConfigs = ref<PluginUIConfigs | null>(null)
   const i18nConfigs = ref<Record<string, any> | null>(null)
   const schema = ref<AvroSchema | null>(null)
-  const schemaLoading = ref(false)
+  // Default true to prevent UI display before schema loads
+  const schemaLoading = ref(true)
 
   const store = useStore()
 
