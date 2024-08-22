@@ -48,8 +48,8 @@
         <template v-if="mechanism !== 'jwt'">
           <p class="item-description">
             {{
-              mechanism === 'scram'
-                ? $t('Auth.dataSourceEnhancedAuthDesc')
+              mechanism === 'gssapi'
+                ? $t('Auth.dataSourceEnhancedGSSAPIAuthDesc')
                 : $t('Auth.dataSourceDesc')
             }}
           </p>
