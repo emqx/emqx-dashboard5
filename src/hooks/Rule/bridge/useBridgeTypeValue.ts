@@ -96,6 +96,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.S3, label: 'Amazon S3' },
     { value: BridgeType.AzureBlobStorage, label: 'Azure Blob Storage' },
     { value: BridgeType.Couchbase, label: 'Couchbase' },
+    { value: BridgeType.Datalayers, label: 'Datalayers' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**

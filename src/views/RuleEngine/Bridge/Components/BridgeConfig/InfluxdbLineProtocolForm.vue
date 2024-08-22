@@ -17,12 +17,7 @@
     <el-col :span="12">
       <CustomFormItem :readonly="readonly">
         <template #label>
-          <span>Timestamp</span>
-          <InfoTooltip>
-            <template #content>
-              <MarkdownContent :content="tl('timestampDesc')" />
-            </template>
-          </InfoTooltip>
+          <FormItemLabel label="Timestamp" :desc="tl('timestampDesc', { database })" desc-marked />
         </template>
         <InputWithPlaceholderSelect v-model="timestamp" @change="updateModelValue" />
       </CustomFormItem>
@@ -30,12 +25,17 @@
     <el-col :span="24">
       <el-form-item class="is-required" :error="fieldsErrorMsg">
         <template #label>
-          <span>Fields</span>
-          <InfoTooltip>
-            <template #content>
-              <MarkdownContent :content="tl('fieldValueDesc')" />
-            </template>
-          </InfoTooltip>
+          <FormItemLabel
+            label="Fields"
+            :desc="
+              tl(
+                type === BridgeType.InfluxDB
+                  ? 'influxdbFieldValueDesc'
+                  : 'datalayersFieldValueDesc',
+              )
+            "
+            desc-marked
+          />
         </template>
         <InfluxdbFieldsEditor
           :model-value="fieldMap"
@@ -69,14 +69,15 @@ export default defineComponent({
 
 <script setup lang="ts">
 import CustomFormItem from '@/components/CustomFormItem.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineEmits, defineExpose, defineProps, ref, Ref, watch } from 'vue'
+import { BridgeType } from '@/types/enum'
+import { computed, defineEmits, defineExpose, defineProps, PropType, ref, Ref, watch } from 'vue'
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
-import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor
 
@@ -91,6 +92,10 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  type: {
+    type: String as PropType<BridgeType>,
+    default: BridgeType.InfluxDB,
   },
 })
 
@@ -224,6 +229,9 @@ const clearValidate = () => {
   measurementErrorMsg.value = ''
   fieldsErrorMsg.value = ''
 }
+
+const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const database = computed(() => getBridgeLabelByTypeValue(props.type) ?? '')
 
 defineExpose({ validate, clearValidate })
 
