@@ -353,7 +353,7 @@ export default {
     en: 'Limiter',
   },
   showLimiterDesc: {
-    zh: '速率限制为可选配置。默认空白值表示未开启限制。设置具体数值来启用限制，如需关闭已开启的限制，请将其值设为 `infinity。`',
+    zh: '速率限制为可选配置。默认空白值表示未开启限制。设置具体数值来启用限制，如需关闭已开启的限制，请将其值设为 `infinity`。',
     en: 'Rate limiting is optional. Default empty values indicate that limits are not enabled. Set specific numeric values to enable limits, or set to `infinity` to disable enabled limits.',
   },
   customConfig: {
