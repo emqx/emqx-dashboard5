@@ -183,19 +183,6 @@ export interface MessageTransformationOperation {
   value: string
 }
 
-export interface MessageTransformationTransformation {
-  tags?: string[]
-  description?: string
-  enable?: boolean
-  name: string
-  topics: MessageTransformationTransformationTopics
-  failure_action: MessageTransformationTransformationFailureAction
-  log_failure?: MessageTransformationLogFailure
-  payload_decoder?: MessageTransformationTransformationPayloadDecoder
-  payload_encoder?: MessageTransformationTransformationPayloadEncoder
-  operations?: MessageTransformationOperation[]
-}
-
 export type MessageTransformationLogFailureLevel =
   typeof MessageTransformationLogFailureLevel[keyof typeof MessageTransformationLogFailureLevel]
 
@@ -211,6 +198,19 @@ export const MessageTransformationLogFailureLevel = {
 
 export interface MessageTransformationLogFailure {
   level?: MessageTransformationLogFailureLevel
+}
+
+export interface MessageTransformationTransformation {
+  tags?: string[]
+  description?: string
+  enable?: boolean
+  name: string
+  topics: MessageTransformationTransformationTopics
+  failure_action: MessageTransformationTransformationFailureAction
+  log_failure?: MessageTransformationLogFailure
+  payload_decoder?: MessageTransformationTransformationPayloadDecoder
+  payload_encoder?: MessageTransformationTransformationPayloadEncoder
+  operations?: MessageTransformationOperation[]
 }
 
 export interface MessageTransformationHttpApiReorder {
@@ -242,13 +242,19 @@ export interface MessageTransformationHttpApiDryrunTransformation {
 
 export type MessageTransformationHttpApiDryrunInputMessageUserProperty = { [key: string]: any }
 
+export type MessageTransformationHttpApiDryrunInputMessagePubProps = { [key: string]: any }
+
 export type MessageTransformationHttpApiDryrunInputMessageClientAttrs = { [key: string]: any }
 
 export interface MessageTransformationHttpApiDryrunInputMessage {
   client_attrs?: MessageTransformationHttpApiDryrunInputMessageClientAttrs
+  clientid?: string
   payload: string
+  peername?: string
+  pub_props?: MessageTransformationHttpApiDryrunInputMessagePubProps
   qos?: number
   retain?: boolean
   topic: string
   user_property?: MessageTransformationHttpApiDryrunInputMessageUserProperty
+  username?: string
 }
