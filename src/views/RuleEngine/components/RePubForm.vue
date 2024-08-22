@@ -5,6 +5,7 @@
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
+    :class="{ 'label-align-right': isUsingInFlow }"
     v-bind="formProps"
     @keyup.enter="saveConfig()"
   >
@@ -57,79 +58,14 @@
       </el-col>
     </el-row>
     <el-collapse-transition>
-      <el-row :gutter="26" v-if="showPubProps">
-        <!-- <el-col :span="getColSpan(24)">
-          <CustomFormItem prop="args.user_properties" :readonly="readonly">
-            <template #label>
-              <label class="props-title">{{ tl('userProperties') }}</label>
-            </template>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="record.args.user_properties"
-              placeholder='{ "clientid": "${clientid}" }'
-            />
-          </CustomFormItem>
-        </el-col> -->
-        <!-- MQTT Props -->
-        <!-- <el-col :span="24">
-          <p class="props-title">{{ tl('mqttProperties') }}</p>
-        </el-col> -->
-        <el-col :span="getColSpan()">
-          <CustomFormItem
-            :label="tl('payloadFormatIndicator')"
-            prop="args.mqtt_properties.Payload-Format-Indicator"
-            :readonly="readonly"
-          >
-            <el-select
-              v-model="record.args.mqtt_properties['Payload-Format-Indicator']"
-              :placeholder="tl('selectOrInput')"
-              filterable
-              allow-create
-              clearable
-            >
-              <el-option label="true" value="true" />
-              <el-option label="false" value="false" />
-            </el-select>
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="getColSpan()">
-          <CustomFormItem
-            :label="tl('messageExpiryInterval')"
-            prop="args.mqtt_properties.Message-Expiry-Interval"
-            :readonly="readonly"
-          >
-            <el-input v-model="record.args.mqtt_properties['Message-Expiry-Interval']" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="getColSpan()">
-          <CustomFormItem
-            :label="tl('contentType')"
-            prop="args.mqtt_properties.Content-Type"
-            :readonly="readonly"
-          >
-            <el-input v-model="record.args.mqtt_properties['Content-Type']" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="getColSpan()">
-          <CustomFormItem
-            :label="tl('responseTopic')"
-            prop="args.mqtt_properties.Response-Topic"
-            :readonly="readonly"
-          >
-            <el-input v-model="record.args.mqtt_properties['Response-Topic']" />
-          </CustomFormItem>
-        </el-col>
-        <el-col :span="getColSpan()">
-          <CustomFormItem
-            :label="tl('correlationData')"
-            prop="args.mqtt_properties.Correlation-Data"
-            :readonly="readonly"
-          >
-            <el-input v-model="record.args.mqtt_properties['Correlation-Data']" />
-          </CustomFormItem>
-        </el-col>
-      </el-row>
+      <PubProps
+        v-if="showPubProps"
+        v-model="record.args.mqtt_properties"
+        path="record.args.mqtt_properties"
+        :span="getColSpan()"
+        :readonly="readonly"
+        is-repub
+      />
     </el-collapse-transition>
     <el-row :gutter="26">
       <el-col :span="getColSpan(24)">
@@ -162,6 +98,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
 import { ComputedRef, PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import PubProps from './PubProps.vue'
 
 type RePubForm = RuleEngineBuiltinActionRepublish | any
 
@@ -247,9 +184,12 @@ const validate = () => FormCom.value.validate()
 defineExpose({ validate })
 </script>
 
-<style lang="scss" scoped>
-.props-title {
-  font-size: 14px;
-  font-weight: 700;
+<style lang="scss">
+.message-form {
+  &.label-align-right {
+    .el-form-item__label {
+      text-align: right;
+    }
+  }
 }
 </style>
