@@ -80,6 +80,7 @@ export default {
     top: 6px;
     right: 8px;
     cursor: pointer;
+    color: #fff;
   }
 }
 .el-popper {
