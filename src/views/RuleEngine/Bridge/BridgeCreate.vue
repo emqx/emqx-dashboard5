@@ -100,7 +100,7 @@
     <!-- In the Create/Settings Rule page -->
     <div v-else>
       <bridge-influxdb-config
-        v-if="chosenBridgeType === BridgeType.InfluxDB"
+        v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(chosenBridgeType)"
         v-model="bridgeData"
         ref="formCom"
       />

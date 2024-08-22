@@ -962,20 +962,24 @@ export default {
     en: 'Define Data Parsing,',
   },
   dataDefinitionDesc: {
-    zh: '指定数据格式与内容，使其能被解析并写入到 InfluxDB 中，支持使用占位符。',
-    en: 'specify the format and content of the data so that it can be parsed and written to InfluxDB, placeholder supported.',
+    zh: '指定数据格式与内容，使其能被解析并写入到 {database} 中，支持使用占位符。',
+    en: 'specify the format and content of the data so that it can be parsed and written to {database}, placeholder supported.',
   },
   timestampDesc: {
     zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
 如果使用任何其他时间戳，则其精度必须与“精度”字段中选择的值完全匹配。</br>
-建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 InfluxDB 数据记录。`,
+建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 {database} 数据记录。`,
     en: `The UNIX timestamp for the data. EMQX uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
 If any other timestamp is used, its precision must exactly match the value chosen in the 'precision' field.</br>
-It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an InfluxDB data record for each message.`,
+It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an {database} data record for each message.`,
   },
-  fieldValueDesc: {
+  influxdbFieldValueDesc: {
     zh: `键值对都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
     en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.influxdata.com/influxdb/v1.8/write_protocols/line_protocol_tutorial/#data-types" target="_blank">InfluxDB line protocol tutorial</a>`,
+  },
+  datalayersFieldValueDesc: {
+    zh: `键值对都支持占位符。数字默认写成浮点数，可以添加一个类型后缀来指定一个类型（例如：\`\${'{'}payload.int_key{'}'}i\`），详情可查看 <a href="https://docs.datalayers.cn/datalayers/latest/development-guide/writing-with-influxdb-line-protocol.html" target="_blank">InfluxDB line protocol tutorial</a>`,
+    en: `Both key and value support placeholders. Numbers are written as floats by default, but you can add a type suffix to specify a type (e.g. \`\${'{'}payload.int_key{'}'}i\`). Learn more in the <a href="https://docs.datalayers.cn/datalayers/latest/development-guide/writing-with-influxdb-line-protocol.html" target="_blank">InfluxDB line protocol tutorial</a>`,
   },
   dataFormat: {
     zh: '数据格式',
