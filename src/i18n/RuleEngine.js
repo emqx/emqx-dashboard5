@@ -565,6 +565,14 @@ export default {
     zh: '用户属性',
     en: 'User Properties',
   },
+  topicAlias: {
+    zh: '主题别名',
+    en: 'Topic Alias',
+  },
+  subIdentifier: {
+    zh: '订阅标识符',
+    en: 'Subscription Identifier',
+  },
   mqttProperties: {
     zh: 'MQTT 属性',
     en: 'MQTT Properties',
@@ -1594,8 +1602,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Execute Transformation',
   },
   clientAttrsAndUserProps: {
-    zh: '客户端属性与用户属性',
-    en: 'Client Attributes and User Properties',
+    zh: '设置属性',
+    en: 'Setting Properties and Attributes',
   },
   transformationResult: {
     zh: '转换结果',

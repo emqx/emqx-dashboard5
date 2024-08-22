@@ -8,6 +8,21 @@
   >
     <el-form ref="FormRef" :model="formData" :rules="rules" label-position="top">
       <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="peername" :label="t('Clients.peername')">
+            <el-input v-model="formData.peername" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="clientid" :label="t('Clients.clientid')">
+            <el-input v-model="formData.clientid" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="username" :label="t('Clients.username')">
+            <el-input v-model="formData.username" />
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item prop="topic" :label="t('Clients.topic')">
             <el-input v-model="formData.topic" />
@@ -43,6 +58,9 @@
         <el-form-item prop="user_property" :label="tl('userProperties')">
           <KeyAndValueEditor v-model="formData.user_property" />
         </el-form-item>
+        <el-form-item prop="pub_props">
+          <PubProps v-model="(formData as any).pub_props" path="formData.pub_props" :span="12" />
+        </el-form-item>
         <el-form-item prop="client_attrs" :label="t('Clients.clientAttrs')">
           <KeyAndValueEditor v-model="formData.client_attrs" />
         </el-form-item>
@@ -70,7 +88,7 @@
 <script setup lang="ts">
 import { testMessageTransform } from '@/api/messageTransformation'
 import { QoSOptions } from '@/common/constants'
-import { createRandomString, customValidate } from '@/common/tools'
+import { checkNOmitFromObj, createRandomString, customValidate } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
@@ -83,6 +101,7 @@ import { MessageTransform, TestMessageTransformData } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import { computed, defineEmits, defineProps, ref, watch, WritableComputedRef } from 'vue'
+import PubProps from '../../components/PubProps.vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -107,10 +126,14 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 const FormRef = ref()
 
 const createRawFormData = () => ({
+  peername: '',
+  clientid: '',
+  username: '',
   qos: QoSLevel.QoS0,
   retain: false,
   topic: '',
   payload: '',
+  pub_props: {},
   client_attrs: {},
   user_property: {},
 })
@@ -139,7 +162,7 @@ const submit = async () => {
   try {
     await customValidate(FormRef.value)
     const ret = await testMessageTransform({
-      message: formData.value,
+      message: checkNOmitFromObj(formData.value),
       transformation: handleDataBeforeSubmit(props.messageTransform),
     } as any)
     testResult.value = stringifyObjSafely(ret, 2)
