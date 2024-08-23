@@ -795,7 +795,7 @@ export default {
   },
   deleteActionAndSourceSameTime: {
     zh: '同时删除关联的动作与 Source',
-    en: 'Delete the associated action and source at the same time',
+    en: 'Delete the associated actions and sources at the same time',
   },
   deleteError: {
     zh: '删除{target}时发生错误，请尝试手动删除',
