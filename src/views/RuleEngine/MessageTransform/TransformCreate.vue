@@ -9,7 +9,7 @@
         <el-button @click="cancel">
           {{ t('Base.cancel') }}
         </el-button>
-        <el-button type="primary" plain @click="openTest">
+        <el-button type="primary" :disabled="!$hasPermission('post')" plain @click="openTest">
           {{ tl('preview') }}
         </el-button>
         <el-button

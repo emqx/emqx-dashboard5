@@ -40,7 +40,7 @@
           <el-card class="app-card">
             <TransformForm v-if="!isLoading" ref="formCom" v-model="transformData" is-edit />
             <div>
-              <el-button type="primary" plain @click="openTest">
+              <el-button type="primary" plain :disabled="!$hasPermission('post')" @click="openTest">
                 {{ tl('preview') }}
               </el-button>
               <el-button

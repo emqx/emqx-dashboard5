@@ -66,7 +66,9 @@
         </el-form-item>
       </AdvancedSettingContainer>
     </el-form>
-    <el-button type="primary" @click="submit">{{ tl('runTheTransformation') }}</el-button>
+    <el-button type="primary" :disabled="!$hasPermission('post')" @click="submit">
+      {{ tl('runTheTransformation') }}
+    </el-button>
     <div class="test-result" v-if="testResult">
       <div class="result-hd">
         <p class="result-title">{{ tl('transformationResult') }}</p>
