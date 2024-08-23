@@ -24,7 +24,6 @@ const message: any = (options: MessageOptions) => {
   const duration = dur || (message && countDuration(message as string)) || undefined
   const showClose = showC || type === 'error'
   const instance = ElMessage({ ...options, duration, showClose })
-  window.setTimeout(() => instance?.close?.(), duration ? duration + 2000 : 8000)
   return instance
 }
 
