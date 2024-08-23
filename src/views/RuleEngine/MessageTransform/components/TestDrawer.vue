@@ -66,7 +66,12 @@
         </el-form-item>
       </AdvancedSettingContainer>
     </el-form>
-    <el-button type="primary" :disabled="!$hasPermission('post')" @click="submit">
+    <el-button
+      type="primary"
+      :disabled="!$hasPermission('post')"
+      :loading="isLoading"
+      @click="submit"
+    >
       {{ tl('runTheTransformation') }}
     </el-button>
     <div class="test-result" v-if="testResult">
@@ -113,6 +118,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
+
+const isLoading = ref(false)
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -162,6 +169,7 @@ const { handleDataBeforeSubmit } = handleTransformData()
 
 const submit = async () => {
   try {
+    isLoading.value = true
     await customValidate(FormRef.value)
     const ret = await testMessageTransform({
       message: checkNOmitFromObj(formData.value),
@@ -170,6 +178,8 @@ const submit = async () => {
     testResult.value = stringifyObjSafely(ret, 2)
   } catch (error) {
     //
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
