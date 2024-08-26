@@ -1,16 +1,22 @@
 <template>
   <div class="plugin-manage">
-    <plugin-form-kit
-      v-if="uiConfigs"
-      :data="record"
-      :layouts="uiConfigs"
-      :save-func="handleSubmit"
-      @saved="fetchPluginConfigs(pluginName, pluginVersion)"
-    />
-    <template v-else>
-      <el-skeleton v-if="schemaLoading" :rows="6" animated />
-      <div v-else-if="!schemaLoading">{{ $t('Plugins.noPluginConfig') }}</div>
-    </template>
+    <el-skeleton v-if="isDetailLoading" :rows="6" animated />
+    <div v-else-if="!isDetailLoading && pluginWithConfig">
+      <plugin-form-kit
+        v-if="uiConfigs"
+        :data="record"
+        :layouts="uiConfigs"
+        :save-func="handleSubmit"
+        @saved="fetchPluginConfigs(pluginName, pluginVersion)"
+      />
+      <template v-else>
+        <el-skeleton v-if="schemaLoading" :rows="6" animated />
+        <div v-else>{{ $t('Plugins.noPluginConfig') }}</div>
+      </template>
+    </div>
+    <div v-else-if="!isDetailLoading && !pluginWithConfig">
+      {{ $t('Plugins.noPluginConfig') }}
+    </div>
   </div>
 </template>
 
@@ -30,6 +36,11 @@ const props = defineProps({
   },
   pluginWithConfig: {
     type: Boolean,
+    default: false,
+  },
+  isDetailLoading: {
+    type: Boolean,
+    default: false,
   },
 })
 
