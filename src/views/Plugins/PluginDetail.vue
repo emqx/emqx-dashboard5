@@ -44,6 +44,7 @@
               :plugin-name="pluginName"
               :plugin-version="pluginVersion"
               :plugin-with-config="pluginWithConfig"
+              :is-detail-loading="isDetailLoading"
             />
           </el-card>
         </el-tab-pane>
