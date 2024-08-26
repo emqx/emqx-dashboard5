@@ -91,6 +91,7 @@ import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponen
 import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual } from 'lodash'
@@ -102,6 +103,9 @@ import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
 const props = defineProps({
   modelValue: {
     type: Object,
+  },
+  type: {
+    type: String,
   },
   edit: {
     type: Boolean,
@@ -140,7 +144,13 @@ const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
-const { createRawInfluxDBForm: createDefaultValue } = useBridgeFormCreator()
+const { createRawInfluxDBForm, createRawDataLayersForm } = useBridgeFormCreator()
+const createDefaultValue = () => {
+  if (props.type === BridgeType.Datalayers) {
+    return createRawDataLayersForm()
+  }
+  return createRawInfluxDBForm()
+}
 
 const formData: Ref<OtherBridge> = ref(createDefaultValue())
 const formCom = ref()

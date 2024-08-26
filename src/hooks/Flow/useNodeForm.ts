@@ -76,7 +76,7 @@ export default (): {
   isUsingSchemaBridgeType: (type: string) => boolean
   checkFormIsEmpty: (type: string, form: Record<string, any>) => boolean
 } => {
-  const { createRawInfluxDBForm } = useBridgeFormCreator()
+  const { createRawInfluxDBForm, createRawDataLayersForm } = useBridgeFormCreator()
   /**
    *  If you are using a schema bridge, create an empty object directly
    */
@@ -96,6 +96,7 @@ export default (): {
     [SinkType.Console]: createConsoleForm,
     [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,
+    [SinkType.Datalayers]: createRawDataLayersForm,
     [SinkType.Pulsar]: emptyCreator,
   }
   const getFormDataByType = (type: string) => {
