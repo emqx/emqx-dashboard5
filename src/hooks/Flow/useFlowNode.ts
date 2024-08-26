@@ -63,6 +63,9 @@ export const SinkType = {
   Elasticsearch: BridgeType.Elasticsearch,
   SysKeeperForwarder: BridgeType.SysKeeperForwarder,
   S3: BridgeType.S3,
+  AzureBlobStorage: BridgeType.AzureBlobStorage,
+  Couchbase: BridgeType.Couchbase,
+  Datalayers: BridgeType.Datalayers,
   RePub: 'republish',
   Console: 'console',
 }

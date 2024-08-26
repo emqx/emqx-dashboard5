@@ -65,6 +65,7 @@ export default (): {
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTTBroker]: UsingSchemaBridgeConfig,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
+    [SinkType.Datalayers]: BridgeInfluxdbConfig,
   }
   const getFormComponent = (type: string) => {
     if (!type) {

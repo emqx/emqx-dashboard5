@@ -97,6 +97,7 @@
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :type="bridgeType"
                 :disabled="disabled"
                 :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"
