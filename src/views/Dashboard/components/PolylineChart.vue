@@ -11,7 +11,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, ref, watch, onMounted, PropType, Ref, defineExpose, computed } from 'vue'
+import type { PropType, Ref } from 'vue'
+import { computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'

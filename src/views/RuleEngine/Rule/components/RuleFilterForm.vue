@@ -141,7 +141,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
 import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
-import { Ref, computed, defineEmits, defineProps, ref } from 'vue'
+import type { Ref } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
 const props = defineProps({
   initialValue: {

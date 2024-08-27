@@ -13,7 +13,8 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { isFunction } from 'lodash'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useConnectorDataHandler } from '../useDataHandler'
 
 type NowConnector = Connector | BridgeItem

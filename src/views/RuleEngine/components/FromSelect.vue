@@ -67,7 +67,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { computed, defineProps, nextTick, PropType, Ref, ref, defineEmits, watch } from 'vue'
+import type { PropType, Ref } from 'vue'
+import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import { RuleEvent, BridgeItem } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
 import { BackendI18n } from '@/types/common'

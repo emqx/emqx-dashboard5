@@ -1,5 +1,6 @@
 import { BridgeType } from '@/types/enum'
-import { computed, ComputedRef, WritableComputedRef } from 'vue'
+import type { ComputedRef, WritableComputedRef } from 'vue'
+import { computed } from 'vue'
 import useSyncConfiguration from '../bridge/useSyncConfiguration'
 
 export const resourceOptFields = [

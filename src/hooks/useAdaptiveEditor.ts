@@ -1,4 +1,5 @@
-import { ref, Ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
+import type { Ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface UseAdaptiveEditorOptions {
   initialContent: Ref<string>

@@ -7,7 +7,8 @@ import {
   AUTH_PLACEHOLDER_CLIENT_ATTRS,
 } from '@/common/constants'
 import codeMapInHelpOfAuth from '@/common/codeMapInHelpOfAuth'
-import { computed, ComputedRef, inject } from 'vue'
+import type { ComputedRef } from 'vue'
+import { computed, inject } from 'vue'
 
 export default (context: {
   authType: 'authn' | 'authz'

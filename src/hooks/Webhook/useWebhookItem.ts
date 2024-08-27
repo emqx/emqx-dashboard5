@@ -3,7 +3,8 @@ import { deleteConnector } from '@/api/connector'
 import { deleteRules, updateRules } from '@/api/ruleengine'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default (): {

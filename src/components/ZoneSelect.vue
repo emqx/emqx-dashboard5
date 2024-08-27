@@ -13,7 +13,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, WritableComputedRef, computed } from 'vue'
+import type { WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 import { getZoneConfigs } from '@/api/config'
 import { DEFAULT_ZONE } from '@/common/constants'
 
