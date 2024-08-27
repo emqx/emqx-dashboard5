@@ -107,16 +107,8 @@ import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
-import {
-  PropType,
-  WritableComputedRef,
-  computed,
-  defineEmits,
-  defineProps,
-  nextTick,
-  ref,
-  watch,
-} from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'

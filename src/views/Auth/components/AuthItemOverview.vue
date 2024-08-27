@@ -41,9 +41,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
-import { useRoute } from 'vue-router'
-import { MetricsData } from '@/types/common'
 
 export default defineComponent({
   name: 'AuthItemOverview',
@@ -51,13 +48,17 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, ref, Ref, watch } from 'vue'
-import { ConnectionStatus } from '@/types/enum'
+import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
+import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
+import useI18nTl from '@/hooks/useI18nTl'
 import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
-import useI18nTl from '@/hooks/useI18nTl'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
+import { MetricsData } from '@/types/common'
+import { ConnectionStatus } from '@/types/enum'
+import type { PropType, Ref } from 'vue'
+import { computed, defineProps, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({
   metrics: {

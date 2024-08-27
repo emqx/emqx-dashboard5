@@ -44,7 +44,8 @@
 import WebSocketItem from './components/WebSocketItem.vue'
 import { ElMessage, TabPanelName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { ref, watch, Ref, nextTick } from 'vue'
+import type { Ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 
 interface TabItem {

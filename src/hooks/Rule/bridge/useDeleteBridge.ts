@@ -3,7 +3,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { isFunction } from 'lodash'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import useHandleActionItem from '../action/useHandleActionItem'
 
 interface DeleteBridgeResult {

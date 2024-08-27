@@ -211,7 +211,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, computed, defineEmits, WritableComputedRef, ref } from 'vue'
+import type { WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 import usePromConfig from '../assets/usePromConfig'
 import useI18nTl from '@/hooks/useI18nTl'
 import CodeView from '@/components/CodeView.vue'

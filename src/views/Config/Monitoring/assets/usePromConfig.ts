@@ -1,4 +1,5 @@
-import { reactive, Ref, ref, watch } from 'vue'
+import type { Ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 
 const usePromConfig = (): {

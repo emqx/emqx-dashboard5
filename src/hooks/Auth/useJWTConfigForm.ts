@@ -1,5 +1,6 @@
 import { FormRules } from '@/types/common'
-import { computed, ref, ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
 
