@@ -78,7 +78,8 @@
 </template>
 
 <script lang="ts">
-import { WritableComputedRef, computed, defineComponent, defineProps, defineEmits } from 'vue'
+import type { WritableComputedRef } from 'vue'
+import { computed, defineComponent, defineEmits, defineProps } from 'vue'
 
 export default defineComponent({
   name: 'Help',

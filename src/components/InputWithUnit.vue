@@ -38,7 +38,8 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { escapeRegExp } from 'lodash'
-import { defineProps, defineEmits, PropType, computed, WritableComputedRef, ref } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {

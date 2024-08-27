@@ -74,15 +74,8 @@
 </template>
 
 <script lang="ts">
-import {
-  WritableComputedRef,
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  defineProps,
-  defineEmits,
-} from 'vue'
+import type { WritableComputedRef } from 'vue'
+import { computed, defineComponent, defineEmits, defineProps, reactive, ref } from 'vue'
 
 export default defineComponent({
   name: 'Settings',

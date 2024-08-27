@@ -1,6 +1,6 @@
 import { Client } from '@/types/client'
 import moment from 'moment'
-import { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '../useI18nTl'
 import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'

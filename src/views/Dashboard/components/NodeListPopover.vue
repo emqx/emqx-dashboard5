@@ -25,7 +25,8 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { NodeInfo } from '@/types/dashboard'
 import { Search } from '@element-plus/icons-vue'
 import { startCase } from 'lodash'
-import { ComputedRef, PropType, computed, defineProps, ref } from 'vue'
+import type { ComputedRef, PropType } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 
 interface NodeList {
   core: Array<NodeInfo>
