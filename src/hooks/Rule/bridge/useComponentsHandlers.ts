@@ -85,7 +85,7 @@ export default (
     return parm
   }
 
-  const commonHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
+  const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
       Reflect.deleteProperty(comRet.resource_opts.properties, 'start_after_created')
@@ -108,7 +108,7 @@ export default (
     return { components: comRet, rules: rulesRet }
   }
 
-  const mqttHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+  const mqttHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
@@ -139,7 +139,7 @@ export default (
     return { components, rules }
   }
 
-  const httpHandler: Handler = (data: { components: Properties; rules: SchemaRules }) => {
+  const httpHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { body, headers } = components?.parameters?.properties || {}
 
