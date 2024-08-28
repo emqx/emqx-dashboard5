@@ -902,6 +902,16 @@ export interface EmqxLogThrottling {
   time_window?: string
 }
 
+export type EmqxLogFileHandlerPayloadEncode =
+  typeof EmqxLogFileHandlerPayloadEncode[keyof typeof EmqxLogFileHandlerPayloadEncode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogFileHandlerPayloadEncode = {
+  hex: 'hex',
+  text: 'text',
+  hidden: 'hidden',
+} as const
+
 export type EmqxLogFileHandlerTimestampFormat =
   typeof EmqxLogFileHandlerTimestampFormat[keyof typeof EmqxLogFileHandlerTimestampFormat]
 
@@ -948,7 +958,18 @@ export interface EmqxLogFileHandler {
   formatter?: EmqxLogFileHandlerFormatter
   timestamp_format?: EmqxLogFileHandlerTimestampFormat
   time_offset?: string
+  payload_encode?: EmqxLogFileHandlerPayloadEncode
 }
+
+export type EmqxLogAuditHandlerPayloadEncode =
+  typeof EmqxLogAuditHandlerPayloadEncode[keyof typeof EmqxLogAuditHandlerPayloadEncode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxLogAuditHandlerPayloadEncode = {
+  hex: 'hex',
+  text: 'text',
+  hidden: 'hidden',
+} as const
 
 export type EmqxLogAuditHandlerTimestampFormat =
   typeof EmqxLogAuditHandlerTimestampFormat[keyof typeof EmqxLogAuditHandlerTimestampFormat]
@@ -971,6 +992,7 @@ export interface EmqxLogAuditHandler {
   enable?: boolean
   timestamp_format?: EmqxLogAuditHandlerTimestampFormat
   time_offset?: string
+  payload_encode?: EmqxLogAuditHandlerPayloadEncode
 }
 
 export type EmqxLogFileOneOf = {
@@ -1030,6 +1052,16 @@ export interface EmqxDurableSessions {
   message_retention_period?: string
 }
 
+export type EmqxConsoleHandlerPayloadEncode =
+  typeof EmqxConsoleHandlerPayloadEncode[keyof typeof EmqxConsoleHandlerPayloadEncode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxConsoleHandlerPayloadEncode = {
+  hex: 'hex',
+  text: 'text',
+  hidden: 'hidden',
+} as const
+
 export type EmqxConsoleHandlerTimestampFormat =
   typeof EmqxConsoleHandlerTimestampFormat[keyof typeof EmqxConsoleHandlerTimestampFormat]
 
@@ -1071,6 +1103,7 @@ export interface EmqxConsoleHandler {
   formatter?: EmqxConsoleHandlerFormatter
   timestamp_format?: EmqxConsoleHandlerTimestampFormat
   time_offset?: string
+  payload_encode?: EmqxConsoleHandlerPayloadEncode
 }
 
 export interface EmqxClientAttrsInit {

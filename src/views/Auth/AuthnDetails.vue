@@ -94,6 +94,11 @@
                 is-edit
                 ref="formCom"
               />
+              <kerberos-config
+                v-else-if="currBackend === 'kerberos'"
+                v-model="configData"
+                ref="formCom"
+              />
             </template>
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
@@ -149,6 +154,7 @@ import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import AuthnManager from './components/AuthnManager.vue'
 import LdapConfig from './components/LdapConfig.vue'
+import KerberosConfig from './components/KerberosConfig.vue'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -162,6 +168,7 @@ export default defineComponent({
     AuthItemStatus,
     DetailHeader,
     LdapConfig,
+    KerberosConfig,
   },
   props: {
     gatewayInfo: {

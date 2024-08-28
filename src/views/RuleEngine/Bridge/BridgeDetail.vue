@@ -93,10 +93,11 @@
             </el-alert>
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <bridge-influxdb-config
-                v-if="bridgeType === BridgeType.InfluxDB"
+                v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(bridgeType)"
                 v-model="bridgeInfo"
                 ref="formCom"
                 :edit="true"
+                :type="bridgeType"
                 :disabled="disabled"
                 :hide-name="hideName"
                 @init="resetRawBridgeInfoAfterComponentInit"

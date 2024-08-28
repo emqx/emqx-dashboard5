@@ -432,5 +432,9 @@ export default {
     zh: '创建消息转换',
     en: 'Create Message Transform',
   },
+  'cluster-linking-create': {
+    zh: '创建集群连接',
+    en: 'Create Cluster Linking',
+  },
   /* For Quick Panel End */
 }

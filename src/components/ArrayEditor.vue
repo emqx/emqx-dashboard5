@@ -1,5 +1,9 @@
 <template>
+  <p class="value" v-if="readonly">
+    {{ Array.isArray(modelValue) ? modelValue.join(', ') : modelValue }}
+  </p>
   <el-select
+    v-else
     class="array-editor"
     v-model="selected"
     multiple
@@ -33,6 +37,10 @@ const props = defineProps({
     default: () => [],
   },
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  readonly: {
     type: Boolean,
     default: false,
   },

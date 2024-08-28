@@ -164,16 +164,64 @@ export default {
     zh: '集群名称',
     en: 'Cluster Name',
   },
+  clusterNameDesc: {
+    zh: '连接的（远程）集群的名称，必须与远程集群配置中的 `cluster.name` 完全一致，同时**不能**与本地的 `cluster.name` 相同。所有配置的集群名称必须唯一。',
+    en: 'Linked (remote) cluster name. Must be exactly equal to the value of `cluster.name` configured at the remote cluster. Must **not** be equal to the local `cluster.name`. All configured cluster link names must be unique.',
+  },
   serverAddress: {
     zh: '服务器地址',
     en: 'Server Address',
+  },
+  serverAddressDesc: {
+    zh: '远程 EMQX 服务的 MQTT 主机和端口。',
+    en: 'MQTT host and port of the remote EMQX broker.',
   },
   clientIdPrefix: {
     zh: '客户端 ID 前缀',
     en: 'Client ID Prefix',
   },
+  clientIdPrefixDesc: {
+    zh: '如果省略，则默认使用本地的 `cluster.name`。EMQX 会在连接集群时维护多个连接，并自动在基础客户端 ID 后添加不同的后缀。',
+    en: 'If omitted, local `cluster.name` is used. EMQX maintains several connections between linked clusters, so distinct suffixes are automatically appended to the base client ID.',
+  },
   disabledDeleteTopicTopic: {
     zh: '请先禁用再删除主题',
     en: 'Please disable the link before deleting',
+  },
+  linkingRateBarDesc: {
+    zh: '近一分钟内消息转发次数趋势',
+    en: 'Message forwarding times trend in the last minute',
+  },
+  linkingNodesMetricsDesc: {
+    zh: '消息转发在各节点上的执行情况及效率',
+    en: 'Execution status and efficiency of message forwarding on each node',
+  },
+  linkingTopicsDesc: {
+    zh: '由连接的远程 EMQX 服务转发至本地代理的 MQTT 主题。仅当本地 EMQX 服务有匹配的订阅者时，消息才会被转发。<br />支持通配符。如果在连接的一侧设置空主题列表，可实现单向连接：空主题列表的一侧不会接收远程消息，但可以根据另一侧配置的主题，将相关消息转发给其连接方。',
+    en: "MQTT topics to be forwarded by the linked remote EMQX broker to the local broker. Messages are only forwarded if the local EMQX broker has matching subscriber(s).<br />Wildcards are supported. Setting empty topics list on one side of the link can be used to establish unidirectional links: the side with the empty topics won't receive remote messages, but it can forward relevant messages to its linked counterpart (according to the topics configured on that side of the link).",
+  },
+  routes: {
+    zh: '路由',
+    en: 'Routes',
+  },
+  routesDesc: {
+    zh: '从远程集群复制到本集群的路由数量',
+    en: 'Number of replicated routes from remote cluster to this cluster',
+  },
+  matched: {
+    zh: '匹配',
+    en: 'Matched',
+  },
+  dropped: {
+    zh: '丢弃',
+    en: 'Dropped',
+  },
+  retried: {
+    zh: '重试',
+    en: 'Retried',
+  },
+  others: {
+    zh: '其他',
+    en: 'Others',
   },
 }

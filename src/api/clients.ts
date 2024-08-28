@@ -4,7 +4,7 @@ import { pick } from 'lodash'
 import qs from 'qs'
 
 export function listClients(params = {}) {
-  return http.get('/clients', {
+  return http.get('/clients_v2', {
     params,
     // Multi-search support
     paramsSerializer: (params: any) => {
@@ -13,11 +13,11 @@ export function listClients(params = {}) {
   })
 }
 
-export function searchClients(clientId: string) {
+export function exactSearchClient(clientId: string) {
   return http.get(`/clients/${encodeURIComponent(clientId)}`)
 }
 
-// 搜索单个节点的连接
+// Search for connections of a single node
 export function searchNodeClients(nodeName: string, clientId: string) {
   return http.get(`/nodes/${nodeName}/clients/${encodeURIComponent(clientId)}`)
 }

@@ -123,7 +123,15 @@
       <el-row :gutter="20" v-if="!gatewayName">
         <el-col :span="24"><el-divider /></el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('showLimiter')"> </el-form-item>
+          <el-form-item>
+            <template #label>
+              <form-item-label
+                :label="tl('showLimiter')"
+                :desc="tl('showLimiterDesc')"
+                desc-marked
+              />
+            </template>
+          </el-form-item>
         </el-col>
         <el-col :span="12" />
         <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
@@ -172,6 +180,30 @@
                 <el-input v-model="listenerRecord.mountpoint" />
               </el-form-item>
             </el-col>
+            <template v-if="isCoAP && listenerRecord.health_check">
+              <el-col :span="12">
+                <el-form-item prop="health_check.request">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('Gateway.healthCheck')"
+                      :desc="$t('Gateway.healthCheckDesc')"
+                    />
+                  </template>
+                  <el-input v-model="listenerRecord.health_check.request" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="t('Gateway.healthCheckResponse')" prop="health_check.reply">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('Gateway.healthCheckResponse')"
+                      :desc="$t('Gateway.healthCheckResponseDesc')"
+                    />
+                  </template>
+                  <el-input v-model="listenerRecord.health_check.reply" />
+                </el-form-item>
+              </el-col>
+            </template>
             <el-col :span="12" v-if="!isUDP">
               <el-form-item :label="$t('BasicConfig.acceptors')" prop="acceptors">
                 <CustomInputNumber v-model="listenerRecord.acceptors" />
@@ -466,6 +498,7 @@ const {
   showUDPConfig,
   showSSLConfig,
   isDTLS,
+  isCoAP,
   SSLConfigKey,
   showWSConfig,
   listenerFormRules,

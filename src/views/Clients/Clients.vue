@@ -33,24 +33,14 @@
           </el-input>
         </el-col>
         <el-col v-bind="colProps">
-          <el-select
-            v-model="queryParams.node"
-            :placeholder="$t('Clients.node')"
+          <el-input
+            v-model="queryParams.ip_address"
+            :placeholder="$t('Clients.ipAddress')"
             clearable
             @clear="handleSearch"
-          >
-            <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
-          </el-select>
+          />
         </el-col>
         <template class="more" v-if="showMoreQuery">
-          <el-col v-bind="colProps">
-            <el-input
-              v-model="queryParams.ip_address"
-              :placeholder="$t('Clients.ipAddress')"
-              clearable
-              @clear="handleSearch"
-            />
-          </el-col>
           <el-col v-bind="colProps">
             <el-select
               v-model="queryParams.conn_state"
@@ -79,7 +69,7 @@
           </el-col>
           <el-col v-bind="colProps" />
         </template>
-        <el-col v-bind="colProps" class="col-oper">
+        <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <el-button type="primary" plain :icon="Search" @click="handleSearch">
             {{ $t('Base.search') }}
           </el-button>
@@ -162,7 +152,11 @@
         </el-table-column>
       </el-table>
       <div class="emq-table-footer">
-        <common-pagination v-model:metaData="pageMeta" @loadPage="loadNodeClients" />
+        <MiniPagination
+          :current-page="page"
+          :hasnext="hasNext"
+          @current-change="handlePageChange"
+        />
       </div>
     </div>
   </div>
@@ -177,22 +171,23 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { batchDisconnectClients, listClients } from '@/api/clients'
+import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import CommonPagination from '@/components/commonPagination.vue'
+import MiniPagination from '@/components/MiniPagination.vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import useClusterNodes from '@/hooks/useClusterNodes'
-import { useStore } from 'vuex'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 
@@ -206,25 +201,39 @@ enum SearchType {
   Fuzzy = 'fuzzy',
 }
 
+type QueryParams = {
+  like_username?: string
+  username?: string
+  like_clientid?: string
+  clientid?: string
+  ip_address?: string
+  conn_state?: string
+  gte_connected_at?: string
+  lte_connected_at?: string
+}
+
 const CONNECTED_AT_SUFFIX = '_connected_at'
 
-const { nodes: currentNodes } = useClusterNodes()
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
+const route = useRoute()
 const showMoreQuery = ref(false)
 const tableData = ref([])
 const selectedClients = ref<Client[]>([])
 const lockTable = ref(false)
 const TableCom = ref()
 const batchDeleteLoading = ref(false)
-const params = ref({})
+const params = ref<QueryParams>({})
 const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
   clientidSearchType: SearchType.Exact,
   usernameSearchType: SearchType.Exact,
 })
-const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-const { updateParams, checkParamsInQuery } = usePaginationRemember('clients-detail')
+
+const { page, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
+const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
+  usePaginationRemember('clients-detail')
+const routeName = computed(() => route.name?.toString() || 'clients')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
 const { getBaseLabel } = useClientFields()
@@ -246,7 +255,8 @@ const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
   params.value = genQueryParams(queryParams.value)
-  loadNodeClients({ page: 1 })
+  resetPage()
+  loadNodeClients()
 }
 
 const handleReset = () => {
@@ -290,7 +300,6 @@ const genQueryParams = (params: Record<string, any>) => {
     conn_state,
     comparator,
     connected_at,
-    node,
     usernameSearchType,
     clientidSearchType,
   } = params
@@ -310,7 +319,6 @@ const genQueryParams = (params: Record<string, any>) => {
     ...addLikeParam('username', username, usernameSearchType),
     ip_address: ip_address || undefined,
     conn_state: conn_state || undefined,
-    node: node || undefined,
   }
 
   if (connected_at) {
@@ -320,30 +328,94 @@ const genQueryParams = (params: Record<string, any>) => {
   return newParams
 }
 
-const loadNodeClients = async (_params = {}) => {
+const handlePageChange = (no: number) => {
+  const isBack = no < page.value
+  page.value = no
+  loadNodeClients(isBack)
+}
+
+const handleExactSearchClient = async (params: Record<string, any>) => {
+  try {
+    const {
+      clientid,
+
+      username,
+      ip_address,
+      conn_state,
+      like_username,
+      gte_connected_at,
+      lte_connected_at,
+    } = params
+    const data = await exactSearchClient(clientid)
+    let isMatchOther = true
+    if (username && data.username !== username) {
+      isMatchOther = false
+    }
+    if (ip_address && data.ip_address !== ip_address) {
+      isMatchOther = false
+    }
+    if (conn_state && data.connected !== (conn_state === 'connected')) {
+      isMatchOther = false
+    }
+    if (like_username && data.username.indexOf(like_username) === -1) {
+      isMatchOther = false
+    }
+    if (
+      gte_connected_at &&
+      new Date(data.connected_at).getTime() < new Date(gte_connected_at).getTime()
+    ) {
+      isMatchOther = false
+    }
+    if (
+      lte_connected_at &&
+      new Date(data.connected_at).getTime() > new Date(lte_connected_at).getTime()
+    ) {
+      isMatchOther = false
+    }
+    return Promise.resolve({ data: isMatchOther ? [data] : [], meta: { count: 1 } })
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
   const sendParams = {
     ...params.value,
     ...pageParams.value,
-    ..._params,
     fields: getClientFields(),
   }
   try {
-    const { data = [], meta = {} } = await listClients(sendParams)
+    const { data = [], meta = {} } = sendParams.clientid
+      ? await handleExactSearchClient(sendParams)
+      : await listClients(sendParams)
     tableData.value = data
-    setPageMeta(meta)
-    updateParams({ ...pick(meta, ['limit', 'page']), ...params.value })
+    setCursor(page.value + 1, meta.cursor)
+    updateParams({ page: page.value, ...pageParams.value, ...params.value })
+    updateCursorMap(routeName.value, cursorMap.value)
+    if (isBack && page.value !== 1 && data.length === 0) {
+      ElMessage.warning(tl('pageJumpTip'))
+      handlePageChange(1)
+    }
   } catch (error) {
     tableData.value = []
-    initPageMeta()
+    resetPage()
   } finally {
     lockTable.value = false
   }
 }
 
 const getParamsFromQuery = () => {
-  const { pageParams, filterParams } = checkParamsInQuery()
-  pageMeta.value = { ...pageMeta.value, ...pageParams }
+  const { pageParams, filterParams } = checkNewCursorParamsInQuery()
+  if (isEmptyObj(pageParams) && isEmptyObj(filterParams)) {
+    return
+  }
+  const storageCursorMap = getCursorMap(routeName.value)
+  if (storageCursorMap) {
+    cursorMap.value = storageCursorMap
+  }
+  page.value = pageParams.page || 1
+  setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
       if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
@@ -381,7 +453,8 @@ const cleanBatchClients = async () => {
     batchDeleteLoading.value = true
     try {
       await batchDisconnectClients(clientIds)
-      loadNodeClients({ page: 1 })
+      resetPage()
+      loadNodeClients()
       ElMessage.success(tl('kickedOutSuc'))
       TableCom.value?.clearSelection()
     } catch (error) {
@@ -409,7 +482,7 @@ const cleanBatchClients = async () => {
         z-index: 20;
       }
     }
-    $select-width: 100px;
+    $select-width: 120px;
     > .el-select {
       width: $select-width;
       .el-input__wrapper {

@@ -69,8 +69,9 @@ const { getPluginAuthorString } = usePluginItem()
 
 <style lang="scss" scoped>
 .plugin-info {
-  padding: 28px 24px;
+  padding: 20px;
   background: linear-gradient(33deg, #1bcba90c 0%, #2369ff0c 46%, #876eff0c 100%);
+  border-radius: 10px;
 }
 .plugin-info-hd {
   margin-top: 0;

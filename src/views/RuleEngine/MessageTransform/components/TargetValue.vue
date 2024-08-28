@@ -73,8 +73,8 @@ const targetValue = computed({
 
 const { canGetSubTarget } = useMessageTransformForm()
 
-const handleBelongChanged = (val: string) => {
-  if (!canGetSubTarget(val) && targetValue.value.targetValue) {
+const handleBelongChanged = () => {
+  if (targetValue.value.targetValue) {
     targetValue.value.targetValue = ''
   }
 }
@@ -95,9 +95,8 @@ const handleSQLContentDialogSubmitted = (sql: string) => {
   targetValue.value.targetValue = sql
 }
 
-const isPubPropsParent = computed(
-  () => targetValue.value.targetBelong === `${AvailableKey.PubProps}.`,
-)
+const detectIsPubPropsParent = (value: string) => value === `${AvailableKey.PubProps}.`
+const isPubPropsParent = computed(() => detectIsPubPropsParent(targetValue.value.targetBelong))
 const pubPropsKeys = availablePropKeyMap.get(AvailableKey.PubProps)?.keys || []
 
 const handleBlur = () => emit('blur')

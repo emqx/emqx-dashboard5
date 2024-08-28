@@ -8,6 +8,7 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
+import { get } from 'lodash'
 import moment from 'moment'
 import useI18nTl from './useI18nTl'
 
@@ -16,6 +17,8 @@ export const enum MetricType {
   Blue,
   Red,
   Gray,
+  Purple,
+  Yellow,
 }
 
 export type TypeMapData = Array<{ type: MetricType; title: string; contains: Array<string> }>
@@ -27,6 +30,8 @@ export const TYPE_COLOR_MAP: Record<MetricType, string> = {
   [MetricType.Blue]: BLUE,
   [MetricType.Red]: '#fdafa6',
   [MetricType.Gray]: '#bac1cd',
+  [MetricType.Purple]: '#c5a3e5',
+  [MetricType.Yellow]: '#ffd78e',
 }
 
 const COLOR_NONE = '#c2c8d1'
@@ -248,12 +253,13 @@ export const useChartDataUtils = (): {
       const { title, contains: values } = value
       let typeCount = 0
       const typeList = values.reduce((ret, key) => {
+        const value = get(metrics, key)
         const item = {
-          value: metrics[key],
+          value,
           label: getMetricItemLabel(key, textMap),
           desc: getMetricItemDesc(key, textMap),
         }
-        typeCount = accAdd(typeCount, metrics[key])
+        typeCount = accAdd(typeCount, value)
         ret.push(item)
         return ret
       }, [] as Array<{ value: number; label: string; desc?: string }>)
@@ -284,7 +290,7 @@ export const useChartDataUtils = (): {
         return arr
       }
       const { title, contains: values } = dataItem
-      const value = values.reduce((sum, item) => accAdd(sum, metrics[item] || 0), 0)
+      const value = values.reduce((sum, item) => accAdd(sum, get(metrics, item) || 0), 0)
       return [...arr, { type: Number(key) as MetricType, name: title, value }]
     }, [] as Array<PieDataItem>)
   }
@@ -448,8 +454,8 @@ export const useRuleMetrics = (): {
   const { t, tl } = useI18nTl('RuleEngine')
   const ruleTypeMetricsMap = [
     { type: MetricType.Green, title: tl('passed'), contains: ['passed'] },
-    { type: MetricType.Gray, title: tl('failedNoResult'), contains: ['failed.no_result'] },
     { type: MetricType.Red, title: t('Base.failed'), contains: ['failed.exception'] },
+    { type: MetricType.Gray, title: tl('failedNoResult'), contains: ['failed.no_result'] },
   ]
   const actionTypeMetricsMap = [
     { type: MetricType.Green, title: tl('actionsSuccess'), contains: ['actions.success'] },
@@ -569,6 +575,74 @@ export const useMessageTransformMetrics = (): {
   return {
     transformMetricsMap,
     transformMetricsTextMap,
+    rateData,
+  }
+}
+
+export const useClusterLinkingMetrics = (): {
+  linkingMetricsMap: TypeMapData
+  linkingMetricsTextMap: Record<string, { label: string; desc?: string }>
+  linkingOtherMetricsMap: TypeMapData
+  rateData: Rate
+} => {
+  const { t, tl } = useI18nTl('Base')
+  const linkingMetricsMap = [
+    {
+      type: MetricType.Green,
+      title: tl('success'),
+      contains: ['forwarding.success'],
+    },
+    {
+      type: MetricType.Blue,
+      title: t('RuleEngine.processing'),
+      contains: ['forwarding.inflight', 'forwarding.queuing'],
+    },
+    {
+      type: MetricType.Red,
+      title: tl('failed'),
+      contains: ['forwarding.failed'],
+    },
+    {
+      type: MetricType.Gray,
+      title: t('RuleEngine.dropped'),
+      contains: ['forwarding.dropped'],
+    },
+  ]
+
+  const linkingOtherMetricsMap = [
+    { type: MetricType.Purple, title: t('BasicConfig.routes'), contains: ['router.routes'] },
+    { type: MetricType.Yellow, title: t('BasicConfig.retried'), contains: ['forwarding.retried'] },
+  ]
+
+  const linkingMetricsTextMap = {
+    'forwarding.matched': { label: t('Base.total') },
+    succeeded: { label: t('Base.allow') },
+    failed: { label: t('Base.deny') },
+    'forwarding.inflight': {
+      label: t('RuleEngine.sentInflight'),
+      desc: t('RuleEngine.sentInflightDesc'),
+    },
+    'forwarding.queuing': { label: t('RuleEngine.queuing'), desc: t('RuleEngine.queuingDesc') },
+    'forwarding.rate': {
+      label: t('Base.rateNow'),
+      desc: t('BasicConfig.linkingRateBarDesc'),
+    },
+    'forwarding.rate_max': { label: t('Base.rateMax') },
+    'forwarding.rate_last5m': { label: t('Base.rateLast5M') },
+    'router.routes': { label: t('BasicConfig.routes'), desc: t('BasicConfig.routesDesc') },
+    'forwarding.retried': { label: t('BasicConfig.retried') },
+  }
+
+  const rateData = {
+    unitKey: 'RuleEngine.rateUnit',
+    current: 'forwarding.rate',
+    right1: 'forwarding.rate_last5m',
+    right2: 'forwarding.rate_max',
+  }
+  return {
+    linkingMetricsMap,
+    linkingMetricsTextMap,
+    linkingOtherMetricsMap,
     rateData,
   }
 }

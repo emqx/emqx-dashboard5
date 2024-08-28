@@ -1,6 +1,6 @@
 import http from '@/common/http'
 import { Metrics } from '@/types/common'
-import { MessageTransform } from '@/types/typeAlias'
+import { MessageTransform, TestMessageTransformData } from '@/types/typeAlias'
 
 export const getMessageTransforms = (): Promise<Array<MessageTransform>> => {
   return http.get(`/message_transformations`)
@@ -38,4 +38,8 @@ export const getMessageTransformMetrics = (name: string): Promise<Metrics> => {
 
 export const resetMessageTransformMetrics = (name: string): Promise<void> => {
   return http.post(`/message_transformations/transformation/${name}/metrics/reset`)
+}
+
+export const testMessageTransform = (data: TestMessageTransformData): Promise<any> => {
+  return http.post(`/message_transformations/dryrun`, data)
 }

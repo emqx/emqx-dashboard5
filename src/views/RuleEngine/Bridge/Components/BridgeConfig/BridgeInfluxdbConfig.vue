@@ -17,7 +17,7 @@
       </el-col>
       <el-col :span="colSpan">
         <CustomFormItem :label="t('components.connector')" prop="connector" :readonly="readonly">
-          <ConnectorSelect v-model="formData.connector" :type="BridgeType.InfluxDB" />
+          <ConnectorSelect v-model="formData.connector" :type="formData.type" />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
@@ -31,8 +31,8 @@
       <el-col :span="colSpan">
         <el-form-item prop="parameters.precision">
           <template #label>
-            <span>{{ getText('precision.label') }}</span>
-            <InfoTooltip :content="getText('precision.desc')" />
+            <span>{{ getLabel('precision') }}</span>
+            <InfoTooltip :content="getDesc('precision')" />
           </template>
           <el-select v-model="formData.parameters.precision" v-if="!readonly">
             <el-option
@@ -62,6 +62,7 @@
             ref="writeSyntaxInputCom"
             :readonly="readonly"
             :disabled="disabled"
+            :type="formData.type"
           />
         </el-form-item>
       </el-col>
@@ -103,6 +104,9 @@ const props = defineProps({
   modelValue: {
     type: Object,
   },
+  type: {
+    type: String,
+  },
   edit: {
     type: Boolean,
   },
@@ -131,14 +135,22 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'init'])
 
 const { tl, t } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.influxdb.${key}`)
+const getLabel = (key: string) => t(`BridgeSchema.common.${key}.label`)
+const getDesc = (key: string) =>
+  t(`BridgeSchema.${props.modelValue?.type ?? 'influxdb'}.${key}.desc`)
 
 const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
   ref: '#/components/schemas/bridge_influxdb.post_bridge_v2',
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
-const { createRawInfluxDBForm: createDefaultValue } = useBridgeFormCreator()
+const { createRawInfluxDBForm, createRawDataLayersForm } = useBridgeFormCreator()
+const createDefaultValue = () => {
+  if (props.type === BridgeType.Datalayers) {
+    return createRawDataLayersForm()
+  }
+  return createRawInfluxDBForm()
+}
 
 const formData: Ref<OtherBridge> = ref(createDefaultValue())
 const formCom = ref()
@@ -148,7 +160,7 @@ const { createRequiredRule, createCommonIdRule } = useFormRules()
 const formRules = {
   name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   connector: createRequiredRule(t('components.connector'), 'select'),
-  'parameters.write_syntax': createRequiredRule(getText('write_syntax.label')),
+  'parameters.write_syntax': createRequiredRule(getLabel('write_syntax')),
 }
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))

@@ -44,15 +44,20 @@
               :plugin-name="pluginName"
               :plugin-version="pluginVersion"
               :plugin-with-config="pluginWithConfig"
+              :is-detail-loading="isDetailLoading"
             />
           </el-card>
         </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
           <el-card class="app-card">
-            <div class="plugin-info-bd">
-              <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />
-              <PluginInfo :plugin-data="pluginInfo" />
-            </div>
+            <el-row class="plugin-info-bd" :gutter="20">
+              <el-col :span="16">
+                <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />
+              </el-col>
+              <el-col :span="8">
+                <PluginInfo :plugin-data="pluginInfo" />
+              </el-col>
+            </el-row>
           </el-card>
         </el-tab-pane>
       </div>
@@ -124,7 +129,6 @@ getPluginDetail()
 </script>
 
 <style lang="scss" scoped>
-@import './style/pluginInfo.scss';
 .plugin-detail {
   .el-tag {
     margin-right: 12px;

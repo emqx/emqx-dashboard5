@@ -112,6 +112,8 @@ const useRuleFunc = (): {
 
 export default useRuleFunc
 
+export const numberArgTypes = [ArgumentType.Number, ArgumentType.Float, ArgumentType.Integer]
+
 type FunctionItemProps = Readonly<{
   modelValue: FunctionItem
   readonly: boolean
@@ -193,13 +195,12 @@ export const useFunctionItemData = (
     }
   }
 
-  const numberTypes = [ArgumentType.Number, ArgumentType.Float, ArgumentType.Integer]
   /**
    * When the type of the parameter is a number type and
    * no placeholder is used, convert the type of its value
    */
   const handleArgChanged = (val: string, index: number, type: ArgumentType) => {
-    if (numberTypes.includes(type) && val !== '' && !Number.isNaN(Number(val))) {
+    if (numberArgTypes.includes(type) && val !== '' && !Number.isNaN(Number(val))) {
       record.value.func.args[index] = Number(val)
     }
   }

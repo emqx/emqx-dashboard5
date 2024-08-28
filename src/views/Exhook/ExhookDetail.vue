@@ -199,15 +199,6 @@ queryRegisteredHooks()
 </script>
 
 <style lang="scss" scoped>
-.exhook-metrics-card {
-  margin-bottom: 28px;
-}
-.metrics-title {
-  margin-bottom: 12px;
-}
-.metric-num {
-  font-size: 24px;
-}
 .exhook-form {
   width: 75%;
 }

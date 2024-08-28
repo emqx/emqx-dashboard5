@@ -251,6 +251,7 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
+  [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px' },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]

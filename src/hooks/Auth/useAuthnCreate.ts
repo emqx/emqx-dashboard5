@@ -153,7 +153,6 @@ export default function useAuthnCreate() {
   const getKerberosConfig = () => {
     return {
       enable: true,
-      keytab_file: '',
       principal: '',
     }
   }

@@ -1135,7 +1135,7 @@
               "microsecond",
               "nanosecond"
             ],
-            "required": false
+            "required": true
           },
           {
             "name": "TimeOffset",

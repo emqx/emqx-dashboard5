@@ -676,17 +676,28 @@ const SchemaForm = defineComponent({
           return ele
         }
         case 'oneof': {
-          const props = { modelValue, items: property.oneOf }
           if (isComplexOneof(property)) {
-            return (
-              <OneofRefs
-                {...props}
-                property={property}
-                colSpan={getColSpan(property)}
-                getText={getText}
-                readonly
-              />
-            )
+            const props = {
+              modelValue,
+              property,
+              getText,
+              items: property.oneOf,
+              readonly: true,
+              colSpan: getColSpan(property),
+            }
+            if (property.useNewCom) {
+              return (
+                <OneofRefsSelect
+                  {...props}
+                  key={property.path}
+                  fieldValue={modelValue}
+                  onChange={(selectedProperty: any) =>
+                    handleSelectOneof(property, selectedProperty)
+                  }
+                />
+              )
+            }
+            return <OneofRefs {...props} />
           }
           return <p class="value">{modelValue}</p>
         }

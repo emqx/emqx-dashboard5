@@ -365,8 +365,12 @@ export default {
     zh: '启用 CRL 检查',
   },
   showLimiter: {
-    zh: '速率限制（可选）',
-    en: 'Limiter (Optional)',
+    zh: '速率限制',
+    en: 'Limiter',
+  },
+  showLimiterDesc: {
+    zh: '速率限制为可选配置。默认空白值表示未开启限制。设置具体数值来启用限制，如需关闭已开启的限制，请将其值设为 `infinity`。',
+    en: 'Rate limiting is optional. Default empty values indicate that limits are not enabled. Set specific numeric values to enable limits, or set to `infinity` to disable enabled limits.',
   },
   customConfig: {
     zh: '自定义配置',
@@ -375,6 +379,22 @@ export default {
   customConfigDescription: {
     zh: '使用 Hocon 配置更多监听器参数。',
     en: 'Use hocon to configure more listener parameters.',
+  },
+  healthCheck: {
+    zh: '健康检查',
+    en: 'Health Check',
+  },
+  healthCheckDesc: {
+    zh: '健康检查请求内容',
+    en: 'Health Check Request Content',
+  },
+  healthCheckResponse: {
+    zh: '健康检查响应',
+    en: 'Health Check Response',
+  },
+  healthCheckResponseDesc: {
+    zh: '健康检查响应内容',
+    en: 'Health Check Response Content',
   },
   maxLenOfFrame: {
     zh: '最大帧长度',

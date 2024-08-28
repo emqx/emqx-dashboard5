@@ -290,23 +290,6 @@ export interface RuleEngineRuleCreation {
   metadata?: RuleEngineRuleCreationMetadata
 }
 
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxPub
-
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext
   stop_action_after_template_rendering?: boolean
@@ -320,6 +303,8 @@ export interface RuleEngineRepublishMqttProperties {
   'Correlation-Data'?: string
 }
 
+export type RuleEngineRepublishArgsDirectDispatch = string | boolean
+
 export type RuleEngineRepublishArgsRetain = string | boolean
 
 export type RuleEngineRepublishArgsQos = string | number
@@ -331,6 +316,7 @@ export interface RuleEngineRepublishArgs {
   payload?: string
   mqtt_properties?: RuleEngineRepublishMqttProperties
   user_properties?: string
+  direct_dispatch?: RuleEngineRepublishArgsDirectDispatch
 }
 
 export interface RuleEngineNodeMetrics {
@@ -484,6 +470,23 @@ export interface RuleEngineCtxDropped {
   publish_received_at?: number
   qos?: number
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxPub
 
 export type RuleEngineCtxDisconnectedEventType =
   typeof RuleEngineCtxDisconnectedEventType[keyof typeof RuleEngineCtxDisconnectedEventType]

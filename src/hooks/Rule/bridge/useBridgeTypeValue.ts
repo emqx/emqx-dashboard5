@@ -39,8 +39,10 @@ const bridgesOrder = [
   BridgeType.Elasticsearch,
   BridgeType.S3,
   BridgeType.AzureBlobStorage,
+  BridgeType.Couchbase,
   BridgeType.SysKeeperProxy,
   BridgeType.SysKeeperForwarder,
+  BridgeType.Datalayers,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
@@ -96,6 +98,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.S3, label: 'Amazon S3' },
     { value: BridgeType.AzureBlobStorage, label: 'Azure Blob Storage' },
     { value: BridgeType.Couchbase, label: 'Couchbase' },
+    { value: BridgeType.Datalayers, label: 'Datalayers' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**

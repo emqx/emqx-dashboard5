@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :title="$t('Base.create')" v-model="showDialog" class="banned-dialog" destroy-on-close>
+  <el-dialog
+    :title="$t('Base.create')"
+    v-model="showDialog"
+    width="800px"
+    class="banned-dialog"
+    destroy-on-close
+  >
     <el-form
       ref="FormCom"
       :model="record"
@@ -170,8 +176,9 @@ const save = async () => {
 
 <style lang="scss">
 .banned-dialog {
-  .el-input-group--append :deep(.el-input-group__append) {
-    width: 110px;
+  .el-input-group--prepend .el-input-group__prepend {
+    width: 160px;
+    padding: 0;
   }
 }
 .datepicker-until {

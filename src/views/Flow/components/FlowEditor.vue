@@ -644,6 +644,9 @@ defineExpose({ validate, getFlowData, getNodes, setNodes })
 
   .vue-flow {
     height: auto;
+    &.flow-guide {
+      height: 100%;
+    }
   }
 
   .vue-flow,

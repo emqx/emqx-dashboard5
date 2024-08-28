@@ -347,6 +347,7 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -366,6 +367,7 @@ export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -439,6 +441,7 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -458,6 +461,7 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -504,6 +508,7 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
+  | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
   | AuthnLdap
@@ -683,6 +688,33 @@ export const GatewayDtlsOptsVerify = {
   verify_none: 'verify_none',
 } as const
 
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  keyfile?: string
+  verify?: GatewayDtlsOptsVerify
+  reuse_sessions?: boolean
+  depth?: number
+  password?: string
+  versions?: string[]
+  ciphers?: string[]
+  secure_renegotiate?: boolean
+  log_level?: GatewayDtlsOptsLogLevel
+  hibernate_after?: string
+  partial_chain?: GatewayDtlsOptsPartialChain
+  verify_peer_ext_key_usage?: string
+  dhfile?: string
+  fail_if_no_peer_cert?: boolean
+  honor_cipher_order?: boolean
+  client_renegotiation?: boolean
+  handshake_timeout?: string
+  gc_after_handshake?: boolean
+  ocsp?: EmqxOcsp
+  enable_crl_check?: boolean
+}
+
 export interface EmqxTcpOpts {
   active_n?: number
   backlog?: number
@@ -763,33 +795,6 @@ export interface EmqxOcsp {
   issuer_pem?: string
   refresh_interval?: string
   refresh_http_timeout?: string
-}
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: GatewayDtlsOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: GatewayDtlsOptsLogLevel
-  hibernate_after?: string
-  partial_chain?: GatewayDtlsOptsPartialChain
-  verify_peer_ext_key_usage?: string
-  dhfile?: string
-  fail_if_no_peer_cert?: boolean
-  honor_cipher_order?: boolean
-  client_renegotiation?: boolean
-  handshake_timeout?: string
-  gc_after_handshake?: boolean
-  ocsp?: EmqxOcsp
-  enable_crl_check?: boolean
 }
 
 export type EmqxListenerWssOptsPartialChain =
@@ -1778,6 +1783,28 @@ export interface AuthnLdap {
   request_timeout?: string
   ssl?: LdapSsl
   method?: AuthnLdapMethod
+}
+
+export type AuthnKerberosBackend = typeof AuthnKerberosBackend[keyof typeof AuthnKerberosBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosBackend = {
+  kerberos: 'kerberos',
+} as const
+
+export type AuthnKerberosMechanism =
+  typeof AuthnKerberosMechanism[keyof typeof AuthnKerberosMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnKerberosMechanism = {
+  gssapi: 'gssapi',
+} as const
+
+export interface AuthnKerberos {
+  enable?: boolean
+  mechanism: AuthnKerberosMechanism
+  backend: AuthnKerberosBackend
+  principal: string
 }
 
 export type AuthnJwtPublicKeyFrom = typeof AuthnJwtPublicKeyFrom[keyof typeof AuthnJwtPublicKeyFrom]

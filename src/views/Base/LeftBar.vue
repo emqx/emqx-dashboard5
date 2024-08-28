@@ -162,7 +162,7 @@ export default defineComponent({
     padding-right: 20px;
   }
 }
-@media screen and (max-height: 740px) {
+@media screen and (max-height: 920px) {
   .sub-menu-popper {
     .el-menu {
       height: 90vh;

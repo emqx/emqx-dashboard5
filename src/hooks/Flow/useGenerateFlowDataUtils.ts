@@ -92,7 +92,7 @@ export default (): {
   /* FIELDS */
   const countArgsWhenLengthNotMatch = (
     functionParamTemplate: Array<ArgItem>,
-    actualParams: Array<string | number>,
+    actualParams: Array<string>,
   ) => {
     let startIndex = -1
     return functionParamTemplate.map((item, index) => {
@@ -112,6 +112,7 @@ export default (): {
     return actualParams.length === 2 ? [actualParams[0], '', actualParams[1]] : actualParams
   }
 
+  const strArgReg = /^'.*'$/
   const getFuncDataFromExpression = (
     expression: string,
   ): { field: string; func: { name: string; args: Array<string | number> } } | undefined => {
@@ -129,13 +130,28 @@ export default (): {
     if (funcName === 'subbits') {
       funcArgs = countActualArgsForSubbits(funcArgs)
     }
-    let args: Array<string | number> = []
+    let argStrArr: Array<string> = []
     if (funcArgs.length !== funcItem.args.length) {
-      args = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
+      argStrArr = countArgsWhenLengthNotMatch(funcItem.args, funcArgs)
     } else {
-      args = funcArgs
+      argStrArr = funcArgs
     }
-    return { func: { name: funcName, args }, field: args[argIndex].toString() }
+    const args = argStrArr.reduce(
+      (result: Array<string | number>, argItem: string, index: number) => {
+        const argInfo = funcItem.args?.[index]
+        const isStringType =
+          argInfo?.type === 'string' ||
+          (argInfo?.type === 'enum' &&
+            typeof argInfo?.optionalValues?.find(
+              (enumItem) => enumItem === argItem.slice(1, -1),
+            ) === 'string')
+        const argResult = strArgReg.test(argItem) && isStringType ? argItem.slice(1, -1) : argItem
+        result.push(argResult)
+        return result
+      },
+      [],
+    )
+    return { func: { name: funcName, args }, field: argStrArr[argIndex].toString() }
   }
 
   const generateFunctionFormItemFromExpression = (expressionItem: string): FunctionItem => {

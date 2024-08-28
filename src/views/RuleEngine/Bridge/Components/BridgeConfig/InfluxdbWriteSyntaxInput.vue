@@ -3,12 +3,11 @@
     <div class="type-select">
       <el-form-item :label="tl('dataFormat')">
         <template #label>
-          <span>{{ tl('dataFormat') }}</span>
-          <InfoTooltip>
-            <template #content>
-              <MarkdownContent :content="`${tl('dataDefinition')} ${tl('dataDefinitionDesc')}`" />
-            </template>
-          </InfoTooltip>
+          <FormItemLabel
+            :label="tl('dataFormat')"
+            :desc="`${tl('dataDefinition')} ${tl('dataDefinitionDesc', { database })}`"
+            desc-marked
+          />
         </template>
         <el-radio-group v-model="activeTab">
           <el-radio-button :label="Tab.JSON" border> JSON </el-radio-button>
@@ -18,12 +17,11 @@
     </div>
     <el-form-item prop="parameters.write_syntax" v-if="activeTab === Tab.Raw">
       <template #label>
-        <span>{{ getText('write_syntax.label') }}</span>
-        <InfoTooltip popper-class="is-wider">
-          <template #content>
-            <MarkdownContent :content="getText('write_syntax.desc')" />
-          </template>
-        </InfoTooltip>
+        <FormItemLabel
+          :label="getLabel('write_syntax')"
+          :desc="getDesc('write_syntax')"
+          desc-marked
+        />
       </template>
       <div class="monaco-container">
         <Monaco
@@ -41,6 +39,7 @@
         ref="protocolFormCom"
         :readonly="readonly"
         :disabled="disabled"
+        :type="type"
       />
     </el-card>
   </div>
@@ -48,13 +47,14 @@
 
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
-import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
+import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
+import useI18nTl from '@/hooks/useI18nTl'
+import { BridgeType } from '@/types/enum'
+import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
+import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 
 enum Tab {
   Raw = 'raw',
@@ -72,13 +72,21 @@ const props = defineProps({
   disabled: {
     type: Boolean,
   },
+  type: {
+    type: String as PropType<BridgeType>,
+    default: BridgeType.InfluxDB,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const { tl, t } = useI18nTl('RuleEngine')
-const getText = (key: string) => t(`BridgeSchema.influxdb.${key}`)
+const getLabel = (key: string) => t(`BridgeSchema.common.${key}.label`)
+const getDesc = (key: string) => t(`BridgeSchema.${props.type}.${key}.desc`)
 const activeTab = ref(Tab.JSON)
+
+const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+const database = computed(() => getBridgeLabelByTypeValue(props.type) ?? '')
 
 const { completionProvider } = useAvailableProviders()
 

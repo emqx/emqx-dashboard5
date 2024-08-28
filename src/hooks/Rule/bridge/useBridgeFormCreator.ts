@@ -11,6 +11,7 @@ import {
 export default (): {
   createRawMQTTForm: (direction?: BridgeDirection) => any
   createRawInfluxDBForm: () => OtherBridge
+  createRawDataLayersForm: () => OtherBridge
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
   const { createSSLForm } = useSSL()
@@ -76,8 +77,14 @@ export default (): {
     }),
   })
 
+  const createRawDataLayersForm = () => ({
+    ...createRawInfluxDBForm(),
+    type: BridgeType.Datalayers,
+  })
+
   return {
     createRawMQTTForm,
     createRawInfluxDBForm,
+    createRawDataLayersForm,
   }
 }

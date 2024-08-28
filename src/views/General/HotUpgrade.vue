@@ -9,8 +9,8 @@
       </div>
     </div>
     <el-table :data="nodeList" v-loading.lock="isTableLoading">
-      <el-table-column prop="node" :label="t('Base.node')" />
-      <el-table-column :label="t('Base.status')">
+      <el-table-column prop="node" :label="t('Base.node')" :min-width="200" />
+      <el-table-column :label="t('Base.status')" :min-width="160">
         <template #default="{ row }">
           <div class="vertical-align-center">
             <i class="node-status-dot" :class="getNodeStatusDotClass(row.status)"></i>
@@ -18,10 +18,14 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="role" :label="t('Dashboard.role')" />
-      <el-table-column prop="live_connections" :label="t('Dashboard.currentConnection')" />
-      <el-table-column prop="current_vsn" :label="tl('currentVersion')" />
-      <el-table-column :label="t('Base.operation')">
+      <el-table-column prop="role" :label="t('Dashboard.role')" :min-width="140" />
+      <el-table-column
+        prop="live_connections"
+        :label="t('Dashboard.currentConnection')"
+        :min-width="160"
+      />
+      <el-table-column prop="current_vsn" :label="tl('currentVersion')" :min-width="160" />
+      <el-table-column :label="t('Base.operation')" :min-width="240">
         <template #default="{ row }">
           <el-button
             size="small"

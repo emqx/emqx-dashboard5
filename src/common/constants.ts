@@ -11,8 +11,6 @@ import {
 
 export const API_BASE_URL = 'api/v5'
 
-export const QoS_LIST = [0, 1, 2]
-
 export const WEB_SOCKET_STATUS = {
   Connecting: 'MCONNECTING',
   Connected: 'MCONNECTED',
@@ -281,7 +279,7 @@ export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
 const { VUE_APP_VERSION } = process.env
 export const IS_ENTERPRISE = VUE_APP_VERSION === 'enterprise'
 
-export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB]
+export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB, BridgeType.Datalayers]
 
 export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT, BridgeType.RabbitMQ]
 
