@@ -1097,4 +1097,12 @@ export default {
     zh: '启用后直接分发消息到订阅者，跳过常规处理流程。限制如下：\n\n* 输出消息不会被保留\n* 不触发其他基于此主题触发规则\n* 不激活 `$events/message_publish` 规则\n* 不触发 `message.publish` 钩子\n* 不收集主题指标',
     en: 'When enabled, directly dispatches messages to subscribers, bypassing regular processing. Limitations:\n\n* Output message is not retained\n* Does not trigger other rules based on this topic\n* Does not activate `$events/message_publish` rules\n* Does not trigger `message.publish` hook\n* Does not collect topic metrics',
   },
+  utf8EncodedCharacterData: {
+    zh: '1 - UTF-8 编码的字符数据',
+    en: '1 - UTF-8 encoded character data',
+  },
+  unspecifiedByteStream: {
+    zh: '0 - 未指定的字节流',
+    en: '0 - Unspecified byte stream',
+  },
 }
