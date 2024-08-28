@@ -88,8 +88,14 @@
               allow-create
               clearable
             >
-              <el-option label="true" value="true" />
-              <el-option label="false" value="false" />
+              <el-option label="true" value="true">
+                <span class="option-label">true</span>
+                <span class="option-description"> {{ tl('utf8EncodedCharacterData') }} </span>
+              </el-option>
+              <el-option label="false" value="false">
+                <span class="option-label">false</span>
+                <span class="option-description"> {{ tl('unspecifiedByteStream') }} </span>
+              </el-option>
             </el-select>
           </CustomFormItem>
         </el-col>
@@ -251,5 +257,14 @@ defineExpose({ validate })
 .props-title {
   font-size: 14px;
   font-weight: 700;
+}
+.option-label {
+  float: left;
+}
+
+.option-description {
+  float: right;
+  color: var(--color-text-secondary);
+  font-size: 13px;
 }
 </style>
