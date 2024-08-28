@@ -34,6 +34,7 @@ type DocKey =
   | 'influxDbBatchSettings'
   | 'iotDbBatchSettings'
   | 'tdengineBatchSettings'
+  | 'datalayersBatchSettings'
 
 export type DocMap = Record<DocKey, string>
 
@@ -107,6 +108,10 @@ const createDocLinks = (lang: string): DocMap => {
       lang,
     )}`,
     tdengineBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-tdengine.html#${createBatchSettingHash(
+      lang,
+    )}`,
+    // TODO:
+    datalayersBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-tdengine.html#${createBatchSettingHash(
       lang,
     )}`,
   }

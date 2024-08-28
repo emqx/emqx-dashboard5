@@ -89,12 +89,14 @@ const checkDocMap = {
   [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
   [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
   [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
+  [BatchSettingDatabaseType.Datalayers]: docMap.datalayersBatchSettings,
 }
 
 const dbNameMap = {
   [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
   [BatchSettingDatabaseType.TDengine]: 'TDengine',
   [BatchSettingDatabaseType.IoTDB]: 'IoTDB',
+  [BatchSettingDatabaseType.Datalayers]: 'Datalayers',
 }
 
 const {
@@ -127,7 +129,11 @@ async function importData() {
       const file = fileList.value[0].raw
       const data = await readFileAndParse(file)
       let res: any
-      if (props.type === BatchSettingDatabaseType.InfluxDB) {
+      if (
+        [BatchSettingDatabaseType.Datalayers, BatchSettingDatabaseType.InfluxDB].includes(
+          props.type,
+        )
+      ) {
         res = (await processInfluxDBData(data)) as { key: string; value: string }[]
       } else if (props.type === BatchSettingDatabaseType.TDengine) {
         res = (await processTDengineData(data)) as string
