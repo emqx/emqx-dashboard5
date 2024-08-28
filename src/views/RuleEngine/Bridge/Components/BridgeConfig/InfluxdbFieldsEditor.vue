@@ -69,7 +69,7 @@ import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
 import useI18nTl from '@/hooks/useI18nTl'
-import { BatchSettingDatabaseType } from '@/types/enum'
+import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { Warning } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
 import { computed, defineComponent, ref, Ref, watch } from 'vue'
@@ -96,9 +96,16 @@ export default defineComponent({
     disabled: {
       type: Boolean,
     },
+    type: {
+      type: String,
+    },
   },
   setup(props, context) {
-    const dbType: BatchSettingDatabaseType = BatchSettingDatabaseType.InfluxDB
+    const dbType = computed<BatchSettingDatabaseType>(() =>
+      props.type === BridgeType.Datalayers
+        ? BatchSettingDatabaseType.Datalayers
+        : BatchSettingDatabaseType.InfluxDB,
+    )
     const rowData: kvRow = {
       key: '',
       value: '',

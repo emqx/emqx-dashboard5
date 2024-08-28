@@ -42,6 +42,7 @@
           @update:model-value="handleFieldMapChanged"
           @add="fieldsErrorMsg = ''"
           :readonly="readonly"
+          :type="type"
         />
       </el-form-item>
     </el-col>
