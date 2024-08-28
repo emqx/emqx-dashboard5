@@ -48,18 +48,36 @@ jobs:
     if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e')
     uses: ./.github/workflows/build_enterprise_package.yaml
 
-  bump_dashboard_version:
+  bump_ce_dashboard_version:
     needs:
       - set_version
       - check_package_version
       - build_ce_dashboard_package
-      - build_ee_dashboard_package
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Create PR in emqx/emqx
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_EMQX_RW }}
-          EMQX_NAME: ${{ needs.set_version.outputs.emqx-name }}
+          EMQX_NAME: emqx
+          VERSION: ${{ github.ref_name }}
+        run: |
+          gh --repo emqx/emqx workflow run bump-dashboard-version.yaml \
+            -f emqx-name=${EMQX_NAME} \
+            -f version=${VERSION}
+
+  bump_ee_dashboard_version:
+    needs:
+      - set_version
+      - check_package_version
+      - build_ee_dashboard_package
+    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create PR in emqx/emqx
+        env:
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_EMQX_RW }}
+          EMQX_NAME: emqx-enterprise
           VERSION: ${{ github.ref_name }}
         run: |
           gh --repo emqx/emqx workflow run bump-dashboard-version.yaml \
