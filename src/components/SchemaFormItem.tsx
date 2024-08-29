@@ -214,10 +214,7 @@ export default defineComponent({
         case 'comma_separated_string':
           return stringInput
         case 'oneof':
-          return (
-            // ... TODO: why use v-model here the ts will throw error about there is not modelValue
-            <one-of items={props.oneOf} disabled={isDisabled} v-model={formItemValue.value} />
-          )
+          return <one-of items={props.oneOf} disabled={isDisabled} v-model={formItemValue.value} />
         case 'ssl':
           return <common-tls-config v-model={formItemValue.value} isEdit={!!props.isEdit} />
         case 'sql':
