@@ -21,6 +21,7 @@ type Handler = ({ components, rules }: { components: Properties; rules: SchemaRu
 export default (
   props: {
     type?: string
+    edit: boolean
   } & unknown,
 ): {
   getComponentsHandler: () => Handler

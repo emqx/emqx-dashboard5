@@ -65,7 +65,6 @@ const useHandleSourceItem = (): {
     return requestDeleteSource(id, withDependency)
   }
 
-  // TODO: type of ret; request action metrics
   const getSourceMetrics = async (id: string): Promise<any> => {
     return requestSourceMetrics(id)
   }

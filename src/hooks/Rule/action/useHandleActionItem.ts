@@ -80,7 +80,6 @@ export default (): {
     return requestDelAction(id, withDependency)
   }
 
-  // TODO: type of ret; request action metrics
   const getActionMetrics = async (id: string): Promise<any> => {
     return requestGetActionMetrics(id)
   }

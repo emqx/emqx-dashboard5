@@ -64,7 +64,6 @@
     </el-row>
     <el-row v-else>
       <el-col :span="12" class="img-container">
-        <!-- TODO: -->
         <img
           src="@/assets/img/img-change-default-pwd.png"
           alt="img-change-default-pwd"

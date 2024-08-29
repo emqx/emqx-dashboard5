@@ -469,6 +469,11 @@ const cleanBatchClients = async () => {
 <style lang="scss">
 @import '~@/style/management.scss';
 .search-wrapper {
+  $prepend-width: 128px;
+  .el-input-group--prepend .el-input-group__prepend {
+    width: $prepend-width;
+    flex-shrink: 0s;
+  }
   .like-input {
     > .el-select,
     > .el-date-editor {
@@ -482,9 +487,8 @@ const cleanBatchClients = async () => {
         z-index: 20;
       }
     }
-    $select-width: 120px;
     > .el-select {
-      width: $select-width;
+      width: $prepend-width;
       .el-input__wrapper {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -492,7 +496,7 @@ const cleanBatchClients = async () => {
       }
     }
     > .el-date-editor {
-      width: calc(100% - #{$select-width});
+      width: calc(100% - #{$prepend-width});
       position: relative;
       left: -1px;
       .el-input__wrapper {

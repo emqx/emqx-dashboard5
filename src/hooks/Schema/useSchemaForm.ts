@@ -167,7 +167,6 @@ export default function useSchemaForm(
                 if (item.$ref) {
                   const component = getComponentByRef(schema, item.$ref)
                   item.path = property.path
-                  // TODO:maybe useless?
                   item.key = key
                   item.properties = transComponents(component, item.path, withRules)
                 }

@@ -963,7 +963,6 @@ const SchemaForm = defineComponent({
           const propKey = property.key as string
           const propPath = property.path as string
           // for concise SSL
-          // TODO: can delete it after check
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
           if (isSSLAndNeedConcise) {
             handlePropertyWhenUseConciseSSL(property)
