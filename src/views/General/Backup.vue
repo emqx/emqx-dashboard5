@@ -27,19 +27,19 @@
       </el-button>
     </div>
     <el-table class="backup-table" :data="backupList" v-loading.lock="isTableLoading">
-      <el-table-column prop="filename" min-width="125" :label="tl('filename')"></el-table-column>
-      <el-table-column prop="node" :label="t('Dashboard.nodeName')"></el-table-column>
-      <el-table-column prop="created_at" :label="tl('createdAt')">
+      <el-table-column prop="filename" min-width="125" :label="tl('filename')" />
+      <el-table-column prop="node" min-width="128" :label="t('Dashboard.nodeName')" />
+      <el-table-column prop="created_at" :label="tl('createdAt')" min-width="164">
         <template #default="{ row }">
           {{ moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column prop="size" :label="tl('fileSize')">
+      <el-table-column prop="size" :label="tl('fileSize')" min-width="100">
         <template #default="{ row }">
           {{ formatSizeUnit(row.size) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" min-width="100">
+      <el-table-column :label="$t('Base.operation')" min-width="228">
         <template #default="{ row }">
           <el-button
             size="small"
@@ -66,16 +66,27 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <common-pagination
-        @loadPage="loadBackupFiles"
-        v-model:metaData="pageMeta"
-      ></common-pagination>
+      <common-pagination @loadPage="loadBackupFiles" v-model:metaData="pageMeta" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import {
+  createBackup,
+  deleteBackup,
+  downloadBackup,
+  getBackups,
+  restoreBackup,
+  uploadBackup,
+} from '@/api/systemModule'
+import commonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import { PageData } from '@/types/common'
+import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
+import { Plus, Upload } from '@element-plus/icons-vue'
+import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import {
   ElMessage,
   ElMessageBox,
@@ -83,22 +94,9 @@ import {
   UploadRequestHandler,
   UploadRequestOptions,
 } from 'element-plus'
-import { ref } from 'vue'
-import { Upload, Plus } from '@element-plus/icons-vue'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import commonPagination from '@/components/commonPagination.vue'
-import {
-  getBackups,
-  createBackup,
-  deleteBackup,
-  restoreBackup,
-  downloadBackup,
-  uploadBackup,
-} from '@/api/systemModule'
-import { PageData } from '@/types/common'
-import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
-import { formatSizeUnit, createDownloadBlobLink } from '@emqx/shared-ui-utils'
 import moment from 'moment'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {
   size: number
@@ -149,6 +147,7 @@ const handleCreateBackup = async () => {
   }
 }
 
+const store = useStore()
 const handleRestoreBackup = async (backup: BackupItem) => {
   ElMessageBox.confirm(tl('confirmRestore'), {
     confirmButtonText: t('Base.confirm'),
@@ -166,6 +165,7 @@ const handleRestoreBackup = async (backup: BackupItem) => {
           done()
         }
       } else {
+        store.commit('CLEAR_ABORT_CONTROLLERS')
         done()
       }
     },
