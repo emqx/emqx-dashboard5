@@ -1,5 +1,5 @@
 <template>
-  <div class="slow-sub app-wrapper" v-loading="isLoading">
+  <div class="slow-sub app-wrapper with-padding-top" v-loading="isLoading">
     <div class="placeholder" v-if="!isEnable">
       <el-empty :description="$t('SlowSub.slowSubPlaceholder')" />
       <el-button

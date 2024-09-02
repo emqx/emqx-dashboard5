@@ -387,6 +387,7 @@ export enum BatchSettingDatabaseType {
   InfluxDB = 'influxdb',
   IoTDB = 'iotdb',
   TDengine = 'tdengine',
+  Datalayers = 'datalayers',
 }
 
 export const enum LogResult {
