@@ -34,11 +34,21 @@ import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
 import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
+import { useIoTDBSecondRefControl } from '@/hooks/Rule/connector/useSecondRefControl'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
+import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
+import {
+  computed,
+  ComputedRef,
+  defineEmits,
+  defineExpose,
+  defineProps,
+  ref,
+  withDefaults,
+} from 'vue'
 
 const { getTypeRefKey } = useConnectorSchema()
 
@@ -104,9 +114,22 @@ const customColClass = computed(() => {
   return ret
 })
 
+const { currentRef: IoTDBRef, keyField: IoTDBSecondRefControlField } =
+  useIoTDBSecondRefControl(connectorRecord)
+const typesWithSecondControlMap: Map<string, ComputedRef<string>> = new Map([
+  [BridgeType.IoTDB, IoTDBRef],
+])
+const typesWithSecondControlKeyMap: Map<string, string> = new Map([
+  [BridgeType.IoTDB, IoTDBSecondRefControlField],
+])
+
 const getRefKey = computed(() => {
   if (!props.type) {
     return
+  }
+  const secondRef = typesWithSecondControlMap.get(props.type)
+  if (secondRef) {
+    return secondRef.value
   }
   return getTypeRefKey(props.type)
 })
@@ -114,14 +137,41 @@ const getRefKey = computed(() => {
 const { getComponentsHandler } = useComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
+const isKeyFieldPropChanged = (nC: Properties, oC: Properties) => {
+  const key = typesWithSecondControlKeyMap.get(props.type ?? '')
+  if (!key) {
+    return false
+  }
+  const oldValue = oC[key]?.default
+  const newValue = nC[key]?.default
+  return newValue !== oldValue
+}
+const isKeyFieldValueInit = (nV: Record<string, any>, oV: Record<string, any>) => {
+  const key = typesWithSecondControlKeyMap.get(props.type ?? '')
+  if (!key) {
+    return false
+  }
+  return !oV[key] && nV[key]
+}
 const handleComponentChange = ({
   newVal,
   oldVal,
 }: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
-  if (props.edit || newVal.record?.type === oldVal.record?.type) {
-    return
+  const { record: newRecord } = newVal
+  const { record: oldRecord } = oldVal
+
+  /*
+    If it's in edit mode, and the previous key value in the record was empty but the new one has a value, don't process it
+    If it's not in edit mode, process it if there's any change
+    For IoTDB, we can't directly compare the record values here (unlike the previous redis type), as the record values have already been changed and can't be compared
+   */
+  if (
+    (!props.edit && newRecord?.type !== oldRecord?.type) ||
+    (isKeyFieldPropChanged(newVal.components, oldVal.components) &&
+      (!props.edit || !isKeyFieldValueInit(newRecord, oldRecord)))
+  ) {
+    connectorRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
   }
-  connectorRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
 }
 
 const handleRecordChanged = (formData: OtherBridge) => {

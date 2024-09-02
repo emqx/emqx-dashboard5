@@ -300,6 +300,7 @@ export const useConnectorDirection = (): {
 
 export const useConnectorSchema = (): {
   getTypeRefKey: (type: string) => string
+  typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>>
   getTypeByConnectorSchemaRef: (ref: string) => string
 } => {
   const refPrefix = `bridge_`
@@ -318,7 +319,6 @@ export const useConnectorSchema = (): {
     [BridgeType.Redis, getRef(BridgeType.Redis, '')],
     [BridgeType.SysKeeperForwarder, getRef(BridgeType.SysKeeperForwarder, '', 'post')],
     [BridgeType.SysKeeperProxy, getRef(BridgeType.SysKeeperProxy, 'connector_', 'post')],
-    [BridgeType.IoTDB, getRef(BridgeType.IoTDB, '', 'post')],
     [BridgeType.Elasticsearch, getRef(BridgeType.Elasticsearch, '', 'post')],
     [BridgeType.TDengine, getRef(`${BridgeType.TDengine}_connector`, '', 'post')],
     [BridgeType.OpenTSDB, getRef(`${BridgeType.OpenTSDB}_connector`, '', 'post')],
@@ -329,6 +329,10 @@ export const useConnectorSchema = (): {
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '', 'post')],
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'connector_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
+  ])
+
+  const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
+    [BridgeType.IoTDB, ['iotdb.post_restapi', 'iotdb.post_thrift']],
   ])
 
   const getTypeRefKey = (type: string): string => {
@@ -343,12 +347,18 @@ export const useConnectorSchema = (): {
         return type
       }
     }
+    for (const [type, refValueArr] of typeWithMultipleRefKeyMap.entries()) {
+      if (refValueArr.includes(refKey)) {
+        return type
+      }
+    }
     return refKey
       .replace(new RegExp(`${refPrefix}`), '')
       .replace(new RegExp(`\\.${refSuffix}\\w*`), '')
   }
 
   return {
+    typeWithMultipleRefKeyMap,
     getTypeRefKey,
     getTypeByConnectorSchemaRef,
   }

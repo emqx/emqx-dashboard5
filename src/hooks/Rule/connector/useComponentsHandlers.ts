@@ -7,6 +7,7 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { cloneDeep, pick } from 'lodash'
+import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -328,6 +329,17 @@ export default (
     return { components, rules }
   }
 
+  const iotDbHandler: Handler = (data) => {
+    const { components = {} } = data
+    if (components[IoTDBKeyField]) {
+      if (components[IoTDBKeyField].symbols?.length === 1) {
+        components[IoTDBKeyField].default = components[IoTDBKeyField].symbols?.[0]
+      }
+      components[IoTDBKeyField].symbols = IoTDBDrivers
+    }
+    return { ...data, components }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -344,6 +356,7 @@ export default (
     [BridgeType.AmazonKinesis, amazonKinesisHandler],
     [BridgeType.GreptimeDB, greptimeDBHandler],
     [BridgeType.Pulsar, pulsarHandler],
+    [BridgeType.IoTDB, iotDbHandler],
   ])
 
   const getComponentsHandler = () => {
