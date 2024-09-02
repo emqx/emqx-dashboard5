@@ -846,6 +846,17 @@ export type EmqxMqttRetryInterval = string | 'infinity'
 
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
+export type EmqxMqttSharedSubscriptionInitialStickyPick =
+  typeof EmqxMqttSharedSubscriptionInitialStickyPick[keyof typeof EmqxMqttSharedSubscriptionInitialStickyPick]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttSharedSubscriptionInitialStickyPick = {
+  random: 'random',
+  local: 'local',
+  hash_topic: 'hash_topic',
+  hash_clientid: 'hash_clientid',
+} as const
+
 export type EmqxMqttSharedSubscriptionStrategy =
   typeof EmqxMqttSharedSubscriptionStrategy[keyof typeof EmqxMqttSharedSubscriptionStrategy]
 
@@ -872,6 +883,7 @@ export interface EmqxMqtt {
   wildcard_subscription?: boolean
   shared_subscription?: boolean
   shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
+  shared_subscription_initial_sticky_pick?: EmqxMqttSharedSubscriptionInitialStickyPick
   exclusive_subscription?: boolean
   ignore_loop_deliver?: boolean
   strict_mode?: boolean
