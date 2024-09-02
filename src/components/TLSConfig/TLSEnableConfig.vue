@@ -73,7 +73,11 @@
       </template>
       <p class="value" v-else>{{ record.keyfile }}</p>
     </el-form-item>
-    <el-form-item :prop="getFormItemProp(`cacertfile`)">
+    <!-- Displayed when verify is undefined(for confluent connector) or true -->
+    <el-form-item
+      :prop="getFormItemProp(`cacertfile`)"
+      v-if="record.verify !== SSL_VERIFY_VALUE_MAP.get(false)"
+    >
       <template #label>
         <span>CA Cert</span>
         <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />

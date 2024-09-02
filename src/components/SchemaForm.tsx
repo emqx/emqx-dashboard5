@@ -14,7 +14,6 @@ import useSchemaForm from '@/hooks/Schema/useSchemaForm'
 import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
 import { Properties, Property } from '@/types/schemaForm'
 import ConnectorSelect from '@/views/RuleEngine/Bridge/Components/ConnectorSelect.vue'
 import { Setting } from '@element-plus/icons-vue'
@@ -900,45 +899,6 @@ const SchemaForm = defineComponent({
       )
     }
 
-    /**
-     * called after init record
-     */
-    const { createSSLForm } = useSSL()
-    const handleSSLDataWhenUseConciseSSL = (data: Record<string, any>) => {
-      const walkData = (record: Record<string, any>) => {
-        Object.keys(record).forEach((key) => {
-          const propItem = record[key]
-          if (typeof propItem === 'object') {
-            if (key === SSL_KEY && 'enable' in propItem && propItem.enable === false) {
-              record[key] = createSSLForm()
-            } else {
-              walkData(propItem)
-            }
-          }
-        })
-      }
-      walkData(data)
-      return data
-    }
-
-    const handleSSLRuleWhenUseConciseSSL = (rules: any) => {
-      // Remove this after correct rule
-      const walkRule = (rules: any) => {
-        Object.keys(rules).forEach((key) => {
-          const propItem = rules[key]
-          if (typeof propItem === 'object') {
-            if (key === SSL_KEY) {
-              Reflect.deleteProperty(rules, key)
-            } else {
-              walkRule(propItem)
-            }
-          }
-        })
-      }
-      walkRule(rules)
-      return rules
-    }
-
     const sortPropKeys = (propKeys: Array<string>) => {
       if (!props.propsOrderMap) {
         return propKeys
@@ -1033,7 +993,6 @@ const SchemaForm = defineComponent({
           const propKey = property.key as string
           const propPath = property.path as string
           // for concise SSL
-          // TODO: can delete it after check
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
           if (isSSLAndNeedConcise) {
             handlePropertyWhenUseConciseSSL(property)
@@ -1112,11 +1071,7 @@ const SchemaForm = defineComponent({
     }
 
     const getInitRecord = () => {
-      let record = initRecordByComponents(components.value)
-      if (typesNeedConciseSSL.includes(props.type)) {
-        record = handleSSLDataWhenUseConciseSSL(record)
-      }
-      return record
+      return initRecordByComponents(components.value)
     }
 
     const init = async () => {
@@ -1126,7 +1081,6 @@ const SchemaForm = defineComponent({
         configForm.value = { ...getInitRecord(), ...(_.isObject(props.form) ? props.form : {}) }
         ctx.emit('init', configForm.value)
       }
-      handleSSLRuleWhenUseConciseSSL(rules.value)
     }
 
     watch(
@@ -1152,11 +1106,7 @@ const SchemaForm = defineComponent({
           await waitAMoment()
           // because change accordingTo will not reset parent component form value
           // so we need get new form and emit to parent for compare
-          let newRecord = initRecordByComponents(components.value)
-          if (typesNeedConciseSSL.includes(props.type)) {
-            newRecord = handleSSLDataWhenUseConciseSSL(newRecord)
-            handleSSLRuleWhenUseConciseSSL(rules.value)
-          }
+          const newRecord = initRecordByComponents(components.value)
 
           ctx.emit('component-change', {
             oldVal: { components: oldComponent, record: oldRecord },

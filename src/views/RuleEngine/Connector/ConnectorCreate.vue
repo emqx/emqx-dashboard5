@@ -124,7 +124,6 @@ const initConnectorData = () => {
 
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
 const goPreStep = () => {
-  // TODO:init connector data
   guideDescList.value.pop()
   handleBack()
   scrollToTop()

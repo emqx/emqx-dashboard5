@@ -143,7 +143,7 @@
 </template>
 
 <script lang="ts">
-import { ComputedRef, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Metrics',
@@ -151,7 +151,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { onMounted, ref, Ref, computed } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { loadMetrics } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'

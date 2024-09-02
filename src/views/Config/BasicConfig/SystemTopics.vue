@@ -122,7 +122,8 @@ import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSa
 import useI18nTl from '@/hooks/useI18nTl'
 import { SysTopics } from '@/types/extension'
 import { ElMessage } from 'element-plus'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 
 const { t, tl } = useI18nTl('Extension')

@@ -143,9 +143,10 @@ const sources = computed(() => {
  * Here we also need to determine if the source/action is the only rule being used by the current rule,
  * if it is not (there are multiple rules), skip it.
  */
-const withSourceOrAction = computed(() =>
-  [...sources.value, ...actions.value].every((item) => item.rules.length === 1),
-)
+const withSourceOrAction = computed(() => {
+  const totalList = [...sources.value, ...actions.value]
+  return totalList.length > 0 && totalList.every((item) => item.rules.length === 1)
+})
 const deleteSourceAndActionSameTime = ref(true)
 
 const { deleteAction } = useHandleActionItem()
@@ -159,6 +160,7 @@ const submit = async () => {
   await deleteRules(props.rule.id)
   if (withSourceOrAction.value && deleteSourceAndActionSameTime.value) {
     try {
+      debugger
       await Promise.all(actions.value.map(({ id }) => deleteAction(id)))
     } catch (error) {
       ElMessage.error(t('RuleEngine.deleteError', { target: lowerCase(tl('action')) }))

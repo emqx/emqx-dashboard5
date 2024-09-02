@@ -59,7 +59,6 @@ const QUERY_FOR_HELP = createQueryStr({
 })
 const QUERY_FOR_GO_CLOUD = createQueryStr({
   utm_campaign: 'dashboard-to-cloud',
-  // TODO: confirm this link
   continue: 'https%3A%2F%2Fcloud-intl.emqx.com%2Fconsole%2F',
 })
 const QUERY_FOR_GO_UPGRADE = createQueryStr({
@@ -72,7 +71,6 @@ const createDocLinks = (lang: string): DocMap => {
   return {
     sqlGrammar: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,
     cloud: `https://${accountsLink}/signup?${QUERY_FOR_GO_CLOUD}`,
-    // TODO: version
     documentation: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/?${QUERY_FOR_HELP}`,
     forum: lang === 'en' ? `https://www.emqx.io/forum/` : `https://askemq.com/`,
     gitHub: `https://github.com/emqx/emqx`,

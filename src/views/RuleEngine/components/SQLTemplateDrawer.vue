@@ -61,7 +61,8 @@
 <script setup lang="ts">
 import { SQLTemplates } from '@emqx/shared-ui-i18n'
 import { stringifyObjSafely } from '@/common/tools'
-import { computed, defineEmits, defineProps, ref, Ref, WritableComputedRef } from 'vue'
+import type { Ref, WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CodeView from '@/components/CodeView.vue'
 

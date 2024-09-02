@@ -112,18 +112,10 @@ import { getTypeAndNameFromKey } from '@/common/tools'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
-import { RuleOutput } from '@/types/enum'
+import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
-import {
-  PropType,
-  WritableComputedRef,
-  computed,
-  defineEmits,
-  defineProps,
-  nextTick,
-  ref,
-  watch,
-} from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
@@ -324,6 +316,9 @@ watch(showDrawer, (val) => {
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
+  if (direction === BridgeDirection.Ingress) {
+    return
+  }
   setTimeout(async () => {
     showDrawer.value = true
     if (connType) {

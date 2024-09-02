@@ -14,8 +14,14 @@
           allow-create
           clearable
         >
-          <el-option label="true" value="true" />
-          <el-option label="false" value="false" />
+          <el-option label="true" value="true">
+            <span class="option-label">true</span>
+            <span class="option-description"> {{ tl('utf8EncodedCharacterData') }} </span>
+          </el-option>
+          <el-option label="false" value="false">
+            <span class="option-label">false</span>
+            <span class="option-description"> {{ tl('unspecifiedByteStream') }} </span>
+          </el-option>
         </el-select>
         <el-switch
           v-else
@@ -117,6 +123,14 @@ const getFormItemProp = (key: string) => (props.path ? `${props.path}.${key}` : 
 .pub-props {
   .el-table {
     margin-bottom: 16px;
+  }
+  .option-label {
+    float: left;
+  }
+  .option-description {
+    float: right;
+    color: var(--color-text-secondary);
+    font-size: 13px;
   }
 }
 </style>

@@ -3,7 +3,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FormItemRule } from '@/types/common'
 
 export default (
-  props: any,
+  props: { edit?: boolean } & unknown,
 ): {
   ruleWhenEditing: Array<FormItemRule>
 } => {

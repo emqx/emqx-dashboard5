@@ -1,6 +1,7 @@
 import { BridgeType } from '@/types/enum'
 import { omit } from 'lodash'
-import { computed, ComputedRef, WritableComputedRef } from 'vue'
+import type { ComputedRef, WritableComputedRef } from 'vue'
+import { computed } from 'vue'
 import useSyncConfiguration from '../bridge/useSyncConfiguration'
 
 export const resourceOptFields = [

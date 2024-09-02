@@ -1,7 +1,9 @@
+import { DEFAULT_SSL_VERIFY_VALUE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { cloneDeep, pick } from 'lodash'
@@ -73,6 +75,28 @@ export default (
     return rules
   }
 
+  const { createSSLForm } = useSSL()
+  const SSLKeys = Object.keys(createSSLForm())
+  const SSL_KEY = 'ssl'
+  const filterSSLParams = (components: Properties): Properties => {
+    const walk = (com: Properties): Properties => {
+      Object.entries(com).forEach(([key, prop]) => {
+        if (prop.properties) {
+          if (prop.key === SSL_KEY) {
+            prop.properties = pick(prop.properties, SSLKeys)
+            if (prop.properties.verify) {
+              prop.properties.verify.default = DEFAULT_SSL_VERIFY_VALUE
+            }
+          } else {
+            walk(prop.properties)
+          }
+        }
+      })
+      return com
+    }
+    return walk(components)
+  }
+
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.enable) {
@@ -90,8 +114,9 @@ export default (
     if (comRet.tags) {
       Reflect.deleteProperty(comRet, 'tags')
     }
+    const filteredSSL = filterSSLParams(comRet)
     const rulesRet = addRuleForPassword(rules)
-    return { components: comRet, rules: rulesRet }
+    return { components: filteredSSL, rules: rulesRet }
   }
 
   const mqttHandler: Handler = ({ components, rules }) => {
@@ -115,6 +140,9 @@ export default (
     }
     if (comRet?.headers?.default) {
       comRet.headers.default = pick(comRet.headers.default, 'content-type')
+    }
+    if (comRet?.ssl?.properties?.verify) {
+      comRet.ssl.properties.verify.default = SSL_VERIFY_VALUE_MAP.get(false)
     }
     return { components: comRet, rules }
   }

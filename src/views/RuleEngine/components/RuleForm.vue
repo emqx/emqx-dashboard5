@@ -127,8 +127,8 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeDirection, BridgeType, TestRuleTarget } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
 import { cloneDeep } from 'lodash'
+import type { Ref } from 'vue'
 import {
-  Ref,
   computed,
   defineEmits,
   defineExpose,

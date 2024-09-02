@@ -811,7 +811,7 @@ export default {
   },
   deleteActionAndSourceSameTime: {
     zh: '同时删除关联的动作与 Source',
-    en: 'Delete the associated action and source at the same time',
+    en: 'Delete the associated actions and sources at the same time',
   },
   deleteError: {
     zh: '删除{target}时发生错误，请尝试手动删除',
@@ -1680,5 +1680,13 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   directDispatchDesc: {
     zh: '启用后直接分发消息到订阅者，跳过常规处理流程。限制如下：\n\n* 输出消息不会被保留\n* 不触发其他基于此主题触发规则\n* 不激活 `$events/message_publish` 规则\n* 不触发 `message.publish` 钩子\n* 不收集主题指标\n* 不应用消息模式验证\n* 不应用消息转换处理',
     en: 'When enabled, directly dispatches messages to subscribers, bypassing regular processing. Limitations:\n\n* Output message is not retained\n* Does not trigger other rules based on this topic\n* Does not activate `$events/message_publish` rules\n* Does not trigger `message.publish` hook\n* Does not collect topic metrics\n* Message schema validation is not applied\n* Message transformation processes are not applied',
+  },
+  utf8EncodedCharacterData: {
+    zh: '1 - UTF-8 编码的字符数据',
+    en: '1 - UTF-8 encoded character data',
+  },
+  unspecifiedByteStream: {
+    zh: '0 - 未指定的字节流',
+    en: '0 - Unspecified byte stream',
   },
 }

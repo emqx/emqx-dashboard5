@@ -2,7 +2,8 @@
 import { Component, Properties, Property, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import { cloneDeep, get } from 'lodash'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
 import useSchemaRecord from './useSchemaRecord'
@@ -166,7 +167,6 @@ export default function useSchemaForm(
                 if (item.$ref) {
                   const component = getComponentByRef(schema, item.$ref)
                   item.path = property.path
-                  // TODO:maybe useless?
                   item.key = key
                   item.properties = transComponents(component, item.path, withRules)
                 }

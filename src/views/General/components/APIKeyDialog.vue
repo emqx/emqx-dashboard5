@@ -109,7 +109,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, defineEmits, ref, PropType, Ref, watch, nextTick } from 'vue'
+import type { PropType, Ref } from 'vue'
+import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import { ElDialog } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'

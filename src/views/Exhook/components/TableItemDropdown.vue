@@ -54,8 +54,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
-import { defineProps, defineEmits, PropType, Ref, ref } from 'vue'
-import { CaretBottom, ArrowUp, ArrowDown, Top, Bottom, Delete } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Bottom, CaretBottom, Delete, Top } from '@element-plus/icons-vue'
+import type { PropType, Ref } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 
 defineProps({
   rowData: {

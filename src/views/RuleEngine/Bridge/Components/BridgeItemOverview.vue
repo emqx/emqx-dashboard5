@@ -76,7 +76,8 @@ import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'
 import { lowerCase } from 'lodash'
-import { ComputedRef, PropType, Ref, computed, defineEmits, defineProps, ref, watch } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   /**

@@ -66,7 +66,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import { PluginDetail } from '@/types/plugin'
 import { useI18n } from 'vue-i18n'
 import PluginInfo from './components/PluginInfo.vue'

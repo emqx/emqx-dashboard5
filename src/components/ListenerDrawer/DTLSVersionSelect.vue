@@ -13,7 +13,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, computed, PropType, WritableComputedRef, defineEmits } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps({
   modelValue: {

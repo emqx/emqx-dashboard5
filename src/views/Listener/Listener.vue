@@ -114,7 +114,8 @@ import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
