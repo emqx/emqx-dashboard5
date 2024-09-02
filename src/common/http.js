@@ -146,7 +146,7 @@ axios.interceptors.response.use(
     } else {
       const doNotPopupError = error.code === REQUEST_TIMEOUT_CODE && error.config.handleTimeoutSelf
       if (error.code === 'ERR_CANCELED' && error.message === 'canceled') {
-        return
+        return Promise.reject(error)
       }
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
