@@ -29,21 +29,25 @@ export default (): {
     const walkALevel = (props: any, currentPath: Array<string> = [], walkType: 'new' | 'old') => {
       const keys = Object.keys(props)
       const findTarget = walkType === 'new' ? oldCom : newCom
+
       keys.forEach((keyItem) => {
+        const pathPrefix = countPathPrefix(currentPath)
+        const componentItemPath = `${pathPrefix}${pathPrefix.length ? '.' : ''}${keyItem}`
+        const fieldPath = currentPath.length > 0 ? `${currentPath.join('.')}.${keyItem}` : keyItem
+
         if (props[keyItem].properties) {
           // TODO: find a better way to handle SSL
           if (keyItem === 'ssl') {
             return
           }
           const path = [...currentPath, keyItem]
-          walkALevel(props[keyItem].properties, path, walkType)
+          if (walkType === 'old' && get(findTarget, componentItemPath) === undefined) {
+            fieldPathsNeedDelete.push(fieldPath)
+          } else {
+            walkALevel(props[keyItem].properties, path, walkType)
+          }
         } else {
-          const pathPrefix = countPathPrefix(currentPath)
-          const componentItemPath = `${pathPrefix}${pathPrefix.length ? '.' : ''}${keyItem}`
-
           if (get(findTarget, componentItemPath) === undefined) {
-            const fieldPath =
-              currentPath.length > 0 ? `${currentPath.join('.')}.${keyItem}` : keyItem
             if (walkType === 'new') {
               fieldPathsNeedAdd.push(fieldPath)
             } else {
