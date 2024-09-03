@@ -171,6 +171,7 @@ export enum NodeStatusClass {
 
 export enum ChartType {
   Connections = 'connections',
+  LiveConnections = 'live_connections',
   Dropped = 'dropped',
   Received = 'received',
   ReceivedBytes = 'received_bytes',
