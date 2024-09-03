@@ -87,10 +87,10 @@
           <polyline-chart
             ref="fullScreenChart"
             :chart-id="`${selectedChartItem.value}-polyline-full-screen`"
-            :y-title="[selectedChartItem.text]"
-            :chart-data="metricLog[selectedChartItem.value]"
-            :chart-colors="chartColorList[selectedChartItem.value]"
-            :unit-text-key="dataUnitTextKey[selectedChartItem.value]"
+            :y-title="selectedChartItemYTitle"
+            :chart-data="selectedChartItemChartData"
+            :chart-colors="selectedChartItemColors"
+            :unit-text-key="selectedChartItemUnitTextKey"
             height="65vh"
             show-full-screen
           ></polyline-chart>
@@ -180,22 +180,25 @@ const dataUnitTextKey: Record<string, string> = {
   [ChartType.Sent]: 'Dashboard.messagesUnit',
   [ChartType.Dropped]: 'Dashboard.messagesUnit',
   [ChartType.Connections]: 'Dashboard.connectionsUnit',
+  [ChartType.LiveConnections]: 'Dashboard.liveConnectionsUnit',
   [ChartType.Topics]: 'Dashboard.topicsUnit',
   [ChartType.Subscriptions]: 'Dashboard.subscriptionsUnit',
 }
 const metricLog: Record<string, ChartData> = reactive({
-  [ChartType.Connections]: chartDataFill(32),
-  [ChartType.Topics]: chartDataFill(32),
-  [ChartType.Subscriptions]: chartDataFill(32),
-  [ChartType.Received]: chartDataFill(32),
-  [ChartType.Sent]: chartDataFill(32),
-  [ChartType.Dropped]: chartDataFill(32),
-  [ChartType.SentBytes]: chartDataFill(32),
-  [ChartType.ReceivedBytes]: chartDataFill(32),
+  [ChartType.Connections]: chartDataFill(1),
+  [ChartType.LiveConnections]: chartDataFill(1),
+  [ChartType.Topics]: chartDataFill(1),
+  [ChartType.Subscriptions]: chartDataFill(1),
+  [ChartType.Received]: chartDataFill(1),
+  [ChartType.Sent]: chartDataFill(1),
+  [ChartType.Dropped]: chartDataFill(1),
+  [ChartType.SentBytes]: chartDataFill(1),
+  [ChartType.ReceivedBytes]: chartDataFill(1),
 })
 const dataTypeList: Array<ChartType> = reactive([
   ChartType.Dropped,
   ChartType.Connections,
+  ChartType.LiveConnections,
   ChartType.Topics,
   ChartType.Subscriptions,
   ChartType.Sent,
@@ -203,7 +206,31 @@ const dataTypeList: Array<ChartType> = reactive([
 ])
 
 const selectedChartItem = ref<null | { text: string; value: string }>(null)
+
 const selectedChartTooltip = ref('')
+
+const isSelectedConnection = computed(() => {
+  return selectedChartItem.value?.value === ChartType.Connections
+})
+const selectedChartItemYTitle = computed<Array<string>>(() => {
+  const retText = selectedChartItem.value ? selectedChartItem.value.text : ''
+  return isSelectedConnection.value ? [retText, t('Dashboard.liveConnections')] : [retText]
+})
+const selectedChartItemChartData = computed<ChartData>(() => {
+  const ret = selectedChartItem.value ? metricLog[selectedChartItem.value.value] : []
+  return isSelectedConnection.value ? [ret[0], metricLog[ChartType.LiveConnections][0]] : ret
+})
+const selectedChartItemUnitTextKey = computed(() => {
+  const ret = dataUnitTextKey[selectedChartItem.value?.value ?? '']
+  return isSelectedConnection.value ? [ret, dataUnitTextKey[ChartType.LiveConnections]] : ret
+})
+const selectedChartItemColors = computed(() => {
+  const ret = [...chartColorList.value[selectedChartItem.value?.value ?? '']]
+  if (isSelectedConnection.value) {
+    ret.splice(1, 0, '#308FFF')
+  }
+  return ret
+})
 
 const messageDataTypeFilter = computed(() => {
   return Object.entries(messageDataTypeMap).map(([value, text]) => ({
@@ -217,14 +244,14 @@ const connectionDataTypeFilter = computed(() => {
     value,
   }))
 })
+const getLineColors = (index: number) => {
+  const totalColors = ['#3D7FF9', '#5ECEA6', '#757789', '#5551F4', '#F49845', '#66CFDA']
+  // Swap the first and index positions
+  const changedColorArr = [...totalColors.splice(0, 1, totalColors[index])]
+  totalColors.splice(index, 1, changedColorArr[0])
+  return totalColors
+}
 const chartColorList = computed<Record<string, string[]>>(() => {
-  const getLineColors = (index: number) => {
-    const totalColors = ['#3D7FF9', '#5D4EFF', '#757789', '#00A890', '#F49845', '#66CFDA']
-    // Swap the first and index positions
-    const changedColorArr = [...totalColors.splice(0, 1, totalColors[index])]
-    totalColors.splice(index, 1, changedColorArr[0])
-    return totalColors
-  }
   return {
     received: getLineColors(0),
     sent: getLineColors(1),
