@@ -272,8 +272,8 @@ export default {
     en: 'Reset License',
   },
   resetLicenseConfirm: {
-    zh: '重置为默认 License 后，当前已超出限额的连接可以继续保持，但无法建立新的连接。输入 ”default“ 以确认。',
-    en: 'After resetting to default license, the current connections that have exceeded the limit can continue to be maintained, but new connections cannot be established. Enter "default" to confirm.',
+    zh: '重置为默认 License 后，当前已超出限额的连接可以继续保持，但无法建立新的连接。输入 <code>default</code> 以确认。',
+    en: 'After resetting to default license, the current connections that have exceeded the limit can continue to be maintained, but new connections cannot be established. Enter <code>default</code> to confirm.',
   },
   licenseSettings: {
     zh: 'License 设置',
