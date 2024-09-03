@@ -15,7 +15,11 @@
       @submit.prevent
     >
       <el-form-item :label="tl('key')" prop="key">
-        <el-alert :title="tl('resetLicenseConfirm')" :closable="false" type="warning"></el-alert>
+        <el-alert :closable="false" type="warning">
+          <template v-slot:title>
+            <div v-safe-html="tl('resetLicenseConfirm')"></div>
+          </template>
+        </el-alert>
         <el-input v-model="formData.key" />
       </el-form-item>
     </el-form>
