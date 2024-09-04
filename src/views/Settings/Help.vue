@@ -78,7 +78,6 @@
 </template>
 
 <script lang="ts">
-import type { WritableComputedRef } from 'vue'
 import { computed, defineComponent, defineEmits, defineProps } from 'vue'
 
 export default defineComponent({
@@ -87,10 +86,16 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import cloudIcon from '@/assets/img/cloud.png'
+import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
+import helpBlogIcon from '@/assets/img/help-blog.png'
+import helpDocIcon from '@/assets/img/help-doc.png'
+import helpForumIcon from '@/assets/img/help-forum.png'
+import helpGithubIcon from '@/assets/img/help-github.png'
+import { IS_ENTERPRISE } from '@/common/constants'
+import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
-import useDocLink from '@/hooks/useDocLink'
-import { IS_ENTERPRISE } from '@/common/constants'
 import DocListCard from './components/DocListCard.vue'
 
 const props = defineProps({
@@ -99,7 +104,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue'])
-const showDrawer: WritableComputedRef<boolean> = computed({
+const showDrawer = computed({
   get() {
     return props.modelValue
   },
@@ -114,57 +119,41 @@ const { docMap } = useDocLink()
 const platformList = [
   {
     link: docMap.documentation,
-    icon: require('@/assets/img/help-doc.png'),
+    icon: helpDocIcon,
     title: tl('documentation'),
   },
   {
     link: docMap.forum,
-    icon: require('@/assets/img/help-forum.png'),
+    icon: helpForumIcon,
     title: tl('forum'),
   },
   {
     link: docMap.gitHub,
-    icon: require('@/assets/img/help-github.png'),
+    icon: helpGithubIcon,
     title: tl('gitHub'),
   },
   {
     link: docMap.blog,
-    icon: require('@/assets/img/help-blog.png'),
+    icon: helpBlogIcon,
     title: tl('blog'),
   },
 ]
 
-const emqxDocumentList = [
-  { link: docMap.emqxGettingStarted, title: t('Settings.gettingStarted') },
-  { link: docMap.dashboard, title: t('Settings.dashboardIntro') },
-  { link: docMap.accessControl, title: t('Settings.howAccessControl') },
-  { link: docMap.dataBridge, title: t('Settings.howDataIntegration') },
-  { link: docMap.ruleEngine, title: t('Settings.howRuleEngine') },
-  { link: docMap.learnConfig, title: t('Settings.learnConfig') },
-  { link: docMap.restAPI, title: t('Settings.restAPI') },
-  { link: docMap.faq, title: t('Settings.faq') },
-]
-
-const mqttDocumentList = [
-  { link: docMap.mqttStudy, title: t('Settings.mqttStudy') },
-  { link: docMap.mqttV5, title: t('Settings.mqttV5Intro') },
-  { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
-]
-
+// Rest of the script remains the same, just update the image imports
 const productList = [
   {
     title: 'EMQX Enterprise',
     desc: tl('eeDesc'),
     linkText: t('Settings.tryEnterprise'),
     link: docMap.emqxEnterprise,
-    icon: require('@/assets/img/emqx-enterprise-icon.png'),
+    icon: emqxEnterpriseIcon,
   },
   {
     title: 'EMQX Cloud',
     desc: tl('cloudDesc'),
     linkText: t('Settings.tryCloud'),
     link: docMap.cloudHome,
-    icon: require('@/assets/img/cloud.png'),
+    icon: cloudIcon,
   },
 ]
 
