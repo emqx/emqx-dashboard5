@@ -228,22 +228,22 @@ p.description {
 }
 
 .g-coap::before {
-  background-image: url('~@/assets/gateway/coap.png');
+  background-image: url('@/assets/gateway/coap.png');
 }
 .g-lwm2m::before {
-  background-image: url('~@/assets/gateway/lwm2m.png');
+  background-image: url('@/assets/gateway/lwm2m.png');
 }
 .g-mqttsn::before {
-  background-image: url('~@/assets/gateway/mqttsn.png');
+  background-image: url('@/assets/gateway/mqttsn.png');
 }
 .g-stomp::before {
-  background-image: url('~@/assets/gateway/stomp.png');
+  background-image: url('@/assets/gateway/stomp.png');
 }
 .g-tcp::before {
-  background-image: url('~@/assets/gateway/tcp.png');
+  background-image: url('@/assets/gateway/tcp.png');
 }
 .g-exproto::before {
-  background-image: url('~@/assets/gateway/exproto.png');
+  background-image: url('@/assets/gateway/exproto.png');
 }
 
 .section-header {

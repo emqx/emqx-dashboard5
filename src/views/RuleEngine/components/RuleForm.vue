@@ -442,7 +442,7 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>
 
 <style lang="scss">

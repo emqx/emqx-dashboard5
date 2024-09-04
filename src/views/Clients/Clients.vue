@@ -467,7 +467,7 @@ const cleanBatchClients = async () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .search-wrapper {
   $prepend-width: 128px;
   .el-input-group--prepend .el-input-group__prepend {
