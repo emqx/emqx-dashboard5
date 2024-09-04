@@ -46,7 +46,7 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 .target-type-select.is-connector {
   .el-radio__label {
     .title {
