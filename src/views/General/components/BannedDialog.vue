@@ -76,7 +76,7 @@ import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BannedType } from '@/types/enum'
 import { ElMessage } from 'element-plus'
-import { Banned } from 'src/types/auth'
+import { Banned } from '@/types/auth'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({

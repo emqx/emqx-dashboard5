@@ -131,7 +131,7 @@ getList()
 </script>
 
 <style lang="scss">
-@import '~@/views/Auth/style/authTable.scss';
+@import '@/views/Auth/style/authTable.scss';
 .API-key {
   .key-name {
     cursor: pointer;
