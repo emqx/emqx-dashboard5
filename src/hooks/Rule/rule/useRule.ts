@@ -318,12 +318,12 @@ export const useRuleInputs = (): {
       const adjustedType = adjustTypeForSpecialCases(type)
 
       if (isTypeUsingNewIcon(adjustedType)) {
-        return require(`@/assets/flowIcon/${adjustedType}.png`)
+        return new URL(`../assets/img/${adjustedType}.png`, import.meta.url).href
       }
       if (isBridgeType(type)) {
         return getBridgeIcon(type)
       }
-      return require(`@/assets/img/${adjustedType}.png`)
+      return new URL(`../assets/img/${adjustedType}.png`, import.meta.url).href
     } catch (error) {
       return ''
     }

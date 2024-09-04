@@ -39,13 +39,15 @@
       </el-table>
     </template>
     <div v-else class="webhook-placeholder-container">
-      <img class="img-placeholder" width="480" :src="getImgSrc()" alt="webhook_placeholder" />
+      <img class="img-placeholder" width="480" :src="placeholderImg" alt="webhook_placeholder" />
       <el-button type="primary" @click="addWebhook">{{ $t('Base.create') }} Webhook</el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import placeholderImgDark from '@/assets/img/webhook-placeholder-dark.png'
+import placeholderImgLight from '@/assets/img/webhook-placeholder-light.png'
 import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
 import useWebhookList from '@/hooks/Webhook/useWebhookList'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -61,17 +63,11 @@ const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 const store = useStore()
 
-const theme = computed(() => {
-  return store.state.theme
-})
+const theme = computed(() => store.state.theme)
 
-const getImgSrc = () => {
-  try {
-    return require(`@/assets/img/webhook-placeholder-${theme.value}.png`)
-  } catch (error) {
-    return ''
-  }
-}
+const placeholderImg = computed(() =>
+  theme.value === 'dark' ? placeholderImgDark : placeholderImgLight,
+)
 
 const { webhookList, isLoading, isEmpty, getWebhookList } = useWebhookList()
 const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookItem()

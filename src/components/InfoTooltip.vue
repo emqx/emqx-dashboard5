@@ -22,8 +22,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { Placement } from 'element-plus'
-import { EpPropMergeType } from 'element-plus/es/utils'
 import { defineProps, computed, PropType } from 'vue'
 
 const props = defineProps({
@@ -34,7 +32,7 @@ const props = defineProps({
     type: String,
   },
   place: {
-    type: String as PropType<EpPropMergeType<StringConstructor, Placement, unknown> | undefined>,
+    type: String as PropType<any>,
     default: 'top',
   },
   showAfter: {
