@@ -682,4 +682,4 @@ function sql(hljs) {
   }
 }
 
-module.exports = sql
+export default sql

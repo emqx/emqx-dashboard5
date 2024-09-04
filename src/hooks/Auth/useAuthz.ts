@@ -43,7 +43,7 @@ export default (): {
       authzList.value = res.sources.map((item) => {
         let img = ''
         try {
-          img = require(`@/assets/img/${item.type}.png`)
+          img = new URL(`../assets/img/${item.type}.png`, import.meta.url).href
         } catch (error) {
           console.error(error)
         }

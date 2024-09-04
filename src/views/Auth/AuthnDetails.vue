@@ -115,7 +115,7 @@ import { Delete } from '@element-plus/icons-vue'
 import { isFunction, isUndefined, omit } from 'lodash'
 import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
 import { LDAPAuthMethod } from '@/types/enum'
-import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools.ts'
+import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools.ts'
 import useI18nTl from '@/hooks/useI18nTl'
 import useAuth from '@/hooks/Auth/useAuth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
@@ -196,7 +196,7 @@ export default defineComponent({
 
     const currImg = computed(() => {
       if (currBackend.value) {
-        return require(`@/assets/img/${currBackend.value}.png`)
+        return getImg(`img/${currBackend.value}.png`)
       }
       return ''
     })

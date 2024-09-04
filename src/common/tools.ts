@@ -772,3 +772,7 @@ export const trimValues = (obj: TrimValuesParam, omitKeys?: Array<string>) => {
   }
   return handle(ret)
 }
+
+export const getImg = (relativePathInAssets: string) => {
+  return new URL(`../assets/${relativePathInAssets}`, import.meta.url).href
+}
