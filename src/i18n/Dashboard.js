@@ -207,6 +207,10 @@ export default {
     zh: '{n} 连接',
     en: '0 Connections | {n} Connection | {n} Connections',
   },
+  liveConnectionsUnit: {
+    zh: '{n} 在线',
+    en: '0 Live Connections | {n} Live Connection | {n} Live Connections',
+  },
   topicsUnit: {
     zh: '{n} 主题',
     en: '0 Topics | {n} Topic | {n} Topics',

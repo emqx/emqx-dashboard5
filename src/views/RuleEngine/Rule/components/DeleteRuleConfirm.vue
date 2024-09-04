@@ -160,7 +160,6 @@ const submit = async () => {
   await deleteRules(props.rule.id)
   if (withSourceOrAction.value && deleteSourceAndActionSameTime.value) {
     try {
-      debugger
       await Promise.all(actions.value.map(({ id }) => deleteAction(id)))
     } catch (error) {
       ElMessage.error(t('RuleEngine.deleteError', { target: lowerCase(tl('action')) }))
