@@ -213,5 +213,5 @@ const getOutputTypeLabel = (item: OutputItem) => {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>

@@ -89,5 +89,5 @@ const getRoute = (name: string, target: 'action' | 'source') => {
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>
