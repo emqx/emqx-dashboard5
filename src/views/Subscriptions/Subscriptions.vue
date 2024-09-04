@@ -199,7 +199,7 @@ loadTableData()
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .subscriptions {
   .search-wrapper {
     margin-top: -12px;
