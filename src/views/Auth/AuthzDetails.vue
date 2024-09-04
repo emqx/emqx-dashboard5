@@ -100,7 +100,7 @@ import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { jumpToErrorFormItem } from '@/common/tools'
+import { getImg, jumpToErrorFormItem } from '@/common/tools'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import { queryAuthzItemMetrics } from '@/api/auth'
 import AuthItemStatus from './components/AuthItemStatus.vue'
@@ -147,7 +147,7 @@ export default defineComponent({
     })
     const currImg = computed(() => {
       if (type.value) {
-        return require(`@/assets/img/${type.value}.png`)
+        return getImg(`img/${type.value}.png`)
       }
       return ''
     })
