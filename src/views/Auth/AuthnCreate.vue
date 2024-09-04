@@ -192,7 +192,7 @@ import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
-import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
+import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
@@ -313,7 +313,7 @@ const getSupportBackend = function () {
     const res = {
       label: supportData[key],
       value: key,
-      img: require(`@/assets/img/${key}.png`),
+      img: getImg(`img/${key}.png`),
     }
     const otherKeys = ['http']
     if (otherKeys.includes(key)) {
