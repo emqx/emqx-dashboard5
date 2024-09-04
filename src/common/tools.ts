@@ -748,3 +748,7 @@ export const accAdd = (arg1: number, arg2: number): number => {
   const adjustedArg2 = arg2 * multiplier
   return (adjustedArg1 + adjustedArg2) / multiplier
 }
+
+export const getImg = (relativePathInAssets: string) => {
+  return new URL(`../assets/${relativePathInAssets}`, import.meta.url).href
+}

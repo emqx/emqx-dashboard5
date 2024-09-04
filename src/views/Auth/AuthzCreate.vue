@@ -100,6 +100,13 @@ import { useRouter } from 'vue-router'
 import { jumpToErrorFormItem } from '@/common/tools'
 import { checkNOmitFromObj } from '@/common/tools.ts'
 import useAuth from '@/hooks/Auth/useAuth'
+import fileIcon from '@/assets/img/file.png'
+import builtInDatabaseIcon from '@/assets/img/built_in_database.png'
+import mysqlIcon from '@/assets/img/mysql.png'
+import mongodbIcon from '@/assets/img/mongodb.png'
+import postgresqlIcon from '@/assets/img/postgresql.png'
+import redisIcon from '@/assets/img/redis.png'
+import httpIcon from '@/assets/img/http.png'
 
 export default defineComponent({
   name: 'AuthzCreate',
@@ -128,42 +135,18 @@ export default defineComponent({
     const { factory, create } = useAuthzCreate()
 
     const typeList = ref([
-      { label: tl('file'), value: 'file', img: require('@/assets/img/file.png') },
-      {
-        label: tl('builtInDatabase'),
-        value: 'built_in_database',
-        img: require('@/assets/img/built_in_database.png'),
-      },
-      {
-        label: 'MySQL',
-        value: 'mysql',
-        img: require('@/assets/img/mysql.png'),
-      },
-      {
-        label: 'MongoDB',
-        value: 'mongodb',
-        img: require('@/assets/img/mongodb.png'),
-      },
-      {
-        label: 'PostgreSQL',
-        value: 'postgresql',
-        img: require('@/assets/img/postgresql.png'),
-      },
-      {
-        label: 'Redis',
-        value: 'redis',
-        img: require('@/assets/img/redis.png'),
-      },
+      { label: tl('file'), value: 'file', img: fileIcon },
+      { label: tl('builtInDatabase'), value: 'built_in_database', img: builtInDatabaseIcon },
+      { label: 'MySQL', value: 'mysql', img: mysqlIcon },
+      { label: 'MongoDB', value: 'mongodb', img: mongodbIcon },
+      { label: 'PostgreSQL', value: 'postgresql', img: postgresqlIcon },
+      { label: 'Redis', value: 'redis', img: redisIcon },
       // {
       //   label: 'LDAP',
       //   value: 'ldap',
       //   img: require('@/assets/img/ldap.png'),
       // },
-      {
-        label: tl('HTTPServer'),
-        value: 'http',
-        img: require('@/assets/img/http.png'),
-      },
+      { label: tl('HTTPServer'), value: 'http', img: httpIcon },
     ])
     const { titleMap } = useAuth()
     const { step, activeGuidesIndex, handleNext, handleBack, guideDescList } = useGuide(() => {
