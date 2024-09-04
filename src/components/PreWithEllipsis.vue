@@ -19,7 +19,7 @@ import {} from 'vue'
 </script>
 
 <style lang="scss">
-@import '~@/style/common.scss';
+@import '@/style/common.scss';
 .pre-with-ellipsis {
   white-space: nowrap;
   .placeholder {

@@ -101,7 +101,7 @@ loadTopics()
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .topics {
   .search-wrapper {
     margin-top: -12px;

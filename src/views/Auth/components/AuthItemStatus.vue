@@ -14,7 +14,7 @@ export default defineComponent({
 import { defineProps, PropType, computed } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import { Metrics } from 'src/types/auth'
+import { Metrics } from '@/types/auth'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 
 const props = defineProps({
