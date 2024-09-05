@@ -96,11 +96,16 @@
           ></polyline-chart>
         </el-col>
         <el-col :span="24">
-          <el-table :data="[calculateStatistics(metricLog[selectedChartItem.value][0].yData)]">
-            <el-table-column prop="last" :label="$t('Base.last')"></el-table-column>
-            <el-table-column prop="max" :label="$t('Base.max')"></el-table-column>
-            <el-table-column prop="min" :label="$t('Base.min')"></el-table-column>
-            <el-table-column prop="avg" :label="$t('Base.avg')"></el-table-column>
+          <el-table :data="generateDetailTableData(selectedChartItemChartData)">
+            <el-table-column :label="t('Base.name')" v-if="selectedChartItemYTitle.length > 1">
+              <template #default="{ $index }">
+                {{ selectedChartItemYTitle[$index] }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="last" :label="t('Base.last')"></el-table-column>
+            <el-table-column prop="max" :label="t('Base.max')"></el-table-column>
+            <el-table-column prop="min" :label="t('Base.min')"></el-table-column>
+            <el-table-column prop="avg" :label="t('Base.avg')"></el-table-column>
           </el-table>
         </el-col>
       </el-row>
@@ -309,6 +314,12 @@ const calculateStatistics = (data: number[]) => {
   const avg = Math.round(sum / data.length)
   const last = data[data.length - 1]
   return { max, min, avg, last }
+}
+
+const generateDetailTableData = (data: ChartData) => {
+  return data.map((item) => {
+    return calculateStatistics(item.yData)
+  })
 }
 
 syncPolling(loadChartMetrics, POLLING_INTERVAL)
