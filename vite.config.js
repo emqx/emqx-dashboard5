@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { version as packageVersion } from './package.json'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 const getVersion = (packageVersion) => {
   const matched = packageVersion.match(/^\d\.\d/)
@@ -12,7 +13,7 @@ const { HOST_URL } = process.env
 const target = HOST_URL || 'http://localhost:18083/'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), vueJsx({ include: /\.[jt]s[x]?$/ })],
   server: {
     port: 7000,
     proxy: {
