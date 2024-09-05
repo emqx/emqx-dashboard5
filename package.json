@@ -50,6 +50,7 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@types/crypto-js": "^4.1.1",
     "@types/lodash": "^4.14.191",
     "@types/marked": "^4.0.1",
