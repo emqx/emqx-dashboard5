@@ -20,6 +20,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/dataZoom'
+import 'echarts/lib/component/legend'
 import useEchartResize from '@/hooks/useEchartResize'
 import useI18nTl from '@/hooks/useI18nTl'
 import { isUndefined } from 'lodash'
@@ -192,6 +193,7 @@ const drawChart = () => {
       left: 24,
       containLabel: true,
     },
+    legend: props.yTitle.length > 1 ? { top: 4 } : undefined,
     toolbox: {
       feature: {
         saveAsImage: {
