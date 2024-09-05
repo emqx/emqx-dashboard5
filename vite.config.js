@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import vue from '@vitejs/plugin-vue'
-import { version as packageVersion } from './package.json'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { defineConfig } from 'vite'
+import { version as packageVersion } from './package.json'
 
 const getVersion = (packageVersion) => {
   const matched = packageVersion.match(/^\d\.\d/)
@@ -49,5 +50,15 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@vue-flow/core', '@emqx/shared-ui-utils'],
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          buffer: true,
+        }),
+      ],
+    },
   },
 })
