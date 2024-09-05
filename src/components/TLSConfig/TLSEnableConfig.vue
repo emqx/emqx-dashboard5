@@ -1,6 +1,6 @@
 <template>
   <div class="TLS-enable-config">
-    <el-form-item v-if="!hideVerify" :label="verifyLabel || $t('Base.tlsVerify')">
+    <el-form-item v-if="!hideVerify" :label="verifyLabel || t('Base.tlsVerify')">
       <el-switch
         v-model="record.verify"
         :disabled="readonly || disabledVerify"
@@ -20,7 +20,7 @@
     <el-form-item :prop="getFormItemProp(`certfile`)">
       <template #label>
         <span>TLS Cert</span>
-        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
+        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
       </template>
       <!-- TODO: use CertFileInput.vue -->
       <template v-if="!readonly">
@@ -29,8 +29,8 @@
           class="TLS-input"
           v-model="record.certfile"
           :accept="CER_FILE_ACCEPTS"
-          :placeholder="$t('Base.certPlaceholder')"
-          @vnode-mounted="editConfigItem('certfile')"
+          :placeholder="t('Base.certPlaceholder')"
+          @vue:mounted="editConfigItem('certfile')"
         />
         <ConfigItemDataLook
           v-else
@@ -44,7 +44,7 @@
     <el-form-item :prop="getFormItemProp(`keyfile`)">
       <template #label>
         <span>TLS Key</span>
-        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
+        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
       </template>
       <template v-if="!readonly">
         <TextareaWithUploader
@@ -52,8 +52,8 @@
           class="TLS-input"
           v-model="record.keyfile"
           :accept="CER_FILE_ACCEPTS"
-          :placeholder="$t('Base.keyFilePlaceholder')"
-          @vnode-mounted="editConfigItem('keyfile')"
+          :placeholder="t('Base.keyFilePlaceholder')"
+          @vue:mounted="editConfigItem('keyfile')"
         />
         <ConfigItemDataLook
           v-else
@@ -71,7 +71,7 @@
     >
       <template #label>
         <span>CA Cert</span>
-        <InfoTooltip :content="$t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
+        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
       </template>
       <template v-if="!readonly">
         <TextareaWithUploader
@@ -79,8 +79,8 @@
           class="TLS-input"
           v-model="record.cacertfile"
           :accept="CER_FILE_ACCEPTS"
-          :placeholder="$t('Base.certPlaceholder')"
-          @vnode-mounted="editConfigItem('cacertfile')"
+          :placeholder="t('Base.certPlaceholder')"
+          @vue:mounted="editConfigItem('cacertfile')"
         />
         <ConfigItemDataLook
           v-else
@@ -159,6 +159,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'verifyChange'])
+
+const { t, tl } = useI18nTl('Auth')
 
 const record = computed<SSL>({
   get() {
