@@ -265,6 +265,16 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Couchbase]: createOrderObj(['server', 'username', 'password'], fieldStartIndex),
+    [BridgeType.Datalayers]: createOrderObj(
+      [
+        'server',
+        'parameters.driver_type',
+        'parameters.database',
+        'parameters.username',
+        'parameters.password',
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
