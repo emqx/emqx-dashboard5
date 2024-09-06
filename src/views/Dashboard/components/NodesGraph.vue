@@ -1,6 +1,19 @@
 <template>
   <div class="nodes-graph">
-    <VueFlow ref="FlowInstance" id="nodes-graph" v-model="flowData">
+    <VueFlow
+      ref="FlowInstance"
+      id="nodes-graph"
+      v-model="flowData"
+      :delete-key-code="null"
+      :nodes-draggable="false"
+      :nodes-connectable="false"
+      :zoom-on-scroll="false"
+      :zoom-on-double-click="false"
+      :zoom-on-pinch="false"
+      :pan-on-drag="false"
+      :min-zoom="1"
+      :max-zoom="1"
+    >
       <template #node-background>
         <BackgroundCircle @show-popover="showPopover" />
       </template>
@@ -125,18 +138,7 @@ const showReplicantNodesCountPopover = computed(() => {
 })
 
 const flowData: Ref<Array<FlowDataItem>> = ref([...backgroundNode.value])
-useVueFlow({
-  deleteKeyCode: null,
-  nodesDraggable: false,
-  nodesConnectable: false,
-  zoomOnScroll: false,
-  zoomOnDoubleClick: false,
-  zoomOnPinch: false,
-  panOnDrag: false,
-  minZoom: 1,
-  maxZoom: 1,
-  id: 'nodes-graph',
-})
+useVueFlow('nodes-graph')
 
 watch(
   () => props.nodes,
