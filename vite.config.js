@@ -1,4 +1,4 @@
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
@@ -14,7 +14,19 @@ const { HOST_URL } = process.env
 const target = HOST_URL || 'http://localhost:18083/'
 
 export default defineConfig({
-  plugins: [vue(), vueJsx({ include: /\.[jt]s[x]?$/ })],
+  plugins: [
+    vue(),
+    vueJsx({ include: /\.[jt]s[x]?$/ }),
+    nodePolyfills({
+      include: ['path', 'util'],
+      // Whether to polyfill specific globals.
+      globals: {
+        Buffer: true, // can also be 'build', 'dev', or false
+        global: true,
+        util: true,
+      },
+    }),
+  ],
   server: {
     port: 7000,
     proxy: {
@@ -54,11 +66,6 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-        }),
-      ],
     },
   },
 })
