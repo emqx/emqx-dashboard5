@@ -59,7 +59,7 @@ const i18nInstance = createI18n({
   legacy: false,
   messages: lang,
   locale: store.state.lang,
-  warnHtmlInMessage: 'off',
+  warnHtmlMessage: false,
 })
 
 export const getLocalMessage = (path: string): string => {
