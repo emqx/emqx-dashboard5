@@ -41,6 +41,7 @@
     "nprogress": "^0.2.0",
     "qs": "^6.12.1",
     "sortablejs": "^1.14.0",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "vue": "^3.2.16",
     "vue-i18n": "^9.2.0-beta.19",
     "vue-router": "^4.0.0-0",
@@ -48,7 +49,6 @@
     "xss": "^1.0.14"
   },
   "devDependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@types/crypto-js": "^4.1.1",
     "@types/lodash": "^4.14.191",
     "@types/marked": "^4.0.1",
