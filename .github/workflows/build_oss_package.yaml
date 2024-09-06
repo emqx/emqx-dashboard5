@@ -14,15 +14,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: node:16.20
+    container: node:20.17
     steps:
       - uses: actions/checkout@v2
+      - name: Install pnpm
+        run: npm install -g pnpm
       - name: install zip
         run: apt-get update && apt-get install -y zip
       - name: build
         run: |
-          yarn
-          yarn build
+          pnpm install
+          pnpm build
       - name: create package
         run: |
           touch dist/version
