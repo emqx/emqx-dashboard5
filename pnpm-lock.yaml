@@ -36,8 +36,8 @@ dependencies:
     specifier: ^5.2.1
     version: 5.5.1
   element-plus:
-    specifier: ~2.3.0
-    version: 2.3.14(vue@3.5.1)
+    specifier: ^2.8.1
+    version: 2.8.1(vue@3.5.1)
   highlight.js:
     specifier: 10.7.3
     version: 10.7.3
@@ -3348,8 +3348,8 @@ packages:
     resolution: {integrity: sha512-bEfPECb3fJ15eaDnu9LEJ2vPGD6W1vt7vZleSVyFhYuMIKm3vz/g9lt7IvEzgdwj58RjbPKUF2rXTCN/UW47tQ==}
     dev: true
 
-  /element-plus@2.3.14(vue@3.5.1):
-    resolution: {integrity: sha512-9yvxUaU4jXf2ZNPdmIxoj/f8BG8CDcGM6oHa9JIqxLjQlfY4bpzR1E5CjNimnOX3rxO93w1TQ0jTVt0RSxh9kA==}
+  /element-plus@2.8.1(vue@3.5.1):
+    resolution: {integrity: sha512-p11/6w/O0+hGvPhiN3jrcgh+XG+eg5jZlLdQVYvcPHZYhhCh3J3YeZWW1JO/REPES1vevkboT6VAi+9wHA8Dsg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
