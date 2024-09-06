@@ -152,6 +152,7 @@
   &.el-menu--horizontal {
     background-color: transparent;
     border-bottom: 1px solid var(--color-border-card);
+    margin-bottom: 32px;
     & > .el-menu-item {
       height: 36px;
       padding: 0px 12px;
@@ -161,7 +162,6 @@
         color: var(--color-primary);
       }
     }
-    margin-bottom: 32px;
   }
   &.el-menu--collapse {
     >.el-sub-menu.is-active .el-sub-menu__title {
@@ -711,14 +711,14 @@
 
 /* Card */
 .el-card {
+  border: 1px solid var(--color-border-card);
+  position: relative;
   &.is-always-shadow {
     box-shadow: none;
   }
-  border: 1px solid var(--color-border-card);
   &.allow-overflow {
     overflow: visible;
   }
-  position: relative;
   &.top-border,
   &.top-primary {
     &:before {
