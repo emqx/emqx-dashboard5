@@ -105,7 +105,7 @@ const ruleId = computed(() => fullName.value)
 const tab = computed(() => route.query.tab && Number(route.query.tab))
 const activeTab = ref(tab.value || DetailTab.Overview)
 
-const { getWebhookName } = useWebhookForm()
+const { getWebhookName, syncHeaders } = useWebhookForm()
 const infoLoading = ref(false)
 const webhookData: Ref<WebhookItem | undefined> = ref(undefined)
 const isSubmitting = ref(false)
@@ -187,6 +187,7 @@ const submit = async () => {
       handleConnectorDataBeforeUpdate(data.connector),
       handleActionDataBeforeUpdate(data.action),
     ])
+    syncHeaders(data)
     await putConnector(actionId.value, connectorData)
     await putAction(actionId.value, actionData)
     await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
