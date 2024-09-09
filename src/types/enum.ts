@@ -143,6 +143,7 @@ export enum BridgeType {
   AzureBlobStorage = 'azure_blob_storage',
   Couchbase = 'couchbase',
   Datalayers = 'datalayers',
+  Snowflake = 'snowflake'
 }
 
 export enum PulsarType {
