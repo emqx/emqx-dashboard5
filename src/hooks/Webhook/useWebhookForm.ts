@@ -14,6 +14,7 @@ export default (): {
   getWebhookName: (bridgeName: string) => string
   getRuleIdByName: (name: string) => string
   getActionNameByName: (name: string) => string
+  syncHeaders: (webhookForm: WebhookForm) => void
 } => {
   const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
   const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
@@ -61,10 +62,16 @@ export default (): {
   const getRuleIdByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
   const getActionNameByName = (name: string) => `${name}${WEBHOOK_SUFFIX}`
 
+  const syncHeaders = (webhookForm: WebhookForm) => {
+    const { connector, action } = webhookForm
+    action.parameters.headers = connector.headers
+  }
+
   return {
     createRawWebhookForm,
     getWebhookName,
     getRuleIdByName,
     getActionNameByName,
+    syncHeaders,
   }
 }
