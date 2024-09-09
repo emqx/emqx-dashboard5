@@ -111,6 +111,13 @@ export default (
     'buffer.memory_overload_protection',
   ])
 
+  const snowflakeAdvancedProps = getPathArrInParameters([
+    'pool_size',
+    'connect_timeout',
+    'pipelining',
+    'max_retries',
+  ])
+
   const kafkaProducerPropsOrderMap = {
     ...createOrderObj(
       getPathArrInParameters([
@@ -290,6 +297,25 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Snowflake]: createOrderObj(
+      [
+        ...getPathArrInParameters([
+          'database',
+          'schema',
+          'stage',
+          'pipe',
+          'pipe_user',
+          'private_key',
+        ]),
+        'container',
+        'type',
+        'column_order',
+        'max_records',
+        'time_interval',
+        ...pulsarAdvancedProps,
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -339,6 +365,7 @@ export default (
     [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
     [BridgeType.S3]: getPathArrInParameters(['headers', 'min_part_size', 'max_part_size']),
+    [BridgeType.Snowflake]: snowflakeAdvancedProps,
   }
 
   const advancedFields = computed(() => {

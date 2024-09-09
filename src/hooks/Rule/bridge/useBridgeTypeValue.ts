@@ -99,6 +99,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.AzureBlobStorage, label: 'Azure Blob Storage' },
     { value: BridgeType.Couchbase, label: 'Couchbase' },
     { value: BridgeType.Datalayers, label: 'Datalayers' },
+    { value: BridgeType.Snowflake, label: 'Snowflake' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -329,6 +330,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '', 'post')],
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'connector_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
+    [BridgeType.Snowflake, getRef(BridgeType.Snowflake, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -386,6 +388,7 @@ export const useActionSchema = (): {
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '')],
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'action_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'action_')],
+    [BridgeType.Snowflake, getRef(BridgeType.Snowflake, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
