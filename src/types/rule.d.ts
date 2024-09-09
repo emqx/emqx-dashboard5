@@ -89,8 +89,6 @@ export interface BridgeBaseData {
 }
 
 export interface HTTPBridge extends BridgeBaseData {
-  [x: string]: any
-  action: any
   clean_start: boolean
   parameters: {
     method: string
