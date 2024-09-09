@@ -15,7 +15,8 @@
     "checkI18n": "node ./scripts/checkUselessI18n.js",
     "remove-orval-client": "node ./scripts/removeOrvalClient.js",
     "orval:api": "source ./.env.development.local && yarn orval --input $HOST_URL\\api-docs/swagger.json",
-    "orval:local": "yarn orval --input ./swagger.json"
+    "orval:local": "yarn orval --input ./swagger.json",
+    "prepare": "husky"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
@@ -81,8 +82,9 @@
     }
   },
   "lint-staged": {
-    "*.{vue,js,scss}": [
-      "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"src/**/*.vue\" \"src/**/*.scss\""
+    "*.{js,ts,vue,scss}": [
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }
