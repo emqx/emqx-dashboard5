@@ -9,10 +9,10 @@ module.exports = {
     'eslint:recommended',
     '@vue/typescript/recommended',
     '@vue/prettier',
-    '@vue/prettier/@typescript-eslint',
+    '@vue/eslint-config-typescript',
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
   },
   ignorePatterns: ['dist', 'node_modules', '/src/assets/fonts', '/src/assets/iconfont'],
   rules: {
