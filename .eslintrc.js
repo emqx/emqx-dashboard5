@@ -21,6 +21,7 @@ module.exports = {
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': [1],
     '@typescript-eslint/no-explicit-any': 'off',
+    'vue/multi-word-component-names': 'off',
   },
   overrides: [
     {
