@@ -94,19 +94,6 @@ export type GetAuthentication200Item =
   | AuthnMysql
   | AuthnBuiltinDb
 
-export type DeleteAuthenticationId404Code =
-  typeof DeleteAuthenticationId404Code[keyof typeof DeleteAuthenticationId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationId404 = {
-  code?: DeleteAuthenticationId404Code
-  message?: string
-}
-
 export type PutAuthenticationId409Code =
   typeof PutAuthenticationId409Code[keyof typeof PutAuthenticationId409Code]
 
