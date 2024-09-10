@@ -7,7 +7,7 @@
         need-rules
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
         :form="configs"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 240 : 284 }"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 254 : 312 }"
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
@@ -60,6 +60,7 @@ export default defineComponent({
         'wildcard_subscription',
         'shared_subscription',
         'shared_subscription_strategy',
+        'shared_subscription_initial_sticky_pick',
         'exclusive_subscription',
         'retain_available',
         'ignore_loop_deliver',
