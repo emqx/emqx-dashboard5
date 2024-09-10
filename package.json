@@ -67,8 +67,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-vue": "^9.28.0",
     "esm": "^3.2.25",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.7",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
     "orval": "^6.17.0",
     "prettier": "^3.3.3",
     "sass": "^1.26.5",
@@ -81,8 +81,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,vue,scss}": [
+    "*.{js,ts,vue}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
       "prettier --write"
     ]
   }
