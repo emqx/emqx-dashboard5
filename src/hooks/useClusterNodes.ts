@@ -4,6 +4,8 @@ import _ from 'lodash'
 import { compareVersions } from 'compare-versions'
 import { loadNodes } from '@/api/common'
 import { NodeInfo } from '@/types/dashboard'
+import { getClusterNodes } from '@/api/common'
+import type { GetCluster200 } from '@/types/schemas/cluster.schemas'
 
 interface UseClusterNodesOptions {
   loadByDefault?: boolean
@@ -18,6 +20,7 @@ export default function useClusterNodes(
     getVersion: false,
   },
 ): {
+  clusterName: Ref<string>
   nodes: Ref<Array<NodeInfo>>
   lockTable: Ref<boolean>
   hasMemory: Ref<boolean>
@@ -34,6 +37,7 @@ export default function useClusterNodes(
     latestVersion: '',
     isMutiVersion: false,
   })
+  const clusterName = ref('')
 
   const handleVersions = (nodes: NodeInfo[]) => {
     const versionList = nodes.map((node) => node.version.split('-')[0])
@@ -67,5 +71,13 @@ export default function useClusterNodes(
   if (loadByDefault) {
     loadData()
   }
-  return { nodes, lockTable, hasMemory, loadData, versionInfo }
+
+  const getClusterName = async () => {
+    const res: GetCluster200 = await getClusterNodes()
+    clusterName.value = res.name ?? ''
+  }
+
+  getClusterName()
+
+  return { nodes, lockTable, hasMemory, loadData, versionInfo, clusterName }
 }
