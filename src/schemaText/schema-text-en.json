@@ -1369,6 +1369,10 @@
     "mqtt_keepalive_check_interval": {
       "label": "Keep Alive Check Interval",
       "desc": "The frequency of checking for incoming MQTT packets determines how often the server will check for new MQTT packets.<br />If a certain amount of time passes without any packets being sent from the client, this time will be added up.<br />Once the accumulated time exceeds `keepalive-interval * keepalive-multiplier`, the connection will be terminated.<br />The default is set to 30 seconds, with a minimum value of 1 second and a maximum value of `keepalive-interval / 2`.<br />"
+    },
+    "mqtt_shared_subscription_initial_sticky_pick": {
+      "label": "Shared Subscription Initial Sticky Pick",
+      "desc": "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`. - `random`: Randomly select the subscriber; - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster; - `hash_clientid`: Hash the publisher's client ID to select a subscriber; - `hash_topic`: Hash the publishing topic to select a subscriber."
     }
   }
 }

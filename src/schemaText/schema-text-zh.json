@@ -1365,6 +1365,10 @@
     "mqtt_keepalive_check_interval": {
       "label": "保活检查间隔",
       "desc": "检查传入 MQTT 数据包的频率决定了服务器检查新 MQTT 数据包的频率。<br />如果客户端在一定时间内没有发送任何数据包，这段时间将会累积。<br />一旦累积时间超过 `keepalive-interval * keepalive-multiplier`，连接将会被终止。<br />默认值设置为 30 秒，最小值为 1 秒，最大值为 `keepalive-interval / 2`。"
+    },
+    "mqtt_shared_subscription_initial_sticky_pick": {
+      "label": "共享订阅初始 Sticky 选择策略",
+      "desc": "当`共享订阅策略`设置为 `sticky` 时，用于初始订阅者选择的策略：- `random`：随机选择订阅者；- `local`：随机选择当前节点上的订阅者，如果当前节点上没有订阅者，则在集群内随机选择；- `hash_clientid`：通过对发布者的客户端ID进行哈希来选择订阅者；- `hash_topic`：通过对发布主题进行哈希来选择订阅者。"
     }
   }
 }
