@@ -4,6 +4,7 @@
       <div class="nodes-graph-container">
         <span class="node-count">
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
+          {{ clusterName ? `${clusterName} -` : '' }}
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
         <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
@@ -146,7 +147,11 @@ const { locale } = useI18n()
 const POLLING_INTERVAL = 2000
 
 // const { nodes, loadData: getNodes } = useClusterNodes(false, true, 25000)
-const { nodes, loadData: getNodes } = useClusterNodes({
+const {
+  nodes,
+  loadData: getNodes,
+  clusterName,
+} = useClusterNodes({
   loadByDefault: false,
   hideProgress: true,
   timeout: 25000,
