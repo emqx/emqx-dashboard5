@@ -14,7 +14,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2022,
   },
-  ignorePatterns: ['dist', 'node_modules', '/src/assets/fonts', '/src/assets/iconfont'],
+  ignorePatterns: [
+    'dist',
+    'node_modules',
+    '/src/assets/fonts',
+    '/src/assets/iconfont',
+    '/src/types/schemas',
+  ],
   rules: {
     // FIXME:FIXME:FIXME: can not get node env now
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
