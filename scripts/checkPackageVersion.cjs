@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const packageJSON = require('../package.json')
 const axios = require('axios')
-const baseURL = import.meta.env?.HOST_URL || 'http://localhost:18083'
+const { loadEnv } = require('vite')
+
+const envVariables = loadEnv('development', process.cwd(), '')
+const baseURL = envVariables.HOST_URL || 'http://localhost:18083'
+
 const rawPackageVersion = packageJSON.version
 
 const packageVersionRegex = /^(\d+\.\d+)/
