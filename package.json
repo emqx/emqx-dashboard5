@@ -14,8 +14,8 @@
     "escape": "node ./scripts/escapeI18N.js",
     "checkI18n": "node ./scripts/checkUselessI18n.js",
     "remove-orval-client": "node ./scripts/removeOrvalClient.js",
-    "orval:api": "source ./.env.development.local && yarn orval --input $HOST_URL\\api-docs/swagger.json",
-    "orval:local": "yarn orval --input ./swagger.json",
+    "orval:api": "source ./.env.development.local && pnpm orval --input $HOST_URL\\api-docs/swagger.json",
+    "orval:local": "pnpm orval --input ./swagger.json",
     "prepare": "husky"
   },
   "dependencies": {
