@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs')
+import fs from 'fs'
 
 const args = process.argv.slice(2)
 const filePath = args[0]

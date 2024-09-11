@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { isObject, get, set } = require('lodash')
+import { isObject, get, set } from 'lodash'
 
 const paramRefReg = /^#\/components\/parameters\//
 const schemaRefReg = /^#\/components\/schemas\//
@@ -211,4 +210,4 @@ const filterTargetSchema = (swaggerJSON, tag) => {
   return removeAllDesc(ret)
 }
 
-module.exports = filterTargetSchema
+export default filterTargetSchema
