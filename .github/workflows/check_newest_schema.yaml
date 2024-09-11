@@ -37,8 +37,8 @@ jobs:
 
       - name: run script that checks schemas
         run: |
-          yarn
-          yarn orval
+          pnpm install
+          pnpm orval
 
       - name: check for changes
         run: |
