@@ -16,6 +16,7 @@ module.exports = {
   },
   ignorePatterns: ['dist', 'node_modules', '/src/assets/fonts', '/src/assets/iconfont'],
   rules: {
+    // FIXME:FIXME:FIXME: can not get node env now
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-empty-function': 'off',
