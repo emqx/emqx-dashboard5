@@ -37,7 +37,7 @@ jobs:
 
       - name: install dep
         run: |
-          yarn
+          pnpm install
 
       - name: run script that checks the version of the package
         run: |
