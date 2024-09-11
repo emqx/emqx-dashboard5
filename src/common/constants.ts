@@ -208,8 +208,8 @@ export const DEFAULT_PWD = 'public'
 
 export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
 
-const { VITE_EMQX_VERSION } = import.meta.env
-export const IS_ENTERPRISE = VITE_EMQX_VERSION === 'enterprise'
+const { VITE_APP_VERSION } = import.meta.env
+export const IS_ENTERPRISE = VITE_APP_VERSION === 'enterprise'
 
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB]
 
@@ -242,7 +242,7 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
-export const EMQX_VERSION = import.meta.env.VITE_APP_EMQX_VERSION
+export const EMQX_VERSION = __EMQX_VERSION__
 
 const defaultUnexposedConfig = {
   zone: 'default',
