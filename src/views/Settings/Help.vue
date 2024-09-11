@@ -139,7 +139,23 @@ const platformList = [
   },
 ]
 
-// Rest of the script remains the same, just update the image imports
+const emqxDocumentList = [
+  { link: docMap.emqxGettingStarted, title: t('Settings.gettingStarted') },
+  { link: docMap.dashboard, title: t('Settings.dashboardIntro') },
+  { link: docMap.accessControl, title: t('Settings.howAccessControl') },
+  { link: docMap.dataBridge, title: t('Settings.howDataIntegration') },
+  { link: docMap.ruleEngine, title: t('Settings.howRuleEngine') },
+  { link: docMap.learnConfig, title: t('Settings.learnConfig') },
+  { link: docMap.restAPI, title: t('Settings.restAPI') },
+  { link: docMap.faq, title: t('Settings.faq') },
+]
+
+const mqttDocumentList = [
+  { link: docMap.mqttStudy, title: t('Settings.mqttStudy') },
+  { link: docMap.mqttV5, title: t('Settings.mqttV5Intro') },
+  { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
+]
+
 const productList = [
   {
     title: 'EMQX Enterprise',
