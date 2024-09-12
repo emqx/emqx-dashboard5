@@ -1,5 +1,5 @@
 import { Client } from '@/types/client'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import type { ComputedRef, Ref } from 'vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '../useI18nTl'
@@ -31,7 +31,7 @@ export default (
       case 'awaiting_rel':
         return msg.awaiting_rel_cnt + '/' + msg.awaiting_rel_max
       case 'created_at':
-        return moment(msg[key]).format('YYYY-MM-DD HH:mm:ss')
+        return dayjs(msg[key]).format('YYYY-MM-DD HH:mm:ss')
       case 'heap_size':
         return `${msg.heap_size} bytes`
       case 'expiry_interval':

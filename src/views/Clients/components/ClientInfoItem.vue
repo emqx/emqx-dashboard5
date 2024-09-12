@@ -13,7 +13,7 @@
   </el-tag>
   <span v-else-if="field == 'connected_at' || field == 'disconnected_at'">
     <span>
-      {{ client[field] && moment(client[field]).format('YYYY-MM-DD HH:mm:ss') }}
+      {{ client[field] && dayjs(client[field]).format('YYYY-MM-DD HH:mm:ss') }}
     </span>
   </span>
   <span v-else-if="field == 'ip_address'">
@@ -40,7 +40,7 @@ import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { computed, defineProps } from 'vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
 
