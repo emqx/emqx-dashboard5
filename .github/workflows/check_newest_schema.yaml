@@ -50,7 +50,7 @@ jobs:
         run: |
           git_diff=$(git diff)
           if [ -n "$git_diff" ]; then
-            git diff
+            git diff src/types/schemas
             echo "Detected differences in the repository. Uploading mismatched schemas."
             exit 1
           else
