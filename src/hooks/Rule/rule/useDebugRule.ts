@@ -14,7 +14,7 @@ import {
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import { ElMessageBox } from 'element-plus'
 import { cloneDeep, debounce, isArray, isEqual, mergeWith, startCase } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
@@ -62,7 +62,7 @@ export default (): {
       const nowTimestamp = new Date().getTime()
       const oneDayLaterTimestamp = nowTimestamp + 24 * 60 * 60 * 1000
       const traceData: TraceRecord = {
-        name: `DEBUG_RULE_${ruleId}_${moment().format('YYYYMMDD_HHmmssSSS')}`,
+        name: `DEBUG_RULE_${ruleId}_${dayjs().format('YYYYMMDD_HHmmssSSS')}`,
         type: 'ruleid',
         ruleid: ruleId,
         payload_encode: TraceEncodeType.Text,
