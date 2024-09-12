@@ -285,7 +285,7 @@
 
 <script>
 import mqtt from 'mqtt'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { QoSOptions, WEB_SOCKET_STATUS } from '@/common/constants'
 import { Delete } from '@element-plus/icons-vue'
@@ -438,8 +438,8 @@ export default {
   },
   activated() {
     document.addEventListener('visibilitychange', this.visibilityChangeFn)
-    let timeNow = new Date().getTime()
-    let difference = 1000 * 60
+    const timeNow = new Date().getTime()
+    const difference = 1000 * 60
 
     if (timeNow - this.leaveTime > difference) {
       this.reCheckConnStatus()
@@ -470,7 +470,7 @@ export default {
       }
     },
     compareConnStatus(destStatus) {
-      let bVal = this.cStatusMap.get(destStatus)
+      const bVal = this.cStatusMap.get(destStatus)
       if (bVal) {
         return !(bVal ^ this.cStatus)
       } else {
@@ -478,7 +478,7 @@ export default {
       }
     },
     setConnStatus(status, notify = true) {
-      let sCode = this.cStatusMap.get(status)
+      const sCode = this.cStatusMap.get(status)
       if (sCode) {
         if (sCode === this.cStatus) return
         this.cStatus = sCode
@@ -490,8 +490,8 @@ export default {
       }
     },
     setNotify(status) {
-      let label = String(status).substring(1).toLowerCase()
-      let labelText = this.$t(`Tools.${label}`)
+      const label = String(status).substring(1).toLowerCase()
+      const labelText = this.$t(`Tools.${label}`)
       const infoType = [WEB_SOCKET_STATUS.Connected, WEB_SOCKET_STATUS.Disconnected].includes(
         status,
       )
@@ -514,7 +514,7 @@ export default {
       }
     },
     getNow() {
-      return moment().format('YYYY-MM-DD HH:mm:ss')
+      return dayjs().format('YYYY-MM-DD HH:mm:ss')
     },
     onMessage(topic, payload, packet = {}) {
       const message = {
