@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 declare const __EMQX_VERSION__: string
 
 interface ImportMetaEnv {
