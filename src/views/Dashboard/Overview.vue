@@ -154,7 +154,7 @@ import { ref, reactive, Ref } from 'vue'
 import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
-import Moment from 'moment'
+import dayjs from 'dayjs'
 import { loadCurrentMetrics } from '@/api/common'
 import { formatNumber } from '@/common/tools'
 import useSyncPolling from '@/hooks/useSyncPolling'
@@ -204,7 +204,7 @@ const loadData = async () => {
 }
 
 const getNow = () => {
-  return Moment().format('HH:mm:ss')
+  return dayjs().format('HH:mm:ss')
 }
 const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
   ;['received_msg_rate', 'sent_msg_rate', 'received_bytes_rate', 'sent_bytes_rate'].forEach(
