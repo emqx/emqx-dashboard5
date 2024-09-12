@@ -4,8 +4,9 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "importHelpers": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -13,8 +14,6 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "types": [
-      "webpack-env",
-      "jest",
       "element-plus/global",
     ],
     "paths": {
