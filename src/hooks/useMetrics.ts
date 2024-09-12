@@ -9,7 +9,7 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
 import { get } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import useI18nTl from './useI18nTl'
 
 export const enum MetricType {
@@ -252,17 +252,20 @@ export const useChartDataUtils = (): {
       }
       const { title, contains: values } = value
       let typeCount = 0
-      const typeList = values.reduce((ret, key) => {
-        const value = get(metrics, key)
-        const item = {
-          value,
-          label: getMetricItemLabel(key, textMap),
-          desc: getMetricItemDesc(key, textMap),
-        }
-        typeCount = accAdd(typeCount, value)
-        ret.push(item)
-        return ret
-      }, [] as Array<{ value: number; label: string; desc?: string }>)
+      const typeList = values.reduce(
+        (ret, key) => {
+          const value = get(metrics, key)
+          const item = {
+            value,
+            label: getMetricItemLabel(key, textMap),
+            desc: getMetricItemDesc(key, textMap),
+          }
+          typeCount = accAdd(typeCount, value)
+          ret.push(item)
+          return ret
+        },
+        [] as Array<{ value: number; label: string; desc?: string }>,
+      )
       arr.push({ title, count: typeCount, detail: typeList, type: Number(key) as MetricType })
       return arr
     }, [] as Array<TypeMetricDataItem>)
@@ -300,7 +303,7 @@ export const useChartDataUtils = (): {
     x: createEmptyArray(length),
     y: createEmptyArray(length),
   })
-  const getNow = () => moment().format('HH:mm:ss')
+  const getNow = () => dayjs().format('HH:mm:ss')
   const addRateDataItem = (rate: number, rateData: RateData, dataLen: number) => {
     rateData.x.push(getNow())
     rateData.y.push(rate)
