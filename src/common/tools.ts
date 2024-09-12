@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, round, set } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { API_BASE_URL, COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 
-export const dateFormat = (
-  date: Date | string | number | (number | string)[] | null | undefined,
-): string => {
-  return moment(date).format('YYYY-MM-DD HH:mm:ss')
+export const dateFormat = (date: Date | string | number | null | undefined): string => {
+  return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 }
 
 export const caseInsensitiveCompare = (w: string, k: string): boolean => {
