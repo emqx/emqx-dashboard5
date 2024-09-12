@@ -19,6 +19,7 @@ import ConnectorSelect from '@/views/RuleEngine/Bridge/Components/ConnectorSelec
 import { Setting } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
+import { JSX } from 'vue/jsx-runtime'
 import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
 import ArrayEditorInput from './ArrayEditorInput.vue'
