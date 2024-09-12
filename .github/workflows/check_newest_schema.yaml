@@ -34,9 +34,15 @@ jobs:
 
       - name: checkout dashboard code
         uses: actions/checkout@v3
+           
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17'
 
       - name: run script that checks schemas
         run: |
+          npm install -g pnpm
           pnpm install
           pnpm orval
 
