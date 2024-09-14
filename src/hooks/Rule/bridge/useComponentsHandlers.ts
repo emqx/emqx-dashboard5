@@ -573,6 +573,15 @@ export default (
     return { components, rules }
   }
 
+  const snowflakeHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+    const { private_key } = components?.parameters?.properties || {}
+    if (private_key?.type === 'string') {
+      private_key.componentProps = { type: 'textarea', rows: 3 }
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -596,6 +605,7 @@ export default (
     [BridgeType.AzureBlobStorage]: azureBlobHandler,
     [BridgeType.Pulsar]: pulsarHandler,
     [BridgeType.Couchbase]: couchbaseHandler,
+    [BridgeType.Snowflake]: snowflakeHandler,
   }
 
   const getComponentsHandler = () => {
