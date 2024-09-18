@@ -84,6 +84,8 @@ export default (
     'buffer.per_partition_limit',
     'buffer.segment_bytes',
     'buffer.memory_overload_protection',
+    'max_linger_time',
+    'max_linger_bytes',
   ])
 
   const kafkaConsumerAdvancedProps = getPathArrInParameters([
