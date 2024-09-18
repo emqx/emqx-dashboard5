@@ -31,7 +31,7 @@ jobs:
           PACKAGE_NAME=$(echo ${GITHUB_REF##*/}) # Extract tag from GITHUB_REF
           zip -rq emqx-dashboard-$PACKAGE_NAME.zip ./dist
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: emqx-dashboard
           path: dist/

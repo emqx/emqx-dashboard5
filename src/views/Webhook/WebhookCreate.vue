@@ -37,7 +37,7 @@ const router = useRouter()
 
 const FormCom = ref()
 
-const { createRawWebhookForm, getRuleIdByName, getActionNameByName } = useWebhookForm()
+const { createRawWebhookForm, getRuleIdByName, getActionNameByName, syncHeaders } = useWebhookForm()
 
 const webhook: Ref<WebhookForm | undefined> = ref(undefined)
 const initForm = async () => {
@@ -67,6 +67,7 @@ const submit = async () => {
     const data: any = checkNOmitFromObj(setName(webhook.value))
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
+    syncHeaders(data)
     await postConnector(data.connector)
     await postAction(data.action)
     await createRules(data.rule)
