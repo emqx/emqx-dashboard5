@@ -460,6 +460,7 @@ export const useRuleMetrics = (): {
   const actionTypeMetricsMap = [
     { type: MetricType.Green, title: tl('actionsSuccess'), contains: ['actions.success'] },
     { type: MetricType.Red, title: tl('actionsFailed'), contains: ['actions.failed'] },
+    { type: MetricType.Gray, title: tl('actionsDiscarded'), contains: ['actions.discarded'] },
   ]
   const textMap = {
     matched: { label: tl('ruleMatched'), desc: tl('bridgeMatchedDesc') },

@@ -1105,4 +1105,12 @@ export default {
     zh: '0 - 未指定的字节流',
     en: '0 - Unspecified byte stream',
   },
+  actionsDiscarded: {
+    zh: '丢弃',
+    en: 'Discarded',
+  },
+  actionsDiscardedDesc: {
+    zh: '由于动作被禁用或在删除动作时出现竞态条件而被丢弃的动作数量。',
+    en: 'The number of discarded actions due to action being disabled or race condition while action is being deleted.',
+  },
 }
