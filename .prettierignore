@@ -1,6 +1,5 @@
 # Ignore files:
 /src/assets/fonts
 /src/assets/iconfont
-/src/types/schemas
 # Ignore all HTML files:
 *.html
