@@ -79,31 +79,31 @@ To set up for local development, follow these steps:
 2. Install the dependencies:
 
     ```shell
-    yarn
+    pnpm install
     ```
 
 3. To start the development server, run:
 
     ```shell
-    yarn serve
+    pnpm serve
     ```
 
 4. For production compilation and minification:
 
     ```shell
-    yarn build
+    pnpm build
     ```
 
 5. Lint and fix files:
 
     ```shell
-    yarn lint
+    pnpm lint
     ```
 
    Or, format the code with Prettier:
 
     ```shell
-    yarn format
+    pnpm format
     ```
 
 ## ☁️ Development with Cloud Host
@@ -125,11 +125,11 @@ To set up for development with a cloud host:
 3. Start the development server:
 
     ```shell
-    yarn serve
+    pnpm serve
     ```
 
 ## ⚙️ Vue.js Customize Configuration
 
-Refer to the [Configuration Reference](https://cli.vuejs.org/config/) for more information.
+Refer to the [Configuring Vite](https://vitejs.dev/config/#configuring-vite) for more information.
 
 After the completion of setup, the CI will run automatically and deploy upon successful execution.

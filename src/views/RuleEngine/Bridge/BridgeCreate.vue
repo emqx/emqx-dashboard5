@@ -297,7 +297,7 @@ checkBridgeClipStatus()
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>
@@ -308,7 +308,7 @@ checkBridgeClipStatus()
   margin-top: 12px;
   :deep(.el-input) {
     &::before {
-      background-image: url(~@/assets/img/mqtt.png);
+      background-image: url(@/assets/img/mqtt.png);
       background-size: contain;
     }
   }

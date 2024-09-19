@@ -34,17 +34,23 @@ jobs:
 
       - name: checkout dashboard code
         uses: actions/checkout@v3
+           
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17'
 
       - name: run script that checks schemas
         run: |
-          yarn
-          yarn orval
+          npm install -g pnpm
+          pnpm install
+          pnpm orval
 
       - name: check for changes
         run: |
           git_diff=$(git diff)
           if [ -n "$git_diff" ]; then
-            git diff
+            git diff src/types/schemas
             echo "Detected differences in the repository. Uploading mismatched schemas."
             exit 1
           else

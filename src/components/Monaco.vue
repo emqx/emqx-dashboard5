@@ -17,7 +17,18 @@ import { debounce } from 'lodash'
 import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import { isFunction } from 'lodash'
+
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'json') {
+      return new jsonWorker()
+    }
+    return new editorWorker()
+  },
+}
 
 /**
  * for placeholder to show full desc

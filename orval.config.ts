@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { camelCase } = require('lodash')
-const filterTargetSchema = require('./scripts/transformer/filterTagsSchema.js')
+import { camelCase } from 'lodash'
+import { loadEnv } from 'vite'
+import filterTargetSchema from './scripts/transformer/filterTagsSchema.js'
 
-const baseURL = process.env.HOST_URL || 'http://localhost:18083'
+const envVariables = loadEnv('development', process.cwd(), '')
+const baseURL = envVariables.HOST_URL || 'http://localhost:18083'
 const swaggerURL = `${baseURL}/api-docs/swagger.json`
 
 const tagArr = [
@@ -71,10 +73,10 @@ const configs = tagArr.reduce((obj: Record<string, any>, tag: string) => {
       override: { header: false },
     },
     hooks: {
-      afterAllFilesWrite: ['prettier --write', `yarn remove-orval-client ${filePath}`],
+      afterAllFilesWrite: ['prettier --write', `pnpm remove-orval-client ${filePath}`],
     },
   }
   return obj
 }, {})
 
-module.exports = configs
+export default configs

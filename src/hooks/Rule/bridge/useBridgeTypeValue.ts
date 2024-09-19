@@ -1,5 +1,5 @@
 import { CONNECTOR_TYPES_WITH_TWO_DIRECTIONS, INGRESS_BRIDGE_TYPES } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools'
+import { getImg, getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
@@ -263,7 +263,7 @@ export const useBridgeTypeIcon = (): {
       return ''
     }
     try {
-      return require(`@/assets/img/${getBridgeIconKey(type)}.png`)
+      return getImg(`img/${getBridgeIconKey(type)}.png`)
     } catch (error) {
       console.error(error)
       return ''

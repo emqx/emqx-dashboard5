@@ -5,7 +5,7 @@ import {
   RULE_INPUT_EVENT_PREFIX,
   TOPIC_EVENT,
 } from '@/common/constants'
-import { addNewlineAfterComma, getTypeAndNameFromKey, splitOnComma } from '@/common/tools'
+import { addNewlineAfterComma, getImg, getTypeAndNameFromKey, splitOnComma } from '@/common/tools'
 import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
@@ -323,12 +323,12 @@ export const useRuleInputs = (): {
       const adjustedType = adjustTypeForSpecialCases(type)
 
       if (isTypeUsingNewIcon(adjustedType)) {
-        return require(`@/assets/flowIcon/${adjustedType}.png`)
+        return getImg(`img/${adjustedType}.png`)
       }
       if (isBridgeType(type)) {
         return getBridgeIcon(type)
       }
-      return require(`@/assets/img/${adjustedType}.png`)
+      return getImg(`img/${adjustedType}.png`)
     } catch (error) {
       return ''
     }

@@ -68,11 +68,7 @@
         <el-col v-bind="colProps">
           <el-form-item>
             <div
-              class="
-                el-input el-input-group el-input-group--prepend
-                el-input--suffix
-                input-target-value
-              "
+              class="el-input el-input-group el-input-group--prepend el-input--suffix input-target-value"
             >
               <div class="el-input-group__prepend">
                 <el-select class="select-topic-type" v-model="keyForFilterActionOrSource">
@@ -254,7 +250,7 @@ const handleReset = () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .rule-filter-form {
   margin-top: -12px;
   .col-oper {

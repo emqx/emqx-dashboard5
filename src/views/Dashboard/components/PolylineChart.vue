@@ -24,7 +24,7 @@ import 'echarts/lib/component/legend'
 import useEchartResize from '@/hooks/useEchartResize'
 import useI18nTl from '@/hooks/useI18nTl'
 import { isUndefined } from 'lodash'
-import Moment from 'moment'
+import dayjs from 'dayjs'
 import { useStore } from 'vuex'
 
 const props = defineProps({
@@ -105,7 +105,7 @@ const setSeriesConfig = () => {
   seriesConfig.value = []
   noYAxisDataMap = {}
   for (let i = 0; i < props.yTitle.length; i += 1) {
-    let areaColor = i % 6 === 0 && i !== 0 ? props.chartColors[6] : props.chartColors[i % 6]
+    const areaColor = i % 6 === 0 && i !== 0 ? props.chartColors[6] : props.chartColors[i % 6]
     storeNoDataXAxis(props.chartData[i].yData, props.chartData[i].xData, props.yTitle[i])
     seriesConfig.value.push({
       name: props.yTitle[i],
@@ -136,7 +136,7 @@ const setSeriesConfig = () => {
 }
 
 const _formatTime = (time: string, format = 'YYYY/MM/DD HH:mm') => {
-  return Moment(parseInt(time)).format(format)
+  return dayjs(parseInt(time)).format(format)
 }
 
 const createTooltipDataItem = (title: string, color: string, val?: number) => {
@@ -177,7 +177,7 @@ const getInterval = (index: number) => {
 }
 const drawChart = () => {
   setSeriesConfig()
-  let Dom = document.getElementById(props.chartId)
+  const Dom = document.getElementById(props.chartId)
 
   if (!chart.value) {
     chart.value = echarts.init(Dom, theme.value === 'dark' ? 'dark' : 'light')

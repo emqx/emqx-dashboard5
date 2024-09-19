@@ -62,6 +62,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { getImg } from '@/common/tools'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useRuleOutputs } from '@/hooks/Rule/rule/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -191,7 +192,7 @@ const getOutputImage = (item: OutputItem) => {
       break
   }
   try {
-    return require(`@/assets/img/${keyForIcon}.png`)
+    return getImg(`img/${keyForIcon}.png`)
   } catch (e) {
     //May it be a user defined module
     console.log('ImgErr:', e)
@@ -218,5 +219,5 @@ const getOutputTypeLabel = (item: OutputItem) => {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>

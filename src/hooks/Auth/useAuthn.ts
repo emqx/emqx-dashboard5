@@ -7,6 +7,8 @@ import { SortableEvent } from 'sortablejs'
 import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
 import useMove from '@/hooks/useMove'
 import useAuth from '@/hooks/Auth/useAuth'
+import jwtIcon from '@/assets/img/jwt.png'
+import { getImg } from '@/common/tools'
 
 export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics
@@ -51,13 +53,9 @@ export default (): {
       authnList.value = res.map((item) => {
         const ret: AuthnItemInTable = item
         if (ret.mechanism !== 'jwt') {
-          try {
-            ret.img = require(`@/assets/img/${ret.backend}.png`)
-          } catch {
-            ret.img = ''
-          }
+          ret.img = getImg(`img/${ret.backend}.png`)
         } else {
-          ret.img = require(`@/assets/img/jwt.png`)
+          ret.img = jwtIcon
         }
         ret.metrics = metricsMap.value[ret.id]
         return item

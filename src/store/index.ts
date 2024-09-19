@@ -211,7 +211,7 @@ export default createStore({
     },
     isDev() {
       return false
-      // return process.env.NODE_ENV === 'development'
+      // return import.meta.env.DEV
     },
     getSchema(state) {
       return (key: string) => {

@@ -74,7 +74,7 @@ import { useI18n } from 'vue-i18n'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Plus } from '@element-plus/icons-vue'
 import useRole from '@/hooks/SSO/useRole'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -124,7 +124,7 @@ const toggleKeyItemEnable = async (itemData: APIKey) => {
 }
 
 const expiredAt = (expiredAt: string | undefined) =>
-  !expiredAt ? tl('neverExpire') : moment(expiredAt).format('YYYY-MM-DD')
+  !expiredAt ? tl('neverExpire') : dayjs(expiredAt).format('YYYY-MM-DD')
 
 const getList = async () => {
   try {
@@ -157,7 +157,7 @@ getList()
 </script>
 
 <style lang="scss">
-@import '~@/views/Auth/style/authTable.scss';
+@import '@/views/Auth/style/authTable.scss';
 .API-key {
   .key-name {
     cursor: pointer;

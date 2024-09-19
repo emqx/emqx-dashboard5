@@ -6,6 +6,7 @@ import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
 import useMove from '@/hooks/useMove'
 import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
+import { getImg } from '@/common/tools'
 
 export type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics
@@ -43,7 +44,7 @@ export default (): {
       authzList.value = res.sources.map((item) => {
         let img = ''
         try {
-          img = require(`@/assets/img/${item.type}.png`)
+          img = getImg(`img/${item.type}.png`)
         } catch (error) {
           console.error(error)
         }

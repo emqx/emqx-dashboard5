@@ -234,7 +234,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 
 .rule-detail {
   .el-card.detail-card {

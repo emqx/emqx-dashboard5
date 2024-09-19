@@ -40,7 +40,7 @@
             @clear="handleSearch"
           />
         </el-col>
-        <template class="more" v-if="showMoreQuery">
+        <template v-if="showMoreQuery">
           <el-col v-bind="colProps">
             <el-select
               v-model="queryParams.conn_state"
@@ -314,7 +314,7 @@ const genQueryParams = (params: Record<string, any>) => {
     return { [_key]: _value }
   }
 
-  let newParams: Record<string, any> = {
+  const newParams: Record<string, any> = {
     ...addLikeParam('clientid', clientid, clientidSearchType),
     ...addLikeParam('username', username, usernameSearchType),
     ip_address: ip_address || undefined,
@@ -467,7 +467,7 @@ const cleanBatchClients = async () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .search-wrapper {
   $prepend-width: 128px;
   .el-input-group--prepend .el-input-group__prepend {

@@ -78,7 +78,6 @@
 </template>
 
 <script lang="ts">
-import type { WritableComputedRef } from 'vue'
 import { computed, defineComponent, defineEmits, defineProps } from 'vue'
 
 export default defineComponent({
@@ -87,10 +86,15 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import cloudIcon from '@/assets/img/cloud.png'
+import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
+import helpBlogIcon from '@/assets/img/help-blog.png'
+import helpDocIcon from '@/assets/img/help-doc.png'
+import helpForumIcon from '@/assets/img/help-forum.png'
+import { IS_ENTERPRISE } from '@/common/constants'
+import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
-import useDocLink from '@/hooks/useDocLink'
-import { IS_ENTERPRISE } from '@/common/constants'
 import DocListCard from './components/DocListCard.vue'
 
 const props = defineProps({
@@ -99,7 +103,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue'])
-const showDrawer: WritableComputedRef<boolean> = computed({
+const showDrawer = computed({
   get() {
     return props.modelValue
   },
@@ -114,17 +118,17 @@ const { docMap } = useDocLink()
 const platformList = [
   {
     link: docMap.documentation,
-    icon: require('@/assets/img/help-doc.png'),
+    icon: helpDocIcon,
     title: tl('documentation'),
   },
   {
     link: docMap.forum,
-    icon: require('@/assets/img/help-forum.png'),
+    icon: helpForumIcon,
     title: tl('forum'),
   },
   {
     link: docMap.blog,
-    icon: require('@/assets/img/help-blog.png'),
+    icon: helpBlogIcon,
     title: tl('blog'),
   },
 ]
@@ -152,14 +156,14 @@ const productList = [
     desc: tl('eeDesc'),
     linkText: t('Settings.tryEnterprise'),
     link: docMap.emqxEnterprise,
-    icon: require('@/assets/img/emqx-enterprise-icon.png'),
+    icon: emqxEnterpriseIcon,
   },
   {
     title: 'EMQX Cloud',
     desc: tl('cloudDesc'),
     linkText: t('Settings.tryCloud'),
     link: docMap.cloudHome,
-    icon: require('@/assets/img/cloud.png'),
+    icon: cloudIcon,
   },
 ]
 

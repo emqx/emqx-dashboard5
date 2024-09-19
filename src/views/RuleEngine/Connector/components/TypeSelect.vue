@@ -54,7 +54,7 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 .type-filter-bar {
   margin-bottom: 16px;
 }

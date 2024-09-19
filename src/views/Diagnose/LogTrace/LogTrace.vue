@@ -47,9 +47,9 @@
         :min-width="188"
       >
         <template #default="{ row }">
-          {{ moment(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.start_at).format('YYYY-MM-DD HH:mm:ss') }}
           <br />
-          {{ moment(row.end_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.end_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('LogTrace.status')" prop="status" :min-width="120">
@@ -60,8 +60,8 @@
                 row.status === 'running'
                   ? CheckStatus.Check
                   : row.status === 'stopped'
-                  ? CheckStatus.Close
-                  : CheckStatus.Disable
+                    ? CheckStatus.Close
+                    : CheckStatus.Disable
               "
             />
             <span>{{ row.status && $t('LogTrace.s' + row.status) }}</span>
@@ -234,7 +234,7 @@ import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@
 import { Plus } from '@element-plus/icons-vue'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { omit, startCase } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import type { Ref } from 'vue'
 import { defineComponent, nextTick, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -348,7 +348,7 @@ export default defineComponent({
         if (!valid) return
         createLoading.value = true
         const { clientid, topic, ip_address, ruleid, startTime, type, formatter } = record.value
-        let targetInfo: TraceRecord = {
+        const targetInfo: TraceRecord = {
           ...omit(record.value, ['clientid', 'topic', 'ip_address', 'startTime']),
           start_at: new Date(startTime[0]).toISOString(),
           end_at: new Date(startTime[1]).toISOString(),
@@ -468,7 +468,7 @@ export default defineComponent({
       submitTrace,
       stopTraceHandler,
       openCreateDialog,
-      moment,
+      dayjs,
       download,
       deleteTraceHandler,
       createRules,

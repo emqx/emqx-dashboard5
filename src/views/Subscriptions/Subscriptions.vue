@@ -169,8 +169,8 @@ const handleReset = () => {
 }
 const genQueryParams = (params: Record<string, any>) => {
   const { clientid, qos, share_group, node, match_topic } = params
-  let newParams: Record<string, any> = {
-    clientid: clientid === '' ? undefined : clientid ?? undefined,
+  const newParams: Record<string, any> = {
+    clientid: clientid === '' ? undefined : (clientid ?? undefined),
     qos: qos === '' ? undefined : qos,
     share_group: share_group || undefined,
     node: node || undefined,
@@ -199,7 +199,7 @@ loadTableData()
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .subscriptions {
   .search-wrapper {
     margin-top: -12px;

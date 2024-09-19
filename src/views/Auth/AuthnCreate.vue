@@ -64,7 +64,7 @@
                 v-if="!isDisabledDatabase(item.value)"
                 :value="$t('Base.added')"
                 class="item"
-                :hidden="((!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean)"
+                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
               >
                 <el-radio
                   :label="item.value"
@@ -82,7 +82,7 @@
                 v-for="item in others"
                 :key="item.value"
                 :value="$t('Base.added')"
-                :hidden="((!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean)"
+                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
                 class="item"
               >
                 <el-radio
@@ -128,7 +128,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="(backend as DatabaseAndServerDOM)"
+            :database="backend as DatabaseAndServerDOM"
             auth-type="authn"
           />
           <built-in-config
@@ -204,7 +204,7 @@ import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
-import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
+import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
@@ -294,7 +294,7 @@ const mechanismDesc = computed(
       jwt: tl('jwtDesc'),
       scram: tl('enhancedAuthDesc'),
       gssapi: tl('enhancedAuthDesc'),
-    }[mechanism.value] || ''),
+    })[mechanism.value] || '',
 )
 const hasDatabaseToChoose = computed(() => {
   const { disabledDatabases } = props
@@ -331,7 +331,7 @@ const getSupportBackend = function () {
     const res = {
       label: supportData[key],
       value: key,
-      img: require(`@/assets/img/${key}.png`),
+      img: getImg(`img/${key}.png`),
     }
     const otherKeys = ['http']
     if (otherKeys.includes(key)) {
@@ -397,7 +397,7 @@ const beforeNext = function () {
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide(beforeNext)
 
 const handleCreate = async function () {
-  let isVerified = (await formCom.value.validate().catch(() => {
+  const isVerified = (await formCom.value.validate().catch(() => {
     jumpToErrorFormItem()
   }))
     ? true

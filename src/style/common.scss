@@ -2,7 +2,7 @@
 @use './themes/dark.scss';
 @use 'normalize.scss';
 @use '@/style/schemaForm.scss';
-@use "sass:math";
+@use 'sass:math';
 
 @font-face {
   font-family: 'Roboto';
@@ -41,8 +41,16 @@
   src: url(../assets/fonts/Roboto-BlackItalic.ttf) format('truetype');
 }
 
-$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue,
-  Helvetica, Arial, sans-serif;
+$font:
+  Roboto,
+  -apple-system,
+  BlinkMacSystemFont,
+  PingFang SC,
+  Hiragino Sans GB,
+  Helvetica Neue,
+  Helvetica,
+  Arial,
+  sans-serif;
 
 body {
   padding: 0;
@@ -229,22 +237,22 @@ p.description {
 }
 
 .g-coap::before {
-  background-image: url('~@/assets/gateway/coap.png');
+  background-image: url('@/assets/gateway/coap.png');
 }
 .g-lwm2m::before {
-  background-image: url('~@/assets/gateway/lwm2m.png');
+  background-image: url('@/assets/gateway/lwm2m.png');
 }
 .g-mqttsn::before {
-  background-image: url('~@/assets/gateway/mqttsn.png');
+  background-image: url('@/assets/gateway/mqttsn.png');
 }
 .g-stomp::before {
-  background-image: url('~@/assets/gateway/stomp.png');
+  background-image: url('@/assets/gateway/stomp.png');
 }
 .g-tcp::before {
-  background-image: url('~@/assets/gateway/tcp.png');
+  background-image: url('@/assets/gateway/tcp.png');
 }
 .g-exproto::before {
-  background-image: url('~@/assets/gateway/exproto.png');
+  background-image: url('@/assets/gateway/exproto.png');
 }
 .g-gbt32960::before {
   background-image: url('~@/assets/gateway/gbt32960.png');
@@ -760,10 +768,15 @@ code {
   padding: 0.25rem 0.5rem;
   margin: 0;
   color: var(--color-text-mdcode);
-  font-size: .85em;
+  font-size: 0.85em;
   border-radius: 3px;
   background-color: var(--color-bg-mdcode);
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family:
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
 }
 
 [data-theme='dark'] {
@@ -895,11 +908,11 @@ code {
   }
 
   .vue-flow__handle-left {
-    left: math.div(-$handle-size, 2)
+    left: math.div(-$handle-size, 2);
   }
 
   .vue-flow__handle-right {
-    right: math.div(-$handle-size, 2)
+    right: math.div(-$handle-size, 2);
   }
 
   .vue-flow__handle {
@@ -909,7 +922,7 @@ code {
 
 .mock-required-label {
   &:after {
-    content: "*";
+    content: '*';
     color: var(--el-color-danger);
     margin-left: 4px;
   }

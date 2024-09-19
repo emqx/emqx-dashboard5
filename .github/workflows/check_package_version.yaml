@@ -37,11 +37,11 @@ jobs:
 
       - name: install dep
         run: |
-          yarn
+          pnpm install
 
       - name: run script that checks the version of the package
         run: |
-          node ./scripts/checkPackageVersion.js
+          node ./scripts/checkPackageVersion.cjs
 
       - name: check for script errors
         if: ${{ failure() }}

@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@import '~@/style/common.scss';
+@import '@/style/common.scss';
 .pre-with-wrap {
   word-break: break-all;
 }

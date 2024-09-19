@@ -116,7 +116,7 @@
   />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
-    :connector="(currentConnector as Connector)"
+    :connector="currentConnector as Connector"
     @submitted="toggleEnableValue"
   />
 </template>
@@ -284,7 +284,7 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 .connector-detail {
   .form-container {
     width: 75%;

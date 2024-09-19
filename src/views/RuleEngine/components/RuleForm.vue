@@ -324,7 +324,7 @@ const syncFormDataToSQL = () => {
   return sql
 }
 const syncSQLDataToForm = () => {
-  let { sql = '' } = ruleValue.value
+  const { sql = '' } = ruleValue.value
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(sql)
   sqlPartValue.value = {
     from: transFromStrToFromArr(fromStr),
@@ -447,7 +447,7 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
-@import '~@/style/rule.scss';
+@import '@/style/rule.scss';
 </style>
 
 <style lang="scss">

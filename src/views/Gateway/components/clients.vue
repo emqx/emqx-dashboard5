@@ -81,7 +81,7 @@
       </el-table-column>
       <el-table-column :label="tl('connectedAt')">
         <template #default="{ row }">
-          {{ moment(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
@@ -116,7 +116,7 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import ClientDetails from '../../Clients/ClientDetails.vue'
 import { useRoute } from 'vue-router'
 import { Search, RefreshRight } from '@element-plus/icons-vue'
@@ -131,17 +131,17 @@ export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
 
   setup() {
-    let pCommon = ref(null)
-    let gatewayTable = ref([])
-    let tbLoading = ref(false)
-    let searchParams = reactive<Record<string, any>>({
+    const pCommon = ref(null)
+    const gatewayTable = ref([])
+    const tbLoading = ref(false)
+    const searchParams = reactive<Record<string, any>>({
       like_clientid: '',
       like_username: '',
       node: '',
       like_endpoint_name: '',
     })
-    let clientsDetailVisible = ref(false)
-    let currentClientId = ref('')
+    const clientsDetailVisible = ref(false)
+    const currentClientId = ref('')
 
     const route = useRoute()
     const gname = String(route.params.name).toLowerCase()
@@ -161,7 +161,7 @@ export default defineComponent({
       const sendParams = { ...pageQueries.value, ...pageParams, ...params }
 
       try {
-        let { data, meta } = await getGatewayClients(gname, sendParams)
+        const { data, meta } = await getGatewayClients(gname, sendParams)
         gatewayTable.value = data
         setPageMeta(meta)
       } catch (error) {
@@ -173,7 +173,7 @@ export default defineComponent({
     }
 
     const searchGatewayList = async function () {
-      let params: Record<string, any> = {}
+      const params: Record<string, any> = {}
       Object.keys(searchParams).forEach((k) => {
         params[k] = searchParams[k] === '' ? undefined : searchParams[k]
       })
@@ -216,7 +216,7 @@ export default defineComponent({
     return {
       Search,
       RefreshRight,
-      moment: moment,
+      dayjs: dayjs,
       tl,
       t,
       loadGatewayClients,
