@@ -318,7 +318,7 @@ export const useRuleInputs = (): {
       const adjustedType = adjustTypeForSpecialCases(type)
 
       if (isTypeUsingNewIcon(adjustedType)) {
-        return getImg(`img/${adjustedType}.png`)
+        return getImg(`flowIcon/${adjustedType}.png`)
       }
       if (isBridgeType(type)) {
         return getBridgeIcon(type)
