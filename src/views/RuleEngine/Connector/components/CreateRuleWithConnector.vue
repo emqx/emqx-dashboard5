@@ -124,6 +124,7 @@ const cancel = () => {
 
 <style lang="scss">
 .create-rule-with-connector-dialog {
+  padding: 0 12px 4px;
   p {
     margin: 0;
   }
