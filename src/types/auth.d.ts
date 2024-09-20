@@ -90,4 +90,32 @@ export type DatabaseAndServer =
   | 'ldap'
   | 'kerberos'
 
+export type BackendType =
+  | 'built_in_database'
+  | 'mysql'
+  | 'mongodb'
+  | 'postgresql'
+  | 'http'
+  | 'redis'
+  | 'ldap'
+  | 'kerberos'
+
+export type MechanismType = 'password_based' | 'jwt' | 'scram' | 'gssapi' | 'cinfo'
+
+export interface CInfoConfig {
+  id?: string
+  mechanism: string
+  checks: Array<{
+    is_match: string | string[]
+    result: string
+  }>
+  enable: boolean
+}
+
+export type BackendMap = {
+  [K in MechanismType]: {
+    [B in BackendType]?: string
+  }
+}
+
 export default {}

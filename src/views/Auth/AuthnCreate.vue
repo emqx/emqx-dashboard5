@@ -17,9 +17,7 @@
             <el-badge
               v-if="!isDisabledMechanism(value)"
               :value="$t('Base.added')"
-              :hidden="
-                value !== AuthnMechanismType.JWT || !addedAuthn.includes(AuthnMechanismType.JWT)
-              "
+              :hidden="isAddedBadgeHidden(value)"
               class="item"
             >
               <el-radio
@@ -45,7 +43,7 @@
       </div>
       <!-- Backend -->
       <div v-if="step === 1" class="create-form">
-        <template v-if="mechanism !== 'jwt'">
+        <template v-if="mechanism !== 'jwt' && mechanism !== 'cinfo'">
           <p class="item-description">
             {{
               mechanism === 'gssapi'
@@ -106,7 +104,11 @@
           </template>
         </template>
         <p v-else class="item-description">
-          {{ $t('Auth.jwtDataSourceDesc') }}
+          {{
+            $t('Auth.noBackendDataSourceDesc', {
+              mechanism: getMechanismLabel(mechanism as AuthnMechanismType),
+            })
+          }}
         </p>
         <div class="step-btn">
           <el-button @click="handleBack">
@@ -123,7 +125,7 @@
       </div>
       <!-- Config -->
       <div v-else-if="step === 2">
-        <template v-if="mechanism !== 'jwt'">
+        <template v-if="mechanism !== 'jwt' && mechanism !== 'cinfo'">
           <database-config
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
@@ -154,7 +156,8 @@
           />
           <kerberos-config v-else-if="backend === 'kerberos'" v-model="configData" ref="formCom" />
         </template>
-        <jwt-config v-else v-model="configData" ref="formCom" />
+        <jwt-config v-else-if="mechanism === 'jwt'" v-model="configData" ref="formCom" />
+        <c-info-config v-else-if="mechanism === 'cinfo'" v-model="configData" ref="formCom" />
         <!-- Result -->
         <div v-if="testRes" :class="['create-form', 'result-block', isWork ? 'success' : 'error']">
           <div class="result-title">
@@ -197,6 +200,7 @@ import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
+import CInfoConfig from './components/CInfoConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import useGuide from '@/hooks/useGuide'
 import { createAuthn } from '@/api/auth'
@@ -206,7 +210,7 @@ import { ElMessage as M } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import { checkNOmitFromObj, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { DatabaseAndServer } from '@/types/auth'
+import type { DatabaseAndServer, BackendMap, MechanismType, BackendType } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 import useAuth from '@/hooks/Auth/useAuth'
@@ -250,7 +254,7 @@ const props = defineProps({
 })
 const { tl, t } = useI18nTl('Auth')
 const router = useRouter()
-const mechanism = ref('password_based')
+const mechanism = ref<MechanismType>('password_based')
 const backend = ref<DatabaseAndServer | '' | 'built_in_database'>('')
 const databases = ref<Record<string, any>[]>([])
 const others = ref<Record<string, any>[]>([])
@@ -260,7 +264,8 @@ const configData = ref({})
 const { factory, create } = useAuthnCreate()
 const formCom = ref()
 const { authnMechanismTypeList } = useAuthnMechanismType()
-const supportBackendMap: any = {
+
+const supportBackendMap: BackendMap = {
   password_based: {
     built_in_database: tl('builtInDatabase'),
     mysql: 'MySQL',
@@ -278,7 +283,9 @@ const supportBackendMap: any = {
   gssapi: {
     kerberos: 'Kerberos',
   },
+  cinfo: {},
 }
+
 provide('gateway', props.gateway)
 const saveLoading = ref(false)
 const addedAuthn = computed(() => {
@@ -294,6 +301,7 @@ const mechanismDesc = computed(
       jwt: tl('jwtDesc'),
       scram: tl('enhancedAuthDesc'),
       gssapi: tl('enhancedAuthDesc'),
+      cinfo: tl('cinfoAuthDesc'),
     }[mechanism.value] || ''),
 )
 const hasDatabaseToChoose = computed(() => {
@@ -326,10 +334,10 @@ const findFirstDatabaseDidNotAdd = () => {
 }
 
 const getSupportBackend = function () {
-  const supportData = supportBackendMap[mechanism.value]
+  const supportData = supportBackendMap[mechanism.value as MechanismType]
   Object.keys(supportData).forEach((key) => {
     const res = {
-      label: supportData[key],
+      label: supportData[key as BackendType],
       value: key,
       img: require(`@/assets/img/${key}.png`),
     }
@@ -436,6 +444,16 @@ const cancelCreate = async function () {
   } else {
     router.push('/authentication')
   }
+}
+
+const isAddedBadgeHidden = (value: AuthnMechanismType) => {
+  if (value === AuthnMechanismType.JWT) {
+    return !addedAuthn.value.includes(AuthnMechanismType.JWT)
+  }
+  if (value === AuthnMechanismType.CINFO) {
+    return !addedAuthn.value.includes(AuthnMechanismType.CINFO)
+  }
+  return true
 }
 </script>
 

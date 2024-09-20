@@ -1,8 +1,9 @@
 import { ElMessage as M } from 'element-plus'
-import _ from 'lodash'
+import _, { cloneDeep } from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
+import { CInfoConfig } from '@/types/auth'
 // import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -131,6 +132,51 @@ export default function useProcessAuthData() {
     }
     return ret
   }
+  const processCInfoCreateConfig = (data: CInfoConfig) => {
+    const _data = cloneDeep(data)
+    const { checks, enable, mechanism } = _data
+    checks.forEach((check) => {
+      const is_match = check.is_match as string
+      if (is_match.includes('\n')) {
+        check.is_match = is_match
+          .split('\n')
+          .map((item) => item.trim())
+          .filter((item) => item !== '')
+      } else {
+        check.is_match = is_match.trim()
+      }
+    })
+
+    const filteredChecks = checks.filter(
+      (check) =>
+        check.is_match &&
+        (Array.isArray(check.is_match) ? check.is_match.length > 0 : check.is_match !== '') &&
+        check.result,
+    )
+
+    return {
+      enable,
+      checks: filteredChecks,
+      mechanism,
+    }
+  }
+
+  const processCInfoUpdateConfig = (data: CInfoConfig) => {
+    const _data = cloneDeep(data)
+    const { id, checks, enable, mechanism } = _data
+    checks.forEach((check) => {
+      if (Array.isArray(check.is_match)) {
+        const is_match = check.is_match as string[]
+        check.is_match = is_match.join('\n')
+      }
+    })
+    return {
+      id,
+      enable,
+      checks,
+      mechanism,
+    }
+  }
 
   return {
     createResourceOpt,
@@ -140,5 +186,7 @@ export default function useProcessAuthData() {
     processRedisConfig,
     processJwtConfig,
     processPasswordHashAlgorithmData,
+    processCInfoCreateConfig,
+    processCInfoUpdateConfig,
   }
 }
