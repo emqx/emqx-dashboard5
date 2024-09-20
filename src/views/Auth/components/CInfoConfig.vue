@@ -1,0 +1,80 @@
+<template>
+  <div class="cinfo-config config">
+    <el-form
+      ref="formCom"
+      :model="cinfoConfig"
+      :rules="rules"
+      class="create-form"
+      label-position="top"
+    >
+      <el-row :gutter="20">
+        <el-col :span="20">
+          <el-form-item prop="checks" :label="$t('Auth.checks')">
+            <ObjectArrayEditor
+              v-model="cinfoConfig.checks"
+              propKey="checks"
+              :properties="checksProperties"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { defineProps, defineEmits, reactive, watch, defineExpose } from 'vue'
+import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
+import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
+import useI18nTl from '@/hooks/useI18nTl'
+
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
+  },
+  isEdit: {
+    type: Boolean,
+  },
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const { tl } = useI18nTl('Auth')
+
+const checksProperties = {
+  is_match: {
+    type: 'string',
+    format: 'textarea',
+    rows: 3,
+    placeholder: 'e.g., regex_match(username, "^admin-")',
+    path: 'checks.is_match',
+    key: 'checks.is_match',
+    label: tl('isMatch'),
+    description: tl('isMatchDesc'),
+  },
+  result: {
+    type: 'enum',
+    symbols: ['allow', 'ignore', 'deny'],
+    path: 'checks.result',
+    key: 'checks.result',
+    label: tl('result'),
+    description: tl('resultDesc'),
+  },
+}
+
+const cinfoConfig = reactive(props.modelValue)
+const { formCom, rules, validate } = useCInfoConfigForm()
+
+watch(cinfoConfig, (value) => {
+  emit('update:modelValue', value)
+})
+
+defineExpose({
+  validate,
+})
+</script>
+
+<style lang="scss">
+@import '../style/authConfig.scss';
+</style>

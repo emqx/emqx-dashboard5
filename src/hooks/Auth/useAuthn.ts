@@ -50,12 +50,14 @@ export default (): {
       const res: AuthnItem[] = await listAuthn()
       authnList.value = res.map((item) => {
         const ret: AuthnItemInTable = item
-        if (ret.mechanism !== 'jwt') {
+        if (ret.mechanism !== 'jwt' && ret.mechanism !== 'cinfo') {
           try {
             ret.img = require(`@/assets/img/${ret.backend}.png`)
           } catch {
             ret.img = ''
           }
+        } else if (ret.mechanism === 'cinfo') {
+          ret.img = require(`@/assets/img/cinfo.png`)
         } else {
           ret.img = require(`@/assets/img/jwt.png`)
         }
@@ -76,6 +78,9 @@ export default (): {
     let backend = item.backend
     if (item.mechanism === 'jwt') {
       backend = 'jwt'
+    }
+    if (item.mechanism === 'cinfo') {
+      backend = 'cinfo'
     }
     return titleMap[backend]
   }

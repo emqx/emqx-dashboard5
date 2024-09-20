@@ -15,6 +15,7 @@ export default function useAuthnCreate() {
     processRedisConfig,
     processJwtConfig,
     processPasswordHashAlgorithmData,
+    processCInfoCreateConfig,
   } = useProcessAuthData()
 
   const getBuiltInConfig = (type: string) => {
@@ -130,6 +131,13 @@ export default function useAuthnCreate() {
     }
   }
 
+  const getCInfoConfig = () => {
+    return {
+      checks: [],
+      enable: true,
+    }
+  }
+
   const getLdapConfig = () => {
     return {
       query_timeout: '5s',
@@ -183,6 +191,8 @@ export default function useAuthnCreate() {
         break
       case 'jwt':
         return getJwtConfig()
+      case 'cinfo':
+        return getCInfoConfig()
       case 'gssapi':
         if (backend === 'kerberos') {
           return getKerberosConfig()
@@ -193,6 +203,8 @@ export default function useAuthnCreate() {
     let data: any = {}
     if (mechanism === 'jwt') {
       data = processJwtConfig(config)
+    } else if (mechanism === 'cinfo') {
+      data = processCInfoCreateConfig(config)
     } else {
       switch (backend) {
         case 'http':

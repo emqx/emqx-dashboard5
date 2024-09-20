@@ -25,6 +25,7 @@ type FormItemType =
   | 'ssl'
   | 'sql'
   | 'object'
+  | 'textarea'
 
 export default defineComponent({
   components: {
@@ -54,7 +55,7 @@ export default defineComponent({
      * for type string,
      */
     format: {
-      type: String as PropType<'text' | 'password' | 'sql'>,
+      type: String as PropType<'text' | 'password' | 'sql' | 'textarea'>,
     },
     /**
      * for type enum
@@ -109,23 +110,25 @@ export default defineComponent({
     const getFormItem = () => {
       const format = props.format
       const isDisabled = props.disabled
-
+      const rows: number | undefined = props.property?.rows
+      const placeholder: string | undefined = props.property?.placeholder
       /**
        * do not use v-model directly because there have some prop in second level
        * like the props under the connector field
        */
-      const inputType = format === 'password' ? 'password' : 'text'
+      const inputType =
+        format === 'password' ? 'password' : format === 'textarea' ? 'textarea' : 'text'
       const autocomplete = inputType === 'password' ? 'one-time-code' : ''
       const showPassword = inputType === 'password'
       const customProps = props.customProps || {}
       const isTemplate = !!props.property?.is_template
-
       const stringInput = (
         <el-input
           disabled={isDisabled}
-          placeholder={props.placeholder}
+          placeholder={placeholder}
           v-model={formItemValue.value}
           type={inputType}
+          rows={rows}
           autocomplete={autocomplete}
           showPassword={showPassword}
           {...customProps}
@@ -164,7 +167,7 @@ export default defineComponent({
             <CustomInputNumber
               disabled={isDisabled}
               v-model={formItemValue.value}
-              placeholder={props.placeholder}
+              placeholder={placeholder}
               min={0}
               {...customProps}
             />
@@ -173,7 +176,7 @@ export default defineComponent({
           return (
             <el-select
               disabled={isDisabled}
-              placeholder={props.placeholder}
+              placeholder={placeholder}
               v-model={formItemValue.value}
               clearable
               {...customProps}
