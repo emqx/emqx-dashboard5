@@ -15,7 +15,7 @@
     >
       <el-row :gutter="26">
         <el-col :span="12">
-          <el-form-item :label="$tc('RuleEngine.actionType')" prop="type">
+          <el-form-item :label="tl('actionType')" prop="type">
             <el-select v-model="outputForm.type" filterable @change="handleTypeChanged">
               <el-option
                 v-for="{ value, label } in actionTypeOpts"
@@ -28,7 +28,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="isOutputToBridge">
-          <el-form-item :label="$tc('RuleEngine.action')">
+          <el-form-item :label="tl('action')">
             <ActionSelect
               v-model="bridgeForm.id"
               :type="outputForm.type"

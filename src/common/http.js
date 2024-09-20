@@ -86,7 +86,7 @@ const getErrorMessage = (data, status) => {
  */
 axios.interceptors.response.use(
   (response) => {
-    if (!response.config.doNotTriggerProgress) {
+    if (!response.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
     if (response.data instanceof Blob) {
@@ -99,7 +99,7 @@ axios.interceptors.response.use(
     return response.data || response.status
   },
   async (error) => {
-    if (!error.config.doNotTriggerProgress) {
+    if (!error.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
 
@@ -109,7 +109,7 @@ axios.interceptors.response.use(
         error.response.data = await readBlobResponse(error.response.data)
       }
 
-      let { data, status } = error.response
+      const { data, status } = error.response
 
       if (!respSet.has(status)) {
         respSet.add(status)
@@ -168,7 +168,7 @@ axios.interceptors.response.use(
 
 async function setProgressBarDone() {
   await store.dispatch('SET_REQ_CHANGE', false)
-  let queueLen = store.state.request_queue
+  const queueLen = store.state.request_queue
   if (queueLen > 0) {
     NProgress.inc()
   } else {
