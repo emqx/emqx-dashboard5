@@ -4,7 +4,7 @@
       <div class="filters">
         <el-input :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
         <el-radio-group v-model="filterStatus">
-          <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :label="value">
+          <el-radio-button v-for="{ label, value } in statusOptions" :key="value" :value="value">
             {{ label }}
             ({{ statusCounter[value as keyof typeof statusCounter] }})
           </el-radio-button>
