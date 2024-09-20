@@ -26,8 +26,8 @@
           </template>
           <template #description>
             <el-radio-group v-model="passwordType">
-              <el-radio label="plain" border>{{ $t('Auth.plaintextPassword') }}</el-radio>
-              <el-radio label="hash" border>{{ $t('Auth.encryptedPassword') }}</el-radio>
+              <el-radio value="plain" border>{{ $t('Auth.plaintextPassword') }}</el-radio>
+              <el-radio value="hash" border>{{ $t('Auth.encryptedPassword') }}</el-radio>
             </el-radio-group>
           </template>
         </el-step>
@@ -60,7 +60,7 @@
         </el-step>
       </el-steps>
 
-      <template #footer class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogVisible = false">{{ $t('Base.cancel') }}</el-button>
         <el-button type="primary" @click="importData" :loading="importLoading">{{
           $t('Base.import')
