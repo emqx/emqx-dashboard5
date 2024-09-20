@@ -597,7 +597,7 @@ export default {
   },
   isMatch: {
     zh: '匹配条件',
-    en: 'Match Condition',
+    en: 'Match Conditions',
   },
   isMatchDesc: {
     zh: "Variform 表达式用于评估客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n- <code>username</code>: 用户名\n- <code>clientid</code>: 客户端 ID\n- <code>client_attrs.*</code>: 客户端属性\n- <code>peerhost</code>: 客户端 IP\n- <code>cert_subject</code>: TLS 证书主题\n- <code>cert_common_name</code>: TLS 证书通用名称\n所有表达式返回 \"true\" 时，认证器返回相关结果；否则跳过当前检查。\n\n简单示例（每行一个表达式）：\n<code>regex_match(username, '^admin')</code>\n<code>str_eq(client_attrs.group, 'premium')</code>\n\n更多函数和高级用法请参考完整文档。",
