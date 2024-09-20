@@ -1,7 +1,7 @@
 <template>
   <div class="authz-manager">
     <el-radio-group v-model="type">
-      <el-radio-button v-for="item in typeList" :key="item.value" :label="item.value" border>
+      <el-radio-button v-for="item in typeList" :key="item.value" :value="item.value" border>
         {{ item.label }}
       </el-radio-button>
     </el-radio-group>

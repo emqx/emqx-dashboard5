@@ -1,10 +1,10 @@
 <template>
   <div class="webhook-trigger">
     <el-radio-group v-model="selectedType" class="ml-4">
-      <el-radio :label="TriggerType.Messages">{{ tl('messages') }}</el-radio>
+      <el-radio :value="TriggerType.Messages">{{ tl('messages') }}</el-radio>
       <div class="sub-selector" v-if="selectedType === TriggerType.Messages">
         <el-checkbox-group v-model="selectedMsgEventList">
-          <el-checkbox v-for="{ event, title } in msgEventOpts" :key="event" :label="event">
+          <el-checkbox v-for="{ event, title } in msgEventOpts" :key="event" :value="event">
             {{ getEventLabel(title) }}
           </el-checkbox>
         </el-checkbox-group>
@@ -38,16 +38,16 @@
           </el-button>
         </div>
       </div>
-      <el-radio :label="TriggerType.Events">{{ tl('events') }}</el-radio>
+      <el-radio :value="TriggerType.Events">{{ tl('events') }}</el-radio>
       <div class="sub-selector" v-if="selectedType === TriggerType.Events">
         <el-checkbox-group v-model="selectedOtherEventList">
-          <el-checkbox v-for="{ event, title } in otherEventOpts" :key="event" :label="event">
+          <el-checkbox v-for="{ event, title } in otherEventOpts" :key="event" :value="event">
             {{ getEventLabel(title) }}
           </el-checkbox>
         </el-checkbox-group>
       </div>
 
-      <el-radio :label="TriggerType.All">{{ tl('allMsgsAndEvents') }}</el-radio>
+      <el-radio :value="TriggerType.All">{{ tl('allMsgsAndEvents') }}</el-radio>
     </el-radio-group>
   </div>
 </template>
@@ -93,7 +93,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 // To prevent infinite loops
-let nowSQL = ref('')
+const nowSQL = ref('')
 
 const { state } = useStore()
 const { t, tl } = useI18nTl('RuleEngine')
