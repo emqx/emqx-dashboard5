@@ -162,7 +162,6 @@ import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
-import { MechanismType } from '@/types/enum'
 
 export default defineComponent({
   name: 'AuthnDetails',
