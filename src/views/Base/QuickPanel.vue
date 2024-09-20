@@ -177,11 +177,9 @@ const cancel = () => {
 
 <style lang="scss">
 .quick-panel {
+  padding: 0;
   .el-dialog__header {
     display: none;
-  }
-  .el-dialog__body {
-    padding: 0;
   }
   $height: 54px;
   .el-autocomplete {

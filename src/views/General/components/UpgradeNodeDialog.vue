@@ -140,7 +140,7 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { HotUpgradePackage, NodeUpgradeData } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElDialog, ElMessage, UploadFile } from 'element-plus'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
@@ -249,7 +249,7 @@ const infoList = computed(() => {
     if (key === 'applicable_vsns' && Array.isArray(value)) {
       value = value?.join(', ')
     } else if (key === 'build_date') {
-      value = moment(value).format('YYYY-MM-DD HH:mm:ss')
+      value = dayjs(value).format('YYYY-MM-DD HH:mm:ss')
     }
     return { label, value, key }
   })

@@ -75,7 +75,7 @@
             <el-col v-bind="colProps">
               <el-input v-model="filterParams.source_ip" placeholder="IP" />
             </el-col>
-            <template class="more" v-if="showMoreQuery">
+            <template v-if="showMoreQuery">
               <el-col v-bind="colProps">
                 <el-select
                   v-model="filterParams.operation_result"
@@ -207,7 +207,7 @@ import {
 } from '@/types/typeAlias'
 import { ArrowDown, ArrowUp, RefreshLeft, Search, Setting } from '@element-plus/icons-vue'
 import { pickBy } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Ref, computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import resourceDictArr from './resource_dict.json'
@@ -364,7 +364,7 @@ const init = async () => {
     isInitializing.value = false
   }
 }
-const formatDate = (ipt: string) => moment(ipt).format('YYYY-MM-DD HH:mm:ss')
+const formatDate = (ipt: string) => dayjs(ipt).format('YYYY-MM-DD HH:mm:ss')
 
 const typesUseNodeAsInfo: Array<string> = [AuditLogFrom.cli, AuditLogFrom.erlang_console]
 const getSourceData = (row: AuditLogItem) => {
@@ -401,7 +401,7 @@ init()
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .audit-log {
   &.is-loading {
     min-height: 320px;

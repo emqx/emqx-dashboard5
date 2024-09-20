@@ -310,6 +310,27 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
 export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
+export const SSL_FIELDS = [
+  'user_lookup_fun',
+  'cacertfile',
+  'verify',
+  'keyfile',
+  'certfile',
+  'cacerts',
+  'password',
+  'hibernate_after',
+  'versions',
+  'secure_renegotiate',
+  'reuse_sessions',
+  'depth',
+  'server_name_indication',
+  'enable',
+  'ciphers',
+  'log_level',
+  'partial_chain',
+  'verify_peer_ext_key_usage',
+]
+
 export const EMQX_VERSION = __EMQX_VERSION__
 
 const defaultUnexposedConfig = {

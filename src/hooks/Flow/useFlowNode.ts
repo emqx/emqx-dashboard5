@@ -1,3 +1,4 @@
+import { getImg } from './../../common/tools'
 import useBridgeTypeValue, {
   bridgeOrderIndex,
   typesWithProducerAndConsumer,
@@ -325,12 +326,12 @@ export default (): {
       const iconSuffix = disabled ? '-disabled' : ''
 
       if (isTypeUsingNewIcon(adjustedType)) {
-        return require(`@/assets/flowIcon/${adjustedType}${iconSuffix}.png`)
+        return getImg(`flowIcon/${adjustedType}${iconSuffix}.png`)
       }
       if (isBridgeType(type)) {
         return getBridgeIcon(type)
       }
-      return require(`@/assets/img/${adjustedType}${iconSuffix}.png`)
+      return getImg(`img/${adjustedType}${iconSuffix}.png`)
     } catch (error) {
       return ''
     }

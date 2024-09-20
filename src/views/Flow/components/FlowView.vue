@@ -1,6 +1,14 @@
 <template>
   <div class="flow-view">
-    <VueFlow class="editor" ref="FlowerInstance" v-model="flowData" @node-click="handleClickNode">
+    <VueFlow
+      class="editor"
+      ref="FlowerInstance"
+      v-model="flowData"
+      :max-zoom="1"
+      :delete-key-code="null"
+      :nodes-connectable="false"
+      @node-click="handleClickNode"
+    >
       <template #node-custom_input="data"><FlowNode :data="data" /></template>
       <template #node-custom_default="data"><FlowNode :data="data" /></template>
       <template #node-custom_output="data"><FlowNode :data="data" /></template>
@@ -19,11 +27,12 @@
 import useFlowView from '@/hooks/Flow/useFlowView'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
-import { Ref, computed, defineEmits, onMounted, ref } from 'vue'
+import { Ref, computed, defineEmits, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
 import NodeDrawer from './NodeDrawer.vue'
+import { waitAMoment } from '@/common/tools'
 
 const router = useRouter()
 
@@ -73,6 +82,7 @@ onMounted(async () => {
   try {
     await getFlowData()
     if (flowData.value.length > 0) {
+      await waitAMoment(4)
       FlowerInstance.value?.fitView()
     }
   } catch (error) {

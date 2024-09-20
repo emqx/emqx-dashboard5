@@ -23,12 +23,12 @@
 </template>
 
 <script setup lang="ts">
+import { getImg } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { useVueFlow } from '@vue-flow/core'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import FlowView from './components/FlowView.vue'
 import { useStore } from 'vuex'
+import FlowView from './components/FlowView.vue'
 
 const router = useRouter()
 const { tl } = useI18nTl('components')
@@ -40,7 +40,7 @@ const theme = computed(() => {
 
 const getImgSrc = () => {
   try {
-    return require(`@/assets/img/flow-placeholder-${theme.value}.png`)
+    return getImg(`img/flow-placeholder-${theme.value}.png`)
   } catch (error) {
     return ''
   }
@@ -59,12 +59,6 @@ const handleLoaded = (dataLength: number) => {
   isLoading.value = false
   showData.value = dataLength > 0
 }
-
-useVueFlow({
-  deleteKeyCode: null,
-  nodesConnectable: false,
-  maxZoom: 1,
-})
 
 const goCreate = () => router.push({ name: 'flow-create' })
 </script>

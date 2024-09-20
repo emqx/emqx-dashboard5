@@ -13,7 +13,7 @@
               v-model="record.form[$index]"
               v-bind="columnContentProps"
               :ref="(el) => setFormCom(el, $index)"
-              @vnode-before-unmount="delFormCom($index)"
+              @vue:before-unmount="delFormCom($index)"
             />
           </template>
         </el-table-column>
@@ -267,7 +267,7 @@ const validateItem = async (index: number, field: string) => {
   await waitAMoment()
   const validator = new Schema({ [field]: rules[field] })
   validator.validate(record.value.form[index], (errors) => {
-    set(errorMsgMap.value, `${index}.${field}`, errors ? errors[0].message ?? '' : '')
+    set(errorMsgMap.value, `${index}.${field}`, errors ? (errors[0].message ?? '') : '')
   })
 }
 

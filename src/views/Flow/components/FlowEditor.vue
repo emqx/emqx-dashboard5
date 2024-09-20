@@ -45,6 +45,8 @@
       <VueFlow
         :id="flowEditorId"
         class="editor"
+        delete-key-code="Delete"
+        :default-edge-options="{ type: 'custom' }"
         :style="{ height: $slots.test ? `calc(100% - ${testSlotHeight}px - 8px)` : '100%' }"
         v-show="flowData.length"
         ref="FlowerInstance"
@@ -91,8 +93,8 @@
         class="test-content"
         v-if="$slots.test"
         :style="{ height: `${testSlotHeight}px` }"
-        @vnode-mounted="handleOpenTest"
-        @vnode-before-unmount="handleCloseTest"
+        @vue:mounted="handleOpenTest"
+        @vue:before-unmount="handleCloseTest"
       >
         <slot name="test"></slot>
       </div>
@@ -185,11 +187,7 @@ const {
   setNodes,
   getNodes,
   getEdges,
-} = useVueFlow({
-  id: flowEditorId,
-  deleteKeyCode: 'Delete',
-  defaultEdgeOptions: { type: 'custom' },
-})
+} = useVueFlow(flowEditorId)
 
 const {
   nodeArr: rawNodeArr,

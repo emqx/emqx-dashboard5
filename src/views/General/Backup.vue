@@ -31,7 +31,7 @@
       <el-table-column prop="node" min-width="128" :label="t('Dashboard.nodeName')" />
       <el-table-column prop="created_at" :label="tl('createdAt')" min-width="164">
         <template #default="{ row }">
-          {{ moment(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column prop="size" :label="tl('fileSize')" min-width="100">
@@ -94,7 +94,7 @@ import {
   UploadRequestHandler,
   UploadRequestOptions,
 } from 'element-plus'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 

@@ -91,7 +91,7 @@ const loadData = async (params = {}) => {
   const sendParams = { ...pageParams.value, ...params }
 
   try {
-    let { data, meta } = await loadAlarm(false, sendParams)
+    const { data, meta } = await loadAlarm(false, sendParams)
     currentAlarmData.value = data
     store.dispatch('SET_ALERT_COUNT', currentAlarmData.value.length || 0)
     setPageMeta(meta)
@@ -106,5 +106,5 @@ loadData()
 </script>
 
 <style lang="scss">
-@import '~@/style/alarm.scss';
+@import '@/style/alarm.scss';
 </style>

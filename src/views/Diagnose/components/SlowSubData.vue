@@ -35,7 +35,7 @@
       <el-table-column prop="node" :label="$t('Clients.node')" />
       <el-table-column prop="last_update_time" :label="tl('updated')">
         <template #default="{ row }">
-          {{ moment(row.last_update_time).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.last_update_time).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
     </el-table>
@@ -65,7 +65,7 @@ import { SlowSubStatistic } from '@/types/diagnose'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Ref, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
