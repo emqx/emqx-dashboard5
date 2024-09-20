@@ -4,8 +4,8 @@
       <el-col :span="8" :lg="9">
         <el-card class="rate-card">
           <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
-            <el-radio-button label="byte" />
-            <el-radio-button label="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
+            <el-radio-button value="byte" />
+            <el-radio-button value="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
           </el-radio-group> -->
           <template v-if="rateType === 'msg'">
             <div class="rate-item">
