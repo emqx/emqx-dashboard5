@@ -39,6 +39,7 @@ import {
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { computed, ComputedRef, ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getImg } from '@/common/tools'
 
 type SSOItem = DashboardSsoBackendStatus & { isCreated: boolean }
 
@@ -61,7 +62,7 @@ const SSOList: ComputedRef<Array<SSOItem>> = computed(() => {
 const { getBackendLabel } = useSSOBackendsLabel()
 const getBackendIcon = (backend: string) => {
   try {
-    return require(`@/assets/img/${backend}.png`)
+    return getImg(`img/${backend}.png`)
   } catch (error) {
     return ''
   }

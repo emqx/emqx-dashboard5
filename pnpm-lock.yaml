@@ -15,14 +15,26 @@ importers:
         specifier: ~0.0.12
         version: 0.0.23
       '@emqx/shared-ui-utils':
-        specifier: ^0.0.11
-        version: 0.0.11
+        specifier: ~0.0.13
+        version: 0.0.13(vue@3.5.4(typescript@5.5.4))
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@10.7.3)(vue@3.5.4(typescript@5.5.4))
       '@vue-flow/core':
         specifier: ^1.20.1
         version: 1.41.1(vue@3.5.4(typescript@5.5.4))
+      ajv:
+        specifier: ^8.17.1
+        version: 8.17.1
+      ajv-draft-04:
+        specifier: ^1.0.0
+        version: 1.0.0(ajv@8.17.1)
+      ajv-formats:
+        specifier: ^2.1.1
+        version: 2.1.1(ajv@8.17.1)
+      async-validator:
+        specifier: 4.2.5
+        version: 4.2.5
       axios:
         specifier: ^1.4.0
         version: 1.7.7
@@ -44,6 +56,9 @@ importers:
       element-plus:
         specifier: ^2.8.1
         version: 2.8.2(vue@3.5.4(typescript@5.5.4))
+      genson-js:
+        specifier: ^0.0.8
+        version: 0.0.8
       highlight.js:
         specifier: 10.7.3
         version: 10.7.3
@@ -74,6 +89,9 @@ importers:
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
+      papaparse:
+        specifier: ^5.4.1
+        version: 5.4.1
       qs:
         specifier: ^6.12.1
         version: 6.13.0
@@ -108,6 +126,9 @@ importers:
       '@types/marked':
         specifier: ^4.0.1
         version: 4.3.2
+      '@types/papaparse':
+        specifier: ^5.3.14
+        version: 5.3.14
       '@types/sortablejs':
         specifier: ^1.10.7
         version: 1.15.8
@@ -331,8 +352,8 @@ packages:
   '@emqx/shared-ui-i18n@0.0.23':
     resolution: {integrity: sha512-2mX9+GS+mTr0gBwoyV30qfpGjIBNQ01r0FZ6O5XUhcmM8yllYQHFQ3LWBeYbquF+bTUOIM/1FDOP15XxYt6VOA==}
 
-  '@emqx/shared-ui-utils@0.0.11':
-    resolution: {integrity: sha512-/TH3KMqs+7FK1IuDlUPXPaKGZMrT6Zhu/CtOJMREiBo28dsdSVkVClOh3OSWtb315XTLo+Xglpq7h5DI1L2GGw==}
+  '@emqx/shared-ui-utils@0.0.13':
+    resolution: {integrity: sha512-AmF3WDV8iVXFXY9a/UyBWxprfsdZDaLzsQDhCFZYL0OlQZ8gCCfw6PPS7ayz3KykxwDBqDlMGm4W7EfV5ZkkxQ==}
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -967,6 +988,9 @@ packages:
 
   '@types/node@22.5.4':
     resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
+
+  '@types/papaparse@5.3.14':
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
 
   '@types/sortablejs@1.15.8':
     resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
@@ -1878,6 +1902,9 @@ packages:
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
 
+  genson-js@0.0.8:
+    resolution: {integrity: sha512-4NUusDTwF+lzYh72uKV+Uvpky9iPO+YDIMpGImA5pbHfLV9HwgRCA4hYjGu78V4J4Cx2IZRTFfRERn9aUs74mw==}
+
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -2585,6 +2612,9 @@ packages:
 
   pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+
+  papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
 
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -3500,7 +3530,12 @@ snapshots:
 
   '@emqx/shared-ui-i18n@0.0.23': {}
 
-  '@emqx/shared-ui-utils@0.0.11': {}
+  '@emqx/shared-ui-utils@0.0.13(vue@3.5.4(typescript@5.5.4))':
+    dependencies:
+      papaparse: 5.4.1
+      vue-i18n: 9.14.0(vue@3.5.4(typescript@5.5.4))
+    transitivePeerDependencies:
+      - vue
 
   '@esbuild/aix-ppc64@0.19.12':
     optional: true
@@ -4130,6 +4165,10 @@ snapshots:
   '@types/node@22.5.4':
     dependencies:
       undici-types: 6.19.8
+
+  '@types/papaparse@5.3.14':
+    dependencies:
+      '@types/node': 22.5.4
 
   '@types/sortablejs@1.15.8': {}
 
@@ -5329,6 +5368,8 @@ snapshots:
 
   functions-have-names@1.2.3: {}
 
+  genson-js@0.0.8: {}
+
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
@@ -6082,6 +6123,8 @@ snapshots:
   package-json-from-dist@1.0.0: {}
 
   pako@1.0.11: {}
+
+  papaparse@5.4.1: {}
 
   parent-module@1.0.1:
     dependencies:

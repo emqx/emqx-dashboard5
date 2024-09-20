@@ -83,7 +83,7 @@ const loadData = async (params = {}) => {
   historyLockTable.value = true
   const sendParams = { ...pageParams.value, ...params }
   try {
-    let { data, meta } = await loadAlarm(true, sendParams)
+    const { data, meta } = await loadAlarm(true, sendParams)
     historyAlarmData.value = data
     setPageMeta(meta)
   } catch (error) {
@@ -101,7 +101,7 @@ const handleClearHistory = async () => {
       confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
-    let res = await clearHistoryAlarm().catch(() => {
+    const res = await clearHistoryAlarm().catch(() => {
       // ignore
     })
     if (res) {
@@ -116,5 +116,5 @@ loadData()
 </script>
 
 <style lang="scss">
-@import '~@/style/alarm.scss';
+@import '@/style/alarm.scss';
 </style>

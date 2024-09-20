@@ -9,12 +9,12 @@
     <el-table :data="list">
       <el-table-column :label="tl('startedAt')">
         <template #default="{ row }">
-          {{ moment(row.started_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.started_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column :label="tl('finishedAt')">
         <template #default="{ row }">
-          {{ moment(row.finished_at).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ dayjs(row.finished_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
       <el-table-column prop="from_vsn" :label="tl('fromVsn')" />
@@ -44,7 +44,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeUpgradeData } from '@/types/typeAlias'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{ modelValue: boolean; node?: NodeUpgradeData }>()

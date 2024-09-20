@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { execSync } = require('child_process')
+import { execSync } from 'child_process'
 
 const permissionReg = /hasPermission/
 const btnReg = '<el-button([^>]|\n)*>'

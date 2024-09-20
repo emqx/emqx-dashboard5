@@ -1,5 +1,5 @@
-const rawDict = require('../src/views/General/resource_dict.json')
-const axios = require('axios')
+import rawDict from "'../src/views/General/resource_dict.json'"
+import axios from 'axios'
 const baseURL = process.env.HOST_URL || 'http://localhost:18083'
 
 const dictMap = rawDict.reduce((map, dictItem) => {
