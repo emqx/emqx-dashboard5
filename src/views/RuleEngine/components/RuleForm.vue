@@ -319,7 +319,7 @@ const syncFormDataToSQL = () => {
   return sql
 }
 const syncSQLDataToForm = () => {
-  let { sql = '' } = ruleValue.value
+  const { sql = '' } = ruleValue.value
   const { fieldStr, fromStr, whereStr } = getKeywordsFromSQL(sql)
   sqlPartValue.value = {
     from: transFromStrToFromArr(fromStr),
@@ -456,7 +456,6 @@ defineExpose({ validate })
     height: 640px;
     .io-tabs {
       display: flex;
-      flex-direction: column;
       max-height: 100%;
       > .el-tabs__content {
         padding: 4px;
