@@ -66,7 +66,7 @@
                   <el-radio-button
                     v-for="(logItem, logMsg) in targetLogData.info"
                     :key="logMsg"
-                    :label="logMsg"
+                    :value="logMsg"
                   >
                     {{ getLogItemTitle(targetLogData, logMsg as LogMsg) }}
                   </el-radio-button>

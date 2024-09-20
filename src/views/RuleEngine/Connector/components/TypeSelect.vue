@@ -2,7 +2,7 @@
   <el-radio-group class="target-type-select is-connector" v-model="chosenBridgeType">
     <el-row :gutter="28">
       <el-col v-for="item in connectorTypeList" :key="item.label" :span="8">
-        <el-radio class="target-type-item" :label="item.value" border>
+        <el-radio class="target-type-item" :value="item.value" border>
           <img
             class="target-type-item-img"
             height="64"

@@ -21,7 +21,7 @@
           >
             <el-radio
               :key="item.value"
-              :label="item.value"
+              :value="item.value"
               class="backend"
               border
               :disabled="addedAuthz.includes(item.value)"
