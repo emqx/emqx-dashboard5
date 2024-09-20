@@ -14,7 +14,7 @@
         />
       </el-select>
       <el-radio-group v-else v-model="typeIndex" @change="handleTypeChanged">
-        <el-radio v-for="{ value, label } in typeOpts" :key="value" :label="value" border>
+        <el-radio v-for="{ value, label } in typeOpts" :key="value" :value="value" border>
           <span>{{ label }}</span>
         </el-radio>
       </el-radio-group>
