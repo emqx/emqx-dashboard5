@@ -1,20 +1,33 @@
-import axios from 'axios'
-import { ElNotification } from 'element-plus'
+import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
+import { BAD_TOKEN, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import { trimValues } from '@/common/tools'
+import i18n from '@/i18n'
 import { toLogin } from '@/router'
 import store from '@/store'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import _ from 'lodash'
-import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
-import { BAD_TOKEN, TOKEN_TIME_OUT, NAME_PWD_ERROR } from '@/common/customErrorCode'
-import { trimValues } from '@/common/tools'
-import i18n from '@/i18n'
+import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import axios from 'axios'
+import { ElNotification } from 'element-plus'
+import { throttle } from 'lodash'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+type CustomRequestConfig = InternalAxiosRequestConfig & {
+  doNotTriggerProgress?: boolean
+  errorsHandleCustom?: number[]
+  handleTimeoutSelf?: boolean
+  controller?: AbortController
+  keepSpaces?: boolean
+}
+
+type CustomResponse = AxiosResponse & {
+  config: CustomRequestConfig
+}
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
-let respSet = new Set()
-const resetRespSet = () => (respSet = new Set())
+let respSet = new Set<number>()
+const resetRespSet = () => (respSet = new Set<number>())
 
 Object.assign(axios.defaults, {
   baseURL: API_BASE_URL,
@@ -22,11 +35,9 @@ Object.assign(axios.defaults, {
 })
 
 axios.interceptors.request.use(
-  (config) => {
+  (config: CustomRequestConfig) => {
     const { user } = store.state
-    config.headers = {
-      Authorization: 'Bearer ' + user.token,
-    }
+    config.headers.Authorization = 'Bearer ' + user.token
     const controller = new AbortController()
     config.signal = controller.signal
     config.controller = controller
@@ -42,11 +53,11 @@ axios.interceptors.request.use(
     return config
   },
   (error) => {
-    Promise.reject(error)
+    return Promise.reject(error)
   },
 )
 
-axios.interceptors.request.use(async (config) => {
+axios.interceptors.request.use(async (config: CustomRequestConfig) => {
   if (!config.doNotTriggerProgress) {
     if (!store.state.request_queue) {
       NProgress.start()
@@ -56,10 +67,10 @@ axios.interceptors.request.use(async (config) => {
   return config
 })
 
-const isTokenExpired = (status, data) =>
+const isTokenExpired = (status: number, data: any) =>
   status === 401 && [BAD_TOKEN, TOKEN_TIME_OUT].includes(data.code)
 
-const readBlobResponse = async (data) => {
+const readBlobResponse = async (data: Blob) => {
   try {
     const ret = await data.text()
     return JSON.parse(ret)
@@ -68,7 +79,7 @@ const readBlobResponse = async (data) => {
   }
 }
 
-const getErrorMessage = (data, status) => {
+const getErrorMessage = (data: AxiosResponse['data'], status: number) => {
   if (!data) {
     return `${status} Network error`
   }
@@ -94,8 +105,8 @@ const getErrorMessage = (data, status) => {
  * handleTimeoutSelf: when error.code === 'ECONNABORTED', handle the error if self
  */
 axios.interceptors.response.use(
-  (response) => {
-    if (!response.config?.doNotTriggerProgress) {
+  (response: CustomResponse) => {
+    if (!response.config.doNotTriggerProgress) {
       setProgressBarDone()
     }
     if (response.data instanceof Blob) {
@@ -107,11 +118,12 @@ axios.interceptors.response.use(
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
     return response.data || response.status
   },
-  async (error) => {
+  async (error: any) => {
     if (!error.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
 
+    const t: (key: string) => string = (i18n.global as any).t
     //throttle concurrent responses with unique status code
     if (error.response) {
       if (error.response.data instanceof Blob) {
@@ -128,7 +140,7 @@ axios.interceptors.response.use(
           if (doNotPopupAfterPwdChanged) {
             store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
           } else {
-            ElNotification.error(i18n.global.t('Base.tokenExpiredMsg'))
+            ElNotification.error(t('Base.tokenExpiredMsg'))
           }
           toLogin()
           // reset set, otherwise will not popup error msg
@@ -142,7 +154,7 @@ axios.interceptors.response.use(
           error.config.errorsHandleCustom.includes(status)
         if (!handleErrorSelf) {
           if (data.code === NAME_PWD_ERROR) {
-            ElNotification.error(i18n.global.t('Base.namePwdError'))
+            ElNotification.error(t('Base.namePwdError'))
           } else {
             CustomMessage.error(getErrorMessage(data, status))
           }
@@ -159,14 +171,16 @@ axios.interceptors.response.use(
       }
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
-          CustomMessage.error(i18n.global.t('Base.networkError'))
+          CustomMessage.error(t('Base.networkError'))
         }
         respSet.add(0)
       }
     }
 
-    if (store.state.request_queue === 0) respSet = new Set()
-    _.throttle(resetRespSet, 2000, { trailing: false })
+    if (store.state.request_queue === 0) {
+      respSet = new Set<number>()
+    }
+    throttle(resetRespSet, 2000, { trailing: false })()
     // Remove AbortController
     const controller = error.config.controller
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
