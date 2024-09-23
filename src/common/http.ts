@@ -170,7 +170,7 @@ axios.interceptors.response.use(
     if (store.state.request_queue === 0) {
       respSet = new Set<number>()
     }
-    throttle(resetRespSet, 2000, { trailing: false })()
+    throttle(resetRespSet, 2000, { trailing: false })
     // Remove AbortController
     const controller = error.config.controller
     store.commit('REMOVE_ABORT_CONTROLLER', controller)

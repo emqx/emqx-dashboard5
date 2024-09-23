@@ -177,7 +177,9 @@ const cancel = () => {
 
 <style lang="scss">
 .quick-panel {
-  padding: 0;
+  &.el-dialog {
+    padding: 0;
+  }
   .el-dialog__header {
     display: none;
   }
