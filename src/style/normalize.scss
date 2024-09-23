@@ -1,6 +1,6 @@
-@use "sass:math";
+@use 'sass:math';
 /* Components Reset Colors */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $main: (
     'padding': 0px,
   ),
@@ -42,10 +42,10 @@
   ),
   $drawer: (
     'bg-color': var(--color-bg-content),
-  ),
+  )
 );
 
-@use "element-plus/theme-chalk/src/index";
+@use 'element-plus/theme-chalk/src/index';
 
 /* Root Colors */
 :root {
@@ -56,10 +56,10 @@
   --el-text-color-secondary: var(--color-text-secondary);
   --el-disabled-text-color: var(--color-text-primary);
   --el-border-color-light: var(--color-border-normal);
-  --el-color-success: #00B173;
-  --el-color-danger: #EB4E3D;
-  --el-color-warning: #F19710;
-  --el-color-info: #7A7B80;
+  --el-color-success: #00b173;
+  --el-color-danger: #eb4e3d;
+  --el-color-warning: #f19710;
+  --el-color-info: #7a7b80;
   --el-box-shadow-light: var(--color-shadow-primary) 0px 4px 12px;
   --el-border: 1px solid var(--color-border-primary);
   --el-fill-color-light: var(--color-bg-split);
@@ -89,7 +89,7 @@
       border-left: 4px solid transparent;
       color: #ffffffd9;
       &:hover {
-        background-color: #1F303C;
+        background-color: #1f303c;
         border-radius: 8px;
       }
     }
@@ -115,11 +115,11 @@
       min-width: initial;
       &.is-active {
         color: #fff;
-        background-color: #1F303C;
+        background-color: #1f303c;
         border-radius: 8px;
       }
       &:hover {
-        background-color: #1F303C;
+        background-color: #1f303c;
         border-radius: 8px;
       }
     }
@@ -141,11 +141,11 @@
       color: #ffffffd9;
       &.is-active {
         color: #fff;
-        background-color: #1F303C;
+        background-color: #1f303c;
       }
       &:hover {
         color: #fff;
-        background-color: #1F303C;
+        background-color: #1f303c;
       }
     }
   }
@@ -164,8 +164,8 @@
     }
   }
   &.el-menu--collapse {
-    >.el-sub-menu.is-active .el-sub-menu__title {
-      background-color: #1F303C;
+    > .el-sub-menu.is-active .el-sub-menu__title {
+      background-color: #1f303c;
       color: #fff;
     }
   }
@@ -177,7 +177,7 @@
   &:before,
   .el-table__inner-wrapper:after,
   .el-table__inner-wrapper:before {
-    content: "" !important;
+    content: '' !important;
     position: absolute;
     background-color: transparent;
     pointer-events: none;
@@ -239,7 +239,8 @@
     }
   }
   .el-table__row:last-child {
-    th.el-table__cell.is-leaf, td.el-table__cell {
+    th.el-table__cell.is-leaf,
+    td.el-table__cell {
       border-bottom: none;
     }
   }
@@ -301,7 +302,7 @@
     color: var(--color-text-primary) !important;
   }
   .el-progress-bar__inner {
-    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+    background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
   }
   .el-progress-bar {
     &__outer {
@@ -349,7 +350,7 @@
 
 /* Tabs Card */
 .el-tabs--card {
-  &>.el-tabs__header {
+  & > .el-tabs__header {
     border-bottom: 1px solid var(--color-border-card);
     margin-bottom: 0px;
     .el-tabs__nav {
@@ -363,7 +364,10 @@
       outline: none;
       border-left: none;
       border-top: 2px solid transparent;
-      transition: border-top 0.3s, color 0.3s, padding 0.3s;
+      transition:
+        border-top 0.3s,
+        color 0.3s,
+        padding 0.3s;
       &.is-active,
       .is-focus {
         outline: none;
@@ -379,21 +383,22 @@
   $mix-main: mix($from, $to);
   $mix-sub-from: mix($mix-main, $from);
   $mix-sub-to: mix($mix-main, $to);
-  
-  box-shadow: 0 1px 0 $weight rgba($mix-sub-to, .25),
-              0 -1px 0 $weight rgba($mix-sub-from, .25),
-              1px 0 0 $weight rgba($mix-sub-to, .25),
-              -1px 0 0 $weight  rgba($mix-sub-from, .25),
-              1px -1px 0 $weight rgba($mix-main, .5),
-              -1px 1px 0 $weight rgba($mix-main, .5),
-              1px 1px 0 $weight rgba($to, .75),
-              -1px -1px 0 $weight rgba($from, .75);
+
+  box-shadow:
+    0 1px 0 $weight rgba($mix-sub-to, 0.25),
+    0 -1px 0 $weight rgba($mix-sub-from, 0.25),
+    1px 0 0 $weight rgba($mix-sub-to, 0.25),
+    -1px 0 0 $weight rgba($mix-sub-from, 0.25),
+    1px -1px 0 $weight rgba($mix-main, 0.5),
+    -1px 1px 0 $weight rgba($mix-main, 0.5),
+    1px 1px 0 $weight rgba($to, 0.75),
+    -1px -1px 0 $weight rgba($from, 0.75);
 }
 
 /* Button */
 .el-button {
   &.el-button--primary:not(.is-link) {
-    background: linear-gradient(135deg, #0AD18E 0%, #03A4A5 100%);
+    background: linear-gradient(135deg, #0ad18e 0%, #03a4a5 100%);
     border: none;
     color: #fff;
     &.is-plain {
@@ -402,7 +407,7 @@
       @include border-gradient(#7ad8b3, #6dbebe);
     }
     &:hover {
-      background: linear-gradient(135deg, #53DEB0 0%, #4EBFC0 100%);
+      background: linear-gradient(135deg, #53deb0 0%, #4ebfc0 100%);
       color: #fff;
     }
     &.is-disabled {
@@ -410,8 +415,8 @@
       &:hover,
       &:focus,
       &:active {
-        background: linear-gradient(135deg, #CDF5E8 0%, #CCEDED 100%);
-        color: #86DBC1;
+        background: linear-gradient(135deg, #cdf5e8 0%, #cceded 100%);
+        color: #86dbc1;
       }
     }
   }
@@ -419,7 +424,7 @@
     min-height: 22px;
     padding: 4px 9px;
   }
-  &+.el-dropdown {
+  & + .el-dropdown {
     margin-left: 10px;
   }
 }
@@ -443,7 +448,7 @@
 .el-dropdown-menu {
   background: var(--color-bg-content);
 }
-.el-dropdown__popper.el-popper[role=tooltip] {
+.el-dropdown__popper.el-popper[role='tooltip'] {
   background: var(--color-bg-content);
 }
 .el-dropdown-menu__item:not(.is-disabled):hover {
@@ -490,11 +495,11 @@
 }
 
 /* Select */
-.el-select__popper.el-popper[role=tooltip] .el-popper__arrow::before {
+.el-select__popper.el-popper[role='tooltip'] .el-popper__arrow::before {
   border: 1px solid var(--color-border-normal);
   background: var(--color-bg-content);
 }
-.el-select__popper.el-popper[role=tooltip] {
+.el-select__popper.el-popper[role='tooltip'] {
   background: var(--color-bg-content);
 }
 .el-select .el-select__tags .el-tag--info {
@@ -507,7 +512,7 @@
 }
 .el-input.is-disabled {
   &.el-input-group--append .el-input-group__append .el-select .el-input .el-input__wrapper,
-  &.el-input-group--append .el-input-group__append  {
+  &.el-input-group--append .el-input-group__append {
     box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset;
   }
 
@@ -525,7 +530,6 @@
   }
 }
 
-
 /* Date Edtior */
 .el-date-editor {
   --el-date-editor-width: 100%;
@@ -541,14 +545,14 @@
 }
 .el-date-table td.in-range .el-date-table-cell:hover,
 .el-date-table td.in-range .el-date-table-cell {
-  background-color: var(--color-bg-split); 
+  background-color: var(--color-bg-split);
 }
 
 .el-picker-panel .el-time-panel {
   background-color: var(--color-bg-content);
 }
 
-.el-picker-panel *[slot=sidebar],
+.el-picker-panel *[slot='sidebar'],
 .el-picker-panel__sidebar {
   background-color: var(--color-bg-content);
 }
@@ -572,15 +576,15 @@
       .el-step__icon {
         background-color: var(--color-primary);
         border: none;
-         &::before {
-        position: absolute;
-        content: '';
-        border-radius: 50%;
-        left: -4px;
-        width: 32px;
-        height: 32px;
-        background-color: #00b17333;
-      }
+        &::before {
+          position: absolute;
+          content: '';
+          border-radius: 50%;
+          left: -4px;
+          width: 32px;
+          height: 32px;
+          background-color: #00b17333;
+        }
       }
     }
   }
@@ -597,7 +601,9 @@
 .el-popper {
   font-size: 13px;
   line-height: 1.6;
-  &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown):not(.el-autocomplete__popper) {
+  &:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown):not(
+      .el-autocomplete__popper
+    ) {
     max-width: 330px;
   }
   &.is-wider {
@@ -635,8 +641,8 @@
   font-weight: normal;
   border-radius: 8px;
   &.el-tag--danger {
-    background-color: #FCECEC;
-    border: 1px solid #E44242;
+    background-color: #fcecec;
+    border: 1px solid #e44242;
   }
   &.el-tag--info {
     border: 1px solid var(--color-border-primary);
@@ -658,6 +664,7 @@
 
 /* Message */
 .el-message {
+  align-items: flex-start;
   padding: 16px;
   border-radius: 8px;
   box-shadow: var(--el-notification-shadow);
@@ -671,26 +678,26 @@
     word-break: break-all;
   }
   .el-message__closeBtn {
-    transform: none;
-    top: 16px + math.div(14px * 0.5, 2);
+    transform: translateY(3px);
     color: #343741;
     font-size: 14px;
   }
   &--success {
-    border: 1px solid #00A890;
-    background-color: #E2FFF5;
+    border: 1px solid #00a890;
+    background-color: #e2fff5;
   }
   &--error {
-    border: 1px solid #EB4E3D;
-    background-color: #FFE9E7;
+    border: 1px solid #eb4e3d;
+    background-color: #ffe9e7;
   }
   &--warning {
-    border: 1px solid #F19710;
-    background-color: #FFF0DA;
+    border: 1px solid #f19710;
+    background-color: #fff0da;
   }
-  &--message, &--info {
-    border: 1px solid #469CF7;
-    background-color: #E6EEFF;
+  &--message,
+  &--info {
+    border: 1px solid #469cf7;
+    background-color: #e6eeff;
   }
 }
 
@@ -723,7 +730,7 @@
   &.top-primary {
     &:before {
       position: absolute;
-      content: "";
+      content: '';
       top: 0px;
       left: 0px;
       width: 100%;
@@ -753,7 +760,7 @@
     }
   }
 }
-.el-form-item__content>.el-row {
+.el-form-item__content > .el-row {
   width: 100%;
 }
 .el-form-item__label {
@@ -782,7 +789,6 @@
     display: none;
   }
 }
-
 
 /* Description */
 .el-descriptions {
@@ -833,11 +839,14 @@
 }
 
 /* Pagination */
-.el-pagination.is-background .btn-prev:disabled, .el-pagination.is-background .btn-next:disabled {
-  color: #D0D4DC;
+.el-pagination.is-background .btn-prev:disabled,
+.el-pagination.is-background .btn-next:disabled {
+  color: #d0d4dc;
   background-color: var(--color-bg-content);
 }
-.el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .el-pager li {
   border-radius: 8px;
   border: 1px solid var(--color-border-primary);
   background-color: var(--color-bg-content);
@@ -901,7 +910,7 @@
   }
 }
 
-/* Skeleton */ 
+/* Skeleton */
 [data-theme='dark'] {
   .el-skeleton {
     --el-skeleton-color: #323947;
@@ -928,7 +937,6 @@
       padding: 16px 24px;
       margin-right: 0;
       border-bottom: 1px solid var(--color-border-card);
-
     }
 
     .el-dialog__body {
