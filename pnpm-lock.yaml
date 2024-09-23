@@ -54,8 +54,8 @@ importers:
         specifier: ^5.2.1
         version: 5.5.1
       element-plus:
-        specifier: ^2.8.1
-        version: 2.8.2(vue@3.5.4(typescript@5.5.4))
+         specifier: ^2.8.3
+        version: 2.8.3(vue@3.5.4(typescript@5.5.4))
       genson-js:
         specifier: ^0.0.8
         version: 0.0.8
@@ -129,6 +129,9 @@ importers:
       '@types/papaparse':
         specifier: ^5.3.14
         version: 5.3.14
+      '@types/nprogress':
+        specifier: ^0.2.3
+        version: 0.2.3
       '@types/sortablejs':
         specifier: ^1.10.7
         version: 1.15.8
@@ -992,6 +995,9 @@ packages:
   '@types/papaparse@5.3.14':
     resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
 
+  '@types/nprogress@0.2.3':
+    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
+
   '@types/sortablejs@1.15.8':
     resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
 
@@ -1632,8 +1638,8 @@ packages:
   electron-to-chromium@1.5.20:
     resolution: {integrity: sha512-74mdl6Fs1HHzK9SUX4CKFxAtAe3nUns48y79TskHNAG6fGOlLfyKA4j855x+0b5u8rWJIrlaG9tcTPstMlwjIw==}
 
-  element-plus@2.8.2:
-    resolution: {integrity: sha512-pqoQlaUmzUFCjjTHyxGO7Cd0CizsQpIaad1ozV9PCaYjh2T4MIMnjfifqiYs2lWoZ/8GVwrRG1WTCfnZEjwfcg==}
+  element-plus@2.8.3:
+    resolution: {integrity: sha512-BXQOyDf0s7JHyNEV8iaO+iaOzTZPsBXVKMzMI967vLCodUBDLrtiY5vglAn1YEebQcUOEUMhGcttTpIvEkcBjQ==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -4170,6 +4176,8 @@ snapshots:
     dependencies:
       '@types/node': 22.5.4
 
+  '@types/nprogress@0.2.3': {}
+
   '@types/sortablejs@1.15.8': {}
 
   '@types/urijs@1.19.25': {}
@@ -4952,7 +4960,7 @@ snapshots:
 
   electron-to-chromium@1.5.20: {}
 
-  element-plus@2.8.2(vue@3.5.4(typescript@5.5.4)):
+  element-plus@2.8.3(vue@3.5.4(typescript@5.5.4)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.4(typescript@5.5.4))

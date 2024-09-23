@@ -24,7 +24,7 @@
             >
               <el-radio
                 class="mechanism"
-                :label="value"
+                :value="value"
                 :disabled="addedAuthn.includes(value)"
                 border
               >
@@ -64,10 +64,10 @@
                 v-if="!isDisabledDatabase(item.value)"
                 :value="$t('Base.added')"
                 class="item"
-                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
+                :hidden="!!(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway)"
               >
                 <el-radio
-                  :label="item.value"
+                  :value="item.value"
                   class="backend"
                   border
                   :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
@@ -82,12 +82,12 @@
                 v-for="item in others"
                 :key="item.value"
                 :value="$t('Base.added')"
-                :hidden="(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway) as boolean"
+                :hidden="!!(!addedAuthn.includes(`${mechanism}_${item.value}`) || gateway)"
                 class="item"
               >
                 <el-radio
                   :key="item.value"
-                  :label="item.value"
+                  :value="item.value"
                   class="backend"
                   border
                   :disabled="addedAuthn.includes(`${mechanism}_${item.value}`) && !gateway"
@@ -128,7 +128,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="backend as DatabaseAndServerDOM"
+            :database="backend"
             auth-type="authn"
           />
           <built-in-config

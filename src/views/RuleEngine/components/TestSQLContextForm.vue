@@ -19,8 +19,8 @@
               </div>
               <div class="payload-type">
                 <el-radio-group v-model="payloadType">
-                  <el-radio :label="PayloadType.JSON">JSON</el-radio>
-                  <el-radio :label="PayloadType.Plaintext">Plaintext</el-radio>
+                  <el-radio :value="PayloadType.JSON">JSON</el-radio>
+                  <el-radio :value="PayloadType.Plaintext">Plaintext</el-radio>
                 </el-radio-group>
               </div>
               <Resizer v-model="payloadEditorHeight" class="payload" for-monaco is-forward />

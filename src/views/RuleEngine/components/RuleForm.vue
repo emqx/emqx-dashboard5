@@ -461,7 +461,6 @@ defineExpose({ validate })
     height: 640px;
     .io-tabs {
       display: flex;
-      flex-direction: column;
       max-height: 100%;
       > .el-tabs__content {
         padding: 4px;

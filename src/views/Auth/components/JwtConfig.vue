@@ -1,8 +1,8 @@
 <template>
   <div class="jwt-config config">
     <el-radio-group v-model="jwtConfig.use_jwks" @change="handleUseJWKSChanged(jwtConfig.use_jwks)">
-      <el-radio-button :label="false" border> JWT </el-radio-button>
-      <el-radio-button :label="true" border> JWKS </el-radio-button>
+      <el-radio-button :value="false" border> JWT </el-radio-button>
+      <el-radio-button :value="true" border> JWKS </el-radio-button>
     </el-radio-group>
     <el-form
       ref="formCom"

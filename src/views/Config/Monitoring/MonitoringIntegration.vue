@@ -25,7 +25,7 @@
                       :span="12"
                       class="col-radio"
                     >
-                      <el-radio class="platform-radio" :label="item.label" border>
+                      <el-radio class="platform-radio" :value="item.label" border>
                         <img class="img-platform" height="52" :src="item.img" :alt="item.label" />
                         <span class="platform-name"> {{ item.label }} </span>
                       </el-radio>
