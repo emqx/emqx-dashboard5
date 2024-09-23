@@ -10,8 +10,8 @@
           />
         </template>
         <el-radio-group v-model="activeTab">
-          <el-radio-button :label="Tab.JSON" border> JSON </el-radio-button>
-          <el-radio-button :label="Tab.Raw" border> Line Protocol </el-radio-button>
+          <el-radio-button :value="Tab.JSON" border> JSON </el-radio-button>
+          <el-radio-button :value="Tab.Raw" border> Line Protocol </el-radio-button>
         </el-radio-group>
       </el-form-item>
     </div>

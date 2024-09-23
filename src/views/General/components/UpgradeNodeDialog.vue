@@ -33,7 +33,7 @@
         </div>
         <div class="package-display" v-else>
           <div class="radio-container">
-            <el-radio :model-value="true" :label="true">
+            <el-radio :model-value="true" :value="true">
               <div class="vertical-align-center">
                 <span>{{ nodePackage?.name }}</span>
                 <el-upload

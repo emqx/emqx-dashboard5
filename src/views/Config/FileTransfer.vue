@@ -26,7 +26,7 @@
                 >
                   <el-row :gutter="28">
                     <el-col v-for="{ value, label } in storageTypeOpt" :key="value" :span="12">
-                      <el-radio class="platform-radio" :label="value" border>
+                      <el-radio class="platform-radio" :value="value" border>
                         <span class="platform-name"> {{ label }} </span>
                       </el-radio>
                     </el-col>
@@ -182,7 +182,7 @@ const omitFieldItemFromSchema = (schema: Properties, fieldPath: string) => {
   if (!/\./.test(fieldPath)) {
     Reflect.deleteProperty(schema, fieldPath)
   } else {
-    let parent = get(schema, getFieldSchemaPath(fieldPath.split('.').slice(0, -1).join('.')))
+    const parent = get(schema, getFieldSchemaPath(fieldPath.split('.').slice(0, -1).join('.')))
     if (parent?.properties) {
       Reflect.deleteProperty(parent.properties, fieldPath.split('.').slice(-1)[0])
     }

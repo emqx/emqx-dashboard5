@@ -21,10 +21,10 @@
             <el-row class="topic-detail-header">
               <div>{{ $t('Base.detail') }}</div>
               <el-radio-group v-model="row.topicQoS" size="small">
-                <el-radio-button :label="DEFAULT_QOS">{{ $t('Base.all') }}</el-radio-button>
-                <el-radio-button label="qos0">QoS 0</el-radio-button>
-                <el-radio-button label="qos1">QoS 1</el-radio-button>
-                <el-radio-button label="qos2">QoS 2</el-radio-button>
+                <el-radio-button :value="DEFAULT_QOS">{{ $t('Base.all') }}</el-radio-button>
+                <el-radio-button value="qos0">QoS 0</el-radio-button>
+                <el-radio-button value="qos1">QoS 1</el-radio-button>
+                <el-radio-button value="qos2">QoS 2</el-radio-button>
               </el-radio-group>
             </el-row>
             <el-row :gutter="20">
@@ -215,15 +215,15 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
-    let addVisible = ref(false)
-    let topicInput = reactive({
+    const addVisible = ref(false)
+    const topicInput = reactive({
       topic: '',
     })
-    let record = ref(null)
-    let topicMetricsTb = ref([])
-    let tbLoading = ref(false)
-    let tbRef = ref(null)
-    let addLoading = ref(false)
+    const record = ref(null)
+    const topicMetricsTb = ref([])
+    const tbLoading = ref(false)
+    const tbRef = ref(null)
+    const addLoading = ref(false)
 
     const tableExpandRowKeys = computed(() => {
       return topicMetricsTb.value.filter(({ _expand }) => _expand).map(({ topic }) => topic)
@@ -244,7 +244,7 @@ export default defineComponent({
     const loadTopicMetrics = async function () {
       tbLoading.value = true
       try {
-        let res = await getTopicMetrics()
+        const res = await getTopicMetrics()
         const reconRes = Array.prototype.map.call(res, (v) => {
           return Object.assign(v, { _loading: false, topicQoS: DEFAULT_QOS })
         })
@@ -272,7 +272,7 @@ export default defineComponent({
     const checkTopicInQuery = () => {
       const { topic = '' } = route.query || {}
       if (topic) {
-        let topicIndex = topicMetricsTb.value.findIndex(({ topic: t }) => t === topic)
+        const topicIndex = topicMetricsTb.value.findIndex(({ topic: t }) => t === topic)
         if (topicIndex > -1) {
           viewTopicDetail(topicIndex)
         } else {
@@ -287,7 +287,7 @@ export default defineComponent({
       try {
         await record.value?.validate()
         addLoading.value = true
-        let { topic } = topicInput
+        const { topic } = topicInput
         await addTopicMetrics(topic)
         ElMessage.success(t('Base.createSuccess'))
         addVisible.value = false
@@ -344,7 +344,7 @@ export default defineComponent({
 
       try {
         row._loading = true
-        let res = await getTopicMetrics(topic)
+        const res = await getTopicMetrics(topic)
         topicMetricsTb.value.splice(index, 1, {
           ...res,
           _expand: rowExpand,
