@@ -38,6 +38,7 @@ export type PostAuthentication400 = {
 }
 
 export type PostAuthentication200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
@@ -61,6 +62,7 @@ export type PostAuthentication200 =
   | AuthnBuiltinDb
 
 export type PostAuthenticationBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
@@ -84,6 +86,7 @@ export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
 
 export type GetAuthentication200Item =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
@@ -146,6 +149,7 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
@@ -182,6 +186,7 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnScramRestapiPost
   | AuthnScramRestapiGet
@@ -1541,6 +1546,35 @@ export const AuthnGcpDeviceMechanism = {
 
 export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
+}
+
+export type AuthnCinfoCheckResult = typeof AuthnCinfoCheckResult[keyof typeof AuthnCinfoCheckResult]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoCheckResult = {
+  allow: 'allow',
+  deny: 'deny',
+  ignore: 'ignore',
+} as const
+
+export type AuthnCinfoCheckIsMatch = string[] | string
+
+export interface AuthnCinfoCheck {
+  is_match: AuthnCinfoCheckIsMatch
+  result: AuthnCinfoCheckResult
+}
+
+export type AuthnCinfoMechanism = typeof AuthnCinfoMechanism[keyof typeof AuthnCinfoMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoMechanism = {
+  cinfo: 'cinfo',
+} as const
+
+export interface AuthnCinfo {
+  mechanism: AuthnCinfoMechanism
+  checks: AuthnCinfoCheck[]
   enable?: boolean
 }
 

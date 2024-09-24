@@ -5106,6 +5106,8 @@ export const BridgeAzureEventHubProducerKafkaOptsPartitionStrategy = {
 export interface BridgeAzureEventHubProducerKafkaOpts {
   topic: string
   message?: BridgeAzureEventHubKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
   max_batch_bytes?: string
   partition_strategy?: BridgeAzureEventHubProducerKafkaOptsPartitionStrategy
   required_acks?: BridgeAzureEventHubProducerKafkaOptsRequiredAcks

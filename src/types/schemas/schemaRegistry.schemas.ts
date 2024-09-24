@@ -1,3 +1,55 @@
+export type PutSchemaRegistryExternalRegistryName404Code =
+  typeof PutSchemaRegistryExternalRegistryName404Code[keyof typeof PutSchemaRegistryExternalRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSchemaRegistryExternalRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSchemaRegistryExternalRegistryName404 = {
+  code?: PutSchemaRegistryExternalRegistryName404Code
+  message?: string
+}
+
+export type GetSchemaRegistryExternalRegistryName404Code =
+  typeof GetSchemaRegistryExternalRegistryName404Code[keyof typeof GetSchemaRegistryExternalRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSchemaRegistryExternalRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetSchemaRegistryExternalRegistryName404 = {
+  code?: GetSchemaRegistryExternalRegistryName404Code
+  message?: string
+}
+
+export type GetSchemaRegistryExternalRegistryName200 =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
+
+export type PostSchemaRegistryExternal400Code =
+  typeof PostSchemaRegistryExternal400Code[keyof typeof PostSchemaRegistryExternal400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaRegistryExternal400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostSchemaRegistryExternal400 = {
+  code?: PostSchemaRegistryExternal400Code
+  message?: string
+}
+
+export type GetSchemaRegistryExternal200Name = {
+  $name?: SchemaRegistryConfluentSchemaRegistry
+}
+
+export type GetSchemaRegistryExternal200 = {
+  $name?: GetSchemaRegistryExternal200Name
+}
+
 export type DeleteSchemaRegistryName404Code =
   typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
 
@@ -24,6 +76,16 @@ export type PutSchemaRegistryName404 = {
   message?: string
 }
 
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+  | SchemaRegistryAvro
+
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+  | SchemaRegistryAvro
+
 export type GetSchemaRegistryName404Code =
   typeof GetSchemaRegistryName404Code[keyof typeof GetSchemaRegistryName404Code]
 
@@ -37,11 +99,6 @@ export type GetSchemaRegistryName404 = {
   message?: string
 }
 
-export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
-
 export type PostSchemaRegistry400Code =
   typeof PostSchemaRegistry400Code[keyof typeof PostSchemaRegistry400Code]
 
@@ -54,16 +111,6 @@ export type PostSchemaRegistry400 = {
   code?: PostSchemaRegistry400Code
   message?: string
 }
-
-export type PostSchemaRegistry201 =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
-
-export type GetSchemaRegistry200Item =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
 
 export type SchemaRegistryProtobufType =
   typeof SchemaRegistryProtobufType[keyof typeof SchemaRegistryProtobufType]
@@ -93,12 +140,7 @@ export interface SchemaRegistryJson {
   description?: string
 }
 
-export type PutSchemaRegistryName200 =
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-  | SchemaRegistryAvro
-
-export type PutSchemaRegistryNameBody =
+export type PutSchemaRegistryExternalRegistryName200 =
   | SchemaRegistryJson
   | SchemaRegistryProtobuf
   | SchemaRegistryAvro
@@ -133,6 +175,11 @@ export interface SchemaRegistryGetJson {
   description?: string
 }
 
+export type PostSchemaRegistryBody =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
+
 export type SchemaRegistryGetAvroType =
   typeof SchemaRegistryGetAvroType[keyof typeof SchemaRegistryGetAvroType]
 
@@ -148,10 +195,62 @@ export interface SchemaRegistryGetAvro {
   description?: string
 }
 
-export type PostSchemaRegistryBody =
+export type GetSchemaRegistryName200 =
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
   | SchemaRegistryGetAvro
+
+export type PostSchemaRegistry201 =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
+
+export type GetSchemaRegistry200Item =
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
+
+export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
+  typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType = {
+  confluent: 'confluent',
+} as const
+
+export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
+  username: string
+  password: string
+}
+
+export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
+  | SchemaRegistryConfluentSchemaRegistryAuthBasic
+  | 'none'
+
+export interface SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry {
+  name: string
+  type?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType
+  url: string
+  auth?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth
+}
+
+export type SchemaRegistryConfluentSchemaRegistryAuth =
+  | SchemaRegistryConfluentSchemaRegistryAuthBasic
+  | 'none'
+
+export type SchemaRegistryConfluentSchemaRegistryType =
+  typeof SchemaRegistryConfluentSchemaRegistryType[keyof typeof SchemaRegistryConfluentSchemaRegistryType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryConfluentSchemaRegistryType = {
+  confluent: 'confluent',
+} as const
+
+export interface SchemaRegistryConfluentSchemaRegistry {
+  type?: SchemaRegistryConfluentSchemaRegistryType
+  url: string
+  auth?: SchemaRegistryConfluentSchemaRegistryAuth
+}
 
 export type SchemaRegistryAvroType =
   typeof SchemaRegistryAvroType[keyof typeof SchemaRegistryAvroType]

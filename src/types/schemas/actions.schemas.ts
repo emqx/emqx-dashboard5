@@ -1109,6 +1109,8 @@ export interface ConfluentKafkaMessage {
 export interface ConfluentProducerKafkaOpts {
   topic: string
   message?: ConfluentKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
   max_batch_bytes?: string
   compression?: ConfluentProducerKafkaOptsCompression
   partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
@@ -2350,6 +2352,8 @@ export interface BridgeKafkaProducerBuffer {
 export interface BridgeKafkaProducerKafkaOpts {
   topic: string
   message?: BridgeKafkaKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
   max_batch_bytes?: string
   compression?: BridgeKafkaProducerKafkaOptsCompression
   partition_strategy?: BridgeKafkaProducerKafkaOptsPartitionStrategy
@@ -3336,6 +3340,8 @@ export const BridgeAzureEventHubProducerKafkaOptsQueryMode = {
 export interface BridgeAzureEventHubProducerKafkaOpts {
   topic: string
   message?: BridgeAzureEventHubKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
   max_batch_bytes?: string
   partition_strategy?: BridgeAzureEventHubProducerKafkaOptsPartitionStrategy
   required_acks?: BridgeAzureEventHubProducerKafkaOptsRequiredAcks
