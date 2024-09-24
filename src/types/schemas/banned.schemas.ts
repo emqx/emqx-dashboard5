@@ -28,6 +28,18 @@ export type PostBanned200 = {
   data?: EmqxMgmtApiBannedBan[]
 }
 
+export type GetBanned400Code = typeof GetBanned400Code[keyof typeof GetBanned400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetBanned400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetBanned400 = {
+  code?: GetBanned400Code
+  message?: string
+}
+
 export type GetBanned200 = {
   data?: EmqxMgmtApiBannedBan[]
   meta?: PublicMeta
@@ -40,6 +52,13 @@ export type PublicLimitParameter = number
 export type GetBannedParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
+  clientid?: string
+  username?: string
+  peerhost?: string
+  like_clientid?: string
+  like_username?: string
+  like_peerhost?: string
+  like_peerhost_net?: string
 }
 
 export interface PublicMeta {
@@ -49,7 +68,9 @@ export interface PublicMeta {
   hasnext: boolean
 }
 
-export type EmqxMgmtApiBannedBanUntil = number | string
+export type EmqxMgmtApiBannedBanUntilOneOf = number | string
+
+export type EmqxMgmtApiBannedBanUntil = EmqxMgmtApiBannedBanUntilOneOf | 'infinity'
 
 export type EmqxMgmtApiBannedBanAt = number | string
 

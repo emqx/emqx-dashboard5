@@ -334,6 +334,7 @@ export interface RuleEngineNodeMetrics {
   'actions.failed'?: number
   'actions.failed.out_of_service'?: number
   'actions.failed.unknown'?: number
+  'actions.discarded'?: number
 }
 
 export interface RuleEngineMetrics {
@@ -350,6 +351,7 @@ export interface RuleEngineMetrics {
   'actions.failed'?: number
   'actions.failed.out_of_service'?: number
   'actions.failed.unknown'?: number
+  'actions.discarded'?: number
 }
 
 export type RuleEngineCtxUnsubEventType =
