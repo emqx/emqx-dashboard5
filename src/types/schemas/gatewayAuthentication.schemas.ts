@@ -230,6 +230,7 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -250,6 +251,7 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -324,6 +326,7 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -344,6 +347,7 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameAuthenticationBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -391,6 +395,7 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -1327,6 +1332,35 @@ export const AuthnGcpDeviceMechanism = {
 
 export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
+}
+
+export type AuthnCinfoCheckResult = typeof AuthnCinfoCheckResult[keyof typeof AuthnCinfoCheckResult]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoCheckResult = {
+  allow: 'allow',
+  deny: 'deny',
+  ignore: 'ignore',
+} as const
+
+export type AuthnCinfoCheckIsMatch = string[] | string
+
+export interface AuthnCinfoCheck {
+  is_match: AuthnCinfoCheckIsMatch
+  result: AuthnCinfoCheckResult
+}
+
+export type AuthnCinfoMechanism = typeof AuthnCinfoMechanism[keyof typeof AuthnCinfoMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoMechanism = {
+  cinfo: 'cinfo',
+} as const
+
+export interface AuthnCinfo {
+  mechanism: AuthnCinfoMechanism
+  checks: AuthnCinfoCheck[]
   enable?: boolean
 }
 

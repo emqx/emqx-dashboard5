@@ -347,6 +347,7 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -367,6 +368,7 @@ export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnBuiltinDb
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -441,6 +443,7 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -461,6 +464,7 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -508,6 +512,7 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
+  | AuthnCinfo
   | AuthnKerberos
   | AuthnGcpDevice
   | AuthnLdapDeprecated
@@ -2035,6 +2040,35 @@ export const AuthnGcpDeviceMechanism = {
 
 export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
+  enable?: boolean
+}
+
+export type AuthnCinfoCheckResult = typeof AuthnCinfoCheckResult[keyof typeof AuthnCinfoCheckResult]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoCheckResult = {
+  allow: 'allow',
+  deny: 'deny',
+  ignore: 'ignore',
+} as const
+
+export type AuthnCinfoCheckIsMatch = string[] | string
+
+export interface AuthnCinfoCheck {
+  is_match: AuthnCinfoCheckIsMatch
+  result: AuthnCinfoCheckResult
+}
+
+export type AuthnCinfoMechanism = typeof AuthnCinfoMechanism[keyof typeof AuthnCinfoMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnCinfoMechanism = {
+  cinfo: 'cinfo',
+} as const
+
+export interface AuthnCinfo {
+  mechanism: AuthnCinfoMechanism
+  checks: AuthnCinfoCheck[]
   enable?: boolean
 }
 

@@ -1085,17 +1085,6 @@ export interface PulsarGet {
   resource_opts?: PulsarConnectorResourceOpts
 }
 
-export interface OpentsConnectorPut {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  summary?: boolean
-  details?: boolean
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-}
-
 export type OpentsConnectorPostType =
   typeof OpentsConnectorPostType[keyof typeof OpentsConnectorPostType]
 
@@ -1103,19 +1092,6 @@ export type OpentsConnectorPostType =
 export const OpentsConnectorPostType = {
   opents: 'opents',
 } as const
-
-export interface OpentsConnectorPost {
-  type: OpentsConnectorPostType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  summary?: boolean
-  details?: boolean
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-}
 
 export type OpentsConnectorGetType =
   typeof OpentsConnectorGetType[keyof typeof OpentsConnectorGetType]
@@ -1140,6 +1116,30 @@ export interface OpentsConnectorConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface OpentsConnectorPut {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  summary?: boolean
+  details?: boolean
+  resource_opts?: OpentsConnectorConnectorResourceOpts
+}
+
+export interface OpentsConnectorPost {
+  type: OpentsConnectorPostType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  summary?: boolean
+  details?: boolean
+  resource_opts?: OpentsConnectorConnectorResourceOpts
 }
 
 export interface OpentsConnectorGet {
@@ -1611,17 +1611,6 @@ export const IotdbGetRestapiStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface IotdbConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface IotdbAuthentication {
-  username: string
-  password: string
-}
-
 export interface IotdbGetRestapi {
   status?: IotdbGetRestapiStatus
   status_reason?: string
@@ -1641,6 +1630,17 @@ export interface IotdbGetRestapi {
   base_url: string
   iotdb_version?: IotdbGetRestapiIotdbVersion
   authentication?: IotdbAuthentication
+}
+
+export interface IotdbConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface IotdbAuthentication {
+  username: string
+  password: string
 }
 
 export interface GcpPubsubProducerPutConnector {
@@ -2444,7 +2444,16 @@ export interface ConnectorInfluxdbConnectorInfluxdbApiV1 {
   password?: string
 }
 
-export interface ConnectorDatalayersDatalayersParameters {
+export type ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType =
+  typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType[keyof typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType = {
+  influxdb_v1: 'influxdb_v1',
+} as const
+
+export interface ConnectorDatalayersDatalayersInfluxdbV1Parameters {
+  driver_type?: ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType
   database: string
   username?: string
   password?: string
@@ -4130,7 +4139,7 @@ export interface BridgeDatalayersPostConnector {
   tags?: string[]
   description?: string
   server?: string
-  parameters: ConnectorDatalayersDatalayersParameters
+  parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
 }
@@ -4165,7 +4174,7 @@ export interface BridgeDatalayersPutConnector {
   tags?: string[]
   description?: string
   server?: string
-  parameters: ConnectorDatalayersDatalayersParameters
+  parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
 }
@@ -4181,7 +4190,7 @@ export interface BridgeDatalayersGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server?: string
-  parameters: ConnectorDatalayersDatalayersParameters
+  parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
 }

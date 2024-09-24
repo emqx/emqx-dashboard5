@@ -37,6 +37,20 @@ export type PutClusterLinksLinkName400 = {
   message?: string
 }
 
+export type PutClusterLinksLinkNameBody = {
+  enable?: boolean
+  server: string
+  clientid?: string
+  username?: string
+  password?: string
+  ssl?: EmqxSslClientOpts
+  topics: string[]
+  pool_size?: number
+  retry_interval?: string
+  max_inflight?: number
+  resource_opts?: ClusterCreationOpts
+}
+
 export type GetClusterLinksLinkName404Code =
   typeof GetClusterLinksLinkName404Code[keyof typeof GetClusterLinksLinkName404Code]
 
@@ -122,6 +136,19 @@ export type GetClusterLinksLinkNameMetrics404 = {
   message?: string
 }
 
+export type PutClusterLinksLinkNameMetricsReset404Code =
+  typeof PutClusterLinksLinkNameMetricsReset404Code[keyof typeof PutClusterLinksLinkNameMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutClusterLinksLinkNameMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutClusterLinksLinkNameMetricsReset404 = {
+  code?: PutClusterLinksLinkNameMetricsReset404Code
+  message?: string
+}
+
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
@@ -180,20 +207,6 @@ export interface EmqxSslClientOpts {
   verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
-}
-
-export type PutClusterLinksLinkNameBody = {
-  enable?: boolean
-  server: string
-  clientid?: string
-  username?: string
-  password?: string
-  ssl?: EmqxSslClientOpts
-  topics: string[]
-  pool_size?: number
-  retry_interval?: string
-  max_inflight?: number
-  resource_opts?: ClusterCreationOpts
 }
 
 export interface ClusterTimeout {
