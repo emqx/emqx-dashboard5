@@ -272,7 +272,9 @@ const drawChart = () => {
         return createTooltip(params[0].axisValue, dataItemArr)
       },
     },
-    dataZoom: props.showFullScreen ? [{ type: 'inside' }, { type: 'slider' }] : undefined,
+    dataZoom: props.showFullScreen
+      ? [{ type: 'inside' }, { type: 'slider', showDetail: false }]
+      : undefined,
     xAxis: {
       type: 'category',
       boundaryGap: false,
