@@ -10,6 +10,7 @@ import {
   RuleMetrics,
   SchemaRegistry,
 } from '@/types/rule'
+import { ExternalSchema, ExternalSchemaMap } from '@/types/typeAlias'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -173,4 +174,27 @@ export const updateSchema = (
   schema: Omit<SchemaRegistry, 'name'>,
 ): Promise<SchemaRegistry> => {
   return http.put(`/schema_registry/${schemaName}`, schema)
+}
+
+export const getExternalSchemas = (): Promise<ExternalSchemaMap> => {
+  return http.get(`/schema_registry_external`)
+}
+
+export const postExternalSchema = (data: ExternalSchema): Promise<ExternalSchema> => {
+  return http.post(`/schema_registry_external`, data)
+}
+
+export const getExternalSchemaDetail = (name: string): Promise<Omit<ExternalSchema, 'name'>> => {
+  return http.get(`/schema_registry_external/registry/${encodeURIComponent(name)}`)
+}
+
+export const putExternalSchema = (
+  name: string,
+  data: Omit<ExternalSchema, 'name'>,
+): Promise<ExternalSchema> => {
+  return http.put(`/schema_registry_external/registry/${encodeURIComponent(name)}`, data)
+}
+
+export const deleteExternalSchema = (name: string): Promise<void> => {
+  return http.delete(`/schema_registry_external/registry/${encodeURIComponent(name)}`)
 }

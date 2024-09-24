@@ -95,6 +95,10 @@ export default {
     zh: 'Schema Registry',
     en: 'Schema Registry',
   },
+  'external-schema': {
+    zh: '外部 Schema Registry',
+    en: 'External Schema Registry',
+  },
   'message-transform': {
     zh: '消息转换',
     en: 'Message Transform',
@@ -423,6 +427,10 @@ export default {
   'schema-create': {
     zh: '创建 Schema',
     en: 'Create Schema',
+  },
+  'external-schema-create': {
+    zh: '创建外部 Schema',
+    en: 'Create External Schema',
   },
   'schema-validation-create': {
     zh: '创建 Schema 验证',

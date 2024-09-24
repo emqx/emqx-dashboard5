@@ -870,25 +870,47 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/schema',
     component: Layout,
+    redirect: '/schema/internal',
     meta: {
       hideKey: 'schema',
       authRequired: true,
+      subMenu: true,
+      showSubMenuInFirstLevel: true,
     },
     children: [
       {
-        path: '',
+        path: 'internal',
         name: 'schema',
         component: () => import('@/views/RuleEngine/Schema/Schema.vue'),
       },
       {
-        path: 'create',
+        path: 'internal/create',
         name: 'schema-create',
         component: () => import('@/views/RuleEngine/Schema/SchemaCreate.vue'),
+        meta: { hideInMenu: true },
       },
       {
-        path: ':schemaName',
+        path: 'internal/:schemaName',
         name: 'schema-detail',
         component: () => import('@/views/RuleEngine/Schema/SchemaDetail.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'external',
+        name: 'external-schema',
+        component: () => import('@/views/RuleEngine/Schema/ExternalSchema.vue'),
+      },
+      {
+        path: 'external/create',
+        name: 'external-schema-create',
+        component: () => import('@/views/RuleEngine/Schema/ExternalSchemaCreate.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
+        path: 'external/:schemaName',
+        name: 'external-schema-detail',
+        component: () => import('@/views/RuleEngine/Schema/ExternalSchemaDetail.vue'),
+        meta: { hideInMenu: true },
       },
     ],
   },

@@ -197,9 +197,9 @@ export const transTimeStrToMS = (timeStr: string): number | string => {
 export const getLabelFromValueInOptionList = <T>(
   targetValue: T,
   optionList: Array<{ value: T; label: string }>,
-): string => {
+): T | string => {
   const target = optionList.find(({ value }) => value === targetValue)
-  return target?.label || ''
+  return target?.label || targetValue || ''
 }
 
 export const formatNumber = (num: number | string | undefined) => {
