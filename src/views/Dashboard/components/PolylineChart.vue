@@ -193,7 +193,7 @@ const drawChart = () => {
       left: 24,
       containLabel: true,
     },
-    legend: props.yTitle.length > 1 ? { top: 4 } : undefined,
+    legend: props.yTitle.length > 1 ? { top: 4, data: props.yTitle } : undefined,
     toolbox: {
       feature: {
         saveAsImage: {
@@ -244,7 +244,7 @@ const drawChart = () => {
           return ''
         }
         const dataItemArr = params.reduce(
-          (arr, { axisValue, color, seriesName, value, dataIndex }, index) => {
+          (arr, { axisValue, color, seriesName, seriesIndex, value, dataIndex }) => {
             let valueShowInTooltip = value
             const isNoData = noYAxisDataMap[seriesName]?.includes(axisValue)
             if (isNoData) {
@@ -256,7 +256,7 @@ const drawChart = () => {
               let title = ''
               const interval = getInterval(dataIndex)
               const unitTextKey: string = Array.isArray(props.unitTextKey)
-                ? props.unitTextKey[index]
+                ? props.unitTextKey[seriesIndex]
                 : props.unitTextKey
               if (!props.isInstantaneousValue && interval) {
                 title = t(unitTextKey, { interval: interval / 1000, n: value })
@@ -272,7 +272,9 @@ const drawChart = () => {
         return createTooltip(params[0].axisValue, dataItemArr)
       },
     },
-    dataZoom: props.showFullScreen ? [{ type: 'inside' }, { type: 'slider' }] : undefined,
+    dataZoom: props.showFullScreen
+      ? [{ type: 'inside' }, { type: 'slider', showDetail: false }]
+      : undefined,
     xAxis: {
       type: 'category',
       boundaryGap: false,
