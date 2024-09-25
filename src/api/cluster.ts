@@ -18,17 +18,21 @@ export const putClusterLinking = (
   name: string,
   data: ClusterLinkingFormForUpdate,
 ): Promise<CreatedClusterLinking> => {
-  return http.put(`/cluster/links/link/${name}`, data)
+  return http.put(`/cluster/links/link/${encodeURIComponent(name)}`, data)
 }
 
 export const deleteClusterLinking = (name: string): Promise<void> => {
-  return http.delete(`/cluster/links/link/${name}`)
+  return http.delete(`/cluster/links/link/${encodeURIComponent(name)}`)
 }
 
 export const getClusterLinkingDetail = (name: string): Promise<CreatedClusterLinking> => {
-  return http.get(`/cluster/links/link/${name}`)
+  return http.get(`/cluster/links/link/${encodeURIComponent(name)}`)
 }
 
 export const getClusterLinkingMetrics = (name: string): Promise<ClusterLinkingMetrics> => {
-  return http.get(`/cluster/links/link/${name}/metrics`)
+  return http.get(`/cluster/links/link/${encodeURIComponent(name)}/metrics`)
+}
+
+export const resetClusterLinkingMetrics = (name: string): Promise<void> => {
+  return http.put(`/cluster/links/link/${encodeURIComponent(name)}/metrics/reset`)
 }
