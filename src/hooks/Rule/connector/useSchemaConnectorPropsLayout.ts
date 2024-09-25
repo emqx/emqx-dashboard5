@@ -275,6 +275,10 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Snowflake]: createOrderObj(
+      ['server', 'dsn', 'account', 'username', 'password', 'proxy', 'ssl'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
