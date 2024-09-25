@@ -339,3 +339,5 @@ export const DEFAULT_CLIENT_TABLE_COLUMNS = [
   'expiry_interval',
   'connected_at',
 ]
+
+export const BANNED_NEVER_EXPIRE_VALUE = 'infinity'

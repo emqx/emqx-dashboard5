@@ -40,6 +40,7 @@
               popper-class="datepicker-until"
               :shortcuts="datePickerShortcuts"
               :disabledDate="isItEarlierThanToday"
+              :placeholder="tl('neverExpire')"
             />
           </el-form-item>
         </el-col>
