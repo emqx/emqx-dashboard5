@@ -61,14 +61,14 @@ const getSchemas = async () => {
 }
 
 const goSchemaDetail = (name: string) =>
-  router.push({ name: 'schema-detail', params: { schemaName: name } })
+  router.push({ name: 'internal-schema-detail', params: { schemaName: name } })
 
 const addSchema = () => {
-  router.push({ name: 'schema-create' })
+  router.push({ name: 'internal-schema-create' })
 }
 
 const handleCopy = (name: string) => {
-  router.push({ name: 'schema-create', query: { action: 'copy', target: name } })
+  router.push({ name: 'internal-schema-create', query: { action: 'copy', target: name } })
 }
 
 const handleDel = async (name: string) => {

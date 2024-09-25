@@ -20,7 +20,7 @@
       <div class="app-wrapper">
         <el-tab-pane :label="t('Base.setting')">
           <el-card class="detail-card overview-visible" v-loading="isLoading">
-            <ExternalSchemaConfluentForm
+            <ExternalSchemaForm
               class="schema-create-form"
               ref="FormCom"
               v-model="schemaData"
@@ -52,7 +52,7 @@ import { ElMessage } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ExternalSchemaConfluentForm from './components/ExternalSchemaConfluentForm.vue'
+import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 const route = useRoute()
 const router = useRouter()

@@ -7,13 +7,13 @@
       </el-button>
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
-      <el-table-column prop="name" :label="t('Base.name')" />
-      <el-table-column prop="type" :label="tl('type')">
+      <el-table-column prop="name" :label="t('Base.name')" :min-width="200" />
+      <el-table-column prop="type" :label="tl('type')" :min-width="200">
         <template #default="{ row }">
           {{ getLabelByValue(row.type) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :min-width="150">
         <template #default="{ row }">
           <el-button size="small" @click="goSchemaDetail(row.name)">
             {{ $t('Base.setting') }}
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemas } from '@/api/ruleengine'
-import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
+import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'
@@ -46,7 +46,7 @@ const { tl, t } = useI18nTl('RuleEngine')
 const schemaList: Ref<Array<ExternalSchema>> = ref([])
 const isLoading = ref(false)
 
-const { getLabelByValue } = useSchemaType()
+const { getLabelByValue } = useExternalSchemaType()
 
 const getSchemas = async () => {
   try {
