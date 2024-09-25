@@ -1,6 +1,6 @@
 <template>
   <div class="schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
-    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'schema' }" />
+    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'internal-schema' }" />
     <el-card class="app-card schema-create-card">
       <SchemaRegistryForm
         class="schema-create-form"
@@ -83,7 +83,7 @@ const checkClipStatus = async () => {
 
 const cancel = () => {
   if (isInSinglePage.value) {
-    router.push({ name: 'schema' })
+    router.push({ name: 'internal-schema' })
   } else {
     emit('cancel')
   }
@@ -96,7 +96,7 @@ const submit = async () => {
     const ret = await createSchema(cloneDeep(formData.value))
     if (isInSinglePage.value) {
       ElMessage.success(t('Base.createSuccess'))
-      router.push({ name: 'schema' })
+      router.push({ name: 'internal-schema' })
     } else {
       emit('submitted', ret.name)
     }

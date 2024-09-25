@@ -1,7 +1,7 @@
 <template>
   <div class="schema-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: schemaName, routeName: 'schema' }" />
+      <detail-header :item="{ name: schemaName, routeName: 'internal-schema' }" />
       <div class="btn-wrap">
         <el-tooltip :content="$t('Base.delete')" placement="top">
           <el-button
@@ -85,7 +85,7 @@ const handleUpdate = async () => {
     await FormCom.value.validate()
     await updateSchema(schemaName.value, omit(cloneDeep(schemaData.value), 'name'))
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'schema' })
+    router.push({ name: 'internal-schema' })
   } catch (error) {
     console.error(error)
   } finally {
@@ -103,7 +103,7 @@ const handleDelete = async () => {
     })
     await deleteSchema(schemaName.value)
     ElMessage.success(t('Base.deleteSuccess'))
-    router.push({ name: 'schema' })
+    router.push({ name: 'internal-schema' })
   } catch (error) {
     //
   }

@@ -18,7 +18,12 @@
       <el-col :span="12">
         <el-form-item :label="tl('type')" prop="type">
           <el-select v-model="form.type">
-            <el-option label="confluent" value="confluent" />
+            <el-option
+              v-for="{ value, label } in schemaTypeOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
           </el-select>
         </el-form-item>
       </el-col>
@@ -58,6 +63,7 @@
 <script lang="ts" setup>
 import { customValidate } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
@@ -96,6 +102,7 @@ const rules = ref({
   'auth.username': createRequiredRule(t('Base.username')),
   'auth.password': createRequiredRule(tl('password')),
 })
+const { schemaTypeOpts } = useExternalSchemaType()
 
 const authType = computed({
   get() {

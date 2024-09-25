@@ -2,7 +2,7 @@
   <div class="external-schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
     <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'external-schema' }" />
     <el-card class="app-card schema-create-card">
-      <ExternalSchemaConfluentForm class="schema-create-form" ref="FormCom" v-model="formData" />
+      <ExternalSchemaForm class="schema-create-form" ref="FormCom" v-model="formData" />
       <div class="schema-create-ft">
         <el-button @click="cancel">
           {{ $t('Base.cancel') }}
@@ -29,10 +29,10 @@ import useI18nTl from '@/hooks/useI18nTl'
 import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isObject } from 'lodash'
 import { defineEmits, defineProps, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import ExternalSchemaConfluentForm from './components/ExternalSchemaConfluentForm.vue'
+import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 /**
  * props and emit is for use this component in drawer
@@ -73,6 +73,9 @@ const checkClipStatus = async () => {
   if (query.action === 'copy' && query.target) {
     const schema = await getExternalSchemaDetail(query.target.toString())
     formData.value = { ...schema, name: countDuplicationName(query.target.toString()) }
+    if (isObject(formData.value.auth) && formData.value.auth.password) {
+      formData.value.auth.password = ''
+    }
   }
 }
 

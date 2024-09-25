@@ -880,18 +880,18 @@ export const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'internal',
-        name: 'schema',
+        name: 'internal-schema',
         component: () => import('@/views/RuleEngine/Schema/Schema.vue'),
       },
       {
         path: 'internal/create',
-        name: 'schema-create',
+        name: 'internal-schema-create',
         component: () => import('@/views/RuleEngine/Schema/SchemaCreate.vue'),
         meta: { hideInMenu: true },
       },
       {
         path: 'internal/:schemaName',
-        name: 'schema-detail',
+        name: 'internal-schema-detail',
         component: () => import('@/views/RuleEngine/Schema/SchemaDetail.vue'),
         meta: { hideInMenu: true },
       },
