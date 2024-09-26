@@ -68,11 +68,7 @@
         <el-col v-bind="colProps">
           <el-form-item>
             <div
-              class="
-                el-input el-input-group el-input-group--prepend
-                el-input--suffix
-                input-target-value
-              "
+              class="el-input el-input-group el-input-group--prepend el-input--suffix input-target-value"
             >
               <div class="el-input-group__prepend">
                 <el-select class="select-topic-type" v-model="keyForFilterActionOrSource">
@@ -142,7 +138,7 @@ import { FilterParamsForQueryRules } from '@/types/rule'
 import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import type { Ref } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   initialValue: {

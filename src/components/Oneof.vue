@@ -15,7 +15,7 @@
     <div class="switch-container">
       <el-switch
         v-model="switchProxy"
-        :inactive-value="(oneOfInfo.valueDisabled as string)"
+        :inactive-value="oneOfInfo.valueDisabled as string"
         :disabled="disabled"
       />
       <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">
@@ -91,7 +91,7 @@ import { Properties, Property } from '@/types/schemaForm'
 import { ElFormItem } from 'element-plus'
 import { isFunction } from 'lodash'
 import type { ComputedRef, PropType, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, getCurrentInstance, nextTick, watch } from 'vue'
+import { computed, getCurrentInstance, nextTick, watch } from 'vue'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -172,7 +172,7 @@ const valueProxy: WritableComputedRef<any> = computed({
   set(val) {
     const { valueDisabled, propEnabled } = oneOfInfo.value
     if (valueDisabled !== undefined) {
-      const value = val === valueDisabled ? valueDisabled : val ?? propEnabled?.default
+      const value = val === valueDisabled ? valueDisabled : (val ?? propEnabled?.default)
       emit('update:modelValue', value)
     } else {
       emit('update:modelValue', val)

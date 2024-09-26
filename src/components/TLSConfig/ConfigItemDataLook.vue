@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import { DocumentCopy } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import useCopy from '@/hooks/useCopy'

@@ -67,7 +67,7 @@ import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { escapeRegExp, startCase } from 'lodash'
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineExpose, defineProps, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 const enum TriggerType {

@@ -14,7 +14,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, computed, defineEmits, WritableComputedRef } from 'vue'
+import type { WritableComputedRef } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
