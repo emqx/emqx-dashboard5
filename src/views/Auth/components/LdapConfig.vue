@@ -142,7 +142,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, ref, defineProps, watch, defineEmits, defineExpose } from 'vue'
+import type { PropType } from 'vue'
+import { ref, watch } from 'vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useLdapConfigFrom from '@/hooks/Auth/useLdapConfigForm'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'

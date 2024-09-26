@@ -24,10 +24,13 @@
 <script setup lang="ts">
 import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { escapeRegExp } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
-const props =
-  defineProps<{ modelValue?: string; [key: string]: any; customPlaceholders?: Array<string> }>()
+const props = defineProps<{
+  modelValue?: string
+  [key: string]: any
+  customPlaceholders?: Array<string>
+}>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
   (e: 'input', v: any): void
@@ -52,12 +55,15 @@ const fetchSuggestions = (queryString: string, cb: any) => {
   if (matchPart) {
     const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
     const availableList = props.customPlaceholders || availablePlaceholders.value
-    ret = availableList.reduce((arr: Array<{ value: string }>, value: string) => {
-      if (filterReg.test(value)) {
-        arr.push({ value })
-      }
-      return arr
-    }, [] as Array<{ value: string }>)
+    ret = availableList.reduce(
+      (arr: Array<{ value: string }>, value: string) => {
+        if (filterReg.test(value)) {
+          arr.push({ value })
+        }
+        return arr
+      },
+      [] as Array<{ value: string }>,
+    )
   }
   cb(ret)
 }
