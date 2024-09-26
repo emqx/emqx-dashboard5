@@ -39,7 +39,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { escapeRegExp } from 'lodash'
 import type { PropType, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -143,7 +143,7 @@ const numPart: WritableComputedRef<string> = computed({
 /**
  * handle the situation that does not input num but selected unit
  */
-let selectedUnit = ref('')
+const selectedUnit = ref('')
 const unit: WritableComputedRef<string> = computed({
   get() {
     const { disabledOpt } = props

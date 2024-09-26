@@ -45,7 +45,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { PayloadShowByType } from '@/types/enum'
 import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, watch, withDefaults } from 'vue'
+import { computed, watch, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{

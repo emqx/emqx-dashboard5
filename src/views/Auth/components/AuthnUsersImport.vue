@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { Upload } from '@element-plus/icons-vue'
 import { downloadByURL } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
