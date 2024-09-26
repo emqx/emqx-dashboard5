@@ -76,7 +76,8 @@ export default {
 
 <script lang="ts" setup>
 import { ConfigField } from '@/types/plugin'
-import { PropType, defineProps, ref, watch, defineEmits } from 'vue'
+import type { PropType } from 'vue'
+import { ref, watch } from 'vue'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import KeyValueEditor from '@/components/KeyAndValueEditor.vue'

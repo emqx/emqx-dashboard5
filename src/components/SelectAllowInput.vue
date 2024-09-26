@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { escapeRegExp, isObject, isUndefined } from 'lodash'
-import { computed, defineEmits, defineProps, withDefaults } from 'vue'
+import { computed, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{

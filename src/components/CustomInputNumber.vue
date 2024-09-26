@@ -11,7 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, computed, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {

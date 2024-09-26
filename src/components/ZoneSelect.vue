@@ -14,7 +14,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import type { WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { getZoneConfigs } from '@/api/config'
 import { DEFAULT_ZONE } from '@/common/constants'
 

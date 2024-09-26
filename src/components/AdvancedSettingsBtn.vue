@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { ArrowRight } from '@element-plus/icons-vue'
-import { defineEmits, defineProps } from 'vue'
 
 const props = defineProps({
   modelValue: {
