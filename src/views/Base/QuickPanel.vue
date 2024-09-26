@@ -42,7 +42,7 @@ import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { escapeRegExp } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouteRecordRaw, useRouter } from 'vue-router'
 
