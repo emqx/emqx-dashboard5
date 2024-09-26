@@ -29,7 +29,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="reason" min-width="120px" :label="tl('reason')" />
-      <el-table-column prop="until" :formatter="formatterUntil" :label="tl('until')" />
+      <el-table-column prop="until" :formatter="formatterUntil" :label="tl('until')">
+        <template #default="{ row }">
+          {{ expiredAt(row.until) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row }">
           <el-button
@@ -52,18 +56,20 @@
 </template>
 
 <script setup lang="ts">
-import { deleteBannedClient, loadBannedClient, clearAllBannedClients } from '@/api/function'
+import { clearAllBannedClients, deleteBannedClient, loadBannedClient } from '@/api/function'
+import { BANNED_NEVER_EXPIRE_VALUE } from '@/common/constants'
 import { dateFormat } from '@/common/tools'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import { BannedItem } from '@/types/systemModule'
 import { Plus, Remove } from '@element-plus/icons-vue'
+import moment from 'moment'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Banned } from '@/types/auth'
 import { ref } from 'vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import BannedDialog from './components/BannedDialog.vue'
-import { BannedItem } from '@/types/systemModule'
 
 const { t, tl } = useI18nTl('General')
 
@@ -92,6 +98,12 @@ const listBlackList = async (params = {}) => {
 const refreshListData = () => {
   initPageMeta()
   listBlackList()
+}
+
+const expiredAt = (value: string) => {
+  return value === BANNED_NEVER_EXPIRE_VALUE
+    ? tl('neverExpire')
+    : moment(value).format('YYYY-MM-DD HH:mm')
 }
 
 const { getLabelFromValue } = useBannedType()

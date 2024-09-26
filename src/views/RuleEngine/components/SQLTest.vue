@@ -110,14 +110,12 @@ import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import JSONbig from 'json-bigint'
 import { startCase } from 'lodash'
 import { PropType, defineExpose, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
-
-const JSONbigNative = JSONbig({ useNativeBigInt: true })
+import { jsonParse, jsonStringify } from '@/common/jsonUtils'
 
 const { tl, t } = useI18nTl('RuleEngine')
 
@@ -158,16 +156,12 @@ const submitTestSQL = async () => {
   let res
   try {
     res = await testsql({ context: getMockContext(), sql: ruleSql.value })
-  } catch (error) {
-    //
-  }
-  try {
     if (res) {
-      resultData.value = JSONbigNative.stringify(JSONbigNative.parse(res), null, 2)
+      resultData.value = jsonStringify(jsonParse(res))
       ElMessage.success(tl('testPassed'))
     }
-  } catch (e) {
-    const err = e as Error
+  } catch (error) {
+    const err = error as Error
     ElMessage.error(err.toString())
   } finally {
     testLoading.value = false
