@@ -43,6 +43,7 @@ const bridgesOrder = [
   BridgeType.SysKeeperProxy,
   BridgeType.SysKeeperForwarder,
   BridgeType.Datalayers,
+  BridgeType.Snowflake,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),

@@ -40,6 +40,7 @@ export interface Property {
    * exist in oneof refs item
    */
   rules?: FormRules | any
+  placeholder?: string
 }
 
 export interface Properties {

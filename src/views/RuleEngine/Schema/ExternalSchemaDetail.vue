@@ -1,7 +1,7 @@
 <template>
   <div class="schema-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: schemaName, routeName: 'internal-schema' }" />
+      <detail-header :item="{ name: schemaName, routeName: 'external-schema' }" />
       <div class="btn-wrap">
         <el-tooltip :content="$t('Base.delete')" placement="top">
           <el-button
@@ -20,7 +20,7 @@
       <div class="app-wrapper">
         <el-tab-pane :label="t('Base.setting')">
           <el-card class="detail-card overview-visible" v-loading="isLoading">
-            <SchemaRegistryForm
+            <ExternalSchemaForm
               class="schema-create-form"
               ref="FormCom"
               v-model="schemaData"
@@ -42,22 +42,24 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteSchema, querySchemaDetail, updateSchema } from '@/api/ruleengine'
+import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRegistry } from '@/types/rule'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import type { ExternalSchema } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
+import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 
-const schemaData = ref({} as SchemaRegistry)
+const schemaData = ref({} as ExternalSchema)
+
 const isLoading = ref(false)
 
 const FormCom = ref()
@@ -70,7 +72,8 @@ const getSchemaData = async () => {
   }
   try {
     isLoading.value = true
-    schemaData.value = await querySchemaDetail(schemaName.value)
+    const data = await getExternalSchemaDetail(schemaName.value)
+    schemaData.value = { ...data, name: schemaName.value }
   } catch (error) {
     //
   } finally {
@@ -83,9 +86,9 @@ const handleUpdate = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    await updateSchema(schemaName.value, omit(cloneDeep(schemaData.value), 'name'))
+    await putExternalSchema(schemaName.value, omit(cloneDeep(schemaData.value), 'name'))
     ElMessage.success(t('Base.updateSuccess'))
-    router.push({ name: 'internal-schema' })
+    router.push({ name: 'external-schema' })
   } catch (error) {
     console.error(error)
   } finally {
@@ -93,17 +96,11 @@ const handleUpdate = async () => {
   }
 }
 
+const { confirmDel } = useOperationConfirm()
 const handleDelete = async () => {
   try {
-    await ElMessageBox.confirm(t('Base.confirmDelete'), {
-      confirmButtonText: t('Base.confirm'),
-      cancelButtonText: t('Base.cancel'),
-      confirmButtonClass: 'confirm-danger',
-      type: 'warning',
-    })
-    await deleteSchema(schemaName.value)
-    ElMessage.success(t('Base.deleteSuccess'))
-    router.push({ name: 'internal-schema' })
+    await confirmDel(() => deleteExternalSchema(schemaName.value))
+    router.push({ name: 'external-schema' })
   } catch (error) {
     //
   }

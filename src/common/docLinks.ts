@@ -108,8 +108,7 @@ const createDocLinks = (lang: string): DocMap => {
     tdengineBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-tdengine.html#${createBatchSettingHash(
       lang,
     )}`,
-    // TODO:
-    datalayersBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-tdengine.html#${createBatchSettingHash(
+    datalayersBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-datalayers.html#${createBatchSettingHash(
       lang,
     )}`,
   }

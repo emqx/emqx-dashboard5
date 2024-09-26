@@ -17,6 +17,7 @@ export default function useAuth(): {
     file: 'File',
     ldap: 'LDAP',
     kerberos: 'Kerberos',
+    cinfo: 'Client Info',
   }
   return {
     titleMap,

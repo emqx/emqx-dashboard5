@@ -1,13 +1,8 @@
 <template>
-  <div class="schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
-    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'internal-schema' }" />
+  <div class="external-schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
+    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'external-schema' }" />
     <el-card class="app-card schema-create-card">
-      <SchemaRegistryForm
-        class="schema-create-form"
-        ref="FormCom"
-        v-model="formData"
-        :fixed-type="!isInSinglePage && !!type"
-      />
+      <ExternalSchemaForm class="schema-create-form" ref="FormCom" v-model="formData" />
       <div class="schema-create-ft">
         <el-button @click="cancel">
           {{ $t('Base.cancel') }}
@@ -26,18 +21,18 @@
 </template>
 
 <script setup lang="ts">
-import { createSchema, querySchemaDetail } from '@/api/ruleengine'
+import { getExternalSchemaDetail, postExternalSchema } from '@/api/ruleengine'
 import { countDuplicationName } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRegistryType } from '@/types/enum'
-import { SchemaRegistry } from '@/types/rule'
+import type { ExternalSchema } from '@/types/typeAlias'
+import { ExternalSchemaType } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isObject } from 'lodash'
 import { defineEmits, defineProps, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
+import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 /**
  * props and emit is for use this component in drawer
@@ -60,30 +55,33 @@ const { t } = useI18nTl('RuleEngine')
 const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 
-const title = t('Base.createTarget', { target: t('components.schema') })
+const title = t('Base.createTarget', { target: t('components.external-schema') })
 
-const createRawSchemaForm = (): SchemaRegistry => ({
+const createRawSchemaForm = (): ExternalSchema => ({
   name: '',
-  description: '',
-  type: SchemaRegistryType.Avro,
-  source: '',
+  type: ExternalSchemaType.Confluent,
+  url: '',
+  auth: 'none',
 })
 
 const FormCom = ref()
-const formData: Ref<SchemaRegistry> = ref(createRawSchemaForm())
+const formData: Ref<ExternalSchema> = ref(createRawSchemaForm())
 const isSubmitting = ref(false)
 
 const checkClipStatus = async () => {
   const { query } = route
   if (query.action === 'copy' && query.target) {
-    const schema = await querySchemaDetail(query.target.toString())
-    formData.value = { ...schema, name: countDuplicationName(schema.name) }
+    const schema = await getExternalSchemaDetail(query.target.toString())
+    formData.value = { ...schema, name: countDuplicationName(query.target.toString()) }
+    if (isObject(formData.value.auth) && formData.value.auth.password) {
+      formData.value.auth.password = ''
+    }
   }
 }
 
 const cancel = () => {
   if (isInSinglePage.value) {
-    router.push({ name: 'internal-schema' })
+    router.push({ name: 'external-schema' })
   } else {
     emit('cancel')
   }
@@ -93,10 +91,10 @@ const submit = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    const ret = await createSchema(cloneDeep(formData.value))
+    const ret = await postExternalSchema(cloneDeep(formData.value))
     if (isInSinglePage.value) {
       ElMessage.success(t('Base.createSuccess'))
-      router.push({ name: 'internal-schema' })
+      router.push({ name: 'external-schema' })
     } else {
       emit('submitted', ret.name)
     }
@@ -109,7 +107,7 @@ const submit = async () => {
 
 const setTypeFromProps = () => {
   if (props.type) {
-    formData.value.type = props.type as SchemaRegistryType
+    formData.value.type = props.type as ExternalSchema['type']
   }
 }
 
@@ -126,8 +124,5 @@ const setTypeFromProps = () => {
 <style lang="scss" scoped>
 .schema-create-form {
   width: 70%;
-}
-.form-sub-block {
-  margin-bottom: 8px;
 }
 </style>

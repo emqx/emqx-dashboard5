@@ -67,6 +67,7 @@ export const SinkType = {
   AzureBlobStorage: BridgeType.AzureBlobStorage,
   Couchbase: BridgeType.Couchbase,
   Datalayers: BridgeType.Datalayers,
+  Snowflake: BridgeType.Snowflake,
   RePub: 'republish',
   Console: 'console',
 }

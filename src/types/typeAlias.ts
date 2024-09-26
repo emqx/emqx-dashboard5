@@ -46,6 +46,8 @@ import type {
   ClusterLinkLinkMetricsResponse,
   PutClusterLinksLinkNameBody,
 } from './schemas/cluster.schemas'
+import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
+import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
 
 export type OverrideProperties<
   T,
@@ -104,3 +106,11 @@ export type ClusterLinkingForm = ClusterLink
 export type CreatedClusterLinking = ClusterLinkLinkConfigResponse
 export type ClusterLinkingMetrics = ClusterLinkLinkMetricsResponse
 export type ClusterLinkingFormForUpdate = PutClusterLinksLinkNameBody
+
+/* EXTERNAL SCHEMA REGISTRY */
+
+export const ExternalSchemaType = {
+  Confluent: SchemaRegistryConfluentSchemaRegistryType.confluent,
+}
+export type ExternalSchema = SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry
+export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>

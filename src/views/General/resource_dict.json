@@ -1033,6 +1033,42 @@
   },
   {
     "method": "post",
+    "path": "/schema_registry_external",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Create external schema registry",
+      "zh": "创建外部 Schema"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/schema_registry_external/registry/:name",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Update external schema registry",
+      "zh": "更新外部 Schema"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/schema_registry_external/registry/:name",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Delete external schema registry",
+      "zh": "删除外部 Schema"
+    }
+  },
+  {
+    "method": "post",
     "path": "/schema_validations/validation/:name/metrics/reset",
     "operation_label": {
       "en": "Schema Validation",
@@ -2421,6 +2457,18 @@
     "operation_name_label": {
       "en": "Delete a cluster link",
       "zh": "删除一个集群链接。"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/cluster/links/link/:name/metrics/reset",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Reset a cluster link's metrics",
+      "zh": "重置集群链接的指标"
     }
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <div class="exhook app-wrapper">
+  <div class="external-schema app-wrapper">
     <div class="section-header">
       <div></div>
       <el-button :disabled="!$hasPermission('post')" type="primary" @click="addSchema" :icon="Plus">
@@ -7,14 +7,13 @@
       </el-button>
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
-      <el-table-column prop="name" :label="t('Base.name')" />
-      <el-table-column prop="type" :label="tl('type')">
+      <el-table-column prop="name" :label="t('Base.name')" :min-width="200" />
+      <el-table-column prop="type" :label="tl('type')" :min-width="200">
         <template #default="{ row }">
           {{ getLabelByValue(row.type) }}
         </template>
       </el-table-column>
-      <el-table-column prop="description" :label="t('Base.note')" />
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :min-width="150">
         <template #default="{ row }">
           <el-button size="small" @click="goSchemaDetail(row.name)">
             {{ $t('Base.setting') }}
@@ -31,12 +30,12 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteSchema, querySchemas } from '@/api/ruleengine'
-import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
+import { deleteExternalSchema, getExternalSchemas } from '@/api/ruleengine'
+import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
-import { SchemaRegistry } from '@/types/rule'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import type { ExternalSchema } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropdown from './components/TableItemDropdown.vue'
@@ -44,15 +43,26 @@ import TableItemDropdown from './components/TableItemDropdown.vue'
 const router = useRouter()
 const { tl, t } = useI18nTl('RuleEngine')
 
-const schemaList: Ref<Array<SchemaRegistry>> = ref([])
+const schemaList: Ref<Array<ExternalSchema>> = ref([])
 const isLoading = ref(false)
 
-const { getLabelByValue } = useSchemaType()
+const { getLabelByValue } = useExternalSchemaType()
 
 const getSchemas = async () => {
   try {
     isLoading.value = true
-    schemaList.value = await querySchemas()
+    const nameValueMap = await getExternalSchemas()
+    schemaList.value = Object.entries(nameValueMap).reduce(
+      (arr: Array<ExternalSchema>, [name, value]) => {
+        if (typeof value === 'object' && value !== null) {
+          arr.push({ name, ...value })
+        } else {
+          console.error(`Invalid value for schema: ${name}`, value)
+        }
+        return arr
+      },
+      [],
+    )
   } catch (error) {
     console.error(error)
   } finally {
@@ -61,30 +71,20 @@ const getSchemas = async () => {
 }
 
 const goSchemaDetail = (name: string) =>
-  router.push({ name: 'internal-schema-detail', params: { schemaName: name } })
+  router.push({ name: 'external-schema-detail', params: { schemaName: name } })
 
 const addSchema = () => {
-  router.push({ name: 'internal-schema-create' })
+  router.push({ name: 'external-schema-create' })
 }
 
 const handleCopy = (name: string) => {
-  router.push({ name: 'internal-schema-create', query: { action: 'copy', target: name } })
+  router.push({ name: 'external-schema-create', query: { action: 'copy', target: name } })
 }
 
+const { confirmDel } = useOperationConfirm()
 const handleDel = async (name: string) => {
-  try {
-    await ElMessageBox.confirm(t('Base.confirmDelete'), {
-      confirmButtonText: t('Base.confirm'),
-      cancelButtonText: t('Base.cancel'),
-      confirmButtonClass: 'confirm-danger',
-      type: 'warning',
-    })
-    await deleteSchema(name)
-    ElMessage.success(t('Base.deleteSuccess'))
-    getSchemas()
-  } catch (error) {
-    //
-  }
+  await confirmDel(() => deleteExternalSchema(name))
+  getSchemas()
 }
 
 onMounted(() => {

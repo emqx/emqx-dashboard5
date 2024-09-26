@@ -18,8 +18,10 @@
             <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
               <SchemaFormItem
                 v-model="displayTableData[$index][key]"
-                :type="(value.type as any)"
-                :symbols="(value.symbols as string[] | number[] | undefined)"
+                :type="value.type"
+                :format="value.format"
+                :symbols="value.symbols"
+                :placeholder="value.placeholder"
                 :custom-props="value.componentProps"
                 :property="value"
               />
@@ -70,8 +72,10 @@
           >
             <SchemaFormItem
               v-model="item[key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols as string[] | number[] | undefined)"
+              :type="value.type"
+              :format="value.format"
+              :symbols="value.symbols"
+              :placeholder="value.placeholder"
               :custom-props="value.componentProps"
               :property="value"
             />

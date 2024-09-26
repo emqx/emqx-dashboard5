@@ -63,7 +63,7 @@
         </el-tab-pane>
         <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
           <el-card class="app-card" :shadow="gateway ? 'never' : 'always'">
-            <template v-if="configData.mechanism !== 'jwt'">
+            <template v-if="configData.mechanism !== 'jwt' && configData.mechanism !== 'cinfo'">
               <database-config
                 v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
                 ref="formCom"
@@ -100,6 +100,11 @@
                 ref="formCom"
               />
             </template>
+            <c-info-config
+              v-else-if="configData.mechanism === 'cinfo'"
+              v-model="configData"
+              ref="formCom"
+            />
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
@@ -155,6 +160,8 @@ import JwtConfig from './components/JwtConfig.vue'
 import AuthnManager from './components/AuthnManager.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
+import CInfoConfig from './components/CInfoConfig.vue'
+import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -169,6 +176,7 @@ export default defineComponent({
     DetailHeader,
     LdapConfig,
     KerberosConfig,
+    CInfoConfig,
   },
   props: {
     gatewayInfo: {
@@ -244,6 +252,10 @@ export default defineComponent({
       if (currBackend.value === 'ldap') {
         const { method: defaultMethod } = factory('password_based', 'ldap')
         data.method = { ...defaultMethod, ...data.method }
+      }
+      if (currBackend.value === 'cinfo') {
+        const { processCInfoUpdateConfig } = useProcessAuthData()
+        data = processCInfoUpdateConfig(data)
       }
       return data
     }

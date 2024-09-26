@@ -3,6 +3,7 @@
     <OverviewMetrics
       :totals="{ forwarding: 'forwarding.matched' }"
       :request-metrics="getMetrics"
+      :request-reset="resetMetrics"
       :type-metrics-maps="[
         {
           name: 'forwarding',
@@ -38,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { getClusterLinkingMetrics } from '@/api/cluster'
+import { getClusterLinkingMetrics, resetClusterLinkingMetrics } from '@/api/cluster'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useClusterLinkingMetrics } from '@/hooks/useMetrics'
@@ -69,5 +70,12 @@ const getMetrics = () => {
     return
   }
   return getClusterLinkingMetrics(props.linkingName)
+}
+
+const resetMetrics = () => {
+  if (!props.linkingName) {
+    return
+  }
+  return resetClusterLinkingMetrics(props.linkingName)
 }
 </script>

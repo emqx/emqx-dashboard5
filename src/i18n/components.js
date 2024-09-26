@@ -95,6 +95,14 @@ export default {
     zh: 'Schema Registry',
     en: 'Schema Registry',
   },
+  'internal-schema': {
+    zh: '内部 Schema',
+    en: 'Internal Schema',
+  },
+  'external-schema': {
+    zh: '外部 Schema',
+    en: 'External Schema',
+  },
   'message-transform': {
     zh: '消息转换',
     en: 'Message Transform',
@@ -420,9 +428,13 @@ export default {
     zh: '慢订阅设置',
     en: 'Slow Subscriptions Settings',
   },
-  'schema-create': {
-    zh: '创建 Schema',
-    en: 'Create Schema',
+  'internal-schema-create': {
+    zh: '创建内部 Schema',
+    en: 'Create Internal Schema',
+  },
+  'external-schema-create': {
+    zh: '创建外部 Schema',
+    en: 'Create External Schema',
   },
   'schema-validation-create': {
     zh: '创建 Schema 验证',

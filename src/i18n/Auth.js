@@ -63,9 +63,9 @@ export default {
     zh: '数据库',
     en: 'Database',
   },
-  jwtDataSourceDesc: {
-    zh: 'JWT 认证无需选择数据源，请继续下一步配置',
-    en: 'JWT authentication does not require a backend, continue to the next step',
+  noBackendDataSourceDesc: {
+    zh: '{ mechanism } 认证无需选择数据源，请继续下一步配置',
+    en: '{ mechanism } authentication does not require a backend, continue to the next step',
   },
   reconnect: {
     zh: '自动重连',
@@ -586,5 +586,29 @@ export default {
   principalDesc: {
     zh: "服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net{'@'}MY.REALM.COM`。\n注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。",
     en: "Kerberos principal for server. For example, `mqtt/cluster1.my.net{'@'}MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.",
+  },
+  cinfoAuthDesc: {
+    zh: '使用 Client Information 进行认证',
+    en: 'Use Client Information for authentication',
+  },
+  checks: {
+    zh: '检查列表',
+    en: 'Checks',
+  },
+  isMatch: {
+    zh: '匹配条件',
+    en: 'Match Conditions',
+  },
+  isMatchDesc: {
+    zh: "Variform 表达式用于评估客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n- <code>username</code>: 用户名\n- <code>clientid</code>: 客户端 ID\n- <code>client_attrs.*</code>: 客户端属性\n- <code>peerhost</code>: 客户端 IP\n- <code>cert_subject</code>: TLS 证书主题\n- <code>cert_common_name</code>: TLS 证书通用名称\n所有表达式返回 \"true\" 时，认证器返回相关结果；否则跳过当前检查。\n\n简单示例（每行一个表达式）：\n<code>regex_match(username, '^admin')</code>\n<code>str_eq(client_attrs.group, 'premium')</code>\n\n更多函数和高级用法请参考完整文档。",
+    en: "Variform expressions to evaluate client information. For multiple expressions, enter each expression on a new line. Supported variables:\n- <code>username</code>: client username\n- <code>clientid</code>: client ID\n- <code>client_attrs.*</code>: client attributes\n- <code>peerhost</code>: client IP\n- <code>cert_subject</code>: TLS certificate subject\n- <code>cert_common_name</code>: TLS certificate common name\nIf all expressions return \"true\", the authenticator returns the associated result; otherwise, the current check is skipped.\n\nSimple examples (one expression per line):\n<code>regex_match(username, '^admin')</code>\n<code>str_eq(client_attrs.group, 'premium')</code>\n\nFor more functions and advanced usage, please refer to the full documentation.",
+  },
+  result: {
+    zh: '匹配结果',
+    en: 'Result',
+  },
+  resultDesc: {
+    zh: '如果匹配条件为真，则返回此结果。\n支持的结果：\n- <code>ignore</code>: 将认证延迟到链中的下一个认证器。\n- <code>allow</code>: 允许客户端连接。\n- <code>deny</code>: 拒绝客户端连接。',
+    en: 'The result to return if the match condition is true.\nSupported results:\n- <code>ignore</code>: defer the authentication to the next authenticator in the chain.\n- <code>allow</code>: allow the client to connect.\n- <code>deny</code>: deny the client to connect.',
   },
 }

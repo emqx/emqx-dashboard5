@@ -13,6 +13,7 @@ export const useAuthnMechanismType = (): {
     { value: AuthnMechanismType.JWT, label: 'JWT' },
     { value: AuthnMechanismType.SCRAM, label: 'SCRAM' },
     { value: AuthnMechanismType.GSSAPI, label: 'GSSAPI' },
+    { value: AuthnMechanismType.CINFO, label: 'Client Info' },
   ]
 
   const getLabelByValue = (value: AuthnMechanismType) =>
