@@ -99,6 +99,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { BannedItem } from '@/types/systemModule'
 import { Plus, RefreshLeft, Remove, Search } from '@element-plus/icons-vue'
+import dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { Banned } from 'src/types/auth'
@@ -174,7 +175,7 @@ const refreshListData = () => {
 const expiredAt = (value: string) => {
   return value === BANNED_NEVER_EXPIRE_VALUE
     ? tl('neverExpire')
-    : moment(value).format('YYYY-MM-DD HH:mm')
+    : dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
 const { getLabelFromValue } = useBannedType()
