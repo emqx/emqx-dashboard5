@@ -17,7 +17,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed } from 'vue'
 import { SSL } from '@/types/common'
 
 const props = defineProps({

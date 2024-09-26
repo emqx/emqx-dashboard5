@@ -24,7 +24,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, PropType, WritableComputedRef } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
+import { computed } from 'vue'
 import TLSBaseConfig from './TLSBaseConfig.vue'
 import TLSEnableConfig from './TLSEnableConfig.vue'
 import { SSL } from '@/types/common'
