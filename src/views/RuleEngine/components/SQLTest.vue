@@ -114,7 +114,7 @@ import { PropType, defineExpose, defineProps, onUnmounted, ref, watch } from 'vu
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
-import { jsonParse, jsonStringify } from '@/common/jsonUtils'
+import { jsonBigIntParse, jsonBigIntStringify } from '@emqx/shared-ui-utils'
 
 const { tl, t } = useI18nTl('RuleEngine')
 
@@ -155,7 +155,7 @@ const submitTestSQL = async () => {
   try {
     res = await testsql({ context: getMockContext(), sql: ruleSql.value })
     if (res) {
-      resultData.value = jsonStringify(jsonParse(res))
+      resultData.value = jsonBigIntStringify(jsonBigIntParse(res))
       ElMessage.success(tl('testPassed'))
     }
   } catch (error) {
