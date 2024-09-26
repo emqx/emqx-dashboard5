@@ -12,11 +12,11 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.12
-        version: 0.0.23
+        specifier: ~0.0.25
+        version: 0.0.25
       '@emqx/shared-ui-utils':
-        specifier: ~0.0.13
-        version: 0.0.13(vue@3.5.4(typescript@5.5.4))
+        specifier: ~0.0.14
+        version: 0.0.14(vue@3.5.4(typescript@5.5.4))
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@10.7.3)(vue@3.5.4(typescript@5.5.4))
@@ -126,12 +126,12 @@ importers:
       '@types/marked':
         specifier: ^4.0.1
         version: 4.3.2
-      '@types/papaparse':
-        specifier: ^5.3.14
-        version: 5.3.14
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
+      '@types/papaparse':
+        specifier: ^5.3.14
+        version: 5.3.14
       '@types/sortablejs':
         specifier: ^1.10.7
         version: 1.15.8
@@ -352,11 +352,11 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emqx/shared-ui-i18n@0.0.23':
-    resolution: {integrity: sha512-2mX9+GS+mTr0gBwoyV30qfpGjIBNQ01r0FZ6O5XUhcmM8yllYQHFQ3LWBeYbquF+bTUOIM/1FDOP15XxYt6VOA==}
+  '@emqx/shared-ui-i18n@0.0.25':
+    resolution: {integrity: sha512-oVfaVglfHSq5aUmMB0BrwMaqE+7cJgBaL9aZdSbLhSwRci6yEmuF+TGreLtOGFeTb1n8aTj8BpG/sClJtm5kTQ==}
 
-  '@emqx/shared-ui-utils@0.0.13':
-    resolution: {integrity: sha512-AmF3WDV8iVXFXY9a/UyBWxprfsdZDaLzsQDhCFZYL0OlQZ8gCCfw6PPS7ayz3KykxwDBqDlMGm4W7EfV5ZkkxQ==}
+  '@emqx/shared-ui-utils@0.0.14':
+    resolution: {integrity: sha512-65TsDNoEyb6obdupU4zuFSxjTa7hXxS8n+BdJ5CvpBuZCPne4zMNV3djuSEVS3LqlwV8RrIzKzN7QZar1G+0bQ==}
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -992,11 +992,11 @@ packages:
   '@types/node@22.5.4':
     resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
 
-  '@types/papaparse@5.3.14':
-    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
-
   '@types/nprogress@0.2.3':
     resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
+
+  '@types/papaparse@5.3.14':
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
 
   '@types/sortablejs@1.15.8':
     resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
@@ -3534,10 +3534,11 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-i18n@0.0.23': {}
+  '@emqx/shared-ui-i18n@0.0.25': {}
 
-  '@emqx/shared-ui-utils@0.0.13(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-utils@0.0.14(vue@3.5.4(typescript@5.5.4))':
     dependencies:
+      json-bigint: 1.0.0
       papaparse: 5.4.1
       vue-i18n: 9.14.0(vue@3.5.4(typescript@5.5.4))
     transitivePeerDependencies:
@@ -4172,11 +4173,11 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
+  '@types/nprogress@0.2.3': {}
+
   '@types/papaparse@5.3.14':
     dependencies:
       '@types/node': 22.5.4
-
-  '@types/nprogress@0.2.3': {}
 
   '@types/sortablejs@1.15.8': {}
 
