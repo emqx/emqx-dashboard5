@@ -193,7 +193,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'ClientDetails',
@@ -330,7 +330,7 @@ const clientType = computed<ClientTypes>((): ClientTypes => {
   return proto_name.toUpperCase() as ClientTypes
 })
 const clientDetailParts = computed(() => {
-  let allParts = Object.keys(clientsOrganizied)
+  const allParts = Object.keys(clientsOrganizied)
   if (clientType.value === 'MQISDP') {
     return clientsOrganizied.MQTT
   }
@@ -380,7 +380,7 @@ const handleDisconnect = async () => {
 
 const handleDisconnectGateway = async () => {
   if (record.value === null) return
-  let res = await disconnGatewayClient(props.gateway, record.value.clientid as string)
+  const res = await disconnGatewayClient(props.gateway, record.value.clientid as string)
   if (res) {
     emit('refreshGateway')
     return Promise.resolve()
@@ -394,7 +394,7 @@ const loadData = async () => {
     return loadGatewayData()
   }
   clientDetailLock.value = true
-  let res = await loadClientDetail(clientId.value).catch((error) => {
+  const res = await loadClientDetail(clientId.value).catch((error) => {
     if (error.response.status === 404) {
       doesTheClientExist.value = false
     }
@@ -410,7 +410,7 @@ const loadData = async () => {
 
 const loadGatewayData = async () => {
   clientDetailLock.value = true
-  let res = await getGatewayClientDetail(props.gateway, clientId.value).catch(() => {
+  const res = await getGatewayClientDetail(props.gateway, clientId.value).catch(() => {
     clientDetailLock.value = false
   })
   if (res) {
@@ -434,7 +434,7 @@ const loadSubs = async () => {
     return loadGatewaySubs()
   }
   subsLockTable.value = true
-  let res = await loadSubscriptions(clientId.value).catch(() => {
+  const res = await loadSubscriptions(clientId.value).catch(() => {
     subsLockTable.value = false
   })
   if (res) {
@@ -447,7 +447,7 @@ const loadSubs = async () => {
 
 const loadGatewaySubs = async () => {
   subsLockTable.value = true
-  let res = await getGatewayClientSubs(props.gateway, clientId.value).catch(() => {
+  const res = await getGatewayClientSubs(props.gateway, clientId.value).catch(() => {
     subsLockTable.value = false
   })
   if (res) {

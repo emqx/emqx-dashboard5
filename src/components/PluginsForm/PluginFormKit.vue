@@ -11,7 +11,7 @@
         v-for="(configs, name) in layouts.$form"
         v-model="configsForm[name]"
         :key="name"
-        :name="(name as string)"
+        :name="name as string"
         :form-configs="configs"
       />
     </el-row>
@@ -26,7 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, defineProps, defineEmits, ref, watch, nextTick } from 'vue'
+import type { PropType } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import _ from 'lodash'
