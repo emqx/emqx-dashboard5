@@ -670,6 +670,7 @@
 
 /* Message */
 .el-message {
+  align-items: flex-start;
   padding: 16px;
   border-radius: 8px;
   box-shadow: var(--el-notification-shadow);
@@ -683,8 +684,7 @@
     word-break: break-all;
   }
   .el-message__closeBtn {
-    transform: none;
-    top: 16px + math.div(14px * 0.5, 2);
+    transform: translateY(3px);
     color: #343741;
     font-size: 14px;
   }

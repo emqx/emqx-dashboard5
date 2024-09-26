@@ -59,7 +59,7 @@ export default (): {
             ret.img = ''
           }
         } else if (ret.mechanism === 'cinfo') {
-          ret.img = require(`@/assets/img/cinfo.png`)
+          ret.img = getImg(`@/assets/img/cinfo.png`)
         } else {
           ret.img = jwtIcon
         }
