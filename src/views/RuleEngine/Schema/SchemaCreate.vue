@@ -1,6 +1,9 @@
 <template>
   <div class="schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
-    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'internal-schema' }" />
+    <detail-header
+      v-if="isInSinglePage"
+      :item="{ name: t('components.internal-schema-create'), routeName: 'internal-schema' }"
+    />
     <el-card class="app-card schema-create-card">
       <SchemaRegistryForm
         class="schema-create-form"
@@ -59,8 +62,6 @@ const { t } = useI18nTl('RuleEngine')
  */
 const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
-
-const title = t('Base.createTarget', { target: t('components.schema') })
 
 const createRawSchemaForm = (): SchemaRegistry => ({
   name: '',
