@@ -38,11 +38,11 @@ export interface BasicRule {
   sql: string
   actions: Array<OutputItem>
   description: string
+  enable: boolean
 }
 
 export interface RuleForm extends BasicRule {
   created_at: string
-  enable: boolean
   from: FromData
 }
 

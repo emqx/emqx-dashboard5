@@ -182,6 +182,7 @@ const ruleValueDefault = {
   sql: transSQLFormDataToSQL(DEFAULT_SELECT, [DEFAULT_FROM]),
   actions: [],
   description: '',
+  enable: true,
 }
 
 let modelValueCache = ''
