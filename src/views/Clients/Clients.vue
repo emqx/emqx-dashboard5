@@ -472,7 +472,7 @@ const cleanBatchClients = async () => {
   $prepend-width: 128px;
   .el-input-group--prepend .el-input-group__prepend {
     width: $prepend-width;
-    flex-shrink: 0s;
+    flex-shrink: 0;
   }
   .like-input {
     > .el-select,

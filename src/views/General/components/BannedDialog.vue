@@ -146,6 +146,10 @@ const isItEarlierThanToday = (date: Date) => {
   return date.getTime() < todayStartTime
 }
 
+// new Array(1000).fill(1).reduce(async (pre, current, index) => {
+//   await pre
+//   return createBannedClient({"as":"clientid","who":"qweqwe" + index,"reason":"","until":null})
+// }, Promise.resolve())
 const save = async () => {
   try {
     await FormCom.value.validate()
