@@ -166,9 +166,8 @@ const handleComponentChange = ({
     For IoTDB, we can't directly compare the record values here (unlike the previous redis type), as the record values have already been changed and can't be compared
    */
   if (
-    (!props.edit && newRecord?.type !== oldRecord?.type) ||
-    (isKeyFieldPropChanged(newVal.components, oldVal.components) &&
-      (!props.edit || !isKeyFieldValueInit(newRecord, oldRecord)))
+    isKeyFieldPropChanged(newVal.components, oldVal.components) &&
+    !isKeyFieldValueInit(newRecord, oldRecord)
   ) {
     connectorRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
   }
