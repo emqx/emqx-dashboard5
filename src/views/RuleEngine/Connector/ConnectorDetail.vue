@@ -5,7 +5,9 @@
         <template #content>
           <div class="vertical-align-center">
             <img :src="getBridgeIcon(connectorData.type)" />
-            <p class="block-title">{{ connectorName }}</p>
+            <div class="block-title">
+              <CommonOverflowTooltip :content="connectorName" />
+            </div>
             <TargetItemStatus type="connector" :target="connectorData" is-tag />
             <el-tag type="info" class="section-status">
               {{ getTypeStr(connectorData.type) }}
@@ -123,6 +125,7 @@
 
 <script setup lang="ts">
 import { customValidate } from '@/common/tools'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useBridgeTypeValue, {
   useBridgeTypeIcon,
@@ -288,6 +291,12 @@ const submit = async () => {
 .connector-detail {
   .form-container {
     width: 75%;
+  }
+  .block-title {
+    max-width: 200px;
+  }
+  .el-page-header__content {
+    max-width: 700px;
   }
 }
 </style>
