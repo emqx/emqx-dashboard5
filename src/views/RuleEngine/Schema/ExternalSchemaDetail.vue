@@ -1,7 +1,11 @@
 <template>
   <div class="schema-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: schemaName, routeName: 'external-schema' }" />
+      <detail-header :item="{ name: schemaName, routeName: 'external-schema' }">
+        <template #content>
+          <CommonOverflowTooltip :content="schemaName" />
+        </template>
+      </detail-header>
       <div class="btn-wrap">
         <el-tooltip :content="$t('Base.delete')" placement="top">
           <el-button
@@ -44,6 +48,7 @@
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'
@@ -53,6 +58,7 @@ import { cloneDeep, omit } from 'lodash'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const route = useRoute()
 const router = useRouter()
