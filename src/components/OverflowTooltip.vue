@@ -66,7 +66,7 @@ const detectContentOverflow = (ele: HTMLElement) => {
   if (
     isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
     isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
-    isGreaterThan(ele.scrollWidth, cellChildWidth)
+    isGreaterThan(ele.scrollWidth, cellChildWidth, 1)
   ) {
     return true
   }

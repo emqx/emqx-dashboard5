@@ -16,6 +16,7 @@ export default (): {
     sql: transSQLFormDataToSQL(DEFAULT_SELECT, [from]),
     actions: [],
     description: '',
+    enable: true
   })
 
   const getRuleDataForUpdate = ({
