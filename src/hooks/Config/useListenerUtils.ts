@@ -282,8 +282,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
           }
           break
         case 'ssl_options':
-          // QUIC does not pass the cacertfile field when it's empty
-          if (record.type === ListenerType.QUIC && record[v].cacertfile === '') {
+          if (record[v].cacertfile === '') {
             delete record[v].cacertfile
           }
           break
