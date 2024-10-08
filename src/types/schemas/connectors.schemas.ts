@@ -1331,6 +1331,8 @@ export interface IotdbPutThrift {
   protocol_version?: IotdbPutThriftProtocolVersion
   zoneId?: string
   pool_size?: number
+  connect_timeout?: string
+  recv_timeout?: string
   username: string
   password: string
   ssl?: EmqxSslClientOpts
@@ -1415,6 +1417,8 @@ export interface IotdbPostThrift {
   protocol_version?: IotdbPostThriftProtocolVersion
   zoneId?: string
   pool_size?: number
+  connect_timeout?: string
+  recv_timeout?: string
   username: string
   password: string
   ssl?: EmqxSslClientOpts
@@ -1522,6 +1526,8 @@ export interface IotdbGetThrift {
   protocol_version?: IotdbGetThriftProtocolVersion
   zoneId?: string
   pool_size?: number
+  connect_timeout?: string
+  recv_timeout?: string
   username: string
   password: string
   ssl?: EmqxSslClientOpts
