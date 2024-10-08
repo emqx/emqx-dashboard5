@@ -71,7 +71,7 @@ export default (
     'socket_opts.nodelay',
   ]
 
-  const IoTDBAdvancedProps = ['enable_pipelining']
+  const IoTDBAdvancedProps = ['recv_timeout', 'enable_pipelining']
 
   const S3AdvancedProps = [
     'transport_options.headers',
@@ -109,6 +109,7 @@ export default (
       'iotdb_version',
       'zoneId',
       'ssl',
+      'recv_timeout',
       'enable_pipelining',
     ],
     fieldStartIndex,
