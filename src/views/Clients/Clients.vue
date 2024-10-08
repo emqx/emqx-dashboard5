@@ -155,6 +155,10 @@
         <MiniPagination
           :current-page="page"
           :hasnext="hasNext"
+          :page-size="limit"
+          :page-sizes="defaultPageSizeOpt"
+          layout="sizes, prev, next"
+          @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
       </div>
@@ -172,7 +176,10 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  SEARCH_FORM_RES_PROPS as colProps,
+  DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
+} from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import MiniPagination from '@/components/MiniPagination.vue'
@@ -230,7 +237,7 @@ const queryParams = ref<Record<string, any>>({
   usernameSearchType: SearchType.Exact,
 })
 
-const { page, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
+const { page, limit, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
 const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
   usePaginationRemember('clients-detail')
 const routeName = computed(() => route.name?.toString() || 'clients')
@@ -332,6 +339,11 @@ const handlePageChange = (no: number) => {
   const isBack = no < page.value
   page.value = no
   loadNodeClients(isBack)
+}
+
+const handleSizeChange = (size: number) => {
+  limit.value = size
+  handlePageChange(1)
 }
 
 const handleExactSearchClient = async (params: Record<string, any>) => {
