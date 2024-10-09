@@ -1,8 +1,8 @@
-<!-- Pagination only with pre and next button -->
+<!-- Pagination only with sizes, pre and next button -->
 <template>
   <el-pagination
     background
-    layout="prev, next"
+    layout="sizes, prev, next"
     :current-page="currentPage"
     :page-count="pageCount"
     @current-change="handleCurrentChanged"
@@ -37,5 +37,3 @@ const handleCurrentChanged = (page: number) => {
   emit('current-change', page)
 }
 </script>
-
-<style lang="scss"></style>
