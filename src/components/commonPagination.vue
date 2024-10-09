@@ -18,6 +18,9 @@
       v-else-if="meta.count === -1"
       :current-page="meta.page"
       :hasnext="(meta.hasnext as boolean)"
+      :page-sizes="defaultPageSizeOpt"
+      v-model:page-size="meta.limit"
+      @size-change="handleSizeChanged"
       @current-change="handleCurrentChanged"
     />
   </div>

@@ -157,7 +157,6 @@
           :hasnext="hasNext"
           :page-size="limit"
           :page-sizes="defaultPageSizeOpt"
-          layout="sizes, prev, next"
           @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
