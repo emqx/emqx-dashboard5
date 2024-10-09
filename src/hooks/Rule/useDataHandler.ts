@@ -96,22 +96,30 @@ export const useConnectorDataHandler = (): {
   } = useCommonDataHandler()
 
   const { tl } = useI18nTl('RuleEngine')
-  const handleGCPBridgeData = (bridgeData: any) => {
-    if (bridgeData.service_account_json && typeof bridgeData.service_account_json === 'string') {
+  const handleGCPData = (data: any) => {
+    if (data.service_account_json && typeof data.service_account_json === 'string') {
       try {
-        bridgeData.service_account_json = JSON.parse(bridgeData.service_account_json)
-        return bridgeData
+        data.service_account_json = JSON.parse(data.service_account_json)
+        return data
       } catch (error) {
         ElMessage.error(tl('accountJSONError'))
         return Promise.reject()
       }
     }
-    return bridgeData
+    return data
+  }
+
+  const handleIoTDBData = (data: any) => {
+    if (/thrift/i.test(data?.driver)) {
+      Reflect.deleteProperty(data, 'ssl')
+    }
+    return data
   }
 
   const specialDataHandlerBeforeSubmit = new Map([
-    [BridgeType.GCPProducer, handleGCPBridgeData],
-    [BridgeType.GCPConsumer, handleGCPBridgeData],
+    [BridgeType.GCPProducer, handleGCPData],
+    [BridgeType.GCPConsumer, handleGCPData],
+    [BridgeType.IoTDB, handleIoTDBData],
   ])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
@@ -122,7 +130,7 @@ export const useConnectorDataHandler = (): {
       if (handler) {
         ret = await handler(ret)
       }
-      ret = handleDataBeforeSubmit(data)
+      ret = handleDataBeforeSubmit(ret)
       return Promise.resolve(omit(ret, connectorKeysDoNotNeedForAPI) as Connector)
     } catch (error) {
       console.error(error)
