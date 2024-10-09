@@ -849,6 +849,9 @@ export const PulsarGetBridgeV2Type = {
   pulsar: 'pulsar',
 } as const
 
+/**
+ * @deprecated
+ */
 export type PulsarActionResourceOptsRequestTtl = 'infinity' | string
 
 export type PulsarActionResourceOptsQueryMode =
@@ -863,6 +866,7 @@ export const PulsarActionResourceOptsQueryMode = {
 export interface PulsarActionResourceOpts {
   health_check_interval?: string
   query_mode?: PulsarActionResourceOptsQueryMode
+  /** @deprecated */
   request_ttl?: PulsarActionResourceOptsRequestTtl
 }
 

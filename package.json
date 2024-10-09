@@ -39,7 +39,6 @@
     "highlight.js": "10.7.3",
     "hocon-parser": "^1.0.1",
     "js-base64": "^3.7.2",
-    "json-bigint": "^1.0.0",
     "json-to-avro": "^1.1.1",
     "lodash": "^4.17.21",
     "marked": "^4.0.9",

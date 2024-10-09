@@ -10,7 +10,12 @@
       <el-col :span="12">
         <el-form-item prop="name">
           <template #label>
-            <FormItemLabel :label="t('Base.name')" :desc="tl('schemaNameTip')" desc-marked />
+            <FormItemLabel
+              :label="t('Base.name')"
+              :desc="tl('externalSchemaNameTip')"
+              popper-class="is-wider"
+              desc-marked
+            />
           </template>
           <el-input v-model="form.name" :disabled="isEdit" />
         </el-form-item>
@@ -33,7 +38,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="Authentication">
+        <el-form-item :label="startCase(t('Auth.authn'))">
           <el-select v-model="authType">
             <el-option :label="t('Base.none')" :value="AuthType.None" />
             <el-option :label="tl('basicAuth')" :value="AuthType.Basic" />
@@ -66,6 +71,7 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import { startCase } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const enum AuthType {

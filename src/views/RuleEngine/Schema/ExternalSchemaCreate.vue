@@ -1,6 +1,9 @@
 <template>
   <div class="external-schema-create" :class="[isInSinglePage ? 'app-wrapper' : '']">
-    <detail-header v-if="isInSinglePage" :item="{ name: title, routeName: 'external-schema' }" />
+    <detail-header
+      v-if="isInSinglePage"
+      :item="{ name: t('components.external-schema-create'), routeName: 'external-schema' }"
+    />
     <el-card class="app-card schema-create-card">
       <ExternalSchemaForm class="schema-create-form" ref="FormCom" v-model="formData" />
       <div class="schema-create-ft">
@@ -54,8 +57,6 @@ const { t } = useI18nTl('RuleEngine')
  */
 const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
-
-const title = t('Base.createTarget', { target: t('components.external-schema') })
 
 const createRawSchemaForm = (): ExternalSchema => ({
   name: '',

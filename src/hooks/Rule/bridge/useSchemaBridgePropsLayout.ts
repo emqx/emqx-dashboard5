@@ -151,7 +151,10 @@ export default (
       getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
       fieldStartIndex,
     ),
-    [BridgeType.MySQL]: createOrderObj(['sql'], fieldStartIndex),
+    [BridgeType.MySQL]: createOrderObj(
+      getPathArrInParameters(['undefined_vars_as_null', 'sql']),
+      fieldStartIndex,
+    ),
     [BridgeType.Redis]: createOrderObj(['command_template'], fieldStartIndex),
     [BridgeType.GCPProducer]: createOrderObj(
       getPathArrInParameters([
@@ -171,11 +174,17 @@ export default (
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
     [BridgeType.ClickHouse]: createOrderObj(
-      getPathArrInParameters(['batch_value_separator', 'sql']),
+      getPathArrInParameters(['batch_value_separator', 'undefined_vars_as_null', 'sql']),
       fieldStartIndex,
     ),
     [BridgeType.DynamoDB]: createOrderObj(
-      getPathArrInParameters(['table', 'hash_key', 'range_key', 'template']),
+      getPathArrInParameters([
+        'table',
+        'hash_key',
+        'range_key',
+        'undefined_vars_as_null',
+        'template',
+      ]),
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
@@ -249,7 +258,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.TDengine]: createOrderObj(
-      getPathArrInParameters(['database', 'sql']),
+      getPathArrInParameters(['database', 'undefined_vars_as_null', 'sql']),
       fieldStartIndex,
     ),
     [BridgeType.S3]: createOrderObj(
@@ -319,6 +328,10 @@ export default (
         'parameters.proxy',
         ...pulsarAdvancedProps,
       ],
+      fieldStartIndex,
+    ),
+    [BridgeType.MicrosoftSQLServer]: createOrderObj(
+      getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
     ),
   }

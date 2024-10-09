@@ -97,11 +97,11 @@ export default {
   },
   'internal-schema': {
     zh: '内部 Schema',
-    en: 'Internal Schema',
+    en: 'Internal',
   },
   'external-schema': {
     zh: '外部 Schema',
-    en: 'External Schema',
+    en: 'External',
   },
   'message-transform': {
     zh: '消息转换',

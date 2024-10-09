@@ -50,7 +50,7 @@
             <Monaco
               v-model="schemaForm.source"
               :id="createRandomString()"
-              :lang="selectedJSON ? 'json' : 'plaintext'"
+              :lang="isJSONFormat ? 'json' : 'plaintext'"
               :custom-monaco-handler="disableCompletionItems"
               @blur="onBlurChanged"
             />
@@ -183,9 +183,11 @@ const onBlurChanged = () => {
   }
 }
 
-const selectedJSON = computed(() => {
-  return schemaForm.value.type === SchemaRegistryType.JSON
-})
+const selectedJSON = computed(() => schemaForm.value.type === SchemaRegistryType.JSON)
+
+const isJSONFormat = computed(
+  () => selectedJSON.value || schemaForm.value.type === SchemaRegistryType.Avro,
+)
 
 const showJSONSchemaDialog = ref(false)
 const openJSONSchemaDialog = () => {

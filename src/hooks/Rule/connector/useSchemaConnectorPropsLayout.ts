@@ -1,5 +1,5 @@
 import { BridgeType } from '@/types/enum'
-import { omit } from 'lodash'
+import { isFunction, omit } from 'lodash'
 import type { ComputedRef, WritableComputedRef } from 'vue'
 import { computed } from 'vue'
 import useSyncConfiguration from '../bridge/useSyncConfiguration'
@@ -34,7 +34,7 @@ type PropsType = Readonly<{
  */
 export default (
   props: PropsType,
-  bridgeRecord: WritableComputedRef<Record<string, any>>,
+  recordData: WritableComputedRef<Record<string, any>>,
 ): {
   propsOrderMap: ComputedRef<Record<string, number>>
   customColClass: ComputedRef<Record<string, string>>
@@ -71,7 +71,7 @@ export default (
     'socket_opts.nodelay',
   ]
 
-  const IoTDBAdvancedProps = ['enable_pipelining']
+  const IoTDBAdvancedProps = ['recv_timeout', 'enable_pipelining']
 
   const S3AdvancedProps = [
     'transport_options.headers',
@@ -109,6 +109,7 @@ export default (
       'iotdb_version',
       'zoneId',
       'ssl',
+      'recv_timeout',
       'enable_pipelining',
     ],
     fieldStartIndex,
@@ -289,13 +290,23 @@ export default (
     return ret
   })
   const GCPColClass = { service_account_json: 'custom-col-24' }
-  const typeColClassMap: Record<string, Record<string, string>> = {
+  const getIoTDBColClass = (formData: Record<string, any>): Record<string, string> => {
+    if (/thrift/i.test(formData?.driver)) {
+      return { ssl: 'col-hidden' }
+    }
+    return {}
+  }
+  const typeColClassMap: Record<
+    string,
+    Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
+  > = {
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
+    [BridgeType.IoTDB]: getIoTDBColClass,
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
@@ -322,9 +333,12 @@ export default (
     return [...commonAdvancedFields, ...externalFields]
   })
 
-  const { syncEtcFieldsClassMap } = useSyncConfiguration(bridgeRecord)
+  const { syncEtcFieldsClassMap } = useSyncConfiguration(recordData)
   const customColClass = computed(() => {
-    const externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    let externalClass = props.type ? typeColClassMap[props.type] || {} : {}
+    if (isFunction(externalClass)) {
+      externalClass = externalClass(recordData.value)
+    }
     return {
       ...syncEtcFieldsClassMap.value,
       name: `dividing-line-below`,
