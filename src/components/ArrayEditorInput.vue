@@ -3,7 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, PropType, defineEmits } from 'vue'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 
 const SEPARATOR = ','
 

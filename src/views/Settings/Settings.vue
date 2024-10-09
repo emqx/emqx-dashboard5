@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import type { WritableComputedRef } from 'vue'
-import { computed, defineComponent, defineEmits, defineProps, reactive, ref } from 'vue'
+import { computed, defineComponent, reactive, ref } from 'vue'
 
 export default defineComponent({
   name: 'Settings',

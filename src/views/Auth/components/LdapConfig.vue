@@ -148,7 +148,8 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useLdapConfigFrom from '@/hooks/Auth/useLdapConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { LDAPAuthMethod } from '@/types/enum'
-import { defineEmits, defineExpose, defineProps, PropType, ref, watch } from 'vue'
+import type { PropType } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {

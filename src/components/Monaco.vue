@@ -14,7 +14,7 @@ export default defineComponent({
 import * as monaco from 'monaco-editor'
 import { conf as sqlConf, language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
 import { debounce } from 'lodash'
-import { defineProps, defineEmits, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
+import { onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useStore } from 'vuex'
 import EditorDark from '@/assets/theme/editor-dark.json'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'

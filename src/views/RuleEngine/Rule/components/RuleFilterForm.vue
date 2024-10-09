@@ -138,7 +138,7 @@ import { FilterParamsForQueryRules } from '@/types/rule'
 import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import type { Ref } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   initialValue: {

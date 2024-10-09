@@ -17,14 +17,15 @@
     <MiniPagination
       v-else-if="meta.count === -1"
       :current-page="meta.page"
-      :hasnext="(meta.hasnext as boolean)"
+      :hasnext="!!meta.hasnext"
       @current-change="handleCurrentChanged"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, watch, PropType, defineProps, defineEmits } from 'vue'
+import { computed, watch } from 'vue'
+import type { PropType } from 'vue'
 import MiniPagination from './MiniPagination.vue'
 import { PageData } from '@/types/common'
 

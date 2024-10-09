@@ -28,7 +28,7 @@
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { computed, defineEmits, defineProps } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   modelValue: BridgeType

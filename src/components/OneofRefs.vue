@@ -41,7 +41,7 @@
           </template>
           <SchemaFormItem
             v-model="(fieldValue as any)[$key]"
-            :type="(item.type as any)"
+            :type="(item as any).type"
             :symbols="item.symbols"
             :format="item.format"
             :customProps="item.componentProps"
@@ -59,7 +59,7 @@ import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual, isFunction, snakeCase } from 'lodash'
 import type { PropType } from 'vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'
