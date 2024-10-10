@@ -12,11 +12,11 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.12
-        version: 0.0.23
+        specifier: ~0.0.25
+        version: 0.0.27
       '@emqx/shared-ui-utils':
-        specifier: ^0.0.11
-        version: 0.0.11
+        specifier: ^0.0.14
+        version: 0.0.14(vue@3.5.4(typescript@5.5.4))
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@10.7.3)(vue@3.5.4(typescript@5.5.4))
@@ -53,9 +53,6 @@ importers:
       js-base64:
         specifier: ^3.7.2
         version: 3.7.7
-      json-bigint:
-        specifier: ^1.0.0
-        version: 1.0.0
       json-to-avro:
         specifier: ^1.1.1
         version: 1.1.1
@@ -331,11 +328,11 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emqx/shared-ui-i18n@0.0.23':
-    resolution: {integrity: sha512-2mX9+GS+mTr0gBwoyV30qfpGjIBNQ01r0FZ6O5XUhcmM8yllYQHFQ3LWBeYbquF+bTUOIM/1FDOP15XxYt6VOA==}
+  '@emqx/shared-ui-i18n@0.0.27':
+    resolution: {integrity: sha512-Du99X1s3M7exMS+h010Ck0z4o1zMjAw1Y1ssYUWpAVK1cc0f1cP5tzzg3B4SseCs9M8LjQkIWOsR+1rpXHPtjA==}
 
-  '@emqx/shared-ui-utils@0.0.11':
-    resolution: {integrity: sha512-/TH3KMqs+7FK1IuDlUPXPaKGZMrT6Zhu/CtOJMREiBo28dsdSVkVClOh3OSWtb315XTLo+Xglpq7h5DI1L2GGw==}
+  '@emqx/shared-ui-utils@0.0.14':
+    resolution: {integrity: sha512-65TsDNoEyb6obdupU4zuFSxjTa7hXxS8n+BdJ5CvpBuZCPne4zMNV3djuSEVS3LqlwV8RrIzKzN7QZar1G+0bQ==}
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -2592,6 +2589,9 @@ packages:
   pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
 
+  papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
+
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -3504,9 +3504,15 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-i18n@0.0.23': {}
+  '@emqx/shared-ui-i18n@0.0.27': {}
 
-  '@emqx/shared-ui-utils@0.0.11': {}
+  '@emqx/shared-ui-utils@0.0.14(vue@3.5.4(typescript@5.5.4))':
+    dependencies:
+      json-bigint: 1.0.0
+      papaparse: 5.4.1
+      vue-i18n: 9.14.0(vue@3.5.4(typescript@5.5.4))
+    transitivePeerDependencies:
+      - vue
 
   '@esbuild/aix-ppc64@0.19.12':
     optional: true
@@ -6090,6 +6096,8 @@ snapshots:
   package-json-from-dist@1.0.0: {}
 
   pako@1.0.11: {}
+
+  papaparse@5.4.1: {}
 
   parent-module@1.0.1:
     dependencies:
