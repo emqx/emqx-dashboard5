@@ -39,9 +39,10 @@ export function updateLicenseConfig(body: LicenseConfig) {
 
 //metrics
 export function loadMetrics(
-  queryClusterData: boolean,
+  node?: string,
 ): Promise<NodeStatisticalData | Array<NodeStatisticalData>> {
-  return http.get('/metrics', { params: { aggregate: queryClusterData } })
+  const aggregate = !node ? 'true' : 'false'
+  return http.get('/metrics', { params: { aggregate, node } })
 }
 
 export function loadCurrentMetrics(): Promise<Record<string, number>> {

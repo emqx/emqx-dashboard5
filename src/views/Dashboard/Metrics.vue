@@ -5,7 +5,12 @@
         <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
       <div class="header-item">
-        <el-select class="node-select" v-model="currentNode" :placeholder="$t('Clients.node')">
+        <el-select
+          class="node-select"
+          v-model="currentNode"
+          :placeholder="$t('Clients.node')"
+          @change="loadMetricsData"
+        >
           <el-option :label="$t('BasicConfig.cluster')" :value="CLUSTER_VALUE" />
           <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
         </el-select>
@@ -151,13 +156,13 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import type { ComputedRef, Ref } from 'vue'
-import { computed, onMounted, ref } from 'vue'
-import { loadMetrics } from '@/api/common'
+import { loadMetrics, loadNodes } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
 import { RefreshRight } from '@element-plus/icons-vue'
 import { snakeCase } from 'lodash'
+import type { Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 interface MetricItem {
   [propName: string]: string | number
@@ -169,44 +174,33 @@ const currentNode: Ref<string> = ref(CLUSTER_VALUE)
 
 const isDataLoading: Ref<boolean> = ref(true)
 
-const clusterMetrics: Ref<NodeStatisticalData> = ref({} as NodeStatisticalData)
-const nodeMetricsData: Ref<Array<NodeStatisticalData>> = ref([])
-
-const currentMetrics: ComputedRef<NodeStatisticalData> = computed(() => {
-  if (currentNode.value !== CLUSTER_VALUE) {
-    const nodeData = nodeMetricsData.value.find((item) => item.node === currentNode.value)
-    return nodeData ? nodeData : ({} as NodeStatisticalData)
-  } else {
-    return clusterMetrics.value
-  }
-})
+const currentMetrics = ref<NodeStatisticalData>({} as NodeStatisticalData)
 
 const { tl } = useI18nTl('Dashboard')
 
-const loadClusterMetricsData = async () => {
-  try {
-    clusterMetrics.value = (await loadMetrics(true)) as NodeStatisticalData
-  } catch (error) {
-    // ignore error
-  }
-}
-
-const loadNodeMetricsData = async () => {
-  try {
-    nodeMetricsData.value = (await loadMetrics(false)) as Array<NodeStatisticalData>
-    nodeOpts.value = nodeMetricsData.value.map(({ node }) => node)
-  } catch (error) {
-    // ignore error
-  }
-}
-
 const loadMetricsData = async () => {
   try {
-    await Promise.all([loadClusterMetricsData(), loadNodeMetricsData()])
+    isDataLoading.value = true
+    const node = currentNode.value === CLUSTER_VALUE ? undefined : currentNode.value
+    const data = await loadMetrics(node)
+    if (Array.isArray(data) && data.length === 1) {
+      currentMetrics.value = data[0]
+    } else if (!Array.isArray(data)) {
+      currentMetrics.value = data
+    }
   } catch (error) {
     //
   } finally {
     isDataLoading.value = false
+  }
+}
+
+const loadNodeOpts = async () => {
+  try {
+    const nodes = await loadNodes()
+    nodeOpts.value = nodes.map(({ node }) => node)
+  } catch (error) {
+    //
   }
 }
 
@@ -239,6 +233,7 @@ const handleSearch = () => {
 }
 
 onMounted(() => {
+  loadNodeOpts()
   loadMetricsData()
 })
 </script>
