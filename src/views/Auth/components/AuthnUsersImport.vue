@@ -17,6 +17,7 @@
       modal-class="authn-import-dialog"
       destroy-on-close
       append-to-body
+      width="700px"
       :close-on-click-modal="false"
     >
       <el-steps direction="vertical">

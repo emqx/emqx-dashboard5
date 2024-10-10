@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" class="payload-dialog" :title="t('Extension.view')">
+  <el-dialog v-model="showDialog" class="payload-dialog" width="700px" :title="t('Extension.view')">
     <el-row v-loading="isLoading">
       <el-col :span="24" v-if="topic">
         <el-row>
