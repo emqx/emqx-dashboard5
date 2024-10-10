@@ -2172,6 +2172,18 @@
     }
   },
   {
+    "method": "get",
+    "path": "/sso/oidc/callback",
+    "operation_label": {
+      "en": "Dashboard Single Sign-On",
+      "zh": "Dashboard 单点登录"
+    },
+    "operation_name_label": {
+      "en": "OIDC authorization server callback request",
+      "zh": "OIDC 授权服务器回调请求"
+    }
+  },
+  {
     "method": "post",
     "path": "/api_key",
     "operation_label": {
