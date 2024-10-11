@@ -22,7 +22,7 @@
         @click="updateGatewayInfo()"
         :disabled="basicData.status === 'unloaded'"
       >
-        {{ t('Base.update') }}
+        {{ $t('Base.update') }}
       </el-button>
     </div>
   </el-card>
