@@ -50,10 +50,10 @@
       </el-row>
       <el-row class="config-op">
         <el-button v-if="stepActive === 0" @click="gotoList">
-          {{ $t('Base.cancel') }}
+          {{ t('Base.cancel') }}
         </el-button>
         <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
-          {{ $t('Base.backStep') }}
+          {{ t('Base.backStep') }}
         </el-button>
         <el-button
           type="primary"
@@ -61,7 +61,7 @@
           v-if="stepActive < 2"
           :disabled="submitLoading"
         >
-          {{ $t('Base.nextStep') }}
+          {{ t('Base.nextStep') }}
         </el-button>
         <el-button
           type="primary"
@@ -69,31 +69,42 @@
           :loading="submitLoading"
           @click="createGateway()"
         >
-          {{ $t('Base.enable') }}
+          {{ t('Base.enable') }}
         </el-button>
       </el-row>
     </el-card>
   </div>
 </template>
 
-<script>
-import { defineComponent, onMounted, ref } from 'vue'
+<script lang="ts" setup>
+import { getGateway, updateGateway } from '@/api/gateway'
+import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
+import useTransName from '@/hooks/useTransName'
+import router from '@/router'
+import { GatewayName } from '@/types/enum'
+import { ElMessage as M } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import CoapBasic from './components/coapBasic.vue'
+import ExprotoBasic from './components/exprotoBasic.vue'
 import Listeners from './components/listeners.vue'
 import LwBasic from './components/lwm2mBasic.vue'
 import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
-import ExprotoBasic from './components/exprotoBasic.vue'
-import { updateGateway, getGateway } from '@/api/gateway'
-import router from '@/router'
-import { ElMessage as M } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
-import { GatewayName } from '@/types/enum'
-import useTransName from '@/hooks/useTransName'
 
-const STATIC_LISTENER = {
+type GatewayData = Record<string, any>
+
+type GatewayListener = {
+  type: string
+  name: string
+  bind: string
+  acceptors?: number
+  max_conn_rate: number
+  max_connections: number
+}
+
+const STATIC_LISTENER: Record<string, GatewayListener> = {
   exproto: {
     type: 'tcp',
     name: 'default',
@@ -133,115 +144,86 @@ const STATIC_LISTENER = {
   },
 }
 
-export default defineComponent({
-  components: {
-    stompBasic,
-    Listeners,
-    MqttsnBasic,
-    LwBasic,
-    CoapBasic,
-    ExprotoBasic,
-  },
-  name: 'GatewayCreate',
+const stepActive = ref(0)
+const basicData = ref<GatewayData>({})
+const listenerList = ref<Array<GatewayListener>>([])
+const submitLoading = ref(false)
 
-  setup() {
-    let stepActive = ref(0)
-    let basicData = ref({})
-    let listenerList = ref([])
-    let submitLoading = ref(false)
+const { t } = useI18n()
+const route = useRoute()
+const gname = String(route.params.name).toLowerCase()
+const name = computed(() => gname)
+const { transGatewayName } = useTransName()
 
-    const { t } = useI18n()
-    const route = useRoute()
-    const gname = String(route.params.name).toLowerCase()
-    const { transGatewayName } = useTransName()
+const gotoList = () => router.push({ name: 'gateway' })
 
-    const gotoList = function () {
-      router.push({ name: 'gateway' })
+const { handleExprotoData } = useHandleExprotoData()
+const createGateway = async () => {
+  let data: Record<string, any> = {
+    ...basicData.value,
+    listeners: [...listenerList.value],
+    name: gname,
+  }
+  if (gname === GatewayName.ExProto) {
+    data = handleExprotoData(data)
+  }
+  try {
+    submitLoading.value = true
+    await updateGateway(gname, data)
+    M.success(t('Base.createSuccess'))
+    gotoList()
+  } catch (error) {
+    //
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const gatewayStatus = async () => {
+  if (!gname) {
+    gotoList()
+  }
+
+  try {
+    const { status } = await getGateway(gname)
+    if (status !== 'unloaded') {
+      M.error(t('Gateway.alreadyLoad'))
+      gotoList()
     }
+  } catch (error) {
+    //
+  }
+}
 
-    const { handleExprotoData } = useHandleExprotoData()
-    const createGateway = async () => {
-      let data = {
-        ...basicData.value,
-        listeners: [...listenerList.value],
-        name: gname,
-      }
-      if (gname === GatewayName.ExProto) {
-        data = handleExprotoData(data)
-      }
-      try {
-        submitLoading.value = true
-        await updateGateway(gname, data)
-        M.success(t('Base.createSuccess'))
-        gotoList()
-      } catch (error) {
-        //
-      } finally {
-        submitLoading.value = false
-      }
+const validNext = () => {
+  //  Check SSL Cert & Key for ExProto
+  if (gname === 'exproto' && stepActive.value === 0 && basicData.value.server.ssl_options.enable) {
+    const { certfile, keyfile } = basicData.value.server.ssl_options
+    if (!certfile || !keyfile) {
+      M.warning(t('Gateway.missinggRPCTLSFile'))
+      return false
     }
+  }
+  return true
+}
 
-    const gatewayStatus = async () => {
-      if (!gname) {
-        gotoList()
-      }
+const handleNextStep = () => {
+  const valid = validNext()
+  if (!valid) {
+    return
+  }
+  stepActive.value += 1
+}
 
-      try {
-        let { status } = await getGateway(gname)
-        if (status !== 'unloaded') {
-          M.error(t('Gateway.alreadyLoad'))
-          gotoList()
-        }
-      } catch (error) {
-        //
-      }
-    }
-
-    const validNext = () => {
-      //  Check SSL Cert & Key for ExProto
-      if (
-        gname === 'exproto' &&
-        stepActive.value === 0 &&
-        basicData.value.server.ssl_options.enable
-      ) {
-        const { certfile, keyfile } = basicData.value.server.ssl_options
-        if (!certfile || !keyfile) {
-          M.warning(t('Gateway.missinggRPCTLSFile'))
-          return false
-        }
-      }
-      return true
-    }
-
-    const handleNextStep = () => {
-      const valid = validNext()
-      if (!valid) {
-        return
-      }
-      stepActive.value += 1
-    }
-
-    onMounted(() => {
-      gatewayStatus()
-
-      let staticListener = STATIC_LISTENER[gname]
-      staticListener && listenerList.value.push({ ...staticListener })
-    })
-
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      stepActive,
-      basicData,
-      gotoList,
-      listenerList,
-      submitLoading,
-      createGateway,
-      name: gname,
-      handleNextStep,
-      transGatewayName,
-    }
-  },
+onMounted(() => {
+  gatewayStatus()
+  if (gname in STATIC_LISTENER) {
+    const staticListener = STATIC_LISTENER[gname]
+    staticListener && listenerList.value.push({ ...staticListener })
+  }
 })
+
+const tl = (key: string, collection = 'Gateway') => t(collection + '.' + key)
 </script>
 
 <style lang="scss" scoped>
