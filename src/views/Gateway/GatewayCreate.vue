@@ -1,9 +1,7 @@
 <template>
-  <div class="app-wrapper with-padding-top gateway-create">
+  <div class="app-wrapper gateway-create">
+    <DetailHeader :item="{ name: pageTitle, routeName: 'gateway' }" />
     <el-card>
-      <div class="section-header">
-        {{ `${tl('initial')} ${transGatewayName(name)}` }}
-      </div>
       <el-row>
         <el-col :span="16">
           <el-steps :active="stepActive" finish-status="success">
@@ -78,6 +76,7 @@
 
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
+import DetailHeader from '@/components/DetailHeader.vue'
 import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
 import useTransName from '@/hooks/useTransName'
 import router from '@/router'
@@ -154,6 +153,8 @@ const route = useRoute()
 const gname = String(route.params.name).toLowerCase()
 const name = computed(() => gname)
 const { transGatewayName } = useTransName()
+
+const pageTitle = computed(() => `${tl('initial')} ${transGatewayName(name.value as GatewayName)}`)
 
 const gotoList = () => router.push({ name: 'gateway' })
 
