@@ -22,105 +22,86 @@
         @click="updateGatewayInfo()"
         :disabled="basicData.status === 'unloaded'"
       >
-        {{ $t('Base.update') }}
+        {{ t('Base.update') }}
       </el-button>
     </div>
   </el-card>
 </template>
 
-<script>
-import { defineComponent, onMounted, ref } from 'vue'
-import CoapBasic from './coapBasic.vue'
-import Lwm2mBasic from './lwm2mBasic.vue'
-import MqttsnBasic from './mqttsnBasic.vue'
-import stompBasic from './stompBasic.vue'
-import ExprotoBasic from './exprotoBasic.vue'
-import { updateGateway, getGateway } from '@/api/gateway'
+<script lang="ts" setup>
+import { getGateway, updateGateway } from '@/api/gateway'
+import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
+import { GatewayName } from '@/types/enum'
+import { ElMessage } from 'element-plus'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData.ts'
-import { GatewayName } from '@/types/enum'
+import CoapBasic from './coapBasic.vue'
+import ExprotoBasic from './exprotoBasic.vue'
+import Lwm2mBasic from './lwm2mBasic.vue'
+import MqttsnBasic from './mqttsnBasic.vue'
+import StompBasic from './stompBasic.vue'
 
-export default defineComponent({
-  components: { stompBasic, MqttsnBasic, Lwm2mBasic, CoapBasic, ExprotoBasic },
-  name: 'GatewayDetailBasic',
+const basicData = ref<Record<string, any>>({})
+const infoLoading = ref(false)
+const updateLoading = ref(false)
+const { t } = useI18n()
+const iKey = ref(0)
+const route = useRoute()
+const name = String(route.params.name).toLowerCase()
 
-  setup() {
-    let basicData = ref({})
-    let infoLoading = ref(false)
-    let updateLoading = ref(false)
-    const { t } = useI18n()
-    let iKey = ref(0)
-    const route = useRoute()
-    const name = String(route.params.name).toLowerCase()
+const loadGatewayInfo = async () => {
+  infoLoading.value = true
+  if (!name) return
+  try {
+    basicData.value = await getGateway(name)
+    ++iKey.value
+  } catch (error) {
+    //
+  } finally {
+    infoLoading.value = false
+  }
+}
 
-    const loadGatewayInfo = async () => {
-      infoLoading.value = true
-      if (!name) return
-      try {
-        basicData.value = await getGateway(name)
-        ++iKey.value
-      } catch (error) {
-        //
-      } finally {
-        infoLoading.value = false
-      }
+const { handleExprotoData } = useHandleExprotoData()
+const updateGatewayInfo = async () => {
+  updateLoading.value = true
+  infoLoading.value = true
+  const removedFields = [
+    'listeners',
+    'created_at',
+    'started_at',
+    'status',
+    'name',
+    'authentication',
+  ]
+  removedFields.forEach((field) => {
+    delete basicData.value[field]
+  })
+  try {
+    let dataToSubmit = basicData.value
+    if (name === GatewayName.ExProto) {
+      dataToSubmit = handleExprotoData(dataToSubmit)
     }
-
-    const { handleExprotoData } = useHandleExprotoData()
-    const updateGatewayInfo = async function () {
-      updateLoading.value = true
-      infoLoading.value = true
-      const removedFields = [
-        'listeners',
-        'created_at',
-        'started_at',
-        'status',
-        'name',
-        'authentication',
-      ]
-      removedFields.forEach((field) => {
-        delete basicData.value[field]
-      })
-      try {
-        let dataToSubmit = basicData.value
-        if (name === GatewayName.ExProto) {
-          dataToSubmit = handleExprotoData(dataToSubmit)
-        }
-        const needDeleteFields = ['stopped_at']
-        needDeleteFields.forEach((field) => {
-          if (dataToSubmit[field]) {
-            delete dataToSubmit[field]
-          }
-        })
-        await updateGateway(name, dataToSubmit)
-        this.$message({
-          type: 'success',
-          message: t('Base.updateSuccess'),
-        })
-        loadGatewayInfo()
-      } catch (error) {
-        //
-      } finally {
-        updateLoading.value = false
-        infoLoading.value = false
+    const needDeleteFields = ['stopped_at']
+    needDeleteFields.forEach((field) => {
+      if (dataToSubmit[field]) {
+        delete dataToSubmit[field]
       }
-    }
-
-    onMounted(() => {
-      loadGatewayInfo()
     })
+    await updateGateway(name, dataToSubmit)
+    ElMessage.success(t('Base.updateSuccess'))
+    loadGatewayInfo()
+  } catch (error) {
+    //
+  } finally {
+    updateLoading.value = false
+    infoLoading.value = false
+  }
+}
 
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      basicData,
-      updateLoading,
-      infoLoading,
-      updateGatewayInfo,
-      iKey,
-      name,
-    }
-  },
+onMounted(() => {
+  loadGatewayInfo()
 })
 </script>
 
