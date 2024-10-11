@@ -44,7 +44,11 @@
       <div class="part-header">
         {{ tl('predefinedTopic') }}
       </div>
-      <topic-edit-list v-model:list="mValue.predefined" v-model:passed="formPassed" />
+      <topic-edit-list
+        class="topic-list"
+        v-model:list="mValue.predefined"
+        v-model:passed="formPassed"
+      />
 
       <el-row :gutter="30">
         <el-col :span="12">
@@ -76,7 +80,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let mValueDefault = {
+    const mValueDefault = {
       idle_timeout: '30s',
       gateway_id: 1,
       broadcast: true,
@@ -115,5 +119,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .part-header {
   margin-bottom: 20px;
+}
+.topic-list {
+  margin-bottom: 24px;
 }
 </style>
