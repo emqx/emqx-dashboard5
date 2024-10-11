@@ -31,26 +31,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'GatewayDetailAuth',
-}
-</script>
-
-<script setup>
-import { computed, ref } from 'vue'
-import { getGatewayAuth, updateGatewayAuth, deleteGatewayAuth, addGatewayAuth } from '@/api/gateway'
-import AuthnCreate from '../../Auth/AuthnCreate.vue'
-import AuthnDetails from '../../Auth/AuthnDetails.vue'
-import { ElMessage as M } from 'element-plus'
-import { useRoute } from 'vue-router'
-import { Plus } from '@element-plus/icons-vue'
-import { cloneDeep, omit } from 'lodash'
+<script setup lang="ts">
+import { addGatewayAuth, deleteGatewayAuth, getGatewayAuth, updateGatewayAuth } from '@/api/gateway'
 import { GATEWAY_DISABLED_DATABASES_MAP, GATEWAY_DISABLED_MECHANISM_MAP } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
-import { GatewayName, AuthnMechanismType } from '@/types/enum.ts'
+import { AuthnMechanismType, GatewayName } from '@/types/enum'
+import { Plus } from '@element-plus/icons-vue'
+import { ElMessage as M } from 'element-plus'
+import { cloneDeep, omit } from 'lodash'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import AuthnCreate from '../../Auth/AuthnCreate.vue'
+import AuthnDetails from '../../Auth/AuthnDetails.vue'
 
-const presetAuthnDataMap = {
+type AuthData = Record<string, any>
+
+const presetAuthnDataMap: Record<string, any> = {
   [GatewayName.MQTT_SN]: [
     {
       mechanism: AuthnMechanismType.PasswordBased,
@@ -67,28 +63,28 @@ const presetAuthnDataMap = {
   ],
 }
 
-let createDialog = ref(false)
-let hasAuth = ref(false)
-let loadingAuth = ref(true)
+const createDialog = ref(false)
+const hasAuth = ref(false)
+const loadingAuth = ref(true)
 const { t, tl } = useI18nTl('Gateway')
 const route = useRoute()
-const gname = String(route.params.name).toLowerCase()
+const gname: GatewayName = String(route.params.name).toLowerCase() as GatewayName
 
-const disabledMechanism = computed(() => GATEWAY_DISABLED_MECHANISM_MAP[gname])
-const disabledDatabases = computed(() => GATEWAY_DISABLED_DATABASES_MAP[gname])
+const disabledMechanism = computed(() => GATEWAY_DISABLED_MECHANISM_MAP[gname] || [])
+const disabledDatabases = computed(() => GATEWAY_DISABLED_DATABASES_MAP[gname] || [])
 
 const presetAuthnData = computed(() => {
   return presetAuthnDataMap[gname] || undefined
 })
 
-const openAuthCreate = async function () {
+const openAuthCreate = async () => {
   createDialog.value = true
 }
 
-const getAuthInfo = async function () {
+const getAuthInfo = async () => {
   try {
     loadingAuth.value = true
-    let res = await getGatewayAuth(gname)
+    const res = await getGatewayAuth(gname)
     if (res === 204) {
       hasAuth.value = false
     } else if (res) {
@@ -101,11 +97,11 @@ const getAuthInfo = async function () {
   }
 }
 
-const cancelCreate = function () {
+const cancelCreate = () => {
   createDialog.value = false
 }
 
-const authCreate = async function (data) {
+const authCreate = async (data: AuthData) => {
   try {
     const gData = {
       ...data.data,
@@ -120,7 +116,7 @@ const authCreate = async function (data) {
   }
 }
 
-const authUpdate = async function (data) {
+const authUpdate = async (data: AuthData) => {
   try {
     await updateGatewayAuth(gname, omit(cloneDeep(data), ['id', 'chain_name']))
     M.success(t('Base.updateSuccess'))
@@ -130,7 +126,7 @@ const authUpdate = async function (data) {
   }
 }
 
-const authDelete = async function () {
+const authDelete = async () => {
   try {
     await deleteGatewayAuth(gname)
     hasAuth.value = false
