@@ -1,6 +1,6 @@
 <template>
   <div class="code-view">
-    <hljsVuePlugin :code="code" :language="lang" :autodetect="false" />
+    <component :is="hljsVuePlugin.component" :code="code" :language="lang" :autodetect="false" />
     <el-tooltip v-if="showCopyBtn" effect="dark" placement="top" :content="tl('copy')">
       <el-icon class="icon-copy" @click="copyText(code)">
         <copy-document />
@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import hljs from 'highlight.js/lib/core'
 import json from 'highlight.js/lib/languages/json'
 import sql from '@/common/highlight/sql'
@@ -27,39 +27,14 @@ hljs.registerLanguage('sql', sql)
 hljs.registerLanguage('bash', bash)
 hljs.registerLanguage('yaml', yaml)
 
-export default {
-  name: 'CodeView',
+defineProps<{
+  code: string
+  lang: string
+  showCopyBtn?: boolean
+}>()
 
-  components: {
-    hljsVuePlugin: hljsVuePlugin.component,
-    CopyDocument,
-  },
-
-  props: {
-    code: {
-      type: String,
-      default: '',
-    },
-    lang: {
-      type: String,
-      default: 'json',
-    },
-    showCopyBtn: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  setup() {
-    const { tl } = useI18nTl('Base')
-    const { copyText } = useCopy()
-
-    return {
-      tl,
-      copyText,
-    }
-  },
-}
+const { tl } = useI18nTl('Base')
+const { copyText } = useCopy()
 </script>
 
 <style lang="scss">
