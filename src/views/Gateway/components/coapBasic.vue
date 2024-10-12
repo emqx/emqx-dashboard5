@@ -64,13 +64,14 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import _ from 'lodash'
 import { onMounted, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { CoapGatewayConfig } from '@/types/typeAlias'
 
 const props = defineProps<{
-  value?: Record<string, any>
+  value?: CoapGatewayConfig
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:value', value: Record<string, any>): void
+  (e: 'update:value', value: CoapGatewayConfig): void
 }>()
 
 const createDefault = () => ({

@@ -81,6 +81,7 @@ import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
 import useTransName from '@/hooks/useTransName'
 import router from '@/router'
 import { GatewayName } from '@/types/enum'
+import { GatewayListener } from '@/types/typeAlias'
 import { ElMessage as M } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -92,16 +93,7 @@ import LwBasic from './components/lwm2mBasic.vue'
 import MqttsnBasic from './components/mqttsnBasic.vue'
 import stompBasic from './components/stompBasic.vue'
 
-type GatewayData = Record<string, any>
-
-type GatewayListener = {
-  type: string
-  name: string
-  bind: string
-  acceptors?: number
-  max_conn_rate: number
-  max_connections: number
-}
+type GatewayData = any
 
 const STATIC_LISTENER: Record<string, GatewayListener> = {
   exproto: {
