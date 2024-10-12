@@ -16,8 +16,8 @@ declare module 'vuex' {
 }
 
 declare module '@/common/highlight/sql'
+declare module '@/common/highlight/bash'
 declare module 'js-sql-parser'
-declare module 'highlight.js/lib/core'
-declare module 'highlight.js/lib/languages/sql'
+declare module 'highlight.js/*'
 declare module 'hocon-parser'
 declare module 'github-markdown-css/*.css'
