@@ -80,7 +80,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const mValueDefault = {
+    const createDefaultValue = () => ({
       idle_timeout: '30s',
       gateway_id: 1,
       broadcast: true,
@@ -88,11 +88,13 @@ export default defineComponent({
       enable_stats: true,
       predefined: [],
       mountpoint: '',
-    }
+    })
+
+    const mValueDefault = createDefaultValue()
 
     const { t } = useI18n()
 
-    const mValue = reactive(_.merge(mValueDefault, props.value))
+    const mValue = reactive(_.merge(createDefaultValue(), props.value))
 
     const formPassed = ref(false)
 
