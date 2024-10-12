@@ -79,12 +79,13 @@ import BooleanSelect from '@/components/BooleanSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { ExprotoGatewayConfig } from '@/types/typeAlias'
 import _ from 'lodash'
 import { defineEmits, defineProps, onMounted, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
-  value?: Record<string, any>
+  value?: ExprotoGatewayConfig
   isEdit?: boolean
 }>()
 
