@@ -129,6 +129,7 @@ import { ChartType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { FullScreen } from '@element-plus/icons-vue'
+import { isNumber } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const POLLING_INTERVAL = 60000
@@ -307,11 +308,15 @@ const openedFullScreen = async () => {
   fullScreenChart.value?.chart?.resize()
 }
 
-const calculateStatistics = (data: number[]) => {
-  const max = Math.max(...data)
-  const min = Math.min(...data)
-  const sum = data.reduce((acc, val) => acc + val, 0)
-  const avg = Math.round(sum / data.length)
+const calculateStatistics = (data: Array<number | null>) => {
+  const validData: Array<number> = data.filter(
+    (item) => isNumber(item) && item !== -1,
+  ) as Array<number>
+  const validDataLength = validData.length
+  const max = Math.max(...validData)
+  const min = Math.min(...validData)
+  const sum = validData.reduce((acc, val) => acc + val, 0)
+  const avg = Math.round(sum / validDataLength)
   const last = data[data.length - 1]
   return { max, min, avg, last }
 }
