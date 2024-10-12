@@ -42,7 +42,7 @@ import Lwm2mBasic from './lwm2mBasic.vue'
 import MqttsnBasic from './mqttsnBasic.vue'
 import StompBasic from './stompBasic.vue'
 
-const basicData = ref<Record<string, any>>({})
+const basicData = ref<any>({})
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const { t } = useI18n()

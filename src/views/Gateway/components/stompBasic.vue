@@ -56,21 +56,13 @@
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { StompGatewayConfig } from '@/types/typeAlias'
 import _ from 'lodash'
 import { onMounted, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
-  value?: {
-    frame?: {
-      max_headers?: number
-      max_headers_length?: number
-      max_body_length?: number
-    }
-    idle_timeout?: string
-    enable_stats?: boolean
-    mountpoint?: string
-  }
+  value?: StompGatewayConfig
 }>()
 
 const emit = defineEmits(['update:value'])
