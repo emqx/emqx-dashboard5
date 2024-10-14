@@ -68,84 +68,68 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, reactive, watch, onMounted } from 'vue'
-import _ from 'lodash'
-import { useI18n } from 'vue-i18n'
+<script lang="ts" setup>
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { ExprotoGatewayConfig } from '@/types/typeAlias'
+import _ from 'lodash'
+import { defineEmits, defineProps, onMounted, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-export default defineComponent({
-  name: 'ExprotoBasic',
-  components: {
-    CommonTLSConfig,
-    TLSEnableConfig,
-    TimeInputWithUnitSelect,
-  },
-  props: {
-    value: {
-      type: Object,
-      required: false,
-      default: () => ({}),
+const props = defineProps<{
+  value?: ExprotoGatewayConfig
+  isEdit?: boolean
+}>()
+
+const emit = defineEmits<{
+  (event: 'update:value', value: Record<string, any>): void
+}>()
+
+const createDefaultValue = () => ({
+  enable_stats: true,
+  idle_timeout: '30s',
+  mountpoint: '',
+  handler: {
+    address: 'http://127.0.0.1:9001',
+    ssl_options: {
+      certfile: '',
+      keyfile: '',
+      cacertfile: '',
+      enable: false,
     },
-    isEdit: {
-      type: Boolean,
-      default: false,
-    },
   },
-  setup(props, context) {
-    let eValueDefault = {
-      enable_stats: true,
-      idle_timeout: '30s',
-      mountpoint: '',
-      handler: {
-        address: 'http://127.0.0.1:9001',
-        ssl_options: {
-          certfile: '',
-          keyfile: '',
-          cacertfile: '',
-          enable: false,
-        },
-      },
-      server: {
-        bind: '0.0.0.0:9100',
-        ssl_options: {
-          certfile: '',
-          keyfile: '',
-          cacertfile: '',
-        },
-      },
-    }
-    const { t } = useI18n()
-
-    let eValue = reactive(_.merge(eValueDefault, props.value))
-
-    watch(
-      () => _.cloneDeep(eValue),
-      (v) => {
-        context.emit('update:value', v)
-      },
-    )
-    onMounted(() => {
-      context.emit('update:value', eValue)
-    })
-
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      eValueDefault,
-      eValue,
-    }
+  server: {
+    bind: '0.0.0.0:9100',
+    ssl_options: {
+      certfile: '',
+      keyfile: '',
+      cacertfile: '',
+    },
   },
 })
+
+const eValueDefault = createDefaultValue()
+
+const { t } = useI18n()
+
+const eValue = reactive(_.merge(createDefaultValue(), props.value || {}))
+
+watch(
+  () => _.cloneDeep(eValue),
+  (v) => {
+    emit('update:value', v)
+  },
+)
+
+onMounted(() => {
+  emit('update:value', eValue)
+})
+
+const tl = (key: string, collection = 'Gateway') => t(collection + '.' + key)
 </script>
 
 <style lang="scss" scoped>
-.sole-chkbox {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
 .tls-config-form {
   margin-top: 20px;
 

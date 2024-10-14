@@ -43,5 +43,3 @@ const selectedValue: WritableComputedRef<boolean | undefined> = computed({
   },
 })
 </script>
-
-<style lang="scss"></style>

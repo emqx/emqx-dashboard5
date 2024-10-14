@@ -4,8 +4,7 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('maxHeader')">
-            <el-input
-              type="number"
+            <CustomInputNumber
               v-model.number="sValue.frame.max_headers"
               :placeholder="String(sValueDefault.frame.max_headers)"
             />
@@ -13,8 +12,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('maxHeaderLen')">
-            <el-input
-              type="number"
+            <CustomInputNumber
               v-model.number="sValue.frame.max_headers_length"
               :placeholder="String(sValueDefault.frame.max_headers_length)"
             />
@@ -33,14 +31,12 @@
           <el-form-item :label="tl('idleTime')">
             <TimeInputWithUnitSelect
               v-model="sValue.idle_timeout"
-              :number-placeholder="parseInt(sValueDefault.qmode_time_window).toString()"
               :enabled-units="['s']"
+              :number-placeholder="parseInt(sValueDefault.idle_timeout).toString()"
             />
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row :gutter="30">
+        <el-col :span="12" />
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
             <el-input v-model="sValue.mountpoint" :placeholder="sValueDefault.mountpoint" />
@@ -56,61 +52,51 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, onMounted, reactive, watch } from 'vue'
-import _ from 'lodash'
-import { useI18n } from 'vue-i18n'
+<script lang="ts" setup>
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { StompGatewayConfig } from '@/types/typeAlias'
+import _ from 'lodash'
+import { onMounted, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-export default defineComponent({
-  name: 'StompBasic',
-  components: {
-    TimeInputWithUnitSelect,
-    CustomInputNumber,
+const props = defineProps<{
+  value?: StompGatewayConfig
+}>()
+
+const emit = defineEmits(['update:value'])
+
+const createDefault = () => ({
+  frame: {
+    max_headers: 10,
+    max_headers_length: 1024,
+    max_body_length: 8192,
   },
-  props: {
-    value: {
-      type: Object,
-      required: false,
-      default: () => ({}),
-    },
-  },
-  emits: ['update:value'],
-  setup(props, context) {
-    const createDefault = () => ({
-      frame: {
-        max_headers: 10,
-        max_headers_length: 1024,
-        max_body_length: 8192,
-      },
-      idle_timeout: '30s',
-      enable_stats: true,
-      mountpoint: '',
-    })
-    let sValueDefault = createDefault()
-
-    const { t } = useI18n()
-
-    const sValue = reactive(_.merge(sValueDefault, props.value))
-
-    watch(
-      () => _.cloneDeep(sValue),
-      (v) => {
-        context.emit('update:value', v)
-      },
-    )
-    onMounted(() => {
-      context.emit('update:value', sValue)
-    })
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      sValue,
-      sValueDefault,
-    }
-  },
+  idle_timeout: '30s',
+  enable_stats: true,
+  mountpoint: '',
 })
+
+const sValueDefault = createDefault()
+
+const { t } = useI18n()
+
+const sValue = reactive(_.merge(createDefault(), props.value))
+
+watch(
+  () => _.cloneDeep(sValue),
+  (v) => {
+    emit('update:value', v)
+  },
+)
+
+onMounted(() => {
+  emit('update:value', sValue)
+})
+
+const tl = (key: string, collection = 'Gateway') => t(collection + '.' + key)
 </script>
+
 <style lang="scss" scoped>
 .part-header {
   margin-bottom: 20px;

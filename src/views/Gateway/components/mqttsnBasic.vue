@@ -41,7 +41,11 @@
       <div class="part-header">
         {{ tl('predefinedTopic') }}
       </div>
-      <topic-edit-list v-model:list="mValue.predefined" v-model:passed="formPassed" />
+      <topic-edit-list
+        class="topic-list"
+        v-model:list="mValue.predefined"
+        v-model:passed="formPassed"
+      />
 
       <el-row :gutter="30">
         <el-col :span="12">
@@ -73,7 +77,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    let mValueDefault = {
+    const createDefaultValue = () => ({
       idle_timeout: '30s',
       gateway_id: 1,
       broadcast: true,
@@ -81,11 +85,13 @@ export default defineComponent({
       enable_stats: true,
       predefined: [],
       mountpoint: '',
-    }
+    })
+
+    const mValueDefault = createDefaultValue()
 
     const { t } = useI18n()
 
-    const mValue = reactive(_.merge(mValueDefault, props.value))
+    const mValue = reactive(_.merge(createDefaultValue(), props.value))
 
     const formPassed = ref(false)
 
@@ -112,5 +118,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .part-header {
   margin-bottom: 20px;
+}
+.topic-list {
+  margin-bottom: 24px;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
-  <div class="app-wrapper with-padding-top gateway-create">
+  <div class="app-wrapper gateway-create">
+    <DetailHeader :item="{ name: pageTitle, routeName: 'gateway' }" />
     <el-card>
       <div class="section-header">
         {{ `${tl('initial')} ${transGatewayName(gname)}` }}
@@ -62,10 +63,10 @@
       </el-row>
       <el-row class="config-op">
         <el-button v-if="stepActive === 0" @click="gotoList">
-          {{ $t('Base.cancel') }}
+          {{ t('Base.cancel') }}
         </el-button>
         <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
-          {{ $t('Base.backStep') }}
+          {{ t('Base.backStep') }}
         </el-button>
         <el-button
           type="primary"
@@ -73,7 +74,7 @@
           v-if="stepActive < 2"
           :disabled="submitLoading"
         >
-          {{ $t('Base.nextStep') }}
+          {{ t('Base.nextStep') }}
         </el-button>
         <el-button
           type="primary"
@@ -82,35 +83,38 @@
           :disabled="!$hasPermission('post')"
           @click="createGateway()"
         >
-          {{ $t('Base.enable') }}
+          {{ t('Base.enable') }}
         </el-button>
       </el-row>
     </el-card>
   </div>
 </template>
-
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { getGateway, updateGateway } from '@/api/gateway'
+import DetailHeader from '@/components/DetailHeader.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
+import useI18nTl from '@/hooks/useI18nTl'
+import useTransName from '@/hooks/useTransName'
+import { GatewayName } from '@/types/enum'
+import { GatewayListener } from '@/types/typeAlias'
+import { ElMessage as M } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import CoapBasic from './components/coapBasic.vue'
-import Listeners from './components/listeners.vue'
-import LwBasic from './components/lwm2mBasic.vue'
-import MqttsnBasic from './components/mqttsnBasic.vue'
-import stompBasic from './components/stompBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
 import Gbt32960Basic from './components/gbt32960Basic.vue'
 import Jt808Basic from './components/jt808Basic.vue'
+import Listeners from './components/listeners.vue'
+import LwBasic from './components/lwm2mBasic.vue'
+import MqttsnBasic from './components/mqttsnBasic.vue'
 import OcppBasic from './components/ocppBasic.vue'
-import { updateGateway, getGateway } from '@/api/gateway'
-import { ElMessage as M } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
-import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
-import { GatewayName } from '@/types/enum'
-import useTransName from '@/hooks/useTransName'
-import useI18nTl from '@/hooks/useI18nTl'
-import MarkdownContent from '@/components/MarkdownContent.vue'
+import StompBasic from './components/stompBasic.vue'
 
-const STATIC_LISTENER: Record<GatewayName, any> = {
+type GatewayData = any
+
+const STATIC_LISTENER: Record<string, GatewayListener> = {
   exproto: {
     type: 'tcp',
     name: 'default',
@@ -186,18 +190,19 @@ const { transGatewayName } = useTransName()
 const jt808BasicRef = ref()
 
 const stepActive = ref(0)
-const basicData = ref<any>({})
-const listenerList = ref<any[]>([])
+const basicData = ref<GatewayData>({})
+const listenerList = ref<Array<GatewayListener>>([])
 const submitLoading = ref(false)
 
 const gname = (route.params.name as string).toLowerCase() as GatewayName
+const name = computed(() => gname)
 
-const gotoList = () => {
-  router.push({ name: 'gateway' })
-}
+const pageTitle = computed(() => `${tl('initial')} ${transGatewayName(name.value as GatewayName)}`)
+
+const gotoList = () => router.push({ name: 'gateway' })
 
 const createGateway = async () => {
-  let data: any = {
+  let data: Record<string, any> = {
     ...basicData.value,
     listeners: [...listenerList.value],
     name: gname,

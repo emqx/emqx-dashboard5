@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form
-      ref="topicForm"
+      ref="TopicFormCom"
       :model="topicModel"
       :rules="topicRules"
       :validate-on-rule-change="false"
@@ -10,30 +10,30 @@
         <el-table-column label="Topic ID">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].id`">
-              <el-input v-model="row.id"></el-input>
+              <el-input v-model="row.id" @blur="validateForm" />
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Base.topic')">
+        <el-table-column :label="t('Base.topic')">
           <template #default="{ row, $index }">
             <el-form-item :prop="`[${$index}].topic`">
-              <el-input v-model="row.topic"></el-input>
+              <el-input v-model="row.topic" @blur="validateForm" />
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column width="80">
-          <template #header="scope">
+          <template #header>
             <el-button
               size="small"
               @click="addTopic()"
-              :disabled="disableAdd(scope) || !$hasPermission('post')"
+              :disabled="disableAdd() || !$hasPermission('post')"
             >
-              {{ $t('Base.add') }}
+              {{ t('Base.add') }}
             </el-button>
           </template>
           <template #default="{ row }">
             <el-button size="small" :disabled="!$hasPermission('delete')" @click="delTopic(row)">
-              {{ $t('Base.delete') }}
+              {{ t('Base.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -42,154 +42,148 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, onMounted, ref, watch, nextTick } from 'vue'
+<script lang="ts" setup>
+import { cloneDeep } from 'lodash'
+import { computed, nextTick, onMounted, ref, watch, withDefaults } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export default defineComponent({
-  name: 'TopicEditList',
-  emits: ['update:passed', 'update:list'],
-  props: {
-    list: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    passed: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+type TopicItem = { id: number; topic: string }
+
+const props = withDefaults(
+  defineProps<{
+    list: Array<TopicItem>
+    passed: boolean
+  }>(),
+  {
+    list: () => [],
+    passed: false,
   },
-  setup(props, context) {
-    let topicForm = ref(null)
-    let topicList = ref(props.list)
-    let topicModel = computed(() => {
-      let model = {}
-      topicList.value.forEach((v, k) => {
-        model[k] = v
-      })
-      return model
-    })
+)
 
-    let formPassed = ref(props.passed)
-    const { t } = useI18n()
-    let topicRules = ref({})
+const emit = defineEmits<{
+  (event: 'update:passed', value: boolean): void
+  (event: 'update:list', value: Array<TopicItem>): void
+}>()
 
-    const findUniqueOverflow = (nums, max) => {
-      let num
-      for (let i = 1, y = max; i < y; i++) {
-        if (!Array.prototype.includes.call(nums, i)) {
-          num = i
-          break
-        }
-      }
-      return num
+const TopicFormCom = ref()
+const topicList = ref<Array<TopicItem>>(props.list)
+const topicModel = computed(() => {
+  const model: Record<number, any> = {}
+  topicList.value.forEach((v, k) => {
+    model[k] = v
+  })
+  return model
+})
+
+const formPassed = ref(props.passed)
+const { t } = useI18n()
+const topicRules = ref({})
+
+const findUniqueOverflow = (nums: number[], max: number) => {
+  let num
+  for (let i = 1, y = max; i < y; i++) {
+    if (!Array.prototype.includes.call(nums, i)) {
+      num = i
+      break
     }
+  }
+  return num
+}
 
-    const addTopic = () => {
-      let ids = [0]
-      Array.prototype.forEach.call(topicList.value, (v) => {
-        ids.push(+v.id || 0)
-      })
-      let maxCandidate = Math.max(...ids) + 1
-      let maxNum = 65535
-      if (maxCandidate > maxNum) {
-        maxCandidate = findUniqueOverflow(ids, maxNum)
-      }
-      topicList.value.push({
-        id: maxCandidate,
-        topic: '',
-      })
+const addTopic = () => {
+  const ids = [0]
+  Array.prototype.forEach.call(topicList.value, (v) => {
+    ids.push(+v.id || 0)
+  })
+  let maxCandidate: number | undefined = Math.max(...ids) + 1
+  const maxNum = 65535
+  if (maxCandidate > maxNum) {
+    maxCandidate = findUniqueOverflow(ids, maxNum)
+  }
+  if (maxCandidate === undefined) {
+    return
+  }
+  topicList.value.push({ id: maxCandidate, topic: '' })
+  setTopicRules()
+}
 
-      setTopicRules()
+const disableAdd = () => {
+  return topicList.value.length >= 10
+}
+
+const delTopic = (row: any) => {
+  topicList.value.forEach((v, k) => {
+    if (v === row) {
+      topicList.value.splice(k, 1)
     }
+  })
+  setTopicRules()
+}
 
-    const disableAdd = () => {
-      return topicList.value.length >= 10
+const setTopicRules = () => {
+  const len = topicList.value.length || 0
+  const newRules: Record<number, any> = {}
+  for (let x = 0; x < len; x++) {
+    newRules[x] = {
+      id: [
+        {
+          required: true,
+          message: 'required',
+          trigger: ['blur', 'change'],
+        },
+        {
+          validator: (rule: any, value: any, callback: any) => {
+            const identical = topicList.value.filter((v) => {
+              return v.id == value
+            })
+            if (identical.length > 1) {
+              callback(new Error('identical'))
+            } else {
+              callback()
+            }
+          },
+          trigger: ['blur', 'change'],
+        },
+      ],
+      topic: [
+        {
+          required: true,
+          message: 'required',
+          trigger: ['blur', 'change'],
+        },
+      ],
     }
+  }
 
-    const delTopic = (row) => {
-      topicList.value.forEach((v, k) => {
-        if (v === row) {
-          topicList.value.splice(k, 1)
-        }
-      })
-      setTopicRules()
-    }
+  topicRules.value = newRules
+  // validateForm()
+}
 
-    const setTopicRules = () => {
-      let len = topicList.value.length || 0
-      let newRules = {}
-      for (let x = 0; x < len; x++) {
-        newRules[x] = {
-          id: [
-            {
-              required: true,
-              message: 'required',
-              trigger: ['blur', 'change'],
-            },
-            {
-              validator: (rule, value, callback) => {
-                let identical = topicList.value.filter((v) => {
-                  return v.id == value
-                })
-                if (identical.length > 1) {
-                  callback(new Error('identical'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: ['blur', 'change'],
-            },
-          ],
-          topic: [
-            {
-              required: true,
-              message: 'required',
-              trigger: ['blur', 'change'],
-            },
-          ],
-        }
-      }
+const validateForm = async () => {
+  await nextTick()
+  try {
+    await TopicFormCom.value.validate()
+    formPassed.value = true
+  } catch (error) {
+    formPassed.value = false
+  } finally {
+    emit('update:passed', formPassed.value)
+  }
+}
 
-      topicRules.value = newRules
-      // validateForm()
-    }
+let preTopicList: any[] = []
+watch(topicList.value, (v) => {
+  emit('update:list', v)
+  if (preTopicList.length === v.length) {
+    validateForm()
+  } else {
+    preTopicList = cloneDeep(v)
+  }
+})
 
-    const validateForm = async () => {
-      await nextTick()
-      try {
-        await topicForm.value.validate()
-        formPassed.value = true
-        context.emit('update:passed', true)
-      } catch (error) {
-        formPassed.value = false
-        context.emit('update:passed', false)
-      }
-    }
-
-    watch(topicList.value, (v) => {
-      context.emit('update:list', v)
-      validateForm()
-    })
-
-    onMounted(() => {
-      setTopicRules()
-      validateForm()
-    })
-
-    return {
-      tl: (key, collection = 'Gateway') => t(collection + '.' + key),
-      topicList,
-      addTopic,
-      disableAdd,
-      delTopic,
-      topicModel,
-      topicForm,
-      topicRules,
-    }
-  },
+onMounted(() => {
+  setTopicRules()
+  validateForm()
 })
 </script>
 

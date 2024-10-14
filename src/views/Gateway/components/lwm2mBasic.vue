@@ -133,7 +133,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value'])
 
-let lValueDefault = {
+const createDefaultValue = () => ({
   idle_timeout: '30s',
   xml_dir: 'etc/lwm2m_xml/',
   qmode_time_window: '22s',
@@ -150,11 +150,13 @@ let lValueDefault = {
     register: { topic: 'up/register', qos: 0 },
     update: { topic: 'up/update', qos: 0 },
   },
-}
+})
+
+const lValueDefault = createDefaultValue()
 
 const { t } = useI18n()
 
-const lValue = reactive(_.merge(lValueDefault, props.value))
+const lValue = reactive(_.merge(createDefaultValue(), props.value))
 
 watch(
   () => _.cloneDeep(lValue),

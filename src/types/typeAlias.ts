@@ -1,3 +1,11 @@
+import { PostGatewaysNameListenersBody } from './schemas/gatewayListeners.schemas'
+import {
+  EmqxGatewayApiUpdateCoap,
+  EmqxGatewayApiUpdateExproto,
+  EmqxGatewayApiUpdateStomp,
+  EmqxGatewayApiUpdateLwm2m,
+  EmqxGatewayApiUpdateMqttsn,
+} from './schemas/gateways.schemas'
 import type { Merge } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
 import {
@@ -48,6 +56,15 @@ import type {
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
+
+/* GATEWAY */
+export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
+export type CoapGatewayConfig = EmqxGatewayApiUpdateCoap
+export type ExprotoGatewayConfig = EmqxGatewayApiUpdateExproto
+export type Lwm2mGatewayConfig = EmqxGatewayApiUpdateLwm2m
+export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
+
+export type GatewayListener = PostGatewaysNameListenersBody
 
 export type OverrideProperties<
   T,
