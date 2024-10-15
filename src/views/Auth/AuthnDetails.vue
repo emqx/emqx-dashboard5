@@ -274,8 +274,8 @@ const updateEnable = () => {
   handleUpdate({ enable: configData.value.enable })
 }
 
-const handleUpdate = async (data?: { enable: boolean } & unknown) => {
-  const { enable } = data || {}
+const handleUpdate = async (authnData?: { enable: boolean } & unknown) => {
+  const { enable } = authnData || {}
   let isVerified = true
   try {
     if (formCom.value) {
