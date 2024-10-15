@@ -2,26 +2,25 @@
   <div :id="`monaco-${id}`" class="monaco-view"></div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Monaco',
-})
-</script>
-
-<script setup>
-import * as monaco from 'monaco-editor'
-import { conf as sqlConf, language as sql } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
-import { debounce } from 'lodash'
-import { onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
-import { useStore } from 'vuex'
+<script lang="ts" setup>
 import EditorDark from '@/assets/theme/editor-dark.json'
+import { debounce } from 'lodash'
+import type { IDisposable, IScrollEvent } from 'monaco-editor'
+import * as monaco from 'monaco-editor'
+import { language as sql, conf as sqlConf } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { useStore } from 'vuex'
+
+declare global {
+  interface Window {
+    MonacoEnvironment: any
+  }
+}
 
 self.MonacoEnvironment = {
-  getWorker(_, label) {
+  getWorker(_: string, label: string) {
     if (label === 'json') {
       return new jsonWorker()
     }
@@ -39,57 +38,23 @@ const theme = computed(() => {
   return store.state.theme
 })
 
-const prop = defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
-  modelValue: {
-    type: String,
-  },
-  lang: {
-    type: String,
-    required: true,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  hoverProvider: {
-    type: Object,
-  },
-  completionProvider: {
-    type: Object,
-  },
-  // warp: {
-  //   type: Boolean,
-  //   default: false,
-  // },
-  // provider: {
-  //   type: Array,
-  //   default: () => [],
-  // },
-  scrollLoading: {
-    type: Boolean,
-    default: false,
-  },
-  scrollFunc: {
-    type: Function,
-    default: () => () => ({}),
-  },
-  decorationFunc: {
-    type: Function,
-  },
-  jsonWithoutValidate: {
-    type: Boolean,
-    default: false,
-  },
-})
+const prop = defineProps<{
+  id: string
+  modelValue?: string
+  lang: string
+  disabled?: boolean
+  hoverProvider?: monaco.languages.HoverProvider
+  completionProvider?: monaco.languages.CompletionItemProvider
+  scrollLoading?: boolean
+  scrollFunc?: (e: IScrollEvent) => any
+  decorationFunc?: () => void
+  jsonWithoutValidate?: boolean
+}>()
 
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
-let editor = null
+let editor: null | monaco.editor.IStandaloneCodeEditor = null
 
 const setJSONValidate = () => {
   if (prop.lang === 'json') {
@@ -109,18 +74,18 @@ const getTheme = () => {
 }
 
 const defineTheme = () => {
-  const dark = EditorDark
+  const dark: monaco.editor.IStandaloneThemeData = EditorDark as monaco.editor.IStandaloneThemeData
   monaco.editor.defineTheme('editor-dark', dark)
 }
 
-let currentHoverProvider = undefined
+let currentHoverProvider: IDisposable | undefined = undefined
 const registerHoverProvider = () => {
   if (prop.hoverProvider) {
     currentHoverProvider = monaco.languages.registerHoverProvider(prop.lang, prop.hoverProvider)
   }
 }
 
-let currentCompletionProvider = undefined
+let currentCompletionProvider: IDisposable | undefined = undefined
 const registerCompletionProvider = () => {
   if (prop.completionProvider) {
     if (currentCompletionProvider) {
@@ -181,14 +146,14 @@ const initEditor = () => {
   setJSONValidate()
   editor = monaco.editor.create(ele, defaultOptions)
   editor.onDidChangeModelContent(async (event) => {
-    const value = editor.getValue()
-    if (value !== editor.modelValue) {
+    const value = editor?.getValue()
+    if (value !== prop.modelValue) {
       emit('update:modelValue', value, event)
       emit('change', value)
     }
   })
-  editor.onDidBlurEditorWidget(async (event) => {
-    const value = editor.getValue()
+  editor.onDidBlurEditorWidget(async () => {
+    const value = editor?.getValue()
     emit('blur', value)
   })
   // Update editor options
@@ -200,7 +165,7 @@ const initEditor = () => {
 
 onMounted(() => {
   initEditor()
-  if (prop.scrollLoading) editor.onDidScrollChange(prop.scrollFunc)
+  if (prop.scrollLoading && prop.scrollFunc) editor?.onDidScrollChange(prop.scrollFunc)
 })
 
 onUnmounted(() => {
@@ -210,8 +175,8 @@ onUnmounted(() => {
 watch(
   () => prop.modelValue,
   (val) => {
-    if (val !== editor.getValue() && typeof val === 'string') {
-      editor.setValue(val)
+    if (val !== editor?.getValue() && typeof val === 'string') {
+      editor?.setValue(val)
     }
   },
 )
@@ -230,7 +195,7 @@ watch(
 watch(
   () => prop.disabled,
   () => {
-    editor.updateOptions({
+    editor?.updateOptions({
       readOnly: prop.disabled,
     })
   },
