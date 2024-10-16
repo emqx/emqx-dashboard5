@@ -600,8 +600,34 @@ export default {
     en: 'Match Conditions',
   },
   isMatchDesc: {
-    zh: "Variform 表达式用于评估客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n- <code>username</code>: 用户名\n- <code>clientid</code>: 客户端 ID\n- <code>client_attrs.*</code>: 客户端属性\n- <code>peerhost</code>: 客户端 IP\n- <code>cert_subject</code>: TLS 证书主题\n- <code>cert_common_name</code>: TLS 证书通用名称\n所有表达式返回 \"true\" 时，认证器返回相关结果；否则跳过当前检查。\n\n简单示例（每行一个表达式）：\n<code>regex_match(username, '^admin')</code>\n<code>str_eq(client_attrs.group, 'premium')</code>\n\n更多函数和高级用法请参考完整文档。",
-    en: "Variform expressions to evaluate client information. For multiple expressions, enter each expression on a new line. Supported variables:\n- <code>username</code>: client username\n- <code>clientid</code>: client ID\n- <code>client_attrs.*</code>: client attributes\n- <code>peerhost</code>: client IP\n- <code>cert_subject</code>: TLS certificate subject\n- <code>cert_common_name</code>: TLS certificate common name\nIf all expressions return \"true\", the authenticator returns the associated result; otherwise, the current check is skipped.\n\nSimple examples (one expression per line):\n<code>regex_match(username, '^admin')</code>\n<code>str_eq(client_attrs.group, 'premium')</code>\n\nFor more functions and advanced usage, please refer to the full documentation.",
+    zh: `Variform 表达式用于评估客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n
+- <code>username</code>: 用户名\n
+- <code>password</code>: 客户端密码\n
+- <code>clientid</code>: 客户端 ID\n
+- <code>client_attrs.*</code>: 客户端属性\n
+- <code>peerhost</code>: 客户端 IP\n
+- <code>cert_subject</code>: TLS 证书主题\n
+- <code>cert_common_name</code>: TLS 证书通用名称\n
+- <code>zone</code>: 接受客户端连接的监听器所关联的 zone\n
+所有表达式返回 "true" 时，认证器返回相关结果；否则跳过当前检查。\n\n
+简单示例（每行一个表达式）：\n
+<code>regex_match(username, '^admin')</code>\n
+<code>str_eq(client_attrs.group, 'premium')</code>\n\n
+更多函数和高级用法请参考完整文档。`,
+    en: `Variform expressions to evaluate client information. For multiple expressions, enter each expression on a new line. Supported variables:\n
+- <code>username</code>: client username\n
+- <code>password</code>: the password of the client\n
+- <code>clientid</code>: client ID\n
+- <code>client_attrs.*</code>: client attributes\n
+- <code>peerhost</code>: client IP\n
+- <code>cert_subject</code>: TLS certificate subject\n
+- <code>cert_common_name</code>: TLS certificate common name\n
+- <code>zone</code>: the config zone associated with the listener from which the client is accepted\n
+If all expressions return "true", the authenticator returns the associated result; otherwise, the current check is skipped.\n\n
+Simple examples (one expression per line):\n
+<code>regex_match(username, '^admin')</code>\n
+<code>str_eq(client_attrs.group, 'premium')</code>\n\n
+For more functions and advanced usage, please refer to the full documentation.`,
   },
   result: {
     zh: '匹配结果',
