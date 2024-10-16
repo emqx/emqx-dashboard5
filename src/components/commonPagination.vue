@@ -18,12 +18,16 @@
       v-else-if="meta.count === -1"
       :current-page="meta.page"
       :hasnext="(meta.hasnext as boolean)"
+      :page-sizes="defaultPageSizeOpt"
+      v-model:page-size="meta.limit"
+      @size-change="handleSizeChanged"
       @current-change="handleCurrentChanged"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import { computed, watch, PropType, defineProps, defineEmits } from 'vue'
 import MiniPagination from './MiniPagination.vue'
 import { PageData } from '@/types/common'
@@ -39,8 +43,6 @@ const props = defineProps({
 const meta = computed<PageData>(() => props.metaData)
 meta.value.limit ||= 20
 meta.value.page ||= 1
-
-const defaultPageSizeOpt = [20, 50, 100, 500]
 
 const emits = defineEmits(['loadPage', 'update:metaData'])
 

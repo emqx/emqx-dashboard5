@@ -149,7 +149,11 @@
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
       </div>
     </div>
-    <el-dialog :title="isEdit ? $t('Base.edit') : $t('Base.add')" v-model="dialogVisible">
+    <el-dialog
+      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
+      width="700px"
+      v-model="dialogVisible"
+    >
       <el-form
         ref="recordForm"
         :model="record"
