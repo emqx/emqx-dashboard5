@@ -199,7 +199,7 @@ export default function useAuthnCreate() {
         }
     }
   }
-  const create = (config: any, backend: string, mechanism: string) => {
+  const create = (config: any, backend: string | undefined, mechanism: string) => {
     let data: any = {}
     if (mechanism === 'jwt') {
       data = processJwtConfig(config)

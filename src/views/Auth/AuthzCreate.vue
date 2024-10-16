@@ -63,7 +63,7 @@
           ref="formCom"
         />
         <database-config
-          v-else-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
+          v-else-if="type && ['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
           ref="formCom"
           v-model="configData"
           :database="type"
@@ -87,129 +87,114 @@
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, ref, onMounted } from 'vue'
-import FileConfig from './components/FileConfig.vue'
-import DatabaseConfig from './components/DatabaseConfig.vue'
-import HttpConfig from './components/HttpConfig.vue'
-import LdapConfig from './components/LdapConfig.vue'
-import BuiltInConfig from './components/BuiltInConfig.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
-import GuideBar from '@/components/GuideBar.vue'
-import useGuide from '@/hooks/useGuide'
+<script lang="ts" setup>
 import { createAuthz } from '@/api/auth'
-import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
-import { ElMessage } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useRouter } from 'vue-router'
-import { jumpToErrorFormItem } from '@/common/tools'
-import { checkNOmitFromObj } from '@/common/tools.ts'
-import useAuth from '@/hooks/Auth/useAuth'
-import fileIcon from '@/assets/img/file.png'
 import builtInDatabaseIcon from '@/assets/img/built_in_database.png'
-import mysqlIcon from '@/assets/img/mysql.png'
+import fileIcon from '@/assets/img/file.png'
+import httpIcon from '@/assets/img/http.png'
 import mongodbIcon from '@/assets/img/mongodb.png'
+import mysqlIcon from '@/assets/img/mysql.png'
 import postgresqlIcon from '@/assets/img/postgresql.png'
 import redisIcon from '@/assets/img/redis.png'
-import httpIcon from '@/assets/img/http.png'
 import ldapIcon from '@/assets/img/ldap.png'
+import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
+import GuideBar from '@/components/GuideBar.vue'
+import useAuth from '@/hooks/Auth/useAuth'
+import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
+import useGuide from '@/hooks/useGuide'
+import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessage } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import BuiltInConfig from './components/BuiltInConfig.vue'
+import DatabaseConfig from './components/DatabaseConfig.vue'
+import FileConfig from './components/FileConfig.vue'
+import HttpConfig from './components/HttpConfig.vue'
+import LdapConfig from './components/LdapConfig.vue'
 
-export default defineComponent({
-  name: 'AuthzCreate',
-  components: {
-    DetailHeader,
-    GuideBar,
-    FileConfig,
-    DatabaseConfig,
-    HttpConfig,
-    LdapConfig,
-    BuiltInConfig,
-  },
-  setup() {
-    const { t, tl } = useI18nTl('Auth')
-    const router = useRouter()
+type AuthzData = any
 
-    const getGuideList = function () {
-      return [t('Auth.dataSource'), t('Auth.config')]
+const { t, tl } = useI18nTl('Auth')
+const router = useRouter()
+
+const getGuideList = function () {
+  return [t('Auth.dataSource'), t('Auth.config')]
+}
+const type = ref<string | undefined>('file')
+const configData = ref<AuthzData>({})
+const saveLoading = ref(false)
+
+const formCom = ref()
+
+const { factory, create } = useAuthzCreate()
+
+const typeList = ref([
+  { label: tl('file'), value: 'file', img: fileIcon },
+  { label: tl('builtInDatabase'), value: 'built_in_database', img: builtInDatabaseIcon },
+  { label: 'MySQL', value: 'mysql', img: mysqlIcon },
+  { label: 'MongoDB', value: 'mongodb', img: mongodbIcon },
+  { label: 'PostgreSQL', value: 'postgresql', img: postgresqlIcon },
+  { label: 'Redis', value: 'redis', img: redisIcon },
+  { label: 'LDAP', value: 'ldap', img: ldapIcon },
+  { label: tl('HTTPServer'), value: 'http', img: httpIcon },
+])
+const { titleMap } = useAuth()
+const { step, activeGuidesIndex, handleNext, handleBack, guideDescList } = useGuide(() => {
+  if (step.value === 0) {
+    if (!type.value) {
+      return
     }
-    const type = ref('file')
-    const configData = ref({})
-    const saveLoading = ref(false)
+    const data = factory(type.value)
+    configData.value = data
+    guideDescList.value.push(titleMap[type.value])
+  }
+})
 
-    const formCom = ref()
+const addedAuthz = computed<Array<string>>(() => {
+  const stored = sessionStorage.getItem('addedAuthz')
+  try {
+    if (stored) {
+      return JSON.parse(stored)
+    }
+    return stored ? JSON.parse(stored) : []
+  } catch (error) {
+    return []
+  }
+})
 
-    const { factory, create } = useAuthzCreate()
+const findFirstTypeDidNotAdd = () => {
+  const ret = typeList.value.find(({ value }) => !addedAuthz.value.includes(value))
+  return ret ? ret.value : undefined
+}
 
-    const typeList = ref([
-      { label: tl('file'), value: 'file', img: fileIcon },
-      { label: tl('builtInDatabase'), value: 'built_in_database', img: builtInDatabaseIcon },
-      { label: 'MySQL', value: 'mysql', img: mysqlIcon },
-      { label: 'MongoDB', value: 'mongodb', img: mongodbIcon },
-      { label: 'PostgreSQL', value: 'postgresql', img: postgresqlIcon },
-      { label: 'Redis', value: 'redis', img: redisIcon },
-      { label: 'LDAP', value: 'ldap', img: ldapIcon },
-      { label: tl('HTTPServer'), value: 'http', img: httpIcon },
-    ])
-    const { titleMap } = useAuth()
-    const { step, activeGuidesIndex, handleNext, handleBack, guideDescList } = useGuide(() => {
-      if (step.value === 0) {
-        const data = factory(type.value)
-        configData.value = data
-        guideDescList.value.push(titleMap[type.value])
-      }
+const handleCreate = async function () {
+  if (!type.value) {
+    return
+  }
+  let isVerified = true
+  if (type.value !== 'built_in_database') {
+    await formCom.value.validate().catch(() => {
+      isVerified = false
+      jumpToErrorFormItem()
     })
+  }
+  if (!isVerified) {
+    return
+  }
+  saveLoading.value = true
+  const data = checkNOmitFromObj(create(configData.value, type.value))
+  const res = await createAuthz(data).catch(() => {
+    saveLoading.value = false
+  })
+  if (res) {
+    ElMessage.success(t('Base.createSuccess'))
+    router.push({ name: 'authorization' })
+  }
+}
 
-    const addedAuthz = computed(() => {
-      return JSON.parse(sessionStorage.getItem('addedAuthz')) || []
-    })
-
-    const findFirstTypeDidNotAdd = () => {
-      const ret = typeList.value.find(({ value }) => !addedAuthz.value.includes(value))
-      return ret ? ret.value : undefined
-    }
-
-    const handleCreate = async function () {
-      let isVerified = true
-      if (type.value !== 'built_in_database') {
-        await formCom.value.validate().catch(() => {
-          isVerified = false
-          jumpToErrorFormItem()
-        })
-      }
-      if (!isVerified) {
-        return
-      }
-      saveLoading.value = true
-      const data = checkNOmitFromObj(create(configData.value, type.value))
-      const res = await createAuthz(data).catch(() => {
-        saveLoading.value = false
-      })
-      if (res) {
-        ElMessage.success(t('Base.createSuccess'))
-        router.push({ name: 'authorization' })
-      }
-    }
-
-    onMounted(() => {
-      type.value = findFirstTypeDidNotAdd()
-    })
-    return {
-      tl,
-      saveLoading,
-      configData,
-      step,
-      type,
-      guideDescList,
-      typeList,
-      activeGuidesIndex,
-      addedAuthz,
-      formCom,
-      handleNext,
-      handleBack,
-      handleCreate,
-      getGuideList,
-    }
-  },
+onMounted(() => {
+  type.value = findFirstTypeDidNotAdd()
 })
 </script>
 

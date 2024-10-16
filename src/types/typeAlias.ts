@@ -1,3 +1,4 @@
+import { GetAuthentication200Item, AuthnBuiltinDb } from './schemas/authentication.schemas'
 import { PostGatewaysNameListenersBody } from './schemas/gatewayListeners.schemas'
 import {
   EmqxGatewayApiUpdateCoap,
@@ -65,6 +66,10 @@ export type Lwm2mGatewayConfig = EmqxGatewayApiUpdateLwm2m
 export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
 
 export type GatewayListener = PostGatewaysNameListenersBody
+
+/* AUTHENTICATION */
+export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
+export type AuthenticationConfig = GetAuthentication200Item & { id: string }
 
 export type OverrideProperties<
   T,

@@ -113,7 +113,7 @@
               type="primary"
               :loading="isSubmitting"
               :disabled="!$hasPermission('put')"
-              @click="handleUpdate"
+              @click="handleUpdate()"
             >
               {{ $t('Base.update') }}
             </el-button>
@@ -128,311 +128,255 @@
           :lazy="true"
           name="users"
         >
-          <authn-manager :field="configData.user_id_type" :gateway="gateway" />
+          <authn-manager
+            :field="(configData as AuthenticationBuiltInDbConfig).user_id_type"
+            :gateway="gateway"
+          />
         </el-tab-pane>
       </div>
     </el-tabs>
   </div>
 </template>
 
-<script>
-import { computed, defineComponent, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { isFunction, isUndefined, omit } from 'lodash'
-import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
-import { LDAPAuthMethod } from '@/types/enum'
-import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools.ts'
-import useI18nTl from '@/hooks/useI18nTl'
+<script lang="ts" setup>
+import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/api/auth'
+import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
+import DetailHeader from '@/components/DetailHeader.vue'
 import useAuth from '@/hooks/Auth/useAuth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
+import useBuiltInDataUpdateTip from '@/hooks/Auth/useBuiltInDataUpdateTip'
+import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
-import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData.ts'
-import useBuiltInDataUpdateTip from '@/hooks/Auth/useBuiltInDataUpdateTip.ts'
-import DetailHeader from '@/components/DetailHeader.vue'
+import useI18nTl from '@/hooks/useI18nTl'
+import { DatabaseAndServer, Metrics } from '@/types/auth'
+import { LDAPAuthMethod } from '@/types/enum'
+import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'
+import { Delete } from '@element-plus/icons-vue'
+import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { isFunction, isUndefined, omit } from 'lodash'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthItemStatus from './components/AuthItemStatus.vue'
+import AuthnManager from './components/AuthnManager.vue'
+import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
-import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
-import AuthnManager from './components/AuthnManager.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
 
-export default defineComponent({
-  name: 'AuthnDetails',
-  components: {
-    DatabaseConfig,
-    HttpConfig,
-    BuiltInConfig,
-    AuthnManager,
-    JwtConfig,
-    AuthItemOverview,
-    AuthItemStatus,
-    DetailHeader,
-    LdapConfig,
-    KerberosConfig,
-    CInfoConfig,
-  },
-  props: {
-    gatewayInfo: {
-      type: [Object, Boolean],
-      required: false,
-      default: false,
-    },
-    updateFunc: {
-      type: Function,
-      required: false,
-      default: () => ({}),
-    },
-    deleteFunc: {
-      type: Function,
-      required: false,
-      default: () => ({}),
-    },
-    gateway: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  setup(props) {
-    const route = useRoute()
-    const router = useRouter()
-    const { t, tl } = useI18nTl('Auth')
-    const refreshLoading = ref(false)
-    const isSubmitting = ref(false)
-    const authnDetailLock = ref(false)
-    const currTab = ref(props.gateway ? 'settings' : 'overview')
-    const id = computed(function () {
-      return route.params.id
-    })
-    const queryTab = computed(() => {
-      return route.query.tab
-    })
-    if (queryTab.value) {
-      currTab.value = queryTab.value
-    }
-    const configData = ref({
-      ssl: { enable: false },
-    })
-    const authMetrics = ref({})
+const props = defineProps<{
+  gatewayInfo?: Record<string, any> | boolean
+  updateFunc?: (data: any) => Promise<void>
+  deleteFunc?: () => Promise<void>
+  gateway?: string
+}>()
 
-    const currBackend = ref('')
+const route = useRoute()
+const router = useRouter()
+const { t, tl } = useI18nTl('Auth')
+const isSubmitting = ref(false)
+const authnDetailLock = ref(false)
+const currTab = ref(props.gateway ? 'settings' : 'overview')
+const id = computed(() => route.params.id.toString())
+const queryTab = computed(() => route.query.tab?.toString())
 
-    const formCom = ref()
+if (queryTab.value) {
+  currTab.value = queryTab.value
+}
 
-    const currImg = computed(() => {
-      if (currBackend.value) {
-        return getImg(`img/${currBackend.value}.png`)
-      }
-      return ''
-    })
+const configData = ref<AuthenticationConfig>({
+  ssl: { enable: false },
+} as AuthenticationConfig)
+const authMetrics = ref<Metrics>({} as Metrics)
 
-    const { toggleAuthStatus } = useToggleAuthStatus()
+const currBackend = ref<DatabaseAndServer | 'built_in_database' | 'cinfo'>('' as DatabaseAndServer)
 
-    const setPassWordBasedFieldsDefaultValue = () => {
-      if (
-        configData.value.mechanism === 'password_based' &&
-        configData.value.password_hash_algorithm
-      ) {
-        configData.value.password_hash_algorithm = {
-          ...getPasswordHashAlgorithmObj().password_hash_algorithm,
-          ...configData.value.password_hash_algorithm,
-        }
-      }
-    }
+const formCom = ref()
 
-    const { factory } = useAuthnCreate()
-    const fillDefaultValue = (data) => {
-      if (currBackend.value === 'ldap') {
-        const { method: defaultMethod } = factory('password_based', 'ldap')
-        data.method = { ...defaultMethod, ...data.method }
-      }
-      if (currBackend.value === 'cinfo') {
-        const { processCInfoUpdateConfig } = useProcessAuthData()
-        data = processCInfoUpdateConfig(data)
-      }
-      return data
-    }
-
-    const handlingDataCompatible = (data) => {
-      if (currBackend.value === 'ldap') {
-        const { password_attribute, is_superuser_attribute, bind_password } = data
-        if (!isUndefined(password_attribute) && !isUndefined(is_superuser_attribute)) {
-          data.method = {
-            password_attribute,
-            is_superuser_attribute,
-            type: LDAPAuthMethod.Hash,
-          }
-          return omit(data, ['password_attribute', 'is_superuser_attribute'])
-        }
-        if (!isUndefined(bind_password)) {
-          data.method = { bind_password, type: LDAPAuthMethod.Bind }
-          return omit(data, 'bind_password')
-        }
-        if (isUndefined(data.method)) {
-          data.method = { type: LDAPAuthMethod.Hash }
-          return data
-        }
-      }
-      return data
-    }
-
-    const loadData = async function () {
-      try {
-        authnDetailLock.value = true
-        const res = props.gatewayInfo || (await loadAuthn(id.value))
-        if (!res) {
-          return
-        }
-        currBackend.value = res.backend || res.mechanism
-        configData.value = fillDefaultValue(handlingDataCompatible(res))
-        setRawSetting(configData.value)
-        setPassWordBasedFieldsDefaultValue()
-      } catch (error) {
-        //
-      } finally {
-        authnDetailLock.value = false
-      }
-    }
-    const handleRefresh = async () => {
-      refreshLoading.value = true
-      try {
-        await getAuthnMetrics()
-      } catch (error) {
-        // ignore error
-      } finally {
-        refreshLoading.value = false
-      }
-    }
-    const getAuthnMetrics = async () => {
-      try {
-        const data = await queryAuthnItemMetrics(id.value)
-        authMetrics.value = data
-      } catch (error) {
-        //
-      }
-    }
-    const { titleMap } = useAuth()
-
-    const updateAuthnBelongGateway = async (data, enable) => {
-      if (enable !== undefined) {
-        if (enable) {
-          await MB.confirm(tl('disableAuthnTip'), {
-            confirmButtonText: t('Base.confirm'),
-            cancelButtonText: t('Base.cancel'),
-            type: 'warning',
-          })
-        }
-        data.enable = !enable
-      }
-      if (props.updateFunc && isFunction(props.updateFunc)) {
-        await props.updateFunc(data)
-      }
-    }
-
-    const { setRawSetting, compareData } = useBuiltInDataUpdateTip()
-    const updateEnable = function () {
-      configData.value.enable = !configData.value.enable
-      handleUpdate({ enable: configData.value.enable })
-    }
-    /**
-     * @param authn has value when the action is update status
-     */
-    const handleUpdate = async function ({ enable }) {
-      let isVerified = true
-      try {
-        if (formCom.value) {
-          await formCom.value.validate().catch(() => {
-            isVerified = false
-            jumpToErrorFormItem()
-          })
-        }
-        if (!isVerified) {
-          return
-        }
-        isSubmitting.value = true
-        const { create } = useAuthnCreate()
-        const { id } = configData.value
-        const data = create(configData.value, configData.value.backend, configData.value.mechanism)
-        if (currBackend.value === 'built_in_database') {
-          await compareData(data)
-        }
-
-        if (props.gateway) {
-          updateAuthnBelongGateway(data, enable)
-        } else {
-          if (enable !== undefined) {
-            await toggleAuthStatus(checkNOmitFromObj({ ...data, id }), 'authn')
-            getAuthnMetrics()
-          } else {
-            await updateAuthn(id, checkNOmitFromObj(data))
-            M.success(t('Base.updateSuccess'))
-          }
-          enable === undefined ? router.push({ name: 'authentication' }) : loadData()
-        }
-      } catch (error) {
-        //
-      } finally {
-        isSubmitting.value = false
-      }
-    }
-    const handleDelete = async function () {
-      try {
-        await MB.confirm(t('Base.confirmDelete'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          confirmButtonClass: 'confirm-danger',
-          type: 'warning',
-        })
-        if (props.gateway) {
-          await props.deleteFunc()
-        } else {
-          await deleteAuthn(configData.value.id)
-          M.success(t('Base.deleteSuccess'))
-          router.push({ name: 'authentication' })
-        }
-      } catch (error) {
-        //
-      }
-    }
-
-    const initData = async () => {
-      await loadData()
-      if (!props.gatewayInfo) {
-        getAuthnMetrics()
-      }
-    }
-
-    watch(() => props.gatewayInfo, initData)
-
-    initData()
-
-    return {
-      Delete,
-      currBackend,
-      refreshLoading,
-      currTab,
-      currImg,
-      titleMap,
-      configData,
-      authMetrics,
-      authnDetailLock,
-      formCom,
-      isSubmitting,
-      handleUpdate,
-      handleDelete,
-      getAuthnMetrics,
-      handleRefresh,
-      updateEnable,
-    }
-  },
+const currImg = computed(() => {
+  if (currBackend.value) {
+    return getImg(`img/${currBackend.value}.png`)
+  }
+  return ''
 })
+
+const { toggleAuthStatus } = useToggleAuthStatus()
+
+const setPassWordBasedFieldsDefaultValue = () => {
+  if (
+    configData.value.mechanism === 'password_based' &&
+    'password_hash_algorithm' in configData.value &&
+    configData.value.password_hash_algorithm
+  ) {
+    configData.value.password_hash_algorithm = {
+      ...getPasswordHashAlgorithmObj().password_hash_algorithm,
+      ...configData.value.password_hash_algorithm,
+    } as any
+  }
+}
+
+const { factory } = useAuthnCreate()
+const fillDefaultValue = (data: any) => {
+  if (currBackend.value === 'ldap') {
+    const { method: defaultMethod } = factory('password_based', 'ldap')
+    data.method = { ...defaultMethod, ...data.method }
+  }
+  if (currBackend.value === 'cinfo') {
+    const { processCInfoUpdateConfig } = useProcessAuthData()
+    data = processCInfoUpdateConfig(data)
+  }
+  return data
+}
+
+const handlingDataCompatible = (data: any) => {
+  if (currBackend.value === 'ldap') {
+    const { password_attribute, is_superuser_attribute, bind_password } = data
+    if (!isUndefined(password_attribute) && !isUndefined(is_superuser_attribute)) {
+      data.method = {
+        password_attribute,
+        is_superuser_attribute,
+        type: LDAPAuthMethod.Hash,
+      }
+      return omit(data, ['password_attribute', 'is_superuser_attribute'])
+    }
+    if (!isUndefined(bind_password)) {
+      data.method = { bind_password, type: LDAPAuthMethod.Bind }
+      return omit(data, 'bind_password')
+    }
+    if (isUndefined(data.method)) {
+      data.method = { type: LDAPAuthMethod.Hash }
+      return data
+    }
+  }
+  return data
+}
+
+const loadData = async () => {
+  try {
+    authnDetailLock.value = true
+    const res = props.gatewayInfo || (await loadAuthn(id.value))
+    if (!res) {
+      return
+    }
+    currBackend.value = res.backend || res.mechanism
+    configData.value = fillDefaultValue(handlingDataCompatible(res))
+    setRawSetting(configData.value as any)
+    setPassWordBasedFieldsDefaultValue()
+  } catch (error) {
+    //
+  } finally {
+    authnDetailLock.value = false
+  }
+}
+
+const getAuthnMetrics = async () => {
+  try {
+    const data = await queryAuthnItemMetrics(id.value)
+    authMetrics.value = data
+  } catch (error) {
+    //
+  }
+}
+
+const { titleMap } = useAuth()
+
+const updateAuthnBelongGateway = async (data: any, enable: boolean) => {
+  if (enable !== undefined) {
+    if (enable) {
+      await MB.confirm(tl('disableAuthnTip'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
+    }
+    data.enable = !enable
+  }
+  if (props.updateFunc && isFunction(props.updateFunc)) {
+    await props.updateFunc(data)
+  }
+}
+
+const { setRawSetting, compareData } = useBuiltInDataUpdateTip()
+const updateEnable = () => {
+  configData.value.enable = !configData.value.enable
+  handleUpdate({ enable: configData.value.enable })
+}
+
+const handleUpdate = async (authnData?: { enable: boolean } & unknown) => {
+  const { enable } = authnData || {}
+  let isVerified = true
+  try {
+    if (formCom.value) {
+      await formCom.value.validate().catch(() => {
+        isVerified = false
+        jumpToErrorFormItem()
+      })
+    }
+    if (!isVerified) {
+      return
+    }
+    isSubmitting.value = true
+    const { create } = useAuthnCreate()
+    const { id } = configData.value
+    const backend = 'backend' in configData.value ? configData.value.backend : undefined
+    const data = create(configData.value, backend, configData.value.mechanism)
+    if (currBackend.value === 'built_in_database') {
+      await compareData(data)
+    }
+
+    if (props.gateway) {
+      updateAuthnBelongGateway(data, Boolean(enable))
+    } else {
+      if (enable !== undefined) {
+        await toggleAuthStatus(checkNOmitFromObj({ ...data, id }) as any, 'authn')
+        getAuthnMetrics()
+      } else {
+        await updateAuthn(id, checkNOmitFromObj(data))
+        M.success(t('Base.updateSuccess'))
+      }
+      enable === undefined ? router.push({ name: 'authentication' }) : loadData()
+    }
+  } catch (error) {
+    //
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const handleDelete = async () => {
+  try {
+    await MB.confirm(t('Base.confirmDelete'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
+      type: 'warning',
+    })
+    if (props.gateway && props.deleteFunc) {
+      await props.deleteFunc()
+    } else {
+      await deleteAuthn(configData.value.id)
+      M.success(t('Base.deleteSuccess'))
+      router.push({ name: 'authentication' })
+    }
+  } catch (error) {
+    //
+  }
+}
+
+const initData = async () => {
+  await loadData()
+  if (!props.gatewayInfo) {
+    getAuthnMetrics()
+  }
+}
+
+watch(() => props.gatewayInfo, initData)
+
+initData()
 </script>
 
 <style lang="scss">

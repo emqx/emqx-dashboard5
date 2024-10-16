@@ -79,9 +79,11 @@ export default defineComponent({
       required: true,
       type: String as PropType<'authn' | 'authz'>,
     },
+    /**
+     * mechanism type in authn
+     */
     type: {
       type: String,
-      required: true,
     },
   },
   emits: ['update:modelValue'],
