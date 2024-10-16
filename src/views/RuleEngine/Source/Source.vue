@@ -37,6 +37,11 @@
           <el-switch v-model="row.enable" @change="toggleEnable(row)" />
         </template>
       </el-table-column>
+      <el-table-column
+        prop="description"
+        :label="t('BridgeSchema.common.description.label')"
+        :min-width="108"
+      />
       <el-table-column :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row }">
           <el-button
