@@ -49,7 +49,7 @@ const prop = defineProps<{
   scrollFunc?: (e: IScrollEvent) => any
   decorationFunc?: () => void
   jsonWithoutValidate?: boolean
-  customMonacoHandler: (monaco: any) => any
+  customMonacoHandler?: (monaco: any) => any
 }>()
 
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
