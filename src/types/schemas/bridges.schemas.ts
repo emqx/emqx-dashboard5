@@ -894,6 +894,7 @@ export interface BridgeTimescaleGet {
 export interface BridgeTdenginePut {
   enable?: boolean
   sql?: string
+  undefined_vars_as_null?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   server: string
@@ -918,6 +919,7 @@ export interface BridgeTdenginePost {
   name: string
   enable?: boolean
   sql?: string
+  undefined_vars_as_null?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   server: string
@@ -955,6 +957,7 @@ export interface BridgeTdengineGet {
   name: string
   enable?: boolean
   sql?: string
+  undefined_vars_as_null?: boolean
   local_topic?: string
   resource_opts?: ResourceSchemaCreationOpts
   server: string
@@ -971,6 +974,7 @@ export interface BridgeSqlserverPut {
   sql?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  undefined_vars_as_null?: boolean
   driver?: string
   server: string
   database: string
@@ -996,6 +1000,7 @@ export interface BridgeSqlserverPost {
   sql?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  undefined_vars_as_null?: boolean
   driver?: string
   server: string
   database: string
@@ -1035,6 +1040,7 @@ export interface BridgeSqlserverGet {
   sql?: string
   local_topic?: string
   resource_opts?: BridgeSqlserverCreationOpts
+  undefined_vars_as_null?: boolean
   driver?: string
   server: string
   database: string
@@ -4684,6 +4690,7 @@ export interface BridgeDynamoPut {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  undefined_vars_as_null?: boolean
 }
 
 export type BridgeDynamoPostType = typeof BridgeDynamoPostType[keyof typeof BridgeDynamoPostType]
@@ -4710,6 +4717,7 @@ export interface BridgeDynamoPost {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  undefined_vars_as_null?: boolean
 }
 
 export type BridgeDynamoGetType = typeof BridgeDynamoGetType[keyof typeof BridgeDynamoGetType]
@@ -4782,6 +4790,7 @@ export interface BridgeDynamoGet {
   pool_size?: number
   /** @deprecated */
   auto_reconnect?: boolean
+  undefined_vars_as_null?: boolean
 }
 
 export interface BridgeClickhousePut {

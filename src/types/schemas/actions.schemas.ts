@@ -1274,6 +1274,7 @@ export const BridgeTdengineGetBridgeV2Status = {
 export interface BridgeTdengineActionParameters {
   database: string
   sql?: string
+  undefined_vars_as_null?: boolean
 }
 
 export interface BridgeTdenginePutBridgeV2 {
@@ -1364,6 +1365,7 @@ export const BridgeSqlserverGetBridgeV2Type = {
 
 export interface BridgeSqlserverActionParameters {
   sql?: string
+  undefined_vars_as_null?: boolean
 }
 
 export interface BridgeSqlserverGetBridgeV2 {
@@ -1935,6 +1937,7 @@ export const BridgeMysqlGetBridgeV2Type = {
 
 export interface BridgeMysqlActionParameters {
   sql?: string
+  undefined_vars_as_null?: boolean
 }
 
 export interface BridgeMysqlGetBridgeV2 {
@@ -3088,6 +3091,7 @@ export interface BridgeDynamoActionParameters {
   hash_key: string
   range_key?: string
   table: string
+  undefined_vars_as_null?: boolean
 }
 
 export interface BridgeDynamoPutBridgeV2 {
@@ -3236,6 +3240,7 @@ export const BridgeClickhouseGetBridgeV2Type = {
 
 export interface BridgeClickhouseActionParameters {
   sql?: string
+  undefined_vars_as_null?: boolean
   batch_value_separator?: string
 }
 
