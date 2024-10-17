@@ -2484,18 +2484,6 @@
     }
   },
   {
-    "method": "put",
-    "path": "/durable_queues/:id",
-    "operation_label": {
-      "en": "Durable Queue",
-      "zh": "持久队列"
-    },
-    "operation_name_label": {
-      "en": "Create a durable queue.",
-      "zh": "创建一个持久队列。"
-    }
-  },
-  {
     "method": "delete",
     "path": "/durable_queues/:id",
     "operation_label": {
@@ -2505,6 +2493,18 @@
     "operation_name_label": {
       "en": "Delete a durable queue.",
       "zh": "删除一个持久队列。"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/durable_queues",
+    "operation_label": {
+      "en": "Durable Queue",
+      "zh": "持久队列"
+    },
+    "operation_name_label": {
+      "en": "Declare new durable queue.",
+      "zh": "声明新的持久队列。"
     }
   }
 ]
