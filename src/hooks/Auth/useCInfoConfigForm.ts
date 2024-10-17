@@ -16,6 +16,8 @@ export default (): {
   const rules: ComputedRef<FormRules> = computed(() => {
     return {
       checks: createRequiredRule(tl('checks')),
+      'checks.is_match': createRequiredRule(tl('isMatch')),
+      'checks.result': createRequiredRule(tl('result'), 'select'),
     }
   })
 
