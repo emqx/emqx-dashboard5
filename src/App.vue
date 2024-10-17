@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import useDashboardVersion from '@/hooks/useDashboardVersion'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -56,6 +57,9 @@ setWatchOSTheme()
 if (syncOsTheme.value) {
   hadleSyncOSTheme()
 }
+
+const { printVersion } = useDashboardVersion()
+printVersion()
 </script>
 
 <style lang="scss"></style>
