@@ -27,11 +27,11 @@ const lang: { [key: string]: any } = {
 }
 
 // Dynamically import all translation files
-const modules = import.meta.glob('./i18n/*.js')
+const modules = import.meta.glob('./i18n/*.ts')
 
 // Process each module
 Object.keys(modules).forEach((path) => {
-  const partKey = path.match(/\/(\w+)\.js$/)?.[1] // retrieve the filename as partial keys
+  const partKey = path.match(/\/(\w+)\.ts$/)?.[1] // retrieve the filename as partial keys
   if (partKey) {
     modules[path]().then((mod) => {
       const tran = mod.default
