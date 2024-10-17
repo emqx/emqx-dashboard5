@@ -14,6 +14,7 @@
               v-model="cinfoConfig.checks"
               propKey="checks"
               :properties="checksProperties"
+              :rules="rules"
             />
           </el-form-item>
         </el-col>
@@ -27,6 +28,7 @@ import { defineProps, defineEmits, reactive, watch, defineExpose } from 'vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { cloneDeep } from 'lodash'
 
 const props = defineProps({
   modelValue: {
@@ -52,6 +54,7 @@ const checksProperties = {
     key: 'checks.is_match',
     label: tl('isMatch'),
     description: tl('isMatchDesc'),
+    required: true,
   },
   result: {
     type: 'enum',
@@ -60,13 +63,20 @@ const checksProperties = {
     key: 'checks.result',
     label: tl('result'),
     description: tl('resultDesc'),
+    required: true,
   },
 }
 
 const cinfoConfig = reactive(props.modelValue)
 const { formCom, rules, validate } = useCInfoConfigForm()
 
+let preConfigs: Record<string, any> = { checks: [] }
 watch(cinfoConfig, (value) => {
+  if (value.checks.length === preConfigs.checks.length) {
+    validate()
+  } else {
+    preConfigs = cloneDeep(value)
+  }
   emit('update:modelValue', value)
 })
 
