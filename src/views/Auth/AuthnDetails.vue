@@ -11,7 +11,7 @@
             <p class="block-title">{{ titleMap[currBackend] }}</p>
             <AuthItemStatus is-tag :metrics="authMetrics" />
             <el-tag type="info" class="section-status">
-              {{ configData.mechanism }}
+              {{ getLabelByValue(configData.mechanism) }}
             </el-tag>
           </div>
         </template>
@@ -131,6 +131,7 @@ import BuiltInConfig from './components/BuiltInConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import AuthnManager from './components/AuthnManager.vue'
 import LdapConfig from './components/LdapConfig.vue'
+import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -201,6 +202,8 @@ export default defineComponent({
     })
 
     const { toggleAuthStatus } = useToggleAuthStatus()
+
+    const { getLabelByValue } = useAuthnMechanismType()
 
     const setPassWordBasedFieldsDefaultValue = () => {
       if (
@@ -383,6 +386,7 @@ export default defineComponent({
       currTab,
       currImg,
       titleMap,
+      getLabelByValue,
       configData,
       authMetrics,
       authnDetailLock,
