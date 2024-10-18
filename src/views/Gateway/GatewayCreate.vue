@@ -2,9 +2,6 @@
   <div class="app-wrapper gateway-create">
     <DetailHeader :item="{ name: pageTitle, routeName: 'gateway' }" />
     <el-card>
-      <div class="section-header">
-        {{ `${tl('initial')} ${transGatewayName(gname)}` }}
-      </div>
       <el-row>
         <el-col :span="16">
           <el-steps :active="stepActive" finish-status="success">
