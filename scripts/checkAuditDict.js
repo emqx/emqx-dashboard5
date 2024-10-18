@@ -13,6 +13,10 @@ const missingDictItems = []
 const uselessKeys = []
 
 const specialMap = new Map([['post:/listeners', 'post:/listeners/:id']])
+/**
+ * method is `get` but will show in audit log
+ */
+const ignoreArr = ['get:/sso/oidc/callback']
 
 const reg = /\{(\w+)\}/g
 const replacePlaceholder = (path) =>
@@ -51,7 +55,7 @@ const check = async () => {
         isSpecialValue = true
       }
     }
-    if (!swaggerExistedKeyInfoMap.get(key) && !isSpecialValue) {
+    if (!swaggerExistedKeyInfoMap.get(key) && !isSpecialValue && !ignoreArr.includes(key)) {
       uselessKeys.push(key)
     }
   }

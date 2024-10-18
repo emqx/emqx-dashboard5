@@ -162,7 +162,7 @@
           </el-table-column>
           <el-table-column :label="tl('opSource')">
             <template #default="{ row }">
-              {{ getLabelFromOpts(row.from, sourceTypeOpt) }}
+              {{ getSourceType(row.from) }}
               <br />
               {{ getSourceData(row) }}
             </template>
@@ -206,7 +206,7 @@ import {
   GetAuditParams,
 } from '@/types/typeAlias'
 import { ArrowDown, ArrowUp, RefreshLeft, Search, Setting } from '@element-plus/icons-vue'
-import { pickBy } from 'lodash'
+import { pickBy, toUpper } from 'lodash'
 import dayjs from 'dayjs'
 import { Ref, computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -365,6 +365,17 @@ const init = async () => {
   }
 }
 const formatDate = (ipt: string) => dayjs(ipt).format('YYYY-MM-DD HH:mm:ss')
+
+const isFromSSO = (from: string) => ['oidc', 'saml'].includes(from)
+const getSourceType = (value: string) => {
+  if (isFromSSO(value)) {
+    return toUpper(value)
+  }
+  if (value === 'unknown') {
+    return t('RuleEngine.unknown')
+  }
+  return getLabelFromOpts(value, sourceTypeOpt)
+}
 
 const typesUseNodeAsInfo: Array<string> = [AuditLogFrom.cli, AuditLogFrom.erlang_console]
 const getSourceData = (row: AuditLogItem) => {

@@ -427,4 +427,6 @@ export const DEFAULT_CLIENT_TABLE_COLUMNS = [
 
 export const BANNED_NEVER_EXPIRE_VALUE = 'infinity'
 
+export const DEFAULT_PAGE_SIZE_OPT = [20, 50, 100, 500]
+
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048

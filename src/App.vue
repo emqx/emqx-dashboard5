@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import useDashboardVersion from '@/hooks/useDashboardVersion'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
@@ -62,6 +63,9 @@ setWatchOSTheme()
 if (syncOsTheme.value) {
   hadleSyncOSTheme()
 }
+
+const { printVersion } = useDashboardVersion()
+printVersion()
 
 const router = useRouter()
 const route = useRoute()

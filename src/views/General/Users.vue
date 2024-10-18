@@ -66,7 +66,7 @@
       "
       v-model="dialogVisible"
       destroy-on-close
-      width="512px"
+      width="650px"
     >
       <el-form
         ref="formCom"

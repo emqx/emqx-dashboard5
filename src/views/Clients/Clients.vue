@@ -155,6 +155,11 @@
         <MiniPagination
           :current-page="page"
           :hasnext="hasNext"
+          :page-size="limit"
+          :total="clientsCount"
+          :page-sizes="defaultPageSizeOpt"
+          :layout="paginationLayout"
+          @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
       </div>
@@ -172,7 +177,11 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import { loadCurrentMetrics } from '@/api/common'
+import {
+  SEARCH_FORM_RES_PROPS as colProps,
+  DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
+} from '@/common/constants'
 import CheckIcon from '@/components/CheckIcon.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import MiniPagination from '@/components/MiniPagination.vue'
@@ -230,7 +239,7 @@ const queryParams = ref<Record<string, any>>({
   usernameSearchType: SearchType.Exact,
 })
 
-const { page, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
+const { page, limit, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
 const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
   usePaginationRemember('clients-detail')
 const routeName = computed(() => route.name?.toString() || 'clients')
@@ -334,6 +343,11 @@ const handlePageChange = (no: number) => {
   loadNodeClients(isBack)
 }
 
+const handleSizeChange = (size: number) => {
+  limit.value = size
+  handlePageChange(1)
+}
+
 const handleExactSearchClient = async (params: Record<string, any>) => {
   try {
     const {
@@ -372,7 +386,7 @@ const handleExactSearchClient = async (params: Record<string, any>) => {
     ) {
       isMatchOther = false
     }
-    return Promise.resolve({ data: isMatchOther ? [data] : [], meta: { count: 1 } })
+    return Promise.resolve({ data: isMatchOther ? [data] : [] })
   } catch (error) {
     return Promise.reject(error)
   }
@@ -390,6 +404,7 @@ const loadNodeClients = async (isBack = false) => {
       ? await handleExactSearchClient(sendParams)
       : await listClients(sendParams)
     tableData.value = data
+    updateClientsCount()
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
     updateCursorMap(routeName.value, cursorMap.value)
@@ -434,6 +449,20 @@ const getParamsFromQuery = () => {
     queryParams.value.connected_at
   ) {
     showMoreQuery.value = true
+  }
+}
+
+const paginationLayout = computed(() => {
+  const withFilters = Object.entries(params.value).filter(([, value]) => !!value).length > 0
+  return `${withFilters ? '' : 'total, '}sizes, prev, next`
+})
+const clientsCount = ref<number>(0)
+const updateClientsCount = async () => {
+  try {
+    const { connections } = await loadCurrentMetrics()
+    clientsCount.value = connections
+  } catch (error) {
+    //
   }
 }
 
