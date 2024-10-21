@@ -387,6 +387,26 @@ export default {
     zh: '消息丢弃',
     en: 'Dropped',
   },
+  totalDroppedMessages: {
+    zh: '丢弃消息总数',
+    en: 'Total Dropped Messages',
+  },
+  bar: {
+    zh: '条形图',
+    en: 'Bar',
+  },
+  pie: {
+    zh: '饼图',
+    en: 'Pie',
+  },
+  dropReasonsTitle: {
+    zh: '丢弃原因',
+    en: 'Explanation of Drop Reasons',
+  },
+  viewDetailAnalysis: {
+    zh: '查看详细分析',
+    en: 'View Detailed Analysis',
+  },
   integration: {
     zh: '数据指标集成',
     en: 'Metrics Integration',
@@ -826,5 +846,14 @@ export default {
   chartConnection: {
     zh: '显示当前时间下的 {type}。',
     en: 'Displays the {type} at the current time.',
+  },
+  /* Dropped */
+  dropped_await_pubrel_timeout: {
+    zh: '等待 PUBREL 报文超时',
+    en: 'Awaiting PUBREL timeout',
+  },
+  dropped_no_subscribers: {
+    zh: '无订阅者',
+    en: 'No Subscribers',
   },
 }
