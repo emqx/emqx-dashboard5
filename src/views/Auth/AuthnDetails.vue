@@ -11,7 +11,7 @@
             <p class="block-title">{{ titleMap[currBackend] }}</p>
             <AuthItemStatus is-tag :metrics="authMetrics" />
             <el-tag type="info" class="section-status">
-              {{ configData.mechanism }}
+              {{ getLabelByValue(configData.mechanism) }}
             </el-tag>
           </div>
         </template>
@@ -162,6 +162,7 @@ import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
+import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 export default defineComponent({
   name: 'AuthnDetails',
@@ -234,6 +235,8 @@ export default defineComponent({
     })
 
     const { toggleAuthStatus } = useToggleAuthStatus()
+
+    const { getLabelByValue } = useAuthnMechanismType()
 
     const setPassWordBasedFieldsDefaultValue = () => {
       if (
@@ -420,6 +423,7 @@ export default defineComponent({
       currTab,
       currImg,
       titleMap,
+      getLabelByValue,
       configData,
       authMetrics,
       authnDetailLock,
