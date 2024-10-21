@@ -11,7 +11,6 @@ export default (): {
         url: 'version',
         baseURL: '',
       })
-      debugger
       const version = versionContent.match(versionReg)?.[1]
       if (version) {
         console.log('🔎 Dashboard Version:', version)
