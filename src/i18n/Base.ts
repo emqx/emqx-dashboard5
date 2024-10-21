@@ -699,4 +699,12 @@ export default {
     zh: '末尾值',
     en: 'Last',
   },
+  description: {
+    zh: '描述',
+    en: 'Description',
+  },
+  potentialImpact: {
+    zh: '潜在影响',
+    en: 'Potential Impact',
+  },
 }

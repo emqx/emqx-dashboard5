@@ -17,9 +17,12 @@
             <el-card class="polyline-card">
               <div class="card-title">
                 <span>{{ item.text }}</span>
-                <a class="show-full-screen" href="javascript:;" @click="showChartDetails(item)">
-                  <el-icon><full-screen /></el-icon>
-                </a>
+                <div class="icons-container">
+                  <el-icon v-if="item.value === ChartType.Dropped" @click="openDropDetailDialog">
+                    <data-analysis />
+                  </el-icon>
+                  <el-icon @click="showChartDetails(item)"><full-screen /></el-icon>
+                </div>
               </div>
               <polyline-chart
                 :chart-id="`${item.value}-polyline`"
@@ -40,9 +43,9 @@
             <el-card class="polyline-card">
               <div class="card-title">
                 <span>{{ item.text }}</span>
-                <a class="show-full-screen" href="javascript:;" @click="showChartDetails(item)">
-                  <el-icon><full-screen /></el-icon>
-                </a>
+                <div class="icons-container">
+                  <el-icon @click="showChartDetails(item)"><full-screen /></el-icon>
+                </div>
               </div>
               <polyline-chart
                 :chart-id="`${item.value}-polyline`"
@@ -110,6 +113,7 @@
         </el-col>
       </el-row>
     </el-dialog>
+    <DroppedDetailDialog v-model="isDroppedDetailDialogOpen" :metrics="droppedDetailMetrics" />
   </div>
 </template>
 
@@ -122,15 +126,16 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
-import { loadChartData } from '@/api/common'
+import { loadChartData, loadMetrics as loadDroppedDetail } from '@/api/common'
 import { ref, reactive, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { FullScreen } from '@element-plus/icons-vue'
+import { FullScreen, DataAnalysis } from '@element-plus/icons-vue'
 import { isNumber } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import DroppedDetailDialog from './DroppedDetailDialog.vue'
 
 const POLLING_INTERVAL = 60000
 
@@ -284,10 +289,11 @@ const loadChartMetrics = async () => {
         currentData.yData.push(data[typeName])
       })
     })
-  } catch (error) {
-    //
-  } finally {
     isLoading.value = false
+    return Promise.resolve()
+  } catch (error) {
+    isLoading.value = false
+    return Promise.reject()
   }
 }
 
@@ -327,7 +333,30 @@ const generateDetailTableData = (data: ChartData) => {
   })
 }
 
-syncPolling(loadChartMetrics, POLLING_INTERVAL)
+const isDroppedDetailDialogOpen = ref(false)
+const droppedDetailMetrics = ref({})
+const openDropDetailDialog = () => {
+  isDroppedDetailDialogOpen.value = true
+}
+const loadDropDetailMetrics = async () => {
+  try {
+    droppedDetailMetrics.value = await loadDroppedDetail()
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject()
+  }
+}
+
+const loadMetrics = async () => {
+  try {
+    await Promise.allSettled([loadChartMetrics(), loadDropDetailMetrics()])
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject()
+  }
+}
+
+syncPolling(loadMetrics, POLLING_INTERVAL)
 </script>
 
 <style lang="scss">
@@ -354,16 +383,20 @@ syncPolling(loadChartMetrics, POLLING_INTERVAL)
       display: flex;
       margin: 0px 10px 8px;
       justify-content: space-between;
-      .show-full-screen {
+      .icons-container {
         visibility: hidden;
         color: var(--color-text-primary);
-        &:hover {
-          color: var(--color-primary);
+        .el-icon {
+          cursor: pointer;
+          margin-left: 8px;
+          &:hover {
+            color: var(--color-primary);
+          }
         }
       }
     }
     &:hover {
-      .show-full-screen {
+      .icons-container {
         visibility: visible;
       }
     }
