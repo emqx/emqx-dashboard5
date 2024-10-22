@@ -992,6 +992,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/dropped-analysis',
+    component: Layout,
+    meta: {
+      hideKey: 'dropped-analysis',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'dropped-analysis',
+        component: () => import('@/views/Diagnose/DroppedAnalysis.vue'),
+      },
+    ],
+  },
+  {
     path: '/sso',
     name: 'sso-login',
     component: () => import('@/views/Base/SSOLogin.vue'),
@@ -1036,7 +1051,7 @@ export function toLogin(path?: string): void {
   currentPath !== '/login' &&
     router.push({
       path: '/login',
-      query: { to: path ? path : currentPath ?? undefined },
+      query: { to: path ? path : (currentPath ?? undefined) },
     })
 }
 

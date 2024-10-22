@@ -70,6 +70,7 @@ export default (): {
     { title: 'topic-metrics', path: '/topic-metrics' },
     { title: 'slow-sub', path: '/slow-sub' },
     { title: 'log-trace', path: '/log-trace' },
+    { title: 'dropped-analysis', path: '/dropped-analysis' },
   ]
 
   const system = [
