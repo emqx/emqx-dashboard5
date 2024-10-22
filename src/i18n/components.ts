@@ -359,6 +359,10 @@ export default {
     zh: '日志追踪',
     en: 'Log Trace',
   },
+  'dropped-analysis': {
+    zh: '丢弃分析',
+    en: 'Dropped Analysis',
+  },
   connector: {
     zh: '连接器',
     en: 'Connector',

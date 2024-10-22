@@ -703,8 +703,4 @@ export default {
     zh: '描述',
     en: 'Description',
   },
-  potentialImpact: {
-    zh: '潜在影响',
-    en: 'Potential Impact',
-  },
 }

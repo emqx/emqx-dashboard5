@@ -6,10 +6,11 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
-import { pick, startCase } from 'lodash'
+import { escapeRegExp, pickBy, startCase } from 'lodash'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
+import useI18nTl from './useI18nTl'
 
 interface ChartDataItem {
   name: string
@@ -25,8 +26,9 @@ type ItemStyle = {
 export const useDroppedCharts = () => {
   const { te, t } = useI18n()
   const lastKeyReg = /[^.]+$/
+  const getLastKey = (metricKey: string) => lastKeyReg.exec(metricKey)?.[0] ?? metricKey
   const getTypeName = (metricKey: string) => {
-    const lastKey = lastKeyReg.exec(metricKey)?.[0] ?? metricKey
+    const lastKey = getLastKey(metricKey)
     const textKey = `Dashboard.dropped_${lastKey}`
     return te(textKey) ? t(textKey) : startCase(lastKey)
   }
@@ -35,9 +37,9 @@ export const useDroppedCharts = () => {
     return data.sort((a, b) => b.value - a.value)
   }
 
-  const filterMetrics = (totalMetrics: Record<string, number>, requiredKeys: Array<string>) => {
-    const arr = Object.entries(pick(totalMetrics, requiredKeys)).reduce(
-      (arr: Array<{ value: number; name: string }>, [key, value], index) => {
+  const filterMetrics = (totalMetrics: Record<string, number>, reg: RegExp) => {
+    const arr = Object.entries(pickBy(totalMetrics, (value, key) => reg.test(key))).reduce(
+      (arr: Array<{ value: number; name: string }>, [key, value]) => {
         arr.push({ value, name: getTypeName(key) })
         return arr
       },
@@ -48,14 +50,19 @@ export const useDroppedCharts = () => {
 
   const getBarChartOptions = (data: ChartData, itemStyle: ItemStyle) => {
     return {
+      animation: false,
       grid: {
         left: 80,
       },
       tooltip: {
-        trigger: 'item',
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow',
+        },
       },
       xAxis: {
         type: 'value',
+        minInterval: 1,
       },
       yAxis: {
         type: 'category',
@@ -67,6 +74,7 @@ export const useDroppedCharts = () => {
       },
       series: [
         {
+          name: 'Messages',
           type: 'bar',
           data: data.map(({ value }) => value),
           itemStyle,
@@ -77,12 +85,14 @@ export const useDroppedCharts = () => {
 
   const getPieChartOptions = (data: ChartData, itemStyle: ItemStyle) => {
     return {
+      animation: false,
       tooltip: {
         trigger: 'item',
+        formatter: '{b} {d}%',
       },
       legend: {
-        orient: 'vertical',
-        left: 'left',
+        left: 'center',
+        bottom: 20,
       },
       series: [
         {
@@ -90,12 +100,8 @@ export const useDroppedCharts = () => {
           radius: '50%',
           data,
           itemStyle,
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
-            },
+          label: {
+            formatter: '{b} {d}%',
           },
         },
       ],
@@ -109,6 +115,7 @@ export const useDroppedCharts = () => {
   }
 
   return {
+    getLastKey,
     getTypeName,
     filterMetrics,
     initChart,
@@ -121,13 +128,20 @@ export const enum MetricKey {
   MessagesDropped = 'messages.dropped',
   AwaitPubrelTimeout = 'messages.dropped.await_pubrel_timeout',
   NoSubscribers = 'messages.dropped.no_subscribers',
+
+  DeliveryDropped = 'delivery.dropped',
+  Qos0Msg = 'delivery.dropped.qos0_msg',
+  Expired = 'delivery.dropped.expired',
+  QueueFull = 'delivery.dropped.queue_full',
+  NoLocal = 'delivery.dropped.no_local',
+  TooLarge = 'delivery.dropped.too_large',
 }
 export const useMessageDroppedDetails = () => {
-  const metricKeyArr = [MetricKey.AwaitPubrelTimeout, MetricKey.NoSubscribers]
+  const metricsKeyReg = new RegExp(`^${escapeRegExp(MetricKey.MessagesDropped)}\\.(.)+`)
 
   const defaultColor = '#bac1cd'
 
-  const { getTypeName } = useDroppedCharts()
+  const { getLastKey, getTypeName } = useDroppedCharts()
   const nameColor = new Map<string, string>([
     [getTypeName(MetricKey.AwaitPubrelTimeout) ?? '', '#ffd78e'],
     [getTypeName(MetricKey.NoSubscribers) ?? '', '#bac1cd'],
@@ -139,22 +153,63 @@ export const useMessageDroppedDetails = () => {
     },
   }
 
-  const messageDroppedDesc = [
-    {
-      name: getTypeName(MetricKey.AwaitPubrelTimeout),
-      desc: 'TODO:TODO:TODO:TODO:',
-      impact: 'TODO:TODO:TODO:TODO:',
-    },
-    {
-      name: getTypeName(MetricKey.NoSubscribers),
-      desc: 'TODO:TODO:TODO:TODO:',
-      impact: 'TODO:TODO:TODO:TODO:',
-    },
-  ]
+  const { tl } = useI18nTl('Dashboard')
+
+  const messageDroppedDesc = [MetricKey.AwaitPubrelTimeout, MetricKey.NoSubscribers].map((key) => {
+    const lastKey = getLastKey(key)
+    return {
+      key,
+      name: getTypeName(key),
+      desc: tl(`dropped_${lastKey}_desc`),
+      impact: tl(`dropped_${lastKey}_impact`),
+    }
+  })
 
   return {
-    metricKeyArr,
+    metricsKeyReg,
     itemStyle,
     messageDroppedDesc,
+  }
+}
+
+export const useDeliveryDroppedDetails = () => {
+  const metricsKeyReg = new RegExp(`^${escapeRegExp(MetricKey.DeliveryDropped)}\\.(.)+`)
+
+  const defaultColor = '#bac1cd'
+
+  const { getLastKey, getTypeName } = useDroppedCharts()
+  const nameColor = new Map<string, string>([
+    [getTypeName(MetricKey.Qos0Msg) ?? '', '#469cf7'],
+    [getTypeName(MetricKey.Expired) ?? '', '#ffd78e'],
+    [getTypeName(MetricKey.QueueFull) ?? '', '#fdafa6'],
+    [getTypeName(MetricKey.NoLocal) ?? '', '#c5a3e5'],
+    [getTypeName(MetricKey.TooLarge) ?? '', '#7fd7b8'],
+  ])
+
+  const itemStyle: ItemStyle = {
+    color: function ({ name }: any) {
+      return nameColor.get(name) ?? defaultColor
+    },
+  }
+
+  const { tl } = useI18nTl('Dashboard')
+  const deliveryDroppedDesc = [
+    MetricKey.Qos0Msg,
+    MetricKey.Expired,
+    MetricKey.QueueFull,
+    MetricKey.NoLocal,
+    MetricKey.TooLarge,
+  ].map((key) => {
+    return {
+      key,
+      name: getTypeName(key),
+      impact: tl(`dropped_${getLastKey(key)}_impact`),
+    }
+  })
+
+  return {
+    metricsKeyReg,
+    itemStyle,
+    deliveryDroppedDesc,
   }
 }

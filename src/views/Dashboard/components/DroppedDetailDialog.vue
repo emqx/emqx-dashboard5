@@ -1,8 +1,8 @@
 <template>
-  <el-dialog v-model="showDialog" width="700px" top="52px" class="dropped-detail-dialog">
+  <el-dialog v-model="showDialog" width="800px" top="52px" class="dropped-detail-dialog">
     <div class="info-bar space-between">
-      <div>
-        <label>{{ tl('totalDroppedMessages') }}</label>
+      <div class="block-title">
+        <label>{{ tl('totalDroppedMessages') }}: </label>
         <span>{{ metrics[MetricKey.MessagesDropped] }}</span>
       </div>
       <div>
@@ -26,12 +26,12 @@
       <div class="dropped-desc-hd">{{ tl('dropReasonsTitle') }}</div>
       <el-table :data="messageDroppedDesc">
         <el-table-column prop="name" :label="t('Clients.reason')" />
-        <el-table-column prop="desc" :label="tl('description')" />
+        <el-table-column prop="desc" :label="t('Base.description')" />
         <el-table-column prop="impact" :label="tl('potentialImpact')" />
       </el-table>
     </div>
     <template #footer>
-      <el-button>{{ tl('viewDetailAnalysis') }}</el-button>
+      <el-button @click="goDroppedAnalysis">{{ tl('viewDetailAnalysis') }}</el-button>
     </template>
   </el-dialog>
 </template>
@@ -42,6 +42,7 @@ import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/u
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
 import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   modelValue: boolean
@@ -61,9 +62,9 @@ const showDialog = computed({
 const { t, tl } = useI18nTl('Dashboard')
 
 const { filterMetrics, initChart, getBarChartOptions, getPieChartOptions } = useDroppedCharts()
-const { metricKeyArr, itemStyle, messageDroppedDesc } = useMessageDroppedDetails()
+const { metricsKeyReg, itemStyle, messageDroppedDesc } = useMessageDroppedDetails()
 
-const requiredMetrics = computed(() => filterMetrics(props.metrics, metricKeyArr))
+const requiredMetrics = computed(() => filterMetrics(props.metrics, metricsKeyReg))
 
 const enum ChartType {
   Bar = 'bar',
@@ -99,10 +100,20 @@ watch(showDialog, (val) => {
     chartType.value = ChartType.Bar
   }
 })
+
+const router = useRouter()
+const goDroppedAnalysis = () => router.push({ name: 'dropped-analysis' })
 </script>
 
 <style lang="scss">
 .dropped-detail-dialog {
+  .info-bar {
+    align-items: center;
+    margin-top: 8px;
+  }
+  .el-switch {
+    margin: 12px;
+  }
   .chart-wrapper {
     height: 300px;
   }

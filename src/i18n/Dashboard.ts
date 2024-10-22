@@ -403,9 +403,21 @@ export default {
     zh: '丢弃原因',
     en: 'Explanation of Drop Reasons',
   },
+  potentialImpact: {
+    zh: '潜在影响',
+    en: 'Potential Impact',
+  },
   viewDetailAnalysis: {
     zh: '查看详细分析',
     en: 'View Detailed Analysis',
+  },
+  messagesDroppedAtDelivery: {
+    zh: '分发时丢弃',
+    en: 'Message Dropped at Delivery',
+  },
+  messagesDroppedAtReception: {
+    zh: '接收时丢弃',
+    en: 'Message Dropped at Reception',
   },
   integration: {
     zh: '数据指标集成',
@@ -850,10 +862,86 @@ export default {
   /* Dropped */
   dropped_await_pubrel_timeout: {
     zh: '等待 PUBREL 报文超时',
-    en: 'Awaiting PUBREL timeout',
+    en: 'Awaiting PUBREL Timeout',
+  },
+  dropped_await_pubrel_timeout_desc: {
+    zh: 'QoS 2 消息因未在超时期限内收到 PUBREL 报文而被丢弃。',
+    en: 'Messages dropped due to not receiving a PUBREL packet within the timeout period for QoS 2 messages.',
+  },
+  dropped_await_pubrel_timeout_impact: {
+    zh: '可能是网络问题或客户端行为异常。',
+    en: 'May indicate network issues or misbehaving clients.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
     en: 'No Subscribers',
+  },
+  dropped_no_subscribers_desc: {
+    zh: '消息因主题无订阅者而被丢弃。',
+    en: 'Messages dropped because there were no subscribers for the topic.',
+  },
+  dropped_no_subscribers_impact: {
+    zh: '可能是配置错误或客户端行为异常。',
+    en: 'Could suggest misconfigurations or unexpected client behavior.',
+  },
+  dropped_qos0_msg: {
+    zh: '消息队列满且 QoS 为 0',
+    en: 'Queue Full and QoS 0',
+  },
+  dropped_qos0_msg_impact: {
+    zh: '可能是消息生产速率过快或订阅者处理消息速率过慢。',
+    en: 'Could suggest message production rate is too high or subscriber message processing rate is too slow.',
+  },
+  dropped_expired: {
+    zh: '消息过期',
+    en: 'Expired',
+  },
+  dropped_expired_impact: {
+    zh: '可能是消息堆积过久或过期时间设置过短。',
+    en: 'Could suggest message backlog or too short message expiry interval.',
+  },
+  dropped_queue_full: {
+    zh: '消息队列满且 QoS 不为 0',
+    en: 'Queue Full and Non-Zero QoS',
+  },
+  dropped_queue_full_impact: {
+    zh: '可能是消息生产速率过快，队列配置容量过小，或 QoS 较高的消息未能及时处理。',
+    en: 'Could suggest high message production rate, insufficient queue capacity, or delayed processing of higher QoS messages.',
+  },
+  dropped_no_local: {
+    zh: '禁止本地转发',
+    en: 'No Local',
+  },
+  dropped_no_local_impact: {
+    zh: '符合预期的本地消息过滤，一般不代表异常。',
+    en: 'Expected local message filtering, usually not an issue.',
+  },
+  dropped_too_large: {
+    zh: '消息长度超出限制',
+    en: 'Too Large',
+  },
+  dropped_too_large_impact: {
+    zh: '消息体超出限制或最大报文大小配置过小。',
+    en: 'Message body exceeds the limit or the maximum message size is set too low.',
+  },
+  category: {
+    zh: '类别',
+    en: 'Category',
+  },
+  reception: {
+    zh: '接收',
+    en: 'Reception',
+  },
+  detailedMetrics: {
+    zh: '详细指标',
+    en: 'Detailed Metrics',
+  },
+  messageDroppedDesc: {
+    en: 'Messages be dropped at receive, including messages dropped due to waiting PUBREL timeout and no subscribers.',
+    zh: '接收时被丢弃的消息，包括等待 PUBREL 超时和无订阅者两种情况。',
+  },
+  deliveryDroppedDesc: {
+    en: 'Messages be dropped after reaching subscriber session, including messages dropped due to no local option, message size limit and expiration.',
+    zh: '发送至订阅者后被丢弃的消息，包括禁止本地转发、消息长度超出限制、消息队列满等情况。',
   },
 }
