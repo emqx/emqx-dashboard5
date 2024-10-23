@@ -403,9 +403,9 @@ export default {
     zh: '丢弃原因',
     en: 'Explanation of Drop Reasons',
   },
-  potentialImpact: {
-    zh: '潜在影响',
-    en: 'Potential Impact',
+  causeAnalysis: {
+    zh: '原因分析',
+    en: 'Cause Analysis',
   },
   viewDetailAnalysis: {
     zh: '查看详细分析',
@@ -869,8 +869,8 @@ export default {
     en: 'Messages dropped due to not receiving a PUBREL packet within the timeout period for QoS 2 messages.',
   },
   dropped_await_pubrel_timeout_impact: {
-    zh: '可能是网络问题或客户端行为异常。',
-    en: 'May indicate network issues or misbehaving clients.',
+    zh: '可能是网络问题或最大 PUBREL 等待时长设置过短',
+    en: 'May indicate network issues or the max awaiting PUBREL timeout is set too short.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
@@ -883,6 +883,18 @@ export default {
   dropped_no_subscribers_impact: {
     zh: '可能是配置错误或客户端行为异常。',
     en: 'Could suggest misconfigurations or unexpected client behavior.',
+  },
+  dropped_dropped: {
+    zh: '超出接收限制',
+    en: 'Exceeded Receiving Limit',
+  },
+  dropped_dropped_desc: {
+    zh: '消息因超出接收限制而被丢弃。',
+    en: 'Messages dropped due to exceeding the receiving limit.',
+  },
+  dropped_dropped_impact: {
+    zh: '可能是最大飞行窗口配置过小或最大 PUBREL 等待时长设置过短。',
+    en: 'Could suggest the maximum flight window configuration is too small or the max awaiting PUBREL timeout is set too short.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',
@@ -905,8 +917,8 @@ export default {
     en: 'Queue Full and Non-Zero QoS',
   },
   dropped_queue_full_impact: {
-    zh: '可能是消息生产速率过快，队列配置容量过小，或 QoS 较高的消息未能及时处理。',
-    en: 'Could suggest high message production rate, insufficient queue capacity, or delayed processing of higher QoS messages.',
+    zh: '可能是消息生产速率过快，或消息队列或飞行窗口配置长度较小',
+    en: 'Could suggest message production rate is too high, or message queue or flight window configuration length is too small',
   },
   dropped_no_local: {
     zh: '禁止本地转发',

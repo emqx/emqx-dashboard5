@@ -11,7 +11,7 @@
       <div class="charts-hd space-between">
         <div class="block-title">
           <label>{{ tl('totalDroppedMessages') }}: </label>
-          <span>{{ metrics[totalKey] }}</span>
+          <span>{{ totalNum }}</span>
         </div>
         <el-select
           class="node-select"
@@ -23,7 +23,7 @@
           <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
         </el-select>
       </div>
-      <el-card class="charts-card">
+      <el-card class="charts-card" :key="activeTab">
         <div class="chart" :class="{ 'is-higher': !isSelectedMessage }" ref="BarChartEle"></div>
         <div class="chart" :class="{ 'is-higher': !isSelectedMessage }" ref="PieChartEle"></div>
       </el-card>
@@ -34,8 +34,7 @@
         <el-table-column prop="name" :label="t('Clients.reason')" :min-width="120" />
         <el-table-column prop="value" sortable :label="t('components.value')" :min-width="100" />
         <el-table-column prop="key" :label="t('components.field')" :min-width="160" />
-        <el-table-column prop="category" sortable :label="tl('category')" :min-width="100" />
-        <el-table-column prop="impact" :label="tl('potentialImpact')" :min-width="160" />
+        <el-table-column prop="impact" :label="tl('causeAnalysis')" :min-width="160" />
       </el-table>
     </div>
   </div>
@@ -51,7 +50,7 @@ import {
 } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import { get } from 'lodash'
-import { computed, nextTick, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const enum TabName {
   Message,
@@ -78,17 +77,18 @@ const metrics = ref<Record<string, number>>({})
 const totalKey = computed(() =>
   isSelectedMessage.value ? MetricKey.MessagesDropped : MetricKey.DeliveryDropped,
 )
+const totalNum = computed(() => metrics.value[totalKey.value])
 
 const {
   metricsKeyReg: messageDroppedMetricsKeyReg,
   itemStyle: messageDroppedMetricItemStyle,
   messageDroppedDesc,
-} = useMessageDroppedDetails()
+} = useMessageDroppedDetails(totalNum)
 const {
   metricsKeyReg: deliveryDroppedMetricsKeyReg,
   itemStyle: deliveryDroppedMetricItemStyle,
   deliveryDroppedDesc,
-} = useDeliveryDroppedDetails()
+} = useDeliveryDroppedDetails(totalNum)
 
 const { filterMetrics, initChart, getBarChartOptions, getPieChartOptions } = useDroppedCharts()
 
@@ -99,7 +99,9 @@ const requiredMetrics = computed(() =>
   ),
 )
 const chartItemStyle = computed(() =>
-  isSelectedMessage.value ? messageDroppedMetricItemStyle : deliveryDroppedMetricItemStyle,
+  isSelectedMessage.value
+    ? messageDroppedMetricItemStyle.value
+    : deliveryDroppedMetricItemStyle.value,
 )
 
 const BarChartEle = ref()
@@ -141,6 +143,13 @@ const queryMetrics = async () => {
   }
 }
 
+const disposeCharts = () => {
+  barChart?.dispose?.()
+  barChart = undefined
+  pieChart?.dispose?.()
+  pieChart = undefined
+}
+
 const refreshCharts = async () => {
   try {
     await queryMetrics()
@@ -153,9 +162,7 @@ const refreshCharts = async () => {
 refreshCharts()
 
 const handleTabChanged = async () => {
-  await nextTick()
-  barChart?.resize?.()
-  pieChart?.resize?.()
+  disposeCharts()
   refreshCharts()
 }
 
@@ -164,17 +171,13 @@ interface TableItem {
   name: string
   desc?: string
   impact: string
-  category: string
   value: number
 }
 const tableData = computed(() => {
-  return [...messageDroppedDesc, ...deliveryDroppedDesc].reduce((arr: Array<TableItem>, item) => {
+  const arr = isSelectedMessage.value ? messageDroppedDesc : deliveryDroppedDesc
+  return arr.reduce((arr: Array<TableItem>, item) => {
     const value = get(metrics.value, item.key)
-    arr.push({
-      value,
-      ...item,
-      category: /messages\./.test(item.key) ? tl('reception') : tl('delivery'),
-    })
+    arr.push({ value, ...item })
     return arr
   }, [])
 })
