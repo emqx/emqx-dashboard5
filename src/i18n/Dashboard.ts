@@ -869,8 +869,8 @@ export default {
     en: 'Messages dropped due to not receiving a PUBREL packet within the timeout period for QoS 2 messages.',
   },
   dropped_await_pubrel_timeout_impact: {
-    zh: '可能是网络问题或最大 PUBREL 等待时长设置过短',
-    en: 'May indicate network issues or the max awaiting PUBREL timeout is set too short.',
+    zh: '可能表明发布客户端运行缓慢或行为异常，无法在 EMQX 等待超过最大 PUBREL 等待时长（`await_rel_timeout`）限制之前发送 `PUBREL` 消息。这并不一定表示消息丢失，因为 `PUBLISH` 数据包已经被路由至订阅客户端。',
+    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessary indicates message loss since the `PUBLISH` packet itself is routed to the subscriber clients already.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
@@ -881,8 +881,8 @@ export default {
     en: 'Messages dropped because there were no subscribers for the topic.',
   },
   dropped_no_subscribers_impact: {
-    zh: '可能是配置错误或客户端行为异常。',
-    en: 'Could suggest misconfigurations or unexpected client behavior.',
+    zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：EMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
+    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
   },
   dropped_dropped: {
     zh: '超出接收限制',
@@ -893,8 +893,8 @@ export default {
     en: 'Messages dropped due to exceeding the receiving limit.',
   },
   dropped_dropped_impact: {
-    zh: '可能是最大飞行窗口配置过小或最大 PUBREL 等待时长设置过短。',
-    en: 'Could suggest the maximum flight window configuration is too small or the max awaiting PUBREL timeout is set too short.',
+    zh: '消息在抵达任何订阅会话之前被丢弃。丢弃的原因包括：<br />1) QoS 0 消息因超出路由速率限制而被丢弃<br />2) 当等待确认的 `PUBREC` 数据包数量达到 `max_awaiting_rel` 限制时，QoS 2 的 `PUBLISH` 消息被丢弃，随后客户端会断开连接。',
+    en: 'A message is dropped before reaching any subscribing sessions. The drop happens for two reasons:<br /> 1) A QoS 0 message is dropped due to routing rate limit is exceeded<br /> 2) A QoS 2 `PUBLISH` message is dropped when the number of pending `PUBREC` packets has reached the `max_awaiting_rel` limit, this counter is followed by a client disconnect event.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',

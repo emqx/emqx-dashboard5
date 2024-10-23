@@ -27,7 +27,11 @@
       <el-table :data="messageDroppedDesc">
         <el-table-column prop="name" :label="t('Clients.reason')" />
         <el-table-column prop="desc" :label="t('Base.description')" />
-        <el-table-column prop="impact" :label="tl('causeAnalysis')" />
+        <el-table-column prop="impact" :label="tl('causeAnalysis')">
+          <template #default="{ row }">
+            <MarkdownContent :content="row.impact" />
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <template #footer>
@@ -38,6 +42,7 @@
 
 <script lang="ts" setup>
 import { createRandomString } from '@/common/tools'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'

@@ -32,9 +32,13 @@
       <div class="charts-hd block-title">{{ tl('detailedMetrics') }}</div>
       <el-table :data="tableData">
         <el-table-column prop="name" :label="t('Clients.reason')" :min-width="120" />
-        <el-table-column prop="value" sortable :label="t('components.value')" :min-width="100" />
+        <el-table-column prop="value" sortable :label="t('components.value')" :min-width="80" />
         <el-table-column prop="key" :label="t('components.field')" :min-width="160" />
-        <el-table-column prop="impact" :label="tl('causeAnalysis')" :min-width="160" />
+        <el-table-column prop="impact" :label="tl('causeAnalysis')" :min-width="240">
+          <template #default="{ row }">
+            <MarkdownContent :content="row.impact" />
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -42,6 +46,7 @@
 
 <script setup lang="ts">
 import { loadMetrics, loadNodes } from '@/api/common'
+import MarkdownContent from '@/components/MarkdownContent.vue'
 import {
   MetricKey,
   useDeliveryDroppedDetails,
