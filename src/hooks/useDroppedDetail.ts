@@ -7,7 +7,7 @@ import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
 import { escapeRegExp, pickBy, startCase } from 'lodash'
-import { computed } from 'vue'
+import { computed, ComputedRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import useI18nTl from './useI18nTl'
@@ -128,6 +128,7 @@ export const enum MetricKey {
   MessagesDropped = 'messages.dropped',
   AwaitPubrelTimeout = 'messages.dropped.await_pubrel_timeout',
   NoSubscribers = 'messages.dropped.no_subscribers',
+  PacketsDropped = 'packets.publish.dropped',
 
   DeliveryDropped = 'delivery.dropped',
   Qos0Msg = 'delivery.dropped.qos0_msg',
@@ -136,26 +137,36 @@ export const enum MetricKey {
   NoLocal = 'delivery.dropped.no_local',
   TooLarge = 'delivery.dropped.too_large',
 }
-export const useMessageDroppedDetails = () => {
-  const metricsKeyReg = new RegExp(`^${escapeRegExp(MetricKey.MessagesDropped)}\\.(.)+`)
 
-  const defaultColor = '#bac1cd'
+const COLOR_NONE = '#c2c8d1'
+
+export const useMessageDroppedDetails = (totalMessageDropped: ComputedRef<number>) => {
+  const metricsKeyReg = new RegExp(
+    `^(${escapeRegExp(MetricKey.MessagesDropped)}\\.(.)+)|${escapeRegExp(
+      MetricKey.PacketsDropped,
+    )}`,
+  )
 
   const { getLastKey, getTypeName } = useDroppedCharts()
   const nameColor = new Map<string, string>([
-    [getTypeName(MetricKey.AwaitPubrelTimeout) ?? '', '#ffd78e'],
+    [getTypeName(MetricKey.AwaitPubrelTimeout) ?? '', '#fdafa6'],
     [getTypeName(MetricKey.NoSubscribers) ?? '', '#bac1cd'],
+    [getTypeName(MetricKey.PacketsDropped) ?? '', '#7fd7b8'],
   ])
 
-  const itemStyle: ItemStyle = {
+  const itemStyle = computed<ItemStyle>(() => ({
     color: function ({ name }: any) {
-      return nameColor.get(name) ?? defaultColor
+      return totalMessageDropped.value === 0 ? COLOR_NONE : (nameColor.get(name) ?? COLOR_NONE)
     },
-  }
+  }))
 
   const { tl } = useI18nTl('Dashboard')
 
-  const messageDroppedDesc = [MetricKey.AwaitPubrelTimeout, MetricKey.NoSubscribers].map((key) => {
+  const messageDroppedDesc = [
+    MetricKey.AwaitPubrelTimeout,
+    MetricKey.NoSubscribers,
+    MetricKey.PacketsDropped,
+  ].map((key) => {
     const lastKey = getLastKey(key)
     return {
       key,
@@ -172,10 +183,8 @@ export const useMessageDroppedDetails = () => {
   }
 }
 
-export const useDeliveryDroppedDetails = () => {
+export const useDeliveryDroppedDetails = (totalDeliveryDropped: ComputedRef<number>) => {
   const metricsKeyReg = new RegExp(`^${escapeRegExp(MetricKey.DeliveryDropped)}\\.(.)+`)
-
-  const defaultColor = '#bac1cd'
 
   const { getLastKey, getTypeName } = useDroppedCharts()
   const nameColor = new Map<string, string>([
@@ -186,11 +195,11 @@ export const useDeliveryDroppedDetails = () => {
     [getTypeName(MetricKey.TooLarge) ?? '', '#7fd7b8'],
   ])
 
-  const itemStyle: ItemStyle = {
+  const itemStyle = computed<ItemStyle>(() => ({
     color: function ({ name }: any) {
-      return nameColor.get(name) ?? defaultColor
+      return totalDeliveryDropped.value === 0 ? COLOR_NONE : (nameColor.get(name) ?? COLOR_NONE)
     },
-  }
+  }))
 
   const { tl } = useI18nTl('Dashboard')
   const deliveryDroppedDesc = [

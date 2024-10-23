@@ -27,7 +27,7 @@
       <el-table :data="messageDroppedDesc">
         <el-table-column prop="name" :label="t('Clients.reason')" />
         <el-table-column prop="desc" :label="t('Base.description')" />
-        <el-table-column prop="impact" :label="tl('potentialImpact')" />
+        <el-table-column prop="impact" :label="tl('causeAnalysis')" />
       </el-table>
     </div>
     <template #footer>
@@ -62,7 +62,8 @@ const showDialog = computed({
 const { t, tl } = useI18nTl('Dashboard')
 
 const { filterMetrics, initChart, getBarChartOptions, getPieChartOptions } = useDroppedCharts()
-const { metricsKeyReg, itemStyle, messageDroppedDesc } = useMessageDroppedDetails()
+const totalNum = computed(() => props.metrics[MetricKey.MessagesDropped])
+const { metricsKeyReg, itemStyle, messageDroppedDesc } = useMessageDroppedDetails(totalNum)
 
 const requiredMetrics = computed(() => filterMetrics(props.metrics, metricsKeyReg))
 
@@ -73,13 +74,13 @@ const enum ChartType {
 const chartType = ref(ChartType.Bar)
 
 const BarChartEle = ref()
-const getBarOptions = () => getBarChartOptions(requiredMetrics.value, itemStyle)
+const getBarOptions = () => getBarChartOptions(requiredMetrics.value, itemStyle.value)
 const drawBarChart = () => {
   initChart(BarChartEle.value).setOption(getBarOptions())
 }
 
 const PieChartEle = ref()
-const getPieOptions = () => getPieChartOptions(requiredMetrics.value, itemStyle)
+const getPieOptions = () => getPieChartOptions(requiredMetrics.value, itemStyle.value)
 const drawPieChart = () => {
   initChart(PieChartEle.value).setOption(getPieOptions())
 }
