@@ -49,7 +49,7 @@ const checksProperties = {
     type: 'string',
     format: 'textarea',
     rows: 3,
-    placeholder: 'e.g., regex_match(username, "^admin-")',
+    placeholder: "e.g., regex_match(username, '^admin-')",
     path: 'checks.is_match',
     key: 'checks.is_match',
     label: tl('isMatch'),
