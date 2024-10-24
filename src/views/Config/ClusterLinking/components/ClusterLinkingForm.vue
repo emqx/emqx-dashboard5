@@ -19,7 +19,7 @@
       <el-col :span="12">
         <el-form-item prop="server">
           <template #label>
-            <FormItemLabel :label="tl('serverAddress')" :desc="tl('serverAddressDesc')" />
+            <FormItemLabel :label="t('Base.server')" :desc="tl('serverAddressDesc')" />
           </template>
           <el-input v-model="record.server" />
         </el-form-item>
@@ -205,7 +205,7 @@ const record = computed<ClusterLinkingForm>({
 const { createRequiredRule } = useFormRules()
 const rules = {
   name: createRequiredRule(tl('clusterName')),
-  server: createRequiredRule(tl('serverAddress')),
+  server: createRequiredRule(t('Base.server')),
   topics: [
     {
       type: 'array',

@@ -19,7 +19,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="server" :label="tl('serverAddress')" />
+      <el-table-column prop="server" :label="t('Base.server')" />
       <el-table-column :label="t('components.topics')">
         <template #default="{ row }">
           <div class="topic-list">

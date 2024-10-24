@@ -168,10 +168,6 @@ export default {
     zh: '连接的（远程）集群的名称，必须与远程集群配置中的 `cluster.name` 完全一致，同时**不能**与本地的 `cluster.name` 相同。所有配置的集群名称必须唯一。',
     en: 'Linked (remote) cluster name. Must be exactly equal to the value of `cluster.name` configured at the remote cluster. Must **not** be equal to the local `cluster.name`. All configured cluster link names must be unique.',
   },
-  serverAddress: {
-    zh: '服务器地址',
-    en: 'Server Address',
-  },
   serverAddressDesc: {
     zh: '远程 EMQX 服务的 MQTT 主机和端口。',
     en: 'MQTT host and port of the remote EMQX broker.',
