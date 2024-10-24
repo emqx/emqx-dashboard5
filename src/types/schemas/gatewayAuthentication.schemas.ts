@@ -25,6 +25,14 @@ export type PostGatewaysNameListenersIdAuthenticationImportUsers400 = {
   message?: string
 }
 
+export type PostGatewaysNameListenersIdAuthenticationImportUsers200 = {
+  total?: number
+  success?: number
+  override?: number
+  skipped?: number
+  failed?: number
+}
+
 export type PostGatewaysNameListenersIdAuthenticationImportUsersBody = {
   filename?: Blob
 }
@@ -196,6 +204,14 @@ export const PostGatewaysNameAuthenticationImportUsers400Code = {
 export type PostGatewaysNameAuthenticationImportUsers400 = {
   code?: PostGatewaysNameAuthenticationImportUsers400Code
   message?: string
+}
+
+export type PostGatewaysNameAuthenticationImportUsers200 = {
+  total?: number
+  success?: number
+  override?: number
+  skipped?: number
+  failed?: number
 }
 
 export type PostGatewaysNameAuthenticationImportUsersBody = {
