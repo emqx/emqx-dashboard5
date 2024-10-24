@@ -105,7 +105,6 @@
             <el-table-column prop="last" :label="t('Base.last')"></el-table-column>
             <el-table-column prop="max" :label="t('Base.max')"></el-table-column>
             <el-table-column prop="min" :label="t('Base.min')"></el-table-column>
-            <el-table-column prop="avg" :label="t('Base.avg')"></el-table-column>
           </el-table>
         </el-col>
       </el-row>
@@ -316,9 +315,8 @@ const calculateStatistics = (data: Array<number | null>) => {
   const max = Math.max(...validData)
   const min = Math.min(...validData)
   const sum = validData.reduce((acc, val) => acc + val, 0)
-  const avg = Math.round(sum / validDataLength)
   const last = data[data.length - 1]
-  return { max, min, avg, last }
+  return { max, min, last }
 }
 
 const generateDetailTableData = (data: ChartData) => {

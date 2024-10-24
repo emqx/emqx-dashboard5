@@ -639,10 +639,6 @@ export default {
     zh: '最小值',
     en: 'Minimum',
   },
-  avg: {
-    zh: '平均值',
-    en: 'Average',
-  },
   last: {
     zh: '末尾值',
     en: 'Last',
