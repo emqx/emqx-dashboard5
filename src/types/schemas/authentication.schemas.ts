@@ -282,6 +282,14 @@ export type PostAuthenticationIdImportUsers400 = {
   message?: string
 }
 
+export type PostAuthenticationIdImportUsers200 = {
+  total?: number
+  success?: number
+  override?: number
+  skipped?: number
+  failed?: number
+}
+
 export type PostAuthenticationIdImportUsersBodyTwo = { [key: string]: any }
 
 export type PostAuthenticationIdImportUsersBodyOne = {

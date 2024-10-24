@@ -54,6 +54,7 @@ export type GetMetrics200 = EmqxMgmtApiMetricsNodeMetrics[] | EmqxMgmtApiMetrics
 
 export type GetMetricsParams = {
   aggregate?: boolean
+  node?: string
 }
 
 export type EmqxMgmtApiStatsAggregateParameter = boolean
