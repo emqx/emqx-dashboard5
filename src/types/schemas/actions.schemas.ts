@@ -112,6 +112,18 @@ export type DeleteActionsIdParams = {
   also_delete_dep_actions?: boolean
 }
 
+export type PutActionsId503Code = typeof PutActionsId503Code[keyof typeof PutActionsId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutActionsId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PutActionsId503 = {
+  code?: PutActionsId503Code
+  message?: string
+}
+
 export type PutActionsId404Code = typeof PutActionsId404Code[keyof typeof PutActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
