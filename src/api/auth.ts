@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { AuthzSetting, Metrics } from '@/types/auth'
+import { AuthzSetting, ImportResult, Metrics } from '@/types/auth'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
@@ -92,7 +92,11 @@ export function updateAuthnUser(id: string, userId: string, body: { [key: string
   )
 }
 
-export function uploadUsers(id: string, type: 'plain' | 'hash', file: { raw: File; name: string }) {
+export function uploadUsers(
+  id: string,
+  type: 'plain' | 'hash',
+  file: { raw: File; name: string },
+): Promise<ImportResult> {
   const formData = new FormData()
   formData.append('filename', file.raw)
   return http.post(

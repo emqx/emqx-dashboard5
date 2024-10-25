@@ -83,4 +83,12 @@ export interface Banned {
 
 export type DatabaseAndServer = 'mysql' | 'postgresql' | 'mongodb' | 'redis' | 'http' | 'ldap'
 
+export interface ImportResult {
+  total?: number
+  success?: number
+  override?: number
+  skipped?: number
+  failed?: number
+}
+
 export default {}
