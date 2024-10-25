@@ -575,4 +575,32 @@ export default {
     zh: '被忽略的授权请求计数。当授权源尝试对请求进行授权但遇到不适用的情况或出现错误导致结果无法确定时，此计数器会增加。',
     en: 'Count of authorization requests ignored. This counter increments when an authorization source attempts to authorize a request but encounters scenarios where the authorizer is not applicable or encounters an error, resulting in an undecidable outcome.',
   },
+  importCompleted: {
+    zh: '导入完成',
+    en: 'Import completed',
+  },
+  successRecords: {
+    zh: '成功 {success} 条',
+    en: 'Success {success} records',
+  },
+  overrideRecords: {
+    zh: '覆盖 {override} 条',
+    en: 'Override {override} records',
+  },
+  failedRecords: {
+    zh: '失败 {failed} 条',
+    en: 'Failed {failed} records',
+  },
+  skippedRecords: {
+    zh: '跳过 {skipped} 条',
+    en: 'Skipped {skipped} records',
+  },
+  totalRecords: {
+    zh: '总计 {total} 条',
+    en: 'Total {total} records',
+  },
+  allImportSuc: {
+    zh: '成功导入 {total} 条数据',
+    en: 'Successfully imported {total} records',
+  },
 }
