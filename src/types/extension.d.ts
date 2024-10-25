@@ -15,6 +15,8 @@ export interface Retainer {
   enable: boolean
   max_payload_size: string
   msg_expiry_interval: string
+  msg_expiry_interval_override: string
+  allow_never_expire: boolean
   msg_clear_interval: string
   delivery_rate: string
   backend: {
