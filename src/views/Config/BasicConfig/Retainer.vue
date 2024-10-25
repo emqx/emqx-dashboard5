@@ -78,6 +78,7 @@
                   <FormItemLabel
                     :label="tl('msgExpiryInterval')"
                     :desc="tl('msgExpiryIntervalDesc')"
+                    desc-marked
                   />
                 </template>
                 <Oneof
@@ -86,6 +87,39 @@
                   :disabled-label="tl('noExp')"
                   :disabled="!configEnable"
                 />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="msg_expiry_interval_override">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('msgExpiryIntervalOverride')"
+                    :desc="tl('msgExpiryIntervalOverrideDesc')"
+                    desc-marked
+                  />
+                </template>
+                <Oneof
+                  v-model="retainerConfig.msg_expiry_interval_override"
+                  :items="[{ type: 'duration' }, { type: 'enum', symbols: [DISABLED_VALUE] }]"
+                  :disabled-label="tl('disable')"
+                  :disabled="!configEnable"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col
+              :span="21"
+              class="custom-col"
+              v-if="retainerConfig.msg_expiry_interval_override !== DISABLED_VALUE"
+            >
+              <el-form-item prop="allow_never_expire">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('allowNeverExpire')"
+                    :desc="tl('allowNeverExpireDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-switch v-model="retainerConfig.allow_never_expire" />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -147,12 +181,15 @@ const store = useStore()
 const { createRequiredRule } = useFormRules()
 
 const NO_INTERVAL_VALUE = '0s'
+const DISABLED_VALUE = 'disabled'
 
 let retainerConfig = ref<Retainer>({
   enable: false,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,
+  msg_expiry_interval_override: DISABLED_VALUE,
+  allow_never_expire: true,
   delivery_rate: '1000/s',
   backend: {
     storage_type: 'ram',
