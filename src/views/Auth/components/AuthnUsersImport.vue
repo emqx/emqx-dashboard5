@@ -73,10 +73,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, watch } from 'vue'
 import { Upload } from '@element-plus/icons-vue'
 import { downloadByURL } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
+import { ImportResult } from '@/types/auth'
 import { ElMessage, ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'
 import { useRoute } from 'vue-router'
@@ -94,6 +95,37 @@ const fileList = ref<any[]>([])
 const passwordType = ref<PasswordType>('plain')
 const UploadRef = ref<typeof ElUpload | null>(null)
 
+const initFileList = () => {
+  fileList.value = []
+}
+
+watch(
+  () => dialogVisible.value,
+  (visible: boolean) => {
+    if (!visible) {
+      initFileList()
+    }
+  },
+)
+
+const popupImportResult = (data: ImportResult) => {
+  const { success, total } = data
+  if (success === total) {
+    ElMessage.success(t('Auth.allImportSuc', { total }))
+  } else {
+    const keyArr: Array<keyof ImportResult> = ['success', 'override', 'failed', 'skipped', 'total']
+    const messageDetail = keyArr.reduce((msg: string, key) => {
+      if (data[key]) {
+        msg += msg ? t('Base.comma') : ''
+        msg += `${t(`Auth.${key}Records`, { [key]: data[key] })}`
+      }
+      return msg
+    }, '')
+    const message = `${t('Auth.importCompleted')}${t('Base.comma')}${messageDetail}`
+    ElMessage({ type: 'success', message, duration: 8000 })
+  }
+}
+
 async function importData() {
   if (fileList.value.length === 0) {
     ElMessage.error(tl('selectFileFirst'))
@@ -103,8 +135,8 @@ async function importData() {
   importLoading.value = true
   const id = route.params.id as string
   try {
-    await uploadUsers(id, passwordType.value, file)
-    ElMessage.success(t('Base.importSuc'))
+    const result = await uploadUsers(id, passwordType.value, file)
+    popupImportResult(result)
     fileList.value = []
     UploadRef.value?.clearFiles()
     dialogVisible.value = false
