@@ -56,12 +56,12 @@ export const IP_REG =
 
 export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
 
-export const GATEWAY_DISABLED_MECHANISM_MAP = {
-  [GatewayName.STOMP]: [AuthnMechanismType.SCRAM],
-  [GatewayName.CoAP]: [AuthnMechanismType.SCRAM],
-  [GatewayName.ExProto]: [AuthnMechanismType.SCRAM],
-  [GatewayName.MQTT_SN]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
-  [GatewayName.LwM2M]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
+export const GATEWAY_ENABLED_MECHANISM_MAP = {
+  [GatewayName.STOMP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.CoAP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.ExProto]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.MQTT_SN]: [AuthnMechanismType.PasswordBased],
+  [GatewayName.LwM2M]: [AuthnMechanismType.PasswordBased],
 }
 
 export const GATEWAY_DISABLED_DATABASES_MAP = {
