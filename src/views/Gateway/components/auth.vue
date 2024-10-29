@@ -171,9 +171,12 @@ getAuthInfo()
 
 <style lang="scss">
 .gateway-auth-dialog {
+  .el-card.app-card {
+    margin-bottom: 0;
+  }
   .el-dialog__body {
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 12px;
     .authn-create {
       padding-top: 8px;
     }
