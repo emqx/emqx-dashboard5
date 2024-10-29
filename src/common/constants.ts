@@ -64,24 +64,20 @@ export const GATEWAY_ENABLED_MECHANISM_MAP = {
   [GatewayName.LwM2M]: [AuthnMechanismType.PasswordBased],
 }
 
-export const GATEWAY_DISABLED_DATABASES_MAP = {
-  [GatewayName.STOMP]: [],
-  [GatewayName.CoAP]: [],
-  [GatewayName.ExProto]: [],
-  [GatewayName.MQTT_SN]: [
-    DatabasesType.BuiltInDatabase,
-    DatabasesType.MySQL,
-    DatabasesType.MongoDB,
-    DatabasesType.PostgreSQL,
-    DatabasesType.Redis,
-  ],
-  [GatewayName.LwM2M]: [
-    DatabasesType.BuiltInDatabase,
-    DatabasesType.MySQL,
-    DatabasesType.MongoDB,
-    DatabasesType.PostgreSQL,
-    DatabasesType.Redis,
-  ],
+const usefulDatabaseTypeArr = [
+  DatabasesType.BuiltInDatabase,
+  DatabasesType.MySQL,
+  DatabasesType.MongoDB,
+  DatabasesType.PostgreSQL,
+  DatabasesType.HTTPServer,
+  DatabasesType.Redis,
+]
+export const GATEWAY_ENABLED_DATABASES_MAP = {
+  [GatewayName.STOMP]: usefulDatabaseTypeArr,
+  [GatewayName.CoAP]: usefulDatabaseTypeArr,
+  [GatewayName.ExProto]: usefulDatabaseTypeArr,
+  [GatewayName.MQTT_SN]: [DatabasesType.HTTPServer],
+  [GatewayName.LwM2M]: [DatabasesType.HTTPServer],
 }
 
 /* 
