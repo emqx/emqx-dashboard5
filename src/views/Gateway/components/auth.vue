@@ -46,9 +46,9 @@ import { ElMessage as M } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
 import { cloneDeep, omit } from 'lodash'
-import { GATEWAY_DISABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
+import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
-import { GatewayName, AuthnMechanismType } from '@/types/enum.ts'
+import { GatewayName, AuthnMechanismType, DatabasesType } from '@/types/enum.ts'
 
 const presetAuthnDataMap = {
   [GatewayName.MQTT_SN]: [
@@ -79,7 +79,12 @@ const disabledMechanism = computed(() => {
   const enabledMechanism = GATEWAY_ENABLED_MECHANISM_MAP[gname]
   return allMechanism.filter((mechanism) => !enabledMechanism.includes(mechanism))
 })
-const disabledDatabases = computed(() => GATEWAY_DISABLED_DATABASES_MAP[gname])
+
+const allDatabases = Object.values(DatabasesType)
+const disabledDatabases = computed(() => {
+  const enabledDatabases = GATEWAY_ENABLED_DATABASES_MAP[gname]
+  return allDatabases.filter((database) => !enabledDatabases.includes(database))
+})
 
 const presetAuthnData = computed(() => {
   return presetAuthnDataMap[gname] || undefined
