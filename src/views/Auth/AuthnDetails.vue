@@ -11,7 +11,7 @@
             <p class="block-title">{{ titleMap[currBackend] }}</p>
             <AuthItemStatus is-tag :metrics="authMetrics" />
             <el-tag type="info" class="section-status">
-              {{ configData.mechanism }}
+              {{ getLabelByValue(configData.mechanism) }}
             </el-tag>
           </div>
         </template>
@@ -167,6 +167,7 @@ import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
+import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 const props = defineProps<{
   gatewayInfo?: Record<string, any> | boolean
@@ -203,6 +204,7 @@ const currImg = computed(() => {
   }
   return ''
 })
+const { getLabelByValue } = useAuthnMechanismType()
 
 const { toggleAuthStatus } = useToggleAuthStatus()
 

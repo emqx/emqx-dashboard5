@@ -118,4 +118,12 @@ export type BackendMap = {
   }
 }
 
+export interface ImportResult {
+  total?: number
+  success?: number
+  override?: number
+  skipped?: number
+  failed?: number
+}
+
 export default {}

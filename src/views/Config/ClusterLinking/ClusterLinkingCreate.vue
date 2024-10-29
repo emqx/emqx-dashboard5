@@ -46,7 +46,7 @@ const generateRawRecord = (): ClusterLinkingData => ({
   clientid: '',
   username: '',
   password: '',
-  topics: [''],
+  topics: [],
   ssl: createSSLForm() as any,
   pool_size: 8,
   retry_interval: '15s',

@@ -89,6 +89,7 @@ export default (
   ])
 
   const kafkaConsumerAdvancedProps = getPathArrInParameters([
+    'max_wait_time',
     'max_batch_bytes',
     'offset_commit_interval_seconds',
   ])

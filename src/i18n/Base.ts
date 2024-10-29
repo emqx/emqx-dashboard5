@@ -335,10 +335,6 @@ export default {
     zh: '下载模板',
     en: 'Download template',
   },
-  importSuc: {
-    zh: '导入成功',
-    en: 'Imported Successfully',
-  },
   uploadFailed: {
     zh: '上传失败',
     en: 'Upload Failed',
@@ -691,13 +687,13 @@ export default {
     zh: '最小值',
     en: 'Minimum',
   },
-  avg: {
-    zh: '平均值',
-    en: 'Average',
-  },
   last: {
     zh: '末尾值',
     en: 'Last',
+  },
+  comma: {
+    zh: '，',
+    en: ', ',
   },
   description: {
     zh: '描述',

@@ -43,6 +43,14 @@ export default {
     en: 'Message Clear Interval',
     zh: '消息清理间隔',
   },
+  msgExpiryIntervalOverride: {
+    en: 'Message Expiry Interval Override',
+    zh: '消息过期间隔重写',
+  },
+  allowNeverExpire: {
+    en: 'Allow Message Never Expire',
+    zh: '允许消息永不过期',
+  },
   deliverRate: {
     zh: '派发速率',
     en: 'Delivery Rate',
@@ -264,8 +272,16 @@ export default {
     zh: '消息保留时间。0 代表永久保留',
   },
   msgClearIntervalDesc: {
-    en: `Periodic interval for cleaning up expired messages. Never clear if the value is 0.`,
-    zh: '消息清理间隔。0 代表不进行清理',
+    en: 'Expired retained messages will not be delivered again, and a setting of 0 means that retained messages will never expire.<br />However, if the `Message-Expiry-Interval` property is specified in the MQTT message, the value of that property prevails.',
+    zh: '过期的保留消息将不会再次投递，设置为 0 代表保留消息永不过期。<br />注意，如果在 MQTT 消息中指定了 `Message-Expiry-Interval` 属性，则该属性的值优先。',
+  },
+  msgExpiryIntervalOverrideDesc: {
+    en: 'If set, this value will take precedence over any `Message-Expiry-Interval` property specified in retained MQTT messages, allowing messages to expire earlier if necessary.',
+    zh: '如果设置，其优先级将高于保留的 MQTT 消息中指定的任何 `Message-Expiry-Interval` 属性，如果需要，允许消息提前过期。',
+  },
+  allowNeverExpireDesc: {
+    en: 'If true, retained messages set to never expire (i.e., whose `Message-Expiry-Interval = 0`) are not affected by the expiry time override. This configuration only takes effect when Message Expiry Interval Override(`msg_expiry_interval_override`) is set.',
+    zh: '如果此参数设置为 true，则设置为永不过期的保留消息（即 `Message-Expiry-Interval = 0`）不受过期时间重写的影响。此配置仅在设置消息过期间隔重写 （`msg_expiry_interval_override`） 时生效。',
   },
   maxPayloadSizeDesc: {
     en: 'Maximum retained message size',

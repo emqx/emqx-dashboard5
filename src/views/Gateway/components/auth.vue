@@ -38,9 +38,9 @@
 
 <script setup lang="ts">
 import { addGatewayAuth, deleteGatewayAuth, getGatewayAuth, updateGatewayAuth } from '@/api/gateway'
-import { GATEWAY_DISABLED_DATABASES_MAP, GATEWAY_DISABLED_MECHANISM_MAP } from '@/common/constants'
+import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
-import { AuthnMechanismType, GatewayName } from '@/types/enum'
+import { AuthnMechanismType, GatewayName,DatabasesType } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage as M } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
@@ -82,8 +82,17 @@ const { t, tl } = useI18nTl('Gateway')
 const route = useRoute()
 const gname: GatewayName = String(route.params.name).toLowerCase() as GatewayName
 
-const disabledMechanism = computed(() => GATEWAY_DISABLED_MECHANISM_MAP[gname] || [])
-const disabledDatabases = computed(() => GATEWAY_DISABLED_DATABASES_MAP[gname] || [])
+const allMechanism = Object.values(AuthnMechanismType)
+const disabledMechanism = computed(() => {
+  const enabledMechanism = GATEWAY_ENABLED_MECHANISM_MAP[gname]
+  return allMechanism.filter((mechanism) => !enabledMechanism.includes(mechanism))
+})
+
+const allDatabases = Object.values(DatabasesType)
+const disabledDatabases = computed(() => {
+  const enabledDatabases = GATEWAY_ENABLED_DATABASES_MAP[gname]
+  return allDatabases.filter((database) => !enabledDatabases.includes(database))
+})
 
 const presetAuthnData = computed(() => {
   return presetAuthnDataMap[gname] || undefined
@@ -170,6 +179,9 @@ getAuthInfo()
 
 <style lang="scss">
 .gateway-auth-dialog {
+  .el-card.app-card {
+    margin-bottom: 0;
+  }
   .el-dialog__body {
     padding-bottom: 12px;
     .authn-create {

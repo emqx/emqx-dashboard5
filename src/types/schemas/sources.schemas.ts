@@ -180,6 +180,18 @@ export type DeleteSourcesIdParams = {
   also_delete_dep_actions?: boolean
 }
 
+export type PutSourcesId503Code = typeof PutSourcesId503Code[keyof typeof PutSourcesId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PutSourcesId503 = {
+  code?: PutSourcesId503Code
+  message?: string
+}
+
 export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

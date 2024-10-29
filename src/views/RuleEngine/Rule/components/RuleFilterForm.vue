@@ -94,8 +94,8 @@
                     :value="id"
                     :label="name"
                   >
-                    <span>{{ name }}</span>
-                    <p class="tip">{{ getGeneralTypeLabel(type) }}</p>
+                    <span class="endpoint-name">{{ name }}</span>
+                    <p class="tip endpoint-type">{{ getGeneralTypeLabel(type) }}</p>
                   </el-option>
                 </el-select>
               </div>
@@ -280,6 +280,19 @@ const handleReset = () => {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
+  }
+}
+.el-select-dropdown__item {
+  &.space-between {
+    max-width: 90vw;
+  }
+  .endpoint-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .endpoint-type {
+    margin-left: 12px;
   }
 }
 </style>

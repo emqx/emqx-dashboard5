@@ -58,21 +58,6 @@ export const NUM_REG = /^(-?\d+(\.\d+)?e(\+|-)\d+|-?\d+(\.\d+)?)$/
 
 export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
 
-export const GATEWAY_DISABLED_MECHANISM_MAP = {
-  [GatewayName.STOMP]: [AuthnMechanismType.SCRAM],
-  [GatewayName.CoAP]: [AuthnMechanismType.SCRAM],
-  [GatewayName.ExProto]: [AuthnMechanismType.SCRAM],
-  [GatewayName.MQTT_SN]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
-  [GatewayName.LwM2M]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
-  [GatewayName.GBT32960]: [AuthnMechanismType.SCRAM, AuthnMechanismType.JWT],
-  [GatewayName.JT808]: [
-    AuthnMechanismType.PasswordBased,
-    AuthnMechanismType.SCRAM,
-    AuthnMechanismType.JWT,
-  ],
-  [GatewayName.OCPP]: [AuthnMechanismType.SCRAM],
-}
-
 /*
   | Gateway | Built-In Database | MySQL | MongoDB | PostgreSQL | Redis | Ldap |
   | ------- | ----------------- | ----- | ------- | ---------- | ----- | ---- |
@@ -82,34 +67,33 @@ export const GATEWAY_DISABLED_MECHANISM_MAP = {
   | MQTT-SN |                   |       |         |            |       |      |
   | LwM2M   |                   |       |         |            |       |      |
 */
-export const GATEWAY_DISABLED_DATABASES_MAP = {
-  [GatewayName.STOMP]: [],
-  [GatewayName.CoAP]: [],
-  [GatewayName.ExProto]: [],
-  [GatewayName.MQTT_SN]: [
-    DatabasesType.BuiltInDatabase,
-    DatabasesType.MySQL,
-    DatabasesType.MongoDB,
-    DatabasesType.PostgreSQL,
-    DatabasesType.Redis,
-    DatabasesType.Ldap,
-  ],
-  [GatewayName.LwM2M]: [
-    DatabasesType.BuiltInDatabase,
-    DatabasesType.MySQL,
-    DatabasesType.MongoDB,
-    DatabasesType.PostgreSQL,
-    DatabasesType.Redis,
-    DatabasesType.Ldap,
-  ],
-  [GatewayName.GBT32960]: [
-    DatabasesType.BuiltInDatabase,
-    DatabasesType.MySQL,
-    DatabasesType.MongoDB,
-    DatabasesType.PostgreSQL,
-    DatabasesType.Redis,
-    DatabasesType.Ldap,
-  ],
+
+export const GATEWAY_ENABLED_MECHANISM_MAP = {
+  [GatewayName.STOMP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.CoAP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.ExProto]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.MQTT_SN]: [AuthnMechanismType.PasswordBased],
+  [GatewayName.LwM2M]: [AuthnMechanismType.PasswordBased],
+  [GatewayName.GBT32960]: [AuthnMechanismType.PasswordBased],
+  [GatewayName.JT808]: [],
+  [GatewayName.OCPP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+}
+
+const usefulDatabaseTypeArr = [
+  DatabasesType.BuiltInDatabase,
+  DatabasesType.MySQL,
+  DatabasesType.MongoDB,
+  DatabasesType.PostgreSQL,
+  DatabasesType.HTTPServer,
+  DatabasesType.Redis,
+]
+export const GATEWAY_ENABLED_DATABASES_MAP = {
+  [GatewayName.STOMP]: usefulDatabaseTypeArr,
+  [GatewayName.CoAP]: usefulDatabaseTypeArr,
+  [GatewayName.ExProto]: usefulDatabaseTypeArr,
+  [GatewayName.MQTT_SN]: [DatabasesType.HTTPServer],
+  [GatewayName.LwM2M]: [DatabasesType.HTTPServer],
+  [GatewayName.GBT32960]: [DatabasesType.HTTPServer],
 }
 
 /* 
