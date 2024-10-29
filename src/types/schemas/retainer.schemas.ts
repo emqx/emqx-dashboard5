@@ -100,15 +100,7 @@ export type GetMqttRetainerMessagesParams = {
   limit?: number
 }
 
-export interface RetainerRetainer {
-  enable?: boolean
-  msg_expiry_interval?: string
-  msg_clear_interval?: string
-  max_payload_size?: string
-  stop_publish_clear_msg?: boolean
-  delivery_rate?: string
-  backend?: RetainerMnesiaConfig
-}
+export type RetainerRetainerMsgExpiryIntervalOverride = string | 'disabled'
 
 export type RetainerMnesiaConfigStorageType =
   typeof RetainerMnesiaConfigStorageType[keyof typeof RetainerMnesiaConfigStorageType]
@@ -133,6 +125,18 @@ export interface RetainerMnesiaConfig {
   max_retained_messages?: number
   index_specs?: number[]
   enable?: boolean
+}
+
+export interface RetainerRetainer {
+  enable?: boolean
+  msg_expiry_interval?: string
+  msg_expiry_interval_override?: RetainerRetainerMsgExpiryIntervalOverride
+  allow_never_expire?: boolean
+  msg_clear_interval?: string
+  max_payload_size?: string
+  stop_publish_clear_msg?: boolean
+  delivery_rate?: string
+  backend?: RetainerMnesiaConfig
 }
 
 export interface RetainerMessageSummary {
