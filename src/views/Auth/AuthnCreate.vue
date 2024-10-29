@@ -4,7 +4,11 @@
       :item="{ name: $t('Auth.createAuth'), path: '/authentication' }"
       v-if="!gateway"
     />
-    <el-card :shadow="!gateway ? 'always' : 'never'" class="app-card">
+    <el-card
+      class="app-card"
+      :class="{ 'no-border': !!gateway }"
+      :shadow="!gateway ? 'always' : 'never'"
+    >
       <guide-bar
         :guide-list="getGuideList()"
         :active-guide-index-list="activeGuidesIndex"
@@ -459,6 +463,9 @@ const isAddedBadgeHidden = (value: AuthnMechanismType) => {
 
 <style lang="scss">
 @import './style/auth.scss';
+.app-card.no-border {
+  border: none;
+}
 .no-database-placeholder {
   color: var(--el-text-color-secondary);
 }
