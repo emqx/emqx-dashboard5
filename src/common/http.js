@@ -9,6 +9,7 @@ import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import _ from 'lodash'
 import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { BAD_TOKEN, TOKEN_TIME_OUT, NAME_PWD_ERROR } from '@/common/customErrorCode'
+import { trimValues } from '@/common/tools'
 import i18n from '@/i18n'
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 200 })
@@ -30,6 +31,14 @@ axios.interceptors.request.use(
     config.signal = controller.signal
     config.controller = controller
     store.commit('ADD_ABORT_CONTROLLER', controller)
+
+    if (
+      !config.keepSpaces &&
+      ['post', 'put'].includes(config.method) &&
+      typeof config.data === 'object'
+    ) {
+      config.data = trimValues(config.data)
+    }
     return config
   },
   (error) => {
