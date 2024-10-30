@@ -17,7 +17,7 @@ export function login(user: { password: string; username: string }): Promise<{
   token: string
   version: string
 }> {
-  return http.post('/login', user)
+  return http.post('/login', user, { keepSpaces: true })
 }
 
 export function logout(username: string) {

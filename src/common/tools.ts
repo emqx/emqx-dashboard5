@@ -748,3 +748,27 @@ export const accAdd = (arg1: number, arg2: number): number => {
   const adjustedArg2 = arg2 * multiplier
   return (adjustedArg1 + adjustedArg2) / multiplier
 }
+
+type TrimValuesParam = string | Record<string, any> | Array<TrimValuesParam>
+export const trimValues = (obj: TrimValuesParam, omitKeys?: Array<string>) => {
+  const ret = cloneDeep(obj)
+  const handle = (val: TrimValuesParam): TrimValuesParam => {
+    // If the value is from a textarea, don't handle spaces
+    if (typeof val === 'string' && !/\n/.test(val)) {
+      return val.trim()
+    }
+    if (Array.isArray(val)) {
+      return val.map((item) => handle(item))
+    }
+    if (isObject(val)) {
+      Object.entries(val).forEach(([key, value]) => {
+        if (omitKeys?.includes(key)) {
+          return
+        }
+        val[key] = handle(value)
+      })
+    }
+    return val
+  }
+  return handle(ret)
+}
