@@ -48,8 +48,8 @@
               clearable
               @clear="handleSearch"
             >
-              <el-option value="connected" />
-              <el-option value="disconnected" />
+              <el-option value="connected" :label="tl('connected')" />
+              <el-option value="disconnected" :label="tl('disconnected')" />
             </el-select>
           </el-col>
           <el-col v-bind="colProps">
