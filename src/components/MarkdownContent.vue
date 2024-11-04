@@ -1,7 +1,11 @@
 <template>
   <el-row class="markdown-content" :gutter="gutter">
     <el-col :span="showToc ? 18 : 24">
-      <div class="markdown-content markdown-body" ref="containerEle"></div>
+      <div
+        class="markdown-content"
+        :class="{ 'markdown-body': !inTooltip }"
+        ref="containerEle"
+      ></div>
     </el-col>
     <el-col class="toc-list" v-if="showToc" :span="6">
       <div class="toc-title">{{ $t('Base.content') }}</div>
@@ -38,6 +42,14 @@ const props = defineProps({
     required: false,
     type: Number,
     default: 40,
+  },
+  /**
+   * do not use github style in tooltip
+   */
+  inTooltip: {
+    required: false,
+    type: Boolean,
+    default: false,
   },
 })
 
