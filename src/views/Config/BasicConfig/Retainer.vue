@@ -128,6 +128,7 @@
                   <FormItemLabel
                     :label="tl('msgClearInterval')"
                     :desc="tl('msgClearIntervalDesc')"
+                    desc-marked
                   />
                 </template>
                 <Oneof
