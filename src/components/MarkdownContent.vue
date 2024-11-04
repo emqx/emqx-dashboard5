@@ -1,7 +1,11 @@
 <template>
   <el-row class="markdown-content" :gutter="gutter">
     <el-col :span="showToc ? 18 : 24">
-      <div class="markdown-content" ref="containerEle"></div>
+      <div
+        class="markdown-content"
+        :class="{ 'markdown-body': !inTooltip }"
+        ref="containerEle"
+      ></div>
     </el-col>
     <el-col class="toc-list" v-if="showToc" :span="6">
       <div class="toc-title">{{ $t('Base.content') }}</div>
@@ -14,6 +18,7 @@
 
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import 'github-markdown-css/github-markdown.css'
 import { ref, defineProps, onMounted, onUnmounted, PropType, watch } from 'vue'
 import { marked } from 'marked'
 import xss from 'xss'
@@ -37,6 +42,14 @@ const props = defineProps({
     required: false,
     type: Number,
     default: 40,
+  },
+  /**
+   * do not use github style in tooltip
+   */
+  inTooltip: {
+    required: false,
+    type: Boolean,
+    default: false,
   },
 })
 

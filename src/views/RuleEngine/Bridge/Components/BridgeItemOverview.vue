@@ -11,7 +11,64 @@
     :rate-metrics="rateData"
     :show-rate="!isSource"
     :node-status-desc="tl('nodeStatusBridgeDesc')"
+    @node-change="handleNodeChanged"
+    @metrics-change="handleMetricsLoaded"
   >
+    <template #custom-block="{ data }" v-if="!isSource">
+      <div class="metric-block">
+        <div class="block-hd">
+          <p class="block-title">
+            {{ tl('buffer') }}
+          </p>
+        </div>
+        <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="24">
+          <el-col :span="isFlowNode ? 24 : 6">
+            <el-card class="metric-bar">
+              <div class="metric-bar-hd">
+                <p class="metric-name">{{ tl('queuedMessages') }}</p>
+                <div class="num-container">
+                  <p class="metric-num">
+                    <span class="num">
+                      {{ formatNumber(queuedMsgCount) }}
+                    </span>
+                  </p>
+                  <span
+                    v-if="queuedMsgCountDiff"
+                    class="num-diff"
+                    :class="{
+                      'is-red': queuedMsgCountDiff < 0,
+                      'need-plus': queuedMsgCountDiff > 0,
+                    }"
+                  >
+                    {{ formatNumber(queuedMsgCountDiff) }}
+                  </span>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="isFlowNode ? 24 : 12">
+            <el-card class="metric-bar">
+              <div class="metric-bar-hd">
+                <p class="metric-name">{{ tl('queueUsage') }}</p>
+                <p class="metric-num">
+                  <span class="num">
+                    {{ getSizeNumPart(getSizeStr(data.queuing_bytes)) }}
+                  </span>
+                  <span class="unit">
+                    {{ getSizeUnitPart(getSizeStr(data.queuing_bytes)) }}
+                  </span>
+                </p>
+              </div>
+              <div class="metric-bar-bd">
+                <!-- Bar Chart -->
+                <div class="bar-container" ref="QueueBytesChartEle"></div>
+                <p class="bar-desc tip">{{ tl('queueUsageDesc') }}</p>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </template>
     <template #table="{ data }">
       <el-table :data="nodeStatusTableData(data)">
         <el-table-column prop="node" :label="tl('name')" />
@@ -66,18 +123,19 @@
 </template>
 
 <script setup lang="ts">
+import { formatNumber } from '@/common/tools'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
-import { useBridgeMetrics } from '@/hooks/useMetrics'
+import { useActionQueueMetrics, useBridgeMetrics } from '@/hooks/useMetrics'
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'
 import { lowerCase } from 'lodash'
 import type { ComputedRef, PropType, Ref } from 'vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, inject, ref, watch } from 'vue'
 
 const props = defineProps({
   /**
@@ -95,6 +153,8 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['reconnect'])
+
+const isFlowNode = inject('isFlowNode', false)
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -182,4 +242,39 @@ const reconnect = async ({ node }: NodeMetrics) => {
   }
 }
 watch(() => props.bridgeMsg, setNodeConnectingStatusMap)
+
+const {
+  getSizeStr,
+  getSizeNumPart,
+  getSizeUnitPart,
+  QueueBytesChartEle,
+  updateQueueBytesData,
+  initQueueBytesData,
+} = useActionQueueMetrics()
+
+const selectedNode = ref('')
+const isSelectedCluster = ref(false)
+const handleNodeChanged = (node: string, selectedCluster: boolean) => {
+  selectedNode.value = node
+  isSelectedCluster.value = selectedCluster
+  initQueueBytesData()
+}
+
+const queuedMsgCount = ref(0)
+/**
+ * The difference between the current and previous queued message count
+ */
+const queuedMsgCountDiff = ref(0)
+const handleMetricsLoaded = (metrics: MetricsData) => {
+  const timestamp = Date.now()
+  const targetMetrics = isSelectedCluster.value
+    ? metrics.metrics
+    : metrics.node_metrics.find((item) => item.node === selectedNode.value)?.metrics || {}
+  const value = targetMetrics.queuing_bytes
+  updateQueueBytesData(value, timestamp)
+
+  const msgCount = targetMetrics.queuing || 0
+  queuedMsgCountDiff.value = msgCount - queuedMsgCount.value
+  queuedMsgCount.value = msgCount
+}
 </script>
