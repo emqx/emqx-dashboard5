@@ -1113,4 +1113,20 @@ export default {
     zh: '由于动作被禁用或在删除动作时出现竞态条件而被丢弃的动作数量。',
     en: 'The number of discarded actions due to action being disabled or race condition while action is being deleted.',
   },
+  buffer: {
+    zh: '缓冲',
+    en: 'Buffer',
+  },
+  queuedMessages: {
+    zh: '已缓存消息',
+    en: 'Queued Messages',
+  },
+  queueUsage: {
+    zh: '队列使用率',
+    en: 'Queue Usage',
+  },
+  queueUsageDesc: {
+    zh: '已缓存消息占用的系统资源量',
+    en: 'System resource usage of queued messages',
+  },
 }
