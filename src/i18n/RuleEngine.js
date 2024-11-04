@@ -1122,7 +1122,7 @@ export default {
     en: 'Queued Messages',
   },
   queueUsage: {
-    zh: '队列使用率',
+    zh: '队列使用量',
     en: 'Queue Usage',
   },
   queueUsageDesc: {
