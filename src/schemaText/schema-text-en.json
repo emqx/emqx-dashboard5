@@ -1372,7 +1372,7 @@
     },
     "mqtt_shared_subscription_initial_sticky_pick": {
       "label": "Shared Subscription Initial Sticky Pick",
-      "desc": "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`. - `random`: Randomly select the subscriber; - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster; - `hash_clientid`: Hash the publisher's client ID to select a subscriber; - `hash_topic`: Hash the publishing topic to select a subscriber."
+      "desc":  "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`.<br/> - `random`: Randomly select the subscriber;<br/> - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster;<br/> - `hash_clientid`: Hash the publisher's client ID to select a subscriber;<br/> - `hash_topic`: Hash the publishing topic to select a subscriber."
     }
   }
 }

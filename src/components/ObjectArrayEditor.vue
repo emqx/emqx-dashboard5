@@ -13,7 +13,7 @@
         </label>
         <InfoTooltip v-if="value.description">
           <template #content>
-            <MarkdownContent :content="value.description" />
+            <MarkdownContent :content="value.description" in-tooltip />
           </template>
         </InfoTooltip>
       </template>

@@ -3,7 +3,7 @@
   <InfoTooltip v-bind="$attrs">
     <template #content>
       <template v-if="!descMarked">{{ desc }}</template>
-      <MarkdownContent v-else :content="desc" />
+      <MarkdownContent v-else :content="desc" in-tooltip />
     </template>
   </InfoTooltip>
 </template>

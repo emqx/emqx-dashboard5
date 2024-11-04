@@ -712,7 +712,7 @@ const SchemaForm = defineComponent({
       const tooltipSlots = {
         content: () => (
           <el-scrollbar max-height="158px">
-            <MarkdownContent content={desc} gutter={0} />
+            <MarkdownContent content={desc} gutter={0} inTooltip={true} />
           </el-scrollbar>
         ),
       }
