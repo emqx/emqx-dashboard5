@@ -151,6 +151,7 @@
         </el-row>
       </div>
     </div>
+    <slot name="custom-block" :data="currentMetrics"></slot>
     <!-- Node Status Table -->
     <div class="metric-block" v-if="$slots.table && !isFlowNode">
       <div class="block-hd">
@@ -181,7 +182,7 @@ import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { get } from 'lodash'
-import { computed, defineProps, inject, ref } from 'vue'
+import { computed, defineEmits, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>
@@ -219,6 +220,10 @@ const props = defineProps<{
   nodeStatusDesc?: string
   childrenTitle?: string
 }>()
+const emit = defineEmits<{
+  (e: 'metrics-change', totalMetrics: MetricsData): void
+  (e: 'node-change', node: string, isSelectedCluster: boolean): void
+}>()
 
 // Special handling of metric styles under Flow nodes
 const isFlowNode = inject('isFlowNode', false)
@@ -237,7 +242,9 @@ const selectedNode = ref(CLUSTER)
 const handleNodeChange = () => {
   rateData = getInitRateData()
   updateToView()
+  emit('node-change', selectedNode.value, selectedNode.value === CLUSTER)
 }
+emit('node-change', selectedNode.value, selectedNode.value === CLUSTER)
 
 const getMetricItemLabel = (key: string) => props.textMap[key]?.label || key
 const getMetricItemDesc = (key: string) => props.textMap[key]?.desc || ''
@@ -347,6 +354,7 @@ const getMetrics = async () => {
   try {
     metricsData.value = await props.requestMetrics()
     updateToView()
+    emit('metrics-change', metricsData.value)
   } catch (error) {
     //
   }
@@ -402,8 +410,6 @@ const { syncPolling } = useSyncPolling()
     line-height: 32px;
     color: var(--color-title-primary);
     font-weight: 400;
-  }
-  .metric-num {
     .unit {
       margin-left: 2px;
       font-size: 14px;
@@ -511,6 +517,26 @@ const { syncPolling } = useSyncPolling()
     }
     .metric-name {
       margin-bottom: 16px;
+    }
+  }
+
+  .num-container {
+    display: flex;
+    .metric-num {
+      margin-right: 8px;
+    }
+  }
+  .num-diff {
+    color: var(--color-primary);
+    line-height: 24px;
+    &.is-red {
+      color: #469cf7;
+    }
+    &.need-plus {
+      &:before {
+        content: '+';
+        margin-right: 2px;
+      }
     }
   }
 

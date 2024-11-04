@@ -83,10 +83,10 @@ const oneDetailData = computed<DetailItem>(() => props.data.detail[0])
 
 const diff = ref(0)
 watch(
-  () => props.data.count,
+  () => props.data,
   (newVal, oldVal) => {
-    if (oldVal !== undefined && newVal !== undefined) {
-      diff.value = newVal - oldVal
+    if (oldVal?.count !== undefined && newVal?.count !== undefined) {
+      diff.value = newVal.count - oldVal.count
     }
   },
 )
@@ -120,26 +120,6 @@ watch(
 
   .metric-name {
     margin-right: 6px;
-  }
-
-  .num-container {
-    display: flex;
-    .metric-num {
-      margin-right: 8px;
-    }
-  }
-  .num-diff {
-    color: var(--color-primary);
-    line-height: 24px;
-    &.is-red {
-      color: #469cf7;
-    }
-    &.need-plus {
-      &:before {
-        content: '+';
-        margin-right: 2px;
-      }
-    }
   }
 
   .detail-trigger {
