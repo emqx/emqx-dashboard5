@@ -1,3 +1,4 @@
+import { INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getImg } from './../../common/tools'
 import useBridgeTypeValue, {
   bridgeOrderIndex,
@@ -7,7 +8,7 @@ import useBridgeTypeValue, {
 import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
-import { startCase } from 'lodash'
+import { omit, startCase } from 'lodash'
 import { RuleSourceType, useRuleInputs } from '../Rule/rule/useRule'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '../Rule/rule/useRuleSourceEvents'
@@ -33,41 +34,17 @@ export const enum ProcessingType {
   Function = 'function',
 }
 
+type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'SysKeeperProxy'
+const ActionSinkType: Omit<typeof BridgeType, OmitKeys> = omit(
+  BridgeType,
+  Object.keys(BridgeType).filter((key) => {
+    const value = BridgeType[key as keyof typeof BridgeType]
+    return INGRESS_BRIDGE_TYPES.includes(value) || value === BridgeType.SysKeeperProxy
+  }),
+) as Omit<typeof BridgeType, OmitKeys>
+
 export const SinkType = {
-  HTTP: BridgeType.Webhook,
-  MQTTBroker: BridgeType.MQTT,
-  Kafka: BridgeType.KafkaProducer,
-  Confluent: BridgeType.Confluent,
-  GCP: BridgeType.GCPProducer,
-  MySQL: BridgeType.MySQL,
-  Redis: BridgeType.Redis,
-  MongoDB: BridgeType.MongoDB,
-  RabbitMQ: BridgeType.RabbitMQ,
-  PgSQL: BridgeType.PgSQL,
-  TDengine: BridgeType.TDengine,
-  InfluxDB: BridgeType.InfluxDB,
-  TimescaleDB: BridgeType.TimescaleDB,
-  MatrixDB: BridgeType.MatrixDB,
-  ClickHouse: BridgeType.ClickHouse,
-  DynamoDB: BridgeType.DynamoDB,
-  Cassandra: BridgeType.Cassandra,
-  MicrosoftSQLServer: BridgeType.MicrosoftSQLServer,
-  RocketMQ: BridgeType.RocketMQ,
-  IoTDB: BridgeType.IoTDB,
-  OpenTSDB: BridgeType.OpenTSDB,
-  OracleDatabase: BridgeType.OracleDatabase,
-  HStream: BridgeType.HStream,
-  AzureEventHubs: BridgeType.AzureEventHubs,
-  AmazonKinesis: BridgeType.AmazonKinesis,
-  GreptimeDB: BridgeType.GreptimeDB,
-  Pulsar: BridgeType.Pulsar,
-  Elasticsearch: BridgeType.Elasticsearch,
-  SysKeeperForwarder: BridgeType.SysKeeperForwarder,
-  S3: BridgeType.S3,
-  AzureBlobStorage: BridgeType.AzureBlobStorage,
-  Couchbase: BridgeType.Couchbase,
-  Datalayers: BridgeType.Datalayers,
-  Snowflake: BridgeType.Snowflake,
+  ...ActionSinkType,
   RePub: 'republish',
   Console: 'console',
 }
@@ -187,11 +164,11 @@ export default (): {
   const typeLabelMap = {
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
-    [SinkType.HTTP]: t('RuleEngine.HTTPServer'),
-    [SinkType.MQTTBroker]: t('RuleEngine.mqttBroker'),
+    [SinkType.Webhook]: t('RuleEngine.HTTPServer'),
+    [SinkType.MQTT]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
     [SinkType.RePub]: t('RuleEngine.republish'),
-    [SinkType.Kafka]: `${t('RuleEngine.kafka')} ${t('RuleEngine.producer')}`,
+    [SinkType.KafkaProducer]: `${t('RuleEngine.kafka')} ${t('RuleEngine.producer')}`,
   }
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
   const getTypeLabel = (specificType: string): string => {
@@ -293,7 +270,7 @@ export default (): {
   }
 
   const adjustTypeForSpecialCases = (type: string): string => {
-    if (([SourceType.MQTTBroker, SinkType.MQTTBroker] as Array<string>).includes(type)) {
+    if (([SourceType.MQTT, SinkType.MQTT] as Array<string>).includes(type)) {
       return BridgeType.MQTT
     }
 
@@ -311,7 +288,7 @@ export default (): {
     ProcessingType.Function,
     SinkType.Console,
     SinkType.RePub,
-    SinkType.HTTP,
+    SinkType.Webhook,
   ]
   const isTypeUsingNewIcon = (type: string) => typesIconNew.includes(type)
   const { getBridgeIcon } = useBridgeTypeIcon()
