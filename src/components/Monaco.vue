@@ -107,7 +107,14 @@ const registerRuleSql = () => {
   if (!registered) {
     monaco.languages.register({ id: 'rulesql' })
     monaco.languages.setLanguageConfiguration('rulesql', sqlConf)
-    monaco.languages.setMonarchTokensProvider('rulesql', { ...sql })
+    monaco.languages.setMonarchTokensProvider('rulesql', {
+      ...sql,
+      keywords: ['FOREACH', 'INCASE', ...sql.keywords],
+      tokenizer: {
+        ...sql.tokenizer,
+        root: [[/\b(FOREACH|INCASE)\b/, 'keyword'], ...sql.tokenizer.root],
+      },
+    })
   }
 }
 

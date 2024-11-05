@@ -44,6 +44,9 @@ importers:
       element-plus:
         specifier: ^2.8.3
         version: 2.8.3(vue@3.5.4(typescript@5.5.4))
+      github-markdown-css:
+        specifier: ^5.7.0
+        version: 5.7.0
       highlight.js:
         specifier: 10.7.3
         version: 10.7.3
@@ -1908,6 +1911,10 @@ packages:
   get-symbol-description@1.0.2:
     resolution: {integrity: sha512-g0QYk1dZBxGwk+Ngc+ltRH2IBp2f7zBkBMBJZCDerh6EhlhSR6+9irMCuT/09zD6qkarHUSn529sK/yL4S27mg==}
     engines: {node: '>= 0.4'}
+
+  github-markdown-css@5.7.0:
+    resolution: {integrity: sha512-GoYhaqELL4YUjz4tZ00PQ4JzFQkMfrBVuEeRB8W74HoikHWNiaGqSgynpwJEc+xom5uf04qoD/tUSS6ziZltaQ==}
+    engines: {node: '>=10'}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -5366,6 +5373,8 @@ snapshots:
       call-bind: 1.0.7
       es-errors: 1.3.0
       get-intrinsic: 1.2.4
+
+  github-markdown-css@5.7.0: {}
 
   glob-parent@5.1.2:
     dependencies:
