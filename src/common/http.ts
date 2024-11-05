@@ -18,7 +18,7 @@ type CustomRequestConfig = InternalAxiosRequestConfig & {
   errorsHandleCustom?: number[]
   handleTimeoutSelf?: boolean
   controller?: AbortController
-  keepSpaces: boolean
+  keepSpaces?: boolean
 }
 
 type CustomResponse = AxiosResponse & {

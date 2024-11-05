@@ -456,7 +456,7 @@ export const useActionQueueMetrics = () => {
         if (isUndefined(value)) {
           return tl('noData')
         }
-        return `${moment(Number(axisValue)).format('HH:mm:ss')}<br/>${getSizeStr(value)}`
+        return `${dayjs(Number(axisValue)).format('HH:mm:ss')}<br/>${getSizeStr(value)}`
       },
     },
     color: [TYPE_COLOR_MAP[MetricType.Blue]],
