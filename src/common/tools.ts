@@ -1,4 +1,4 @@
-import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, set } from 'lodash'
+import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, round, set } from 'lodash'
 import dayjs from 'dayjs'
 import { API_BASE_URL, COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
@@ -397,17 +397,17 @@ const ONE_MB = ONE_KB * 1024
 const ONE_GB = ONE_MB * 1024
 
 export const transMemorySizeNumToStr = (byte: number, toFixed?: number): string => {
-  const getNumPart = (num: number) => (toFixed ? num.toFixed(toFixed) : num)
+  const getNumPart = (num: number) => (toFixed ? round(num, toFixed) : num)
   if (byte < ONE_KB) {
-    return getNumPart(byte) + 'Byte'
+    return getNumPart(byte) + ' bytes'
   }
   if (byte < ONE_MB) {
-    return getNumPart(byte / ONE_KB) + 'KB'
+    return getNumPart(byte / ONE_KB) + ' KB'
   }
   if (byte < ONE_GB) {
-    return getNumPart(byte / ONE_MB) + 'MB'
+    return getNumPart(byte / ONE_MB) + ' MB'
   }
-  return getNumPart(byte / ONE_GB) + 'GB'
+  return getNumPart(byte / ONE_GB) + ' GB'
 }
 
 const memoryStrReg = new RegExp(`^(\\d+(\\.\\d+)?)(${usefulMemoryUnit.join('|')})$`)
@@ -748,6 +748,30 @@ export const accAdd = (arg1: number, arg2: number): number => {
 
 export const getImg = (relativePathInAssets: string) => {
   return new URL(`../assets/${relativePathInAssets}`, import.meta.url).href
+}
+
+type TrimValuesParam = string | Record<string, any> | Array<TrimValuesParam>
+export const trimValues = (obj: TrimValuesParam, omitKeys?: Array<string>) => {
+  const ret = cloneDeep(obj)
+  const handle = (val: TrimValuesParam): TrimValuesParam => {
+    // If the value is from a textarea, don't handle spaces
+    if (typeof val === 'string' && !/\n/.test(val)) {
+      return val.trim()
+    }
+    if (Array.isArray(val)) {
+      return val.map((item) => handle(item))
+    }
+    if (isObject(val)) {
+      Object.entries(val).forEach(([key, value]) => {
+        if (omitKeys?.includes(key)) {
+          return
+        }
+        val[key] = handle(value)
+      })
+    }
+    return val
+  }
+  return handle(ret)
 }
 
 const getDataFromParams = (params: string): Record<string, string> => {

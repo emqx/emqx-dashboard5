@@ -1,16 +1,18 @@
-import { accAdd } from '@/common/tools'
+import { accAdd, transMemorySizeNumToStr } from '@/common/tools'
 import useEchartResize from '@/hooks/useEchartResize'
 import { Metrics } from '@/types/common'
 import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
-import { get } from 'lodash'
+import { get, isUndefined } from 'lodash'
 import dayjs from 'dayjs'
 import useI18nTl from './useI18nTl'
+import { ref } from 'vue'
 
 export const enum MetricType {
   Green,
@@ -391,6 +393,107 @@ export const useBridgeMetrics = (): {
     ingressTypeMetricsMap,
     textMap,
     rateData,
+  }
+}
+
+export const useActionQueueMetrics = () => {
+  const getSizeStr = (bytes: number) => transMemorySizeNumToStr(bytes, 5)
+  const numPartReg = /^-?\d+(\.\d+)?/
+  const getSizeNumPart = (size: string) => numPartReg.exec(size)?.[0] || '0'
+  const getSizeUnitPart = (size: string) => size.replace(numPartReg, '') || 'Bytes'
+
+  const queueBytesDataLength = 20
+  const completeQueueBytesDataData = (
+    xArr: Array<number>,
+    yArr: Array<number>,
+    fullLength = queueBytesDataLength,
+  ) => {
+    const dataLen = xArr.length
+    const emptyLen = fullLength - dataLen
+    const emptyY = new Array(emptyLen).fill(undefined)
+    const firstX = xArr[0] || Date.now()
+    // 3000 is the OverviewMetrics component polling interval
+    const emptyX = Array.from({ length: emptyLen }, (_, i) => firstX - (emptyLen - i) * 3000)
+    return { xData: [...emptyX, ...xArr], yData: [...emptyY, ...yArr] }
+  }
+
+  const { tl } = useI18nTl('Base')
+
+  type ChartData = { xData: Array<number>; yData: Array<number> }
+
+  const QueueBytesChartEle = ref()
+  let queueBytesChart: any = undefined
+  const getQueueBytesChartOption = (data: ChartData): any => ({
+    grid: {
+      containLabel: true,
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+    },
+    xAxis: {
+      type: 'category',
+      data: data.xData,
+      axisLabel: { show: false },
+      axisLine: { show: false },
+      axisTick: { show: false },
+    },
+
+    yAxis: {
+      type: 'value',
+      minInterval: 1,
+      axisLabel: { show: false },
+      splitLine: { show: false },
+    },
+    series: [{ type: 'line', data: data.yData, showSymbol: false, smooth: true, step: false }],
+    tooltip: {
+      trigger: 'axis',
+      formatter: (params: any) => {
+        if (!params[0]) {
+          return ''
+        }
+        const { axisValue, value } = params[0]
+        if (isUndefined(value)) {
+          return tl('noData')
+        }
+        return `${moment(Number(axisValue)).format('HH:mm:ss')}<br/>${getSizeStr(value)}`
+      },
+    },
+    color: [TYPE_COLOR_MAP[MetricType.Blue]],
+  })
+  const updateDataToQueueBytesChart = (data: ChartData) => {
+    if (!QueueBytesChartEle.value) {
+      return
+    }
+    const chartData = completeQueueBytesDataData(data.xData, data.yData)
+    if (!queueBytesChart) {
+      queueBytesChart = echarts.init(QueueBytesChartEle.value)
+    }
+    queueBytesChart.setOption(getQueueBytesChartOption(chartData))
+  }
+
+  const queueBytesData: ChartData = { xData: [], yData: [] }
+  const updateQueueBytesData = (data: number, timestamp: number) => {
+    queueBytesData.xData.push(timestamp)
+    queueBytesData.yData.push(data)
+    if (queueBytesData.xData.length > queueBytesDataLength) {
+      queueBytesData.xData.shift()
+      queueBytesData.yData.shift()
+    }
+    updateDataToQueueBytesChart(queueBytesData)
+  }
+  const initQueueBytesData = () => {
+    queueBytesData.xData = []
+    queueBytesData.yData = []
+    updateDataToQueueBytesChart(queueBytesData)
+  }
+  return {
+    getSizeStr,
+    getSizeNumPart,
+    getSizeUnitPart,
+    QueueBytesChartEle,
+    updateQueueBytesData,
+    initQueueBytesData,
   }
 }
 

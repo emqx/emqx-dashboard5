@@ -36,6 +36,7 @@
     "echarts": "^5.2.1",
     "element-plus": "^2.8.3",
     "genson-js": "^0.0.8",
+    "github-markdown-css": "^5.7.0",
     "highlight.js": "10.7.3",
     "hocon-parser": "^1.0.1",
     "js-base64": "^3.7.2",

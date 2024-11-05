@@ -1,6 +1,7 @@
 import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { BAD_TOKEN, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
+import { trimValues } from '@/common/tools'
 import i18n from '@/i18n'
 import { toLogin } from '@/router'
 import store from '@/store'
@@ -17,6 +18,7 @@ type CustomRequestConfig = InternalAxiosRequestConfig & {
   errorsHandleCustom?: number[]
   handleTimeoutSelf?: boolean
   controller?: AbortController
+  keepSpaces: boolean
 }
 
 type CustomResponse = AxiosResponse & {
@@ -40,6 +42,15 @@ axios.interceptors.request.use(
     config.signal = controller.signal
     config.controller = controller
     store.commit('ADD_ABORT_CONTROLLER', controller)
+
+    if (
+      !config.keepSpaces &&
+      config.method &&
+      ['post', 'put'].includes(config.method) &&
+      typeof config.data === 'object'
+    ) {
+      config.data = trimValues(config.data)
+    }
     return config
   },
   (error) => {

@@ -16,7 +16,7 @@ import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 //account
 export function login(user: { password: string; username: string }): Promise<PostLogin200> {
-  return http.post('/login', user)
+  return http.post('/login', user, { keepSpaces: true })
 }
 
 export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
