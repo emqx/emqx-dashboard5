@@ -238,7 +238,7 @@ export const useRuleUtils = (): {
 export const RuleSourceType = {
   Message: 'message',
   Event: 'event',
-  MQTTBroker: BridgeType.MQTT,
+  MQTT: BridgeType.MQTT,
 }
 export const useRuleInputs = (): {
   getBridgeIdFromInput: (input: string) => string
@@ -260,7 +260,7 @@ export const useRuleInputs = (): {
   const typeLabelMap = {
     [RuleSourceType.Message]: tl('messages'),
     [RuleSourceType.Event]: tl('event'),
-    [RuleSourceType.MQTTBroker]: tl('mqttBroker'),
+    [RuleSourceType.MQTT]: tl('mqttBroker'),
   }
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
   const getTypeLabel = (specificType: string): string => {
