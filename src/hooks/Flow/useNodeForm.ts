@@ -94,7 +94,7 @@ export default (): {
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
-    [SinkType.GCP]: () => ({ role: Role.Producer }),
+    [SinkType.GCPProducer]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,
     [SinkType.Datalayers]: createRawDataLayersForm,
     [SinkType.Pulsar]: emptyCreator,
