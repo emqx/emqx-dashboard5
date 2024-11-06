@@ -238,7 +238,7 @@ export const useRuleUtils = (): {
 export const RuleSourceType = {
   Message: 'message',
   Event: 'event',
-  MQTTBroker: BridgeType.MQTT,
+  MQTT: BridgeType.MQTT,
   Kafka: BridgeType.KafkaConsumer,
   GCP: BridgeType.GCPConsumer,
   RabbitMQ: BridgeType.RabbitMQ,
@@ -264,7 +264,7 @@ export const useRuleInputs = (): {
   const typeLabelMap = {
     [RuleSourceType.Message]: tl('messages'),
     [RuleSourceType.Event]: tl('event'),
-    [RuleSourceType.MQTTBroker]: tl('mqttBroker'),
+    [RuleSourceType.MQTT]: tl('mqttBroker'),
     [RuleSourceType.Kafka]: `${tl('kafka')} ${tl('consumer')}`,
   }
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
