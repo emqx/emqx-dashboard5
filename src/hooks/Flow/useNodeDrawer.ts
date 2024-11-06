@@ -48,11 +48,17 @@ export default (): {
   }
 
   const drawerDefaultWidth = '560px'
+  const drawerActionWidth = '720px'
   const drawerWidthMap: Record<string, string> = {
     [ProcessingType.Filter]: '960px',
     [ProcessingType.Function]: '680px',
   }
-  const getDrawerWidth = (type: string) => drawerWidthMap[type] || drawerDefaultWidth
+  const getDrawerWidth = (type: string) => {
+    if (isBridgeType(type)) {
+      return drawerActionWidth
+    }
+    return drawerWidthMap[type] || drawerDefaultWidth
+  }
 
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
