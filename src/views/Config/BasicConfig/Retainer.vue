@@ -235,6 +235,10 @@ const retainerRules = ref<Record<string, any>>({
   max_payload_size: [...createRequiredRule(tl('maxPayloadSize')), numberRule],
   msg_expiry_interval: [...createRequiredRule(tl('msgExpiryInterval')), numberRule],
   msg_clear_interval: [...createRequiredRule(tl('msgClearInterval')), numberRule],
+  msg_expiry_interval_override: [
+    ...createRequiredRule(tl('msgExpiryIntervalOverride')),
+    numberRule,
+  ],
 })
 
 const configEnable = computed(() => retainerConfig.value?.enable === true)
