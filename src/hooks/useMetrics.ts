@@ -394,7 +394,7 @@ export const useBridgeMetrics = (): {
 }
 
 export const useActionQueueMetrics = () => {
-  const getSizeStr = (bytes: number) => transMemorySizeNumToStr(bytes, 5)
+  const getSizeStr = (bytes: number) => transMemorySizeNumToStr(bytes, 2)
   const numPartReg = /^-?\d+(\.\d+)?/
   const getSizeNumPart = (size: string) => numPartReg.exec(size)?.[0] || '0'
   const getSizeUnitPart = (size: string) => size.replace(numPartReg, '') || 'Bytes'
