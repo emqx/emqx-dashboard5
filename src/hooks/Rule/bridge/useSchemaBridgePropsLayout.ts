@@ -1,7 +1,8 @@
 import { BridgeType } from '@/types/enum'
 import { isFunction } from 'lodash'
 import type { ComputedRef, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import useCheckIoTDBConnectorDriver from '../connector/useCheckIoTDBConnectorDriver'
 import useSyncConfiguration from './useSyncConfiguration'
 
 export const resourceOptFields = [
@@ -352,6 +353,37 @@ export default (
     }
     return { 'parameters.mode': 'col-hidden' }
   }
+
+  const isIoTDBSelectedThriftConnector = ref(false)
+  let confirmIoTDBConnectorTypePromise: undefined | Promise<boolean> = undefined
+  const { checkIsIoTDBThriftConnector } = useCheckIoTDBConnectorDriver()
+  const confirmIoTDBConnectorType = async (name: string) => {
+    if (confirmIoTDBConnectorTypePromise) {
+      return
+    }
+    try {
+      confirmIoTDBConnectorTypePromise = checkIsIoTDBThriftConnector(name)
+      isIoTDBSelectedThriftConnector.value = await confirmIoTDBConnectorTypePromise
+    } catch (error) {
+      //
+    } finally {
+      // for not trigger this fun after isIoTDBSelectedThriftConnector changed
+      window.setTimeout(() => {
+        confirmIoTDBConnectorTypePromise = undefined
+      }, 300)
+    }
+  }
+  const IoTDBClassMap = (formData: Record<string, any>): Record<string, string> => {
+    const connector = formData?.connector
+    if (connector) {
+      confirmIoTDBConnectorType(connector)
+    }
+    if (isIoTDBSelectedThriftConnector.value) {
+      return { 'resource_opts.query_mode': 'col-hidden' }
+    }
+    return {}
+  }
+
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -363,6 +395,7 @@ export default (
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
     [BridgeType.S3]: S3ColClassMap,
     [BridgeType.AzureBlobStorage]: S3ColClassMap,
+    [BridgeType.IoTDB]: IoTDBClassMap,
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
