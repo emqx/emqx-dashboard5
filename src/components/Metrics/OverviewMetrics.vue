@@ -433,6 +433,7 @@ const { syncPolling } = useSyncPolling()
   }
   .el-select {
     margin-right: 16px;
+    width: 200px;
   }
   .block-bd {
     display: flex;
