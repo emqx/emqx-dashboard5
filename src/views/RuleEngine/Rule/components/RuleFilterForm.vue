@@ -274,8 +274,7 @@ const handleReset = () => {
     .el-select {
       margin-right: 0;
     }
-    .el-input__wrapper {
-      box-shadow: none;
+    .el-select__wrapper {
       background-color: transparent;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
