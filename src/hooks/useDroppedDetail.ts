@@ -50,6 +50,7 @@ export const useDroppedCharts = () => {
 
   const getBarChartOptions = (data: ChartData, itemStyle: ItemStyle) => {
     return {
+      backgroundColor: 'transparent',
       animation: false,
       grid: {
         left: 80,
@@ -85,6 +86,7 @@ export const useDroppedCharts = () => {
 
   const getPieChartOptions = (data: ChartData, itemStyle: ItemStyle) => {
     return {
+      backgroundColor: 'transparent',
       animation: false,
       tooltip: {
         trigger: 'item',
