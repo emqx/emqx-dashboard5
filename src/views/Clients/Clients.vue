@@ -53,11 +53,13 @@
             </el-select>
           </el-col>
           <el-col v-bind="colProps">
-            <div class="like-input">
-              <el-select v-model="queryParams.comparator">
-                <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
-                <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
-              </el-select>
+            <div class="el-input-group el-input-group--prepend">
+              <div class="el-input-group__prepend">
+                <el-select v-model="queryParams.comparator">
+                  <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
+                  <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
+                </el-select>
+              </div>
               <el-date-picker
                 v-model="queryParams.connected_at"
                 type="datetime"
@@ -503,26 +505,15 @@ const cleanBatchClients = async () => {
     width: $prepend-width;
     flex-shrink: 0;
   }
-  .like-input {
-    > .el-select,
-    > .el-date-editor {
-      vertical-align: top;
-      .is-focus {
-        .el-input__wrapper {
-          z-index: 20;
-        }
-      }
-      .el-input__wrapper:hover {
-        z-index: 20;
-      }
+  .el-input-group {
+    .el-input-group__prepend {
+      box-shadow:
+        1px 0 0 0 var(--color-border-primary) inset,
+        0 1px 0 0 var(--color-border-primary) inset,
+        0 -1px 0 0 var(--color-border-primary) inset;
     }
     > .el-select {
       width: $prepend-width;
-      .el-input__wrapper {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        background-color: var(--el-fill-color-light);
-      }
     }
     > .el-date-editor {
       width: calc(100% - #{$prepend-width});
