@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import 'github-markdown-css/github-markdown.css'
 import { ref, defineProps, onMounted, onUnmounted, PropType, watch } from 'vue'
 import { marked } from 'marked'
+import { useStore } from 'vuex'
 import xss from 'xss'
 
 interface TocItem {
@@ -102,8 +102,15 @@ const setEle = (val: string | undefined) => {
   }
 }
 
-onMounted(() => {
+const { state } = useStore()
+onMounted(async () => {
   setEle(props.content)
+  const theme = state.theme
+  if (theme === 'dark') {
+    await import('github-markdown-css/github-markdown-dark.css')
+  } else {
+    await import('github-markdown-css/github-markdown-light.css')
+  }
 })
 
 onUnmounted(() => {
@@ -113,3 +120,13 @@ onUnmounted(() => {
 
 watch(() => props.content, setEle)
 </script>
+
+<style lang="scss">
+[data-theme='dark'] {
+  .markdown-content {
+    .markdown-body {
+      background-color: var(--color-bg-content);
+    }
+  }
+}
+</style>
