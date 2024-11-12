@@ -20,11 +20,11 @@ const DEFAULT_ZONE = ''
 /**
  * For Log Configuration
  */
-const LOG_DEFAULT_PREFIX = 'common_handler_'
+const LOG_DEFAULT_PREFIX = ''
 const LOG_SPECIAL_KEY_PREFIX_MAP = {
-  log_overload_kill_: ['mem_size', 'qlen', 'restart_after'],
+  log_overload_kill_: ['qlen'],
   log_burst_limit_: ['max_count', 'window_time'],
-  log_file_handler_: ['max_size', 'path', 'rotation_size'],
+  log_file_handler_: ['max_size', 'path'],
   log_rotation_: ['count'],
 }
 

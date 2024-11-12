@@ -1,5 +1,5 @@
 {
-  "common_handler_drop_mode_qlen": {
+  "drop_mode_qlen": {
     "desc": "When the number of buffered log events is larger than this value, the new log events are dropped.\nWhen drop mode is activated or deactivated, a message is printed in the logs.",
     "label": "Queue Length before Entering Drop Mode"
   },
@@ -47,7 +47,7 @@
     "desc": "Erlang's distribution buffer busy limit in kilobytes.",
     "label": "Erlang's dist buffer size(KB)"
   },
-  "common_handler_max_depth": {
+  "max_depth": {
     "desc": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
     "label": "Max Depth"
   },
@@ -55,11 +55,11 @@
     "desc": "EMQX logging supports multiple sinks for the log events.\nEach sink is represented by a _log handler_, which can be configured independently.",
     "label": "Log"
   },
-  "common_handler_flush_qlen": {
+  "flush_qlen": {
     "desc": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.\nTo flush events, the handler discards the buffered log messages without logging.",
     "label": "Flush Threshold"
   },
-  "common_handler_chars_limit": {
+  "chars_limit": {
     "desc": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.\nNOTE: Restrict char limiter if formatter is JSON , it will get a truncated incomplete JSON data, which is not recommended.",
     "label": "Single Log Max Length"
   },
@@ -75,11 +75,11 @@
     "desc": "<code>manual</code>: discover ports by <code>tcp_server_port</code>.<br/>\n<code>stateless</code>: discover ports in a stateless manner, using the following algorithm.\nIf node name is <code>emqxN{'@'}127.0.0.1</code>, where the N is an integer,\nthen the listening port will be 5370 + N.",
     "label": "RRC Port Discovery"
   },
-  "log_overload_kill_restart_after": {
+  "restart_after": {
     "desc": "The handler restarts automatically after a delay in the event of termination, unless the value `infinity` is set, which blocks any subsequent restarts.",
     "label": "Handler Restart Timer"
   },
-  "log_file_handler_rotation_size": {
+  "rotation_size": {
     "desc": "This parameter controls log file rotation. The value `infinity` means the log file will grow indefinitely, otherwise the log file will be rotated once it reaches `max_size` in bytes.",
     "label": "Rotation Size"
   },
@@ -179,11 +179,11 @@
     "desc": "Large bursts of log events produced in a short time can potentially cause problems, such as:\n - Log files grow very large\n - Log files are rotated too quickly, and useful information gets overwritten\n - Overall performance impact on the system\n\nLog burst limit feature can temporarily disable logging to avoid these issues.",
     "label": "Log Burst Limit"
   },
-  "common_handler_enable": {
+  "enable": {
     "desc": "Enable this log handler.",
     "label": "Enable Log Handler"
   },
-  "common_handler_timestamp_format": {
+  "timestamp_format": {
     "desc": "Pick a timestamp format:<br/>- <code>auto</code>: automatically choose the best format based on log formatter. <code>epoch</code> for JSON and <code>rfc3339</code> for text.<br/>- <code>epoch</code>: Unix epoch time in microseconds.<br/>- <code>rfc3339</code>: RFC3339 format.",
     "label": "Timestamp Format"
   },
@@ -191,7 +191,7 @@
     "desc": "EMQX broker service name.",
     "label": "K8s Service Name"
   },
-  "common_handler_rotation_count": {
+  "rotation_count": {
     "desc": "Maximum number of log files.",
     "label": "Max Log Files Number"
   },
@@ -243,10 +243,6 @@
     "desc": "The path and name of the log file.",
     "label": "Log File Name"
   },
-  "log_file_handler_to": {
-    "desc": "Name the log file.",
-    "label": "Log File Name"
-  },
   "node_dist_net_ticktime": {
     "desc": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
     "label": "Dist Net TickTime"
@@ -271,7 +267,7 @@
     "desc": "Kubernetes API endpoint URL.",
     "label": "Cluster k8s ApiServer"
   },
-  "common_handler_supervisor_reports": {
+  "supervisor_reports": {
     "desc": "Type of supervisor reports that are logged. Defaults to <code>error</code><br/>\n  - <code>error</code>: only log errors in the Erlang processes<br/>.\n  - <code>progress</code>: log process startup.",
     "label": "Report Type"
   },
@@ -339,7 +335,7 @@
     "desc": "List of UDP ports used for service discovery.<br/>\nNote: probe messages are broadcast to all the specified ports.",
     "label": "Cluster Multicast Ports"
   },
-  "log_overload_kill_mem_size": {
+  "mem_size": {
     "desc": "Maximum memory size that the log handler process is allowed to use.",
     "label": "Log Handler Max Memory Size"
   },
@@ -383,7 +379,7 @@
     "desc": "Periodic garbage collection interval. Set to <code>disabled</code> to have it disabled.",
     "label": "Global GC Interval"
   },
-  "common_handler_time_offset": {
+  "time_offset": {
     "desc": "The time offset to be used when formatting the timestamp.\nCan be one of:\n  - <code>system</code>: the time offset used by the local system\n  - <code>utc</code>: the UTC time offset\n  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"\nDefaults to: <code>system</code>.",
     "label": "Time Offset"
   },
@@ -403,7 +399,7 @@
     "desc": "The interval between keepalive messages.",
     "label": "RPC Socket Keepalive Interval"
   },
-  "common_handler_level": {
+  "level": {
     "desc": "The log level for the current log handler.\nDefaults to warning.",
     "label": "Log Level"
   },
@@ -419,11 +415,11 @@
     "desc": "EMQX nodes can form a cluster to scale up the total capacity.<br/>\n      Here holds the configs to instruct how individual nodes can discover each other.",
     "label": "Cluster"
   },
-  "common_handler_sync_mode_qlen": {
+  "sync_mode_qlen": {
     "desc": "As long as the number of buffered log events is lower than this value,\nall log events are handled asynchronously. This means that the client process sending the log event,\nby calling a log function in the Logger API, does not wait for a response from the handler\nbut continues executing immediately after the event is sent.\nIt is not affected by the time it takes the handler to print the event to the log device.\nIf the message queue grows larger than this value,\nthe handler starts handling log events synchronously instead,\nmeaning that the client process sending the event must wait for a response.\nWhen the handler reduces the message queue to a level below the sync_mode_qlen threshold,\nasynchronous operation is resumed.",
     "label": "Queue Length before Entering Sync Mode"
   },
-  "common_handler_formatter": {
+  "formatter": {
     "desc": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
     "label": "Log Formatter"
   },
@@ -443,7 +439,7 @@
     "desc": "Timeout for sending the RPC request.",
     "label": "RPC Send Timeout"
   },
-  "common_handler_single_line": {
+  "single_line": {
     "desc": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
     "label": "Single Line Mode"
   },
@@ -455,11 +451,11 @@
     "desc": "Allows to tune the transport method used for transaction log replication, on a per-shard basis.<br/>\n<code>gen_rpc</code> uses the <code>gen_rpc</code> library,\n<code>distr</code> uses the Erlang distribution.<br/>If not specified,\nthe default is to use the value set in <code>db.default_shard_transport</code>.",
     "label": "Shard Transports"
   },
-  "common_handler_time_window": {
+  "time_window": {
     "desc": "The time window for log throttling ensures that the same type of event is only logged once within the designated time frame to prevent log overflow. A detailed log encapsulating the activities within that period is generated at the end of the time window. The minimum configurable value for this window is one second.<br/>The following events are throttled:<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
     "label": "Time Window"
   },
-  "common_handler_payload_encode": {
+  "payload_encode": {
     "desc": "The encoding method of payload in logs",
     "label": "Payload Encode"
   },

@@ -1,5 +1,5 @@
 {
-  "common_handler_drop_mode_qlen": {
+  "drop_mode_qlen": {
     "desc": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。\n为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1\n要禁用某些模式，请执行以下操作。\n- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。\n- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。\n- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
     "label": "进入丢弃模式的队列长度"
   },
@@ -47,7 +47,7 @@
     "desc": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
     "label": "Erlang分布式缓冲区的繁忙阈值(KB)"
   },
-  "common_handler_max_depth": {
+  "max_depth": {
     "desc": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
     "label": "最大深度"
   },
@@ -55,11 +55,11 @@
     "desc": "EMQX 日志记录支持日志事件的多个接收器。 每个接收器由一个_log handler_表示，可以独立配置。",
     "label": "日志"
   },
-  "common_handler_flush_qlen": {
+  "flush_qlen": {
     "desc": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。\n来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
     "label": "冲刷阈值"
   },
-  "common_handler_chars_limit": {
+  "chars_limit": {
     "desc": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。\n注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
     "label": "单条日志长度限制"
   },
@@ -75,11 +75,11 @@
     "desc": "<code>manual</code>: 通过 <code>tcp_server_port</code> 来发现端口。\n<br/><code>stateless</code>: 使用无状态的方式来发现端口，使用如下算法。如果节点名称是 <code>\nemqxN{'@'}127.0.0.1</code>, N 是一个数字，那么监听端口就是 5370 + N。",
     "label": "RPC 端口发现策略"
   },
-  "log_overload_kill_restart_after": {
+  "restart_after": {
     "desc": "如果处理进程终止，它会在以指定的时间后后自动重新启动。 `infinity` 不自动重启。",
     "label": "处理进程重启机制"
   },
-  "log_file_handler_rotation_size": {
+  "rotation_size": {
     "desc": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。\n与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
     "label": "日志文件轮换大小"
   },
@@ -179,11 +179,11 @@
     "desc": "短时间内产生的大量日志事件可能会导致问题，例如：\n  - 日志文件变得非常大\n  - 日志文件轮换过快，有用信息被覆盖\n  - 对系统的整体性能影响\n\n日志突发限制功能可以暂时禁用日志记录以避免这些问题。",
     "label": "日志突发限制"
   },
-  "common_handler_enable": {
+  "enable": {
     "desc": "启用此日志处理进程。",
     "label": "启用日志处理进程"
   },
-  "common_handler_timestamp_format": {
+  "timestamp_format": {
     "desc": "选择时间戳格式：<br/>- <code>auto</code>：根据日志的格式自动选择最合适的时间戳格式。对于 JSON 使用 <code>epoch</code>，对于文本则使用 <code>rfc3339</code>。<br/>- <code>epoch</code>：表示为自 Unix 纪元起的微秒数。<br/>- <code>rfc3339</code>：遵循 RFC3339 标准的时间格式。",
     "label": "时间戳格式"
   },
@@ -191,7 +191,7 @@
     "desc": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
     "label": "K8s 服务别名"
   },
-  "common_handler_rotation_count": {
+  "rotation_count": {
     "desc": "轮换的最大日志文件数。",
     "label": "最大日志文件数"
   },
@@ -267,7 +267,7 @@
     "desc": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
     "label": "K8s 服务地址"
   },
-  "common_handler_supervisor_reports": {
+  "supervisor_reports": {
     "desc": "Supervisor 报告的类型。默认为 error 类型。<br/>\n  - <code>error</code>：仅记录 Erlang 进程中的错误。\n  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
     "label": "报告类型"
   },
@@ -335,7 +335,7 @@
     "desc": "指定多播端口。如有多个端口使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
     "label": "多播端口"
   },
-  "log_overload_kill_mem_size": {
+  "mem_size": {
     "desc": "日志处理进程允许使用的最大内存。",
     "label": "日志处理进程允许使用的最大内存"
   },
@@ -379,7 +379,7 @@
     "desc": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。禁用设置为 <code>disabled</code>。",
     "label": "全局垃圾回收"
   },
-  "common_handler_time_offset": {
+  "time_offset": {
     "desc": "日志中的时间戳使用的时间偏移量。\n可选值为：\n  - <code>system</code>: 本地系统使用的时区偏移量\n  - <code>utc</code>: 0 时区的偏移量\n  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"\n默认值为本地系统的时区偏移量：<code>system</code>。",
     "label": "时间偏移量"
   },
@@ -399,7 +399,7 @@
     "desc": "keepalive 消息的间隔。",
     "label": "RPC Socket Keepalive 间隔"
   },
-  "common_handler_level": {
+  "level": {
     "desc": "当前日志处理进程的日志级别。\n默认为 warning 级别。",
     "label": "日志级别"
   },
@@ -415,11 +415,11 @@
     "desc": "EMQX 节点可以组成一个集群，以提高总容量。<br/> 这里指定了节点之间如何连接。",
     "label": "集群"
   },
-  "common_handler_sync_mode_qlen": {
+  "sync_mode_qlen": {
     "desc": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。\n这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。\n如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。\n当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。\n默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
     "label": "进入同步模式的队列长度"
   },
-  "common_handler_formatter": {
+  "formatter": {
     "desc": "选择日志格式类型。 <code>text</code> 用于纯文本，<code>json</code> 用于结构化日志记录。",
     "label": "日志格式类型"
   },
@@ -439,7 +439,7 @@
     "desc": "发送 RPC 请求的超时时间。",
     "label": "RPC 发送超时时间"
   },
-  "common_handler_single_line": {
+  "single_line": {
     "desc": "如果设置为 true，则单行打印日志。 否则，日志消息可能跨越多行。",
     "label": "单行模式"
   },
@@ -451,11 +451,11 @@
     "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
     "label": "事务日志传输协议"
   },
-  "common_handler_time_window": {
+  "time_window": {
     "desc": "日志节流的时间窗口，在设定的时间窗口内同一事件类型的日志只被记录一次以防止日志泛滥。时间窗口结束时将生成反映该时间段内的日志活动的详细日志。该窗口的最小可设置值为1秒。<br/>支持的事件如下：<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
     "label": "时间窗口"
   },
-  "common_handler_payload_encode": {
+  "payload_encode": {
     "desc": "日志中 Payload 的编码方式。",
     "label": "Payload 编码"
   },
