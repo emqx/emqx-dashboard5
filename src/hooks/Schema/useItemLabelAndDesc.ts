@@ -15,18 +15,6 @@ const numReg = /_\d/g
 const customSnakeCase = (str: string) =>
   snakeCase(str).replace(numReg, (match) => match.replace('_', ''))
 
-const DEFAULT_ZONE = ''
-
-/**
- * For Log Configuration
- */
-const LOG_DEFAULT_PREFIX = ''
-const LOG_SPECIAL_KEY_PREFIX_MAP = {
-  log_file_handler_: ['max_size', 'path'],
-}
-
-const SYS_MON_PREFIX = ''
-
 // Bridge
 const COMMON_ZONE = 'common'
 const COMMON_FIELD_KEYS = Object.keys(actionText.en.common)
@@ -53,37 +41,26 @@ export default (
   }
   getOptLabel: (key: string) => string
 } => {
+  const CONFIG_TEXT_BASE = 'ConfigSchema.'
   const { t, te } = useI18n()
+  const testConfigTextKey = (key: string) => te(`${CONFIG_TEXT_BASE}${key}.label`)
 
   const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
-  /**
-   * zone is first level
-   */
-  const getConfigurationTextZone = () => DEFAULT_ZONE
+  const getMQTTAndSessionItemTextKey = ({ path }: Property) => `${customSnakeCase(path as string)}`
 
-  const getMQTTAndSessionItemTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}${customSnakeCase(path as string)}`
-
-  const getLogItemTextKey = ({ key, path }: Property) => {
-    const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(
-        ([, value]) => value.includes(path as string) || value.includes(key as string),
-      )?.[0] || LOG_DEFAULT_PREFIX
-    return `${getConfigurationTextZone()}${prefix}${key}`
+  const commonGetConfigItemKey = ({ key, path }: Property) => {
+    const exactKey = `${props.type}_${customSnakeCase(path as string)}`
+    const fullKey = testConfigTextKey(`${exactKey}`) ? `${exactKey}` : (key as string)
+    return fullKey
   }
-
-  const getSysMonTextKey = ({ key }: Property) =>
-    `${getConfigurationTextZone()}${SYS_MON_PREFIX}${key}`
-
-  const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}${key}`
 
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
     session: getMQTTAndSessionItemTextKey,
-    log: getLogItemTextKey,
-    sysmon: getSysMonTextKey,
-    limiter: getLimiterTextKey,
+    log: commonGetConfigItemKey,
+    sysmon: commonGetConfigItemKey,
+    limiter: commonGetConfigItemKey,
   }
 
   const getConfigurationItemTextKey = (prop: Property) => {
@@ -109,7 +86,7 @@ export default (
   }
 
   const getHotConfText = (prop: Property) => {
-    const textKey = 'ConfigSchema.' + getConfigurationItemTextKey(prop)
+    const textKey = CONFIG_TEXT_BASE + getConfigurationItemTextKey(prop)
     const descKey = `${textKey}.desc`
     if (textKey) {
       return {
