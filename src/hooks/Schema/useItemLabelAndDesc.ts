@@ -22,10 +22,7 @@ const DEFAULT_ZONE = ''
  */
 const LOG_DEFAULT_PREFIX = ''
 const LOG_SPECIAL_KEY_PREFIX_MAP = {
-  log_overload_kill_: ['qlen'],
-  log_burst_limit_: ['max_count', 'window_time'],
   log_file_handler_: ['max_size', 'path'],
-  log_rotation_: ['count'],
 }
 
 const SYS_MON_PREFIX = 'sysmon_'
