@@ -39,10 +39,6 @@
     "desc": "The Erlang distribution protocol for the cluster.<br/>\n- inet_tcp: IPv4 TCP <br/>\n- inet_tls: IPv4 TLS, works together with <code>etc/ssl_dist.conf</code>",
     "label": "Cluster Protocol Distribution"
   },
-  "log_burst_limit_enable": {
-    "desc": "Enable log burst control feature.",
-    "label": "Enable Burst"
-  },
   "dist_buffer_size": {
     "desc": "Erlang's distribution buffer busy limit in kilobytes.",
     "label": "Erlang's dist buffer size(KB)"
@@ -147,10 +143,6 @@
     "desc": "Human-friendly name of the EMQX cluster.",
     "label": "Cluster Name"
   },
-  "log_rotation_enable": {
-    "desc": "Enable log rotation feature.",
-    "label": "Rotation Enable"
-  },
   "cluster_call_cleanup_interval": {
     "desc": "Time interval to clear completed but stale transactions.\nEnsure that the number of completed transactions is less than the <code>max_history</code>.",
     "label": "Clean Up Interval"
@@ -166,10 +158,6 @@
   "cluster_static_seeds": {
     "desc": "List EMQX node names in the static cluster. See <code>node.name</code>.",
     "label": "Cluster Static Seeds"
-  },
-  "log_overload_kill_qlen": {
-    "desc": "Maximum allowed queue length.",
-    "label": "Max Queue Length"
   },
   "node_backtrace_depth": {
     "desc": "Maximum depth of the call stack printed in error messages and\n<code>process_info</code>.",
@@ -214,10 +202,6 @@
   "node_applications": {
     "desc": "List of Erlang applications that shall be rebooted when the EMQX broker joins the cluster.",
     "label": "Application"
-  },
-  "log_burst_limit_max_count": {
-    "desc": "Maximum number of log events to handle within a `window_time` interval. After the limit is reached, successive events are dropped until the end of the `window_time`.",
-    "label": "Events Number"
   },
   "rpc_tcp_client_num": {
     "desc": "Set the maximum number of RPC communication channels initiated by this node to each remote node.",
@@ -290,10 +274,6 @@
   "cluster_mcast_iface": {
     "desc": "Local IP address the node discovery service needs to bind to.",
     "label": "Cluster Multicast Interface"
-  },
-  "log_burst_limit_window_time": {
-    "desc": "See <code>max_count</code>.",
-    "label": "Window Time"
   },
   "cluster_dns_record_type": {
     "desc": "DNS record type.",
