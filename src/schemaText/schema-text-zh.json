@@ -39,10 +39,6 @@
     "desc": "分布式 Erlang 集群协议类型。可选值为:<br/>\n- inet_tcp: 使用 IPv4 <br/>\n- inet_tls: 使用 TLS，需要配合 <code>etc/ssl_dist.conf</code> 一起使用。",
     "label": "集群内部通信协议"
   },
-  "log_burst_limit_enable": {
-    "desc": "启用日志限流保护机制。",
-    "label": "日志限流保护"
-  },
   "dist_buffer_size": {
     "desc": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
     "label": "Erlang分布式缓冲区的繁忙阈值(KB)"
@@ -147,10 +143,6 @@
     "desc": "EMQX集群名称。每个集群都有一个唯一的名称。服务发现时会用于做路径的一部分。",
     "label": "集群名称"
   },
-  "log_rotation_enable": {
-    "desc": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。\n系统会默认生成<code>*.siz/*.idx</code>用于记录日志位置，请不要手动修改这两个文件。",
-    "label": "日志轮换"
-  },
   "cluster_call_cleanup_interval": {
     "desc": "清理过期事务的时间间隔",
     "label": "清理间隔"
@@ -166,10 +158,6 @@
   "cluster_static_seeds": {
     "desc": "集群中的EMQX节点名称列表，\n指定固定的节点列表，多个节点间使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 static 时，此配置项才有效。\n适合于节点数量较少且固定的集群。",
     "label": "集群静态节点"
-  },
-  "log_overload_kill_qlen": {
-    "desc": "允许的最大队列长度。",
-    "label": "最大队列长度"
   },
   "node_backtrace_depth": {
     "desc": "错误信息中打印的最大堆栈层数",
@@ -214,10 +202,6 @@
   "node_applications": {
     "desc": "当新EMQX 加入集群时，应重启的Erlang应用程序的列表。",
     "label": "应用"
-  },
-  "log_burst_limit_max_count": {
-    "desc": "在 `window_time` 间隔内处理的最大日志事件数。 达到限制后，将丢弃连续事件，直到 `window_time` 结束。",
-    "label": "日志事件数"
   },
   "rpc_tcp_client_num": {
     "desc": "设置本节点与远程节点之间的 RPC 通信通道的最大数量。",
@@ -290,10 +274,6 @@
   "cluster_mcast_iface": {
     "desc": "指定节点发现服务需要绑定到本地 IP 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
     "label": "多播绑定地址"
-  },
-  "log_burst_limit_window_time": {
-    "desc": "参考 <code>max_count</code>。",
-    "label": "Window Time"
   },
   "cluster_dns_record_type": {
     "desc": "DNS 记录类型。",
