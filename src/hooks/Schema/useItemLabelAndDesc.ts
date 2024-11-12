@@ -15,12 +15,7 @@ const numReg = /_\d/g
 const customSnakeCase = (str: string) =>
   snakeCase(str).replace(numReg, (match) => match.replace('_', ''))
 
-const DEFAULT_ZONE = 'emqx_schema'
-const TYPE_ZONE_MAP: Record<string, Array<string>> = {
-  emqx_schema: ['mqtt', 'session', 'sysmon'],
-  emqx_conf_schema: ['log'],
-  emqx_limiter_schema: ['limiter'],
-}
+const DEFAULT_ZONE = ''
 
 /**
  * For Log Configuration
@@ -68,25 +63,23 @@ export default (
   /**
    * zone is first level
    */
-  const getConfigurationTextZone = () =>
-    Object.keys(TYPE_ZONE_MAP).find((key) => TYPE_ZONE_MAP[key].includes(props.type)) ||
-    DEFAULT_ZONE
+  const getConfigurationTextZone = () => DEFAULT_ZONE
 
   const getMQTTAndSessionItemTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}.${customSnakeCase(path as string)}`
+    `${getConfigurationTextZone()}${customSnakeCase(path as string)}`
 
   const getLogItemTextKey = ({ key, path }: Property) => {
     const prefix =
       Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(
         ([, value]) => value.includes(path as string) || value.includes(key as string),
       )?.[0] || LOG_DEFAULT_PREFIX
-    return `${getConfigurationTextZone()}.${prefix}${key}`
+    return `${getConfigurationTextZone()}${prefix}${key}`
   }
 
   const getSysMonTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}.${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
+    `${getConfigurationTextZone()}${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
 
-  const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
+  const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}${key}`
 
   const funcMap: Record<string, GetTextKey> = {
     mqtt: getMQTTAndSessionItemTextKey,
