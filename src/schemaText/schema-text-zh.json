@@ -459,10 +459,6 @@
     "desc": "如果用户或客户端不匹配ACL规则，或者从可配置授权源(比如内置数据库、HTTP API 或 PostgreSQL 等。)内未找\n到此类用户或客户端时，模式的认访问控制操作。\n在“授权”中查找更多详细信息。",
     "label": "未匹时的默认授权动作"
   },
-  "sysmon_top_db_hostname": {
-    "desc": "收集数据点的 PostgreSQL 数据库的主机名。",
-    "label": "数据库主机名"
-  },
   "zones": {
     "desc": "<code>zone</code> 是按<code>name</code> 分组的一组配置。\n对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。\n注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。"
   },
@@ -509,10 +505,6 @@
     "desc": "HTTPS websocket 监听器。",
     "label": "HTTPS websocket 监听器"
   },
-  "sysmon_top_max_procs": {
-    "desc": "当 VM 中的进程数超过此值时，停止收集数据。",
-    "label": "最大进程数"
-  },
   "mqtt_use_username_as_clientid": {
     "desc": "是否使用用户名作为客户端 ID。 作用时间晚于 <code>对端证书作为用户名</code> 和 <code>对端证书作为客户端 ID</code>。",
     "label": "使用用户名作为客户端 ID"
@@ -540,7 +532,7 @@
     "desc": "用于内建消息表的性能调优参数。",
     "label": "持久化消息"
   },
-  "sysmon_os_cpu_low_watermark": {
+  "cpu_low_watermark": {
     "desc": "在解除相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
     "label": "CPU 低水位线"
   },
@@ -594,10 +586,6 @@
     "desc": "启用抖动检测功能。",
     "label": "启用抖动检测"
   },
-  "sysmon_top_db_password": {
-    "desc": "PostgreSQL 数据库的密码",
-    "label": "数据库密码"
-  },
   "fields_ws_opts_check_origins": {
     "desc": "允许的 origins 列表",
     "label": "允许的 origins"
@@ -618,7 +606,7 @@
     "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
     "label": "WS MQTT 路径"
   },
-  "sysmon_os_procmem_high_watermark": {
+  "procmem_high_watermark": {
     "desc": "在发出相应警报之前，一个Erlang进程可以分配多少系统内存的阈值，以系统内存的百分比表示。",
     "label": "进程内存高水位线"
   },
@@ -665,10 +653,6 @@
     "desc": "抖动的客户端将会被禁止登录多长时间。",
     "label": "禁止登录时长"
   },
-  "sysmon_top_num_items": {
-    "desc": "每个监视组的顶级进程数。",
-    "label": "顶级进程数"
-  },
   "persistent_session_builtin_session_table": {
     "desc": "用于内建会话表的性能调优参数。",
     "label": "持久会话"
@@ -684,7 +668,7 @@
     "desc": "连接的 TCP 发送缓冲区（OS 内核）。",
     "label": "TCP 发送缓冲区"
   },
-  "sysmon_os_mem_check_interval": {
+  "mem_check_interval": {
     "desc": "定期内存检查的时间间隔。",
     "label": "内存检查间隔"
   },
@@ -724,7 +708,7 @@
     "desc": "如果<code>true</code>，<code>origin</code>HTTP 头将根据<code>check_origins</code>参数中配置的允许来源列表进行验证。",
     "label": "检查 origin"
   },
-  "sysmon_vm_busy_dist_port": {
+  "busy_dist_port": {
     "desc": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
     "label": "启用分布式端口过忙监控"
   },
@@ -766,7 +750,7 @@
     "desc": "连接的 TCP 发送超时。",
     "label": "TCP 发送超时"
   },
-  "sysmon_vm_process_high_watermark": {
+  "process_high_watermark": {
     "desc": "在发出相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
     "label": "进程数高水位线"
   },
@@ -864,7 +848,7 @@
     "desc": "PEM格式的私钥文件。",
     "label": "私钥文件"
   },
-  "sysmon_os_cpu_high_watermark": {
+  "cpu_high_watermark": {
     "desc": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
     "label": "CPU 高水位线"
   },
@@ -888,7 +872,7 @@
     "desc": "连接的 TCP 接收缓冲区（OS 内核）。",
     "label": "TCP 接收缓冲区"
   },
-  "sysmon_vm_process_check_interval": {
+  "process_check_interval": {
     "desc": "定期进程限制检查的时间间隔。",
     "label": "进程限制检查时间"
   },
@@ -900,7 +884,7 @@
     "desc": "HTTP 头，用于传递有关客户端 IP 地址的信息。\n当 EMQX 集群部署在负载平衡器后面时，这一点非常重要。",
     "label": "客户端地址头"
   },
-  "sysmon_os_sysmem_high_watermark": {
+  "sysmem_high_watermark": {
     "desc": "在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。",
     "label": "系统内存高水位线"
   },
@@ -950,7 +934,7 @@
     "desc": "连接的 SO_REUSEADDR 标识。",
     "label": "SO_REUSEADDR"
   },
-  "sysmon_vm_long_schedule": {
+  "long_schedule": {
     "desc": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
     "label": "启用长调度监控"
   },
@@ -984,10 +968,6 @@
   "sys_event_client_subscribed": {
     "desc": "是否开启客户端已成功订阅主题事件消息。"
   },
-  "sysmon_top_db_port": {
-    "desc": "收集数据点的 PostgreSQL 数据库的端口。",
-    "label": "数据库端口"
-  },
   "fields_mqtt_quic_listener_max_operations_per_drain": {
     "desc": "每个连接操作的最大耗费操作数。默认：16",
     "label": "每次操作最大操作数"
@@ -1010,10 +990,6 @@
   "fields_tcp_opts_nodelay": {
     "desc": "连接的 TCP_NODELAY 标识",
     "label": "TCP_NODELAY"
-  },
-  "sysmon_top_db_username": {
-    "desc": "PostgreSQL 数据库的用户名",
-    "label": "数据库用户名"
   },
   "broker": {
     "desc": "Broker 相关配置项。"
@@ -1115,10 +1091,6 @@
     "desc": "一个连接所支持的最大MTU。这将是最大的探测值。默认值：1500",
     "label": "最大 MTU"
   },
-  "sysmon_top_db_name": {
-    "desc": "PostgreSQL 数据库的数据库名",
-    "label": "数据库名"
-  },
   "mqtt_strict_mode": {
     "desc": "是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
     "label": "严格模式"
@@ -1197,14 +1169,14 @@
     "desc": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。\nRFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
     "label": "SSL 重新协商"
   },
-  "sysmon_vm_busy_port": {
+  "busy_port": {
     "desc": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
     "label": "启用端口过忙监控"
   },
   "sys_event_client_connected": {
     "desc": "是否开启客户端已连接事件消息。"
   },
-  "sysmon_vm_process_low_watermark": {
+  "process_low_watermark": {
     "desc": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
     "label": "进程数低水位线"
   },
@@ -1220,7 +1192,7 @@
     "desc": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。\n因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/>\n如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/>\n如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
     "label": "CA 证书深度"
   },
-  "sysmon_vm_long_gc": {
+  "long_gc": {
     "desc": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
     "label": "启用长垃圾回收监控"
   },
@@ -1281,13 +1253,9 @@
     "desc": "如果发送超时，则关闭连接。",
     "label": "TCP 发送超时关闭连接"
   },
-  "sysmon_os_cpu_check_interval": {
+  "cpu_check_interval": {
     "desc": "定期 CPU 检查的时间间隔。",
     "label": "定期 CPU 检查的时间间隔"
-  },
-  "sysmon_top_sample_interval": {
-    "desc": "指定应收集进程顶部的频率。",
-    "label": "取样时间"
   },
   "fields_mqtt_quic_listener_idle_timeout_ms": {
     "desc": "一个连接在被优雅地关闭之前可以空闲多长时间。0 表示禁用超时",
@@ -1318,7 +1286,7 @@
   "broker_perf_trie_compaction": {
     "desc": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{'{'}{'{'}id{'}'}{'}'}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。"
   },
-  "sysmon_vm_large_heap": {
+  "large_heap": {
     "desc": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
     "label": "启用大 heap 监控"
   },
