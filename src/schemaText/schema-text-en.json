@@ -459,10 +459,6 @@
     "desc": "Default access control action if the user or client matches no ACL rules,\nor if no such user or client is found by the configurable authorization\nsources such as built_in_database, an HTTP API, or a query against PostgreSQL.\nFind more details in 'authorization.sources' config.",
     "label": "Authorization no match"
   },
-  "sysmon_top_db_hostname": {
-    "desc": "Hostname of the PostgreSQL database that collects the data points",
-    "label": "DB Hostname"
-  },
   "zones": {
     "desc": "A zone is a set of configs grouped by the zone <code>name</code>.\nFor flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.\nNOTE: A built-in zone named <code>default</code> is auto created and can not be deleted."
   },
@@ -509,10 +505,6 @@
     "desc": "HTTPS websocket listeners.",
     "label": "HTTPS websocket listeners"
   },
-  "sysmon_top_max_procs": {
-    "desc": "Stop collecting data when the number of processes\nin the VM exceeds this value",
-    "label": "Max procs"
-  },
   "mqtt_use_username_as_clientid": {
     "desc": "Whether to use Username as Client ID.\nThis setting takes effect later than <code>Use Peer Certificate as Username</code> and <code>Use Peer Certificate as Client ID</code>.",
     "label": "Use Username as Client ID"
@@ -540,7 +532,7 @@
     "desc": "Performance tuning options for built-in messages table.",
     "label": "Persistent messages"
   },
-  "sysmon_os_cpu_low_watermark": {
+  "cpu_low_watermark": {
     "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is cleared.",
     "label": "CPU low watermark"
   },
@@ -594,10 +586,6 @@
     "desc": "Enable flapping connection detection feature.",
     "label": "Enable flapping detection"
   },
-  "sysmon_top_db_password": {
-    "desc": "EMQX user password in the PostgreSQL database",
-    "label": "DB Password"
-  },
   "fields_ws_opts_check_origins": {
     "desc": "List of allowed origins.<br/>See <code>check_origin_enable</code>.",
     "label": "Allowed origins"
@@ -618,7 +606,7 @@
     "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
     "label": "WS MQTT Path"
   },
-  "sysmon_os_procmem_high_watermark": {
+  "procmem_high_watermark": {
     "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated by one Erlang process before\n the corresponding alarm is raised.",
     "label": "ProcMem high wartermark"
   },
@@ -665,10 +653,6 @@
     "desc": "How long the flapping clientid will be banned.",
     "label": "Ban Duration"
   },
-  "sysmon_top_num_items": {
-    "desc": "The number of top processes per monitoring group",
-    "label": "Top num items"
-  },
   "persistent_session_builtin_session_table": {
     "desc": "Performance tuning options for built-in session table.",
     "label": "Persistent session"
@@ -684,7 +668,7 @@
     "desc": "The TCP send buffer (OS kernel) for the connections.",
     "label": "TCP send buffer"
   },
-  "sysmon_os_mem_check_interval": {
+  "mem_check_interval": {
     "desc": "The time interval for the periodic memory check.",
     "label": "Mem check interval"
   },
@@ -724,7 +708,7 @@
     "desc": "If <code>true</code>, <code>origin</code> HTTP header will be\n validated against the list of allowed origins configured in <code>check_origins</code>\n parameter.",
     "label": "Check origin"
   },
-  "sysmon_vm_busy_dist_port": {
+  "busy_dist_port": {
     "desc": "When the RPC connection used to communicate with other nodes in the cluster is overloaded,\nthere will be a <code>busy_dist_port</code> warning log,\nand an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.",
     "label": "Enable Busy Distribution Port monitoring"
   },
@@ -766,7 +750,7 @@
     "desc": "The TCP send timeout for the connections.",
     "label": "TCP send timeout"
   },
-  "sysmon_vm_process_high_watermark": {
+  "process_high_watermark": {
     "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is raised.",
     "label": "Process high watermark"
   },
@@ -864,7 +848,7 @@
     "desc": "PEM format private key file.",
     "label": "Keyfile"
   },
-  "sysmon_os_cpu_high_watermark": {
+  "cpu_high_watermark": {
     "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
     "label": "CPU high watermark"
   },
@@ -888,7 +872,7 @@
     "desc": "The TCP receive buffer (OS kernel) for the connections.",
     "label": "TCP receive buffer"
   },
-  "sysmon_vm_process_check_interval": {
+  "process_check_interval": {
     "desc": "The time interval for the periodic process limit check.",
     "label": "Process limit check interval"
   },
@@ -900,7 +884,7 @@
     "desc": "HTTP header used to pass information about the client IP address.\nRelevant when the EMQX cluster is deployed behind a load-balancer.",
     "label": "Proxy address header"
   },
-  "sysmon_os_sysmem_high_watermark": {
+  "sysmem_high_watermark": {
     "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.",
     "label": "SysMem high wartermark"
   },
@@ -950,7 +934,7 @@
     "desc": "The SO_REUSEADDR flag for the connections.",
     "label": "SO_REUSEADDR"
   },
-  "sysmon_vm_long_schedule": {
+  "long_schedule": {
     "desc": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
     "label": "Enable Long Schedule monitoring"
   },
@@ -984,10 +968,6 @@
   "sys_event_client_subscribed": {
     "desc": "Enable to publish event message that client subscribed a topic successfully."
   },
-  "sysmon_top_db_port": {
-    "desc": "Port of the PostgreSQL database that collects the data points.",
-    "label": "DB Port"
-  },
   "fields_mqtt_quic_listener_max_operations_per_drain": {
     "desc": "The maximum number of operations to drain per connection quantum. Default: 16",
     "label": "Max operations per drain"
@@ -1010,10 +990,6 @@
   "fields_tcp_opts_nodelay": {
     "desc": "The TCP_NODELAY flag for the connections.",
     "label": "TCP_NODELAY"
-  },
-  "sysmon_top_db_username": {
-    "desc": "Username of the PostgreSQL database",
-    "label": "DB Username"
   },
   "broker": {
     "desc": "Message broker options."
@@ -1115,10 +1091,6 @@
     "desc": "The maximum MTU supported by a connection. This will be the maximum probed value. Default: 1500",
     "label": "Maximum MTU"
   },
-  "sysmon_top_db_name": {
-    "desc": "PostgreSQL database name",
-    "label": "DB Name"
-  },
   "mqtt_strict_mode": {
     "desc": "Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.",
     "label": "Strict Mode"
@@ -1197,14 +1169,14 @@
     "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
     "label": "SSL renegotiate"
   },
-  "sysmon_vm_busy_port": {
+  "busy_port": {
     "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
     "label": "Enable Busy Port monitoring"
   },
   "sys_event_client_connected": {
     "desc": "Enable to publish client connected event messages"
   },
-  "sysmon_vm_process_low_watermark": {
+  "process_low_watermark": {
     "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is cleared.",
     "label": "Process low watermark"
   },
@@ -1220,7 +1192,7 @@
     "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
     "label": "CACert Depth"
   },
-  "sysmon_vm_long_gc": {
+  "long_gc": {
     "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
     "label": "Enable Long GC monitoring"
   },
@@ -1281,13 +1253,9 @@
     "desc": "Close the connection if send timeout.",
     "label": "TCP send timeout close"
   },
-  "sysmon_os_cpu_check_interval": {
+  "cpu_check_interval": {
     "desc": "The time interval for the periodic CPU check.",
     "label": "The time interval for the periodic CPU check"
-  },
-  "sysmon_top_sample_interval": {
-    "desc": "Specifies how often process top should be collected",
-    "label": "Top sample interval"
   },
   "fields_mqtt_quic_listener_idle_timeout_ms": {
     "desc": "How long a connection can go idle before it is gracefully shut down. 0 to disable timeout",
@@ -1318,7 +1286,7 @@
   "broker_perf_trie_compaction": {
     "desc": "Enable trie path compaction.\nEnabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{'{'}{'{'}id{'}'}{'}'}/+/', where ID is unique per subscriber.\nTopic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.\n\nNOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it."
   },
-  "sysmon_vm_large_heap": {
+  "large_heap": {
     "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
     "label": "Enable Large Heap monitoring"
   },
