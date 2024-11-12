@@ -223,7 +223,7 @@
     "desc": "当前节点连接的核心节点列表。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>\n并且设置<code>role</code>为<code>replicant</code>时生效。<br/>\n该值需要在手动或静态集群发现机制下设置。<br/>\n如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
     "label": "数据库核心节点"
   },
-  "log_file_handler_path": {
+  "log_file_default_path": {
     "desc": "日志文件路径及名字。",
     "label": "日志文件名字"
   },
@@ -800,10 +800,6 @@
   "alarm_size_limit": {
     "desc": "要保留为历史记录的已停用报警的最大总数。当超过此限制时，将删除最旧的停用报警，以限制总数。",
     "label": "告警总数限制"
-  },
-  "fields_cache_max_size": {
-    "desc": "缓存项的最大数量。",
-    "label": "缓存项的最大数量"
   },
   "fields_listeners_tcp": {
     "desc": "TCP 监听器。",
