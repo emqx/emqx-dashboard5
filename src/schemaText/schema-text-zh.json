@@ -482,7 +482,7 @@
     "desc": "监听器允许的最大并发连接数。",
     "label": "最大并发连接数"
   },
-  "mqtt_peer_cert_as_username": {
+  "peer_cert_as_username": {
     "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名；仅适用于 TLS 连接。\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 的证书内容\n- <code>pem</code>: 将 <code>DER</code> 证书转换为 <code>PEM</code> 格式作为用户名\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
     "label": "使用对端证书作为用户名"
   },
@@ -494,7 +494,7 @@
     "desc": "在判定路径无效和断开连接之前，要等待多长时间的ACK。默认：16000",
     "label": "断开连接超时 毫秒"
   },
-  "mqtt_max_topic_alias": {
+  "max_topic_alias": {
     "label": "最大主题别名数"
   },
   "common_ssl_opts_schema_user_lookup_fun": {
@@ -505,11 +505,11 @@
     "desc": "HTTPS websocket 监听器。",
     "label": "HTTPS websocket 监听器"
   },
-  "mqtt_use_username_as_clientid": {
+  "use_username_as_clientid": {
     "desc": "是否使用用户名作为客户端 ID。 作用时间晚于 <code>对端证书作为用户名</code> 和 <code>对端证书作为客户端 ID</code>。",
     "label": "使用用户名作为客户端 ID"
   },
-  "mqtt_max_qos_allowed": {
+  "max_qos_allowed": {
     "label": "最大 QoS"
   },
   "fields_mqtt_quic_listener_max_binding_stateless_operations": {
@@ -524,7 +524,7 @@
     "desc": "有节奏的发送，以避免路径上的缓冲区过度填充。默认值：1（已启用）",
     "label": "启用节奏发送"
   },
-  "mqtt_max_subscriptions": {
+  "max_subscriptions": {
     "desc": "允许每个客户端建立的最大订阅数量。",
     "label": "最大订阅数量"
   },
@@ -552,11 +552,11 @@
     "desc": "接管意味着在服务器消息之间保留压缩状态。",
     "label": "服务上下文接管"
   },
-  "mqtt_session_expiry_interval": {
+  "session_expiry_interval": {
     "desc": "指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。",
     "label": "会话过期间隔"
   },
-  "mqtt_message_expiry_interval": {
+  "message_expiry_interval": {
     "desc": "MQTT 消息的过期时间间隔。对于 MQTT 5.0 版本的客户端，此设置仅在消息未指定 Message-Expiry-Interval 属性时才会生效。对于 MQTT 3.1 和 3.1.1 版本，此设置始终适用。值得注意的是，将此值设定为大于会话过期间隔是无效的，因为一旦会话过期，所有相关消息都将被清除。",
     "label": "消息过期间隔"
   },
@@ -618,7 +618,7 @@
     "desc": "HTTP websocket 监听器。",
     "label": "HTTP websocket 监听器"
   },
-  "mqtt_retry_interval": {
+  "retry_interval": {
     "desc": "QoS 1/2 消息的重新投递间隔。",
     "label": "消息重试间隔"
   },
@@ -657,11 +657,11 @@
     "desc": "用于内建会话表的性能调优参数。",
     "label": "持久会话"
   },
-  "mqtt_upgrade_qos": {
+  "upgrade_qos": {
     "desc": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发消息的 QoS 等级。",
     "label": "升级 QoS"
   },
-  "mqtt_shared_subscription": {
+  "shared_subscription": {
     "label": "允许共享订阅"
   },
   "fields_tcp_opts_sndbuf": {
@@ -688,7 +688,7 @@
     "desc": "发布或订阅时，请在所有主题前面加上 mountpoint 字符串。\n\n将消息传递给订阅者时，将从主题名称中删除带前缀的字符串。挂载点是一种用户可以用来实现不同侦听器之间消息路由隔离的方法。\n\n例如，如果客户机 A 使用 <code>listeners.tcp.\\<name>.mountpoint</code> 设置为'some_tenant'，那么客户端实际上订阅了主题'some_tenant/t'。<br/>\n类似地，如果另一个客户端B（与客户端A连接到同一个侦听器）向主题 't' 发送消息，该消息将路由到所有订阅了'some_租户/t'的客户端，因此客户端 A 将接收主题名为't'的消息<br/>\n\n设置为<code>\"\"</code> 以禁用该功能<br/>\n\nmountpoint 字符串中的变量：\n- <code>${'{'}clientid{'}'}</code>: clientid\n- <code>${'{'}username{'}'}</code>: username",
     "label": "mountpoint"
   },
-  "mqtt_max_awaiting_rel": {
+  "max_awaiting_rel": {
     "desc": "为每个会话指定未收到 PUBREL 且未超时的最大 QoS 2 消息数量。超过限制后，新的 QoS 2 消息发布会被拒绝，并返回 147(0x93) 错误。",
     "label": "最大待发 PUBREL 数量"
   },
@@ -712,11 +712,11 @@
     "desc": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
     "label": "启用分布式端口过忙监控"
   },
-  "mqtt_max_mqueue_len": {
+  "max_mqueue_len": {
     "desc": "最大消息队列长度。持久客户端断开连接或飞行窗口已满时，允许排队的的最大消息数量。",
     "label": "最大消息队列长度"
   },
-  "mqtt_max_inflight": {
+  "max_inflight": {
     "desc": "完成应答前，最多允许同时投递的 QoS 1 和 QoS 2 消息数量。",
     "label": "最大飞行窗口"
   },
@@ -728,7 +728,7 @@
     "desc": "压缩级别",
     "label": "压缩级别"
   },
-  "mqtt_server_keepalive": {
+  "server_keepalive": {
     "label": "服务端 Keep Alive"
   },
   "global_authentication": {
@@ -770,10 +770,6 @@
     "desc": "多长时间发送一次PING帧以保活连接。",
     "label": "保持活着的时间间隔 毫秒"
   },
-  "fields_mqtt_quic_listener_handshake_idle_timeout_ms": {
-    "desc": "一个握手在被丢弃之前可以空闲多长时间",
-    "label": "握手空闲超时 毫秒"
-  },
   "broker_session_locking_strategy": {
     "desc": "Session 在集群中的锁策略。\n  - `loca`：仅锁本节点的 Session；\n  - `one`：任选一个其它节点加锁；\n  - `quorum`：选择集群中半数以上的节点加锁；\n  - `all`：选择所有节点加锁。"
   },
@@ -785,7 +781,7 @@
     "desc": "初始流接收窗口大小。 默认值：32678",
     "label": "流接收窗口默认"
   },
-  "mqtt_mqueue_priorities": {
+  "mqueue_priorities": {
     "desc": "主题优先级。优先级数字[1-255]。默认情况下没有优先级表，因此所有消息都被平等对待。<br/>注意：优先级主题名称中不允许使用逗号和等号。<br/>注意：不在优先级表中的主题的消息将根据 mqtt.mqueue_default_priority 的配置值被视为最高优先级或最低优先级。<br/>示例：<br/>要配置 'topic/1' > 'topic/2'：<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
     "label": "主题优先级"
   },
@@ -824,7 +820,7 @@
   "sys_msg_interval": {
     "desc": "发送 `$SYS` 主题的间隔时间。"
   },
-  "mqtt_await_rel_timeout": {
+  "await_rel_timeout": {
     "desc": "对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。",
     "label": "最大 PUBREL 等待时长"
   },
@@ -852,7 +848,7 @@
     "desc": "抖动检测的时间窗口。",
     "label": "时间窗口"
   },
-  "mqtt_mqueue_default_priority": {
+  "mqueue_default_priority": {
     "desc": "默认的主题优先级，不在 <code>主题优先级</code>（<code>mqueue_priorities</code>） 中的主题将会使用该优先级。",
     "label": "默认主题优先级"
   },
@@ -900,7 +896,7 @@
     "desc": "MQTT 客户端在“窗口”时间内允许的最大断开次数。",
     "label": "最大断开次数"
   },
-  "mqtt_max_topic_levels": {
+  "max_topic_levels": {
     "label": "最大主题层级"
   },
   "force_shutdown_max_heap_size": {
@@ -911,7 +907,7 @@
     "desc": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。\n如开启， 持久会话数据可在集群重启后恢复。\n如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
     "label": "持久化在磁盘上"
   },
-  "mqtt_ignore_loop_deliver": {
+  "ignore_loop_deliver": {
     "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。",
     "label": "忽略循环投递"
   },
@@ -919,10 +915,10 @@
     "desc": "PEM格式证书链文件<br/>\n此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，\n然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。\n根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
     "label": "证书文件"
   },
-  "mqtt_exclusive_subscription": {
+  "exclusive_subscription": {
     "label": "允许排它订阅"
   },
-  "mqtt_retain_available": {
+  "retain_available": {
     "desc": "是否启用对 MQTT 保留消息的支持。禁用此选项时，客户端将无法发布保留消息。",
     "label": "启用保留消息"
   },
@@ -934,7 +930,7 @@
     "desc": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
     "label": "启用长调度监控"
   },
-  "mqtt_keepalive_multiplier": {
+  "keepalive_multiplier": {
     "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`，根据 MQTT 5.0，默认值为1.5。\n\n例如，如果 Keep-Alive interval 为 10 秒，那么乘以 1.5 的倍数，将产生 15 秒的超时。将倍数值增加到 2，超时将延长到 20 秒。",
     "label": "Keep Alive 倍数"
   },
@@ -994,23 +990,16 @@
     "desc": "在进程收到多少消息之后，对此进程执行垃圾回收。",
     "label": "垃圾回收消息数"
   },
-  "mqtt_max_clientid_len": {
+  "max_clientid_len": {
     "label": "最大客户端 ID 长度"
   },
   "fields_ws_opts_supported_subprotocols": {
     "desc": "逗号分隔的 subprotocols 支持列表。",
     "label": "Subprotocols 支持列表"
   },
-  "broker_shared_subscription_strategy": {
-    "desc": "共享订阅消息派发策略。\n  - `random`：随机挑选一个共享订阅者派发；\n  - `round_robin`：使用 round-robin 策略派发；\n  - `round_robin_per_group`：在共享组内循环选择下一个成员；\n  - `local`：选择随机的本地成员，否则选择随机的集群范围内成员;\n  - `sticky`：总是使用上次选中的订阅者派发，直到它断开连接；\n  - `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者;\n  - `hash_topic`：通过对源主题进行 Hash 处理来选择订阅者。"
-  },
   "fields_deflate_opts_mem_level": {
     "desc": "指定压缩状态的大小<br/>\n较低的值会减少每个连接的内存使用。",
     "label": "压缩状态大小"
-  },
-  "fields_mqtt_quic_listener_send_idle_timeout_ms": {
-    "desc": "在闲置一定时间后重置拥堵控制。默认值：1000",
-    "label": "发送空闲超时毫秒"
   },
   "base_listener_limiter": {
     "desc": "速率限制类型",
@@ -1040,7 +1029,7 @@
     "desc": "确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`",
     "label": "Payload 编码"
   },
-  "mqtt_response_information": {
+  "response_information": {
     "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 `reqrsp/`，此时请求和应答客户端都需要使用 `reqrsp/` 前缀的主题来完成通讯。如希望禁用此功能，请在下方的文字框中输入`\"\"`；仅适用于 MQTT 5.0 客户端。",
     "label": "响应信息"
   },
@@ -1075,7 +1064,7 @@
     "desc": "用于检查服务器证书的 OCSP Responder 的 URL。",
     "label": "OCSP Responder 的 URL"
   },
-  "mqtt_idle_timeout": {
+  "idle_timeout": {
     "desc": "设置连接被断开或进入休眠状态前的等待时间，空闲超时后\n\n- 如暂未收到客户端的 CONNECT 报文，连接将断开；\n- 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。",
     "label": "空闲超时"
   },
@@ -1087,7 +1076,7 @@
     "desc": "一个连接所支持的最大MTU。这将是最大的探测值。默认值：1500",
     "label": "最大 MTU"
   },
-  "mqtt_strict_mode": {
+  "strict_mode": {
     "desc": "是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
     "label": "严格模式"
   },
@@ -1105,7 +1094,7 @@
     "desc": "优化内置的会话消息表的配置。",
     "label": "用于内建会话管理表的性能调优参数"
   },
-  "mqtt_mqueue_store_qos0": {
+  "mqueue_store_qos0": {
     "desc": "在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
     "label": "存储 QoS 0 消息"
   },
@@ -1137,10 +1126,6 @@
     "desc": "监听器所属的配置组。",
     "label": "配置组"
   },
-  "fields_mqtt_quic_listener_handshake_idle_timeout": {
-    "desc": "一个握手在被丢弃之前可以空闲多长时间。",
-    "label": "握手空闲超时时间"
-  },
   "force_gc_enable": {
     "desc": "启用强制垃圾回收。",
     "label": "启用强制垃圾回收"
@@ -1152,10 +1137,6 @@
   "common_ssl_opts_schema_versions": {
     "desc": "支持所有TLS/DTLS版本<br/>\n注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
     "label": "SSL 版本"
-  },
-  "mqtt_listener_proxy_protocol_timeout": {
-    "desc": "代理协议超时。如果在超时时间内未收到代理协议数据包，EMQX将关闭TCP连接。",
-    "label": "Proxy protocol 超时时间"
   },
   "fields_mqtt_quic_listener_idle_timeout": {
     "desc": "一个连接在被关闭之前可以空闲多长时间。0表示禁用。",
@@ -1176,7 +1157,7 @@
     "desc": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
     "label": "进程数低水位线"
   },
-  "mqtt_max_packet_size": {
+  "max_packet_size": {
     "desc": "允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。",
     "label": "最大报文大小"
   },
@@ -1196,7 +1177,7 @@
     "desc": "私钥文件。在 5.1 中会被废弃，使用 .ssl_options.keyfile 代替。",
     "label": "私钥文件"
   },
-  "mqtt_peer_cert_as_clientid": {
+  "peer_cert_as_clientid": {
     "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接；\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容\n- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式作为客户端 ID\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
     "label": "使用对端证书作为客户端 ID"
   },
@@ -1233,14 +1214,6 @@
     "desc": "从服务器刷新CRL的周期。 该配置对所有 URL 和监听器有效。",
     "label": "CRL 缓存刷新间隔"
   },
-  "mqtt_listener_proxy_protocol": {
-    "desc": "如果EMQX集群部署在 HAProxy 或 Nginx 之后，请启用代理协议 V1/2 <br/>\n详情见: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
-    "label": "Proxy protocol"
-  },
-  "mqtt_listener_access_rules": {
-    "desc": "此监听器的访问控制规则。",
-    "label": "访问控制规则"
-  },
   "server_ssl_opts_schema_enable_ocsp_stapling": {
     "desc": "是否为监听器启用 OCSP Stapling 功能。 如果设置为 true，需要定义 OCSP Responder 的 URL 和证书签发者的 PEM 文件路径。",
     "label": "启用 OCSP Stapling"
@@ -1253,15 +1226,11 @@
     "desc": "定期 CPU 检查的时间间隔。",
     "label": "定期 CPU 检查的时间间隔"
   },
-  "fields_mqtt_quic_listener_idle_timeout_ms": {
-    "desc": "一个连接在被优雅地关闭之前可以空闲多长时间。0 表示禁用超时",
-    "label": "空闲超时 毫秒"
-  },
   "fields_ws_opts_fail_if_no_subprotocol": {
     "desc": "如果<code>true</code>，当客户端未携带<code>Sec WebSocket Protocol</code>字段时，服务器将返回一个错误。\n<br/>注意：微信小程序需要禁用此验证。",
     "label": "无 subprotocol 则失败"
   },
-  "mqtt_wildcard_subscription": {
+  "wildcard_subscription": {
     "label": "允许通配符订阅"
   },
   "server_ssl_opts_schema_ocsp_refresh_interval": {
@@ -1286,11 +1255,11 @@
     "desc": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
     "label": "启用大 heap 监控"
   },
-  "mqtt_shared_subscription_strategy": {
+  "shared_subscription_strategy": {
     "label": "共享订阅策略",
     "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者。"
   },
-  "mqtt_client_attrs_init": {
+  "client_attrs_init": {
     "label": "客户端属性",
     "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
   },
@@ -1301,11 +1270,11 @@
     "label": "属性表达式",
     "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`substr(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
   },
-  "mqtt_keepalive_check_interval": {
+  "keepalive_check_interval": {
     "label": "保活检查间隔",
     "desc": "检查传入 MQTT 数据包的频率决定了服务器检查新 MQTT 数据包的频率。<br />如果客户端在一定时间内没有发送任何数据包，这段时间将会累积。<br />一旦累积时间超过 `keepalive-interval * keepalive-multiplier`，连接将会被终止。<br />默认值设置为 30 秒，最小值为 1 秒，最大值为 `keepalive-interval / 2`。"
   },
-  "mqtt_shared_subscription_initial_sticky_pick": {
+  "shared_subscription_initial_sticky_pick": {
     "label": "共享订阅初始 Sticky 选择策略",
     "desc": "当`共享订阅策略`设置为 `sticky` 时，用于初始订阅者选择的策略：<br/> - `random`：随机选择订阅者；<br/> - `local`：随机选择当前节点上的订阅者，如果当前节点上没有订阅者，则在集群内随机选择；<br/> - `hash_clientid`：通过对发布者的客户端ID进行哈希来选择订阅者；<br/> - `hash_topic`：通过对发布主题进行哈希来选择订阅者。"
   }

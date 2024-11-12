@@ -47,28 +47,14 @@ export default (
 
   const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
-  const getMQTTAndSessionItemTextKey = ({ path }: Property) => `${customSnakeCase(path as string)}`
-
   const commonGetConfigItemKey = ({ key, path }: Property) => {
     const exactKey = `${props.type}_${customSnakeCase(path as string)}`
     const fullKey = testConfigTextKey(`${exactKey}`) ? `${exactKey}` : (key as string)
     return fullKey
   }
 
-  const funcMap: Record<string, GetTextKey> = {
-    mqtt: getMQTTAndSessionItemTextKey,
-    session: getMQTTAndSessionItemTextKey,
-    log: commonGetConfigItemKey,
-    sysmon: commonGetConfigItemKey,
-    limiter: commonGetConfigItemKey,
-  }
-
   const getConfigurationItemTextKey = (prop: Property) => {
-    const func = funcMap[props.type]
-    if (func && isFunction(func)) {
-      return func(prop)
-    }
-    return prop.path
+    return commonGetConfigItemKey(prop)
   }
 
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
