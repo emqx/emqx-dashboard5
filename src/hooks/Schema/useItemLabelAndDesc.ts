@@ -25,7 +25,7 @@ const LOG_SPECIAL_KEY_PREFIX_MAP = {
   log_file_handler_: ['max_size', 'path'],
 }
 
-const SYS_MON_PREFIX = 'sysmon_'
+const SYS_MON_PREFIX = ''
 
 // Bridge
 const COMMON_ZONE = 'common'
@@ -73,8 +73,8 @@ export default (
     return `${getConfigurationTextZone()}${prefix}${key}`
   }
 
-  const getSysMonTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
+  const getSysMonTextKey = ({ key }: Property) =>
+    `${getConfigurationTextZone()}${SYS_MON_PREFIX}${key}`
 
   const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}${key}`
 
