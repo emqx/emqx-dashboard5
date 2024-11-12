@@ -1,1374 +1,1368 @@
 {
-  "emqx_conf_schema": {
-    "common_handler_drop_mode_qlen": {
-      "desc": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。\n为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1\n要禁用某些模式，请执行以下操作。\n- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。\n- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。\n- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
-      "label": "进入丢弃模式的队列长度"
-    },
-    "cluster_mcast_addr": {
-      "desc": "指定多播 IPv4 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播地址"
-    },
-    "desc_cluster_dns": {
-      "desc": "DNS SRV 记录服务发现。",
-      "label": "DNS SRV 记录服务发现"
-    },
-    "cluster_dns_name": {
-      "desc": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。\n当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。",
-      "label": "DNS名称"
-    },
-    "rpc_keyfile": {
-      "desc": "<code>rpc.certfile</code> 的私钥文件的路径。<br/>\n注意：此文件内容是私钥，所以需要设置权限为 600。",
-      "label": "RPC 私钥文件"
-    },
-    "cluster_mcast_recbuf": {
-      "desc": "接收数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播接收数据缓冲区"
-    },
-    "cluster_autoheal": {
-      "desc": "集群脑裂自动恢复机制开关。",
-      "label": "节点脑裂自动修复机制"
-    },
-    "log_overload_kill_enable": {
-      "desc": "日志处理进程过载时为保护自己节点其它的业务能正常，强制杀死日志处理进程。",
-      "label": "日志处理进程过载保护"
-    },
-    "node_etc_dir": {
-      "desc": "<code>etc</code> 存放目录",
-      "label": "Etc 目录"
-    },
-    "cluster_proto_dist": {
-      "desc": "分布式 Erlang 集群协议类型。可选值为:<br/>\n- inet_tcp: 使用 IPv4 <br/>\n- inet_tls: 使用 TLS，需要配合 <code>etc/ssl_dist.conf</code> 一起使用。",
-      "label": "集群内部通信协议"
-    },
-    "log_burst_limit_enable": {
-      "desc": "启用日志限流保护机制。",
-      "label": "日志限流保护"
-    },
-    "dist_buffer_size": {
-      "desc": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
-      "label": "Erlang分布式缓冲区的繁忙阈值(KB)"
-    },
-    "common_handler_max_depth": {
-      "desc": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
-      "label": "最大深度"
-    },
-    "desc_log": {
-      "desc": "EMQX 日志记录支持日志事件的多个接收器。 每个接收器由一个_log handler_表示，可以独立配置。",
-      "label": "日志"
-    },
-    "common_handler_flush_qlen": {
-      "desc": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。\n来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
-      "label": "冲刷阈值"
-    },
-    "common_handler_chars_limit": {
-      "desc": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。\n注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
-      "label": "单条日志长度限制"
-    },
-    "cluster_k8s_namespace": {
-      "desc": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，\n可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。",
-      "label": "K8s 命名空间"
-    },
-    "node_name": {
-      "desc": "节点名。格式为 \\<name>{'@'}\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。\n详见 http://erlang.org/doc/reference_manual/distributed.html。",
-      "label": "节点名"
-    },
-    "rpc_port_discovery": {
-      "desc": "<code>manual</code>: 通过 <code>tcp_server_port</code> 来发现端口。\n<br/><code>stateless</code>: 使用无状态的方式来发现端口，使用如下算法。如果节点名称是 <code>\nemqxN{'@'}127.0.0.1</code>, N 是一个数字，那么监听端口就是 5370 + N。",
-      "label": "RPC 端口发现策略"
-    },
-    "log_overload_kill_restart_after": {
-      "desc": "如果处理进程终止，它会在以指定的时间后后自动重新启动。 `infinity` 不自动重启。",
-      "label": "处理进程重启机制"
-    },
-    "log_file_handler_rotation_size": {
-      "desc": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。\n与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
-      "label": "日志文件轮换大小"
-    },
-    "desc_log_file_handler": {
-      "desc": "日志处理进程将日志事件打印到文件。",
-      "label": "文件日志处理进程"
-    },
-    "rpc_socket_keepalive_count": {
-      "desc": "keepalive 探测消息发送失败的次数，直到 RPC 连接被认为已经断开。",
-      "label": "RPC Socket Keepalive 次数"
-    },
-    "cluster_etcd_server": {
-      "desc": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-      "label": "Etcd 服务器地址"
-    },
-    "db_backend": {
-      "desc": "配置后端数据库驱动，默认值为 <code>rlog</code> 它适用于大规模的集群。\n<code>mnesia</code> 是备选数据库，适合中小集群。",
-      "label": "内置数据库"
-    },
-    "desc_authorization": {
-      "desc": "授权相关",
-      "label": "授权"
-    },
-    "cluster_etcd_ssl": {
-      "desc": "当使用 TLS 连接 etcd 时的配置选项。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-      "label": "Etcd SSL 选项"
-    },
-    "rpc_insecure_fallback": {
-      "desc": "兼容旧的无鉴权模式",
-      "label": "向后兼容旧的无鉴权模式"
-    },
-    "cluster_mcast_buffer": {
-      "desc": "用户级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播用户级缓冲区"
-    },
-    "rpc_authentication_timeout": {
-      "desc": "远程节点认证的超时时间。",
-      "label": "RPC 认证超时时间"
-    },
-    "cluster_call_retry_interval": {
-      "desc": "当集群间调用出错时，多长时间重试一次。",
-      "label": "重试时间间隔"
-    },
-    "cluster_mcast_sndbuf": {
-      "desc": "外发数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播发送缓存区"
-    },
-    "rpc_driver": {
-      "desc": "集群间通信使用的传输协议。",
-      "label": "RPC 驱动"
-    },
-    "max_ets_tables": {
-      "desc": "Erlang ETS 表的最大数量",
-      "label": "Erlang 表的最大数量"
-    },
-    "desc_db": {
-      "desc": "内置数据库的配置。",
-      "label": "数据库"
-    },
-    "desc_cluster_etcd": {
-      "desc": "使用 'etcd' 服务的服务发现。",
-      "label": "'etcd' 服务的服务发现"
-    },
-    "cluster_name": {
-      "desc": "EMQX集群名称。每个集群都有一个唯一的名称。服务发现时会用于做路径的一部分。",
-      "label": "集群名称"
-    },
-    "log_rotation_enable": {
-      "desc": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。\n系统会默认生成<code>*.siz/*.idx</code>用于记录日志位置，请不要手动修改这两个文件。",
-      "label": "日志轮换"
-    },
-    "cluster_call_cleanup_interval": {
-      "desc": "清理过期事务的时间间隔",
-      "label": "清理间隔"
-    },
-    "desc_cluster_static": {
-      "desc": "静态节点服务发现。新节点通过连接一个节点来加入集群。",
-      "label": "静态节点服务发现"
-    },
-    "db_default_shard_transport": {
-      "desc": "定义用于推送事务日志的默认传输。<br/>\n这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 发行版。",
-      "label": "事务日志传输默认协议"
-    },
-    "cluster_static_seeds": {
-      "desc": "集群中的EMQX节点名称列表，\n指定固定的节点列表，多个节点间使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 static 时，此配置项才有效。\n适合于节点数量较少且固定的集群。",
-      "label": "集群静态节点"
-    },
-    "log_overload_kill_qlen": {
-      "desc": "允许的最大队列长度。",
-      "label": "最大队列长度"
-    },
-    "node_backtrace_depth": {
-      "desc": "错误信息中打印的最大堆栈层数",
-      "label": "最大堆栈导数"
-    },
-    "desc_log_burst_limit": {
-      "desc": "短时间内产生的大量日志事件可能会导致问题，例如：\n  - 日志文件变得非常大\n  - 日志文件轮换过快，有用信息被覆盖\n  - 对系统的整体性能影响\n\n日志突发限制功能可以暂时禁用日志记录以避免这些问题。",
-      "label": "日志突发限制"
-    },
-    "common_handler_enable": {
-      "desc": "启用此日志处理进程。",
-      "label": "启用日志处理进程"
-    },
-    "common_handler_timestamp_format": {
-      "desc": "选择时间戳格式：<br/>- <code>auto</code>：根据日志的格式自动选择最合适的时间戳格式。对于 JSON 使用 <code>epoch</code>，对于文本则使用 <code>rfc3339</code>。<br/>- <code>epoch</code>：表示为自 Unix 纪元起的微秒数。<br/>- <code>rfc3339</code>：遵循 RFC3339 标准的时间格式。",
-      "label": "时间戳格式"
-    },
-    "cluster_k8s_service_name": {
-      "desc": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
-      "label": "K8s 服务别名"
-    },
-    "common_handler_rotation_count": {
-      "desc": "轮换的最大日志文件数。",
-      "label": "最大日志文件数"
-    },
-    "node_cookie": {
-      "desc": "分布式 Erlang 集群使用的 cookie 值。集群间保持一致",
-      "label": "节点 Cookie"
-    },
-    "db_role": {
-      "desc": "选择节点的角色。<br/>\n<code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。<br/>\n<code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余<br/>\n建议复制节点多于核心节点。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。",
-      "label": "数据库角色"
-    },
-    "rpc_tcp_server_port": {
-      "desc": "RPC 本地服务使用的 TCP 端口。<br/>\n只有当 rpc.port_discovery 设置为 manual 时，此配置才会生效。",
-      "label": "RPC TCP 服务监听端口"
-    },
-    "desc_console_handler": {
-      "desc": "日志处理进程将日志事件打印到 EMQX 控制台。",
-      "label": "Console Handler"
-    },
-    "node_applications": {
-      "desc": "当新EMQX 加入集群时，应重启的Erlang应用程序的列表。",
-      "label": "应用"
-    },
-    "log_burst_limit_max_count": {
-      "desc": "在 `window_time` 间隔内处理的最大日志事件数。 达到限制后，将丢弃连续事件，直到 `window_time` 结束。",
-      "label": "日志事件数"
-    },
-    "rpc_tcp_client_num": {
-      "desc": "设置本节点与远程节点之间的 RPC 通信通道的最大数量。",
-      "label": "RPC TCP 客户端数量"
-    },
-    "cluster_k8s_address_type": {
-      "desc": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。\n指定 <code>cluster.k8s.address_type</code> 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点\n的IP地址。",
-      "label": "K8s 地址类型"
-    },
-    "rpc_socket_sndbuf": {
-      "desc": "TCP 调节参数。TCP 发送缓冲区大小。",
-      "label": "RPC 套接字发送缓冲区大小"
-    },
-    "cluster_mcast_ttl": {
-      "desc": "指定多播的 Time-To-Live 值。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播TTL"
-    },
-    "db_core_nodes": {
-      "desc": "当前节点连接的核心节点列表。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>\n并且设置<code>role</code>为<code>replicant</code>时生效。<br/>\n该值需要在手动或静态集群发现机制下设置。<br/>\n如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
-      "label": "数据库核心节点"
-    },
-    "log_file_handler_path": {
-      "desc": "日志文件路径及名字。",
-      "label": "日志文件名字"
-    },
-    "node_dist_net_ticktime": {
-      "desc": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。",
-      "label": "节点间心跳间隔"
-    },
-    "desc_cluster_k8s": {
-      "desc": "Kubernetes 服务发现。",
-      "label": "Kubernetes 服务发现"
-    },
-    "desc_cluster_mcast": {
-      "desc": "UDP 组播服务发现。",
-      "label": "UDP 组播服务发现"
-    },
-    "rpc_cacertfile": {
-      "desc": "验证 <code>rpc.certfile</code> 的 CA 证书文件的路径。<br/>\n注意：集群中所有节点的证书必须使用同一个 CA 签发。",
-      "label": "RPC CA 证书文件"
-    },
-    "desc_node": {
-      "desc": "节点名称、Cookie、配置文件、数据目录和 Erlang 虚拟机（BEAM）启动参数。",
-      "label": "节点"
-    },
-    "cluster_k8s_apiserver": {
-      "desc": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
-      "label": "K8s 服务地址"
-    },
-    "common_handler_supervisor_reports": {
-      "desc": "Supervisor 报告的类型。默认为 error 类型。<br/>\n  - <code>error</code>：仅记录 Erlang 进程中的错误。\n  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
-      "label": "报告类型"
-    },
-    "node_data_dir": {
-      "desc": "节点数据存放目录，可能会自动创建的子目录如下：<br/>\n- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx{'@'}127.0.0.1`。<br/>\n如果节点要被重新命名（例如，`emqx{'@'}10.0.1.1`）。旧目录应该首先被删除。<br/>\n- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/>\n- `patches`: 热补丁文件将被放在这里。<br/>\n- `trace`: 日志跟踪文件。<br/>\n\n**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
-      "label": "节点数据目录"
-    },
-    "cluster_k8s_suffix": {
-      "desc": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。\n与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。",
-      "label": "K8s 前缀"
-    },
-    "db_rpc_module": {
-      "desc": "集群间推送事务日志到复制节点使用的协议。",
-      "label": "RPC协议"
-    },
-    "cluster_etcd_prefix": {
-      "desc": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:\nv2/keys/<prefix>/<cluster.name>/<node.name> <br/>\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-      "label": "Etcd 路径前缀"
-    },
-    "cluster_mcast_iface": {
-      "desc": "指定节点发现服务需要绑定到本地 IP 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播绑定地址"
-    },
-    "log_burst_limit_window_time": {
-      "desc": "参考 <code>max_count</code>。",
-      "label": "Window Time"
-    },
-    "cluster_dns_record_type": {
-      "desc": "DNS 记录类型。",
-      "label": "DNS记录类型"
-    },
-    "cluster_autoclean": {
-      "desc": "指定多久之后从集群中删除离线节点。",
-      "label": "自动删除离线节点时间"
-    },
-    "process_limit": {
-      "desc": "Erlang系统同时存在的最大进程数。\n实际选择的最大值可能比设置的数字大得多。\n参考: https://www.erlang.org/doc/man/erl.html",
-      "label": "Erlang 最大进程数"
-    },
-    "max_ports": {
-      "desc": "Erlang系统同时存在的最大端口数。\n实际选择的最大值可能比设置的数字大得多。\n参考: https://www.erlang.org/doc/man/erl.html",
-      "label": "Erlang 最大端口数"
-    },
-    "desc_log_rotation": {
-      "desc": "默认情况下，日志存储在 `./log` 目录（用于从 zip 文件安装）或 `/var/log/emqx`（用于二进制安装）。<br/>\n这部分配置，控制每个日志处理进程保留的文件数量。",
-      "label": "日志轮换"
-    },
-    "desc_log_overload_kill": {
-      "desc": "日志过载终止，具有过载保护功能。当日志处理进程使用过多内存，或者缓存的日志消息过多时该功能被激活。<br/>\n检测到过载时，日志处理进程将终止，并在冷却期后重新启动。",
-      "label": "日志过载保护"
-    },
-    "authorization": {
-      "desc": "授权（ACL）。EMQX 支持完整的客户端访问控制（ACL）。",
-      "label": "授权"
-    },
-    "rpc_socket_keepalive_idle": {
-      "desc": "broker 之间的连接在最后一条消息发送后保持打开的时间。",
-      "label": "RPC Socket Keepalive Idle"
-    },
-    "desc_cluster_call": {
-      "desc": "集群调用功能的选项。",
-      "label": "集群调用"
-    },
-    "cluster_mcast_ports": {
-      "desc": "指定多播端口。如有多个端口使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播端口"
-    },
-    "log_overload_kill_mem_size": {
-      "desc": "日志处理进程允许使用的最大内存。",
-      "label": "日志处理进程允许使用的最大内存"
-    },
-    "rpc_connect_timeout": {
-      "desc": "建立 RPC 连接的超时时间。",
-      "label": "RPC 连接超时时间"
-    },
-    "cluster_etcd_node_ttl": {
-      "desc": "指定 etcd 中节点信息的过期时间。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
-      "label": "Etcd 节点过期时间"
-    },
-    "rpc_call_receive_timeout": {
-      "desc": "同步 RPC 的回复超时时间。",
-      "label": "RPC 调用接收超时时间"
-    },
-    "rpc_socket_recbuf": {
-      "desc": "TCP 调节参数。TCP 接收缓冲区大小。",
-      "label": "RPC 套接字接收缓冲区大小"
-    },
-    "db_tlog_push_mode": {
-      "desc": "同步模式下，核心节点等待复制节点的确认信息，然后再发送下一条事务日志。",
-      "label": "Tlog推送模式"
-    },
-    "node_crash_dump_bytes": {
-      "desc": "限制崩溃文件的大小，当崩溃时节点内存太大，\n如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。\n如果超过此限制，崩溃转储将被截断。如果设置为0，系统不会尝试写入崩溃转储文件。",
-      "label": "崩溃文件最大容量"
-    },
-    "rpc_certfile": {
-      "desc": "TLS 证书文件的路径，用于验证集群节点的身份。\n只有当 <code>rpc.driver</code> 设置为 <code>ssl</code> 时，此配置才会生效。",
-      "label": "RPC 证书文件"
-    },
-    "node_crash_dump_seconds": {
-      "desc": "该配置给出了运行时系统允许花费的写入崩溃转储的秒数。当给定的秒数已经过去，运行时系统将被终止。<br/>\n- 如果设置为0秒，运行时会立即终止，不会尝试写入崩溃转储文件。<br/>\n- 如果设置为一个正数 S，节点会等待 S 秒来完成崩溃转储文件，然后用SIGALRM信号终止运行时系统。<br/>\n- 如果设置为一个负值导致运行时系统的终止等待无限期地直到崩溃转储文件已经完全写入。",
-      "label": "保存崩溃文件最长时间"
-    },
-    "log_file_handlers": {
-      "desc": "输出到文件的日志处理进程列表",
-      "label": "File Handler"
-    },
-    "node_global_gc_interval": {
-      "desc": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。禁用设置为 <code>disabled</code>。",
-      "label": "全局垃圾回收"
-    },
-    "common_handler_time_offset": {
-      "desc": "日志中的时间戳使用的时间偏移量。\n可选值为：\n  - <code>system</code>: 本地系统使用的时区偏移量\n  - <code>utc</code>: 0 时区的偏移量\n  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"\n默认值为本地系统的时区偏移量：<code>system</code>。",
-      "label": "时间偏移量"
-    },
-    "rpc_mode": {
-      "desc": "在 <code>sync</code> 模式下，发送端等待接收端的 ack信号。",
-      "label": "RPC 模式"
-    },
-    "node_crash_dump_file": {
-      "desc": "设置 Erlang crash_dump 文件的存储路径和文件名。",
-      "label": "节点崩溃时的Dump文件"
-    },
-    "cluster_mcast_loop": {
-      "desc": "设置多播的报文是否投递到本地回环地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
-      "label": "多播回环开关"
-    },
-    "rpc_socket_keepalive_interval": {
-      "desc": "keepalive 消息的间隔。",
-      "label": "RPC Socket Keepalive 间隔"
-    },
-    "common_handler_level": {
-      "desc": "当前日志处理进程的日志级别。\n默认为 warning 级别。",
-      "label": "日志级别"
-    },
-    "desc_rpc": {
-      "desc": "EMQX 使用 <code>gen_rpc</code> 库来实现跨节点通信。<br/>\n大多数情况下，默认的配置应该可以工作，但如果你需要做一些性能优化或者实验，可以尝试调整这些参数。",
-      "label": "RPC"
-    },
-    "rpc_ssl_server_port": {
-      "desc": "RPC 本地服务使用的监听SSL端口。<br/>\n只有当 rpc.port_discovery 设置为 manual 且 <code> dirver </code> 设置为 <code>ssl</code>，\n此配置才会生效。",
-      "label": "RPC SSL 服务监听端口"
-    },
-    "desc_cluster": {
-      "desc": "EMQX 节点可以组成一个集群，以提高总容量。<br/> 这里指定了节点之间如何连接。",
-      "label": "集群"
-    },
-    "common_handler_sync_mode_qlen": {
-      "desc": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。\n这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。\n如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。\n当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。\n默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
-      "label": "进入同步模式的队列长度"
-    },
-    "common_handler_formatter": {
-      "desc": "选择日志格式类型。 <code>text</code> 用于纯文本，<code>json</code> 用于结构化日志记录。",
-      "label": "日志格式类型"
-    },
-    "rpc_async_batch_size": {
-      "desc": "异步模式下，发送的批量消息的最大数量。",
-      "label": "异步模式下的批量消息数量"
-    },
-    "cluster_call_max_history": {
-      "desc": "集群间调用最多保留的历史记录数。只用于排错时查看。",
-      "label": "最大历史记录"
-    },
-    "cluster_discovery_strategy": {
-      "desc": "集群节点发现方式。可选值为:\n- manual: 使用 <code>emqx ctl cluster</code> 命令管理集群。<br/>\n- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。<br/>\n- dns: 使用 DNS A 记录的方式发现节点。<br/>\n- etcd: 使用 etcd 发现节点。<br/>\n- k8s: 使用 Kubernetes API 发现节点。",
-      "label": "集群服务发现策略"
-    },
-    "rpc_send_timeout": {
-      "desc": "发送 RPC 请求的超时时间。",
-      "label": "RPC 发送超时时间"
-    },
-    "common_handler_single_line": {
-      "desc": "如果设置为 true，则单行打印日志。 否则，日志消息可能跨越多行。",
-      "label": "单行模式"
-    },
-    "rpc_socket_buffer": {
-      "desc": "TCP 调节参数。用户模式套接字缓冲区大小。",
-      "label": "RPC 套接字缓冲区大小"
-    },
-    "db_shard_transports": {
-      "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
-      "label": "事务日志传输协议"
-    },
-    "common_handler_time_window": {
-      "desc": "日志节流的时间窗口，在设定的时间窗口内同一事件类型的日志只被记录一次以防止日志泛滥。时间窗口结束时将生成反映该时间段内的日志活动的详细日志。该窗口的最小可设置值为1秒。<br/>支持的事件如下：<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
-      "label": "时间窗口"
-    },
-    "common_handler_payload_encode": {
-      "desc": "日志中 Payload 的编码方式。",
-      "label": "Payload 编码"
-    }
+  "common_handler_drop_mode_qlen": {
+    "desc": "当缓冲的日志事件数大于此值时，新的日志事件将被丢弃。起到过载保护的功能。\n为了使过载保护算法正常工作必须要：<code> sync_mode_qlen =< drop_mode_qlen =< flush_qlen </code> 且 drop_mode_qlen > 1\n要禁用某些模式，请执行以下操作。\n- 如果sync_mode_qlen被设置为0，所有的日志事件都被同步处理。也就是说，异步日志被禁用。\n- 如果sync_mode_qlen被设置为与drop_mode_qlen相同的值，同步模式被禁用。也就是说，处理程序总是以异步模式运行，除非调用drop或flushing。\n- 如果drop_mode_qlen被设置为与flush_qlen相同的值，则drop模式被禁用，永远不会发生。",
+    "label": "进入丢弃模式的队列长度"
   },
-  "emqx_limiter_schema": {
-    "max_conn_rate": {
-      "desc": "最大连接速率。<br/>\n这用于限制此节点的连接速率，\n一旦达到限制，新连接将被推迟或拒绝。",
-      "label": "最大连接速率"
-    },
-    "messages_rate": {
-      "desc": "消息发布速率。<br/>\n这用于限制该节点的入站消息数量，\n一旦达到限制，受限客户端的消息发布将会减慢甚至暂停一段时间。",
-      "label": "消息发布速率"
-    },
-    "bytes_rate": {
-      "desc": "数据发布速率。<br/>\n这用于限制该节点的入站字节速率，\n一旦达到限制，受限客户端的数据发布将会减慢甚至暂停一段时间。",
-      "label": "数据发布速率"
-    }
+  "cluster_mcast_addr": {
+    "desc": "指定多播 IPv4 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播地址"
   },
-  "emqx_schema": {
-    "fields_mqtt_quic_listener_peer_unidi_stream_count": {
-      "desc": "允许对端打开的单向流的数量",
-      "label": "对端单向流的数量"
-    },
-    "fields_authorization_no_match": {
-      "desc": "如果用户或客户端不匹配ACL规则，或者从可配置授权源(比如内置数据库、HTTP API 或 PostgreSQL 等。)内未找\n到此类用户或客户端时，模式的认访问控制操作。\n在“授权”中查找更多详细信息。",
-      "label": "未匹时的默认授权动作"
-    },
-    "sysmon_top_db_hostname": {
-      "desc": "收集数据点的 PostgreSQL 数据库的主机名。",
-      "label": "数据库主机名"
-    },
-    "zones": {
-      "desc": "<code>zone</code> 是按<code>name</code> 分组的一组配置。\n对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。\n注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。"
-    },
-    "fields_mqtt_quic_listener_certfile": {
-      "desc": "证书文件。在 5.1 中会被废弃，使用 .ssl_options.certfile 代替。",
-      "label": "证书文件"
-    },
-    "fields_rate_limit_conn_bytes_in": {
-      "desc": "限制 MQTT 连接接收数据包的速率。 速率以每秒的数据包字节数计算。",
-      "label": "数据包速率"
-    },
-    "crl_cache_capacity": {
-      "desc": "缓存中可容纳的 CRL URL 的最大数量。 如果缓存的容量已满，并且必须获取一个新的 URL，那么它将驱逐缓存中插入的最老的 URL。",
-      "label": "CRL 缓存容量"
-    },
-    "alarm_actions": {
-      "desc": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.\n<code>log</code> 将告警写入日志 (控制台或者文件).\n<code>publish</code> 将告警作为 MQTT 消息发布到系统主题:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
-      "label": "告警动作"
-    },
-    "base_listener_max_connections": {
-      "desc": "监听器允许的最大并发连接数。",
-      "label": "最大并发连接数"
-    },
-    "mqtt_peer_cert_as_username": {
-      "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名；仅适用于 TLS 连接。\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 的证书内容\n- <code>pem</code>: 将 <code>DER</code> 证书转换为 <code>PEM</code> 格式作为用户名\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
-      "label": "使用对端证书作为用户名"
-    },
-    "fields_cache_enable": {
-      "desc": "启用或禁用授权缓存。",
-      "label": "启用或禁用授权缓存"
-    },
-    "fields_mqtt_quic_listener_disconnect_timeout_ms": {
-      "desc": "在判定路径无效和断开连接之前，要等待多长时间的ACK。默认：16000",
-      "label": "断开连接超时 毫秒"
-    },
-    "mqtt_max_topic_alias": {
-      "label": "最大主题别名数"
-    },
-    "common_ssl_opts_schema_user_lookup_fun": {
-      "desc": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
-      "label": "SSL PSK 用户回调"
-    },
-    "fields_listeners_wss": {
-      "desc": "HTTPS websocket 监听器。",
-      "label": "HTTPS websocket 监听器"
-    },
-    "sysmon_top_max_procs": {
-      "desc": "当 VM 中的进程数超过此值时，停止收集数据。",
-      "label": "最大进程数"
-    },
-    "mqtt_use_username_as_clientid": {
-      "desc": "是否使用用户名作为客户端 ID。 作用时间晚于 <code>对端证书作为用户名</code> 和 <code>对端证书作为客户端 ID</code>。",
-      "label": "使用用户名作为客户端 ID"
-    },
-    "mqtt_max_qos_allowed": {
-      "label": "最大 QoS"
-    },
-    "fields_mqtt_quic_listener_max_binding_stateless_operations": {
-      "desc": "在任何时候可以在一个绑定上排队的无状态操作的最大数量。默认值：100",
-      "label": "最大绑定无状态操作"
-    },
-    "fields_mqtt_quic_listener_stream_recv_buffer_default": {
-      "desc": "流的初始缓冲区大小。默认：4096",
-      "label": "流媒体接收缓冲区默认值"
-    },
-    "fields_mqtt_quic_listener_pacing_enabled": {
-      "desc": "有节奏的发送，以避免路径上的缓冲区过度填充。默认值：1（已启用）",
-      "label": "启用节奏发送"
-    },
-    "mqtt_max_subscriptions": {
-      "desc": "允许每个客户端建立的最大订阅数量。",
-      "label": "最大订阅数量"
-    },
-    "persistent_session_builtin_messages_table": {
-      "desc": "用于内建消息表的性能调优参数。",
-      "label": "持久化消息"
-    },
-    "sysmon_os_cpu_low_watermark": {
-      "desc": "在解除相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
-      "label": "CPU 低水位线"
-    },
-    "fields_mqtt_quic_listener_tls_server_max_send_buffer": {
-      "desc": "缓冲多少TLS数据。 默认值：8192",
-      "label": "TLS 服务器最大发送缓冲区"
-    },
-    "base_listener_bind": {
-      "desc": "监听套接字的 IP 地址和端口。",
-      "label": "IP 地址和端口"
-    },
-    "server_ssl_opts_schema_handshake_timeout": {
-      "desc": "握手完成所允许的最长时间",
-      "label": "握手超时时间"
-    },
-    "fields_deflate_opts_server_context_takeover": {
-      "desc": "接管意味着在服务器消息之间保留压缩状态。",
-      "label": "服务上下文接管"
-    },
-    "mqtt_session_expiry_interval": {
-      "desc": "指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。",
-      "label": "会话过期间隔"
-    },
-    "mqtt_message_expiry_interval": {
-      "desc": "MQTT 消息的过期时间间隔。对于 MQTT 5.0 版本的客户端，此设置仅在消息未指定 Message-Expiry-Interval 属性时才会生效。对于 MQTT 3.1 和 3.1.1 版本，此设置始终适用。值得注意的是，将此值设定为大于会话过期间隔是无效的，因为一旦会话过期，所有相关消息都将被清除。",
-      "label": "消息过期间隔"
-    },
-    "fields_listener_enabled": {
-      "desc": "启停监听器。",
-      "label": "启停监听器"
-    },
-    "mqtt": {
-      "desc": "全局的 MQTT 配置项。\nmqtt 下所有的配置作为全局的默认值存在，它可以被 <code>zone</code> 中的配置覆盖。"
-    },
-    "crl_cache_refresh_http_timeout": {
-      "desc": "获取 CRLs 时 HTTP 请求的超时。 该配置对所有启用 CRL 检查的监听器监听器有效。",
-      "label": "CRL 缓存刷新 HTTP 超时"
-    },
-    "fields_tcp_opts_backlog": {
-      "desc": "TCP backlog 定义了挂起连接队列可以增长到的最大长度。",
-      "label": "TCP 连接队列长度"
-    },
-    "broker_route_batch_clean": {
-      "desc": "是否开启批量清除路由。"
-    },
-    "fields_mqtt_quic_listener_initial_window_packets": {
-      "desc": "一个连接的初始拥堵窗口的大小（以包为单位）。默认值：10",
-      "label": "初始窗口数据包"
-    },
-    "flapping_detect_enable": {
-      "desc": "启用抖动检测功能。",
-      "label": "启用抖动检测"
-    },
-    "sysmon_top_db_password": {
-      "desc": "PostgreSQL 数据库的密码",
-      "label": "数据库密码"
-    },
-    "fields_ws_opts_check_origins": {
-      "desc": "允许的 origins 列表",
-      "label": "允许的 origins"
-    },
-    "fields_deflate_opts_client_context_takeover": {
-      "desc": "接管意味着在客户端消息之间保留压缩状态。",
-      "label": "客户端上下文接管"
-    },
-    "base_listener_acceptors": {
-      "desc": "监听器接收池的大小。",
-      "label": "接收器数量"
-    },
-    "common_ssl_opts_schema_cacertfile": {
-      "desc": "受信任的PEM格式 CA  证书捆绑文件<br/>\n此文件中的证书用于验证TLS对等方的证书。\n如果要信任新 CA，请将新证书附加到文件中。\n无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/>\n注意：从文件中失效（删除）证书不会影响已建立的连接。",
-      "label": "CA 证书文件"
-    },
-    "fields_ws_opts_mqtt_path": {
-      "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
-      "label": "WS MQTT 路径"
-    },
-    "sysmon_os_procmem_high_watermark": {
-      "desc": "在发出相应警报之前，一个Erlang进程可以分配多少系统内存的阈值，以系统内存的百分比表示。",
-      "label": "进程内存高水位线"
-    },
-    "fields_listeners_quic": {
-      "desc": "QUIC 监听器。",
-      "label": "QUIC 监听器"
-    },
-    "fields_listeners_ws": {
-      "desc": "HTTP websocket 监听器。",
-      "label": "HTTP websocket 监听器"
-    },
-    "mqtt_retry_interval": {
-      "desc": "QoS 1/2 消息的重新投递间隔。",
-      "label": "消息重试间隔"
-    },
-    "stats_enable": {
-      "desc": "启用/禁用统计数据收集功能。",
-      "label": "启用/禁用统计数据收集功能"
-    },
-    "fields_authorization_deny_action": {
-      "desc": "授权检查拒绝操作时的操作。",
-      "label": "授权检查拒绝操作时的操作"
-    },
-    "fields_deflate_opts_server_max_window_bits": {
-      "desc": "指定服务器压缩上下文的大小。",
-      "label": "服务器压缩窗口大小"
-    },
-    "client_ssl_opts_schema_server_name_indication": {
-      "desc": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/>\n例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，\n例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/>\n如果未指定，它将默认为使用的主机名字符串\n建立连接，除非使用 IP 地址<br/>\n然后，主机名也用于对等机的主机名验证证书<br/>\n特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
-      "label": "服务器名称指示"
-    },
-    "fields_mqtt_quic_listener_retry_memory_limit": {
-      "desc": "在使用无状态重试之前，可用于握手连接的可用内存的百分比。计算为`N/65535`。默认值：65",
-      "label": "重试内存限制"
-    },
-    "force_shutdown_max_message_queue_len": {
-      "desc": "消息队列的最大长度。",
-      "label": "进程邮箱消息队列的最大长度"
-    },
-    "sys_heartbeat_interval": {
-      "desc": "发送心跳系统消息的间隔时间，它包括：\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
-    },
-    "flapping_detect_ban_time": {
-      "desc": "抖动的客户端将会被禁止登录多长时间。",
-      "label": "禁止登录时长"
-    },
-    "sysmon_top_num_items": {
-      "desc": "每个监视组的顶级进程数。",
-      "label": "顶级进程数"
-    },
-    "persistent_session_builtin_session_table": {
-      "desc": "用于内建会话表的性能调优参数。",
-      "label": "持久会话"
-    },
-    "mqtt_upgrade_qos": {
-      "desc": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发消息的 QoS 等级。",
-      "label": "升级 QoS"
-    },
-    "mqtt_shared_subscription": {
-      "label": "允许共享订阅"
-    },
-    "fields_tcp_opts_sndbuf": {
-      "desc": "连接的 TCP 发送缓冲区（OS 内核）。",
-      "label": "TCP 发送缓冲区"
-    },
-    "sysmon_os_mem_check_interval": {
-      "desc": "定期内存检查的时间间隔。",
-      "label": "内存检查间隔"
-    },
-    "server_ssl_opts_schema_gc_after_handshake": {
-      "desc": "内存使用调优。如果启用，将在TLS/SSL握手完成后立即执行垃圾回收。TLS/SSL握手建立后立即进行GC。",
-      "label": "握手后执行GC"
-    },
-    "fields_mqtt_quic_listener_ssl_options": {
-      "desc": "QUIC 传输层的 TLS 选项",
-      "label": "TLS 选项"
-    },
-    "fields_ws_opts_mqtt_piggyback": {
-      "desc": "WebSocket消息是否允许包含多个 MQTT 数据包。",
-      "label": "MQTT Piggyback"
-    },
-    "base_listener_mountpoint": {
-      "desc": "发布或订阅时，请在所有主题前面加上 mountpoint 字符串。\n\n将消息传递给订阅者时，将从主题名称中删除带前缀的字符串。挂载点是一种用户可以用来实现不同侦听器之间消息路由隔离的方法。\n\n例如，如果客户机 A 使用 <code>listeners.tcp.\\<name>.mountpoint</code> 设置为'some_tenant'，那么客户端实际上订阅了主题'some_tenant/t'。<br/>\n类似地，如果另一个客户端B（与客户端A连接到同一个侦听器）向主题 't' 发送消息，该消息将路由到所有订阅了'some_租户/t'的客户端，因此客户端 A 将接收主题名为't'的消息<br/>\n\n设置为<code>\"\"</code> 以禁用该功能<br/>\n\nmountpoint 字符串中的变量：\n- <code>${'{'}clientid{'}'}</code>: clientid\n- <code>${'{'}username{'}'}</code>: username",
-      "label": "mountpoint"
-    },
-    "mqtt_max_awaiting_rel": {
-      "desc": "为每个会话指定未收到 PUBREL 且未超时的最大 QoS 2 消息数量。超过限制后，新的 QoS 2 消息发布会被拒绝，并返回 147(0x93) 错误。",
-      "label": "最大待发 PUBREL 数量"
-    },
-    "ciphers_schema_quic": {
-      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件，<code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注：QUIC 监听器不支持 tlsv1.3 的 ciphers",
-      "label": ""
-    },
-    "fields_mqtt_quic_listener_max_bytes_per_key": {
-      "desc": "在启动密钥更新之前，用单个 1-RTT 加密密钥加密的最大字节数。默认值：274877906944",
-      "label": "每个密钥的最大字节数"
-    },
-    "fields_mqtt_quic_listener_mtu_discovery_search_complete_timeout_us": {
-      "desc": "如果没有达到 max ，在重新尝试 MTU 探测之前要等待的时间，单位是微秒。默认值：600000000",
-      "label": ""
-    },
-    "fields_ws_opts_check_origin_enable": {
-      "desc": "如果<code>true</code>，<code>origin</code>HTTP 头将根据<code>check_origins</code>参数中配置的允许来源列表进行验证。",
-      "label": "检查 origin"
-    },
-    "sysmon_vm_busy_dist_port": {
-      "desc": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
-      "label": "启用分布式端口过忙监控"
-    },
-    "mqtt_max_mqueue_len": {
-      "desc": "最大消息队列长度。持久客户端断开连接或飞行窗口已满时，允许排队的的最大消息数量。",
-      "label": "最大消息队列长度"
-    },
-    "mqtt_max_inflight": {
-      "desc": "完成应答前，最多允许同时投递的 QoS 1 和 QoS 2 消息数量。",
-      "label": "最大飞行窗口"
-    },
-    "persistent_session_store_enabled": {
-      "desc": "使用数据库存储有关持久会话的信息。\n这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
-      "label": "启用持久会话保存"
-    },
-    "fields_deflate_opts_level": {
-      "desc": "压缩级别",
-      "label": "压缩级别"
-    },
-    "mqtt_server_keepalive": {
-      "label": "服务端 Keep Alive"
-    },
-    "global_authentication": {
-      "desc": "全局 MQTT 监听器的默认认证配置。 为每个监听器配置认证参考监听器器配置中的<code>authentication</code> 配置。\n\n该配置可以被配置为：\n<ul>\n  <li><code>[]</code>: 默认值，允许所有的登录请求\n  <li>配置为单认证器，例如 <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>配置为认证器数组</li>\n</ul>\n\n当配置为认证链后，登录凭证会按照配置的顺序进行检查，直到做出<code>allow</code> 或 <code>deny</code>的结果。\n\n如果在所有的认证器都执行完后，还是没有结果，登录将被拒绝。"
-    },
-    "fields_mqtt_quic_listener_load_balancing_mode": {
-      "desc": "0: 禁用, 1: SERVER_ID_IP, 2: SERVER_ID_FIXED. 默认: 0",
-      "label": "负载平衡模式"
-    },
-    "persistent_session_store_session_message_gc_interval": {
-      "desc": "持久会话消息的临时数据垃圾收集的开始间隔。\n这不会影响持久会话消息的生命周期长度。",
-      "label": "会话消息清理间隔"
-    },
-    "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
-      "desc": "检查 OCSP 响应时，HTTP 请求的超时。",
-      "label": "OCSP 刷新 HTTP 超时"
-    },
-    "fields_tcp_opts_send_timeout": {
-      "desc": "连接的 TCP 发送超时。",
-      "label": "TCP 发送超时"
-    },
-    "sysmon_vm_process_high_watermark": {
-      "desc": "在发出相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
-      "label": "进程数高水位线"
-    },
-    "fields_tcp_opts_buffer": {
-      "desc": "驱动程序使用的用户空间缓冲区的大小。",
-      "label": "TCP 用户态缓冲区"
-    },
-    "server_ssl_opts_schema_honor_cipher_order": {
-      "desc": "一个重要的安全设置，它强制根据服务器指定的顺序而不是客户机指定的顺序设置密码，从而强制服务器管理员执行（通常配置得更正确）安全顺序。",
-      "label": "SSL honor cipher order"
-    },
-    "conn_congestion_min_alarm_sustain_duration": {
-      "desc": "清除警报前的最短时间。<br/>只有当队列中没有挂起的数据，并且连接至少被堵塞了 <code>min_alarm_sustain_duration</code> 毫秒时，<br/>报警才会被清除。这是为了避免太频繁地清除和再次发出警报。",
-      "label": "告警维持时间"
-    },
-    "fields_mqtt_quic_listener_keep_alive_interval_ms": {
-      "desc": "多长时间发送一次PING帧以保活连接。",
-      "label": "保持活着的时间间隔 毫秒"
-    },
-    "fields_mqtt_quic_listener_handshake_idle_timeout_ms": {
-      "desc": "一个握手在被丢弃之前可以空闲多长时间",
-      "label": "握手空闲超时 毫秒"
-    },
-    "broker_session_locking_strategy": {
-      "desc": "Session 在集群中的锁策略。\n  - `loca`：仅锁本节点的 Session；\n  - `one`：任选一个其它节点加锁；\n  - `quorum`：选择集群中半数以上的节点加锁；\n  - `all`：选择所有节点加锁。"
-    },
-    "persistent_store_ram_cache": {
-      "desc": "在内存中保持一份数据的副本，以便更快地访问。",
-      "label": "内存缓存"
-    },
-    "fields_mqtt_quic_listener_stream_recv_window_default": {
-      "desc": "初始流接收窗口大小。 默认值：32678",
-      "label": "流接收窗口默认"
-    },
-    "mqtt_mqueue_priorities": {
-      "desc": "主题优先级。优先级数字[1-255]。默认情况下没有优先级表，因此所有消息都被平等对待。<br/>注意：优先级主题名称中不允许使用逗号和等号。<br/>注意：不在优先级表中的主题的消息将根据 mqtt.mqueue_default_priority 的配置值被视为最高优先级或最低优先级。<br/>示例：<br/>要配置 'topic/1' > 'topic/2'：<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
-      "label": "主题优先级"
-    },
-    "fields_rate_limit_conn_messages_in": {
-      "desc": "外部 MQTT 连接的消息限制。",
-      "label": "外部 MQTT 连接的消息限制"
-    },
-    "fields_rate_limit_max_conn_rate": {
-      "desc": "每秒最大连接数。",
-      "label": "每秒最大连接数"
-    },
-    "alarm_size_limit": {
-      "desc": "要保留为历史记录的已停用报警的最大总数。当超过此限制时，将删除最旧的停用报警，以限制总数。",
-      "label": "告警总数限制"
-    },
-    "fields_cache_max_size": {
-      "desc": "缓存项的最大数量。",
-      "label": "缓存项的最大数量"
-    },
-    "fields_listeners_tcp": {
-      "desc": "TCP 监听器。",
-      "label": "TCP 监听器"
-    },
-    "conn_congestion_enable_alarm": {
-      "desc": "启用或者禁用连接阻塞告警功能。",
-      "label": "启用/禁用阻塞告警"
-    },
-    "fields_ws_opts_proxy_port_header": {
-      "desc": "HTTP 头，用于传递有关客户端端口的信息。当 EMQX 集群部署在负载平衡器后面时，这一点非常重要。",
-      "label": "客户端端口头"
-    },
-    "overload_protection_enable": {
-      "desc": "是否对系统过载做出反应。",
-      "label": "是否对系统过载做出反应"
-    },
-    "fields_mqtt_quic_listener_minimum_mtu": {
-      "desc": "一个连接所支持的最小MTU。这将被作为起始MTU使用。默认值：1248",
-      "label": "最小 MTU"
-    },
-    "sys_msg_interval": {
-      "desc": "发送 `$SYS` 主题的间隔时间。"
-    },
-    "mqtt_await_rel_timeout": {
-      "desc": "对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。",
-      "label": "最大 PUBREL 等待时长"
-    },
-    "common_ssl_opts_schema_verify": {
-      "desc": "启用或禁用对等验证。",
-      "label": "对等验证"
-    },
-    "fields_listeners_ssl": {
-      "desc": "SSL 监听器。",
-      "label": "SSL 监听器"
-    },
-    "fields_deflate_opts_client_max_window_bits": {
-      "desc": "指定客户端压缩上下文的大小。",
-      "label": "压缩窗口大小"
-    },
-    "common_ssl_opts_schema_keyfile": {
-      "desc": "PEM格式的私钥文件。",
-      "label": "私钥文件"
-    },
-    "sysmon_os_cpu_high_watermark": {
-      "desc": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
-      "label": "CPU 高水位线"
-    },
-    "flapping_detect_window_time": {
-      "desc": "抖动检测的时间窗口。",
-      "label": "时间窗口"
-    },
-    "mqtt_mqueue_default_priority": {
-      "desc": "默认的主题优先级，不在 <code>主题优先级</code>（<code>mqueue_priorities</code>） 中的主题将会使用该优先级。",
-      "label": "默认主题优先级"
-    },
-    "client_ssl_opts_schema_enable": {
-      "desc": "启用 TLS。",
-      "label": "启用 TLS"
-    },
-    "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
-      "desc": "在任何时候都可以在一个绑定上排队的无状态操作的最大数量。默认值：3",
-      "label": "MTU发现丢失的探针数量"
-    },
-    "fields_tcp_opts_recbuf": {
-      "desc": "连接的 TCP 接收缓冲区（OS 内核）。",
-      "label": "TCP 接收缓冲区"
-    },
-    "sysmon_vm_process_check_interval": {
-      "desc": "定期进程限制检查的时间间隔。",
-      "label": "进程限制检查时间"
-    },
-    "fields_mqtt_quic_listener_server_resumption_level": {
-      "desc": "连接恢复 和/或 0-RTT 服务器支持。默认值：0（无恢复功能）",
-      "label": "服务端连接恢复支持"
-    },
-    "fields_ws_opts_proxy_address_header": {
-      "desc": "HTTP 头，用于传递有关客户端 IP 地址的信息。\n当 EMQX 集群部署在负载平衡器后面时，这一点非常重要。",
-      "label": "客户端地址头"
-    },
-    "sysmon_os_sysmem_high_watermark": {
-      "desc": "在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。",
-      "label": "系统内存高水位线"
-    },
-    "fields_tcp_opts_high_watermark": {
-      "desc": "当 VM 套接字实现内部排队的数据量达到此限制时，套接字将设置为忙碌状态。",
-      "label": ""
-    },
-    "fields_mqtt_quic_listener_stateless_operation_expiration_ms": {
-      "desc": "同一个对端的操作之间的时间限制，单位是毫秒。 默认：100",
-      "label": "无状态操作过期 毫秒"
-    },
-    "server_ssl_opts_schema_dhfile": {
-      "desc": "如果协商使用Diffie-Hellman密钥交换的密码套件，则服务器将使用包含PEM编码的Diffie-Hellman参数的文件的路径。如果未指定，则使用默认参数。<br/>\n注意：TLS 1.3不支持<code>dhfile</code>选项。",
-      "label": "SSL dhfile"
-    },
-    "flapping_detect_max_count": {
-      "desc": "MQTT 客户端在“窗口”时间内允许的最大断开次数。",
-      "label": "最大断开次数"
-    },
-    "mqtt_max_topic_levels": {
-      "label": "最大主题层级"
-    },
-    "force_shutdown_max_heap_size": {
-      "desc": "Heap 的总大小。",
-      "label": "Heap 的总大小"
-    },
-    "persistent_store_on_disc": {
-      "desc": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。\n如开启， 持久会话数据可在集群重启后恢复。\n如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
-      "label": "持久化在磁盘上"
-    },
-    "mqtt_ignore_loop_deliver": {
-      "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。",
-      "label": "忽略循环投递"
-    },
-    "common_ssl_opts_schema_certfile": {
-      "desc": "PEM格式证书链文件<br/>\n此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，\n然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。\n根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
-      "label": "证书文件"
-    },
-    "mqtt_exclusive_subscription": {
-      "label": "允许排它订阅"
-    },
-    "mqtt_retain_available": {
-      "desc": "是否启用对 MQTT 保留消息的支持。禁用此选项时，客户端将无法发布保留消息。",
-      "label": "启用保留消息"
-    },
-    "fields_tcp_opts_reuseaddr": {
-      "desc": "连接的 SO_REUSEADDR 标识。",
-      "label": "SO_REUSEADDR"
-    },
-    "sysmon_vm_long_schedule": {
-      "desc": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
-      "label": "启用长调度监控"
-    },
-    "mqtt_keepalive_multiplier": {
-      "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`，根据 MQTT 5.0，默认值为1.5。\n\n例如，如果 Keep-Alive interval 为 10 秒，那么乘以 1.5 的倍数，将产生 15 秒的超时。将倍数值增加到 2，超时将延长到 20 秒。",
-      "label": "Keep Alive 倍数"
-    },
-    "force_gc_bytes": {
-      "desc": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
-      "label": "垃圾回收字节数"
-    },
-    "server_ssl_opts_schema_fail_if_no_peer_cert": {
-      "desc": "TLS/DTLS 服务器与 {'{'}verify，verify_peer{'}'} 一起使用。\n如果设置为true，则如果客户端没有要发送的证书，即发送空证书，服务器将失败。\n如果设置为false，则仅当客户端发送无效证书（空证书被视为有效证书）时才会失败。",
-      "label": "强制验证对端证书"
-    },
-    "fields_ws_opts_compress": {
-      "desc": "如果 <code>true</code>，则使用<code>zlib</code> 压缩 WebSocket 消息<br/>\n<code>deflate_opts</code> 下的配置项属于压缩相关参数配置。",
-      "label": "Ws 压缩"
-    },
-    "fields_mqtt_quic_listener_keep_alive_interval": {
-      "desc": "发送 PING 帧的频率，以保活连接. 设为 0 表示禁用。",
-      "label": "PING 保活频率"
-    },
-    "fields_cache_ttl": {
-      "desc": "缓存数据的生存时间。",
-      "label": "缓存数据的生存时间"
-    },
-    "sys_topics": {
-      "desc": "系统主题配置。"
-    },
-    "sys_event_client_subscribed": {
-      "desc": "是否开启客户端已成功订阅主题事件消息。"
-    },
-    "sysmon_top_db_port": {
-      "desc": "收集数据点的 PostgreSQL 数据库的端口。",
-      "label": "数据库端口"
-    },
-    "fields_mqtt_quic_listener_max_operations_per_drain": {
-      "desc": "每个连接操作的最大耗费操作数。默认：16",
-      "label": "每次操作最大操作数"
-    },
-    "fields_mqtt_quic_listener_datagram_receive_enabled": {
-      "desc": "宣传对QUIC Datagram 扩展的支持。为将来保留。默认为0（FALSE）",
-      "label": "启用 Datagram 接收"
-    },
-    "fields_mqtt_quic_listener_initial_rtt_ms": {
-      "desc": "初始RTT估计",
-      "label": "Initial RTT 毫秒"
-    },
-    "overload_protection_backoff_gc": {
-      "desc": "高负载时，跳过强制 GC。",
-      "label": "跳过GC"
-    },
-    "broker_perf_route_lock_type": {
-      "desc": "通配主题订阅/取消订阅性能调优。\n建议仅当通配符主题较多时才更改此参数。\n\n注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。\n  - `key`：为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。\n  - `tab`：为 Mnesia 事务涉及到的表上锁，建议在集群中使用。\n  - `global`：所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。"
-    },
-    "fields_tcp_opts_nodelay": {
-      "desc": "连接的 TCP_NODELAY 标识",
-      "label": "TCP_NODELAY"
-    },
-    "sysmon_top_db_username": {
-      "desc": "PostgreSQL 数据库的用户名",
-      "label": "数据库用户名"
-    },
-    "broker": {
-      "desc": "Broker 相关配置项。"
-    },
-    "force_gc_count": {
-      "desc": "在进程收到多少消息之后，对此进程执行垃圾回收。",
-      "label": "垃圾回收消息数"
-    },
-    "mqtt_max_clientid_len": {
-      "label": "最大客户端 ID 长度"
-    },
-    "fields_ws_opts_supported_subprotocols": {
-      "desc": "逗号分隔的 subprotocols 支持列表。",
-      "label": "Subprotocols 支持列表"
-    },
-    "broker_shared_subscription_strategy": {
-      "desc": "共享订阅消息派发策略。\n  - `random`：随机挑选一个共享订阅者派发；\n  - `round_robin`：使用 round-robin 策略派发；\n  - `round_robin_per_group`：在共享组内循环选择下一个成员；\n  - `local`：选择随机的本地成员，否则选择随机的集群范围内成员;\n  - `sticky`：总是使用上次选中的订阅者派发，直到它断开连接；\n  - `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者;\n  - `hash_topic`：通过对源主题进行 Hash 处理来选择订阅者。"
-    },
-    "fields_deflate_opts_mem_level": {
-      "desc": "指定压缩状态的大小<br/>\n较低的值会减少每个连接的内存使用。",
-      "label": "压缩状态大小"
-    },
-    "fields_mqtt_quic_listener_send_idle_timeout_ms": {
-      "desc": "在闲置一定时间后重置拥堵控制。默认值：1000",
-      "label": "发送空闲超时毫秒"
-    },
-    "base_listener_limiter": {
-      "desc": "速率限制类型",
-      "label": "速率限制类型"
-    },
-    "persistent_session_store_backend": {
-      "desc": "用于存储持久性会话和信息的数据库管理后端\n- `builtin`: 使用内置的数据库（mria）",
-      "label": "后端类型"
-    },
-    "alarm_validity_period": {
-      "desc": "停用报警的保留时间。报警在停用时不会立即删除，而是在保留时间之后删除。",
-      "label": "告警保留时间"
-    },
-    "server_ssl_opts_schema_ocsp_issuer_pem": {
-      "desc": "服务器证书的 OCSP 签发者的 PEM 编码证书。",
-      "label": "OCSP 签发者证书"
-    },
-    "fields_tcp_opts_active_n": {
-      "desc": "为此套接字指定{'{'}active，N{'}'}选项<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
-      "label": "active_n"
-    },
-    "listener_authentication": {
-      "desc": "监听器认证重载。\n认证配置可以是单个认证器实例，也可以是一个认证器数组组成的认证链。\n执行登录验证时（用户名、客户端 ID 等），将按配置的顺序执行。",
-      "label": "每个监听器的认证覆盖"
-    },
-    "fields_trace_payload_encode": {
-      "desc": "确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`",
-      "label": "Payload 编码"
-    },
-    "mqtt_response_information": {
-      "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 `reqrsp/`，此时请求和应答客户端都需要使用 `reqrsp/` 前缀的主题来完成通讯。如希望禁用此功能，请在下方的文字框中输入`\"\"`；仅适用于 MQTT 5.0 客户端。",
-      "label": "响应信息"
-    },
-    "persistent_session_store_max_retain_undelivered": {
-      "desc": "如果重新启动时处理上一个会话的节点已停止，则未传递到持久会话的消息在垃圾收集之前会被存储。",
-      "label": "未投递的消息保留条数"
-    },
-    "fields_mqtt_quic_listener_migration_enabled": {
-      "desc": "开启客户端地址迁移功能。需要一个支持的负载平衡器，或者没有负载平衡器。默认值：1（已启用）",
-      "label": "启用地址迁移"
-    },
-    "common_ssl_opts_schema_password": {
-      "desc": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
-      "label": "密钥文件密码"
-    },
-    "common_ssl_opts_schema_hibernate_after": {
-      "desc": "在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
-      "label": "闲置多久后休眠"
-    },
-    "fields_mqtt_quic_listener_send_buffering_enabled": {
-      "desc": "缓冲发送数据，而不是保留应用缓冲区，直到发送数据被确认。默认值：1（启用）",
-      "label": "启用发送缓冲功能"
-    },
-    "sys_event_client_unsubscribed": {
-      "desc": "是否开启客户端已成功取消订阅主题事件消息。"
-    },
-    "overload_protection_backoff_new_conn": {
-      "desc": "高负载时，拒绝新进来的客户端连接。",
-      "label": "关闭新连接"
-    },
-    "server_ssl_opts_schema_ocsp_responder_url": {
-      "desc": "用于检查服务器证书的 OCSP Responder 的 URL。",
-      "label": "OCSP Responder 的 URL"
-    },
-    "mqtt_idle_timeout": {
-      "desc": "设置连接被断开或进入休眠状态前的等待时间，空闲超时后\n\n- 如暂未收到客户端的 CONNECT 报文，连接将断开；\n- 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。",
-      "label": "空闲超时"
-    },
-    "fields_mqtt_quic_listener_conn_flow_control_window": {
-      "desc": "连接的流控窗口。默认：16777216",
-      "label": "流控窗口"
-    },
-    "fields_mqtt_quic_listener_maximum_mtu": {
-      "desc": "一个连接所支持的最大MTU。这将是最大的探测值。默认值：1500",
-      "label": "最大 MTU"
-    },
-    "sysmon_top_db_name": {
-      "desc": "PostgreSQL 数据库的数据库名",
-      "label": "数据库名"
-    },
-    "mqtt_strict_mode": {
-      "desc": "是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
-      "label": "严格模式"
-    },
-    "shared_subscription_group_strategy": {
-      "desc": "设置共享订阅组为单位的分发策略。该配置是一个从组名到\n策略名的一个map，组名不得包含 `[A-Za-z0-9]` 之外的特殊字符。"
-    },
-    "fields_deflate_opts_strategy": {
-      "desc": "指定压缩策略。",
-      "label": "指定压缩策略"
-    },
-    "shared_subscription_strategy_enum": {
-      "desc": "共享订阅的分发策略名称。\n- `random`：随机选择一个组内成员；\n- `round_robin`：循环选择下一个成员；\n- `round_robin_per_group`：在共享组内循环选择下一个成员；\n- `sticky`：使用上一次选中的成员；\n- `hash`：根据 ClientID 哈希映射到一个成员；\n- `local`：随机分发到节点本地成成员，如果本地成员不存在，则随机分发到任意一个成员。"
-    },
-    "persistent_session_builtin_sess_msg_table": {
-      "desc": "优化内置的会话消息表的配置。",
-      "label": "用于内建会话管理表的性能调优参数"
-    },
-    "mqtt_mqueue_store_qos0": {
-      "desc": "在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
-      "label": "存储 QoS 0 消息"
-    },
-    "server_ssl_opts_schema_client_renegotiation": {
-      "desc": "在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。\n这可能会成为拒绝服务攻击的载体。\nSSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。\n默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。",
-      "label": "SSL 客户端冲协商"
-    },
-    "server_ssl_opts_schema_enable_crl_check": {
-      "desc": "是否为该监听器启用 CRL 检查。",
-      "label": "启用 CRL 检查"
-    },
-    "fields_mqtt_quic_listener_peer_bidi_stream_count": {
-      "desc": "允许对端打开的双向流的数量",
-      "label": "对端双向流的数量"
-    },
-    "fields_mqtt_quic_listener_max_stateless_operations": {
-      "desc": "无状态操作的最大数量，在任何时候都可以在一个工作者上排队。默认值：16",
-      "label": "最大无状态操作数"
-    },
-    "fields_ws_opts_idle_timeout": {
-      "desc": "关闭在此间隔内未发送 MQTT CONNECT 消息的客户端的传输层连接。",
-      "label": "WS 空闲时间"
-    },
-    "fields_mqtt_quic_listener_max_ack_delay_ms": {
-      "desc": "在收到数据后要等待多长时间才能发送一个ACK。默认值：25",
-      "label": "最大应答延迟 毫秒"
-    },
-    "base_listener_zone": {
-      "desc": "监听器所属的配置组。",
-      "label": "配置组"
-    },
-    "fields_mqtt_quic_listener_handshake_idle_timeout": {
-      "desc": "一个握手在被丢弃之前可以空闲多长时间。",
-      "label": "握手空闲超时时间"
-    },
-    "force_gc_enable": {
-      "desc": "启用强制垃圾回收。",
-      "label": "启用强制垃圾回收"
-    },
-    "fields_ws_opts_allow_origin_absence": {
-      "desc": "If <code>false</code> and <code>check_origin_enable</code> is <code>true</code>, the server will reject requests that don't have <code>origin</code> HTTP header.",
-      "label": "允许 origin 缺失"
-    },
-    "common_ssl_opts_schema_versions": {
-      "desc": "支持所有TLS/DTLS版本<br/>\n注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
-      "label": "SSL 版本"
-    },
-    "mqtt_listener_proxy_protocol_timeout": {
-      "desc": "代理协议超时。如果在超时时间内未收到代理协议数据包，EMQX将关闭TCP连接。",
-      "label": "Proxy protocol 超时时间"
-    },
-    "fields_mqtt_quic_listener_idle_timeout": {
-      "desc": "一个连接在被关闭之前可以空闲多长时间。0表示禁用。",
-      "label": "空闲超时时间"
-    },
-    "common_ssl_opts_schema_secure_renegotiate": {
-      "desc": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。\nRFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
-      "label": "SSL 重新协商"
-    },
-    "sysmon_vm_busy_port": {
-      "desc": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
-      "label": "启用端口过忙监控"
-    },
-    "sys_event_client_connected": {
-      "desc": "是否开启客户端已连接事件消息。"
-    },
-    "sysmon_vm_process_low_watermark": {
-      "desc": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
-      "label": "进程数低水位线"
-    },
-    "mqtt_max_packet_size": {
-      "desc": "允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。",
-      "label": "最大报文大小"
-    },
-    "common_ssl_opts_schema_reuse_sessions": {
-      "desc": "启用 TLS 会话重用。",
-      "label": "TLS 会话重用"
-    },
-    "common_ssl_opts_schema_depth": {
-      "desc": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。\n因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/>\n如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/>\n如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
-      "label": "CA 证书深度"
-    },
-    "sysmon_vm_long_gc": {
-      "desc": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
-      "label": "启用长垃圾回收监控"
-    },
-    "fields_mqtt_quic_listener_keyfile": {
-      "desc": "私钥文件。在 5.1 中会被废弃，使用 .ssl_options.keyfile 代替。",
-      "label": "私钥文件"
-    },
-    "mqtt_peer_cert_as_clientid": {
-      "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接；\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容\n- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式作为客户端 ID\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
-      "label": "使用对端证书作为客户端 ID"
-    },
-    "persistent_session_store_message_gc_interval": {
-      "desc": "将未送达的消息垃圾收集到持久会话的开始间隔。\n这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
-      "label": "消息清理间隔"
-    },
-    "broker_shared_dispatch_ack_enabled": {
-      "desc": "该配置项已废弃，会在 5.1 中移除。\n启用/禁用 QoS 1 和 QoS 2 消息的共享派发确认。\n开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线） 重新派发给另外一个订阅者。"
-    },
-    "base_listener_enable_authn": {
-      "desc": "配置 <code>true</code> （默认值）启用客户端进行身份认证，通过检查认配置的认认证器链来决定是否允许接入。\n配置 <code>false</code> 时，将不对客户端做任何认证，任何客户端，不论是不是携带用户名等认证信息，都可以接入。\n配置 <code>quick_deny_anonymous</code> 时，行为跟 <code>true</code> 类似，但是会对匿名\n客户直接拒绝，不做使用任何认证器对客户端进行身份检查。",
-      "label": "启用身份认证"
-    },
-    "force_shutdown_enable": {
-      "desc": "启用 `force_shutdown` 功能。",
-      "label": "启用 `force_shutdown` 功能"
-    },
-    "broker_enable_session_registry": {
-      "desc": "是否启用 Session Registry"
-    },
-    "overload_protection_backoff_delay": {
-      "desc": "高负载时，一些不重要的任务可能会延迟执行，在这里设置允许延迟的时间。",
-      "label": "延迟时间"
-    },
-    "ciphers_schema_common": {
-      "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-      "label": ""
-    },
-    "sys_event_client_disconnected": {
-      "desc": "是否开启客户端已断开连接事件消息。"
-    },
-    "crl_cache_refresh_interval": {
-      "desc": "从服务器刷新CRL的周期。 该配置对所有 URL 和监听器有效。",
-      "label": "CRL 缓存刷新间隔"
-    },
-    "mqtt_listener_proxy_protocol": {
-      "desc": "如果EMQX集群部署在 HAProxy 或 Nginx 之后，请启用代理协议 V1/2 <br/>\n详情见: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
-      "label": "Proxy protocol"
-    },
-    "mqtt_listener_access_rules": {
-      "desc": "此监听器的访问控制规则。",
-      "label": "访问控制规则"
-    },
-    "server_ssl_opts_schema_enable_ocsp_stapling": {
-      "desc": "是否为监听器启用 OCSP Stapling 功能。 如果设置为 true，需要定义 OCSP Responder 的 URL 和证书签发者的 PEM 文件路径。",
-      "label": "启用 OCSP Stapling"
-    },
-    "fields_tcp_opts_send_timeout_close": {
-      "desc": "如果发送超时，则关闭连接。",
-      "label": "TCP 发送超时关闭连接"
-    },
-    "sysmon_os_cpu_check_interval": {
-      "desc": "定期 CPU 检查的时间间隔。",
-      "label": "定期 CPU 检查的时间间隔"
-    },
-    "sysmon_top_sample_interval": {
-      "desc": "指定应收集进程顶部的频率。",
-      "label": "取样时间"
-    },
-    "fields_mqtt_quic_listener_idle_timeout_ms": {
-      "desc": "一个连接在被优雅地关闭之前可以空闲多长时间。0 表示禁用超时",
-      "label": "空闲超时 毫秒"
-    },
-    "fields_ws_opts_fail_if_no_subprotocol": {
-      "desc": "如果<code>true</code>，当客户端未携带<code>Sec WebSocket Protocol</code>字段时，服务器将返回一个错误。\n<br/>注意：微信小程序需要禁用此验证。",
-      "label": "无 subprotocol 则失败"
-    },
-    "mqtt_wildcard_subscription": {
-      "label": "允许通配符订阅"
-    },
-    "server_ssl_opts_schema_ocsp_refresh_interval": {
-      "desc": "为服务器刷新OCSP响应的周期。",
-      "label": "OCSP 刷新间隔"
-    },
-    "overload_protection_backoff_hibernation": {
-      "desc": "高负载时，跳过进程休眠。",
-      "label": "跳过休眠"
-    },
-    "fields_ws_opts_max_frame_size": {
-      "desc": "单个 MQTT 数据包的最大长度。",
-      "label": "最大数据包长度"
-    },
-    "sys_event_messages": {
-      "desc": "客户端事件消息。"
-    },
-    "broker_perf_trie_compaction": {
-      "desc": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{'{'}{'{'}id{'}'}{'}'}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。"
-    },
-    "sysmon_vm_large_heap": {
-      "desc": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
-      "label": "启用大 heap 监控"
-    },
-    "mqtt_shared_subscription_strategy": {
-      "label": "共享订阅策略",
-      "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者。"
-    },
-    "mqtt_client_attrs_init": {
-      "label": "客户端属性",
-      "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
-    },
-    "client_attrs_init_set_as_attr": {
-      "label": "属性"
-    },
-    "client_attrs_init_expression": {
-      "label": "属性表达式",
-      "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`substr(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
-    },
-    "mqtt_keepalive_check_interval": {
-      "label": "保活检查间隔",
-      "desc": "检查传入 MQTT 数据包的频率决定了服务器检查新 MQTT 数据包的频率。<br />如果客户端在一定时间内没有发送任何数据包，这段时间将会累积。<br />一旦累积时间超过 `keepalive-interval * keepalive-multiplier`，连接将会被终止。<br />默认值设置为 30 秒，最小值为 1 秒，最大值为 `keepalive-interval / 2`。"
-    },
-    "mqtt_shared_subscription_initial_sticky_pick": {
-      "label": "共享订阅初始 Sticky 选择策略",
-      "desc": "当`共享订阅策略`设置为 `sticky` 时，用于初始订阅者选择的策略：<br/> - `random`：随机选择订阅者；<br/> - `local`：随机选择当前节点上的订阅者，如果当前节点上没有订阅者，则在集群内随机选择；<br/> - `hash_clientid`：通过对发布者的客户端ID进行哈希来选择订阅者；<br/> - `hash_topic`：通过对发布主题进行哈希来选择订阅者。"
-    }
+  "desc_cluster_dns": {
+    "desc": "DNS SRV 记录服务发现。",
+    "label": "DNS SRV 记录服务发现"
+  },
+  "cluster_dns_name": {
+    "desc": "指定 DNS A 记录的名字。emqx 会通过访问这个 DNS A 记录来获取 IP 地址列表。\n当<code>cluster.discovery_strategy</code> 为 <code>dns</code> 时有效。",
+    "label": "DNS名称"
+  },
+  "rpc_keyfile": {
+    "desc": "<code>rpc.certfile</code> 的私钥文件的路径。<br/>\n注意：此文件内容是私钥，所以需要设置权限为 600。",
+    "label": "RPC 私钥文件"
+  },
+  "cluster_mcast_recbuf": {
+    "desc": "接收数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播接收数据缓冲区"
+  },
+  "cluster_autoheal": {
+    "desc": "集群脑裂自动恢复机制开关。",
+    "label": "节点脑裂自动修复机制"
+  },
+  "log_overload_kill_enable": {
+    "desc": "日志处理进程过载时为保护自己节点其它的业务能正常，强制杀死日志处理进程。",
+    "label": "日志处理进程过载保护"
+  },
+  "node_etc_dir": {
+    "desc": "<code>etc</code> 存放目录",
+    "label": "Etc 目录"
+  },
+  "cluster_proto_dist": {
+    "desc": "分布式 Erlang 集群协议类型。可选值为:<br/>\n- inet_tcp: 使用 IPv4 <br/>\n- inet_tls: 使用 TLS，需要配合 <code>etc/ssl_dist.conf</code> 一起使用。",
+    "label": "集群内部通信协议"
+  },
+  "log_burst_limit_enable": {
+    "desc": "启用日志限流保护机制。",
+    "label": "日志限流保护"
+  },
+  "dist_buffer_size": {
+    "desc": "Erlang分布式缓冲区的繁忙阈值，单位是KB。",
+    "label": "Erlang分布式缓冲区的繁忙阈值(KB)"
+  },
+  "common_handler_max_depth": {
+    "desc": "Erlang 内部格式日志格式化和 Erlang 进程消息队列检查的最大深度。",
+    "label": "最大深度"
+  },
+  "desc_log": {
+    "desc": "EMQX 日志记录支持日志事件的多个接收器。 每个接收器由一个_log handler_表示，可以独立配置。",
+    "label": "日志"
+  },
+  "common_handler_flush_qlen": {
+    "desc": "如果缓冲日志事件的数量增长大于此阈值，则会发生冲刷（删除）操作。 日志处理进程会丢弃缓冲的日志消息。\n来缓解自身不会由于内存瀑涨而影响其它业务进程。日志内容会提醒有多少事件被删除。",
+    "label": "冲刷阈值"
+  },
+  "common_handler_chars_limit": {
+    "desc": "设置单个日志消息的最大长度。 如果超过此长度，则日志消息将被截断。最小可设置的长度为100。\n注意：如果日志格式为 JSON，限制字符长度可能会导致截断不完整的 JSON 数据。",
+    "label": "单条日志长度限制"
+  },
+  "cluster_k8s_namespace": {
+    "desc": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，\n可设置 emqx 节点名的命名空间。与 cluster.k8s.suffix 一起使用用以拼接得到节点名列表。",
+    "label": "K8s 命名空间"
+  },
+  "node_name": {
+    "desc": "节点名。格式为 \\<name>{'@'}\\<host>。其中 <host> 可以是 IP 地址，也可以是 FQDN。\n详见 http://erlang.org/doc/reference_manual/distributed.html。",
+    "label": "节点名"
+  },
+  "rpc_port_discovery": {
+    "desc": "<code>manual</code>: 通过 <code>tcp_server_port</code> 来发现端口。\n<br/><code>stateless</code>: 使用无状态的方式来发现端口，使用如下算法。如果节点名称是 <code>\nemqxN{'@'}127.0.0.1</code>, N 是一个数字，那么监听端口就是 5370 + N。",
+    "label": "RPC 端口发现策略"
+  },
+  "log_overload_kill_restart_after": {
+    "desc": "如果处理进程终止，它会在以指定的时间后后自动重新启动。 `infinity` 不自动重启。",
+    "label": "处理进程重启机制"
+  },
+  "log_file_handler_rotation_size": {
+    "desc": "此参数控制日志文件轮换。 `infinity` 意味着日志文件将无限增长，否则日志文件将在达到 `max_size`（以字节为单位）时进行轮换。\n与 rotation count配合使用。如果 counter 为 10，则是10个文件轮换。",
+    "label": "日志文件轮换大小"
+  },
+  "desc_log_file_handler": {
+    "desc": "日志处理进程将日志事件打印到文件。",
+    "label": "文件日志处理进程"
+  },
+  "rpc_socket_keepalive_count": {
+    "desc": "keepalive 探测消息发送失败的次数，直到 RPC 连接被认为已经断开。",
+    "label": "RPC Socket Keepalive 次数"
+  },
+  "cluster_etcd_server": {
+    "desc": "指定 etcd 服务的地址。如有多个服务使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
+    "label": "Etcd 服务器地址"
+  },
+  "db_backend": {
+    "desc": "配置后端数据库驱动，默认值为 <code>rlog</code> 它适用于大规模的集群。\n<code>mnesia</code> 是备选数据库，适合中小集群。",
+    "label": "内置数据库"
+  },
+  "desc_authorization": {
+    "desc": "授权相关",
+    "label": "授权"
+  },
+  "cluster_etcd_ssl": {
+    "desc": "当使用 TLS 连接 etcd 时的配置选项。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
+    "label": "Etcd SSL 选项"
+  },
+  "rpc_insecure_fallback": {
+    "desc": "兼容旧的无鉴权模式",
+    "label": "向后兼容旧的无鉴权模式"
+  },
+  "cluster_mcast_buffer": {
+    "desc": "用户级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播用户级缓冲区"
+  },
+  "rpc_authentication_timeout": {
+    "desc": "远程节点认证的超时时间。",
+    "label": "RPC 认证超时时间"
+  },
+  "cluster_call_retry_interval": {
+    "desc": "当集群间调用出错时，多长时间重试一次。",
+    "label": "重试时间间隔"
+  },
+  "cluster_mcast_sndbuf": {
+    "desc": "外发数据报的内核级缓冲区的大小。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播发送缓存区"
+  },
+  "rpc_driver": {
+    "desc": "集群间通信使用的传输协议。",
+    "label": "RPC 驱动"
+  },
+  "max_ets_tables": {
+    "desc": "Erlang ETS 表的最大数量",
+    "label": "Erlang 表的最大数量"
+  },
+  "desc_db": {
+    "desc": "内置数据库的配置。",
+    "label": "数据库"
+  },
+  "desc_cluster_etcd": {
+    "desc": "使用 'etcd' 服务的服务发现。",
+    "label": "'etcd' 服务的服务发现"
+  },
+  "cluster_name": {
+    "desc": "EMQX集群名称。每个集群都有一个唯一的名称。服务发现时会用于做路径的一部分。",
+    "label": "集群名称"
+  },
+  "log_rotation_enable": {
+    "desc": "启用日志轮换功能。启动后生成日志文件后缀会加上对应的索引数字，比如：log/emqx.log.1。\n系统会默认生成<code>*.siz/*.idx</code>用于记录日志位置，请不要手动修改这两个文件。",
+    "label": "日志轮换"
+  },
+  "cluster_call_cleanup_interval": {
+    "desc": "清理过期事务的时间间隔",
+    "label": "清理间隔"
+  },
+  "desc_cluster_static": {
+    "desc": "静态节点服务发现。新节点通过连接一个节点来加入集群。",
+    "label": "静态节点服务发现"
+  },
+  "db_default_shard_transport": {
+    "desc": "定义用于推送事务日志的默认传输。<br/>\n这可以在 <code>db.shard_transports</code> 中基于每个分片被覆盖。\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 发行版。",
+    "label": "事务日志传输默认协议"
+  },
+  "cluster_static_seeds": {
+    "desc": "集群中的EMQX节点名称列表，\n指定固定的节点列表，多个节点间使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 static 时，此配置项才有效。\n适合于节点数量较少且固定的集群。",
+    "label": "集群静态节点"
+  },
+  "log_overload_kill_qlen": {
+    "desc": "允许的最大队列长度。",
+    "label": "最大队列长度"
+  },
+  "node_backtrace_depth": {
+    "desc": "错误信息中打印的最大堆栈层数",
+    "label": "最大堆栈导数"
+  },
+  "desc_log_burst_limit": {
+    "desc": "短时间内产生的大量日志事件可能会导致问题，例如：\n  - 日志文件变得非常大\n  - 日志文件轮换过快，有用信息被覆盖\n  - 对系统的整体性能影响\n\n日志突发限制功能可以暂时禁用日志记录以避免这些问题。",
+    "label": "日志突发限制"
+  },
+  "common_handler_enable": {
+    "desc": "启用此日志处理进程。",
+    "label": "启用日志处理进程"
+  },
+  "common_handler_timestamp_format": {
+    "desc": "选择时间戳格式：<br/>- <code>auto</code>：根据日志的格式自动选择最合适的时间戳格式。对于 JSON 使用 <code>epoch</code>，对于文本则使用 <code>rfc3339</code>。<br/>- <code>epoch</code>：表示为自 Unix 纪元起的微秒数。<br/>- <code>rfc3339</code>：遵循 RFC3339 标准的时间格式。",
+    "label": "时间戳格式"
+  },
+  "cluster_k8s_service_name": {
+    "desc": "指定 Kubernetes 中 EMQX 的服务名。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
+    "label": "K8s 服务别名"
+  },
+  "common_handler_rotation_count": {
+    "desc": "轮换的最大日志文件数。",
+    "label": "最大日志文件数"
+  },
+  "node_cookie": {
+    "desc": "分布式 Erlang 集群使用的 cookie 值。集群间保持一致",
+    "label": "节点 Cookie"
+  },
+  "db_role": {
+    "desc": "选择节点的角色。<br/>\n<code>core</code> 节点提供数据的持久性，并负责写入。建议将核心节点放置在不同的机架或不同的可用区。<br/>\n<code>repliant</code> 节点是临时工作节点。 从集群中删除它们，不影响数据库冗余<br/>\n建议复制节点多于核心节点。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>。",
+    "label": "数据库角色"
+  },
+  "rpc_tcp_server_port": {
+    "desc": "RPC 本地服务使用的 TCP 端口。<br/>\n只有当 rpc.port_discovery 设置为 manual 时，此配置才会生效。",
+    "label": "RPC TCP 服务监听端口"
+  },
+  "desc_console_handler": {
+    "desc": "日志处理进程将日志事件打印到 EMQX 控制台。",
+    "label": "Console Handler"
+  },
+  "node_applications": {
+    "desc": "当新EMQX 加入集群时，应重启的Erlang应用程序的列表。",
+    "label": "应用"
+  },
+  "log_burst_limit_max_count": {
+    "desc": "在 `window_time` 间隔内处理的最大日志事件数。 达到限制后，将丢弃连续事件，直到 `window_time` 结束。",
+    "label": "日志事件数"
+  },
+  "rpc_tcp_client_num": {
+    "desc": "设置本节点与远程节点之间的 RPC 通信通道的最大数量。",
+    "label": "RPC TCP 客户端数量"
+  },
+  "cluster_k8s_address_type": {
+    "desc": "当使用 k8s 方式集群时，address_type 用来从 Kubernetes 接口的应答里获取什么形式的 Host 列表。\n指定 <code>cluster.k8s.address_type</code> 为 <code>ip</code>，则将从 Kubernetes 接口中获取集群中其他节点\n的IP地址。",
+    "label": "K8s 地址类型"
+  },
+  "rpc_socket_sndbuf": {
+    "desc": "TCP 调节参数。TCP 发送缓冲区大小。",
+    "label": "RPC 套接字发送缓冲区大小"
+  },
+  "cluster_mcast_ttl": {
+    "desc": "指定多播的 Time-To-Live 值。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播TTL"
+  },
+  "db_core_nodes": {
+    "desc": "当前节点连接的核心节点列表。<br/>\n注意：该参数仅在设置<code>backend</code>时生效到 <code>rlog</code>\n并且设置<code>role</code>为<code>replicant</code>时生效。<br/>\n该值需要在手动或静态集群发现机制下设置。<br/>\n如果使用了自动集群发现机制（如<code>etcd</code>），则不需要设置该值。",
+    "label": "数据库核心节点"
+  },
+  "log_file_handler_path": {
+    "desc": "日志文件路径及名字。",
+    "label": "日志文件名字"
+  },
+  "node_dist_net_ticktime": {
+    "desc": "系统调优参数，此配置将覆盖 vm.args 文件里的 -kernel net_ticktime 参数。当一个节点持续无响应多久之后，认为其已经宕机并断开连接。",
+    "label": "节点间心跳间隔"
+  },
+  "desc_cluster_k8s": {
+    "desc": "Kubernetes 服务发现。",
+    "label": "Kubernetes 服务发现"
+  },
+  "desc_cluster_mcast": {
+    "desc": "UDP 组播服务发现。",
+    "label": "UDP 组播服务发现"
+  },
+  "rpc_cacertfile": {
+    "desc": "验证 <code>rpc.certfile</code> 的 CA 证书文件的路径。<br/>\n注意：集群中所有节点的证书必须使用同一个 CA 签发。",
+    "label": "RPC CA 证书文件"
+  },
+  "desc_node": {
+    "desc": "节点名称、Cookie、配置文件、数据目录和 Erlang 虚拟机（BEAM）启动参数。",
+    "label": "节点"
+  },
+  "cluster_k8s_apiserver": {
+    "desc": "指定 Kubernetes API Server。如有多个 Server 使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 k8s 时，此配置项才有效。",
+    "label": "K8s 服务地址"
+  },
+  "common_handler_supervisor_reports": {
+    "desc": "Supervisor 报告的类型。默认为 error 类型。<br/>\n  - <code>error</code>：仅记录 Erlang 进程中的错误。\n  - <code>progress</code>：除了 error 信息外，还需要记录进程启动的详细信息。",
+    "label": "报告类型"
+  },
+  "node_data_dir": {
+    "desc": "节点数据存放目录，可能会自动创建的子目录如下：<br/>\n- `mnesia/<node_name>`。EMQX的内置数据库目录。例如，`mnesia/emqx{'@'}127.0.0.1`。<br/>\n如果节点要被重新命名（例如，`emqx{'@'}10.0.1.1`）。旧目录应该首先被删除。<br/>\n- `configs`。在启动时生成的配置，以及集群/本地覆盖的配置。<br/>\n- `patches`: 热补丁文件将被放在这里。<br/>\n- `trace`: 日志跟踪文件。<br/>\n\n**注意**: 一个数据dir不能被两个或更多的EMQX节点同时使用。",
+    "label": "节点数据目录"
+  },
+  "cluster_k8s_suffix": {
+    "desc": "当使用 k8s 方式并且 cluster.k8s.address_type 指定为 dns 类型时，可设置 emqx 节点名的后缀。\n与 cluster.k8s.namespace 一起使用用以拼接得到节点名列表。",
+    "label": "K8s 前缀"
+  },
+  "db_rpc_module": {
+    "desc": "集群间推送事务日志到复制节点使用的协议。",
+    "label": "RPC协议"
+  },
+  "cluster_etcd_prefix": {
+    "desc": "指定 etcd 路径的前缀。每个节点在 etcd 中都会创建一个路径:\nv2/keys/<prefix>/<cluster.name>/<node.name> <br/>\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
+    "label": "Etcd 路径前缀"
+  },
+  "cluster_mcast_iface": {
+    "desc": "指定节点发现服务需要绑定到本地 IP 地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播绑定地址"
+  },
+  "log_burst_limit_window_time": {
+    "desc": "参考 <code>max_count</code>。",
+    "label": "Window Time"
+  },
+  "cluster_dns_record_type": {
+    "desc": "DNS 记录类型。",
+    "label": "DNS记录类型"
+  },
+  "cluster_autoclean": {
+    "desc": "指定多久之后从集群中删除离线节点。",
+    "label": "自动删除离线节点时间"
+  },
+  "process_limit": {
+    "desc": "Erlang系统同时存在的最大进程数。\n实际选择的最大值可能比设置的数字大得多。\n参考: https://www.erlang.org/doc/man/erl.html",
+    "label": "Erlang 最大进程数"
+  },
+  "max_ports": {
+    "desc": "Erlang系统同时存在的最大端口数。\n实际选择的最大值可能比设置的数字大得多。\n参考: https://www.erlang.org/doc/man/erl.html",
+    "label": "Erlang 最大端口数"
+  },
+  "desc_log_rotation": {
+    "desc": "默认情况下，日志存储在 `./log` 目录（用于从 zip 文件安装）或 `/var/log/emqx`（用于二进制安装）。<br/>\n这部分配置，控制每个日志处理进程保留的文件数量。",
+    "label": "日志轮换"
+  },
+  "desc_log_overload_kill": {
+    "desc": "日志过载终止，具有过载保护功能。当日志处理进程使用过多内存，或者缓存的日志消息过多时该功能被激活。<br/>\n检测到过载时，日志处理进程将终止，并在冷却期后重新启动。",
+    "label": "日志过载保护"
+  },
+  "authorization": {
+    "desc": "授权（ACL）。EMQX 支持完整的客户端访问控制（ACL）。",
+    "label": "授权"
+  },
+  "rpc_socket_keepalive_idle": {
+    "desc": "broker 之间的连接在最后一条消息发送后保持打开的时间。",
+    "label": "RPC Socket Keepalive Idle"
+  },
+  "desc_cluster_call": {
+    "desc": "集群调用功能的选项。",
+    "label": "集群调用"
+  },
+  "cluster_mcast_ports": {
+    "desc": "指定多播端口。如有多个端口使用逗号 , 分隔。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播端口"
+  },
+  "log_overload_kill_mem_size": {
+    "desc": "日志处理进程允许使用的最大内存。",
+    "label": "日志处理进程允许使用的最大内存"
+  },
+  "rpc_connect_timeout": {
+    "desc": "建立 RPC 连接的超时时间。",
+    "label": "RPC 连接超时时间"
+  },
+  "cluster_etcd_node_ttl": {
+    "desc": "指定 etcd 中节点信息的过期时间。\n当 cluster.discovery_strategy 为 etcd 时，此配置项才有效。",
+    "label": "Etcd 节点过期时间"
+  },
+  "rpc_call_receive_timeout": {
+    "desc": "同步 RPC 的回复超时时间。",
+    "label": "RPC 调用接收超时时间"
+  },
+  "rpc_socket_recbuf": {
+    "desc": "TCP 调节参数。TCP 接收缓冲区大小。",
+    "label": "RPC 套接字接收缓冲区大小"
+  },
+  "db_tlog_push_mode": {
+    "desc": "同步模式下，核心节点等待复制节点的确认信息，然后再发送下一条事务日志。",
+    "label": "Tlog推送模式"
+  },
+  "node_crash_dump_bytes": {
+    "desc": "限制崩溃文件的大小，当崩溃时节点内存太大，\n如果为了保存现场，需要全部存到崩溃文件中，此处限制最多能保存多大的文件。\n如果超过此限制，崩溃转储将被截断。如果设置为0，系统不会尝试写入崩溃转储文件。",
+    "label": "崩溃文件最大容量"
+  },
+  "rpc_certfile": {
+    "desc": "TLS 证书文件的路径，用于验证集群节点的身份。\n只有当 <code>rpc.driver</code> 设置为 <code>ssl</code> 时，此配置才会生效。",
+    "label": "RPC 证书文件"
+  },
+  "node_crash_dump_seconds": {
+    "desc": "该配置给出了运行时系统允许花费的写入崩溃转储的秒数。当给定的秒数已经过去，运行时系统将被终止。<br/>\n- 如果设置为0秒，运行时会立即终止，不会尝试写入崩溃转储文件。<br/>\n- 如果设置为一个正数 S，节点会等待 S 秒来完成崩溃转储文件，然后用SIGALRM信号终止运行时系统。<br/>\n- 如果设置为一个负值导致运行时系统的终止等待无限期地直到崩溃转储文件已经完全写入。",
+    "label": "保存崩溃文件最长时间"
+  },
+  "log_file_handlers": {
+    "desc": "输出到文件的日志处理进程列表",
+    "label": "File Handler"
+  },
+  "node_global_gc_interval": {
+    "desc": "系统调优参数，设置节点运行多久强制进行一次全局垃圾回收。禁用设置为 <code>disabled</code>。",
+    "label": "全局垃圾回收"
+  },
+  "common_handler_time_offset": {
+    "desc": "日志中的时间戳使用的时间偏移量。\n可选值为：\n  - <code>system</code>: 本地系统使用的时区偏移量\n  - <code>utc</code>: 0 时区的偏移量\n  - <code>+-[hh]:[mm]</code>: 自定义偏移量，比如 \"-02:00\" 或者 \"+00:00\"\n默认值为本地系统的时区偏移量：<code>system</code>。",
+    "label": "时间偏移量"
+  },
+  "rpc_mode": {
+    "desc": "在 <code>sync</code> 模式下，发送端等待接收端的 ack信号。",
+    "label": "RPC 模式"
+  },
+  "node_crash_dump_file": {
+    "desc": "设置 Erlang crash_dump 文件的存储路径和文件名。",
+    "label": "节点崩溃时的Dump文件"
+  },
+  "cluster_mcast_loop": {
+    "desc": "设置多播的报文是否投递到本地回环地址。\n当 cluster.discovery_strategy 为 mcast 时，此配置项才有效。",
+    "label": "多播回环开关"
+  },
+  "rpc_socket_keepalive_interval": {
+    "desc": "keepalive 消息的间隔。",
+    "label": "RPC Socket Keepalive 间隔"
+  },
+  "common_handler_level": {
+    "desc": "当前日志处理进程的日志级别。\n默认为 warning 级别。",
+    "label": "日志级别"
+  },
+  "desc_rpc": {
+    "desc": "EMQX 使用 <code>gen_rpc</code> 库来实现跨节点通信。<br/>\n大多数情况下，默认的配置应该可以工作，但如果你需要做一些性能优化或者实验，可以尝试调整这些参数。",
+    "label": "RPC"
+  },
+  "rpc_ssl_server_port": {
+    "desc": "RPC 本地服务使用的监听SSL端口。<br/>\n只有当 rpc.port_discovery 设置为 manual 且 <code> dirver </code> 设置为 <code>ssl</code>，\n此配置才会生效。",
+    "label": "RPC SSL 服务监听端口"
+  },
+  "desc_cluster": {
+    "desc": "EMQX 节点可以组成一个集群，以提高总容量。<br/> 这里指定了节点之间如何连接。",
+    "label": "集群"
+  },
+  "common_handler_sync_mode_qlen": {
+    "desc": "只要缓冲的日志事件的数量低于这个值，所有的日志事件都会被异步处理。\n这意味着，日志落地速度不会影响正常的业务进程，因为它们不需要等待日志处理进程的响应。\n如果消息队列的增长超过了这个值，处理程序开始同步处理日志事件。也就是说，发送事件的客户进程必须等待响应。\n当处理程序将消息队列减少到低于sync_mode_qlen阈值的水平时，异步操作就会恢复。\n默认为100条信息，当等待的日志事件大于100条时，就开始同步处理日志。",
+    "label": "进入同步模式的队列长度"
+  },
+  "common_handler_formatter": {
+    "desc": "选择日志格式类型。 <code>text</code> 用于纯文本，<code>json</code> 用于结构化日志记录。",
+    "label": "日志格式类型"
+  },
+  "rpc_async_batch_size": {
+    "desc": "异步模式下，发送的批量消息的最大数量。",
+    "label": "异步模式下的批量消息数量"
+  },
+  "cluster_call_max_history": {
+    "desc": "集群间调用最多保留的历史记录数。只用于排错时查看。",
+    "label": "最大历史记录"
+  },
+  "cluster_discovery_strategy": {
+    "desc": "集群节点发现方式。可选值为:\n- manual: 使用 <code>emqx ctl cluster</code> 命令管理集群。<br/>\n- static: 配置静态节点。配置几个固定的节点，新节点通过连接固定节点中的某一个来加入集群。<br/>\n- dns: 使用 DNS A 记录的方式发现节点。<br/>\n- etcd: 使用 etcd 发现节点。<br/>\n- k8s: 使用 Kubernetes API 发现节点。",
+    "label": "集群服务发现策略"
+  },
+  "rpc_send_timeout": {
+    "desc": "发送 RPC 请求的超时时间。",
+    "label": "RPC 发送超时时间"
+  },
+  "common_handler_single_line": {
+    "desc": "如果设置为 true，则单行打印日志。 否则，日志消息可能跨越多行。",
+    "label": "单行模式"
+  },
+  "rpc_socket_buffer": {
+    "desc": "TCP 调节参数。用户模式套接字缓冲区大小。",
+    "label": "RPC 套接字缓冲区大小"
+  },
+  "db_shard_transports": {
+    "desc": "允许为每个 shard 下的事务日志复制操作的传输方法进行调优。<br/>\n<code>gen_rpc</code> 使用 <code>gen_rpc</code> 库，\n<code>distr</code> 使用 Erlang 自带的 rpc 库。<br/>如果未指定，\n默认是使用 <code>db.default_shard_transport</code> 中设置的值。",
+    "label": "事务日志传输协议"
+  },
+  "common_handler_time_window": {
+    "desc": "日志节流的时间窗口，在设定的时间窗口内同一事件类型的日志只被记录一次以防止日志泛滥。时间窗口结束时将生成反映该时间段内的日志活动的详细日志。该窗口的最小可设置值为1秒。<br/>支持的事件如下：<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
+    "label": "时间窗口"
+  },
+  "common_handler_payload_encode": {
+    "desc": "日志中 Payload 的编码方式。",
+    "label": "Payload 编码"
+  },
+  "max_conn_rate": {
+    "desc": "最大连接速率。<br/>\n这用于限制此节点的连接速率，\n一旦达到限制，新连接将被推迟或拒绝。",
+    "label": "最大连接速率"
+  },
+  "messages_rate": {
+    "desc": "消息发布速率。<br/>\n这用于限制该节点的入站消息数量，\n一旦达到限制，受限客户端的消息发布将会减慢甚至暂停一段时间。",
+    "label": "消息发布速率"
+  },
+  "bytes_rate": {
+    "desc": "数据发布速率。<br/>\n这用于限制该节点的入站字节速率，\n一旦达到限制，受限客户端的数据发布将会减慢甚至暂停一段时间。",
+    "label": "数据发布速率"
+  },
+  "fields_mqtt_quic_listener_peer_unidi_stream_count": {
+    "desc": "允许对端打开的单向流的数量",
+    "label": "对端单向流的数量"
+  },
+  "fields_authorization_no_match": {
+    "desc": "如果用户或客户端不匹配ACL规则，或者从可配置授权源(比如内置数据库、HTTP API 或 PostgreSQL 等。)内未找\n到此类用户或客户端时，模式的认访问控制操作。\n在“授权”中查找更多详细信息。",
+    "label": "未匹时的默认授权动作"
+  },
+  "sysmon_top_db_hostname": {
+    "desc": "收集数据点的 PostgreSQL 数据库的主机名。",
+    "label": "数据库主机名"
+  },
+  "zones": {
+    "desc": "<code>zone</code> 是按<code>name</code> 分组的一组配置。\n对于灵活的配置映射，可以将 <code>name</code> 设置为侦听器的 <code>zone</code> 配置。\n注：名为 <code>default</code> 的内置区域是自动创建的，无法删除。"
+  },
+  "fields_mqtt_quic_listener_certfile": {
+    "desc": "证书文件。在 5.1 中会被废弃，使用 .ssl_options.certfile 代替。",
+    "label": "证书文件"
+  },
+  "fields_rate_limit_conn_bytes_in": {
+    "desc": "限制 MQTT 连接接收数据包的速率。 速率以每秒的数据包字节数计算。",
+    "label": "数据包速率"
+  },
+  "crl_cache_capacity": {
+    "desc": "缓存中可容纳的 CRL URL 的最大数量。 如果缓存的容量已满，并且必须获取一个新的 URL，那么它将驱逐缓存中插入的最老的 URL。",
+    "label": "CRL 缓存容量"
+  },
+  "alarm_actions": {
+    "desc": "警报激活时触发的动作。<br/>目前，支持以下操作：<code>log</code> 和 <code>publish</code>.\n<code>log</code> 将告警写入日志 (控制台或者文件).\n<code>publish</code> 将告警作为 MQTT 消息发布到系统主题:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
+    "label": "告警动作"
+  },
+  "base_listener_max_connections": {
+    "desc": "监听器允许的最大并发连接数。",
+    "label": "最大并发连接数"
+  },
+  "mqtt_peer_cert_as_username": {
+    "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为用户名；仅适用于 TLS 连接。\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 的证书内容\n- <code>pem</code>: 将 <code>DER</code> 证书转换为 <code>PEM</code> 格式作为用户名\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
+    "label": "使用对端证书作为用户名"
+  },
+  "fields_cache_enable": {
+    "desc": "启用或禁用授权缓存。",
+    "label": "启用或禁用授权缓存"
+  },
+  "fields_mqtt_quic_listener_disconnect_timeout_ms": {
+    "desc": "在判定路径无效和断开连接之前，要等待多长时间的ACK。默认：16000",
+    "label": "断开连接超时 毫秒"
+  },
+  "mqtt_max_topic_alias": {
+    "label": "最大主题别名数"
+  },
+  "common_ssl_opts_schema_user_lookup_fun": {
+    "desc": "用于查找预共享密钥（PSK）标识的 EMQX 内部回调。",
+    "label": "SSL PSK 用户回调"
+  },
+  "fields_listeners_wss": {
+    "desc": "HTTPS websocket 监听器。",
+    "label": "HTTPS websocket 监听器"
+  },
+  "sysmon_top_max_procs": {
+    "desc": "当 VM 中的进程数超过此值时，停止收集数据。",
+    "label": "最大进程数"
+  },
+  "mqtt_use_username_as_clientid": {
+    "desc": "是否使用用户名作为客户端 ID。 作用时间晚于 <code>对端证书作为用户名</code> 和 <code>对端证书作为客户端 ID</code>。",
+    "label": "使用用户名作为客户端 ID"
+  },
+  "mqtt_max_qos_allowed": {
+    "label": "最大 QoS"
+  },
+  "fields_mqtt_quic_listener_max_binding_stateless_operations": {
+    "desc": "在任何时候可以在一个绑定上排队的无状态操作的最大数量。默认值：100",
+    "label": "最大绑定无状态操作"
+  },
+  "fields_mqtt_quic_listener_stream_recv_buffer_default": {
+    "desc": "流的初始缓冲区大小。默认：4096",
+    "label": "流媒体接收缓冲区默认值"
+  },
+  "fields_mqtt_quic_listener_pacing_enabled": {
+    "desc": "有节奏的发送，以避免路径上的缓冲区过度填充。默认值：1（已启用）",
+    "label": "启用节奏发送"
+  },
+  "mqtt_max_subscriptions": {
+    "desc": "允许每个客户端建立的最大订阅数量。",
+    "label": "最大订阅数量"
+  },
+  "persistent_session_builtin_messages_table": {
+    "desc": "用于内建消息表的性能调优参数。",
+    "label": "持久化消息"
+  },
+  "sysmon_os_cpu_low_watermark": {
+    "desc": "在解除相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
+    "label": "CPU 低水位线"
+  },
+  "fields_mqtt_quic_listener_tls_server_max_send_buffer": {
+    "desc": "缓冲多少TLS数据。 默认值：8192",
+    "label": "TLS 服务器最大发送缓冲区"
+  },
+  "base_listener_bind": {
+    "desc": "监听套接字的 IP 地址和端口。",
+    "label": "IP 地址和端口"
+  },
+  "server_ssl_opts_schema_handshake_timeout": {
+    "desc": "握手完成所允许的最长时间",
+    "label": "握手超时时间"
+  },
+  "fields_deflate_opts_server_context_takeover": {
+    "desc": "接管意味着在服务器消息之间保留压缩状态。",
+    "label": "服务上下文接管"
+  },
+  "mqtt_session_expiry_interval": {
+    "desc": "指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。",
+    "label": "会话过期间隔"
+  },
+  "mqtt_message_expiry_interval": {
+    "desc": "MQTT 消息的过期时间间隔。对于 MQTT 5.0 版本的客户端，此设置仅在消息未指定 Message-Expiry-Interval 属性时才会生效。对于 MQTT 3.1 和 3.1.1 版本，此设置始终适用。值得注意的是，将此值设定为大于会话过期间隔是无效的，因为一旦会话过期，所有相关消息都将被清除。",
+    "label": "消息过期间隔"
+  },
+  "fields_listener_enabled": {
+    "desc": "启停监听器。",
+    "label": "启停监听器"
+  },
+  "mqtt": {
+    "desc": "全局的 MQTT 配置项。\nmqtt 下所有的配置作为全局的默认值存在，它可以被 <code>zone</code> 中的配置覆盖。"
+  },
+  "crl_cache_refresh_http_timeout": {
+    "desc": "获取 CRLs 时 HTTP 请求的超时。 该配置对所有启用 CRL 检查的监听器监听器有效。",
+    "label": "CRL 缓存刷新 HTTP 超时"
+  },
+  "fields_tcp_opts_backlog": {
+    "desc": "TCP backlog 定义了挂起连接队列可以增长到的最大长度。",
+    "label": "TCP 连接队列长度"
+  },
+  "broker_route_batch_clean": {
+    "desc": "是否开启批量清除路由。"
+  },
+  "fields_mqtt_quic_listener_initial_window_packets": {
+    "desc": "一个连接的初始拥堵窗口的大小（以包为单位）。默认值：10",
+    "label": "初始窗口数据包"
+  },
+  "flapping_detect_enable": {
+    "desc": "启用抖动检测功能。",
+    "label": "启用抖动检测"
+  },
+  "sysmon_top_db_password": {
+    "desc": "PostgreSQL 数据库的密码",
+    "label": "数据库密码"
+  },
+  "fields_ws_opts_check_origins": {
+    "desc": "允许的 origins 列表",
+    "label": "允许的 origins"
+  },
+  "fields_deflate_opts_client_context_takeover": {
+    "desc": "接管意味着在客户端消息之间保留压缩状态。",
+    "label": "客户端上下文接管"
+  },
+  "base_listener_acceptors": {
+    "desc": "监听器接收池的大小。",
+    "label": "接收器数量"
+  },
+  "common_ssl_opts_schema_cacertfile": {
+    "desc": "受信任的PEM格式 CA  证书捆绑文件<br/>\n此文件中的证书用于验证TLS对等方的证书。\n如果要信任新 CA，请将新证书附加到文件中。\n无需重启EMQX即可加载更新的文件，因为系统会定期检查文件是否已更新（并重新加载）<br/>\n注意：从文件中失效（删除）证书不会影响已建立的连接。",
+    "label": "CA 证书文件"
+  },
+  "fields_ws_opts_mqtt_path": {
+    "desc": "WebSocket 的 MQTT 协议路径。因此，EMQX Broker的WebSocket地址为：\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
+    "label": "WS MQTT 路径"
+  },
+  "sysmon_os_procmem_high_watermark": {
+    "desc": "在发出相应警报之前，一个Erlang进程可以分配多少系统内存的阈值，以系统内存的百分比表示。",
+    "label": "进程内存高水位线"
+  },
+  "fields_listeners_quic": {
+    "desc": "QUIC 监听器。",
+    "label": "QUIC 监听器"
+  },
+  "fields_listeners_ws": {
+    "desc": "HTTP websocket 监听器。",
+    "label": "HTTP websocket 监听器"
+  },
+  "mqtt_retry_interval": {
+    "desc": "QoS 1/2 消息的重新投递间隔。",
+    "label": "消息重试间隔"
+  },
+  "stats_enable": {
+    "desc": "启用/禁用统计数据收集功能。",
+    "label": "启用/禁用统计数据收集功能"
+  },
+  "fields_authorization_deny_action": {
+    "desc": "授权检查拒绝操作时的操作。",
+    "label": "授权检查拒绝操作时的操作"
+  },
+  "fields_deflate_opts_server_max_window_bits": {
+    "desc": "指定服务器压缩上下文的大小。",
+    "label": "服务器压缩窗口大小"
+  },
+  "client_ssl_opts_schema_server_name_indication": {
+    "desc": "指定要在 TLS 服务器名称指示扩展中使用的主机名。<br/>\n例如，当连接到 \"server.example.net\" 时，接受连接并执行 TLS 握手的真正服务器可能与 TLS 客户端最初连接到的主机不同，\n例如，当连接到 IP 地址时，或者当主机具有多个可解析的 DNS 记录时<br/>\n如果未指定，它将默认为使用的主机名字符串\n建立连接，除非使用 IP 地址<br/>\n然后，主机名也用于对等机的主机名验证证书<br/>\n特殊值 <code>disable</code> 阻止发送服务器名称指示扩展，并禁用主机名验证检查。",
+    "label": "服务器名称指示"
+  },
+  "fields_mqtt_quic_listener_retry_memory_limit": {
+    "desc": "在使用无状态重试之前，可用于握手连接的可用内存的百分比。计算为`N/65535`。默认值：65",
+    "label": "重试内存限制"
+  },
+  "force_shutdown_max_message_queue_len": {
+    "desc": "消息队列的最大长度。",
+    "label": "进程邮箱消息队列的最大长度"
+  },
+  "sys_heartbeat_interval": {
+    "desc": "发送心跳系统消息的间隔时间，它包括：\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
+  },
+  "flapping_detect_ban_time": {
+    "desc": "抖动的客户端将会被禁止登录多长时间。",
+    "label": "禁止登录时长"
+  },
+  "sysmon_top_num_items": {
+    "desc": "每个监视组的顶级进程数。",
+    "label": "顶级进程数"
+  },
+  "persistent_session_builtin_session_table": {
+    "desc": "用于内建会话表的性能调优参数。",
+    "label": "持久会话"
+  },
+  "mqtt_upgrade_qos": {
+    "desc": "投递消息时，是否根据订阅主题时的 QoS 等级来强制提升派发消息的 QoS 等级。",
+    "label": "升级 QoS"
+  },
+  "mqtt_shared_subscription": {
+    "label": "允许共享订阅"
+  },
+  "fields_tcp_opts_sndbuf": {
+    "desc": "连接的 TCP 发送缓冲区（OS 内核）。",
+    "label": "TCP 发送缓冲区"
+  },
+  "sysmon_os_mem_check_interval": {
+    "desc": "定期内存检查的时间间隔。",
+    "label": "内存检查间隔"
+  },
+  "server_ssl_opts_schema_gc_after_handshake": {
+    "desc": "内存使用调优。如果启用，将在TLS/SSL握手完成后立即执行垃圾回收。TLS/SSL握手建立后立即进行GC。",
+    "label": "握手后执行GC"
+  },
+  "fields_mqtt_quic_listener_ssl_options": {
+    "desc": "QUIC 传输层的 TLS 选项",
+    "label": "TLS 选项"
+  },
+  "fields_ws_opts_mqtt_piggyback": {
+    "desc": "WebSocket消息是否允许包含多个 MQTT 数据包。",
+    "label": "MQTT Piggyback"
+  },
+  "base_listener_mountpoint": {
+    "desc": "发布或订阅时，请在所有主题前面加上 mountpoint 字符串。\n\n将消息传递给订阅者时，将从主题名称中删除带前缀的字符串。挂载点是一种用户可以用来实现不同侦听器之间消息路由隔离的方法。\n\n例如，如果客户机 A 使用 <code>listeners.tcp.\\<name>.mountpoint</code> 设置为'some_tenant'，那么客户端实际上订阅了主题'some_tenant/t'。<br/>\n类似地，如果另一个客户端B（与客户端A连接到同一个侦听器）向主题 't' 发送消息，该消息将路由到所有订阅了'some_租户/t'的客户端，因此客户端 A 将接收主题名为't'的消息<br/>\n\n设置为<code>\"\"</code> 以禁用该功能<br/>\n\nmountpoint 字符串中的变量：\n- <code>${'{'}clientid{'}'}</code>: clientid\n- <code>${'{'}username{'}'}</code>: username",
+    "label": "mountpoint"
+  },
+  "mqtt_max_awaiting_rel": {
+    "desc": "为每个会话指定未收到 PUBREL 且未超时的最大 QoS 2 消息数量。超过限制后，新的 QoS 2 消息发布会被拒绝，并返回 147(0x93) 错误。",
+    "label": "最大待发 PUBREL 数量"
+  },
+  "ciphers_schema_quic": {
+    "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件，<code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code><br/>\n\n注：QUIC 监听器不支持 tlsv1.3 的 ciphers",
+    "label": ""
+  },
+  "fields_mqtt_quic_listener_max_bytes_per_key": {
+    "desc": "在启动密钥更新之前，用单个 1-RTT 加密密钥加密的最大字节数。默认值：274877906944",
+    "label": "每个密钥的最大字节数"
+  },
+  "fields_mqtt_quic_listener_mtu_discovery_search_complete_timeout_us": {
+    "desc": "如果没有达到 max ，在重新尝试 MTU 探测之前要等待的时间，单位是微秒。默认值：600000000",
+    "label": ""
+  },
+  "fields_ws_opts_check_origin_enable": {
+    "desc": "如果<code>true</code>，<code>origin</code>HTTP 头将根据<code>check_origins</code>参数中配置的允许来源列表进行验证。",
+    "label": "检查 origin"
+  },
+  "sysmon_vm_busy_dist_port": {
+    "desc": "启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
+    "label": "启用分布式端口过忙监控"
+  },
+  "mqtt_max_mqueue_len": {
+    "desc": "最大消息队列长度。持久客户端断开连接或飞行窗口已满时，允许排队的的最大消息数量。",
+    "label": "最大消息队列长度"
+  },
+  "mqtt_max_inflight": {
+    "desc": "完成应答前，最多允许同时投递的 QoS 1 和 QoS 2 消息数量。",
+    "label": "最大飞行窗口"
+  },
+  "persistent_session_store_enabled": {
+    "desc": "使用数据库存储有关持久会话的信息。\n这使得在节点停止时，可以将客户端连接迁移到另一个群集节点。",
+    "label": "启用持久会话保存"
+  },
+  "fields_deflate_opts_level": {
+    "desc": "压缩级别",
+    "label": "压缩级别"
+  },
+  "mqtt_server_keepalive": {
+    "label": "服务端 Keep Alive"
+  },
+  "global_authentication": {
+    "desc": "全局 MQTT 监听器的默认认证配置。 为每个监听器配置认证参考监听器器配置中的<code>authentication</code> 配置。\n\n该配置可以被配置为：\n<ul>\n  <li><code>[]</code>: 默认值，允许所有的登录请求\n  <li>配置为单认证器，例如 <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>配置为认证器数组</li>\n</ul>\n\n当配置为认证链后，登录凭证会按照配置的顺序进行检查，直到做出<code>allow</code> 或 <code>deny</code>的结果。\n\n如果在所有的认证器都执行完后，还是没有结果，登录将被拒绝。"
+  },
+  "fields_mqtt_quic_listener_load_balancing_mode": {
+    "desc": "0: 禁用, 1: SERVER_ID_IP, 2: SERVER_ID_FIXED. 默认: 0",
+    "label": "负载平衡模式"
+  },
+  "persistent_session_store_session_message_gc_interval": {
+    "desc": "持久会话消息的临时数据垃圾收集的开始间隔。\n这不会影响持久会话消息的生命周期长度。",
+    "label": "会话消息清理间隔"
+  },
+  "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
+    "desc": "检查 OCSP 响应时，HTTP 请求的超时。",
+    "label": "OCSP 刷新 HTTP 超时"
+  },
+  "fields_tcp_opts_send_timeout": {
+    "desc": "连接的 TCP 发送超时。",
+    "label": "TCP 发送超时"
+  },
+  "sysmon_vm_process_high_watermark": {
+    "desc": "在发出相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
+    "label": "进程数高水位线"
+  },
+  "fields_tcp_opts_buffer": {
+    "desc": "驱动程序使用的用户空间缓冲区的大小。",
+    "label": "TCP 用户态缓冲区"
+  },
+  "server_ssl_opts_schema_honor_cipher_order": {
+    "desc": "一个重要的安全设置，它强制根据服务器指定的顺序而不是客户机指定的顺序设置密码，从而强制服务器管理员执行（通常配置得更正确）安全顺序。",
+    "label": "SSL honor cipher order"
+  },
+  "conn_congestion_min_alarm_sustain_duration": {
+    "desc": "清除警报前的最短时间。<br/>只有当队列中没有挂起的数据，并且连接至少被堵塞了 <code>min_alarm_sustain_duration</code> 毫秒时，<br/>报警才会被清除。这是为了避免太频繁地清除和再次发出警报。",
+    "label": "告警维持时间"
+  },
+  "fields_mqtt_quic_listener_keep_alive_interval_ms": {
+    "desc": "多长时间发送一次PING帧以保活连接。",
+    "label": "保持活着的时间间隔 毫秒"
+  },
+  "fields_mqtt_quic_listener_handshake_idle_timeout_ms": {
+    "desc": "一个握手在被丢弃之前可以空闲多长时间",
+    "label": "握手空闲超时 毫秒"
+  },
+  "broker_session_locking_strategy": {
+    "desc": "Session 在集群中的锁策略。\n  - `loca`：仅锁本节点的 Session；\n  - `one`：任选一个其它节点加锁；\n  - `quorum`：选择集群中半数以上的节点加锁；\n  - `all`：选择所有节点加锁。"
+  },
+  "persistent_store_ram_cache": {
+    "desc": "在内存中保持一份数据的副本，以便更快地访问。",
+    "label": "内存缓存"
+  },
+  "fields_mqtt_quic_listener_stream_recv_window_default": {
+    "desc": "初始流接收窗口大小。 默认值：32678",
+    "label": "流接收窗口默认"
+  },
+  "mqtt_mqueue_priorities": {
+    "desc": "主题优先级。优先级数字[1-255]。默认情况下没有优先级表，因此所有消息都被平等对待。<br/>注意：优先级主题名称中不允许使用逗号和等号。<br/>注意：不在优先级表中的主题的消息将根据 mqtt.mqueue_default_priority 的配置值被视为最高优先级或最低优先级。<br/>示例：<br/>要配置 'topic/1' > 'topic/2'：<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
+    "label": "主题优先级"
+  },
+  "fields_rate_limit_conn_messages_in": {
+    "desc": "外部 MQTT 连接的消息限制。",
+    "label": "外部 MQTT 连接的消息限制"
+  },
+  "fields_rate_limit_max_conn_rate": {
+    "desc": "每秒最大连接数。",
+    "label": "每秒最大连接数"
+  },
+  "alarm_size_limit": {
+    "desc": "要保留为历史记录的已停用报警的最大总数。当超过此限制时，将删除最旧的停用报警，以限制总数。",
+    "label": "告警总数限制"
+  },
+  "fields_cache_max_size": {
+    "desc": "缓存项的最大数量。",
+    "label": "缓存项的最大数量"
+  },
+  "fields_listeners_tcp": {
+    "desc": "TCP 监听器。",
+    "label": "TCP 监听器"
+  },
+  "conn_congestion_enable_alarm": {
+    "desc": "启用或者禁用连接阻塞告警功能。",
+    "label": "启用/禁用阻塞告警"
+  },
+  "fields_ws_opts_proxy_port_header": {
+    "desc": "HTTP 头，用于传递有关客户端端口的信息。当 EMQX 集群部署在负载平衡器后面时，这一点非常重要。",
+    "label": "客户端端口头"
+  },
+  "overload_protection_enable": {
+    "desc": "是否对系统过载做出反应。",
+    "label": "是否对系统过载做出反应"
+  },
+  "fields_mqtt_quic_listener_minimum_mtu": {
+    "desc": "一个连接所支持的最小MTU。这将被作为起始MTU使用。默认值：1248",
+    "label": "最小 MTU"
+  },
+  "sys_msg_interval": {
+    "desc": "发送 `$SYS` 主题的间隔时间。"
+  },
+  "mqtt_await_rel_timeout": {
+    "desc": "对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。",
+    "label": "最大 PUBREL 等待时长"
+  },
+  "common_ssl_opts_schema_verify": {
+    "desc": "启用或禁用对等验证。",
+    "label": "对等验证"
+  },
+  "fields_listeners_ssl": {
+    "desc": "SSL 监听器。",
+    "label": "SSL 监听器"
+  },
+  "fields_deflate_opts_client_max_window_bits": {
+    "desc": "指定客户端压缩上下文的大小。",
+    "label": "压缩窗口大小"
+  },
+  "common_ssl_opts_schema_keyfile": {
+    "desc": "PEM格式的私钥文件。",
+    "label": "私钥文件"
+  },
+  "sysmon_os_cpu_high_watermark": {
+    "desc": "在发出相应警报之前可以使用多少系统 CPU 的阈值，以系统CPU负载的百分比表示。",
+    "label": "CPU 高水位线"
+  },
+  "flapping_detect_window_time": {
+    "desc": "抖动检测的时间窗口。",
+    "label": "时间窗口"
+  },
+  "mqtt_mqueue_default_priority": {
+    "desc": "默认的主题优先级，不在 <code>主题优先级</code>（<code>mqueue_priorities</code>） 中的主题将会使用该优先级。",
+    "label": "默认主题优先级"
+  },
+  "client_ssl_opts_schema_enable": {
+    "desc": "启用 TLS。",
+    "label": "启用 TLS"
+  },
+  "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
+    "desc": "在任何时候都可以在一个绑定上排队的无状态操作的最大数量。默认值：3",
+    "label": "MTU发现丢失的探针数量"
+  },
+  "fields_tcp_opts_recbuf": {
+    "desc": "连接的 TCP 接收缓冲区（OS 内核）。",
+    "label": "TCP 接收缓冲区"
+  },
+  "sysmon_vm_process_check_interval": {
+    "desc": "定期进程限制检查的时间间隔。",
+    "label": "进程限制检查时间"
+  },
+  "fields_mqtt_quic_listener_server_resumption_level": {
+    "desc": "连接恢复 和/或 0-RTT 服务器支持。默认值：0（无恢复功能）",
+    "label": "服务端连接恢复支持"
+  },
+  "fields_ws_opts_proxy_address_header": {
+    "desc": "HTTP 头，用于传递有关客户端 IP 地址的信息。\n当 EMQX 集群部署在负载平衡器后面时，这一点非常重要。",
+    "label": "客户端地址头"
+  },
+  "sysmon_os_sysmem_high_watermark": {
+    "desc": "在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。",
+    "label": "系统内存高水位线"
+  },
+  "fields_tcp_opts_high_watermark": {
+    "desc": "当 VM 套接字实现内部排队的数据量达到此限制时，套接字将设置为忙碌状态。",
+    "label": ""
+  },
+  "fields_mqtt_quic_listener_stateless_operation_expiration_ms": {
+    "desc": "同一个对端的操作之间的时间限制，单位是毫秒。 默认：100",
+    "label": "无状态操作过期 毫秒"
+  },
+  "server_ssl_opts_schema_dhfile": {
+    "desc": "如果协商使用Diffie-Hellman密钥交换的密码套件，则服务器将使用包含PEM编码的Diffie-Hellman参数的文件的路径。如果未指定，则使用默认参数。<br/>\n注意：TLS 1.3不支持<code>dhfile</code>选项。",
+    "label": "SSL dhfile"
+  },
+  "flapping_detect_max_count": {
+    "desc": "MQTT 客户端在“窗口”时间内允许的最大断开次数。",
+    "label": "最大断开次数"
+  },
+  "mqtt_max_topic_levels": {
+    "label": "最大主题层级"
+  },
+  "force_shutdown_max_heap_size": {
+    "desc": "Heap 的总大小。",
+    "label": "Heap 的总大小"
+  },
+  "persistent_store_on_disc": {
+    "desc": "将持久会话数据保存在磁盘上。如果为 false 则存储在内存中。\n如开启， 持久会话数据可在集群重启后恢复。\n如关闭， 数据仅存储在内存中， 则在整个集群停止后丢失。",
+    "label": "持久化在磁盘上"
+  },
+  "mqtt_ignore_loop_deliver": {
+    "desc": "设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。",
+    "label": "忽略循环投递"
+  },
+  "common_ssl_opts_schema_certfile": {
+    "desc": "PEM格式证书链文件<br/>\n此文件中的证书应与证书颁发链的顺序相反。也就是说，主机的证书应该放在文件的开头，\n然后是直接颁发者 CA 证书，依此类推，一直到根 CA 证书。\n根 CA 证书是可选的，如果想要添加，应加到文件到最末端。",
+    "label": "证书文件"
+  },
+  "mqtt_exclusive_subscription": {
+    "label": "允许排它订阅"
+  },
+  "mqtt_retain_available": {
+    "desc": "是否启用对 MQTT 保留消息的支持。禁用此选项时，客户端将无法发布保留消息。",
+    "label": "启用保留消息"
+  },
+  "fields_tcp_opts_reuseaddr": {
+    "desc": "连接的 SO_REUSEADDR 标识。",
+    "label": "SO_REUSEADDR"
+  },
+  "sysmon_vm_long_schedule": {
+    "desc": "启用后，如果 Erlang VM 调度器出现某个任务占用时间过长时，会触发一条带有 'long_schedule' 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_schedule</code> 的 MQTT 系统消息。",
+    "label": "启用长调度监控"
+  },
+  "mqtt_keepalive_multiplier": {
+    "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`，根据 MQTT 5.0，默认值为1.5。\n\n例如，如果 Keep-Alive interval 为 10 秒，那么乘以 1.5 的倍数，将产生 15 秒的超时。将倍数值增加到 2，超时将延长到 20 秒。",
+    "label": "Keep Alive 倍数"
+  },
+  "force_gc_bytes": {
+    "desc": "在进程处理过多少个字节之后，对此进程执行垃圾回收。",
+    "label": "垃圾回收字节数"
+  },
+  "server_ssl_opts_schema_fail_if_no_peer_cert": {
+    "desc": "TLS/DTLS 服务器与 {'{'}verify，verify_peer{'}'} 一起使用。\n如果设置为true，则如果客户端没有要发送的证书，即发送空证书，服务器将失败。\n如果设置为false，则仅当客户端发送无效证书（空证书被视为有效证书）时才会失败。",
+    "label": "强制验证对端证书"
+  },
+  "fields_ws_opts_compress": {
+    "desc": "如果 <code>true</code>，则使用<code>zlib</code> 压缩 WebSocket 消息<br/>\n<code>deflate_opts</code> 下的配置项属于压缩相关参数配置。",
+    "label": "Ws 压缩"
+  },
+  "fields_mqtt_quic_listener_keep_alive_interval": {
+    "desc": "发送 PING 帧的频率，以保活连接. 设为 0 表示禁用。",
+    "label": "PING 保活频率"
+  },
+  "fields_cache_ttl": {
+    "desc": "缓存数据的生存时间。",
+    "label": "缓存数据的生存时间"
+  },
+  "sys_topics": {
+    "desc": "系统主题配置。"
+  },
+  "sys_event_client_subscribed": {
+    "desc": "是否开启客户端已成功订阅主题事件消息。"
+  },
+  "sysmon_top_db_port": {
+    "desc": "收集数据点的 PostgreSQL 数据库的端口。",
+    "label": "数据库端口"
+  },
+  "fields_mqtt_quic_listener_max_operations_per_drain": {
+    "desc": "每个连接操作的最大耗费操作数。默认：16",
+    "label": "每次操作最大操作数"
+  },
+  "fields_mqtt_quic_listener_datagram_receive_enabled": {
+    "desc": "宣传对QUIC Datagram 扩展的支持。为将来保留。默认为0（FALSE）",
+    "label": "启用 Datagram 接收"
+  },
+  "fields_mqtt_quic_listener_initial_rtt_ms": {
+    "desc": "初始RTT估计",
+    "label": "Initial RTT 毫秒"
+  },
+  "overload_protection_backoff_gc": {
+    "desc": "高负载时，跳过强制 GC。",
+    "label": "跳过GC"
+  },
+  "broker_perf_route_lock_type": {
+    "desc": "通配主题订阅/取消订阅性能调优。\n建议仅当通配符主题较多时才更改此参数。\n\n注：当从/更改为 `global` 锁时，它要求集群中的所有节点在更改之前停止。\n  - `key`：为 Mnesia 事务涉及到的每个 key 上锁，建议单节点时使用。\n  - `tab`：为 Mnesia 事务涉及到的表上锁，建议在集群中使用。\n  - `global`：所以更新操作都被全局的锁保护，仅建议在超大规模集群中使用。"
+  },
+  "fields_tcp_opts_nodelay": {
+    "desc": "连接的 TCP_NODELAY 标识",
+    "label": "TCP_NODELAY"
+  },
+  "sysmon_top_db_username": {
+    "desc": "PostgreSQL 数据库的用户名",
+    "label": "数据库用户名"
+  },
+  "broker": {
+    "desc": "Broker 相关配置项。"
+  },
+  "force_gc_count": {
+    "desc": "在进程收到多少消息之后，对此进程执行垃圾回收。",
+    "label": "垃圾回收消息数"
+  },
+  "mqtt_max_clientid_len": {
+    "label": "最大客户端 ID 长度"
+  },
+  "fields_ws_opts_supported_subprotocols": {
+    "desc": "逗号分隔的 subprotocols 支持列表。",
+    "label": "Subprotocols 支持列表"
+  },
+  "broker_shared_subscription_strategy": {
+    "desc": "共享订阅消息派发策略。\n  - `random`：随机挑选一个共享订阅者派发；\n  - `round_robin`：使用 round-robin 策略派发；\n  - `round_robin_per_group`：在共享组内循环选择下一个成员；\n  - `local`：选择随机的本地成员，否则选择随机的集群范围内成员;\n  - `sticky`：总是使用上次选中的订阅者派发，直到它断开连接；\n  - `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者;\n  - `hash_topic`：通过对源主题进行 Hash 处理来选择订阅者。"
+  },
+  "fields_deflate_opts_mem_level": {
+    "desc": "指定压缩状态的大小<br/>\n较低的值会减少每个连接的内存使用。",
+    "label": "压缩状态大小"
+  },
+  "fields_mqtt_quic_listener_send_idle_timeout_ms": {
+    "desc": "在闲置一定时间后重置拥堵控制。默认值：1000",
+    "label": "发送空闲超时毫秒"
+  },
+  "base_listener_limiter": {
+    "desc": "速率限制类型",
+    "label": "速率限制类型"
+  },
+  "persistent_session_store_backend": {
+    "desc": "用于存储持久性会话和信息的数据库管理后端\n- `builtin`: 使用内置的数据库（mria）",
+    "label": "后端类型"
+  },
+  "alarm_validity_period": {
+    "desc": "停用报警的保留时间。报警在停用时不会立即删除，而是在保留时间之后删除。",
+    "label": "告警保留时间"
+  },
+  "server_ssl_opts_schema_ocsp_issuer_pem": {
+    "desc": "服务器证书的 OCSP 签发者的 PEM 编码证书。",
+    "label": "OCSP 签发者证书"
+  },
+  "fields_tcp_opts_active_n": {
+    "desc": "为此套接字指定{'{'}active，N{'}'}选项<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
+    "label": "active_n"
+  },
+  "listener_authentication": {
+    "desc": "监听器认证重载。\n认证配置可以是单个认证器实例，也可以是一个认证器数组组成的认证链。\n执行登录验证时（用户名、客户端 ID 等），将按配置的顺序执行。",
+    "label": "每个监听器的认证覆盖"
+  },
+  "fields_trace_payload_encode": {
+    "desc": "确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`",
+    "label": "Payload 编码"
+  },
+  "mqtt_response_information": {
+    "desc": "UTF-8 字符串，用于指定返回给客户端的响应主题，如 `reqrsp/`，此时请求和应答客户端都需要使用 `reqrsp/` 前缀的主题来完成通讯。如希望禁用此功能，请在下方的文字框中输入`\"\"`；仅适用于 MQTT 5.0 客户端。",
+    "label": "响应信息"
+  },
+  "persistent_session_store_max_retain_undelivered": {
+    "desc": "如果重新启动时处理上一个会话的节点已停止，则未传递到持久会话的消息在垃圾收集之前会被存储。",
+    "label": "未投递的消息保留条数"
+  },
+  "fields_mqtt_quic_listener_migration_enabled": {
+    "desc": "开启客户端地址迁移功能。需要一个支持的负载平衡器，或者没有负载平衡器。默认值：1（已启用）",
+    "label": "启用地址迁移"
+  },
+  "common_ssl_opts_schema_password": {
+    "desc": "包含用户密码的字符串。仅在私钥文件受密码保护时使用。",
+    "label": "密钥文件密码"
+  },
+  "common_ssl_opts_schema_hibernate_after": {
+    "desc": "在闲置一定时间后休眠 SSL 进程，减少其内存占用。",
+    "label": "闲置多久后休眠"
+  },
+  "fields_mqtt_quic_listener_send_buffering_enabled": {
+    "desc": "缓冲发送数据，而不是保留应用缓冲区，直到发送数据被确认。默认值：1（启用）",
+    "label": "启用发送缓冲功能"
+  },
+  "sys_event_client_unsubscribed": {
+    "desc": "是否开启客户端已成功取消订阅主题事件消息。"
+  },
+  "overload_protection_backoff_new_conn": {
+    "desc": "高负载时，拒绝新进来的客户端连接。",
+    "label": "关闭新连接"
+  },
+  "server_ssl_opts_schema_ocsp_responder_url": {
+    "desc": "用于检查服务器证书的 OCSP Responder 的 URL。",
+    "label": "OCSP Responder 的 URL"
+  },
+  "mqtt_idle_timeout": {
+    "desc": "设置连接被断开或进入休眠状态前的等待时间，空闲超时后\n\n- 如暂未收到客户端的 CONNECT 报文，连接将断开；\n- 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。",
+    "label": "空闲超时"
+  },
+  "fields_mqtt_quic_listener_conn_flow_control_window": {
+    "desc": "连接的流控窗口。默认：16777216",
+    "label": "流控窗口"
+  },
+  "fields_mqtt_quic_listener_maximum_mtu": {
+    "desc": "一个连接所支持的最大MTU。这将是最大的探测值。默认值：1500",
+    "label": "最大 MTU"
+  },
+  "sysmon_top_db_name": {
+    "desc": "PostgreSQL 数据库的数据库名",
+    "label": "数据库名"
+  },
+  "mqtt_strict_mode": {
+    "desc": "是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。",
+    "label": "严格模式"
+  },
+  "shared_subscription_group_strategy": {
+    "desc": "设置共享订阅组为单位的分发策略。该配置是一个从组名到\n策略名的一个map，组名不得包含 `[A-Za-z0-9]` 之外的特殊字符。"
+  },
+  "fields_deflate_opts_strategy": {
+    "desc": "指定压缩策略。",
+    "label": "指定压缩策略"
+  },
+  "shared_subscription_strategy_enum": {
+    "desc": "共享订阅的分发策略名称。\n- `random`：随机选择一个组内成员；\n- `round_robin`：循环选择下一个成员；\n- `round_robin_per_group`：在共享组内循环选择下一个成员；\n- `sticky`：使用上一次选中的成员；\n- `hash`：根据 ClientID 哈希映射到一个成员；\n- `local`：随机分发到节点本地成成员，如果本地成员不存在，则随机分发到任意一个成员。"
+  },
+  "persistent_session_builtin_sess_msg_table": {
+    "desc": "优化内置的会话消息表的配置。",
+    "label": "用于内建会话管理表的性能调优参数"
+  },
+  "mqtt_mqueue_store_qos0": {
+    "desc": "在连接断开但会话保持期间，是否需要在消息队列中存储 QoS 0 消息。",
+    "label": "存储 QoS 0 消息"
+  },
+  "server_ssl_opts_schema_client_renegotiation": {
+    "desc": "在支持客户机发起的重新协商的协议中，这种操作的资源成本对于服务器来说高于客户机。\n这可能会成为拒绝服务攻击的载体。\nSSL 应用程序已经采取措施来反击此类尝试，但通过将此选项设置为 false，可以严格禁用客户端发起的重新协商。\n默认值为 true。请注意，由于基础密码套件可以加密的消息数量有限，禁用重新协商可能会导致长期连接变得不可用。",
+    "label": "SSL 客户端冲协商"
+  },
+  "server_ssl_opts_schema_enable_crl_check": {
+    "desc": "是否为该监听器启用 CRL 检查。",
+    "label": "启用 CRL 检查"
+  },
+  "fields_mqtt_quic_listener_peer_bidi_stream_count": {
+    "desc": "允许对端打开的双向流的数量",
+    "label": "对端双向流的数量"
+  },
+  "fields_mqtt_quic_listener_max_stateless_operations": {
+    "desc": "无状态操作的最大数量，在任何时候都可以在一个工作者上排队。默认值：16",
+    "label": "最大无状态操作数"
+  },
+  "fields_ws_opts_idle_timeout": {
+    "desc": "关闭在此间隔内未发送 MQTT CONNECT 消息的客户端的传输层连接。",
+    "label": "WS 空闲时间"
+  },
+  "fields_mqtt_quic_listener_max_ack_delay_ms": {
+    "desc": "在收到数据后要等待多长时间才能发送一个ACK。默认值：25",
+    "label": "最大应答延迟 毫秒"
+  },
+  "base_listener_zone": {
+    "desc": "监听器所属的配置组。",
+    "label": "配置组"
+  },
+  "fields_mqtt_quic_listener_handshake_idle_timeout": {
+    "desc": "一个握手在被丢弃之前可以空闲多长时间。",
+    "label": "握手空闲超时时间"
+  },
+  "force_gc_enable": {
+    "desc": "启用强制垃圾回收。",
+    "label": "启用强制垃圾回收"
+  },
+  "fields_ws_opts_allow_origin_absence": {
+    "desc": "If <code>false</code> and <code>check_origin_enable</code> is <code>true</code>, the server will reject requests that don't have <code>origin</code> HTTP header.",
+    "label": "允许 origin 缺失"
+  },
+  "common_ssl_opts_schema_versions": {
+    "desc": "支持所有TLS/DTLS版本<br/>\n注：PSK 的 Ciphers 无法在 <code>tlsv1.3</code> 中使用，如果打算使用 PSK 密码套件，请确保这里配置为 <code>[\"tlsv1.2\",\"tlsv1.1\"]</code>。",
+    "label": "SSL 版本"
+  },
+  "mqtt_listener_proxy_protocol_timeout": {
+    "desc": "代理协议超时。如果在超时时间内未收到代理协议数据包，EMQX将关闭TCP连接。",
+    "label": "Proxy protocol 超时时间"
+  },
+  "fields_mqtt_quic_listener_idle_timeout": {
+    "desc": "一个连接在被关闭之前可以空闲多长时间。0表示禁用。",
+    "label": "空闲超时时间"
+  },
+  "common_ssl_opts_schema_secure_renegotiate": {
+    "desc": "SSL 参数重新协商是一种允许客户端和服务器动态重新协商 SSL 连接参数的功能。\nRFC 5746 定义了一种更安全的方法。通过启用安全的重新协商，您就失去了对不安全的重新协商的支持，从而容易受到 MitM 攻击。",
+    "label": "SSL 重新协商"
+  },
+  "sysmon_vm_busy_port": {
+    "desc": "当一个系统接口（例如 TCP socket）过忙，会触发一条带有 <code>busy_port</code> 关键字的 warning 级别的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_port</code> 的 MQTT 系统消息。",
+    "label": "启用端口过忙监控"
+  },
+  "sys_event_client_connected": {
+    "desc": "是否开启客户端已连接事件消息。"
+  },
+  "sysmon_vm_process_low_watermark": {
+    "desc": "在清除相应警报之前，本地节点上可以同时存在多少进程的阈值（以进程百分比表示）。",
+    "label": "进程数低水位线"
+  },
+  "mqtt_max_packet_size": {
+    "desc": "允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。",
+    "label": "最大报文大小"
+  },
+  "common_ssl_opts_schema_reuse_sessions": {
+    "desc": "启用 TLS 会话重用。",
+    "label": "TLS 会话重用"
+  },
+  "common_ssl_opts_schema_depth": {
+    "desc": "在有效的证书路径中，可以跟随对等证书的非自颁发中间证书的最大数量。\n因此，如果深度为0，则对等方必须由受信任的根 CA 直接签名；<br/>\n如果是1，路径可以是 PEER、中间 CA、ROOT-CA；<br/>\n如果是2，则路径可以是PEER、中间 CA1、中间 CA2、ROOT-CA。",
+    "label": "CA 证书深度"
+  },
+  "sysmon_vm_long_gc": {
+    "desc": "当系统检测到某个 Erlang 进程垃圾回收占用过长时间，会触发一条带有 <code>long_gc</code> 关键字的日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/long_gc</code> 的 MQTT 系统消息。",
+    "label": "启用长垃圾回收监控"
+  },
+  "fields_mqtt_quic_listener_keyfile": {
+    "desc": "私钥文件。在 5.1 中会被废弃，使用 .ssl_options.keyfile 代替。",
+    "label": "私钥文件"
+  },
+  "mqtt_peer_cert_as_clientid": {
+    "desc": "使用对端证书中的 CN、DN 字段或整个证书内容来作为客户端 ID。仅适用于 TLS 连接；\n目前支持：\n- <code>cn</code>: 取证书的 CN 字段\n- <code>dn</code>: 取证书的 DN 字段\n- <code>crt</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书的内容\n- <code>pem</code>: 将 <code>DER</code> 证书内容转换为 <code>PEM</code> 格式作为客户端 ID\n- <code>md5</code>: 取 <code>DER</code> 或 <code>PEM</code> 证书内容的 MD5 值",
+    "label": "使用对端证书作为客户端 ID"
+  },
+  "persistent_session_store_message_gc_interval": {
+    "desc": "将未送达的消息垃圾收集到持久会话的开始间隔。\n这会影响检查 \"max_retain_undelivered\"（最大保留未送达）的删除频率。",
+    "label": "消息清理间隔"
+  },
+  "broker_shared_dispatch_ack_enabled": {
+    "desc": "该配置项已废弃，会在 5.1 中移除。\n启用/禁用 QoS 1 和 QoS 2 消息的共享派发确认。\n开启后，允许将消息从未及时回复 ACK 的订阅者 （例如，客户端离线） 重新派发给另外一个订阅者。"
+  },
+  "base_listener_enable_authn": {
+    "desc": "配置 <code>true</code> （默认值）启用客户端进行身份认证，通过检查认配置的认认证器链来决定是否允许接入。\n配置 <code>false</code> 时，将不对客户端做任何认证，任何客户端，不论是不是携带用户名等认证信息，都可以接入。\n配置 <code>quick_deny_anonymous</code> 时，行为跟 <code>true</code> 类似，但是会对匿名\n客户直接拒绝，不做使用任何认证器对客户端进行身份检查。",
+    "label": "启用身份认证"
+  },
+  "force_shutdown_enable": {
+    "desc": "启用 `force_shutdown` 功能。",
+    "label": "启用 `force_shutdown` 功能"
+  },
+  "broker_enable_session_registry": {
+    "desc": "是否启用 Session Registry"
+  },
+  "overload_protection_backoff_delay": {
+    "desc": "高负载时，一些不重要的任务可能会延迟执行，在这里设置允许延迟的时间。",
+    "label": "延迟时间"
+  },
+  "ciphers_schema_common": {
+    "desc": "此配置保存由逗号分隔的 TLS 密码套件名称，或作为字符串数组。例如\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code>或\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
+    "label": ""
+  },
+  "sys_event_client_disconnected": {
+    "desc": "是否开启客户端已断开连接事件消息。"
+  },
+  "crl_cache_refresh_interval": {
+    "desc": "从服务器刷新CRL的周期。 该配置对所有 URL 和监听器有效。",
+    "label": "CRL 缓存刷新间隔"
+  },
+  "mqtt_listener_proxy_protocol": {
+    "desc": "如果EMQX集群部署在 HAProxy 或 Nginx 之后，请启用代理协议 V1/2 <br/>\n详情见: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
+    "label": "Proxy protocol"
+  },
+  "mqtt_listener_access_rules": {
+    "desc": "此监听器的访问控制规则。",
+    "label": "访问控制规则"
+  },
+  "server_ssl_opts_schema_enable_ocsp_stapling": {
+    "desc": "是否为监听器启用 OCSP Stapling 功能。 如果设置为 true，需要定义 OCSP Responder 的 URL 和证书签发者的 PEM 文件路径。",
+    "label": "启用 OCSP Stapling"
+  },
+  "fields_tcp_opts_send_timeout_close": {
+    "desc": "如果发送超时，则关闭连接。",
+    "label": "TCP 发送超时关闭连接"
+  },
+  "sysmon_os_cpu_check_interval": {
+    "desc": "定期 CPU 检查的时间间隔。",
+    "label": "定期 CPU 检查的时间间隔"
+  },
+  "sysmon_top_sample_interval": {
+    "desc": "指定应收集进程顶部的频率。",
+    "label": "取样时间"
+  },
+  "fields_mqtt_quic_listener_idle_timeout_ms": {
+    "desc": "一个连接在被优雅地关闭之前可以空闲多长时间。0 表示禁用超时",
+    "label": "空闲超时 毫秒"
+  },
+  "fields_ws_opts_fail_if_no_subprotocol": {
+    "desc": "如果<code>true</code>，当客户端未携带<code>Sec WebSocket Protocol</code>字段时，服务器将返回一个错误。\n<br/>注意：微信小程序需要禁用此验证。",
+    "label": "无 subprotocol 则失败"
+  },
+  "mqtt_wildcard_subscription": {
+    "label": "允许通配符订阅"
+  },
+  "server_ssl_opts_schema_ocsp_refresh_interval": {
+    "desc": "为服务器刷新OCSP响应的周期。",
+    "label": "OCSP 刷新间隔"
+  },
+  "overload_protection_backoff_hibernation": {
+    "desc": "高负载时，跳过进程休眠。",
+    "label": "跳过休眠"
+  },
+  "fields_ws_opts_max_frame_size": {
+    "desc": "单个 MQTT 数据包的最大长度。",
+    "label": "最大数据包长度"
+  },
+  "sys_event_messages": {
+    "desc": "客户端事件消息。"
+  },
+  "broker_perf_trie_compaction": {
+    "desc": "是否开启主题表压缩存储。\n启用它会显着提高通配符主题订阅率，如果通配符主题具有唯一前缀，例如：'sensor/{'{'}{'{'}id{'}'}{'}'}/+/'，其中每个订阅者的 ID 是唯一的。\n如果消息主要发布到具有大量级别的主题，则主题匹配性能（发布时）可能会降低。\n\n注意：这是一个集群范围的配置。 它要求在更改之前停止所有节点。"
+  },
+  "sysmon_vm_large_heap": {
+    "desc": "启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。",
+    "label": "启用大 heap 监控"
+  },
+  "mqtt_shared_subscription_strategy": {
+    "label": "共享订阅策略",
+    "desc": "共享订阅的调度策略。<br/>- `random`：将消息分配给随机选择的订阅者。<br/>- `round_robin`：以循环方式选择订阅者。<br/>- `round_robin_per_group`：在每个共享订阅组内以循环方式选择订阅者。<br/>- `sticky`：始终使用最后选择的订阅者进行调度，直到订阅者断开连接。<br/>- `local`：如果本地订阅者不存在，则选择随机本地订阅者，否则选择随机集群广域订阅者。<br/>- `hash_topic`：通过主题源的哈希值选择订阅者。<br/>- `hash_clientid`：通过对发送者的客户端 ID 进行 Hash 处理来选择订阅者。"
+  },
+  "mqtt_client_attrs_init": {
+    "label": "客户端属性",
+    "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
+  },
+  "client_attrs_init_set_as_attr": {
+    "label": "属性"
+  },
+  "client_attrs_init_expression": {
+    "label": "属性表达式",
+    "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`substr(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
+  },
+  "mqtt_keepalive_check_interval": {
+    "label": "保活检查间隔",
+    "desc": "检查传入 MQTT 数据包的频率决定了服务器检查新 MQTT 数据包的频率。<br />如果客户端在一定时间内没有发送任何数据包，这段时间将会累积。<br />一旦累积时间超过 `keepalive-interval * keepalive-multiplier`，连接将会被终止。<br />默认值设置为 30 秒，最小值为 1 秒，最大值为 `keepalive-interval / 2`。"
+  },
+  "mqtt_shared_subscription_initial_sticky_pick": {
+    "label": "共享订阅初始 Sticky 选择策略",
+    "desc": "当`共享订阅策略`设置为 `sticky` 时，用于初始订阅者选择的策略：<br/> - `random`：随机选择订阅者；<br/> - `local`：随机选择当前节点上的订阅者，如果当前节点上没有订阅者，则在集群内随机选择；<br/> - `hash_clientid`：通过对发布者的客户端ID进行哈希来选择订阅者；<br/> - `hash_topic`：通过对发布主题进行哈希来选择订阅者。"
   }
 }
