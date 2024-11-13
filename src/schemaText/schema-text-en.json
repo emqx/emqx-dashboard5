@@ -1,1507 +1,608 @@
 {
-  "emqx_conf_schema": {
-    "common_handler_drop_mode_qlen": {
-      "desc": "When the number of buffered log events is larger than this value, the new log events are dropped.\nWhen drop mode is activated or deactivated, a message is printed in the logs.",
-      "label": "Queue Length before Entering Drop Mode"
-    },
-    "cluster_mcast_addr": {
-      "desc": "Multicast IPv4 address.",
-      "label": "Cluster Multicast Address"
-    },
-    "desc_cluster_dns": {
-      "desc": "Service discovery via DNS SRV records.",
-      "label": "Cluster DNS"
-    },
-    "cluster_dns_name": {
-      "desc": "The domain name from which to discover peer EMQX nodes' IP addresses.\nApplicable when <code>cluster.discovery_strategy = dns</code>",
-      "label": "Cluster Dns Name"
-    },
-    "rpc_keyfile": {
-      "desc": "Path to the private key file for the <code>rpc.certfile</code>.<br/>\nNote: contents of this file are secret, so it's necessary to set permissions to 600.",
-      "label": "RPC Keyfile"
-    },
-    "cluster_mcast_recbuf": {
-      "desc": "Size of the kernel-level buffer for incoming datagrams.",
-      "label": "Cluster Muticast Sendbuf"
-    },
-    "cluster_autoheal": {
-      "desc": "If <code>true</code>, the node will try to heal network partitions automatically.",
-      "label": "Cluster Auto Heal"
-    },
-    "log_overload_kill_enable": {
-      "desc": "Enable log handler overload kill feature.",
-      "label": "Log Handler Overload Kill"
-    },
-    "node_etc_dir": {
-      "desc": "<code>etc</code> dir for the node",
-      "label": "Etc Dir"
-    },
-    "cluster_proto_dist": {
-      "desc": "The Erlang distribution protocol for the cluster.<br/>\n- inet_tcp: IPv4 TCP <br/>\n- inet_tls: IPv4 TLS, works together with <code>etc/ssl_dist.conf</code>",
-      "label": "Cluster Protocol Distribution"
-    },
-    "log_burst_limit_enable": {
-      "desc": "Enable log burst control feature.",
-      "label": "Enable Burst"
-    },
-    "dist_buffer_size": {
-      "desc": "Erlang's distribution buffer busy limit in kilobytes.",
-      "label": "Erlang's dist buffer size(KB)"
-    },
-    "common_handler_max_depth": {
-      "desc": "Maximum depth for Erlang term log formatting and Erlang process message queue inspection.",
-      "label": "Max Depth"
-    },
-    "desc_log": {
-      "desc": "EMQX logging supports multiple sinks for the log events.\nEach sink is represented by a _log handler_, which can be configured independently.",
-      "label": "Log"
-    },
-    "common_handler_flush_qlen": {
-      "desc": "If the number of buffered log events grows larger than this threshold, a flush (delete) operation takes place.\nTo flush events, the handler discards the buffered log messages without logging.",
-      "label": "Flush Threshold"
-    },
-    "common_handler_chars_limit": {
-      "desc": "Set the maximum length of a single log message. If this length is exceeded, the log message will be truncated.\nNOTE: Restrict char limiter if formatter is JSON , it will get a truncated incomplete JSON data, which is not recommended.",
-      "label": "Single Log Max Length"
-    },
-    "cluster_k8s_namespace": {
-      "desc": "Kubernetes namespace.",
-      "label": "K8s Namespace"
-    },
-    "node_name": {
-      "desc": "Unique name of the EMQX node. It must follow <code>%name%{'@'}FQDN</code> or\n<code>%name%{'@'}IPv4</code> format.",
-      "label": "Node Name"
-    },
-    "rpc_port_discovery": {
-      "desc": "<code>manual</code>: discover ports by <code>tcp_server_port</code>.<br/>\n<code>stateless</code>: discover ports in a stateless manner, using the following algorithm.\nIf node name is <code>emqxN{'@'}127.0.0.1</code>, where the N is an integer,\nthen the listening port will be 5370 + N.",
-      "label": "RRC Port Discovery"
-    },
-    "log_overload_kill_restart_after": {
-      "desc": "The handler restarts automatically after a delay in the event of termination, unless the value `infinity` is set, which blocks any subsequent restarts.",
-      "label": "Handler Restart Timer"
-    },
-    "log_file_handler_rotation_size": {
-      "desc": "This parameter controls log file rotation. The value `infinity` means the log file will grow indefinitely, otherwise the log file will be rotated once it reaches `max_size` in bytes.",
-      "label": "Rotation Size"
-    },
-    "desc_log_file_handler": {
-      "desc": "Log handler that prints log events to files.",
-      "label": "Files Log Handler"
-    },
-    "rpc_socket_keepalive_count": {
-      "desc": "How many times the keepalive probe message can fail to receive a reply\nuntil the RPC connection is considered lost.",
-      "label": "RPC Socket Keepalive Count"
-    },
-    "cluster_etcd_server": {
-      "desc": "List of endpoint URLs of the etcd cluster",
-      "label": "Cluster Etcd Server"
-    },
-    "db_backend": {
-      "desc": "Select the backend for the embedded database.<br/>\n<code>rlog</code> is the default backend,\nthat is suitable for very large clusters.<br/>\n<code>mnesia</code> is a backend that offers decent performance in small clusters.",
-      "label": "DB Backend"
-    },
-    "desc_authorization": {
-      "desc": "Settings that control client authorization.",
-      "label": "Authorization"
-    },
-    "cluster_etcd_ssl": {
-      "desc": "Options for the TLS connection to the etcd cluster.",
-      "label": "Cluster Etcd SSL Option"
-    },
-    "rpc_insecure_fallback": {
-      "desc": "Enable compatibility with old RPC authentication.",
-      "label": "RPC insecure fallback"
-    },
-    "cluster_mcast_buffer": {
-      "desc": "Size of the user-level buffer.",
-      "label": "Cluster Muticast Buffer"
-    },
-    "rpc_authentication_timeout": {
-      "desc": "Timeout for the remote node authentication.",
-      "label": "RPC Authentication Timeout"
-    },
-    "cluster_call_retry_interval": {
-      "desc": "Time interval to retry after a failed call.",
-      "label": "Cluster Call Retry Interval"
-    },
-    "cluster_mcast_sndbuf": {
-      "desc": "Size of the kernel-level buffer for outgoing datagrams.",
-      "label": "Cluster Muticast Sendbuf"
-    },
-    "rpc_driver": {
-      "desc": "Transport protocol used for inter-broker communication",
-      "label": "RPC dirver"
-    },
-    "max_ets_tables": {
-      "desc": "Max number of ETS tables",
-      "label": "Max number of ETS tables"
-    },
-    "desc_db": {
-      "desc": "Settings for the embedded database.",
-      "label": "Database"
-    },
-    "desc_cluster_etcd": {
-      "desc": "Service discovery using 'etcd' service.",
-      "label": "Cluster Etcd"
-    },
-    "cluster_name": {
-      "desc": "Human-friendly name of the EMQX cluster.",
-      "label": "Cluster Name"
-    },
-    "log_rotation_enable": {
-      "desc": "Enable log rotation feature.",
-      "label": "Rotation Enable"
-    },
-    "cluster_call_cleanup_interval": {
-      "desc": "Time interval to clear completed but stale transactions.\nEnsure that the number of completed transactions is less than the <code>max_history</code>.",
-      "label": "Clean Up Interval"
-    },
-    "desc_cluster_static": {
-      "desc": "Service discovery via static nodes.\nThe new node joins the cluster by connecting to one of the bootstrap nodes.",
-      "label": "Cluster Static"
-    },
-    "db_default_shard_transport": {
-      "desc": "Defines the default transport for pushing transaction logs.<br/>\nThis may be overridden on a per-shard basis in <code>db.shard_transports</code>.\n<code>gen_rpc</code> uses the <code>gen_rpc</code> library,\n<code>distr</code> uses the Erlang distribution.",
-      "label": "Default Shard Transport"
-    },
-    "cluster_static_seeds": {
-      "desc": "List EMQX node names in the static cluster. See <code>node.name</code>.",
-      "label": "Cluster Static Seeds"
-    },
-    "log_overload_kill_qlen": {
-      "desc": "Maximum allowed queue length.",
-      "label": "Max Queue Length"
-    },
-    "node_backtrace_depth": {
-      "desc": "Maximum depth of the call stack printed in error messages and\n<code>process_info</code>.",
-      "label": "BackTrace Depth"
-    },
-    "desc_log_burst_limit": {
-      "desc": "Large bursts of log events produced in a short time can potentially cause problems, such as:\n - Log files grow very large\n - Log files are rotated too quickly, and useful information gets overwritten\n - Overall performance impact on the system\n\nLog burst limit feature can temporarily disable logging to avoid these issues.",
-      "label": "Log Burst Limit"
-    },
-    "common_handler_enable": {
-      "desc": "Enable this log handler.",
-      "label": "Enable Log Handler"
-    },
-    "common_handler_timestamp_format": {
-      "desc": "Pick a timestamp format:<br/>- <code>auto</code>: automatically choose the best format based on log formatter. <code>epoch</code> for JSON and <code>rfc3339</code> for text.<br/>- <code>epoch</code>: Unix epoch time in microseconds.<br/>- <code>rfc3339</code>: RFC3339 format.",
-      "label": "Timestamp Format"
-    },
-    "cluster_k8s_service_name": {
-      "desc": "EMQX broker service name.",
-      "label": "K8s Service Name"
-    },
-    "common_handler_rotation_count": {
-      "desc": "Maximum number of log files.",
-      "label": "Max Log Files Number"
-    },
-    "node_cookie": {
-      "desc": "Secret cookie is a random string that should be the same on all nodes in\nthe given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that\nbelong to different clusters from accidentally connecting to each other.",
-      "label": "Node Cookie"
-    },
-    "db_role": {
-      "desc": "Select a node role.<br/>\n<code>core</code> nodes provide durability of the data, and take care of writes.\nIt is recommended to place core nodes in different racks or different availability zones.<br/>\n<code>replicant</code> nodes are ephemeral worker nodes. Removing them from the cluster\ndoesn't affect database redundancy<br/>\nIt is recommended to have more replicant nodes than core nodes.<br/>\nNote: this parameter only takes effect when the <code>backend</code> is set\nto <code>rlog</code>.",
-      "label": "DB Role"
-    },
-    "rpc_tcp_server_port": {
-      "desc": "Listening port used by RPC local service.<br/>\nNote that this config only takes effect when rpc.port_discovery is set to manual.",
-      "label": "RPC TCP Server Port"
-    },
-    "desc_console_handler": {
-      "desc": "Log handler that prints log events to the EMQX console.",
-      "label": "Console Handler"
-    },
-    "node_applications": {
-      "desc": "List of Erlang applications that shall be rebooted when the EMQX broker joins the cluster.",
-      "label": "Application"
-    },
-    "log_burst_limit_max_count": {
-      "desc": "Maximum number of log events to handle within a `window_time` interval. After the limit is reached, successive events are dropped until the end of the `window_time`.",
-      "label": "Events Number"
-    },
-    "rpc_tcp_client_num": {
-      "desc": "Set the maximum number of RPC communication channels initiated by this node to each remote node.",
-      "label": "RPC TCP Client Num"
-    },
-    "cluster_k8s_address_type": {
-      "desc": "Address type used for connecting to the discovered nodes.\nSetting <code>cluster.k8s.address_type</code> to <code>ip</code> will\nmake EMQX to discover IP addresses of peer nodes from Kubernetes API.",
-      "label": "K8s Address Type"
-    },
-    "rpc_socket_sndbuf": {
-      "desc": "TCP tuning parameters. TCP sending buffer size.",
-      "label": "RPC Socket Sndbuf"
-    },
-    "cluster_mcast_ttl": {
-      "desc": "Time-to-live (TTL) for the outgoing UDP datagrams.",
-      "label": "Cluster Multicast TTL"
-    },
-    "db_core_nodes": {
-      "desc": "List of core nodes that the replicant will connect to.<br/>\nNote: this parameter only takes effect when the <code>backend</code> is set\nto <code>rlog</code> and the <code>role</code> is set to <code>replicant</code>.<br/>\nThis value needs to be defined for manual or static cluster discovery mechanisms.<br/>\nIf an automatic cluster discovery mechanism is being used (such as <code>etcd</code>),\nthere is no need to set this value.",
-      "label": "Db Core Node"
-    },
-    "log_file_handler_path": {
-      "desc": "The path and name of the log file.",
-      "label": "Log File Name"
-    },
-    "log_file_handler_to": {
-      "desc": "Name the log file.",
-      "label": "Log File Name"
-    },
-    "node_dist_net_ticktime": {
-      "desc": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
-      "label": "Dist Net TickTime"
-    },
-    "desc_cluster_k8s": {
-      "desc": "Service discovery via Kubernetes API server.",
-      "label": "Cluster Kubernetes"
-    },
-    "desc_cluster_mcast": {
-      "desc": "Service discovery via UDP multicast.",
-      "label": "Cluster Multicast"
-    },
-    "rpc_cacertfile": {
-      "desc": "Path to certification authority TLS certificate file used to validate <code>rpc.certfile</code>.<br/>\nNote: certificates of all nodes in the cluster must be signed by the same CA.",
-      "label": "RPC Cacertfile"
-    },
-    "desc_node": {
-      "desc": "Node name, cookie, config & data directories and the Erlang virtual machine (BEAM) boot parameters.",
-      "label": "Node"
-    },
-    "cluster_k8s_apiserver": {
-      "desc": "Kubernetes API endpoint URL.",
-      "label": "Cluster k8s ApiServer"
-    },
-    "common_handler_supervisor_reports": {
-      "desc": "Type of supervisor reports that are logged. Defaults to <code>error</code><br/>\n  - <code>error</code>: only log errors in the Erlang processes<br/>.\n  - <code>progress</code>: log process startup.",
-      "label": "Report Type"
-    },
-    "node_data_dir": {
-      "desc": "Path to the persistent data directory.<br/>\nPossible auto-created subdirectories are:<br/>\n- `mnesia/<node_name>`: EMQX's built-in database directory.<br/>\nFor example, `mnesia/emqx{'@'}127.0.0.1`.<br/>\nThere should be only one such subdirectory.<br/>\nMeaning, in case the node is to be renamed (to e.g. `emqx{'@'}10.0.1.1`),<br/>\nthe old dir should be deleted first.<br/>\n- `configs`: Generated configs at boot time, and cluster/local override configs.<br/>\n- `patches`: Hot-patch beam files are to be placed here.<br/>\n- `trace`: Trace log files.<br/>\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.",
-      "label": "Node Data Dir"
-    },
-    "cluster_k8s_suffix": {
-      "desc": "Node name suffix.<br/>\nNote: this parameter is only relevant when <code>address_type</code> is <code>dns</code>\nor <code>hostname</code>.",
-      "label": "K8s Suffix"
-    },
-    "db_rpc_module": {
-      "desc": "Protocol used for pushing transaction logs to the replicant nodes.",
-      "label": "RPC Module"
-    },
-    "cluster_etcd_prefix": {
-      "desc": "Key prefix used for EMQX service discovery.",
-      "label": "Cluster Etcd Prefix"
-    },
-    "cluster_mcast_iface": {
-      "desc": "Local IP address the node discovery service needs to bind to.",
-      "label": "Cluster Multicast Interface"
-    },
-    "log_burst_limit_window_time": {
-      "desc": "See <code>max_count</code>.",
-      "label": "Window Time"
-    },
-    "cluster_dns_record_type": {
-      "desc": "DNS record type.",
-      "label": "DNS Record Type"
-    },
-    "cluster_autoclean": {
-      "desc": "Remove disconnected nodes from the cluster after this interval.",
-      "label": "Cluster Auto Clean"
-    },
-    "process_limit": {
-      "desc": "Maximum number of simultaneously existing processes for this Erlang system.\nThe actual maximum chosen may be much larger than the Number passed.\nFor more information, see: https://www.erlang.org/doc/man/erl.html",
-      "label": "Erlang Process Limit"
-    },
-    "max_ports": {
-      "desc": "Maximum number of simultaneously existing ports for this Erlang system.\nThe actual maximum chosen may be much larger than the Number passed.\nFor more information, see: https://www.erlang.org/doc/man/erl.html",
-      "label": "Erlang Port Limit"
-    },
-    "desc_log_rotation": {
-      "desc": "By default, the logs are stored in `./log` directory (for installation from zip file) or in `/var/log/emqx` (for binary installation).<br/>\nThis section of the configuration controls the number of files kept for each log handler.",
-      "label": "Log Rotation"
-    },
-    "desc_log_overload_kill": {
-      "desc": "Log overload kill features an overload protection that activates when the log handlers use too much memory or have too many buffered log messages.<br/>\nWhen the overload is detected, the log handler is terminated and restarted after a cooldown period.",
-      "label": "Log Overload Kill"
-    },
-    "authorization": {
-      "desc": "Authorization a.k.a. ACL.<br/>\nIn EMQX, MQTT client access control is extremely flexible.<br/>\nAn out-of-the-box set of authorization data sources are supported.\nFor example,<br/>\n'file' source is to support concise and yet generic ACL rules in a file;<br/>\n'built_in_database' source can be used to store per-client customizable rule sets,\nnatively in the EMQX node;<br/>\n'http' source to make EMQX call an external HTTP API to make the decision;<br/>\n'PostgreSQL' etc. to look up clients or rules from external databases",
-      "label": "Authorization"
-    },
-    "rpc_socket_keepalive_idle": {
-      "desc": "How long the connections between the brokers should remain open after the last message is sent.",
-      "label": "RPC Socket Keepalive Idle"
-    },
-    "desc_cluster_call": {
-      "desc": "Options for the 'cluster call' feature that allows to execute a callback on all nodes in the cluster.",
-      "label": "Cluster Call"
-    },
-    "cluster_mcast_ports": {
-      "desc": "List of UDP ports used for service discovery.<br/>\nNote: probe messages are broadcast to all the specified ports.",
-      "label": "Cluster Multicast Ports"
-    },
-    "log_overload_kill_mem_size": {
-      "desc": "Maximum memory size that the log handler process is allowed to use.",
-      "label": "Log Handler Max Memory Size"
-    },
-    "rpc_connect_timeout": {
-      "desc": "Timeout for establishing an RPC connection.",
-      "label": "RPC Connect Timeout"
-    },
-    "cluster_etcd_node_ttl": {
-      "desc": "Expiration time of the etcd key associated with the node.\nIt is refreshed automatically, as long as the node is alive.",
-      "label": "Cluster Etcd Node TTL"
-    },
-    "rpc_call_receive_timeout": {
-      "desc": "Timeout for the reply to a synchronous RPC.",
-      "label": "RPC Call Receive Timeout"
-    },
-    "rpc_socket_recbuf": {
-      "desc": "TCP tuning parameters. TCP receiving buffer size.",
-      "label": "RPC Socket Recbuf"
-    },
-    "db_tlog_push_mode": {
-      "desc": "In sync mode the core node waits for an ack from the replicant nodes before sending the next\ntransaction log entry.",
-      "label": "Tlog Push Mode"
-    },
-    "node_crash_dump_bytes": {
-      "desc": "This variable sets the maximum size of a crash dump file in bytes.\nThe crash dump will be truncated if this limit is exceeded.\nIf setting it to 0, the runtime system does not even attempt to write a crash dump file.",
-      "label": "Crash Dump Bytes"
-    },
-    "rpc_certfile": {
-      "desc": "Path to TLS certificate file used to validate identity of the cluster nodes.\nNote that this config only takes effect when <code>rpc.driver</code> is set to <code>ssl</code>.",
-      "label": "RPC Certfile"
-    },
-    "node_crash_dump_seconds": {
-      "desc": "This variable gives the number of seconds that the emulator is allowed to spend writing a crash dump. When the given number of seconds have elapsed, the emulator is terminated.<br/>\n- If setting to 0 seconds, the runtime system does not even attempt to write the crash dump file. It only terminates.<br/>\n- If setting to a positive value S, wait for S seconds to complete the crash dump file and then terminates the runtime system with a SIGALRM signal.<br/>\n- A negative value causes the termination of the runtime system to wait indefinitely until the crash dump file has been completely written.",
-      "label": "Crash Dump Seconds"
-    },
-    "log_file_handlers": {
-      "desc": "File-based log handlers.",
-      "label": "File Handler"
-    },
-    "node_global_gc_interval": {
-      "desc": "Periodic garbage collection interval. Set to <code>disabled</code> to have it disabled.",
-      "label": "Global GC Interval"
-    },
-    "common_handler_time_offset": {
-      "desc": "The time offset to be used when formatting the timestamp.\nCan be one of:\n  - <code>system</code>: the time offset used by the local system\n  - <code>utc</code>: the UTC time offset\n  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"\nDefaults to: <code>system</code>.",
-      "label": "Time Offset"
-    },
-    "rpc_mode": {
-      "desc": "In <code>sync</code> mode the sending side waits for the ack from the receiving side.",
-      "label": "RPC Mode"
-    },
-    "node_crash_dump_file": {
-      "desc": "Location of the crash dump file.",
-      "label": "Crash Dump File"
-    },
-    "cluster_mcast_loop": {
-      "desc": "If <code>true</code>, loop UDP datagrams back to the local socket.",
-      "label": "Cluster Multicast Loop"
-    },
-    "rpc_socket_keepalive_interval": {
-      "desc": "The interval between keepalive messages.",
-      "label": "RPC Socket Keepalive Interval"
-    },
-    "common_handler_level": {
-      "desc": "The log level for the current log handler.\nDefaults to warning.",
-      "label": "Log Level"
-    },
-    "desc_rpc": {
-      "desc": "EMQX uses a library called <code>gen_rpc</code> for inter-broker communication.<br/>\nMost of the time the default config should work,\nbut in case you need to do performance fine-tuning or experiment a bit,\nthis is where to look.",
-      "label": "RPC"
-    },
-    "rpc_ssl_server_port": {
-      "desc": "Listening port used by RPC local service.<br/>\nNote that this config only takes effect when rpc.port_discovery is set to manual\nand <code>driver</code> is set to <code>ssl</code>.",
-      "label": "RPC SSL Server Port"
-    },
-    "desc_cluster": {
-      "desc": "EMQX nodes can form a cluster to scale up the total capacity.<br/>\n      Here holds the configs to instruct how individual nodes can discover each other.",
-      "label": "Cluster"
-    },
-    "common_handler_sync_mode_qlen": {
-      "desc": "As long as the number of buffered log events is lower than this value,\nall log events are handled asynchronously. This means that the client process sending the log event,\nby calling a log function in the Logger API, does not wait for a response from the handler\nbut continues executing immediately after the event is sent.\nIt is not affected by the time it takes the handler to print the event to the log device.\nIf the message queue grows larger than this value,\nthe handler starts handling log events synchronously instead,\nmeaning that the client process sending the event must wait for a response.\nWhen the handler reduces the message queue to a level below the sync_mode_qlen threshold,\nasynchronous operation is resumed.",
-      "label": "Queue Length before Entering Sync Mode"
-    },
-    "common_handler_formatter": {
-      "desc": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
-      "label": "Log Formatter"
-    },
-    "rpc_async_batch_size": {
-      "desc": "The maximum number of batch messages sent in asynchronous mode.\n      Note that this configuration does not work in synchronous mode.",
-      "label": "Async Batch Size"
-    },
-    "cluster_call_max_history": {
-      "desc": "Retain the maximum number of completed transactions (for queries).",
-      "label": "Cluster Call Max History"
-    },
-    "cluster_discovery_strategy": {
-      "desc": "Service discovery method for the cluster nodes. Possible values are:\n- manual: Use <code>emqx ctl cluster</code> command to manage cluster.<br/>\n- static: Configure static nodes list by setting <code>seeds</code> in config file.<br/>\n- dns: Use DNS A record to discover peer nodes.<br/>\n- etcd: Use etcd to discover peer nodes.<br/>\n- k8s: Use Kubernetes API to discover peer pods.",
-      "label": "Cluster Discovery Strategy"
-    },
-    "rpc_send_timeout": {
-      "desc": "Timeout for sending the RPC request.",
-      "label": "RPC Send Timeout"
-    },
-    "common_handler_single_line": {
-      "desc": "Print logs in a single line if set to true. Otherwise, log messages may span multiple lines.",
-      "label": "Single Line Mode"
-    },
-    "rpc_socket_buffer": {
-      "desc": "TCP tuning parameters. Socket buffer size in user mode.",
-      "label": "RPC Socket Buffer"
-    },
-    "db_shard_transports": {
-      "desc": "Allows to tune the transport method used for transaction log replication, on a per-shard basis.<br/>\n<code>gen_rpc</code> uses the <code>gen_rpc</code> library,\n<code>distr</code> uses the Erlang distribution.<br/>If not specified,\nthe default is to use the value set in <code>db.default_shard_transport</code>.",
-      "label": "Shard Transports"
-    },
-    "common_handler_time_window": {
-      "desc": "The time window for log throttling ensures that the same type of event is only logged once within the designated time frame to prevent log overflow. A detailed log encapsulating the activities within that period is generated at the end of the time window. The minimum configurable value for this window is one second.<br/>The following events are throttled:<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
-      "label": "Time Window"
-    },
-    "common_handler_payload_encode": {
-      "desc": "The encoding method of payload in logs",
-      "label": "Payload Encode"
-    },
-    "audit_handler_path": {
-      "desc": "Name the audit log file.",
-      "label": "Audit Log File Name"
-    },
-    "audit_handler_level": {
-      "desc": "The log level for the audit log handler.<br/>- Requests that take longer than 3 seconds to process are logged as <code>warning</code> logs.<br/>- GET requests with HTTP status codes between 200-300 are logged as <code>debug</code> logs.<br/>- Non-GET Requests with HTTP status codes between 200-300 are logged as <code>info</code> logs.<br/>- Requests with HTTP status codes between 300-400 are logged as <code>warning</code> logs.<br/>- Requests with HTTP status codes between 400-500 are logged as <code>error</code> logs.<br/>- Defaults to info.",
-      "label": "Log Level"
-    },
-    "common_handler_max_filter_size": {
-      "desc": "Store the latest N log entries in a database for allow `/audit` HTTP API to filter and retrieval of log data.",
-      "label": "Max Dashboard Record Size"
-    },
-    "common_handler_ignore_high_frequency_request": {
-      "desc": "Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.",
-      "label": "Ignore High Frequency Request"
-    }
+  "rotation_size": {
+    "desc": "This parameter controls log file rotation. The value `infinity` means the log file will grow indefinitely, otherwise the log file will be rotated once it reaches `max_size` in bytes.",
+    "label": "Rotation Size"
   },
-  "emqx_limiter_schema": {
-    "max_conn_rate": {
-      "desc": "Maximum connection rate.<br/>\nThis is used to limit the connection rate for this node,\nonce the limit is reached, new connections will be deferred or refused.",
-      "label": "Maximum Connection Rate"
-    },
-    "messages_rate": {
-      "desc": "Messages publish rate.<br/>\nThis is used to limit the inbound message numbers for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
-      "label": "Messages Publish Rate"
-    },
-    "bytes_rate": {
-      "desc": "Data publish rate.<br/>\nThis is used to limit the inbound bytes rate for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
-      "label": "Data Publish Rate"
-    }
+  "enable": {
+    "desc": "Enable this log handler.",
+    "label": "Enable Log Handler"
   },
-  "emqx_schema": {
-    "fields_mqtt_quic_listener_peer_unidi_stream_count": {
-      "desc": "Number of unidirectional streams to allow the peer to open.",
-      "label": "Peer unidi stream count"
-    },
-    "fields_authorization_no_match": {
-      "desc": "Default access control action if the user or client matches no ACL rules,\nor if no such user or client is found by the configurable authorization\nsources such as built_in_database, an HTTP API, or a query against PostgreSQL.\nFind more details in 'authorization.sources' config.",
-      "label": "Authorization no match"
-    },
-    "sysmon_top_db_hostname": {
-      "desc": "Hostname of the PostgreSQL database that collects the data points",
-      "label": "DB Hostname"
-    },
-    "zones": {
-      "desc": "A zone is a set of configs grouped by the zone <code>name</code>.\nFor flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.\nNOTE: A built-in zone named <code>default</code> is auto created and can not be deleted."
-    },
-    "fields_mqtt_quic_listener_certfile": {
-      "desc": "Path to the certificate file. Will be deprecated in 5.1, use .ssl_options.certfile instead.",
-      "label": "Certificate file"
-    },
-    "fields_rate_limit_conn_bytes_in": {
-      "desc": "Limit the rate of receiving packets for a MQTT connection.\nThe rate is counted by bytes of packets per second.",
-      "label": "Connection bytes in"
-    },
-    "crl_cache_capacity": {
-      "desc": "The maximum number of CRL URLs that can be held in cache.  If the cache is at full capacity and a new URL must be fetched, then it'll evict the oldest inserted URL in the cache.",
-      "label": "CRL Cache Capacity"
-    },
-    "alarm_actions": {
-      "desc": "The actions triggered when the alarm is activated.<br/>Currently, the following actions are supported: <code>log</code> and <code>publish</code>.\n<code>log</code> is to write the alarm to log (console or file).\n<code>publish</code> is to publish the alarm as an MQTT message to the system topics:\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/activate</code> and\n<code>$SYS/brokers/emqx{'@'}xx.xx.xx.x/alarms/deactivate</code>",
-      "label": "Alarm Actions"
-    },
-    "base_listener_max_connections": {
-      "desc": "The maximum number of concurrent connections allowed by the listener.",
-      "label": "Max connections"
-    },
-    "mqtt_peer_cert_as_username": {
-      "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: Content of the <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Username\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
-      "label": "Use Peer Certificate as Username"
-    },
-    "fields_cache_enable": {
-      "desc": "Enable or disable the authorization cache.",
-      "label": "Enable or disable the authorization cache"
-    },
-    "fields_mqtt_quic_listener_disconnect_timeout_ms": {
-      "desc": "How long to wait for an ACK before declaring a path dead and disconnecting. Default: 16000",
-      "label": "Disconnect timeout ms"
-    },
-    "mqtt_max_topic_alias": {
-      "label": "Max Topic Alias"
-    },
-    "fields_listeners_wss": {
-      "desc": "HTTPS websocket listeners.",
-      "label": "HTTPS websocket listeners"
-    },
-    "sysmon_top_max_procs": {
-      "desc": "Stop collecting data when the number of processes\nin the VM exceeds this value",
-      "label": "Max procs"
-    },
-    "mqtt_use_username_as_clientid": {
-      "desc": "Whether to use Username as Client ID.\nThis setting takes effect later than <code>Use Peer Certificate as Username</code> and <code>Use Peer Certificate as Client ID</code>.",
-      "label": "Use Username as Client ID"
-    },
-    "mqtt_max_qos_allowed": {
-      "label": "Max QoS Allowed"
-    },
-    "fields_mqtt_quic_listener_max_binding_stateless_operations": {
-      "desc": "The maximum number of stateless operations that may be queued on a binding at any one time. Default: 100",
-      "label": "Max binding stateless operations"
-    },
-    "fields_mqtt_quic_listener_stream_recv_buffer_default": {
-      "desc": "Stream initial buffer size. Default: 4096",
-      "label": "Stream recv buffer default"
-    },
-    "fields_mqtt_quic_listener_pacing_enabled": {
-      "desc": "Pace sending to avoid overfilling buffers on the path. Default: 1 (Enabled)",
-      "label": "Pacing enabled"
-    },
-    "mqtt_max_subscriptions": {
-      "desc": "Maximum number of subscriptions allowed per client.",
-      "label": "Max Subscriptions"
-    },
-    "persistent_session_builtin_messages_table": {
-      "desc": "Performance tuning options for built-in messages table.",
-      "label": "Persistent messages"
-    },
-    "sysmon_os_cpu_low_watermark": {
-      "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is cleared.",
-      "label": "CPU low watermark"
-    },
-    "fields_mqtt_quic_listener_tls_server_max_send_buffer": {
-      "desc": "How much Server TLS data to buffer. Default: 8192",
-      "label": "TLS server max send buffer"
-    },
-    "base_listener_bind": {
-      "desc": "IP address and port for the listening socket.",
-      "label": "IP address and port"
-    },
-    "server_ssl_opts_schema_handshake_timeout": {
-      "desc": "Maximum time duration allowed for the handshake to complete",
-      "label": "Handshake timeout"
-    },
-    "fields_deflate_opts_server_context_takeover": {
-      "desc": "Takeover means the compression state is retained between server messages.",
-      "label": "Server context takeover"
-    },
-    "mqtt_session_expiry_interval": {
-      "desc": "Specifies how long the session will expire after the connection is disconnected, only for non-MQTT 5.0 connections.",
-      "label": "Session Expiry Interval"
-    },
-    "mqtt_message_expiry_interval": {
-      "desc": "The MQTT message expiry interval. For MQTT v5.0 clients, it is only effective if the Message-Expiry-Interval property is not specified for the message; for MQTT v3.1 and v3.1.1, it always applies. Note that it is not helpful to set this value to a greater value than the MQTT Session Expiry Interval, because once the session expires, all related messages are purged.",
-      "label": "Message Expiry Interval"
-    },
-    "fields_listener_enabled": {
-      "desc": "Enable listener.",
-      "label": "Enable listener"
-    },
-    "mqtt": {
-      "desc": "Global MQTT configuration.\nThe configs here work as default values which can be overridden in <code>zone</code> configs"
-    },
-    "crl_cache_refresh_http_timeout": {
-      "desc": "The timeout for the HTTP request when fetching CRLs.  This is a global setting for all listeners.",
-      "label": "CRL Cache Refresh HTTP Timeout"
-    },
-    "fields_tcp_opts_backlog": {
-      "desc": "TCP backlog defines the maximum length that the queue of\npending connections can grow to.",
-      "label": "TCP backlog length"
-    },
-    "broker_route_batch_clean": {
-      "desc": "Enable batch clean for deleted routes."
-    },
-    "fields_mqtt_quic_listener_initial_window_packets": {
-      "desc": "The size (in packets) of the initial congestion window for a connection. Default: 10",
-      "label": "Initial window packets"
-    },
-    "flapping_detect_enable": {
-      "desc": "Enable flapping connection detection feature.",
-      "label": "Enable flapping detection"
-    },
-    "sysmon_top_db_password": {
-      "desc": "EMQX user password in the PostgreSQL database",
-      "label": "DB Password"
-    },
-    "fields_ws_opts_check_origins": {
-      "desc": "List of allowed origins.<br/>See <code>check_origin_enable</code>.",
-      "label": "Allowed origins"
-    },
-    "fields_deflate_opts_client_context_takeover": {
-      "desc": "Takeover means the compression state is retained between client messages.",
-      "label": "Client context takeover"
-    },
-    "base_listener_acceptors": {
-      "desc": "The size of the listener's receiving pool.",
-      "label": "Acceptors Num"
-    },
-    "fields_ws_opts_mqtt_path": {
-      "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
-      "label": "WS MQTT Path"
-    },
-    "sysmon_os_procmem_high_watermark": {
-      "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated by one Erlang process before\n the corresponding alarm is raised.",
-      "label": "ProcMem high wartermark"
-    },
-    "fields_listeners_quic": {
-      "desc": "QUIC listeners.",
-      "label": "QUIC listeners"
-    },
-    "fields_listeners_ws": {
-      "desc": "HTTP websocket listeners.",
-      "label": "HTTP websocket listeners"
-    },
-    "mqtt_retry_interval": {
-      "desc": "Retry interval for QoS 1/2 message delivering.",
-      "label": "Message Retry Interval"
-    },
-    "stats_enable": {
-      "desc": "Enable/disable statistic data collection.",
-      "label": "Enable/disable statistic data collection"
-    },
-    "fields_authorization_deny_action": {
-      "desc": "The action when the authorization check rejects an operation.",
-      "label": "Authorization deny action"
-    },
-    "fields_deflate_opts_server_max_window_bits": {
-      "desc": "Specifies the size of the compression context for the server.",
-      "label": "Server compression max window size"
-    },
-    "fields_mqtt_quic_listener_retry_memory_limit": {
-      "desc": "The percentage of available memory usable for handshake connections before stateless retry is used. Calculated as `N/65535`. Default: 65",
-      "label": "Retry memory limit"
-    },
-    "force_shutdown_max_message_queue_len": {
-      "desc": "Maximum message queue length.",
-      "label": "Maximum mailbox queue length of process"
-    },
-    "sys_heartbeat_interval": {
-      "desc": "Time interval for publishing following heartbeat messages:\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
-    },
-    "flapping_detect_ban_time": {
-      "desc": "How long the flapping clientid will be banned.",
-      "label": "Ban Duration"
-    },
-    "sysmon_top_num_items": {
-      "desc": "The number of top processes per monitoring group",
-      "label": "Top num items"
-    },
-    "persistent_session_builtin_session_table": {
-      "desc": "Performance tuning options for built-in session table.",
-      "label": "Persistent session"
-    },
-    "mqtt_upgrade_qos": {
-      "desc": "Force upgrade of QoS level according to subscription.",
-      "label": "Upgrade QoS"
-    },
-    "mqtt_shared_subscription": {
-      "label": "Allowed Shared Subscription"
-    },
-    "fields_tcp_opts_sndbuf": {
-      "desc": "The TCP send buffer (OS kernel) for the connections.",
-      "label": "TCP send buffer"
-    },
-    "sysmon_os_mem_check_interval": {
-      "desc": "The time interval for the periodic memory check.",
-      "label": "Mem check interval"
-    },
-    "server_ssl_opts_schema_gc_after_handshake": {
-      "desc": "Memory usage tuning. If enabled, will immediately perform a garbage collection after the TLS/SSL handshake.",
-      "label": "Perform GC after handshake"
-    },
-    "fields_mqtt_quic_listener_ssl_options": {
-      "desc": "TLS options for QUIC transport",
-      "label": "TLS Options"
-    },
-    "fields_ws_opts_mqtt_piggyback": {
-      "desc": "Whether a WebSocket message is allowed to contain multiple MQTT packets.",
-      "label": "MQTT Piggyback"
-    },
-    "base_listener_mountpoint": {
-      "desc": "When publishing or subscribing, prefix all topics with a mountpoint string.\nThe prefixed string will be removed from the topic name when the message\nis delivered to the subscriber. The mountpoint is a way that users can use\nto implement isolation of message routing between different listeners.\nFor example if a client A subscribes to `t` with `listeners.tcp.\\<name>.mountpoint`\nset to `some_tenant`, then the client actually subscribes to the topic\n`some_tenant/t`. Similarly, if another client B (connected to the same listener\nas the client A) sends a message to topic `t`, the message is routed\nto all the clients subscribed `some_tenant/t`, so client A will receive the\nmessage, with topic name `t`.<br/>\nSet to `\"\"` to disable the feature.<br/>\n\nVariables in mountpoint string:\n  - <code>${'{'}clientid{'}'}</code>: clientid\n  - <code>${'{'}username{'}'}</code>: username",
-      "label": "mountpoint"
-    },
-    "mqtt_max_awaiting_rel": {
-      "desc": "Specifies the maximum number of pending QoS 2 messages in each session until either PUBREL is received or timed out. When this limit is reached, new QoS 2 PUBLISH requests will be rejected with error code 147(0x93).",
-      "label": "Max Awaiting PUBREL"
-    },
-    "fields_mqtt_quic_listener_max_bytes_per_key": {
-      "desc": "Maximum number of bytes to encrypt with a single 1-RTT encryption key before initiating key update. Default: 274877906944",
-      "label": "Max bytes per key"
-    },
-    "fields_mqtt_quic_listener_mtu_discovery_search_complete_timeout_us": {
-      "desc": "The time in microseconds to wait before reattempting MTU probing if max was not reached. Default: 600000000",
-      "label": "MTU discovery search complete timeout us"
-    },
-    "fields_ws_opts_check_origin_enable": {
-      "desc": "If <code>true</code>, <code>origin</code> HTTP header will be\n validated against the list of allowed origins configured in <code>check_origins</code>\n parameter.",
-      "label": "Check origin"
-    },
-    "sysmon_vm_busy_dist_port": {
-      "desc": "When the RPC connection used to communicate with other nodes in the cluster is overloaded,\nthere will be a <code>busy_dist_port</code> warning log,\nand an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.",
-      "label": "Enable Busy Distribution Port monitoring"
-    },
-    "mqtt_max_mqueue_len": {
-      "desc": "Maximum allowed queue length when persistent client are disconnected or inflight window is full.",
-      "label": "Max Message Queue Length"
-    },
-    "mqtt_max_inflight": {
-      "desc": "Maximum number of QoS 1 and QoS 2 messages that are allowed to be delivered simultaneously before completing the acknowledgment.",
-      "label": "Max Inflight"
-    },
-    "persistent_session_store_enabled": {
-      "desc": "Use the database to store information about persistent sessions.\nThis makes it possible to migrate a client connection to another\ncluster node if a node is stopped.",
-      "label": "Enable persistent session store"
-    },
-    "fields_deflate_opts_level": {
-      "desc": "Compression level.",
-      "label": "Compression level"
-    },
-    "mqtt_server_keepalive": {
-      "label": "Server Keep Alive"
-    },
-    "global_authentication": {
-      "desc": "Default authentication configs for all MQTT listeners.\n\nFor per-listener overrides see <code>authentication</code> in listener configs\n\nThis option can be configured with:\n<ul>\n  <li><code>[]</code>: The default value, it allows *ALL* logins</li>\n  <li>one: For example <code>{'{'}enable:true,backend:\"built_in_database\",mechanism=\"password_based\"{'}'}</code></li>\n  <li>chain: An array of structs.</li>\n</ul>\n\nWhen a chain is configured, the login credentials are checked against the backends per the configured order, until an 'allow' or 'deny' decision can be made.\n\nIf there is no decision after a full chain exhaustion, the login is rejected."
-    },
-    "fields_mqtt_quic_listener_load_balancing_mode": {
-      "desc": "0: Disabled, 1: SERVER_ID_IP, 2: SERVER_ID_FIXED. default: 0",
-      "label": "Load balancing mode"
-    },
-    "persistent_session_store_session_message_gc_interval": {
-      "desc": "The starting interval for garbage collection of transient data for\npersistent session messages. This does not affect the lifetime length\nof persistent session messages.",
-      "label": "Session message GC interval"
-    },
-    "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
-      "desc": "The timeout for the HTTP request when checking OCSP responses.",
-      "label": "OCSP Refresh HTTP Timeout"
-    },
-    "fields_tcp_opts_send_timeout": {
-      "desc": "The TCP send timeout for the connections.",
-      "label": "TCP send timeout"
-    },
-    "sysmon_vm_process_high_watermark": {
-      "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is raised.",
-      "label": "Process high watermark"
-    },
-    "fields_tcp_opts_buffer": {
-      "desc": "The size of the user-space buffer used by the driver.",
-      "label": "TCP user-space buffer"
-    },
-    "server_ssl_opts_schema_honor_cipher_order": {
-      "desc": "An important security setting, it forces the cipher to be set based\n on the server-specified order instead of the client-specified order,\n hence enforcing the (usually more properly configured) security\n ordering of the server administrator.",
-      "label": "SSL honor cipher order"
-    },
-    "conn_congestion_min_alarm_sustain_duration": {
-      "desc": "Minimal time before clearing the alarm.<br/>The alarm is cleared only when there's no pending data in<br/>the queue, and at least <code>min_alarm_sustain_duration</code>milliseconds passed since the last time we considered the connection 'congested'.<br/>This is to avoid clearing and raising the alarm again too often.",
-      "label": "Sustain duration"
-    },
-    "fields_mqtt_quic_listener_keep_alive_interval_ms": {
-      "desc": "How often to send PING frames to keep a connection alive.",
-      "label": "Keep alive interval ms"
-    },
-    "fields_mqtt_quic_listener_handshake_idle_timeout_ms": {
-      "desc": "How long a handshake can idle before it is discarded",
-      "label": "Handshake idle timeout ms"
-    },
-    "broker_session_locking_strategy": {
-      "desc": "Session locking strategy in a cluster.\n  - `local`: only lock the session on the current node\n  - `one`: select only one remote node to lock the session\n  - `quorum`: select some nodes to lock the session\n  - `all`: lock the session on all the nodes in the cluster"
-    },
-    "persistent_store_ram_cache": {
-      "desc": "Maintain a copy of the data in RAM for faster access.",
-      "label": "RAM cache"
-    },
-    "fields_mqtt_quic_listener_stream_recv_window_default": {
-      "desc": "Initial stream receive window size. Default: 32678",
-      "label": "Stream recv window default"
-    },
-    "mqtt_mqueue_priorities": {
-      "desc": "Topic priorities. Priority number [1-255]. There's no priority table by default, hence all messages are treated equal.<br/>NOTE: Comma and equal signs are not allowed for priority topic names.<br/>NOTE: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for mqtt.mqueue_default_priority.<br/>Examples:<br/>To configure \"topic/1\" > \"topic/2\":<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
-      "label": "Topic Priorities"
-    },
-    "fields_rate_limit_conn_messages_in": {
-      "desc": "Message limit for the external MQTT connections.",
-      "label": "connecting messages in"
-    },
-    "fields_rate_limit_max_conn_rate": {
-      "desc": "Maximum connections per second.",
-      "label": "Max connection rate"
-    },
-    "alarm_size_limit": {
-      "desc": "The maximum total number of deactivated alarms to keep as history.<br/>When this limit is exceeded, the oldest deactivated alarms are deleted to cap the total number.",
-      "label": "Alarm size limit"
-    },
-    "fields_cache_max_size": {
-      "desc": "Maximum number of cached items.",
-      "label": "Maximum number of cached items"
-    },
-    "fields_listeners_tcp": {
-      "desc": "TCP listeners.",
-      "label": "TCP listeners"
-    },
-    "conn_congestion_enable_alarm": {
-      "desc": "Enable or disable connection congestion alarm.",
-      "label": "Enable/disable congestion alarm"
-    },
-    "fields_ws_opts_proxy_port_header": {
-      "desc": "HTTP header used to pass information about the client port. Relevant when the EMQX cluster is deployed behind a load-balancer.",
-      "label": "Proxy port header"
-    },
-    "overload_protection_enable": {
-      "desc": "React on system overload or not.",
-      "label": "React on system overload or not"
-    },
-    "fields_mqtt_quic_listener_minimum_mtu": {
-      "desc": "The minimum MTU supported by a connection. This will be used as the starting MTU. Default: 1248",
-      "label": "Minimum MTU"
-    },
-    "sys_msg_interval": {
-      "desc": "Time interval of publishing `$SYS` messages."
-    },
-    "mqtt_await_rel_timeout": {
-      "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
-      "label": "Max Awaiting PUBREL Timeout"
-    },
-    "fields_listeners_ssl": {
-      "desc": "SSL listeners.",
-      "label": "SSL listeners"
-    },
-    "fields_deflate_opts_client_max_window_bits": {
-      "desc": "Specifies the size of the compression context for the client.",
-      "label": "Client compression max window size"
-    },
-    "sysmon_os_cpu_high_watermark": {
-      "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
-      "label": "CPU high watermark"
-    },
-    "flapping_detect_window_time": {
-      "desc": "The time window for flapping detection.",
-      "label": "Window time"
-    },
-    "mqtt_mqueue_default_priority": {
-      "desc": "Default topic priority, which will be used by topics not in <code>Topic Priorities</code> (<code>mqueue_priorities</code>).",
-      "label": "Default Topic Priorities"
-    },
-    "fields_mqtt_quic_listener_mtu_discovery_missing_probe_count": {
-      "desc": "The maximum number of stateless operations that may be queued on a binding at any one time. Default: 3",
-      "label": "MTU discovery missing probe count"
-    },
-    "fields_tcp_opts_recbuf": {
-      "desc": "The TCP receive buffer (OS kernel) for the connections.",
-      "label": "TCP receive buffer"
-    },
-    "sysmon_vm_process_check_interval": {
-      "desc": "The time interval for the periodic process limit check.",
-      "label": "Process limit check interval"
-    },
-    "fields_mqtt_quic_listener_server_resumption_level": {
-      "desc": "Controls resumption tickets and/or 0-RTT server support. Default: 0 (No resumption)",
-      "label": "Server resumption level"
-    },
-    "fields_ws_opts_proxy_address_header": {
-      "desc": "HTTP header used to pass information about the client IP address.\nRelevant when the EMQX cluster is deployed behind a load-balancer.",
-      "label": "Proxy address header"
-    },
-    "sysmon_os_sysmem_high_watermark": {
-      "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.",
-      "label": "SysMem high wartermark"
-    },
-    "fields_tcp_opts_high_watermark": {
-      "desc": "The socket is set to a busy state when the amount of data queued internally\nby the VM socket implementation reaches this limit.",
-      "label": "TCP 高水位线"
-    },
-    "fields_mqtt_quic_listener_stateless_operation_expiration_ms": {
-      "desc": "The time limit between operations for the same endpoint, in milliseconds. Default: 100",
-      "label": "Stateless operation expiration ms"
-    },
-    "server_ssl_opts_schema_dhfile": {
-      "desc": "Path to a file containing PEM-encoded Diffie-Hellman parameters\nto be used by the server if a cipher suite using Diffie-Hellman\nkey exchange is negotiated. If not specified, default parameters\nare used.<br/>\nNOTE: The <code>dhfile</code> option is not supported by TLS 1.3.",
-      "label": "SSL dhfile"
-    },
-    "flapping_detect_max_count": {
-      "desc": "The maximum number of disconnects allowed for a MQTT Client in `window_time`",
-      "label": "Max count"
-    },
-    "mqtt_max_topic_levels": {
-      "label": "Max Topic Levels"
-    },
-    "force_shutdown_max_heap_size": {
-      "desc": "Total heap size",
-      "label": "Total heap size"
-    },
-    "persistent_store_on_disc": {
-      "desc": "Save information about the persistent sessions on disc.\nIf this option is enabled, persistent sessions will survive full restart of the cluster.\nOtherwise, all the data will be stored in RAM, and it will be lost when all the nodes in the cluster are stopped.",
-      "label": "Persist on disc"
-    },
-    "mqtt_ignore_loop_deliver": {
-      "desc": "Whether the messages sent by the MQTT v3.1.1/v3.1.0 client will be forwarded to the client itself, similar to `No Local` in MQTT 5.0.",
-      "label": "Ignore Loop Deliver"
-    },
-    "mqtt_exclusive_subscription": {
-      "label": "Allowed Exclusive Subscription"
-    },
-    "mqtt_retain_available": {
-      "desc": "Whether to enable support for MQTT retained message. When this option is disabled, clients will not be able to publish retained messages.",
-      "label": "Allowed Retain"
-    },
-    "fields_tcp_opts_reuseaddr": {
-      "desc": "The SO_REUSEADDR flag for the connections.",
-      "label": "SO_REUSEADDR"
-    },
-    "sysmon_vm_long_schedule": {
-      "desc": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
-      "label": "Enable Long Schedule monitoring"
-    },
-    "mqtt_keepalive_multiplier": {
-      "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`. Default value is 1.5 as per MQTT 5.0.\n\nFor example, a Keep-Alive interval of 10 seconds yields a timeout of 15 seconds with a multiplier of 1.5. Increasing the multiplier value to 2 extends the timeout to 20 seconds.",
-      "label": "Keep Alive Multiplier"
-    },
-    "force_gc_bytes": {
-      "desc": "GC the process after specified number of bytes have passed through.",
-      "label": "Process GC bytes"
-    },
-    "server_ssl_opts_schema_fail_if_no_peer_cert": {
-      "desc": "Used together with {'{'}verify, verify_peer{'}'} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
-      "label": "Force Verify Peer Certificate"
-    },
-    "fields_ws_opts_compress": {
-      "desc": "If <code>true</code>, compress WebSocket messages using <code>zlib</code>.<br/>\nThe configuration items under <code>deflate_opts</code> belong to the compression-related parameter configuration.",
-      "label": "Ws compress"
-    },
-    "fields_mqtt_quic_listener_keep_alive_interval": {
-      "desc": "How often to send PING frames to keep a connection alive. 0 means disabled.",
-      "label": "Keep Alive Interval"
-    },
-    "fields_cache_ttl": {
-      "desc": "Time to live for the cached data.",
-      "label": "Time to live for the cached data"
-    },
-    "sys_topics": {
-      "desc": "System topics configuration."
-    },
-    "sys_event_client_subscribed": {
-      "desc": "Enable to publish event message that client subscribed a topic successfully."
-    },
-    "sysmon_top_db_port": {
-      "desc": "Port of the PostgreSQL database that collects the data points.",
-      "label": "DB Port"
-    },
-    "fields_mqtt_quic_listener_max_operations_per_drain": {
-      "desc": "The maximum number of operations to drain per connection quantum. Default: 16",
-      "label": "Max operations per drain"
-    },
-    "fields_mqtt_quic_listener_datagram_receive_enabled": {
-      "desc": "Advertise support for QUIC datagram extension. Reserve for the future. Default 0 (FALSE)",
-      "label": "Datagram receive enabled"
-    },
-    "fields_mqtt_quic_listener_initial_rtt_ms": {
-      "desc": "Initial RTT estimate.",
-      "label": "Initial RTT ms"
-    },
-    "overload_protection_backoff_gc": {
-      "desc": "When at high load, skip forceful GC.",
-      "label": "Skip GC"
-    },
-    "broker_perf_route_lock_type": {
-      "desc": "Performance tuning for subscribing/unsubscribing a wildcard topic.\nChange this parameter only when there are many wildcard topics.\n\nNOTE: when changing from/to `global` lock, it requires all nodes in the cluster to be stopped before the change.\n  - `key`: mnesia transactional updates with per-key locks. Recommended for a single-node setup.\n  - `tab`: mnesia transactional updates with table lock. Recommended for a cluster setup.\n  - `global`: updates are protected with a global lock. Recommended for large clusters."
-    },
-    "fields_tcp_opts_nodelay": {
-      "desc": "The TCP_NODELAY flag for the connections.",
-      "label": "TCP_NODELAY"
-    },
-    "sysmon_top_db_username": {
-      "desc": "Username of the PostgreSQL database",
-      "label": "DB Username"
-    },
-    "broker": {
-      "desc": "Message broker options."
-    },
-    "force_gc_count": {
-      "desc": "GC the process after this many received messages.",
-      "label": "Process GC messages num"
-    },
-    "mqtt_max_clientid_len": {
-      "label": "Max Client ID Length"
-    },
-    "fields_ws_opts_supported_subprotocols": {
-      "desc": "Comma-separated list of supported subprotocols.",
-      "label": "Supported subprotocols"
-    },
-    "broker_shared_subscription_strategy": {
-      "desc": "Dispatch strategy for shared subscription.\n  - `random`: dispatch the message to a random selected subscriber\n  - `round_robin`: select the subscribers in a round-robin manner\n  - `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n  - `local`: select random local subscriber otherwise select random cluster-wide\n  - `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.\n  - `hash_clientid`: select the subscribers by hashing the `clientIds` of senders.\n  - `hash_topic`: select the subscribers by hashing the source topic"
-    },
-    "fields_deflate_opts_mem_level": {
-      "desc": "Specifies the size of the compression state.<br/>\nLower values decrease memory usage per connection.",
-      "label": "Size of the compression state"
-    },
-    "fields_mqtt_quic_listener_send_idle_timeout_ms": {
-      "desc": "Reset congestion control after being idle for amount of time. Default: 1000",
-      "label": "Send idle timeout ms"
-    },
-    "base_listener_limiter": {
-      "desc": "Type of the rate limit.",
-      "label": "Type of the rate limit"
-    },
-    "persistent_session_store_backend": {
-      "desc": "Database management system used to store information about persistent sessions and messages.\n- `builtin`: Use the embedded database (mria)",
-      "label": "Backend"
-    },
-    "alarm_validity_period": {
-      "desc": "Retention time of deactivated alarms. Alarms are not deleted immediately\nwhen deactivated, but after the retention time.",
-      "label": "Alarm validity period"
-    },
-    "server_ssl_opts_schema_ocsp_issuer_pem": {
-      "desc": "PEM-encoded certificate of the OCSP issuer for the server certificate.",
-      "label": "OCSP Issuer Certificate"
-    },
-    "fields_tcp_opts_active_n": {
-      "desc": "Specify the {'{'}active, N{'}'} option for this Socket.<br/>\nSee: https://erlang.org/doc/man/inet.html#setopts-2",
-      "label": "active_n"
-    },
-    "listener_authentication": {
-      "desc": "Per-listener authentication override.\nAuthentication can be one single authenticator instance or a chain of authenticators as an array.\nWhen authenticating a login (username, client ID, etc.) the authenticators are checked in the configured order.",
-      "label": "Per-listener authentication override"
-    },
-    "fields_trace_payload_encode": {
-      "desc": "Determine the format of the payload format in the trace log file.<br/>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br/>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\n`hidden`: payload is obfuscated as `******`",
-      "label": "Payload encode"
-    },
-    "mqtt_response_information": {
-      "desc": "Response Information <br/>UTF-8 string, for creating the response topic, for example, if set to `reqrsp/`, the publisher/subscriber will communite under the topic `reqrsp/`.To disable this feature, input `\"\"` in the text box below.",
-      "label": "Response Information"
-    },
-    "persistent_session_store_max_retain_undelivered": {
-      "desc": "The time messages that was not delivered to a persistent session\nis stored before being garbage collected if the node the previous\nsession was handled on restarts of is stopped.",
-      "label": "Max retain undelivered"
-    },
-    "fields_mqtt_quic_listener_migration_enabled": {
-      "desc": "Enable clients to migrate IP addresses and tuples. Requires a cooperative load-balancer, or no load-balancer. Default: 1 (Enabled)",
-      "label": "Migration enabled"
-    },
-    "fields_mqtt_quic_listener_send_buffering_enabled": {
-      "desc": "Buffer send data instead of holding application buffers until sent data is acknowledged. Default: 1 (Enabled)",
-      "label": "Send buffering enabled"
-    },
-    "sys_event_client_unsubscribed": {
-      "desc": "Enable to publish event message that client unsubscribed a topic successfully."
-    },
-    "overload_protection_backoff_new_conn": {
-      "desc": "When at high load, close new incoming connections.",
-      "label": "Close new connections"
-    },
-    "server_ssl_opts_schema_ocsp_responder_url": {
-      "desc": "URL for the OCSP responder to check the server certificate against.",
-      "label": "OCSP Responder URL"
-    },
-    "mqtt_idle_timeout": {
-      "desc": "Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.",
-      "label": "Idle Timeout"
-    },
-    "fields_mqtt_quic_listener_conn_flow_control_window": {
-      "desc": "Connection-wide flow control window. Default: 16777216",
-      "label": "Conn flow control window"
-    },
-    "fields_mqtt_quic_listener_maximum_mtu": {
-      "desc": "The maximum MTU supported by a connection. This will be the maximum probed value. Default: 1500",
-      "label": "Maximum MTU"
-    },
-    "sysmon_top_db_name": {
-      "desc": "PostgreSQL database name",
-      "label": "DB Name"
-    },
-    "mqtt_strict_mode": {
-      "desc": "Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.",
-      "label": "Strict Mode"
-    },
-    "shared_subscription_group_strategy": {
-      "desc": "Per group dispatch strategy for shared subscription.\nThis config is a map from shared subscription group name to the strategy\nname. The group name should be of format `[A-Za-z0-9]`. i.e. no\nspecial characters are allowed."
-    },
-    "fields_deflate_opts_strategy": {
-      "desc": "Specifies the compression strategy.",
-      "label": "compression strategy"
-    },
-    "shared_subscription_strategy_enum": {
-      "desc": "Dispatch strategy for shared subscription.\n- `random`: dispatch the message to a random selected subscriber\n- `round_robin`: select the subscribers in a round-robin manner\n- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n- `sticky`: always use the last selected subscriber to dispatch,\nuntil the subscriber disconnects.\n- `hash`: select the subscribers by the hash of `clientIds`\n- `local`: send to a random local subscriber. If local\nsubscriber was not found, send to a random subscriber cluster-wide"
-    },
-    "persistent_session_builtin_sess_msg_table": {
-      "desc": "Performance tuning options for built-in session messages table.",
-      "label": "Persistent session messages"
-    },
-    "mqtt_mqueue_store_qos0": {
-      "desc": "Specifies whether to store QoS 0 messages in the message queue while the connection is down but the session remains.",
-      "label": "Store QoS 0 Message"
-    },
-    "server_ssl_opts_schema_client_renegotiation": {
-      "desc": "In protocols that support client-initiated renegotiation,\nthe cost of resources of such an operation is higher for the server than the client.\nThis can act as a vector for denial of service attacks.\nThe SSL application already takes measures to counter-act such attempts,\nbut client-initiated renegotiation can be strictly disabled by setting this option to false.\nThe default value is true. Note that disabling renegotiation can result in\nlong-lived connections becoming unusable due to limits on\nthe number of messages the underlying cipher suite can encipher.",
-      "label": "SSL client renegotiation"
-    },
-    "server_ssl_opts_schema_enable_crl_check": {
-      "desc": "Whether to enable CRL verification for this listener.",
-      "label": "Enable CRL Check"
-    },
-    "fields_mqtt_quic_listener_peer_bidi_stream_count": {
-      "desc": "Number of bidirectional streams to allow the peer to open.",
-      "label": "Peer bidi stream count"
-    },
-    "fields_mqtt_quic_listener_max_stateless_operations": {
-      "desc": "The maximum number of stateless operations that may be queued on a worker at any one time. Default: 16",
-      "label": "Max stateless operations"
-    },
-    "fields_ws_opts_idle_timeout": {
-      "desc": "Close transport-layer connections from the clients that have not sent MQTT CONNECT message within this interval.",
-      "label": "WS idle timeout"
-    },
-    "fields_mqtt_quic_listener_max_ack_delay_ms": {
-      "desc": "How long to wait after receiving data before sending an ACK. Default: 25",
-      "label": "Max ack delay ms"
-    },
-    "base_listener_zone": {
-      "desc": "The configuration zone to which the listener belongs.",
-      "label": "Zone"
-    },
-    "fields_mqtt_quic_listener_handshake_idle_timeout": {
-      "desc": "How long a handshake can idle before it is discarded.",
-      "label": "Handshake Idle Timeout"
-    },
-    "force_gc_enable": {
-      "desc": "Enable forced garbage collection.",
-      "label": "Enable forced garbage collection"
-    },
-    "fields_ws_opts_allow_origin_absence": {
-      "desc": "If <code>false</code> and <code>check_origin_enable</code> is\n <code>true</code>, the server will reject requests that don't have <code>origin</code>\n HTTP header.",
-      "label": "Allow origin absence"
-    },
-    "mqtt_listener_proxy_protocol_timeout": {
-      "desc": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
-      "label": "Proxy protocol timeout"
-    },
-    "fields_mqtt_quic_listener_idle_timeout": {
-      "desc": "How long a connection can go idle before it is gracefully shut down. 0 to disable",
-      "label": "Idle Timeout"
-    },
-    "sysmon_vm_busy_port": {
-      "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
-      "label": "Enable Busy Port monitoring"
-    },
-    "sys_event_client_connected": {
-      "desc": "Enable to publish client connected event messages"
-    },
-    "sysmon_vm_process_low_watermark": {
-      "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is cleared.",
-      "label": "Process low watermark"
-    },
-    "mqtt_max_packet_size": {
-      "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
-      "label": "Max Packet Size"
-    },
-    "sysmon_vm_long_gc": {
-      "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
-      "label": "Enable Long GC monitoring"
-    },
-    "fields_mqtt_quic_listener_keyfile": {
-      "desc": "Path to the secret key file. Will be deprecated in 5.1, use .ssl_options.keyfile instead.",
-      "label": "Key file"
-    },
-    "mqtt_peer_cert_as_clientid": {
-      "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Client ID. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Client ID\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
-      "label": "Use Peer Certificate as Client ID"
-    },
-    "persistent_session_store_message_gc_interval": {
-      "desc": "The starting interval for garbage collection of undelivered messages to\na persistent session. This affects how often the \"max_retain_undelivered\"\nis checked for removal.",
-      "label": "Message GC interval"
-    },
-    "broker_shared_dispatch_ack_enabled": {
-      "desc": "Deprecated, will be removed in 5.1.\nEnable/disable shared dispatch acknowledgement for QoS 1 and QoS 2 messages.\nThis should allow messages to be dispatched to a different subscriber in the group in case the picked (based on `shared_subscription_strategy`) subscriber is offline."
-    },
-    "base_listener_enable_authn": {
-      "desc": "Set <code>true</code> (default) to enable client authentication on this listener, the authentication\nprocess goes through the configured authentication chain.\nWhen set to <code>false</code> to allow any clients with or without authentication information such as username or password to log in.\nWhen set to <code>quick_deny_anonymous</code>, it behaves like when set to <code>true</code>, but clients will be\ndenied immediately without going through any authenticators if <code>username</code> is not provided. This is useful to fence off\nanonymous clients early.",
-      "label": "Enable authentication"
-    },
-    "force_shutdown_enable": {
-      "desc": "Enable `force_shutdown` feature.",
-      "label": "Enable `force_shutdown` feature"
-    },
-    "broker_enable_session_registry": {
-      "desc": "Enable session registry"
-    },
-    "overload_protection_backoff_delay": {
-      "desc": "The maximum duration of delay for background task execution during high load conditions.",
-      "label": "Delay Time"
-    },
-    "sys_event_client_disconnected": {
-      "desc": "Enable to publish client disconnected event messages."
-    },
-    "crl_cache_refresh_interval": {
-      "desc": "The period to refresh the CRLs from the servers.  This is a global setting for all URLs and listeners.",
-      "label": "CRL Cache Refresh Interval"
-    },
-    "mqtt_listener_proxy_protocol": {
-      "desc": "Enable the Proxy Protocol V1/2 if the EMQX cluster is deployed behind HAProxy or Nginx.<br/>\nSee: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
-      "label": "Proxy protocol"
-    },
-    "mqtt_listener_access_rules": {
-      "desc": "The access control rules for this listener.<br/>See: https://github.com/emqtt/esockd#allowdeny",
-      "label": "Access rules"
-    },
-    "server_ssl_opts_schema_enable_ocsp_stapling": {
-      "desc": "Whether to enable Online Certificate Status Protocol (OCSP) stapling for the listener.  If set to true, requires defining the OCSP responder URL and issuer PEM path.",
-      "label": "Enable OCSP Stapling"
-    },
-    "fields_tcp_opts_send_timeout_close": {
-      "desc": "Close the connection if send timeout.",
-      "label": "TCP send timeout close"
-    },
-    "sysmon_os_cpu_check_interval": {
-      "desc": "The time interval for the periodic CPU check.",
-      "label": "The time interval for the periodic CPU check"
-    },
-    "sysmon_top_sample_interval": {
-      "desc": "Specifies how often process top should be collected",
-      "label": "Top sample interval"
-    },
-    "fields_mqtt_quic_listener_idle_timeout_ms": {
-      "desc": "How long a connection can go idle before it is gracefully shut down. 0 to disable timeout",
-      "label": "Idle timeout ms"
-    },
-    "fields_ws_opts_fail_if_no_subprotocol": {
-      "desc": "If <code>true</code>, the server will return an error when\n the client does not carry the <code>Sec-WebSocket-Protocol</code> field.\n <br/>Note: WeChat applet needs to disable this verification.",
-      "label": "Fail if no subprotocol"
-    },
-    "mqtt_wildcard_subscription": {
-      "label": "Allowed Wildcard Subscription"
-    },
-    "server_ssl_opts_schema_ocsp_refresh_interval": {
-      "desc": "The period to refresh the OCSP response for the server.",
-      "label": "OCSP Refresh Interval"
-    },
-    "overload_protection_backoff_hibernation": {
-      "desc": "When at high load, skip process hibernation.",
-      "label": "Skip hibernation"
-    },
-    "fields_ws_opts_max_frame_size": {
-      "desc": "The maximum length of a single MQTT packet.",
-      "label": "Max frame size"
-    },
-    "sys_event_messages": {
-      "desc": "Client events messages."
-    },
-    "broker_perf_trie_compaction": {
-      "desc": "Enable trie path compaction.\nEnabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{'{'}{'{'}id{'}'}{'}'}/+/', where ID is unique per subscriber.\nTopic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.\n\nNOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it."
-    },
-    "sysmon_vm_large_heap": {
-      "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
-      "label": "Enable Large Heap monitoring"
-    },
-    "mqtt_shared_subscription_strategy": {
-      "label": "Shared Subscription Strategy",
-      "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the `clientIds` of senders"
-    },
-    "mqtt_client_attrs_init": {
-      "label": "Client Attributes",
-      "desc": "Set custom attributes on client connection and use them in authentication, authorization, and other functions."
-    },
-    "client_attrs_init_set_as_attr": {
-      "label": "Attribute"
-    },
-    "client_attrs_init_expression": {
-      "label": "Attribute Expression",
-      "desc": "A single-line expression that dynamically extracts attribute values from existing client information can use the following fields:<br/><br/>- `clientid`: client ID<br/>- `username`: user name<br/>- `cn`: CN field of TLS certificate<br/>- `dn`: DN field of TLS certificate<br/>- `user_property.*`: extracts the property value from the `User-Property` of the MQTT CONNECT packet, e.g. `user_property.foo`<br/><br/>You can use predefined string functions to dynamically process the information. For example, to extract the prefix of a dot-separated client ID: `nth(1, tokens(clientid, '.'))`; to extract a partial username: `substr(username, 0, 5)`. You can read more about variform expressions in EMQX docs.<br/>"
-    },
-    "mqtt_keepalive_check_interval": {
-      "label": "Keep Alive Check Interval",
-      "desc": "The frequency of checking for incoming MQTT packets determines how often the server will check for new MQTT packets.<br />If a certain amount of time passes without any packets being sent from the client, this time will be added up.<br />Once the accumulated time exceeds `keepalive-interval * keepalive-multiplier`, the connection will be terminated.<br />The default is set to 30 seconds, with a minimum value of 1 second and a maximum value of `keepalive-interval / 2`.<br />"
-    },
-    "mqtt_shared_subscription_initial_sticky_pick": {
-      "label": "Shared Subscription Initial Sticky Pick",
-      "desc":  "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`.<br/> - `random`: Randomly select the subscriber;<br/> - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster;<br/> - `hash_clientid`: Hash the publisher's client ID to select a subscriber;<br/> - `hash_topic`: Hash the publishing topic to select a subscriber."
-    }
+  "timestamp_format": {
+    "desc": "Pick a timestamp format:<br/>- <code>auto</code>: automatically choose the best format based on log formatter. <code>epoch</code> for JSON and <code>rfc3339</code> for text.<br/>- <code>epoch</code>: Unix epoch time in microseconds.<br/>- <code>rfc3339</code>: RFC3339 format.",
+    "label": "Timestamp Format"
   },
-  "ssl_opts": {
-    "user_lookup_fun": {
-      "desc": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
-      "label": "SSL PSK user lookup fun"
-    },
-    "cacertfile": {
-      "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
-      "label": "CACertfile"
-    },
-    "verify": {
-      "label": "TLS Verify"
-    },
-    "keyfile": {
-      "desc": "PEM format private key file.",
-      "label": "Keyfile"
-    },
-    "certfile": {
-      "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
-      "label": "Certfile"
-    },
-    "cacerts": {
-      "label": "CA Cert"
-    },
-    "password": {
-      "desc": "String containing the user's password. Only used if the private key file is password-protected.",
-      "label": "Keyfile passphrase"
-    },
-    "hibernate_after": {
-      "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
-      "label": "hibernate after"
-    },
-    "versions": {
-      "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
-      "label": "SSL versions"
-    },
-    "secure_renegotiate": {
-      "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
-      "label": "SSL renegotiate"
-    },
-    "reuse_sessions": {
-      "desc": "Enable TLS session reuse.",
-      "label": "TLS session reuse"
-    },
-    "depth": {
-      "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
-      "label": "CACert Depth"
-    },
-    "server_name_indication": {
-      "desc": "Specify the host name to be used in TLS Server Name Indication extension.<br/>\nFor instance, when connecting to \"server.example.net\", the genuine server\nwhich accepts the connection and performs TLS handshake may differ from the\nhost the TLS client initially connects to, e.g. when connecting to an IP address\nor when the host has multiple resolvable DNS records <br/>\nIf not specified, it will default to the host name string which is used\nto establish the connection, unless it is IP addressed used.<br/>\nThe host name is then also used in the host name verification of the peer\ncertificate.<br/> The special value 'disable' prevents the Server Name\nIndication extension from being sent and disables the hostname\nverification check.",
-      "label": "SNI"
-    },
-    "enable": {
-      "desc": "Enable TLS.",
-      "label": "Enable TLS"
-    },
-    "log_level": {
-      "desc": "Log level for SSL communication. Default is 'notice'. Set to 'debug' to inspect TLS handshake messages.",
-      "label": "SSL log level"
-    },
-    "ciphers": {
-      "desc": "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
-      "label": "Cipher Suites"
-    },
-    "partial_chain": {
-      "desc": "Enable or disable peer verification with partial_chain.When local verifies a peer certificate during the x509 path validation process, it constructs a certificate chain that starts with the peer certificate and ends with a trust anchor.By default, if it is set to `false`, the trust anchor is the Root CA, and the certificate chain must be complete.However, if the setting is set to `true` or `cacert_from_cacertfile`, the last certificate in `cacertfile` will be used as the trust anchor certificate (intermediate CA). This creates a partial chain in the path validation.Alternatively, if it is configured with `two_cacerts_from_cacertfile`, one of the last two certificates in `cacertfile` will be used as the trust anchor certificate, forming a partial chain. This option is particularly useful for intermediate CA certificate rotation.However, please note that it incurs some additional overhead, so it should only be used for certificate rotation purposes.",
-      "label": "Enable Partial Chain Verification"
-    },
-    "verify_peer_ext_key_usage": {
-      "desc": "Verify extended key usage in peer's certificate<br/>For additional peer certificate validation, the value defined here must present in the 'Extended Key Usage' of peer certificate defined in [rfc5280](https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.12).<br/>Allowed values are<br/>- `clientAuth`<br/>- `serverAuth`<br/>- `codeSigning`<br/>- `emailProtection`<br/>- `timeStamping`<br/>- `ocspSigning`<br/>- raw OID, for example: \"OID:1.3.6.1.5.5.7.3.2\" means `id-pk 2` which is equivalent to `clientAuth`<br/>Comma-separated string is also supported for validating more than one key usages.<br/>For example, `\"serverAuth,OID:1.3.6.1.5.5.7.3.2\"`",
-      "label": "Verify Extended Key Usage"
-    }
+  "rotation_count": {
+    "desc": "Maximum number of log files.",
+    "label": "Max Log Files Number"
   },
-  "file_trans": {
-    "enable": {
-      "label": "Enable"
-    },
-    "init_timeout": {
-      "desc": "When the `init` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80)",
-      "label": "Init Timeout"
-    },
-    "store_segment_timeout": {
-      "desc": "When the `segment` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
-      "label": "Store Segment Timeout"
-    },
-    "assemble_timeout": {
-      "desc": "When the `fin` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
-      "label": "Assemble Timeout"
-    },
-    "storage_local_segments_root": {
-      "desc": "Uploaded segment temporary storage path. Absolute path. It is recommended to set it to a disk with high I/O performance.",
-      "label": "Segments Root Directory"
-    },
-    "interval": {
-      "desc": "Interval of periodic garbage collection.",
-      "label": "Storage GC Interval"
-    },
-    "minimum_segments_ttl": {
-      "desc": "Minimum Segments TTL. Segments will not be cleaned up before the TTL expires. Even if the TTL specified by some file transfer is less than this value, or the segments have been merged.",
-      "label": "Minimum Segments TTL"
-    },
-    "maximum_segments_ttl": {
-      "desc": "Maximum Segments TTL. Segments will be cleaned up after the TTL expires. Even if the TTL specified by some file transfer is greater than this value, or the segments have not been merged.",
-      "label": "Maximum Segments TTL"
-    },
-    "storage_local_exporter_local_enable": {
-      "desc": "Assemble segments and store them in the specified local directory after the file is uploaded.",
-      "label": "Enable Local Storage"
-    },
-    "storage_local_exporter_s_3_enable": {
-      "desc": "Assemble segments and store them in the specified S3 bucket after the file is uploaded.",
-      "label": "Enable S3 Storage"
-    },
-    "storage_local_exporter_local_root": {
-      "desc": "Uploaded and assembled files. Absolute path.",
-      "label": "Files Root Directory"
-    },
-    "host": {
-      "label": "Host"
-    },
-    "port": {
-      "label": "Port"
-    },
-    "access_key_id": {
-      "label": "Access Key ID"
-    },
-    "secret_access_key": {
-      "label": "Secret Access Key"
-    },
-    "bucket": {
-      "label": "Bucket"
-    },
-    "url_expire_time": {
-      "desc": "Expiration time of the generated URL.",
-      "label": "URL Expire Time"
-    },
-    "min_part_size": {
-      "label": "Minimum Part Size"
-    },
-    "max_part_size": {
-      "label": "Maximum Part Size"
-    },
-    "acl": {
-      "desc": "The ACL to use for the uploaded objects.",
-      "label": "ACL"
-    },
-    "ipv6_probe": {
-      "desc": "Whether to probe for IPv6 support.",
-      "label": "IPv6 Probe"
-    },
-    "headers": {
-      "label": "HTTP Headers"
-    },
-    "max_retries": {
-      "desc": "Max retry times if error on sending request.",
-      "label": "Max Retries"
-    },
-    "request_timeout": {
-      "label": "Request Timeout"
-    },
-    "connect_timeout": {
-      "label": "Connect Timeout"
-    },
-    "pool_type": {
-      "desc": "The type of the pool. Can be one of `random`, `hash`.",
-      "label": "Pool Type"
-    },
-    "pool_size": {
-      "label": "Pool Size"
-    },
-    "enable_pipelining": {
-      "label": "HTTP Pipelining"
-    }
+  "log_file_default_path": {
+    "desc": "The path and name of the log file.",
+    "label": "Log File Name"
+  },
+  "authorization": {
+    "desc": "Authorization a.k.a. ACL.<br/>\nIn EMQX, MQTT client access control is extremely flexible.<br/>\nAn out-of-the-box set of authorization data sources are supported.\nFor example,<br/>\n'file' source is to support concise and yet generic ACL rules in a file;<br/>\n'built_in_database' source can be used to store per-client customizable rule sets,\nnatively in the EMQX node;<br/>\n'http' source to make EMQX call an external HTTP API to make the decision;<br/>\n'PostgreSQL' etc. to look up clients or rules from external databases",
+    "label": "Authorization"
+  },
+  "log_file_handlers": {
+    "desc": "File-based log handlers.",
+    "label": "File Handler"
+  },
+  "time_offset": {
+    "desc": "The time offset to be used when formatting the timestamp.\nCan be one of:\n  - <code>system</code>: the time offset used by the local system\n  - <code>utc</code>: the UTC time offset\n  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"\nDefaults to: <code>system</code>.",
+    "label": "Time Offset"
+  },
+  "level": {
+    "desc": "The log level for the current log handler.\nDefaults to warning.",
+    "label": "Log Level"
+  },
+  "formatter": {
+    "desc": "Choose log formatter. <code>text</code> for free text, and <code>json</code> for structured logging.",
+    "label": "Log Formatter"
+  },
+  "time_window": {
+    "desc": "The time window for log throttling ensures that the same type of event is only logged once within the designated time frame to prevent log overflow. A detailed log encapsulating the activities within that period is generated at the end of the time window. The minimum configurable value for this window is one second.<br/>The following events are throttled:<br/>- authorization_permission_denied<br/>- cannot_publish_to_topic_due_to_not_authorized<br/>- cannot_publish_to_topic_due_to_quota_exceeded<br/>- connection_rejected_due_to_license_limit_reached<br/>- dropped_msg_due_to_mqueue_is_full",
+    "label": "Time Window"
+  },
+  "payload_encode": {
+    "desc": "The encoding method of payload in logs",
+    "label": "Payload Encode"
+  },
+  "max_conn_rate": {
+    "desc": "Maximum connection rate.<br/>\nThis is used to limit the connection rate for this node,\nonce the limit is reached, new connections will be deferred or refused.",
+    "label": "Maximum Connection Rate"
+  },
+  "messages_rate": {
+    "desc": "Messages publish rate.<br/>\nThis is used to limit the inbound message numbers for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
+    "label": "Messages Publish Rate"
+  },
+  "bytes_rate": {
+    "desc": "Data publish rate.<br/>\nThis is used to limit the inbound bytes rate for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
+    "label": "Data Publish Rate"
+  },
+  "zones": {
+    "desc": "A zone is a set of configs grouped by the zone <code>name</code>.\nFor flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.\nNOTE: A built-in zone named <code>default</code> is auto created and can not be deleted."
+  },
+  "peer_cert_as_username": {
+    "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: Content of the <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Username\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
+    "label": "Use Peer Certificate as Username"
+  },
+  "max_topic_alias": {
+    "label": "Max Topic Alias"
+  },
+  "use_username_as_clientid": {
+    "desc": "Whether to use Username as Client ID.\nThis setting takes effect later than <code>Use Peer Certificate as Username</code> and <code>Use Peer Certificate as Client ID</code>.",
+    "label": "Use Username as Client ID"
+  },
+  "max_qos_allowed": {
+    "label": "Max QoS Allowed"
+  },
+  "max_subscriptions": {
+    "desc": "Maximum number of subscriptions allowed per client.",
+    "label": "Max Subscriptions"
+  },
+  "cpu_low_watermark": {
+    "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is cleared.",
+    "label": "CPU low watermark"
+  },
+  "session_expiry_interval": {
+    "desc": "Specifies how long the session will expire after the connection is disconnected, only for non-MQTT 5.0 connections.",
+    "label": "Session Expiry Interval"
+  },
+  "message_expiry_interval": {
+    "desc": "The MQTT message expiry interval. For MQTT v5.0 clients, it is only effective if the Message-Expiry-Interval property is not specified for the message; for MQTT v3.1 and v3.1.1, it always applies. Note that it is not helpful to set this value to a greater value than the MQTT Session Expiry Interval, because once the session expires, all related messages are purged.",
+    "label": "Message Expiry Interval"
+  },
+  "mqtt": {
+    "desc": "Global MQTT configuration.\nThe configs here work as default values which can be overridden in <code>zone</code> configs"
+  },
+  "flapping_detect_enable": {
+    "desc": "Enable flapping connection detection feature.",
+    "label": "Enable flapping detection"
+  },
+  "common_ssl_opts_schema_cacertfile": {
+    "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
+    "label": "CACertfile"
+  },
+  "procmem_high_watermark": {
+    "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated by one Erlang process before\n the corresponding alarm is raised.",
+    "label": "ProcMem high wartermark"
+  },
+  "retry_interval": {
+    "desc": "Retry interval for QoS 1/2 message delivering.",
+    "label": "Message Retry Interval"
+  },
+  "sys_heartbeat_interval": {
+    "desc": "Time interval for publishing following heartbeat messages:\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
+  },
+  "flapping_detect_ban_time": {
+    "desc": "How long the flapping clientid will be banned.",
+    "label": "Ban Duration"
+  },
+  "upgrade_qos": {
+    "desc": "Force upgrade of QoS level according to subscription.",
+    "label": "Upgrade QoS"
+  },
+  "shared_subscription": {
+    "label": "Allowed Shared Subscription"
+  },
+  "mem_check_interval": {
+    "desc": "The time interval for the periodic memory check.",
+    "label": "Mem check interval"
+  },
+  "max_awaiting_rel": {
+    "desc": "Specifies the maximum number of pending QoS 2 messages in each session until either PUBREL is received or timed out. When this limit is reached, new QoS 2 PUBLISH requests will be rejected with error code 147(0x93).",
+    "label": "Max Awaiting PUBREL"
+  },
+  "busy_dist_port": {
+    "desc": "When the RPC connection used to communicate with other nodes in the cluster is overloaded,\nthere will be a <code>busy_dist_port</code> warning log,\nand an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.",
+    "label": "Enable Busy Distribution Port monitoring"
+  },
+  "max_mqueue_len": {
+    "desc": "Maximum allowed queue length when persistent client are disconnected or inflight window is full.",
+    "label": "Max Message Queue Length"
+  },
+  "max_inflight": {
+    "desc": "Maximum number of QoS 1 and QoS 2 messages that are allowed to be delivered simultaneously before completing the acknowledgment.",
+    "label": "Max Inflight"
+  },
+  "persistent_session_store_enabled": {
+    "desc": "Use the database to store information about persistent sessions.\nThis makes it possible to migrate a client connection to another\ncluster node if a node is stopped.",
+    "label": "Enable persistent session store"
+  },
+  "server_keepalive": {
+    "label": "Server Keep Alive"
+  },
+  "persistent_session_store_session_message_gc_interval": {
+    "desc": "The starting interval for garbage collection of transient data for\npersistent session messages. This does not affect the lifetime length\nof persistent session messages.",
+    "label": "Session message GC interval"
+  },
+  "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
+    "desc": "The timeout for the HTTP request when checking OCSP responses.",
+    "label": "OCSP Refresh HTTP Timeout"
+  },
+  "process_high_watermark": {
+    "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is raised.",
+    "label": "Process high watermark"
+  },
+  "server_ssl_opts_schema_honor_cipher_order": {
+    "desc": "An important security setting, it forces the cipher to be set based\n on the server-specified order instead of the client-specified order,\n hence enforcing the (usually more properly configured) security\n ordering of the server administrator.",
+    "label": "SSL honor cipher order"
+  },
+  "persistent_store_ram_cache": {
+    "desc": "Maintain a copy of the data in RAM for faster access.",
+    "label": "RAM cache"
+  },
+  "mqueue_priorities": {
+    "desc": "Topic priorities. Priority number [1-255]. There's no priority table by default, hence all messages are treated equal.<br/>NOTE: Comma and equal signs are not allowed for priority topic names.<br/>NOTE: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for mqtt.mqueue_default_priority.<br/>Examples:<br/>To configure \"topic/1\" > \"topic/2\":<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
+    "label": "Topic Priorities"
+  },
+  "alarm_size_limit": {
+    "desc": "The maximum total number of deactivated alarms to keep as history.<br/>When this limit is exceeded, the oldest deactivated alarms are deleted to cap the total number.",
+    "label": "Alarm size limit"
+  },
+  "sys_msg_interval": {
+    "desc": "Time interval of publishing `$SYS` messages."
+  },
+  "await_rel_timeout": {
+    "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
+    "label": "Max Awaiting PUBREL Timeout"
+  },
+  "common_ssl_opts_schema_verify": {
+    "desc": "Enable or disable peer verification.",
+    "label": "Verify peer"
+  },
+  "fields_listeners_ssl": {
+    "desc": "SSL listeners.",
+    "label": "SSL listeners"
+  },
+  "common_ssl_opts_schema_keyfile": {
+    "desc": "PEM format private key file.",
+    "label": "Keyfile"
+  },
+  "cpu_high_watermark": {
+    "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
+    "label": "CPU high watermark"
+  },
+  "flapping_detect_window_time": {
+    "desc": "The time window for flapping detection.",
+    "label": "Window time"
+  },
+  "mqueue_default_priority": {
+    "desc": "Default topic priority, which will be used by topics not in <code>Topic Priorities</code> (<code>mqueue_priorities</code>).",
+    "label": "Default Topic Priorities"
+  },
+  "client_ssl_opts_schema_enable": {
+    "desc": "Enable TLS.",
+    "label": "Enable TLS"
+  },
+  "fields_tcp_opts_recbuf": {
+    "desc": "The TCP receive buffer (OS kernel) for the connections.",
+    "label": "TCP receive buffer"
+  },
+  "process_check_interval": {
+    "desc": "The time interval for the periodic process limit check.",
+    "label": "Process limit check interval"
+  },
+  "sysmem_high_watermark": {
+    "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.",
+    "label": "SysMem high wartermark"
+  },
+  "server_ssl_opts_schema_dhfile": {
+    "desc": "Path to a file containing PEM-encoded Diffie-Hellman parameters\nto be used by the server if a cipher suite using Diffie-Hellman\nkey exchange is negotiated. If not specified, default parameters\nare used.<br/>\nNOTE: The <code>dhfile</code> option is not supported by TLS 1.3.",
+    "label": "SSL dhfile"
+  },
+  "flapping_detect_max_count": {
+    "desc": "The maximum number of disconnects allowed for a MQTT Client in `window_time`",
+    "label": "Max count"
+  },
+  "max_topic_levels": {
+    "label": "Max Topic Levels"
+  },
+  "ignore_loop_deliver": {
+    "desc": "Whether the messages sent by the MQTT v3.1.1/v3.1.0 client will be forwarded to the client itself, similar to `No Local` in MQTT 5.0.",
+    "label": "Ignore Loop Deliver"
+  },
+  "common_ssl_opts_schema_certfile": {
+    "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
+    "label": "Certfile"
+  },
+  "exclusive_subscription": {
+    "label": "Allowed Exclusive Subscription"
+  },
+  "retain_available": {
+    "desc": "Whether to enable support for MQTT retained message. When this option is disabled, clients will not be able to publish retained messages.",
+    "label": "Allowed Retain"
+  },
+  "long_schedule": {
+    "desc": "When the Erlang VM detect a task scheduled for too long, a warning level 'long_schedule' log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_schedule</code>.",
+    "label": "Enable Long Schedule monitoring"
+  },
+  "keepalive_multiplier": {
+    "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`. Default value is 1.5 as per MQTT 5.0.\n\nFor example, a Keep-Alive interval of 10 seconds yields a timeout of 15 seconds with a multiplier of 1.5. Increasing the multiplier value to 2 extends the timeout to 20 seconds.",
+    "label": "Keep Alive Multiplier"
+  },
+  "force_gc_bytes": {
+    "desc": "GC the process after specified number of bytes have passed through.",
+    "label": "Process GC bytes"
+  },
+  "server_ssl_opts_schema_fail_if_no_peer_cert": {
+    "desc": "Used together with {'{'}verify, verify_peer{'}'} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
+    "label": "Force Verify Peer Certificate"
+  },
+  "force_gc_count": {
+    "desc": "GC the process after this many received messages.",
+    "label": "Process GC messages num"
+  },
+  "max_clientid_len": {
+    "label": "Max Client ID Length"
+  },
+  "persistent_session_store_backend": {
+    "desc": "Database management system used to store information about persistent sessions and messages.\n- `builtin`: Use the embedded database (mria)",
+    "label": "Backend"
+  },
+  "alarm_validity_period": {
+    "desc": "Retention time of deactivated alarms. Alarms are not deleted immediately\nwhen deactivated, but after the retention time.",
+    "label": "Alarm validity period"
+  },
+  "server_ssl_opts_schema_ocsp_issuer_pem": {
+    "desc": "PEM-encoded certificate of the OCSP issuer for the server certificate.",
+    "label": "OCSP Issuer Certificate"
+  },
+  "response_information": {
+    "desc": "Response Information <br/>UTF-8 string, for creating the response topic, for example, if set to `reqrsp/`, the publisher/subscriber will communite under the topic `reqrsp/`.To disable this feature, input `\"\"` in the text box below.",
+    "label": "Response Information"
+  },
+  "persistent_session_store_max_retain_undelivered": {
+    "desc": "The time messages that was not delivered to a persistent session\nis stored before being garbage collected if the node the previous\nsession was handled on restarts of is stopped.",
+    "label": "Max retain undelivered"
+  },
+  "common_ssl_opts_schema_password": {
+    "desc": "String containing the user's password. Only used if the private key file is password-protected.",
+    "label": "Keyfile passphrase"
+  },
+  "common_ssl_opts_schema_hibernate_after": {
+    "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
+    "label": "hibernate after"
+  },
+  "server_ssl_opts_schema_ocsp_responder_url": {
+    "desc": "URL for the OCSP responder to check the server certificate against.",
+    "label": "OCSP Responder URL"
+  },
+  "idle_timeout": {
+    "desc": "Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.",
+    "label": "Idle Timeout"
+  },
+  "strict_mode": {
+    "desc": "Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.",
+    "label": "Strict Mode"
+  },
+  "shared_subscription_group_strategy": {
+    "desc": "Per group dispatch strategy for shared subscription.\nThis config is a map from shared subscription group name to the strategy\nname. The group name should be of format `[A-Za-z0-9]`. i.e. no\nspecial characters are allowed."
+  },
+  "shared_subscription_strategy_enum": {
+    "desc": "Dispatch strategy for shared subscription.\n- `random`: dispatch the message to a random selected subscriber\n- `round_robin`: select the subscribers in a round-robin manner\n- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n- `sticky`: always use the last selected subscriber to dispatch,\nuntil the subscriber disconnects.\n- `hash`: select the subscribers by the hash of `clientIds`\n- `local`: send to a random local subscriber. If local\nsubscriber was not found, send to a random subscriber cluster-wide"
+  },
+  "persistent_session_builtin_sess_msg_table": {
+    "desc": "Performance tuning options for built-in session messages table.",
+    "label": "Persistent session messages"
+  },
+  "mqueue_store_qos0": {
+    "desc": "Specifies whether to store QoS 0 messages in the message queue while the connection is down but the session remains.",
+    "label": "Store QoS 0 Message"
+  },
+  "server_ssl_opts_schema_client_renegotiation": {
+    "desc": "In protocols that support client-initiated renegotiation,\nthe cost of resources of such an operation is higher for the server than the client.\nThis can act as a vector for denial of service attacks.\nThe SSL application already takes measures to counter-act such attempts,\nbut client-initiated renegotiation can be strictly disabled by setting this option to false.\nThe default value is true. Note that disabling renegotiation can result in\nlong-lived connections becoming unusable due to limits on\nthe number of messages the underlying cipher suite can encipher.",
+    "label": "SSL client renegotiation"
+  },
+  "server_ssl_opts_schema_enable_crl_check": {
+    "desc": "Whether to enable CRL verification for this listener.",
+    "label": "Enable CRL Check"
+  },
+  "force_gc_enable": {
+    "desc": "Enable forced garbage collection.",
+    "label": "Enable forced garbage collection"
+  },
+  "common_ssl_opts_schema_versions": {
+    "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
+    "label": "SSL versions"
+  },
+  "common_ssl_opts_schema_secure_renegotiate": {
+    "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
+    "label": "SSL renegotiate"
+  },
+  "busy_port": {
+    "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
+    "label": "Enable Busy Port monitoring"
+  },
+  "process_low_watermark": {
+    "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is cleared.",
+    "label": "Process low watermark"
+  },
+  "max_packet_size": {
+    "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
+    "label": "Max Packet Size"
+  },
+  "common_ssl_opts_schema_reuse_sessions": {
+    "desc": "Enable TLS session reuse.",
+    "label": "TLS session reuse"
+  },
+  "common_ssl_opts_schema_depth": {
+    "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
+    "label": "CACert Depth"
+  },
+  "long_gc": {
+    "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
+    "label": "Enable Long GC monitoring"
+  },
+  "peer_cert_as_clientid": {
+    "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Client ID. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Client ID\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
+    "label": "Use Peer Certificate as Client ID"
+  },
+  "persistent_session_store_message_gc_interval": {
+    "desc": "The starting interval for garbage collection of undelivered messages to\na persistent session. This affects how often the \"max_retain_undelivered\"\nis checked for removal.",
+    "label": "Message GC interval"
+  },
+  "force_shutdown_enable": {
+    "desc": "Enable `force_shutdown` feature.",
+    "label": "Enable `force_shutdown` feature"
+  },
+  "ciphers_schema_common": {
+    "desc": "This config holds TLS cipher suite names separated by comma,\nor as an array of strings. e.g.\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
+    "label": ""
+  },
+  "cpu_check_interval": {
+    "desc": "The time interval for the periodic CPU check.",
+    "label": "The time interval for the periodic CPU check"
+  },
+  "wildcard_subscription": {
+    "label": "Allowed Wildcard Subscription"
+  },
+  "large_heap": {
+    "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
+    "label": "Enable Large Heap monitoring"
+  },
+  "shared_subscription_strategy": {
+    "label": "Shared Subscription Strategy",
+    "desc": "Dispatch strategy for shared subscription.<br/>- `random`: dispatch the message to a random selected subscriber<br/>- `round_robin`: select the subscribers in a round-robin manner<br/>- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group<br/>- `sticky`: always use the last selected subscriber to dispatch, until the subscriber disconnects.<br/>- `local`: select random local subscriber otherwise select random cluster-wide<br/>- `hash_topic`: select the subscribers by hashing the source topic<br/>- `hash_clientid`: select the subscribers by hashing the `clientIds` of senders"
+  },
+  "client_attrs_init": {
+    "label": "Client Attributes",
+    "desc": "Set custom attributes on client connection and use them in authentication, authorization, and other functions."
+  },
+  "client_attrs_init_set_as_attr": {
+    "label": "Attribute"
+  },
+  "client_attrs_init_expression": {
+    "label": "Attribute Expression",
+    "desc": "A single-line expression that dynamically extracts attribute values from existing client information can use the following fields:<br/><br/>- `clientid`: client ID<br/>- `username`: user name<br/>- `cn`: CN field of TLS certificate<br/>- `dn`: DN field of TLS certificate<br/>- `user_property.*`: extracts the property value from the `User-Property` of the MQTT CONNECT packet, e.g. `user_property.foo`<br/><br/>You can use predefined string functions to dynamically process the information. For example, to extract the prefix of a dot-separated client ID: `nth(1, tokens(clientid, '.'))`; to extract a partial username: `substr(username, 0, 5)`. You can read more about variform expressions in EMQX docs.<br/>"
+  },
+  "keepalive_check_interval": {
+    "label": "Keep Alive Check Interval",
+    "desc": "The frequency of checking for incoming MQTT packets determines how often the server will check for new MQTT packets.<br />If a certain amount of time passes without any packets being sent from the client, this time will be added up.<br />Once the accumulated time exceeds `keepalive-interval * keepalive-multiplier`, the connection will be terminated.<br />The default is set to 30 seconds, with a minimum value of 1 second and a maximum value of `keepalive-interval / 2`.<br />"
+  },
+  "shared_subscription_initial_sticky_pick": {
+    "label": "Shared Subscription Initial Sticky Pick",
+    "desc": "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`.<br/> - `random`: Randomly select the subscriber;<br/> - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster;<br/> - `hash_clientid`: Hash the publisher's client ID to select a subscriber;<br/> - `hash_topic`: Hash the publishing topic to select a subscriber."
+  },
+  "log_audit_path": {
+    "desc": "Name the audit log file.",
+    "label": "Audit Log File Name"
+  },
+  "max_filter_size": {
+    "desc": "Store the latest N log entries in a database for allow `/audit` HTTP API to filter and retrieval of log data.",
+    "label": "Max Dashboard Record Size"
+  },
+  "ignore_high_frequency_request": {
+    "desc": "Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.",
+    "label": "Ignore High Frequency Request"
+  },
+  "ssl_opts_user_lookup_fun": {
+    "desc": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
+    "label": "SSL PSK user lookup fun"
+  },
+  "ssl_opts_cacertfile": {
+    "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
+    "label": "CACertfile"
+  },
+  "ssl_opts_verify": {
+    "label": "TLS Verify"
+  },
+  "ssl_opts_keyfile": {
+    "desc": "PEM format private key file.",
+    "label": "Keyfile"
+  },
+  "ssl_opts_certfile": {
+    "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
+    "label": "Certfile"
+  },
+  "ssl_opts_cacerts": {
+    "label": "CA Cert"
+  },
+  "ssl_opts_password": {
+    "desc": "String containing the user's password. Only used if the private key file is password-protected.",
+    "label": "Keyfile passphrase"
+  },
+  "ssl_opts_hibernate_after": {
+    "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
+    "label": "hibernate after"
+  },
+  "ssl_opts_versions": {
+    "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
+    "label": "SSL versions"
+  },
+  "ssl_opts_secure_renegotiate": {
+    "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
+    "label": "SSL renegotiate"
+  },
+  "ssl_opts_reuse_sessions": {
+    "desc": "Enable TLS session reuse.",
+    "label": "TLS session reuse"
+  },
+  "ssl_opts_depth": {
+    "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
+    "label": "CACert Depth"
+  },
+  "ssl_opts_server_name_indication": {
+    "desc": "Specify the host name to be used in TLS Server Name Indication extension.<br/>\nFor instance, when connecting to \"server.example.net\", the genuine server\nwhich accepts the connection and performs TLS handshake may differ from the\nhost the TLS client initially connects to, e.g. when connecting to an IP address\nor when the host has multiple resolvable DNS records <br/>\nIf not specified, it will default to the host name string which is used\nto establish the connection, unless it is IP addressed used.<br/>\nThe host name is then also used in the host name verification of the peer\ncertificate.<br/> The special value 'disable' prevents the Server Name\nIndication extension from being sent and disables the hostname\nverification check.",
+    "label": "SNI"
+  },
+  "ssl_opts_enable": {
+    "desc": "Enable TLS.",
+    "label": "Enable TLS"
+  },
+  "ssl_opts_log_level": {
+    "desc": "Log level for SSL communication. Default is 'notice'. Set to 'debug' to inspect TLS handshake messages.",
+    "label": "SSL log level"
+  },
+  "ssl_opts_ciphers": {
+    "desc": "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
+    "label": "Cipher Suites"
+  },
+  "ssl_opts_partial_chain": {
+    "desc": "Enable or disable peer verification with partial_chain.When local verifies a peer certificate during the x509 path validation process, it constructs a certificate chain that starts with the peer certificate and ends with a trust anchor.By default, if it is set to `false`, the trust anchor is the Root CA, and the certificate chain must be complete.However, if the setting is set to `true` or `cacert_from_cacertfile`, the last certificate in `cacertfile` will be used as the trust anchor certificate (intermediate CA). This creates a partial chain in the path validation.Alternatively, if it is configured with `two_cacerts_from_cacertfile`, one of the last two certificates in `cacertfile` will be used as the trust anchor certificate, forming a partial chain. This option is particularly useful for intermediate CA certificate rotation.However, please note that it incurs some additional overhead, so it should only be used for certificate rotation purposes.",
+    "label": "Enable Partial Chain Verification"
+  },
+  "ssl_opts_verify_peer_ext_key_usage": {
+    "desc": "Verify extended key usage in peer's certificate<br/>For additional peer certificate validation, the value defined here must present in the 'Extended Key Usage' of peer certificate defined in [rfc5280](https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.12).<br/>Allowed values are<br/>- `clientAuth`<br/>- `serverAuth`<br/>- `codeSigning`<br/>- `emailProtection`<br/>- `timeStamping`<br/>- `ocspSigning`<br/>- raw OID, for example: \"OID:1.3.6.1.5.5.7.3.2\" means `id-pk 2` which is equivalent to `clientAuth`<br/>Comma-separated string is also supported for validating more than one key usages.<br/>For example, `\"serverAuth,OID:1.3.6.1.5.5.7.3.2\"`",
+    "label": "Verify Extended Key Usage"
+  },
+  "file_trans_enable": {
+    "label": "Enable"
+  },
+  "init_timeout": {
+    "desc": "When the `init` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80)",
+    "label": "Init Timeout"
+  },
+  "store_segment_timeout": {
+    "desc": "When the `segment` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
+    "label": "Store Segment Timeout"
+  },
+  "assemble_timeout": {
+    "desc": "When the `fin` command times out (for example, due to system overload), the PUBACK message will contain an error code (0x80).",
+    "label": "Assemble Timeout"
+  },
+  "file_trans_storage_local_segments_root": {
+    "desc": "Uploaded segment temporary storage path. Absolute path. It is recommended to set it to a disk with high I/O performance.",
+    "label": "Segments Root Directory"
+  },
+  "interval": {
+    "desc": "Interval of periodic garbage collection.",
+    "label": "Storage GC Interval"
+  },
+  "minimum_segments_ttl": {
+    "desc": "Minimum Segments TTL. Segments will not be cleaned up before the TTL expires. Even if the TTL specified by some file transfer is less than this value, or the segments have been merged.",
+    "label": "Minimum Segments TTL"
+  },
+  "maximum_segments_ttl": {
+    "desc": "Maximum Segments TTL. Segments will be cleaned up after the TTL expires. Even if the TTL specified by some file transfer is greater than this value, or the segments have not been merged.",
+    "label": "Maximum Segments TTL"
+  },
+  "storage_local_exporter_local_enable": {
+    "desc": "Assemble segments and store them in the specified local directory after the file is uploaded.",
+    "label": "Enable Local Storage"
+  },
+  "storage_local_exporter_s_3_enable": {
+    "desc": "Assemble segments and store them in the specified S3 bucket after the file is uploaded.",
+    "label": "Enable S3 Storage"
+  },
+  "file_trans_storage_local_exporter_local_root": {
+    "desc": "Uploaded and assembled files. Absolute path.",
+    "label": "Files Root Directory"
+  },
+  "host": {
+    "label": "Host"
+  },
+  "port": {
+    "label": "Port"
+  },
+  "access_key_id": {
+    "label": "Access Key ID"
+  },
+  "secret_access_key": {
+    "label": "Secret Access Key"
+  },
+  "bucket": {
+    "label": "Bucket"
+  },
+  "url_expire_time": {
+    "desc": "Expiration time of the generated URL.",
+    "label": "URL Expire Time"
+  },
+  "min_part_size": {
+    "label": "Minimum Part Size"
+  },
+  "max_part_size": {
+    "label": "Maximum Part Size"
+  },
+  "acl": {
+    "desc": "The ACL to use for the uploaded objects.",
+    "label": "ACL"
+  },
+  "ipv6_probe": {
+    "desc": "Whether to probe for IPv6 support.",
+    "label": "IPv6 Probe"
+  },
+  "headers": {
+    "label": "HTTP Headers"
+  },
+  "max_retries": {
+    "desc": "Max retry times if error on sending request.",
+    "label": "Max Retries"
+  },
+  "request_timeout": {
+    "label": "Request Timeout"
+  },
+  "connect_timeout": {
+    "label": "Connect Timeout"
+  },
+  "pool_type": {
+    "desc": "The type of the pool. Can be one of `random`, `hash`.",
+    "label": "Pool Type"
+  },
+  "pool_size": {
+    "label": "Pool Size"
+  },
+  "enable_pipelining": {
+    "label": "HTTP Pipelining"
   }
 }

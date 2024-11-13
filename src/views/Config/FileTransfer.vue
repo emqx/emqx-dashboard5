@@ -3,7 +3,7 @@
     <el-card class="app-card">
       <schema-form
         ref="BasicFormCom"
-        type="file-trans"
+        type="file_trans"
         :according-to="{ path: '/configs/file_transfer' }"
         :form="configs"
         :form-props="{ labelWidth }"
@@ -40,7 +40,7 @@
           :key="storageFormComKey"
           v-show="selectedStorageType === StorageType.Local"
           ref="LocalStorageFormCom"
-          type="file-trans"
+          type="file_trans"
           :according-to="{ path: '/configs/file_transfer' }"
           :form="configs"
           :form-props="{ labelWidth }"
@@ -53,7 +53,7 @@
         <schema-form
           v-show="selectedStorageType === StorageType.S3"
           ref="S3StorageFormCom"
-          type="file-trans"
+          type="file_trans"
           :according-to="{ path: '/configs/file_transfer' }"
           :form="configs"
           :form-props="{ labelWidth }"

@@ -43,7 +43,7 @@ interface FormItemMeta {
 
 const typesDoNotShowSkeleton = INTEGRATION_SCHEMA_TYPES
 
-const typesDoNotNeedGroups = [...INTEGRATION_SCHEMA_TYPES, 'file-trans']
+const typesDoNotNeedGroups = [...INTEGRATION_SCHEMA_TYPES, 'file_trans']
 const typesNeedConciseSSL = INTEGRATION_SCHEMA_TYPES
 const SSL_PATH_REG = /^(.+\.)?ssl$/i
 const SSL_KEY = 'ssl'

@@ -16,28 +16,6 @@ const numReg = /_\d/g
 const customSnakeCase = (str: string) =>
   snakeCase(str).replace(numReg, (match) => match.replace('_', ''))
 
-const DEFAULT_ZONE = 'emqx_schema'
-const TYPE_ZONE_MAP: Record<string, Array<string>> = {
-  emqx_schema: ['mqtt', 'session', 'sysmon'],
-  emqx_conf_schema: ['log'],
-  emqx_limiter_schema: ['limiter'],
-  file_trans: ['file-trans'],
-}
-
-/**
- * For Log Configuration
- */
-const LOG_DEFAULT_PREFIX = 'common_handler_'
-const LOG_SPECIAL_KEY_PREFIX_MAP = {
-  audit_handler_: ['audit.path', 'audit.level'],
-  log_overload_kill_: ['mem_size', 'qlen', 'restart_after'],
-  log_burst_limit_: ['max_count', 'window_time'],
-  log_file_handler_: ['max_size', 'path', 'rotation_size', 'file.default.path'],
-  log_rotation_: ['count'],
-}
-
-const SYS_MON_PREFIX = 'sysmon_'
-
 // Bridge
 const COMMON_ZONE = 'common'
 const COMMON_FIELD_KEYS = Object.keys(actionText.en.common)
@@ -71,68 +49,43 @@ export default (
   }
   getOptLabel: (key: string) => string
 } => {
+  const CONFIG_TEXT_BASE = 'ConfigSchema.'
   const { t, te } = useI18n()
+  const testConfigTextKey = (key: string) => te(`${CONFIG_TEXT_BASE}${key}.label`)
 
   const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
   const getSSLPropKey = ({ key, path }: Property): string | false => {
     if (path && SSL_CONF_REG.test(path) && key && SSL_CONFIG_KEYS.includes(key)) {
-      return `ssl_opts.${key}`
+      return `ssl_opts_${key}`
     }
     return false
   }
-
-  /**
-   * zone is first level
-   */
-  const getConfigurationTextZone = () =>
-    Object.keys(TYPE_ZONE_MAP).find((key) => TYPE_ZONE_MAP[key].includes(props.type)) ||
-    DEFAULT_ZONE
-
-  const getMQTTAndSessionItemTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}.${customSnakeCase(path as string)}`
-
-  const getLogItemTextKey = ({ key, path }: Property) => {
-    const prefix =
-      Object.entries(LOG_SPECIAL_KEY_PREFIX_MAP).find(
-        ([, value]) => value.includes(path as string) || value.includes(key as string),
-      )?.[0] || LOG_DEFAULT_PREFIX
-    return `${getConfigurationTextZone()}.${prefix}${key}`
-  }
-
-  const getSysMonTextKey = ({ path }: Property) =>
-    `${getConfigurationTextZone()}.${SYS_MON_PREFIX}${customSnakeCase(path as string)}`
-
   const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
 
   const getFileTransTextKey = (propItem: Property) => {
-    const sslPropKey = getSSLPropKey(propItem)
-    if (sslPropKey) {
-      return sslPropKey
-    }
     const { key, path } = propItem
     let textKey = key
     if (key === 'enable' || key === 'root') {
       textKey = snakeCase(path)
     }
-    return `${getConfigurationTextZone()}.${textKey}`
+    return `${textKey}`
   }
 
-  const funcMap: Record<string, GetTextKey> = {
-    mqtt: getMQTTAndSessionItemTextKey,
-    session: getMQTTAndSessionItemTextKey,
-    log: getLogItemTextKey,
-    sysmon: getSysMonTextKey,
-    limiter: getLimiterTextKey,
-    'file-trans': getFileTransTextKey,
+  const commonGetConfigItemKey = (propItem: Property) => {
+    const { key, path } = propItem
+
+    const sslPropKey = getSSLPropKey(propItem)
+    if (sslPropKey) {
+      return sslPropKey
+    }
+    const exactKey = `${props.type}_${customSnakeCase(path as string)}`
+    const fullKey = testConfigTextKey(`${exactKey}`) ? `${exactKey}` : (key as string)
+    return fullKey
   }
 
   const getConfigurationItemTextKey = (prop: Property) => {
-    const func = funcMap[props.type]
-    if (func && isFunction(func)) {
-      return func(prop)
-    }
-    return prop.path
+    return commonGetConfigItemKey(prop)
   }
 
   const { getTypeByConnectorSchemaRef } = useConnectorSchema()
@@ -150,7 +103,7 @@ export default (
   }
 
   const getHotConfText = (prop: Property) => {
-    const textKey = 'ConfigSchema.' + getConfigurationItemTextKey(prop)
+    const textKey = CONFIG_TEXT_BASE + getConfigurationItemTextKey(prop)
     const descKey = `${textKey}.desc`
     if (textKey) {
       return {

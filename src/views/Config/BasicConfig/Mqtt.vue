@@ -76,7 +76,7 @@ export default defineComponent({
       0,
     )
 
-    const getSchemaText = (key: string) => t(`ConfigSchema.emqx_schema.${key}`)
+    const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
       const { client_attrs_init } = data?.components?.mqtt?.properties || {}
       const { max_packet_size } = data?.components?.mqtt?.properties || {}
