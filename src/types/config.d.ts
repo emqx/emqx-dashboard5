@@ -80,23 +80,14 @@ export interface ConsoleHandler {
   enable: boolean
   level: string
   time_offset: string
-  chars_limit: string
   formatter: string
-  single_line: boolean
-  sync_mode_qlen: number
-  drop_mode_qlen: number
-  flush_qlen: number
   overload_kill: OverloadKill
   burst_limit: BurstLimit
-  supervisor_reports: string
-  max_depth: number
 }
 
 export interface OverloadKill {
   enable: boolean
-  mem_size: string
   qlen: number
-  restart_after: string
 }
 
 export interface BurstLimit {
@@ -115,16 +106,9 @@ export interface Name {
   max_size: string
   level: string
   time_offset: string
-  chars_limit: string
   formatter: string
-  single_line: boolean
-  sync_mode_qlen: number
-  drop_mode_qlen: number
-  flush_qlen: number
   overload_kill: OverloadKill2
   burst_limit: BurstLimit2
-  supervisor_reports: string
-  max_depth: number
 }
 
 export interface Rotation {
@@ -134,9 +118,7 @@ export interface Rotation {
 
 export interface OverloadKill2 {
   enable: boolean
-  mem_size: string
   qlen: number
-  restart_after: string
 }
 
 export interface BurstLimit2 {
