@@ -23,10 +23,6 @@
     "desc": "Authorization a.k.a. ACL.<br/>\nIn EMQX, MQTT client access control is extremely flexible.<br/>\nAn out-of-the-box set of authorization data sources are supported.\nFor example,<br/>\n'file' source is to support concise and yet generic ACL rules in a file;<br/>\n'built_in_database' source can be used to store per-client customizable rule sets,\nnatively in the EMQX node;<br/>\n'http' source to make EMQX call an external HTTP API to make the decision;<br/>\n'PostgreSQL' etc. to look up clients or rules from external databases",
     "label": "Authorization"
   },
-  "log_file_handlers": {
-    "desc": "File-based log handlers.",
-    "label": "File Handler"
-  },
   "time_offset": {
     "desc": "The time offset to be used when formatting the timestamp.\nCan be one of:\n  - <code>system</code>: the time offset used by the local system\n  - <code>utc</code>: the UTC time offset\n  - <code>+-[hh]:[mm]</code>: user specified time offset, such as \"-02:00\" or \"+00:00\"\nDefaults to: <code>system</code>.",
     "label": "Time Offset"
@@ -58,9 +54,6 @@
   "bytes_rate": {
     "desc": "Data publish rate.<br/>\nThis is used to limit the inbound bytes rate for this node,\nonce the limit is reached, the restricted client will slow down and even be hung for a while.",
     "label": "Data Publish Rate"
-  },
-  "zones": {
-    "desc": "A zone is a set of configs grouped by the zone <code>name</code>.\nFor flexible configuration mapping, the <code>name</code> can be set to a listener's <code>zone</code> config.\nNOTE: A built-in zone named <code>default</code> is auto created and can not be deleted."
   },
   "peer_cert_as_username": {
     "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Username. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: Content of the <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Username\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
@@ -95,14 +88,6 @@
   "mqtt": {
     "desc": "Global MQTT configuration.\nThe configs here work as default values which can be overridden in <code>zone</code> configs"
   },
-  "flapping_detect_enable": {
-    "desc": "Enable flapping connection detection feature.",
-    "label": "Enable flapping detection"
-  },
-  "common_ssl_opts_schema_cacertfile": {
-    "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
-    "label": "CACertfile"
-  },
   "procmem_high_watermark": {
     "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated by one Erlang process before\n the corresponding alarm is raised.",
     "label": "ProcMem high wartermark"
@@ -113,10 +98,6 @@
   },
   "sys_heartbeat_interval": {
     "desc": "Time interval for publishing following heartbeat messages:\n  - `$SYS/brokers/<node>/uptime`\n  - `$SYS/brokers/<node>/datetime`"
-  },
-  "flapping_detect_ban_time": {
-    "desc": "How long the flapping clientid will be banned.",
-    "label": "Ban Duration"
   },
   "upgrade_qos": {
     "desc": "Force upgrade of QoS level according to subscription.",
@@ -145,40 +126,16 @@
     "desc": "Maximum number of QoS 1 and QoS 2 messages that are allowed to be delivered simultaneously before completing the acknowledgment.",
     "label": "Max Inflight"
   },
-  "persistent_session_store_enabled": {
-    "desc": "Use the database to store information about persistent sessions.\nThis makes it possible to migrate a client connection to another\ncluster node if a node is stopped.",
-    "label": "Enable persistent session store"
-  },
   "server_keepalive": {
     "label": "Server Keep Alive"
-  },
-  "persistent_session_store_session_message_gc_interval": {
-    "desc": "The starting interval for garbage collection of transient data for\npersistent session messages. This does not affect the lifetime length\nof persistent session messages.",
-    "label": "Session message GC interval"
-  },
-  "server_ssl_opts_schema_ocsp_refresh_http_timeout": {
-    "desc": "The timeout for the HTTP request when checking OCSP responses.",
-    "label": "OCSP Refresh HTTP Timeout"
   },
   "process_high_watermark": {
     "desc": "The threshold, as percentage of processes, for how many\n processes can simultaneously exist at the local node before the corresponding\n alarm is raised.",
     "label": "Process high watermark"
   },
-  "server_ssl_opts_schema_honor_cipher_order": {
-    "desc": "An important security setting, it forces the cipher to be set based\n on the server-specified order instead of the client-specified order,\n hence enforcing the (usually more properly configured) security\n ordering of the server administrator.",
-    "label": "SSL honor cipher order"
-  },
-  "persistent_store_ram_cache": {
-    "desc": "Maintain a copy of the data in RAM for faster access.",
-    "label": "RAM cache"
-  },
   "mqueue_priorities": {
     "desc": "Topic priorities. Priority number [1-255]. There's no priority table by default, hence all messages are treated equal.<br/>NOTE: Comma and equal signs are not allowed for priority topic names.<br/>NOTE: Messages for topics not in the priority table are treated as either highest or lowest priority depending on the configured value for mqtt.mqueue_default_priority.<br/>Examples:<br/>To configure \"topic/1\" > \"topic/2\":<br/>mqueue_priorities: {'{'}\"topic/1\": 10, \"topic/2\": 8{'}'}",
     "label": "Topic Priorities"
-  },
-  "alarm_size_limit": {
-    "desc": "The maximum total number of deactivated alarms to keep as history.<br/>When this limit is exceeded, the oldest deactivated alarms are deleted to cap the total number.",
-    "label": "Alarm size limit"
   },
   "sys_msg_interval": {
     "desc": "Time interval of publishing `$SYS` messages."
@@ -187,37 +144,13 @@
     "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
     "label": "Max Awaiting PUBREL Timeout"
   },
-  "common_ssl_opts_schema_verify": {
-    "desc": "Enable or disable peer verification.",
-    "label": "Verify peer"
-  },
-  "fields_listeners_ssl": {
-    "desc": "SSL listeners.",
-    "label": "SSL listeners"
-  },
-  "common_ssl_opts_schema_keyfile": {
-    "desc": "PEM format private key file.",
-    "label": "Keyfile"
-  },
   "cpu_high_watermark": {
     "desc": "The threshold, as percentage of system CPU load,\n for how much system cpu can be used before the corresponding alarm is raised.",
     "label": "CPU high watermark"
   },
-  "flapping_detect_window_time": {
-    "desc": "The time window for flapping detection.",
-    "label": "Window time"
-  },
   "mqueue_default_priority": {
     "desc": "Default topic priority, which will be used by topics not in <code>Topic Priorities</code> (<code>mqueue_priorities</code>).",
     "label": "Default Topic Priorities"
-  },
-  "client_ssl_opts_schema_enable": {
-    "desc": "Enable TLS.",
-    "label": "Enable TLS"
-  },
-  "fields_tcp_opts_recbuf": {
-    "desc": "The TCP receive buffer (OS kernel) for the connections.",
-    "label": "TCP receive buffer"
   },
   "process_check_interval": {
     "desc": "The time interval for the periodic process limit check.",
@@ -227,24 +160,12 @@
     "desc": "The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.",
     "label": "SysMem high wartermark"
   },
-  "server_ssl_opts_schema_dhfile": {
-    "desc": "Path to a file containing PEM-encoded Diffie-Hellman parameters\nto be used by the server if a cipher suite using Diffie-Hellman\nkey exchange is negotiated. If not specified, default parameters\nare used.<br/>\nNOTE: The <code>dhfile</code> option is not supported by TLS 1.3.",
-    "label": "SSL dhfile"
-  },
-  "flapping_detect_max_count": {
-    "desc": "The maximum number of disconnects allowed for a MQTT Client in `window_time`",
-    "label": "Max count"
-  },
   "max_topic_levels": {
     "label": "Max Topic Levels"
   },
   "ignore_loop_deliver": {
     "desc": "Whether the messages sent by the MQTT v3.1.1/v3.1.0 client will be forwarded to the client itself, similar to `No Local` in MQTT 5.0.",
     "label": "Ignore Loop Deliver"
-  },
-  "common_ssl_opts_schema_certfile": {
-    "desc": "PEM format certificates chain file.<br/>\nThe certificates in this file should be in reversed order of the certificate\nissue chain. That is, the host's certificate should be placed in the beginning\nof the file, followed by the immediate issuer certificate and so on.\nAlthough the root CA certificate is optional, it should be placed at the end of\nthe file if it is to be added.",
-    "label": "Certfile"
   },
   "exclusive_subscription": {
     "label": "Allowed Exclusive Subscription"
@@ -261,52 +182,12 @@
     "desc": "`Keep-Alive Timeout = Keep-Alive Interval × Keep-Alive Multiplier`. Default value is 1.5 as per MQTT 5.0.\n\nFor example, a Keep-Alive interval of 10 seconds yields a timeout of 15 seconds with a multiplier of 1.5. Increasing the multiplier value to 2 extends the timeout to 20 seconds.",
     "label": "Keep Alive Multiplier"
   },
-  "force_gc_bytes": {
-    "desc": "GC the process after specified number of bytes have passed through.",
-    "label": "Process GC bytes"
-  },
-  "server_ssl_opts_schema_fail_if_no_peer_cert": {
-    "desc": "Used together with {'{'}verify, verify_peer{'}'} by an TLS/DTLS server.\nIf set to true, the server fails if the client does not have a\ncertificate to send, that is, sends an empty certificate.\nIf set to false, it fails only if the client sends an invalid\ncertificate (an empty certificate is considered valid).",
-    "label": "Force Verify Peer Certificate"
-  },
-  "force_gc_count": {
-    "desc": "GC the process after this many received messages.",
-    "label": "Process GC messages num"
-  },
   "max_clientid_len": {
     "label": "Max Client ID Length"
-  },
-  "persistent_session_store_backend": {
-    "desc": "Database management system used to store information about persistent sessions and messages.\n- `builtin`: Use the embedded database (mria)",
-    "label": "Backend"
-  },
-  "alarm_validity_period": {
-    "desc": "Retention time of deactivated alarms. Alarms are not deleted immediately\nwhen deactivated, but after the retention time.",
-    "label": "Alarm validity period"
-  },
-  "server_ssl_opts_schema_ocsp_issuer_pem": {
-    "desc": "PEM-encoded certificate of the OCSP issuer for the server certificate.",
-    "label": "OCSP Issuer Certificate"
   },
   "response_information": {
     "desc": "Response Information <br/>UTF-8 string, for creating the response topic, for example, if set to `reqrsp/`, the publisher/subscriber will communite under the topic `reqrsp/`.To disable this feature, input `\"\"` in the text box below.",
     "label": "Response Information"
-  },
-  "persistent_session_store_max_retain_undelivered": {
-    "desc": "The time messages that was not delivered to a persistent session\nis stored before being garbage collected if the node the previous\nsession was handled on restarts of is stopped.",
-    "label": "Max retain undelivered"
-  },
-  "common_ssl_opts_schema_password": {
-    "desc": "String containing the user's password. Only used if the private key file is password-protected.",
-    "label": "Keyfile passphrase"
-  },
-  "common_ssl_opts_schema_hibernate_after": {
-    "desc": "Hibernate the SSL process after idling for amount of time reducing its memory footprint.",
-    "label": "hibernate after"
-  },
-  "server_ssl_opts_schema_ocsp_responder_url": {
-    "desc": "URL for the OCSP responder to check the server certificate against.",
-    "label": "OCSP Responder URL"
   },
   "idle_timeout": {
     "desc": "Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.",
@@ -316,39 +197,9 @@
     "desc": "Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.",
     "label": "Strict Mode"
   },
-  "shared_subscription_group_strategy": {
-    "desc": "Per group dispatch strategy for shared subscription.\nThis config is a map from shared subscription group name to the strategy\nname. The group name should be of format `[A-Za-z0-9]`. i.e. no\nspecial characters are allowed."
-  },
-  "shared_subscription_strategy_enum": {
-    "desc": "Dispatch strategy for shared subscription.\n- `random`: dispatch the message to a random selected subscriber\n- `round_robin`: select the subscribers in a round-robin manner\n- `round_robin_per_group`: select the subscribers in round-robin fashion within each shared subscriber group\n- `sticky`: always use the last selected subscriber to dispatch,\nuntil the subscriber disconnects.\n- `hash`: select the subscribers by the hash of `clientIds`\n- `local`: send to a random local subscriber. If local\nsubscriber was not found, send to a random subscriber cluster-wide"
-  },
-  "persistent_session_builtin_sess_msg_table": {
-    "desc": "Performance tuning options for built-in session messages table.",
-    "label": "Persistent session messages"
-  },
   "mqueue_store_qos0": {
     "desc": "Specifies whether to store QoS 0 messages in the message queue while the connection is down but the session remains.",
     "label": "Store QoS 0 Message"
-  },
-  "server_ssl_opts_schema_client_renegotiation": {
-    "desc": "In protocols that support client-initiated renegotiation,\nthe cost of resources of such an operation is higher for the server than the client.\nThis can act as a vector for denial of service attacks.\nThe SSL application already takes measures to counter-act such attempts,\nbut client-initiated renegotiation can be strictly disabled by setting this option to false.\nThe default value is true. Note that disabling renegotiation can result in\nlong-lived connections becoming unusable due to limits on\nthe number of messages the underlying cipher suite can encipher.",
-    "label": "SSL client renegotiation"
-  },
-  "server_ssl_opts_schema_enable_crl_check": {
-    "desc": "Whether to enable CRL verification for this listener.",
-    "label": "Enable CRL Check"
-  },
-  "force_gc_enable": {
-    "desc": "Enable forced garbage collection.",
-    "label": "Enable forced garbage collection"
-  },
-  "common_ssl_opts_schema_versions": {
-    "desc": "All TLS/DTLS versions to be supported.<br/>\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config.<br/>\nIn case PSK cipher suites are intended, make sure to configure\n<code>['tlsv1.2', 'tlsv1.1']</code> here.",
-    "label": "SSL versions"
-  },
-  "common_ssl_opts_schema_secure_renegotiate": {
-    "desc": "SSL parameter renegotiation is a feature that allows a client and a server\nto renegotiate the parameters of the SSL connection on the fly.\nRFC 5746 defines a more secure way of doing this. By enabling secure renegotiation,\nyou drop support for the insecure renegotiation, prone to MitM attacks.",
-    "label": "SSL renegotiate"
   },
   "busy_port": {
     "desc": "When a port (e.g. TCP socket) is overloaded, there will be a <code>busy_port</code> warning log,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/busy_port</code>.",
@@ -362,14 +213,6 @@
     "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
     "label": "Max Packet Size"
   },
-  "common_ssl_opts_schema_reuse_sessions": {
-    "desc": "Enable TLS session reuse.",
-    "label": "TLS session reuse"
-  },
-  "common_ssl_opts_schema_depth": {
-    "desc": "Maximum number of non-self-issued intermediate certificates that can follow the peer certificate in a valid certification path.\nSo, if depth is 0 the PEER must be signed by the trusted ROOT-CA directly;<br/>\nif 1 the path can be PEER, Intermediate-CA, ROOT-CA;<br/>\nif 2 the path can be PEER, Intermediate-CA1, Intermediate-CA2, ROOT-CA.",
-    "label": "CACert Depth"
-  },
   "long_gc": {
     "desc": "When an Erlang process spends long time to perform garbage collection, a warning level <code>long_gc</code> log is emitted,\nand an MQTT message is published to the system topic <code>$SYS/sysmon/long_gc</code>.",
     "label": "Enable Long GC monitoring"
@@ -377,18 +220,6 @@
   "peer_cert_as_clientid": {
     "desc": "Use the CN, DN field in the peer certificate or the entire certificate content as Client ID. Only works for the TLS connection.\nSupported configurations are the following:\n- <code>cn</code>: CN field of the certificate\n- <code>dn</code>: DN field of the certificate\n- <code>crt</code>: <code>DER</code> or <code>PEM</code> certificate\n- <code>pem</code>: Convert <code>DER</code> certificate content to <code>PEM</code> format and use as Client ID\n- <code>md5</code>: MD5 value of the <code>DER</code> or <code>PEM</code> certificate",
     "label": "Use Peer Certificate as Client ID"
-  },
-  "persistent_session_store_message_gc_interval": {
-    "desc": "The starting interval for garbage collection of undelivered messages to\na persistent session. This affects how often the \"max_retain_undelivered\"\nis checked for removal.",
-    "label": "Message GC interval"
-  },
-  "force_shutdown_enable": {
-    "desc": "Enable `force_shutdown` feature.",
-    "label": "Enable `force_shutdown` feature"
-  },
-  "ciphers_schema_common": {
-    "desc": "This config holds TLS cipher suite names separated by comma,\nor as an array of strings. e.g.\n<code>\"TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256\"</code> or\n<code>[\"TLS_AES_256_GCM_SHA384\",\"TLS_AES_128_GCM_SHA256\"]</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>\"RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA\"</code>",
-    "label": ""
   },
   "cpu_check_interval": {
     "desc": "The time interval for the periodic CPU check.",
