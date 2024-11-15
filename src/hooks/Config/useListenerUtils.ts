@@ -165,8 +165,11 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     reuseaddr: true,
     send_timeout_close: true,
     active_n: 100,
+    backlog: 1024,
     buffer: '4KB',
     send_timeout: '15s',
+    keepalive: 'none',
+    nolinger: false,
   })
 
   const createRawUDPParams = () => ({
