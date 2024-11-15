@@ -3,9 +3,11 @@
     <el-card class="app-card allow-overflow" v-loading="isDataLoading">
       <div class="schema-form">
         <el-form
+          ref="FormCom"
           class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
+          :model="opentelemetryFormData"
           :label-width="store.state.lang === 'zh' ? 176 : 190"
         >
           <el-row>
@@ -168,21 +170,179 @@
               </el-col>
               <!-- Traces -->
               <template v-if="opentelemetryFormData.traces?.enable">
-                <el-col :span="21">
+                <el-col :span="21" v-if="opentelemetryFormData.traces.filter">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel
+                        :label="tl('traceMode')"
+                        :desc="tl('traceModeDesc')"
+                        desc-marked
+                      />
+                    </template>
+                    <el-select
+                      v-model="opentelemetryFormData.traces.filter.trace_mode"
+                      :placeholder="tl('selectTraceMode')"
+                    >
+                      <el-option
+                        v-for="mode in openTelemetryTracesModes"
+                        :key="mode.value"
+                        :label="mode.label"
+                        :value="mode.value"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col
+                  :span="21"
+                  v-if="
+                    opentelemetryFormData.traces?.filter?.trace_mode ===
+                    OpenTelemetryTraceModes.Legacy
+                  "
+                >
                   <el-form-item>
                     <template #label>
                       <FormItemLabel
                         :label="tl('tracesFilterTracesAll')"
                         :desc="tl('tracesFilterTracesAllDesc')"
-                      >
-                      </FormItemLabel>
+                      />
                     </template>
                     <el-switch
                       v-if="opentelemetryFormData.traces?.filter"
                       v-model="opentelemetryFormData.traces.filter.trace_all"
-                    ></el-switch>
+                    />
                   </el-form-item>
                 </el-col>
+                <template
+                  v-if="
+                    opentelemetryFormData.traces?.filter?.trace_mode ===
+                      OpenTelemetryTraceModes.E2E &&
+                    opentelemetryFormData.traces.filter.e2e_tracing_options
+                  "
+                >
+                  <el-col :span="21">
+                    <el-form-item>
+                      <template #label>
+                        <FormItemLabel
+                          :label="tl('attributeMeta')"
+                          :desc="tl('attributeMetaDesc')"
+                          desc-marked
+                        />
+                      </template>
+                      <el-input
+                        v-model="
+                          opentelemetryFormData.traces.filter.e2e_tracing_options.attribute_meta
+                        "
+                        :placeholder="tl('attributeMetaPlaceholder')"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="21">
+                    <el-form-item :label="tl('publishResponseTraceLevel')">
+                      <template #label>
+                        <FormItemLabel
+                          :label="tl('publishResponseTraceLevel')"
+                          :desc="tl('publishResponseTraceLevelDesc')"
+                          desc-marked
+                        />
+                      </template>
+                      <el-select
+                        v-model="
+                          opentelemetryFormData.traces.filter.e2e_tracing_options
+                            .publish_response_trace_level
+                        "
+                      >
+                        <el-option v-for="item in [0, 1, 2]" :key="item" :value="item" />
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <template v-if="opentelemetryFormData.traces.filter.e2e_tracing_options.samplers">
+                    <el-col :span="21">
+                      <el-form-item>
+                        <template #label>
+                          <FormItemLabel
+                            :label="tl('whitelistBasedSampler')"
+                            :desc="tl('whitelistBasedSamplerDesc')"
+                            desc-marked
+                          />
+                        </template>
+                        <el-switch
+                          v-model="
+                            opentelemetryFormData.traces.filter.e2e_tracing_options.samplers
+                              .whitelist_based_sampler
+                          "
+                        />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="21">
+                      <el-form-item>
+                        <template #label>
+                          <FormItemLabel :label="tl('eventBasedSamplers')" />
+                        </template>
+                        <el-table
+                          class="key-and-value-editor shadow-none"
+                          :data="
+                            opentelemetryFormData.traces.filter.e2e_tracing_options.samplers
+                              ?.event_based_samplers
+                          "
+                        >
+                          <el-table-column
+                            class-name="column-type"
+                            :label="tl('eventType')"
+                            :min-width="160"
+                          >
+                            <template #default="{ row: sampler }">
+                              <el-form-item>
+                                <el-select v-model="sampler.name">
+                                  <el-option
+                                    v-for="{ value, label } in openTelemetrySamplerOpts"
+                                    :key="value"
+                                    :value="value"
+                                    :label="label"
+                                  />
+                                </el-select>
+                              </el-form-item>
+                            </template>
+                          </el-table-column>
+                          <el-table-column
+                            class-name="column-value"
+                            :min-width="120"
+                            :label="tl('samplingRatio')"
+                          >
+                            <template #default="{ row: sampler, $index }">
+                              <el-form-item
+                                :prop="`traces.filter.e2e_tracing_options.samplers.event_based_samplers.${$index}.ratio`"
+                                :rules="ratioRules"
+                              >
+                                <InputWithUnit v-model="sampler.ratio" :units="['%']" />
+                              </el-form-item>
+                            </template>
+                          </el-table-column>
+                          <el-table-column width="80">
+                            <template #header>
+                              <el-button
+                                link
+                                @click="addSampler"
+                                :disabled="!$hasPermission('post')"
+                              >
+                                {{ t('Base.add') }}
+                              </el-button>
+                            </template>
+                            <template #default="{ $index }">
+                              <div class="space-between">
+                                <el-button
+                                  class="btn-del"
+                                  :icon="Delete"
+                                  :disabled="!$hasPermission('delete')"
+                                  @click="removeSampler($index)"
+                                />
+                              </div>
+                            </template>
+                          </el-table-column>
+                        </el-table>
+                      </el-form-item>
+                    </el-col>
+                  </template>
+                </template>
                 <el-col :span="21">
                   <el-form-item :label="`${tl('tracesEnable')}${tl('exportInterval')}`">
                     <TimeInputWithUnitSelect
@@ -201,8 +361,7 @@
                         :key="level"
                         :label="level"
                         :value="level"
-                      >
-                      </el-option>
+                      />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -249,27 +408,31 @@
 
 <script setup lang="ts">
 import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from '@/api/common'
+import dataDogImg from '@/assets/img/datadog.png'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
-import dataDogImg from '@/assets/img/datadog.png'
 import { checkNOmitFromObj } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import InputWithUnit from '@/components/InputWithUnit.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import useDocLink from '@/hooks/useDocLink'
+import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
+import useSSL from '@/hooks/useSSL'
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
+import { OpenTelemetrySampler } from '@/types/typeAlias'
+import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
+import { camelCase, cloneDeep, isEqual, set } from 'lodash'
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
-import useSSL from '@/hooks/useSSL'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useDocLink from '@/hooks/useDocLink'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'
@@ -335,6 +498,15 @@ const opentelemetryFormData = ref<OpenTelemetry>({
     enable: false,
     filter: {
       trace_all: false,
+      trace_mode: 'legacy',
+      e2e_tracing_options: {
+        attribute_meta: 'emqxcl',
+        publish_response_trace_level: 0,
+        samplers: {
+          event_based_samplers: [],
+          whitelist_based_sampler: true,
+        },
+      },
     },
     scheduled_delay: '5s',
   },
@@ -355,6 +527,21 @@ const openTelemetryLogLevels = [
   'emergency',
   'all',
 ]
+
+const enum OpenTelemetryTraceModes {
+  Legacy = 'legacy',
+  E2E = 'e2e',
+}
+const openTelemetryTracesModes = [
+  { label: 'Legacy', value: OpenTelemetryTraceModes.Legacy },
+  { label: tl('e2e'), value: OpenTelemetryTraceModes.E2E },
+]
+const openTelemetrySamplerOpts = Object.values(OpenTelemetrySampler).map((value) => ({
+  label: tl(camelCase(value)),
+  value,
+}))
+const { createRequiredRule } = useFormRules()
+const ratioRules = createRequiredRule(tl('samplingRatio'))
 
 const isDataLoading = ref(false)
 
@@ -406,7 +593,13 @@ const loadOpentelemetry = async function () {
   }
 }
 
+const FormCom = ref()
 const updateOpentelemetry = async function () {
+  try {
+    await FormCom.value.validate()
+  } catch (error) {
+    return
+  }
   try {
     isSubmitting.value = true
     await setOpenTelemetry(checkNOmitFromObj(opentelemetryFormData.value))
@@ -417,6 +610,36 @@ const updateOpentelemetry = async function () {
   } finally {
     loadOpentelemetry()
     isSubmitting.value = false
+  }
+}
+
+const createDefaultSampler = () => ({
+  name: OpenTelemetrySampler.clientconnect,
+  ratio: '10%',
+})
+const addSampler = () => {
+  if (
+    !opentelemetryFormData.value.traces?.filter?.e2e_tracing_options?.samplers?.event_based_samplers
+  ) {
+    set(
+      opentelemetryFormData.value,
+      'traces.filter.e2e_tracing_options.samplers.event_based_samplers',
+      [],
+    )
+  }
+  ;(
+    opentelemetryFormData.value.traces as any
+  ).filter.e2e_tracing_options.samplers.event_based_samplers.push(createDefaultSampler())
+}
+
+const removeSampler = (index: number) => {
+  if (
+    opentelemetryFormData.value.traces?.filter?.e2e_tracing_options?.samplers?.event_based_samplers
+  ) {
+    opentelemetryFormData.value.traces.filter.e2e_tracing_options.samplers.event_based_samplers.splice(
+      index,
+      1,
+    )
   }
 }
 
@@ -478,6 +701,15 @@ const { addObserverToFooter } = useConfFooterStyle()
   }
   .ft {
     padding: 12px 12px + 12px + 4px;
+  }
+  .el-table .el-table__cell {
+    .el-form-item {
+      margin: 0;
+      padding: 0;
+    }
+    .el-select {
+      width: 100%;
+    }
   }
 }
 </style>

@@ -13,17 +13,23 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusAuth200Two = { [key: string]: any }
 
-export type GetPrometheusMessageTransformation200Two = { [key: string]: any }
-
-export type GetPrometheusMessageTransformationParams = {
+export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
+export type GetPrometheusMessageTransformation200Two = { [key: string]: any }
+
 export type GetPrometheusStats200Two = { [key: string]: any }
+
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
 
 export type GetPrometheusSchemaValidation200Two = { [key: string]: any }
 
 export type GetPrometheusDataIntegration200Two = { [key: string]: any }
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type EmqxPrometheusApiModeParameter =
   typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
@@ -35,11 +41,7 @@ export const EmqxPrometheusApiModeParameter = {
   all_nodes_unaggregated: 'all_nodes_unaggregated',
 } as const
 
-export type GetPrometheusAuthParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type GetPrometheusStatsParams = {
+export type GetPrometheusMessageTransformationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
@@ -66,8 +68,6 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
@@ -202,8 +202,19 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
 }
 
+export type OpentelemetryTraceFilterTraceMode =
+  typeof OpentelemetryTraceFilterTraceMode[keyof typeof OpentelemetryTraceFilterTraceMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryTraceFilterTraceMode = {
+  legacy: 'legacy',
+  e2e: 'e2e',
+} as const
+
 export interface OpentelemetryTraceFilter {
+  trace_mode?: OpentelemetryTraceFilterTraceMode
   trace_all?: boolean
+  e2e_tracing_options?: OpentelemetryE2eTracingOptions
 }
 
 export interface OpentelemetryOtelTraces {
@@ -249,6 +260,34 @@ export interface OpentelemetryOpentelemetry {
   logs?: OpentelemetryOtelLogs
   traces?: OpentelemetryOtelTraces
   exporter?: OpentelemetryOtelExporter
+}
+
+export type OpentelemetryEventBasedSamplersName =
+  typeof OpentelemetryEventBasedSamplersName[keyof typeof OpentelemetryEventBasedSamplersName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryEventBasedSamplersName = {
+  clientconnect: 'client.connect',
+  clientdisconnect: 'client.disconnect',
+  clientsubscribe: 'client.subscribe',
+  clientunsubscribe: 'client.unsubscribe',
+  clientpublish: 'client.publish',
+} as const
+
+export interface OpentelemetryEventBasedSamplers {
+  name?: OpentelemetryEventBasedSamplersName
+  ratio?: string
+}
+
+export interface OpentelemetryE2eSamplers {
+  whitelist_based_sampler?: boolean
+  event_based_samplers?: OpentelemetryEventBasedSamplers[]
+}
+
+export interface OpentelemetryE2eTracingOptions {
+  attribute_meta?: string
+  publish_response_trace_level?: number
+  samplers?: OpentelemetryE2eSamplers
 }
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'

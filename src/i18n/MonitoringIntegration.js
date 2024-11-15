@@ -194,4 +194,72 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: 'Datadog - EMQX 集成',
     en: 'Datadog - EMQX Integration',
   },
+  e2e: {
+    zh: '端到端',
+    en: 'End-to-End',
+  },
+  traceMode: {
+    zh: '追踪模式',
+    en: 'Trace Mode',
+  },
+  traceModeDesc: {
+    zh: 'OpenTelemetry 追踪模式。<br/><br/>- `Legacy`: 遵循旧的追踪方法，仅追踪消息发布和传递。<br/><br/>  Span 名称将保持与旧版本兼容。<br/>- `E2E`: 端到端追踪模式。将追踪所有类型的客户端行为：<br/><br/>  连接/断开连接/订阅/取消订阅/消息发布/消息传递。<br/><br/>  更多控制选项和采样函数由 `e2e_tracing_options` 子配置项控制<br/>',
+    en: 'OpenTelemetry tracing mode.<br/><br/>- `legacy`: follow the old tracing method, only trace message publishing and delivery.<br/><br/>  Span Name will remain compatible with the old version.<br/>- `e2e`: end-to-end tracing mode. All kinds of client behaviors will be traced:<br/><br/>  Connection/Disconnection/Subscription/Unsubscription/Message Publishing/Message delivery.<br/><br/>  More control options and sampling functions are controlled by the `e2e_tracing_options` sub-configuration item<br/>',
+  },
+  attributeMeta: {
+    zh: '属性元数据',
+    en: 'Attribute Metadata',
+  },
+  attributeMetaDesc: {
+    zh: 'Span 的属性元数据。<br/><br/>通常设置一个简单且易识别的名称或使用集群名称来标识不同的 EMQX 集群。',
+    en: "Simple attribute meta value added into Span's Attributes.</br/><br/>Typically set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+  },
+  publishResponseTraceLevel: {
+    zh: '发布响应追踪级别',
+    en: 'Publish Response Trace Level',
+  },
+  publishResponseTraceLevelDesc: {
+    zh: '消息发布过程中所有消息交换的追踪级别。<br/><br/>- `0`: 仅对所有 QoS 级别的 `PUBLISH` 包进行采样（QoS0、QoS1、QoS2）。<br/>- `1`: 除了所有 QoS 的 `PUBLISH` 包外，还会对 `PUBACK` 和 `PUBREC` 进行采样。<br/>   即 QoS1 或 QoS2 消息交互中的第一个响应包。<br/>- `2`: 将对 `PUBLISH` 包和所有响应包 `PUBACK`、`PUBREC`、`PUBREL`、`PUBCOMP` 进行采样。',
+    en: 'Trace level for all message exchanges during the message publishing process.<br/><br/>- `0`: Only `PUBLISH` packets are sampled for all QoS level (both QoS0, QoS1, QoS2).<br/>- `1`: In addition to `PUBLISH` packets for all QoS. PUBACK and PUBREC are also sampled.<br/>   That is, the first response packet in the QoS1 or QoS2 message interaction.<br/>- `2`: Both `PUBLISH` packets and all response packets `PUBACK`, `PUBREC`, `PUBREL`, `PUBCOMP` will be sampled.',
+  },
+  whitelistBasedSampler: {
+    zh: '白名单采样器',
+    en: 'Whitelist Based Sampler',
+  },
+  whitelistBasedSamplerDesc: {
+    zh: '基于白名单的采样器。所有 Root Span 匹配白名单的 Span 将被采样。',
+    en: 'Whitelist-based Sampler. All Root Spans matched the whitelist will be sampled.',
+  },
+  eventBasedSamplers: {
+    zh: '事件采样器',
+    en: 'Event Based Samplers',
+  },
+  eventType: {
+    zh: '事件类型',
+    en: 'Event Type',
+  },
+  samplingRatio: {
+    zh: '采样率',
+    en: 'Sampling Ratio',
+  },
+  clientConnect: {
+    zh: '客户端连接',
+    en: 'Client Connect',
+  },
+  clientDisconnect: {
+    zh: '客户端断开',
+    en: 'Client Disconnect',
+  },
+  clientSubscribe: {
+    zh: '客户端订阅',
+    en: 'Client Subscribe',
+  },
+  clientUnsubscribe: {
+    zh: '客户端取消订阅',
+    en: 'Client Unsubscribe',
+  },
+  clientPublish: {
+    zh: '客户端发布',
+    en: 'Client Publish',
+  },
 }
