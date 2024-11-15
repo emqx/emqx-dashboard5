@@ -47,7 +47,7 @@ axios.interceptors.request.use(
       !config.keepSpaces &&
       config.method &&
       ['post', 'put'].includes(config.method) &&
-      typeof config.data === 'object'
+      _.isPlainObject(config.data)
     ) {
       config.data = trimValues(config.data)
     }

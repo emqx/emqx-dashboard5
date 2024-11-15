@@ -1052,6 +1052,7 @@ export interface EmqxListenerQuicSslOpts {
   keyfile?: string
   verify?: EmqxListenerQuicSslOptsVerify
   password?: string
+  hibernate_after?: string
 }
 
 export type EmqxDeflateOptsClientContextTakeover =

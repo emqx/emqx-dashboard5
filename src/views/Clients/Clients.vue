@@ -158,7 +158,6 @@
           :current-page="page"
           :hasnext="hasNext"
           :page-size="limit"
-          :total="clientsCount"
           :page-sizes="defaultPageSizeOpt"
           :layout="paginationLayout"
           @size-change="handleSizeChange"
@@ -179,7 +178,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
-import { loadCurrentMetrics } from '@/api/common'
 import {
   SEARCH_FORM_RES_PROPS as colProps,
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
@@ -406,7 +404,6 @@ const loadNodeClients = async (isBack = false) => {
       ? await handleExactSearchClient(sendParams)
       : await listClients(sendParams)
     tableData.value = data
-    updateClientsCount()
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
     updateCursorMap(routeName.value, cursorMap.value)
@@ -455,18 +452,18 @@ const getParamsFromQuery = () => {
 }
 
 const paginationLayout = computed(() => {
-  const withFilters = Object.entries(params.value).filter(([, value]) => !!value).length > 0
-  return `${withFilters ? '' : 'total, '}sizes, prev, next`
+  // const withFilters = Object.entries(params.value).filter(([, value]) => !!value).length > 0
+  return `sizes, prev, next`
 })
-const clientsCount = ref<number>(0)
-const updateClientsCount = async () => {
-  try {
-    const { connections } = await loadCurrentMetrics()
-    clientsCount.value = connections
-  } catch (error) {
-    //
-  }
-}
+// const clientsCount = ref<number>(0)
+// const updateClientsCount = async () => {
+//   try {
+//     const { connections } = await loadCurrentMetrics()
+//     clientsCount.value = connections
+//   } catch (error) {
+//     //
+//   }
+// }
 
 getParamsFromQuery()
 loadNodeClients()

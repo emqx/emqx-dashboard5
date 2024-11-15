@@ -6,6 +6,7 @@ import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
 import useI18nTl from '../useI18nTl'
+import useCheckIoTDBConnectorDriver from './connector/useCheckIoTDBConnectorDriver'
 
 const keysDoNotNeedForAPI = [
   'node_status',
@@ -299,11 +300,22 @@ export const useActionDataHandler = (): {
     return bridgeData
   }
 
+  const { checkIsIoTDBThriftConnector } = useCheckIoTDBConnectorDriver()
+  const handleIoTDBActionData = async (data: any) => {
+    const { connector } = data
+    const isThriftConnector = await checkIsIoTDBThriftConnector(connector)
+    if (isThriftConnector && /async/i.test(data.resource_opts?.query_mode)) {
+      data.resource_opts.query_mode = 'sync'
+    }
+    return data
+  }
+
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.S3, handleS3ActionData],
     [BridgeType.AzureBlobStorage, handleS3ActionData],
+    [BridgeType.IoTDB, handleIoTDBActionData],
   ])
 
   /**
