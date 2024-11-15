@@ -181,7 +181,7 @@ export default {
   },
   currentMessageInRate: {
     zh: '消息流入速率：',
-    en: 'Message In Rate:',
+    en: 'Messages In Rate:',
   },
   subscriptionNumber: {
     zh: '订阅数',

@@ -144,8 +144,9 @@
             {{ t('Base.refresh') }}
           </el-button>
           <el-button
-            type="primary"
+            v-if="allowSubscriptionOperations"
             :disabled="!$hasPermission('post')"
+            type="primary"
             :icon="Plus"
             @click="handlePreAdd"
           >
@@ -173,7 +174,7 @@
           </el-table-column>
           <el-table-column prop="rh" :label="tl('retainHandling')" />
         </template>
-        <el-table-column :label="$t('Base.operation')">
+        <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
           <template #default="{ row }">
             <el-button
               :disabled="!$hasPermission('delete')"
@@ -229,6 +230,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
+import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
 import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
@@ -257,6 +259,8 @@ const props = defineProps({
 type ClientTypes = 'MQTT' | 'LWM2M' | 'MQISDP' | 'others' | 'OCPP'
 
 const emit = defineEmits(['refreshGateway'])
+
+const isGateway = computed(() => !!props.gateway)
 
 const dialogVisible = ref(false)
 const clientDetailLock = ref(true)
@@ -381,6 +385,18 @@ const isMQTTVersion5 = computed(() => {
   return record.value.proto_name === 'MQTT' && record.value.proto_ver === 5
 })
 
+const gatewayTypesAllowSubscriptionOperations = [
+  GatewayName.CoAP,
+  GatewayName.MQTT_SN,
+  GatewayName.STOMP,
+]
+const allowSubscriptionOperations = computed(() => {
+  return (
+    !isGateway.value ||
+    (isGateway.value &&
+      gatewayTypesAllowSubscriptionOperations.includes(props.gateway as GatewayName))
+  )
+})
 const handleDisconnect = async () => {
   if (record.value === null) return
   let warningMsg = tl('willDisconnectTheConnection')
