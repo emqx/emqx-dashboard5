@@ -380,4 +380,16 @@ export default {
     zh: '健康检查响应内容',
     en: 'Health Check Response Content',
   },
+  tcpKeepaliveDesc: {
+    zh: "接受三个参数，格式为 'Idle,Interval,Probes'：<br />- Idle：空闲时长阈值（秒），超过该时长后开始发送 keepalive 探测包（Linux 默认值：7200）<br />- Interval：连续探测包之间的时间间隔（秒）（Linux 默认值：75）<br />- Probes：允许的最大连续未响应探测次数，超过此值将终止连接（Linux 默认值：9）<br />示例 `240,30,5` 表示连接空闲 240 秒后启动 keepalive 探测，每 30 秒发送一次探测包，连续 5 次探测未收到响应则终止连接<br />默认值：`none`（禁用 keepalive）<br />",
+    en: "Accepts three parameters in the format 'Idle,Interval,Probes':<br />- Idle: The number of seconds a connection needs to be idle before the server begins to send out keep-alive probes (Linux default 7200).<br />- Interval: The number of seconds between TCP keep-alive probes (Linux default 75).<br />- Probes: The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is obtained from the other end (Linux default 9).<br />For example `240,30,5` means: EMQX should start sending TCP keepalive probes after the connection is in idle for 240 seconds, and the probes are sent every 30 seconds until a response is received from the MQTT client, if it misses 5 consecutive responses, EMQX should close the connection.<br />Default: `none` (keepalive disabled)<br />",
+  },
+  nolinger: {
+    zh: '连接关闭模式（nolinger）',
+    en: 'nolinger',
+  },
+  nolingerDesc: {
+    zh: '启用后，将设置 `SO_LINGER` 标志为 `(onoff=1, linger=0)`，TCP 连接通过发送 TCP-RST 包立即关闭，丢弃所有未发送的数据，跳过 TCP 正常关闭的状态流转（CLOSE_WAIT、FIN_WAIT、TIME_WAIT）',
+    en: 'When enabled, `SO_LINGER` flag is set as `(onoff=1, linger=0)`, which means the TCP socket is to be closed immediately by sending a TCP-RST packet, discarding any unsent data and skipping the graceful close steps, including CLOSE_WAIT, FIN_WAIT, and TIME_WAIT.',
+  },
 }

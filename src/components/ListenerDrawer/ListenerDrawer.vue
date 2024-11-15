@@ -309,6 +309,14 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item label="Backlog">
+                  <CustomInputNumber
+                    v-model.number="listenerRecord.tcp_options.backlog"
+                    :placeholder="String(defaultListener.tcp_options.backlog)"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item :label="'Buffer'">
                   <InputWithUnit
                     v-model="listenerRecord.tcp_options.buffer"
@@ -339,6 +347,22 @@
               <el-col :span="12">
                 <el-form-item :label="tl('sendTimeoutClose')">
                   <BooleanSelect v-model="listenerRecord.tcp_options.send_timeout_close" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel :label="tl('nolinger')" :desc="tl('nolingerDesc')" desc-marked />
+                  </template>
+                  <el-switch v-model="listenerRecord.tcp_options.nolinger" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel label="Keepalive" :desc="tl('tcpKeepaliveDesc')" desc-marked />
+                  </template>
+                  <el-input v-model="listenerRecord.tcp_options.keepalive" />
                 </el-form-item>
               </el-col>
             </template>
