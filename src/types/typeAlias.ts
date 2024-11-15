@@ -48,6 +48,7 @@ import type {
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
+import { OpentelemetryEventBasedSamplersName } from './schemas/monitor.schemas'
 
 export type OverrideProperties<
   T,
@@ -114,3 +115,6 @@ export const ExternalSchemaType = {
 }
 export type ExternalSchema = SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry
 export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
+
+/* MONITOR */
+export const OpenTelemetrySampler = OpentelemetryEventBasedSamplersName
