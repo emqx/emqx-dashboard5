@@ -5,8 +5,8 @@ import { createI18n } from 'vue-i18n'
 import zhLocale from 'element-plus/es/locale/lang/zh-cn'
 import enLocale from 'element-plus/es/locale/lang/en'
 
-import schemaTextZh from '@/schemaText/schema-text-zh.json'
-import schemaTextEn from '@/schemaText/schema-text-en.json'
+import schemaTextZh from '@/schemaText/schema-text-zh'
+import schemaTextEn from '@/schemaText/schema-text-en'
 
 import {
   enSymbolLabel as symbolLabelEn,

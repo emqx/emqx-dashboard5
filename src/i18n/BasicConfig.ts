@@ -23,10 +23,6 @@ export default {
     zh: '默认',
     en: 'Default',
   },
-  listenerZoneDesc: {
-    zh: '监听器所属的配置组，一个 Zone 定义了一组配置项 (比如最大连接数等)，Listener 可以通过该配置项指定使用某个 Zone，以使用该 Zone 下的所有配置。多个 Listener 可以共享同一个 Zone',
-    en: 'The configuration group to which the listener belongs. A Zone defines a set of configuration items (such as the maximum number of connections), and a Listener can specify a Zone to use all the configurations in the Zone. Multiple Listeners can share the same Zone.',
-  },
   mqttPath: {
     zh: "WebSocket 连接 URL 中的路径，应以 `/` 开头，并支持子路径。默认情况下，WebSocket 客户端连接的完整 URL 为 `ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt`。<br/>支持在路径末尾添加 `/[...]` 表示任意子路径。例如，当设置为 `/mqtt/[...]` 时，可以接受 `/mqtt/org1`、`/mqtt/org1/app1` 等连接。<br/>注意，如果客户端连接的路径与配置不匹配，则连接将在 HTTP 层被拒绝。",
     en: "The path in the WebSocket connection URL, which should start with `/` and supports subpaths. By default, the full URL of a WebSocket client connection is `ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt`.<br/>It is supported to add `/[...] ` at the end of the path to make EMOX accept any subpath. For example, specifying `/mqtt/[...]` would allow clients to connect at paths like `mqtt/org1` or `mqtt/org1/app1`, etc.<br/><br/>NOTE: An unmatched path will cause the client to be rejected immediately at the HTTP  laver.",
@@ -74,10 +70,6 @@ export default {
   inviteSuccess: {
     zh: '邀请成功',
     en: 'Invite Successfully',
-  },
-  clusterType: {
-    zh: '集群方式',
-    en: 'Cluster Type',
   },
   currentNode: {
     zh: '当前节点',

@@ -59,10 +59,6 @@ export default {
     zh: '插件描述',
     en: 'Description',
   },
-  uploadPlugin: {
-    zh: '上传插件',
-    en: 'Upload plugin',
-  },
   dragFilePlaceholder: {
     zh: '选择或拖拽文件到此处',
     en: 'Select or drag files here',
@@ -90,10 +86,6 @@ export default {
   uploadWarning: {
     zh: '请先上传文件',
     en: 'Please upload the file first',
-  },
-  installNow: {
-    zh: '立即安装',
-    en: 'Install now',
   },
   moveToTop: {
     zh: '移到顶部',

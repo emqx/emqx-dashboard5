@@ -75,14 +75,6 @@ export default {
     zh: 'HTTP 服务',
     en: 'HTTP Server',
   },
-  bridgeDescHTTP: {
-    zh: '发送数据到 HTTP 服务',
-    en: 'Send data to HTTP Server',
-  },
-  bridgeDescMQTT: {
-    zh: '使用 MQTT 桥接数据',
-    en: 'Using MQTT to bridge data',
-  },
   trigger: {
     zh: '触发器',
     en: 'Trigger',
