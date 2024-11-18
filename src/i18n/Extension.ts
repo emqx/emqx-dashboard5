@@ -11,10 +11,6 @@ export default {
     zh: '自动订阅',
     en: 'Auto Subscribe',
   },
-  postpone: {
-    zh: '延迟发布',
-    en: 'Delayed Publish',
-  },
   message: {
     zh: '事件消息',
     en: 'Event Message',
@@ -22,10 +18,6 @@ export default {
   storage: {
     zh: '消息存储',
     en: 'Storage',
-  },
-  flowControl: {
-    en: 'Flow Control',
-    zh: '流控',
   },
   msgExpiryInterval: {
     en: 'Message Expiry Interval',
@@ -103,14 +95,6 @@ export default {
     zh: '发布时间',
     en: 'Publish Time',
   },
-  eventTitleDesc: {
-    zh: '将设备生命周期事件通过事件主题以 MQTT 消息的形式发布',
-    en: 'Publish client life cycle events through events topic',
-  },
-  configMsg: {
-    zh: '配置需要启用的事件消息',
-    en: 'Configure event messages that need to be enabled',
-  },
   client_connected: {
     en: 'Clients have already connected',
     zh: '客户端连接完成',
@@ -150,10 +134,6 @@ export default {
   re: {
     zh: '正则表达式',
     en: 'Regex',
-  },
-  dataManage: {
-    zh: '数据管理',
-    en: 'Manage Data',
   },
   builtInDatabase: {
     zh: '内置数据库',
