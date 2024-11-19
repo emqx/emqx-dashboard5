@@ -29,7 +29,7 @@
                   <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
                 </template>
                 <el-select v-model="retainerConfig.backend.type" :disabled="!configEnable">
-                  <el-option value="built_in_database" :label="tl('builtInDatabase')" />
+                  <el-option value="built_in_database" :label="t('Auth.builtInDatabase')" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -184,7 +184,7 @@ const { createRequiredRule } = useFormRules()
 const NO_INTERVAL_VALUE = '0s'
 const DISABLED_VALUE = 'disabled'
 
-let retainerConfig = ref<Retainer>({
+const retainerConfig = ref<Retainer>({
   enable: false,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
@@ -250,7 +250,7 @@ const loadConfigData = async () => {
   configLoading.value = true
   retainerForm.value?.resetFields()
   try {
-    let res = await getRetainer()
+    const res = await getRetainer()
     if (res) {
       retainerConfig.value = res
       setRawData(retainerConfig.value)
@@ -263,7 +263,7 @@ const loadConfigData = async () => {
 }
 
 const updateConfigData = async function () {
-  let valid = await retainerForm.value?.validate().catch(() => {
+  const valid = await retainerForm.value?.validate().catch(() => {
     // ignore error
   })
   if (!valid) return
