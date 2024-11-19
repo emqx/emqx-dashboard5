@@ -135,10 +135,6 @@ export default {
     zh: '正则表达式',
     en: 'Regex',
   },
-  builtInDatabase: {
-    zh: '内置数据库',
-    en: 'Built-in Database',
-  },
   noExp: {
     en: 'Never Expire',
     zh: '永不过期',
