@@ -695,4 +695,8 @@ export default {
     zh: '，',
     en: ', ',
   },
+  wordBdy: {
+    zh: '',
+    en: ' ',
+  },
 }

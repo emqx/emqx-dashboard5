@@ -273,74 +273,6 @@
                         />
                       </el-form-item>
                     </el-col>
-                    <el-col :span="21">
-                      <el-form-item>
-                        <template #label>
-                          <FormItemLabel :label="tl('eventBasedSamplers')" />
-                        </template>
-                        <el-table
-                          class="key-and-value-editor shadow-none"
-                          :data="
-                            opentelemetryFormData.traces.filter.e2e_tracing_options.samplers
-                              ?.event_based_samplers
-                          "
-                        >
-                          <el-table-column
-                            class-name="column-type"
-                            :label="tl('eventType')"
-                            :min-width="160"
-                          >
-                            <template #default="{ row: sampler }">
-                              <el-form-item>
-                                <el-select v-model="sampler.name">
-                                  <el-option
-                                    v-for="{ value, label } in openTelemetrySamplerOpts"
-                                    :key="value"
-                                    :value="value"
-                                    :label="label"
-                                  />
-                                </el-select>
-                              </el-form-item>
-                            </template>
-                          </el-table-column>
-                          <el-table-column
-                            class-name="column-value"
-                            :min-width="120"
-                            :label="tl('samplingRatio')"
-                          >
-                            <template #default="{ row: sampler, $index }">
-                              <el-form-item
-                                :prop="`traces.filter.e2e_tracing_options.samplers.event_based_samplers.${$index}.ratio`"
-                                :rules="ratioRules"
-                              >
-                                <InputWithUnit v-model="sampler.ratio" :units="['%']" />
-                              </el-form-item>
-                            </template>
-                          </el-table-column>
-                          <el-table-column width="80">
-                            <template #header>
-                              <el-button
-                                link
-                                @click="addSampler"
-                                :disabled="!$hasPermission('post')"
-                              >
-                                {{ t('Base.add') }}
-                              </el-button>
-                            </template>
-                            <template #default="{ $index }">
-                              <div class="space-between">
-                                <el-button
-                                  class="btn-del"
-                                  :icon="Delete"
-                                  :disabled="!$hasPermission('delete')"
-                                  @click="removeSampler($index)"
-                                />
-                              </div>
-                            </template>
-                          </el-table-column>
-                        </el-table>
-                      </el-form-item>
-                    </el-col>
                   </template>
                 </template>
                 <el-col :span="21">
@@ -414,21 +346,17 @@ import promImg from '@/assets/img/prom.png'
 import { checkNOmitFromObj } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useDocLink from '@/hooks/useDocLink'
-import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
-import { OpenTelemetrySampler } from '@/types/typeAlias'
-import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { camelCase, cloneDeep, isEqual, set } from 'lodash'
+import { cloneDeep, isEqual } from 'lodash'
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -536,12 +464,6 @@ const openTelemetryTracesModes = [
   { label: 'Legacy', value: OpenTelemetryTraceModes.Legacy },
   { label: tl('e2e'), value: OpenTelemetryTraceModes.E2E },
 ]
-const openTelemetrySamplerOpts = Object.values(OpenTelemetrySampler).map((value) => ({
-  label: tl(camelCase(value)),
-  value,
-}))
-const { createRequiredRule } = useFormRules()
-const ratioRules = createRequiredRule(tl('samplingRatio'))
 
 const isDataLoading = ref(false)
 
@@ -610,36 +532,6 @@ const updateOpentelemetry = async function () {
   } finally {
     loadOpentelemetry()
     isSubmitting.value = false
-  }
-}
-
-const createDefaultSampler = () => ({
-  name: OpenTelemetrySampler.clientconnect,
-  ratio: '10%',
-})
-const addSampler = () => {
-  if (
-    !opentelemetryFormData.value.traces?.filter?.e2e_tracing_options?.samplers?.event_based_samplers
-  ) {
-    set(
-      opentelemetryFormData.value,
-      'traces.filter.e2e_tracing_options.samplers.event_based_samplers',
-      [],
-    )
-  }
-  ;(
-    opentelemetryFormData.value.traces as any
-  ).filter.e2e_tracing_options.samplers.event_based_samplers.push(createDefaultSampler())
-}
-
-const removeSampler = (index: number) => {
-  if (
-    opentelemetryFormData.value.traces?.filter?.e2e_tracing_options?.samplers?.event_based_samplers
-  ) {
-    opentelemetryFormData.value.traces.filter.e2e_tracing_options.samplers.event_based_samplers.splice(
-      index,
-      1,
-    )
   }
 }
 

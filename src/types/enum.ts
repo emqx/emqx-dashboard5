@@ -399,3 +399,8 @@ export const enum LogResult {
   Pending,
   Error,
 }
+
+export const enum OpenTelemetryWhiteListType {
+  ClientID,
+  Topic,
+}

@@ -234,14 +234,6 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '事件采样器',
     en: 'Event Based Samplers',
   },
-  eventType: {
-    zh: '事件类型',
-    en: 'Event Type',
-  },
-  samplingRatio: {
-    zh: '采样率',
-    en: 'Sampling Ratio',
-  },
   clientConnect: {
     zh: '客户端连接',
     en: 'Client Connect',
@@ -261,5 +253,41 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
   clientPublish: {
     zh: '客户端发布',
     en: 'Client Publish',
+  },
+  traceConf: {
+    zh: '追踪配置',
+    en: 'Trace Configuration',
+  },
+  whiteList: {
+    zh: '白名单',
+    en: 'White List',
+  },
+  traceConnect: {
+    zh: '跟踪连接/断开',
+    en: 'Trace Connect/Disconnect',
+  },
+  traceSubscription: {
+    zh: '跟踪订阅/取消订阅',
+    en: 'Trace Subscribe/Unsubscribe',
+  },
+  traceMessage: {
+    zh: '跟踪消息',
+    en: 'Trace Message',
+  },
+  traceSamplingRatio: {
+    zh: '跟踪抽样频率',
+    en: 'Trace Sampling Ratio',
+  },
+  messageTraceDetailLevel: {
+    zh: '消息追踪事件粒度',
+    en: 'Message Trace Detail Level',
+  },
+  basicEvents: {
+    zh: '基础事件',
+    en: 'Basic Events',
+  },
+  addTargetToWhiteList: {
+    zh: '添加{target}到白名单',
+    en: 'Add {target} to White List',
   },
 }
