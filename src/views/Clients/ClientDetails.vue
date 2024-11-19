@@ -206,7 +206,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, defineEmits, defineProps, ref } from 'vue'
-import { GatewayName } from '@/types/enum'
 
 export default defineComponent({
   name: 'ClientDetails',
