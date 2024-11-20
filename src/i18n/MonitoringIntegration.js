@@ -222,22 +222,6 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '添加到 Span 的属性中的元数据值。属性键将是 <code>emqx.meta</code></br/>通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
     en: "A meta value added into Span's Attribute. The attribute key will be <code>emqx.meta</code></br/>Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
   },
-  clientidMatchRulesMax: {
-    zh: '客户端 ID 匹配规则列表最大长度',
-    en: 'Client ID Match Rules Max',
-  },
-  clientidMatchRulesMaxDesc: {
-    zh: '客户端 ID 匹配规则列表的最大长度。',
-    en: 'Maximum length of the rule list based on clientid matching.',
-  },
-  topicMatchRulesMax: {
-    zh: '主题匹配规则列表最大长度',
-    en: 'Topic Match Rules Max',
-  },
-  topicMatchRulesMaxDesc: {
-    zh: '主题匹配规则列表的最大长度。',
-    en: 'Maximum length of the rule list based on topic matching.',
-  },
   alreadyExists: {
     zh: '已存在',
     en: 'Already Exists',

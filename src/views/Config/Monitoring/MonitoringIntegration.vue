@@ -236,38 +236,6 @@
                       />
                     </el-form-item>
                   </el-col>
-                  <el-col :span="21">
-                    <el-form-item>
-                      <template #label>
-                        <FormItemLabel
-                          :label="tl('clientidMatchRulesMax')"
-                          :desc="tl('clientidMatchRulesMaxDesc')"
-                        />
-                      </template>
-                      <CustomInputNumber
-                        v-model="
-                          opentelemetryFormData.traces.filter.e2e_tracing_options
-                            .clientid_match_rules_max
-                        "
-                      />
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="21">
-                    <el-form-item>
-                      <template #label>
-                        <FormItemLabel
-                          :label="tl('topicMatchRulesMax')"
-                          :desc="tl('topicMatchRulesMaxDesc')"
-                        />
-                      </template>
-                      <CustomInputNumber
-                        v-model="
-                          opentelemetryFormData.traces.filter.e2e_tracing_options
-                            .topic_match_rules_max
-                        "
-                      />
-                    </el-form-item>
-                  </el-col>
                 </template>
                 <el-col :span="21">
                   <el-form-item :label="`${tl('tracesEnable')}${tl('exportInterval')}`">
@@ -353,7 +321,6 @@ import dataDogImg from '@/assets/img/datadog.png'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
 import { checkNOmitFromObj } from '@/common/tools'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
@@ -440,8 +407,6 @@ const opentelemetryFormData = ref<OpenTelemetry>({
       trace_mode: 'legacy',
       e2e_tracing_options: {
         attribute_meta_value: '',
-        clientid_match_rules_max: 100,
-        topic_match_rules_max: 100,
       },
     },
     scheduled_delay: '5s',
