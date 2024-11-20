@@ -7,6 +7,7 @@
     :z-index="1999"
     :before-close="cancel"
     :destroy-on-close="true"
+    :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
     <RemovedBridgeTip v-if="isRemovedBridge" />

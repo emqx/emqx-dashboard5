@@ -63,12 +63,6 @@ export interface PrometheusPushGateway {
   job_name?: string
 }
 
-export interface PrometheusRecommendSetting {
-  enable_basic_auth: boolean
-  push_gateway?: PrometheusPushGateway
-  collectors?: PrometheusCollectors
-}
-
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
 
@@ -202,6 +196,12 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
 }
 
+export interface PrometheusRecommendSetting {
+  enable_basic_auth: boolean
+  push_gateway?: PrometheusPushGateway
+  collectors?: PrometheusCollectors
+}
+
 export type OpentelemetryTraceFilterTraceMode =
   typeof OpentelemetryTraceFilterTraceMode[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -262,32 +262,27 @@ export interface OpentelemetryOpentelemetry {
   exporter?: OpentelemetryOtelExporter
 }
 
-export type OpentelemetryEventBasedSamplersName =
-  typeof OpentelemetryEventBasedSamplersName[keyof typeof OpentelemetryEventBasedSamplersName]
+export type OpentelemetryE2eTracingOptionsMqttPublishTraceLevel =
+  typeof OpentelemetryE2eTracingOptionsMqttPublishTraceLevel[keyof typeof OpentelemetryE2eTracingOptionsMqttPublishTraceLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetryEventBasedSamplersName = {
-  clientconnect: 'client.connect',
-  clientdisconnect: 'client.disconnect',
-  clientsubscribe: 'client.subscribe',
-  clientunsubscribe: 'client.unsubscribe',
-  clientpublish: 'client.publish',
+export const OpentelemetryE2eTracingOptionsMqttPublishTraceLevel = {
+  basic: 'basic',
+  first_ack: 'first_ack',
+  all: 'all',
 } as const
 
-export interface OpentelemetryEventBasedSamplers {
-  name?: OpentelemetryEventBasedSamplersName
-  ratio?: string
-}
-
-export interface OpentelemetryE2eSamplers {
-  whitelist_based_sampler?: boolean
-  event_based_samplers?: OpentelemetryEventBasedSamplers[]
-}
-
 export interface OpentelemetryE2eTracingOptions {
-  attribute_meta?: string
-  publish_response_trace_level?: number
-  samplers?: OpentelemetryE2eSamplers
+  attribute_meta_value?: string
+  mqtt_publish_trace_level?: OpentelemetryE2eTracingOptionsMqttPublishTraceLevel
+  clientid_match_rules_max?: number
+  topic_match_rules_max?: number
+  sample_ratio?: string
+  client_connect?: boolean
+  client_disconnect?: boolean
+  client_subscribe?: boolean
+  client_unsubscribe?: boolean
+  client_publish?: boolean
 }
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'

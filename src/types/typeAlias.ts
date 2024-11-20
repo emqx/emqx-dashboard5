@@ -48,7 +48,8 @@ import type {
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
-import { OpentelemetryEventBasedSamplersName } from './schemas/monitor.schemas'
+import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
+import { OpentelemetryE2eTracingOptionsMqttPublishTraceLevel } from './schemas/monitor.schemas'
 
 export type OverrideProperties<
   T,
@@ -117,4 +118,5 @@ export type ExternalSchema = SchemaRegistryExternalRegistryApiCreateConfluentSch
 export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 
 /* MONITOR */
-export const OpenTelemetrySampler = OpentelemetryEventBasedSamplersName
+export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
+export const OpenTelemetryTraceLevel = OpentelemetryE2eTracingOptionsMqttPublishTraceLevel

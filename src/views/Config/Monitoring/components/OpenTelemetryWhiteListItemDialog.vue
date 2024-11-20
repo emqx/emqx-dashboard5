@@ -14,7 +14,7 @@
       <div class="dialog-align-footer">
         <el-button @click="close">{{ t('Base.cancel') }}</el-button>
         <el-button type="primary" :disabled="!$hasPermission('post')" @click="confirm">
-          {{ t('Base.add') }}
+          {{ isEdit ? t('Base.confirm') : t('Base.add') }}
         </el-button>
       </div>
     </template>
@@ -30,7 +30,8 @@ import { computed, defineProps, ref, defineEmits, watch } from 'vue'
 const props = defineProps<{
   modelValue: boolean
   value?: string
-  type: OpenTelemetryWhiteListType
+  type?: OpenTelemetryWhiteListType
+  existingList: Array<string>
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', val: boolean): void
@@ -51,7 +52,7 @@ watch(showDialog, (val) => {
   }
 })
 
-const { t } = useI18nTl('MonitoringIntegration')
+const { t, tl } = useI18nTl('MonitoringIntegration')
 
 const isEdit = computed(() => !!props.value)
 const target = computed(() =>
@@ -60,14 +61,27 @@ const target = computed(() =>
 
 const record = ref({ value: '' })
 const { createRequiredRule } = useFormRules()
-const rules = computed(() => ({ value: createRequiredRule(target.value) }))
+const rules = computed(() => ({
+  value: [
+    ...createRequiredRule(target.value),
+    {
+      validator(rules, value, callback) {
+        if (value !== props.value && props.existingList.includes(value)) {
+          callback(new Error(tl('alreadyExists')))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur',
+    },
+  ],
+}))
 
 const close = () => (showDialog.value = false)
 
 const FormCom = ref()
 const confirm = async () => {
   try {
-    // TODO: 查重！！
     await FormCom.value.validate()
     emit('confirm', record.value.value)
     showDialog.value = false

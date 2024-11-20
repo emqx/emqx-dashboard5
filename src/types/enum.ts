@@ -401,6 +401,6 @@ export const enum LogResult {
 }
 
 export const enum OpenTelemetryWhiteListType {
-  ClientID,
-  Topic,
+  ClientID = 'clientid',
+  Topic = 'topic',
 }
