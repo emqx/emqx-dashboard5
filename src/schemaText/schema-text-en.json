@@ -1506,6 +1506,9 @@
     },
     "enable_pipelining": {
       "label": "HTTP Pipelining"
+    },
+    "access_method": {
+      "label": "Access Method"
     }
   }
 }
