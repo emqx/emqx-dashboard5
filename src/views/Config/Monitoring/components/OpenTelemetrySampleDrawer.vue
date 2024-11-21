@@ -38,7 +38,14 @@
         </template>
       </el-form-item>
       <el-divider />
-      <el-form-item :label="tl('messageTraceDetailLevel')">
+      <el-form-item>
+        <template #label>
+          <FormItemLabel
+            :label="tl('messageTraceDetailLevel')"
+            :desc="tl('messageTraceLevelDesc')"
+            desc-marked
+          />
+        </template>
         <el-select v-model="traceConf.msg_trace_level">
           <el-option
             v-for="{ label, value, desc } in traceEventLevelOpts"
@@ -145,6 +152,7 @@ import {
   updateOpenTelemetrySampleWhiteList,
 } from '@/api/common'
 import { checkNOmitFromObj } from '@/common/tools'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
@@ -222,31 +230,21 @@ const notEnabledAllTrace = computed(
     !traceConf.value.client_publish,
 )
 
-const basicEvent = ['broker.publish', 'message.route', 'message.forward', 'message.handle_forward']
-const QoS1Ack = ['broker.puback', 'client.puback']
-const QoS2Ack = [
-  'broker.pubrec',
-  'broker.pubrel',
-  'broker.pubcomp',
-  'client.pubrec',
-  'client.pubrel',
-  'client.pubcomp',
-]
 const traceEventLevelOpts = [
   {
-    label: tl('basicEvents'),
+    label: '0',
     value: 0,
-    desc: basicEvent.join('<br />'),
+    desc: tl('messageTraceLevel0Desc'),
   },
   {
-    label: `${tl('basicEvents')} + QoS1 Ack`,
+    label: '1',
     value: 1,
-    desc: [...basicEvent, ...QoS1Ack].join('<br />'),
+    desc: tl('messageTraceLevel1Desc'),
   },
   {
-    label: `${tl('basicEvents')} + QoS1 Ack + QoS2 Ack`,
+    label: '2',
     value: 2,
-    desc: [...basicEvent, ...QoS1Ack, ...QoS2Ack].join('<br />'),
+    desc: tl('messageTraceLevel2Desc'),
   },
 ]
 

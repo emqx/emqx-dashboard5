@@ -219,8 +219,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Attribute Metadata Value',
   },
   attributeMetaValueDesc: {
-    zh: '添加到 Span 的属性中的元数据值。属性键将是 <code>emqx.meta</code></br/>通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
-    en: "A meta value added into Span's Attribute. The attribute key will be <code>emqx.meta</code></br/>Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+    zh: '添加到 Span 的属性中的元数据值。属性键将是 <code>emqx.meta</code><br/>通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
+    en: "A meta value added into Span's Attribute. The attribute key will be <code>emqx.meta</code><br/>Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
   },
   alreadyExists: {
     zh: '已存在',
@@ -251,12 +251,28 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Trace Sampling Ratio',
   },
   notEnabledAllTraceTip: {
-    zh: '未启用追踪',
-    en: 'Trace not enabled',
+    zh: '无已启用的追踪事件',
+    en: 'No trace events are enabled',
   },
   messageTraceDetailLevel: {
     zh: '消息追踪级别',
     en: 'Message Trace Level',
+  },
+  messageTraceLevelDesc: {
+    zh: '消息发布过程中所有消息交换的跟踪级别。<br/>注意：此设置对所有消息跟踪有效，不受白名单采样或比例采样的影响。',
+    en: 'Trace level for all message exchanges during the message publishing process.<br/>Note: This is effective for all message traces. It is transparent to whitelist sampling or ratio sampling.',
+  },
+  messageTraceLevel0Desc: {
+    zh: '包括 <br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
+    en: 'Includes<br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
+  },
+  messageTraceLevel1Desc: {
+    zh: '在基本事件的基础上。</br>事件 <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />将被跟踪。</br>即 QoS1 或 QoS2 消息交互中的第一个响应数据包。',
+    en: 'In addition to basic events.</br>The events <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />will be recorded as Spans.</br>That is, the first response packet in the QoS1 or QoS2 message interaction.',
+  },
+  messageTraceLevel2Desc: {
+    zh: '在一级跟踪的基础上。</br>事件 <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />将被跟踪。',
+    en: 'In addition to level 1.</br>The events <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />will be recorded as Spans.',
   },
   basicEvents: {
     zh: '基础事件',
