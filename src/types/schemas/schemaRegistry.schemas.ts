@@ -24,11 +24,6 @@ export type GetSchemaRegistryExternalRegistryName404 = {
   message?: string
 }
 
-export type GetSchemaRegistryExternalRegistryName200 =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
-
 export type PostSchemaRegistryExternal400Code =
   typeof PostSchemaRegistryExternal400Code[keyof typeof PostSchemaRegistryExternal400Code]
 
@@ -139,11 +134,6 @@ export interface SchemaRegistryJson {
   source: string
   description?: string
 }
-
-export type PutSchemaRegistryExternalRegistryName200 =
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-  | SchemaRegistryAvro
 
 export type SchemaRegistryGetProtobufType =
   typeof SchemaRegistryGetProtobufType[keyof typeof SchemaRegistryGetProtobufType]
