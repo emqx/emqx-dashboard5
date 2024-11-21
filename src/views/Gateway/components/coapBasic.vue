@@ -5,7 +5,11 @@
         <el-col :span="12">
           <el-form-item prop="connection_required">
             <template #label>
-              <FormItemLabel :label="tl('connectionRequire')" :desc="tl('connectionRequireDesc')" />
+              <FormItemLabel
+                :label="tl('connectionRequire')"
+                :desc="tl('connectionRequireDesc')"
+                desc-marked
+              />
             </template>
             <el-select v-model="cValue.connection_required">
               <el-option :value="true" label="true" />
