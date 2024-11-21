@@ -816,6 +816,8 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
+export type EmqxMqttClientidOverride = string | 'disabled'
+
 export type EmqxMqttPeerCertAsClientid =
   typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
 
@@ -896,6 +898,7 @@ export interface EmqxMqtt {
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
   peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
   client_attrs_init?: EmqxClientAttrsInit[]
+  clientid_override?: EmqxMqttClientidOverride
   session_expiry_interval?: string
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
   max_awaiting_rel?: EmqxMqttMaxAwaitingRel

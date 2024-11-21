@@ -878,6 +878,7 @@ export interface EmqxTcpOpts {
   buffer?: string
   high_watermark?: string
   nodelay?: boolean
+  nolinger?: boolean
   reuseaddr?: boolean
   keepalive?: string
 }

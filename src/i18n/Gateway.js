@@ -164,8 +164,8 @@ export default {
     en: 'Connection Required',
   },
   connectionRequireDesc: {
-    zh: '连接模式是非标准协议的特性。启用连接模式时，需要管理连接资源的创建、认证和保活。选择为 false 则进入无连接模式，在此模式下，添加的认证器不会生效。',
-    en: `Connection mode is a feature of non-standard protocols. When connection mode is enabled, it's essential to manage the creation, authentication, and aliveness of connection resources. When set to false, it enters connectionless mode, and the added authenticator won't take effect.`,
+    zh: '连接模式是非标准的特性。启用连接模式时，客户端**必须**管理连接资源的创建、认证和保活。选择为 false 则表示客户端对管理连接资源是可选的，支持不创建连接资源，直接进行消息发布和订阅。',
+    en: `Connection Required is a non-standard feature. When Connection Required is enabled, the client **must** manage the creation, authentication, and keep-alive of connection resources. Selecting false means that the client is optional for managing connection resources and supports not creating connection resources directly for message publishing and subscription.`,
   },
   heartbeat: {
     zh: '心跳间隔',

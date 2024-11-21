@@ -1328,7 +1328,11 @@
     },
     "mqtt_shared_subscription_initial_sticky_pick": {
       "label": "Shared Subscription Initial Sticky Pick",
-      "desc":  "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`.<br/> - `random`: Randomly select the subscriber;<br/> - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster;<br/> - `hash_clientid`: Hash the publisher's client ID to select a subscriber;<br/> - `hash_topic`: Hash the publishing topic to select a subscriber."
+      "desc": "The strategy to use for the initial subscriber pick when `Shared Subscription Strategy` is `sticky`.<br/> - `random`: Randomly select the subscriber;<br/> - `local`: Randomly select a subscriber on the current node, if there are no subscribers on the current node, then randomly select within the cluster;<br/> - `hash_clientid`: Hash the publisher's client ID to select a subscriber;<br/> - `hash_topic`: Hash the publishing topic to select a subscriber."
+    },
+    "mqtt_clientid_override": {
+      "label": "Client ID Override Expression",
+      "desc": "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{NAME}`: Client attributes initialized by per config `client_attrs_init`.<br /><br />You can read more about variform expressions in EMQX docs."
     }
   },
   "ssl_opts": {
