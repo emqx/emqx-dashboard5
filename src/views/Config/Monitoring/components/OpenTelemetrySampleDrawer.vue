@@ -29,7 +29,13 @@
       <el-form-item :label="tl('traceMessage')">
         <el-switch v-model="traceConf.client_publish" />
       </el-form-item>
-      <el-form-item :label="tl('traceSamplingRatio')" prop="XXXXX">
+      <el-form-item :label="tl('traceSamplingRatio')" prop="sample_ratio">
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
+        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
         <InputWithUnit v-model="traceConf.sample_ratio" :units="['%']" />
       </el-form-item>
       <el-divider />
@@ -57,7 +63,7 @@
           {{ t('Base.add') }}
         </el-button>
       </div>
-      <el-table :data="clientIdWhiteList" style="width: 100%">
+      <el-table :data="clientIdWhiteList" :row-key="getRowKey">
         <el-table-column :label="t('Base.clientid')">
           <template #default="{ row }">
             {{ row }}
@@ -72,14 +78,13 @@
             >
               {{ $t('Base.edit') }}
             </el-button>
-            <el-button
-              plain
-              size="small"
-              :disabled="!$hasPermission('delete')"
-              @click="deleteWhiteListItem($index)"
-            >
-              {{ $t('Base.delete') }}
-            </el-button>
+            <el-popconfirm :title="t('Base.confirmDelete')" @confirm="deleteWhiteListItem($index)">
+              <template #reference>
+                <el-button plain size="small" :disabled="!$hasPermission('delete')">
+                  {{ $t('Base.delete') }}
+                </el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -90,7 +95,7 @@
           {{ t('Base.add') }}
         </el-button>
       </div>
-      <el-table :data="topicWhiteList" style="width: 100%">
+      <el-table :data="topicWhiteList" :row-key="getRowKey">
         <el-table-column :label="t('Base.topic')">
           <template #default="{ row }">
             {{ row }}
@@ -105,14 +110,9 @@
             >
               {{ $t('Base.edit') }}
             </el-button>
-            <el-popconfirm :title="t('Base.confirmDelete')">
+            <el-popconfirm :title="t('Base.confirmDelete')" @confirm="deleteWhiteListItem($index)">
               <template #reference>
-                <el-button
-                  plain
-                  size="small"
-                  :disabled="!$hasPermission('delete')"
-                  @click="deleteWhiteListItem($index)"
-                >
+                <el-button plain size="small" :disabled="!$hasPermission('delete')">
                   {{ $t('Base.delete') }}
                 </el-button>
               </template>
@@ -145,6 +145,7 @@ import {
   setOpenTelemetry,
   updateOpenTelemetrySampleWhiteList,
 } from '@/api/common'
+import { checkNOmitFromObj } from '@/common/tools'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
@@ -154,7 +155,7 @@ import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs, OpenTelemetryTraceLevel } from '@/types/typeAlias'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, set } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import OpenTelemetryWhiteListItemDialog from './OpenTelemetryWhiteListItemDialog.vue'
 
 const props = defineProps<{
@@ -164,6 +165,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', val: boolean): void
+  (e: 'update', val: OpenTelemetry): void
 }>()
 const showDrawer = computed({
   get() {
@@ -176,6 +178,7 @@ const showDrawer = computed({
 watch(showDrawer, (val) => {
   if (val) {
     traceConf.value = cloneDeep(props.configs.traces?.filter?.e2e_tracing_options || {})
+    getWhiteList()
   }
 })
 
@@ -247,6 +250,8 @@ const topicWhiteList = ref<Array<string>>([])
 let rawClientIdWhiteList: Array<string> = []
 let rawTopicWhiteList: Array<string> = []
 
+const getRowKey = (item: string) => item
+
 const isLoading = ref(false)
 const getClientIdWhiteList = async () => {
   try {
@@ -278,7 +283,6 @@ const getWhiteList = async () => {
     isLoading.value = false
   }
 }
-getWhiteList()
 
 const isDialogShow = ref(false)
 const operatingIndex = ref(-1)
@@ -312,10 +316,12 @@ const isConfigChanged = () =>
   !isEqual(props.configs.traces?.filter?.e2e_tracing_options, traceConf.value)
 const isClientIdWhiteListChanged = () => !isEqual(rawClientIdWhiteList, clientIdWhiteList.value)
 const isTopicWhiteListChanged = () => !isEqual(rawTopicWhiteList, topicWhiteList.value)
+const isDataChanged = () =>
+  isConfigChanged() || isClientIdWhiteListChanged() || isTopicWhiteListChanged()
 
 const closeConfirm = async () => {
   try {
-    if (isConfigChanged() || isClientIdWhiteListChanged() || isTopicWhiteListChanged()) {
+    if (isDataChanged()) {
       await ElMessageBox({
         type: 'info',
         title: tl('closeTraceAdvancedConfig'),
@@ -358,7 +364,8 @@ const submit = async () => {
     if (isConfigChanged()) {
       const data = cloneDeep(props.configs)
       set(data, 'traces.filter.e2e_tracing_options', traceConf.value)
-      await setOpenTelemetry(data)
+      const res = await setOpenTelemetry(checkNOmitFromObj(data))
+      emit('update', res)
     }
     if (isClientIdWhiteListChanged()) {
       await updateOpenTelemetrySampleWhiteList(
@@ -372,7 +379,7 @@ const submit = async () => {
         topicWhiteList.value,
       )
     }
-    ElMessage(t('Base.updateSuccess'))
+    ElMessage.success(t('Base.updateSuccess'))
     showDrawer.value = false
   } catch (error) {
     //
@@ -380,6 +387,8 @@ const submit = async () => {
     isSubmitting.value = false
   }
 }
+
+defineExpose({ isDataChanged })
 </script>
 
 <style lang="scss">

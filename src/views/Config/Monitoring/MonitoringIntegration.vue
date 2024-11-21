@@ -8,7 +8,7 @@
           label-position="right"
           require-asterisk-position="left"
           :model="opentelemetryFormData"
-          :label-width="store.state.lang === 'zh' ? 176 : 190"
+          :label-width="store.state.lang === 'zh' ? 176 : 208"
         >
           <el-row>
             <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
@@ -179,10 +179,7 @@
                         desc-marked
                       />
                     </template>
-                    <el-select
-                      v-model="opentelemetryFormData.traces.filter.trace_mode"
-                      :placeholder="tl('selectTraceMode')"
-                    >
+                    <el-select v-model="opentelemetryFormData.traces.filter.trace_mode">
                       <el-option
                         v-for="mode in openTelemetryTracesModes"
                         :key="mode.value"
@@ -309,8 +306,10 @@
     </el-card>
     <HelpDrawer v-model="showPromSetup" />
     <OpenTelemetrySampleDrawer
+      ref="OpenTelemetrySampleDrawerCom"
       v-model="isOpenTelemetrySampleDrawerShow"
       :configs="opentelemetryFormData"
+      @update="handleOpenTelemetryConfigUpdated"
     />
   </div>
 </template>
@@ -333,7 +332,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
+import { cloneDeep, isEqual, set } from 'lodash'
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -440,6 +439,12 @@ const openTelemetryTracesModes = [
 
 const isOpenTelemetrySampleDrawerShow = ref(false)
 const openAdvancedSettings = () => (isOpenTelemetrySampleDrawerShow.value = true)
+const handleOpenTelemetryConfigUpdated = (config: OpenTelemetry) => {
+  const e2eConfig = config.traces?.filter?.e2e_tracing_options
+  if (e2eConfig) {
+    set(opentelemetryFormData.value, 'traces.filter.e2e_tracing_options', e2eConfig)
+  }
+}
 
 const isDataLoading = ref(false)
 
@@ -448,7 +453,15 @@ const nowRecordData = computed(() => ({
   prometheus: prometheusFormData.value,
   openTelemetry: opentelemetryFormData.value,
 }))
-const checkDataIsChanged = () => !isEqual(nowRecordData.value, rawData)
+const OpenTelemetrySampleDrawerCom = ref()
+const checkDataIsChanged = () => {
+  const pageChanged = !isEqual(nowRecordData.value, rawData)
+  let openTelemetrySampleChanged = false
+  if (isOpenTelemetrySampleDrawerShow.value) {
+    openTelemetrySampleChanged = OpenTelemetrySampleDrawerCom.value.isDataChanged()
+  }
+  return pageChanged || openTelemetrySampleChanged
+}
 useDataNotSaveConfirm(checkDataIsChanged)
 const updateRawDataForCompare = () => {
   rawData = cloneDeep(nowRecordData.value)

@@ -218,7 +218,7 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '属性元数据值',
     en: 'Attribute Metadata Value',
   },
-  attributeMetaDesc: {
+  attributeMetaValueDesc: {
     zh: '添加到 Span 的属性中的元数据值。属性键将是 <code>emqx.meta</code></br/>通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
     en: "A meta value added into Span's Attribute. The attribute key will be <code>emqx.meta</code></br/>Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
   },
