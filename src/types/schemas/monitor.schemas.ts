@@ -63,6 +63,12 @@ export interface PrometheusPushGateway {
   job_name?: string
 }
 
+export interface PrometheusRecommendSetting {
+  enable_basic_auth: boolean
+  push_gateway?: PrometheusPushGateway
+  collectors?: PrometheusCollectors
+}
+
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
 
@@ -196,12 +202,6 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
 }
 
-export interface PrometheusRecommendSetting {
-  enable_basic_auth: boolean
-  push_gateway?: PrometheusPushGateway
-  collectors?: PrometheusCollectors
-}
-
 export type OpentelemetryTraceFilterTraceMode =
   typeof OpentelemetryTraceFilterTraceMode[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -262,26 +262,14 @@ export interface OpentelemetryOpentelemetry {
   exporter?: OpentelemetryOtelExporter
 }
 
-export type OpentelemetryE2eTracingOptionsMqttPublishTraceLevel =
-  typeof OpentelemetryE2eTracingOptionsMqttPublishTraceLevel[keyof typeof OpentelemetryE2eTracingOptionsMqttPublishTraceLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetryE2eTracingOptionsMqttPublishTraceLevel = {
-  basic: 'basic',
-  first_ack: 'first_ack',
-  all: 'all',
-} as const
-
 export interface OpentelemetryE2eTracingOptions {
   attribute_meta_value?: string
-  mqtt_publish_trace_level?: OpentelemetryE2eTracingOptionsMqttPublishTraceLevel
+  msg_trace_level?: number
   clientid_match_rules_max?: number
   topic_match_rules_max?: number
   sample_ratio?: string
-  client_connect?: boolean
-  client_disconnect?: boolean
-  client_subscribe?: boolean
-  client_unsubscribe?: boolean
+  client_connect_disconnect?: boolean
+  client_subscribe_unsubscribe?: boolean
   client_publish?: boolean
 }
 

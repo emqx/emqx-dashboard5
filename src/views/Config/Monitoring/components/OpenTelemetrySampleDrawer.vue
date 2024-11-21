@@ -21,26 +21,25 @@
     </el-radio-group>
     <el-form :model="traceConf" v-if="selectedBlock === ConfigBlock.Trace" :label-width="210">
       <el-form-item :label="tl('traceConnect')">
-        <el-switch v-model="traceConf.client_connect" />
+        <el-switch v-model="traceConf.client_connect_disconnect" />
       </el-form-item>
       <el-form-item :label="tl('traceSubscription')">
-        <el-switch v-model="traceConf.client_subscribe" />
+        <el-switch v-model="traceConf.client_subscribe_unsubscribe" />
       </el-form-item>
       <el-form-item :label="tl('traceMessage')">
         <el-switch v-model="traceConf.client_publish" />
       </el-form-item>
       <el-form-item :label="tl('traceSamplingRatio')" prop="sample_ratio">
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <!-- TODO:TODO:TODO:TODO:TODO:TODO:如果上述3个全部未选中，则不让用户输入值？ -->
-        <InputWithUnit v-model="traceConf.sample_ratio" :units="['%']" />
+        <InputWithUnit v-if="!notEnabledAllTrace" v-model="traceConf.sample_ratio" :units="['%']" />
+        <template v-else>
+          <el-tooltip effect="dark" :content="tl('notEnabledAllTraceTip')">
+            <InputWithUnit v-model="traceConf.sample_ratio" :units="['%']" disabled />
+          </el-tooltip>
+        </template>
       </el-form-item>
       <el-divider />
       <el-form-item :label="tl('messageTraceDetailLevel')">
-        <el-select v-model="traceConf.mqtt_publish_trace_level">
+        <el-select v-model="traceConf.msg_trace_level">
           <el-option
             v-for="{ label, value, desc } in traceEventLevelOpts"
             :key="value"
@@ -152,7 +151,7 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { OpenTelemetry } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
-import { OpenTelemetryE2EConfigs, OpenTelemetryTraceLevel } from '@/types/typeAlias'
+import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, set } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
@@ -216,6 +215,13 @@ const currentList = computed({
 
 const traceConf = ref<OpenTelemetryE2EConfigs>({})
 
+const notEnabledAllTrace = computed(
+  () =>
+    !traceConf.value.client_connect_disconnect &&
+    !traceConf.value.client_subscribe_unsubscribe &&
+    !traceConf.value.client_publish,
+)
+
 const basicEvent = ['broker.publish', 'message.route', 'message.forward', 'message.handle_forward']
 const QoS1Ack = ['broker.puback', 'client.puback']
 const QoS2Ack = [
@@ -229,17 +235,17 @@ const QoS2Ack = [
 const traceEventLevelOpts = [
   {
     label: tl('basicEvents'),
-    value: OpenTelemetryTraceLevel.basic,
+    value: 0,
     desc: basicEvent.join('<br />'),
   },
   {
     label: `${tl('basicEvents')} + QoS1 Ack`,
-    value: OpenTelemetryTraceLevel.first_ack,
+    value: 1,
     desc: [...basicEvent, ...QoS1Ack].join('<br />'),
   },
   {
     label: `${tl('basicEvents')} + QoS1 Ack + QoS2 Ack`,
-    value: OpenTelemetryTraceLevel.all,
+    value: 2,
     desc: [...basicEvent, ...QoS1Ack, ...QoS2Ack].join('<br />'),
   },
 ]
