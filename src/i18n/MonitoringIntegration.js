@@ -250,9 +250,13 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '跟踪抽样频率',
     en: 'Trace Sampling Ratio',
   },
+  notEnabledAllTraceTip: {
+    zh: '未启用追踪',
+    en: 'Trace not enabled',
+  },
   messageTraceDetailLevel: {
-    zh: '消息追踪事件粒度',
-    en: 'Message Trace Detail Level',
+    zh: '消息追踪级别',
+    en: 'Message Trace Level',
   },
   basicEvents: {
     zh: '基础事件',

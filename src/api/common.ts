@@ -80,14 +80,14 @@ export function setOpenTelemetry(body: OpenTelemetry): Promise<OpenTelemetry> {
 }
 
 export const queryOpenTelemetrySampleWhiteList = (type: OpenTelemetryWhiteListType) => {
-  return http.get(`/opentelemetry/sample_white_lists/${encodeURIComponent(type)}`)
+  return http.get(`/opentelemetry/whitelist/${encodeURIComponent(type)}`)
 }
 
 export const updateOpenTelemetrySampleWhiteList = (
   type: OpenTelemetryWhiteListType,
   list: Array<string>,
 ) => {
-  return http.post(`/opentelemetry/sample_white_lists/${encodeURIComponent(type)}`, list)
+  return http.post(`/opentelemetry/whitelist/${encodeURIComponent(type)}`, list)
 }
 
 // Nodes
