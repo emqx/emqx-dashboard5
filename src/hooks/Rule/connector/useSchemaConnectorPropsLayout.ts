@@ -250,6 +250,7 @@ export default (
         'port',
         'access_key_id',
         'secret_access_key',
+        'access_method',
         'transport_options.ssl',
         ...S3AdvancedProps,
       ],
