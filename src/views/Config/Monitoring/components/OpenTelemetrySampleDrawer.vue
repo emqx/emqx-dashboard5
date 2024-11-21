@@ -29,7 +29,14 @@
       <el-form-item :label="tl('traceMessage')">
         <el-switch v-model="traceConf.client_publish" />
       </el-form-item>
-      <el-form-item :label="tl('traceSamplingRatio')" prop="sample_ratio">
+      <el-form-item prop="sample_ratio">
+        <template #label>
+          <FormItemLabel
+            :label="tl('traceSamplingRatio')"
+            :desc="tl('traceSamplingRatioDesc')"
+            desc-marked
+          />
+        </template>
         <InputWithUnit v-if="!notEnabledAllTrace" v-model="traceConf.sample_ratio" :units="['%']" />
         <template v-else>
           <el-tooltip effect="dark" :content="tl('notEnabledAllTraceTip')">

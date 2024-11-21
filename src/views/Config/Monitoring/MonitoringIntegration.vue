@@ -7,8 +7,9 @@
           class="configuration-form"
           label-position="right"
           require-asterisk-position="left"
+          :rules="rules"
           :model="opentelemetryFormData"
-          :label-width="store.state.lang === 'zh' ? 176 : 220"
+          :label-width="store.state.lang === 'zh' ? 176 : 232"
         >
           <el-row>
             <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
@@ -217,7 +218,7 @@
                   "
                 >
                   <el-col :span="21">
-                    <el-form-item>
+                    <el-form-item prop="traces.filter.e2e_tracing_options.attribute_meta_value">
                       <template #label>
                         <FormItemLabel
                           :label="tl('attributeMetaValue')"
@@ -338,6 +339,7 @@ import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 import OpenTelemetrySampleDrawer from './components/OpenTelemetrySampleDrawer.vue'
+import useFormRules from '@/hooks/useFormRules'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'
@@ -505,6 +507,12 @@ const loadOpentelemetry = async function () {
 }
 
 const FormCom = ref()
+const { createRequiredRule } = useFormRules()
+const rules = {
+  'traces.filter.e2e_tracing_options.attribute_meta_value': createRequiredRule(
+    tl('attributeMetaValue'),
+  ),
+}
 const updateOpentelemetry = async function () {
   try {
     await FormCom.value.validate()

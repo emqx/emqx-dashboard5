@@ -250,6 +250,10 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '跟踪抽样频率',
     en: 'Trace Sampling Ratio',
   },
+  traceSamplingRatioDesc: {
+    zh: '事件类型的采样比率。对事件开关和白名单采样透明。',
+    en: 'Sampling ratio for the event types. Transparent to events switch and whitelist sampling.',
+  },
   notEnabledAllTraceTip: {
     zh: '无已启用的追踪事件',
     en: 'No trace events are enabled',
