@@ -1498,6 +1498,9 @@
     },
     "enable_pipelining": {
       "label": "HTTP 管道"
+    },
+    "access_method": {
+      "label": "访问模式"
     }
   }
 }
