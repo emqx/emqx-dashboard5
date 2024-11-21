@@ -3808,6 +3808,7 @@ export interface BridgeInfluxdbPutApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV2Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   bucket: string
   org: string
@@ -3834,6 +3835,7 @@ export interface BridgeInfluxdbPutApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPutApiV1Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   database: string
   username?: string
@@ -3868,6 +3870,7 @@ export interface BridgeInfluxdbPostApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV2Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   bucket: string
   org: string
@@ -3904,6 +3907,7 @@ export interface BridgeInfluxdbPostApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbPostApiV1Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   database: string
   username?: string
@@ -3951,6 +3955,7 @@ export interface BridgeInfluxdbGetApiV2 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV2Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   bucket: string
   org: string
@@ -4001,6 +4006,7 @@ export interface BridgeInfluxdbGetApiV1 {
   resource_opts?: ResourceSchemaCreationOpts
   server?: string
   precision?: BridgeInfluxdbGetApiV1Precision
+  pool_size?: number
   ssl?: EmqxSslClientOpts
   database: string
   username?: string

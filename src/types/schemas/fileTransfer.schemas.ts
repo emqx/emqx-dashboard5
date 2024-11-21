@@ -110,20 +110,11 @@ export type GetFileTransferFileParams = {
 
 export type S3TransportOptionsHeaders = { [key: string]: any }
 
-export type S3TransportOptionsPoolType =
-  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const S3TransportOptionsPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
 export interface S3TransportOptions {
   ipv6_probe?: boolean
   connect_timeout?: string
-  pool_type?: S3TransportOptionsPoolType
   pool_size?: number
+  /** @deprecated */
   enable_pipelining?: number
   ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
@@ -144,11 +135,21 @@ export const FileTransferS3ExporterAcl = {
   bucket_owner_full_control: 'bucket_owner_full_control',
 } as const
 
+export type FileTransferS3ExporterAccessMethod =
+  typeof FileTransferS3ExporterAccessMethod[keyof typeof FileTransferS3ExporterAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileTransferS3ExporterAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export interface FileTransferS3Exporter {
   access_key_id?: string
   secret_access_key?: string
   host: string
   port: number
+  access_method?: FileTransferS3ExporterAccessMethod
   transport_options?: S3TransportOptions
   min_part_size?: string
   max_part_size?: string

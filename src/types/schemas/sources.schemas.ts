@@ -358,6 +358,7 @@ export const KafkaConsumerSourceParametersOffsetResetPolicy = {
 export interface KafkaConsumerSourceParameters {
   topic: string
   group_id?: string
+  max_wait_time?: string
   max_batch_bytes?: string
   offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
   offset_commit_interval_seconds?: string

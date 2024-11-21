@@ -31,6 +31,30 @@ export type PostDataImport400 = {
   message?: string
 }
 
+export type PostDataExport500Code = typeof PostDataExport500Code[keyof typeof PostDataExport500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataExport500Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostDataExport500 = {
+  code?: PostDataExport500Code
+  message?: string
+}
+
+export type PostDataExport400Code = typeof PostDataExport400Code[keyof typeof PostDataExport400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataExport400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostDataExport400 = {
+  code?: PostDataExport400Code
+  message?: string
+}
+
 export type DeleteDataFilesFilename404Code =
   typeof DeleteDataFilesFilename404Code[keyof typeof DeleteDataFilesFilename404Code]
 
@@ -115,13 +139,18 @@ export interface EmqxMgmtApiDataBackupImportRequestBody {
   filename: string
 }
 
+export interface EmqxMgmtApiDataBackupFilesResponse {
+  data?: EmqxMgmtApiDataBackupBackupFileInfo[]
+  meta?: PublicMeta
+}
+
+export interface EmqxMgmtApiDataBackupExportRequestBody {
+  table_sets?: string[]
+  root_keys?: string[]
+}
+
 export interface EmqxMgmtApiDataBackupBackupFileInfo {
   node: string
   filename: string
   created_at: string
-}
-
-export interface EmqxMgmtApiDataBackupFilesResponse {
-  data?: EmqxMgmtApiDataBackupBackupFileInfo[]
-  meta?: PublicMeta
 }
