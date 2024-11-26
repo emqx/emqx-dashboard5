@@ -991,10 +991,101 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // SSO
   {
     path: '/sso',
     name: 'sso-login',
     component: () => import('@/views/Base/SSOLogin.vue'),
+  },
+  // Stream Overview
+  {
+    path: '/streaming-overview',
+    component: Layout,
+    meta: {
+      hideKey: 'streaming-overview',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'stream',
+        component: () => import('@/views/Streaming/StreamingOverview.vue'),
+      },
+    ],
+  },
+  // Stream
+  {
+    path: '/stream',
+    component: Layout,
+    meta: {
+      hideKey: 'stream',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'stream',
+        component: () => import('@/views/Streaming/Stream.vue'),
+      },
+      {
+        path: 'detail/:name',
+        name: 'stream-detail',
+        component: () => import('@/views/Streaming/StreamDetail.vue'),
+      },
+    ],
+  },
+  // Consumer Group
+  {
+    path: '/consumer-group',
+    component: Layout,
+    meta: {
+      hideKey: 'consumer-group',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'consumer-group',
+        component: () => import('@/views/Streaming/ConsumerGroup.vue'),
+      },
+      {
+        path: 'detail/:name',
+        name: 'consumer-group-detail',
+        component: () => import('@/views/Streaming/ConsumerGroupDetail.vue'),
+      },
+    ],
+  },
+  // Streaming Authn
+  {
+    path: '/streaming-authn',
+    component: Layout,
+    meta: {
+      hideKey: 'streaming-authn',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'streaming-authn',
+        component: () => import('@/views/Streaming/StreamingAuthn.vue'),
+      },
+    ],
+  },
+  // Streaming Authz
+  {
+    path: '/streaming-authz',
+    component: Layout,
+    meta: {
+      hideKey: 'streaming-authz',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'streaming-authz',
+        component: () => import('@/views/Streaming/StreamingAuthz.vue'),
+      },
+    ],
   },
   {
     path: '/:pathMatch(.*)*',

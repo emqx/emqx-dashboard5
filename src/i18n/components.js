@@ -399,6 +399,22 @@ export default {
     zh: '会话持久化',
     en: 'Durable Sessions',
   },
+  streaming: {
+    zh: 'Streaming',
+    en: 'Streaming',
+  },
+  'streaming-overview': {
+    zh: '概览',
+    en: 'Overview',
+  },
+  stream: {
+    zh: 'Streams',
+    en: 'Streams',
+  },
+  'consumer-group': {
+    zh: '消费者群组',
+    en: 'Consumer Groups',
+  },
   /* For Quick Panel Start */
   'rule-create': {
     zh: '创建规则',
