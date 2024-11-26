@@ -65,6 +65,14 @@ export default (): {
     { title: 'message-transform', path: '/message-transform' },
   ]
 
+  const streaming = [
+    { title: 'streaming-overview', path: '/streaming-overview' },
+    { title: 'stream', path: '/stream' },
+    { title: 'consumer-group', path: '/consumer-group' },
+    { title: 'authentication', path: '/streaming-authn' },
+    { title: 'authorization', path: '/streaming-authz' },
+  ]
+
   const diagnose = [
     { title: 'websocket', path: '/websocket' },
     { title: 'topic-metrics', path: '/topic-metrics' },
@@ -97,6 +105,11 @@ export default (): {
       title: 'ruleengine',
       icon: 'icon-integration',
       children: integration,
+    },
+    {
+      title: 'streaming',
+      icon: 'icon-streaming',
+      children: streaming,
     },
     {
       title: 'management',
