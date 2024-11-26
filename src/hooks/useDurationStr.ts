@@ -30,7 +30,7 @@ const getBinaryArr = (beginIndex: number) => {
 
 export default (): {
   getDurationStr: (val: number | string, unit: TimeUnit) => string | number
-  transMsNumToSimpleStr: (num: number) => string | number
+  transMsNumToSimpleStr: (num: number | string) => string | number
   transSecondNumToSimpleStr: (num: number) => string | number
 } => {
   const { t } = useI18nTl('General')
@@ -75,8 +75,12 @@ export default (): {
     return ret.trim()
   }
 
-  const transMsNumToSimpleStr = (num: number) => {
-    return getDurationStr(Math.floor(num / 1000), TimeUnit.Second)
+  const transMsNumToSimpleStr = (val: number | string) => {
+    const num = Number(val)
+    if (Number.isNaN(num)) {
+      return val
+    }
+    return getDurationStr(Math.floor(Number(val) / 1000), TimeUnit.Second)
   }
 
   const transSecondNumToSimpleStr = (num: number) => getDurationStr(num, TimeUnit.Second)
