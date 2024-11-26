@@ -1049,7 +1049,7 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Streaming/ConsumerGroup.vue'),
       },
       {
-        path: 'detail/:name',
+        path: 'detail/:id',
         name: 'consumer-group-detail',
         component: () => import('@/views/Streaming/ConsumerGroupDetail.vue'),
       },
