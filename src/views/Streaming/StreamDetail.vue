@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { getStreamDetail } from '@/api/streaming'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
@@ -70,7 +71,20 @@ const streamName = computed(() => route.params.name.toString())
 
 const { t, tl } = useI18nTl('streaming')
 
-const streamInfo = ref<StreamDetail>({})
+const streamInfo = ref<StreamDetail>({} as StreamDetail)
+
+const isLoading = ref(false)
+const getStreamInfo = async () => {
+  try {
+    isLoading.value = true
+    streamInfo.value = await getStreamDetail(streamName.value)
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
+getStreamInfo()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 </script>

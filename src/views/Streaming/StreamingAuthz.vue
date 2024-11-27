@@ -58,7 +58,7 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import StreamingAuthzDialog from './components/StreamingAuthzDialog.vue'
 
 enum StreamPatternType {
@@ -69,6 +69,11 @@ enum StreamPatternType {
 }
 
 type StreamingAuthz = any
+
+// TODO:TODO:TODO:TODO:TODO:TODO:
+const resourceTypeOptions: Array<any> = []
+const operationOptions: Array<any> = []
+const permissionOptions: Array<any> = []
 
 const { tl, t } = useI18nTl('streaming')
 
@@ -85,6 +90,7 @@ const getAuthzList = async () => {
     isLoading.value = false
   }
 }
+getAuthzList()
 
 const isDialogShow = ref(false)
 const addAuthn = () => {
@@ -103,8 +109,4 @@ const handleDel = async (name: string) => {
     //
   }
 }
-
-onMounted(() => {
-  getAuthzList()
-})
 </script>

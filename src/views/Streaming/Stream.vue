@@ -49,7 +49,7 @@
             :disabled="!$hasPermission('delete')"
             @click="handleDel(row)"
           >
-            <i class="iconfont icon-delete" />
+            {{ t('Base.delete') }}
           </el-button>
         </template>
       </el-table-column>
@@ -63,23 +63,11 @@ import { deleteStream, getStreams as requestStreams } from '@/api/streaming'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useI18nTl from '@/hooks/useI18nTl'
+import { Stream } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import StreamDialog from './components/StreamDialog.vue'
-
-enum StreamType {
-  Default = 'default',
-  Free = 'free',
-}
-
-interface Stream {
-  stream_name: string
-  stream_type: StreamType
-  mqtt_topic_filter: string
-  partition_number: number
-  retention_time: string
-}
 
 const { tl, t } = useI18nTl('streaming')
 
@@ -89,13 +77,15 @@ const isLoading = ref(false)
 const getStreams = async () => {
   try {
     isLoading.value = true
-    streamList.value = await requestStreams()
+    const { streams } = await requestStreams()
+    streamList.value = streams
   } catch (error) {
     console.error(error)
   } finally {
     isLoading.value = false
   }
 }
+getStreams()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 
@@ -116,8 +106,4 @@ const handleDel = async (name: string) => {
     //
   }
 }
-
-onMounted(() => {
-  getStreams()
-})
 </script>

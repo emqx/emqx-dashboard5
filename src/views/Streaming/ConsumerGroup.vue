@@ -1,5 +1,5 @@
 <template>
-  <div class="streams app-wrapper">
+  <div class="streams app-wrapper with-padding-top">
     <el-table :data="groupList" v-loading="isLoading">
       <el-table-column :label="tl('groupID')">
         <template #default="{ row }">
@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import { getConsumerGroups } from '@/api/streaming'
 import useI18nTl from '@/hooks/useI18nTl'
-import { Ref, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 interface ConsumerGroup {
   state: string
@@ -41,21 +41,19 @@ interface ConsumerGroup {
 
 const { tl, t } = useI18nTl('streaming')
 
-const groupList: Ref<Array<ConsumerGroup>> = ref([])
+const groupList = ref<Array<ConsumerGroup>>([])
 const isLoading = ref(false)
 
 const getGroups = async () => {
   try {
     isLoading.value = true
-    groupList.value = await getConsumerGroups()
+    const { groups } = await getConsumerGroups()
+    groupList.value = groups
   } catch (error) {
     console.error(error)
   } finally {
     isLoading.value = false
   }
 }
-
-onMounted(() => {
-  getGroups()
-})
+getGroups()
 </script>
