@@ -118,3 +118,18 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
+
+/* STREAM */
+export enum StreamType {
+  Default = 'default',
+  Free = 'free',
+}
+export interface Stream {
+  stream_name: string
+  stream_type: StreamType
+  mqtt_topic_filter: string
+  partition_number: number
+  retention_time: string
+}
+export type StreamingAuthn = any
+export type StreamingAuthz = any
