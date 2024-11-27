@@ -28,7 +28,7 @@
           <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
           <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
           <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
-          {{ row.stream_type ? $t(`streaming.streamTypeLabel.${row.stream_type}`) : '' }}
+          {{ row.stream_type ? tl(`streamTypeLabel.${row.stream_type}`) : '' }}
         </template>
       </el-table-column>
       <el-table-column prop="mqtt_topic_filter" min-width="180px">
