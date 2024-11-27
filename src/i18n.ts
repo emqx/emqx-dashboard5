@@ -13,6 +13,9 @@ import {
   zhSymbolLabel as symbolLabelZh,
 } from '@emqx/shared-ui-i18n'
 
+import enStreaming from './i18n/enStreaming'
+import zhStreaming from './i18n/zhStreaming'
+
 import actionText from '@/schemaText/actionText/index'
 
 import { get } from 'lodash'
@@ -46,6 +49,15 @@ lang.zh.BridgeSchema = actionText.zh
 
 lang.en.SchemaSymbolLabel = symbolLabelEn
 lang.zh.SchemaSymbolLabel = symbolLabelZh
+
+// FIXME:FIXME:FIXME:FIXME:FIXME:
+// FIXME:FIXME:FIXME:FIXME:FIXME:
+// FIXME:FIXME:FIXME:FIXME:FIXME:
+// FIXME:FIXME:FIXME:FIXME:FIXME:
+// FIXME:FIXME:FIXME:FIXME:FIXME:
+// remove
+lang.en.streaming = enStreaming
+lang.zh.streaming = zhStreaming
 
 const i18nInstance = createI18n({
   messages: lang,

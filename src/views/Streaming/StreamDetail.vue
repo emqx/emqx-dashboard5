@@ -1,17 +1,20 @@
 <template>
-  <div class="stream-details app-wrapper">
+  <div class="stream-detail app-wrapper">
     <div class="block-header">
       <DetailHeader :item="{ name: streamName, routeName: 'stream' }" />
     </div>
     <el-row :gutter="26">
       <el-col :span="12">
+        <div class="section-header">
+          <p>{{ t('Dashboard.basic') }}</p>
+        </div>
         <el-card class="basic-info top-border">
-          <el-descriptions :title="t('Dashboard.basic')" border :column="1" size="large">
+          <el-descriptions border :column="1" size="large">
             <el-descriptions-item :label="tl('streamName')">
               {{ streamInfo.overview?.stream_name }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('streamType')">
-              {{ $t(`streaming.streamTypeLabel.${streamInfo.overview?.stream_type}`) }}
+              {{ tl(`streamTypeLabel.${streamInfo.overview?.stream_type}`) }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('partitionNum')">
               {{ streamInfo.overview?.partition_number }}
@@ -88,3 +91,12 @@ getStreamInfo()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 </script>
+
+<style lang="scss">
+.stream-detail {
+  padding-bottom: 32px;
+  .basic-info:before {
+    background: linear-gradient(135deg, #00b173 0%, #009580 100%);
+  }
+}
+</style>
