@@ -218,18 +218,17 @@
                   "
                 >
                   <el-col :span="21">
-                    <el-form-item prop="traces.filter.e2e_tracing_options.attribute_meta_value">
+                    <el-form-item prop="traces.filter.e2e_tracing_options.cluster_identifier">
                       <template #label>
                         <FormItemLabel
-                          :label="tl('attributeMetaValue')"
-                          :desc="tl('attributeMetaValueDesc')"
+                          :label="tl('clusterIdentifier')"
+                          :desc="tl('clusterIdentifierDesc')"
                           desc-marked
                         />
                       </template>
                       <el-input
                         v-model="
-                          opentelemetryFormData.traces.filter.e2e_tracing_options
-                            .attribute_meta_value
+                          opentelemetryFormData.traces.filter.e2e_tracing_options.cluster_identifier
                         "
                       />
                     </el-form-item>
@@ -407,7 +406,7 @@ const opentelemetryFormData = ref<OpenTelemetry>({
       trace_all: false,
       trace_mode: 'legacy',
       e2e_tracing_options: {
-        attribute_meta_value: '',
+        cluster_identifier: '',
       },
     },
     scheduled_delay: '5s',
@@ -509,7 +508,7 @@ const loadOpentelemetry = async function () {
 const FormCom = ref()
 const { createRequiredRule } = useFormRules()
 const rules = {
-  'traces.filter.e2e_tracing_options.attribute_meta_value': createRequiredRule(
+  'traces.filter.e2e_tracing_options.cluster_identifier': createRequiredRule(
     tl('attributeMetaValue'),
   ),
 }

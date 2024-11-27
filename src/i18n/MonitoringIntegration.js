@@ -214,13 +214,13 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '关闭追踪高级配置?',
     en: 'Close Trace Advanced Configuration?',
   },
-  attributeMetaValue: {
-    zh: '属性元数据值',
-    en: 'Attribute Metadata Value',
+  clusterIdentifier: {
+    zh: '集群标识符',
+    en: 'Cluster Identifier',
   },
-  attributeMetaValueDesc: {
-    zh: '添加到 Span 的属性中的元数据值。属性键将是 <code>emqx.meta</code><br/>通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
-    en: "A meta value added into Span's Attribute. The attribute key will be <code>emqx.meta</code><br/>Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+  clusterIdentifierDesc: {
+    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
+    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
   },
   alreadyExists: {
     zh: '已存在',
@@ -251,8 +251,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Trace Sampling Ratio',
   },
   traceSamplingRatioDesc: {
-    zh: '事件类型的采样比率。对事件开关和白名单采样透明。',
-    en: 'Sampling ratio for the event types. Transparent to events switch and whitelist sampling.',
+    zh: '追踪事件的采样比率。',
+    en: 'Sampling ratio of trace events.',
   },
   notEnabledAllTraceTip: {
     zh: '无已启用的追踪事件',
@@ -263,8 +263,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Message Trace Level',
   },
   messageTraceLevelDesc: {
-    zh: '消息发布过程中所有消息交换的跟踪级别。<br/>注意：此设置对所有消息跟踪有效，不受白名单采样或比例采样的影响。',
-    en: 'Trace level for all message exchanges during the message publishing process.<br/>Note: This is effective for all message traces. It is transparent to whitelist sampling or ratio sampling.',
+    zh: '消息发布过程中所有消息交换的跟踪级别。',
+    en: 'Trace level for all message exchanges during the message publishing process.',
   },
   messageTraceLevel0Desc: {
     zh: '包括 <br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',

@@ -27,7 +27,7 @@
         <el-switch v-model="traceConf.client_subscribe_unsubscribe" />
       </el-form-item>
       <el-form-item :label="tl('traceMessage')">
-        <el-switch v-model="traceConf.client_publish" />
+        <el-switch v-model="traceConf.client_messaging" />
       </el-form-item>
       <el-form-item prop="sample_ratio">
         <template #label>
@@ -234,7 +234,7 @@ const notEnabledAllTrace = computed(
   () =>
     !traceConf.value.client_connect_disconnect &&
     !traceConf.value.client_subscribe_unsubscribe &&
-    !traceConf.value.client_publish,
+    !traceConf.value.client_messaging,
 )
 
 const traceEventLevelOpts = [

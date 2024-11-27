@@ -263,14 +263,14 @@ export interface OpentelemetryOpentelemetry {
 }
 
 export interface OpentelemetryE2eTracingOptions {
-  attribute_meta_value?: string
+  cluster_identifier: string
   msg_trace_level?: number
   clientid_match_rules_max?: number
   topic_match_rules_max?: number
   sample_ratio?: string
   client_connect_disconnect?: boolean
   client_subscribe_unsubscribe?: boolean
-  client_publish?: boolean
+  client_messaging?: boolean
 }
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
