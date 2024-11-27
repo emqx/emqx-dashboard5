@@ -61,6 +61,30 @@
   },
   {
     "method": "delete",
+    "path": "/opentelemetry/whitelist/:type",
+    "operation_label": {
+      "en": "Opentelemetry",
+      "zh": "Opentelemetry"
+    },
+    "operation_name_label": {
+      "en": "Purge white list for specific type",
+      "zh": "删除指定类型的白名单"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/opentelemetry/whitelist/:type",
+    "operation_label": {
+      "en": "Opentelemetry",
+      "zh": "Opentelemetry"
+    },
+    "operation_name_label": {
+      "en": "Update white list for specific type",
+      "zh": "更新指定类型的白名单"
+    }
+  },
+  {
+    "method": "delete",
     "path": "/clients/:clientid",
     "operation_label": {
       "en": "Clients",
