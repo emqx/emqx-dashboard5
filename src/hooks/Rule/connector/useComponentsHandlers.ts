@@ -176,8 +176,11 @@ export default (
     }
 
     if (ssl) {
+      if (ssl?.properties?.verify) {
+        ssl.properties.verify.default = SSL_VERIFY_VALUE_MAP.get(false)
+      }
       ssl.properties = pick(ssl.properties, neededSSLConfig) as Properties
-      ssl.componentProps = { disabledBaseConfig: true, disabledVerify: true }
+      ssl.componentProps = { disabledBaseConfig: true }
     }
 
     return { components, rules }
