@@ -108,7 +108,7 @@ export default (): {
     },
     {
       title: 'streaming',
-      icon: 'icon-streaming',
+      icon: 'icon-Stream',
       children: streaming,
     },
     {

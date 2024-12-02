@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42670784",
+      "name": "Stream",
+      "font_class": "Stream",
+      "unicode": "e809",
+      "unicode_decimal": 59401
+    },
+    {
       "icon_id": "40606647",
       "name": "x",
       "font_class": "x",
