@@ -724,6 +724,9 @@
   &.allow-overflow {
     overflow: visible;
   }
+  &.no-border {
+    border: none;
+  }
   position: relative;
   &.top-border,
   &.top-primary {

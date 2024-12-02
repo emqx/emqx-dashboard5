@@ -979,3 +979,18 @@ code {
     }
   }
 }
+
+.el-card.basic-info {
+  background-color: var(--color-bg-split);
+  .el-descriptions__body {
+    tr:last-child {
+      td.el-descriptions__cell {
+        padding-bottom: 0;
+      }
+    }
+    .el-descriptions__label::after {
+      content: ': ';
+      margin-left: 2px;
+    }
+  }
+}

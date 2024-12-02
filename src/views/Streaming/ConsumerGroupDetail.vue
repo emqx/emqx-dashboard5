@@ -3,29 +3,30 @@
     <div class="block-header">
       <DetailHeader :item="{ name: groupId, routeName: 'consumer-group' }" />
     </div>
-    <el-row class="row-basic-row" :gutter="26" v-loading="isLoading">
-      <el-col :span="12">
-        <el-card class="basic-info top-border">
-          <el-descriptions :title="t('Dashboard.basic')" border :column="1" size="large">
-            <el-descriptions-item :label="tl('groupID')">
-              {{ groupInfo.overview?.group_id }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="t('Base.status')">
-              {{ groupInfo.overview?.state }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('protocol')">
-              {{ groupInfo.overview?.protocol_name }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('consumerNum')">
-              {{ groupInfo.overview?.member_number }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('streamNum')">
-              {{ groupInfo.overview?.topic_number }}
-            </el-descriptions-item>
-          </el-descriptions>
-        </el-card>
-      </el-col>
-    </el-row>
+    <div>
+      <div class="section-header is-first">
+        <p>{{ t('Dashboard.basic') }}</p>
+      </div>
+      <el-card class="basic-info no-border" v-loading="isLoading">
+        <el-descriptions :column="2" size="large">
+          <el-descriptions-item :label="tl('groupID')" width="50%">
+            {{ groupInfo.overview?.group_id }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="t('Base.status')" width="50%">
+            {{ groupInfo.overview?.state }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="tl('protocol')">
+            {{ groupInfo.overview?.protocol_name }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="tl('consumerNum')">
+            {{ groupInfo.overview?.member_number }}
+          </el-descriptions-item>
+          <el-descriptions-item :label="tl('streamNum')">
+            {{ groupInfo.overview?.topic_number }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+    </div>
     <el-tabs v-model="activeTab" class="mt-16" v-loading="isLoading">
       <el-tab-pane :name="Tab.Consumers" :label="tl('consumers')">
         <el-table :data="groupInfo.members || []">
@@ -118,10 +119,10 @@ getGroupInfo()
 <style lang="scss">
 .consumer-group-detail {
   padding-bottom: 32px;
-  .basic-info:before {
-    background: linear-gradient(135deg, #00b173 0%, #009580 100%);
+  .section-header.is-first {
+    margin-top: 8px;
   }
-  .row-basic-row {
+  .basic-info {
     margin-bottom: 32px;
   }
   .el-tabs__header {
