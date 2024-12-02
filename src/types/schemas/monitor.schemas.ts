@@ -1,21 +1,10 @@
-export type PutOpentelemetry400Code =
-  typeof PutOpentelemetry400Code[keyof typeof PutOpentelemetry400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutOpentelemetry400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutOpentelemetry400 = {
-  code?: PutOpentelemetry400Code
-  message?: string
-}
-
 export type GetPrometheusAuth200Two = { [key: string]: any }
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
 export type GetPrometheusDataIntegration200Two = { [key: string]: any }
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type EmqxPrometheusApiModeParameter =
   typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
@@ -54,8 +43,6 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
@@ -188,100 +175,4 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
   vm_memory: PrometheusCollectorsVmMemory
   vm_msacc: PrometheusCollectorsVmMsacc
-}
-
-export interface OpentelemetryTraceFilter {
-  trace_all?: boolean
-}
-
-export interface OpentelemetryOtelTraces {
-  enable?: boolean
-  scheduled_delay?: string
-  filter?: OpentelemetryTraceFilter
-}
-
-export interface OpentelemetryOtelMetrics {
-  enable: boolean
-  interval?: string
-}
-
-export type OpentelemetryOtelLogsLevel =
-  typeof OpentelemetryOtelLogsLevel[keyof typeof OpentelemetryOtelLogsLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetryOtelLogsLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export interface OpentelemetryOtelLogs {
-  level?: OpentelemetryOtelLogsLevel
-  enable?: boolean
-  scheduled_delay?: string
-}
-
-export interface OpentelemetryOtelExporter {
-  endpoint?: string
-  ssl_options?: EmqxSslClientOpts
-}
-
-export interface OpentelemetryOpentelemetry {
-  metrics?: OpentelemetryOtelMetrics
-  logs?: OpentelemetryOtelLogs
-  traces?: OpentelemetryOtelTraces
-  exporter?: OpentelemetryOtelExporter
-}
-
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
-
-export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface EmqxSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: EmqxSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: EmqxSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
