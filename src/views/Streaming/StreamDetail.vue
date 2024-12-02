@@ -5,11 +5,8 @@
     </div>
     <el-row :gutter="26">
       <el-col :span="12">
-        <div class="section-header">
-          <p>{{ t('Dashboard.basic') }}</p>
-        </div>
         <el-card class="basic-info top-border">
-          <el-descriptions border :column="1" size="large">
+          <el-descriptions :title="t('Dashboard.basic')" border :column="1" size="large">
             <el-descriptions-item :label="tl('streamName')">
               {{ streamInfo.overview?.stream_name }}
             </el-descriptions-item>

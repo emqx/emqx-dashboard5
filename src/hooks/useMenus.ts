@@ -66,11 +66,11 @@ export default (): {
   ]
 
   const streaming = [
-    { title: 'streaming-overview', path: '/streaming-overview' },
+    // { title: 'streaming-overview', path: '/streaming-overview' },
     { title: 'stream', path: '/stream' },
     { title: 'consumer-group', path: '/consumer-group' },
-    { title: 'authentication', path: '/streaming-authn' },
-    { title: 'authorization', path: '/streaming-authz' },
+    { title: 'streaming-authn', path: '/streaming-authn' },
+    { title: 'streaming-authz', path: '/streaming-authz' },
   ]
 
   const diagnose = [
