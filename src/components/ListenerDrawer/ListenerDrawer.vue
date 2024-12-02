@@ -176,7 +176,15 @@
         <div>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="tl('mountPoint')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('mountPoint')"
+                    :desc="tl('mountPointDesc')"
+                    :max-height="200"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="listenerRecord.mountpoint" />
               </el-form-item>
             </el-col>

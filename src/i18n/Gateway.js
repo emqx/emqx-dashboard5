@@ -123,6 +123,48 @@ export default {
     zh: '挂载点',
     en: 'MountPoint',
   },
+  mountPointDesc: {
+    zh: `为客户端在 \`SUBSCRIBE\` 和 \`UNSUBSCRIBE\` 请求、\`PUBLISH\` 消息以及 Will Message（如果在 \`CONNECT\` 数据包中提供）中使用的主题添加静态或模板前缀（例如 \`n1/\` 或 \`{'$'}{'{'}username{'}'}/\`）。<br />
+从发布到相应订阅的消息的主题中移除此前缀。
+
+支持的占位符包括：
+- \`{'$'}{'{'}username{'}'}\`
+- \`{'$'}{'{'}clientid{'}'}\`
+- \`{'$'}{'{'}zone{'}'}\`
+- \`{'$'}{'{'}client_attrs.NAME{'}'}\`
+
+例如，使用 \`mountpoint="{'$'}{'{'}username{'}'}/"\` 时，客户端 \`u1\` 将出现以下情况：
+- 客户端 SUBSCRIBE \`sensors/#\` -> 在代理中内部转换为 \`u1/sensors/#\`。
+- 代理 PUBLISH \`u1/sensors/data\` -> 发送给客户端时变为 \`sensors/data\`。
+
+前缀的挂载/卸载应用于：
+- \`CONNECT\` 中的 Will
+- \`PUBLISH\`
+- \`SUBSCRIBE\`
+- \`UNSUBSCRIBE\`
+
+注意：挂载发生在**授权/ACL检查之后**。`,
+    en: `Adds a static or templated prefix (e.g., \`n1/\` or \`{'$'}{'{'}username{'}'}/\`) to topics used by clients in \`SUBSCRIBE\` and \`UNSUBSCRIBE\` requests, \`PUBLISH\` messages, and Will Message (if supplied in the \`CONNECT\` packet).<br />
+Removes this prefix from topics of messages published to the respective subscriptions.
+
+The supported placeholders are:
+- \`{'$'}{'{'}username{'}'}\`
+- \`{'$'}{'{'}clientid{'}'}\`
+- \`{'$'}{'{'}zone{'}'}\`
+- \`{'$'}{'{'}client_attrs.NAME{'}'}\`
+
+For example, with \`mountpoint="{'$'}{'{'}username{'}'}/"\`, a client \`u1\` will have:
+- Client SUBSCRIBE \`sensors/#\` -> \`u1/sensors/#\` internally in the broker.
+- Broker PUBLISH \`u1/sensors/data\` -> \`sensors/data\` sent to the client.
+
+The prefix mount/unmount is applied to:
+- Will in \`CONNECT\`
+- \`PUBLISH\`
+- \`SUBSCRIBE\`
+- \`UNSUBSCRIBE\`
+
+Note: mounting occurs **after authorization/ACL checks**.`,
+  },
   lType: {
     zh: '类型',
     en: 'Type',
