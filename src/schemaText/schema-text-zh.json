@@ -1353,14 +1353,14 @@
     },
     "mqtt_client_attrs_init": {
       "label": "客户端属性",
-      "desc": "在客户端连接时设置自定义属性并将其用于认证、授权等功能中。"
+      "desc": "指定如何初始化客户端属性。<br />每个客户端属性可以初始化为 `client_attrs.{'{'}NAME{'}'}`，<br />其中 `{'{'}NAME{'}'}` 是配置字段 `set_as_attr` 中指定的属性名称。<br /><br />初始化的客户端属性将存储在带有指定名称的 `client_attrs` 属性中，<br />并可用作渲染挂载点、身份验证和授权请求的模板变量。<br /><br />例如，当 `set_as_attr = tns` 时，使用 `${'{'}client_attrs.tns{'}'}` 渲染 HTTP POST 正文，<br />或渲染监听器配置 `moutpoint = ${'{'}client_attrs.tns{'}'}/` 用于主题命名空间。"
     },
     "client_attrs_init_set_as_attr": {
       "label": "属性"
     },
     "client_attrs_init_expression": {
       "label": "属性表达式",
-      "desc": "一个行表达式，用于从客户端现有信息中动态提取属性值，可以使用以下字段：<br/><br/>- `clientid`：客户端 ID<br/>- `username`：用户名<br/>- `cn`：TLS 证书的 CN 字段<br/>- `dn`：TLS 证书的 DN 字段<br/>- `user_property.*`：从 MQTT CONNECT 数据包的 `User-Property` 中提取属性值，例如 `user_property.foo`<br/><br/>支持使用预定义的字符串函数对信息进行动态处理。例如，要提取由点分隔的客户端 ID 的前缀：`nth(1, tokens(clientid, '.'))`；要截取用户名部分信息：`substr(username, 0, 5)`。您可以在 EMQX 文档中了解有关 variform 表达式的更多信息。<br/>"
+      "desc": "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(clientid, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `user_property.{'{'}NAME{'}'}`：CONNECT 数据包中的用户属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。"
     },
     "mqtt_keepalive_check_interval": {
       "label": "保活检查间隔",
@@ -1372,7 +1372,7 @@
     },
     "mqtt_clientid_override": {
       "label": "客户端 ID 重写表达式",
-      "desc": "单行表达式，用于计算一组预定义字符串函数（如规则引擎 SQL 语句）。<br />表达式可以是以嵌套调用为参数的函数调用，也可以是直接变量引用。<br />目前不支持用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />示例：要提取以点号分隔的客户端 ID 的前缀，可使用：`nth(1, tokens(username, '.'))`。<br /><br />预绑定变量有<br />- `cn`： 客户端 TLS 证书的通用名称。<br />- `dn`： 客户端的 TLS 证书标识名称（主体）。<br />- `clientid`： 原始 MQTT 客户端 ID。<br />- `username`： MQTT 客户端的用户名。<br />- `client_attrs.{'{'}NAME{'}'}`： 通过配置 `client_attrs_init` 初始化的客户端属性。<br /><br />有关可变形式表达式的更多信息，请参阅 EMQX 文档。<br />"
+      "desc": "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(username, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：原始 MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `client_attrs.{'{'}NAME{'}'}`：通过每个配置的 `client_attrs_init` 初始化的客户端属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。"
     }
   }
 }
