@@ -132,7 +132,6 @@ export const GetConfigsKey = {
   message_transformation: 'message_transformation',
   mqtt: 'mqtt',
   node: 'node',
-  opentelemetry: 'opentelemetry',
   overload_protection: 'overload_protection',
   prometheus: 'prometheus',
   psk_authentication: 'psk_authentication',

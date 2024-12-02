@@ -1328,7 +1328,7 @@
     },
     "mqtt_clientid_override": {
       "label": "客户端 ID 重写表达式",
-      "desc": "单行表达式，用于计算一组预定义字符串函数（如规则引擎 SQL 语句）。<br />表达式可以是以嵌套调用为参数的函数调用，也可以是直接变量引用。<br />目前不支持用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />示例：要提取以点号分隔的客户端 ID 的前缀，可使用：`nth(1, tokens(username, '.'))`。<br /><br />预绑定变量有<br />- `cn`： 客户端 TLS 证书的通用名称。<br />- `dn`： 客户端的 TLS 证书标识名称（主体）。<br />- `clientid`： 原始 MQTT 客户端 ID。<br />- `username`： MQTT 客户端的用户名。<br />- `client_attrs.{NAME}`： 通过配置 `client_attrs_init` 初始化的客户端属性。<br /><br />有关可变形式表达式的更多信息，请参阅 EMQX 文档。<br />"
+      "desc": "单行表达式，用于计算一组预定义字符串函数（如规则引擎 SQL 语句）。<br />表达式可以是以嵌套调用为参数的函数调用，也可以是直接变量引用。<br />目前不支持用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />示例：要提取以点号分隔的客户端 ID 的前缀，可使用：`nth(1, tokens(username, '.'))`。<br /><br />预绑定变量有<br />- `cn`： 客户端 TLS 证书的通用名称。<br />- `dn`： 客户端的 TLS 证书标识名称（主体）。<br />- `clientid`： 原始 MQTT 客户端 ID。<br />- `username`： MQTT 客户端的用户名。<br />- `client_attrs.{'{'}NAME{'}'}`： 通过配置 `client_attrs_init` 初始化的客户端属性。<br /><br />有关可变形式表达式的更多信息，请参阅 EMQX 文档。<br />"
     }
   },
   "ssl_opts": {
