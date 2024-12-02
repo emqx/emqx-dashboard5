@@ -19,8 +19,10 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
+    "@emqx/shared-ui-components": "~0.0.1",
+    "@emqx/shared-ui-constants": "~0.0.1",
     "@emqx/shared-ui-i18n": "~0.0.25",
-    "@emqx/shared-ui-utils": "^0.0.14",
+    "@emqx/shared-ui-utils": "~0.0.14",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@vue-flow/core": "^1.20.1",
     "ajv": "^8.12.0",
