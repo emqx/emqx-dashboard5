@@ -407,6 +407,14 @@ export default {
     zh: '概览',
     en: 'Overview',
   },
+  'streaming-authn': {
+    zh: '客户端认证',
+    en: 'Authentication',
+  },
+  'streaming-authz': {
+    zh: '客户端授权',
+    en: 'Authorization',
+  },
   stream: {
     zh: 'Streams',
     en: 'Streams',

@@ -1,5 +1,6 @@
 <template>
   <el-dialog v-model="showDialog" :title="`TODO:`" destroy-on-close width="700px">
+    <StreamingAuthForm :lang="state.lang" v-model="record" />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>
@@ -20,7 +21,9 @@
 import { createStreamingAuthn } from '@/api/streaming'
 import useI18nTl from '@/hooks/useI18nTl'
 import { StreamingAuthn } from '@/types/typeAlias'
+import { StreamingAuthForm } from '@emqx/shared-ui-components'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 const props = defineProps<{
   modelValue: boolean
@@ -29,6 +32,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', v: boolean): void
 }>()
+
+const { state } = useStore()
 
 const showDialog = computed({
   get: () => props.modelValue,

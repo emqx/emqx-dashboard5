@@ -5,6 +5,7 @@
     destroy-on-close
     width="700px"
   >
+    <StreamForm :lang="state.lang" v-model="record" :tip-component="InfoTooltip" />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>
@@ -23,9 +24,12 @@
 
 <script setup lang="ts">
 import { createStream } from '@/api/streaming'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Stream } from '@/types/typeAlias'
+import { StreamForm } from '@emqx/shared-ui-components'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { useStore } from 'vuex'
 
 const props = defineProps<{
   modelValue: boolean
@@ -47,6 +51,7 @@ watch(showDialog, (val) => {
 })
 
 const { t, tl } = useI18nTl('streaming')
+const { state } = useStore()
 
 const createRawStream = (): Stream => ({} as Stream)
 

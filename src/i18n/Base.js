@@ -699,4 +699,8 @@ export default {
     zh: '',
     en: ' ',
   },
+  address: {
+    zh: '连接地址',
+    en: 'Address',
+  },
 }

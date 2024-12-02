@@ -1,8 +1,12 @@
 import http from '@/common/http'
 import { Stream, StreamingAuthn, StreamingAuthz } from '@/types/typeAlias'
 
-export const getMetrics = () => {
+export const getStreamingMetrics = () => {
   return http.get('/streaming/metrics')
+}
+
+export const getEndpoints = () => {
+  return http.get('/streaming/stream_endpoints')
 }
 
 export const getStreamDetail = (streamName: string) => {
@@ -22,10 +26,41 @@ export const getStreams = () => {
 }
 
 export const getConsumerGroups = () => {
-  return http.get('/streaming/consumer_groups')
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  return {
+    groups: [
+      {
+        generation_id: 2,
+        group_id: 'emqx-kafka-consumer-PROBE_Q1mF4o9G',
+        member_number: 0,
+        state: 'Empty',
+        topic_number: 0,
+      },
+      {
+        generation_id: 2330,
+        group_id: 'emqx-kafka-consumer-source-191a47',
+        member_number: 0,
+        state: 'Empty',
+        topic_number: 0,
+      },
+      {
+        generation_id: 2,
+        group_id: 'emqx-kafka-consumer-PROBE_lhuxZkaW',
+        member_number: 0,
+        state: 'Empty',
+        topic_number: 0,
+      },
+    ],
+  }
+  // return http.get('/streaming/consumer_groups')
 }
 
-export const getConsumerGroup = (groupId: string) => {
+export const getConsumerGroupDetail = (groupId: string) => {
   return http.get(`/streaming/consumer_groups/${encodeURIComponent(groupId)}`)
 }
 
