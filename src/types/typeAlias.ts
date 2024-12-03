@@ -55,6 +55,10 @@ import type {
   StreamingAuthnBasicUserDetails,
   StreamingAuthzAclBindData,
   StreamingAuthnBasicUser,
+  StreamingStreamDetails,
+  StreamingConsumerGroupDetail,
+  StreamingStreaming,
+  StreamingAllMetrics,
 } from './schemas/streaming.schemas'
 import {
   StreamingAuthzAclBindDataPrincipalType,
@@ -131,9 +135,13 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
 
 /* STREAM */
+export type StreamingConfig = StreamingStreaming
+export type StreamingMetrics = StreamingAllMetrics
 export const StreamType = StreamingStreamStreamType
 export type Stream = StreamingStream
+export type StreamDetails = StreamingStreamDetails
 export type StreamingConsumerGroup = StreamingConsumerGroupType
+export type StreamingConsumerGroupDetails = StreamingConsumerGroupDetail
 export type StreamingAuthn = StreamingAuthnBasicUserDetails
 export type StreamingAuthz = StreamingAuthzAclBindData
 export const StreamingAuthzPrincipalType = StreamingAuthzAclBindDataPrincipalType
