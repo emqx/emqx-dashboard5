@@ -49,6 +49,16 @@ import type {
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
+import type {
+  StreamingStream,
+  StreamingConsumerGroup as StreamingConsumerGroupType,
+  StreamingAuthnBasicUserDetails,
+  StreamingAuthzAclBindData,
+} from './schemas/streaming.schemas'
+import {
+  StreamingAuthzAclBindDataPrincipalType,
+  StreamingStreamStreamType,
+} from './schemas/streaming.schemas'
 
 export type OverrideProperties<
   T,
@@ -120,16 +130,9 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
 
 /* STREAM */
-export enum StreamType {
-  Default = 'default',
-  Free = 'free',
-}
-export interface Stream {
-  stream_name: string
-  stream_type: StreamType
-  mqtt_topic_filter: string
-  partition_number: number
-  retention_time: string
-}
-export type StreamingAuthn = any
-export type StreamingAuthz = any
+export const StreamType = StreamingStreamStreamType
+export type Stream = StreamingStream
+export type StreamingConsumerGroup = StreamingConsumerGroupType
+export type StreamingAuthn = StreamingAuthnBasicUserDetails
+export type StreamingAuthz = StreamingAuthzAclBindData
+export const StreamingAuthzPrincipalType = StreamingAuthzAclBindDataPrincipalType

@@ -27,21 +27,12 @@
 <script lang="ts" setup>
 import { getConsumerGroups } from '@/api/streaming'
 import useI18nTl from '@/hooks/useI18nTl'
+import { StreamingConsumerGroup } from '@/types/typeAlias'
 import { ref } from 'vue'
-
-interface ConsumerGroup {
-  state: string
-  protocol_name: string
-  group_id: string
-  generation_id: number
-  leader_member_id: string
-  topic_number: number
-  member_number: number
-}
 
 const { tl, t } = useI18nTl('streaming')
 
-const groupList = ref<Array<ConsumerGroup>>([])
+const groupList = ref<Array<StreamingConsumerGroup>>([])
 const isLoading = ref(false)
 
 const getGroups = async () => {

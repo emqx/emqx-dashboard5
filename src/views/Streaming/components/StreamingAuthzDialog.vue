@@ -20,15 +20,27 @@
 <script setup lang="ts">
 import { createStreamingAuthz } from '@/api/streaming'
 import useFormRules from '@/hooks/useFormRules'
-import { StreamingAuthz } from '@/types/typeAlias'
+import { StreamingAuthz, StreamingAuthzPrincipalType } from '@/types/typeAlias'
 import { StreamingACLForm } from '@emqx/shared-ui-components'
-import { StreamPatternType } from '@emqx/shared-ui-constants'
+import {
+  STREAMING_MATCH_ALL,
+  StreamOperation,
+  StreamPatternType,
+  StreamPermission,
+  StreamResourceType,
+} from '@emqx/shared-ui-constants'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
 import { omit } from 'lodash'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
+
+type StreamingAuthzRecord = Omit<StreamingAuthz, 'pattern_type'> & {
+  principal_name_type: StreamPatternType
+  pattern_type: StreamPatternType
+  host_type: StreamPatternType
+}
 
 const props = defineProps<{
   modelValue: boolean
@@ -55,9 +67,20 @@ const { t, locale } = useI18n()
 const { t: sharedT } = useLocale(locale.value)
 const tl = (key: string) => sharedT(`streaming.${key}`)
 
-const createRawAuthz = (): StreamingAuthz => ({} as StreamingAuthz)
+const createRawAuthz = (): StreamingAuthzRecord => ({
+  principal_type: StreamingAuthzPrincipalType.User,
+  principal_name: STREAMING_MATCH_ALL,
+  host_type: StreamPatternType.All,
+  host: STREAMING_MATCH_ALL,
+  resource_type: StreamResourceType.Topic,
+  pattern_type: StreamPatternType.All,
+  resource_name: STREAMING_MATCH_ALL,
+  operation: StreamOperation.All,
+  permission: StreamPermission.Deny,
+  principal_name_type: StreamPatternType.All,
+})
 
-const record = ref<StreamingAuthz>(createRawAuthz())
+const record = ref<StreamingAuthzRecord>(createRawAuthz())
 
 const matchAllUsers = computed(() => record.value.principal_name_type === StreamPatternType.All)
 const matchAllResources = computed(() => record.value.pattern_type === StreamPatternType.All)
