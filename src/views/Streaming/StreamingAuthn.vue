@@ -31,7 +31,7 @@
       </el-table-column>
     </el-table>
   </div>
-  <StreamingAuthnDialog v-model="isDialogShow" :data="currentAuthn" />
+  <StreamingAuthnDialog v-model="isDialogShow" :data="currentAuthn" @submitted="getAuthnList" />
 </template>
 
 <script lang="ts" setup>

@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="showDialog" :title="`TODO:`" destroy-on-close width="700px">
-    <StreamingAuthForm :lang="state.lang" v-model="record" />
+    <StreamingAuthForm :lang="locale" v-model="record" :rules="rules" :is-edit="isEdit" />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>
@@ -18,12 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { createStreamingAuthn } from '@/api/streaming'
-import useI18nTl from '@/hooks/useI18nTl'
+import { createStreamingAuthn, updateStreamingAuthn } from '@/api/streaming'
+import useFormRules from '@/hooks/useFormRules'
 import { StreamingAuthn } from '@/types/typeAlias'
 import { StreamingAuthForm } from '@emqx/shared-ui-components'
+import { useLocale } from '@emqx/shared-ui-utils'
+import { ElMessage } from 'element-plus'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   modelValue: boolean
@@ -31,9 +33,8 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: boolean): void
+  (e: 'submitted'): void
 }>()
-
-const { state } = useStore()
 
 const showDialog = computed({
   get: () => props.modelValue,
@@ -49,20 +50,36 @@ watch(showDialog, (val) => {
 
 const isEdit = computed(() => !!props.data)
 
-const { t, tl } = useI18nTl('streaming')
+const { t, locale } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
 const createRawAuthn = (): StreamingAuthn => ({} as StreamingAuthn)
 
 const record = ref<StreamingAuthn>(createRawAuthn())
 
 const FormCom = ref()
+const { createRequiredRule } = useFormRules()
+const rules = computed(() => ({
+  user_name: [
+    ...createRequiredRule(t('Base.username')),
+    { pattern: /^[\w./+%$#@&-]{1,128}$/, message: tl('usernameRule') },
+  ],
+  mechanism: createRequiredRule(tl('authType'), 'select'),
+  password: createRequiredRule(t('Base.password')),
+}))
 
 const isSubmitting = ref(false)
 const submit = async () => {
   try {
     await FormCom.value.validate()
     isSubmitting.value = true
-    await createStreamingAuthn(record.value)
+    isEdit.value
+      ? await updateStreamingAuthn(record.value)
+      : await createStreamingAuthn(record.value)
+    emit('submitted')
+    showDialog.value = false
+    ElMessage.success(isEdit.value ? t('Base.updateSuccess') : t('Base.createSuccess'))
   } catch (error) {
     //
   } finally {
