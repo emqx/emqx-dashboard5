@@ -26,38 +26,7 @@ export const getStreams = () => {
 }
 
 export const getConsumerGroups = () => {
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-  return {
-    groups: [
-      {
-        generation_id: 2,
-        group_id: 'emqx-kafka-consumer-PROBE_Q1mF4o9G',
-        member_number: 0,
-        state: 'Empty',
-        topic_number: 0,
-      },
-      {
-        generation_id: 2330,
-        group_id: 'emqx-kafka-consumer-source-191a47',
-        member_number: 0,
-        state: 'Empty',
-        topic_number: 0,
-      },
-      {
-        generation_id: 2,
-        group_id: 'emqx-kafka-consumer-PROBE_lhuxZkaW',
-        member_number: 0,
-        state: 'Empty',
-        topic_number: 0,
-      },
-    ],
-  }
-  // return http.get('/streaming/consumer_groups')
+  return http.get('/streaming/consumer_groups')
 }
 
 export const getConsumerGroupDetail = (groupId: string) => {
@@ -73,25 +42,43 @@ export const updateConfig = (data: any) => {
 }
 
 export const getStreamingAuthnList = () => {
-  return http.get('/streaming/authn')
+  return http.get('/streaming/authentication/basic/users')
 }
 
 export const createStreamingAuthn = (data: StreamingAuthn) => {
-  return http.post('/streaming/authn', data)
+  return http.post('/streaming/authentication/basic/users', data)
 }
 
-export const deleteStreamingAuthn = (username: string) => {
-  return http.delete(`/streaming/authn/${encodeURIComponent(username)}`)
+export const updateStreamingAuthn = (data: StreamingAuthn) => {
+  return http.put(
+    `/streaming/authentication/basic/users/${encodeURIComponent(data.username)}`,
+    data,
+  )
+}
+
+export const deleteStreamingAuthn = (data: {
+  mechanism: string
+  user_name: string
+}): Promise<void> => {
+  return http.post('/streaming/authentication/basic/users/delete', data)
 }
 
 export const getStreamingAuthzList = () => {
-  return http.get('/streaming/authz')
+  return http.get('/streaming/authorization/acls')
 }
 
 export const createStreamingAuthz = (data: StreamingAuthz) => {
-  return http.post('/streaming/authz', data)
+  return http.post('/streaming/authorization/acls', data)
 }
-
-export const deleteStreamingAuthz = (username: string) => {
-  return http.delete(`/streaming/authz/${encodeURIComponent(username)}`)
+export const deleteStreamingAuthz = (data: {
+  host: string
+  operation: string
+  permission: string
+  resource_type: string
+  resource_name: string
+  principal_type: string
+  principal_name: string
+  pattern_type: string
+}): Promise<void> => {
+  return http.post(`/streaming/authorization/acls/delete`, data)
 }

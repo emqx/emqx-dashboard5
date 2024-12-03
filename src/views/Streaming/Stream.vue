@@ -55,7 +55,7 @@
       </el-table-column>
     </el-table>
   </div>
-  <StreamDialog v-model="isDialogShow" />
+  <StreamDialog v-model="isDialogShow" @submitted="getStreams" />
 </template>
 
 <script lang="ts" setup>
