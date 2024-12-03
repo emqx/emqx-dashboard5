@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" :title="`TODO:`" destroy-on-close width="700px">
+  <el-dialog v-model="showDialog" :title="title" destroy-on-close width="700px">
     <StreamingAuthForm :lang="locale" v-model="record" :rules="rules" :is-edit="isEdit" />
     <template #footer>
       <div class="dialog-align-footer">
@@ -56,6 +56,11 @@ const isEdit = computed(() => !!props.data)
 const { t, locale } = useI18n()
 const { t: sharedT } = useLocale(locale.value)
 const tl = (key: string) => sharedT(`streaming.${key}`)
+
+const title = computed(() => {
+  const params = { target: t('Base.authn') }
+  return isEdit.value ? t('Base.updateTarget', params) : t('Base.createTarget', params)
+})
 
 const createRawAuthn = (): StreamingAuthn => ({
   user_name: '',

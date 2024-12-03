@@ -1,5 +1,10 @@
 <template>
-  <el-dialog v-model="showDialog" :title="`TODO:`" destroy-on-close width="700px">
+  <el-dialog
+    v-model="showDialog"
+    :title="t('Base.createTarget', { target: titleCase(t('Auth.authz')) })"
+    destroy-on-close
+    width="700px"
+  >
     <StreamingACLForm :lang="state.lang" v-model="record" :rules="rules" />
     <template #footer>
       <div class="dialog-align-footer">
@@ -19,6 +24,7 @@
 
 <script setup lang="ts">
 import { createStreamingAuthz } from '@/api/streaming'
+import { titleCase } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import { StreamingAuthz, StreamingAuthzPrincipalType } from '@/types/typeAlias'
 import { StreamingACLForm } from '@emqx/shared-ui-components'

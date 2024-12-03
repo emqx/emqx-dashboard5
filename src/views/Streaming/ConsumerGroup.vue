@@ -10,11 +10,7 @@
       </el-table-column>
       <el-table-column :label="t('Base.status')">
         <template #default="{ row }">
-          <!-- TODO:TODO:TODO:TODO:TODO:TODO: -->
-          <!-- TODO:TODO:TODO:TODO:TODO:TODO: -->
-          <!-- TODO:TODO:TODO:TODO:TODO:TODO: -->
-          <!-- TODO:TODO:TODO:TODO:TODO:TODO: -->
-          {{ row.state }}
+          <ConsumerGroupStatus :group="row" />
         </template>
       </el-table-column>
       <el-table-column prop="topic_number" :label="tl('streamNum')" />
@@ -29,6 +25,7 @@ import { getConsumerGroups } from '@/api/streaming'
 import useI18nTl from '@/hooks/useI18nTl'
 import { StreamingConsumerGroup } from '@/types/typeAlias'
 import { ref } from 'vue'
+import ConsumerGroupStatus from './components/ConsumerGroupStatus.vue'
 
 const { tl, t } = useI18nTl('streaming')
 

@@ -6,7 +6,7 @@ import useI18nTl from './useI18nTl'
 export default (): {
   operationWarning: (confirmText: string, opts?: Record<string, any>) => Promise<MessageBoxData>
   confirmDel: (
-    callback: () => Promise<unknown>,
+    callback?: () => Promise<unknown>,
     confirmText?: string,
     sucText?: string,
   ) => Promise<void>
@@ -24,7 +24,7 @@ export default (): {
   const defaultDelConfirmText = tl('confirmDelete')
   const defaultSucText = tl('deleteSuccess')
   const confirmDel = async (
-    callback: () => Promise<unknown>,
+    callback?: () => Promise<unknown>,
     confirmText = defaultDelConfirmText,
     sucText = defaultSucText,
   ) => {

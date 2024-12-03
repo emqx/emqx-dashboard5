@@ -1,5 +1,10 @@
 import http from '@/common/http'
-import { Stream, StreamingAuthn, StreamingAuthz } from '@/types/typeAlias'
+import {
+  DeleteStreamingAuthnParams,
+  Stream,
+  StreamingAuthn,
+  StreamingAuthz,
+} from '@/types/typeAlias'
 
 export const getStreamingMetrics = () => {
   return http.get('/streaming/metrics')
@@ -50,16 +55,10 @@ export const createStreamingAuthn = (data: StreamingAuthn) => {
 }
 
 export const updateStreamingAuthn = (data: StreamingAuthn) => {
-  return http.put(
-    `/streaming/authentication/basic/users/${encodeURIComponent(data.username)}`,
-    data,
-  )
+  return http.put(`/streaming/authentication/basic/users`, data)
 }
 
-export const deleteStreamingAuthn = (data: {
-  mechanism: string
-  user_name: string
-}): Promise<void> => {
+export const deleteStreamingAuthn = (data: DeleteStreamingAuthnParams): Promise<void> => {
   return http.post('/streaming/authentication/basic/users/delete', data)
 }
 
@@ -70,15 +69,6 @@ export const getStreamingAuthzList = () => {
 export const createStreamingAuthz = (data: StreamingAuthz) => {
   return http.post('/streaming/authorization/acls', data)
 }
-export const deleteStreamingAuthz = (data: {
-  host: string
-  operation: string
-  permission: string
-  resource_type: string
-  resource_name: string
-  principal_type: string
-  principal_name: string
-  pattern_type: string
-}): Promise<void> => {
+export const deleteStreamingAuthz = (data: StreamingAuthz): Promise<void> => {
   return http.post(`/streaming/authorization/acls/delete`, data)
 }
