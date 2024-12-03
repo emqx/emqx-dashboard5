@@ -26,7 +26,7 @@
 import { createStream } from '@/api/streaming'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useFormRules from '@/hooks/useFormRules'
-import { Stream } from '@/types/typeAlias'
+import { Stream, StreamType } from '@/types/typeAlias'
 import { StreamForm } from '@emqx/shared-ui-components'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
@@ -57,7 +57,12 @@ const { t, locale } = useI18n()
 const { t: sharedT } = useLocale(locale.value)
 const tl = (key: string) => sharedT(`streaming.${key}`)
 
-const createRawStream = (): Stream => ({} as Stream)
+const createRawStream = (): Stream => ({
+  stream_name: '',
+  mqtt_topic_filter: '',
+  stream_type: StreamType.default,
+  partition_number: -1,
+})
 
 const record = ref<Stream>(createRawStream())
 

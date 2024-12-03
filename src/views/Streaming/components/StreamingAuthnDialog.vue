@@ -22,6 +22,7 @@ import { createStreamingAuthn, updateStreamingAuthn } from '@/api/streaming'
 import useFormRules from '@/hooks/useFormRules'
 import { StreamingAuthn } from '@/types/typeAlias'
 import { StreamingAuthForm } from '@emqx/shared-ui-components'
+import { StreamAuthType } from '@emqx/shared-ui-constants'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
@@ -45,6 +46,8 @@ const showDialog = computed({
 watch(showDialog, (val) => {
   if (!val) {
     record.value = createRawAuthn()
+  } else if (val && props.data) {
+    record.value = props.data
   }
 })
 
@@ -54,7 +57,11 @@ const { t, locale } = useI18n()
 const { t: sharedT } = useLocale(locale.value)
 const tl = (key: string) => sharedT(`streaming.${key}`)
 
-const createRawAuthn = (): StreamingAuthn => ({} as StreamingAuthn)
+const createRawAuthn = (): StreamingAuthn => ({
+  user_name: '',
+  mechanism: StreamAuthType.SHA256,
+  password: '',
+})
 
 const record = ref<StreamingAuthn>(createRawAuthn())
 
