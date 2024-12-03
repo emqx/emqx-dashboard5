@@ -55,10 +55,13 @@
 <script lang="ts" setup>
 import { deleteStreamingAuthz, getStreamingAuthzList } from '@/api/streaming'
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import type { StreamingAuthz } from '@/types/typeAlias.ts'
 import { Plus } from '@element-plus/icons-vue'
+import { useLocale, useStreamingAuth } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import StreamingAuthzDialog from './components/StreamingAuthzDialog.vue'
 
 enum StreamPatternType {
@@ -68,14 +71,11 @@ enum StreamPatternType {
   All = 'ALL',
 }
 
-type StreamingAuthz = any
+const { t, locale } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
-// TODO:TODO:TODO:TODO:TODO:TODO:
-const resourceTypeOptions: Array<any> = []
-const operationOptions: Array<any> = []
-const permissionOptions: Array<any> = []
-
-const { tl, t } = useI18nTl('streaming')
+const { permissionOptions, resourceTypeOptions, operationOptions } = useStreamingAuth(locale.value)
 
 const authzList = ref<Array<StreamingAuthz>>([])
 const isLoading = ref(false)
@@ -97,12 +97,11 @@ const addAuthn = () => {
   isDialogShow.value = true
 }
 
-const handleDel = async (name: string) => {
+const { confirmDel } = useOperationConfirm()
+const handleDel = async (data: StreamingAuthz) => {
   try {
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO: 删除确认
-    await deleteStreamingAuthz(name)
+    await confirmDel()
+    await deleteStreamingAuthz(data)
     ElMessage.success(t('Base.deleteSuccess'))
     getAuthzList()
   } catch (error) {

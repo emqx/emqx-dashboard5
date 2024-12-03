@@ -24,10 +24,6 @@
           <InfoTooltip :content="tl('streamTypeTip')" />
         </template>
         <template #default="{ row }">
-          <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
-          <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
-          <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
-          <!-- FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: -->
           {{ row.stream_type ? tl(`streamTypeLabel.${row.stream_type}`) : '' }}
         </template>
       </el-table-column>
@@ -68,6 +64,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import StreamDialog from './components/StreamDialog.vue'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 
 const { tl, t } = useI18nTl('streaming')
 
@@ -94,11 +91,10 @@ const addStream = () => {
   isDialogShow.value = true
 }
 
+const { confirmDel } = useOperationConfirm()
 const handleDel = async (name: string) => {
   try {
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO: 删除确认
+    await confirmDel()
     await deleteStream(name)
     ElMessage.success(t('Base.deleteSuccess'))
     getStreams()

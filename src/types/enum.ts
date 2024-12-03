@@ -181,6 +181,7 @@ export enum NodeStatusClass {
   Success = 'success',
   Warning = 'warning',
   Danger = 'danger',
+  Info = 'info',
 }
 
 export enum SlowSubType {
@@ -403,4 +404,12 @@ export const enum LogResult {
 export const enum OpenTelemetryWhiteListType {
   ClientID = 'clientid',
   Topic = 'topic',
+}
+
+export const enum StreamingConsumerGroupState {
+  PreparingRebalance = 'PreparingRebalance',
+  CompletingRebalance = 'CompletingRebalance',
+  Stable = 'Stable',
+  Dead = 'Dead',
+  Empty = 'Empty',
 }

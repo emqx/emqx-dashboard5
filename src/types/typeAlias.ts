@@ -54,6 +54,7 @@ import type {
   StreamingConsumerGroup as StreamingConsumerGroupType,
   StreamingAuthnBasicUserDetails,
   StreamingAuthzAclBindData,
+  StreamingAuthnBasicUser,
 } from './schemas/streaming.schemas'
 import {
   StreamingAuthzAclBindDataPrincipalType,
@@ -136,3 +137,4 @@ export type StreamingConsumerGroup = StreamingConsumerGroupType
 export type StreamingAuthn = StreamingAuthnBasicUserDetails
 export type StreamingAuthz = StreamingAuthzAclBindData
 export const StreamingAuthzPrincipalType = StreamingAuthzAclBindDataPrincipalType
+export type DeleteStreamingAuthnParams = StreamingAuthnBasicUser

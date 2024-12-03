@@ -37,6 +37,7 @@
 <script lang="ts" setup>
 import { deleteStreamingAuthn, getStreamingAuthnList } from '@/api/streaming'
 import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { StreamingAuthn } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -72,12 +73,11 @@ const handleEdit = (data: StreamingAuthn) => {
   isDialogShow.value = true
 }
 
-const handleDel = async (name: string) => {
+const { confirmDel } = useOperationConfirm()
+const handleDel = async ({ mechanism, user_name }: StreamingAuthn) => {
   try {
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO: 删除确认
-    await deleteStreamingAuthn(name)
+    await confirmDel()
+    await deleteStreamingAuthn({ mechanism, user_name })
     ElMessage.success(t('Base.deleteSuccess'))
     getAuthnList()
   } catch (error) {

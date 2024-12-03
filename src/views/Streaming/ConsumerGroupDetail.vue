@@ -13,7 +13,7 @@
             {{ groupInfo.overview?.group_id }}
           </el-descriptions-item>
           <el-descriptions-item :label="t('Base.status')" width="50%">
-            {{ groupInfo.overview?.state }}
+            <ConsumerGroupStatus :group="groupInfo.overview" />
           </el-descriptions-item>
           <el-descriptions-item :label="tl('protocol')">
             {{ groupInfo.overview?.protocol_name }}
@@ -55,6 +55,7 @@ import { useLocale } from '@emqx/shared-ui-utils'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import ConsumerGroupStatus from './components/ConsumerGroupStatus.vue'
 
 interface Group {
   members: Member[]

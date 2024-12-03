@@ -79,6 +79,10 @@ export default {
     zh: '创建{target}',
     en: 'Create {target}',
   },
+  updateTarget: {
+    zh: '更新{target}',
+    en: 'Update {target}',
+  },
   cancel: {
     zh: '取消',
     en: 'Cancel',

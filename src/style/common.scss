@@ -373,6 +373,9 @@ input:disabled {
   &.danger {
     color: var(--el-color-danger);
   }
+  &.info {
+    color: var(--color-text-secondary);
+  }
 }
 
 .icon {
