@@ -509,7 +509,7 @@ const FormCom = ref()
 const { createRequiredRule } = useFormRules()
 const rules = {
   'traces.filter.e2e_tracing_options.cluster_identifier': createRequiredRule(
-    tl('attributeMetaValue'),
+    tl('clusterIdentifier'),
   ),
 }
 const updateOpentelemetry = async function () {
