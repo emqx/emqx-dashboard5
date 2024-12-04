@@ -49,7 +49,7 @@
       </el-table-column>
     </el-table>
   </div>
-  <StreamingAuthzDialog v-model="isDialogShow" />
+  <StreamingAuthzDialog v-model="isDialogShow" @submitted="getAuthzList" />
 </template>
 
 <script lang="ts" setup>
@@ -83,7 +83,8 @@ const isLoading = ref(false)
 const getAuthzList = async () => {
   try {
     isLoading.value = true
-    authzList.value = await getStreamingAuthzList()
+    const { acls } = await getStreamingAuthzList()
+    authzList.value = acls || []
   } catch (error) {
     console.error(error)
   } finally {

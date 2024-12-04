@@ -1,12 +1,17 @@
 import http from '@/common/http'
 import {
+  StreamingAuthnBasicUserList,
+  StreamingAuthzAclList,
+  StreamingConsumerGroups,
+  StreamingStreamsList,
+} from '@/types/schemas/streaming.schemas'
+import {
   DeleteStreamingAuthnParams,
   Stream,
   StreamDetails,
   StreamingAuthn,
   StreamingAuthz,
   StreamingConfig,
-  StreamingConsumerGroup,
   StreamingConsumerGroupDetails,
   StreamingMetrics,
 } from '@/types/typeAlias'
@@ -39,11 +44,11 @@ export const createStream = (data: Stream): Promise<Stream> => {
   return http.post('/streaming/streams', data)
 }
 
-export const getStreams = (): Promise<Array<Stream>> => {
+export const getStreams = (): Promise<StreamingStreamsList> => {
   return http.get('/streaming/streams')
 }
 
-export const getConsumerGroups = (): Promise<Array<StreamingConsumerGroup>> => {
+export const getConsumerGroups = (): Promise<StreamingConsumerGroups> => {
   return http.get('/streaming/consumer_groups')
 }
 
@@ -51,7 +56,7 @@ export const getConsumerGroupDetail = (groupId: string): Promise<StreamingConsum
   return http.get(`/streaming/consumer_groups/${encodeURIComponent(groupId)}`)
 }
 
-export const getStreamingAuthnList = (): Promise<Array<StreamingAuthn>> => {
+export const getStreamingAuthnList = (): Promise<StreamingAuthnBasicUserList> => {
   return http.get('/streaming/authentication/basic/users')
 }
 
@@ -67,7 +72,7 @@ export const deleteStreamingAuthn = (data: DeleteStreamingAuthnParams): Promise<
   return http.post('/streaming/authentication/basic/users/delete', data)
 }
 
-export const getStreamingAuthzList = (): Promise<Array<StreamingAuthz>> => {
+export const getStreamingAuthzList = (): Promise<StreamingAuthzAclList> => {
   return http.get('/streaming/authorization/acls')
 }
 

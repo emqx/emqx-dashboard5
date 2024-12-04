@@ -58,15 +58,18 @@
 import { deleteStream, getStreams as requestStreams } from '@/api/streaming'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useDurationStr from '@/hooks/useDurationStr'
-import useI18nTl from '@/hooks/useI18nTl'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { Stream } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
+import { useLocale } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import StreamDialog from './components/StreamDialog.vue'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 
-const { tl, t } = useI18nTl('streaming')
+const { locale, t } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
 const streamList = ref<Array<Stream>>([])
 const isLoading = ref(false)
@@ -75,7 +78,7 @@ const getStreams = async () => {
   try {
     isLoading.value = true
     const { streams } = await requestStreams()
-    streamList.value = streams
+    streamList.value = streams || []
   } catch (error) {
     console.error(error)
   } finally {
@@ -92,8 +95,11 @@ const addStream = () => {
 }
 
 const { confirmDel } = useOperationConfirm()
-const handleDel = async (name: string) => {
+const handleDel = async ({ stream_name: name }: Stream) => {
   try {
+    if (!name) {
+      return
+    }
     await confirmDel()
     await deleteStream(name)
     ElMessage.success(t('Base.deleteSuccess'))

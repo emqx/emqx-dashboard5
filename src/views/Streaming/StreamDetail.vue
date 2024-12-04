@@ -22,7 +22,10 @@
             {{ streamInfo.overview?.mqtt_topic_filter }}
           </el-descriptions-item>
           <el-descriptions-item :label="tl('retention')">
-            {{ transMsNumToSimpleStr(streamInfo.overview?.retention_time) }}
+            {{
+              streamInfo.overview?.retention_time &&
+              transMsNumToSimpleStr(streamInfo.overview?.retention_time)
+            }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
@@ -44,35 +47,20 @@
 import { getStreamDetail } from '@/api/streaming'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDurationStr from '@/hooks/useDurationStr'
-import useI18nTl from '@/hooks/useI18nTl'
+import { StreamDetails } from '@/types/typeAlias'
+import { useLocale } from '@emqx/shared-ui-utils'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-
-interface Overview {
-  mqtt_topic_filter: string
-  partition_number: number
-  retention_time: string
-  stream_name: string
-  stream_type: string
-}
-
-interface Partition {
-  partition_index: number
-  end_offset: number
-  start_offset: number
-}
-
-interface StreamDetail {
-  partitions: Partition[]
-  overview: Overview
-}
 
 const route = useRoute()
 const streamName = computed(() => route.params.name.toString())
 
-const { t, tl } = useI18nTl('streaming')
+const { t, locale } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
-const streamInfo = ref<StreamDetail>({} as StreamDetail)
+const streamInfo = ref<StreamDetails>({})
 
 const isLoading = ref(false)
 const getStreamInfo = async () => {

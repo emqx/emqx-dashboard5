@@ -5,7 +5,13 @@
     destroy-on-close
     width="700px"
   >
-    <StreamingACLForm :lang="state.lang" v-model="record" :rules="rules" />
+    <StreamingACLForm
+      ref="FormCom"
+      v-model="record"
+      :rules="rules"
+      :lang="state.lang"
+      :validate-on-rule-change="false"
+    />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>

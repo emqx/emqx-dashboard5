@@ -1,6 +1,12 @@
 <template>
   <el-dialog v-model="showDialog" :title="title" destroy-on-close width="700px">
-    <StreamingAuthForm :lang="locale" v-model="record" :rules="rules" :is-edit="isEdit" />
+    <StreamingAuthForm
+      ref="FormCom"
+      v-model="record"
+      :lang="locale"
+      :rules="rules"
+      :is-edit="isEdit"
+    />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>

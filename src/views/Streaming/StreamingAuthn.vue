@@ -36,15 +36,18 @@
 
 <script lang="ts" setup>
 import { deleteStreamingAuthn, getStreamingAuthnList } from '@/api/streaming'
-import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { StreamingAuthn } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
+import { useLocale } from '@emqx/shared-ui-utils'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import StreamingAuthnDialog from './components/StreamingAuthnDialog.vue'
 
-const { tl, t } = useI18nTl('streaming')
+const { t, locale } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
 const streamList = ref<Array<StreamingAuthn>>([])
 const isLoading = ref(false)
@@ -52,7 +55,8 @@ const isLoading = ref(false)
 const getAuthnList = async () => {
   try {
     isLoading.value = true
-    streamList.value = await getStreamingAuthnList()
+    const { users } = await getStreamingAuthnList()
+    streamList.value = users || []
   } catch (error) {
     console.error(error)
   } finally {
