@@ -5,7 +5,13 @@
     destroy-on-close
     width="700px"
   >
-    <StreamForm :lang="locale" v-model="record" :rules="rules" :tip-component="InfoTooltip" />
+    <StreamForm
+      ref="FormCom"
+      v-model="record"
+      :lang="locale"
+      :rules="rules"
+      :tip-component="InfoTooltip"
+    />
     <template #footer>
       <div class="dialog-align-footer">
         <el-button @click="showDialog = false">{{ t('Base.cancel') }}</el-button>
@@ -61,7 +67,7 @@ const createRawStream = (): Stream => ({
   stream_name: '',
   mqtt_topic_filter: '',
   stream_type: StreamType.default,
-  partition_number: -1,
+  partition_number: 16,
 })
 
 const record = ref<Stream>(createRawStream())

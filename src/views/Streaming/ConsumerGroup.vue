@@ -22,12 +22,15 @@
 
 <script lang="ts" setup>
 import { getConsumerGroups } from '@/api/streaming'
-import useI18nTl from '@/hooks/useI18nTl'
 import { StreamingConsumerGroup } from '@/types/typeAlias'
+import { useLocale } from '@emqx/shared-ui-utils'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ConsumerGroupStatus from './components/ConsumerGroupStatus.vue'
 
-const { tl, t } = useI18nTl('streaming')
+const { t, locale } = useI18n()
+const { t: sharedT } = useLocale(locale.value)
+const tl = (key: string) => sharedT(`streaming.${key}`)
 
 const groupList = ref<Array<StreamingConsumerGroup>>([])
 const isLoading = ref(false)
@@ -36,7 +39,7 @@ const getGroups = async () => {
   try {
     isLoading.value = true
     const { groups } = await getConsumerGroups()
-    groupList.value = groups
+    groupList.value = groups || []
   } catch (error) {
     console.error(error)
   } finally {
