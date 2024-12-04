@@ -125,7 +125,7 @@ export default {
   },
   mountPointDesc: {
     zh: `为客户端在 \`SUBSCRIBE\` 和 \`UNSUBSCRIBE\` 请求、\`PUBLISH\` 消息以及 Will Message（如果在 \`CONNECT\` 数据包中提供）中使用的主题添加静态或模板前缀（例如 \`n1/\` 或 \`{'$'}{'{'}username{'}'}/\`）。<br />
-从发布到相应订阅的消息的主题中移除此前缀。
+从发布到相应订阅的消息的主题中将移除此前缀。
 
 支持的占位符包括：
 - \`{'$'}{'{'}username{'}'}\`
