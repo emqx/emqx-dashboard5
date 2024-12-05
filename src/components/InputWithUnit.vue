@@ -95,7 +95,7 @@ const backupRegExp = computed(() => {
   )
 })
 
-const numPartRegExp = /^-?\d+(\.\d+)?$/
+const numPartRegExp = /^\d+(\.\d+)?$/
 const specialStatusNumPartRegExp = /^(\.|\.\d+|\d+\.)$/
 
 const modelValueMatchReg = computed(() => {
@@ -126,7 +126,7 @@ const numPart: WritableComputedRef<string> = computed({
   set(val) {
     let value = val
     if (!numPartRegExp.test(value) && !specialStatusNumPartRegExp.test(value)) {
-      const num = parseFloat(value)
+      const num = Math.abs(parseFloat(value))
       value = Number.isNaN(num) ? '' : num.toString()
     } else if (numPartRegExp.test(value)) {
       value = parseFloat(value).toString()
