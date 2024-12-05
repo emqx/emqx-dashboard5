@@ -7,13 +7,13 @@
       </el-button>
     </div>
     <el-table :data="streamList" v-loading="isLoading">
+      <el-table-column prop="mechanism" :label="tl('authType')" min-width="180px" />
       <el-table-column
         prop="user_name"
         :label="t('Base.username')"
         show-overflow-tooltip
         min-width="320px"
       />
-      <el-table-column prop="mechanism" :label="tl('authType')" min-width="180px" />
       <el-table-column :label="t('Base.operation')" min-width="80px">
         <template #default="{ row }">
           <el-button size="small" :disabled="!$hasPermission('put')" @click="handleEdit(row)">

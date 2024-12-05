@@ -9,7 +9,7 @@ import { StreamingConsumerGroup } from '@/types/typeAlias'
 import { defineProps, computed } from 'vue'
 
 const props = defineProps<{
-  group: StreamingConsumerGroup
+  group?: StreamingConsumerGroup
 }>()
 const classMap = {
   [StreamingConsumerGroupState.PreparingRebalance]: NodeStatusClass.Good,
@@ -19,7 +19,7 @@ const classMap = {
   [StreamingConsumerGroupState.Empty]: NodeStatusClass.Info,
 }
 const statusData = computed(() => {
-  const state = props.group.state as StreamingConsumerGroupState
+  const state = props.group?.state as StreamingConsumerGroupState
   return {
     statusLabel: state,
     statusClass: state ? classMap[state] : NodeStatusClass.Info,
