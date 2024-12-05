@@ -51,42 +51,12 @@
 import { getConsumerGroupDetail } from '@/api/streaming'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useI18nTl from '@/hooks/useI18nTl'
+import { StreamingConsumerGroupDetails } from '@/types/typeAlias'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ConsumerGroupStatus from './components/ConsumerGroupStatus.vue'
-
-interface Group {
-  members: Member[]
-  overview: Overview
-  streams: Stream[]
-}
-
-interface Stream {
-  consumer_id: string
-  lag: number
-  partition: number
-  stream: string
-}
-
-interface Overview {
-  generation_id: number
-  group_id: string
-  leader_member_id: string
-  member_number: number
-  protocol_name: string
-  state: string
-  topic_number: number
-}
-
-interface Member {
-  client_host: string
-  client_id: string
-  member_id: string
-  rebalance_timeout_ms: number
-  session_timeout_ms: number
-}
 
 enum Tab {
   Consumers,
@@ -101,13 +71,14 @@ const { t } = useI18nTl('streaming')
 const { t: sharedT } = useLocale(useStore().state.lang)
 const tl = (key: string) => sharedT(`streaming.${key}`)
 
-const groupInfo = ref<Group>({} as Group)
+const groupInfo = ref<StreamingConsumerGroupDetails>({} as StreamingConsumerGroupDetails)
 
 const isLoading = ref(false)
 const getGroupInfo = async () => {
   try {
     isLoading.value = true
-    groupInfo.value = await getConsumerGroupDetail(groupId.value)
+    const res = await getConsumerGroupDetail(groupId.value)
+    groupInfo.value = res
   } catch (error) {
     //
   } finally {
