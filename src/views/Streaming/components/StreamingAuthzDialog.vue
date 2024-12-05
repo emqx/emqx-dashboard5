@@ -88,7 +88,7 @@ const createRawAuthz = (): StreamingAuthzRecord => ({
   pattern_type: StreamPatternType.All,
   resource_name: STREAMING_MATCH_ALL,
   operation: StreamOperation.All,
-  permission: StreamPermission.Deny,
+  permission: StreamPermission.Allow,
   principal_name_type: StreamPatternType.All,
 })
 
