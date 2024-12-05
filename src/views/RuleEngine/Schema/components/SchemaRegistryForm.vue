@@ -196,6 +196,7 @@ const openJSONSchemaDialog = () => {
 
 const updateSchema = (schema: string) => {
   schemaForm.value.source = schema
+  onBlurChanged()
 }
 
 /**
