@@ -66,7 +66,7 @@ export default (): {
   ]
 
   const streaming = [
-    // { title: 'streaming-overview', path: '/streaming-overview' },
+    { title: 'streaming-overview', path: '/streaming-overview' },
     { title: 'stream', path: '/stream' },
     { title: 'consumer-group', path: '/consumer-group' },
     { title: 'streaming-authn', path: '/streaming-authn' },
