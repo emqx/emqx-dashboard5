@@ -182,6 +182,7 @@ export enum NodeStatusClass {
   Warning = 'warning',
   Danger = 'danger',
   Info = 'info',
+  Good = 'good',
 }
 
 export enum SlowSubType {
@@ -294,6 +295,8 @@ export enum CheckStatus {
   Close = 'close',
   Warning = 'warning',
   Disable = 'disable',
+  Info = 'info',
+  Good = 'good',
 }
 
 /**

@@ -51,6 +51,7 @@ body {
   font-size: 14px;
   font-family: $font;
   background-color: var(--color-bg);
+  --color-common-blue: #469cf7;
 }
 
 * {
@@ -375,6 +376,9 @@ input:disabled {
   }
   &.info {
     color: var(--color-text-secondary);
+  }
+  &.good {
+    color: var(--color-common-blue);
   }
 }
 

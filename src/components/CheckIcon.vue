@@ -1,14 +1,17 @@
 <template>
   <el-icon class="check-icon" :class="status" :style="{ 'font-size': fontSize, top: `${top}px` }">
-    <Check v-if="status === CheckStatus.Check" />
-    <Close v-else-if="status === CheckStatus.Close || status === CheckStatus.Disable" />
+    <Check v-if="[CheckStatus.Check, CheckStatus.Good].includes(status)" />
+    <Close
+      v-else-if="[CheckStatus.Close, CheckStatus.Disable, CheckStatus.Info].includes(status)"
+    />
     <Warning v-else-if="status === CheckStatus.Warning" />
+    <InfoFilled v-else-if="status === CheckStatus.Info" />
   </el-icon>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, PropType, computed } from 'vue'
-import { Check, Close, Warning } from '@element-plus/icons-vue'
+import { Check, Close, Warning, InfoFilled } from '@element-plus/icons-vue'
 import { CheckStatus } from '@/types/enum'
 
 const props = defineProps({
@@ -53,6 +56,12 @@ const fontSize = computed(() => {
   }
   &.disable {
     background-color: var(--el-disabled-bg-color);
+  }
+  &.info {
+    background-color: var(--el-color-info);
+  }
+  &.good {
+    background-color: var(--color-common-blue);
   }
 }
 </style>

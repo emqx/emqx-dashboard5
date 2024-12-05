@@ -84,6 +84,8 @@ const statusForIcon = computed(() => {
     [NodeStatusClass.Success]: CheckStatus.Check,
     [NodeStatusClass.Warning]: CheckStatus.Warning,
     [NodeStatusClass.Danger]: CheckStatus.Close,
+    [NodeStatusClass.Info]: CheckStatus.Info,
+    [NodeStatusClass.Good]: CheckStatus.Good,
   }
   return map[props.statusData.statusClass || NodeStatusClass.Danger]
 })

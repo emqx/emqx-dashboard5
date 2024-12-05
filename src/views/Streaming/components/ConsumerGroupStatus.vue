@@ -12,11 +12,11 @@ const props = defineProps<{
   group: StreamingConsumerGroup
 }>()
 const classMap = {
-  [StreamingConsumerGroupState.PreparingRebalance]: NodeStatusClass.Success,
-  [StreamingConsumerGroupState.CompletingRebalance]: NodeStatusClass.Warning,
-  [StreamingConsumerGroupState.Stable]: NodeStatusClass.Info,
+  [StreamingConsumerGroupState.PreparingRebalance]: NodeStatusClass.Good,
+  [StreamingConsumerGroupState.CompletingRebalance]: NodeStatusClass.Good,
+  [StreamingConsumerGroupState.Stable]: NodeStatusClass.Success,
   [StreamingConsumerGroupState.Dead]: NodeStatusClass.Danger,
-  [StreamingConsumerGroupState.Empty]: NodeStatusClass.Danger,
+  [StreamingConsumerGroupState.Empty]: NodeStatusClass.Info,
 }
 const statusData = computed(() => {
   const state = props.group.state as StreamingConsumerGroupState
