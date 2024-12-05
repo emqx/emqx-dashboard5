@@ -998,21 +998,21 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Base/SSOLogin.vue'),
   },
   // Stream Overview
-  // {
-  //   path: '/streaming-overview',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'streaming-overview',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'stream',
-  //       component: () => import('@/views/Streaming/StreamingOverview.vue'),
-  //     },
-  //   ],
-  // },
+  {
+    path: '/streaming-overview',
+    component: Layout,
+    meta: {
+      hideKey: 'streaming-overview',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'streaming-overview',
+        component: () => import('@/views/Streaming/StreamingOverview.vue'),
+      },
+    ],
+  },
   // Stream
   {
     path: '/stream',

@@ -1001,3 +1001,10 @@ code {
     }
   }
 }
+
+a.not-highlight {
+  color: inherit;
+  &:hover {
+    color: var(--color-primary);
+  }
+}
