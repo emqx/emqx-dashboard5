@@ -160,7 +160,10 @@ const submitTestSQL = async () => {
     }
   } catch (error) {
     const err = error as Error
-    ElMessage.error(err.toString())
+    // don't show axios error
+    if (!err.name || !/AxiosError/i.test(err.name)) {
+      ElMessage.error(err.toString())
+    }
   } finally {
     testLoading.value = false
   }
