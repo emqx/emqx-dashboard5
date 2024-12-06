@@ -192,6 +192,9 @@
       }
     }
   }
+  a.io-item {
+    color: unset;
+  }
   .btn-add {
     margin-top: 24px;
     :deep(span) {
