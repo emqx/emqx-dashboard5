@@ -1,12 +1,17 @@
+import type { ComputedRef } from 'vue'
+import { computed } from 'vue'
+import useStreamingStatus from './useStreamingStatus'
+
 export interface Menu {
   title: string
   path?: string
   icon?: string
   children?: Menu[]
+  disabled?: boolean
 }
 
 export default (): {
-  menuList: Array<Menu>
+  menuList: ComputedRef<Menu[]>
 } => {
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
@@ -65,13 +70,26 @@ export default (): {
     { title: 'message-transform', path: '/message-transform' },
   ]
 
-  const streaming = [
+  const { isStreamingEnabled } = useStreamingStatus()
+  const streaming = computed(() => [
     { title: 'streaming-overview', path: '/streaming-overview' },
-    { title: 'stream', path: '/stream' },
-    { title: 'consumer-group', path: '/consumer-group' },
-    { title: 'streaming-authn', path: '/streaming-authn' },
-    { title: 'streaming-authz', path: '/streaming-authz' },
-  ]
+    { title: 'stream', path: '/stream', disabled: !isStreamingEnabled.value },
+    {
+      title: 'consumer-group',
+      path: '/consumer-group',
+      disabled: !isStreamingEnabled.value,
+    },
+    {
+      title: 'streaming-authn',
+      path: '/streaming-authn',
+      disabled: !isStreamingEnabled.value,
+    },
+    {
+      title: 'streaming-authz',
+      path: '/streaming-authz',
+      disabled: !isStreamingEnabled.value,
+    },
+  ])
 
   const diagnose = [
     { title: 'websocket', path: '/websocket' },
@@ -90,7 +108,7 @@ export default (): {
     { title: 'hot-upgrade', path: '/hot-upgrade' },
   ]
 
-  const menuList = [
+  const menuList = computed(() => [
     {
       title: 'monitoring',
       icon: 'icon-monitoring',
@@ -109,7 +127,7 @@ export default (): {
     {
       title: 'streaming',
       icon: 'icon-Stream',
-      children: streaming,
+      children: streaming.value,
     },
     {
       title: 'management',
@@ -126,7 +144,7 @@ export default (): {
       icon: 'icon-system',
       children: system,
     },
-  ]
+  ])
 
   return {
     menuList,

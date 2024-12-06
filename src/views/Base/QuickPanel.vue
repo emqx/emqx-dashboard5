@@ -85,14 +85,18 @@ const { t, tl } = useI18nTl('Base')
 const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
 
 const { menuList } = useMenus()
-const findParentAndBlock = (path: string) => {
+const getInfoByPath = (path: string) => {
   let parent: Menu | any = undefined
+  let disabled = false
   const walk = (menuItem: Menu): boolean => {
     if (menuItem.path) {
       const isTarget = menuItem.path === path
       const isChild = createChildReg(menuItem.path).test(path)
       if (isChild) {
         parent = menuItem
+      }
+      if (isTarget && menuItem.disabled !== undefined) {
+        disabled = menuItem.disabled
       }
       return isTarget || isChild
     } else if (menuItem.children) {
@@ -101,10 +105,14 @@ const findParentAndBlock = (path: string) => {
     return false
   }
 
-  const block = menuList.find((item) => walk(item))
+  const block = menuList.value.find((item) => walk(item))
   return {
+    /**
+     * if path is from level 3, parent is level 2; if path is from level 2, there is no parent
+     */
     parentLabel: parent ? t(`components.${parent.title}`) : undefined,
     blockTitle: block ? t(`components.${block.title}`) : '',
+    disabled,
   }
 }
 
@@ -125,8 +133,10 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
       const label = te(`components.${labelKey as string}`)
         ? t(`components.${labelKey as string}`)
         : titleCase(route.name as string)
-      const { parentLabel, blockTitle } = findParentAndBlock(path)
-      ret.push({ path, name: route.name, label, parentLabel, blockTitle })
+      const { parentLabel, blockTitle, disabled } = getInfoByPath(path)
+      if (!disabled) {
+        ret.push({ path, name: route.name, label, parentLabel, blockTitle })
+      }
     }
     if (route.children && level === 0) {
       route.children.forEach((child) => {

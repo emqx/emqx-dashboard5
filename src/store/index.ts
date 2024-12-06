@@ -74,6 +74,7 @@ export default createStore({
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
+    isStreamingEnabled: true,
     /* rule page start */
     isTesting: false,
     savedAfterDataChange: false,
@@ -189,6 +190,9 @@ export default createStore({
     SET_CLIENT_TABLE_COLUMNS(state, columns) {
       state.clientTableColumns = columns
       localStorage.setItem('clientTableColumns', JSON.stringify(columns))
+    },
+    SET_IS_STREAMING_ENABLED(state, isStreamingEnabled) {
+      state.isStreamingEnabled = isStreamingEnabled
     },
     /* rule page start */
     SET_IS_TESTING(state, isTesting) {
