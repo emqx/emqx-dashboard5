@@ -1196,17 +1196,17 @@
   integrity sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==
 
 "@emqx/shared-ui-components@~0.0.1":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-components/-/shared-ui-components-0.0.2.tgz#b6726c65bc75b19e7e7791605be200b460687de9"
-  integrity sha512-iLfJn4X5excYNYKhwmHDE8/fbsMDitsfBZ9KwSJUM+gdq1PzjTQe/LXSVpXXS3aa45NmUe0Jtu89ez8VAR5NXw==
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-components/-/shared-ui-components-0.0.3.tgz#39a10e14067c7523ced5445a9b45972a188e70f9"
+  integrity sha512-+TsYZCzKRtMueEYP8bGdHkTVeYTgFamY/czG2UpyflSks3oofnbfjkbnFFFUzjadDP8MW8bK+1047tdT6jG5MA==
   dependencies:
-    "@emqx/shared-ui-constants" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-components-0.0.2-b6726c65bc75b19e7e7791605be200b460687de9-integrity/node_modules/@emqx/constants"
+    "@emqx/shared-ui-constants" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-components-0.0.3-39a10e14067c7523ced5445a9b45972a188e70f9-integrity/node_modules/@emqx/constants"
 
-"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-components-0.0.2-b6726c65bc75b19e7e7791605be200b460687de9-integrity/node_modules/@emqx/constants":
+"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.15-72872e81cf5e7c99856429eb19f2151044947d92-integrity/node_modules/@emqx/constants":
   version "0.0.0"
   uid ""
 
-"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.15-72872e81cf5e7c99856429eb19f2151044947d92-integrity/node_modules/@emqx/constants":
+"@emqx/shared-ui-constants@link:../constants":
   version "0.0.0"
 
 "@emqx/shared-ui-constants@~0.0.1":
@@ -1219,9 +1219,9 @@
   uid ""
 
 "@emqx/shared-ui-i18n@~0.0.25":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.31.tgz#696fe41431746b7952a9ca8d6edea129951dd3d4"
-  integrity sha512-jPTjCv05aMmlvac8IWyahv1RaiPJuRLP7NBQ1kP4WTtDIN4A1DYerG/Aszjawxba2YTghx/xKqxEHbi6OR24Cg==
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.32.tgz#85887b7f44d1945b5a03441517ab255d765492f4"
+  integrity sha512-xmysx6Bv+V39UNENPS7jMkgU7k0Wvj/Qc9vwbSQZcE2jBLv91jXSpYnC9ZFeJD+8X62gQ3LLCt+F7UCiwu+HFw==
 
 "@emqx/shared-ui-utils@~0.0.14":
   version "0.0.15"
