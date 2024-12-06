@@ -5,6 +5,7 @@ on:
     tags:
       - 'v1.*'
       - 'e1.*'
+      - 'e2.*'
 
 jobs:
   set_version:
@@ -16,6 +17,8 @@ jobs:
       id: set-output
       run: |
         if [[ "${{ github.base_ref }}" == enterprise ]]; then
+          echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
+        elif [[ "${{ github.base_ref }}" == *enterprise* ]]; then
           echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
         else
           echo "emqx-name=emqx" >> "$GITHUB_OUTPUT"
