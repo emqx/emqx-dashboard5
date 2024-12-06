@@ -1,48 +1,68 @@
 <template>
-  <div class="streaming-overview app-wrapper with-padding-top" v-loading="isLoading">
-    <el-card>
-      <div v-for="item in metricList" :key="item" class="metric-item">
-        <component
-          :is="getRouterLink(item) ? 'router-link' : 'div'"
-          :to="{ name: getRouterLink(item) }"
-          :class="{ 'not-highlight': getRouterLink(item) }"
+  <div class="streaming-overview app-wrapper" v-loading="isLoading">
+    <template v-if="isStreamingEnabled">
+      <div class="section-header">
+        <div></div>
+        <el-button
+          :icon="Setting"
+          @click="$router.push({ name: 'streaming-config' })"
+          :disabled="!$hasPermission('put')"
         >
-          <div class="metric-item-hd">
-            <i class="metric-item-icon" :class="getIconClass(item)" />
-            <p class="metric-item-title">{{ tl(`metricTitleDic.${item}`) }}</p>
-          </div>
-          <div class="metric-item-bd">
-            <label class="metric-item-value">{{ metricsData[item] }}</label>
-            <span class="metric-item-unit" v-if="/rate/i.test(item)">
-              {{ t('RuleEngine.rateUnit', metricsData[item] || 0) }}
-            </span>
-          </div>
-        </component>
+          {{ t('Base.setting') }}
+        </el-button>
       </div>
-    </el-card>
-    <div>
-      <h2>Endpoint</h2>
-      <el-table :data="endpoints">
-        <el-table-column :label="tl('securityProtocol')" prop="security_protocol" min-width="140" />
-        <el-table-column :label="tl('networkType')" prop="network_type" min-width="120" />
-        <el-table-column :label="t('Base.address')" prop="address" min-width="200">
-          <template #default="{ row }">
-            <TextEasyCopy>{{ row.address }}</TextEasyCopy>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+      <el-card>
+        <div v-for="item in metricList" :key="item" class="metric-item">
+          <component
+            :is="getRouterLink(item) ? 'router-link' : 'div'"
+            :to="{ name: getRouterLink(item) }"
+            :class="{ 'not-highlight': getRouterLink(item) }"
+          >
+            <div class="metric-item-hd">
+              <i class="metric-item-icon" :class="getIconClass(item)" />
+              <p class="metric-item-title">{{ tl(`metricTitleDic.${item}`) }}</p>
+            </div>
+            <div class="metric-item-bd">
+              <label class="metric-item-value">{{ metricsData[item] }}</label>
+              <span class="metric-item-unit" v-if="/rate/i.test(item)">
+                {{ t('RuleEngine.rateUnit', metricsData[item] || 0) }}
+              </span>
+            </div>
+          </component>
+        </div>
+      </el-card>
+      <div>
+        <h2>Endpoint</h2>
+        <el-table :data="endpoints">
+          <el-table-column
+            :label="tl('securityProtocol')"
+            prop="security_protocol"
+            min-width="140"
+          />
+          <el-table-column :label="tl('networkType')" prop="network_type" min-width="120" />
+          <el-table-column :label="t('Base.address')" prop="address" min-width="200">
+            <template #default="{ row }">
+              <TextEasyCopy>{{ row.address }}</TextEasyCopy>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </template>
+    <StreamingEmpty v-else />
   </div>
 </template>
 
 <script setup lang="ts">
-import { getEndpoints as requestEndpoints, getStreamingMetrics } from '@/api/streaming'
+import { getStreamingMetrics, getEndpoints as requestEndpoints } from '@/api/streaming'
 import TextEasyCopy from '@/components/TextEasyCopy.vue'
+import useStreamingStatus from '@/hooks/useStreamingStatus'
 import { StreamingAllMetrics } from '@/types/schemas/streaming.schemas'
+import { Setting } from '@element-plus/icons-vue'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
+import StreamingEmpty from './components/StreamingEmpty.vue'
 
 interface Endpoint {
   security_protocol: string
@@ -57,6 +77,8 @@ const tl = (key: string) => sharedT(`streaming.${key}`)
 const { t } = useI18n()
 
 const isLoading = ref(false)
+
+const { isStreamingEnabled, getStreamingIsEnabled } = useStreamingStatus()
 
 const metricsData = ref<StreamingAllMetrics>({
   partition_count: 0,
@@ -113,11 +135,13 @@ const getEndpoints = async () => {
     isLoading.value = false
   }
 }
-getEndpoints()
 ;(async () => {
   try {
     isLoading.value = true
-    await Promise.allSettled([getMetrics(), getEndpoints()])
+    await getStreamingIsEnabled()
+    if (isStreamingEnabled.value) {
+      await Promise.allSettled([getMetrics(), getEndpoints()])
+    }
   } catch (error) {
     //
   } finally {

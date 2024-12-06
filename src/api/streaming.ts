@@ -16,11 +16,11 @@ import {
   StreamingMetrics,
 } from '@/types/typeAlias'
 
-export const getConfig = (): Promise<StreamingConfig> => {
+export const getStreamingConfig = (): Promise<StreamingConfig> => {
   return http.get('/streaming/config')
 }
 
-export const updateConfig = (data: StreamingConfig): Promise<StreamingConfig> => {
+export const updateStreamingConfig = (data: StreamingConfig): Promise<StreamingConfig> => {
   return http.put('/streaming/config', data)
 }
 

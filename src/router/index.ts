@@ -1011,6 +1011,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'streaming-overview',
         component: () => import('@/views/Streaming/StreamingOverview.vue'),
       },
+      {
+        path: 'config',
+        name: 'streaming-config',
+        component: () => import('@/views/Streaming/StreamingConfig.vue'),
+      },
     ],
   },
   // Stream

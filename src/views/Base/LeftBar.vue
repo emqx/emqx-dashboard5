@@ -7,7 +7,8 @@
         router
         :collapse-transition="false"
       >
-        <template v-for="(menu, i) in menus" :key="menu.title">
+        <template v-for="(menu, i) in menuList" :key="menu.title">
+          <!-- LEVEL 1 -->
           <el-sub-menu
             v-if="menu.children"
             :index="'' + i"
@@ -21,18 +22,21 @@
               </p>
             </template>
             <el-scrollbar>
+              <!-- LEVEL 2 -->
               <template v-for="item in menu.children" :key="item.title">
-                <el-menu-item v-if="!item.children" :index="item.path">
+                <el-menu-item v-if="!item.children" :index="item.path" :disabled="item.disabled">
                   <template #title>
                     <p class="menu-item-title">
                       {{ $t(`components.${item.title}`) }}
                     </p>
                   </template>
                 </el-menu-item>
+                <!-- LEVEL 2 -->
                 <el-menu-item-group v-else>
                   <template #title>
                     <p class="menu-item-title group-name">{{ $t(`components.${item.title}`) }}</p>
                   </template>
+                  <!-- LEVEL 3 -->
                   <el-menu-item
                     v-for="level3Item in item.children"
                     :index="level3Item.path"
@@ -48,6 +52,7 @@
               </template>
             </el-scrollbar>
           </el-sub-menu>
+          <!-- LEVEL 1 -->
           <el-menu-item v-else :key="menu.title" :index="menu.path">
             <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
             <p class="menu-item-title first-level">
@@ -70,7 +75,6 @@ import { useStore } from 'vuex'
 export default defineComponent({
   name: 'Leftbar',
   setup() {
-    const menus = ref<Menu[]>([])
     const store = useStore()
     const route = useRoute()
     const leftBarCollapse = computed(() => {
@@ -100,13 +104,12 @@ export default defineComponent({
 
     const { menuList } = useMenus()
 
-    menus.value = menuList
     return {
       store,
       theme,
       leftBarCollapse,
       defaultSelectedKeys,
-      menus,
+      menuList,
       needFixedHeight,
     }
   },

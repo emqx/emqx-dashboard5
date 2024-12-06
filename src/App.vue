@@ -12,6 +12,7 @@ import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { waitAMoment } from './common/tools'
 import { omit } from 'lodash'
+import useStreamingStatus from './hooks/useStreamingStatus'
 
 const store = useStore()
 const lang = computed(() => {
@@ -98,6 +99,9 @@ const handleQuery = async () => {
   }
 }
 handleQuery()
+
+const { getStreamingIsEnabled } = useStreamingStatus()
+getStreamingIsEnabled()
 </script>
 
 <style lang="scss"></style>
