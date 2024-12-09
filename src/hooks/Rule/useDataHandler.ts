@@ -110,17 +110,9 @@ export const useConnectorDataHandler = (): {
     return data
   }
 
-  const handleIoTDBData = (data: any) => {
-    if (/thrift/i.test(data?.driver)) {
-      Reflect.deleteProperty(data, 'ssl')
-    }
-    return data
-  }
-
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.GCPProducer, handleGCPData],
     [BridgeType.GCPConsumer, handleGCPData],
-    [BridgeType.IoTDB, handleIoTDBData],
   ])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {

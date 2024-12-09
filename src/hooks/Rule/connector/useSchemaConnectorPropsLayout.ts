@@ -291,12 +291,6 @@ export default (
     return ret
   })
   const GCPColClass = { service_account_json: 'custom-col-24' }
-  const getIoTDBColClass = (formData: Record<string, any>): Record<string, string> => {
-    if (/thrift/i.test(formData?.driver)) {
-      return { ssl: 'col-hidden' }
-    }
-    return {}
-  }
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -307,7 +301,6 @@ export default (
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
-    [BridgeType.IoTDB]: getIoTDBColClass,
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
