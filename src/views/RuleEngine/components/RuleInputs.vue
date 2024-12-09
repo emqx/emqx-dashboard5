@@ -6,26 +6,31 @@
     <el-row>
       <el-col :span="24">
         <template v-for="(item, $index) in inputList" :key="item">
-          <div class="io-item">
+          <component
+            class="io-item"
+            :is="isBridgeType(item.type) ? 'router-link' : 'div'"
+            :to="{ name: 'source-detail', params: { id: getBridgeIdFromInput(item.value) } }"
+            target="_blank"
+          >
             <img class="img-io-item" :src="item.icon" />
             <div class="io-item-bd">
               <div>{{ item.title }}</div>
               <div class="io-desc">{{ item.info }}</div>
             </div>
             <span class="io-op">
-              <el-button size="small" :disabled="disabled" @click="editInput($index)">
+              <el-button size="small" :disabled="disabled" @click.prevent="editInput($index)">
                 {{ $t('Base.edit') }}
               </el-button>
               <el-button
                 size="small"
                 plain
                 :disabled="!$hasPermission('put') || disabled"
-                @click="deleteInput($index)"
+                @click.prevent="deleteInput($index)"
               >
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
-          </div>
+          </component>
         </template>
         <el-button
           class="btn-add"
@@ -112,7 +117,7 @@ const getEventLabel = (event: string) => {
 }
 
 /* Process Input String to Input Item */
-const { getBridgeIdFromInput, detectInputType, getRuleSourceIcon } = useRuleInputs()
+const { getBridgeIdFromInput, detectInputType, getRuleSourceIcon, isBridgeType } = useRuleInputs()
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const processToInputItem = (input: string): InputItem => {
   const type = detectInputType(input)

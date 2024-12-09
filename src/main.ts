@@ -12,6 +12,7 @@ import elementI18nZhCn from 'element-plus/es/locale/lang/zh-cn'
 import elementI18nEn from 'element-plus/es/locale/lang/en'
 import safeHTML from '@/common/safeHTML'
 import i18n from './i18n'
+import globalComponents from './components/global-components'
 import permissionsPlugin from './plugins/permissionsPlugin'
 
 function bindDirective(app: Application) {
@@ -27,6 +28,7 @@ const app = createApp(App)
   })
   .use(i18n)
   .use(bindDirective)
+  .use(globalComponents)
   .use(permissionsPlugin, {
     store,
   })
