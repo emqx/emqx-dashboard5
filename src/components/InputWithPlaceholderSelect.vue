@@ -24,10 +24,23 @@
 <script setup lang="ts">
 import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { escapeRegExp } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch, withDefaults } from 'vue'
 
-const props =
-  defineProps<{ modelValue?: string; [key: string]: any; customPlaceholders?: Array<string> }>()
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string
+    [key: string]: any
+    customPlaceholders?: Array<string>
+    behavior?: 'input' | 'select'
+    /**
+     * Only works if the behavior is select
+     */
+    options?: Array<string | number>
+  }>(),
+  {
+    behavior: 'input',
+  },
+)
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
   (e: 'input', v: any): void
@@ -46,20 +59,38 @@ const getMatchPart = () => {
   return matchRet && matchRet[0]
 }
 const { availablePlaceholders } = useSQLAvailablePlaceholder()
-const fetchSuggestions = (queryString: string, cb: any) => {
+
+const convertStrArrToOptArr = (arr: Array<string>): Array<{ value: string }> =>
+  arr.map((item: string) => ({ value: item.toString() }))
+
+const effectivePlaceholders = computed(
+  () => props.customPlaceholders || availablePlaceholders.value,
+)
+
+const getMatchedPlaceholders = () => {
   const matchPart = getMatchPart()
-  let ret: Array<{ value: string }> = []
+  let ret: Array<string> = []
   if (matchPart) {
     const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
-    const availableList = props.customPlaceholders || availablePlaceholders.value
-    ret = availableList.reduce((arr: Array<{ value: string }>, value: string) => {
+    ret = effectivePlaceholders.value.reduce((arr: Array<string>, value: string) => {
       if (filterReg.test(value)) {
-        arr.push({ value })
+        arr.push(value)
       }
       return arr
-    }, [] as Array<{ value: string }>)
+    }, [] as Array<string>)
   }
-  cb(ret)
+  return ret
+}
+
+const getSuggestionForSelect = () => {
+  return [...getMatchedPlaceholders(), ...(props.options ?? [])]
+}
+
+const getSuggestionForInput = getMatchedPlaceholders
+
+const fetchSuggestions = (queryString: string, cb: any) => {
+  const ret = props.behavior === 'select' ? getSuggestionForSelect() : getSuggestionForInput()
+  cb(convertStrArrToOptArr(ret))
 }
 
 const handleSelect = ({ value: selected }: { value: string }) => {

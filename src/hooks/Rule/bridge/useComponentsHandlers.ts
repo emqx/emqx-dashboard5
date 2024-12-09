@@ -77,6 +77,13 @@ export default (
     }, [])
   }
 
+  const getIsTemplateFromOneOfArr = (oneof: Property['oneOf']): boolean => {
+    if (!oneof) {
+      return false
+    }
+    return oneof.some((item) => item.is_template)
+  }
+
   const setComponentProps = (prop: Property, componentProps: Record<string, any>) => {
     prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
   }
@@ -354,13 +361,13 @@ export default (
         data_type.type = 'enum'
         data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
         data_type.default ??= ''
-        data_type.componentProps = { filterable: true, allowCreate: true }
+        data_type.is_template = getIsTemplateFromOneOfArr(data_type.oneOf)
       }
       if (timestamp && timestamp.type === 'oneof') {
         timestamp.type = 'enum'
         timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
         timestamp.default ??= ''
-        timestamp.componentProps = { filterable: true, allowCreate: true }
+        timestamp.is_template = true
       }
       const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
 
