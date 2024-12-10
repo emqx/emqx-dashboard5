@@ -89,6 +89,13 @@ export default function useSchemaForm(
   const getComponentByRef = (data: Schema, ref: string | Array<string>): Component =>
     get(data, filter(ref), {})
 
+  const getIsTemplateFromOneOfArr = (oneof: Property['oneOf']): boolean => {
+    if (!oneof) {
+      return false
+    }
+    return oneof.some((item) => item.is_template)
+  }
+
   /**
    * Calling it before components are assigned as much as possible will reduce the number of re-renders,
    * but because sometimes data such as `format` may be custom modified by the parent component
@@ -202,6 +209,8 @@ export default function useSchemaForm(
               }
               return item
             }) as Property[]
+            property.is_template = getIsTemplateFromOneOfArr(property.oneOf)
+            console.log(property.path)
           }
           if (!label) {
             property.label = lastLabel
