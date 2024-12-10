@@ -62,7 +62,6 @@ export default (
     prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
   }
 
-  const { availablePlaceholders } = useSQLAvailablePlaceholder()
   const { completionProvider } = useAvailableProviders()
 
   const handleProp = (parm: Property) => {
@@ -114,17 +113,11 @@ export default (
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
       qos.type = 'enum'
-      qos.symbols = [
-        ...(getSymbolsFromOneOfArr(qos.oneOf) || []),
-        '${qos}',
-        ...availablePlaceholders.value,
-      ]
-      setComponentProps(qos, { filterable: true, allowCreate: true })
+      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
     }
     if (retain?.type === 'oneof') {
       retain.type = 'enum'
-      retain.symbols = [true, false, '${flags.retain}', ...availablePlaceholders.value]
-      setComponentProps(retain, { filterable: true, allowCreate: true })
+      retain.symbols = [true, false, '${flags.retain}']
     }
     // for detect whether it is source or action
     if (topic && !payload) {
