@@ -81,6 +81,7 @@ import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
+import useStreamingStatus from '@/hooks/useStreamingStatus'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -204,6 +205,9 @@ export default defineComponent({
     }
     const bindKeyupListener = () => document.addEventListener('keydown', handleKeyDown)
     const unbindKeyupListener = () => document.removeEventListener('keydown', handleKeyDown)
+
+    const { getStreamingIsEnabled } = useStreamingStatus()
+    getStreamingIsEnabled()
 
     onUnmounted(unbindKeyupListener)
 
