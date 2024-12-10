@@ -5,6 +5,7 @@ import { useStore } from 'vuex'
 
 export default (): {
   isStreamingEnabled: ComputedRef<boolean>
+  updateStreamingStatus: (isStreamingEnabled: boolean) => void
   getStreamingIsEnabled: () => Promise<void>
 } => {
   const { state, commit } = useStore()
@@ -21,5 +22,5 @@ export default (): {
       return Promise.reject(error)
     }
   }
-  return { isStreamingEnabled, getStreamingIsEnabled }
+  return { isStreamingEnabled, updateStreamingStatus, getStreamingIsEnabled }
 }

@@ -1,17 +1,7 @@
 <template>
-  <div class="streaming-overview app-wrapper" v-loading="isLoading">
-    <template v-if="isStreamingEnabled">
-      <div class="section-header">
-        <div></div>
-        <el-button
-          :icon="Setting"
-          @click="$router.push({ name: 'streaming-config' })"
-          :disabled="!$hasPermission('put')"
-        >
-          {{ t('Base.setting') }}
-        </el-button>
-      </div>
-      <el-card>
+  <div class="streaming-overview app-wrapper with-padding-top" v-loading="isLoading">
+    <template v-if="isStreamingEnabled || configForm.enable">
+      <el-card class="metric-card">
         <div v-for="item in metricList" :key="item" class="metric-item">
           <component
             :is="getRouterLink(item) ? 'router-link' : 'div'"
@@ -31,44 +21,81 @@
           </component>
         </div>
       </el-card>
-      <div>
-        <h2>Endpoint</h2>
-        <el-table :data="endpoints">
-          <el-table-column
-            :label="tl('securityProtocol')"
-            prop="security_protocol"
-            min-width="140"
-          />
-          <el-table-column :label="tl('networkType')" prop="network_type" min-width="120" />
-          <el-table-column :label="t('Base.address')" prop="address" min-width="200">
-            <template #default="{ row }">
-              <TextEasyCopy>{{ row.address }}</TextEasyCopy>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
+      <el-card class="app-card streaming-config" v-loading="isConfigLoading">
+        <div class="config-block">
+          <h6 class="config-block-title">{{ t('Base.enable') }}</h6>
+          <el-form>
+            <el-form-item :label="t('Streaming.enableStreaming')">
+              <el-switch v-model="configForm.enable" :disabled="!$hasPermission('put')" />
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="config-block">
+          <h6 class="config-block-title">{{ t('components.settings') }}</h6>
+          <el-form
+            ref="FormCom"
+            :model="configForm"
+            :rules="rules"
+            label-position="top"
+            require-asterisk-position="right"
+          >
+            <el-row :gutter="32">
+              <el-col :span="12">
+                <el-form-item prop="hornbill_endpoints">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('Streaming.hornbillEndpoints')"
+                      :desc="t('Streaming.hornbillEndpointsDesc')"
+                      desc-marked
+                    />
+                  </template>
+                  <el-input v-model="configForm.hornbill_endpoints" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item prop="streaming_endpoints">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('Streaming.streamingEndpoints')"
+                      :desc="t('Streaming.streamingEndpointsDesc')"
+                      desc-marked
+                    />
+                  </template>
+                  <el-input v-model="configForm.streaming_endpoints" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <el-button
+            class="btn-update"
+            :disabled="!$hasPermission('put')"
+            type="primary"
+            @click="updateConfig"
+            :loading="isSubmitting"
+          >
+            {{ t('Base.update') }}
+          </el-button>
+        </div>
+      </el-card>
     </template>
-    <StreamingEmpty v-else />
+    <StreamingEmpty v-else @enable-streaming="enableStreaming" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { getStreamingMetrics, getEndpoints as requestEndpoints } from '@/api/streaming'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
+import { getStreamingConfig, getStreamingMetrics, updateStreamingConfig } from '@/api/streaming'
 import useStreamingStatus from '@/hooks/useStreamingStatus'
 import { StreamingAllMetrics } from '@/types/schemas/streaming.schemas'
-import { Setting } from '@element-plus/icons-vue'
 import { useLocale } from '@emqx/shared-ui-utils'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import StreamingEmpty from './components/StreamingEmpty.vue'
-
-interface Endpoint {
-  security_protocol: string
-  address: string
-  network_type: string
-}
+import { StreamingConfig } from '@/types/typeAlias'
+import useFormRules from '@/hooks/useFormRules'
+import { ElMessage } from 'element-plus'
+import FormItemLabel from '@/components/FormItemLabel.vue'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
 
 const { state } = useStore()
 const { t: sharedT } = useLocale(state.lang)
@@ -78,7 +105,7 @@ const { t } = useI18n()
 
 const isLoading = ref(false)
 
-const { isStreamingEnabled, getStreamingIsEnabled } = useStreamingStatus()
+const { isStreamingEnabled, updateStreamingStatus } = useStreamingStatus()
 
 const metricsData = ref<StreamingAllMetrics>({
   partition_count: 0,
@@ -124,23 +151,62 @@ const getMetrics = async () => {
   }
 }
 
-const endpoints = ref<Array<Endpoint>>([])
+const isConfigLoading = ref(false)
+const configForm = ref<StreamingConfig>({} as StreamingConfig)
+const FormCom = ref()
 
-const getEndpoints = async () => {
+const { createRequiredRule } = useFormRules()
+const rules = {
+  hornbill_endpoints: [createRequiredRule(tl('hornbillEndpoints'))],
+  streaming_endpoints: [createRequiredRule(tl('streamingEndpoints'))],
+}
+
+const getConfig = async () => {
   try {
-    endpoints.value = await requestEndpoints()
+    isConfigLoading.value = true
+    configForm.value = await getStreamingConfig()
+    updateStreamingStatus(configForm.value.enable ?? false)
+    isConfigLoading.value = false
+    return Promise.resolve()
   } catch (error) {
-    console.error(error)
-  } finally {
-    isLoading.value = false
+    return Promise.reject(error)
   }
 }
+
+const { operationWarning } = useOperationConfirm()
+
+const isSubmitting = ref(false)
+const updateConfig = async (noValidate = false) => {
+  try {
+    if (!configForm.value.enable) {
+      await operationWarning(t('Streaming.disableStreamingWarning'))
+    }
+    isSubmitting.value = true
+    !noValidate && (await FormCom.value.validate())
+    configForm.value = await updateStreamingConfig(configForm.value)
+    updateStreamingStatus(configForm.value.enable ?? false)
+    ElMessage.success(t('Base.updateSuccess'))
+    if (isStreamingEnabled.value) {
+      await getMetrics()
+    }
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const enableStreaming = async () => {
+  configForm.value.enable = true
+}
+
 ;(async () => {
   try {
     isLoading.value = true
-    await getStreamingIsEnabled()
+    await getConfig()
     if (isStreamingEnabled.value) {
-      await Promise.allSettled([getMetrics(), getEndpoints()])
+      await getMetrics()
     }
   } catch (error) {
     //
@@ -153,13 +219,14 @@ const getEndpoints = async () => {
 <style lang="scss">
 .streaming-overview {
   padding-bottom: 32px;
-  .el-card {
+  .metric-card {
     margin-bottom: 48px;
+    .el-card__body {
+      display: flex;
+      padding: 24px;
+    }
   }
-  .el-card__body {
-    display: flex;
-    padding: 24px;
-  }
+
   .metric-item {
     flex-basis: 20%;
     display: flex;
@@ -211,6 +278,27 @@ const getEndpoints = async () => {
         color: var(--color-text-secondary);
       }
     }
+  }
+}
+.streaming-config {
+  .config-block {
+    &:not(:last-child) {
+      margin-bottom: 36px;
+    }
+  }
+  .config-block-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--color-title-primary);
+    line-height: 25px;
+  }
+  .btn-update {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .el-icon {
+    vertical-align: top;
   }
 }
 </style>
