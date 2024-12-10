@@ -1202,11 +1202,11 @@
   dependencies:
     "@emqx/shared-ui-constants" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-components-0.0.3-39a10e14067c7523ced5445a9b45972a188e70f9-integrity/node_modules/@emqx/constants"
 
-"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.15-72872e81cf5e7c99856429eb19f2151044947d92-integrity/node_modules/@emqx/constants":
+"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-components-0.0.3-39a10e14067c7523ced5445a9b45972a188e70f9-integrity/node_modules/@emqx/constants":
   version "0.0.0"
   uid ""
 
-"@emqx/shared-ui-constants@link:../constants":
+"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.15-72872e81cf5e7c99856429eb19f2151044947d92-integrity/node_modules/@emqx/constants":
   version "0.0.0"
 
 "@emqx/shared-ui-constants@~0.0.1":
