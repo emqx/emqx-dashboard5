@@ -3,6 +3,7 @@
     v-model="showDialog"
     :title="t('Base.createTarget', { target: titleCase(t('Auth.authz')) })"
     destroy-on-close
+    class="streaming-authz-dialog"
     width="700px"
   >
     <StreamingACLForm
@@ -117,7 +118,7 @@ const rules = computed(() => ({
     },
   ],
   operation: createRequiredRule(tl('aclOperation'), 'select'),
-  permission: createRequiredRule(t('Base.permission'), 'select'),
+  permission: createRequiredRule(t('Auth.permission'), 'select'),
 }))
 
 const isSubmitting = ref(false)
@@ -143,4 +144,20 @@ const submit = async () => {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.streaming-authz-dialog {
+  .el-input-group--prepend.is-disabled
+    .el-input-group__prepend
+    .el-select
+    .el-input
+    .el-input__wrapper {
+    box-shadow: 1px 0 0 0 var(--el-input-border-color) inset,
+      -1px 0 0 0 var(--el-input-border-color) inset, 0 1px 0 0 var(--el-input-border-color) inset,
+      0 -1px 0 0 var(--el-input-border-color) inset;
+  }
+  .el-input.is-disabled .el-input-group__prepend,
+  .el-input.is-disabled .el-input__inner {
+    cursor: pointer;
+  }
+}
+</style>
