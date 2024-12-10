@@ -354,13 +354,11 @@ export default (
         data_type.type = 'enum'
         data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
         data_type.default ??= ''
-        data_type.componentProps = { filterable: true, allowCreate: true }
       }
       if (timestamp && timestamp.type === 'oneof') {
         timestamp.type = 'enum'
         timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
         timestamp.default ??= ''
-        timestamp.componentProps = { filterable: true, allowCreate: true }
       }
       const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
 
