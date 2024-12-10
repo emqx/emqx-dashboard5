@@ -12,8 +12,8 @@ export default {
     en: 'Streaming Configurations',
   },
   hornbillEndpoints: {
-    zh: 'Hornbill 端点',
-    en: 'Hornbill Endpoints',
+    zh: 'Hornbill 管理端点',
+    en: 'Hornbill Admin Endpoints',
   },
   hornbillEndpointsDesc: {
     zh: `Hornbill 节点的 http 接口端点，使用逗号分隔多个地址。<br />
@@ -24,8 +24,8 @@ i.e: <code>127.0.0.1:8080, 127.0.0.1:8081</code><br />
 When the port is not specified, its default value is 8080.`,
   },
   streamingEndpoints: {
-    zh: 'Streaming 端点',
-    en: 'Streaming Endpoints',
+    zh: 'Streaming Kafka 端点',
+    en: 'Streaming Kafka Endpoints',
   },
   streamingEndpointsDesc: {
     zh: `Hornbill 节点的 kafka 接口端点，使用逗号分隔多个地址。<br />
@@ -38,5 +38,9 @@ When the port is not specified, its default value is 9092.`,
   enableStreaming: {
     zh: '启用 Streaming',
     en: 'Enable Streaming',
+  },
+  disableStreamingWarning: {
+    zh: '确认停用 Streaming？',
+    en: 'Confirm to disable Streaming?',
   },
 }
