@@ -17,12 +17,12 @@
       </el-col>
       <el-col :span="getColSpan(6)">
         <CustomFormItem label="QoS" :readonly="readonly">
-          <SelectAllowInput v-model="record.args.qos" :options="QoSOptions" />
+          <InputWithPlaceholderSelect v-model="record.args.qos" :options="QoSOptions" />
         </CustomFormItem>
       </el-col>
       <el-col :span="getColSpan(6)">
         <CustomFormItem label="Retain" :readonly="readonly">
-          <SelectAllowInput v-model="record.args.retain" :options="retainOptions" />
+          <InputWithPlaceholderSelect v-model="record.args.retain" :options="retainOptions" />
         </CustomFormItem>
       </el-col>
       <el-col :span="24">
@@ -89,10 +89,9 @@ import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import SelectAllowInput from '@/components/SelectAllowInput.vue'
+import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 import Monaco from '@/components/Monaco.vue'
 import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
-import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
@@ -100,6 +99,7 @@ import { FormProps } from 'element-plus'
 import PubProps from './PubProps.vue'
 import type { ComputedRef, PropType } from 'vue'
 import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+import PubProps from './PubProps.vue'
 
 type RePubForm = RuleEngineBuiltinActionRepublish | any
 
@@ -142,12 +142,11 @@ const togglePubPropsEnabled = (val: string | number | boolean) => {
   }
 }
 
-const { availablePlaceholders } = useSQLAvailablePlaceholder()
 const { completionProvider } = useAvailableProviders()
 
-const QoSOptions = [...defaultQoSOptions, '${qos}', ...availablePlaceholders.value]
+const QoSOptions = [...defaultQoSOptions, '${qos}']
 
-const retainOptions = [true, false, '${flags.retain}', ...availablePlaceholders.value]
+const retainOptions = [true, false, '${flags.retain}']
 
 const record = computed({
   get() {

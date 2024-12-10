@@ -173,6 +173,18 @@ export default defineComponent({
             />
           )
         case 'enum':
+          if (isTemplate) {
+            return (
+              <InputWithPlaceholderSelect
+                v-model={formItemValue.value}
+                disabled={isDisabled}
+                type={inputType}
+                clearable
+                {...customProps}
+                options={props.symbols}
+              />
+            )
+          }
           return (
             <el-select
               disabled={isDisabled}
