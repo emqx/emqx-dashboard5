@@ -6,6 +6,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
+import { compare } from 'compare-versions'
 import { cloneDeep, pick } from 'lodash'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
 
@@ -338,6 +339,11 @@ export default (
         components[IoTDBKeyField].default = components[IoTDBKeyField].symbols?.[0]
       }
       components[IoTDBKeyField].symbols = IoTDBDrivers
+    }
+    if (components.iotdb_version.symbols) {
+      components.iotdb_version.symbols = components.iotdb_version.symbols.filter((version) =>
+        typeof version !== 'string' ? true : compare(version.replace('v', ''), '1.3.0', '>='),
+      )
     }
     return { ...data, components }
   }
