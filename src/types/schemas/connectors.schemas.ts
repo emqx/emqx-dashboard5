@@ -1,4 +1,5 @@
-export type PostConnectors400Code = typeof PostConnectors400Code[keyof typeof PostConnectors400Code]
+export type PostConnectors400Code =
+  (typeof PostConnectors400Code)[keyof typeof PostConnectors400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectors400Code = {
@@ -134,7 +135,7 @@ export type GetConnectors200Item =
   | BridgeHttpGetConnector
 
 export type PutConnectorsIdEnableEnable503Code =
-  typeof PutConnectorsIdEnableEnable503Code[keyof typeof PutConnectorsIdEnableEnable503Code]
+  (typeof PutConnectorsIdEnableEnable503Code)[keyof typeof PutConnectorsIdEnableEnable503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConnectorsIdEnableEnable503Code = {
@@ -147,7 +148,7 @@ export type PutConnectorsIdEnableEnable503 = {
 }
 
 export type PutConnectorsIdEnableEnable404Code =
-  typeof PutConnectorsIdEnableEnable404Code[keyof typeof PutConnectorsIdEnableEnable404Code]
+  (typeof PutConnectorsIdEnableEnable404Code)[keyof typeof PutConnectorsIdEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConnectorsIdEnableEnable404Code = {
@@ -160,7 +161,7 @@ export type PutConnectorsIdEnableEnable404 = {
 }
 
 export type PostNodesNodeConnectorsIdOperation503Code =
-  typeof PostNodesNodeConnectorsIdOperation503Code[keyof typeof PostNodesNodeConnectorsIdOperation503Code]
+  (typeof PostNodesNodeConnectorsIdOperation503Code)[keyof typeof PostNodesNodeConnectorsIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeConnectorsIdOperation503Code = {
@@ -173,7 +174,7 @@ export type PostNodesNodeConnectorsIdOperation503 = {
 }
 
 export type PostNodesNodeConnectorsIdOperation501Code =
-  typeof PostNodesNodeConnectorsIdOperation501Code[keyof typeof PostNodesNodeConnectorsIdOperation501Code]
+  (typeof PostNodesNodeConnectorsIdOperation501Code)[keyof typeof PostNodesNodeConnectorsIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeConnectorsIdOperation501Code = {
@@ -186,7 +187,7 @@ export type PostNodesNodeConnectorsIdOperation501 = {
 }
 
 export type PostNodesNodeConnectorsIdOperation404Code =
-  typeof PostNodesNodeConnectorsIdOperation404Code[keyof typeof PostNodesNodeConnectorsIdOperation404Code]
+  (typeof PostNodesNodeConnectorsIdOperation404Code)[keyof typeof PostNodesNodeConnectorsIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeConnectorsIdOperation404Code = {
@@ -199,7 +200,7 @@ export type PostNodesNodeConnectorsIdOperation404 = {
 }
 
 export type PostNodesNodeConnectorsIdOperation400Code =
-  typeof PostNodesNodeConnectorsIdOperation400Code[keyof typeof PostNodesNodeConnectorsIdOperation400Code]
+  (typeof PostNodesNodeConnectorsIdOperation400Code)[keyof typeof PostNodesNodeConnectorsIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeConnectorsIdOperation400Code = {
@@ -212,7 +213,7 @@ export type PostNodesNodeConnectorsIdOperation400 = {
 }
 
 export type PostConnectorsIdOperation503Code =
-  typeof PostConnectorsIdOperation503Code[keyof typeof PostConnectorsIdOperation503Code]
+  (typeof PostConnectorsIdOperation503Code)[keyof typeof PostConnectorsIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectorsIdOperation503Code = {
@@ -225,7 +226,7 @@ export type PostConnectorsIdOperation503 = {
 }
 
 export type PostConnectorsIdOperation501Code =
-  typeof PostConnectorsIdOperation501Code[keyof typeof PostConnectorsIdOperation501Code]
+  (typeof PostConnectorsIdOperation501Code)[keyof typeof PostConnectorsIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectorsIdOperation501Code = {
@@ -238,7 +239,7 @@ export type PostConnectorsIdOperation501 = {
 }
 
 export type PostConnectorsIdOperation404Code =
-  typeof PostConnectorsIdOperation404Code[keyof typeof PostConnectorsIdOperation404Code]
+  (typeof PostConnectorsIdOperation404Code)[keyof typeof PostConnectorsIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectorsIdOperation404Code = {
@@ -251,7 +252,7 @@ export type PostConnectorsIdOperation404 = {
 }
 
 export type PostConnectorsIdOperation400Code =
-  typeof PostConnectorsIdOperation400Code[keyof typeof PostConnectorsIdOperation400Code]
+  (typeof PostConnectorsIdOperation400Code)[keyof typeof PostConnectorsIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectorsIdOperation400Code = {
@@ -264,7 +265,7 @@ export type PostConnectorsIdOperation400 = {
 }
 
 export type DeleteConnectorsId503Code =
-  typeof DeleteConnectorsId503Code[keyof typeof DeleteConnectorsId503Code]
+  (typeof DeleteConnectorsId503Code)[keyof typeof DeleteConnectorsId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteConnectorsId503Code = {
@@ -277,7 +278,7 @@ export type DeleteConnectorsId503 = {
 }
 
 export type DeleteConnectorsId404Code =
-  typeof DeleteConnectorsId404Code[keyof typeof DeleteConnectorsId404Code]
+  (typeof DeleteConnectorsId404Code)[keyof typeof DeleteConnectorsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteConnectorsId404Code = {
@@ -290,7 +291,7 @@ export type DeleteConnectorsId404 = {
 }
 
 export type DeleteConnectorsId400Code =
-  typeof DeleteConnectorsId400Code[keyof typeof DeleteConnectorsId400Code]
+  (typeof DeleteConnectorsId400Code)[keyof typeof DeleteConnectorsId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteConnectorsId400Code = {
@@ -303,7 +304,7 @@ export type DeleteConnectorsId400 = {
 }
 
 export type PutConnectorsId404Code =
-  typeof PutConnectorsId404Code[keyof typeof PutConnectorsId404Code]
+  (typeof PutConnectorsId404Code)[keyof typeof PutConnectorsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConnectorsId404Code = {
@@ -316,7 +317,7 @@ export type PutConnectorsId404 = {
 }
 
 export type PutConnectorsId400Code =
-  typeof PutConnectorsId400Code[keyof typeof PutConnectorsId400Code]
+  (typeof PutConnectorsId400Code)[keyof typeof PutConnectorsId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConnectorsId400Code = {
@@ -411,7 +412,7 @@ export type PutConnectorsIdBody =
   | BridgeHttpPutConnector
 
 export type GetConnectorsId404Code =
-  typeof GetConnectorsId404Code[keyof typeof GetConnectorsId404Code]
+  (typeof GetConnectorsId404Code)[keyof typeof GetConnectorsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConnectorsId404Code = {
@@ -465,7 +466,7 @@ export type GetConnectorsId200 =
   | BridgeHttpGetConnector
 
 export type PostConnectorsProbe400Code =
-  typeof PostConnectorsProbe400Code[keyof typeof PostConnectorsProbe400Code]
+  (typeof PostConnectorsProbe400Code)[keyof typeof PostConnectorsProbe400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConnectorsProbe400Code = {
@@ -479,8 +480,60 @@ export type PostConnectorsProbe400 = {
 
 export type PostConnectorsProbeBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
+export type PostConnectorsProbeBody =
+  | BridgeTimescalePostConnector
+  | BridgeMongodbPostConnector
+  | GcpPubsubProducerPostConnector
+  | ElasticsearchPost
+  | ConnectorAzureBlobStoragePostConnector
+  | SyskeeperForwarderPost
+  | PulsarPost
+  | RocketmqPostConnector
+  | KafkaConsumerPostConnector
+  | BridgeMatrixPostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeClickhousePostConnector
+  | GcpPubsubConsumerPostConnector
+  | BridgeCassaPostConnector
+  | BridgeHstreamdbPostConnector
+  | ConnectorSnowflakePostConnector
+  | BridgeOraclePostConnector
+  | OpentsConnectorPost
+  | BridgeGreptimedbPostConnector
+  | BridgeS3PostConnector
+  | TdengineConnectorPost
+  | BridgeDynamoPostConnector
+  | RedisPostConnector
+  | RabbitmqPost
+  | ConnectorMqttPostConnector
+  | BridgeMysqlPostConnector
+  | ConnectorPostgresPostConnector
+  | ConnectorSyskeeperProxyPost
+  | BridgeKinesisPostConnector
+  | BridgeKafkaPostConnector
+  | BridgeAzureEventHubPostConnector
+  | BridgeDatalayersPostConnector
+  | ConnectorCouchbasePostConnector
+  | PostConnectorsProbeBodyOneOf
+  | ConfluentPostConnector
+  | BridgeHttpPostConnector
+
+export interface TdengineConnectorPut {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  username?: string
+  password: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+}
+
 export type TdengineConnectorPostType =
-  typeof TdengineConnectorPostType[keyof typeof TdengineConnectorPostType]
+  (typeof TdengineConnectorPostType)[keyof typeof TdengineConnectorPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TdengineConnectorPostType = {
@@ -488,7 +541,7 @@ export const TdengineConnectorPostType = {
 } as const
 
 export type TdengineConnectorGetType =
-  typeof TdengineConnectorGetType[keyof typeof TdengineConnectorGetType]
+  (typeof TdengineConnectorGetType)[keyof typeof TdengineConnectorGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TdengineConnectorGetType = {
@@ -496,7 +549,7 @@ export const TdengineConnectorGetType = {
 } as const
 
 export type TdengineConnectorGetStatus =
-  typeof TdengineConnectorGetStatus[keyof typeof TdengineConnectorGetStatus]
+  (typeof TdengineConnectorGetStatus)[keyof typeof TdengineConnectorGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TdengineConnectorGetStatus = {
@@ -510,19 +563,6 @@ export interface TdengineConnectorConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface TdengineConnectorPut {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  username?: string
-  password: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  resource_opts?: TdengineConnectorConnectorResourceOpts
 }
 
 export interface TdengineConnectorPost {
@@ -559,7 +599,7 @@ export interface TdengineConnectorGet {
 }
 
 export type SyskeeperForwarderPutAckMode =
-  typeof SyskeeperForwarderPutAckMode[keyof typeof SyskeeperForwarderPutAckMode]
+  (typeof SyskeeperForwarderPutAckMode)[keyof typeof SyskeeperForwarderPutAckMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderPutAckMode = {
@@ -579,7 +619,7 @@ export interface SyskeeperForwarderPut {
 }
 
 export type SyskeeperForwarderPostAckMode =
-  typeof SyskeeperForwarderPostAckMode[keyof typeof SyskeeperForwarderPostAckMode]
+  (typeof SyskeeperForwarderPostAckMode)[keyof typeof SyskeeperForwarderPostAckMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderPostAckMode = {
@@ -588,7 +628,7 @@ export const SyskeeperForwarderPostAckMode = {
 } as const
 
 export type SyskeeperForwarderPostType =
-  typeof SyskeeperForwarderPostType[keyof typeof SyskeeperForwarderPostType]
+  (typeof SyskeeperForwarderPostType)[keyof typeof SyskeeperForwarderPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderPostType = {
@@ -596,7 +636,7 @@ export const SyskeeperForwarderPostType = {
 } as const
 
 export type SyskeeperForwarderGetAckMode =
-  typeof SyskeeperForwarderGetAckMode[keyof typeof SyskeeperForwarderGetAckMode]
+  (typeof SyskeeperForwarderGetAckMode)[keyof typeof SyskeeperForwarderGetAckMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderGetAckMode = {
@@ -605,7 +645,7 @@ export const SyskeeperForwarderGetAckMode = {
 } as const
 
 export type SyskeeperForwarderGetStatus =
-  typeof SyskeeperForwarderGetStatus[keyof typeof SyskeeperForwarderGetStatus]
+  (typeof SyskeeperForwarderGetStatus)[keyof typeof SyskeeperForwarderGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderGetStatus = {
@@ -616,7 +656,7 @@ export const SyskeeperForwarderGetStatus = {
 } as const
 
 export type SyskeeperForwarderGetType =
-  typeof SyskeeperForwarderGetType[keyof typeof SyskeeperForwarderGetType]
+  (typeof SyskeeperForwarderGetType)[keyof typeof SyskeeperForwarderGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderGetType = {
@@ -661,20 +701,11 @@ export interface SyskeeperForwarderGet {
 
 export type S3TransportOptionsHeaders = { [key: string]: any }
 
-export type S3TransportOptionsPoolType =
-  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const S3TransportOptionsPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
 export interface S3TransportOptions {
   ipv6_probe?: boolean
   connect_timeout?: string
-  pool_type?: S3TransportOptionsPoolType
   pool_size?: number
+  /** @deprecated */
   enable_pipelining?: number
   ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
@@ -682,7 +713,17 @@ export interface S3TransportOptions {
   request_timeout?: string
 }
 
-export interface RocketmqPutConnector {
+export type RocketmqPostConnectorType =
+  (typeof RocketmqPostConnectorType)[keyof typeof RocketmqPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RocketmqPostConnectorType = {
+  rocketmq: 'rocketmq',
+} as const
+
+export interface RocketmqPostConnector {
+  type: RocketmqPostConnectorType
+  name: string
   enable?: boolean
   tags?: string[]
   description?: string
@@ -696,16 +737,8 @@ export interface RocketmqPutConnector {
   resource_opts?: RocketmqConnectorResourceOpts
 }
 
-export type RocketmqPostConnectorType =
-  typeof RocketmqPostConnectorType[keyof typeof RocketmqPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RocketmqPostConnectorType = {
-  rocketmq: 'rocketmq',
-} as const
-
 export type RocketmqGetConnectorStatus =
-  typeof RocketmqGetConnectorStatus[keyof typeof RocketmqGetConnectorStatus]
+  (typeof RocketmqGetConnectorStatus)[keyof typeof RocketmqGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RocketmqGetConnectorStatus = {
@@ -716,7 +749,7 @@ export const RocketmqGetConnectorStatus = {
 } as const
 
 export type RocketmqGetConnectorType =
-  typeof RocketmqGetConnectorType[keyof typeof RocketmqGetConnectorType]
+  (typeof RocketmqGetConnectorType)[keyof typeof RocketmqGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RocketmqGetConnectorType = {
@@ -729,9 +762,7 @@ export interface RocketmqConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface RocketmqPostConnector {
-  type: RocketmqPostConnectorType
-  name: string
+export interface RocketmqPutConnector {
   enable?: boolean
   tags?: string[]
   description?: string
@@ -766,7 +797,7 @@ export interface RocketmqGetConnector {
 }
 
 export type RedisRedisSingleConnectorRedisType =
-  typeof RedisRedisSingleConnectorRedisType[keyof typeof RedisRedisSingleConnectorRedisType]
+  (typeof RedisRedisSingleConnectorRedisType)[keyof typeof RedisRedisSingleConnectorRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisRedisSingleConnectorRedisType = {
@@ -785,7 +816,7 @@ export interface RedisRedisSingleConnector {
 }
 
 export type RedisRedisSentinelConnectorRedisType =
-  typeof RedisRedisSentinelConnectorRedisType[keyof typeof RedisRedisSentinelConnectorRedisType]
+  (typeof RedisRedisSentinelConnectorRedisType)[keyof typeof RedisRedisSentinelConnectorRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisRedisSentinelConnectorRedisType = {
@@ -805,7 +836,7 @@ export interface RedisRedisSentinelConnector {
 }
 
 export type RedisRedisClusterConnectorRedisType =
-  typeof RedisRedisClusterConnectorRedisType[keyof typeof RedisRedisClusterConnectorRedisType]
+  (typeof RedisRedisClusterConnectorRedisType)[keyof typeof RedisRedisClusterConnectorRedisType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisRedisClusterConnectorRedisType = {
@@ -842,30 +873,20 @@ export type RedisPostConnectorParameters =
   | RedisRedisSingleConnector
 
 export type RedisPostConnectorType =
-  typeof RedisPostConnectorType[keyof typeof RedisPostConnectorType]
+  (typeof RedisPostConnectorType)[keyof typeof RedisPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisPostConnectorType = {
   redis: 'redis',
 } as const
 
-export interface RedisPostConnector {
-  type: RedisPostConnectorType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  parameters: RedisPostConnectorParameters
-  resource_opts?: RedisConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-}
-
 export type RedisGetConnectorParameters =
   | RedisRedisClusterConnector
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
 
-export type RedisGetConnectorType = typeof RedisGetConnectorType[keyof typeof RedisGetConnectorType]
+export type RedisGetConnectorType =
+  (typeof RedisGetConnectorType)[keyof typeof RedisGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisGetConnectorType = {
@@ -873,7 +894,7 @@ export const RedisGetConnectorType = {
 } as const
 
 export type RedisGetConnectorStatus =
-  typeof RedisGetConnectorStatus[keyof typeof RedisGetConnectorStatus]
+  (typeof RedisGetConnectorStatus)[keyof typeof RedisGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisGetConnectorStatus = {
@@ -887,6 +908,17 @@ export interface RedisConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface RedisPostConnector {
+  type: RedisPostConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  parameters: RedisPostConnectorParameters
+  resource_opts?: RedisConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
 }
 
 export interface RedisGetConnector {
@@ -903,29 +935,6 @@ export interface RedisGetConnector {
   ssl?: EmqxSslClientOpts
 }
 
-export type RabbitmqPostType = typeof RabbitmqPostType[keyof typeof RabbitmqPostType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RabbitmqPostType = {
-  rabbitmq: 'rabbitmq',
-} as const
-
-export type RabbitmqGetStatus = typeof RabbitmqGetStatus[keyof typeof RabbitmqGetStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RabbitmqGetStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface RabbitmqConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
 export interface RabbitmqPut {
   enable?: boolean
   tags?: string[]
@@ -940,6 +949,29 @@ export interface RabbitmqPut {
   heartbeat?: string
   ssl?: EmqxSslClientOpts
   resource_opts?: RabbitmqConnectorResourceOpts
+}
+
+export type RabbitmqPostType = (typeof RabbitmqPostType)[keyof typeof RabbitmqPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RabbitmqPostType = {
+  rabbitmq: 'rabbitmq',
+} as const
+
+export type RabbitmqGetStatus = (typeof RabbitmqGetStatus)[keyof typeof RabbitmqGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RabbitmqGetStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface RabbitmqConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export interface RabbitmqPost {
@@ -994,7 +1026,7 @@ export interface PulsarPut {
 
 export type PulsarPostAuthentication = BridgePulsarAuthToken | BridgePulsarAuthBasic | 'none'
 
-export type PulsarPostType = typeof PulsarPostType[keyof typeof PulsarPostType]
+export type PulsarPostType = (typeof PulsarPostType)[keyof typeof PulsarPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PulsarPostType = {
@@ -1016,7 +1048,7 @@ export interface PulsarPost {
 
 export type PulsarGetAuthentication = BridgePulsarAuthToken | BridgePulsarAuthBasic | 'none'
 
-export type PulsarGetStatus = typeof PulsarGetStatus[keyof typeof PulsarGetStatus]
+export type PulsarGetStatus = (typeof PulsarGetStatus)[keyof typeof PulsarGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PulsarGetStatus = {
@@ -1046,40 +1078,16 @@ export interface PulsarGet {
   resource_opts?: PulsarConnectorResourceOpts
 }
 
-export interface OpentsConnectorPut {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  summary?: boolean
-  details?: boolean
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-}
-
 export type OpentsConnectorPostType =
-  typeof OpentsConnectorPostType[keyof typeof OpentsConnectorPostType]
+  (typeof OpentsConnectorPostType)[keyof typeof OpentsConnectorPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentsConnectorPostType = {
   opents: 'opents',
 } as const
 
-export interface OpentsConnectorPost {
-  type: OpentsConnectorPostType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  summary?: boolean
-  details?: boolean
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-}
-
 export type OpentsConnectorGetType =
-  typeof OpentsConnectorGetType[keyof typeof OpentsConnectorGetType]
+  (typeof OpentsConnectorGetType)[keyof typeof OpentsConnectorGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentsConnectorGetType = {
@@ -1087,7 +1095,7 @@ export const OpentsConnectorGetType = {
 } as const
 
 export type OpentsConnectorGetStatus =
-  typeof OpentsConnectorGetStatus[keyof typeof OpentsConnectorGetStatus]
+  (typeof OpentsConnectorGetStatus)[keyof typeof OpentsConnectorGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentsConnectorGetStatus = {
@@ -1101,6 +1109,30 @@ export interface OpentsConnectorConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface OpentsConnectorPut {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  summary?: boolean
+  details?: boolean
+  resource_opts?: OpentsConnectorConnectorResourceOpts
+}
+
+export interface OpentsConnectorPost {
+  type: OpentsConnectorPostType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  summary?: boolean
+  details?: boolean
+  resource_opts?: OpentsConnectorConnectorResourceOpts
 }
 
 export interface OpentsConnectorGet {
@@ -1133,7 +1165,7 @@ export interface MongoTopology {
 }
 
 export type MongoConnectorSingleWMode =
-  typeof MongoConnectorSingleWMode[keyof typeof MongoConnectorSingleWMode]
+  (typeof MongoConnectorSingleWMode)[keyof typeof MongoConnectorSingleWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorSingleWMode = {
@@ -1142,7 +1174,7 @@ export const MongoConnectorSingleWMode = {
 } as const
 
 export type MongoConnectorSingleMongoType =
-  typeof MongoConnectorSingleMongoType[keyof typeof MongoConnectorSingleMongoType]
+  (typeof MongoConnectorSingleMongoType)[keyof typeof MongoConnectorSingleMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorSingleMongoType = {
@@ -1156,7 +1188,7 @@ export interface MongoConnectorSingle {
 }
 
 export type MongoConnectorShardedWMode =
-  typeof MongoConnectorShardedWMode[keyof typeof MongoConnectorShardedWMode]
+  (typeof MongoConnectorShardedWMode)[keyof typeof MongoConnectorShardedWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorShardedWMode = {
@@ -1165,7 +1197,7 @@ export const MongoConnectorShardedWMode = {
 } as const
 
 export type MongoConnectorShardedMongoType =
-  typeof MongoConnectorShardedMongoType[keyof typeof MongoConnectorShardedMongoType]
+  (typeof MongoConnectorShardedMongoType)[keyof typeof MongoConnectorShardedMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorShardedMongoType = {
@@ -1178,7 +1210,8 @@ export interface MongoConnectorSharded {
   w_mode?: MongoConnectorShardedWMode
 }
 
-export type MongoConnectorRsRMode = typeof MongoConnectorRsRMode[keyof typeof MongoConnectorRsRMode]
+export type MongoConnectorRsRMode =
+  (typeof MongoConnectorRsRMode)[keyof typeof MongoConnectorRsRMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorRsRMode = {
@@ -1186,7 +1219,8 @@ export const MongoConnectorRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type MongoConnectorRsWMode = typeof MongoConnectorRsWMode[keyof typeof MongoConnectorRsWMode]
+export type MongoConnectorRsWMode =
+  (typeof MongoConnectorRsWMode)[keyof typeof MongoConnectorRsWMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorRsWMode = {
@@ -1195,7 +1229,7 @@ export const MongoConnectorRsWMode = {
 } as const
 
 export type MongoConnectorRsMongoType =
-  typeof MongoConnectorRsMongoType[keyof typeof MongoConnectorRsMongoType]
+  (typeof MongoConnectorRsMongoType)[keyof typeof MongoConnectorRsMongoType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorRsMongoType = {
@@ -1236,7 +1270,7 @@ export type KafkaConsumerPostConnectorAuthentication =
   | 'none'
 
 export type KafkaConsumerPostConnectorType =
-  typeof KafkaConsumerPostConnectorType[keyof typeof KafkaConsumerPostConnectorType]
+  (typeof KafkaConsumerPostConnectorType)[keyof typeof KafkaConsumerPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerPostConnectorType = {
@@ -1266,7 +1300,7 @@ export type KafkaConsumerGetConnectorAuthentication =
   | 'none'
 
 export type KafkaConsumerGetConnectorStatus =
-  typeof KafkaConsumerGetConnectorStatus[keyof typeof KafkaConsumerGetConnectorStatus]
+  (typeof KafkaConsumerGetConnectorStatus)[keyof typeof KafkaConsumerGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetConnectorStatus = {
@@ -1277,7 +1311,7 @@ export const KafkaConsumerGetConnectorStatus = {
 } as const
 
 export type KafkaConsumerGetConnectorType =
-  typeof KafkaConsumerGetConnectorType[keyof typeof KafkaConsumerGetConnectorType]
+  (typeof KafkaConsumerGetConnectorType)[keyof typeof KafkaConsumerGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetConnectorType = {
@@ -1306,7 +1340,7 @@ export interface KafkaConsumerGetConnector {
 }
 
 export type IotdbPutThriftProtocolVersion =
-  typeof IotdbPutThriftProtocolVersion[keyof typeof IotdbPutThriftProtocolVersion]
+  (typeof IotdbPutThriftProtocolVersion)[keyof typeof IotdbPutThriftProtocolVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutThriftProtocolVersion = {
@@ -1315,7 +1349,7 @@ export const IotdbPutThriftProtocolVersion = {
   protocol_v3: 'protocol_v3',
 } as const
 
-export type IotdbPutThriftDriver = typeof IotdbPutThriftDriver[keyof typeof IotdbPutThriftDriver]
+export type IotdbPutThriftDriver = (typeof IotdbPutThriftDriver)[keyof typeof IotdbPutThriftDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutThriftDriver = {
@@ -1340,7 +1374,7 @@ export interface IotdbPutThrift {
 }
 
 export type IotdbPutRestapiIotdbVersion =
-  typeof IotdbPutRestapiIotdbVersion[keyof typeof IotdbPutRestapiIotdbVersion]
+  (typeof IotdbPutRestapiIotdbVersion)[keyof typeof IotdbPutRestapiIotdbVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiIotdbVersion = {
@@ -1350,7 +1384,8 @@ export const IotdbPutRestapiIotdbVersion = {
   v013x: 'v0.13.x',
 } as const
 
-export type IotdbPutRestapiDriver = typeof IotdbPutRestapiDriver[keyof typeof IotdbPutRestapiDriver]
+export type IotdbPutRestapiDriver =
+  (typeof IotdbPutRestapiDriver)[keyof typeof IotdbPutRestapiDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiDriver = {
@@ -1358,7 +1393,7 @@ export const IotdbPutRestapiDriver = {
 } as const
 
 export type IotdbPutRestapiPoolType =
-  typeof IotdbPutRestapiPoolType[keyof typeof IotdbPutRestapiPoolType]
+  (typeof IotdbPutRestapiPoolType)[keyof typeof IotdbPutRestapiPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiPoolType = {
@@ -1383,7 +1418,7 @@ export interface IotdbPutRestapi {
 }
 
 export type IotdbPostThriftProtocolVersion =
-  typeof IotdbPostThriftProtocolVersion[keyof typeof IotdbPostThriftProtocolVersion]
+  (typeof IotdbPostThriftProtocolVersion)[keyof typeof IotdbPostThriftProtocolVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostThriftProtocolVersion = {
@@ -1392,14 +1427,15 @@ export const IotdbPostThriftProtocolVersion = {
   protocol_v3: 'protocol_v3',
 } as const
 
-export type IotdbPostThriftDriver = typeof IotdbPostThriftDriver[keyof typeof IotdbPostThriftDriver]
+export type IotdbPostThriftDriver =
+  (typeof IotdbPostThriftDriver)[keyof typeof IotdbPostThriftDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostThriftDriver = {
   thrift: 'thrift',
 } as const
 
-export type IotdbPostThriftType = typeof IotdbPostThriftType[keyof typeof IotdbPostThriftType]
+export type IotdbPostThriftType = (typeof IotdbPostThriftType)[keyof typeof IotdbPostThriftType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostThriftType = {
@@ -1426,7 +1462,7 @@ export interface IotdbPostThrift {
 }
 
 export type IotdbPostRestapiIotdbVersion =
-  typeof IotdbPostRestapiIotdbVersion[keyof typeof IotdbPostRestapiIotdbVersion]
+  (typeof IotdbPostRestapiIotdbVersion)[keyof typeof IotdbPostRestapiIotdbVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiIotdbVersion = {
@@ -1437,7 +1473,7 @@ export const IotdbPostRestapiIotdbVersion = {
 } as const
 
 export type IotdbPostRestapiDriver =
-  typeof IotdbPostRestapiDriver[keyof typeof IotdbPostRestapiDriver]
+  (typeof IotdbPostRestapiDriver)[keyof typeof IotdbPostRestapiDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiDriver = {
@@ -1445,7 +1481,7 @@ export const IotdbPostRestapiDriver = {
 } as const
 
 export type IotdbPostRestapiPoolType =
-  typeof IotdbPostRestapiPoolType[keyof typeof IotdbPostRestapiPoolType]
+  (typeof IotdbPostRestapiPoolType)[keyof typeof IotdbPostRestapiPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiPoolType = {
@@ -1453,7 +1489,7 @@ export const IotdbPostRestapiPoolType = {
   hash: 'hash',
 } as const
 
-export type IotdbPostRestapiType = typeof IotdbPostRestapiType[keyof typeof IotdbPostRestapiType]
+export type IotdbPostRestapiType = (typeof IotdbPostRestapiType)[keyof typeof IotdbPostRestapiType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiType = {
@@ -1479,7 +1515,7 @@ export interface IotdbPostRestapi {
 }
 
 export type IotdbGetThriftProtocolVersion =
-  typeof IotdbGetThriftProtocolVersion[keyof typeof IotdbGetThriftProtocolVersion]
+  (typeof IotdbGetThriftProtocolVersion)[keyof typeof IotdbGetThriftProtocolVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftProtocolVersion = {
@@ -1488,21 +1524,21 @@ export const IotdbGetThriftProtocolVersion = {
   protocol_v3: 'protocol_v3',
 } as const
 
-export type IotdbGetThriftDriver = typeof IotdbGetThriftDriver[keyof typeof IotdbGetThriftDriver]
+export type IotdbGetThriftDriver = (typeof IotdbGetThriftDriver)[keyof typeof IotdbGetThriftDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftDriver = {
   thrift: 'thrift',
 } as const
 
-export type IotdbGetThriftType = typeof IotdbGetThriftType[keyof typeof IotdbGetThriftType]
+export type IotdbGetThriftType = (typeof IotdbGetThriftType)[keyof typeof IotdbGetThriftType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftType = {
   iotdb: 'iotdb',
 } as const
 
-export type IotdbGetThriftStatus = typeof IotdbGetThriftStatus[keyof typeof IotdbGetThriftStatus]
+export type IotdbGetThriftStatus = (typeof IotdbGetThriftStatus)[keyof typeof IotdbGetThriftStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftStatus = {
@@ -1535,7 +1571,7 @@ export interface IotdbGetThrift {
 }
 
 export type IotdbGetRestapiIotdbVersion =
-  typeof IotdbGetRestapiIotdbVersion[keyof typeof IotdbGetRestapiIotdbVersion]
+  (typeof IotdbGetRestapiIotdbVersion)[keyof typeof IotdbGetRestapiIotdbVersion]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiIotdbVersion = {
@@ -1545,7 +1581,8 @@ export const IotdbGetRestapiIotdbVersion = {
   v013x: 'v0.13.x',
 } as const
 
-export type IotdbGetRestapiDriver = typeof IotdbGetRestapiDriver[keyof typeof IotdbGetRestapiDriver]
+export type IotdbGetRestapiDriver =
+  (typeof IotdbGetRestapiDriver)[keyof typeof IotdbGetRestapiDriver]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiDriver = {
@@ -1553,7 +1590,7 @@ export const IotdbGetRestapiDriver = {
 } as const
 
 export type IotdbGetRestapiPoolType =
-  typeof IotdbGetRestapiPoolType[keyof typeof IotdbGetRestapiPoolType]
+  (typeof IotdbGetRestapiPoolType)[keyof typeof IotdbGetRestapiPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiPoolType = {
@@ -1561,14 +1598,15 @@ export const IotdbGetRestapiPoolType = {
   hash: 'hash',
 } as const
 
-export type IotdbGetRestapiType = typeof IotdbGetRestapiType[keyof typeof IotdbGetRestapiType]
+export type IotdbGetRestapiType = (typeof IotdbGetRestapiType)[keyof typeof IotdbGetRestapiType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiType = {
   iotdb: 'iotdb',
 } as const
 
-export type IotdbGetRestapiStatus = typeof IotdbGetRestapiStatus[keyof typeof IotdbGetRestapiStatus]
+export type IotdbGetRestapiStatus =
+  (typeof IotdbGetRestapiStatus)[keyof typeof IotdbGetRestapiStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiStatus = {
@@ -1577,17 +1615,6 @@ export const IotdbGetRestapiStatus = {
   connecting: 'connecting',
   inconsistent: 'inconsistent',
 } as const
-
-export interface IotdbConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface IotdbAuthentication {
-  username: string
-  password: string
-}
 
 export interface IotdbGetRestapi {
   status?: IotdbGetRestapiStatus
@@ -1610,6 +1637,50 @@ export interface IotdbGetRestapi {
   authentication?: IotdbAuthentication
 }
 
+export interface IotdbConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface IotdbAuthentication {
+  username: string
+  password: string
+}
+
+export type GcpPubsubProducerPostConnectorType =
+  (typeof GcpPubsubProducerPostConnectorType)[keyof typeof GcpPubsubProducerPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerPostConnectorType = {
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+} as const
+
+export type GcpPubsubProducerGetConnectorStatus =
+  (typeof GcpPubsubProducerGetConnectorStatus)[keyof typeof GcpPubsubProducerGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type GcpPubsubProducerGetConnectorType =
+  (typeof GcpPubsubProducerGetConnectorType)[keyof typeof GcpPubsubProducerGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerGetConnectorType = {
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+} as const
+
+export interface GcpPubsubProducerConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface GcpPubsubProducerPutConnector {
   enable?: boolean
   tags?: string[]
@@ -1623,14 +1694,6 @@ export interface GcpPubsubProducerPutConnector {
   service_account_json: string
   resource_opts?: GcpPubsubProducerConnectorResourceOpts
 }
-
-export type GcpPubsubProducerPostConnectorType =
-  typeof GcpPubsubProducerPostConnectorType[keyof typeof GcpPubsubProducerPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerPostConnectorType = {
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-} as const
 
 export interface GcpPubsubProducerPostConnector {
   type: GcpPubsubProducerPostConnectorType
@@ -1646,31 +1709,6 @@ export interface GcpPubsubProducerPostConnector {
   request_timeout?: string
   service_account_json: string
   resource_opts?: GcpPubsubProducerConnectorResourceOpts
-}
-
-export type GcpPubsubProducerGetConnectorStatus =
-  typeof GcpPubsubProducerGetConnectorStatus[keyof typeof GcpPubsubProducerGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export type GcpPubsubProducerGetConnectorType =
-  typeof GcpPubsubProducerGetConnectorType[keyof typeof GcpPubsubProducerGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerGetConnectorType = {
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-} as const
-
-export interface GcpPubsubProducerConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
 }
 
 export interface GcpPubsubProducerGetConnector {
@@ -1693,8 +1731,22 @@ export interface GcpPubsubProducerGetConnector {
   resource_opts?: GcpPubsubProducerConnectorResourceOpts
 }
 
+export interface GcpPubsubConsumerPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  connect_timeout?: string
+  pool_size?: number
+  pipelining?: number
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+  service_account_json: string
+  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
+}
+
 export type GcpPubsubConsumerPostConnectorType =
-  typeof GcpPubsubConsumerPostConnectorType[keyof typeof GcpPubsubConsumerPostConnectorType]
+  (typeof GcpPubsubConsumerPostConnectorType)[keyof typeof GcpPubsubConsumerPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerPostConnectorType = {
@@ -1718,7 +1770,7 @@ export interface GcpPubsubConsumerPostConnector {
 }
 
 export type GcpPubsubConsumerGetConnectorStatus =
-  typeof GcpPubsubConsumerGetConnectorStatus[keyof typeof GcpPubsubConsumerGetConnectorStatus]
+  (typeof GcpPubsubConsumerGetConnectorStatus)[keyof typeof GcpPubsubConsumerGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetConnectorStatus = {
@@ -1729,7 +1781,7 @@ export const GcpPubsubConsumerGetConnectorStatus = {
 } as const
 
 export type GcpPubsubConsumerGetConnectorType =
-  typeof GcpPubsubConsumerGetConnectorType[keyof typeof GcpPubsubConsumerGetConnectorType]
+  (typeof GcpPubsubConsumerGetConnectorType)[keyof typeof GcpPubsubConsumerGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetConnectorType = {
@@ -1740,20 +1792,6 @@ export interface GcpPubsubConsumerConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface GcpPubsubConsumerPutConnector {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  connect_timeout?: string
-  pool_size?: number
-  pipelining?: number
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-  service_account_json: string
-  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
 }
 
 export interface GcpPubsubConsumerGetConnector {
@@ -1779,7 +1817,7 @@ export interface GcpPubsubConsumerGetConnector {
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
-  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
@@ -1790,7 +1828,7 @@ export const EmqxSslClientOptsPartialChain = {
 } as const
 
 export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
@@ -1807,7 +1845,7 @@ export const EmqxSslClientOptsLogLevel = {
 } as const
 
 export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
@@ -1837,7 +1875,7 @@ export interface EmqxSslClientOpts {
 }
 
 export type ElasticsearchPutPoolType =
-  typeof ElasticsearchPutPoolType[keyof typeof ElasticsearchPutPoolType]
+  (typeof ElasticsearchPutPoolType)[keyof typeof ElasticsearchPutPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPutPoolType = {
@@ -1845,22 +1883,8 @@ export const ElasticsearchPutPoolType = {
   hash: 'hash',
 } as const
 
-export interface ElasticsearchPut {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  connect_timeout?: string
-  pool_type?: ElasticsearchPutPoolType
-  pool_size?: number
-  enable_pipelining?: number
-  ssl?: EmqxSslClientOpts
-  resource_opts?: BridgeHttpConnectorResourceOpts
-  server: string
-  authentication?: ElasticsearchAuthBasic
-}
-
 export type ElasticsearchPostPoolType =
-  typeof ElasticsearchPostPoolType[keyof typeof ElasticsearchPostPoolType]
+  (typeof ElasticsearchPostPoolType)[keyof typeof ElasticsearchPostPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPostPoolType = {
@@ -1868,7 +1892,8 @@ export const ElasticsearchPostPoolType = {
   hash: 'hash',
 } as const
 
-export type ElasticsearchPostType = typeof ElasticsearchPostType[keyof typeof ElasticsearchPostType]
+export type ElasticsearchPostType =
+  (typeof ElasticsearchPostType)[keyof typeof ElasticsearchPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPostType = {
@@ -1892,7 +1917,7 @@ export interface ElasticsearchPost {
 }
 
 export type ElasticsearchGetPoolType =
-  typeof ElasticsearchGetPoolType[keyof typeof ElasticsearchGetPoolType]
+  (typeof ElasticsearchGetPoolType)[keyof typeof ElasticsearchGetPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchGetPoolType = {
@@ -1900,7 +1925,7 @@ export const ElasticsearchGetPoolType = {
   hash: 'hash',
 } as const
 
-export type ElasticsearchGetType = typeof ElasticsearchGetType[keyof typeof ElasticsearchGetType]
+export type ElasticsearchGetType = (typeof ElasticsearchGetType)[keyof typeof ElasticsearchGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchGetType = {
@@ -1908,7 +1933,7 @@ export const ElasticsearchGetType = {
 } as const
 
 export type ElasticsearchGetStatus =
-  typeof ElasticsearchGetStatus[keyof typeof ElasticsearchGetStatus]
+  (typeof ElasticsearchGetStatus)[keyof typeof ElasticsearchGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchGetStatus = {
@@ -1921,6 +1946,20 @@ export const ElasticsearchGetStatus = {
 export interface ElasticsearchAuthBasic {
   username: string
   password: string
+}
+
+export interface ElasticsearchPut {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  connect_timeout?: string
+  pool_type?: ElasticsearchPutPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  ssl?: EmqxSslClientOpts
+  resource_opts?: BridgeHttpConnectorResourceOpts
+  server: string
+  authentication?: ElasticsearchAuthBasic
 }
 
 export interface ElasticsearchGet {
@@ -1949,7 +1988,7 @@ export interface ConnectorResourceOpts {
 }
 
 export type ConnectorNodeStatusStatus =
-  typeof ConnectorNodeStatusStatus[keyof typeof ConnectorNodeStatusStatus]
+  (typeof ConnectorNodeStatusStatus)[keyof typeof ConnectorNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorNodeStatusStatus = {
@@ -1966,15 +2005,27 @@ export interface ConnectorNodeStatus {
 }
 
 export type ConnectorSyskeeperProxyPostType =
-  typeof ConnectorSyskeeperProxyPostType[keyof typeof ConnectorSyskeeperProxyPostType]
+  (typeof ConnectorSyskeeperProxyPostType)[keyof typeof ConnectorSyskeeperProxyPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSyskeeperProxyPostType = {
   syskeeper_proxy: 'syskeeper_proxy',
 } as const
 
+export interface ConnectorSyskeeperProxyPost {
+  type: ConnectorSyskeeperProxyPostType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  listen: string
+  acceptors?: number
+  handshake_timeout?: string
+  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
+}
+
 export type ConnectorSyskeeperProxyGetStatus =
-  typeof ConnectorSyskeeperProxyGetStatus[keyof typeof ConnectorSyskeeperProxyGetStatus]
+  (typeof ConnectorSyskeeperProxyGetStatus)[keyof typeof ConnectorSyskeeperProxyGetStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSyskeeperProxyGetStatus = {
@@ -1985,7 +2036,7 @@ export const ConnectorSyskeeperProxyGetStatus = {
 } as const
 
 export type ConnectorSyskeeperProxyGetType =
-  typeof ConnectorSyskeeperProxyGetType[keyof typeof ConnectorSyskeeperProxyGetType]
+  (typeof ConnectorSyskeeperProxyGetType)[keyof typeof ConnectorSyskeeperProxyGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSyskeeperProxyGetType = {
@@ -1999,18 +2050,6 @@ export interface ConnectorSyskeeperProxyConnectorResourceOpts {
 }
 
 export interface ConnectorSyskeeperProxyPut {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  listen: string
-  acceptors?: number
-  handshake_timeout?: string
-  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
-}
-
-export interface ConnectorSyskeeperProxyPost {
-  type: ConnectorSyskeeperProxyPostType
-  name: string
   enable?: boolean
   tags?: string[]
   description?: string
@@ -2063,7 +2102,7 @@ export interface ConnectorSnowflakePutConnector {
 export type ConnectorSnowflakePostConnectorProxy = ConnectorSnowflakeProxyConfig | 'none'
 
 export type ConnectorSnowflakePostConnectorType =
-  typeof ConnectorSnowflakePostConnectorType[keyof typeof ConnectorSnowflakePostConnectorType]
+  (typeof ConnectorSnowflakePostConnectorType)[keyof typeof ConnectorSnowflakePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSnowflakePostConnectorType = {
@@ -2089,49 +2128,10 @@ export interface ConnectorSnowflakePostConnector {
   ssl?: EmqxSslClientOpts
 }
 
-export type PostConnectorsProbeBody =
-  | BridgeTimescalePostConnector
-  | BridgeMongodbPostConnector
-  | GcpPubsubProducerPostConnector
-  | ElasticsearchPost
-  | ConnectorAzureBlobStoragePostConnector
-  | SyskeeperForwarderPost
-  | PulsarPost
-  | RocketmqPostConnector
-  | KafkaConsumerPostConnector
-  | BridgeMatrixPostConnector
-  | BridgeSqlserverPostConnector
-  | BridgeInfluxdbPostConnector
-  | BridgeClickhousePostConnector
-  | GcpPubsubConsumerPostConnector
-  | BridgeCassaPostConnector
-  | BridgeHstreamdbPostConnector
-  | ConnectorSnowflakePostConnector
-  | BridgeOraclePostConnector
-  | OpentsConnectorPost
-  | BridgeGreptimedbPostConnector
-  | BridgeS3PostConnector
-  | TdengineConnectorPost
-  | BridgeDynamoPostConnector
-  | RedisPostConnector
-  | RabbitmqPost
-  | ConnectorMqttPostConnector
-  | BridgeMysqlPostConnector
-  | ConnectorPostgresPostConnector
-  | ConnectorSyskeeperProxyPost
-  | BridgeKinesisPostConnector
-  | BridgeKafkaPostConnector
-  | BridgeAzureEventHubPostConnector
-  | BridgeDatalayersPostConnector
-  | ConnectorCouchbasePostConnector
-  | PostConnectorsProbeBodyOneOf
-  | ConfluentPostConnector
-  | BridgeHttpPostConnector
-
 export type ConnectorSnowflakeGetConnectorProxy = ConnectorSnowflakeProxyConfig | 'none'
 
 export type ConnectorSnowflakeGetConnectorStatus =
-  typeof ConnectorSnowflakeGetConnectorStatus[keyof typeof ConnectorSnowflakeGetConnectorStatus]
+  (typeof ConnectorSnowflakeGetConnectorStatus)[keyof typeof ConnectorSnowflakeGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSnowflakeGetConnectorStatus = {
@@ -2142,7 +2142,7 @@ export const ConnectorSnowflakeGetConnectorStatus = {
 } as const
 
 export type ConnectorSnowflakeGetConnectorType =
-  typeof ConnectorSnowflakeGetConnectorType[keyof typeof ConnectorSnowflakeGetConnectorType]
+  (typeof ConnectorSnowflakeGetConnectorType)[keyof typeof ConnectorSnowflakeGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSnowflakeGetConnectorType = {
@@ -2195,7 +2195,7 @@ export interface ConnectorPostgresPutConnector {
 }
 
 export type ConnectorPostgresPostConnectorType =
-  typeof ConnectorPostgresPostConnectorType[keyof typeof ConnectorPostgresPostConnectorType]
+  (typeof ConnectorPostgresPostConnectorType)[keyof typeof ConnectorPostgresPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorPostgresPostConnectorType = {
@@ -2221,7 +2221,7 @@ export interface ConnectorPostgresPostConnector {
 }
 
 export type ConnectorPostgresGetConnectorStatus =
-  typeof ConnectorPostgresGetConnectorStatus[keyof typeof ConnectorPostgresGetConnectorStatus]
+  (typeof ConnectorPostgresGetConnectorStatus)[keyof typeof ConnectorPostgresGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorPostgresGetConnectorStatus = {
@@ -2232,7 +2232,7 @@ export const ConnectorPostgresGetConnectorStatus = {
 } as const
 
 export type ConnectorPostgresGetConnectorType =
-  typeof ConnectorPostgresGetConnectorType[keyof typeof ConnectorPostgresGetConnectorType]
+  (typeof ConnectorPostgresGetConnectorType)[keyof typeof ConnectorPostgresGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorPostgresGetConnectorType = {
@@ -2268,7 +2268,7 @@ export interface ConnectorMqttResourceOpts {
 }
 
 export type ConnectorMqttPutConnectorProtoVer =
-  typeof ConnectorMqttPutConnectorProtoVer[keyof typeof ConnectorMqttPutConnectorProtoVer]
+  (typeof ConnectorMqttPutConnectorProtoVer)[keyof typeof ConnectorMqttPutConnectorProtoVer]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttPutConnectorProtoVer = {
@@ -2281,7 +2281,7 @@ export const ConnectorMqttPutConnectorProtoVer = {
  * @deprecated
  */
 export type ConnectorMqttPutConnectorMode =
-  typeof ConnectorMqttPutConnectorMode[keyof typeof ConnectorMqttPutConnectorMode]
+  (typeof ConnectorMqttPutConnectorMode)[keyof typeof ConnectorMqttPutConnectorMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttPutConnectorMode = {
@@ -2312,7 +2312,7 @@ export interface ConnectorMqttPutConnector {
 }
 
 export type ConnectorMqttPostConnectorProtoVer =
-  typeof ConnectorMqttPostConnectorProtoVer[keyof typeof ConnectorMqttPostConnectorProtoVer]
+  (typeof ConnectorMqttPostConnectorProtoVer)[keyof typeof ConnectorMqttPostConnectorProtoVer]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttPostConnectorProtoVer = {
@@ -2325,7 +2325,7 @@ export const ConnectorMqttPostConnectorProtoVer = {
  * @deprecated
  */
 export type ConnectorMqttPostConnectorMode =
-  typeof ConnectorMqttPostConnectorMode[keyof typeof ConnectorMqttPostConnectorMode]
+  (typeof ConnectorMqttPostConnectorMode)[keyof typeof ConnectorMqttPostConnectorMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttPostConnectorMode = {
@@ -2333,7 +2333,7 @@ export const ConnectorMqttPostConnectorMode = {
 } as const
 
 export type ConnectorMqttPostConnectorType =
-  typeof ConnectorMqttPostConnectorType[keyof typeof ConnectorMqttPostConnectorType]
+  (typeof ConnectorMqttPostConnectorType)[keyof typeof ConnectorMqttPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttPostConnectorType = {
@@ -2366,7 +2366,7 @@ export interface ConnectorMqttPostConnector {
 }
 
 export type ConnectorMqttGetConnectorProtoVer =
-  typeof ConnectorMqttGetConnectorProtoVer[keyof typeof ConnectorMqttGetConnectorProtoVer]
+  (typeof ConnectorMqttGetConnectorProtoVer)[keyof typeof ConnectorMqttGetConnectorProtoVer]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorProtoVer = {
@@ -2379,7 +2379,7 @@ export const ConnectorMqttGetConnectorProtoVer = {
  * @deprecated
  */
 export type ConnectorMqttGetConnectorMode =
-  typeof ConnectorMqttGetConnectorMode[keyof typeof ConnectorMqttGetConnectorMode]
+  (typeof ConnectorMqttGetConnectorMode)[keyof typeof ConnectorMqttGetConnectorMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorMode = {
@@ -2387,7 +2387,7 @@ export const ConnectorMqttGetConnectorMode = {
 } as const
 
 export type ConnectorMqttGetConnectorStatus =
-  typeof ConnectorMqttGetConnectorStatus[keyof typeof ConnectorMqttGetConnectorStatus]
+  (typeof ConnectorMqttGetConnectorStatus)[keyof typeof ConnectorMqttGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorStatus = {
@@ -2398,7 +2398,7 @@ export const ConnectorMqttGetConnectorStatus = {
 } as const
 
 export type ConnectorMqttGetConnectorType =
-  typeof ConnectorMqttGetConnectorType[keyof typeof ConnectorMqttGetConnectorType]
+  (typeof ConnectorMqttGetConnectorType)[keyof typeof ConnectorMqttGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorType = {
@@ -2435,7 +2435,7 @@ export interface ConnectorMqttGetConnector {
 }
 
 export type ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType =
-  typeof ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType[keyof typeof ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType]
+  (typeof ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType)[keyof typeof ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType = {
@@ -2450,7 +2450,7 @@ export interface ConnectorInfluxdbConnectorInfluxdbApiV2 {
 }
 
 export type ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType =
-  typeof ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType[keyof typeof ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType]
+  (typeof ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType)[keyof typeof ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType = {
@@ -2465,7 +2465,7 @@ export interface ConnectorInfluxdbConnectorInfluxdbApiV1 {
 }
 
 export type ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType =
-  typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType[keyof typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType]
+  (typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType)[keyof typeof ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDatalayersDatalayersInfluxdbV1ParametersDriverType = {
@@ -2494,7 +2494,7 @@ export interface ConnectorCouchbasePutConnector {
 }
 
 export type ConnectorCouchbasePostConnectorType =
-  typeof ConnectorCouchbasePostConnectorType[keyof typeof ConnectorCouchbasePostConnectorType]
+  (typeof ConnectorCouchbasePostConnectorType)[keyof typeof ConnectorCouchbasePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorCouchbasePostConnectorType = {
@@ -2518,7 +2518,7 @@ export interface ConnectorCouchbasePostConnector {
 }
 
 export type ConnectorCouchbaseGetConnectorStatus =
-  typeof ConnectorCouchbaseGetConnectorStatus[keyof typeof ConnectorCouchbaseGetConnectorStatus]
+  (typeof ConnectorCouchbaseGetConnectorStatus)[keyof typeof ConnectorCouchbaseGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorCouchbaseGetConnectorStatus = {
@@ -2529,7 +2529,7 @@ export const ConnectorCouchbaseGetConnectorStatus = {
 } as const
 
 export type ConnectorCouchbaseGetConnectorType =
-  typeof ConnectorCouchbaseGetConnectorType[keyof typeof ConnectorCouchbaseGetConnectorType]
+  (typeof ConnectorCouchbaseGetConnectorType)[keyof typeof ConnectorCouchbaseGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorCouchbaseGetConnectorType = {
@@ -2572,7 +2572,7 @@ export interface ConnectorAzureBlobStoragePutConnector {
 }
 
 export type ConnectorAzureBlobStoragePostConnectorType =
-  typeof ConnectorAzureBlobStoragePostConnectorType[keyof typeof ConnectorAzureBlobStoragePostConnectorType]
+  (typeof ConnectorAzureBlobStoragePostConnectorType)[keyof typeof ConnectorAzureBlobStoragePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorAzureBlobStoragePostConnectorType = {
@@ -2591,7 +2591,7 @@ export interface ConnectorAzureBlobStoragePostConnector {
 }
 
 export type ConnectorAzureBlobStorageGetConnectorStatus =
-  typeof ConnectorAzureBlobStorageGetConnectorStatus[keyof typeof ConnectorAzureBlobStorageGetConnectorStatus]
+  (typeof ConnectorAzureBlobStorageGetConnectorStatus)[keyof typeof ConnectorAzureBlobStorageGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorAzureBlobStorageGetConnectorStatus = {
@@ -2602,7 +2602,7 @@ export const ConnectorAzureBlobStorageGetConnectorStatus = {
 } as const
 
 export type ConnectorAzureBlobStorageGetConnectorType =
-  typeof ConnectorAzureBlobStorageGetConnectorType[keyof typeof ConnectorAzureBlobStorageGetConnectorType]
+  (typeof ConnectorAzureBlobStorageGetConnectorType)[keyof typeof ConnectorAzureBlobStorageGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorAzureBlobStorageGetConnectorType = {
@@ -2627,7 +2627,7 @@ export interface ConnectorAzureBlobStorageGetConnector {
 export type ConfluentSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type ConfluentSslClientOptsPartialChain =
-  typeof ConfluentSslClientOptsPartialChain[keyof typeof ConfluentSslClientOptsPartialChain]
+  (typeof ConfluentSslClientOptsPartialChain)[keyof typeof ConfluentSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsPartialChain = {
@@ -2638,7 +2638,7 @@ export const ConfluentSslClientOptsPartialChain = {
 } as const
 
 export type ConfluentSslClientOptsLogLevel =
-  typeof ConfluentSslClientOptsLogLevel[keyof typeof ConfluentSslClientOptsLogLevel]
+  (typeof ConfluentSslClientOptsLogLevel)[keyof typeof ConfluentSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsLogLevel = {
@@ -2689,36 +2689,12 @@ export interface ConfluentPutConnector {
 }
 
 export type ConfluentPostConnectorType =
-  typeof ConfluentPostConnectorType[keyof typeof ConfluentPostConnectorType]
+  (typeof ConfluentPostConnectorType)[keyof typeof ConfluentPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentPostConnectorType = {
   confluent_producer: 'confluent_producer',
 } as const
-
-export type ConfluentGetConnectorStatus =
-  typeof ConfluentGetConnectorStatus[keyof typeof ConfluentGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ConfluentGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export type ConfluentGetConnectorType =
-  typeof ConfluentGetConnectorType[keyof typeof ConfluentGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ConfluentGetConnectorType = {
-  confluent_producer: 'confluent_producer',
-} as const
-
-export interface ConfluentAuthUsernamePassword {
-  username: string
-  password: string
-}
 
 export interface ConfluentPostConnector {
   type: ConfluentPostConnectorType
@@ -2735,6 +2711,30 @@ export interface ConfluentPostConnector {
   health_check_topic?: string
   ssl: ConfluentSslClientOpts
   resource_opts?: BridgeKafkaConnectorResourceOpts
+}
+
+export type ConfluentGetConnectorStatus =
+  (typeof ConfluentGetConnectorStatus)[keyof typeof ConfluentGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type ConfluentGetConnectorType =
+  (typeof ConfluentGetConnectorType)[keyof typeof ConfluentGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentGetConnectorType = {
+  confluent_producer: 'confluent_producer',
+} as const
+
+export interface ConfluentAuthUsernamePassword {
+  username: string
+  password: string
 }
 
 export interface ConfluentGetConnector {
@@ -2759,7 +2759,7 @@ export interface ConfluentGetConnector {
 }
 
 export type BridgeNodeStatusStatus =
-  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+  (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
@@ -2792,7 +2792,7 @@ export interface BridgeTimescalePutConnector {
 }
 
 export type BridgeTimescalePostConnectorType =
-  typeof BridgeTimescalePostConnectorType[keyof typeof BridgeTimescalePostConnectorType]
+  (typeof BridgeTimescalePostConnectorType)[keyof typeof BridgeTimescalePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescalePostConnectorType = {
@@ -2818,7 +2818,7 @@ export interface BridgeTimescalePostConnector {
 }
 
 export type BridgeTimescaleGetConnectorStatus =
-  typeof BridgeTimescaleGetConnectorStatus[keyof typeof BridgeTimescaleGetConnectorStatus]
+  (typeof BridgeTimescaleGetConnectorStatus)[keyof typeof BridgeTimescaleGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescaleGetConnectorStatus = {
@@ -2829,7 +2829,7 @@ export const BridgeTimescaleGetConnectorStatus = {
 } as const
 
 export type BridgeTimescaleGetConnectorType =
-  typeof BridgeTimescaleGetConnectorType[keyof typeof BridgeTimescaleGetConnectorType]
+  (typeof BridgeTimescaleGetConnectorType)[keyof typeof BridgeTimescaleGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescaleGetConnectorType = {
@@ -2858,6 +2858,39 @@ export interface BridgeTimescaleGetConnector {
   resource_opts?: ConnectorPostgresResourceOpts
 }
 
+export type BridgeSqlserverPostConnectorType =
+  (typeof BridgeSqlserverPostConnectorType)[keyof typeof BridgeSqlserverPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeSqlserverPostConnectorType = {
+  sqlserver: 'sqlserver',
+} as const
+
+export type BridgeSqlserverGetConnectorStatus =
+  (typeof BridgeSqlserverGetConnectorStatus)[keyof typeof BridgeSqlserverGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeSqlserverGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export type BridgeSqlserverGetConnectorType =
+  (typeof BridgeSqlserverGetConnectorType)[keyof typeof BridgeSqlserverGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeSqlserverGetConnectorType = {
+  sqlserver: 'sqlserver',
+} as const
+
+export interface BridgeSqlserverConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface BridgeSqlserverPutConnector {
   enable?: boolean
   tags?: string[]
@@ -2872,14 +2905,6 @@ export interface BridgeSqlserverPutConnector {
   auto_reconnect?: boolean
   resource_opts?: BridgeSqlserverConnectorResourceOpts
 }
-
-export type BridgeSqlserverPostConnectorType =
-  typeof BridgeSqlserverPostConnectorType[keyof typeof BridgeSqlserverPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeSqlserverPostConnectorType = {
-  sqlserver: 'sqlserver',
-} as const
 
 export interface BridgeSqlserverPostConnector {
   type: BridgeSqlserverPostConnectorType
@@ -2896,31 +2921,6 @@ export interface BridgeSqlserverPostConnector {
   /** @deprecated */
   auto_reconnect?: boolean
   resource_opts?: BridgeSqlserverConnectorResourceOpts
-}
-
-export type BridgeSqlserverGetConnectorStatus =
-  typeof BridgeSqlserverGetConnectorStatus[keyof typeof BridgeSqlserverGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeSqlserverGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export type BridgeSqlserverGetConnectorType =
-  typeof BridgeSqlserverGetConnectorType[keyof typeof BridgeSqlserverGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeSqlserverGetConnectorType = {
-  sqlserver: 'sqlserver',
-} as const
-
-export interface BridgeSqlserverConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
 }
 
 export interface BridgeSqlserverGetConnector {
@@ -2950,6 +2950,15 @@ export interface BridgeS3S3ConnectorResourceOpts {
   start_timeout?: string
 }
 
+export type BridgeS3PutConnectorAccessMethod =
+  (typeof BridgeS3PutConnectorAccessMethod)[keyof typeof BridgeS3PutConnectorAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeS3PutConnectorAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export interface BridgeS3PutConnector {
   enable?: boolean
   tags?: string[]
@@ -2958,12 +2967,22 @@ export interface BridgeS3PutConnector {
   secret_access_key?: string
   host: string
   port: number
+  access_method?: BridgeS3PutConnectorAccessMethod
   transport_options?: S3TransportOptions
   resource_opts?: BridgeS3S3ConnectorResourceOpts
 }
 
+export type BridgeS3PostConnectorAccessMethod =
+  (typeof BridgeS3PostConnectorAccessMethod)[keyof typeof BridgeS3PostConnectorAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeS3PostConnectorAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export type BridgeS3PostConnectorType =
-  typeof BridgeS3PostConnectorType[keyof typeof BridgeS3PostConnectorType]
+  (typeof BridgeS3PostConnectorType)[keyof typeof BridgeS3PostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeS3PostConnectorType = {
@@ -2980,12 +2999,22 @@ export interface BridgeS3PostConnector {
   secret_access_key?: string
   host: string
   port: number
+  access_method?: BridgeS3PostConnectorAccessMethod
   transport_options?: S3TransportOptions
   resource_opts?: BridgeS3S3ConnectorResourceOpts
 }
 
+export type BridgeS3GetConnectorAccessMethod =
+  (typeof BridgeS3GetConnectorAccessMethod)[keyof typeof BridgeS3GetConnectorAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeS3GetConnectorAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export type BridgeS3GetConnectorStatus =
-  typeof BridgeS3GetConnectorStatus[keyof typeof BridgeS3GetConnectorStatus]
+  (typeof BridgeS3GetConnectorStatus)[keyof typeof BridgeS3GetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeS3GetConnectorStatus = {
@@ -2996,7 +3025,7 @@ export const BridgeS3GetConnectorStatus = {
 } as const
 
 export type BridgeS3GetConnectorType =
-  typeof BridgeS3GetConnectorType[keyof typeof BridgeS3GetConnectorType]
+  (typeof BridgeS3GetConnectorType)[keyof typeof BridgeS3GetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeS3GetConnectorType = {
@@ -3017,6 +3046,7 @@ export interface BridgeS3GetConnector {
   secret_access_key?: string
   host: string
   port: number
+  access_method?: BridgeS3GetConnectorAccessMethod
   transport_options?: S3TransportOptions
   resource_opts?: BridgeS3S3ConnectorResourceOpts
 }
@@ -3031,7 +3061,7 @@ export interface BridgePulsarAuthBasic {
 }
 
 export type BridgeOraclePostConnectorType =
-  typeof BridgeOraclePostConnectorType[keyof typeof BridgeOraclePostConnectorType]
+  (typeof BridgeOraclePostConnectorType)[keyof typeof BridgeOraclePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOraclePostConnectorType = {
@@ -3039,7 +3069,7 @@ export const BridgeOraclePostConnectorType = {
 } as const
 
 export type BridgeOracleGetConnectorStatus =
-  typeof BridgeOracleGetConnectorStatus[keyof typeof BridgeOracleGetConnectorStatus]
+  (typeof BridgeOracleGetConnectorStatus)[keyof typeof BridgeOracleGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOracleGetConnectorStatus = {
@@ -3050,7 +3080,7 @@ export const BridgeOracleGetConnectorStatus = {
 } as const
 
 export type BridgeOracleGetConnectorType =
-  typeof BridgeOracleGetConnectorType[keyof typeof BridgeOracleGetConnectorType]
+  (typeof BridgeOracleGetConnectorType)[keyof typeof BridgeOracleGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOracleGetConnectorType = {
@@ -3132,7 +3162,7 @@ export interface BridgeMysqlPutConnector {
 }
 
 export type BridgeMysqlPostConnectorType =
-  typeof BridgeMysqlPostConnectorType[keyof typeof BridgeMysqlPostConnectorType]
+  (typeof BridgeMysqlPostConnectorType)[keyof typeof BridgeMysqlPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMysqlPostConnectorType = {
@@ -3157,7 +3187,7 @@ export interface BridgeMysqlPostConnector {
 }
 
 export type BridgeMysqlGetConnectorStatus =
-  typeof BridgeMysqlGetConnectorStatus[keyof typeof BridgeMysqlGetConnectorStatus]
+  (typeof BridgeMysqlGetConnectorStatus)[keyof typeof BridgeMysqlGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMysqlGetConnectorStatus = {
@@ -3168,7 +3198,7 @@ export const BridgeMysqlGetConnectorStatus = {
 } as const
 
 export type BridgeMysqlGetConnectorType =
-  typeof BridgeMysqlGetConnectorType[keyof typeof BridgeMysqlGetConnectorType]
+  (typeof BridgeMysqlGetConnectorType)[keyof typeof BridgeMysqlGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMysqlGetConnectorType = {
@@ -3203,7 +3233,7 @@ export interface BridgeMysqlGetConnector {
 }
 
 export type BridgeMongodbPutConnectorUseLegacyProtocol =
-  typeof BridgeMongodbPutConnectorUseLegacyProtocol[keyof typeof BridgeMongodbPutConnectorUseLegacyProtocol]
+  (typeof BridgeMongodbPutConnectorUseLegacyProtocol)[keyof typeof BridgeMongodbPutConnectorUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutConnectorUseLegacyProtocol = {
@@ -3235,7 +3265,7 @@ export interface BridgeMongodbPutConnector {
 }
 
 export type BridgeMongodbPostConnectorUseLegacyProtocol =
-  typeof BridgeMongodbPostConnectorUseLegacyProtocol[keyof typeof BridgeMongodbPostConnectorUseLegacyProtocol]
+  (typeof BridgeMongodbPostConnectorUseLegacyProtocol)[keyof typeof BridgeMongodbPostConnectorUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostConnectorUseLegacyProtocol = {
@@ -3250,7 +3280,7 @@ export type BridgeMongodbPostConnectorParameters =
   | MongoConnectorSingle
 
 export type BridgeMongodbPostConnectorType =
-  typeof BridgeMongodbPostConnectorType[keyof typeof BridgeMongodbPostConnectorType]
+  (typeof BridgeMongodbPostConnectorType)[keyof typeof BridgeMongodbPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostConnectorType = {
@@ -3258,7 +3288,7 @@ export const BridgeMongodbPostConnectorType = {
 } as const
 
 export type BridgeMongodbGetConnectorUseLegacyProtocol =
-  typeof BridgeMongodbGetConnectorUseLegacyProtocol[keyof typeof BridgeMongodbGetConnectorUseLegacyProtocol]
+  (typeof BridgeMongodbGetConnectorUseLegacyProtocol)[keyof typeof BridgeMongodbGetConnectorUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorUseLegacyProtocol = {
@@ -3273,7 +3303,7 @@ export type BridgeMongodbGetConnectorParameters =
   | MongoConnectorSingle
 
 export type BridgeMongodbGetConnectorStatus =
-  typeof BridgeMongodbGetConnectorStatus[keyof typeof BridgeMongodbGetConnectorStatus]
+  (typeof BridgeMongodbGetConnectorStatus)[keyof typeof BridgeMongodbGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorStatus = {
@@ -3284,7 +3314,7 @@ export const BridgeMongodbGetConnectorStatus = {
 } as const
 
 export type BridgeMongodbGetConnectorType =
-  typeof BridgeMongodbGetConnectorType[keyof typeof BridgeMongodbGetConnectorType]
+  (typeof BridgeMongodbGetConnectorType)[keyof typeof BridgeMongodbGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorType = {
@@ -3356,7 +3386,7 @@ export interface BridgeMatrixPutConnector {
 }
 
 export type BridgeMatrixPostConnectorType =
-  typeof BridgeMatrixPostConnectorType[keyof typeof BridgeMatrixPostConnectorType]
+  (typeof BridgeMatrixPostConnectorType)[keyof typeof BridgeMatrixPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixPostConnectorType = {
@@ -3382,7 +3412,7 @@ export interface BridgeMatrixPostConnector {
 }
 
 export type BridgeMatrixGetConnectorStatus =
-  typeof BridgeMatrixGetConnectorStatus[keyof typeof BridgeMatrixGetConnectorStatus]
+  (typeof BridgeMatrixGetConnectorStatus)[keyof typeof BridgeMatrixGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixGetConnectorStatus = {
@@ -3393,7 +3423,7 @@ export const BridgeMatrixGetConnectorStatus = {
 } as const
 
 export type BridgeMatrixGetConnectorType =
-  typeof BridgeMatrixGetConnectorType[keyof typeof BridgeMatrixGetConnectorType]
+  (typeof BridgeMatrixGetConnectorType)[keyof typeof BridgeMatrixGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixGetConnectorType = {
@@ -3423,7 +3453,7 @@ export interface BridgeMatrixGetConnector {
 }
 
 export type BridgeKinesisPostConnectorType =
-  typeof BridgeKinesisPostConnectorType[keyof typeof BridgeKinesisPostConnectorType]
+  (typeof BridgeKinesisPostConnectorType)[keyof typeof BridgeKinesisPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisPostConnectorType = {
@@ -3431,7 +3461,7 @@ export const BridgeKinesisPostConnectorType = {
 } as const
 
 export type BridgeKinesisGetConnectorStatus =
-  typeof BridgeKinesisGetConnectorStatus[keyof typeof BridgeKinesisGetConnectorStatus]
+  (typeof BridgeKinesisGetConnectorStatus)[keyof typeof BridgeKinesisGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisGetConnectorStatus = {
@@ -3442,7 +3472,7 @@ export const BridgeKinesisGetConnectorStatus = {
 } as const
 
 export type BridgeKinesisGetConnectorType =
-  typeof BridgeKinesisGetConnectorType[keyof typeof BridgeKinesisGetConnectorType]
+  (typeof BridgeKinesisGetConnectorType)[keyof typeof BridgeKinesisGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisGetConnectorType = {
@@ -3502,7 +3532,7 @@ export interface BridgeKinesisGetConnector {
 export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeKafkaSslClientOptsPartialChain =
-  typeof BridgeKafkaSslClientOptsPartialChain[keyof typeof BridgeKafkaSslClientOptsPartialChain]
+  (typeof BridgeKafkaSslClientOptsPartialChain)[keyof typeof BridgeKafkaSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsPartialChain = {
@@ -3513,7 +3543,7 @@ export const BridgeKafkaSslClientOptsPartialChain = {
 } as const
 
 export type BridgeKafkaSslClientOptsLogLevel =
-  typeof BridgeKafkaSslClientOptsLogLevel[keyof typeof BridgeKafkaSslClientOptsLogLevel]
+  (typeof BridgeKafkaSslClientOptsLogLevel)[keyof typeof BridgeKafkaSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsLogLevel = {
@@ -3530,7 +3560,7 @@ export const BridgeKafkaSslClientOptsLogLevel = {
 } as const
 
 export type BridgeKafkaSslClientOptsVerify =
-  typeof BridgeKafkaSslClientOptsVerify[keyof typeof BridgeKafkaSslClientOptsVerify]
+  (typeof BridgeKafkaSslClientOptsVerify)[keyof typeof BridgeKafkaSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsVerify = {
@@ -3572,7 +3602,7 @@ export type BridgeKafkaPostConnectorAuthentication =
   | 'none'
 
 export type BridgeKafkaPostConnectorType =
-  typeof BridgeKafkaPostConnectorType[keyof typeof BridgeKafkaPostConnectorType]
+  (typeof BridgeKafkaPostConnectorType)[keyof typeof BridgeKafkaPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostConnectorType = {
@@ -3580,7 +3610,7 @@ export const BridgeKafkaPostConnectorType = {
 } as const
 
 export type BridgeKafkaGetConnectorStatus =
-  typeof BridgeKafkaGetConnectorStatus[keyof typeof BridgeKafkaGetConnectorStatus]
+  (typeof BridgeKafkaGetConnectorStatus)[keyof typeof BridgeKafkaGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConnectorStatus = {
@@ -3591,7 +3621,7 @@ export const BridgeKafkaGetConnectorStatus = {
 } as const
 
 export type BridgeKafkaGetConnectorType =
-  typeof BridgeKafkaGetConnectorType[keyof typeof BridgeKafkaGetConnectorType]
+  (typeof BridgeKafkaGetConnectorType)[keyof typeof BridgeKafkaGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConnectorType = {
@@ -3658,7 +3688,7 @@ export interface BridgeKafkaGetConnector {
 }
 
 export type BridgeKafkaAuthUsernamePasswordMechanism =
-  typeof BridgeKafkaAuthUsernamePasswordMechanism[keyof typeof BridgeKafkaAuthUsernamePasswordMechanism]
+  (typeof BridgeKafkaAuthUsernamePasswordMechanism)[keyof typeof BridgeKafkaAuthUsernamePasswordMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaAuthUsernamePasswordMechanism = {
@@ -3697,6 +3727,7 @@ export interface BridgeInfluxdbPutConnector {
   tags?: string[]
   description?: string
   server?: string
+  pool_size?: number
   parameters: BridgeInfluxdbPutConnectorParameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeInfluxdbConnectorResourceOpts
@@ -3707,7 +3738,7 @@ export type BridgeInfluxdbPostConnectorParameters =
   | ConnectorInfluxdbConnectorInfluxdbApiV1
 
 export type BridgeInfluxdbPostConnectorType =
-  typeof BridgeInfluxdbPostConnectorType[keyof typeof BridgeInfluxdbPostConnectorType]
+  (typeof BridgeInfluxdbPostConnectorType)[keyof typeof BridgeInfluxdbPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbPostConnectorType = {
@@ -3721,6 +3752,7 @@ export interface BridgeInfluxdbPostConnector {
   tags?: string[]
   description?: string
   server?: string
+  pool_size?: number
   parameters: BridgeInfluxdbPostConnectorParameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeInfluxdbConnectorResourceOpts
@@ -3731,7 +3763,7 @@ export type BridgeInfluxdbGetConnectorParameters =
   | ConnectorInfluxdbConnectorInfluxdbApiV1
 
 export type BridgeInfluxdbGetConnectorStatus =
-  typeof BridgeInfluxdbGetConnectorStatus[keyof typeof BridgeInfluxdbGetConnectorStatus]
+  (typeof BridgeInfluxdbGetConnectorStatus)[keyof typeof BridgeInfluxdbGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetConnectorStatus = {
@@ -3742,7 +3774,7 @@ export const BridgeInfluxdbGetConnectorStatus = {
 } as const
 
 export type BridgeInfluxdbGetConnectorType =
-  typeof BridgeInfluxdbGetConnectorType[keyof typeof BridgeInfluxdbGetConnectorType]
+  (typeof BridgeInfluxdbGetConnectorType)[keyof typeof BridgeInfluxdbGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetConnectorType = {
@@ -3766,6 +3798,7 @@ export interface BridgeInfluxdbGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server?: string
+  pool_size?: number
   parameters: BridgeInfluxdbGetConnectorParameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeInfluxdbConnectorResourceOpts
@@ -3777,7 +3810,7 @@ export interface BridgeInfluxdbGetConnector {
 export type BridgeHttpPutConnectorRequest = { [key: string]: any }
 
 export type BridgeHttpPutConnectorPoolType =
-  typeof BridgeHttpPutConnectorPoolType[keyof typeof BridgeHttpPutConnectorPoolType]
+  (typeof BridgeHttpPutConnectorPoolType)[keyof typeof BridgeHttpPutConnectorPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPutConnectorPoolType = {
@@ -3811,7 +3844,7 @@ export interface BridgeHttpPutConnector {
 export type BridgeHttpPostConnectorRequest = { [key: string]: any }
 
 export type BridgeHttpPostConnectorPoolType =
-  typeof BridgeHttpPostConnectorPoolType[keyof typeof BridgeHttpPostConnectorPoolType]
+  (typeof BridgeHttpPostConnectorPoolType)[keyof typeof BridgeHttpPostConnectorPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostConnectorPoolType = {
@@ -3822,7 +3855,7 @@ export const BridgeHttpPostConnectorPoolType = {
 export type BridgeHttpPostConnectorHeaders = { [key: string]: any }
 
 export type BridgeHttpPostConnectorType =
-  typeof BridgeHttpPostConnectorType[keyof typeof BridgeHttpPostConnectorType]
+  (typeof BridgeHttpPostConnectorType)[keyof typeof BridgeHttpPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostConnectorType = {
@@ -3855,7 +3888,7 @@ export interface BridgeHttpPostConnector {
 export type BridgeHttpGetConnectorRequest = { [key: string]: any }
 
 export type BridgeHttpGetConnectorPoolType =
-  typeof BridgeHttpGetConnectorPoolType[keyof typeof BridgeHttpGetConnectorPoolType]
+  (typeof BridgeHttpGetConnectorPoolType)[keyof typeof BridgeHttpGetConnectorPoolType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorPoolType = {
@@ -3866,7 +3899,7 @@ export const BridgeHttpGetConnectorPoolType = {
 export type BridgeHttpGetConnectorHeaders = { [key: string]: any }
 
 export type BridgeHttpGetConnectorType =
-  typeof BridgeHttpGetConnectorType[keyof typeof BridgeHttpGetConnectorType]
+  (typeof BridgeHttpGetConnectorType)[keyof typeof BridgeHttpGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorType = {
@@ -3874,7 +3907,7 @@ export const BridgeHttpGetConnectorType = {
 } as const
 
 export type BridgeHttpGetConnectorStatus =
-  typeof BridgeHttpGetConnectorStatus[keyof typeof BridgeHttpGetConnectorStatus]
+  (typeof BridgeHttpGetConnectorStatus)[keyof typeof BridgeHttpGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorStatus = {
@@ -3924,7 +3957,7 @@ export interface BridgeHstreamdbPutConnector {
 }
 
 export type BridgeHstreamdbPostConnectorType =
-  typeof BridgeHstreamdbPostConnectorType[keyof typeof BridgeHstreamdbPostConnectorType]
+  (typeof BridgeHstreamdbPostConnectorType)[keyof typeof BridgeHstreamdbPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbPostConnectorType = {
@@ -3932,7 +3965,7 @@ export const BridgeHstreamdbPostConnectorType = {
 } as const
 
 export type BridgeHstreamdbGetConnectorStatus =
-  typeof BridgeHstreamdbGetConnectorStatus[keyof typeof BridgeHstreamdbGetConnectorStatus]
+  (typeof BridgeHstreamdbGetConnectorStatus)[keyof typeof BridgeHstreamdbGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbGetConnectorStatus = {
@@ -3943,7 +3976,7 @@ export const BridgeHstreamdbGetConnectorStatus = {
 } as const
 
 export type BridgeHstreamdbGetConnectorType =
-  typeof BridgeHstreamdbGetConnectorType[keyof typeof BridgeHstreamdbGetConnectorType]
+  (typeof BridgeHstreamdbGetConnectorType)[keyof typeof BridgeHstreamdbGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbGetConnectorType = {
@@ -3997,7 +4030,7 @@ export interface BridgeGreptimedbPutConnector {
 }
 
 export type BridgeGreptimedbPostConnectorType =
-  typeof BridgeGreptimedbPostConnectorType[keyof typeof BridgeGreptimedbPostConnectorType]
+  (typeof BridgeGreptimedbPostConnectorType)[keyof typeof BridgeGreptimedbPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbPostConnectorType = {
@@ -4019,7 +4052,7 @@ export interface BridgeGreptimedbPostConnector {
 }
 
 export type BridgeGreptimedbGetConnectorStatus =
-  typeof BridgeGreptimedbGetConnectorStatus[keyof typeof BridgeGreptimedbGetConnectorStatus]
+  (typeof BridgeGreptimedbGetConnectorStatus)[keyof typeof BridgeGreptimedbGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetConnectorStatus = {
@@ -4030,7 +4063,7 @@ export const BridgeGreptimedbGetConnectorStatus = {
 } as const
 
 export type BridgeGreptimedbGetConnectorType =
-  typeof BridgeGreptimedbGetConnectorType[keyof typeof BridgeGreptimedbGetConnectorType]
+  (typeof BridgeGreptimedbGetConnectorType)[keyof typeof BridgeGreptimedbGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetConnectorType = {
@@ -4076,7 +4109,7 @@ export interface BridgeDynamoPutConnector {
 }
 
 export type BridgeDynamoPostConnectorType =
-  typeof BridgeDynamoPostConnectorType[keyof typeof BridgeDynamoPostConnectorType]
+  (typeof BridgeDynamoPostConnectorType)[keyof typeof BridgeDynamoPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoPostConnectorType = {
@@ -4100,7 +4133,7 @@ export interface BridgeDynamoPostConnector {
 }
 
 export type BridgeDynamoGetConnectorStatus =
-  typeof BridgeDynamoGetConnectorStatus[keyof typeof BridgeDynamoGetConnectorStatus]
+  (typeof BridgeDynamoGetConnectorStatus)[keyof typeof BridgeDynamoGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoGetConnectorStatus = {
@@ -4111,7 +4144,7 @@ export const BridgeDynamoGetConnectorStatus = {
 } as const
 
 export type BridgeDynamoGetConnectorType =
-  typeof BridgeDynamoGetConnectorType[keyof typeof BridgeDynamoGetConnectorType]
+  (typeof BridgeDynamoGetConnectorType)[keyof typeof BridgeDynamoGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoGetConnectorType = {
@@ -4145,7 +4178,7 @@ export interface BridgeDynamoGetConnector {
 }
 
 export type BridgeDatalayersPostConnectorType =
-  typeof BridgeDatalayersPostConnectorType[keyof typeof BridgeDatalayersPostConnectorType]
+  (typeof BridgeDatalayersPostConnectorType)[keyof typeof BridgeDatalayersPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDatalayersPostConnectorType = {
@@ -4159,13 +4192,14 @@ export interface BridgeDatalayersPostConnector {
   tags?: string[]
   description?: string
   server?: string
+  pool_size?: number
   parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
 }
 
 export type BridgeDatalayersGetConnectorStatus =
-  typeof BridgeDatalayersGetConnectorStatus[keyof typeof BridgeDatalayersGetConnectorStatus]
+  (typeof BridgeDatalayersGetConnectorStatus)[keyof typeof BridgeDatalayersGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDatalayersGetConnectorStatus = {
@@ -4176,7 +4210,7 @@ export const BridgeDatalayersGetConnectorStatus = {
 } as const
 
 export type BridgeDatalayersGetConnectorType =
-  typeof BridgeDatalayersGetConnectorType[keyof typeof BridgeDatalayersGetConnectorType]
+  (typeof BridgeDatalayersGetConnectorType)[keyof typeof BridgeDatalayersGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDatalayersGetConnectorType = {
@@ -4194,6 +4228,7 @@ export interface BridgeDatalayersPutConnector {
   tags?: string[]
   description?: string
   server?: string
+  pool_size?: number
   parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
@@ -4210,13 +4245,14 @@ export interface BridgeDatalayersGetConnector {
   node_status?: ConnectorNodeStatus[]
   actions?: string[]
   server?: string
+  pool_size?: number
   parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
   ssl?: EmqxSslClientOpts
   resource_opts?: BridgeDatalayersConnectorResourceOpts
 }
 
 export type BridgeClickhousePostConnectorType =
-  typeof BridgeClickhousePostConnectorType[keyof typeof BridgeClickhousePostConnectorType]
+  (typeof BridgeClickhousePostConnectorType)[keyof typeof BridgeClickhousePostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhousePostConnectorType = {
@@ -4224,7 +4260,7 @@ export const BridgeClickhousePostConnectorType = {
 } as const
 
 export type BridgeClickhouseGetConnectorStatus =
-  typeof BridgeClickhouseGetConnectorStatus[keyof typeof BridgeClickhouseGetConnectorStatus]
+  (typeof BridgeClickhouseGetConnectorStatus)[keyof typeof BridgeClickhouseGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhouseGetConnectorStatus = {
@@ -4235,7 +4271,7 @@ export const BridgeClickhouseGetConnectorStatus = {
 } as const
 
 export type BridgeClickhouseGetConnectorType =
-  typeof BridgeClickhouseGetConnectorType[keyof typeof BridgeClickhouseGetConnectorType]
+  (typeof BridgeClickhouseGetConnectorType)[keyof typeof BridgeClickhouseGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhouseGetConnectorType = {
@@ -4302,7 +4338,7 @@ export interface BridgeClickhouseGetConnector {
 }
 
 export type BridgeCassaPostConnectorType =
-  typeof BridgeCassaPostConnectorType[keyof typeof BridgeCassaPostConnectorType]
+  (typeof BridgeCassaPostConnectorType)[keyof typeof BridgeCassaPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaPostConnectorType = {
@@ -4327,7 +4363,7 @@ export interface BridgeCassaPostConnector {
 }
 
 export type BridgeCassaGetConnectorStatus =
-  typeof BridgeCassaGetConnectorStatus[keyof typeof BridgeCassaGetConnectorStatus]
+  (typeof BridgeCassaGetConnectorStatus)[keyof typeof BridgeCassaGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaGetConnectorStatus = {
@@ -4338,7 +4374,7 @@ export const BridgeCassaGetConnectorStatus = {
 } as const
 
 export type BridgeCassaGetConnectorType =
-  typeof BridgeCassaGetConnectorType[keyof typeof BridgeCassaGetConnectorType]
+  (typeof BridgeCassaGetConnectorType)[keyof typeof BridgeCassaGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaGetConnectorType = {
@@ -4390,7 +4426,7 @@ export interface BridgeCassaGetConnector {
 export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeAzureEventHubSslClientOptsEnable =
-  typeof BridgeAzureEventHubSslClientOptsEnable[keyof typeof BridgeAzureEventHubSslClientOptsEnable]
+  (typeof BridgeAzureEventHubSslClientOptsEnable)[keyof typeof BridgeAzureEventHubSslClientOptsEnable]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsEnable = {
@@ -4398,7 +4434,7 @@ export const BridgeAzureEventHubSslClientOptsEnable = {
 } as const
 
 export type BridgeAzureEventHubSslClientOptsPartialChain =
-  typeof BridgeAzureEventHubSslClientOptsPartialChain[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
+  (typeof BridgeAzureEventHubSslClientOptsPartialChain)[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsPartialChain = {
@@ -4409,7 +4445,7 @@ export const BridgeAzureEventHubSslClientOptsPartialChain = {
 } as const
 
 export type BridgeAzureEventHubSslClientOptsLogLevel =
-  typeof BridgeAzureEventHubSslClientOptsLogLevel[keyof typeof BridgeAzureEventHubSslClientOptsLogLevel]
+  (typeof BridgeAzureEventHubSslClientOptsLogLevel)[keyof typeof BridgeAzureEventHubSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsLogLevel = {
@@ -4426,7 +4462,7 @@ export const BridgeAzureEventHubSslClientOptsLogLevel = {
 } as const
 
 export type BridgeAzureEventHubSslClientOptsVerify =
-  typeof BridgeAzureEventHubSslClientOptsVerify[keyof typeof BridgeAzureEventHubSslClientOptsVerify]
+  (typeof BridgeAzureEventHubSslClientOptsVerify)[keyof typeof BridgeAzureEventHubSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsVerify = {
@@ -4471,7 +4507,7 @@ export interface BridgeAzureEventHubPutConnector {
 }
 
 export type BridgeAzureEventHubPostConnectorType =
-  typeof BridgeAzureEventHubPostConnectorType[keyof typeof BridgeAzureEventHubPostConnectorType]
+  (typeof BridgeAzureEventHubPostConnectorType)[keyof typeof BridgeAzureEventHubPostConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubPostConnectorType = {
@@ -4496,7 +4532,7 @@ export interface BridgeAzureEventHubPostConnector {
 }
 
 export type BridgeAzureEventHubGetConnectorStatus =
-  typeof BridgeAzureEventHubGetConnectorStatus[keyof typeof BridgeAzureEventHubGetConnectorStatus]
+  (typeof BridgeAzureEventHubGetConnectorStatus)[keyof typeof BridgeAzureEventHubGetConnectorStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetConnectorStatus = {
@@ -4507,7 +4543,7 @@ export const BridgeAzureEventHubGetConnectorStatus = {
 } as const
 
 export type BridgeAzureEventHubGetConnectorType =
-  typeof BridgeAzureEventHubGetConnectorType[keyof typeof BridgeAzureEventHubGetConnectorType]
+  (typeof BridgeAzureEventHubGetConnectorType)[keyof typeof BridgeAzureEventHubGetConnectorType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetConnectorType = {

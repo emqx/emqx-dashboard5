@@ -133,6 +133,7 @@ const propsOrderMap = {
       'port',
       'access_key_id',
       'secret_access_key',
+      'access_method',
       'bucket',
       'url_expire_time',
       'min_part_size',

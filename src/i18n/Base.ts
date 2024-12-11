@@ -695,6 +695,10 @@ export default {
     zh: '，',
     en: ', ',
   },
+  wordBdy: {
+    zh: '',
+    en: ' ',
+  },
   description: {
     zh: '描述',
     en: 'Description',

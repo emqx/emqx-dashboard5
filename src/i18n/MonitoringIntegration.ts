@@ -194,4 +194,96 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: 'Datadog - EMQX 集成',
     en: 'Datadog - EMQX Integration',
   },
+  e2e: {
+    zh: '端到端',
+    en: 'End-to-End',
+  },
+  traceMode: {
+    zh: '追踪模式',
+    en: 'Trace Mode',
+  },
+  traceModeDesc: {
+    zh: 'OpenTelemetry 追踪模式。<br/><br/>- `Legacy`: 遵循旧的追踪方法，仅追踪消息发布和传递。<br/><br/>  Span 名称将保持与旧版本兼容。<br/>- `E2E`: 端到端追踪模式。将追踪所有类型的客户端行为：<br/><br/>  连接/断开连接/订阅/取消订阅/消息发布/消息传递。<br/><br/>  更多控制选项和采样函数由 `e2e_tracing_options` 子配置项控制<br/>',
+    en: 'OpenTelemetry tracing mode.<br/><br/>- `legacy`: follow the old tracing method, only trace message publishing and delivery.<br/><br/>  Span Name will remain compatible with the old version.<br/>- `e2e`: end-to-end tracing mode. All kinds of client behaviors will be traced:<br/><br/>  Connection/Disconnection/Subscription/Unsubscription/Message Publishing/Message delivery.<br/><br/>  More control options and sampling functions are controlled by the `e2e_tracing_options` sub-configuration item<br/>',
+  },
+  traceAdvancedConfig: {
+    zh: '追踪高级配置',
+    en: 'Trace Advanced Configuration',
+  },
+  closeTraceAdvancedConfig: {
+    zh: '关闭追踪高级配置?',
+    en: 'Close Trace Advanced Configuration?',
+  },
+  clusterIdentifier: {
+    zh: '集群标识符',
+    en: 'Cluster Identifier',
+  },
+  clusterIdentifierDesc: {
+    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
+    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+  },
+  alreadyExists: {
+    zh: '已存在',
+    en: 'Already Exists',
+  },
+  traceConf: {
+    zh: '追踪配置',
+    en: 'Trace Configuration',
+  },
+  whiteList: {
+    zh: '白名单',
+    en: 'White List',
+  },
+  traceConnect: {
+    zh: '跟踪连接/断开',
+    en: 'Trace Connect/Disconnect',
+  },
+  traceSubscription: {
+    zh: '跟踪订阅/取消订阅',
+    en: 'Trace Subscribe/Unsubscribe',
+  },
+  traceMessage: {
+    zh: '跟踪消息',
+    en: 'Trace Message',
+  },
+  traceSamplingRatio: {
+    zh: '跟踪抽样频率',
+    en: 'Trace Sampling Ratio',
+  },
+  traceSamplingRatioDesc: {
+    zh: '追踪事件的采样比率。',
+    en: 'Sampling ratio of trace events.',
+  },
+  notEnabledAllTraceTip: {
+    zh: '无已启用的追踪事件',
+    en: 'No trace events are enabled',
+  },
+  messageTraceDetailLevel: {
+    zh: '消息追踪级别',
+    en: 'Message Trace Level',
+  },
+  messageTraceLevelDesc: {
+    zh: '消息发布过程中所有消息交换的跟踪级别。',
+    en: 'Trace level for all message exchanges during the message publishing process.',
+  },
+  messageTraceLevel0Desc: {
+    zh: '包括 <br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
+    en: 'Includes<br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
+  },
+  messageTraceLevel1Desc: {
+    zh: '在基本事件的基础上。</br>事件 <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />将被跟踪。</br>即 QoS1 或 QoS2 消息交互中的第一个响应数据包。',
+    en: 'In addition to basic events.</br>The events <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />will be recorded as Spans.</br>That is, the first response packet in the QoS1 or QoS2 message interaction.',
+  },
+  messageTraceLevel2Desc: {
+    zh: '在一级跟踪的基础上。</br>事件 <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />将被跟踪。',
+    en: 'In addition to level 1.</br>The events <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />will be recorded as Spans.',
+  },
+  basicEvents: {
+    zh: '基础事件',
+    en: 'Basic Events',
+  },
+  addTargetToWhiteList: {
+    zh: '添加{target}到白名单',
+    en: 'Add {target} to White List',
+  },
 }

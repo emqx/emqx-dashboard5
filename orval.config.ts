@@ -53,6 +53,7 @@ const tagArr = [
   'Data Backup',
   'Schema Validation',
   'Message Transformation',
+  'Opentelemetry',
 ]
 
 const typesFolder = './src/types/schemas/'

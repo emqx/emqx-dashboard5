@@ -1,5 +1,5 @@
 export type PutSchemaRegistryExternalRegistryName404Code =
-  typeof PutSchemaRegistryExternalRegistryName404Code[keyof typeof PutSchemaRegistryExternalRegistryName404Code]
+  (typeof PutSchemaRegistryExternalRegistryName404Code)[keyof typeof PutSchemaRegistryExternalRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSchemaRegistryExternalRegistryName404Code = {
@@ -12,7 +12,7 @@ export type PutSchemaRegistryExternalRegistryName404 = {
 }
 
 export type GetSchemaRegistryExternalRegistryName404Code =
-  typeof GetSchemaRegistryExternalRegistryName404Code[keyof typeof GetSchemaRegistryExternalRegistryName404Code]
+  (typeof GetSchemaRegistryExternalRegistryName404Code)[keyof typeof GetSchemaRegistryExternalRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSchemaRegistryExternalRegistryName404Code = {
@@ -24,13 +24,8 @@ export type GetSchemaRegistryExternalRegistryName404 = {
   message?: string
 }
 
-export type GetSchemaRegistryExternalRegistryName200 =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
-
 export type PostSchemaRegistryExternal400Code =
-  typeof PostSchemaRegistryExternal400Code[keyof typeof PostSchemaRegistryExternal400Code]
+  (typeof PostSchemaRegistryExternal400Code)[keyof typeof PostSchemaRegistryExternal400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaRegistryExternal400Code = {
@@ -51,7 +46,7 @@ export type GetSchemaRegistryExternal200 = {
 }
 
 export type DeleteSchemaRegistryName404Code =
-  typeof DeleteSchemaRegistryName404Code[keyof typeof DeleteSchemaRegistryName404Code]
+  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSchemaRegistryName404Code = {
@@ -64,7 +59,7 @@ export type DeleteSchemaRegistryName404 = {
 }
 
 export type PutSchemaRegistryName404Code =
-  typeof PutSchemaRegistryName404Code[keyof typeof PutSchemaRegistryName404Code]
+  (typeof PutSchemaRegistryName404Code)[keyof typeof PutSchemaRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSchemaRegistryName404Code = {
@@ -87,7 +82,7 @@ export type PutSchemaRegistryNameBody =
   | SchemaRegistryAvro
 
 export type GetSchemaRegistryName404Code =
-  typeof GetSchemaRegistryName404Code[keyof typeof GetSchemaRegistryName404Code]
+  (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSchemaRegistryName404Code = {
@@ -100,7 +95,7 @@ export type GetSchemaRegistryName404 = {
 }
 
 export type PostSchemaRegistry400Code =
-  typeof PostSchemaRegistry400Code[keyof typeof PostSchemaRegistry400Code]
+  (typeof PostSchemaRegistry400Code)[keyof typeof PostSchemaRegistry400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaRegistry400Code = {
@@ -113,7 +108,7 @@ export type PostSchemaRegistry400 = {
 }
 
 export type SchemaRegistryProtobufType =
-  typeof SchemaRegistryProtobufType[keyof typeof SchemaRegistryProtobufType]
+  (typeof SchemaRegistryProtobufType)[keyof typeof SchemaRegistryProtobufType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryProtobufType = {
@@ -127,7 +122,7 @@ export interface SchemaRegistryProtobuf {
 }
 
 export type SchemaRegistryJsonType =
-  typeof SchemaRegistryJsonType[keyof typeof SchemaRegistryJsonType]
+  (typeof SchemaRegistryJsonType)[keyof typeof SchemaRegistryJsonType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryJsonType = {
@@ -140,13 +135,8 @@ export interface SchemaRegistryJson {
   description?: string
 }
 
-export type PutSchemaRegistryExternalRegistryName200 =
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-  | SchemaRegistryAvro
-
 export type SchemaRegistryGetProtobufType =
-  typeof SchemaRegistryGetProtobufType[keyof typeof SchemaRegistryGetProtobufType]
+  (typeof SchemaRegistryGetProtobufType)[keyof typeof SchemaRegistryGetProtobufType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryGetProtobufType = {
@@ -161,7 +151,7 @@ export interface SchemaRegistryGetProtobuf {
 }
 
 export type SchemaRegistryGetJsonType =
-  typeof SchemaRegistryGetJsonType[keyof typeof SchemaRegistryGetJsonType]
+  (typeof SchemaRegistryGetJsonType)[keyof typeof SchemaRegistryGetJsonType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryGetJsonType = {
@@ -181,7 +171,7 @@ export type PostSchemaRegistryBody =
   | SchemaRegistryGetAvro
 
 export type SchemaRegistryGetAvroType =
-  typeof SchemaRegistryGetAvroType[keyof typeof SchemaRegistryGetAvroType]
+  (typeof SchemaRegistryGetAvroType)[keyof typeof SchemaRegistryGetAvroType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryGetAvroType = {
@@ -211,7 +201,7 @@ export type GetSchemaRegistry200Item =
   | SchemaRegistryGetAvro
 
 export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
-  typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]
+  (typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType)[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType = {
@@ -239,7 +229,7 @@ export type SchemaRegistryConfluentSchemaRegistryAuth =
   | 'none'
 
 export type SchemaRegistryConfluentSchemaRegistryType =
-  typeof SchemaRegistryConfluentSchemaRegistryType[keyof typeof SchemaRegistryConfluentSchemaRegistryType]
+  (typeof SchemaRegistryConfluentSchemaRegistryType)[keyof typeof SchemaRegistryConfluentSchemaRegistryType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryConfluentSchemaRegistryType = {
@@ -253,7 +243,7 @@ export interface SchemaRegistryConfluentSchemaRegistry {
 }
 
 export type SchemaRegistryAvroType =
-  typeof SchemaRegistryAvroType[keyof typeof SchemaRegistryAvroType]
+  (typeof SchemaRegistryAvroType)[keyof typeof SchemaRegistryAvroType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryAvroType = {

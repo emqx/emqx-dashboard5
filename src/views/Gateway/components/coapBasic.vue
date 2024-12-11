@@ -5,7 +5,11 @@
         <el-col :span="12">
           <el-form-item prop="connection_required">
             <template #label>
-              <FormItemLabel :label="tl('connectionRequire')" :desc="tl('connectionRequireDesc')" />
+              <FormItemLabel
+                :label="tl('connectionRequire')"
+                :desc="tl('connectionRequireDesc')"
+                desc-marked
+              />
             </template>
             <BooleanSelect v-model="cValue.connection_required" />
           </el-form-item>

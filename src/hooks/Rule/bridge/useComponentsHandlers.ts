@@ -91,7 +91,6 @@ export default (
     })
   }
 
-  const { availablePlaceholders } = useSQLAvailablePlaceholder()
   const { completionProvider } = useAvailableProviders()
   const { availableFields } = useSQLAvailablePlaceholder()
 
@@ -144,17 +143,11 @@ export default (
     const { qos, retain, payload, topic } = components?.parameters?.properties || {}
     if (qos?.type === 'oneof') {
       qos.type = 'enum'
-      qos.symbols = [
-        ...(getSymbolsFromOneOfArr(qos.oneOf) || []),
-        '${qos}',
-        ...availablePlaceholders.value,
-      ]
-      setComponentProps(qos, { filterable: true, allowCreate: true })
+      qos.symbols = [...(getSymbolsFromOneOfArr(qos.oneOf) || []), '${qos}']
     }
     if (retain?.type === 'oneof') {
       retain.type = 'enum'
-      retain.symbols = [true, false, '${flags.retain}', ...availablePlaceholders.value]
-      setComponentProps(retain, { filterable: true, allowCreate: true })
+      retain.symbols = [true, false, '${flags.retain}']
     }
     // for detect whether it is source or action
     if (topic && !payload) {
@@ -354,13 +347,11 @@ export default (
         data_type.type = 'enum'
         data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
         data_type.default ??= ''
-        data_type.componentProps = { filterable: true, allowCreate: true }
       }
       if (timestamp && timestamp.type === 'oneof') {
         timestamp.type = 'enum'
         timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
         timestamp.default ??= ''
-        timestamp.componentProps = { filterable: true, allowCreate: true }
       }
       const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
 

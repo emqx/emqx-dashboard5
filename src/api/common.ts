@@ -12,6 +12,7 @@ import {
   LicenseConfig,
   LicenseData,
 } from '@/types/dashboard'
+import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 //account
@@ -76,6 +77,17 @@ export function getOpenTelemetry(): Promise<OpenTelemetry> {
 
 export function setOpenTelemetry(body: OpenTelemetry): Promise<OpenTelemetry> {
   return http.put('/opentelemetry', body)
+}
+
+export const queryOpenTelemetrySampleWhiteList = (type: OpenTelemetryWhiteListType) => {
+  return http.get(`/opentelemetry/whitelist/${encodeURIComponent(type)}`)
+}
+
+export const updateOpenTelemetrySampleWhiteList = (
+  type: OpenTelemetryWhiteListType,
+  list: Array<string>,
+) => {
+  return http.post(`/opentelemetry/whitelist/${encodeURIComponent(type)}`, list)
 }
 
 // Nodes

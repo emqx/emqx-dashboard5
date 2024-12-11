@@ -432,6 +432,10 @@ export default {
     zh: '慢订阅设置',
     en: 'Slow Subscriptions Settings',
   },
+  'schema-create': {
+    zh: '创建 Schema',
+    en: 'Create Schema',
+  },
   'internal-schema-create': {
     zh: '创建内部 Schema',
     en: 'Create Internal Schema',

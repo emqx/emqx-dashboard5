@@ -1,4 +1,4 @@
-export type PutConfigsLog403Code = typeof PutConfigsLog403Code[keyof typeof PutConfigsLog403Code]
+export type PutConfigsLog403Code = (typeof PutConfigsLog403Code)[keyof typeof PutConfigsLog403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog403Code = {
@@ -10,7 +10,7 @@ export type PutConfigsLog403 = {
   message?: string
 }
 
-export type PutConfigsLog400Code = typeof PutConfigsLog400Code[keyof typeof PutConfigsLog400Code]
+export type PutConfigsLog400Code = (typeof PutConfigsLog400Code)[keyof typeof PutConfigsLog400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog400Code = {
@@ -23,7 +23,7 @@ export type PutConfigsLog400 = {
   message?: string
 }
 
-export type GetConfigsLog404Code = typeof GetConfigsLog404Code[keyof typeof GetConfigsLog404Code]
+export type GetConfigsLog404Code = (typeof GetConfigsLog404Code)[keyof typeof GetConfigsLog404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsLog404Code = {
@@ -35,7 +35,7 @@ export type GetConfigsLog404 = {
   message?: string
 }
 
-export type PutConfigs400Code = typeof PutConfigs400Code[keyof typeof PutConfigs400Code]
+export type PutConfigs400Code = (typeof PutConfigs400Code)[keyof typeof PutConfigs400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigs400Code = {
@@ -47,7 +47,7 @@ export type PutConfigs400 = {
   message?: string
 }
 
-export type PutConfigsMode = typeof PutConfigsMode[keyof typeof PutConfigsMode]
+export type PutConfigsMode = (typeof PutConfigsMode)[keyof typeof PutConfigsMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsMode = {
@@ -60,7 +60,7 @@ export type PutConfigsParams = {
   ignore_readonly?: boolean
 }
 
-export type GetConfigs500Code = typeof GetConfigs500Code[keyof typeof GetConfigs500Code]
+export type GetConfigs500Code = (typeof GetConfigs500Code)[keyof typeof GetConfigs500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs500Code = {
@@ -72,7 +72,7 @@ export type GetConfigs500 = {
   message?: string
 }
 
-export type GetConfigs404Code = typeof GetConfigs404Code[keyof typeof GetConfigs404Code]
+export type GetConfigs404Code = (typeof GetConfigs404Code)[keyof typeof GetConfigs404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs404Code = {
@@ -84,7 +84,7 @@ export type GetConfigs404 = {
   message?: string
 }
 
-export type GetConfigs400Code = typeof GetConfigs400Code[keyof typeof GetConfigs400Code]
+export type GetConfigs400Code = (typeof GetConfigs400Code)[keyof typeof GetConfigs400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs400Code = {
@@ -98,7 +98,7 @@ export type GetConfigs400 = {
 
 export type GetConfigs200Two = { [key: string]: any }
 
-export type GetConfigsKey = typeof GetConfigsKey[keyof typeof GetConfigsKey]
+export type GetConfigsKey = (typeof GetConfigsKey)[keyof typeof GetConfigsKey]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsKey = {
@@ -132,7 +132,6 @@ export const GetConfigsKey = {
   message_transformation: 'message_transformation',
   mqtt: 'mqtt',
   node: 'node',
-  opentelemetry: 'opentelemetry',
   overload_protection: 'overload_protection',
   prometheus: 'prometheus',
   psk_authentication: 'psk_authentication',
@@ -155,7 +154,7 @@ export type GetConfigsParams = {
 }
 
 export type PostConfigsResetRootname403Code =
-  typeof PostConfigsResetRootname403Code[keyof typeof PostConfigsResetRootname403Code]
+  (typeof PostConfigsResetRootname403Code)[keyof typeof PostConfigsResetRootname403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname403Code = {
@@ -168,7 +167,7 @@ export type PostConfigsResetRootname403 = {
 }
 
 export type PostConfigsResetRootname400Code =
-  typeof PostConfigsResetRootname400Code[keyof typeof PostConfigsResetRootname400Code]
+  (typeof PostConfigsResetRootname400Code)[keyof typeof PostConfigsResetRootname400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname400Code = {
@@ -186,7 +185,7 @@ export type PostConfigsResetRootnameParams = {
 }
 
 export type PutConfigsBroker403Code =
-  typeof PutConfigsBroker403Code[keyof typeof PutConfigsBroker403Code]
+  (typeof PutConfigsBroker403Code)[keyof typeof PutConfigsBroker403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker403Code = {
@@ -199,7 +198,7 @@ export type PutConfigsBroker403 = {
 }
 
 export type PutConfigsBroker400Code =
-  typeof PutConfigsBroker400Code[keyof typeof PutConfigsBroker400Code]
+  (typeof PutConfigsBroker400Code)[keyof typeof PutConfigsBroker400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker400Code = {
@@ -213,7 +212,7 @@ export type PutConfigsBroker400 = {
 }
 
 export type GetConfigsBroker404Code =
-  typeof GetConfigsBroker404Code[keyof typeof GetConfigsBroker404Code]
+  (typeof GetConfigsBroker404Code)[keyof typeof GetConfigsBroker404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsBroker404Code = {
@@ -226,7 +225,7 @@ export type GetConfigsBroker404 = {
 }
 
 export type PutConfigsDashboard403Code =
-  typeof PutConfigsDashboard403Code[keyof typeof PutConfigsDashboard403Code]
+  (typeof PutConfigsDashboard403Code)[keyof typeof PutConfigsDashboard403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard403Code = {
@@ -239,7 +238,7 @@ export type PutConfigsDashboard403 = {
 }
 
 export type PutConfigsDashboard400Code =
-  typeof PutConfigsDashboard400Code[keyof typeof PutConfigsDashboard400Code]
+  (typeof PutConfigsDashboard400Code)[keyof typeof PutConfigsDashboard400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard400Code = {
@@ -253,7 +252,7 @@ export type PutConfigsDashboard400 = {
 }
 
 export type GetConfigsDashboard404Code =
-  typeof GetConfigsDashboard404Code[keyof typeof GetConfigsDashboard404Code]
+  (typeof GetConfigsDashboard404Code)[keyof typeof GetConfigsDashboard404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsDashboard404Code = {
@@ -266,7 +265,7 @@ export type GetConfigsDashboard404 = {
 }
 
 export type PutConfigsFileTransfer403Code =
-  typeof PutConfigsFileTransfer403Code[keyof typeof PutConfigsFileTransfer403Code]
+  (typeof PutConfigsFileTransfer403Code)[keyof typeof PutConfigsFileTransfer403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsFileTransfer403Code = {
@@ -279,7 +278,7 @@ export type PutConfigsFileTransfer403 = {
 }
 
 export type PutConfigsFileTransfer400Code =
-  typeof PutConfigsFileTransfer400Code[keyof typeof PutConfigsFileTransfer400Code]
+  (typeof PutConfigsFileTransfer400Code)[keyof typeof PutConfigsFileTransfer400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsFileTransfer400Code = {
@@ -293,7 +292,7 @@ export type PutConfigsFileTransfer400 = {
 }
 
 export type GetConfigsFileTransfer404Code =
-  typeof GetConfigsFileTransfer404Code[keyof typeof GetConfigsFileTransfer404Code]
+  (typeof GetConfigsFileTransfer404Code)[keyof typeof GetConfigsFileTransfer404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsFileTransfer404Code = {
@@ -306,7 +305,7 @@ export type GetConfigsFileTransfer404 = {
 }
 
 export type PutConfigsAlarm403Code =
-  typeof PutConfigsAlarm403Code[keyof typeof PutConfigsAlarm403Code]
+  (typeof PutConfigsAlarm403Code)[keyof typeof PutConfigsAlarm403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm403Code = {
@@ -319,7 +318,7 @@ export type PutConfigsAlarm403 = {
 }
 
 export type PutConfigsAlarm400Code =
-  typeof PutConfigsAlarm400Code[keyof typeof PutConfigsAlarm400Code]
+  (typeof PutConfigsAlarm400Code)[keyof typeof PutConfigsAlarm400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm400Code = {
@@ -333,7 +332,7 @@ export type PutConfigsAlarm400 = {
 }
 
 export type GetConfigsAlarm404Code =
-  typeof GetConfigsAlarm404Code[keyof typeof GetConfigsAlarm404Code]
+  (typeof GetConfigsAlarm404Code)[keyof typeof GetConfigsAlarm404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsAlarm404Code = {
@@ -346,7 +345,7 @@ export type GetConfigsAlarm404 = {
 }
 
 export type PutConfigsGlobalZone403Code =
-  typeof PutConfigsGlobalZone403Code[keyof typeof PutConfigsGlobalZone403Code]
+  (typeof PutConfigsGlobalZone403Code)[keyof typeof PutConfigsGlobalZone403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsGlobalZone403Code = {
@@ -359,7 +358,7 @@ export type PutConfigsGlobalZone403 = {
 }
 
 export type PutConfigsGlobalZone400Code =
-  typeof PutConfigsGlobalZone400Code[keyof typeof PutConfigsGlobalZone400Code]
+  (typeof PutConfigsGlobalZone400Code)[keyof typeof PutConfigsGlobalZone400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsGlobalZone400Code = {
@@ -396,7 +395,7 @@ export type GetConfigsGlobalZone200 = {
 }
 
 export type PutConfigsSysmon403Code =
-  typeof PutConfigsSysmon403Code[keyof typeof PutConfigsSysmon403Code]
+  (typeof PutConfigsSysmon403Code)[keyof typeof PutConfigsSysmon403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon403Code = {
@@ -409,7 +408,7 @@ export type PutConfigsSysmon403 = {
 }
 
 export type PutConfigsSysmon400Code =
-  typeof PutConfigsSysmon400Code[keyof typeof PutConfigsSysmon400Code]
+  (typeof PutConfigsSysmon400Code)[keyof typeof PutConfigsSysmon400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon400Code = {
@@ -423,7 +422,7 @@ export type PutConfigsSysmon400 = {
 }
 
 export type GetConfigsSysmon404Code =
-  typeof GetConfigsSysmon404Code[keyof typeof GetConfigsSysmon404Code]
+  (typeof GetConfigsSysmon404Code)[keyof typeof GetConfigsSysmon404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsSysmon404Code = {
@@ -436,7 +435,7 @@ export type GetConfigsSysmon404 = {
 }
 
 export type PutConfigsSysTopics403Code =
-  typeof PutConfigsSysTopics403Code[keyof typeof PutConfigsSysTopics403Code]
+  (typeof PutConfigsSysTopics403Code)[keyof typeof PutConfigsSysTopics403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics403Code = {
@@ -449,7 +448,7 @@ export type PutConfigsSysTopics403 = {
 }
 
 export type PutConfigsSysTopics400Code =
-  typeof PutConfigsSysTopics400Code[keyof typeof PutConfigsSysTopics400Code]
+  (typeof PutConfigsSysTopics400Code)[keyof typeof PutConfigsSysTopics400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics400Code = {
@@ -463,7 +462,7 @@ export type PutConfigsSysTopics400 = {
 }
 
 export type GetConfigsSysTopics404Code =
-  typeof GetConfigsSysTopics404Code[keyof typeof GetConfigsSysTopics404Code]
+  (typeof GetConfigsSysTopics404Code)[keyof typeof GetConfigsSysTopics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsSysTopics404Code = {
@@ -475,9 +474,7 @@ export type GetConfigsSysTopics404 = {
   message?: string
 }
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
-
-export type SsoOidcProvider = typeof SsoOidcProvider[keyof typeof SsoOidcProvider]
+export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvider]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcProvider = {
@@ -486,7 +483,7 @@ export const SsoOidcProvider = {
 } as const
 
 export type SsoOidcPreferredAuthMethodsItem =
-  typeof SsoOidcPreferredAuthMethodsItem[keyof typeof SsoOidcPreferredAuthMethodsItem]
+  (typeof SsoOidcPreferredAuthMethodsItem)[keyof typeof SsoOidcPreferredAuthMethodsItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcPreferredAuthMethodsItem = {
@@ -497,7 +494,7 @@ export const SsoOidcPreferredAuthMethodsItem = {
   none: 'none',
 } as const
 
-export type SsoOidcBackend = typeof SsoOidcBackend[keyof typeof SsoOidcBackend]
+export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcBackend = {
@@ -521,7 +518,7 @@ export interface SsoOidc {
   client_jwks?: SsoOidcClientJwks
 }
 
-export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
+export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoLdapBackend = {
@@ -542,7 +539,8 @@ export interface SsoLdap {
   ssl?: LdapSsl
 }
 
-export type SsoClientFileJwksType = typeof SsoClientFileJwksType[keyof typeof SsoClientFileJwksType]
+export type SsoClientFileJwksType =
+  (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoClientFileJwksType = {
@@ -554,22 +552,15 @@ export interface SsoClientFileJwks {
   file: string
 }
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
 export type S3TransportOptionsHeaders = { [key: string]: any }
-
-export type S3TransportOptionsPoolType =
-  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const S3TransportOptionsPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
 
 export interface S3TransportOptions {
   ipv6_probe?: boolean
   connect_timeout?: string
-  pool_type?: S3TransportOptionsPoolType
   pool_size?: number
+  /** @deprecated */
   enable_pipelining?: number
   ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
@@ -579,7 +570,7 @@ export interface S3TransportOptions {
 
 export type LdapSslServerNameIndication = string | 'disable'
 
-export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
@@ -589,7 +580,7 @@ export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
 } as const
 
-export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
@@ -605,7 +596,7 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
+export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
@@ -639,7 +630,7 @@ export interface FileTransferStorageBackend {
 }
 
 export type FileTransferS3ExporterAcl =
-  typeof FileTransferS3ExporterAcl[keyof typeof FileTransferS3ExporterAcl]
+  (typeof FileTransferS3ExporterAcl)[keyof typeof FileTransferS3ExporterAcl]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FileTransferS3ExporterAcl = {
@@ -651,11 +642,21 @@ export const FileTransferS3ExporterAcl = {
   bucket_owner_full_control: 'bucket_owner_full_control',
 } as const
 
+export type FileTransferS3ExporterAccessMethod =
+  (typeof FileTransferS3ExporterAccessMethod)[keyof typeof FileTransferS3ExporterAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileTransferS3ExporterAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export interface FileTransferS3Exporter {
   access_key_id?: string
   secret_access_key?: string
   host: string
   port: number
+  access_method?: FileTransferS3ExporterAccessMethod
   transport_options?: S3TransportOptions
   min_part_size?: string
   max_part_size?: string
@@ -738,7 +739,7 @@ export interface EmqxSysTopics {
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
-  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
@@ -749,7 +750,7 @@ export const EmqxSslClientOptsPartialChain = {
 } as const
 
 export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
@@ -766,7 +767,7 @@ export const EmqxSslClientOptsLogLevel = {
 } as const
 
 export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
@@ -800,7 +801,7 @@ export type EmqxMqttMaxSubscriptions = 'infinity' | number
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
 export type EmqxMqttMqueueDefaultPriority =
-  typeof EmqxMqttMqueueDefaultPriority[keyof typeof EmqxMqttMqueueDefaultPriority]
+  (typeof EmqxMqttMqueueDefaultPriority)[keyof typeof EmqxMqttMqueueDefaultPriority]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttMqueueDefaultPriority = {
@@ -816,8 +817,10 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
+export type EmqxMqttClientidOverride = string | 'disabled'
+
 export type EmqxMqttPeerCertAsClientid =
-  typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
+  (typeof EmqxMqttPeerCertAsClientid)[keyof typeof EmqxMqttPeerCertAsClientid]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsClientid = {
@@ -830,7 +833,7 @@ export const EmqxMqttPeerCertAsClientid = {
 } as const
 
 export type EmqxMqttPeerCertAsUsername =
-  typeof EmqxMqttPeerCertAsUsername[keyof typeof EmqxMqttPeerCertAsUsername]
+  (typeof EmqxMqttPeerCertAsUsername)[keyof typeof EmqxMqttPeerCertAsUsername]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsUsername = {
@@ -847,7 +850,7 @@ export type EmqxMqttRetryInterval = string | 'infinity'
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
 export type EmqxMqttSharedSubscriptionInitialStickyPick =
-  typeof EmqxMqttSharedSubscriptionInitialStickyPick[keyof typeof EmqxMqttSharedSubscriptionInitialStickyPick]
+  (typeof EmqxMqttSharedSubscriptionInitialStickyPick)[keyof typeof EmqxMqttSharedSubscriptionInitialStickyPick]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionInitialStickyPick = {
@@ -858,7 +861,7 @@ export const EmqxMqttSharedSubscriptionInitialStickyPick = {
 } as const
 
 export type EmqxMqttSharedSubscriptionStrategy =
-  typeof EmqxMqttSharedSubscriptionStrategy[keyof typeof EmqxMqttSharedSubscriptionStrategy]
+  (typeof EmqxMqttSharedSubscriptionStrategy)[keyof typeof EmqxMqttSharedSubscriptionStrategy]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionStrategy = {
@@ -896,6 +899,7 @@ export interface EmqxMqtt {
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
   peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
   client_attrs_init?: EmqxClientAttrsInit[]
+  clientid_override?: EmqxMqttClientidOverride
   session_expiry_interval?: string
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
   max_awaiting_rel?: EmqxMqttMaxAwaitingRel
@@ -915,7 +919,7 @@ export interface EmqxLogThrottling {
 }
 
 export type EmqxLogFileHandlerPayloadEncode =
-  typeof EmqxLogFileHandlerPayloadEncode[keyof typeof EmqxLogFileHandlerPayloadEncode]
+  (typeof EmqxLogFileHandlerPayloadEncode)[keyof typeof EmqxLogFileHandlerPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerPayloadEncode = {
@@ -925,7 +929,7 @@ export const EmqxLogFileHandlerPayloadEncode = {
 } as const
 
 export type EmqxLogFileHandlerTimestampFormat =
-  typeof EmqxLogFileHandlerTimestampFormat[keyof typeof EmqxLogFileHandlerTimestampFormat]
+  (typeof EmqxLogFileHandlerTimestampFormat)[keyof typeof EmqxLogFileHandlerTimestampFormat]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerTimestampFormat = {
@@ -935,7 +939,7 @@ export const EmqxLogFileHandlerTimestampFormat = {
 } as const
 
 export type EmqxLogFileHandlerFormatter =
-  typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
+  (typeof EmqxLogFileHandlerFormatter)[keyof typeof EmqxLogFileHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerFormatter = {
@@ -944,7 +948,7 @@ export const EmqxLogFileHandlerFormatter = {
 } as const
 
 export type EmqxLogFileHandlerLevel =
-  typeof EmqxLogFileHandlerLevel[keyof typeof EmqxLogFileHandlerLevel]
+  (typeof EmqxLogFileHandlerLevel)[keyof typeof EmqxLogFileHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerLevel = {
@@ -974,7 +978,7 @@ export interface EmqxLogFileHandler {
 }
 
 export type EmqxLogAuditHandlerPayloadEncode =
-  typeof EmqxLogAuditHandlerPayloadEncode[keyof typeof EmqxLogAuditHandlerPayloadEncode]
+  (typeof EmqxLogAuditHandlerPayloadEncode)[keyof typeof EmqxLogAuditHandlerPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogAuditHandlerPayloadEncode = {
@@ -984,7 +988,7 @@ export const EmqxLogAuditHandlerPayloadEncode = {
 } as const
 
 export type EmqxLogAuditHandlerTimestampFormat =
-  typeof EmqxLogAuditHandlerTimestampFormat[keyof typeof EmqxLogAuditHandlerTimestampFormat]
+  (typeof EmqxLogAuditHandlerTimestampFormat)[keyof typeof EmqxLogAuditHandlerTimestampFormat]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogAuditHandlerTimestampFormat = {
@@ -1065,7 +1069,7 @@ export interface EmqxDurableSessions {
 }
 
 export type EmqxConsoleHandlerPayloadEncode =
-  typeof EmqxConsoleHandlerPayloadEncode[keyof typeof EmqxConsoleHandlerPayloadEncode]
+  (typeof EmqxConsoleHandlerPayloadEncode)[keyof typeof EmqxConsoleHandlerPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerPayloadEncode = {
@@ -1075,7 +1079,7 @@ export const EmqxConsoleHandlerPayloadEncode = {
 } as const
 
 export type EmqxConsoleHandlerTimestampFormat =
-  typeof EmqxConsoleHandlerTimestampFormat[keyof typeof EmqxConsoleHandlerTimestampFormat]
+  (typeof EmqxConsoleHandlerTimestampFormat)[keyof typeof EmqxConsoleHandlerTimestampFormat]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerTimestampFormat = {
@@ -1085,7 +1089,7 @@ export const EmqxConsoleHandlerTimestampFormat = {
 } as const
 
 export type EmqxConsoleHandlerFormatter =
-  typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
+  (typeof EmqxConsoleHandlerFormatter)[keyof typeof EmqxConsoleHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerFormatter = {
@@ -1094,7 +1098,7 @@ export const EmqxConsoleHandlerFormatter = {
 } as const
 
 export type EmqxConsoleHandlerLevel =
-  typeof EmqxConsoleHandlerLevel[keyof typeof EmqxConsoleHandlerLevel]
+  (typeof EmqxConsoleHandlerLevel)[keyof typeof EmqxConsoleHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerLevel = {
@@ -1128,7 +1132,7 @@ export interface EmqxBroker {
   session_history_retain?: string
 }
 
-export type EmqxAlarmActionsItem = typeof EmqxAlarmActionsItem[keyof typeof EmqxAlarmActionsItem]
+export type EmqxAlarmActionsItem = (typeof EmqxAlarmActionsItem)[keyof typeof EmqxAlarmActionsItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAlarmActionsItem = {
@@ -1143,7 +1147,7 @@ export interface EmqxAlarm {
 }
 
 export type DashboardSslOptionsPartialChain =
-  typeof DashboardSslOptionsPartialChain[keyof typeof DashboardSslOptionsPartialChain]
+  (typeof DashboardSslOptionsPartialChain)[keyof typeof DashboardSslOptionsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsPartialChain = {
@@ -1154,7 +1158,7 @@ export const DashboardSslOptionsPartialChain = {
 } as const
 
 export type DashboardSslOptionsLogLevel =
-  typeof DashboardSslOptionsLogLevel[keyof typeof DashboardSslOptionsLogLevel]
+  (typeof DashboardSslOptionsLogLevel)[keyof typeof DashboardSslOptionsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsLogLevel = {
@@ -1171,7 +1175,7 @@ export const DashboardSslOptionsLogLevel = {
 } as const
 
 export type DashboardSslOptionsVerify =
-  typeof DashboardSslOptionsVerify[keyof typeof DashboardSslOptionsVerify]
+  (typeof DashboardSslOptionsVerify)[keyof typeof DashboardSslOptionsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsVerify = {
@@ -1203,7 +1207,7 @@ export interface DashboardSslOptions {
   handshake_timeout?: string
 }
 
-export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
+export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSamlBackend = {

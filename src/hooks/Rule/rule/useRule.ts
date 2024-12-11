@@ -246,6 +246,7 @@ export const RuleSourceType = {
 export const useRuleInputs = (): {
   getBridgeIdFromInput: (input: string) => string
   detectInputType: (from: string) => string
+  isBridgeType: (type: string) => boolean
   isNotBridgeSourceTypes: Array<string>
   sourceOptList: Array<{ value: string; label: string }>
   inputTypesIconNew: string[]
@@ -337,6 +338,7 @@ export const useRuleInputs = (): {
   return {
     getBridgeIdFromInput,
     detectInputType,
+    isBridgeType,
     isNotBridgeSourceTypes,
     sourceOptList,
     inputTypesIconNew: typesIconNew,

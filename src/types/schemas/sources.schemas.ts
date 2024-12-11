@@ -1,5 +1,5 @@
 export type PostSourcesIdOperation503Code =
-  typeof PostSourcesIdOperation503Code[keyof typeof PostSourcesIdOperation503Code]
+  (typeof PostSourcesIdOperation503Code)[keyof typeof PostSourcesIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation503Code = {
@@ -12,7 +12,7 @@ export type PostSourcesIdOperation503 = {
 }
 
 export type PostSourcesIdOperation501Code =
-  typeof PostSourcesIdOperation501Code[keyof typeof PostSourcesIdOperation501Code]
+  (typeof PostSourcesIdOperation501Code)[keyof typeof PostSourcesIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation501Code = {
@@ -25,7 +25,7 @@ export type PostSourcesIdOperation501 = {
 }
 
 export type PostSourcesIdOperation404Code =
-  typeof PostSourcesIdOperation404Code[keyof typeof PostSourcesIdOperation404Code]
+  (typeof PostSourcesIdOperation404Code)[keyof typeof PostSourcesIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation404Code = {
@@ -38,7 +38,7 @@ export type PostSourcesIdOperation404 = {
 }
 
 export type PostSourcesIdOperation400Code =
-  typeof PostSourcesIdOperation400Code[keyof typeof PostSourcesIdOperation400Code]
+  (typeof PostSourcesIdOperation400Code)[keyof typeof PostSourcesIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation400Code = {
@@ -51,7 +51,7 @@ export type PostSourcesIdOperation400 = {
 }
 
 export type GetSourcesIdMetrics404Code =
-  typeof GetSourcesIdMetrics404Code[keyof typeof GetSourcesIdMetrics404Code]
+  (typeof GetSourcesIdMetrics404Code)[keyof typeof GetSourcesIdMetrics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourcesIdMetrics404Code = {
@@ -69,7 +69,7 @@ export type GetSourcesIdMetrics200 = {
 }
 
 export type PostSourcesProbe400Code =
-  typeof PostSourcesProbe400Code[keyof typeof PostSourcesProbe400Code]
+  (typeof PostSourcesProbe400Code)[keyof typeof PostSourcesProbe400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesProbe400Code = {
@@ -88,7 +88,7 @@ export type PostSourcesProbeBody =
   | GcpPubsubConsumerPostSource
 
 export type PutSourcesIdEnableEnable503Code =
-  typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
+  (typeof PutSourcesIdEnableEnable503Code)[keyof typeof PutSourcesIdEnableEnable503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdEnableEnable503Code = {
@@ -101,7 +101,7 @@ export type PutSourcesIdEnableEnable503 = {
 }
 
 export type PutSourcesIdEnableEnable404Code =
-  typeof PutSourcesIdEnableEnable404Code[keyof typeof PutSourcesIdEnableEnable404Code]
+  (typeof PutSourcesIdEnableEnable404Code)[keyof typeof PutSourcesIdEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdEnableEnable404Code = {
@@ -114,7 +114,7 @@ export type PutSourcesIdEnableEnable404 = {
 }
 
 export type PutSourcesIdMetricsReset404Code =
-  typeof PutSourcesIdMetricsReset404Code[keyof typeof PutSourcesIdMetricsReset404Code]
+  (typeof PutSourcesIdMetricsReset404Code)[keyof typeof PutSourcesIdMetricsReset404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdMetricsReset404Code = {
@@ -126,7 +126,8 @@ export type PutSourcesIdMetricsReset404 = {
   message?: string
 }
 
-export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof GetSourceTypes200Item]
+export type GetSourceTypes200Item =
+  (typeof GetSourceTypes200Item)[keyof typeof GetSourceTypes200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourceTypes200Item = {
@@ -137,7 +138,7 @@ export const GetSourceTypes200Item = {
 } as const
 
 export type DeleteSourcesId503Code =
-  typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
+  (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId503Code = {
@@ -150,7 +151,7 @@ export type DeleteSourcesId503 = {
 }
 
 export type DeleteSourcesId404Code =
-  typeof DeleteSourcesId404Code[keyof typeof DeleteSourcesId404Code]
+  (typeof DeleteSourcesId404Code)[keyof typeof DeleteSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId404Code = {
@@ -163,7 +164,7 @@ export type DeleteSourcesId404 = {
 }
 
 export type DeleteSourcesId400Code =
-  typeof DeleteSourcesId400Code[keyof typeof DeleteSourcesId400Code]
+  (typeof DeleteSourcesId400Code)[keyof typeof DeleteSourcesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId400Code = {
@@ -180,7 +181,7 @@ export type DeleteSourcesIdParams = {
   also_delete_dep_actions?: boolean
 }
 
-export type PutSourcesId503Code = typeof PutSourcesId503Code[keyof typeof PutSourcesId503Code]
+export type PutSourcesId503Code = (typeof PutSourcesId503Code)[keyof typeof PutSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId503Code = {
@@ -192,7 +193,7 @@ export type PutSourcesId503 = {
   message?: string
 }
 
-export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
+export type PutSourcesId404Code = (typeof PutSourcesId404Code)[keyof typeof PutSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId404Code = {
@@ -204,7 +205,7 @@ export type PutSourcesId404 = {
   message?: string
 }
 
-export type PutSourcesId400Code = typeof PutSourcesId400Code[keyof typeof PutSourcesId400Code]
+export type PutSourcesId400Code = (typeof PutSourcesId400Code)[keyof typeof PutSourcesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId400Code = {
@@ -228,7 +229,7 @@ export type PutSourcesIdBody =
   | KafkaConsumerPutSource
   | GcpPubsubConsumerPutSource
 
-export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
+export type GetSourcesId404Code = (typeof GetSourcesId404Code)[keyof typeof GetSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourcesId404Code = {
@@ -246,7 +247,7 @@ export type GetSourcesId200 =
   | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
 
-export type PostSources400Code = typeof PostSources400Code[keyof typeof PostSources400Code]
+export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSources400Code = {
@@ -277,7 +278,7 @@ export type GetSources200Item =
   | GcpPubsubConsumerGetSource
 
 export type PostNodesNodeSourcesIdOperation503Code =
-  typeof PostNodesNodeSourcesIdOperation503Code[keyof typeof PostNodesNodeSourcesIdOperation503Code]
+  (typeof PostNodesNodeSourcesIdOperation503Code)[keyof typeof PostNodesNodeSourcesIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation503Code = {
@@ -290,7 +291,7 @@ export type PostNodesNodeSourcesIdOperation503 = {
 }
 
 export type PostNodesNodeSourcesIdOperation501Code =
-  typeof PostNodesNodeSourcesIdOperation501Code[keyof typeof PostNodesNodeSourcesIdOperation501Code]
+  (typeof PostNodesNodeSourcesIdOperation501Code)[keyof typeof PostNodesNodeSourcesIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation501Code = {
@@ -303,7 +304,7 @@ export type PostNodesNodeSourcesIdOperation501 = {
 }
 
 export type PostNodesNodeSourcesIdOperation404Code =
-  typeof PostNodesNodeSourcesIdOperation404Code[keyof typeof PostNodesNodeSourcesIdOperation404Code]
+  (typeof PostNodesNodeSourcesIdOperation404Code)[keyof typeof PostNodesNodeSourcesIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation404Code = {
@@ -316,7 +317,7 @@ export type PostNodesNodeSourcesIdOperation404 = {
 }
 
 export type PostNodesNodeSourcesIdOperation400Code =
-  typeof PostNodesNodeSourcesIdOperation400Code[keyof typeof PostNodesNodeSourcesIdOperation400Code]
+  (typeof PostNodesNodeSourcesIdOperation400Code)[keyof typeof PostNodesNodeSourcesIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation400Code = {
@@ -329,7 +330,7 @@ export type PostNodesNodeSourcesIdOperation400 = {
 }
 
 export type KafkaConsumerSourceParametersValueEncodingMode =
-  typeof KafkaConsumerSourceParametersValueEncodingMode[keyof typeof KafkaConsumerSourceParametersValueEncodingMode]
+  (typeof KafkaConsumerSourceParametersValueEncodingMode)[keyof typeof KafkaConsumerSourceParametersValueEncodingMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersValueEncodingMode = {
@@ -338,7 +339,7 @@ export const KafkaConsumerSourceParametersValueEncodingMode = {
 } as const
 
 export type KafkaConsumerSourceParametersKeyEncodingMode =
-  typeof KafkaConsumerSourceParametersKeyEncodingMode[keyof typeof KafkaConsumerSourceParametersKeyEncodingMode]
+  (typeof KafkaConsumerSourceParametersKeyEncodingMode)[keyof typeof KafkaConsumerSourceParametersKeyEncodingMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersKeyEncodingMode = {
@@ -347,7 +348,7 @@ export const KafkaConsumerSourceParametersKeyEncodingMode = {
 } as const
 
 export type KafkaConsumerSourceParametersOffsetResetPolicy =
-  typeof KafkaConsumerSourceParametersOffsetResetPolicy[keyof typeof KafkaConsumerSourceParametersOffsetResetPolicy]
+  (typeof KafkaConsumerSourceParametersOffsetResetPolicy)[keyof typeof KafkaConsumerSourceParametersOffsetResetPolicy]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersOffsetResetPolicy = {
@@ -358,6 +359,7 @@ export const KafkaConsumerSourceParametersOffsetResetPolicy = {
 export interface KafkaConsumerSourceParameters {
   topic: string
   group_id?: string
+  max_wait_time?: string
   max_batch_bytes?: string
   offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
   offset_commit_interval_seconds?: string
@@ -375,7 +377,7 @@ export interface KafkaConsumerPutSource {
 }
 
 export type KafkaConsumerPostSourceType =
-  typeof KafkaConsumerPostSourceType[keyof typeof KafkaConsumerPostSourceType]
+  (typeof KafkaConsumerPostSourceType)[keyof typeof KafkaConsumerPostSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerPostSourceType = {
@@ -394,7 +396,7 @@ export interface KafkaConsumerPostSource {
 }
 
 export type KafkaConsumerGetSourceStatus =
-  typeof KafkaConsumerGetSourceStatus[keyof typeof KafkaConsumerGetSourceStatus]
+  (typeof KafkaConsumerGetSourceStatus)[keyof typeof KafkaConsumerGetSourceStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetSourceStatus = {
@@ -405,7 +407,7 @@ export const KafkaConsumerGetSourceStatus = {
 } as const
 
 export type KafkaConsumerGetSourceType =
-  typeof KafkaConsumerGetSourceType[keyof typeof KafkaConsumerGetSourceType]
+  (typeof KafkaConsumerGetSourceType)[keyof typeof KafkaConsumerGetSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetSourceType = {
@@ -448,7 +450,7 @@ export interface GcpPubsubConsumerPutSource {
 }
 
 export type GcpPubsubConsumerPostSourceType =
-  typeof GcpPubsubConsumerPostSourceType[keyof typeof GcpPubsubConsumerPostSourceType]
+  (typeof GcpPubsubConsumerPostSourceType)[keyof typeof GcpPubsubConsumerPostSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerPostSourceType = {
@@ -467,7 +469,7 @@ export interface GcpPubsubConsumerPostSource {
 }
 
 export type GcpPubsubConsumerGetSourceStatus =
-  typeof GcpPubsubConsumerGetSourceStatus[keyof typeof GcpPubsubConsumerGetSourceStatus]
+  (typeof GcpPubsubConsumerGetSourceStatus)[keyof typeof GcpPubsubConsumerGetSourceStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetSourceStatus = {
@@ -478,7 +480,7 @@ export const GcpPubsubConsumerGetSourceStatus = {
 } as const
 
 export type GcpPubsubConsumerGetSourceType =
-  typeof GcpPubsubConsumerGetSourceType[keyof typeof GcpPubsubConsumerGetSourceType]
+  (typeof GcpPubsubConsumerGetSourceType)[keyof typeof GcpPubsubConsumerGetSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetSourceType = {
@@ -500,7 +502,7 @@ export interface GcpPubsubConsumerGetSource {
 }
 
 export type BridgeNodeStatusStatus =
-  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+  (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
@@ -555,7 +557,7 @@ export interface BridgeRabbitmqPutSource {
 }
 
 export type BridgeRabbitmqPostSourceType =
-  typeof BridgeRabbitmqPostSourceType[keyof typeof BridgeRabbitmqPostSourceType]
+  (typeof BridgeRabbitmqPostSourceType)[keyof typeof BridgeRabbitmqPostSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqPostSourceType = {
@@ -574,7 +576,7 @@ export interface BridgeRabbitmqPostSource {
 }
 
 export type BridgeRabbitmqGetSourceStatus =
-  typeof BridgeRabbitmqGetSourceStatus[keyof typeof BridgeRabbitmqGetSourceStatus]
+  (typeof BridgeRabbitmqGetSourceStatus)[keyof typeof BridgeRabbitmqGetSourceStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqGetSourceStatus = {
@@ -585,7 +587,7 @@ export const BridgeRabbitmqGetSourceStatus = {
 } as const
 
 export type BridgeRabbitmqGetSourceType =
-  typeof BridgeRabbitmqGetSourceType[keyof typeof BridgeRabbitmqGetSourceType]
+  (typeof BridgeRabbitmqGetSourceType)[keyof typeof BridgeRabbitmqGetSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqGetSourceType = {
@@ -611,7 +613,7 @@ export interface BridgeMqttPublisherSourceResourceOpts {
 }
 
 export type BridgeMqttPublisherPostSourceType =
-  typeof BridgeMqttPublisherPostSourceType[keyof typeof BridgeMqttPublisherPostSourceType]
+  (typeof BridgeMqttPublisherPostSourceType)[keyof typeof BridgeMqttPublisherPostSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherPostSourceType = {
@@ -644,7 +646,7 @@ export interface BridgeMqttPublisherPostSource {
 }
 
 export type BridgeMqttPublisherGetSourceStatus =
-  typeof BridgeMqttPublisherGetSourceStatus[keyof typeof BridgeMqttPublisherGetSourceStatus]
+  (typeof BridgeMqttPublisherGetSourceStatus)[keyof typeof BridgeMqttPublisherGetSourceStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetSourceStatus = {
@@ -655,7 +657,7 @@ export const BridgeMqttPublisherGetSourceStatus = {
 } as const
 
 export type BridgeMqttPublisherGetSourceType =
-  typeof BridgeMqttPublisherGetSourceType[keyof typeof BridgeMqttPublisherGetSourceType]
+  (typeof BridgeMqttPublisherGetSourceType)[keyof typeof BridgeMqttPublisherGetSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetSourceType = {

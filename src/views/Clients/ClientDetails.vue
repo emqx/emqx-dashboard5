@@ -205,7 +205,6 @@
 </template>
 
 <script lang="ts">
-import { GatewayName } from '@/types/enum'
 import { computed, defineComponent, ref } from 'vue'
 
 export default defineComponent({
@@ -357,7 +356,7 @@ const isFromSlowSub = computed(() => {
 })
 
 const backRoute = computed(() => {
-  let routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
+  const routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
   return getBackRoute({ name: routeName })
 })
 

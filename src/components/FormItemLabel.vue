@@ -3,7 +3,12 @@
   <InfoTooltip v-if="desc" v-bind="$attrs">
     <template #content>
       <template v-if="!descMarked">{{ desc }}</template>
-      <MarkdownContent v-else :content="desc" in-tooltip />
+      <template v-else>
+        <el-scrollbar v-if="maxHeight" :max-height="maxHeight">
+          <MarkdownContent :content="desc" in-tooltip />
+        </el-scrollbar>
+        <MarkdownContent v-else :content="desc" in-tooltip />
+      </template>
     </template>
   </InfoTooltip>
 </template>
@@ -23,6 +28,9 @@ defineProps({
   descMarked: {
     type: Boolean,
     default: false,
+  },
+  maxHeight: {
+    type: Number,
   },
 })
 </script>

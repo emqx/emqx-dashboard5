@@ -6,7 +6,12 @@
     <el-row>
       <el-col :span="24">
         <template v-for="(item, index) in ruleValue.actions" :key="item">
-          <div class="io-item">
+          <component
+            :is="judgeOutputType(item) === RuleOutput.DataBridge ? 'router-link' : 'div'"
+            class="io-item"
+            :to="{ name: 'action-detail', params: { id: item } }"
+            target="_blank"
+          >
             <img :src="getOutputImage(item)" />
             <div class="io-item-bd">
               <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
@@ -18,19 +23,23 @@
             </div>
 
             <span class="io-op">
-              <el-button size="small" :disabled="disabled" @click="openOutputDrawer(true, index)">
+              <el-button
+                size="small"
+                :disabled="disabled"
+                @click.prevent="openOutputDrawer(true, index)"
+              >
                 {{ $t('Base.edit') }}
               </el-button>
               <el-button
                 size="small"
                 plain
                 :disabled="!$hasPermission('put') || disabled"
-                @click="deleteOutput(index)"
+                @click.prevent="deleteOutput(index)"
               >
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
-          </div>
+          </component>
         </template>
         <el-button
           class="btn-add"

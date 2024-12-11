@@ -1,5 +1,5 @@
 export type GetFileTransferFilesClientidFileid503Code =
-  typeof GetFileTransferFilesClientidFileid503Code[keyof typeof GetFileTransferFilesClientidFileid503Code]
+  (typeof GetFileTransferFilesClientidFileid503Code)[keyof typeof GetFileTransferFilesClientidFileid503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFilesClientidFileid503Code = {
@@ -12,7 +12,7 @@ export type GetFileTransferFilesClientidFileid503 = {
 }
 
 export type GetFileTransferFilesClientidFileid404Code =
-  typeof GetFileTransferFilesClientidFileid404Code[keyof typeof GetFileTransferFilesClientidFileid404Code]
+  (typeof GetFileTransferFilesClientidFileid404Code)[keyof typeof GetFileTransferFilesClientidFileid404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFilesClientidFileid404Code = {
@@ -25,7 +25,7 @@ export type GetFileTransferFilesClientidFileid404 = {
 }
 
 export type PutFileTransfer400Code =
-  typeof PutFileTransfer400Code[keyof typeof PutFileTransfer400Code]
+  (typeof PutFileTransfer400Code)[keyof typeof PutFileTransfer400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutFileTransfer400Code = {
@@ -39,7 +39,7 @@ export type PutFileTransfer400 = {
 }
 
 export type GetFileTransferFiles503Code =
-  typeof GetFileTransferFiles503Code[keyof typeof GetFileTransferFiles503Code]
+  (typeof GetFileTransferFiles503Code)[keyof typeof GetFileTransferFiles503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFiles503Code = {
@@ -52,7 +52,7 @@ export type GetFileTransferFiles503 = {
 }
 
 export type GetFileTransferFiles400Code =
-  typeof GetFileTransferFiles400Code[keyof typeof GetFileTransferFiles400Code]
+  (typeof GetFileTransferFiles400Code)[keyof typeof GetFileTransferFiles400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFiles400Code = {
@@ -70,7 +70,7 @@ export type GetFileTransferFilesParams = {
 }
 
 export type GetFileTransferFile503Code =
-  typeof GetFileTransferFile503Code[keyof typeof GetFileTransferFile503Code]
+  (typeof GetFileTransferFile503Code)[keyof typeof GetFileTransferFile503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFile503Code = {
@@ -83,7 +83,7 @@ export type GetFileTransferFile503 = {
 }
 
 export type GetFileTransferFile404Code =
-  typeof GetFileTransferFile404Code[keyof typeof GetFileTransferFile404Code]
+  (typeof GetFileTransferFile404Code)[keyof typeof GetFileTransferFile404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetFileTransferFile404Code = {
@@ -110,20 +110,11 @@ export type GetFileTransferFileParams = {
 
 export type S3TransportOptionsHeaders = { [key: string]: any }
 
-export type S3TransportOptionsPoolType =
-  typeof S3TransportOptionsPoolType[keyof typeof S3TransportOptionsPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const S3TransportOptionsPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
 export interface S3TransportOptions {
   ipv6_probe?: boolean
   connect_timeout?: string
-  pool_type?: S3TransportOptionsPoolType
   pool_size?: number
+  /** @deprecated */
   enable_pipelining?: number
   ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
@@ -132,7 +123,7 @@ export interface S3TransportOptions {
 }
 
 export type FileTransferS3ExporterAcl =
-  typeof FileTransferS3ExporterAcl[keyof typeof FileTransferS3ExporterAcl]
+  (typeof FileTransferS3ExporterAcl)[keyof typeof FileTransferS3ExporterAcl]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FileTransferS3ExporterAcl = {
@@ -144,11 +135,21 @@ export const FileTransferS3ExporterAcl = {
   bucket_owner_full_control: 'bucket_owner_full_control',
 } as const
 
+export type FileTransferS3ExporterAccessMethod =
+  (typeof FileTransferS3ExporterAccessMethod)[keyof typeof FileTransferS3ExporterAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileTransferS3ExporterAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
 export interface FileTransferS3Exporter {
   access_key_id?: string
   secret_access_key?: string
   host: string
   port: number
+  access_method?: FileTransferS3ExporterAccessMethod
   transport_options?: S3TransportOptions
   min_part_size?: string
   max_part_size?: string
@@ -200,7 +201,7 @@ export interface FileTransferFileTransfer {
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
-  typeof EmqxSslClientOptsPartialChain[keyof typeof EmqxSslClientOptsPartialChain]
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
@@ -211,7 +212,7 @@ export const EmqxSslClientOptsPartialChain = {
 } as const
 
 export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
@@ -228,7 +229,7 @@ export const EmqxSslClientOptsLogLevel = {
 } as const
 
 export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
