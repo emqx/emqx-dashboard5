@@ -9,6 +9,9 @@
           :value="time.value"
         ></el-option>
       </el-select>
+      <el-tooltip :content="tl('resetMonitorData')" placement="top">
+        <el-button class="icon-button" :icon="Close" @click="resetMetrics"></el-button>
+      </el-tooltip>
     </div>
     <div class="block">
       <el-row :gutter="26">
@@ -114,6 +117,10 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { waitAMoment } from '@/common/tools'
+import { ElMessage } from 'element-plus'
+import { ChartDataItem } from '@/types/dashboard'
 export default defineComponent({
   name: 'PolylineCards',
 })
@@ -121,13 +128,13 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
-import { loadChartData } from '@/api/common'
+import { loadChartData, resetMonitorData } from '@/api/common'
 import { ref, reactive, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { FullScreen } from '@element-plus/icons-vue'
+import { Close, FullScreen } from '@element-plus/icons-vue'
 import { isNumber } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
@@ -135,7 +142,7 @@ const POLLING_INTERVAL = 60000
 
 type ChartData = Array<{
   xData: Array<number>
-  yData: Array<number>
+  yData: Array<number | undefined>
 }>
 
 // Define an interface for the structure you expect
@@ -267,26 +274,91 @@ const chartColorList = computed<Record<string, string[]>>(() => {
   }
 })
 
-const { syncPolling } = useSyncPolling()
+const { needPolling, syncPolling, pollingTimer } = useSyncPolling()
+
+const addDataToMetricLog = (data: Array<ChartDataItem>) => {
+  data.forEach((data: Record<string, any>) => {
+    dataTypeList.forEach((typeName) => {
+      const currentData = metricLog[typeName][0]
+      currentData.xData.push(data.time_stamp)
+      currentData.yData.push(data[typeName])
+    })
+  })
+}
+
+const setMetricLogFromData = (data: Array<ChartDataItem>) => {
+  dataTypeList.forEach((typeName) => {
+    metricLog[typeName] = chartDataFill(1)
+  })
+  addDataToMetricLog(data)
+}
 
 const loadChartMetrics = async () => {
   try {
     isLoading.value = true
     const data = await loadChartData(timeRange.value)
-    dataTypeList.forEach((typeName) => {
-      metricLog[typeName] = chartDataFill(1)
-    })
-    data.forEach((data: Record<string, any>) => {
-      dataTypeList.forEach((typeName) => {
-        const currentData = metricLog[typeName][0]
-        currentData.xData.push(data.time_stamp)
-        currentData.yData.push(data[typeName])
-      })
-    })
+    setMetricLogFromData(data)
   } catch (error) {
     //
   } finally {
     isLoading.value = false
+  }
+}
+
+const { operationWarning } = useOperationConfirm()
+
+const emptyCurrentMetrics = () => {
+  dataTypeList.forEach((typeName) => {
+    const currentData = metricLog[typeName][0]
+    currentData.yData = currentData.xData.map(() => undefined)
+  })
+}
+
+const requestMetricsAfterReset = async () => {
+  /* 
+    1. Stop polling
+    2. Empty all current monitor data
+    3. If the length of the data gets to be 1, push it into the current array.
+    4. If the length of the data gets longer than 1, replace the data and start polling.
+   */
+  needPolling.value = false
+  window.clearTimeout(pollingTimer)
+  emptyCurrentMetrics()
+  let lastTimeStamp = 0
+  const queryMetrics = async () => {
+    try {
+      isLoading.value = true
+      const data = await loadChartData(timeRange.value)
+      if (data.length <= 1) {
+        if (data[0]?.time_stamp > lastTimeStamp) {
+          addDataToMetricLog(data)
+          lastTimeStamp = data[0].time_stamp
+        }
+        await waitAMoment(4000)
+        queryMetrics()
+      } else {
+        setMetricLogFromData(data)
+        await waitAMoment(POLLING_INTERVAL)
+        needPolling.value = true
+        syncPolling(loadChartMetrics, POLLING_INTERVAL)
+      }
+    } catch (error) {
+      //
+    } finally {
+      isLoading.value = false
+    }
+  }
+  queryMetrics()
+}
+
+const resetMetrics = async () => {
+  try {
+    await operationWarning(tl('confirmResetMonitorData'))
+    await resetMonitorData()
+    ElMessage.success(t('RuleEngine.resetSuccessfully'))
+    requestMetricsAfterReset()
+  } catch (error) {
+    //
   }
 }
 
