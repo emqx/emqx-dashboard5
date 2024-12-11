@@ -2530,5 +2530,17 @@
       "en": "Declare new durable queue.",
       "zh": "声明新的持久队列。"
     }
+  },
+  {
+    "method": "delete",
+    "path": "/monitor",
+    "operation_label": {
+      "en": "Monitor",
+      "zh": "监控"
+    },
+    "operation_name_label": {
+      "en": "Clear monitor (statistics) data for the whole cluster.",
+      "zh": "清除集群监控（统计）数据。"
+    }
   }
 ]
