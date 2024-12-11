@@ -315,38 +315,16 @@ const emptyCurrentMetrics = () => {
 }
 
 const requestMetricsAfterReset = async () => {
-  /* 
-    1. Stop polling
-    2. Empty all current monitor data
-    3. If the length of the data gets to be 1, push it into the current array.
-    4. If the length of the data gets longer than 1, replace the data and start polling.
-   */
-  needPolling.value = false
-  window.clearTimeout(pollingTimer)
-  emptyCurrentMetrics()
-  let lastTimeStamp = 0
+  let count = 0
+  loadChartMetrics()
   const queryMetrics = async () => {
-    try {
-      isLoading.value = true
-      const data = await loadChartData(timeRange.value)
-      if (data.length <= 1) {
-        if (data[0]?.time_stamp > lastTimeStamp) {
-          addDataToMetricLog(data)
-          lastTimeStamp = data[0].time_stamp
-        }
-        await waitAMoment(4000)
-        queryMetrics()
-      } else {
-        setMetricLogFromData(data)
-        await waitAMoment(POLLING_INTERVAL)
-        needPolling.value = true
-        syncPolling(loadChartMetrics, POLLING_INTERVAL)
-      }
-    } catch (error) {
-      //
-    } finally {
-      isLoading.value = false
+    count++
+    if (count > 5) {
+      return
     }
+    await waitAMoment(4000)
+    await loadChartMetrics()
+    queryMetrics()
   }
   queryMetrics()
 }
