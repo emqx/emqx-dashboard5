@@ -30,9 +30,9 @@ import ObjectArrayEditor from './ObjectArrayEditor.vue'
 import Oneof from './Oneof.vue'
 import OneofRefs from './OneofRefs.vue'
 import OneofRefsSelect from './OneofRefsSelect.vue'
-import SelectAllowInput from './SelectAllowInput.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CertFileInput from './TLSConfig/CertFileInput.vue'
+import CustomInputPassword from './CustomInputPassword.vue'
 
 interface FormItemMeta {
   levelName?: string
@@ -66,7 +66,6 @@ const SchemaForm = defineComponent({
     AdvancedSettingContainer,
     CertFileInput,
     InputWithPlaceholderSelect,
-    SelectAllowInput,
   },
   props: {
     accordingTo: {
@@ -321,8 +320,6 @@ const SchemaForm = defineComponent({
       const modelValue = _.get(configForm.value, path)
       const handleUpdateModelValue: any = { 'onUpdate:modelValue': handleModelValueUpdate(path) }
       const inputType = format === 'password' ? 'password' : 'text'
-      const autocomplete = inputType === 'password' ? 'one-time-code' : ''
-      const showPassword = inputType === 'password'
       const clearableValue = typeof clearable === 'boolean' ? clearable : true
       const customProps = property.componentProps || {}
       const isTemplate = !!property.is_template
@@ -333,8 +330,6 @@ const SchemaForm = defineComponent({
           placeholder={property.default?.toString()}
           modelValue={modelValue}
           type={inputType}
-          autocomplete={autocomplete}
-          showPassword={showPassword}
           {...handleUpdateModelValue}
           clearable
           {...customProps}
@@ -359,6 +354,17 @@ const SchemaForm = defineComponent({
                 placeholder={property.default?.toString()}
                 modelValue={modelValue}
                 type={inputType}
+                {...handleUpdateModelValue}
+                clearable
+                {...customProps}
+              />
+            )
+          } else if (format === 'password') {
+            return (
+              <CustomInputPassword
+                disabled={isPropertyDisabled}
+                placeholder={property.default?.toString()}
+                modelValue={modelValue}
                 {...handleUpdateModelValue}
                 clearable
                 {...customProps}
@@ -390,9 +396,9 @@ const SchemaForm = defineComponent({
           )
         }
         case 'enum':
-          if (customProps.allowCreate && !customProps.multiple) {
+          if (isTemplate) {
             return (
-              <SelectAllowInput
+              <InputWithPlaceholderSelect
                 disabled={isPropertyDisabled}
                 placeholder={property.default?.toString()}
                 modelValue={modelValue}

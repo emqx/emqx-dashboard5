@@ -44,14 +44,18 @@ export default {
   },
   client_attrs_init: {
     label: 'Client Attributes',
-    desc: 'Set custom attributes on client connection and use them in authentication, authorization, and other functions.',
+    desc: "Specify how to initialize client attributes.<br />Each client attribute can be initialized as `client_attrs.{'{'}NAME{'}'}`,<br />where `{'{'}NAME{'}'}` is the name of the attribute specified in the config field `set_as_attr`.<br /><br />The initialized client attribute will be stored in the `client_attrs` property with the specified name,<br />and can be used as a variable to render a template for mountpoint, authentication and authorization requests.<br /><br />For example, use `${'{'}client_attrs.tns{'}'}` to render an HTTP POST body when `set_as_attr = tns`,<br />or render listener config `moutpoint = ${'{'}client_attrs.tns{'}'}/` for topic namespacing.",
   },
   client_attrs_init_set_as_attr: {
     label: 'Attribute',
   },
   client_attrs_init_expression: {
     label: 'Attribute Expression',
-    desc: "A single-line expression that dynamically extracts attribute values from existing client information can use the following fields:<br/><br/>- `clientid`: client ID<br/>- `username`: user name<br/>- `cn`: CN field of TLS certificate<br/>- `dn`: DN field of TLS certificate<br/>- `user_property.*`: extracts the property value from the `User-Property` of the MQTT CONNECT packet, e.g. `user_property.foo`<br/><br/>You can use predefined string functions to dynamically process the information. For example, to extract the prefix of a dot-separated client ID: `nth(1, tokens(clientid, '.'))`; to extract a partial username: `substr(username, 0, 5)`. You can read more about variform expressions in EMQX docs.<br/>",
+    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(clientid, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `user_property.{'{'}NAME{'}'}`: User properties in the CONNECT packet.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs.",
+  },
+  clientid_override: {
+    label: 'Client ID Override Expression',
+    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs.",
   },
   retain_available: {
     desc: 'Whether to enable support for MQTT retained message. When this option is disabled, clients will not be able to publish retained messages.',

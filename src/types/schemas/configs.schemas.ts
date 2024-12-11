@@ -1,4 +1,4 @@
-export type PutConfigsLog403Code = typeof PutConfigsLog403Code[keyof typeof PutConfigsLog403Code]
+export type PutConfigsLog403Code = (typeof PutConfigsLog403Code)[keyof typeof PutConfigsLog403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog403Code = {
@@ -10,7 +10,7 @@ export type PutConfigsLog403 = {
   message?: string
 }
 
-export type PutConfigsLog400Code = typeof PutConfigsLog400Code[keyof typeof PutConfigsLog400Code]
+export type PutConfigsLog400Code = (typeof PutConfigsLog400Code)[keyof typeof PutConfigsLog400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog400Code = {
@@ -23,7 +23,7 @@ export type PutConfigsLog400 = {
   message?: string
 }
 
-export type GetConfigsLog404Code = typeof GetConfigsLog404Code[keyof typeof GetConfigsLog404Code]
+export type GetConfigsLog404Code = (typeof GetConfigsLog404Code)[keyof typeof GetConfigsLog404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsLog404Code = {
@@ -35,7 +35,7 @@ export type GetConfigsLog404 = {
   message?: string
 }
 
-export type PutConfigs400Code = typeof PutConfigs400Code[keyof typeof PutConfigs400Code]
+export type PutConfigs400Code = (typeof PutConfigs400Code)[keyof typeof PutConfigs400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigs400Code = {
@@ -47,7 +47,7 @@ export type PutConfigs400 = {
   message?: string
 }
 
-export type PutConfigsMode = typeof PutConfigsMode[keyof typeof PutConfigsMode]
+export type PutConfigsMode = (typeof PutConfigsMode)[keyof typeof PutConfigsMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsMode = {
@@ -60,7 +60,7 @@ export type PutConfigsParams = {
   ignore_readonly?: boolean
 }
 
-export type GetConfigs500Code = typeof GetConfigs500Code[keyof typeof GetConfigs500Code]
+export type GetConfigs500Code = (typeof GetConfigs500Code)[keyof typeof GetConfigs500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs500Code = {
@@ -72,7 +72,7 @@ export type GetConfigs500 = {
   message?: string
 }
 
-export type GetConfigs404Code = typeof GetConfigs404Code[keyof typeof GetConfigs404Code]
+export type GetConfigs404Code = (typeof GetConfigs404Code)[keyof typeof GetConfigs404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs404Code = {
@@ -84,7 +84,7 @@ export type GetConfigs404 = {
   message?: string
 }
 
-export type GetConfigs400Code = typeof GetConfigs400Code[keyof typeof GetConfigs400Code]
+export type GetConfigs400Code = (typeof GetConfigs400Code)[keyof typeof GetConfigs400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigs400Code = {
@@ -98,7 +98,7 @@ export type GetConfigs400 = {
 
 export type GetConfigs200Two = { [key: string]: any }
 
-export type GetConfigsKey = typeof GetConfigsKey[keyof typeof GetConfigsKey]
+export type GetConfigsKey = (typeof GetConfigsKey)[keyof typeof GetConfigsKey]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsKey = {
@@ -128,7 +128,6 @@ export const GetConfigsKey = {
   log: 'log',
   mqtt: 'mqtt',
   node: 'node',
-  opentelemetry: 'opentelemetry',
   overload_protection: 'overload_protection',
   prometheus: 'prometheus',
   psk_authentication: 'psk_authentication',
@@ -150,7 +149,7 @@ export type GetConfigsParams = {
 }
 
 export type PostConfigsResetRootname403Code =
-  typeof PostConfigsResetRootname403Code[keyof typeof PostConfigsResetRootname403Code]
+  (typeof PostConfigsResetRootname403Code)[keyof typeof PostConfigsResetRootname403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname403Code = {
@@ -163,7 +162,7 @@ export type PostConfigsResetRootname403 = {
 }
 
 export type PostConfigsResetRootname400Code =
-  typeof PostConfigsResetRootname400Code[keyof typeof PostConfigsResetRootname400Code]
+  (typeof PostConfigsResetRootname400Code)[keyof typeof PostConfigsResetRootname400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname400Code = {
@@ -181,7 +180,7 @@ export type PostConfigsResetRootnameParams = {
 }
 
 export type PutConfigsBroker403Code =
-  typeof PutConfigsBroker403Code[keyof typeof PutConfigsBroker403Code]
+  (typeof PutConfigsBroker403Code)[keyof typeof PutConfigsBroker403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker403Code = {
@@ -194,7 +193,7 @@ export type PutConfigsBroker403 = {
 }
 
 export type PutConfigsBroker400Code =
-  typeof PutConfigsBroker400Code[keyof typeof PutConfigsBroker400Code]
+  (typeof PutConfigsBroker400Code)[keyof typeof PutConfigsBroker400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker400Code = {
@@ -208,7 +207,7 @@ export type PutConfigsBroker400 = {
 }
 
 export type GetConfigsBroker404Code =
-  typeof GetConfigsBroker404Code[keyof typeof GetConfigsBroker404Code]
+  (typeof GetConfigsBroker404Code)[keyof typeof GetConfigsBroker404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsBroker404Code = {
@@ -221,7 +220,7 @@ export type GetConfigsBroker404 = {
 }
 
 export type PutConfigsDashboard403Code =
-  typeof PutConfigsDashboard403Code[keyof typeof PutConfigsDashboard403Code]
+  (typeof PutConfigsDashboard403Code)[keyof typeof PutConfigsDashboard403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard403Code = {
@@ -234,7 +233,7 @@ export type PutConfigsDashboard403 = {
 }
 
 export type PutConfigsDashboard400Code =
-  typeof PutConfigsDashboard400Code[keyof typeof PutConfigsDashboard400Code]
+  (typeof PutConfigsDashboard400Code)[keyof typeof PutConfigsDashboard400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard400Code = {
@@ -248,7 +247,7 @@ export type PutConfigsDashboard400 = {
 }
 
 export type GetConfigsDashboard404Code =
-  typeof GetConfigsDashboard404Code[keyof typeof GetConfigsDashboard404Code]
+  (typeof GetConfigsDashboard404Code)[keyof typeof GetConfigsDashboard404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsDashboard404Code = {
@@ -261,7 +260,7 @@ export type GetConfigsDashboard404 = {
 }
 
 export type PutConfigsAlarm403Code =
-  typeof PutConfigsAlarm403Code[keyof typeof PutConfigsAlarm403Code]
+  (typeof PutConfigsAlarm403Code)[keyof typeof PutConfigsAlarm403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm403Code = {
@@ -274,7 +273,7 @@ export type PutConfigsAlarm403 = {
 }
 
 export type PutConfigsAlarm400Code =
-  typeof PutConfigsAlarm400Code[keyof typeof PutConfigsAlarm400Code]
+  (typeof PutConfigsAlarm400Code)[keyof typeof PutConfigsAlarm400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm400Code = {
@@ -288,7 +287,7 @@ export type PutConfigsAlarm400 = {
 }
 
 export type GetConfigsAlarm404Code =
-  typeof GetConfigsAlarm404Code[keyof typeof GetConfigsAlarm404Code]
+  (typeof GetConfigsAlarm404Code)[keyof typeof GetConfigsAlarm404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsAlarm404Code = {
@@ -301,7 +300,7 @@ export type GetConfigsAlarm404 = {
 }
 
 export type PutConfigsGlobalZone403Code =
-  typeof PutConfigsGlobalZone403Code[keyof typeof PutConfigsGlobalZone403Code]
+  (typeof PutConfigsGlobalZone403Code)[keyof typeof PutConfigsGlobalZone403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsGlobalZone403Code = {
@@ -314,7 +313,7 @@ export type PutConfigsGlobalZone403 = {
 }
 
 export type PutConfigsGlobalZone400Code =
-  typeof PutConfigsGlobalZone400Code[keyof typeof PutConfigsGlobalZone400Code]
+  (typeof PutConfigsGlobalZone400Code)[keyof typeof PutConfigsGlobalZone400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsGlobalZone400Code = {
@@ -351,7 +350,7 @@ export type GetConfigsGlobalZone200 = {
 }
 
 export type PutConfigsSysmon403Code =
-  typeof PutConfigsSysmon403Code[keyof typeof PutConfigsSysmon403Code]
+  (typeof PutConfigsSysmon403Code)[keyof typeof PutConfigsSysmon403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon403Code = {
@@ -364,7 +363,7 @@ export type PutConfigsSysmon403 = {
 }
 
 export type PutConfigsSysmon400Code =
-  typeof PutConfigsSysmon400Code[keyof typeof PutConfigsSysmon400Code]
+  (typeof PutConfigsSysmon400Code)[keyof typeof PutConfigsSysmon400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon400Code = {
@@ -378,7 +377,7 @@ export type PutConfigsSysmon400 = {
 }
 
 export type GetConfigsSysmon404Code =
-  typeof GetConfigsSysmon404Code[keyof typeof GetConfigsSysmon404Code]
+  (typeof GetConfigsSysmon404Code)[keyof typeof GetConfigsSysmon404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsSysmon404Code = {
@@ -391,7 +390,7 @@ export type GetConfigsSysmon404 = {
 }
 
 export type PutConfigsSysTopics403Code =
-  typeof PutConfigsSysTopics403Code[keyof typeof PutConfigsSysTopics403Code]
+  (typeof PutConfigsSysTopics403Code)[keyof typeof PutConfigsSysTopics403Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics403Code = {
@@ -404,7 +403,7 @@ export type PutConfigsSysTopics403 = {
 }
 
 export type PutConfigsSysTopics400Code =
-  typeof PutConfigsSysTopics400Code[keyof typeof PutConfigsSysTopics400Code]
+  (typeof PutConfigsSysTopics400Code)[keyof typeof PutConfigsSysTopics400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics400Code = {
@@ -418,7 +417,7 @@ export type PutConfigsSysTopics400 = {
 }
 
 export type GetConfigsSysTopics404Code =
-  typeof GetConfigsSysTopics404Code[keyof typeof GetConfigsSysTopics404Code]
+  (typeof GetConfigsSysTopics404Code)[keyof typeof GetConfigsSysTopics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetConfigsSysTopics404Code = {
@@ -478,7 +477,7 @@ export type EmqxMqttMaxSubscriptions = 'infinity' | number
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
 export type EmqxMqttMqueueDefaultPriority =
-  typeof EmqxMqttMqueueDefaultPriority[keyof typeof EmqxMqttMqueueDefaultPriority]
+  (typeof EmqxMqttMqueueDefaultPriority)[keyof typeof EmqxMqttMqueueDefaultPriority]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttMqueueDefaultPriority = {
@@ -494,8 +493,10 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
+export type EmqxMqttClientidOverride = string | 'disabled'
+
 export type EmqxMqttPeerCertAsClientid =
-  typeof EmqxMqttPeerCertAsClientid[keyof typeof EmqxMqttPeerCertAsClientid]
+  (typeof EmqxMqttPeerCertAsClientid)[keyof typeof EmqxMqttPeerCertAsClientid]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsClientid = {
@@ -508,7 +509,7 @@ export const EmqxMqttPeerCertAsClientid = {
 } as const
 
 export type EmqxMqttPeerCertAsUsername =
-  typeof EmqxMqttPeerCertAsUsername[keyof typeof EmqxMqttPeerCertAsUsername]
+  (typeof EmqxMqttPeerCertAsUsername)[keyof typeof EmqxMqttPeerCertAsUsername]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsUsername = {
@@ -525,7 +526,7 @@ export type EmqxMqttRetryInterval = string | 'infinity'
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
 export type EmqxMqttSharedSubscriptionInitialStickyPick =
-  typeof EmqxMqttSharedSubscriptionInitialStickyPick[keyof typeof EmqxMqttSharedSubscriptionInitialStickyPick]
+  (typeof EmqxMqttSharedSubscriptionInitialStickyPick)[keyof typeof EmqxMqttSharedSubscriptionInitialStickyPick]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionInitialStickyPick = {
@@ -536,7 +537,7 @@ export const EmqxMqttSharedSubscriptionInitialStickyPick = {
 } as const
 
 export type EmqxMqttSharedSubscriptionStrategy =
-  typeof EmqxMqttSharedSubscriptionStrategy[keyof typeof EmqxMqttSharedSubscriptionStrategy]
+  (typeof EmqxMqttSharedSubscriptionStrategy)[keyof typeof EmqxMqttSharedSubscriptionStrategy]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionStrategy = {
@@ -574,6 +575,7 @@ export interface EmqxMqtt {
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
   peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
   client_attrs_init?: EmqxClientAttrsInit[]
+  clientid_override?: EmqxMqttClientidOverride
   session_expiry_interval?: string
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
   max_awaiting_rel?: EmqxMqttMaxAwaitingRel
@@ -593,7 +595,7 @@ export interface EmqxLogThrottling {
 }
 
 export type EmqxLogFileHandlerPayloadEncode =
-  typeof EmqxLogFileHandlerPayloadEncode[keyof typeof EmqxLogFileHandlerPayloadEncode]
+  (typeof EmqxLogFileHandlerPayloadEncode)[keyof typeof EmqxLogFileHandlerPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerPayloadEncode = {
@@ -603,7 +605,7 @@ export const EmqxLogFileHandlerPayloadEncode = {
 } as const
 
 export type EmqxLogFileHandlerTimestampFormat =
-  typeof EmqxLogFileHandlerTimestampFormat[keyof typeof EmqxLogFileHandlerTimestampFormat]
+  (typeof EmqxLogFileHandlerTimestampFormat)[keyof typeof EmqxLogFileHandlerTimestampFormat]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerTimestampFormat = {
@@ -613,7 +615,7 @@ export const EmqxLogFileHandlerTimestampFormat = {
 } as const
 
 export type EmqxLogFileHandlerFormatter =
-  typeof EmqxLogFileHandlerFormatter[keyof typeof EmqxLogFileHandlerFormatter]
+  (typeof EmqxLogFileHandlerFormatter)[keyof typeof EmqxLogFileHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerFormatter = {
@@ -622,7 +624,7 @@ export const EmqxLogFileHandlerFormatter = {
 } as const
 
 export type EmqxLogFileHandlerLevel =
-  typeof EmqxLogFileHandlerLevel[keyof typeof EmqxLogFileHandlerLevel]
+  (typeof EmqxLogFileHandlerLevel)[keyof typeof EmqxLogFileHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerLevel = {
@@ -694,7 +696,7 @@ export interface EmqxDurableSessions {
 }
 
 export type EmqxConsoleHandlerPayloadEncode =
-  typeof EmqxConsoleHandlerPayloadEncode[keyof typeof EmqxConsoleHandlerPayloadEncode]
+  (typeof EmqxConsoleHandlerPayloadEncode)[keyof typeof EmqxConsoleHandlerPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerPayloadEncode = {
@@ -704,7 +706,7 @@ export const EmqxConsoleHandlerPayloadEncode = {
 } as const
 
 export type EmqxConsoleHandlerTimestampFormat =
-  typeof EmqxConsoleHandlerTimestampFormat[keyof typeof EmqxConsoleHandlerTimestampFormat]
+  (typeof EmqxConsoleHandlerTimestampFormat)[keyof typeof EmqxConsoleHandlerTimestampFormat]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerTimestampFormat = {
@@ -714,7 +716,7 @@ export const EmqxConsoleHandlerTimestampFormat = {
 } as const
 
 export type EmqxConsoleHandlerFormatter =
-  typeof EmqxConsoleHandlerFormatter[keyof typeof EmqxConsoleHandlerFormatter]
+  (typeof EmqxConsoleHandlerFormatter)[keyof typeof EmqxConsoleHandlerFormatter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerFormatter = {
@@ -723,7 +725,7 @@ export const EmqxConsoleHandlerFormatter = {
 } as const
 
 export type EmqxConsoleHandlerLevel =
-  typeof EmqxConsoleHandlerLevel[keyof typeof EmqxConsoleHandlerLevel]
+  (typeof EmqxConsoleHandlerLevel)[keyof typeof EmqxConsoleHandlerLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerLevel = {
@@ -763,7 +765,7 @@ export interface EmqxBroker {
   session_history_retain?: string
 }
 
-export type EmqxAlarmActionsItem = typeof EmqxAlarmActionsItem[keyof typeof EmqxAlarmActionsItem]
+export type EmqxAlarmActionsItem = (typeof EmqxAlarmActionsItem)[keyof typeof EmqxAlarmActionsItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAlarmActionsItem = {
@@ -778,7 +780,7 @@ export interface EmqxAlarm {
 }
 
 export type DashboardSslOptionsLogLevel =
-  typeof DashboardSslOptionsLogLevel[keyof typeof DashboardSslOptionsLogLevel]
+  (typeof DashboardSslOptionsLogLevel)[keyof typeof DashboardSslOptionsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsLogLevel = {
@@ -795,7 +797,7 @@ export const DashboardSslOptionsLogLevel = {
 } as const
 
 export type DashboardSslOptionsVerify =
-  typeof DashboardSslOptionsVerify[keyof typeof DashboardSslOptionsVerify]
+  (typeof DashboardSslOptionsVerify)[keyof typeof DashboardSslOptionsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsVerify = {

@@ -251,9 +251,7 @@ const defaultUnexposedConfig = {
 }
 
 const tcpUnexposedOptions = {
-  backlog: 1024,
   high_watermark: '1MB',
-  keepalive: 'none',
 }
 
 const sslUnexposedOptions = {

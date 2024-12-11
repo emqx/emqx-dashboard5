@@ -79,7 +79,7 @@
           <span>{{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connectedAt')">
+      <el-table-column :label="connectedAtLabel">
         <template #default="{ row }">
           {{ dayjs(row.connected_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
@@ -108,7 +108,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import dayjs from 'dayjs'
@@ -120,7 +120,7 @@ import CheckIcon from '@/components/CheckIcon.vue'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import { CheckStatus } from '@/types/enum'
+import { CheckStatus, GatewayName } from '@/types/enum'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
@@ -149,6 +149,10 @@ export default defineComponent({
       initPageMeta,
       setPageMeta,
     } = usePaginationWithHasNext()
+
+    const connectedAtLabel = computed(() =>
+      gname === GatewayName.LwM2M ? tl('connectedAt') : t('Clients.connectedAt'),
+    )
 
     const loadGatewayClients = async function (params = {}) {
       tbLoading.value = true
@@ -214,6 +218,7 @@ export default defineComponent({
       dayjs: dayjs,
       tl,
       t,
+      connectedAtLabel,
       loadGatewayClients,
       pCommon,
       gatewayTable,

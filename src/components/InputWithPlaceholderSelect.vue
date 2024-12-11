@@ -30,7 +30,14 @@ const props = defineProps<{
   modelValue?: string
   [key: string]: any
   customPlaceholders?: Array<string>
+  /**
+   * The provided options are available when the input has no value.
+   * If there are suggestions,
+   * the options are added at the end of the list.
+   */
+  options?: Array<string | number>
 }>()
+
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string): void
   (e: 'input', v: any): void
@@ -49,23 +56,32 @@ const getMatchPart = () => {
   return matchRet && matchRet[0]
 }
 const { availablePlaceholders } = useSQLAvailablePlaceholder()
-const fetchSuggestions = (queryString: string, cb: any) => {
+
+const convertStrArrToOptArr = (arr: Array<string>): Array<{ value: string }> =>
+  arr.map((item: string) => ({ value: item.toString() }))
+
+const effectivePlaceholders = computed(
+  () => props.customPlaceholders || availablePlaceholders.value,
+)
+
+const getMatchedPlaceholders = () => {
   const matchPart = getMatchPart()
-  let ret: Array<{ value: string }> = []
+  let ret: Array<string> = []
   if (matchPart) {
     const filterReg = new RegExp(escapeRegExp(matchPart), 'i')
-    const availableList = props.customPlaceholders || availablePlaceholders.value
-    ret = availableList.reduce(
-      (arr: Array<{ value: string }>, value: string) => {
-        if (filterReg.test(value)) {
-          arr.push({ value })
-        }
-        return arr
-      },
-      [] as Array<{ value: string }>,
-    )
+    ret = effectivePlaceholders.value.reduce((arr: Array<string>, value: string) => {
+      if (filterReg.test(value)) {
+        arr.push(value)
+      }
+      return arr
+    }, [] as Array<string>)
   }
-  cb(ret)
+  return ret
+}
+
+const fetchSuggestions = (queryString: string, cb: any) => {
+  const ret = [...getMatchedPlaceholders(), ...(props.options ?? [])]
+  cb(convertStrArrToOptArr(ret))
 }
 
 const handleSelect = ({ value: selected }: { value: string }) => {

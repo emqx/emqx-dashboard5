@@ -1,5 +1,5 @@
 export type PostListenersId400Code =
-  typeof PostListenersId400Code[keyof typeof PostListenersId400Code]
+  (typeof PostListenersId400Code)[keyof typeof PostListenersId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersId400Code = {
@@ -20,7 +20,7 @@ export type PostListenersIdBody =
   | ListenersQuicRequiredBind
 
 export type DeleteListenersId404Code =
-  typeof DeleteListenersId404Code[keyof typeof DeleteListenersId404Code]
+  (typeof DeleteListenersId404Code)[keyof typeof DeleteListenersId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteListenersId404Code = {
@@ -32,7 +32,8 @@ export type DeleteListenersId404 = {
   message?: string
 }
 
-export type PutListenersId404Code = typeof PutListenersId404Code[keyof typeof PutListenersId404Code]
+export type PutListenersId404Code =
+  (typeof PutListenersId404Code)[keyof typeof PutListenersId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutListenersId404Code = {
@@ -45,7 +46,8 @@ export type PutListenersId404 = {
   message?: string
 }
 
-export type PutListenersId400Code = typeof PutListenersId400Code[keyof typeof PutListenersId400Code]
+export type PutListenersId400Code =
+  (typeof PutListenersId400Code)[keyof typeof PutListenersId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutListenersId400Code = {
@@ -64,7 +66,8 @@ export type PutListenersId200 =
   | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
 
-export type GetListenersId404Code = typeof GetListenersId404Code[keyof typeof GetListenersId404Code]
+export type GetListenersId404Code =
+  (typeof GetListenersId404Code)[keyof typeof GetListenersId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetListenersId404Code = {
@@ -85,7 +88,7 @@ export type GetListenersId200 =
   | ListenersQuicRequiredBind
 
 export type PostListenersIdRestart400Code =
-  typeof PostListenersIdRestart400Code[keyof typeof PostListenersIdRestart400Code]
+  (typeof PostListenersIdRestart400Code)[keyof typeof PostListenersIdRestart400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdRestart400Code = {
@@ -99,7 +102,7 @@ export type PostListenersIdRestart400 = {
 }
 
 export type PostListenersIdStart400Code =
-  typeof PostListenersIdStart400Code[keyof typeof PostListenersIdStart400Code]
+  (typeof PostListenersIdStart400Code)[keyof typeof PostListenersIdStart400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdStart400Code = {
@@ -113,7 +116,7 @@ export type PostListenersIdStart400 = {
 }
 
 export type PostListenersIdStop400Code =
-  typeof PostListenersIdStop400Code[keyof typeof PostListenersIdStop400Code]
+  (typeof PostListenersIdStop400Code)[keyof typeof PostListenersIdStop400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdStop400Code = {
@@ -126,7 +129,7 @@ export type PostListenersIdStop400 = {
   message?: string
 }
 
-export type PostListeners400Code = typeof PostListeners400Code[keyof typeof PostListeners400Code]
+export type PostListeners400Code = (typeof PostListeners400Code)[keyof typeof PostListeners400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListeners400Code = {
@@ -153,7 +156,7 @@ export type PostListenersBody =
   | ListenersWithNameSslRequiredBind
   | ListenersWithNameTcpRequiredBind
 
-export type GetListenersType = typeof GetListenersType[keyof typeof GetListenersType]
+export type GetListenersType = (typeof GetListenersType)[keyof typeof GetListenersType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetListenersType = {
@@ -169,7 +172,7 @@ export type GetListenersParams = {
 }
 
 export type ListenersWssRequiredBindEnableAuthn =
-  typeof ListenersWssRequiredBindEnableAuthn[keyof typeof ListenersWssRequiredBindEnableAuthn]
+  (typeof ListenersWssRequiredBindEnableAuthn)[keyof typeof ListenersWssRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssRequiredBindEnableAuthn = {
@@ -181,7 +184,7 @@ export const ListenersWssRequiredBindEnableAuthn = {
 export type ListenersWssRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWssRequiredBindType =
-  typeof ListenersWssRequiredBindType[keyof typeof ListenersWssRequiredBindType]
+  (typeof ListenersWssRequiredBindType)[keyof typeof ListenersWssRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssRequiredBindType = {
@@ -219,7 +222,7 @@ export type PostListenersId200 =
   | ListenersQuicRequiredBind
 
 export type ListenersWssNotRequiredBindEnableAuthn =
-  typeof ListenersWssNotRequiredBindEnableAuthn[keyof typeof ListenersWssNotRequiredBindEnableAuthn]
+  (typeof ListenersWssNotRequiredBindEnableAuthn)[keyof typeof ListenersWssNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssNotRequiredBindEnableAuthn = {
@@ -231,7 +234,7 @@ export const ListenersWssNotRequiredBindEnableAuthn = {
 export type ListenersWssNotRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWssNotRequiredBindType =
-  typeof ListenersWssNotRequiredBindType[keyof typeof ListenersWssNotRequiredBindType]
+  (typeof ListenersWssNotRequiredBindType)[keyof typeof ListenersWssNotRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssNotRequiredBindType = {
@@ -269,7 +272,7 @@ export type PutListenersIdBody =
   | ListenersQuicNotRequiredBind
 
 export type ListenersWsRequiredBindEnableAuthn =
-  typeof ListenersWsRequiredBindEnableAuthn[keyof typeof ListenersWsRequiredBindEnableAuthn]
+  (typeof ListenersWsRequiredBindEnableAuthn)[keyof typeof ListenersWsRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsRequiredBindEnableAuthn = {
@@ -281,7 +284,7 @@ export const ListenersWsRequiredBindEnableAuthn = {
 export type ListenersWsRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWsRequiredBindType =
-  typeof ListenersWsRequiredBindType[keyof typeof ListenersWsRequiredBindType]
+  (typeof ListenersWsRequiredBindType)[keyof typeof ListenersWsRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsRequiredBindType = {
@@ -311,7 +314,7 @@ export interface ListenersWsRequiredBind {
 }
 
 export type ListenersWsNotRequiredBindEnableAuthn =
-  typeof ListenersWsNotRequiredBindEnableAuthn[keyof typeof ListenersWsNotRequiredBindEnableAuthn]
+  (typeof ListenersWsNotRequiredBindEnableAuthn)[keyof typeof ListenersWsNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsNotRequiredBindEnableAuthn = {
@@ -323,7 +326,7 @@ export const ListenersWsNotRequiredBindEnableAuthn = {
 export type ListenersWsNotRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWsNotRequiredBindType =
-  typeof ListenersWsNotRequiredBindType[keyof typeof ListenersWsNotRequiredBindType]
+  (typeof ListenersWsNotRequiredBindType)[keyof typeof ListenersWsNotRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsNotRequiredBindType = {
@@ -353,7 +356,7 @@ export interface ListenersWsNotRequiredBind {
 }
 
 export type ListenersWithNameWssRequiredBindEnableAuthn =
-  typeof ListenersWithNameWssRequiredBindEnableAuthn[keyof typeof ListenersWithNameWssRequiredBindEnableAuthn]
+  (typeof ListenersWithNameWssRequiredBindEnableAuthn)[keyof typeof ListenersWithNameWssRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWssRequiredBindEnableAuthn = {
@@ -365,7 +368,7 @@ export const ListenersWithNameWssRequiredBindEnableAuthn = {
 export type ListenersWithNameWssRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWithNameWssRequiredBindType =
-  typeof ListenersWithNameWssRequiredBindType[keyof typeof ListenersWithNameWssRequiredBindType]
+  (typeof ListenersWithNameWssRequiredBindType)[keyof typeof ListenersWithNameWssRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWssRequiredBindType = {
@@ -396,7 +399,7 @@ export interface ListenersWithNameWssRequiredBind {
 }
 
 export type ListenersWithNameWsRequiredBindEnableAuthn =
-  typeof ListenersWithNameWsRequiredBindEnableAuthn[keyof typeof ListenersWithNameWsRequiredBindEnableAuthn]
+  (typeof ListenersWithNameWsRequiredBindEnableAuthn)[keyof typeof ListenersWithNameWsRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWsRequiredBindEnableAuthn = {
@@ -408,7 +411,7 @@ export const ListenersWithNameWsRequiredBindEnableAuthn = {
 export type ListenersWithNameWsRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWithNameWsRequiredBindType =
-  typeof ListenersWithNameWsRequiredBindType[keyof typeof ListenersWithNameWsRequiredBindType]
+  (typeof ListenersWithNameWsRequiredBindType)[keyof typeof ListenersWithNameWsRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWsRequiredBindType = {
@@ -438,7 +441,7 @@ export interface ListenersWithNameWsRequiredBind {
 }
 
 export type ListenersWithNameTcpRequiredBindEnableAuthn =
-  typeof ListenersWithNameTcpRequiredBindEnableAuthn[keyof typeof ListenersWithNameTcpRequiredBindEnableAuthn]
+  (typeof ListenersWithNameTcpRequiredBindEnableAuthn)[keyof typeof ListenersWithNameTcpRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameTcpRequiredBindEnableAuthn = {
@@ -450,7 +453,7 @@ export const ListenersWithNameTcpRequiredBindEnableAuthn = {
 export type ListenersWithNameTcpRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWithNameTcpRequiredBindType =
-  typeof ListenersWithNameTcpRequiredBindType[keyof typeof ListenersWithNameTcpRequiredBindType]
+  (typeof ListenersWithNameTcpRequiredBindType)[keyof typeof ListenersWithNameTcpRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameTcpRequiredBindType = {
@@ -458,7 +461,7 @@ export const ListenersWithNameTcpRequiredBindType = {
 } as const
 
 export type ListenersWithNameSslRequiredBindEnableAuthn =
-  typeof ListenersWithNameSslRequiredBindEnableAuthn[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
+  (typeof ListenersWithNameSslRequiredBindEnableAuthn)[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameSslRequiredBindEnableAuthn = {
@@ -470,7 +473,7 @@ export const ListenersWithNameSslRequiredBindEnableAuthn = {
 export type ListenersWithNameSslRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWithNameSslRequiredBindType =
-  typeof ListenersWithNameSslRequiredBindType[keyof typeof ListenersWithNameSslRequiredBindType]
+  (typeof ListenersWithNameSslRequiredBindType)[keyof typeof ListenersWithNameSslRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameSslRequiredBindType = {
@@ -478,7 +481,7 @@ export const ListenersWithNameSslRequiredBindType = {
 } as const
 
 export type ListenersWithNameQuicRequiredBindEnableAuthn =
-  typeof ListenersWithNameQuicRequiredBindEnableAuthn[keyof typeof ListenersWithNameQuicRequiredBindEnableAuthn]
+  (typeof ListenersWithNameQuicRequiredBindEnableAuthn)[keyof typeof ListenersWithNameQuicRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameQuicRequiredBindEnableAuthn = {
@@ -490,7 +493,7 @@ export const ListenersWithNameQuicRequiredBindEnableAuthn = {
 export type ListenersWithNameQuicRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersWithNameQuicRequiredBindType =
-  typeof ListenersWithNameQuicRequiredBindType[keyof typeof ListenersWithNameQuicRequiredBindType]
+  (typeof ListenersWithNameQuicRequiredBindType)[keyof typeof ListenersWithNameQuicRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameQuicRequiredBindType = {
@@ -517,7 +520,7 @@ export interface ListenersWithNameQuicRequiredBind {
 }
 
 export type ListenersTcpRequiredBindEnableAuthn =
-  typeof ListenersTcpRequiredBindEnableAuthn[keyof typeof ListenersTcpRequiredBindEnableAuthn]
+  (typeof ListenersTcpRequiredBindEnableAuthn)[keyof typeof ListenersTcpRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpRequiredBindEnableAuthn = {
@@ -529,7 +532,7 @@ export const ListenersTcpRequiredBindEnableAuthn = {
 export type ListenersTcpRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersTcpRequiredBindType =
-  typeof ListenersTcpRequiredBindType[keyof typeof ListenersTcpRequiredBindType]
+  (typeof ListenersTcpRequiredBindType)[keyof typeof ListenersTcpRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpRequiredBindType = {
@@ -558,7 +561,7 @@ export interface ListenersTcpRequiredBind {
 }
 
 export type ListenersTcpNotRequiredBindEnableAuthn =
-  typeof ListenersTcpNotRequiredBindEnableAuthn[keyof typeof ListenersTcpNotRequiredBindEnableAuthn]
+  (typeof ListenersTcpNotRequiredBindEnableAuthn)[keyof typeof ListenersTcpNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpNotRequiredBindEnableAuthn = {
@@ -570,7 +573,7 @@ export const ListenersTcpNotRequiredBindEnableAuthn = {
 export type ListenersTcpNotRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersTcpNotRequiredBindType =
-  typeof ListenersTcpNotRequiredBindType[keyof typeof ListenersTcpNotRequiredBindType]
+  (typeof ListenersTcpNotRequiredBindType)[keyof typeof ListenersTcpNotRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpNotRequiredBindType = {
@@ -609,7 +612,7 @@ export interface ListenersStatus {
 }
 
 export type ListenersSslRequiredBindEnableAuthn =
-  typeof ListenersSslRequiredBindEnableAuthn[keyof typeof ListenersSslRequiredBindEnableAuthn]
+  (typeof ListenersSslRequiredBindEnableAuthn)[keyof typeof ListenersSslRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslRequiredBindEnableAuthn = {
@@ -621,7 +624,7 @@ export const ListenersSslRequiredBindEnableAuthn = {
 export type ListenersSslRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersSslRequiredBindType =
-  typeof ListenersSslRequiredBindType[keyof typeof ListenersSslRequiredBindType]
+  (typeof ListenersSslRequiredBindType)[keyof typeof ListenersSslRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslRequiredBindType = {
@@ -651,7 +654,7 @@ export interface ListenersSslRequiredBind {
 }
 
 export type ListenersSslNotRequiredBindEnableAuthn =
-  typeof ListenersSslNotRequiredBindEnableAuthn[keyof typeof ListenersSslNotRequiredBindEnableAuthn]
+  (typeof ListenersSslNotRequiredBindEnableAuthn)[keyof typeof ListenersSslNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslNotRequiredBindEnableAuthn = {
@@ -663,7 +666,7 @@ export const ListenersSslNotRequiredBindEnableAuthn = {
 export type ListenersSslNotRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersSslNotRequiredBindType =
-  typeof ListenersSslNotRequiredBindType[keyof typeof ListenersSslNotRequiredBindType]
+  (typeof ListenersSslNotRequiredBindType)[keyof typeof ListenersSslNotRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslNotRequiredBindType = {
@@ -693,7 +696,7 @@ export interface ListenersSslNotRequiredBind {
 }
 
 export type ListenersQuicRequiredBindEnableAuthn =
-  typeof ListenersQuicRequiredBindEnableAuthn[keyof typeof ListenersQuicRequiredBindEnableAuthn]
+  (typeof ListenersQuicRequiredBindEnableAuthn)[keyof typeof ListenersQuicRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicRequiredBindEnableAuthn = {
@@ -705,7 +708,7 @@ export const ListenersQuicRequiredBindEnableAuthn = {
 export type ListenersQuicRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersQuicRequiredBindType =
-  typeof ListenersQuicRequiredBindType[keyof typeof ListenersQuicRequiredBindType]
+  (typeof ListenersQuicRequiredBindType)[keyof typeof ListenersQuicRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicRequiredBindType = {
@@ -732,7 +735,7 @@ export interface ListenersQuicRequiredBind {
 }
 
 export type ListenersQuicNotRequiredBindEnableAuthn =
-  typeof ListenersQuicNotRequiredBindEnableAuthn[keyof typeof ListenersQuicNotRequiredBindEnableAuthn]
+  (typeof ListenersQuicNotRequiredBindEnableAuthn)[keyof typeof ListenersQuicNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicNotRequiredBindEnableAuthn = {
@@ -744,7 +747,7 @@ export const ListenersQuicNotRequiredBindEnableAuthn = {
 export type ListenersQuicNotRequiredBindMaxConnections = number | 'infinity'
 
 export type ListenersQuicNotRequiredBindType =
-  typeof ListenersQuicNotRequiredBindType[keyof typeof ListenersQuicNotRequiredBindType]
+  (typeof ListenersQuicNotRequiredBindType)[keyof typeof ListenersQuicNotRequiredBindType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicNotRequiredBindType = {
@@ -776,7 +779,7 @@ export interface ListenersNodeStatus {
 }
 
 export type ListenersListenerTypeStatusType =
-  typeof ListenersListenerTypeStatusType[keyof typeof ListenersListenerTypeStatusType]
+  (typeof ListenersListenerTypeStatusType)[keyof typeof ListenersListenerTypeStatusType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersListenerTypeStatusType = {
@@ -796,7 +799,7 @@ export interface ListenersListenerTypeStatus {
 }
 
 export type ListenersListenerIdStatusType =
-  typeof ListenersListenerIdStatusType[keyof typeof ListenersListenerIdStatusType]
+  (typeof ListenersListenerIdStatusType)[keyof typeof ListenersListenerIdStatusType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersListenerIdStatusType = {
@@ -822,7 +825,7 @@ export interface ListenersListenerIdStatus {
 export type EmqxWsOptsMaxFrameSize = number | 'infinity'
 
 export type EmqxWsOptsMqttPiggyback =
-  typeof EmqxWsOptsMqttPiggyback[keyof typeof EmqxWsOptsMqttPiggyback]
+  (typeof EmqxWsOptsMqttPiggyback)[keyof typeof EmqxWsOptsMqttPiggyback]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxWsOptsMqttPiggyback = {
@@ -857,6 +860,7 @@ export interface EmqxTcpOpts {
   buffer?: string
   high_watermark?: string
   nodelay?: boolean
+  nolinger?: boolean
   reuseaddr?: boolean
   keepalive?: string
 }
@@ -891,7 +895,7 @@ export interface EmqxOcsp {
 }
 
 export type EmqxListenerWssOptsLogLevel =
-  typeof EmqxListenerWssOptsLogLevel[keyof typeof EmqxListenerWssOptsLogLevel]
+  (typeof EmqxListenerWssOptsLogLevel)[keyof typeof EmqxListenerWssOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsLogLevel = {
@@ -908,7 +912,7 @@ export const EmqxListenerWssOptsLogLevel = {
 } as const
 
 export type EmqxListenerWssOptsVerify =
-  typeof EmqxListenerWssOptsVerify[keyof typeof EmqxListenerWssOptsVerify]
+  (typeof EmqxListenerWssOptsVerify)[keyof typeof EmqxListenerWssOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsVerify = {
@@ -939,7 +943,7 @@ export interface EmqxListenerWssOpts {
 }
 
 export type EmqxListenerSslOptsLogLevel =
-  typeof EmqxListenerSslOptsLogLevel[keyof typeof EmqxListenerSslOptsLogLevel]
+  (typeof EmqxListenerSslOptsLogLevel)[keyof typeof EmqxListenerSslOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
@@ -956,7 +960,7 @@ export const EmqxListenerSslOptsLogLevel = {
 } as const
 
 export type EmqxListenerSslOptsVerify =
-  typeof EmqxListenerSslOptsVerify[keyof typeof EmqxListenerSslOptsVerify]
+  (typeof EmqxListenerSslOptsVerify)[keyof typeof EmqxListenerSslOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
@@ -1012,7 +1016,7 @@ export interface ListenersWithNameSslRequiredBind {
 }
 
 export type EmqxListenerQuicSslOptsVerify =
-  typeof EmqxListenerQuicSslOptsVerify[keyof typeof EmqxListenerQuicSslOptsVerify]
+  (typeof EmqxListenerQuicSslOptsVerify)[keyof typeof EmqxListenerQuicSslOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerQuicSslOptsVerify = {
@@ -1030,7 +1034,7 @@ export interface EmqxListenerQuicSslOpts {
 }
 
 export type EmqxDeflateOptsClientContextTakeover =
-  typeof EmqxDeflateOptsClientContextTakeover[keyof typeof EmqxDeflateOptsClientContextTakeover]
+  (typeof EmqxDeflateOptsClientContextTakeover)[keyof typeof EmqxDeflateOptsClientContextTakeover]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsClientContextTakeover = {
@@ -1039,7 +1043,7 @@ export const EmqxDeflateOptsClientContextTakeover = {
 } as const
 
 export type EmqxDeflateOptsServerContextTakeover =
-  typeof EmqxDeflateOptsServerContextTakeover[keyof typeof EmqxDeflateOptsServerContextTakeover]
+  (typeof EmqxDeflateOptsServerContextTakeover)[keyof typeof EmqxDeflateOptsServerContextTakeover]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsServerContextTakeover = {
@@ -1048,7 +1052,7 @@ export const EmqxDeflateOptsServerContextTakeover = {
 } as const
 
 export type EmqxDeflateOptsStrategy =
-  typeof EmqxDeflateOptsStrategy[keyof typeof EmqxDeflateOptsStrategy]
+  (typeof EmqxDeflateOptsStrategy)[keyof typeof EmqxDeflateOptsStrategy]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsStrategy = {
@@ -1058,7 +1062,7 @@ export const EmqxDeflateOptsStrategy = {
   rle: 'rle',
 } as const
 
-export type EmqxDeflateOptsLevel = typeof EmqxDeflateOptsLevel[keyof typeof EmqxDeflateOptsLevel]
+export type EmqxDeflateOptsLevel = (typeof EmqxDeflateOptsLevel)[keyof typeof EmqxDeflateOptsLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsLevel = {

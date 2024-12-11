@@ -1,5 +1,5 @@
 export type PutGatewaysName404Code =
-  typeof PutGatewaysName404Code[keyof typeof PutGatewaysName404Code]
+  (typeof PutGatewaysName404Code)[keyof typeof PutGatewaysName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutGatewaysName404Code = {
@@ -13,7 +13,7 @@ export type PutGatewaysName404 = {
 }
 
 export type PutGatewaysName400Code =
-  typeof PutGatewaysName400Code[keyof typeof PutGatewaysName400Code]
+  (typeof PutGatewaysName400Code)[keyof typeof PutGatewaysName400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutGatewaysName400Code = {
@@ -48,7 +48,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiCoap
 
 export type GetGatewaysName404Code =
-  typeof GetGatewaysName404Code[keyof typeof GetGatewaysName404Code]
+  (typeof GetGatewaysName404Code)[keyof typeof GetGatewaysName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetGatewaysName404Code = {
@@ -68,7 +68,7 @@ export type GetGatewaysName200 =
   | EmqxGatewayApiExproto
   | EmqxGatewayApiCoap
 
-export type GetGateways400Code = typeof GetGateways400Code[keyof typeof GetGateways400Code]
+export type GetGateways400Code = (typeof GetGateways400Code)[keyof typeof GetGateways400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetGateways400Code = {
@@ -80,7 +80,7 @@ export type GetGateways400 = {
   message?: string
 }
 
-export type GetGatewaysStatus = typeof GetGatewaysStatus[keyof typeof GetGatewaysStatus]
+export type GetGatewaysStatus = (typeof GetGatewaysStatus)[keyof typeof GetGatewaysStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetGatewaysStatus = {
@@ -94,7 +94,7 @@ export type GetGatewaysParams = {
 }
 
 export type PutGatewaysNameEnableEnable404Code =
-  typeof PutGatewaysNameEnableEnable404Code[keyof typeof PutGatewaysNameEnableEnable404Code]
+  (typeof PutGatewaysNameEnableEnable404Code)[keyof typeof PutGatewaysNameEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutGatewaysNameEnableEnable404Code = {
@@ -132,7 +132,7 @@ export interface GatewayStompFrame {
 }
 
 export type GatewaySslServerOptsLogLevel =
-  typeof GatewaySslServerOptsLogLevel[keyof typeof GatewaySslServerOptsLogLevel]
+  (typeof GatewaySslServerOptsLogLevel)[keyof typeof GatewaySslServerOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsLogLevel = {
@@ -149,7 +149,7 @@ export const GatewaySslServerOptsLogLevel = {
 } as const
 
 export type GatewaySslServerOptsVerify =
-  typeof GatewaySslServerOptsVerify[keyof typeof GatewaySslServerOptsVerify]
+  (typeof GatewaySslServerOptsVerify)[keyof typeof GatewaySslServerOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsVerify = {
@@ -198,7 +198,7 @@ export interface GatewayExprotoGrpcServer {
 }
 
 export type GatewayExprotoGrpcHandlerServiceName =
-  typeof GatewayExprotoGrpcHandlerServiceName[keyof typeof GatewayExprotoGrpcHandlerServiceName]
+  (typeof GatewayExprotoGrpcHandlerServiceName)[keyof typeof GatewayExprotoGrpcHandlerServiceName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayExprotoGrpcHandlerServiceName = {
@@ -213,7 +213,7 @@ export interface GatewayExprotoGrpcHandler {
 }
 
 export type GatewayDtlsOptsLogLevel =
-  typeof GatewayDtlsOptsLogLevel[keyof typeof GatewayDtlsOptsLogLevel]
+  (typeof GatewayDtlsOptsLogLevel)[keyof typeof GatewayDtlsOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsLogLevel = {
@@ -229,7 +229,8 @@ export const GatewayDtlsOptsLogLevel = {
   all: 'all',
 } as const
 
-export type GatewayDtlsOptsVerify = typeof GatewayDtlsOptsVerify[keyof typeof GatewayDtlsOptsVerify]
+export type GatewayDtlsOptsVerify =
+  (typeof GatewayDtlsOptsVerify)[keyof typeof GatewayDtlsOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsVerify = {
@@ -253,6 +254,7 @@ export interface EmqxTcpOpts {
   buffer?: string
   high_watermark?: string
   nodelay?: boolean
+  nolinger?: boolean
   reuseaddr?: boolean
   keepalive?: string
 }
@@ -260,7 +262,7 @@ export interface EmqxTcpOpts {
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
@@ -277,7 +279,7 @@ export const EmqxSslClientOptsLogLevel = {
 } as const
 
 export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
@@ -338,7 +340,7 @@ export interface GatewayDtlsOpts {
 }
 
 export type EmqxListenerSslOptsLogLevel =
-  typeof EmqxListenerSslOptsLogLevel[keyof typeof EmqxListenerSslOptsLogLevel]
+  (typeof EmqxListenerSslOptsLogLevel)[keyof typeof EmqxListenerSslOptsLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
@@ -355,7 +357,7 @@ export const EmqxListenerSslOptsLogLevel = {
 } as const
 
 export type EmqxListenerSslOptsVerify =
-  typeof EmqxListenerSslOptsVerify[keyof typeof EmqxListenerSslOptsVerify]
+  (typeof EmqxListenerSslOptsVerify)[keyof typeof EmqxListenerSslOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
@@ -411,7 +413,7 @@ export interface EmqxGatewayApiUpdateMqttsn {
 }
 
 export type EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition =
-  typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition[keyof typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition]
+  (typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition)[keyof typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition = {
@@ -435,7 +437,7 @@ export interface EmqxGatewayApiUpdateLwm2m {
 }
 
 export type EmqxGatewayApiUpdateCoapPublishQos =
-  typeof EmqxGatewayApiUpdateCoapPublishQos[keyof typeof EmqxGatewayApiUpdateCoapPublishQos]
+  (typeof EmqxGatewayApiUpdateCoapPublishQos)[keyof typeof EmqxGatewayApiUpdateCoapPublishQos]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapPublishQos = {
@@ -446,7 +448,7 @@ export const EmqxGatewayApiUpdateCoapPublishQos = {
 } as const
 
 export type EmqxGatewayApiUpdateCoapSubscribeQos =
-  typeof EmqxGatewayApiUpdateCoapSubscribeQos[keyof typeof EmqxGatewayApiUpdateCoapSubscribeQos]
+  (typeof EmqxGatewayApiUpdateCoapSubscribeQos)[keyof typeof EmqxGatewayApiUpdateCoapSubscribeQos]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapSubscribeQos = {
@@ -457,7 +459,7 @@ export const EmqxGatewayApiUpdateCoapSubscribeQos = {
 } as const
 
 export type EmqxGatewayApiUpdateCoapNotifyType =
-  typeof EmqxGatewayApiUpdateCoapNotifyType[keyof typeof EmqxGatewayApiUpdateCoapNotifyType]
+  (typeof EmqxGatewayApiUpdateCoapNotifyType)[keyof typeof EmqxGatewayApiUpdateCoapNotifyType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapNotifyType = {
@@ -482,7 +484,7 @@ export interface EmqxGatewayApiUpdateCoap {
 export type EmqxGatewayApiUdpListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiUdpListenerType =
-  typeof EmqxGatewayApiUdpListenerType[keyof typeof EmqxGatewayApiUdpListenerType]
+  (typeof EmqxGatewayApiUdpListenerType)[keyof typeof EmqxGatewayApiUdpListenerType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUdpListenerType = {
@@ -508,7 +510,7 @@ export interface EmqxGatewayApiUdpListener {
 export type EmqxGatewayApiTcpListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiTcpListenerType =
-  typeof EmqxGatewayApiTcpListenerType[keyof typeof EmqxGatewayApiTcpListenerType]
+  (typeof EmqxGatewayApiTcpListenerType)[keyof typeof EmqxGatewayApiTcpListenerType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiTcpListenerType = {
@@ -534,7 +536,7 @@ export interface EmqxGatewayApiTcpListener {
 }
 
 export type EmqxGatewayApiStompName =
-  typeof EmqxGatewayApiStompName[keyof typeof EmqxGatewayApiStompName]
+  (typeof EmqxGatewayApiStompName)[keyof typeof EmqxGatewayApiStompName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiStompName = {
@@ -555,7 +557,7 @@ export interface EmqxGatewayApiStomp {
 export type EmqxGatewayApiSslListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiSslListenerType =
-  typeof EmqxGatewayApiSslListenerType[keyof typeof EmqxGatewayApiSslListenerType]
+  (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiSslListenerType = {
@@ -588,7 +590,7 @@ export type EmqxGatewayApiMqttsnListenersItem =
   | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiMqttsnName =
-  typeof EmqxGatewayApiMqttsnName[keyof typeof EmqxGatewayApiMqttsnName]
+  (typeof EmqxGatewayApiMqttsnName)[keyof typeof EmqxGatewayApiMqttsnName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiMqttsnName = {
@@ -615,7 +617,7 @@ export type EmqxGatewayApiLwm2mListenersItem =
   | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiLwm2mUpdateMsgPublishCondition =
-  typeof EmqxGatewayApiLwm2mUpdateMsgPublishCondition[keyof typeof EmqxGatewayApiLwm2mUpdateMsgPublishCondition]
+  (typeof EmqxGatewayApiLwm2mUpdateMsgPublishCondition)[keyof typeof EmqxGatewayApiLwm2mUpdateMsgPublishCondition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiLwm2mUpdateMsgPublishCondition = {
@@ -624,7 +626,7 @@ export const EmqxGatewayApiLwm2mUpdateMsgPublishCondition = {
 } as const
 
 export type EmqxGatewayApiLwm2mName =
-  typeof EmqxGatewayApiLwm2mName[keyof typeof EmqxGatewayApiLwm2mName]
+  (typeof EmqxGatewayApiLwm2mName)[keyof typeof EmqxGatewayApiLwm2mName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiLwm2mName = {
@@ -649,7 +651,7 @@ export interface EmqxGatewayApiLwm2m {
 }
 
 export type EmqxGatewayApiGatewayOverviewStatus =
-  typeof EmqxGatewayApiGatewayOverviewStatus[keyof typeof EmqxGatewayApiGatewayOverviewStatus]
+  (typeof EmqxGatewayApiGatewayOverviewStatus)[keyof typeof EmqxGatewayApiGatewayOverviewStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayOverviewStatus = {
@@ -671,7 +673,7 @@ export interface EmqxGatewayApiGatewayOverview {
 }
 
 export type EmqxGatewayApiGatewayNodeStatusStatus =
-  typeof EmqxGatewayApiGatewayNodeStatusStatus[keyof typeof EmqxGatewayApiGatewayNodeStatusStatus]
+  (typeof EmqxGatewayApiGatewayNodeStatusStatus)[keyof typeof EmqxGatewayApiGatewayNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusStatus = {
@@ -681,7 +683,7 @@ export const EmqxGatewayApiGatewayNodeStatusStatus = {
 } as const
 
 export type EmqxGatewayApiGatewayNodeStatusNode =
-  typeof EmqxGatewayApiGatewayNodeStatusNode[keyof typeof EmqxGatewayApiGatewayNodeStatusNode]
+  (typeof EmqxGatewayApiGatewayNodeStatusNode)[keyof typeof EmqxGatewayApiGatewayNodeStatusNode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
@@ -696,7 +698,7 @@ export interface EmqxGatewayApiGatewayNodeStatus {
 }
 
 export type EmqxGatewayApiGatewayListenerOverviewType =
-  typeof EmqxGatewayApiGatewayListenerOverviewType[keyof typeof EmqxGatewayApiGatewayListenerOverviewType]
+  (typeof EmqxGatewayApiGatewayListenerOverviewType)[keyof typeof EmqxGatewayApiGatewayListenerOverviewType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayListenerOverviewType = {
@@ -719,7 +721,7 @@ export type EmqxGatewayApiExprotoListenersItem =
   | EmqxGatewayApiTcpListener
 
 export type EmqxGatewayApiExprotoName =
-  typeof EmqxGatewayApiExprotoName[keyof typeof EmqxGatewayApiExprotoName]
+  (typeof EmqxGatewayApiExprotoName)[keyof typeof EmqxGatewayApiExprotoName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiExprotoName = {
@@ -741,7 +743,7 @@ export interface EmqxGatewayApiExproto {
 export type EmqxGatewayApiDtlsListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiDtlsListenerType =
-  typeof EmqxGatewayApiDtlsListenerType[keyof typeof EmqxGatewayApiDtlsListenerType]
+  (typeof EmqxGatewayApiDtlsListenerType)[keyof typeof EmqxGatewayApiDtlsListenerType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiDtlsListenerType = {
@@ -769,7 +771,7 @@ export interface EmqxGatewayApiDtlsListener {
 export type EmqxGatewayApiCoapListenersItem = EmqxGatewayApiDtlsListener | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiCoapPublishQos =
-  typeof EmqxGatewayApiCoapPublishQos[keyof typeof EmqxGatewayApiCoapPublishQos]
+  (typeof EmqxGatewayApiCoapPublishQos)[keyof typeof EmqxGatewayApiCoapPublishQos]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapPublishQos = {
@@ -780,7 +782,7 @@ export const EmqxGatewayApiCoapPublishQos = {
 } as const
 
 export type EmqxGatewayApiCoapSubscribeQos =
-  typeof EmqxGatewayApiCoapSubscribeQos[keyof typeof EmqxGatewayApiCoapSubscribeQos]
+  (typeof EmqxGatewayApiCoapSubscribeQos)[keyof typeof EmqxGatewayApiCoapSubscribeQos]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapSubscribeQos = {
@@ -791,7 +793,7 @@ export const EmqxGatewayApiCoapSubscribeQos = {
 } as const
 
 export type EmqxGatewayApiCoapNotifyType =
-  typeof EmqxGatewayApiCoapNotifyType[keyof typeof EmqxGatewayApiCoapNotifyType]
+  (typeof EmqxGatewayApiCoapNotifyType)[keyof typeof EmqxGatewayApiCoapNotifyType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapNotifyType = {
@@ -801,7 +803,7 @@ export const EmqxGatewayApiCoapNotifyType = {
 } as const
 
 export type EmqxGatewayApiCoapName =
-  typeof EmqxGatewayApiCoapName[keyof typeof EmqxGatewayApiCoapName]
+  (typeof EmqxGatewayApiCoapName)[keyof typeof EmqxGatewayApiCoapName]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapName = {

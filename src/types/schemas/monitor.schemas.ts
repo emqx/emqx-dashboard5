@@ -1,24 +1,13 @@
-export type PutOpentelemetry400Code =
-  typeof PutOpentelemetry400Code[keyof typeof PutOpentelemetry400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutOpentelemetry400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutOpentelemetry400 = {
-  code?: PutOpentelemetry400Code
-  message?: string
-}
-
 export type GetPrometheusAuth200Two = { [key: string]: any }
 
 export type GetPrometheusStats200Two = { [key: string]: any }
 
 export type GetPrometheusDataIntegration200Two = { [key: string]: any }
 
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+
 export type EmqxPrometheusApiModeParameter =
-  typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
+  (typeof EmqxPrometheusApiModeParameter)[keyof typeof EmqxPrometheusApiModeParameter]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxPrometheusApiModeParameter = {
@@ -55,10 +44,8 @@ export interface PrometheusRecommendSetting {
   collectors?: PrometheusCollectors
 }
 
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
-
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
-  typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
+  (typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmMsaccCollector = {
@@ -67,7 +54,7 @@ export const PrometheusLegacyDeprecatedSettingVmMsaccCollector = {
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmMemoryCollector =
-  typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector]
+  (typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmMemoryCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmMemoryCollector = {
@@ -76,7 +63,7 @@ export const PrometheusLegacyDeprecatedSettingVmMemoryCollector = {
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
-  typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
+  (typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmSystemInfoCollector = {
@@ -85,7 +72,7 @@ export const PrometheusLegacyDeprecatedSettingVmSystemInfoCollector = {
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmStatisticsCollector =
-  typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector]
+  (typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmStatisticsCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmStatisticsCollector = {
@@ -94,7 +81,7 @@ export const PrometheusLegacyDeprecatedSettingVmStatisticsCollector = {
 } as const
 
 export type PrometheusLegacyDeprecatedSettingMnesiaCollector =
-  typeof PrometheusLegacyDeprecatedSettingMnesiaCollector[keyof typeof PrometheusLegacyDeprecatedSettingMnesiaCollector]
+  (typeof PrometheusLegacyDeprecatedSettingMnesiaCollector)[keyof typeof PrometheusLegacyDeprecatedSettingMnesiaCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingMnesiaCollector = {
@@ -103,7 +90,7 @@ export const PrometheusLegacyDeprecatedSettingMnesiaCollector = {
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmDistCollector =
-  typeof PrometheusLegacyDeprecatedSettingVmDistCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmDistCollector]
+  (typeof PrometheusLegacyDeprecatedSettingVmDistCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmDistCollector]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmDistCollector = {
@@ -128,7 +115,7 @@ export interface PrometheusLegacyDeprecatedSetting {
 }
 
 export type PrometheusCollectorsVmMsacc =
-  typeof PrometheusCollectorsVmMsacc[keyof typeof PrometheusCollectorsVmMsacc]
+  (typeof PrometheusCollectorsVmMsacc)[keyof typeof PrometheusCollectorsVmMsacc]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmMsacc = {
@@ -137,7 +124,7 @@ export const PrometheusCollectorsVmMsacc = {
 } as const
 
 export type PrometheusCollectorsVmMemory =
-  typeof PrometheusCollectorsVmMemory[keyof typeof PrometheusCollectorsVmMemory]
+  (typeof PrometheusCollectorsVmMemory)[keyof typeof PrometheusCollectorsVmMemory]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmMemory = {
@@ -146,7 +133,7 @@ export const PrometheusCollectorsVmMemory = {
 } as const
 
 export type PrometheusCollectorsVmSystemInfo =
-  typeof PrometheusCollectorsVmSystemInfo[keyof typeof PrometheusCollectorsVmSystemInfo]
+  (typeof PrometheusCollectorsVmSystemInfo)[keyof typeof PrometheusCollectorsVmSystemInfo]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmSystemInfo = {
@@ -155,7 +142,7 @@ export const PrometheusCollectorsVmSystemInfo = {
 } as const
 
 export type PrometheusCollectorsVmStatistics =
-  typeof PrometheusCollectorsVmStatistics[keyof typeof PrometheusCollectorsVmStatistics]
+  (typeof PrometheusCollectorsVmStatistics)[keyof typeof PrometheusCollectorsVmStatistics]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmStatistics = {
@@ -164,7 +151,7 @@ export const PrometheusCollectorsVmStatistics = {
 } as const
 
 export type PrometheusCollectorsMnesia =
-  typeof PrometheusCollectorsMnesia[keyof typeof PrometheusCollectorsMnesia]
+  (typeof PrometheusCollectorsMnesia)[keyof typeof PrometheusCollectorsMnesia]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsMnesia = {
@@ -173,7 +160,7 @@ export const PrometheusCollectorsMnesia = {
 } as const
 
 export type PrometheusCollectorsVmDist =
-  typeof PrometheusCollectorsVmDist[keyof typeof PrometheusCollectorsVmDist]
+  (typeof PrometheusCollectorsVmDist)[keyof typeof PrometheusCollectorsVmDist]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmDist = {
@@ -188,100 +175,4 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
   vm_memory: PrometheusCollectorsVmMemory
   vm_msacc: PrometheusCollectorsVmMsacc
-}
-
-export interface OpentelemetryTraceFilter {
-  trace_all?: boolean
-}
-
-export interface OpentelemetryOtelTraces {
-  enable?: boolean
-  scheduled_delay?: string
-  filter?: OpentelemetryTraceFilter
-}
-
-export interface OpentelemetryOtelMetrics {
-  enable: boolean
-  interval?: string
-}
-
-export type OpentelemetryOtelLogsLevel =
-  typeof OpentelemetryOtelLogsLevel[keyof typeof OpentelemetryOtelLogsLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OpentelemetryOtelLogsLevel = {
-  debug: 'debug',
-  info: 'info',
-  notice: 'notice',
-  warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
-} as const
-
-export interface OpentelemetryOtelLogs {
-  level?: OpentelemetryOtelLogsLevel
-  enable?: boolean
-  scheduled_delay?: string
-}
-
-export interface OpentelemetryOtelExporter {
-  endpoint?: string
-  ssl_options?: EmqxSslClientOpts
-}
-
-export interface OpentelemetryOpentelemetry {
-  metrics?: OpentelemetryOtelMetrics
-  logs?: OpentelemetryOtelLogs
-  traces?: OpentelemetryOtelTraces
-  exporter?: OpentelemetryOtelExporter
-}
-
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
-
-export type EmqxSslClientOptsLogLevel =
-  typeof EmqxSslClientOptsLogLevel[keyof typeof EmqxSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
-  alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
-  all: 'all',
-} as const
-
-export type EmqxSslClientOptsVerify =
-  typeof EmqxSslClientOptsVerify[keyof typeof EmqxSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
-export interface EmqxSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  keyfile?: string
-  verify?: EmqxSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
-  ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: EmqxSslClientOptsLogLevel
-  hibernate_after?: string
-  enable?: boolean
-  server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
