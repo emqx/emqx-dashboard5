@@ -3,8 +3,10 @@ import { onUnmounted, ref, Ref } from 'vue'
 export default (): {
   needPolling: Ref<boolean>
   syncPolling: (queryData: () => Promise<void>, interval: number) => Promise<void>
+  pollingTimer: undefined | number
 } => {
   const needPolling = ref(true)
+  let pollingTimer = undefined
 
   const syncPolling = async (queryData: () => Promise<void>, interval: number) => {
     const query = async () => {
@@ -21,7 +23,7 @@ export default (): {
           if (diff > interval) {
             query()
           } else {
-            window.setTimeout(query, interval - diff)
+            pollingTimer = window.setTimeout(query, interval - diff)
           }
         }
       }
@@ -36,5 +38,6 @@ export default (): {
   return {
     needPolling,
     syncPolling,
+    pollingTimer,
   }
 }

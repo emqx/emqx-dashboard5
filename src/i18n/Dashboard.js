@@ -331,6 +331,14 @@ export default {
     zh: '过去 7 天',
     en: 'Last 7 days',
   },
+  resetMonitorData: {
+    zh: '重置监控数据',
+    en: 'Reset monitor data',
+  },
+  confirmResetMonitorData: {
+    zh: '确定重置监控数据？',
+    en: 'Confirm to reset monitor data?',
+  },
   /* client */
   client_connect: {
     zh: 'client.connect 钩子触发次数',

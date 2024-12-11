@@ -78,6 +78,7 @@ watch(
   () => {
     drawChart()
   },
+  { deep: true },
 )
 
 onMounted(() => {
@@ -298,6 +299,7 @@ const drawChart = () => {
     },
     yAxis: {
       type: 'value',
+      show: true,
       axisLine: {
         lineStyle: {
           color: axisColor.colorAxisLine,
@@ -307,9 +309,12 @@ const drawChart = () => {
         show: props.showFullScreen,
       },
       axisLabel: {
+        show: true,
         color: axisColor.colorAxisLabel,
+        showMinLabel: true,
       },
       minInterval: 1,
+      min: 1,
     },
     series: seriesConfig.value,
   }
