@@ -21,10 +21,10 @@ const getLang = () => {
 }
 
 const getTheme = () => {
-  const theme = localStorage.getItem('theme')
-  if (theme && ['light', 'dark'].includes(theme)) {
-    return theme
-  }
+  // const theme = localStorage.getItem('theme')
+  // if (theme && ['light', 'dark'].includes(theme)) {
+  //   return theme
+  // }
   return 'light'
 }
 

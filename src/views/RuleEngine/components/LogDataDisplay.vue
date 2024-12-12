@@ -366,7 +366,6 @@ watch(
   .execution-item {
     align-items: center;
     padding: 12px 20px;
-    border-radius: 8px;
     background: var(--color-bg-content);
     cursor: pointer;
     border: 1px solid transparent;
@@ -375,7 +374,7 @@ watch(
     }
     &.is-selected {
       border-color: var(--color-primary);
-      box-shadow: 0px 4px 6px 0px #5e4eff33;
+      box-shadow: 0px 4px 6px 0px #4a75bb33;
     }
   }
   .execution-item-base {

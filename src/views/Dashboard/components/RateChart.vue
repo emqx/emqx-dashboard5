@@ -73,6 +73,7 @@ const option: EChartsOption = reactive({
   tooltip: {
     trigger: 'axis',
     confine: true,
+    className: 'chart-tooltip',
     axisPointer: {
       type: 'none',
     },

@@ -135,7 +135,6 @@ const saveConfig = async () => {
     position: relative;
     padding: $padding-vertical 48px $padding-vertical 180px;
     line-height: 24px;
-    border-radius: 4px;
     background: var(--color-bg-main);
     &.is-first {
       margin-bottom: 8px;

@@ -42,7 +42,6 @@ const nodeType = computed(() => {
     height: $square-size;
     margin-bottom: 14px;
     border: 1px dashed var(--color-border-primary);
-    border-radius: 4px;
   }
   .label {
     margin-bottom: 4px;

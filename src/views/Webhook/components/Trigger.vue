@@ -414,7 +414,6 @@ watch(
   }
   .block-gray {
     padding: 16px 24px;
-    border-radius: 8px;
     background-color: var(--color-bg-split);
   }
   .list-container {

@@ -575,7 +575,6 @@ const { addObserverToFooter } = useConfFooterStyle()
     }
     .img-platform {
       margin-right: 8px;
-      border-radius: 8px;
     }
     .platform-name {
       overflow: hidden;
