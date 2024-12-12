@@ -301,7 +301,7 @@
     color: var(--color-text-primary) !important;
   }
   .el-progress-bar__inner {
-    background: linear-gradient(135deg, #5E4EFF 0%, #5E4EFF 100%);
+    background: linear-gradient(135deg, #4a75bb 0%, #4a75bb 100%);
   }
   &.is-warning {
     .el-progress-bar__inner {
@@ -585,7 +585,7 @@
         left: -4px;
         width: 32px;
         height: 32px;
-        background-color: #5e4eff33;
+        background-color: #4a75bb33;
       }
       }
     }
