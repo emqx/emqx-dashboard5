@@ -1,4 +1,7 @@
 [data-theme='light'] {
+  --color-brand: #DF2525;
+  --color-blue-grey: #4A75BB; // 蓝东色
+  --color-deep-blue-grey: #4C638F; // 深蓝灰色
   /* Background */
   --color-bg: #071927;
   --color-bg-content: #fff;
@@ -11,12 +14,14 @@
   --color-bg-details: #ffffffed;
   --color-bg-info: #E5EEFF;
   --color-bg-table-hd: #EEF0F5;
+  --color-bg-hover: #6D90C8; // hover色
+  --color-bg-selected: #E6EFFF; // 选中色
   /* Text */
-  --color-text-primary: #343741;
-  --color-text-secondary: #5a5f6f;
+  --color-text-primary: #262626;
+  --color-text-secondary: #595959;
   --color-text-placeholder: #BAC1CD;
   --color-text-popper: #fff;
-  --color-title-primary: #192144;
+  --color-title-primary: var(--color-text-primary);
   --color-text-footer: #8e8e8e;
   --color-text-mdcode: #EB4E3D;
   --color-text-progress: #131518cf;
@@ -25,11 +30,26 @@
   --color-border-card: #E2E6F0;
   --color-border-normal: #eeedf6;
   /* Colors */
-  --color-primary: #5e4eff;
-  --color-hover: #eeeefe;
+  --color-primary: #4A75BB;
+  --color-hover: #E6EFFF;
   --color-stream: #604dff;
   --menu-active-color: #5e4eff;
   --bg-hover: linear-gradient(33deg, #9a66ff20 0%, #3651ec20 100%);
+
+  /* 灰度颜色 */
+  --color-grey-1: #262626; // 用于核心文字
+  --color-grey-2: #595959; // 用于非核心文字
+  --color-grey-3: #8C8C8C; // 用于辅助文字
+  --color-grey-4: #BFBFBF; // 用于表单提示
+  --color-grey-5: #DCDCDC; // 用于按钮描边
+  --color-grey-6: #E5E5E5; // 用于一级二级tab分割线
+  --color-grey-7: #EEEEEE; // 用于卡片描边
+  --color-grey-8: #EAEBED; // 用于侧导背景色
+  --color-grey-9: #F1F1F2; // 用于登录页背景色
+  --color-grey-10: #F2F4F5; // 用于表格表头
+  --color-grey-11: #F7F8F9; // 用于背景色
+  --color-grey-12: #F9FAFB; // 用于表格斑马纹
+  --color-white: #FFFFFF; // 用于页面背景
   /* Shdow */
   --color-shadow-primary: #888ebf33;
 }

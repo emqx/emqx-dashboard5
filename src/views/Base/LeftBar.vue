@@ -1,5 +1,5 @@
 <template>
-  <div class="left-bar" :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+  <div class="left-bar" :style="{ width: leftBarCollapse ? '52px' : '240px' }">
     <el-scrollbar>
       <el-menu
         :default-active="defaultSelectedKeys"
@@ -114,11 +114,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .left-bar {
   transition: all 0.3s;
   height: 100%;
-  padding: 64px 0;
-  background-color: var(--color-bg);
+  padding: 0 0 64px;
+  background-color: var(--color-grey-8);
   // border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
     white-space: nowrap;

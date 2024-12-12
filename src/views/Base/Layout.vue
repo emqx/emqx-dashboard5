@@ -1,31 +1,28 @@
 <template>
   <el-container>
-    <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-      <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-        <img :src="appLogo" alt="emqx-logo" />
-      </div>
-      <left-bar></left-bar>
-      <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
-        <a
-          class="footer-menu-item"
-          @click="
-            () => {
-              store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
-            }
-          "
-        >
-          <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
-          <EMQXVersion v-show="!leftBarCollapse" />
-        </a>
-      </div>
-    </el-aside>
+    <el-header :style="{ height: 'auto' }">
+      <nav-header
+        :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
+        @open-quick-panel="openQuickPanel"
+      />
+    </el-header>
     <el-container class="layout">
-      <el-header :style="{ left: elMainStyle, height: 'auto' }">
-        <nav-header
-          :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
-          @open-quick-panel="openQuickPanel"
-        />
-      </el-header>
+      <el-aside :style="{ width: leftBarCollapse ? '52px' : '240px' }">
+        <left-bar></left-bar>
+        <div class="footer-menu" :style="{ width: leftBarCollapse ? '51px' : '239px' }">
+          <a
+            class="footer-menu-item"
+            @click="
+              () => {
+                store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
+              }
+            "
+          >
+            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+            <EMQXVersion v-show="!leftBarCollapse" />
+          </a>
+        </div>
+      </el-aside>
       <el-main :style="{ marginLeft: elMainStyle }">
         <div class="main-content">
           <el-scrollbar>
@@ -80,7 +77,6 @@ import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -104,7 +100,6 @@ export default defineComponent({
     const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
-    const { appLogo } = useEditionConfigs()
 
     const showLicenseTipDialog = ref(false)
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
@@ -116,7 +111,7 @@ export default defineComponent({
       return store.state.leftBarCollapse
     })
     const elMainStyle = computed(() => {
-      return !leftBarCollapse.value ? '200px' : '80px'
+      return !leftBarCollapse.value ? '240px' : '52px'
     })
     const topLvRoute: any = computed(() => {
       const { path } = route
@@ -229,23 +224,25 @@ export default defineComponent({
       firstPath,
       showQuickPanel,
       openQuickPanel,
-      appLogo,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
+$padding: 8px;
+$header-heigh: 60px;
+
 .el-aside {
   transition: all 0.3s;
   position: fixed;
-  top: 0;
+  top: $header-heigh;
   bottom: 0;
   left: 0;
   z-index: 100;
   overflow-x: hidden;
   background-color: var(--color-bg);
-  height: 100vh;
+  height: calc(100vh - #{$header-heigh});
   .footer-menu {
     cursor: pointer;
     z-index: 100;
@@ -253,7 +250,6 @@ export default defineComponent({
     box-sizing: border-box;
     bottom: 0;
     height: 36px;
-    background-color: var(--color-bg);
     border-top: 1px solid #ffffff24;
     transition: all 0.3s;
     .footer-menu-item {
@@ -278,9 +274,6 @@ export default defineComponent({
   }
 }
 
-$padding: 8px;
-$header-heigh: 60px;
-
 .el-main {
   transition: margin-left 0.3s;
   background-color: var(--color-bg);
@@ -296,42 +289,10 @@ $header-heigh: 60px;
   }
 }
 
-.el-container {
-  min-height: 100vh;
-}
-
-.logo {
-  position: fixed;
-  background-color: var(--color-bg);
-  height: $header-heigh;
-  line-height: $header-heigh;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  img {
-    max-width: initial;
-    max-height: 100%;
-    height: 36px;
-    transition: all 0.3s;
-  }
-}
-
-.logo.logo-colap {
-  width: 60px;
-  padding-left: 25px;
-  img {
-    height: 36px;
-  }
-}
-
 .el-header {
   padding: 0;
   right: 0;
+  left: 0;
   position: fixed;
   z-index: 101;
   transition: all 0.3s;
