@@ -515,7 +515,6 @@ const submitNewPwd = async () => {
     .el-input__wrapper {
       padding: 1px;
       input {
-        border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
         padding: 1px 15px;
       }
     }

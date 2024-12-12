@@ -35,7 +35,6 @@ $tag-height: 18px;
   width: 34px;
   padding: 1px 6px;
   border: 1px solid #e2fff5;
-  border-radius: 4px;
   user-select: none;
   line-height: 1;
   text-align: center;

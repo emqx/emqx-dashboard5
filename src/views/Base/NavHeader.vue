@@ -273,7 +273,6 @@ export default defineComponent({
   margin-right: 24px;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
   border: 1px solid transparent;
   background: #27353e;
   color: #a7abb1;
@@ -303,7 +302,6 @@ export default defineComponent({
     line-height: 1;
     font-size: 11px;
     color: #fff;
-    border-radius: 2px;
     background: rgba(255, 255, 255, 0.14);
     &.is-cmd {
       font-size: 12px;

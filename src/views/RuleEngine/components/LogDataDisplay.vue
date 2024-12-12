@@ -366,7 +366,6 @@ watch(
   .execution-item {
     align-items: center;
     padding: 12px 20px;
-    border-radius: 8px;
     background: var(--color-bg-content);
     cursor: pointer;
     border: 1px solid transparent;

@@ -67,7 +67,6 @@ export default {
   position: relative;
   margin: 1em 0;
   .hljs {
-    border-radius: 8px;
     padding: 20px;
     background-color: #232933;
     border: 1px solid var(--color-border-primary);
@@ -81,11 +80,6 @@ export default {
     right: 8px;
     cursor: pointer;
     color: #fff;
-  }
-}
-.el-popper {
-  .hljs {
-    border-radius: 8px;
   }
 }
 </style>
