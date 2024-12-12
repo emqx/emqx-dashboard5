@@ -273,8 +273,8 @@ export type PostStreamingAuthenticationBasicUsersDelete400 = {
 
 export interface StreamingStreaming {
   enable?: boolean
-  hornbill_endpoints: string
-  streaming_endpoints: string
+  hornbill_admin_api: string
+  hornbill_kafka_api: string
 }
 
 export interface StreamingStreamInfoInConsumer {
