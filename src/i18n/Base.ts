@@ -24,8 +24,8 @@ export default {
     en: 'Skip',
   },
   skipTip: {
-    zh: '下次登录时将再次提示您修改默认密码，您也可以稍后在系统 > 用户菜单中进行修改。',
-    en: 'You will be prompted to change the default password again when you log in next time, and you can also change it later in the System > User.',
+    zh: '下次登录时将再次提示您修改密码，您也可以稍后在系统 > 用户菜单中进行修改。',
+    en: 'You will be prompted to change the password again when you log in next time, and you can also change it later in the System > User.',
   },
   copied: {
     zh: '复制成功！',
@@ -442,6 +442,10 @@ export default {
   defaultPwdTip: {
     zh: '为保护账户安全，请修改默认密码：',
     en: 'To ensure your account security, we kindly request you to change your default password:',
+  },
+  expiredPwdTip: {
+    zh: '密码已长时间未修改，为保护账户安全，请定期修改密码：',
+    en: 'Your password has not been modified for a long time. To ensure your account security, please change your password regularly:',
   },
   note: {
     zh: '备注',

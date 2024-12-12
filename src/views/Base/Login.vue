@@ -76,7 +76,7 @@
           <div class="form-hd">
             <h5 class="title-pwd">{{ $t('General.changePassword') }}</h5>
             <div class="tip default-pwd-tip">
-              <p>{{ $t('Base.defaultPwdTip') }}</p>
+              <p>{{ isUsingDefaultPwd ? t('Base.defaultPwdTip') : t('Base.expiredPwdTip') }}</p>
               <ul>
                 <li>{{ $t('General.passwordRequirement1') }}</li>
                 <li>{{ $t('General.passwordRequirement2') }}</li>
@@ -141,7 +141,7 @@ import useDocLink from '@/hooks/useDocLink'
 import useFormRules from '@/hooks/useFormRules'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
 import { toLogin } from '@/router'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -166,6 +166,12 @@ const isSubmitting = ref(false)
 
 const showChangePwdForm = ref(false)
 const isUsingDefaultPwd = ref(false)
+/**
+ * if value is negative, it means the password is expired
+ */
+const pwdValidSeconds = ref(Number.MAX_SAFE_INTEGER)
+const isPwdExpired = computed(() => pwdValidSeconds.value < 0)
+
 const rules = {
   username: [{ required: true, message: t('Base.unameRequired') }],
   password: [{ required: true, message: t('Base.passwordRequired') }],
@@ -181,6 +187,16 @@ const pwdRules = {
     {
       pattern: PASSWORD_REG,
       message: pwdMismatchMsg,
+      trigger: ['blur'],
+    },
+    {
+      validator(rules: unknown, value: string, callback: (error?: string) => void) {
+        if (isPwdExpired.value && value === record.password) {
+          callback(t('General.noSameNewPwd'))
+        } else {
+          callback()
+        }
+      },
       trigger: ['blur'],
     },
   ],
@@ -205,11 +221,12 @@ const PwdFormCom = ref()
 const queryLogin = async ({ username, password }: { username: string; password: string }) => {
   isSubmitting.value = true
   try {
-    let res = await loginApi({ username, password })
+    const res = await loginApi({ username, password })
     isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
+    pwdValidSeconds.value = res.password_expire_in_seconds
     store.commit('UPDATE_USER_INFO', { token: res.token, username })
     store.commit('UPDATE_EDITION', res.license?.edition)
-    if (!isUsingDefaultPwd.value) {
+    if (!isUsingDefaultPwd.value && !isPwdExpired.value) {
       redirect()
     } else {
       showChangePwdForm.value = true
