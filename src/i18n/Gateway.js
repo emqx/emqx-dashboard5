@@ -121,7 +121,7 @@ export default {
 - \`{'$'}{'{'}zone{'}'}\`
 - \`{'$'}{'{'}client_attrs.NAME{'}'}\`
 
-例如，使用 \`mountpoint="{'$'}{'{'}username{'}'}/"\` 时，客户端 \`u1\` 将出现以下情况：
+例如，使用 \`mountpoint="{'$'}{'{'}username{'}'}/"\` 时，用户名 \`u1\` 的客户端将出现以下情况：
 - 客户端 SUBSCRIBE \`sensors/#\` -> 在代理中内部转换为 \`u1/sensors/#\`。
 - 代理 PUBLISH \`u1/sensors/data\` -> 发送给客户端时变为 \`sensors/data\`。
 
@@ -141,7 +141,7 @@ The supported placeholders are:
 - \`{'$'}{'{'}zone{'}'}\`
 - \`{'$'}{'{'}client_attrs.NAME{'}'}\`
 
-For example, with \`mountpoint="{'$'}{'{'}username{'}'}/"\`, a client \`u1\` will have:
+For example, with \`mountpoint="{'$'}{'{'}username{'}'}/"\`, a client using \`u1\` as username will have:
 - Client SUBSCRIBE \`sensors/#\` -> \`u1/sensors/#\` internally in the broker.
 - Broker PUBLISH \`u1/sensors/data\` -> \`sensors/data\` sent to the client.
 
