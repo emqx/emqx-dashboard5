@@ -1,6 +1,11 @@
 <template>
-  <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
-    <h1 class="header-title">{{ title }}</h1>
+  <div class="nav-header">
+    <div class="header-left">
+      <div :class="['logo']">
+        <img :src="appLogo" alt="emqx-logo" />
+      </div>
+      <h1 class="header-title">{{ title }}</h1>
+    </div>
     <div class="pull-right">
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
@@ -83,6 +88,7 @@ import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import useDocLink from '@/hooks/useDocLink'
+import useEditionConfigs from '@/hooks/useEditionConfigs'
 import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
@@ -104,6 +110,7 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
+    const { appLogo } = useEditionConfigs()
     const showSettings = ref(false)
     const showHelp = ref(false)
     const store = useStore()
@@ -204,6 +211,7 @@ export default defineComponent({
     return {
       t,
       IS_ENTERPRISE,
+      appLogo,
       showSettings,
       showHelp,
       store,
@@ -226,13 +234,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$header-heigh: 60px;
+
 .nav-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   padding: 0 24px;
-  background-color: var(--color-bg);
+  background-color: #272e3d;
   left: 200px;
   z-index: 100;
   transition: all 0.3s;
@@ -248,6 +258,30 @@ export default defineComponent({
     margin-right: 10px;
     margin-left: 4px;
   }
+}
+
+.logo {
+  height: $header-heigh;
+  line-height: $header-heigh;
+  top: 0;
+  left: 0;
+  margin-right: 16px;
+  z-index: 100;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  img {
+    max-width: initial;
+    max-height: 100%;
+    height: 36px;
+    transition: all 0.3s;
+  }
+}
+
+.header-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .header-title {
