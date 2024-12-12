@@ -221,6 +221,7 @@ const drawChart = () => {
     tooltip: {
       trigger: 'axis',
       confine: true,
+      className: 'chart-tooltip',
       axisPointer: {
         type: 'cross',
         label: {

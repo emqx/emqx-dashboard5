@@ -289,7 +289,6 @@ $header-heigh: 60px;
     background-color: var(--color-bg-content);
     margin-top: $header-heigh;
     margin-right: $padding;
-    border-radius: $padding;
     position: relative;
     height: 100%;
     height: calc(100% - #{$header-heigh} - #{$padding}); /* 60px + 12px padding */

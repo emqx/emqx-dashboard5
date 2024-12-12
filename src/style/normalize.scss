@@ -5,7 +5,7 @@
     'padding': 0px,
   ),
   $card: (
-    'border-radius': 16px,
+    'border-radius': 0,
     'bg-color': var(--color-bg-content),
   ),
   $input: (
@@ -15,7 +15,7 @@
     'bg-color': var(--color-bg-content),
   ),
   $messagebox: (
-    'border-radius': 8px,
+    'border-radius': 0,
   ),
   $button: (
     'bg-color': var(--color-bg-content),
@@ -37,7 +37,7 @@
     'expanded-cell-bg-color': var(--color-bg-content),
   ),
   $dialog: (
-    'border-radius': 16px,
+    'border-radius': 0,
     'bg-color': var(--color-bg-content),
   ),
   $drawer: (
@@ -49,7 +49,7 @@
 
 /* Root Colors */
 :root {
-  --el-border-radius-base: 8px;
+  --el-border-radius-base: 0;
   --el-color-primary: var(--color-primary);
   --el-text-color-regular: var(--color-text-primary);
   --el-text-color-primary: var(--color-text-primary);
@@ -85,12 +85,10 @@
     .el-sub-menu__title {
       padding: 0px 0px 0px 8px !important;
       margin: 0px 12px;
-      border-radius: 8px;
       border-left: 4px solid transparent;
       color: #ffffffd9;
       &:hover {
         background-color: #1F303C;
-        border-radius: 8px;
       }
     }
     .el-sub-menu {
@@ -110,17 +108,14 @@
     }
     .el-menu-item {
       color: #ffffffd9;
-      border-radius: 8px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
         color: #fff;
         background-color: #1F303C;
-        border-radius: 8px;
       }
       &:hover {
         background-color: #1F303C;
-        border-radius: 8px;
       }
     }
     .el-menu-item,
@@ -172,7 +167,7 @@
 }
 /* Table */
 .el-table {
-  border-radius: 16px;
+  border-radius: 0;
   &:after,
   &:before,
   .el-table__inner-wrapper:after,
@@ -194,13 +189,13 @@
   /* Top */
   .el-table__inner-wrapper:after {
     top: 0;
-    border-radius: 16px 16px 0 0;
+    border-radius: 0;
     border-bottom: none;
   }
   /* Bottom */
   .el-table__inner-wrapper:before {
     bottom: 0px;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0;
     border-top: none;
   }
   &:after,
@@ -612,7 +607,7 @@
 }
 
 .el-popper {
-  --el-popper-border-radius: 8px;
+  --el-popper-border-radius: 0;
 }
 .el-popper.is-dark {
   background: var(--color-bg-popper);
@@ -639,7 +634,7 @@
 /* Tag */
 .el-tag {
   font-weight: normal;
-  border-radius: 8px;
+  border-radius: 2px;
   &.el-tag--danger {
     background-color: #FCECEC;
     border: 1px solid #E44242;
@@ -658,14 +653,13 @@
     align-items: center;
   }
   &.el-tag--large {
-    border-radius: 8px;
+    border-radius: 2px;
   }
 }
 
 /* Message */
 .el-message {
   padding: 16px;
-  border-radius: 8px;
   box-shadow: var(--el-notification-shadow);
   min-height: 56px;
   .el-icon {
@@ -852,7 +846,6 @@
   background-color: var(--color-bg-content);
 }
 .el-pagination.is-background .btn-prev, .el-pagination.is-background .btn-next, .el-pagination.is-background .el-pager li {
-  border-radius: 8px;
   border: 1px solid var(--color-border-primary);
   background-color: var(--color-bg-content);
   color: var(--color-text-primary);

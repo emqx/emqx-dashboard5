@@ -59,7 +59,6 @@ const list = computed(() => {
 .all-msgs-and-events-form {
   .list-wrap {
     padding: 2px 0;
-    border-radius: 8px;
     background-color: var(--color-bg-main);
   }
   ul {

@@ -396,7 +396,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .message-card {
   height: 112px;
-  border-radius: 4px;
   padding: 6px 12px;
   color: #fff;
   &.in {

@@ -266,7 +266,6 @@ onUnmounted(() => {
     margin-right: 2px;
     font-style: normal;
     white-space: nowrap;
-    border-radius: 4px;
     background-color: var(--color-bg-split);
   }
 }
