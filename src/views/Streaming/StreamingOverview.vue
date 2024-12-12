@@ -49,7 +49,7 @@
                       desc-marked
                     />
                   </template>
-                  <el-input v-model="configForm.hornbill_endpoints" />
+                  <el-input v-model="configForm.hornbill_admin_api" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -61,7 +61,7 @@
                       desc-marked
                     />
                   </template>
-                  <el-input v-model="configForm.streaming_endpoints" />
+                  <el-input v-model="configForm.hornbill_kafka_api" />
                 </el-form-item>
               </el-col>
             </el-row>
