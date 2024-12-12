@@ -9,7 +9,7 @@ import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { ElNotification } from 'element-plus'
-import { throttle } from 'lodash'
+import { isPlainObject, throttle } from 'lodash'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -46,7 +46,7 @@ axios.interceptors.request.use(
     if (
       !config.keepSpaces &&
       ['post', 'put'].includes(config.method) &&
-      _.isPlainObject(config.data)
+      isPlainObject(config.data)
     ) {
       config.data = trimValues(config.data)
     }

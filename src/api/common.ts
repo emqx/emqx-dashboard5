@@ -16,6 +16,7 @@ export function login(user: { password: string; username: string }): Promise<{
   }
   token: string
   version: string
+  password_expire_in_seconds: number
 }> {
   return http.post('/login', user, { keepSpaces: true })
 }
