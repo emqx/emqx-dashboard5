@@ -12,14 +12,17 @@
         <div class="footer-menu" :style="{ width: leftBarCollapse ? '51px' : '239px' }">
           <a
             class="footer-menu-item"
+            :class="{ 'is-collapsed': leftBarCollapse }"
             @click="
               () => {
                 store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
               }
             "
           >
-            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
             <EMQXVersion v-show="!leftBarCollapse" />
+            <div class="icon-wrapper">
+              <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+            </div>
           </a>
         </div>
       </el-aside>
@@ -249,20 +252,31 @@ $header-heigh: 60px;
     position: fixed;
     box-sizing: border-box;
     bottom: 0;
-    height: 36px;
+    height: 16px + 28px;
+    line-height: 1;
     border-top: 1px solid #ffffff24;
     transition: all 0.3s;
     .footer-menu-item {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
+      padding: 0 16px 16px;
       height: 100%;
-      color: #fff;
+      color: var(--color-grey-2);
+      &.is-collapsed {
+        padding-left: 0;
+        padding-right: 0;
+        justify-content: center;
+      }
+      .icon-wrapper {
+        padding: 4px;
+        background-color: var(--color-grey-11);
+      }
       .iconfont {
+        display: block;
         transition: all 0.3s;
-        color: #fff;
         &.rotate {
-          transform: rotate(180deg);
+          transform: rotateY(180deg);
         }
       }
       &:hover {
@@ -281,10 +295,9 @@ $header-heigh: 60px;
   .main-content {
     background-color: var(--color-bg-content);
     margin-top: $header-heigh;
-    margin-right: $padding;
     position: relative;
     height: 100%;
-    height: calc(100% - #{$header-heigh} - #{$padding}); /* 60px + 12px padding */
+    height: calc(100% - #{$header-heigh}); /* 60px + 12px padding */
     overflow: hidden;
   }
 }

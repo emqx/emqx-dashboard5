@@ -632,14 +632,14 @@ loadSubs()
     &.client-info {
       &.top-border {
         &:before {
-          background: linear-gradient(135deg, #00b173 0%, #009580 100%);
+          background: linear-gradient(135deg, #008c5a 0%, #007a6a 100%, #007a6a 100%, #008c5a 100%);
         }
       }
     }
     &.client-session {
       &.top-border {
         &:before {
-          background: linear-gradient(33deg, #9a66ff 0%, #3651ec 100%);
+          background: linear-gradient(33deg, #8c7abf 0%, #5a6c9c 100%);
         }
       }
     }
@@ -648,17 +648,17 @@ loadSubs()
     .el-card {
       &.top-border.packets {
         &:before {
-          background: #3d7ff9;
+          background: #4a75bb;
         }
       }
       &.top-border.messages {
         &:before {
-          background: #bf73ff;
+          background: #705799;
         }
       }
       &.top-border.bytes {
         &:before {
-          background: #f49845;
+          background: #b47a3c;
         }
       }
     }

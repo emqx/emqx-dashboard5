@@ -130,7 +130,7 @@ export default defineComponent({
     left: -23px;
   }
   .el-menu.el-menu--collapse {
-    width: 80px;
+    width: 52px;
     .menu-item-title {
       padding-left: 26px;
       opacity: 0;
