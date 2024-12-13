@@ -244,7 +244,6 @@ $header-heigh: 60px;
   left: 0;
   z-index: 100;
   overflow-x: hidden;
-  background-color: var(--color-bg);
   height: calc(100vh - #{$header-heigh});
   .footer-menu {
     cursor: pointer;
@@ -293,7 +292,7 @@ $header-heigh: 60px;
   background-color: var(--color-bg);
   height: 100vh;
   .main-content {
-    background-color: var(--color-bg-content);
+    background-color: var(--color-grey-11);
     margin-top: $header-heigh;
     position: relative;
     height: 100%;
