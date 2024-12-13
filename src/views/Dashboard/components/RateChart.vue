@@ -190,7 +190,7 @@ onMounted(() => {
       width: 10px;
       height: 10px;
       border-radius: 5px;
-      background-color: #975fe4;
+      background-color: v-bind(color);
     }
     .num {
       padding-left: 12px;

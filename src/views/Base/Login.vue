@@ -425,7 +425,6 @@ const submitNewPwd = async () => {
   .el-row {
     height: 100%;
     .el-col.intro {
-      background-color: var(--color-bg);
       position: relative;
       .logo {
         padding: 32px;

@@ -41,8 +41,7 @@
   src: url(../assets/fonts/Roboto-BlackItalic.ttf) format('truetype');
 }
 
-$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue,
-  Helvetica, Arial, sans-serif;
+$font: 'Source Han Sans', 'Barlow Condensed SemiBold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Source Han Sans CN', sans-serif;
 
 body {
   padding: 0;
@@ -50,7 +49,6 @@ body {
   color: var(--el-text-color-primary);
   font-size: 14px;
   font-family: $font;
-  background-color: var(--color-bg);
 }
 
 * {
