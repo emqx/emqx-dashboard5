@@ -396,27 +396,36 @@
 }
 
 /* Button */
+@mixin button-primary($color) {
+  background: $color;
+  border: 1px solid $color;
+}
+@mixin button-plain-normal {
+  color: var(--color-text-primary);
+  background: var(--color-bg-content);
+  border: 1px solid var(--color-grey-5);
+}
+@mixin button-plain($color) {
+  color: $color;
+  border: 1px solid $color;
+  background-color: var(--color-bg-content);
+}
 .el-button {
   &.el-button--primary:not(.is-link) {
-    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
-    border: none;
+    @include button-primary(var(--color-blue-grey));
     color: #fff;
-    &.is-plain {
-      background: var(--color-bg-content);
-      color: var(--color-primary);
-      @include border-gradient(#ac6eff, #5f56fc);
-    }
     &:hover {
-      background: linear-gradient(135deg, #bc7eff 0%, #6f66ec 100%);
-      color: #fff;
+      @include button-primary(var(--color-bg-hover));
+    }
+    &:active {
+      @include button-primary(var(--color-active));
     }
     &.is-disabled {
       &,
       &:hover,
       &:focus,
       &:active {
-        background: linear-gradient(135deg, #DC9Eff 0%, #8F86ff 100%);
-        color: #fff;
+        opacity: 0.51;
       }
     }
   }
@@ -426,6 +435,44 @@
   }
   &+.el-dropdown {
     margin-left: 10px;
+  }
+  &.el-button--primary.is-plain {
+    @include button-plain-normal;
+    &:hover {
+      @include button-plain(var(--color-bg-hover)); 
+    }
+    &:active {
+      @include button-plain(var(--color-active));
+    }
+    &.is-disabled {
+      &,
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--color-grey-4);
+        background-color: var(--color-grey-7);
+        border: 1px solid var(--color-grey-5);
+      }
+    }
+  }
+  &.el-button--danger.is-plain {
+    @include button-plain-normal;
+    &:hover {
+      @include button-plain(var(--color-bg-hover)); 
+    }
+    &:active {
+      @include button-plain(var(--color-active));
+    }
+    &.is-disabled {
+      &,
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--color-grey-4);
+        background-color: var(--color-grey-7);
+        border: 1px solid var(--color-grey-5);
+      }
+    }
   }
 }
 .el-button.is-link:hover {

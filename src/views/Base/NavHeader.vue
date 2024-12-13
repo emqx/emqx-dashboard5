@@ -249,7 +249,7 @@ $header-heigh: 60px;
   .user-avatar {
     width: 21px;
     height: 21px;
-    background: var(--color-stream);
+    background: var(--color-blue-grey);
     color: #fff;
     display: inline-block;
     text-align: center;

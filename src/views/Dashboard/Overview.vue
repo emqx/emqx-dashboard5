@@ -21,7 +21,7 @@
                 <rate-chart
                   :value="currentMetricsLogs.received_msg_rate"
                   type="bar"
-                  color="#3D7FF9"
+                  color="#4B7ECD"
                 />
               </div>
             </div>
@@ -35,7 +35,7 @@
                 </span>
               </div>
               <div class="line-wrapper">
-                <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
+                <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#705799" />
               </div>
             </div>
           </template>
