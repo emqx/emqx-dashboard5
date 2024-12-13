@@ -255,12 +255,12 @@ onMounted(() => {
     .el-card {
       &.top-border.client {
         &:before {
-          background: #00b299;
+          background: #4c9f8a;
         }
       }
       &.top-border.auth {
         &:before {
-          background: #66cfda;
+          background: #4a9fb0;
         }
       }
       &.top-border.delivery {
@@ -270,7 +270,7 @@ onMounted(() => {
       }
       &.top-border.session {
         &:before {
-          background: #5d4eff;
+          background: #705799;
         }
       }
       &.top-border.packets {
@@ -280,13 +280,13 @@ onMounted(() => {
       }
       &.top-border.messages {
         &:before {
-          background: #bf73ff;
+          background: #4a5bbf;
         }
       }
       &.top-border.bytes {
         margin-bottom: 37px;
         &:before {
-          background: #f49845;
+          background: #b47a3c;
         }
       }
     }

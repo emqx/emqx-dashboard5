@@ -52,4 +52,16 @@
   --color-active: #3B5E96;
   /* Shdow */
   --color-shadow-primary: #888ebf33;
+
+  // 功能色
+  --color-status-info: #3B6BC6; // 提示色
+  --color-status-success: #00A770; // 成功色
+  --color-status-warning: #ED7B2F; // 警示色
+  --color-status-error: #E34D59; // 错误色
+
+  // 提示栏色
+  --color-message-info: #D4E3FC;
+  --color-message-success: #BBEBDC;
+  --color-message-warning: #FAE0C7;
+  --color-message-error: #F9D7D9;
 }

@@ -833,19 +833,19 @@ code {
 
     &.node-source {
       &::before {
-        border-left-color: #00b173;
+        border-left-color: #4c9f8a;
       }
     }
 
     &.node-processing {
       &::before {
-        border-left-color: #469cf7;
+        border-left-color: var(--color-blue-grey);
       }
     }
 
     &.node-sink {
       &::before {
-        border-left-color: #906ef2;
+        border-left-color: #705799;
       }
     }
     img.is-scaled-up {
