@@ -54,6 +54,10 @@ export function loadChartData(time: number): Promise<Array<ChartDataItem>> {
   return http.get('/monitor', { params: { latest: time } })
 }
 
+export function resetMonitorData(): Promise<void> {
+  return http.delete('/monitor')
+}
+
 //metrics integration
 export function getStatsD(): Promise<StatsD> {
   return http.get('/statsd')
