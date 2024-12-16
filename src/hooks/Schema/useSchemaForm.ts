@@ -210,7 +210,6 @@ export default function useSchemaForm(
               return item
             }) as Property[]
             property.is_template = getIsTemplateFromOneOfArr(property.oneOf)
-            console.log(property.path)
           }
           if (!label) {
             property.label = lastLabel

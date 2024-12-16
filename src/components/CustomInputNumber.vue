@@ -4,6 +4,10 @@
     class="custom-input-number"
     :class="{ 'is-focus': isFocus }"
     :controls-position="controlsPosition"
+    :disabled="disabled"
+    :placeholder="placeholder"
+    :min="min"
+    :max="max"
     @focus="handleFocus"
     @blur="handleBlur"
     @keypress="handleKeypress"
@@ -20,6 +24,19 @@ const props = defineProps({
   controlsPosition: {
     type: String as PropType<'right' | ''>,
     default: 'right',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  placeholder: {
+    type: String,
+  },
+  min: {
+    type: Number,
+  },
+  max: {
+    type: Number,
   },
 })
 
