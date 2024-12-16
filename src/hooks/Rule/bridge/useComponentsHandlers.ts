@@ -68,6 +68,8 @@ export default (
     const walk = (prop: Property) => {
       if (prop.properties) {
         Object.values(prop.properties).forEach((item) => walk(item))
+      } else if (prop.type === 'array' && prop.items?.properties) {
+        Object.values(prop.items.properties).forEach((item) => walk(item))
       } else if (prop.type === 'oneof') {
         prop.oneOf?.forEach((item) => walk(item))
       } else if (
@@ -76,6 +78,9 @@ export default (
         prop.is_template
       ) {
         setComponentProps(prop, { completionProvider })
+      } else if (prop.type === 'boolean' && prop.is_template) {
+        prop.type = 'enum'
+        prop.symbols = [true, false]
       } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
         setComponentProps(prop, { supportPlaceholder: ['key', 'value'] })
       }
