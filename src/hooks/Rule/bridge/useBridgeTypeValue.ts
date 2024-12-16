@@ -101,6 +101,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Couchbase, label: 'Couchbase' },
     { value: BridgeType.Datalayers, label: 'Datalayers' },
     { value: BridgeType.Snowflake, label: 'Snowflake' },
+    { value: BridgeType.Tablestore, label: tl('tablestore') },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**

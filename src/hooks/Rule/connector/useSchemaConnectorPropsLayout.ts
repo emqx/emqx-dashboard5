@@ -281,6 +281,10 @@ export default (
       ['server', 'dsn', 'account', 'username', 'password', 'proxy', 'ssl'],
       fieldStartIndex,
     ),
+    [BridgeType.Tablestore]: createOrderObj(
+      ['endpoint', 'instance_name', 'access_key_id', 'access_key_secret', 'storage_model_type'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

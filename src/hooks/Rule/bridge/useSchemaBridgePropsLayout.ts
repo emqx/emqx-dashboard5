@@ -336,6 +336,19 @@ export default (
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
     ),
+    [BridgeType.Tablestore]: createOrderObj(
+      getPathArrInParameters([
+        'data_source',
+        'table_name',
+        'measurement',
+        'storage_model_type',
+        'tags',
+        'fields',
+        'timestamp',
+        'meta_update_model',
+      ]),
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

@@ -267,6 +267,22 @@ export const useActionDataHandler = (): {
     return data
   }
 
+  const handleTablestoreActionData = (data: any) => {
+    const fieldArr = data.parameters?.fields
+    if (Array.isArray(fieldArr)) {
+      data.parameters.fields = fieldArr.map((item) => {
+        const ret = item
+        if (NUM_REG.test(item.value)) {
+          ret.value = Number(item.value)
+        } else if (/^(true|false)$/i.test(item.value)) {
+          ret.value = /^true/i.test(item.value)
+        }
+        return ret
+      })
+    }
+    return data
+  }
+
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
@@ -308,6 +324,7 @@ export const useActionDataHandler = (): {
     [BridgeType.S3, handleS3ActionData],
     [BridgeType.AzureBlobStorage, handleS3ActionData],
     [BridgeType.IoTDB, handleIoTDBActionData],
+    [BridgeType.Tablestore, handleTablestoreActionData],
   ])
 
   /**
