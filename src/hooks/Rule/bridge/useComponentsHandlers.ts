@@ -573,6 +573,27 @@ export default (
     return { components, rules }
   }
 
+  const tablestoreHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+    const fieldProps = components?.parameters?.properties?.fields?.items?.properties
+    if (fieldProps) {
+      const { value } = fieldProps
+      if (
+        value.type === 'oneof' &&
+        value.oneOf?.every((item) => ['number', 'boolean', 'string'].includes(item.type))
+      ) {
+        value.type = 'string'
+      }
+      const i18nPrefix = getI18nPrefix(BridgeType.Tablestore)
+      Object.entries(fieldProps).forEach(([key, value]) =>
+        key === 'value'
+          ? setLabelAndDesc(value, `${getI18nPrefix('common')}${key}`)
+          : setLabelAndDesc(value, `${i18nPrefix}${key}`),
+      )
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -597,6 +618,7 @@ export default (
     [BridgeType.Pulsar]: pulsarHandler,
     [BridgeType.Couchbase]: couchbaseHandler,
     [BridgeType.Snowflake]: snowflakeHandler,
+    [BridgeType.Tablestore]: tablestoreHandler,
   }
 
   const getComponentsHandler = () => {
