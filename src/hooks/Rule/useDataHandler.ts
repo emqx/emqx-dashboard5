@@ -272,10 +272,13 @@ export const useActionDataHandler = (): {
     if (Array.isArray(fieldArr)) {
       data.parameters.fields = fieldArr.map((item) => {
         const ret = item
+        ;['value', 'isint', 'isbinary'].forEach((key) => {
+          if (/^(true|false)$/i.test(item[key])) {
+            ret[key] = /^true/i.test(item[key])
+          }
+        })
         if (NUM_REG.test(item.value)) {
           ret.value = Number(item.value)
-        } else if (/^(true|false)$/i.test(item.value)) {
-          ret.value = /^true/i.test(item.value)
         }
         return ret
       })
