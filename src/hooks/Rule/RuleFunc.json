@@ -336,6 +336,16 @@
             "required": true
           }
         ]
+      },
+      {
+        "name": "is_empty",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -750,6 +760,16 @@
             "type": "any",
             "required": true
           },
+          {
+            "name": "Map",
+            "type": "object",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "map_size",
+        "args": [
           {
             "name": "Map",
             "type": "object",
