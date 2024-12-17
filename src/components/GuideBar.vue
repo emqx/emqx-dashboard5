@@ -3,9 +3,10 @@
     <div
       v-for="(item, index) in guideList"
       :key="item"
-      :class="['guide-item', { active: activeGuideIndexList.includes(index) }]"
+      class="guide-item"
+      :class="{ active: currentStep === index, completed: currentStep > index }"
     >
-      <el-icon v-if="activeGuideIndexList.includes(index)" class="el-icon-check">
+      <el-icon v-if="currentStep > index" class="el-icon-check">
         <Check />
       </el-icon>
       <span class="icon-number" v-else>{{ index + 1 }}</span>
@@ -16,10 +17,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
+import { defineProps, PropType, computed } from 'vue'
 import { Check } from '@element-plus/icons-vue'
 
-defineProps({
+const props = defineProps({
   guideList: {
     type: Array as PropType<string[] | number[]>,
     required: true,
@@ -32,6 +33,10 @@ defineProps({
     type: Array as PropType<number[]>,
     default: () => [],
   },
+})
+
+const currentStep = computed(() => {
+  return props.activeGuideIndexList[props.activeGuideIndexList.length - 1]
 })
 </script>
 
@@ -50,10 +55,10 @@ defineProps({
 
     .el-icon-check,
     .icon-number {
-      height: 20px;
-      width: 20px;
+      height: 24px;
+      width: 24px;
       border-radius: 50%;
-      line-height: 20px;
+      line-height: 24px;
       text-align: center;
       color: #fff;
       font-size: 14px;
@@ -63,16 +68,8 @@ defineProps({
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      background: var(--color-primary);
-      &::before {
-        position: absolute;
-        content: '';
-        border-radius: 50%;
-        left: -4px;
-        width: 28px;
-        height: 28px;
-        background-color: #4a75bb33;
-      }
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
     }
     .icon-number {
       background: var(--color-border-primary);
@@ -90,6 +87,9 @@ defineProps({
     }
     &.active {
       font-weight: 600;
+      .icon-number {
+        background: var(--color-primary);
+      }
       .guide-title {
         color: var(--color-title-primary);
       }
