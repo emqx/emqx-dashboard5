@@ -2,7 +2,7 @@
   <div class="nav-header">
     <div class="header-left">
       <div :class="['logo']">
-        <img :src="appLogo" alt="emqx-logo" />
+        <img src="@/assets/img/tongtech.svg" alt="emqx-logo" />
       </div>
       <h1 class="header-title">{{ title }}</h1>
     </div>

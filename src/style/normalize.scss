@@ -610,6 +610,9 @@
 .el-steps {
   .el-step__head.is-process {
     color: var(--color-text-primary);
+    .el-step__icon {
+      background: var(--color-primary);
+    }
   }
   &.el-steps--horizontal {
     .el-step__title {
@@ -623,17 +626,9 @@
     }
     .is-success {
       .el-step__icon {
-        background-color: var(--color-primary);
-        border: none;
-         &::before {
-        position: absolute;
-        content: '';
-        border-radius: 50%;
-        left: -4px;
-        width: 32px;
-        height: 32px;
-        background-color: #4a75bb33;
-      }
+        background-color: var(--color-bg-content);
+        color: var(--color-primary);
+        border: 1px solid var(--color-primary);
       }
     }
   }
