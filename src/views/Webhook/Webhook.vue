@@ -1,5 +1,5 @@
 <template>
-  <div class="webhook app-wrapper">
+  <ListCard class="webhook">
     <template v-if="!isEmpty">
       <div class="section-header">
         <div></div>
@@ -62,7 +62,7 @@
         >{{ $t('Base.create') }} Webhook</el-button
       >
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

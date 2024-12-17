@@ -1,5 +1,5 @@
 <template>
-  <div class="plugins app-wrapper">
+  <ListCard class="plugins">
     <div class="section-header">
       <div class="filters">
         <el-input :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

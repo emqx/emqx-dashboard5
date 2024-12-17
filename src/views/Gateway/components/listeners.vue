@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-card>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
       <el-button
@@ -62,7 +62,7 @@
       @submit="submitListener"
       @delete="delListener($event)"
     />
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">

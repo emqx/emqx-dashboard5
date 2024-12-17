@@ -1,7 +1,7 @@
 <template>
-  <div class="clients">
+  <ListCard class="clients">
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
-      <el-row :gutter="20">
+      <el-row :gutter="16">
         <el-col v-bind="colProps">
           <el-input
             v-model="queryParams.clientid"
@@ -91,7 +91,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
@@ -163,7 +163,7 @@
         />
       </div>
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

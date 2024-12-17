@@ -1,5 +1,5 @@
 <template>
-  <div class="backup app-wrapper">
+  <ListCard class="backup">
     <div class="section-header">
       <div></div>
       <el-upload
@@ -68,7 +68,7 @@
     <div class="emq-table-footer">
       <common-pagination @loadPage="loadBackupFiles" v-model:metaData="pageMeta" />
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script setup lang="ts">

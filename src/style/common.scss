@@ -116,9 +116,9 @@ p.description {
   padding: 0 24px;
 }
 .app-wrapper {
-  padding: 0 24px;
+  padding: 0 16px;
   &.with-padding-top {
-    padding-top: 32px;
+    padding-top: 20px;
   }
 }
 
@@ -150,8 +150,8 @@ p.description {
 
 .search-wrapper {
   background-color: var(--color-bg-details);
-  padding: 16px 24px 32px;
-  margin-bottom: 24px;
+  padding: 0 0 20px;
+  margin-bottom: 20px;
   border-bottom: 1px solid var(--color-border-card);
   &.without-padding-top {
     padding-top: 0;
@@ -174,12 +174,18 @@ p.description {
     width: 100%;
   }
 }
+.el-card__body {
+  > .search-wrapper:first-child {
+    margin-top: -16px;
+  }
+}
 
 .emq-table-footer {
   display: flex;
-  margin-top: 30px;
-  margin-bottom: 28px;
-  justify-content: flex-end;
+  justify-content: center;
+  .el-pagination{
+    margin-top: 16px;
+  }
 }
 
 .page-header-title {
@@ -259,12 +265,13 @@ p.description {
   font-size: 18px;
   color: var(--color-title-primary);
   font-weight: 600;
-  margin-top: 32px;
-  padding-bottom: 24px;
+  margin-top: 20px;
+  padding-bottom:16px;
   width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   &:not(:first-of-type) {
     margin-top: 16px;
   }
@@ -291,6 +298,9 @@ p.description {
   i {
     vertical-align: middle;
   }
+}
+.el-card__body > .section-header:first-child {
+  margin-top: 4px;
 }
 
 .part-header {

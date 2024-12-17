@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper data-bridge">
+  <ListCard class="data-bridge">
     <el-table
       class="bridge-table"
       :data="bridgeTb"
@@ -92,7 +92,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <DeleteBridgeSecondConfirm
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"

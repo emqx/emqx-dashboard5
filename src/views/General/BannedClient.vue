@@ -1,5 +1,5 @@
 <template>
-  <div class="banned-clients">
+  <ListCard class="banned-clients">
     <el-form class="search-wrapper" @keyup.enter="refreshListData">
       <el-row :gutter="20">
         <el-col v-bind="colProps">
@@ -40,7 +40,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <el-button
@@ -96,7 +96,7 @@
         ></common-pagination>
       </div>
     </div>
-  </div>
+  </ListCard>
   <BannedDialog v-model="dialogVisible" @submitted="refreshListData" />
 </template>
 

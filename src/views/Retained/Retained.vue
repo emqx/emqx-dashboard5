@@ -1,5 +1,5 @@
 <template>
-  <div class="retained">
+  <ListCard class="retained">
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="28">
         <el-col :span="8">
@@ -20,7 +20,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <template v-if="isEnabledRetainer">
@@ -102,7 +102,7 @@
         :topic="currentTopic"
       />
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

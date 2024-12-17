@@ -1,5 +1,5 @@
 <template>
-  <div class="topics">
+  <ListCard class="topics">
     <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
       <el-row :gutter="28">
         <el-col :span="8">
@@ -20,7 +20,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <el-button type="primary" :icon="Refresh" @click="loadTopics">
@@ -62,7 +62,7 @@
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadTopics" />
       </div>
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

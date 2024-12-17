@@ -1,11 +1,11 @@
 <template>
-  <div class="rule">
+  <ListCard class="rule">
     <RuleFilterForm
       class="search-wrapper without-padding-top"
       :initial-value="filterParams"
       @search="searchRule"
     />
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <div>
@@ -103,7 +103,7 @@
         <commonPagination :meta-data="pageMeta" @load-page="getRulesList" />
       </div>
     </div>
-  </div>
+  </ListCard>
   <DeleteWebhookAssociatedTip
     v-model="showDeleteWebhookAssociatedTip"
     type="rule"

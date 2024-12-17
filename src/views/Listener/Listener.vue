@@ -1,5 +1,5 @@
 <template>
-  <div class="listener app-wrapper">
+  <ListCard class="listener">
     <div class="section-header">
       <div></div>
       <el-button
@@ -96,7 +96,7 @@
         </span>
       </template>
     </el-dialog>
-  </div>
+  </ListCard>
 </template>
 
 <script setup lang="tsx">

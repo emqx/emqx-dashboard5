@@ -1,5 +1,5 @@
 <template>
-  <div class="exhook app-wrapper">
+  <ListCard class="exhook">
     <div class="section-header">
       <div></div>
       <el-button :disabled="!$hasPermission('post')" type="primary" @click="addSchema" :icon="Plus">
@@ -27,7 +27,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

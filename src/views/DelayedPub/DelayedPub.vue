@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper delayed-pub" v-loading="tbLoading">
+  <ListCard class="delayed-pub" v-loading="tbLoading">
     <div class="section-header">
       <div></div>
       <el-button :icon="Setting" :disabled="!$hasPermission('put')" @click="goSetting">
@@ -39,7 +39,7 @@
     <div class="emq-table-footer">
       <common-pagination @loadPage="loadDelayedList" v-model:metaData="pageMeta" />
     </div>
-  </div>
+  </ListCard>
   <PayloadDialog
     v-model="payloadDialog"
     :raw-payload="payloadDetail"

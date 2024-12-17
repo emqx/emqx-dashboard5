@@ -68,9 +68,3 @@ const handleCurrentChanged = (current: number) => {
   })
 }
 </script>
-
-<style lang="scss">
-.common-pagination {
-  padding-bottom: 24px;
-}
-</style>

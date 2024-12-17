@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper rewrite">
+  <ListCard class="rewrite">
     <div class="section-header">
       <div></div>
       <el-button
@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <el-dialog
     v-model="opRewrite"
     :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('rewrite')"

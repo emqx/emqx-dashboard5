@@ -1,5 +1,5 @@
 <template>
-  <div class="message-transform app-wrapper">
+  <ListCard class="message-transform">
     <div class="section-header">
       <div></div>
       <el-button
@@ -69,7 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

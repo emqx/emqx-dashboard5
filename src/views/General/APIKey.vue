@@ -1,5 +1,5 @@
 <template>
-  <div class="API-key app-wrapper">
+  <ListCard class="API-key">
     <div class="section-header">
       <div></div>
       <el-button
@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <APIKeyDialog
     v-model="showDialog"
     :operation-type="dialogOperationType"

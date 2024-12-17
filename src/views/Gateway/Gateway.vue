@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper gateway with-padding-top">
+  <ListCard class="gateway">
     <el-table :data="tbData" v-loading="tbLoading" :row-class-name="getRowClassName">
       <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">
@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

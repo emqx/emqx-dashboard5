@@ -1,5 +1,5 @@
 <template>
-  <div class="cluster-linking app-wrapper">
+  <ListCard class="cluster-linking">
     <div class="section-header">
       <div></div>
       <el-button
@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

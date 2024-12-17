@@ -13,7 +13,7 @@
         {{ t('Base.enable') }}
       </el-button>
     </div>
-    <template v-else-if="!isInitializing && isAuditEnabled">
+    <ListCard v-else-if="!isInitializing && isAuditEnabled">
       <el-form class="search-wrapper" @keyup.enter="search">
         <el-row :gutter="20">
           <el-col v-bind="colProps">
@@ -115,7 +115,7 @@
           </el-row>
         </div>
       </el-form>
-      <div class="app-wrapper" v-loading="isTableLoading">
+      <div v-loading="isTableLoading">
         <div class="section-header">
           <div></div>
           <!-- TODO:router -->
@@ -182,7 +182,7 @@
           <common-pagination v-model:metaData="pageMeta" @loadPage="getData"></common-pagination>
         </div>
       </div>
-    </template>
+    </ListCard>
   </div>
 </template>
 

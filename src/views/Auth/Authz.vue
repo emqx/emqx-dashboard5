@@ -1,5 +1,5 @@
 <template>
-  <div class="authz app-wrapper">
+  <ListCard class="authz">
     <div class="section-header">
       <div></div>
       <el-button
@@ -77,7 +77,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <AuthzSettingDrawer v-model="showSettingDrawer" />
 </template>
 
