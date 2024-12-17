@@ -40,6 +40,13 @@
   .detail-header img {
     height: 40px;
   }
+  .block-title {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: nowrap;
+    margin: 0;
+  }
   .info-tags {
     .el-tag,
     .node-status {

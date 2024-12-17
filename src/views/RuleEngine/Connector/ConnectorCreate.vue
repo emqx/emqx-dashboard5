@@ -206,7 +206,7 @@ const checkClipStatus = async () => {
     }
     setTypeAndGoStepConf(currentType as BridgeType)
     targetLoading.value = true
-    const connectorData = await getConnectorDetail<Connector>(route.query.target as string)
+    const connectorData = await getConnectorDetail(route.query.target as string)
     if (connectorData) {
       formData.value = {
         ...handleDataForCopy(connectorData),
