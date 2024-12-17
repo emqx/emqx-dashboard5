@@ -241,7 +241,7 @@ $header-heigh: 60px;
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  padding: 0 24px;
+  padding: 0 12px 0 8px;
   background-color: #272e3d;
   left: 200px;
   z-index: 100;

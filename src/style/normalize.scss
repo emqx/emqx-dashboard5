@@ -139,7 +139,7 @@
   }
   &.el-menu--popup {
     min-width: initial;
-    background-color: var(--color-white);
+    background-color: var(--color-bg-content);
     .el-menu-item {
       &.is-active {
         @include menu-item-active;

@@ -30,7 +30,7 @@ export default function useEditionConfigs(): {
   const edition = computed(() =>
     IS_ENTERPRISE ? editionConfigs.enterprise : editionConfigs.openSource,
   )
-  const loginTitle = computed(() => `${t('Base.login')} - EMQX ${t(edition.value.title)}`)
+  const loginTitle = computed(() => t('Base.userLogin'))
   const loginBgBanner = computed(() => edition.value.banner)
   const appLogo = computed(() => edition.value.logo)
 

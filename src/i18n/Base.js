@@ -11,6 +11,10 @@ export default {
     zh: '用户名',
     en: 'Username',
   },
+  userLogin: {
+    zh: '用户登录',
+    en: 'User Login',
+  },
   clientid: {
     zh: '客户端 ID',
     en: 'Client ID',
