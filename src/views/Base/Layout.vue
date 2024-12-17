@@ -312,6 +312,14 @@ $header-heigh: 60px;
 
 .top-submenu {
   margin: 24px 24px 32px;
+  .el-menu-item {
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 16px;
+    &:not(:first-child) {
+      margin-left: 16px;
+    }
+  }
 }
 
 // 60px is header height
