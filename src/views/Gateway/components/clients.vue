@@ -1,5 +1,5 @@
 <template>
-  <div class="gateway-client">
+  <el-card class="gateway-client">
     <el-form @keyup.enter="searchGatewayList()">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -109,7 +109,7 @@
         @refreshGateway="closeClientDetail"
       />
     </el-drawer>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts">

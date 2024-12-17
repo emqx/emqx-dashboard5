@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper subscribe">
+  <ListCard class="subscribe">
     <div class="section-header">
       <div></div>
       <el-button
@@ -45,7 +45,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <el-dialog
     v-model="opSubs"
     :title="isEdit ? $t('Base.edit') : $t('Base.add')"

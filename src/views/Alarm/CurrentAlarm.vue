@@ -1,5 +1,5 @@
 <template>
-  <div class="alarm app-wrapper">
+  <ListCard class="alarm">
     <div class="section-header">
       <div></div>
       <el-button
@@ -57,7 +57,7 @@
     <div class="emq-table-footer">
       <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

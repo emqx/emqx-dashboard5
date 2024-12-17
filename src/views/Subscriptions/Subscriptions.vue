@@ -1,5 +1,5 @@
 <template>
-  <div class="subscriptions">
+  <ListCard class="subscriptions">
     <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
       <el-row :gutter="20">
         <el-col v-bind="colProps">
@@ -80,7 +80,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="app-wrapper">
+    <div>
       <div class="section-header">
         <div></div>
         <el-button type="primary" :icon="Refresh" @click="loadTableData">
@@ -115,7 +115,7 @@
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadTableData" />
       </div>
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

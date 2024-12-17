@@ -1,5 +1,5 @@
 <template>
-  <div class="authn app-wrapper">
+  <ListCard class="authn">
     <div class="section-header">
       <div></div>
       <el-button
@@ -69,7 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

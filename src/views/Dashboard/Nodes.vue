@@ -1,5 +1,5 @@
 <template>
-  <div class="nodes app-wrapper">
+  <ListCard class="nodes">
     <div class="section-header">
       <div></div>
       <el-button type="primary" :icon="RefreshRight" @click="loadAllNodes">
@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

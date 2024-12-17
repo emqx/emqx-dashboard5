@@ -1,5 +1,5 @@
 <template>
-  <div class="message-validation app-wrapper">
+  <ListCard class="message-validation">
     <div class="section-header">
       <div></div>
       <el-button
@@ -69,7 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts" setup>

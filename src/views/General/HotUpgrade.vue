@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-upgrade app-wrapper">
+  <ListCard class="hot-upgrade">
     <div class="section-header">
       <div></div>
       <div>
@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </ListCard>
   <UpgradeNodeDialog v-model="showUpgradeDialog" :node="currentNode" @submitted="getTableData" />
   <UpgradeRecordsDialog v-model="showRecordsDialog" :node="currentNode" />
 </template>

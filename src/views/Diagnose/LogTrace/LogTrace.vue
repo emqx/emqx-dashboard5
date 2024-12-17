@@ -1,5 +1,5 @@
 <template>
-  <div class="log-trace app-wrapper">
+  <ListCard class="log-trace">
     <div class="section-header">
       <div></div>
       <div>
@@ -220,7 +220,7 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">

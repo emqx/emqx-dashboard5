@@ -1,5 +1,5 @@
 <template>
-  <div class="topicMetrics app-wrapper">
+  <ListCard class="topicMetrics">
     <div class="section-header">
       <div></div>
       <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="openAdd()">
@@ -171,7 +171,7 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </ListCard>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="users app-wrapper">
+  <ListCard class="users">
     <div class="section-header">
       <div></div>
       <el-button
@@ -143,7 +143,7 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </ListCard>
 </template>
 
 <script setup>

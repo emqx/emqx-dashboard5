@@ -1,5 +1,5 @@
 <template>
-  <div class="authn-manager">
+  <el-card class="authn-manager">
     <div class="section-header">
       <div class="searchbar">
         <el-space wrap :size="20">
@@ -127,7 +127,7 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts" setup>

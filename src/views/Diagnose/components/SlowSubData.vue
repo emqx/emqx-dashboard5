@@ -1,6 +1,7 @@
 <template>
-  <div class="slow-sub-data">
-    <div class="slow-sub-data-bar">
+  <ListCard class="slow-sub-data">
+    <div class="section-header">
+      <div></div>
       <div>
         <el-button
           :icon="Setting"
@@ -42,7 +43,7 @@
     <div class="emq-table-footer">
       <commonPagination :meta-data="pageController" @load-page="reloadStatistics" />
     </div>
-  </div>
+  </ListCard>
 </template>
 
 <script lang="ts">
@@ -179,12 +180,6 @@ getTotalStatistics()
 
 <style lang="scss" scoped>
 .slow-sub-data {
-  .slow-sub-data-bar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 40px;
-  }
   .el-icon-question {
     vertical-align: top;
     margin-left: 4px;

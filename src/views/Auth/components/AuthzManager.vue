@@ -1,5 +1,5 @@
 <template>
-  <div class="authz-manager">
+  <el-card class="authz-manager">
     <el-radio-group v-model="type">
       <el-radio-button v-for="item in typeList" :key="item.value" :label="item.value" border>
         {{ item.label }}
@@ -277,7 +277,7 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </el-card>
 </template>
 
 <script lang="ts">

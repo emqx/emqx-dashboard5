@@ -1,9 +1,11 @@
 import CustomInputPassword from './CustomInputPassword.vue'
+import ListCard from './ListCard.vue'
 import type { App } from 'vue'
 
 export default {
   install(app: App): void {
     app.component('CustomInputPassword', CustomInputPassword)
+    app.component('ListCard', ListCard)
   },
 }
 
