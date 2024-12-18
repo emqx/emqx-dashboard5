@@ -2,197 +2,180 @@
   <el-form
     class="message-transform-form"
     ref="formCom"
-    label-position="top"
-    require-asterisk-position="right"
+    label-width="200px"
     :model="formData"
     :rules="rules"
   >
-    <el-row :gutter="24">
-      <el-col :span="15">
-        <el-form-item prop="name" :label="tl('name')">
-          <el-input v-model="formData.name" :disabled="isEdit" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="15">
-        <el-form-item prop="topics" :label="tl('msgSourceTopic')">
-          <ul class="topic-list">
-            <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
-              <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
-                <el-input v-model="formData.topics[$index]" />
-                <div class="btn-container vertical-align-center">
-                  <el-button
-                    class="btn-del"
-                    :icon="Delete"
-                    :disabled="formData.topics.length <= 1 || !$hasPermission('delete')"
-                    @click="delTopic($index)"
-                  />
-                  <el-button
-                    v-if="$index === formData.topics.length - 1"
-                    class="btn-add"
-                    :icon="Plus"
-                    :disabled="!$hasPermission('post')"
-                    @click="addTopic"
-                  />
-                </div>
-              </el-form-item>
-            </li>
-          </ul>
-        </el-form-item>
-      </el-col>
-      <el-col :span="15">
-        <el-form-item prop="description" :label="tl('note')">
-          <el-input v-model="formData.description" />
-        </el-form-item>
-      </el-col>
-    </el-row>
+    <el-form-item prop="name" :label="tl('name')">
+      <el-input v-model="formData.name" :disabled="isEdit" />
+    </el-form-item>
+
+    <el-form-item prop="topics" :label="tl('msgSourceTopic')">
+      <ul class="topic-list">
+        <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
+          <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
+            <el-input v-model="formData.topics[$index]" />
+            <div class="btn-container vertical-align-center">
+              <el-button
+                class="btn-del"
+                :icon="Delete"
+                :disabled="formData.topics.length <= 1 || !$hasPermission('delete')"
+                @click="delTopic($index)"
+              />
+              <el-button
+                v-if="$index === formData.topics.length - 1"
+                class="btn-add"
+                :icon="Plus"
+                :disabled="!$hasPermission('post')"
+                @click="addTopic"
+              />
+            </div>
+          </el-form-item>
+        </li>
+      </ul>
+    </el-form-item>
+
+    <el-form-item prop="description" :label="tl('note')">
+      <el-input v-model="formData.description" />
+    </el-form-item>
+
     <div>
       <p class="part-header">{{ tl('messageFormatTransformation') }}</p>
       <p class="tip">{{ tl('formatTransDesc') }}</p>
-      <el-row>
-        <el-col :span="20">
-          <el-row :gutter="24" class="row-formats">
-            <!-- ------- DECODER ------- -->
-            <el-col :span="12">
-              <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
-                <el-select
-                  v-model="(formData.payload_decoder as any).type"
-                  @change="handleDecoderTypeChanged(formData.payload_decoder), checkOperations()"
-                >
-                  <el-option
-                    v-for="{ label, value } in formatOpts"
-                    :key="value"
-                    :value="value"
-                    :label="label"
-                  />
-                </el-select>
-              </el-form-item>
-              <div
-                class="space-between schema-select-container"
-                v-if="showSchemaSelect(formData.payload_decoder.type)"
-              >
-                <el-form-item
-                  prop="payload_decoder.schema"
-                  :label="`${getSchemaTypeLabel(formData.payload_decoder.type)} Schema`"
-                >
-                  <el-select v-model="(formData.payload_decoder as any).schema">
-                    <el-option
-                      v-for="{ name } in getSchemaTypeList(formData.payload_decoder.type)"
-                      :key="name"
-                      :value="name"
-                      :label="name"
-                    />
-                  </el-select>
-                </el-form-item>
-                <el-form-item
-                  prop="payload_decoder.message_type"
-                  v-if="showMessageTypeSelect(formData.payload_decoder.type)"
-                >
-                  <el-input
-                    v-model="(formData.payload_decoder as any).message_type"
-                    :placeholder="tl('messageType')"
-                  />
-                </el-form-item>
-              </div>
-            </el-col>
-            <!-- ------- ENCODER ------- -->
-            <el-col :span="12">
-              <el-form-item prop="payload_encoder.type" :label="tl('outputFormat')">
-                <el-select
-                  v-model="(formData.payload_encoder as any).type"
-                  @change="handleTypeChanged(formData.payload_encoder), checkOperations()"
-                >
-                  <el-option
-                    v-for="{ label, value } in formatOpts"
-                    :key="value"
-                    :value="value"
-                    :label="label"
-                    :disabled="isDisabledEncodeType(value)"
-                  />
-                </el-select>
-              </el-form-item>
-              <div
-                class="space-between schema-select-container"
-                v-if="showSchemaSelect(formData.payload_encoder.type)"
-              >
-                <el-form-item
-                  prop="payload_encoder.schema"
-                  :label="`${getSchemaTypeLabel(formData.payload_encoder.type)} Schema`"
-                >
-                  <el-select v-model="(formData.payload_encoder as any).schema">
-                    <el-option
-                      v-for="{ name } in getSchemaTypeList(formData.payload_encoder.type)"
-                      :key="name"
-                      :value="name"
-                      :label="name"
-                    />
-                  </el-select>
-                </el-form-item>
-                <el-form-item
-                  prop="payload_encoder.message_type"
-                  v-if="showMessageTypeSelect(formData.payload_encoder.type)"
-                >
-                  <el-input
-                    v-model="(formData.payload_encoder as any).message_type"
-                    :placeholder="tl('messageType')"
-                  />
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-    </div>
-    <div>
-      <p class="part-header">{{ tl('messagePropsTransformation') }}</p>
-      <p class="tip">{{ tl('propsTransDesc') }}</p>
-      <el-row :gutter="24">
-        <el-col :span="21">
-          <el-form-item prop="operations" ref="OperationsFormItemRef">
-            <OperationsTable
-              v-model="formData.operations"
-              :transformation-form="formData"
-              :required="isOperationsRequired"
-              @blur="validateOperations"
+      <div class="row-formats">
+        <!-- ------- DECODER ------- -->
+        <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
+          <el-select
+            v-model="(formData.payload_decoder as any).type"
+            @change="handleDecoderTypeChanged(formData.payload_decoder), checkOperations()"
+          >
+            <el-option
+              v-for="{ label, value } in formatOpts"
+              :key="value"
+              :value="value"
+              :label="label"
             />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </div>
-    <div>
-      <p class="part-header">{{ tl('transformationFailureOperation') }}</p>
-      <el-row :gutter="24">
-        <el-col :span="15">
-          <el-form-item prop="failure_action" :label="tl('actionAfterFailure')" class="label-right">
-            <el-radio-group v-model="formData.failure_action">
-              <el-radio
-                v-for="{ label, value } in failureActionOpts"
-                :key="value"
-                :value="value"
-                :label="value"
-              >
-                {{ label }}
-              </el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-        <el-col :span="15">
-          <el-form-item :label="tl('outputLogs')" class="label-right">
-            <el-switch v-model="outputLogs" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="15" v-if="outputLogs">
-          <el-form-item prop="log_failure.level" :label="t('MonitoringIntegration.logsLevel')">
-            <el-select v-model="formData.log_failure!.level">
+          </el-select>
+        </el-form-item>
+        <div
+          class="space-between schema-select-container"
+          v-if="showSchemaSelect(formData.payload_decoder.type)"
+        >
+          <el-form-item
+            prop="payload_decoder.schema"
+            :label="`${getSchemaTypeLabel(formData.payload_decoder.type)} Schema`"
+          >
+            <el-select v-model="(formData.payload_decoder as any).schema">
               <el-option
-                v-for="{ label, value } in messageTransformLogLevelOpts"
-                :key="value"
-                :value="value"
-                :label="label"
+                v-for="{ name } in getSchemaTypeList(formData.payload_decoder.type)"
+                :key="name"
+                :value="name"
+                :label="name"
               />
             </el-select>
           </el-form-item>
-        </el-col>
-      </el-row>
+          <el-form-item
+            prop="payload_decoder.message_type"
+            v-if="showMessageTypeSelect(formData.payload_decoder.type)"
+          >
+            <el-input
+              v-model="(formData.payload_decoder as any).message_type"
+              :placeholder="tl('messageType')"
+            />
+          </el-form-item>
+        </div>
+
+        <!-- ------- ENCODER ------- -->
+        <el-form-item prop="payload_encoder.type" :label="tl('outputFormat')">
+          <el-select
+            v-model="(formData.payload_encoder as any).type"
+            @change="handleTypeChanged(formData.payload_encoder), checkOperations()"
+          >
+            <el-option
+              v-for="{ label, value } in formatOpts"
+              :key="value"
+              :value="value"
+              :label="label"
+              :disabled="isDisabledEncodeType(value)"
+            />
+          </el-select>
+        </el-form-item>
+        <div
+          class="space-between schema-select-container"
+          v-if="showSchemaSelect(formData.payload_encoder.type)"
+        >
+          <el-form-item
+            prop="payload_encoder.schema"
+            :label="`${getSchemaTypeLabel(formData.payload_encoder.type)} Schema`"
+          >
+            <el-select v-model="(formData.payload_encoder as any).schema">
+              <el-option
+                v-for="{ name } in getSchemaTypeList(formData.payload_encoder.type)"
+                :key="name"
+                :value="name"
+                :label="name"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            prop="payload_encoder.message_type"
+            v-if="showMessageTypeSelect(formData.payload_encoder.type)"
+          >
+            <el-input
+              v-model="(formData.payload_encoder as any).message_type"
+              :placeholder="tl('messageType')"
+            />
+          </el-form-item>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="part-header">{{ tl('messagePropsTransformation') }}</p>
+      <p class="tip">{{ tl('propsTransDesc') }}</p>
+      <el-form-item prop="operations" ref="OperationsFormItemRef">
+        <OperationsTable
+          v-model="formData.operations"
+          :transformation-form="formData"
+          :required="isOperationsRequired"
+          @blur="validateOperations"
+        />
+      </el-form-item>
+    </div>
+
+    <div>
+      <p class="part-header">{{ tl('transformationFailureOperation') }}</p>
+      <el-form-item prop="failure_action" :label="tl('actionAfterFailure')" class="label-right">
+        <el-radio-group v-model="formData.failure_action">
+          <el-radio
+            v-for="{ label, value } in failureActionOpts"
+            :key="value"
+            :value="value"
+            :label="value"
+          >
+            {{ label }}
+          </el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item :label="tl('outputLogs')" class="label-right">
+        <el-switch v-model="outputLogs" />
+      </el-form-item>
+
+      <el-form-item
+        v-if="outputLogs"
+        prop="log_failure.level"
+        :label="t('MonitoringIntegration.logsLevel')"
+      >
+        <el-select v-model="formData.log_failure!.level">
+          <el-option
+            v-for="{ label, value } in messageTransformLogLevelOpts"
+            :key="value"
+            :value="value"
+            :label="label"
+          />
+        </el-select>
+      </el-form-item>
     </div>
   </el-form>
 </template>
