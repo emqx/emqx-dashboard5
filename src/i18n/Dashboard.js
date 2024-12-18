@@ -256,12 +256,12 @@ export default {
     en: 'For Trial',
   },
   licenseEvaluationTip: {
-    zh: `当前正在使用评估 License，限制为 {0} 个连接。请{1}。`,
-    en: `You are now using the {0}-connection evaluation license. Please {1}.`,
+    zh: `当前正在使用评估 License，限制为 {0} 个并发会话。此 License 仅供评估使用，不可用于生产环境。如需申请新的 License，请{1}，或通过邮件 {2} 联系 EMQ 客服。`,
+    en: `Using an evaluation license limited to {0} concurrent sessions. This license is for evaluation purposes only and not permitted for production use. Please {1}, or contact EMQ customer services via email {2}.`,
   },
   upgradeLicense: {
-    zh: '升级 License',
-    en: 'upgrade license',
+    zh: '访问许可证申请页面',
+    en: 'visit license application page',
   },
   licenseExpiryTip: {
     zh: '您的 License 已过期，请{0}或联系销售人员更新 License。',
