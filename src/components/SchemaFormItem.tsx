@@ -164,7 +164,7 @@ export default defineComponent({
             return (
               <CustomInputPassword
                 disabled={isDisabled}
-                placeholder={props.placeholder}
+                placeholder={placeholder}
                 v-model={formItemValue.value}
                 clearable
                 {...customProps}
