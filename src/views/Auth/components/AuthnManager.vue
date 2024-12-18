@@ -1,8 +1,24 @@
 <template>
   <el-card class="authn-manager">
-    <div class="section-header">
+    <div class="section-header space-between">
+      <div class="add-funcs-container">
+        <el-tooltip :content="$t('Base.add')" placement="top">
+          <el-button
+            class="icon-button"
+            type="primary"
+            :icon="Plus"
+            :disabled="!$hasPermission('post')"
+            @click="addCommand"
+          >
+          </el-button>
+        </el-tooltip>
+        <template v-if="mechanism === 'password_based'">
+          <authn-users-import @uploadedData="loadData" />
+        </template>
+      </div>
+
       <div class="searchbar">
-        <el-space wrap :size="20">
+        <el-space wrap :size="16">
           <el-input
             v-model="searchVal.user_id"
             clearable
@@ -28,21 +44,6 @@
             </el-button>
           </el-tooltip>
         </el-space>
-      </div>
-      <div class="add-funcs-container">
-        <template v-if="mechanism === 'password_based'">
-          <authn-users-import @uploadedData="loadData" />
-        </template>
-        <el-tooltip :content="$t('Base.add')" placement="top">
-          <el-button
-            class="icon-button"
-            type="primary"
-            :icon="Plus"
-            :disabled="!$hasPermission('post')"
-            @click="addCommand"
-          >
-          </el-button>
-        </el-tooltip>
       </div>
     </div>
 
@@ -354,6 +355,7 @@ const resetIsSuperuser = () => {
 .authn-manager {
   .searchbar {
     height: 36px;
+    margin-right: -16px;
     .el-input {
       width: 260px;
     }
@@ -366,7 +368,7 @@ const resetIsSuperuser = () => {
     display: flex;
     > .el-button,
     > .file-upload {
-      margin-left: 16px;
+      margin-right: 8px;
     }
   }
 

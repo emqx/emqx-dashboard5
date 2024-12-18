@@ -3,19 +3,19 @@
     <div class="section-header">
       <div></div>
       <el-button
-        :disabled="!$hasPermission('put')"
-        :icon="Setting"
-        @click="showSettingDrawer = true"
-      >
-        {{ $t('Base.setting') }}
-      </el-button>
-      <el-button
         type="primary"
         :icon="Plus"
         :disabled="!$hasPermission('post')"
         @click="$router.push({ name: 'authorization-create' })"
       >
         {{ $t('Base.create') }}
+      </el-button>
+      <el-button
+        :disabled="!$hasPermission('put')"
+        :icon="Setting"
+        @click="showSettingDrawer = true"
+      >
+        {{ $t('Base.setting') }}
       </el-button>
     </div>
     <el-table

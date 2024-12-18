@@ -94,6 +94,9 @@
     <div>
       <div class="section-header">
         <div></div>
+        <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
+          {{ $t('Base.refresh') }}
+        </el-button>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
         <el-button
           class="kick-btn"
@@ -105,9 +108,6 @@
           @click="cleanBatchClients"
         >
           {{ tl('kickOut') }}
-        </el-button>
-        <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
-          {{ $t('Base.refresh') }}
         </el-button>
       </div>
       <el-table

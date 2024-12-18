@@ -1,7 +1,7 @@
 <template>
   <div class="flow" v-loading="isLoading">
     <template v-if="showData">
-      <div class="flow-view-hd">
+      <div class="section-header flow-view-hd">
         <!-- <el-radio-group v-model="showBy">
           <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
           <el-radio-button :label="ShowByOpt.List">{{ tl('list') }}</el-radio-button>
@@ -77,11 +77,10 @@ const goCreate = () => router.push({ name: 'flow-create' })
 
   $hd-height: 68px;
   .flow-view-hd {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
     height: $hd-height;
-    padding: 0 24px;
+    padding-top: 20px;
+    padding-left: 16px;
+    margin-top: 0;
     border-bottom: 1px solid var(--color-border-primary);
   }
   .flow-view {

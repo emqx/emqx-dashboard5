@@ -3,19 +3,19 @@
     <div class="section-header">
       <div></div>
       <el-button
-        :icon="Setting"
-        :disabled="!$hasPermission('put')"
-        @click="$router.push({ name: 'alarm-settings' })"
-      >
-        {{ $t('Base.setting') }}
-      </el-button>
-      <el-button
         type="primary"
         :disabled="!$hasPermission('get')"
         :icon="RefreshRight"
         @click="loadData({ page: 1 })"
       >
         {{ $t('Base.refresh') }}
+      </el-button>
+      <el-button
+        :icon="Setting"
+        :disabled="!$hasPermission('put')"
+        @click="$router.push({ name: 'alarm-settings' })"
+      >
+        {{ $t('Base.setting') }}
       </el-button>
     </div>
     <el-table :data="currentAlarmData" v-loading.lock="currentLockTable">

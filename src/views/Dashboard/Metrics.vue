@@ -2,9 +2,9 @@
   <div class="metrics app-wrapper">
     <div class="header-block">
       <div class="header-item">
-        <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
-      </div>
-      <div class="header-item">
+        <el-button type="primary" :icon="RefreshRight" @click="handleSearch">
+          {{ $t('Base.refresh') }}
+        </el-button>
         <el-select
           class="node-select"
           v-model="currentNode"
@@ -14,9 +14,9 @@
           <el-option :label="$t('BasicConfig.cluster')" :value="CLUSTER_VALUE" />
           <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
         </el-select>
-        <el-button type="primary" :icon="RefreshRight" @click="handleSearch">
-          {{ $t('Base.refresh') }}
-        </el-button>
+      </div>
+      <div class="header-item">
+        <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
     </div>
     <el-row class="content-block" :gutter="26">
@@ -244,8 +244,11 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    margin-top: 14px;
+    margin-bottom: 16px;
+    margin-top: 20px;
+    .el-button {
+      margin-right: 8px;
+    }
     .node-select.el-select {
       width: 320px;
       margin-right: 12px;
