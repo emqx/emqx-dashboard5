@@ -8,7 +8,7 @@
         </el-button>
       </div>
     </div>
-    <el-row :gutter="26">
+    <el-row :gutter="16">
       <el-col :span="12">
         <el-card class="node-info top-border" v-loading="nodeLoading">
           <el-descriptions :title="tl('currentNodeInfo')" border :column="1" size="large">

@@ -1,6 +1,6 @@
 <template>
   <ListCard class="sso" v-loading="isLoading">
-    <el-row class="sso-list" :gutter="24">
+    <el-row class="sso-list" :gutter="16">
       <el-col :span="6" class="sso-item" v-for="item in SSOList" :key="item.backend">
         <el-card class="sso-item-card">
           <div class="card-db">

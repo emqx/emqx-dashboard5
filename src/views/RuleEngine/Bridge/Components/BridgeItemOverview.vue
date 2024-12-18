@@ -21,7 +21,7 @@
             {{ tl('buffer') }}
           </p>
         </div>
-        <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="24">
+        <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="16">
           <el-col :span="isFlowNode ? 24 : 6">
             <el-card class="metric-bar">
               <div class="metric-bar-hd">

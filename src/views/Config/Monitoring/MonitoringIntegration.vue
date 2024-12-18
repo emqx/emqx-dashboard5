@@ -21,7 +21,7 @@
                   />
                 </template>
                 <el-radio-group class="platform-radio-group" v-model="selectedPlatform">
-                  <el-row :gutter="28">
+                  <el-row :gutter="16">
                     <el-col
                       v-for="item in platformOpts"
                       :key="item.label"

@@ -19,7 +19,7 @@
         <p class="tip">{{ tl('packetStatisticsOfNodes') }}</p>
       </div>
     </div>
-    <el-row class="content-block" :gutter="26">
+    <el-row class="content-block" :gutter="16">
       <el-col :span="8">
         <el-card class="top-border table-card client">
           <el-table
@@ -76,7 +76,7 @@
     <h2>
       {{ $t('Dashboard.messaging') }}
     </h2>
-    <el-row class="content-block" :gutter="26">
+    <el-row class="content-block" :gutter="16">
       <el-col :span="8">
         <el-card class="top-border table-card bytes">
           <el-table

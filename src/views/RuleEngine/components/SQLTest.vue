@@ -27,7 +27,7 @@
                   for-test
                 />
               </div>
-              <el-row class="input-output-row" :gutter="26">
+              <el-row class="input-output-row" :gutter="16">
                 <el-col :span="12">
                   <label class="test-label">
                     {{ tl('testData') }}

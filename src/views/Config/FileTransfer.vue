@@ -24,7 +24,7 @@
                   v-model="selectedStorageType"
                   @change="handleTypeChanged"
                 >
-                  <el-row :gutter="28">
+                  <el-row :gutter="16">
                     <el-col v-for="{ value, label } in storageTypeOpt" :key="value" :span="12">
                       <el-radio class="platform-radio" :label="value" border>
                         <span class="platform-name"> {{ label }} </span>

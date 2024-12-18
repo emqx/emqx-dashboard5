@@ -5,7 +5,7 @@
     class="rule-filter-form"
     @keyup.enter="searchRule"
   >
-    <el-row :gutter="20" class="" :class="{ 'multiple-rows': showMoreQuery }">
+    <el-row :gutter="16" class="" :class="{ 'multiple-rows': showMoreQuery }">
       <el-col v-bind="colProps">
         <el-form-item>
           <el-input

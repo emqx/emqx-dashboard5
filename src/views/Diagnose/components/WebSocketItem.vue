@@ -127,7 +127,7 @@
         :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
         label-position="top"
       >
-        <el-row :gutter="26" align="bottom">
+        <el-row :gutter="16" align="bottom">
           <el-col :span="6">
             <el-form-item prop="topic" :label="$t('Base.topic')">
               <el-input v-model="subscriptionsRecord.topic" />
@@ -182,7 +182,7 @@
         class="pub-area"
         :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
       >
-        <el-row :gutter="26" align="bottom">
+        <el-row :gutter="16" align="bottom">
           <el-col :span="6">
             <el-form-item prop="topic" :label="$t('Base.topic')">
               <el-input v-model="messageRecord.topic" />
@@ -213,7 +213,7 @@
     </div>
 
     <!-- Data -->
-    <el-row :gutter="26">
+    <el-row :gutter="16">
       <el-col :span="12">
         <div class="message-btn">
           {{ $t('Tools.received') }}

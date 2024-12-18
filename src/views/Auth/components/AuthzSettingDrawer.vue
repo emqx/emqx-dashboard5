@@ -1,6 +1,6 @@
 <template>
   <el-drawer v-model="showDrawer" :title="t('Auth.authzSetting')" size="800px">
-    <el-row :gutter="26" v-loading="isLoading">
+    <el-row :gutter="16" v-loading="isLoading">
       <el-col :span="12">
         <el-card class="app-card with-border" shadow="never">
           <el-form :model="record" label-position="top">

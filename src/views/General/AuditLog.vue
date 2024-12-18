@@ -15,7 +15,7 @@
     </div>
     <ListCard v-else-if="!isInitializing && isAuditEnabled">
       <el-form class="search-wrapper" @keyup.enter="search">
-        <el-row :gutter="20">
+        <el-row :gutter="16">
           <el-col v-bind="colProps">
             <div class="time-range">
               <el-date-picker
@@ -52,7 +52,7 @@
         </el-row>
         <div class="http-filter" v-if="!notSupportHTTPFilter">
           <p class="tip http-filter-desc">{{ tl('httpFilterParamsDesc') }}</p>
-          <el-row :gutter="20">
+          <el-row :gutter="16">
             <el-col v-bind="colProps">
               <el-input v-model="filterParams.source" :placeholder="tl('opSource')" />
             </el-col>
