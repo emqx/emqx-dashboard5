@@ -275,6 +275,8 @@ export const useActionDataHandler = (): {
         ;['value', 'isint', 'isbinary'].forEach((key) => {
           if (/^(true|false)$/i.test(item[key])) {
             ret[key] = /^true/i.test(item[key])
+          } else if (!item[key]) {
+            Reflect.deleteProperty(ret, key)
           }
         })
         if (NUM_REG.test(item.value)) {
