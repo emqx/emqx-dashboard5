@@ -1188,4 +1188,28 @@ Typical JQ programs describe simple transformations or filters for JSON data, bu
     zh: 'Map 的大小',
     en: 'The size of the map',
   },
+  strUtf16LeDesc: {
+    zh: '将 UTF-8 字符串转换为 UTF-16 小端序编码',
+    en: 'Convert a UTF-8 string to UTF-16 little-endian'
+  },
+  strUtf16LeParams: {
+    zh: '要转换的字符串',
+    en: 'String to convert'
+  },
+  strUtf16LeReturns: {
+    zh: 'UTF-16 小端序编码的字符串',
+    en: 'UTF-16 little-endian encoded string'
+  },
+  sqlserverBin2HexstrDesc: {
+    zh: '将字符串或二进制转换为 SQL Server 十六进制格式（带 0x 前缀）',
+    en: 'Convert string or binary to SQL Server hex format with 0x prefix'
+  },
+  sqlserverBin2HexstrParams: {
+    zh: '要转换的数据',
+    en: 'Data to convert'
+  },
+  sqlserverBin2HexstrReturns: {
+    zh: 'SQL Server 格式的十六进制字符串',
+    en: 'Hex string in SQL Server format'
+  }
 }
