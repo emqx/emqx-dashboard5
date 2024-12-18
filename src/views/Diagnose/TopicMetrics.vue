@@ -27,7 +27,7 @@
                 <el-radio-button label="qos2">QoS 2</el-radio-button>
               </el-radio-group>
             </el-row>
-            <el-row :gutter="20">
+            <el-row :gutter="16">
               <el-col :span="8">
                 <div class="message-card in">
                   <div>

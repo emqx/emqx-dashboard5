@@ -2,7 +2,7 @@
   <div class="log-trace-detail app-wrapper">
     <detail-header :item="{ name: viewLogName, path: '/log-trace' }" />
     <div v-loading="viewNodeLoading" :element-loading-text="nextPageLoading">
-      <el-row :gutter="30">
+      <el-row :gutter="16">
         <el-col :span="6">
           <el-select v-model="selectedNode">
             <el-option v-for="item in nodeOpts" :value="item.node" :key="item.node" />

@@ -1,6 +1,6 @@
 <template>
   <div class="overview app-wrapper">
-    <el-row class="block" :gutter="26">
+    <el-row class="block" :gutter="16">
       <el-col :span="8" :lg="9">
         <el-card class="rate-card">
           <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
@@ -72,7 +72,7 @@
         </el-card>
       </el-col>
       <el-col :span="16" :lg="15">
-        <el-row :gutter="24">
+        <el-row :gutter="16">
           <el-col :span="12" class="main-info-item">
             <el-card class="with-multiple-counts">
               <div class="multiple-counts-wrap">
@@ -232,7 +232,7 @@ syncPolling(loadData, POLLING_INTERVAL)
 .overview {
   .block {
     margin-top: 14px;
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
   .main-info-item {
     height: 195px;

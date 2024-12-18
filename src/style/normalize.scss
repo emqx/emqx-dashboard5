@@ -412,6 +412,11 @@
   background-color: var(--color-bg-content);
 }
 .el-button {
+  padding-left: 16px;
+  padding-right: 16px;
+  [class*=el-icon] + span {
+    margin-left: 4px;
+  }
   &.el-button--primary:not(.is-link) {
     @include button-primary(var(--color-blue-grey));
     color: #fff;

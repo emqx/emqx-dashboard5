@@ -11,7 +11,7 @@
       <el-row :gutter="24">
         <el-col :span="24">
           <el-form-item label="API Key">
-            <el-row :gutter="12">
+            <el-row :gutter="16">
               <el-col :span="21">
                 <el-input v-model="APIKeyData.api_key" disabled />
               </el-col>
@@ -23,7 +23,7 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="Secret Key">
-            <el-row :gutter="12">
+            <el-row :gutter="16">
               <el-col :span="21">
                 <el-input v-model="APIKeyData.api_secret" disabled />
               </el-col>

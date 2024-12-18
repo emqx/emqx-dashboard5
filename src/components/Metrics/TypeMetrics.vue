@@ -16,7 +16,7 @@
   </el-col>
   <el-col v-else :span="24">
     <div class="metric-types">
-      <el-row :gutter="24">
+      <el-row :gutter="16">
         <el-col v-for="stat in data" :key="stat.type" :span="12" class="flow-node-col">
           <el-card class="card-type-metrics">
             <!-- set key to eliminate the diff when change node -->

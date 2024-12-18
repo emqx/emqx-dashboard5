@@ -231,6 +231,5 @@ const customUploadRequest: UploadRequestHandler = async (
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-around;
-  gap: 12px;
 }
 </style>

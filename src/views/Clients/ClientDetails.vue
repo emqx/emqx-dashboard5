@@ -45,7 +45,7 @@
       </div>
     </div>
     <template v-if="doesTheClientExist">
-      <el-row :gutter="26" class="client-row block">
+      <el-row :gutter="16" class="client-row block">
         <el-col :span="12">
           <el-card class="top-border client-info" v-loading="clientDetailLock">
             <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
@@ -111,7 +111,7 @@
       <h2>
         {{ $t('components.metrics') }}
       </h2>
-      <el-row class="block client-metrics" :gutter="26">
+      <el-row class="block client-metrics" :gutter="16">
         <el-col :span="12">
           <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
             <el-table :data="filterMetrics(clientDetailParts.bytes)">

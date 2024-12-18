@@ -11,7 +11,7 @@
       </el-select>
     </div>
     <div class="block">
-      <el-row :gutter="26">
+      <el-row :gutter="16">
         <template v-for="item in messageDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
@@ -34,7 +34,7 @@
       </el-row>
     </div>
     <div class="block">
-      <el-row :gutter="26">
+      <el-row :gutter="16">
         <template v-for="item in connectionDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
@@ -332,7 +332,7 @@ syncPolling(loadChartMetrics, POLLING_INTERVAL)
 .polyline-cards {
   .chart-option {
     margin-top: 36px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;

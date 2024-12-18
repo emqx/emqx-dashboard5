@@ -1,7 +1,7 @@
 <template>
   <ListCard class="banned-clients">
     <el-form class="search-wrapper" @keyup.enter="refreshListData">
-      <el-row :gutter="20">
+      <el-row :gutter="16">
         <el-col v-bind="colProps">
           <el-form-item>
             <el-select v-model="searchAs">

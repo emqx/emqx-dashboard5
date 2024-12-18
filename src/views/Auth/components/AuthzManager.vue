@@ -5,7 +5,7 @@
         {{ item.label }}
       </el-radio-button>
     </el-radio-group>
-    <div class="section-searchbar" :gutter="20">
+    <div class="section-searchbar" :gutter="16">
       <el-tooltip :content="$t('Base.add')" placement="top">
         <el-button
           class="icon-button"

@@ -60,7 +60,7 @@
         </el-col>
         <el-col :span="24" v-if="operationType === 'view'">
           <el-form-item label="API Key">
-            <el-row :gutter="12">
+            <el-row :gutter="16">
               <el-col :span="21">
                 <el-input v-model="formData.api_key" disabled />
               </el-col>

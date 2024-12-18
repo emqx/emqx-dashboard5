@@ -5,7 +5,7 @@
     </el-col>
   </el-row>
   <el-radio-group class="target-type-select is-connector" v-model="chosenBridgeType">
-    <el-row :gutter="28">
+    <el-row :gutter="16">
       <el-col v-for="item in filteredConnectorTypeList" :key="item.label" :span="8">
         <el-radio class="target-type-item" :label="item.value" border>
           <img

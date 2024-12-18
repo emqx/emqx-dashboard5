@@ -28,7 +28,7 @@
       </div>
       <!-- Stats -->
       <el-row
-        :gutter="24"
+        :gutter="16"
         :class="['block-bd', 'stats-numbers', { 'flow-node-row': isFlowNode }]"
         v-for="(typeMetricsData, index) in typeMetricsDataSets"
         :key="index"
@@ -64,7 +64,7 @@
       <div class="block-hd">
         <p class="block-title">{{ t('Base.rateIndicators') }}</p>
       </div>
-      <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="24">
+      <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="16">
         <el-col :span="isFlowNode ? 24 : 11">
           <el-card class="metric-bar">
             <div class="metric-bar-hd">
@@ -122,7 +122,7 @@
       </div>
       <div v-for="(typeMetricsData, index) in typeMetricsDataSets" :key="index">
         <el-row
-          :gutter="24"
+          :gutter="16"
           :class="['block-bd', 'stats-numbers', { 'flow-node-row': isFlowNode }]"
           v-for="(typeMetricsDataChild, index) in typeMetricsData.children"
           :key="index"

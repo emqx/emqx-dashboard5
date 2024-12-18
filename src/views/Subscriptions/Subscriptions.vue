@@ -1,7 +1,7 @@
 <template>
   <ListCard class="subscriptions">
     <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
-      <el-row :gutter="20">
+      <el-row :gutter="16">
         <el-col v-bind="colProps">
           <el-select
             v-model="fuzzyParams.node"
