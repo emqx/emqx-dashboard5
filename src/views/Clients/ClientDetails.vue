@@ -135,7 +135,7 @@
           </el-card>
         </el-col>
       </el-row>
-      <div class="section-header">
+      <div class="section-header space-between">
         <div>
           {{ tl('currentSubscription') }}
         </div>

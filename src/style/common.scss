@@ -272,6 +272,11 @@ p.description {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  &.space-between {
+    justify-content: space-between;
+  }
+
   &:not(:first-of-type) {
     margin-top: 16px;
   }
@@ -286,12 +291,20 @@ p.description {
   & > :first-child {
     display: flex;
     align-items: center;
-    flex-grow: 1;
     overflow: hidden;
   }
 
   & > :not(:first-child) {
-    margin-left: 10px;
+    margin-right: 8px;
+  }
+
+  .el-button {
+    &:not(:last-child),
+    & + .el-button,
+    & + .el-dropdown {
+      margin-left: 0;
+      margin-right: 8px;
+    }
   }
 
   span,

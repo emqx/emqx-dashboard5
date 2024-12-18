@@ -6,6 +6,16 @@
       </el-radio-button>
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
+      <el-tooltip :content="$t('Base.add')" placement="top">
+        <el-button
+          class="icon-button"
+          :disabled="!$hasPermission('post')"
+          type="primary"
+          :icon="Plus"
+          @click="handleAdd"
+        >
+        </el-button>
+      </el-tooltip>
       <div class="searchbar-content">
         <template v-if="!isTypeAll">
           <el-input
@@ -25,16 +35,6 @@
           </el-tooltip>
         </template>
       </div>
-      <el-tooltip :content="$t('Base.add')" placement="top">
-        <el-button
-          class="icon-button"
-          :disabled="!$hasPermission('post')"
-          type="primary"
-          :icon="Plus"
-          @click="handleAdd"
-        >
-        </el-button>
-      </el-tooltip>
     </div>
     <el-table
       ref="tableCom"

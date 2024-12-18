@@ -1,6 +1,9 @@
 <template>
   <ListCard class="plugins">
     <div class="section-header">
+      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="goInstall">
+        {{ t('components.plugin-install') }}
+      </el-button>
       <div class="filters">
         <el-input :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
         <el-radio-group v-model="filterStatus">
@@ -10,9 +13,6 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="goInstall">
-        {{ t('components.plugin-install') }}
-      </el-button>
     </div>
     <el-table
       :data="pluginListToShow"

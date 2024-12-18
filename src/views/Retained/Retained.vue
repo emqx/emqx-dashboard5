@@ -25,19 +25,19 @@
         <div></div>
         <template v-if="isEnabledRetainer">
           <el-button
-            :icon="Setting"
-            :disabled="!$hasPermission('put')"
-            @click="$router.push({ name: 'mqtt-retainer' })"
-          >
-            {{ $t('Base.setting') }}
-          </el-button>
-          <el-button
             type="primary"
             :disabled="!$hasPermission('get')"
             :icon="RefreshRight"
             @click="refresh"
           >
             {{ $t('Base.refresh') }}
+          </el-button>
+          <el-button
+            :icon="Setting"
+            :disabled="!$hasPermission('put')"
+            @click="$router.push({ name: 'mqtt-retainer' })"
+          >
+            {{ $t('Base.setting') }}
           </el-button>
           <el-button
             type="danger"
