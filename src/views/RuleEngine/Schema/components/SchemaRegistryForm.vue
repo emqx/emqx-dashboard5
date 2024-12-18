@@ -1,72 +1,65 @@
 <template>
   <el-form
     ref="FormCom"
-    label-position="top"
+    label-width="200px"
     class="schema-registry-form"
     :rules="rules"
     :model="schemaForm"
-    require-asterisk-position="right"
   >
-    <el-row :gutter="24">
-      <el-col :span="8">
-        <el-form-item prop="name">
-          <template #label>
-            <FormItemLabel :label="t('Base.name')" :desc="tl('schemaNameTip')" desc-marked />
-          </template>
-          <el-input v-model="schemaForm.name" :disabled="isEdit" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item :label="t('Base.note')" prop="description">
-          <el-input v-model="schemaForm.description" />
-        </el-form-item>
-      </el-col>
-      <template v-if="!fixedType">
-        <el-col :span="8" />
-        <el-col :span="8">
-          <el-form-item :label="tl('type')" prop="type">
-            <el-select v-model="schemaForm.type">
-              <el-option
-                v-for="{ label, value } in schemaTypeOpts"
-                :key="value"
-                :label="label"
-                :value="value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
+    <el-form-item prop="name">
+      <template #label>
+        <FormItemLabel :label="t('Base.name')" :desc="tl('schemaNameTip')" desc-marked />
       </template>
-      <el-col :span="24">
-        <el-form-item label="Schema" prop="source">
-          <template #label>
-            <span>Schema</span>
-            <InfoTooltip v-if="selectedJSON" popper-class="is-wider">
-              <template #content>
-                <MarkdownContent :content="tl('JSONSchemaVersionTip')" />
-              </template>
-            </InfoTooltip>
+      <el-input v-model="schemaForm.name" :disabled="isEdit" />
+    </el-form-item>
+
+    <el-form-item :label="t('Base.note')" prop="description">
+      <el-input v-model="schemaForm.description" />
+    </el-form-item>
+
+    <template v-if="!fixedType">
+      <el-form-item :label="tl('type')" prop="type">
+        <el-select v-model="schemaForm.type">
+          <el-option
+            v-for="{ label, value } in schemaTypeOpts"
+            :key="value"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </el-form-item>
+    </template>
+
+    <el-form-item label="Schema" prop="source">
+      <template #label>
+        <span>Schema</span>
+        <InfoTooltip v-if="selectedJSON" popper-class="is-wider">
+          <template #content>
+            <MarkdownContent :content="tl('JSONSchemaVersionTip')" />
           </template>
-          <div class="monaco-container">
-            <Monaco
-              v-model="schemaForm.source"
-              :id="createRandomString()"
-              :lang="isJSONFormat ? 'json' : 'plaintext'"
-              :custom-monaco-handler="disableCompletionItems"
-              @blur="onBlurChanged"
-            />
-          </div>
-        </el-form-item>
-        <el-button
-          v-if="selectedJSON"
-          class="btn-schema"
-          type="primary"
-          plain
-          @click="openJSONSchemaDialog"
-        >
-          {{ tl('generateFromJSON') }}
-        </el-button>
-      </el-col>
-    </el-row>
+        </InfoTooltip>
+      </template>
+      <div class="monaco-container">
+        <Monaco
+          v-model="schemaForm.source"
+          :id="createRandomString()"
+          :lang="isJSONFormat ? 'json' : 'plaintext'"
+          :custom-monaco-handler="disableCompletionItems"
+          @blur="onBlurChanged"
+        />
+      </div>
+    </el-form-item>
+
+    <el-button
+      v-if="selectedJSON"
+      class="btn-schema"
+      type="primary"
+      plain
+      @click="openJSONSchemaDialog"
+    >
+      {{ tl('generateFromJSON') }}
+    </el-button>
+
     <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
   </el-form>
 </template>
