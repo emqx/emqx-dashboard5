@@ -5,48 +5,39 @@
       ref="formCom"
       :model="builtConfig"
       :rules="rules"
+      label-width="200px"
       class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
     >
-      <el-row :gutter="20" v-if="authType === 'authz'">
-        <el-col :span="12">
-          <el-form-item prop="max_rules">
-            <template #label>
-              <FormItemLabel :label="$t('Auth.maxRules')" :desc="$t('Auth.maxRulesDesc')" />
-            </template>
-            <CustomInputNumber v-model="builtConfig.max_rules" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20" v-else>
+      <template :gutter="20" v-if="authType === 'authz'">
+        <el-form-item prop="max_rules">
+          <template #label>
+            <FormItemLabel :label="$t('Auth.maxRules')" :desc="$t('Auth.maxRulesDesc')" />
+          </template>
+          <CustomInputNumber v-model="builtConfig.max_rules" />
+        </el-form-item>
+      </template>
+      <template :gutter="20" v-else>
         <template v-if="type !== 'scram'">
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.userIdType')" required prop="user_id_type">
-              <el-select v-model="builtConfig.user_id_type">
-                <el-option value="username" />
-                <el-option value="clientid" />
-              </el-select>
-            </el-form-item>
-          </el-col>
+          <el-form-item :label="$t('Auth.userIdType')" required prop="user_id_type">
+            <el-select v-model="builtConfig.user_id_type">
+              <el-option value="username" />
+              <el-option value="clientid" />
+            </el-select>
+          </el-form-item>
           <password-hash-algorithm-form-items v-model="builtConfig" is-built-in-database />
         </template>
         <template v-else>
-          <el-col :span="12">
-            <el-form-item :label="$t('Auth.passwordHash')">
-              <el-select v-model="builtConfig.algorithm" clearable>
-                <el-option value="sha256" />
-                <el-option value="sha512" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item :label="tl('iterationCount')">
-              <CustomInputNumber v-model="builtConfig.iteration_count" />
-            </el-form-item>
-          </el-col>
+          <el-form-item :label="$t('Auth.passwordHash')">
+            <el-select v-model="builtConfig.algorithm" clearable>
+              <el-option value="sha256" />
+              <el-option value="sha512" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="tl('iterationCount')">
+            <CustomInputNumber v-model="builtConfig.iteration_count" />
+          </el-form-item>
         </template>
-      </el-row>
+      </template>
     </el-form>
   </div>
 </template>

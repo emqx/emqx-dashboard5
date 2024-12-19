@@ -5,9 +5,8 @@
     }
     .button-in-label-line {
       position: absolute;
-      top: 50%;
+      top: -32px;
       right: 0;
-      transform: translateY(-50%);
     }
     .el-upload-list {
       display: none;
@@ -19,16 +18,16 @@
   .help-btn {
     position: absolute;
     right: 80px;
-    top: -1px;
+    top: -32px;
   }
   .help-container {
     width: 100%;
-    margin-top: 12px;
+    margin-bottom: 16px;
   }
   .help-block {
     padding: 24px;
     background: var(--color-bg-split);
-    margin-bottom: 22px;
+    margin-bottom: 0;
     line-height: 1.6;
     .help-bock__code {
       background: #1c2a28;
@@ -56,7 +55,6 @@
   }
   .viewer-container {
     border: 1px solid var(--color-border-primary);
-    margin-top: 12px;
     width: 100%;
     height: 280px;
   }
