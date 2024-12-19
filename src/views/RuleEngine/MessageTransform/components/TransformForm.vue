@@ -40,8 +40,10 @@
     </el-form-item>
 
     <div>
-      <p class="part-header">{{ tl('messageFormatTransformation') }}</p>
-      <p class="tip">{{ tl('formatTransDesc') }}</p>
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('messageFormatTransformation') }}</p>
+        <p class="tip">{{ tl('formatTransDesc') }}</p>
+      </div>
       <div class="row-formats">
         <!-- ------- DECODER ------- -->
         <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
@@ -131,8 +133,10 @@
     </div>
 
     <div>
-      <p class="part-header">{{ tl('messagePropsTransformation') }}</p>
-      <p class="tip">{{ tl('propsTransDesc') }}</p>
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('messagePropsTransformation') }}</p>
+        <p class="tip">{{ tl('propsTransDesc') }}</p>
+      </div>
       <el-form-item prop="operations" ref="OperationsFormItemRef">
         <OperationsTable
           v-model="formData.operations"
@@ -144,7 +148,9 @@
     </div>
 
     <div>
-      <p class="part-header">{{ tl('transformationFailureOperation') }}</p>
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('transformationFailureOperation') }}</p>
+      </div>
       <el-form-item prop="failure_action" :label="tl('actionAfterFailure')" class="label-right">
         <el-radio-group v-model="formData.failure_action">
           <el-radio
@@ -494,8 +500,8 @@ defineExpose({
     right: -12px;
     transform: translateX(100%);
   }
-  .part-header + .tip {
-    margin-bottom: 20px;
+  .part-header {
+    width: 200px;
   }
   .column-type.el-table__cell {
     vertical-align: top;

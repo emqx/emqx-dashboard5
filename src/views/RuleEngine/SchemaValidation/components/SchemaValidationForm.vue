@@ -40,7 +40,9 @@
     </el-form-item>
 
     <div>
-      <p class="part-header">{{ tl('verificationMethod') }}</p>
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('verificationMethod') }}</p>
+      </div>
       <el-form-item prop="strategy" :label="tl('validationStrategy')" class="label-right">
         <el-radio-group v-model="formData.strategy">
           <el-radio
@@ -153,7 +155,9 @@
     </div>
 
     <div>
-      <p class="part-header">{{ tl('validationFailureOperation') }}</p>
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('validationFailureOperation') }}</p>
+      </div>
       <el-form-item prop="failure_action" :label="tl('actionAfterFailure')" class="label-right">
         <el-radio-group v-model="formData.failure_action">
           <el-radio
@@ -464,6 +468,9 @@ defineExpose({
     margin-bottom: 0;
     line-height: 32px;
     padding-right: 12px;
+  }
+  .part-header {
+    width: 200px;
   }
 }
 </style>

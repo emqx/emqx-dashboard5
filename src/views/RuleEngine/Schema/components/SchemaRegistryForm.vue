@@ -48,17 +48,16 @@
           @blur="onBlurChanged"
         />
       </div>
+      <el-button
+        v-if="selectedJSON"
+        class="btn-schema"
+        type="primary"
+        plain
+        @click="openJSONSchemaDialog"
+      >
+        {{ tl('generateFromJSON') }}
+      </el-button>
     </el-form-item>
-
-    <el-button
-      v-if="selectedJSON"
-      class="btn-schema"
-      type="primary"
-      plain
-      @click="openJSONSchemaDialog"
-    >
-      {{ tl('generateFromJSON') }}
-    </el-button>
 
     <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
   </el-form>
@@ -221,7 +220,7 @@ defineExpose({ validate })
 <style lang="scss" scoped>
 .schema-registry-form {
   .btn-schema {
-    margin-bottom: 20px;
+    margin-top: 24px;
   }
 }
 </style>
