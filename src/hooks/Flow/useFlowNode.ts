@@ -67,6 +67,7 @@ export const SinkType = {
   Couchbase: BridgeType.Couchbase,
   Datalayers: BridgeType.Datalayers,
   Snowflake: BridgeType.Snowflake,
+  Tablestore: BridgeType.Tablestore,
   RePub: 'republish',
   Console: 'console',
 }

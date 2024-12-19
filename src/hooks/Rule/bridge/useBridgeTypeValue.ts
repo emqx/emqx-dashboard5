@@ -44,6 +44,7 @@ const bridgesOrder = [
   BridgeType.SysKeeperForwarder,
   BridgeType.Datalayers,
   BridgeType.Snowflake,
+  BridgeType.Tablestore,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
   (obj, type, index) => ({ ...obj, [type]: index }),
