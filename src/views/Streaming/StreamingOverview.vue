@@ -41,11 +41,11 @@
           >
             <el-row :gutter="32">
               <el-col :span="12">
-                <el-form-item prop="hornbill_endpoints">
+                <el-form-item prop="hornbill_admin_api">
                   <template #label>
                     <FormItemLabel
-                      :label="t('Streaming.hornbillEndpoints')"
-                      :desc="t('Streaming.hornbillEndpointsDesc')"
+                      :label="t('Streaming.hornbillAdminEndpoints')"
+                      :desc="t('Streaming.hornbillAdminEndpointsDesc')"
                       desc-marked
                     />
                   </template>
@@ -53,11 +53,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item prop="streaming_endpoints">
+                <el-form-item prop="hornbill_kafka_api">
                   <template #label>
                     <FormItemLabel
-                      :label="t('Streaming.streamingEndpoints')"
-                      :desc="t('Streaming.streamingEndpointsDesc')"
+                      :label="t('Streaming.hornbillKafkaEndpoints')"
+                      :desc="t('Streaming.hornbillKafkaEndpointsDesc')"
                       desc-marked
                     />
                   </template>
@@ -157,8 +157,8 @@ const FormCom = ref()
 
 const { createRequiredRule } = useFormRules()
 const rules = {
-  hornbill_endpoints: [createRequiredRule(tl('hornbillEndpoints'))],
-  streaming_endpoints: [createRequiredRule(tl('streamingEndpoints'))],
+  hornbill_admin_api: createRequiredRule(t('Streaming.hornbillAdminEndpoints')),
+  hornbill_kafka_api: createRequiredRule(t('Streaming.hornbillKafkaEndpoints')),
 }
 
 const getConfig = async () => {
