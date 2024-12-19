@@ -11,11 +11,11 @@ export default {
     zh: 'Streaming 配置',
     en: 'Streaming Configurations',
   },
-  hornbillEndpoints: {
+  hornbillAdminEndpoints: {
     zh: 'Hornbill 管理端点',
     en: 'Hornbill Admin Endpoints',
   },
-  hornbillEndpointsDesc: {
+  hornbillAdminEndpointsDesc: {
     zh: `Hornbill 节点的 http 接口端点，使用逗号分隔多个地址。<br />
 例如：<code>127.0.0.1:8080, 127.0.0.1:8081</code><br />
 未指定端口时，默认值为 8080。`,
@@ -23,11 +23,11 @@ export default {
 i.e: <code>127.0.0.1:8080, 127.0.0.1:8081</code><br />
 When the port is not specified, its default value is 8080.`,
   },
-  streamingEndpoints: {
-    zh: 'Streaming Kafka 端点',
-    en: 'Streaming Kafka Endpoints',
+  hornbillKafkaEndpoints: {
+    zh: 'Hornbill Kafka 端点',
+    en: 'Hornbill Kafka Endpoints',
   },
-  streamingEndpointsDesc: {
+  hornbillKafkaEndpointsDesc: {
     zh: `Hornbill 节点的 kafka 接口端点，使用逗号分隔多个地址。<br />
 例如：<code>127.0.0.1:9092, 127.0.0.1:9093</code><br />
 未指定端口时，默认值为 9092。`,

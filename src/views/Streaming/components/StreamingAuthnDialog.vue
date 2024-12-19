@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import { createStreamingAuthn, updateStreamingAuthn } from '@/api/streaming'
+import { titleCase } from '@/common/tools'
 import useFormRules from '@/hooks/useFormRules'
 import { StreamingAuthn } from '@/types/typeAlias'
 import { StreamingAuthForm } from '@emqx/shared-ui-components'
@@ -64,7 +65,7 @@ const { t: sharedT } = useLocale(locale.value)
 const tl = (key: string) => sharedT(`streaming.${key}`)
 
 const title = computed(() => {
-  const params = { target: t('Base.authn') }
+  const params = { target: titleCase(t('Auth.authn')) }
   return isEdit.value ? t('Base.updateTarget', params) : t('Base.createTarget', params)
 })
 

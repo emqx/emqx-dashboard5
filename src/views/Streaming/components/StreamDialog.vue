@@ -92,8 +92,12 @@ const isSubmitting = ref(false)
 const submit = async () => {
   try {
     await FormCom.value.validate()
+    const data = { ...record.value }
+    if (data.stream_type === StreamType.default) {
+      data.partition_number = 16
+    }
     isSubmitting.value = true
-    await createStream(record.value)
+    await createStream(data)
     emit('submitted')
     showDialog.value = false
     ElMessage.success(t('Base.createSuccess'))
