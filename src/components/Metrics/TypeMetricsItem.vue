@@ -163,7 +163,7 @@ watch(
 }
 .el-popper:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown):not(.el-autocomplete__popper) {
   &.type-detail-tooltip {
-    max-width: 400px;
+    max-width: 700px;
   }
 }
 .metrics-details {

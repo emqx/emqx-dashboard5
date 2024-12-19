@@ -144,6 +144,7 @@ export enum BridgeType {
   Couchbase = 'couchbase',
   Datalayers = 'datalayers',
   Snowflake = 'snowflake',
+  Tablestore = 'tablestore',
 }
 
 export enum PulsarType {
