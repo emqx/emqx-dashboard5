@@ -154,6 +154,7 @@ export default defineComponent({
                 disabled={isDisabled}
                 type={inputType}
                 clearable
+                oneOf={props.property?.oneOf}
                 {...customProps}
               />
             )
@@ -190,6 +191,7 @@ export default defineComponent({
                 clearable
                 {...customProps}
                 options={props.symbols}
+                oneOf={props.property?.oneOf}
               />
             )
           }
