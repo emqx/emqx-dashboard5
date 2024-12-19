@@ -117,6 +117,7 @@ export default function useSchemaForm(
     }
     return property
   }
+  const simpleTypes = ['string', 'number', 'boolean', 'integer']
   const getComponents = (objForGetComponent: { path?: string; ref?: string | Array<string> }) => {
     let lastLabel = ''
     /**
@@ -209,7 +210,14 @@ export default function useSchemaForm(
               }
               return item
             }) as Property[]
-            property.is_template = getIsTemplateFromOneOfArr(property.oneOf)
+            property.is_template = property.is_template ?? getIsTemplateFromOneOfArr(property.oneOf)
+            const isSimpleOneof = oneOf.every(({ type }) => simpleTypes.includes(type))
+            if (isSimpleOneof && property.is_template) {
+              const withBoolean = oneOf.find(({ type }) => type === 'boolean')
+              property.type = withBoolean ? 'enum' : 'string'
+              property.symbols = withBoolean ? [true, false] : undefined
+              property.default = property.default ?? (withBoolean ? '' : undefined)
+            }
           }
           if (!label) {
             property.label = lastLabel
