@@ -1087,6 +1087,26 @@
             "required": true
           }
         ]
+      },
+      {
+        "name": "str_utf16_le",
+        "args": [
+          {
+            "name": "Data",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sqlserver_bin2hexstr",
+        "args": [
+          {
+            "name": "Data",
+            "type": "string",
+            "required": true
+          }
+        ]
       }
     ]
   },

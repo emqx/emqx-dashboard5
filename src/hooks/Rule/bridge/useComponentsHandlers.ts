@@ -111,6 +111,7 @@ export default (
       } else if (prop.type === 'boolean' && prop.is_template) {
         prop.type = 'enum'
         prop.symbols = [true, false]
+        prop.default ??= ''
       } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
         setComponentProps(prop, { supportPlaceholder: ['key', 'value'] })
       }
