@@ -6,7 +6,7 @@
     :title="tl('preview')"
     size="700px"
   >
-    <el-form ref="FormRef" :model="formData" :rules="rules" label-position="top">
+    <el-form ref="FormRef" :model="formData" :rules="rules" class="tong-form" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="peername" :label="t('Clients.peername')">

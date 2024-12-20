@@ -3,19 +3,19 @@
     <detail-header :item="{ name: tl('addExhook'), path: '/exhook' }" />
     <el-card class="app-card exhook-create-card">
       <ExhookForm ref="formCom" v-model="formData" />
-      <div class="exhook-create-ft">
-        <el-button @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :loading="isSubmitting"
-          @click="submit"
-        >
-          {{ $t('Base.create') }}
-        </el-button>
-      </div>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button @click="cancel">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :loading="isSubmitting"
+        @click="submit"
+      >
+        {{ $t('Base.create') }}
+      </el-button>
     </el-card>
   </div>
 </template>

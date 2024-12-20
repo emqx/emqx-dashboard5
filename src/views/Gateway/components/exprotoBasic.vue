@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form label-position="top">
+    <el-form class="tong-form" label-width="200px">
       <div>
         <el-row :gutter="30">
           <el-col :span="12">

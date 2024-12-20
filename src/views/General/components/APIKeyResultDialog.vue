@@ -7,15 +7,15 @@
     :z-index="2000"
   >
     <TipContainer :content="$t('APIKey.resultTip')" />
-    <el-form ref="formCom" label-position="top">
+    <el-form ref="formCom" class="tong-form" label-width="120px">
       <el-row :gutter="24">
         <el-col :span="24">
           <el-form-item label="API Key">
             <el-row :gutter="16">
-              <el-col :span="21">
+              <el-col :span="18">
                 <el-input v-model="APIKeyData.api_key" disabled />
               </el-col>
-              <el-col :span="3">
+              <el-col :span="6">
                 <el-button @click="copyText(APIKeyData.api_key)">{{ $t('Base.copy') }}</el-button>
               </el-col>
             </el-row>
@@ -24,10 +24,10 @@
         <el-col :span="24">
           <el-form-item label="Secret Key">
             <el-row :gutter="16">
-              <el-col :span="21">
+              <el-col :span="18">
                 <el-input v-model="APIKeyData.api_secret" disabled />
               </el-col>
-              <el-col :span="3">
+              <el-col :span="6">
                 <el-button @click="copyText(APIKeyData.api_secret)">
                   {{ $t('Base.copy') }}
                 </el-button>
@@ -95,6 +95,10 @@ watch(showDialog, async (val) => {
     .el-input__inner {
       color: var(--color-text-primary);
     }
+  }
+  .el-form-item__content > .el-row {
+    width: unset;
+    flex-grow: 1;
   }
 }
 </style>

@@ -1,11 +1,10 @@
 <template>
   <el-form
-    class="exhook-create-form"
+    class="exhook-create-form tong-form"
     ref="formCom"
-    label-position="top"
-    require-asterisk-position="right"
     :model="formData"
     :rules="rules"
+    label-width="200px"
   >
     <el-row :gutter="24">
       <el-col :span="12">
@@ -64,7 +63,6 @@
           </template>
           <Oneof
             v-model="formData.auto_reconnect"
-            in-row
             disabled-label=" "
             :items="[{ type: 'duration' }, { symbols: [false], type: 'enum' }]"
             :input-props="{ enabledUnits: ['ms', 's', 'm', 'h', 'd'] }"

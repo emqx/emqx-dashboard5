@@ -67,6 +67,8 @@
         <el-tab-pane :label="t('Base.setting')" name="settings">
           <el-card class="app-card">
             <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
+          </el-card>
+          <el-card class="ft-card">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"

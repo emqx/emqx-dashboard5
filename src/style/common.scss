@@ -513,7 +513,7 @@ input:disabled {
   &.ft-card {
     margin-bottom: 16px;
   }
-  .el-card__body >.el-form {
+  .el-card__body >.el-form:not(.search-wrapper) {
     padding-top: 8px;
     margin-bottom: -16px;
   }
@@ -531,6 +531,11 @@ input:disabled {
         border-bottom: 1px solid var(--color-bg-content);
       }
     }
+  }
+}
+.el-dialog__body {
+  >.el-form {
+    margin-bottom: -24px;
   }
 }
 .block-title {
@@ -1028,14 +1033,20 @@ code {
     max-width: 100%;
     flex-basis: 100%;
   }
-  .el-form-item {
-    display: flex;
+  .el-col-12:not(.custom-col-24).dividing-line-below::after {
+    width: 100%;
+  }
+  &.el-form--label-right {
     .el-form-item__label {
-      line-height: 32px;
-      display: inline-flex;
       text-align: right;
-      height: 32px;
-      margin-bottom: 0;
     }
+  }
+  .advanced-settings-btn {
+    margin-top: 0;
+    margin-bottom: 24px;
+    margin-left: 200px;
+  }
+  .btn-container {
+    margin-top: 0;
   }
 }

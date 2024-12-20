@@ -10,8 +10,8 @@
       ref="FormCom"
       :model="record"
       :rules="rules"
-      label-position="top"
-      require-asterisk-position="right"
+      class="tong-form"
+      label-width="160px"
       @keyup.enter="save()"
     >
       <el-row :gutter="20">

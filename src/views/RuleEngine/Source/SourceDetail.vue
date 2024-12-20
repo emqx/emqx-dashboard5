@@ -86,27 +86,27 @@
                 @init="resetRawBridgeInfoAfterComponentInit"
               />
             </div>
-            <div v-if="!isFromRule" class="btn-area">
-              <el-button
-                v-if="sourceInfo.type"
-                type="primary"
-                :disabled="!$hasPermission('put')"
-                plain
-                :loading="isTesting"
-                @click="testConnection"
-              >
-                {{ tl('testTheConnection') }}
-              </el-button>
-              <el-button
-                type="primary"
-                v-if="sourceInfo.type"
-                :disabled="!$hasPermission('put')"
-                :loading="updateLoading"
-                @click="updateSourceInfo()"
-              >
-                {{ $t('Base.update') }}
-              </el-button>
-            </div>
+          </el-card>
+          <el-card v-if="!isFromRule" class="ft-card">
+            <el-button
+              v-if="sourceInfo.type"
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              plain
+              :loading="isTesting"
+              @click="testConnection"
+            >
+              {{ tl('testTheConnection') }}
+            </el-button>
+            <el-button
+              type="primary"
+              v-if="sourceInfo.type"
+              :disabled="!$hasPermission('put')"
+              :loading="updateLoading"
+              @click="updateSourceInfo()"
+            >
+              {{ $t('Base.update') }}
+            </el-button>
           </el-card>
         </el-tab-pane>
       </div>
@@ -362,13 +362,6 @@ defineExpose({
 .setting-area {
   width: 75%;
   min-height: 400px;
-}
-.btn-area {
-  margin-top: 24px;
-  .el-button {
-    margin-left: 0;
-    margin-right: 12px;
-  }
 }
 .hide-tabs {
   > :deep(.el-tabs__header) {

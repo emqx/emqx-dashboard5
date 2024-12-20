@@ -47,9 +47,9 @@
       ref="rewriteForm"
       :model="rewriteInput"
       :rules="rewriteRules"
-      label-position="top"
-      require-asterisk-position="right"
       @keyup.enter="submitRewrite(isEdit)"
+      class="tong-form"
+      label-width="160px"
     >
       <el-form-item :label="tl('action')" prop="action">
         <el-select v-model="rewriteInput.action">

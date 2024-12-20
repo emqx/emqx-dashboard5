@@ -56,9 +56,9 @@
       :rules="subsRules"
       :model="subsInput"
       ref="subsForm"
-      label-position="top"
-      require-asterisk-position="right"
       @keyup.enter="submitSubs(isEdit)"
+      class="tong-form"
+      label-width="160px"
     >
       <el-form-item :label="$t('Base.topic')" prop="topic">
         <el-input v-model="subsInput.topic" />
@@ -68,44 +68,31 @@
           <el-option v-for="item in QoSOptions" :key="item" :value="item" />
         </el-select>
       </el-form-item>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item :label="$t('Clients.noLocal')" prop="nl">
-            <el-select v-model="subsInput.nl">
-              <el-option
-                v-for="{ value, label } in noLocalOpts"
-                :label="label"
-                :value="value"
-                :key="value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item :label="$t('Clients.retainAsPublished')" prop="rap">
-            <el-select v-model="subsInput.rap">
-              <el-option
-                v-for="{ value, label } in retainAsPublishedOpts"
-                :label="label"
-                :value="value"
-                :key="value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item :label="$t('Clients.retainHandling')" prop="rh">
-            <el-select v-model="subsInput.rh">
-              <el-option
-                v-for="item in retainHandlingOpts"
-                :label="item"
-                :value="item"
-                :key="item"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item :label="$t('Clients.noLocal')" prop="nl">
+        <el-select v-model="subsInput.nl">
+          <el-option
+            v-for="{ value, label } in noLocalOpts"
+            :label="label"
+            :value="value"
+            :key="value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="$t('Clients.retainAsPublished')" prop="rap">
+        <el-select v-model="subsInput.rap">
+          <el-option
+            v-for="{ value, label } in retainAsPublishedOpts"
+            :label="label"
+            :value="value"
+            :key="value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="$t('Clients.retainHandling')" prop="rh">
+        <el-select v-model="subsInput.rh">
+          <el-option v-for="item in retainHandlingOpts" :label="item" :value="item" :key="item" />
+        </el-select>
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>

@@ -1,6 +1,6 @@
 <template>
   <div class="mqttsn-basic">
-    <el-form label-position="top" :model="mValue">
+    <el-form class="tong-form" label-width="200px" :model="mValue">
       <el-row :gutter="30">
         <el-col :span="12" prop="gateway_id">
           <el-form-item :label="'Gateway ID'">

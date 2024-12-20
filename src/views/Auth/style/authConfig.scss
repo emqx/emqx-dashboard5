@@ -1,4 +1,7 @@
 .config {
+  .el-form{
+    margin-bottom: -16px;
+  }
   .create-form {
     .el-form-item {
       position: relative;
@@ -12,7 +15,7 @@
       display: none;
     }
   }
-  .config-sub-block {
+  .config-sub-block:not(:last-child) {
     margin-bottom: 16px;
   }
   .help-btn {
