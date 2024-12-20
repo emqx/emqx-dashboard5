@@ -121,10 +121,10 @@
     >
       <el-form
         ref="createForm"
-        label-position="top"
-        require-asterisk-position="right"
+        class="tong-form"
         :model="record"
         :rules="createRules"
+        label-width="200px"
       >
         <el-row :gutter="20">
           <el-col :span="12">
@@ -188,11 +188,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item prop="payload_encode">
-              <FormItemLabel
-                :label="$t('LogTrace.payload')"
-                :desc="$t('LogTrace.payloadDesc')"
-                desc-marked
-              />
+              <template #label>
+                <FormItemLabel
+                  :label="$t('LogTrace.payload')"
+                  :desc="$t('LogTrace.payloadDesc')"
+                  desc-marked
+                />
+              </template>
               <el-select v-model="record.payload_encode">
                 <el-option
                   v-for="{ label, value } in encodeTypeOpt"

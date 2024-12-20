@@ -7,11 +7,11 @@
     destroy-on-close
   >
     <el-form
-      label-position="top"
-      require-asterisk-position="right"
       :model="outputForm"
       :rules="outputFormRules"
       ref="formCom"
+      class="tong-form"
+      label-width="200px"
     >
       <el-row :gutter="26">
         <el-col :span="12">

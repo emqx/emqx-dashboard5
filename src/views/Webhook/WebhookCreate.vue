@@ -3,16 +3,16 @@
     <detail-header :item="{ name: t('components.webhook-create'), routeName: 'webhook' }" />
     <el-card class="webhook-create-card app-card">
       <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
-      <div class="card-ft">
-        <el-button
-          :loading="isSubmitting"
-          :disabled="!$hasPermission('post')"
-          type="primary"
-          @click="submit"
-        >
-          {{ tl('save') }}
-        </el-button>
-      </div>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button
+        :loading="isSubmitting"
+        :disabled="!$hasPermission('post')"
+        type="primary"
+        @click="submit"
+      >
+        {{ tl('save') }}
+      </el-button>
     </el-card>
   </div>
 </template>
@@ -80,12 +80,3 @@ const submit = async () => {
   }
 }
 </script>
-
-<style lang="scss">
-.webhook-create-card {
-  padding: 12px 104px;
-  .card-ft {
-    padding-top: 36px;
-  }
-}
-</style>

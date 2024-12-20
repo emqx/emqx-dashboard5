@@ -7,11 +7,11 @@
       <div class="config-block">
         <h6 class="config-block-title">{{ $t('SlowSub.basicSettings') }}</h6>
         <el-form
+          class="slow-sub-form tong-form"
           ref="formCom"
+          label-width="200px"
           :model="configForm"
           :rules="rulesOfConfigForm"
-          label-position="top"
-          require-asterisk-position="right"
         >
           <el-row :gutter="32">
             <el-col :span="12">
@@ -236,6 +236,9 @@ getConfig()
   font-size: 18px;
   color: var(--color-title-primary);
   line-height: 25px;
+}
+.slow-sub-form {
+  width: 70%;
 }
 .type-desc {
   line-height: 1.5;

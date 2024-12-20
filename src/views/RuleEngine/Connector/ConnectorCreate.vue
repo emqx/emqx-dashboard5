@@ -30,36 +30,36 @@
           :copy="isCopy"
         />
       </div>
-      <div class="form-ft">
-        <el-button v-if="(isInSinglePage && step === 0) || !isInSinglePage" @click="cancel">
-          {{ $t('Base.cancel') }}
+    </el-card>
+    <el-card class="ft-card form-ft">
+      <el-button v-if="(isInSinglePage && step === 0) || !isInSinglePage" @click="cancel">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button v-if="step === 0" type="primary" :disabled="isSubmitting" @click="goNextStep">
+        {{ $t('Base.nextStep') }}
+      </el-button>
+      <template v-else-if="step === 1">
+        <el-button v-if="isInSinglePage" :disabled="isSubmitting" @click="goPreStep">
+          {{ $t('Base.backStep') }}
         </el-button>
-        <el-button v-if="step === 0" type="primary" :disabled="isSubmitting" @click="goNextStep">
-          {{ $t('Base.nextStep') }}
+        <el-button
+          type="primary"
+          plain
+          :loading="isTesting"
+          :disabled="!$hasPermission('post')"
+          @click="handleTest"
+        >
+          {{ tl('testTheConnection') }}
         </el-button>
-        <template v-else-if="step === 1">
-          <el-button v-if="isInSinglePage" :disabled="isSubmitting" @click="goPreStep">
-            {{ $t('Base.backStep') }}
-          </el-button>
-          <el-button
-            type="primary"
-            plain
-            :loading="isTesting"
-            :disabled="!$hasPermission('post')"
-            @click="handleTest"
-          >
-            {{ tl('testTheConnection') }}
-          </el-button>
-          <el-button
-            type="primary"
-            :loading="isSubmitting"
-            :disabled="!$hasPermission('post')"
-            @click="submit"
-          >
-            {{ $t('Base.create') }}
-          </el-button>
-        </template>
-      </div>
+        <el-button
+          type="primary"
+          :loading="isSubmitting"
+          :disabled="!$hasPermission('post')"
+          @click="submit"
+        >
+          {{ $t('Base.create') }}
+        </el-button>
+      </template>
     </el-card>
   </div>
   <CreateRuleWithConnector
@@ -240,10 +240,6 @@ checkProps()
   .el-alert {
     margin-bottom: 24px;
     --color-bg-info: var(--color-bg-split);
-  }
-
-  .form-ft {
-    margin-top: 24px;
   }
 }
 </style>

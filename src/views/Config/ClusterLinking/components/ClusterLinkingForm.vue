@@ -1,11 +1,10 @@
 <template>
   <el-form
     ref="FormCom"
-    class="cluster-linking-form"
+    class="cluster-linking-form tong-form"
     :model="record"
     :rules="rules"
-    label-position="top"
-    require-asterisk-position="right"
+    label-width="200px"
   >
     <el-row :gutter="20">
       <el-col :span="12">

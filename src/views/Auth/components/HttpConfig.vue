@@ -26,11 +26,13 @@
 
           <el-col :span="24">
             <el-form-item>
-              <FormItemLabel
-                :label="$t('RuleEngine.headers')"
-                :desc="isMethodGet ? tl('httpHeaderDesc') : undefined"
-                desc-marked
-              />
+              <template #label>
+                <FormItemLabel
+                  :label="$t('RuleEngine.headers')"
+                  :desc="isMethodGet ? tl('httpHeaderDesc') : undefined"
+                  desc-marked
+                />
+              </template>
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>

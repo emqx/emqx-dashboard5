@@ -53,16 +53,16 @@
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" lazy>
           <el-card class="detail-card webhook-create-card app-card" v-loading="infoLoading">
             <WebhookFormCom v-if="webhookData" ref="FormCom" v-model="webhookData" is-edit />
-            <div class="card-ft">
-              <el-button
-                :loading="isSubmitting"
-                :disabled="!$hasPermission('put')"
-                type="primary"
-                @click="submit"
-              >
-                {{ tl('save') }}
-              </el-button>
-            </div>
+          </el-card>
+          <el-card class="ft-card">
+            <el-button
+              :loading="isSubmitting"
+              :disabled="!$hasPermission('put')"
+              type="primary"
+              @click="submit"
+            >
+              {{ tl('save') }}
+            </el-button>
           </el-card>
         </el-tab-pane>
       </div>
@@ -212,9 +212,6 @@ getWebhookData()
 
 <style lang="scss">
 .webhook-detail {
-  .card-ft {
-    padding-top: 36px;
-  }
   .overview-container {
     min-height: 400px;
   }

@@ -8,11 +8,11 @@
   >
     <el-form
       ref="formCom"
-      label-position="top"
-      require-asterisk-position="right"
       :model="formData"
       :rules="rules"
       :class="{ 'is-view': operationType === 'view' }"
+      class="tong-form"
+      label-width="120px"
     >
       <el-row :gutter="24">
         <el-col :span="12">

@@ -46,6 +46,8 @@
               :edit-data-topic-length="editDataTopicLength"
               is-edit
             />
+          </el-card>
+          <el-card class="ft-card">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"
