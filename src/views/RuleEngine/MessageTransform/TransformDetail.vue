@@ -39,19 +39,19 @@
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
           <el-card class="app-card">
             <TransformForm v-if="!isLoading" ref="formCom" v-model="transformData" is-edit />
-            <div>
-              <el-button type="primary" plain :disabled="!$hasPermission('post')" @click="openTest">
-                {{ tl('preview') }}
-              </el-button>
-              <el-button
-                type="primary"
-                :disabled="!$hasPermission('put')"
-                :loading="isSubmitting"
-                @click="updateTransform"
-              >
-                {{ $t('Base.update') }}
-              </el-button>
-            </div>
+          </el-card>
+          <el-card class="ft-card">
+            <el-button type="primary" plain :disabled="!$hasPermission('post')" @click="openTest">
+              {{ tl('preview') }}
+            </el-button>
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="isSubmitting"
+              @click="updateTransform"
+            >
+              {{ $t('Base.update') }}
+            </el-button>
           </el-card>
         </el-tab-pane>
       </div>
