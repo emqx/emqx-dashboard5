@@ -5,24 +5,25 @@
     />
     <el-card class="app-card">
       <TransformForm ref="formCom" v-model="formData" />
-      <div>
-        <el-button @click="cancel">
-          {{ t('Base.cancel') }}
-        </el-button>
-        <el-button type="primary" :disabled="!$hasPermission('post')" plain @click="openTest">
-          {{ tl('preview') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :loading="isSubmitting"
-          @click="submit"
-        >
-          {{ t('Base.create') }}
-        </el-button>
-      </div>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button @click="cancel">
+        {{ t('Base.cancel') }}
+      </el-button>
+      <el-button type="primary" :disabled="!$hasPermission('post')" plain @click="openTest">
+        {{ tl('preview') }}
+      </el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :loading="isSubmitting"
+        @click="submit"
+      >
+        {{ t('Base.create') }}
+      </el-button>
     </el-card>
   </div>
+
   <TestDrawer :message-transform="formData" v-model="showTestDrawer" />
 </template>
 

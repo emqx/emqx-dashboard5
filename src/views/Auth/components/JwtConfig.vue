@@ -8,9 +8,8 @@
       ref="formCom"
       :model="jwtConfig"
       :rules="rules"
-      class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
+      class="create-form tong-form"
+      label-width="200px"
     >
       <el-row :gutter="20">
         <!-- JWT -->

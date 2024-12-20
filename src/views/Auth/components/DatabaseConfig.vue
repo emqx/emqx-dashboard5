@@ -3,9 +3,8 @@
     <!-- Connect -->
     <el-form
       ref="formCom"
-      class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
+      class="create-form tong-form"
+      label-width="200px"
       :model="databaseConfig"
       :rules="rules"
     >
@@ -154,17 +153,17 @@
             <el-form-item required prop="query" class="label-whole-line">
               <template #label>
                 <span>SQL</span>
-                <el-button
-                  size="small"
-                  @click="setDefaultContent('query')"
-                  class="button-in-label-line"
-                >
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-                  {{ $t('Base.help') }}
-                </el-button>
               </template>
+              <el-button
+                size="small"
+                @click="setDefaultContent('query')"
+                class="button-in-label-line"
+              >
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+              <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                {{ $t('Base.help') }}
+              </el-button>
               <el-collapse-transition>
                 <div class="help-container" v-if="needHelp">
                   <HelpBlock :auth-type="authType" :database-type="database" />
@@ -180,17 +179,17 @@
             <el-form-item class="label-whole-line">
               <template #label>
                 <span>{{ $t('Auth.filter') }}</span>
-                <el-button
-                  class="button-in-label-line"
-                  size="small"
-                  @click="setDefaultContent('filter')"
-                >
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-                  {{ $t('Base.help') }}
-                </el-button>
               </template>
+              <el-button
+                class="button-in-label-line"
+                size="small"
+                @click="setDefaultContent('filter')"
+              >
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+              <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                {{ $t('Base.help') }}
+              </el-button>
               <el-collapse-transition>
                 <div class="help-container" v-if="needHelp">
                   <HelpBlock :auth-type="authType" :database-type="database" />
@@ -211,17 +210,17 @@
             <el-form-item required prop="cmd" class="label-whole-line">
               <template #label>
                 <span>{{ $t('Auth.cmd') }}</span>
-                <el-button
-                  class="button-in-label-line"
-                  size="small"
-                  @click="setDefaultContent('cmd')"
-                >
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-                  {{ $t('Base.help') }}
-                </el-button>
               </template>
+              <el-button
+                class="button-in-label-line"
+                size="small"
+                @click="setDefaultContent('cmd')"
+              >
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+              <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                {{ $t('Base.help') }}
+              </el-button>
               <el-collapse-transition>
                 <div class="help-container" v-if="needHelp">
                   <HelpBlock :auth-type="authType" :database-type="database" />

@@ -5,9 +5,8 @@
       ref="formCom"
       :model="builtConfig"
       :rules="rules"
-      class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
+      class="create-form tong-form"
+      label-width="200px"
     >
       <el-row :gutter="20" v-if="authType === 'authz'">
         <el-col :span="12">

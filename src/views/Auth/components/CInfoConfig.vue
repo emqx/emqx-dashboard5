@@ -4,8 +4,8 @@
       ref="formCom"
       :model="cinfoConfig"
       :rules="rules"
-      class="create-form"
-      label-position="top"
+      class="create-form tong-form"
+      label-width="200px"
     >
       <el-row :gutter="20">
         <el-col :span="20">

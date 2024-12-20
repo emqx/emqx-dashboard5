@@ -19,13 +19,15 @@
     <el-tabs class="detail-tabs">
       <div class="app-wrapper">
         <el-tab-pane :label="t('Base.setting')">
-          <el-card class="detail-card overview-visible" v-loading="isLoading">
+          <el-card class="app-card detail-card overview-visible" v-loading="isLoading">
             <SchemaRegistryForm
               class="schema-create-form"
               ref="FormCom"
               v-model="schemaData"
               is-edit
             />
+          </el-card>
+          <el-card class="ft-card">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"

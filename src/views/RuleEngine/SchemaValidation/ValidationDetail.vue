@@ -44,6 +44,8 @@
               v-model="validationData"
               is-edit
             />
+          </el-card>
+          <el-card class="ft-card">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"

@@ -6,19 +6,19 @@
     />
     <el-card class="app-card schema-create-card">
       <ExternalSchemaForm class="schema-create-form" ref="FormCom" v-model="formData" />
-      <div class="schema-create-ft">
-        <el-button @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :loading="isSubmitting"
-          @click="submit"
-        >
-          {{ $t('Base.create') }}
-        </el-button>
-      </div>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button @click="cancel">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post')"
+        :loading="isSubmitting"
+        @click="submit"
+      >
+        {{ $t('Base.create') }}
+      </el-button>
     </el-card>
   </div>
 </template>
