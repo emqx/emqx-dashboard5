@@ -148,9 +148,9 @@
       <el-form
         ref="record"
         :model="topicInput"
-        label-position="top"
-        require-asterisk-position="right"
         :rules="topicRules"
+        class="tong-form"
+        label-width="100px"
         @submit.prevent="addTopic()"
       >
         <el-form-item prop="topic" :label="$t('Base.topic')">

@@ -10,8 +10,8 @@
     destroy-on-close
   >
     <el-form
-      label-position="top"
-      require-asterisk-position="right"
+      class="tong-form"
+      label-width="200px"
       :rules="listenerFormRules"
       :model="listenerRecord"
       :validate-on-rule-change="false"
@@ -65,7 +65,6 @@
         <el-col :span="12">
           <el-form-item :label="tl('maxConn')" prop="max_connections">
             <Oneof
-              class="in-one-row"
               v-model="listenerRecord.max_connections"
               :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
@@ -137,7 +136,6 @@
         <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
           <el-form-item :label="t('Gateway.maxConnRate')" prop="max_conn_rate">
             <Oneof
-              class="in-one-row"
               v-model="listenerRecord.max_conn_rate"
               :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
@@ -146,7 +144,6 @@
         <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubRate')" prop="messages_rate">
             <Oneof
-              class="in-one-row"
               v-model="listenerRecord.messages_rate"
               :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
@@ -155,7 +152,6 @@
         <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubTraffic')" prop="bytes_rate">
             <Oneof
-              class="in-one-row"
               v-model="listenerRecord.bytes_rate"
               :items="[
                 {

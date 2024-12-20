@@ -23,13 +23,15 @@
     <el-tabs class="detail-tabs">
       <div class="app-wrapper">
         <el-tab-pane :label="t('Base.setting')">
-          <el-card class="detail-card overview-visible" v-loading="isLoading">
+          <el-card class="app-card detail-card overview-visible" v-loading="isLoading">
             <ExternalSchemaForm
               class="schema-create-form"
               ref="FormCom"
               v-model="schemaData"
               is-edit
             />
+          </el-card>
+          <el-card class="ft-card">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"
@@ -48,7 +50,6 @@
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'

@@ -6,13 +6,7 @@
     size="60%"
     destroy-on-close
   >
-    <el-form
-      label-position="top"
-      require-asterisk-position="right"
-      :model="inputForm"
-      :rules="rules"
-      ref="FormCom"
-    >
+    <el-form :model="inputForm" :rules="rules" ref="FormCom" class="tong-form" label-width="200px">
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('inputType')" prop="type">

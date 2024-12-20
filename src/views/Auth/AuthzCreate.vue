@@ -31,14 +31,6 @@
             </el-radio>
           </el-badge>
         </el-radio-group>
-        <div class="step-btn">
-          <el-button @click="$router.push('/authorization')">
-            {{ $t('Base.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="handleNext" :disabled="!type">
-            {{ $t('Base.nextStep') }}
-          </el-button>
-        </div>
       </div>
       <!-- Config -->
       <div v-if="step === 1">
@@ -69,20 +61,30 @@
           :database="type"
           auth-type="authz"
         />
-        <div class="step-btn">
-          <el-button @click="handleBack">
-            {{ $t('Base.backStep') }}
-          </el-button>
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('post')"
-            @click="handleCreate"
-            :loading="saveLoading"
-          >
-            {{ $t('Base.create') }}
-          </el-button>
-        </div>
       </div>
+    </el-card>
+    <el-card class="ft-card">
+      <template v-if="step === 0">
+        <el-button @click="$router.push('/authorization')">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="handleNext" :disabled="!type">
+          {{ $t('Base.nextStep') }}
+        </el-button>
+      </template>
+      <template v-if="step === 1">
+        <el-button @click="handleBack">
+          {{ $t('Base.backStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          @click="handleCreate"
+          :loading="saveLoading"
+        >
+          {{ $t('Base.create') }}
+        </el-button>
+      </template>
     </el-card>
   </div>
 </template>

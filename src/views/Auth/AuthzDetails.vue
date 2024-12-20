@@ -80,6 +80,11 @@
               v-model="configData"
               ref="formCom"
             />
+            <!-- <el-button @click="handleTest">
+              {{ $t('Base.test') }}
+            </el-button> -->
+          </el-card>
+          <el-card class="ft-card">
             <el-button @click="$router.push('/authorization')">
               {{ $t('Base.cancel') }}
             </el-button>
@@ -91,9 +96,6 @@
             >
               {{ $t('Base.update') }}
             </el-button>
-            <!-- <el-button @click="handleTest">
-              {{ $t('Base.test') }}
-            </el-button> -->
           </el-card>
         </el-tab-pane>
       </div>

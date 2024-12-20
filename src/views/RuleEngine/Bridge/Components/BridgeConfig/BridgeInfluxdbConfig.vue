@@ -1,9 +1,8 @@
 <template>
   <el-form
     ref="formCom"
-    label-position="top"
-    require-asterisk-position="right"
-    class="bridge-influxdb-config bridge-config"
+    class="bridge-influxdb-config bridge-config tong-form"
+    label-width="200px"
     :rules="formRules"
     :model="formData"
     :disabled="disabled"

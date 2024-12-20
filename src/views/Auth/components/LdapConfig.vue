@@ -2,9 +2,8 @@
   <div class="ldap-config config">
     <el-form
       ref="formCom"
-      class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
+      class="create-form tong-form"
+      label-width="200px"
       :model="ldapConfig"
       :rules="rules"
     >

@@ -106,6 +106,11 @@
               ref="formCom"
             />
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
+            <!-- <el-button @click="handleTest">
+              {{ $t('Base.test') }}
+            </el-button> -->
+          </el-card>
+          <el-card class="ft-card">
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>
@@ -117,9 +122,6 @@
             >
               {{ $t('Base.update') }}
             </el-button>
-            <!-- <el-button @click="handleTest">
-              {{ $t('Base.test') }}
-            </el-button> -->
           </el-card>
         </el-tab-pane>
         <el-tab-pane

@@ -119,27 +119,27 @@
                 :form-props="formProps"
               />
             </div>
-            <div v-if="!isFromRule" class="btn-area">
-              <el-button
-                v-if="bridgeInfo.type"
-                type="primary"
-                :disabled="!$hasPermission('put')"
-                plain
-                :loading="isTesting"
-                @click="testConnection"
-              >
-                {{ tl('testTheConnection') }}
-              </el-button>
-              <el-button
-                type="primary"
-                v-if="bridgeInfo.type"
-                :disabled="!$hasPermission('put') || isWebhookAction"
-                :loading="updateLoading"
-                @click="updateBridgeInfo()"
-              >
-                {{ $t('Base.update') }}
-              </el-button>
-            </div>
+          </el-card>
+          <el-card v-if="!isFromRule" class="ft-card">
+            <el-button
+              v-if="bridgeInfo.type"
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              plain
+              :loading="isTesting"
+              @click="testConnection"
+            >
+              {{ tl('testTheConnection') }}
+            </el-button>
+            <el-button
+              type="primary"
+              v-if="bridgeInfo.type"
+              :disabled="!$hasPermission('put') || isWebhookAction"
+              :loading="updateLoading"
+              @click="updateBridgeInfo()"
+            >
+              {{ $t('Base.update') }}
+            </el-button>
           </el-card>
         </el-tab-pane>
       </div>
@@ -416,13 +416,6 @@ defineExpose({
 .setting-area {
   width: 75%;
   min-height: 400px;
-}
-.btn-area {
-  margin-top: 24px;
-  .el-button {
-    margin-left: 0;
-    margin-right: 12px;
-  }
 }
 .hide-tabs {
   > :deep(.el-tabs__header) {

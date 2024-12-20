@@ -987,25 +987,24 @@
 
 /* Dialog */
 .el-dialog {
+  .el-dialog__header {
+    padding: 16px;
+    margin-right: 0;
+    border-bottom: 1px solid var(--color-grey-6);
+  }
+  .el-dialog__headerbtn {
+    top: 3px;
+  }
+  .el-dialog__body {
+    padding: 20px 16px;
+  }
+  .el-dialog__footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--color-grey-6);
+  }
   &.dialog-with-divider {
     .el-dialog__headerbtn {
       height: 50px;
-    }
-
-    .el-dialog__header {
-      padding: 16px 24px;
-      margin-right: 0;
-      border-bottom: 1px solid var(--color-border-card);
-
-    }
-
-    .el-dialog__body {
-      padding: 24px;
-    }
-
-    .el-dialog__footer {
-      padding: 12px 16px;
-      border-top: 1px solid var(--color-border-card);
     }
   }
 }

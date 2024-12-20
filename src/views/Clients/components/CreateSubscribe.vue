@@ -7,13 +7,7 @@
     @close="close"
     @open="open"
   >
-    <el-form
-      ref="FormCom"
-      :model="record"
-      :rules="rules"
-      label-position="top"
-      require-asterisk-position="right"
-    >
+    <el-form ref="FormCom" :model="record" :rules="rules" class="tong-form" label-width="160px">
       <el-form-item v-if="!clientId" prop="clientid" :label="$t('Base.clientid')">
         <el-input v-model="record.clientid" :placeholder="$t('Base.clientid')" />
       </el-form-item>

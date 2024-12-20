@@ -2,9 +2,8 @@
   <div class="http-config config">
     <el-form
       ref="formCom"
-      class="create-form"
-      label-position="top"
-      require-asterisk-position="right"
+      label-width="200px"
+      class="create-form tong-form"
       :model="httpConfig"
       :rules="rules"
     >
@@ -27,11 +26,13 @@
 
           <el-col :span="24">
             <el-form-item>
-              <FormItemLabel
-                :label="$t('RuleEngine.headers')"
-                :desc="isMethodGet ? tl('httpHeaderDesc') : undefined"
-                desc-marked
-              />
+              <template #label>
+                <FormItemLabel
+                  :label="$t('RuleEngine.headers')"
+                  :desc="isMethodGet ? tl('httpHeaderDesc') : undefined"
+                  desc-marked
+                />
+              </template>
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
@@ -61,13 +62,13 @@
                   :desc="tl('httpBodyTip')"
                   desc-marked
                 />
-                <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
-                  {{ $t('Auth.setDefault') }}
-                </el-button>
-                <el-button class="help-btn" size="small" @click="toggleNeedHelp">
-                  {{ $t('Base.help') }}
-                </el-button>
               </template>
+              <el-button size="small" @click="setDefaultContent" class="button-in-label-line">
+                {{ $t('Auth.setDefault') }}
+              </el-button>
+              <el-button class="help-btn" size="small" @click="toggleNeedHelp">
+                {{ $t('Base.help') }}
+              </el-button>
               <el-collapse-transition>
                 <div class="help-container" v-if="needHelp">
                   <HelpBlock :auth-type="authType" database-type="http" />

@@ -1,6 +1,6 @@
 <template>
   <div class="jt808-basic">
-    <el-form ref="refForm" label-position="top" :model="jValue" :rules="rules">
+    <el-form ref="refForm" class="tong-form" label-width="200px" :model="jValue" :rules="rules">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">

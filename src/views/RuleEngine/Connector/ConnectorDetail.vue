@@ -82,29 +82,29 @@
               v-bind="fromComProps"
             />
           </div>
-          <div class="btn-area">
-            <el-button @click="saveAsCopy" :disabled="isWebhookConnector">
-              {{ tl('saveAsCopy') }}
-            </el-button>
-            <el-button
-              v-if="connectorData.type"
-              type="primary"
-              plain
-              :loading="isTesting"
-              @click="handleTest"
-            >
-              {{ tl('testTheConnection') }}
-            </el-button>
-            <el-button
-              type="primary"
-              v-if="connectorData.type"
-              :loading="isSubmitting"
-              :disabled="isWebhookConnector"
-              @click="submit"
-            >
-              {{ $t('Base.update') }}
-            </el-button>
-          </div>
+        </el-card>
+        <el-card class="ft-card">
+          <el-button @click="saveAsCopy" :disabled="isWebhookConnector">
+            {{ tl('saveAsCopy') }}
+          </el-button>
+          <el-button
+            v-if="connectorData.type"
+            type="primary"
+            plain
+            :loading="isTesting"
+            @click="handleTest"
+          >
+            {{ tl('testTheConnection') }}
+          </el-button>
+          <el-button
+            type="primary"
+            v-if="connectorData.type"
+            :loading="isSubmitting"
+            :disabled="isWebhookConnector"
+            @click="submit"
+          >
+            {{ $t('Base.update') }}
+          </el-button>
         </el-card>
       </div>
     </div>

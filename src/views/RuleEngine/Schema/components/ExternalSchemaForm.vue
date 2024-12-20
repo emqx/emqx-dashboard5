@@ -1,53 +1,62 @@
 <template>
-  <el-form ref="FormCom" label-width="200px" :model="form" :rules="rules">
-    <el-form-item prop="name">
-      <template #label>
-        <FormItemLabel
-          :label="t('Base.name')"
-          :desc="tl('externalSchemaNameTip')"
-          popper-class="is-wider"
-          desc-marked
-        />
+  <el-form ref="FormCom" class="tong-form" label-width="200px" :model="form" :rules="rules">
+    <el-row :gutter="24">
+      <el-col :span="12">
+        <el-form-item prop="name">
+          <template #label>
+            <FormItemLabel
+              :label="t('Base.name')"
+              :desc="tl('externalSchemaNameTip')"
+              popper-class="is-wider"
+              desc-marked
+            />
+          </template>
+          <el-input v-model="form.name" :disabled="isEdit" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :label="tl('type')" prop="type">
+          <el-select v-model="form.type">
+            <el-option
+              v-for="{ value, label } in schemaTypeOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="URL" prop="url">
+          <el-input v-model="form.url" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :label="startCase(t('Auth.authn'))">
+          <el-select v-model="authType">
+            <el-option :label="t('Base.none')" :value="AuthType.None" />
+            <el-option :label="tl('basicAuth')" :value="AuthType.Basic" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <template v-if="authType === AuthType.Basic">
+        <el-col :span="12">
+          <el-form-item :label="$t('Base.username')" prop="auth.username">
+            <el-input v-model="form.auth.username" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('password')" prop="auth.password">
+            <el-input
+              v-model="form.auth.password"
+              type="password"
+              show-password
+              autocomplete="new-password"
+            />
+          </el-form-item>
+        </el-col>
       </template>
-      <el-input v-model="form.name" :disabled="isEdit" />
-    </el-form-item>
-
-    <el-form-item :label="tl('type')" prop="type">
-      <el-select v-model="form.type">
-        <el-option
-          v-for="{ value, label } in schemaTypeOpts"
-          :key="value"
-          :label="label"
-          :value="value"
-        />
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="URL" prop="url">
-      <el-input v-model="form.url" />
-    </el-form-item>
-
-    <el-form-item :label="startCase(t('Auth.authn'))">
-      <el-select v-model="authType">
-        <el-option :label="t('Base.none')" :value="AuthType.None" />
-        <el-option :label="tl('basicAuth')" :value="AuthType.Basic" />
-      </el-select>
-    </el-form-item>
-
-    <template v-if="authType === AuthType.Basic">
-      <el-form-item :label="$t('Base.username')" prop="auth.username">
-        <el-input v-model="form.auth.username" />
-      </el-form-item>
-
-      <el-form-item :label="tl('password')" prop="auth.password">
-        <el-input
-          v-model="form.auth.password"
-          type="password"
-          show-password
-          autocomplete="new-password"
-        />
-      </el-form-item>
-    </template>
+    </el-row>
   </el-form>
 </template>
 <script lang="ts" setup>
@@ -115,9 +124,3 @@ const FormCom = ref()
 const validate = () => customValidate(FormCom.value)
 defineExpose({ validate })
 </script>
-
-<style scoped>
-.el-form-item {
-  margin-bottom: 20px;
-}
-</style>

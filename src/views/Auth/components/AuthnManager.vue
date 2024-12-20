@@ -88,8 +88,8 @@
         ref="recordForm"
         :model="record"
         :rules="getRules()"
-        label-position="top"
-        require-asterisk-position="right"
+        class="tong-form"
+        label-width="120px"
       >
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input v-model="record.user_id" :disabled="isEdit" />
@@ -359,9 +359,6 @@ const resetIsSuperuser = () => {
     .el-input {
       width: 260px;
     }
-  }
-  .border-checkbox {
-    margin-top: 16px;
   }
 
   .add-funcs-container {

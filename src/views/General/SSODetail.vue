@@ -9,18 +9,16 @@
           <component ref="FormCom" :is="formCom" v-model="formData" :is-edit="!!baseInfo" />
         </el-col>
       </el-row>
-      <el-row class="schema-form">
-        <el-col class="btn-col" :span="24" :style="store.getters.configPageBtnStyle">
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('put')"
-            :loading="isSubmitting"
-            @click="saveConfig"
-          >
-            {{ $t('Base.update') }}
-          </el-button>
-        </el-col>
-      </el-row>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('put')"
+        :loading="isSubmitting"
+        @click="saveConfig"
+      >
+        {{ $t('Base.update') }}
+      </el-button>
     </el-card>
   </div>
 </template>

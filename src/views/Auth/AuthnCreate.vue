@@ -36,14 +36,6 @@
           </template>
         </el-radio-group>
         <p class="item-description">{{ mechanismDesc }}</p>
-        <div class="step-btn">
-          <el-button @click="cancelCreate()">
-            {{ $t('Base.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="handleNext">
-            {{ $t('Base.nextStep') }}
-          </el-button>
-        </div>
       </div>
       <!-- Backend -->
       <div v-if="step === 1" class="create-form">
@@ -114,18 +106,6 @@
             })
           }}
         </p>
-        <div class="step-btn">
-          <el-button @click="handleBack">
-            {{ $t('Base.backStep') }}
-          </el-button>
-          <el-button
-            type="primary"
-            @click="handleNext"
-            :disabled="needSelectInSecondStep && !backend"
-          >
-            {{ $t('Base.nextStep') }}
-          </el-button>
-        </div>
       </div>
       <!-- Config -->
       <div v-else-if="step === 2">
@@ -168,23 +148,45 @@
             {{ isWork ? $t('Auth.testSuccess') : $t('Auth.testFailed') }}
           </div>
         </div>
-        <div class="step-btn">
-          <!-- <el-button @click="handleTest">
+      </div>
+    </el-card>
+    <el-card class="ft-card">
+      <template v-if="step === 0">
+        <el-button @click="cancelCreate()">
+          {{ $t('Base.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="handleNext">
+          {{ $t('Base.nextStep') }}
+        </el-button>
+      </template>
+      <template v-if="step === 1">
+        <el-button @click="handleBack">
+          {{ $t('Base.backStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          @click="handleNext"
+          :disabled="needSelectInSecondStep && !backend"
+        >
+          {{ $t('Base.nextStep') }}
+        </el-button>
+      </template>
+      <template v-else-if="step === 2">
+        <!-- <el-button @click="handleTest">
             {{ $t('Base.test') }}
           </el-button> -->
-          <el-button @click="handleBack">
-            {{ $t('Base.backStep') }}
-          </el-button>
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('post')"
-            :loading="saveLoading"
-            @click="handleCreate"
-          >
-            {{ $t('Base.create') }}
-          </el-button>
-        </div>
-      </div>
+        <el-button @click="handleBack">
+          {{ $t('Base.backStep') }}
+        </el-button>
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          :loading="saveLoading"
+          @click="handleCreate"
+        >
+          {{ $t('Base.create') }}
+        </el-button>
+      </template>
     </el-card>
   </div>
 </template>

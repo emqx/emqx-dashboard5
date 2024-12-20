@@ -61,11 +61,12 @@ const cancel = () => (showDrawer.value = false)
     }
   }
   // Set a special style for the button block of the creation page
-  .form-ft {
+  .el-card.ft-card {
     position: fixed;
     bottom: 0;
     right: 0;
-    padding: 10px 20px;
+    padding: 16px;
+    margin-bottom: 0;
   }
 }
 </style>

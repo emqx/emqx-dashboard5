@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="showDialog" width="400px" :title="tl('saveAsCopy')" :z-index="2000">
-    <el-form label-position="top">
+    <el-form class="tong-form" label-width="100px">
       <el-form-item :label="formItemLabel" :error="inputError">
         <el-input v-model="inputValue" />
       </el-form-item>

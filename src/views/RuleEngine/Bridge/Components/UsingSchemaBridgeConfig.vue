@@ -104,11 +104,9 @@ const saveLoading = ref(false)
 const formCom = ref()
 
 const formBindProps = computed(() => ({
-  labelWidth: undefined,
-  labelPosition: 'top',
-  requireAsteriskPosition: 'right',
+  labelWidth: '200px',
   disabled: props.disabled,
-  class: '',
+  class: 'tong-form',
   ...props.formProps,
 }))
 
