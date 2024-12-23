@@ -363,7 +363,6 @@ watch(showDialog, (val) => {
     margin-right: auto;
   }
   .first-step-ft {
-    padding-bottom: 20px;
     text-align: center;
     .el-button {
       width: 140px;

@@ -1,6 +1,6 @@
 <template>
   <div class="session app-wrapper">
-    <el-card class="app-card allow-overflow">
+    <el-card class="app-card allow-overflow no-padding-bottom">
       <schema-form
         ref="SchemaFormCom"
         type="session"

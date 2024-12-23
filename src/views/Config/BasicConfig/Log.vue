@@ -1,6 +1,6 @@
 <template>
   <div class="log app-wrapper with-padding-top">
-    <el-card class="app-card allow-overflow">
+    <el-card class="app-card allow-overflow no-padding-bottom">
       <schema-form
         ref="SchemaFormCom"
         :according-to="{ path: '/configs/log' }"

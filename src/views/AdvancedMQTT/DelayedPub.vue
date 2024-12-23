@@ -1,53 +1,54 @@
 <template>
   <div class="app-wrapper delayed-config with-padding-top">
-    <el-card class="app-card" v-loading="isLoading">
-      <el-form
-        ref="delayedForm"
-        :rules="delayedRules"
-        :model="delayedConfig"
-        label-position="right"
-        :label-width="store.state.lang === 'zh' ? 160 : 220"
-        class="configuration-form schema-form"
-        require-asterisk-position="right"
-        hide-required-asterisk
-        @keyup.enter="updateDelayedConfig()"
-      >
-        <el-row>
-          <el-col :span="21">
-            <el-form-item prop="enable">
-              <template #label>
-                <FormItemLabel :label="tl('enableDelayed')" :desc="tl('enableDelayedDesc')" />
-              </template>
-              <el-switch v-model="delayedConfig.enable" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="21">
-            <el-form-item :label="tl('maxDelayedMsg')" prop="max_delayed_messages">
-              <template #label>
-                <FormItemLabel :label="tl('maxDelayedMsg')" :desc="tl('maxDelayedMsgDesc')" />
-              </template>
-              <Oneof
-                v-model="delayedConfig.max_delayed_messages"
-                :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
-                :disabled-label="tl('unlimited')"
-                :disabled="!configEnable"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="btn-row">
-          <el-col :span="24">
-            <el-button
-              type="primary"
-              :disabled="!$hasPermission('put')"
-              :loading="saveLoading"
-              @click="updateDelayedConfig()"
-            >
-              {{ $t('Base.saveChanges') }}
-            </el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+    <el-card class="app-card allow-overflow no-padding-bottom" v-loading="isLoading">
+      <div class="schema-form">
+        <el-form
+          ref="delayedForm"
+          :rules="delayedRules"
+          :model="delayedConfig"
+          label-position="right"
+          :label-width="store.state.lang === 'zh' ? 160 : 220"
+          class="configuration-form schema-form"
+          require-asterisk-position="right"
+          hide-required-asterisk
+          @keyup.enter="updateDelayedConfig()"
+        >
+          <el-row>
+            <el-col :span="21">
+              <el-form-item prop="enable">
+                <template #label>
+                  <FormItemLabel :label="tl('enableDelayed')" :desc="tl('enableDelayedDesc')" />
+                </template>
+                <el-switch v-model="delayedConfig.enable" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21">
+              <el-form-item :label="tl('maxDelayedMsg')" prop="max_delayed_messages">
+                <template #label>
+                  <FormItemLabel :label="tl('maxDelayedMsg')" :desc="tl('maxDelayedMsgDesc')" />
+                </template>
+                <Oneof
+                  v-model="delayedConfig.max_delayed_messages"
+                  :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
+                  :disabled-label="tl('unlimited')"
+                  :disabled="!configEnable"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="btn-row"> </el-row>
+        </el-form>
+        <el-card class="ft-card btn-col">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('put')"
+            :loading="saveLoading"
+            @click="updateDelayedConfig()"
+          >
+            {{ $t('Base.saveChanges') }}
+          </el-button>
+        </el-card>
+      </div>
     </el-card>
   </div>
 </template>
@@ -135,12 +136,3 @@ watch(delayedOption, (newOption) => {
 
 loadDelayedConfig()
 </script>
-
-<style lang="scss">
-.delayed-config {
-  .btn-row {
-    margin-top: 24px;
-    margin-left: 24px;
-  }
-}
-</style>

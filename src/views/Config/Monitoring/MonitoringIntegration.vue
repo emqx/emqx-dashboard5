@@ -1,6 +1,6 @@
 <template>
   <div class="monitoring-integration app-wrapper">
-    <el-card class="app-card allow-overflow" v-loading="isDataLoading">
+    <el-card class="app-card allow-overflow no-padding-bottom" v-loading="isDataLoading">
       <div class="schema-form">
         <el-form
           ref="FormCom"
@@ -277,31 +277,31 @@
               </template>
             </i18n-t>
           </el-form-item>
-          <el-col class="btn-col" :span="24">
-            <el-button
-              type="primary"
-              :disabled="selectedPlatform === DATADOG || !$hasPermission('put')"
-              :loading="isSubmitting"
-              @click="submit"
-            >
-              {{ $t('Base.saveChanges') }}
-            </el-button>
-            <el-button v-if="selectedPlatform === 'Prometheus'" @click="showPromSetup = true">
-              {{ $t('Base.help') }}
-            </el-button>
-            <el-button
-              class="button-advanced"
-              v-if="
-                selectedPlatform === OPENTELEMETRY &&
-                opentelemetryFormData.traces?.filter?.trace_mode === OpenTelemetryTraceModes.E2E &&
-                opentelemetryFormData.traces.filter.e2e_tracing_options
-              "
-              @click="openAdvancedSettings"
-            >
-              {{ tl('traceAdvancedConfig') }}
-            </el-button>
-          </el-col>
         </el-form>
+        <el-card class="ft-card btn-col">
+          <el-button
+            type="primary"
+            :disabled="selectedPlatform === DATADOG || !$hasPermission('put')"
+            :loading="isSubmitting"
+            @click="submit"
+          >
+            {{ $t('Base.saveChanges') }}
+          </el-button>
+          <el-button v-if="selectedPlatform === 'Prometheus'" @click="showPromSetup = true">
+            {{ $t('Base.help') }}
+          </el-button>
+          <el-button
+            class="button-advanced"
+            v-if="
+              selectedPlatform === OPENTELEMETRY &&
+              opentelemetryFormData.traces?.filter?.trace_mode === OpenTelemetryTraceModes.E2E &&
+              opentelemetryFormData.traces.filter.e2e_tracing_options
+            "
+            @click="openAdvancedSettings"
+          >
+            {{ tl('traceAdvancedConfig') }}
+          </el-button>
+        </el-card>
       </div>
     </el-card>
     <HelpDrawer v-model="showPromSetup" />

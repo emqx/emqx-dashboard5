@@ -883,24 +883,22 @@ const SchemaForm = defineComponent({
             model={configForm.value}
             validate-on-rule-change={false}
           >
-            <el-row gutter={rowGutter.value}>
-              {contents}
-              {props.needFooter ? (
-                <el-col span={24} class="btn-col">
-                  <el-button
-                    type="primary"
-                    disabled={!hasPermission('put')}
-                    loading={props.btnLoading}
-                    onClick={save}
-                  >
-                    {t('Base.saveChanges')}
-                  </el-button>
-                </el-col>
-              ) : (
-                ''
-              )}
-            </el-row>
+            <el-row gutter={rowGutter.value}>{contents}</el-row>
           </el-form>
+          {props.needFooter ? (
+            <el-card span={24} class="ft-card btn-col">
+              <el-button
+                type="primary"
+                disabled={!hasPermission('put')}
+                loading={props.btnLoading}
+                onClick={save}
+              >
+                {t('Base.saveChanges')}
+              </el-button>
+            </el-card>
+          ) : (
+            ''
+          )}
         </>
       )
     }

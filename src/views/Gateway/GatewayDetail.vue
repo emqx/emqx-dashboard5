@@ -75,6 +75,8 @@ loadGatewayInfo()
   .detail-top {
     display: flex;
     align-items: center;
+    padding-left: 0;
+    padding-right: 0;
   }
   .el-page-header__content {
     line-height: 1;

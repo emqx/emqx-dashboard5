@@ -1,6 +1,6 @@
 <template>
   <div class="flapping-detect app-wrapper with-padding-top">
-    <el-card class="allow-overflow">
+    <el-card class="allow-overflow no-padding-bottom">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
@@ -57,19 +57,17 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="24" class="btn-col">
-              <el-button
-                type="primary"
-                :disabled="!$hasPermission('put')"
-                :loading="saveLoading"
-                @click="updateConfigData()"
-              >
-                {{ $t('Base.saveChanges') }}
-              </el-button>
-            </el-col>
-          </el-row>
         </el-form>
+        <el-card class="ft-card btn-col">
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('put')"
+            :loading="saveLoading"
+            @click="updateConfigData()"
+          >
+            {{ $t('Base.saveChanges') }}
+          </el-button>
+        </el-card>
       </div>
     </el-card>
   </div>
