@@ -1,6 +1,6 @@
 <template>
   <el-form
-    class="ldap-form"
+    class="oidc-form tong-form"
     ref="FormCom"
     require-asterisk-position="right"
     :model="formData"
@@ -52,7 +52,7 @@
         </el-tooltip>
       </div>
     </div>
-    <AdvancedSettingContainer>
+    <AdvancedSettingContainer :class="{ 'is-zh': state.lang === 'zh' }">
       <el-form-item prop="scopes" :label="tl('scopes')">
         <ArrayEditor v-model="formData.scopes" />
       </el-form-item>
@@ -207,9 +207,19 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
-.ldap-form {
+.oidc-form {
   .TLS-enable-config .TLS-input {
     width: 100%;
+  }
+  .btn-container {
+    .advanced-settings-btn {
+      margin-left: 224px;
+    }
+    &.is-zh {
+      .advanced-settings-btn {
+        margin-left: 140px;
+      }
+    }
   }
 }
 </style>

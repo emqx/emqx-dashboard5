@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-container">
+  <div class="btn-container" v-bind="$attrs">
     <AdvancedSettingsBtn v-model="showAdvancedSettings" :button-text="buttonText" />
   </div>
   <el-collapse-transition>

@@ -1,6 +1,6 @@
 <template>
   <el-form
-    class="ldap-form"
+    class="ldap-form tong-form"
     ref="FormCom"
     require-asterisk-position="right"
     :model="formData"

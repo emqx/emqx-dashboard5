@@ -524,6 +524,11 @@ input:disabled {
       align-items: center;
     }
   }
+  &.no-padding-bottom {
+    > .el-card__body {
+      padding-bottom: 0;
+    }
+  }
   .el-tabs.detail-tabs {
     .el-tabs__header {
       margin-bottom: 24px;
@@ -1039,6 +1044,7 @@ code {
   &.el-form--label-right {
     .el-form-item__label {
       text-align: right;
+      line-height: 1.5;
     }
   }
   .advanced-settings-btn {

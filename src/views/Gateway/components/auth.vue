@@ -188,9 +188,17 @@ getAuthInfo()
   }
   > .el-dialog__body {
     padding: 0;
-    justify-content: flex-end;
     .authn-create {
       padding-top: 8px;
+    }
+  }
+  .ft-card {
+    margin-right: -16px;
+    margin-left: -16px;
+    .el-card__body {
+      justify-content: flex-end;
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
   }
 }

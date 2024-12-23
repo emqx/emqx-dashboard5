@@ -1,6 +1,6 @@
 <template>
   <div class="file-trans app-wrapper with-padding-top">
-    <el-card class="app-card">
+    <el-card class="app-card no-padding-bottom allow-overflow">
       <schema-form
         ref="BasicFormCom"
         type="file-trans"

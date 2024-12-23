@@ -119,6 +119,10 @@ const saveConfig = async () => {
 
 <style lang="scss">
 .sso-detail {
+  .el-form {
+    padding-top: 8px;
+    margin-bottom: -16px;
+  }
   .info-idp-block {
     margin-bottom: 24px;
   }

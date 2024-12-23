@@ -28,7 +28,7 @@
           </el-tooltip>
         </template>
       </detail-header>
-      <div v-else class="section-header embed-gateway">
+      <div v-else class="section-header embed-gateway space-between">
         <h2>{{ titleMap[currBackend] }}</h2>
         <div>
           <el-tooltip
