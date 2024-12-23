@@ -258,9 +258,6 @@ const handleScroll = debounce(async (scrollArg: any) => {
     justify-content: flex-end;
     margin-bottom: 24px;
   }
-  .el-dialog__body {
-    padding-bottom: 32px;
-  }
   .el-table-v2:not(.is-dynamic) .el-table-v2__cell-text {
     white-space: normal;
     overflow: auto;

@@ -233,7 +233,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$padding: 8px;
 $header-heigh: 60px;
 
 .el-aside {
@@ -324,6 +323,6 @@ $header-heigh: 60px;
 
 // 60px is header height
 .is-full-height {
-  height: calc(100vh - #{$header-heigh} - #{$padding});
+  height: calc(100vh - #{$header-heigh});
 }
 </style>

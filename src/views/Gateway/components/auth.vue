@@ -186,8 +186,9 @@ getAuthInfo()
   .el-card.app-card {
     margin-bottom: 0;
   }
-  .el-dialog__body {
-    padding-bottom: 12px;
+  > .el-dialog__body {
+    padding: 0;
+    justify-content: flex-end;
     .authn-create {
       padding-top: 8px;
     }

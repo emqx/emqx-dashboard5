@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card class="app-card">
     <div class="basic-info" v-loading="infoLoading">
       <template v-if="name === 'stomp'">
         <stomp-basic v-model:value="basicData" :key="iKey" />
@@ -25,15 +25,17 @@
       <template v-else-if="name === 'ocpp'">
         <ocpp-basic v-model:value="basicData" :key="iKey" is-edit />
       </template>
-      <el-button
-        type="primary"
-        :loading="updateLoading"
-        @click="updateGatewayInfo()"
-        :disabled="basicData.status === 'unloaded' || !$hasPermission('put')"
-      >
-        {{ $t('Base.update') }}
-      </el-button>
     </div>
+  </el-card>
+  <el-card class="ft-card">
+    <el-button
+      type="primary"
+      :loading="updateLoading"
+      @click="updateGatewayInfo()"
+      :disabled="basicData.status === 'unloaded' || !$hasPermission('put')"
+    >
+      {{ $t('Base.update') }}
+    </el-button>
   </el-card>
 </template>
 

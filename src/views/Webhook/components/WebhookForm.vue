@@ -2,8 +2,7 @@
   <el-form
     ref="FormCom"
     label-width="160px"
-    class="webhook-form"
-    hide-required-asterisk
+    class="webhook-form tong-form"
     :rules="rules"
     :model="formData"
   >
@@ -48,50 +47,40 @@
     <el-form-item :label="tl('headers')" class="item-headers">
       <KeyAndValueEditor v-model="formData.connector.headers" type="list" />
     </el-form-item>
-    <el-collapse-transition>
-      <div v-if="isAdvancedShow">
-        <el-form-item prop="connector.resource_opts.start_timeout">
-          <template #label>
-            <FormItemLabel
-              :label="t('BridgeSchema.common.start_timeout.label')"
-              :desc="t('BridgeSchema.common.start_timeout.desc')"
-            />
-          </template>
-          <TimeInputWithUnitSelect v-model="formData.connector.resource_opts.start_timeout" />
-        </el-form-item>
-        <BridgeResourceOpt
-          v-model="formData.action.resource_opts"
-          :col-span="24"
-          :with-start-timeout-config="false"
-        />
-        <CommonTLSConfig
-          class="tls-config-form"
-          v-model="formData.connector.ssl"
-          :is-edit="isEdit"
-        />
-        <el-form-item :label="getCommonText('connect_timeout.label')">
-          <TimeInputWithUnitSelect
-            v-model="formData.connector.connect_timeout"
-            :enabled-units="['s']"
+    <AdvancedSettingContainer>
+      <el-form-item prop="connector.resource_opts.start_timeout">
+        <template #label>
+          <FormItemLabel
+            :label="t('BridgeSchema.common.start_timeout.label')"
+            :desc="t('BridgeSchema.common.start_timeout.desc')"
           />
-        </el-form-item>
-        <el-form-item :label="tl('connectionPoolSize')" prop="connector.pool_size">
-          <el-input v-model.number="formData.connector.pool_size" />
-        </el-form-item>
-        <el-form-item :label="getCommonText('pool_type.label')" prop="connector.pool_type">
-          <el-select v-model="formData.connector.pool_type">
-            <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="getLabel('enable_pipelining')">
-          <CustomInputNumber v-model="formData.connector.enable_pipelining" />
-        </el-form-item>
-      </div>
-    </el-collapse-transition>
-
-    <el-button class="btn-skip" type="primary" link @click="toggleAdvancedShow">
-      {{ tl('advancedSettings') }}
-    </el-button>
+        </template>
+        <TimeInputWithUnitSelect v-model="formData.connector.resource_opts.start_timeout" />
+      </el-form-item>
+      <BridgeResourceOpt
+        v-model="formData.action.resource_opts"
+        :col-span="24"
+        :with-start-timeout-config="false"
+      />
+      <CommonTLSConfig class="tls-config-form" v-model="formData.connector.ssl" :is-edit="isEdit" />
+      <el-form-item :label="getCommonText('connect_timeout.label')">
+        <TimeInputWithUnitSelect
+          v-model="formData.connector.connect_timeout"
+          :enabled-units="['s']"
+        />
+      </el-form-item>
+      <el-form-item :label="tl('connectionPoolSize')" prop="connector.pool_size">
+        <el-input v-model.number="formData.connector.pool_size" />
+      </el-form-item>
+      <el-form-item :label="getCommonText('pool_type.label')" prop="connector.pool_type">
+        <el-select v-model="formData.connector.pool_type">
+          <el-option v-for="item in ['random', 'hash']" :key="item" :value="item" :label="item" />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="getLabel('enable_pipelining')">
+        <CustomInputNumber v-model="formData.connector.enable_pipelining" />
+      </el-form-item>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
@@ -115,6 +104,7 @@ import { ElMessage } from 'element-plus'
 import type { PropType, WritableComputedRef } from 'vue'
 import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
 import Trigger from './Trigger.vue'
+import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 
 const props = defineProps({
   modelValue: {
@@ -135,9 +125,6 @@ const getLabel = (key: string) => getText(`${key}.label`)
 const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
 const FormCom = ref()
 const TriggerCom = ref()
-
-const isAdvancedShow = ref(false)
-const toggleAdvancedShow = () => (isAdvancedShow.value = !isAdvancedShow.value)
 
 const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
   get() {
@@ -237,6 +224,11 @@ defineExpose({ validate })
     .el-input-group__append {
       justify-content: flex-start;
       padding: 0 12px;
+    }
+  }
+  &.tong-form {
+    .advanced-settings-btn {
+      margin-left: 160px;
     }
   }
 }

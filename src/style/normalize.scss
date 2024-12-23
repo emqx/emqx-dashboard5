@@ -988,6 +988,7 @@
 /* Dialog */
 .el-dialog {
   .el-dialog__header {
+    min-height: 56px;
     padding: 16px;
     margin-right: 0;
     border-bottom: 1px solid var(--color-grey-6);

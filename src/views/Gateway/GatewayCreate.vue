@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper with-padding-top gateway-create">
-    <el-card>
+    <el-card class="app-card">
       <div class="section-header">
         {{ `${tl('initial')} ${transGatewayName(gname)}` }}
       </div>
@@ -60,31 +60,31 @@
           </div>
         </el-col>
       </el-row>
-      <el-row class="config-op">
-        <el-button v-if="stepActive === 0" @click="gotoList">
-          {{ $t('Base.cancel') }}
-        </el-button>
-        <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
-          {{ $t('Base.backStep') }}
-        </el-button>
-        <el-button
-          type="primary"
-          @click="handleNextStep"
-          v-if="stepActive < 2"
-          :disabled="submitLoading"
-        >
-          {{ $t('Base.nextStep') }}
-        </el-button>
-        <el-button
-          type="primary"
-          v-if="stepActive === 2"
-          :loading="submitLoading"
-          :disabled="!$hasPermission('post')"
-          @click="createGateway()"
-        >
-          {{ $t('Base.enable') }}
-        </el-button>
-      </el-row>
+    </el-card>
+    <el-card class="ft-card">
+      <el-button v-if="stepActive === 0" @click="gotoList">
+        {{ $t('Base.cancel') }}
+      </el-button>
+      <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
+        {{ $t('Base.backStep') }}
+      </el-button>
+      <el-button
+        type="primary"
+        @click="handleNextStep"
+        v-if="stepActive < 2"
+        :disabled="submitLoading"
+      >
+        {{ $t('Base.nextStep') }}
+      </el-button>
+      <el-button
+        type="primary"
+        v-if="stepActive === 2"
+        :loading="submitLoading"
+        :disabled="!$hasPermission('post')"
+        @click="createGateway()"
+      >
+        {{ $t('Base.enable') }}
+      </el-button>
     </el-card>
   </div>
 </template>
@@ -271,9 +271,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .config-main {
-  margin-top: 30px;
-}
-.config-op {
   margin-top: 30px;
 }
 .config-auth {
