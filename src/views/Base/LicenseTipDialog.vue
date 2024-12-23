@@ -79,9 +79,6 @@ const goLicense = () => {
   .el-dialog__header {
     display: none;
   }
-  .el-dialog__body {
-    padding-bottom: 20px;
-  }
 
   .tip-title {
     font-size: 18px;

@@ -128,25 +128,11 @@ const cancel = () => {
     margin: 0;
   }
   .el-dialog__header {
-    padding: 15px 15px 10px;
-  }
-  .el-dialog__headerbtn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 16px;
-    height: 24px;
-    line-height: 24px;
-  }
-  .el-dialog__body {
-    padding: 10px 15px;
+    display: none;
   }
   .el-icon {
     margin-right: 12px;
     color: var(--el-color-success);
-  }
-  .el-dialog__footer {
-    padding: 5px 15px 10px;
   }
 }
 </style>
