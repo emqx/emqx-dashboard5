@@ -1348,7 +1348,7 @@
       "desc": "Enable trie path compaction.\nEnabling it significantly improves wildcard topic subscribe rate, if wildcard topics have unique prefixes like: 'sensor/{'{'}{'{'}id{'}'}{'}'}/+/', where ID is unique per subscriber.\nTopic match performance (when publishing) may degrade if messages are mostly published to topics with large number of levels.\n\nNOTE: This is a cluster-wide configuration. It requires all nodes to be stopped before changing it."
     },
     "sysmon_vm_large_heap": {
-      "desc": "When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
+      "desc": "When the heap memory occupied by a process exceeds the size specified by <code>large_heap</code>, the system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.",
       "label": "Enable Large Heap monitoring"
     },
     "mqtt_shared_subscription_strategy": {
