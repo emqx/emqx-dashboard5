@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PropType } from '@/types/enum'
 import { Component, Properties, Property, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import { cloneDeep, get } from 'lodash'
@@ -213,10 +214,14 @@ export default function useSchemaForm(
             property.is_template = property.is_template ?? getIsTemplateFromOneOfArr(property.oneOf)
             const isSimpleOneof = oneOf.every(({ type }) => simpleTypes.includes(type))
             if (isSimpleOneof && property.is_template) {
-              const withBoolean = oneOf.find(({ type }) => type === 'boolean')
-              property.type = withBoolean ? 'enum' : 'string'
-              property.symbols = withBoolean ? [true, false] : undefined
-              property.default = property.default ?? (withBoolean ? '' : undefined)
+              const justWithBoolean =
+                oneOf.length === 2 &&
+                oneOf.every(({ type }) =>
+                  [PropType.Boolean, PropType.String].includes(type as PropType),
+                )
+              property.type = justWithBoolean ? 'enum' : 'string'
+              property.symbols = justWithBoolean ? [true, false] : undefined
+              property.default = property.default ?? (justWithBoolean ? '' : undefined)
             }
           }
           if (!label) {
