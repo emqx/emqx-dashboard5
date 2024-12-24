@@ -214,20 +214,13 @@ watch(isDisabled, async (val) => {
     opacity: 0.5;
   }
 
-  &.in-one-row {
+  .switch-container {
     display: flex;
-    width: 100%;
-
-    .switch-container {
-      flex-shrink: 0;
-      margin-right: 12px;
-    }
-
-    .oneof-item {
-      flex-grow: 1;
-      margin-top: 0;
-    }
+    align-items: center;
+    line-height: 1;
   }
+
+  &.in-one-row,
   &.in-row {
     display: flex;
     width: 100%;
