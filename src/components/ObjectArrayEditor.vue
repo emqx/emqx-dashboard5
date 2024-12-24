@@ -29,7 +29,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column :width="dbType ? '170px' : '100px'" v-if="!disabled">
+      <el-table-column :width="dbType ? '150px' : '100px'" v-if="!disabled">
         <template #header>
           <div class="header-settings">
             <batch-settings v-if="dbType" :type="dbType" @uploaded-data="handleUploadedData" />
@@ -205,7 +205,7 @@ const getColumnProps = (property: Property) => {
   if (key && props.columnsProps && props.columnsProps[key] !== undefined) {
     return props.columnsProps[key]
   }
-  return type === 'object' ? { width: 300 } : {}
+  return type === 'object' ? { width: 200 } : {}
 }
 
 const addItem = () => {

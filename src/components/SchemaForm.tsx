@@ -603,22 +603,24 @@ const SchemaForm = defineComponent({
           const showBatchSettings =
             props.batchSettingConfigs.dbType === BatchSettingDatabaseType.TDengine && !isDisabled
           return (
-            <div class="monaco-container">
-              <Monaco
-                id={createRandomString()}
-                modelValue={modelValue}
-                {...handleUpdateModelValue}
-                lang="sql"
-                disabled={isPropertyDisabled || props.disabled}
-                {...customProps}
-              />
+            <>
+              <div class="monaco-container">
+                <Monaco
+                  id={createRandomString()}
+                  modelValue={modelValue}
+                  {...handleUpdateModelValue}
+                  lang="sql"
+                  disabled={isPropertyDisabled || props.disabled}
+                  {...customProps}
+                />
+              </div>
               {showBatchSettings && (
                 <BatchSettings
                   type={props.batchSettingConfigs.dbType}
                   onUploadedData={handleModelValueUpdate(path)}
                 />
               )}
-            </div>
+            </>
           )
         }
         case 'file':

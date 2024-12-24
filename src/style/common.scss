@@ -326,6 +326,7 @@ p.description {
   }
 }
 .part-header-container {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -337,6 +338,7 @@ p.description {
     margin-bottom: 0;
     padding-right: 12px;
     text-align: right;
+    flex-shrink: 0;
   }
 }
 
@@ -1060,5 +1062,13 @@ code {
   }
   .el-divider--horizontal{
     margin-top: 0;
+  }
+  .one-of {
+    width: 100%;
+  }
+  .el-table {
+    .el-form-item {
+      margin-bottom: 0;
+    }
   }
 }

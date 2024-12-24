@@ -3,7 +3,7 @@
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDrawer"
     :lock-scroll="false"
-    size="60%"
+    size="900px"
     destroy-on-close
   >
     <el-form

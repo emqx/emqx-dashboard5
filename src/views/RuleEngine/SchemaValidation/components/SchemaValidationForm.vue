@@ -1,7 +1,7 @@
 <template>
   <el-form
     class="message-validation-form tong-form"
-    label-width="200px"
+    label-width="240px"
     ref="formCom"
     :model="formData"
     :rules="rules"
@@ -66,7 +66,7 @@
         <el-col :span="21">
           <el-form-item prop="checks" :label="tl('validationList')">
             <el-table class="key-and-value-editor shadow-none" :data="formData.checks">
-              <el-table-column class-name="column-type" :label="tl('type')" :min-width="180">
+              <el-table-column class-name="column-type" :label="tl('type')" :min-width="150">
                 <template #default="{ $index }">
                   <el-select
                     v-model="formData.checks[$index].type"
@@ -83,7 +83,7 @@
               </el-table-column>
               <el-table-column
                 class-name="column-value"
-                :min-width="300"
+                :min-width="270"
                 :label="`${tl('schema')}/SQL`"
               >
                 <template #default="{ row, $index }">
@@ -432,9 +432,12 @@ defineExpose({
   }
 
   .topic-item {
-    margin-bottom: 12px;
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
     .el-form-item {
       width: 100%;
+      margin-bottom: 0;
     }
     .el-form-item__content {
       position: relative;
@@ -481,7 +484,7 @@ defineExpose({
     padding-right: 12px;
   }
   .part-header {
-    width: 200px;
+    width: 240px;
   }
 }
 </style>

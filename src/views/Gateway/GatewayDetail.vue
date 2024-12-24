@@ -88,9 +88,6 @@ loadGatewayInfo()
     display: inline-block;
     background-size: contain;
   }
-  .el-menu--horizontal {
-    margin-bottom: 24px;
-  }
   .el-form {
     margin-bottom: 24px;
   }
