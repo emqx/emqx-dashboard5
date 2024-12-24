@@ -236,6 +236,7 @@ syncPolling(loadData, POLLING_INTERVAL)
   }
   .main-info-item {
     height: 195px;
+    line-height: 1.2;
     .el-card {
       height: 100%;
       &.with-multiple-counts {

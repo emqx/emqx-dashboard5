@@ -74,6 +74,6 @@ const submit = async () => {
 
 <style lang="scss" scoped>
 .message-validation-form {
-  width: 70%;
+  width: 85%;
 }
 </style>

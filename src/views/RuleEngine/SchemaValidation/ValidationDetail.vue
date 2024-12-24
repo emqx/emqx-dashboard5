@@ -161,7 +161,7 @@ getDetail()
 
 <style lang="scss" scoped>
 .message-validation-form {
-  width: 70%;
+  width: 85%;
   margin-bottom: 36px;
 }
 </style>

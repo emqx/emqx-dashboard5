@@ -273,6 +273,9 @@ onMounted(() => {
 .config-main {
   margin-top: 30px;
 }
+.config-basic {
+  margin-bottom: -24px;
+}
 .config-auth {
   width: 50%;
   margin: 20px 0;

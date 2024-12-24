@@ -118,6 +118,11 @@
       width: 100%;
     }
   }
+  .el-form-item {
+    .common-tls-config {
+      margin-bottom: -24px;
+    }
+  }
   .textarea-with-uploader {
     width: 100%;
   }
@@ -189,7 +194,6 @@
 
   .el-form-item {
     margin-top: 0;
-    margin-bottom: 18px;
   }
 
   .el-col-12.dividing-line-below,
@@ -240,7 +244,7 @@
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
   }
-  .batch-settings {
-    margin: 6px 0;
+  .monaco-container + .batch-settings {
+    margin: 6px 0 0;
   }
 }
