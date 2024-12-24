@@ -267,16 +267,16 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Trace level for all message exchanges during the message publishing process.',
   },
   messageTraceLevel0Desc: {
-    zh: '包括 <br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
-    en: 'Includes<br />- `client.connect`<br />- `client.authz`<br />- `message.route`<br />- `message.forward`<br />- `message.handle_forward`<br />- `broker.publish`',
+    zh: '以下事件将被跟踪，包括：<br/>- `client.publish`<br/>- `client.authz`<br/>- `message.route`<br/>- `message.forward`<br/>- `message.handle_forward`<br/>- `broker.publish`',
+    en: 'The following events will be traced:<br/>- `client.publish`<br/>- `client.authz`<br/>- `message.route`<br/>- `message.forward`<br/>- `message.handle_forward`<br/>- `broker.publish`',
   },
   messageTraceLevel1Desc: {
-    zh: '在基本事件的基础上。</br>事件 <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />将被跟踪。</br>即 QoS1 或 QoS2 消息交互中的第一个响应数据包。',
-    en: 'In addition to basic events.</br>The events <br />- `broker.puback`<br />- `client.puback`<br />- `broker.pubrec`<br />- `client.pubrec` <br />will be recorded as Spans.</br>That is, the first response packet in the QoS1 or QoS2 message interaction.',
+    zh: '在基本事件的基础上，还包括以下事件：<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>即 QoS1 或 QoS2 消息交互中的第一个响应数据包。',
+    en: 'In addition to basic events, the following events are also included:<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>That is, the first response packet in the QoS1 or QoS2 message interaction.',
   },
   messageTraceLevel2Desc: {
-    zh: '在一级跟踪的基础上。</br>事件 <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />将被跟踪。',
-    en: 'In addition to level 1.</br>The events <br />- `broker.pubrel`<br />- `client.pubrel`<br />- `broker.pubcomp`<br />- `client.pubcomp` <br />will be recorded as Spans.',
+    zh: '在一级跟踪的基础上，进一步包括以下事件： <br/>- `broker.pubrel`<br/>- `client.pubrel`<br/>- `broker.pubcomp`<br/>- `client.pubcomp` <br/>即所有 MQTT 报文交互的数据包。',
+    en: 'In addition to level-1 tracing, the following events are further included:<br/>- `broker.pubrel`<br/>- `client.pubrel`<br/>- `broker.pubcomp`<br/>- `client.pubcomp` <br/>That is, all packet of MQTT message interaction.',
   },
   basicEvents: {
     zh: '基础事件',
