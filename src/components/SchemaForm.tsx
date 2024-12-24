@@ -848,7 +848,7 @@ const SchemaForm = defineComponent({
       ctx.emit('save', configForm.value)
     }
 
-    const defaultFormProps = { class: 'configuration-form', labelPosition: 'right' }
+    const defaultFormProps = { class: 'configuration-form tong-form', labelPosition: 'right' }
     const getFormProps = () => ({
       ...defaultFormProps,
       disabled: props.disabled,
@@ -885,7 +885,7 @@ const SchemaForm = defineComponent({
           >
             <el-row gutter={rowGutter.value}>{contents}</el-row>
           </el-form>
-          {props.needFooter ? (
+          {props.needFooter && !showSkeleton.value ? (
             <el-card span={24} class="ft-card btn-col">
               <el-button
                 type="primary"

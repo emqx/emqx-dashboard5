@@ -513,7 +513,8 @@ input:disabled {
   &.ft-card {
     margin-bottom: 16px;
   }
-  .el-card__body >.el-form:not(.search-wrapper) {
+  .el-card__body>.el-form:not(.search-wrapper),
+  .el-card__body>.schema-form:not(.is-loading) {
     padding-top: 8px;
     margin-bottom: -16px;
   }
@@ -1043,6 +1044,8 @@ code {
   }
   &.el-form--label-right {
     .el-form-item__label {
+      height: 32px;
+      align-items: center;
       text-align: right;
       line-height: 1.5;
     }
@@ -1053,6 +1056,9 @@ code {
     margin-left: 200px;
   }
   .btn-container {
+    margin-top: 0;
+  }
+  .el-divider--horizontal{
     margin-top: 0;
   }
 }
