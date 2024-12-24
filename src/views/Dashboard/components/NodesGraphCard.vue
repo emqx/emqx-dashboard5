@@ -140,7 +140,7 @@ import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
-import { computed, ref, Ref, onMounted, nextTick, watch } from 'vue'
+import { computed, ref, Ref, nextTick, watch } from 'vue'
 import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
@@ -245,28 +245,17 @@ syncPolling(loadData, POLLING_INTERVAL)
 const clusterNameRef = ref<HTMLElement>()
 const isOverflow = ref(false)
 
-// 监听 clusterName 的变化
 watch(
   () => clusterName.value,
   async (newVal) => {
     if (newVal) {
       await nextTick()
       if (clusterNameRef.value) {
-        console.log('scrollWidth:', clusterNameRef.value.scrollWidth)
-        console.log('clientWidth:', clusterNameRef.value.clientWidth)
         isOverflow.value = clusterNameRef.value.scrollWidth > clusterNameRef.value.clientWidth
       }
     }
   },
 )
-
-onMounted(async () => {
-  await nextTick()
-  console.log(clusterNameRef.value)
-  if (clusterNameRef.value) {
-    isOverflow.value = clusterNameRef.value.scrollWidth > clusterNameRef.value.clientWidth
-  }
-})
 </script>
 
 <style lang="scss" scoped>
