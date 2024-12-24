@@ -307,6 +307,11 @@ export interface ConnectorNodeStatus {
   status_reason?: string
 }
 
+export interface ConnectorMqttStaticClientidEntry {
+  node: string
+  ids: string[]
+}
+
 export interface ConnectorMqttResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
@@ -344,6 +349,7 @@ export interface ConnectorMqttPutConnector {
   mode?: ConnectorMqttPutConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttPutConnectorProtoVer
@@ -398,6 +404,7 @@ export interface ConnectorMqttPostConnector {
   mode?: ConnectorMqttPostConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttPostConnectorProtoVer
@@ -467,6 +474,7 @@ export interface ConnectorMqttGetConnector {
   mode?: ConnectorMqttGetConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttGetConnectorProtoVer
