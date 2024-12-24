@@ -33,10 +33,6 @@
       margin: 0 0 6px 0;
     }
   }
-  .el-form-item {
-    margin-top: 6px;
-    margin-bottom: 6px;
-  }
   .el-form-item__label {
     padding-right: 20px;
   }
@@ -58,7 +54,7 @@
   }
   .el-col-21 {
     .el-form-item {
-      padding: 8px;
+      padding: 0 8px 0 8px;
     }
   }
   .is-hidden {
@@ -69,7 +65,7 @@
     background: var(--color-bg-content);
     // for count, do not change
     bottom: -1px;
-    z-index: 2;
+    z-index: 5;
     display: flex;
     justify-content: center;
     margin-top: 16px;
@@ -122,12 +118,17 @@
       width: 100%;
     }
   }
+  .el-form-item {
+    .common-tls-config {
+      margin-bottom: -24px;
+    }
+  }
   .textarea-with-uploader {
     width: 100%;
   }
   .configuration-form {
-    $base-number-input-width: 160px;
-    $base-input-width: 280px;
+    $base-number-input-width: 160px + 120px;
+    $base-input-width: 280px + 120px;
     // src/style/common.scss:309:16
     $input-append-width: 120px;
     .el-form-item__content,
@@ -193,7 +194,6 @@
 
   .el-form-item {
     margin-top: 0;
-    margin-bottom: 18px;
   }
 
   .el-col-12.dividing-line-below,
@@ -244,7 +244,7 @@
     font-size: var(--el-form-label-font-size);
     color: var(--el-text-color-regular);
   }
-  .batch-settings {
-    margin: 6px 0;
+  .monaco-container + .batch-settings {
+    margin: 6px 0 0;
   }
 }

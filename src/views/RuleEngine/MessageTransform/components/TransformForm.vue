@@ -1,7 +1,7 @@
 <template>
   <el-form
     class="message-transform-form tong-form"
-    label-width="200px"
+    label-width="220px"
     ref="formCom"
     :model="formData"
     :rules="rules"
@@ -499,9 +499,12 @@ defineExpose({
   }
 
   .topic-item {
-    margin-bottom: 12px;
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
     .el-form-item {
       width: 100%;
+      margin-bottom: 0;
     }
     .el-form-item__content {
       position: relative;
@@ -517,7 +520,7 @@ defineExpose({
     transform: translateX(100%);
   }
   .part-header {
-    width: 200px;
+    flex-basis: 220px;
   }
   .column-type.el-table__cell {
     vertical-align: top;

@@ -210,8 +210,8 @@ export default createStore({
       return e == 'enterprise' ? 0b01 : 0b10
     },
     isDev() {
-      return false
-      // return process.env.NODE_ENV === 'development'
+      // return false
+      return process.env.NODE_ENV === 'development'
     },
     getSchema(state) {
       return (key: string) => {

@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
       <el-button
@@ -62,7 +62,7 @@
       @submit="submitListener"
       @delete="delListener($event)"
     />
-  </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -190,8 +190,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .not-standalone-btn {
-  margin-top: 40px;
-  margin-bottom: 20px;
+  margin-top: 16px;
+  margin-bottom: 4px;
 }
 
 .el-input-group--append :deep(.el-input-group__append) {

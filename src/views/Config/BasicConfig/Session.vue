@@ -8,7 +8,7 @@
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 204 : 276 }"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 212 : 276 }"
         :props-order-map="propsOrderMap"
         :data-handler="handleSessionSchema"
         @save="handleSave"

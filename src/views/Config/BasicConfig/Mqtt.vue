@@ -7,7 +7,7 @@
         need-rules
         :according-to="{ ref: ['paths', '/configs/global_zone', 'get'] }"
         :form="configs"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 254 : 312 }"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 284 : 312 }"
         :btn-loading="saveLoading"
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"

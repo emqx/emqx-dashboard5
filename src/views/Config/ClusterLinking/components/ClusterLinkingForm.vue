@@ -259,9 +259,12 @@ defineExpose({ validate })
   }
 
   .topic-item {
-    margin-bottom: 12px;
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
     .el-form-item {
       width: 100%;
+      margin-bottom: 0;
     }
     .el-form-item__content {
       position: relative;
