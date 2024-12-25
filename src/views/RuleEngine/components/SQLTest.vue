@@ -74,7 +74,7 @@
                 >
                   {{ tl('testsql') }}
                 </el-button>
-                <el-button plain :icon="RefreshRight" @click="resetContext">
+                <el-button plain :icon="RefreshLeft" @click="resetContext">
                   {{ t('Base.reset') }}
                 </el-button>
               </div>
@@ -108,7 +108,7 @@ import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { CaretRight, CopyDocument, RefreshRight } from '@element-plus/icons-vue'
+import { CaretRight, CopyDocument, RefreshLeft } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { startCase } from 'lodash'
 import { PropType, defineExpose, defineProps, onUnmounted, ref, watch } from 'vue'

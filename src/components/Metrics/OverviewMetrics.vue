@@ -13,8 +13,7 @@
             />
           </el-select>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="handleRefresh">
-            </el-button>
+            <RefreshButton class="icon-button" no-text @click="handleRefresh" />
           </el-tooltip>
           <el-tooltip v-if="requestReset" :content="tl('resetStatistics')" placement="top">
             <el-button
@@ -184,7 +183,7 @@ import {
 } from '@/hooks/useMetrics'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
-import { Close, Refresh } from '@element-plus/icons-vue'
+import { Close } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { get } from 'lodash'
 import { computed, defineEmits, defineProps, inject, ref } from 'vue'

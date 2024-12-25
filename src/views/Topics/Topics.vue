@@ -11,21 +11,15 @@
           />
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Refresh" @click="loadTopics">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadTopics" />
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
         <el-table-column prop="topic" :label="$t('Topics.topic')">
@@ -76,7 +70,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { Search, Refresh, RefreshLeft } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'

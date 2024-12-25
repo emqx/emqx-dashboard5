@@ -38,12 +38,8 @@
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadGatewayClients">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <SearchButton @click="searchGatewayList()" />
+          <RefreshButton @click="loadGatewayClients" />
         </el-col>
       </el-row>
     </el-form>
@@ -86,14 +82,9 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button
-            plain
-            :disabled="!$hasPermission('delete')"
-            @click="disconnectClient(row)"
-            size="small"
-          >
+          <TableButton :disabled="!$hasPermission('delete')" @click="disconnectClient(row)">
             {{ $t('Clients.kickOut') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -119,7 +110,6 @@ import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import moment from 'moment'
 import ClientDetails from '../../Clients/ClientDetails.vue'
 import { useRoute } from 'vue-router'
-import { Search, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CheckIcon from '@/components/CheckIcon.vue'
 import useClusterNodes from '@/hooks/useClusterNodes'
@@ -218,8 +208,6 @@ export default defineComponent({
     })
 
     return {
-      Search,
-      RefreshRight,
       moment: moment,
       tl,
       t,

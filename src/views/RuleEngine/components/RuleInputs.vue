@@ -32,15 +32,13 @@
             </span>
           </component>
         </template>
-        <el-button
+        <CreateButton
           class="btn-add"
-          type="primary"
           :disabled="!$hasPermission('post') || disabled"
           @click="addInput()"
         >
-          <el-icon><plus /></el-icon>
-          <span>{{ tl('addInput') }}</span>
-        </el-button>
+          {{ tl('addInput') }}
+        </CreateButton>
       </el-col>
     </el-row>
   </div>
@@ -61,7 +59,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import { startCase } from 'lodash'
 import type { ComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'

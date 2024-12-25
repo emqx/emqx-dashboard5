@@ -2,14 +2,7 @@
   <div class="API-key app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        @click="createKeyItem"
-        :icon="Plus"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="createKeyItem" />
     </div>
     <el-table class="api-key-table" :data="keyList" v-loading.lock="isTableLoading">
       <el-table-column prop="name" :label="tl('keyName')">
@@ -41,20 +34,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('put')"
-            @click="operateKeyItem('edit', row)"
-          >
+          <TableButton :disabled="!$hasPermission('put')" @click="operateKeyItem('edit', row)">
             {{ tl('edit', 'Base') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteKey(row)"
-            >{{ tl('delete', 'Base') }}</el-button
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteKey(row)">{{
+            tl('delete', 'Base')
+          }}</TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -75,7 +60,6 @@ import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import moment from 'moment'
-import { Plus } from '@element-plus/icons-vue'
 import useRole from '@/hooks/SSO/useRole'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 
