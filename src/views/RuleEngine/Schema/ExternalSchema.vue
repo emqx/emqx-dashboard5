@@ -2,9 +2,7 @@
   <div class="external-schema app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button :disabled="!$hasPermission('post')" type="primary" @click="addSchema" :icon="Plus">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="addSchema" />
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
       <el-table-column prop="name" :label="t('Base.name')" :min-width="200" />
@@ -15,9 +13,9 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="150">
         <template #default="{ row }">
-          <el-button size="small" @click="goSchemaDetail(row.name)">
+          <TableButton @click="goSchemaDetail(row.name)">
             {{ $t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             @duplicate="handleCopy(row.name)"
@@ -35,7 +33,6 @@ import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'
-import { Plus } from '@element-plus/icons-vue'
 import { Ref, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableItemDropdown from './components/TableItemDropdown.vue'

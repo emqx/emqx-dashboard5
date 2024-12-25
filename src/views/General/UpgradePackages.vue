@@ -16,13 +16,9 @@
       <el-table-column prop="TODO:" :label="tl('fileSize')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            @click="handleDeletePackage(row)"
-          >
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDeletePackage(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>

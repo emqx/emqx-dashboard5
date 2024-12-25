@@ -3,18 +3,7 @@
     <div class="section-header">
       <div></div>
       <div>
-        <<<<<<< HEAD
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :icon="Plus"
-          @click="openCreateDialog"
-        >
-          {{ $t('Base.create') }}
-        </el-button>
-        =======
         <CreateButton @click="openCreateDialog" />
-        >>>>>>> dev/1.10.5
       </div>
     </div>
 
