@@ -40,14 +40,13 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
+          <TableButton
             :style="{ marginRight: '10px' }"
             v-if="row.type === 'built_in_database'"
-            size="small"
             @click="routeToDetail(row, 'users')"
           >
             {{ $t('Auth.permissions') }}
-          </el-button>
+          </TableButton>
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"

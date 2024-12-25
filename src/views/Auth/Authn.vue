@@ -37,13 +37,13 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
+          <TableButton
             :style="{ marginRight: '10px' }"
             v-if="row.backend === 'built_in_database'"
-            size="small"
             @click="routeToDetail(row, 'users')"
-            >{{ $t('Auth.users') }}</el-button
           >
+            {{ $t('Auth.users') }}
+          </TableButton>
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"

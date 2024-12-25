@@ -40,12 +40,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="goExhookDetail(row, 'hooks')">
+          <TableButton @click="goExhookDetail(row, 'hooks')">
             {{ tl('hooks') }}
-          </el-button>
-          <el-button size="small" @click="goExhookDetail(row, 'settings')">
+          </TableButton>
+          <TableButton @click="goExhookDetail(row, 'settings')">
             {{ $t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             :table-len="exhooks.length"

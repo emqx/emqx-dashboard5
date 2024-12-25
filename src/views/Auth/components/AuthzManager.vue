@@ -55,12 +55,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="handleEdit(row, $index)">
+          <TableButton @click="handleEdit(row, $index)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button size="small" plain @click="handleDelete(row, $index)">
+          </TableButton>
+          <TableButton plain @click="handleDelete(row, $index)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
           <TableDropdown
             :row-data="row"
             :position="$index"
@@ -111,12 +111,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row, $index }">
-            <el-button size="small" @click="handleEdit(row, $index)">
+            <TableButton @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
-            </el-button>
-            <el-button size="small" plain @click="handleDelete(row, $index)">
+            </TableButton>
+            <TableButton plain @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

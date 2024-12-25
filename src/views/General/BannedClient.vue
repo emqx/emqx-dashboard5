@@ -70,9 +70,9 @@
         </el-table-column>
         <el-table-column prop="oper" :label="t('Base.operation')">
           <template #default="{ row }">
-            <el-button plain size="small" @click="deleteConfirm(row)">
+            <TableButton @click="deleteConfirm(row)">
               {{ t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

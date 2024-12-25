@@ -50,16 +50,16 @@
       <el-table-column :label="$t('Base.operation')" :min-width="276">
         <template #default="{ row }">
           <template v-if="hasBeenInitialized(row)">
-            <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
+            <TableButton :disabled="isUnload(row.status)" @click="goSettingPage(row)">
               {{ t('Base.setting') }}
-            </el-button>
-            <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
+            </TableButton>
+            <TableButton :disabled="!isRunning(row.status)" @click="goClientPage(row)">
               {{ tl('clients') }}
-            </el-button>
+            </TableButton>
           </template>
-          <el-button v-else type="primary" size="small" @click="setupGateway(row)">
+          <TableButton v-else type="primary" @click="setupGateway(row)">
             {{ tl('setup') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
