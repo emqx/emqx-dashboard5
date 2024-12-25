@@ -2,9 +2,7 @@
   <div class="API-key app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="createKeyItem" :icon="Plus">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="createKeyItem" />
     </div>
     <el-table class="api-key-table" :data="keyList" v-loading.lock="isTableLoading">
       <el-table-column prop="name" :label="tl('keyName')">
@@ -53,7 +51,6 @@ import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import moment from 'moment'
-import { Plus } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {

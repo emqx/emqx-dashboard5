@@ -142,14 +142,9 @@
           <el-button type="primary" :icon="Refresh" @click="handleRefreshSubs">
             {{ t('Base.refresh') }}
           </el-button>
-          <el-button
-            v-if="allowSubscriptionOperations"
-            type="primary"
-            :icon="Plus"
-            @click="handlePreAdd"
-          >
+          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
             {{ tl('addASubscription') }}
-          </el-button>
+          </CreateButton>
         </div>
       </div>
       <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
@@ -225,7 +220,7 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
-import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
+import { Delete, Refresh, Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'

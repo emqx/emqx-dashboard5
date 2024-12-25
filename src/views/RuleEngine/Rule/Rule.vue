@@ -9,9 +9,7 @@
       <div class="section-header">
         <div></div>
         <div>
-          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'rule-create' })">
-            {{ tl('create', 'Base') }}
-          </el-button>
+          <CreateButton @click="$router.push({ name: 'rule-create' })" />
           <el-button type="primary" :icon="Refresh" @click="getRulesList">
             {{ $t('Base.refresh') }}
           </el-button>
@@ -116,7 +114,7 @@ import usePagination from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
-import { Plus, Refresh } from '@element-plus/icons-vue'
+import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage as M } from 'element-plus'
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'

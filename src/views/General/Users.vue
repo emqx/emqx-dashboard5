@@ -2,9 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="showDialog()">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="showDialog()" />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -106,7 +104,6 @@
 <script setup>
 import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'

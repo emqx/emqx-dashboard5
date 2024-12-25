@@ -2,13 +2,7 @@
   <div class="authn app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        @click="$router.push({ name: 'authentication-create' })"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="$router.push({ name: 'authentication-create' })" />
     </div>
     <el-table
       ref="tableCom"
@@ -79,7 +73,6 @@ import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import { AuthnItem } from '@/types/auth'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
