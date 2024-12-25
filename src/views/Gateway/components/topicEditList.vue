@@ -23,14 +23,14 @@
         </el-table-column>
         <el-table-column width="80">
           <template #header="scope">
-            <el-button size="small" @click="addTopic()" :disabled="disableAdd(scope)">
+            <TableButton @click="addTopic()" :disabled="disableAdd(scope)">
               {{ $t('Base.add') }}
-            </el-button>
+            </TableButton>
           </template>
           <template #default="{ row }">
-            <el-button size="small" @click="delTopic(row)">
+            <TableButton @click="delTopic(row)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

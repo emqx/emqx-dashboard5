@@ -64,8 +64,7 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button
-              size="small"
+            <TableButton
               @click="
                 $router.push({
                   name: 'rule-detail',
@@ -75,7 +74,7 @@
               "
             >
               {{ $t('Base.setting') }}
-            </el-button>
+            </TableButton>
             <OperateWebhookAssociatedPopover
               :disabled="!judgeIsWebhookRule(row)"
               :name="row.id"

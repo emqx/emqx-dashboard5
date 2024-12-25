@@ -25,12 +25,10 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
-          <el-button size="small" @click="operateKeyItem('edit', row)">
+          <TableButton @click="operateKeyItem('edit', row)">
             {{ tl('edit', 'Base') }}
-          </el-button>
-          <el-button size="small" plain @click="deleteKey(row)">{{
-            tl('delete', 'Base')
-          }}</el-button>
+          </TableButton>
+          <TableButton plain @click="deleteKey(row)">{{ tl('delete', 'Base') }}</TableButton>
         </template>
       </el-table-column>
     </el-table>

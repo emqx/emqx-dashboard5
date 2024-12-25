@@ -52,12 +52,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button @click="handleEdit(row)" size="small">
+          <TableButton @click="handleEdit(row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button plain @click="handleDelete(row)" size="small">
+          </TableButton>
+          <TableButton plain @click="handleDelete(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>

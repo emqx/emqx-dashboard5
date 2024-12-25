@@ -25,12 +25,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button size="small" @click="goEditWebhook(row.name)">
+            <TableButton @click="goEditWebhook(row.name)">
               {{ $t('Base.setting') }}
-            </el-button>
-            <el-button size="small" :loading="deleteLoading" @click="handleDeleteWebhook(row)">
+            </TableButton>
+            <TableButton :loading="deleteLoading" @click="handleDeleteWebhook(row)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
             <!-- <TableItemDropdown :row-data="row" /> -->
           </template>
         </el-table-column>

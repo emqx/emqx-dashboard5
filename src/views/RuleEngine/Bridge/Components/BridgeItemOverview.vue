@@ -77,15 +77,14 @@
             <span class="text-status" :class="getStatusClass(row.status)">
               {{ getLabelByStatusValue(row.status) }}
             </span>
-            <el-button
-              size="small"
+            <TableButton
               type="primary"
               v-if="row.status === ConnectionStatus.Disconnected"
               @click="reconnect(row)"
               :loading="nodeConnectingStatusMap[row.node]"
             >
               {{ tl('reconnect') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
         <el-table-column :label="tl('matched')">

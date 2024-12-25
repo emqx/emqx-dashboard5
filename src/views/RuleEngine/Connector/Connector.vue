@@ -69,22 +69,20 @@
               :content="tl('canNotViewConnectorTip')"
             >
               <div class="tooltip-content">
-                <el-button
-                  size="small"
+                <TableButton
                   v-if="isErrorStatus(row)"
                   :disabled="row.canNotView"
                   :loading="reconnectingMap.get(row.id)"
                   @click="reconnect(row)"
                 >
                   {{ $t('RuleEngine.reconnect') }}
-                </el-button>
-                <el-button
-                  size="small"
+                </TableButton>
+                <TableButton
                   :disabled="row.canNotView"
                   @click="$router.push(getDetailPageRoute(row))"
                 >
                   {{ $t('Base.setting') }}
-                </el-button>
+                </TableButton>
                 <OperateWebhookAssociatedPopover
                   :disabled="!judgeIsWebhookConnector(row)"
                   :name="row.name"

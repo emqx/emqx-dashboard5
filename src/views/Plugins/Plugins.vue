@@ -40,20 +40,18 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
-            size="small"
+          <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
-          </el-button>
-          <el-button
-            size="small"
+          </TableButton>
+          <TableButton
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
             {{ tl('start') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             :filtered="isTableFiltered"

@@ -65,12 +65,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button size="small" @click="checkPayload(row)">
+            <TableButton @click="checkPayload(row)">
               {{ tl('openPayload') }}
-            </el-button>
-            <el-button size="small" plain @click="deleteRetainerTopic(row)">
+            </TableButton>
+            <TableButton plain @click="deleteRetainerTopic(row)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

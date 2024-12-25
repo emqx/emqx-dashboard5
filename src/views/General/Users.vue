@@ -10,21 +10,19 @@
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="showDialog('edit', row)">
+          <TableButton @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button size="small" @click="showDialog('chPass', row)">
+          </TableButton>
+          <TableButton @click="showDialog('chPass', row)">
             {{ tl('changePassword') }}
-          </el-button>
+          </TableButton>
 
-          <el-button
-            plain
-            size="small"
+          <TableButton
             @click="deleteConfirm(row)"
             v-if="currentUser.username !== row.username && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
