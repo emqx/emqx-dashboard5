@@ -59,9 +59,7 @@
           <el-col class="hidden-md-and-down" :span="12" />
         </template>
         <el-col class="col-oper" v-bind="colProps">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
           <el-button :icon="RefreshLeft" @click="handleReset">
             {{ $t('Base.reset') }}
           </el-button>
@@ -133,7 +131,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
-import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, RefreshLeft } from '@element-plus/icons-vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

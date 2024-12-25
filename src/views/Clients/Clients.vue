@@ -70,9 +70,7 @@
           <el-col v-bind="colProps" />
         </template>
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
           <el-button :icon="RefreshLeft" @click="handleReset">
             {{ $t('Base.reset') }}
           </el-button>
@@ -187,7 +185,7 @@ import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { ArrowDown, ArrowUp, Delete, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Delete, RefreshLeft } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed } from 'vue'
