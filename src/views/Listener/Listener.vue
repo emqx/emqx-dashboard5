@@ -2,7 +2,9 @@
   <div class="listener app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton @click="addListener()" />
+      <CreateButton @click="addListener()">
+        {{ tl('addListener') }}
+      </CreateButton>
     </div>
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
       <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>

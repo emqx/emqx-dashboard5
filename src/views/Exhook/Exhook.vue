@@ -2,7 +2,9 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton @click="addExhook" />
+      <CreateButton @click="addExhook">
+        {{ t('Base.add') }}
+      </CreateButton>
     </div>
     <el-table
       ref="tableCom"
