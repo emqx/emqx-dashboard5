@@ -32,9 +32,7 @@
 
         <el-col v-bind="colProps" class="buttons-wrap">
           <SearchButton @click="refreshListData" />
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ t('Base.reset') }}
-          </el-button>
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
@@ -94,7 +92,7 @@ import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { BannedItem } from '@/types/systemModule'
-import { RefreshLeft, Remove } from '@element-plus/icons-vue'
+import { Remove } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { Banned } from 'src/types/auth'

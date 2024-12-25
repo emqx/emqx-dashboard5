@@ -12,9 +12,7 @@
         </el-col>
         <el-col :span="8">
           <SearchButton @click="handleSearch" />
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
@@ -49,7 +47,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { RefreshLeft } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'

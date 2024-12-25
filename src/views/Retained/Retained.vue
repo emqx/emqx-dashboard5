@@ -12,9 +12,7 @@
         </el-col>
         <el-col :span="8">
           <SearchButton @click="handleSearch" />
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
@@ -106,7 +104,7 @@ import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RetainerMessage } from '@/types/extension'
-import { RefreshLeft, Remove, Setting } from '@element-plus/icons-vue'
+import { Remove, Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
