@@ -24,8 +24,7 @@
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
-            </el-button>
+            <RefreshButton class="icon-button" no-text @click="loadData" />
           </el-tooltip>
         </el-space>
       </div>
@@ -125,7 +124,7 @@ import { replaceSpaceForHTML } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Refresh, Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'

@@ -23,9 +23,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Refresh" @click="loadTopics">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadTopics" />
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
         <el-table-column prop="topic" :label="$t('Topics.topic')">
@@ -53,7 +51,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import { Search, Refresh, RefreshLeft } from '@element-plus/icons-vue'
+import { Search, RefreshLeft } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
