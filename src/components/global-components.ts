@@ -1,8 +1,5 @@
 import CustomInputPassword from './CustomInputPassword.vue'
-import CreateButton from './CreateButton.vue'
-import TableButton from './TableButton.vue'
-import RefreshButton from './RefreshButton.vue'
-import SearchButton from './SearchButton.vue'
+import { CreateButton, TableButton, RefreshButton, SearchButton } from './Buttons'
 import type { App } from 'vue'
 
 export default {

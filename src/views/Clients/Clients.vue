@@ -71,9 +71,7 @@
         </template>
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <SearchButton @click="handleSearch" />
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <ResetButton @click="handleReset" />
           <el-tooltip
             :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
             placement="top"
@@ -185,7 +183,7 @@ import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { ArrowDown, ArrowUp, Delete, RefreshLeft } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed } from 'vue'
