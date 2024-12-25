@@ -729,6 +729,11 @@ export interface EmqxSslClientOpts {
   server_name_indication?: EmqxSslClientOptsServerNameIndication
 }
 
+export interface ConnectorMqttStaticClientidEntry {
+  node: string
+  ids: string[]
+}
+
 export interface ConnectorMqttIngressRemote {
   topic: string
   qos?: number
@@ -2200,6 +2205,7 @@ export interface BridgeMqttPut {
   mode?: BridgeMqttPutMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: BridgeMqttPutProtoVer
@@ -2253,6 +2259,7 @@ export interface BridgeMqttPost {
   mode?: BridgeMqttPostMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: BridgeMqttPostProtoVer
