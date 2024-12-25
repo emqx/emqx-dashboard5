@@ -42,12 +42,8 @@
             </el-select>
           </el-col>
           <el-col v-if="notSupportHTTPFilter" v-bind="{ ...colProps, lg: 12 }" class="col-oper">
-            <el-button type="primary" plain :icon="Search" @click="search">
-              {{ t('Base.search') }}
-            </el-button>
-            <el-button :icon="RefreshLeft" @click="resetFilter">
-              {{ t('Base.reset') }}
-            </el-button>
+            <SearchButton @click="search" />
+            <ResetButton @click="resetFilter" />
           </el-col>
         </el-row>
         <div class="http-filter" v-if="!notSupportHTTPFilter">
@@ -93,12 +89,8 @@
               </el-col>
             </template>
             <el-col v-bind="showMoreQuery ? { sm: 24, md: 24, lg: 24 } : colProps" class="col-oper">
-              <el-button type="primary" plain :icon="Search" @click="search">
-                {{ t('Base.search') }}
-              </el-button>
-              <el-button :icon="RefreshLeft" @click="resetFilter">
-                {{ t('Base.reset') }}
-              </el-button>
+              <SearchButton @click="search" />
+              <ResetButton @click="resetFilter" />
               <el-tooltip
                 :content="!showMoreQuery ? t('Base.showMore') : $t('Base.lessMore')"
                 placement="top"
@@ -205,7 +197,7 @@ import {
   AuditLogOperationResult,
   GetAuditParams,
 } from '@/types/typeAlias'
-import { ArrowDown, ArrowUp, RefreshLeft, Search, Setting } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Setting } from '@element-plus/icons-vue'
 import { pickBy, toUpper } from 'lodash'
 import moment from 'moment'
 import { Ref, computed, reactive, ref } from 'vue'

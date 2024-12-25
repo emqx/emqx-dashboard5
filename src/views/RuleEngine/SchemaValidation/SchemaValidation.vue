@@ -2,14 +2,7 @@
   <div class="message-validation app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        :disabled="!$hasPermission('post')"
-        type="primary"
-        @click="addValidation"
-        :icon="Plus"
-      >
-        {{ t('Base.create') }}
-      </el-button>
+      <CreateButton @click="addValidation" />
     </div>
     <el-table
       ref="tableCom"
@@ -54,9 +47,9 @@
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="goDetail(row.name)">
+          <TableButton @click="goDetail(row.name)">
             {{ t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <MovableItemTableItemDrop
             :table-data-len="validationList.length"
             :row-index="$index"
@@ -86,7 +79,6 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
 import { DetailTab } from '@/types/enum'
 import { SchemaValidation } from '@/types/typeAlias'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { SortableEvent } from 'sortablejs'
 import { Ref, nextTick, onMounted, ref } from 'vue'

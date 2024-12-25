@@ -37,18 +37,16 @@
               :content="tl('wildcardNotSupport')"
             >
               <span>
-                <el-button size="small" plain disabled> {{ tl('addMetric') }}</el-button>
+                <TableButton disabled>{{ tl('addMetric') }}</TableButton>
               </span>
             </el-tooltip>
-            <el-button
+            <TableButton
               v-else
-              size="small"
               :disabled="!$hasPermission('post')"
-              plain
               @click="createMetricForTopic(row.topic)"
             >
               {{ tl('addMetric') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

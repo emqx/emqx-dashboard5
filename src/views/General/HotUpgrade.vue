@@ -27,16 +27,15 @@
       <el-table-column prop="current_vsn" :label="tl('currentVersion')" :min-width="160" />
       <el-table-column :label="t('Base.operation')" :min-width="240">
         <template #default="{ row }">
-          <el-button
-            size="small"
+          <TableButton
             :disabled="!$hasPermission('post') || isUpgrading(row.status)"
             @click="openUpgradeDialog(row)"
           >
             {{ t('Base.upgrade') }}
-          </el-button>
-          <el-button size="small" @click="openRecordsDialog(row)">
+          </TableButton>
+          <TableButton @click="openRecordsDialog(row)">
             {{ tl('upgradeRecords') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
