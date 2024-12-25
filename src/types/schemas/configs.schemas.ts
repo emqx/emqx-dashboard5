@@ -460,8 +460,6 @@ export interface EmqxSysmonOs {
 export interface EmqxSysmon {
   vm?: EmqxSysmonVm
   os?: EmqxSysmonOs
-  mnesia_tm_mailbox_size_alarm_threshold?: number
-  broker_pool_mailbox_size_alarm_threshold?: number
 }
 
 export type EmqxSysTopicsSysHeartbeatInterval = string | 'disabled'

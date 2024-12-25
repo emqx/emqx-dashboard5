@@ -4,7 +4,6 @@
     "ssl": "启用SSL"
   },
   "mqtt": {
-    "source_topic": "主题",
-    "no_local": "禁止本地转发"
+    "source_topic": "主题"
   }
 }

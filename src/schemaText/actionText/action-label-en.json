@@ -4,7 +4,6 @@
     "ssl": "Enable SSL"
   },
   "mqtt": {
-    "source_topic": "Topic",
-    "no_local": "No Local"
+    "source_topic": "Topic"
   }
 }
