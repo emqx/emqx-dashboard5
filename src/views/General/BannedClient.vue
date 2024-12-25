@@ -31,9 +31,7 @@
         </el-col>
 
         <el-col v-bind="colProps" class="buttons-wrap">
-          <el-button type="primary" plain :icon="Search" @click="refreshListData">
-            {{ t('Base.search') }}
-          </el-button>
+          <SearchButton @click="refreshListData" />
           <el-button :icon="RefreshLeft" @click="handleReset">
             {{ t('Base.reset') }}
           </el-button>
@@ -96,7 +94,7 @@ import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { BannedItem } from '@/types/systemModule'
-import { RefreshLeft, Remove, Search } from '@element-plus/icons-vue'
+import { RefreshLeft, Remove } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { Banned } from 'src/types/auth'

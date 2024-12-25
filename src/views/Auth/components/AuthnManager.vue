@@ -20,8 +20,7 @@
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
           <el-tooltip :content="$t('Base.search')" placement="top">
-            <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
-            </el-button>
+            <SearchButton no-text @click="resetPageAndLoadData" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
             <RefreshButton class="icon-button" no-text @click="loadData" />
@@ -124,7 +123,6 @@ import { replaceSpaceForHTML } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Search } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
