@@ -4,15 +4,10 @@
       <div class="nodes-graph-container">
         <span class="node-count">
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
-          <el-tooltip
-            v-if="clusterName"
-            :content="clusterName"
-            placement="top"
-            :disabled="!isOverflow"
-            :show-after="500"
-          >
-            <span class="cluster-name" ref="clusterNameRef"> {{ clusterName }} - </span>
-          </el-tooltip>
+          <span class="cluster-name">
+            <CommonOverflowTooltip :content="clusterName" />
+          </span>
+          <span v-if="clusterName">&nbsp;-&nbsp;</span>
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
         <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
@@ -140,11 +135,12 @@ import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
-import { computed, ref, Ref, nextTick, watch } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
@@ -241,21 +237,6 @@ const loadData = async () => {
 }
 
 syncPolling(loadData, POLLING_INTERVAL)
-
-const clusterNameRef = ref<HTMLElement>()
-const isOverflow = ref(false)
-
-watch(
-  () => clusterName.value,
-  async (newVal) => {
-    if (newVal) {
-      await nextTick()
-      if (clusterNameRef.value) {
-        isOverflow.value = clusterNameRef.value.scrollWidth > clusterNameRef.value.clientWidth
-      }
-    }
-  },
-)
 </script>
 
 <style lang="scss" scoped>
@@ -296,10 +277,6 @@ watch(
     }
     .cluster-name {
       max-width: 80px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
     }
   }
 }
