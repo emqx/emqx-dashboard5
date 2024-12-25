@@ -5,13 +5,7 @@
       <el-button :icon="Setting" @click="showSettingDrawer = true">
         {{ $t('Base.setting') }}
       </el-button>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        @click="$router.push({ name: 'authorization-create' })"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="$router.push({ name: 'authorization-create' })" />
     </div>
     <el-table
       ref="tableCom"
@@ -85,7 +79,7 @@ import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
-import { Plus, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'

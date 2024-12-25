@@ -34,8 +34,7 @@
           <authn-users-import @uploadedData="loadData" />
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Plus" @click="addCommand">
-          </el-button>
+          <CreateButton class="icon-button" @click="addCommand"><span /></CreateButton>
         </el-tooltip>
       </div>
     </div>
@@ -126,7 +125,7 @@ import { replaceSpaceForHTML } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Plus, Refresh, Search } from '@element-plus/icons-vue'
+import { Refresh, Search } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'

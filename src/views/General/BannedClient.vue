@@ -43,9 +43,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Plus" @click="dialogVisible = true">
-          {{ t('Base.create') }}
-        </el-button>
+        <CreateButton @click="dialogVisible = true" />
         <el-button
           type="danger"
           plain
@@ -98,7 +96,7 @@ import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { BannedItem } from '@/types/systemModule'
-import { Plus, RefreshLeft, Remove, Search } from '@element-plus/icons-vue'
+import { RefreshLeft, Remove, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import { Banned } from 'src/types/auth'

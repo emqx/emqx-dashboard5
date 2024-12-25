@@ -26,7 +26,7 @@
         </template>
       </div>
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <el-button class="icon-button" type="primary" :icon="Plus" @click="handleAdd"> </el-button>
+        <CreateButton class="icon-button" @click="handleAdd"><span /></CreateButton>
       </el-tooltip>
     </div>
     <el-table
@@ -269,7 +269,7 @@ import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, Search, Refresh } from '@element-plus/icons-vue'
+import { Search, Refresh } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -599,7 +599,6 @@ export default defineComponent({
 
     return {
       BuiltInDBType,
-      Plus,
       Search,
       Refresh,
       tableCom,
