@@ -106,9 +106,7 @@
         >
           {{ tl('kickOut') }}
         </el-button>
-        <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadNodeClients" />
       </div>
       <el-table
         :data="tableData"
@@ -189,7 +187,7 @@ import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Delete, RefreshLeft, Search } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed } from 'vue'

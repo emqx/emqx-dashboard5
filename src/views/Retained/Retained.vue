@@ -27,9 +27,7 @@
           <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
             {{ $t('Base.setting') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="refresh">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <RefreshButton @click="refresh" />
           <el-button
             type="danger"
             plain

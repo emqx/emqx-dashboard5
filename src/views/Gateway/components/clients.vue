@@ -41,9 +41,7 @@
           <el-button type="primary" plain :icon="Search" @click="searchGatewayList()">
             {{ $t('Base.search') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="loadGatewayClients">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <RefreshButton @click="loadGatewayClients" />
         </el-col>
       </el-row>
     </el-form>

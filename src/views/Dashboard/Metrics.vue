@@ -14,9 +14,7 @@
           <el-option :label="$t('BasicConfig.cluster')" :value="CLUSTER_VALUE" />
           <el-option v-for="node in nodeOpts" :key="node" :label="node" :value="node" />
         </el-select>
-        <el-button type="primary" :icon="RefreshRight" @click="handleSearch">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="handleSearch" />
       </div>
     </div>
     <el-row class="content-block" :gutter="26">
@@ -159,7 +157,6 @@ export default defineComponent({
 import { loadMetrics, loadNodes } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
-import { RefreshRight } from '@element-plus/icons-vue'
 import { snakeCase } from 'lodash'
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'

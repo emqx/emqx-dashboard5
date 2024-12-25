@@ -83,9 +83,7 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Refresh" @click="loadTableData">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadTableData" />
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
         <el-table-column prop="clientid" :label="$t('Clients.clientId')">
@@ -135,7 +133,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
-import { ArrowDown, ArrowUp, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

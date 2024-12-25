@@ -20,8 +20,7 @@
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
-            </el-button>
+            <RefreshButton class="icon-button" no-text @click="loadData" />
           </el-tooltip>
         </template>
       </div>
@@ -269,7 +268,7 @@ import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Search, Refresh } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -600,7 +599,6 @@ export default defineComponent({
     return {
       BuiltInDBType,
       Search,
-      Refresh,
       tableCom,
       recordForm,
       type,

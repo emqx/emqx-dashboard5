@@ -10,9 +10,7 @@
         <div></div>
         <div>
           <CreateButton @click="$router.push({ name: 'rule-create' })" />
-          <el-button type="primary" :icon="Refresh" @click="getRulesList">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <RefreshButton @click="getRulesList" />
         </div>
       </div>
       <el-table :data="ruleTable" v-loading="ruleLoading">
@@ -113,7 +111,6 @@ import usePagination from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
-import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage as M } from 'element-plus'
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
