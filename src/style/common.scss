@@ -157,7 +157,8 @@ p.description {
     padding-top: 0;
   }
   .el-button {
-    margin-left: 12px;
+    margin-left: 0;
+    margin-right: 16px;
   }
   & > .el-col {
     > .el-button:first-child {

@@ -67,9 +67,9 @@
               />
             </div>
           </el-col>
-          <el-col v-bind="colProps" />
+          <el-col :sm="12" :md="12" :lg="12" />
         </template>
-        <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
+        <el-col v-bind="{ sm: 12, md: 12, lg: 6 }" class="col-oper">
           <SearchButton @click="handleSearch" />
           <ResetButton @click="handleReset" />
           <el-tooltip

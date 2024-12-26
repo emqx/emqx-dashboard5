@@ -1,7 +1,7 @@
 <template>
   <ListCard class="topics">
     <el-form class="search-wrapper without-padding-top" @keyup.enter="handleSearch">
-      <el-row :gutter="28">
+      <el-row :gutter="16">
         <el-col :span="8">
           <el-input
             v-model="searchValue"

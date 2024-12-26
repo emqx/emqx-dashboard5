@@ -87,8 +87,9 @@
                   />
                 </el-select>
               </el-col>
+              <el-col :sm="18" :md="18" :lg="18" />
             </template>
-            <el-col v-bind="showMoreQuery ? { sm: 24, md: 24, lg: 24 } : colProps" class="col-oper">
+            <el-col v-bind="showMoreQuery ? { sm: 6, md: 6, lg: 6 } : colProps" class="col-oper">
               <SearchButton @click="search" />
               <ResetButton @click="resetFilter" />
               <el-tooltip
