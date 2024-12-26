@@ -72,18 +72,7 @@
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <SearchButton @click="handleSearch" />
           <ResetButton @click="handleReset" />
-          <el-tooltip
-            :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
-            placement="top"
-          >
-            <el-button
-              class="icon-button"
-              plain
-              :icon="showMoreQuery ? ArrowUp : ArrowDown"
-              @click="showMoreQuery = !showMoreQuery"
-            >
-            </el-button>
-          </el-tooltip>
+          <ShowMoreButton v-model="showMoreQuery" />
         </el-col>
       </el-row>
     </el-form>
@@ -183,7 +172,7 @@ import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed } from 'vue'
