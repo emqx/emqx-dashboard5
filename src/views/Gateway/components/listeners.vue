@@ -2,7 +2,9 @@
   <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
-      <CreateButton @click="addListener" />
+      <CreateButton @click="addListener">
+        {{ tl('addListener') }}
+      </CreateButton>
     </div>
     <el-table :data="listenerTable" v-loading="listenerLoading">
       <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>

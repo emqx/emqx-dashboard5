@@ -3,7 +3,7 @@
     <div class="section-header">
       <div></div>
       <CreateButton @click="addExhook">
-        {{ $t('Base.add') }}
+        {{ t('Base.add') }}
       </CreateButton>
     </div>
     <el-table
