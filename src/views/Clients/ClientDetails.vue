@@ -24,8 +24,7 @@
       </detail-header>
       <div class="actions">
         <el-tooltip :content="$t('Base.refresh')" placement="top">
-          <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
-          </el-button>
+          <RefreshButton class="icon-button" no-text @click="loadData" />
         </el-tooltip>
         <el-tooltip
           :content="record.connected ? tl('kickOut') : tl('cleanSession')"
@@ -139,17 +138,10 @@
           {{ tl('currentSubscription') }}
         </div>
         <div>
-          <el-button type="primary" :icon="Refresh" @click="handleRefreshSubs">
-            {{ t('Base.refresh') }}
-          </el-button>
-          <el-button
-            v-if="allowSubscriptionOperations"
-            type="primary"
-            :icon="Plus"
-            @click="handlePreAdd"
-          >
+          <RefreshButton @click="handleRefreshSubs" />
+          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
             {{ tl('addASubscription') }}
-          </el-button>
+          </CreateButton>
         </div>
       </div>
       <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
@@ -225,7 +217,7 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
-import { Delete, Plus, Refresh, Warning } from '@element-plus/icons-vue'
+import { Delete, Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'

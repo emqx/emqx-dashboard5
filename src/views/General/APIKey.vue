@@ -2,9 +2,7 @@
   <div class="API-key app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" @click="createKeyItem" :icon="Plus">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="createKeyItem" />
     </div>
     <el-table class="api-key-table" :data="keyList" v-loading.lock="isTableLoading">
       <el-table-column prop="name" :label="tl('keyName')">
@@ -27,12 +25,10 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="100">
         <template #default="{ row }">
-          <el-button size="small" @click="operateKeyItem('edit', row)">
+          <TableButton @click="operateKeyItem('edit', row)">
             {{ tl('edit', 'Base') }}
-          </el-button>
-          <el-button size="small" plain @click="deleteKey(row)">{{
-            tl('delete', 'Base')
-          }}</el-button>
+          </TableButton>
+          <TableButton plain @click="deleteKey(row)">{{ tl('delete', 'Base') }}</TableButton>
         </template>
       </el-table-column>
     </el-table>

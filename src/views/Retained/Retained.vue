@@ -11,12 +11,8 @@
           />
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
@@ -27,9 +23,7 @@
           <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
             {{ $t('Base.setting') }}
           </el-button>
-          <el-button type="primary" :icon="RefreshRight" @click="refresh">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <RefreshButton @click="refresh" />
           <el-button
             type="danger"
             plain
@@ -65,12 +59,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button size="small" @click="checkPayload(row)">
+            <TableButton @click="checkPayload(row)">
               {{ tl('openPayload') }}
-            </el-button>
-            <el-button size="small" plain @click="deleteRetainerTopic(row)">
+            </TableButton>
+            <TableButton plain @click="deleteRetainerTopic(row)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>
@@ -110,7 +104,7 @@ import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RetainerMessage } from '@/types/extension'
-import { RefreshLeft, RefreshRight, Remove, Search, Setting } from '@element-plus/icons-vue'
+import { Remove, Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')

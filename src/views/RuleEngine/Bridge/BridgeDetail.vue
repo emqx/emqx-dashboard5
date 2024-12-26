@@ -5,7 +5,13 @@
         <template #content>
           <div class="vertical-align-center">
             <img :src="getBridgeIcon(bridgeInfo.type)" />
-            <p class="block-title">{{ bridgeInfo.name }}</p>
+            <el-tooltip :content="bridgeInfo.name">
+              <p class="vertical-align-center block-title">
+                <TextEasyCopy :content="bridgeInfo.name">
+                  <PreWithEllipsis>{{ bridgeInfo.name }}</PreWithEllipsis>
+                </TextEasyCopy>
+              </p>
+            </el-tooltip>
             <TargetItemStatus type="action" :target="bridgeInfo" is-tag />
             <el-tag type="info" class="section-status">
               {{ getGeneralTypeLabel(bridgeInfo.type) }}
@@ -163,6 +169,8 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import TextEasyCopy from '@/components/TextEasyCopy.vue'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 enum Tab {
   Overview = 'overview',

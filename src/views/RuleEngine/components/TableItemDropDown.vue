@@ -5,14 +5,14 @@
     popper-class="table-dropdown-popper"
     :disabled="disabled"
   >
-    <el-button class="table-dropdown-btn" size="small" :disabled="disabled">
+    <TableButton class="table-dropdown-btn" :disabled="disabled">
       <span>
         {{ $t('Base.more') }}
       </span>
       <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
         <CaretBottom />
       </el-icon>
-    </el-button>
+    </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="createRule" v-if="canCreateRule">

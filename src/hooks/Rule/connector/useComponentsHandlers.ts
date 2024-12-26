@@ -6,6 +6,7 @@ import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
+import { useI18n } from 'vue-i18n'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -35,6 +36,7 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
+  const { t } = useI18n()
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -125,6 +127,24 @@ export default (
       comRet.keepalive.type = 'duration'
     }
 
+    // Add labels and descriptions for ids and node
+    const getI18nPrefix = (type: string) => `BridgeSchema.${type}.`
+    const setLabelAndDesc = (prop: Property, path: string) => {
+      if (prop) {
+        prop.label = t(`${path}.label`)
+        prop.description = t(`${path}.desc`)
+      }
+    }
+    const i18nPrefix = getI18nPrefix(BridgeType.MQTT)
+    if (comRet?.static_clientids.items.properties) {
+      const props = comRet.static_clientids.items.properties
+      if (props.ids) {
+        setLabelAndDesc(props.ids, `${i18nPrefix}ids`)
+      }
+      if (props.node) {
+        setLabelAndDesc(props.node, `${i18nPrefix}node`)
+      }
+    }
     return { components: comRet, rules }
   }
 

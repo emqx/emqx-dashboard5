@@ -354,6 +354,7 @@ const SchemaForm = defineComponent({
                 placeholder={property.default?.toString()}
                 modelValue={modelValue}
                 type={inputType}
+                oneOf={property.oneOf}
                 {...handleUpdateModelValue}
                 clearable
                 {...customProps}
@@ -402,6 +403,7 @@ const SchemaForm = defineComponent({
                 disabled={isPropertyDisabled}
                 placeholder={property.default?.toString()}
                 modelValue={modelValue}
+                oneOf={property.oneOf}
                 {...handleUpdateModelValue}
                 clearable={clearableValue}
                 options={property.symbols}

@@ -447,6 +447,9 @@
 .el-button.is-link.is-disabled:active {
   --el-color-primary-light-5: #86dbc1;
 }
+.el-button:focus-visible {
+  outline: none;
+}
 
 /* Dropdown */
 .el-dropdown-menu {

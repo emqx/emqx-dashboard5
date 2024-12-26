@@ -5,13 +5,7 @@
       <el-button :icon="Setting" @click="showSettingDrawer = true">
         {{ $t('Base.setting') }}
       </el-button>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        @click="$router.push({ name: 'authorization-create' })"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="$router.push({ name: 'authorization-create' })" />
     </div>
     <el-table
       ref="tableCom"
@@ -46,14 +40,13 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
+          <TableButton
             :style="{ marginRight: '10px' }"
             v-if="row.type === 'built_in_database'"
-            size="small"
             @click="routeToDetail(row, 'users')"
           >
             {{ $t('Auth.permissions') }}
-          </el-button>
+          </TableButton>
           <table-dropdown
             :row-data="row"
             :table-data-len="authzList.length"
@@ -85,7 +78,7 @@ import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
-import { Plus, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'

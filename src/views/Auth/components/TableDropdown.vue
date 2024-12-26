@@ -1,21 +1,21 @@
 <template>
   <div class="table-dropdown">
-    <el-button v-if="isAuthItem" size="small" @click="$emit('setting', rowData, 'settings')">
+    <TableButton v-if="isAuthItem" @click="$emit('setting', rowData, 'settings')">
       {{ $t('Base.setting') }}
-    </el-button>
+    </TableButton>
     <el-dropdown
       @command="handleCommand(rowData, $event)"
       @visible-change="dropdownVisibleChanged"
       popper-class="table-dropdown-popper"
     >
-      <el-button class="table-dropdown-btn" size="small">
+      <TableButton class="table-dropdown-btn">
         <span>
           {{ $t('Base.more') }}
         </span>
         <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
           <CaretBottom />
         </el-icon>
-      </el-button>
+      </TableButton>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="moveUp" :disabled="position === 0">

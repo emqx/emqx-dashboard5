@@ -13,6 +13,7 @@ import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue?: string
+  [key: string]: any
 }>()
 
 const emit = defineEmits<{

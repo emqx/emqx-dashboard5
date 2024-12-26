@@ -10,9 +10,9 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <el-button type="primary" :icon="Plus" @click="goInstall">
+      <CreateButton @click="goInstall">
         {{ t('components.plugin-install') }}
-      </el-button>
+      </CreateButton>
     </div>
     <el-table
       :data="pluginListToShow"
@@ -40,20 +40,18 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
-            size="small"
+          <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
-          </el-button>
-          <el-button
-            size="small"
+          </TableButton>
+          <TableButton
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
             {{ tl('start') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             :filtered="isTableFiltered"
@@ -86,7 +84,6 @@ import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
 import useMove from '@/hooks/useMove'
 import PluginItemStatus from './components/PluginItemStatus.vue'
-import { Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

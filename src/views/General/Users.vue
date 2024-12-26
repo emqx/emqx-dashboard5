@@ -2,9 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="Plus" @click="showDialog()">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="showDialog()" />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -12,21 +10,19 @@
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="showDialog('edit', row)">
+          <TableButton @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button size="small" @click="showDialog('chPass', row)">
+          </TableButton>
+          <TableButton @click="showDialog('chPass', row)">
             {{ tl('changePassword') }}
-          </el-button>
+          </TableButton>
 
-          <el-button
-            plain
-            size="small"
+          <TableButton
             @click="deleteConfirm(row)"
             v-if="currentUser.username !== row.username && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -106,7 +102,6 @@
 <script setup>
 import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
 import { computed, ref, onBeforeMount } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl.ts'

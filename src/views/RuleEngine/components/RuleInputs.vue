@@ -32,10 +32,9 @@
             </span>
           </component>
         </template>
-        <el-button class="btn-add" type="primary" :disabled="disabled" @click="addInput()">
-          <el-icon><plus /></el-icon>
-          <span>{{ tl('addInput') }}</span>
-        </el-button>
+        <CreateButton class="btn-add" :disabled="disabled" @click="addInput()">
+          {{ tl('addInput') }}
+        </CreateButton>
       </el-col>
     </el-row>
   </div>
@@ -56,7 +55,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import { startCase } from 'lodash'
 import type { ComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'

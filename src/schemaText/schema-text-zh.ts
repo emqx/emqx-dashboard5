@@ -218,7 +218,7 @@ export default {
     label: '启用端口过忙监控',
   },
   large_heap: {
-    desc: '启用后，当一个 Erlang 进程申请了大量内存，系统会触发一条带有 <code>large_heap</code> 关键字的\nwarning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。',
+    desc: '当进程占用的堆内存超过 large_heap 指定的大小时，系统会触发一条带有 <code>large_heap</code> 关键字的 warning 级别日志。同时还会发布一条主题为 <code>$SYS/sysmon/large_heap</code> 的 MQTT 系统消息。',
     label: '启用大 heap 监控',
   },
   long_gc: {

@@ -165,9 +165,9 @@ const columns = [
     width: payloadWidth,
     cellRenderer: ({ rowData }: any) => {
       return (
-        <el-button size="small" onClick={() => showPayload(rowData)}>
+        <table-button onClick={() => showPayload(rowData)}>
           {t('Extension.openPayload')}
-        </el-button>
+        </table-button>
       )
     },
   },

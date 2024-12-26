@@ -218,7 +218,7 @@ export default {
     label: 'Enable Busy Port monitoring',
   },
   large_heap: {
-    desc: 'When an Erlang process consumed a large amount of memory for its heap space,\nthe system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.',
+    desc: 'When the heap memory occupied by a process exceeds the size specified by <code>large_heap</code>, the system will write a warning level <code>large_heap</code> log, and an MQTT message is published to\nthe system topic <code>$SYS/sysmon/large_heap</code>.',
     label: 'Enable Large Heap monitoring',
   },
   long_gc: {

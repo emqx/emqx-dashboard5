@@ -3,9 +3,7 @@
     <template v-if="!isEmpty">
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :disabled="isLoading" @click="addWebhook" :icon="Plus">
-          {{ $t('Base.create') }}
-        </el-button>
+        <CreateButton :disabled="isLoading" @click="addWebhook" />
       </div>
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
@@ -27,12 +25,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button size="small" @click="goEditWebhook(row.name)">
+            <TableButton @click="goEditWebhook(row.name)">
               {{ $t('Base.setting') }}
-            </el-button>
-            <el-button size="small" :loading="deleteLoading" @click="handleDeleteWebhook(row)">
+            </TableButton>
+            <TableButton :loading="deleteLoading" @click="handleDeleteWebhook(row)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
             <!-- <TableItemDropdown :row-data="row" /> -->
           </template>
         </el-table-column>
@@ -53,7 +51,6 @@ import useWebhookList from '@/hooks/Webhook/useWebhookList'
 import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'

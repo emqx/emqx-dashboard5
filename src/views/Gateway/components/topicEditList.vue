@@ -23,14 +23,14 @@
         </el-table-column>
         <el-table-column width="80">
           <template #header>
-            <el-button size="small" @click="addTopic()" :disabled="disableAdd()">
+            <TableButton size="small" @click="addTopic()" :disabled="disableAdd()">
               {{ t('Base.add') }}
-            </el-button>
+            </TableButton>
           </template>
           <template #default="{ row }">
-            <el-button size="small" @click="delTopic(row)">
-              {{ t('Base.delete') }}
-            </el-button>
+            <TableButton @click="delTopic(row)">
+              {{ $t('Base.delete') }}
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

@@ -280,6 +280,7 @@ export enum PropType {
   Boolean = 'boolean',
   Duration = 'duration',
   Number = 'number',
+  Integer = 'integer',
   IPPort = 'ip_port',
   ByteSize = 'byteSize',
   Object = 'object',

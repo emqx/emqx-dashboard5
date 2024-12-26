@@ -9,12 +9,8 @@
       <div class="section-header">
         <div></div>
         <div>
-          <el-button type="primary" :icon="Plus" @click="$router.push({ name: 'rule-create' })">
-            {{ tl('create', 'Base') }}
-          </el-button>
-          <el-button type="primary" :icon="Refresh" @click="getRulesList">
-            {{ $t('Base.refresh') }}
-          </el-button>
+          <CreateButton @click="$router.push({ name: 'rule-create' })" />
+          <RefreshButton @click="getRulesList" />
         </div>
       </div>
       <el-table :data="ruleTable" v-loading="ruleLoading">
@@ -66,8 +62,7 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button
-              size="small"
+            <TableButton
               @click="
                 $router.push({
                   name: 'rule-detail',
@@ -77,7 +72,7 @@
               "
             >
               {{ $t('Base.setting') }}
-            </el-button>
+            </TableButton>
             <OperateWebhookAssociatedPopover
               :disabled="!judgeIsWebhookRule(row)"
               :name="row.id"
@@ -116,7 +111,6 @@ import usePagination from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
-import { Plus, Refresh } from '@element-plus/icons-vue'
 import { ElMessage as M } from 'element-plus'
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
