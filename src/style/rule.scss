@@ -40,6 +40,13 @@
   .detail-header img {
     height: 40px;
   }
+  .block-title {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: nowrap;
+    margin: 0;
+  }
   .info-tags {
     .el-tag,
     .node-status {
@@ -92,6 +99,7 @@
       font-weight: bold;
       font-size: 14px;
       color: var(--color-title-primary);
+      white-space: normal;
     }
 
     .target-type-desc {

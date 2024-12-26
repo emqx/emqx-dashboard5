@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PropType } from '@/types/enum'
 import { Component, Properties, Property, Schema } from '@/types/schemaForm'
 import axios from 'axios'
 import { cloneDeep, get } from 'lodash'
@@ -117,6 +118,7 @@ export default function useSchemaForm(
     }
     return property
   }
+  const simpleTypes = ['string', 'number', 'boolean', 'integer']
   const getComponents = (objForGetComponent: { path?: string; ref?: string | Array<string> }) => {
     let lastLabel = ''
     /**
@@ -209,8 +211,18 @@ export default function useSchemaForm(
               }
               return item
             }) as Property[]
-            property.is_template = getIsTemplateFromOneOfArr(property.oneOf)
-            console.log(property.path)
+            property.is_template = property.is_template ?? getIsTemplateFromOneOfArr(property.oneOf)
+            const isSimpleOneof = oneOf.every(({ type }) => simpleTypes.includes(type))
+            if (isSimpleOneof && property.is_template) {
+              const justWithBoolean =
+                oneOf.length === 2 &&
+                oneOf.every(({ type }) =>
+                  [PropType.Boolean, PropType.String].includes(type as PropType),
+                )
+              property.type = justWithBoolean ? 'enum' : 'string'
+              property.symbols = justWithBoolean ? [true, false] : undefined
+              property.default = property.default ?? (justWithBoolean ? '' : undefined)
+            }
           }
           if (!label) {
             property.label = lastLabel

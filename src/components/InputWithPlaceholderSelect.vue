@@ -22,12 +22,15 @@
 </template>
 
 <script setup lang="ts">
+import { NUM_REG } from '@/common/constants'
 import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
+import { PropType } from '@/types/enum'
+import { Property } from '@/types/schemaForm'
 import { escapeRegExp } from 'lodash'
 import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
-  modelValue?: string
+  modelValue?: string | number | boolean
   [key: string]: any
   customPlaceholders?: Array<string>
   /**
@@ -36,17 +39,35 @@ const props = defineProps<{
    * the options are added at the end of the list.
    */
   options?: Array<string | number>
+  oneOf?: Array<Property>
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: string): void
+  (e: 'update:modelValue', v: string | number | boolean): void
   (e: 'input', v: any): void
 }>()
 
+const getValueForEmit = (val: string) => {
+  if (!props.oneOf || props.oneOf.length === 0) {
+    return val
+  }
+  const oneOfBoolean = props.oneOf.find(({ type }) => type === PropType.Boolean)
+  const oneOfNum = props.oneOf.find(({ type }) =>
+    [PropType.Integer, PropType.Number].includes(type),
+  )
+  if (oneOfBoolean && /^(true|false)$/i.test(val)) {
+    return /^true/i.test(val)
+  }
+  if (oneOfNum && NUM_REG.test(val)) {
+    return Number(val)
+  }
+  return val
+}
+
 const inputValue = computed({
-  get: () => props.modelValue || '',
+  get: () => props.modelValue?.toString() || '',
   set: (value: string) => {
-    emit('update:modelValue', value)
+    emit('update:modelValue', getValueForEmit(value))
   },
 })
 

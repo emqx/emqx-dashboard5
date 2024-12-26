@@ -144,6 +144,7 @@ export enum BridgeType {
   Couchbase = 'couchbase',
   Datalayers = 'datalayers',
   Snowflake = 'snowflake',
+  Tablestore = 'tablestore',
 }
 
 export enum PulsarType {
@@ -305,6 +306,7 @@ export enum PropType {
   Boolean = 'boolean',
   Duration = 'duration',
   Number = 'number',
+  Integer = 'integer',
   IPPort = 'ip_port',
   ByteSize = 'byteSize',
   Object = 'object',

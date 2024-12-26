@@ -941,6 +941,10 @@ export default {
     zh: 'SysKeeper 转发器',
     en: 'SysKeeper Forwarder',
   },
+  tablestore: {
+    zh: 'Alibaba 表格存储',
+    en: 'Alibaba Tablestore',
+  },
   egressDataBaseDesc: {
     zh: '将数据保存到 {name}',
     en: 'Save data to {name}',

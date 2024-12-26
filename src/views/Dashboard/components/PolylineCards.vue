@@ -9,6 +9,9 @@
           :value="time.value"
         ></el-option>
       </el-select>
+      <el-tooltip :content="tl('resetMonitorData')" placement="top">
+        <el-button class="icon-button" :icon="Close" @click="resetMetrics"></el-button>
+      </el-tooltip>
     </div>
     <div class="block">
       <el-row :gutter="26">
@@ -125,13 +128,17 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
-import { loadChartData, loadMetrics as loadDroppedDetail } from '@/api/common'
+import { loadChartData, loadMetrics as loadDroppedDetail, resetMonitorData } from '@/api/common'
+import { waitAMoment } from '@/common/tools'
 import { ref, reactive, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
+import { ChartDataItem } from '@/types/dashboard'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
-import { FullScreen, DataAnalysis } from '@element-plus/icons-vue'
+import { Close, FullScreen, DataAnalysis } from '@element-plus/icons-vue'
+import useOperationConfirm from '@/hooks/useOperationConfirm'
+import { ElMessage } from 'element-plus'
 import { isNumber } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import DroppedDetailDialog from './DroppedDetailDialog.vue'
@@ -140,7 +147,7 @@ const POLLING_INTERVAL = 60000
 
 type ChartData = Array<{
   xData: Array<number>
-  yData: Array<number>
+  yData: Array<number | undefined>
 }>
 
 // Define an interface for the structure you expect
@@ -274,25 +281,61 @@ const chartColorList = computed<Record<string, string[]>>(() => {
 
 const { syncPolling } = useSyncPolling()
 
+const addDataToMetricLog = (data: Array<ChartDataItem>) => {
+  data.forEach((data: Record<string, any>) => {
+    dataTypeList.forEach((typeName) => {
+      const currentData = metricLog[typeName][0]
+      currentData.xData.push(data.time_stamp)
+      currentData.yData.push(data[typeName])
+    })
+  })
+}
+
+const setMetricLogFromData = (data: Array<ChartDataItem>) => {
+  dataTypeList.forEach((typeName) => {
+    metricLog[typeName] = chartDataFill(1)
+  })
+  addDataToMetricLog(data)
+}
+
 const loadChartMetrics = async () => {
   try {
     isLoading.value = true
     const data = await loadChartData(timeRange.value)
-    dataTypeList.forEach((typeName) => {
-      metricLog[typeName] = chartDataFill(1)
-    })
-    data.forEach((data: Record<string, any>) => {
-      dataTypeList.forEach((typeName) => {
-        const currentData = metricLog[typeName][0]
-        currentData.xData.push(data.time_stamp)
-        currentData.yData.push(data[typeName])
-      })
-    })
+    setMetricLogFromData(data)
     isLoading.value = false
     return Promise.resolve()
   } catch (error) {
     isLoading.value = false
     return Promise.reject()
+  }
+}
+
+const { operationWarning } = useOperationConfirm()
+
+const requestMetricsAfterReset = async () => {
+  let count = 0
+  loadChartMetrics()
+  const queryMetrics = async () => {
+    count++
+    if (count > 5) {
+      return
+    }
+    await waitAMoment(4000)
+    await loadChartMetrics()
+    queryMetrics()
+  }
+  queryMetrics()
+}
+
+const resetMetrics = async () => {
+  try {
+    await operationWarning(tl('confirmResetMonitorData'))
+    await resetMonitorData()
+    ElMessage.success(t('RuleEngine.resetSuccessfully'))
+    requestMetricsAfterReset()
+  } catch (error) {
+    //
   }
 }
 

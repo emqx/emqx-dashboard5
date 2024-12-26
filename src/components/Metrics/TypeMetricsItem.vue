@@ -165,7 +165,7 @@ watch(
     .el-cascader__dropdown
   ):not(.el-autocomplete__popper) {
   &.type-detail-tooltip {
-    max-width: 400px;
+    max-width: 700px;
   }
 }
 .metrics-details {

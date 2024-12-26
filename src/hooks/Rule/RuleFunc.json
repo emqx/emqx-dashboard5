@@ -336,6 +336,16 @@
             "required": true
           }
         ]
+      },
+      {
+        "name": "is_empty",
+        "args": [
+          {
+            "name": "Value",
+            "type": "any",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -756,6 +766,16 @@
             "required": true
           }
         ]
+      },
+      {
+        "name": "map_size",
+        "args": [
+          {
+            "name": "Map",
+            "type": "object",
+            "required": true
+          }
+        ]
       }
     ]
   },
@@ -1063,6 +1083,26 @@
         "args": [
           {
             "name": "Value",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "str_utf16_le",
+        "args": [
+          {
+            "name": "Data",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "sqlserver_bin2hexstr",
+        "args": [
+          {
+            "name": "Data",
             "type": "string",
             "required": true
           }

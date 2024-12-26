@@ -10,6 +10,7 @@ import InputWithUnit from './InputWithUnit.vue'
 import KeyAndValueEditor from './KeyAndValueEditor.vue'
 import OneOf from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
+import CustomInputPassword from './CustomInputPassword.vue'
 
 type FormItemType =
   | 'string'
@@ -156,6 +157,17 @@ export default defineComponent({
                 disabled={isDisabled}
                 type={inputType}
                 clearable
+                oneOf={props.property?.oneOf}
+                {...customProps}
+              />
+            )
+          } else if (props.format === 'password') {
+            return (
+              <CustomInputPassword
+                disabled={isDisabled}
+                placeholder={placeholder}
+                v-model={formItemValue.value}
+                clearable
                 {...customProps}
               />
             )
@@ -182,6 +194,7 @@ export default defineComponent({
                 clearable
                 {...customProps}
                 options={props.symbols}
+                oneOf={props.property?.oneOf}
               />
             )
           }

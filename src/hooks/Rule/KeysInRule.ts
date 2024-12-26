@@ -2,7 +2,7 @@ import RuleFunc from './RuleFunc.json'
 import RuleField from './RuleField.json'
 
 const funcList = RuleFunc.reduce((arr: Array<string>, { list }): Array<string> => {
-  list.forEach(({ name }: { name: string }) => arr.push(name))
+  list?.forEach(({ name }: { name: string }) => arr.push(name))
   return arr
 }, [])
 

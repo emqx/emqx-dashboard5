@@ -13,8 +13,9 @@
         tag="p"
         scope="global"
       >
-        <span>{{ maxConnection }}</span>
+        <strong>{{ maxConnection }}</strong>
         <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
+        <a href="mailto:contact@emqx.io"> contact@emqx.io </a>
       </i18n-t>
       <i18n-t v-else class="tip" keypath="Dashboard.licenseExpiryTip" tag="p" scope="global">
         <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
@@ -97,6 +98,7 @@ const goLicense = () => {
     font-size: 16px;
     p {
       word-break: break-word;
+      line-height: 1.5;
     }
   }
 

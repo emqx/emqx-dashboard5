@@ -55,6 +55,8 @@ const useCommonDataHandler = () => {
     'secret_access_key',
     'token',
     'security_token',
+    'access_key_id',
+    'access_key_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
@@ -257,16 +259,6 @@ export const useActionDataHandler = (): {
 } => {
   const { handleDataBeforeSubmit } = useCommonDataHandler()
 
-  const handleOpenTSDBDataBeforeSubmit = (data: any): any => {
-    const dataArr = data.parameters?.data
-    if (Array.isArray(dataArr)) {
-      data.parameters.data = dataArr.map((item) =>
-        NUM_REG.test(item.value) ? { ...item, value: Number(item.value) } : item,
-      )
-    }
-    return data
-  }
-
   const { splitBySpace, transCommandArrToStr } = useRedisCommandCheck()
   const handleRedisBridgeData = async (bridgeData: any) => {
     try {
@@ -303,7 +295,6 @@ export const useActionDataHandler = (): {
   }
 
   const specialDataHandlerBeforeSubmit = new Map([
-    [BridgeType.OpenTSDB, handleOpenTSDBDataBeforeSubmit],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.S3, handleS3ActionData],
     [BridgeType.AzureBlobStorage, handleS3ActionData],
