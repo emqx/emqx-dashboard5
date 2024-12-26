@@ -120,10 +120,9 @@ defineExpose({ validate, clearValidate })
   width: 100%;
   .json-form-card {
     margin-top: 12px;
+    // same as the label width
+    margin-left: 200px;
     border: 1px solid var(--el-card-border-color);
-  }
-  .el-radio-group {
-    margin: 8px 0 12px 0;
   }
   .type-select {
     margin-bottom: 16px;

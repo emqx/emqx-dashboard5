@@ -304,9 +304,9 @@ const submit = async () => {
 
 <style lang="scss" scoped>
 .source-content {
-  margin-top: 16px;
+  margin-top: 8px;
   padding-top: 24px;
-  border-top: 1px solid var(--color-border-primary);
+  border-top: 1px solid var(--color-border-card);
   :deep(.el-tab-pane > .el-card) {
     border: none;
   }

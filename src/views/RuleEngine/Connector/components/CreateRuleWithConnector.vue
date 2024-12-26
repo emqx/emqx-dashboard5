@@ -24,10 +24,10 @@
         </el-button>
       </div>
       <div v-else>
-        <el-button type="primary" @click="selectInput">
+        <el-button @click="selectInput">
           {{ tl('dataInput') }}
         </el-button>
-        <el-button type="primary" @click="selectOutput">
+        <el-button @click="selectOutput">
           {{ tl('actionOutputs') }}
         </el-button>
       </div>
