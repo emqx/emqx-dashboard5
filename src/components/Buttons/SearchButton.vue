@@ -1,6 +1,6 @@
 <template>
   <el-button type="primary" plain :icon="Search">
-    <template v-if="!noText">{{ t('search') }}</template>
+    <template v-if="!noText">{{ tl('search') }}</template>
   </el-button>
 </template>
 
@@ -13,5 +13,5 @@ defineProps<{
   noText?: boolean
 }>()
 
-const { t } = useI18nTl('Base')
+const { tl } = useI18nTl('Base')
 </script>
