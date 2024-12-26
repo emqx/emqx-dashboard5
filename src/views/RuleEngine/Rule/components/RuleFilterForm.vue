@@ -111,18 +111,7 @@
       <el-col v-bind="colProps" class="col-oper">
         <SearchButton @click="searchRule" />
         <ResetButton @click="handleReset" />
-        <el-tooltip
-          :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
-          placement="top"
-        >
-          <el-button
-            class="icon-button"
-            plain
-            :icon="showMoreQuery ? ArrowUp : ArrowDown"
-            @click="showMoreQuery = !showMoreQuery"
-          >
-          </el-button>
-        </el-tooltip>
+        <ShowMoreButton v-model="showMoreQuery" />
       </el-col>
     </el-row>
   </el-form>
@@ -135,7 +124,6 @@ import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import type { Ref } from 'vue'
 import { computed, defineEmits, defineProps, ref } from 'vue'
