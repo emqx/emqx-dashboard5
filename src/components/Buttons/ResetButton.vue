@@ -1,5 +1,5 @@
 <template>
-  <el-button :icon="RefreshLeft">
+  <el-button :icon="RefreshLeft" link>
     {{ t('Base.reset') }}
   </el-button>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" :icon="Plus" :disabled="!$hasPermission('post')">
+  <el-button :icon="Plus" :disabled="!$hasPermission('post')">
     <template v-if="!$slots.default">
       {{ t('Base.create') }}
     </template>
