@@ -1,3 +1,3 @@
 <template>
-  <el-button size="small"><slot></slot></el-button>
+  <el-button size="small" link type="primary"><slot></slot></el-button>
 </template>
