@@ -49,9 +49,10 @@ const cancel = () => (showDrawer.value = false)
 <style lang="scss">
 .connector-create-drawer {
   .connector-create {
-    .el-card {
+    .el-card:not(.ft-card) {
       border: none;
       overflow: visible;
+      margin-bottom: 36px;
     }
     .el-card__body {
       padding: 0;
@@ -59,14 +60,6 @@ const cancel = () => (showDrawer.value = false)
     .form-container {
       width: 100%;
     }
-  }
-  // Set a special style for the button block of the creation page
-  .el-card.ft-card {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    padding: 16px;
-    margin-bottom: 0;
   }
 }
 </style>

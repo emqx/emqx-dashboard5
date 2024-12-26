@@ -2,6 +2,7 @@
 @use './themes/dark.scss';
 @use 'normalize.scss';
 @use '@/style/schemaForm.scss';
+@use './mixins.scss';
 @use "sass:math";
 
 @font-face {
@@ -542,6 +543,21 @@ input:disabled {
     }
   }
 }
+.el-drawer__body {
+  .ft-card {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    margin-bottom: 0;
+    border-right: none;
+    @include mixins.dialog-footer;
+    .el-card__body {
+      justify-content: flex-end;
+    }
+  }
+}
+
 .el-dialog__body {
   >.el-form {
     margin-bottom: -24px;
@@ -1071,5 +1087,11 @@ code {
     .el-form-item {
       margin-bottom: 0;
     }
+  }
+}
+
+.el-drawer__body {
+  > .el-form {
+    padding-top: 4px;
   }
 }

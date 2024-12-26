@@ -49,9 +49,10 @@ const cancel = () => (showDrawer.value = false)
 <style lang="scss">
 .schema-create-drawer {
   .schema-create {
-    .el-card {
+    .el-card:not(.ft-card) {
       border: none;
       overflow: visible;
+      margin-bottom: 36px;
     }
     .el-card__body {
       padding: 0;
@@ -62,13 +63,6 @@ const cancel = () => (showDrawer.value = false)
   }
   .schema-create-form {
     width: 100%;
-  }
-  // Set a special style for the button block of the creation page
-  .schema-create-ft {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    padding: 10px 20px;
   }
 }
 </style>

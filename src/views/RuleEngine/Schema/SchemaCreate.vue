@@ -12,7 +12,7 @@
         :fixed-type="!isInSinglePage && !!type"
       />
     </el-card>
-    <el-card class="ft-card">
+    <el-card class="ft-card schema-create-ft">
       <el-button @click="cancel">
         {{ $t('Base.cancel') }}
       </el-button>

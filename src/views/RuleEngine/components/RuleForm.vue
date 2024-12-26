@@ -74,30 +74,28 @@
     <el-row class="test-row">
       <SQLTest ref="testSQLRef" :rule-data="modelValue" :ingress-bridge-list="ingressBridgeList" />
     </el-row>
-    <el-row class="oper-row">
-      <el-col :span="24">
-        <el-button @click="$router.push({ name: 'rule' })">
-          {{ savedAfterDataChange ? tl('backToRuleList') : $t('Base.cancel') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post') || disabled || isDataSaveButtonDisabled"
-          :loading="submitLoading"
-          @click="$emit('save')"
-        >
-          {{ isEdit ? $t('Base.update') : $t('Base.save') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post') || disabled"
-          plain
-          @click="saveAsCopy"
-          v-if="isEdit"
-        >
-          {{ tl('saveAsCopy') }}
-        </el-button>
-      </el-col>
-    </el-row>
+    <el-card class="ft-card">
+      <el-button @click="$router.push({ name: 'rule' })">
+        {{ savedAfterDataChange ? tl('backToRuleList') : $t('Base.cancel') }}
+      </el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post') || disabled || isDataSaveButtonDisabled"
+        :loading="submitLoading"
+        @click="$emit('save')"
+      >
+        {{ isEdit ? $t('Base.update') : $t('Base.save') }}
+      </el-button>
+      <el-button
+        type="primary"
+        :disabled="!$hasPermission('post') || disabled"
+        plain
+        @click="saveAsCopy"
+        v-if="isEdit"
+      >
+        {{ tl('saveAsCopy') }}
+      </el-button>
+    </el-card>
   </div>
   <SQLTemplateDrawer v-model="showSQLTemplateDrawer" @use-sql="useSQLTemplate" />
 </template>
@@ -452,14 +450,15 @@ defineExpose({ validate })
 </style>
 
 <style lang="scss">
+@use '~@/style/mixins.scss';
 .rule-form {
   .sql-col {
     padding: 24px;
     border-right: 1px solid var(--color-border-normal);
   }
   .action-col {
-    padding: 12px 24px;
-    height: 640px;
+    padding: 24px;
+    height: 628px;
     .io-tabs {
       display: flex;
       flex-direction: column;
@@ -490,10 +489,16 @@ defineExpose({ validate })
   .editor-row {
     border-bottom: 1px solid var(--color-border-normal);
   }
-  .oper-row {
-    padding: 24px;
-    border-top: 1px solid var(--color-border-normal);
+  .ft-card {
+    position: relative;
+    margin-left: -1px;
+    margin-right: -1px;
+    @include mixins.mock-ft-card;
+    &.el-card {
+      margin-bottom: -1px;
+    }
   }
+
   .test-row {
     padding: 24px;
   }
