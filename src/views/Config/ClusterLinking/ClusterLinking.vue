@@ -2,14 +2,7 @@
   <ListCard class="cluster-linking">
     <div class="section-header">
       <div></div>
-      <el-button
-        :disabled="!$hasPermission('post')"
-        type="primary"
-        @click="createLink"
-        :icon="Plus"
-      >
-        {{ t('Base.create') }}
-      </el-button>
+      <CreateButton @click="createLink" />
     </div>
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="name" :label="tl('clusterName')">
@@ -41,17 +34,12 @@
 
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="editLink(row.name)">
+          <TableButton @click="editLink(row.name)">
             {{ $t('Base.setting') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="handleDelete(row.name)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row.name)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -66,7 +54,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
-import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 

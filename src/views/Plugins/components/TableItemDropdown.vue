@@ -4,14 +4,14 @@
     @visible-change="dropdownVisibleChanged"
     popper-class="table-dropdown-popper"
   >
-    <el-button class="table-dropdown-btn" size="small">
+    <TableButton class="table-dropdown-btn">
       <span>
         {{ $t('Base.more') }}
       </span>
       <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
         <CaretBottom />
       </el-icon>
-    </el-button>
+    </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="up" :disabled="rowIndex === 0 || !$hasPermission('put')">

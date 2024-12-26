@@ -59,12 +59,8 @@
           <el-col class="hidden-md-and-down" :span="12" />
         </template>
         <el-col class="col-oper" v-bind="colProps">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
+          <ResetButton @click="handleReset" />
           <el-tooltip
             :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
             placement="top"
@@ -83,9 +79,7 @@
     <div>
       <div class="section-header">
         <div></div>
-        <el-button type="primary" :icon="Refresh" @click="loadTableData">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadTableData" />
       </div>
       <el-table :data="tableData" v-loading.lock="lockTable">
         <el-table-column prop="clientid" :label="$t('Clients.clientId')">
@@ -135,7 +129,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
-import { ArrowDown, ArrowUp, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

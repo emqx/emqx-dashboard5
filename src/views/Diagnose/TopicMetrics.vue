@@ -2,9 +2,9 @@
   <ListCard class="topicMetrics">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="openAdd()">
+      <CreateButton @click="openAdd()">
         {{ tl('addTopic') }}
-      </el-button>
+      </CreateButton>
     </div>
 
     <el-table
@@ -118,28 +118,15 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row, $index }">
-          <el-button
-            size="small"
-            :class="BTN_VIEW_CLASS"
-            @click="loadMetricsFromTopic(row, $index)"
-          >
+          <TableButton :class="BTN_VIEW_CLASS" @click="loadMetricsFromTopic(row, $index)">
             {{ $t('Base.view') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('put')"
-            @click="resetTopic(row, $index)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('put')" @click="resetTopic(row, $index)">
             {{ $t('Base.reset') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteTopic(row)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteTopic(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -185,7 +172,6 @@ import {
 import { dateFormat } from '@/common/tools'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
@@ -367,7 +353,6 @@ export default defineComponent({
     })
 
     return {
-      Plus,
       BTN_VIEW_CLASS,
       df: dateFormat,
       tl: translate,

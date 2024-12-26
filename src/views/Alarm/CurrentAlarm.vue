@@ -2,14 +2,7 @@
   <ListCard class="alarm">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('get')"
-        :icon="RefreshRight"
-        @click="loadData({ page: 1 })"
-      >
-        {{ $t('Base.refresh') }}
-      </el-button>
+      <RefreshButton :disabled="!$hasPermission('get')" @click="loadData({ page: 1 })" />
       <el-button
         :icon="Setting"
         :disabled="!$hasPermission('put')"
@@ -74,7 +67,7 @@ import { loadAlarm } from '@/api/common'
 import { dateFormat } from '@/common/tools'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { RefreshRight, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 

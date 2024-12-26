@@ -11,6 +11,7 @@ import { cloneDeep, escapeRegExp, get, pick } from 'lodash'
 import { useRedisCommandCheck } from '../useDataHandler'
 import { useAvailableProviders } from '../useProvidersForMonaco'
 import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
+import useI18nPrefix from '@/hooks/useI18nPrefix'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -33,6 +34,8 @@ export default (
 } => {
   const { t, tl, te } = useI18nTl('RuleEngine')
 
+  const { getI18nPrefix, setLabelAndDesc } = useI18nPrefix(t, te)
+
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const { initRecordByComponents } = useSchemaRecord()
@@ -52,17 +55,6 @@ export default (
       rules.name.push(...createCommonIdRule())
     }
     return rules
-  }
-
-  const getI18nPrefix = (type: string) => `BridgeSchema.${type}.`
-
-  const setLabelAndDesc = (prop: Property, path: string) => {
-    if (prop) {
-      prop.label = t(`${path}.label`)
-      if (te(`${path}.desc`)) {
-        prop.description = t(`${path}.desc`)
-      }
-    }
   }
 
   const getSymbolsFromOneOfArr = (oneof: Property['oneOf']): Property['symbols'] => {
@@ -108,10 +100,6 @@ export default (
         prop.is_template
       ) {
         setComponentProps(prop, { completionProvider })
-      } else if (prop.type === 'boolean' && prop.is_template) {
-        prop.type = 'enum'
-        prop.symbols = [true, false]
-        prop.default ??= ''
       } else if (prop.type === 'object' && !prop.properties && prop.is_template) {
         setComponentProps(prop, { supportPlaceholder: ['key', 'value'] })
       }

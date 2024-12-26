@@ -55,8 +55,7 @@
       />
       <el-table-column :label="$t('Base.operation')" :min-width="168">
         <template #default="{ row }">
-          <el-button
-            size="small"
+          <TableButton
             v-if="
               row.enable &&
               (row.status === ConnectionStatus.Disconnected ||
@@ -67,13 +66,10 @@
             @click="reconnect(row)"
           >
             {{ $t('RuleEngine.reconnect') }}
-          </el-button>
-          <el-button
-            size="small"
-            @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))"
-          >
+          </TableButton>
+          <TableButton @click="$router.push(getBridgeDetailPageRoute(row.id, 'settings'))">
             {{ $t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <OperateWebhookAssociatedPopover
             :disabled="!judgeIsWebhookAction(row)"
             :name="row.name"

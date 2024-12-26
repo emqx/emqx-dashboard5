@@ -3,6 +3,7 @@
     <detail-header :item="{ name: t('components.webhook-create'), routeName: 'webhook' }" />
     <el-card class="webhook-create-card app-card">
       <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
+      <el-skeleton v-else :rows="10" />
     </el-card>
     <el-card class="ft-card">
       <el-button

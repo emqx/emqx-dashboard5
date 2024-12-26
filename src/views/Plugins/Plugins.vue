@@ -1,9 +1,9 @@
 <template>
   <ListCard class="plugins">
     <div class="section-header">
-      <el-button type="primary" :disabled="!$hasPermission('post')" :icon="Plus" @click="goInstall">
+      <CreateButton @click="goInstall">
         {{ t('components.plugin-install') }}
-      </el-button>
+      </CreateButton>
       <div class="filters">
         <el-input :placeholder="$t('Plugins.searchPlaceholder')" v-model="keyForSearch" />
         <el-radio-group v-model="filterStatus">
@@ -40,22 +40,20 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
-            size="small"
+          <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             :disabled="!$hasPermission('put')"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
-          </el-button>
-          <el-button
-            size="small"
+          </TableButton>
+          <TableButton
             :disabled="!$hasPermission('put')"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
             {{ tl('start') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             :filtered="isTableFiltered"
@@ -88,7 +86,6 @@ import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
 import useMove from '@/hooks/useMove'
 import PluginItemStatus from './components/PluginItemStatus.vue'
-import { Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

@@ -2,14 +2,9 @@
   <div>
     <div v-loading="loadingAuth">
       <div class="auth-create" v-if="!hasAuth">
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :icon="Plus"
-          @click="openAuthCreate()"
-        >
+        <CreateButton @click="openAuthCreate()">
           {{ tl('addAuth') }}
-        </el-button>
+        </CreateButton>
         <div class="tips">
           {{ tl('noAuthTips') }}
         </div>
@@ -49,7 +44,6 @@ import AuthnCreate from '../../Auth/AuthnCreate.vue'
 import AuthnDetails from '../../Auth/AuthnDetails.vue'
 import { ElMessage as M } from 'element-plus'
 import { useRoute } from 'vue-router'
-import { Plus } from '@element-plus/icons-vue'
 import { cloneDeep, omit } from 'lodash'
 import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'

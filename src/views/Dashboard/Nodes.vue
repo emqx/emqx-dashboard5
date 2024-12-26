@@ -2,9 +2,7 @@
   <ListCard class="nodes">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :icon="RefreshRight" @click="loadAllNodes">
-        {{ $t('Base.refresh') }}
-      </el-button>
+      <RefreshButton @click="loadAllNodes" />
     </div>
     <el-table :data="nodes" v-loading.lock="nodesLockTable" class="nodes-table">
       <el-table-column prop="node" :label="tl('name')" min-width="160">
@@ -84,7 +82,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RefreshRight } from '@element-plus/icons-vue'
 import useDurationStr from '@/hooks/useDurationStr'
 import useClusterNodes from '@/hooks/useClusterNodes'
 

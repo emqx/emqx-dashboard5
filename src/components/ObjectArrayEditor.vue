@@ -24,6 +24,7 @@
                 :placeholder="value.placeholder"
                 :custom-props="value.componentProps"
                 :property="value"
+                :items="value.items"
               />
             </CustomFormItem>
           </template>

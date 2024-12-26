@@ -2,14 +2,9 @@
   <ListCard class="listener">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="addListener()"
-      >
+      <CreateButton @click="addListener()">
         {{ tl('addListener') }}
-      </el-button>
+      </CreateButton>
     </div>
     <el-table :data="listenerTable" v-loading="isTableLoading" row-key="id">
       <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>
@@ -112,7 +107,6 @@ import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Ref } from 'vue'
 import { ref } from 'vue'

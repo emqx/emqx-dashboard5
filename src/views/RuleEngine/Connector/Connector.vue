@@ -2,14 +2,7 @@
   <ListCard class="connectors">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        :disabled="!$hasPermission('post')"
-        @click="$router.push({ name: 'connector-create' })"
-      >
-        {{ tl('create') }}
-      </el-button>
+      <CreateButton @click="$router.push({ name: 'connector-create' })" />
     </div>
     <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
       <el-table-column :label="tl('name')" :min-width="120">
@@ -75,22 +68,20 @@
             :content="tl('canNotViewConnectorTip')"
           >
             <div class="tooltip-content">
-              <el-button
-                size="small"
+              <TableButton
                 v-if="isErrorStatus(row)"
                 :disabled="!$hasPermission('post') || row.canNotView"
                 :loading="reconnectingMap.get(row.id)"
                 @click="reconnect(row)"
               >
                 {{ $t('RuleEngine.reconnect') }}
-              </el-button>
-              <el-button
-                size="small"
+              </TableButton>
+              <TableButton
                 :disabled="row.canNotView"
                 @click="$router.push(getDetailPageRoute(row))"
               >
                 {{ $t('Base.setting') }}
-              </el-button>
+              </TableButton>
               <OperateWebhookAssociatedPopover
                 :disabled="!judgeIsWebhookConnector(row)"
                 :name="row.name"
@@ -134,7 +125,6 @@ import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'

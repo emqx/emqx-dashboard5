@@ -16,15 +16,7 @@
           {{ tl('upload') }}
         </el-button>
       </el-upload>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        :disabled="!$hasPermission('post')"
-        :loading="createLoading"
-        @click="handleCreateBackup"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton :loading="createLoading" @click="handleCreateBackup" />
     </div>
     <el-table class="backup-table" :data="backupList" v-loading.lock="isTableLoading">
       <el-table-column prop="filename" min-width="125" :label="tl('filename')" />
@@ -41,27 +33,15 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="228">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('get')"
-            @click="handleDownloadBackup(row)"
-          >
+          <TableButton :disabled="!$hasPermission('get')" @click="handleDownloadBackup(row)">
             {{ $t('Base.download') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="handleDeleteBackup(row)"
-            >{{ $t('Base.delete') }}</el-button
-          >
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('post')"
-            @click="handleRestoreBackup(row)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDeleteBackup(row)">
+            {{ $t('Base.delete') }}
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('post')" @click="handleRestoreBackup(row)">
             {{ tl('restore') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -85,7 +65,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
-import { Plus, Upload } from '@element-plus/icons-vue'
+import { Upload } from '@element-plus/icons-vue'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import {
   ElMessage,

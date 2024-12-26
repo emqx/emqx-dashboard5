@@ -155,15 +155,14 @@
         <el-table-column prop="createAt" :label="$t('Tools.time')" sortable />
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button
-              size="small"
+            <TableButton
               type="danger"
               plain
               @click="unSubscribe(row)"
               :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
             >
               {{ $t('Base.cancel') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

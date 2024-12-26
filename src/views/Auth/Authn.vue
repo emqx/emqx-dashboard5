@@ -2,14 +2,7 @@
   <ListCard class="authn">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :icon="Plus"
-        :disabled="!$hasPermission('post')"
-        @click="$router.push({ name: 'authentication-create' })"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="$router.push({ name: 'authentication-create' })" />
     </div>
     <el-table
       ref="tableCom"
@@ -48,13 +41,13 @@
       </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
+          <TableButton
             :style="{ marginRight: '10px' }"
             v-if="row.backend === 'built_in_database'"
-            size="small"
             @click="routeToDetail(row, 'users')"
-            >{{ $t('Auth.users') }}</el-button
           >
+            {{ $t('Auth.users') }}
+          </TableButton>
           <table-dropdown
             :row-data="row"
             :table-data-len="authnList.length"
@@ -84,7 +77,6 @@ import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
 import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import { AuthnItem } from '@/types/auth'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'

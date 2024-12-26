@@ -2,9 +2,7 @@
   <div class="metrics app-wrapper">
     <div class="header-block">
       <div class="header-item">
-        <el-button type="primary" :icon="RefreshRight" @click="handleSearch">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="handleSearch" />
         <el-select
           class="node-select"
           v-model="currentNode"
@@ -159,7 +157,6 @@ export default defineComponent({
 import { loadMetrics, loadNodes } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
-import { RefreshRight } from '@element-plus/icons-vue'
 import { snakeCase } from 'lodash'
 import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'

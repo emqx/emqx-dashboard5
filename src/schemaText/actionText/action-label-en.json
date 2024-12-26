@@ -4,7 +4,8 @@
     "ssl": "Enable SSL"
   },
   "mqtt": {
-    "source_topic": "Topic"
+    "source_topic": "Topic",
+    "no_local": "No Local"
   },
   "kafka_producer": {
     "bootstrap_hosts": "Bootstrap Hosts",

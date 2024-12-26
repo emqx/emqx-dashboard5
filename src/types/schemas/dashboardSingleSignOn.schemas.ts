@@ -23,9 +23,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
 
-export type PutSsoBackendBody = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackendBody = SsoOidc | DashboardSaml | SsoLdap
 
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
@@ -39,15 +39,15 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type GetSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
 
 export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type PostSsoLoginBackend404Code =
@@ -109,7 +109,7 @@ export type PostSsoLoginBackend200 = {
   license?: PostSsoLoginBackend200License
 }
 
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
+export type PostSsoLoginBackendBody = SsoLogin | DashboardLogin | SsoLogin
 
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
@@ -418,8 +418,8 @@ export type DashboardSsoBackendStatusBackend =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export interface DashboardSsoBackendStatus {

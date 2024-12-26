@@ -497,6 +497,9 @@
   color: var(--color-primary);
   opacity: 0.7;
 }
+.el-button:focus-visible {
+  outline: none;
+}
 
 /* Dropdown */
 .el-dropdown-menu {

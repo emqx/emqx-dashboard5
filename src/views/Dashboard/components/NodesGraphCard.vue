@@ -4,7 +4,10 @@
       <div class="nodes-graph-container">
         <span class="node-count">
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
-          {{ clusterName ? `${clusterName} -` : '' }}
+          <span class="cluster-name">
+            <CommonOverflowTooltip :content="clusterName" />
+          </span>
+          <span v-if="clusterName">&nbsp;-&nbsp;</span>
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
         <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
@@ -137,6 +140,7 @@ import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
@@ -265,8 +269,12 @@ syncPolling(loadData, POLLING_INTERVAL)
     background: var(--bg-hover);
     display: flex;
     align-items: center;
+    z-index: 1;
     img {
       margin-right: 6px;
+    }
+    .cluster-name {
+      max-width: 80px;
     }
   }
 }

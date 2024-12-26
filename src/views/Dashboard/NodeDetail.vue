@@ -3,9 +3,7 @@
     <div class="block-header">
       <detail-header :item="{ name: `${tl('node')} ${nodeName}`, path: '/dashboard/nodes' }" />
       <div class="actions">
-        <el-button type="primary" :icon="RefreshRight" @click="loadData">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadData" />
       </div>
     </div>
     <el-row :gutter="16">
@@ -128,7 +126,6 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
-import { RefreshRight } from '@element-plus/icons-vue'
 import { NodeStatus } from '@/types/enum'
 import useDurationStr from '@/hooks/useDurationStr'
 import { IS_ENTERPRISE } from '@/common/constants'
