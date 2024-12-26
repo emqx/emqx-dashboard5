@@ -172,6 +172,7 @@ export type PostLogin200 = {
   token?: string
   version?: string
   license?: PostLogin200License
+  password_expire_in_seconds?: number
 }
 
 export type PostLoginBody = {

@@ -29,7 +29,7 @@
                   <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
                 </template>
                 <el-select v-model="retainerConfig.backend.type" :disabled="!configEnable">
-                  <el-option value="built_in_database" :label="tl('builtInDatabase')" />
+                  <el-option value="built_in_database" :label="t('Auth.builtInDatabase')" />
                 </el-select>
               </el-form-item>
             </el-col>

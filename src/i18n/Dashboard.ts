@@ -423,14 +423,6 @@ export default {
     zh: '数据指标集成',
     en: 'Metrics Integration',
   },
-  integrationDesc: {
-    zh: '集成指标数据外部的监控与告警管理',
-    en: 'Integrated monitoring and alerting toolkit',
-  },
-  promDesc: {
-    zh: '使用 Prometheus 采集指标数据',
-    en: 'Integrated with Prometheus',
-  },
   role: {
     zh: '角色',
     en: 'Role',

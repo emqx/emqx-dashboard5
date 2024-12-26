@@ -175,10 +175,6 @@ export default {
     zh: '启用 TLS',
     en: 'Enable TLS',
   },
-  tlsVerify: {
-    zh: '验证服务器证书',
-    en: 'TLS Verify',
-  },
   mongoType: {
     zh: '部署模式',
     en: 'MongoDB Mode',

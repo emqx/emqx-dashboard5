@@ -167,7 +167,7 @@
           <div class="form-hd">
             <h5 class="title-pwd">{{ $t('General.changePassword') }}</h5>
             <div class="tip default-pwd-tip">
-              <p>{{ $t('Base.defaultPwdTip') }}</p>
+              <p>{{ isUsingDefaultPwd ? t('Base.defaultPwdTip') : t('Base.expiredPwdTip') }}</p>
               <ul>
                 <li>{{ $t('General.passwordRequirement1') }}</li>
                 <li>{{ $t('General.passwordRequirement2') }}</li>
@@ -237,7 +237,7 @@ import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -280,6 +280,12 @@ const isSSOSubmitting = ref(false)
 
 const showChangePwdForm = ref(false)
 const isUsingDefaultPwd = ref(false)
+/**
+ * if value is negative, it means the password is expired
+ */
+const pwdValidSeconds = ref(Number.MAX_SAFE_INTEGER)
+const isPwdExpired = computed(() => pwdValidSeconds.value < 0)
+
 const rules = {
   username: [{ required: true, message: t('Base.unameRequired') }],
   password: [{ required: true, message: t('Base.passwordRequired') }],
@@ -295,6 +301,16 @@ const pwdRules = {
     {
       pattern: PASSWORD_REG,
       message: pwdMismatchMsg,
+      trigger: ['blur'],
+    },
+    {
+      validator(rules: unknown, value: string, callback: (error?: string) => void) {
+        if (isPwdExpired.value && value === record.password) {
+          callback(t('General.noSameNewPwd'))
+        } else {
+          callback()
+        }
+      },
       trigger: ['blur'],
     },
   ],
@@ -325,8 +341,10 @@ const queryLogin = async ({ username, password }: { username: string; password: 
   try {
     const res = await loginApi({ username, password })
     isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
+    pwdValidSeconds.value = res.password_expire_in_seconds ?? Number.MAX_SAFE_INTEGER
     updateStoreInfo(username, res)
-    if (!isUsingDefaultPwd.value) {
+
+    if (!isUsingDefaultPwd.value && !isPwdExpired.value) {
       redirectToDashboard()
     } else {
       showChangePwdForm.value = true
