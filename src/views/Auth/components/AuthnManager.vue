@@ -20,12 +20,10 @@
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
           <el-tooltip :content="$t('Base.search')" placement="top">
-            <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
-            </el-button>
+            <SearchButton no-text @click="resetPageAndLoadData" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
-            </el-button>
+            <RefreshButton class="icon-button" no-text @click="loadData" />
           </el-tooltip>
         </el-space>
       </div>
@@ -34,14 +32,7 @@
           <authn-users-import @uploadedData="loadData" />
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
-          <el-button
-            class="icon-button"
-            type="primary"
-            :icon="Plus"
-            :disabled="!$hasPermission('post')"
-            @click="addCommand"
-          >
-          </el-button>
+          <CreateButton class="icon-button" @click="addCommand"><span /></CreateButton>
         </el-tooltip>
       </div>
     </div>
@@ -59,17 +50,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button :disabled="!$hasPermission('put')" @click="handleEdit(row)" size="small">
+          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button
-            plain
-            :disabled="!$hasPermission('delete')"
-            @click="handleDelete(row)"
-            size="small"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -142,7 +128,6 @@ import { replaceSpaceForHTML } from '@/common/tools'
 import commonPagination from '@/components/commonPagination.vue'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
-import { Plus, Refresh, Search } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -169,7 +154,7 @@ const prop = defineProps({
 })
 
 const { t } = useI18n()
-let record = ref<DataManagerItem>(createRawUserForm())
+const record = ref<DataManagerItem>(createRawUserForm())
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
@@ -275,7 +260,7 @@ const handleDelete = (row: DataManagerItem) => {
 }
 
 const save = async () => {
-  let validation = await recordForm.value.validate()
+  const validation = await recordForm.value.validate()
   if (!validation) {
     return
   }

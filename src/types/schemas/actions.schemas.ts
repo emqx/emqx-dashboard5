@@ -1440,7 +1440,7 @@ export interface BridgeTablestoreActionParameters {
   table_name: string
   measurement: string
   tags?: BridgeTablestoreActionParametersTags
-  fields?: BridgeTablestoreTablestoreFields[]
+  fields: BridgeTablestoreTablestoreFields[]
   data_source?: string
   timestamp?: BridgeTablestoreActionParametersTimestamp
   meta_update_model?: BridgeTablestoreActionParametersMetaUpdateModel
@@ -2672,7 +2672,7 @@ export interface BridgeIotdbActionParametersData {
 export interface BridgeIotdbActionParameters {
   is_aligned?: boolean
   device_id?: string
-  data?: BridgeIotdbActionParametersData[]
+  data: BridgeIotdbActionParametersData[]
   max_retries?: number
 }
 

@@ -592,32 +592,6 @@ export const RocketmqGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface RocketmqGet {
-  status?: RocketmqGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: RocketmqGetType
-  name: string
-  enable?: boolean
-  template?: string
-  local_topic?: string
-  strategy?: RocketmqGetStrategy
-  resource_opts?: ResourceSchemaCreationOpts
-  servers: string
-  namespace?: string
-  topic?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  sync_timeout?: string
-  refresh_interval?: string
-  send_buffer?: string
-  pool_size?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-}
-
 export type ResourceSchemaCreationOptsRequestTtl = 'infinity' | string
 
 export type ResourceSchemaCreationOptsQueryMode =
@@ -649,6 +623,32 @@ export interface ResourceSchemaCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface RocketmqGet {
+  status?: RocketmqGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: RocketmqGetType
+  name: string
+  enable?: boolean
+  template?: string
+  local_topic?: string
+  strategy?: RocketmqGetStrategy
+  resource_opts?: ResourceSchemaCreationOpts
+  servers: string
+  namespace?: string
+  topic?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  sync_timeout?: string
+  refresh_interval?: string
+  send_buffer?: string
+  pool_size?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
 }
 
 export interface PulsarProducerPulsarMessage {
@@ -727,6 +727,11 @@ export interface EmqxSslClientOpts {
   verify_peer_ext_key_usage?: string
   enable?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
+}
+
+export interface ConnectorMqttStaticClientidEntry {
+  node: string
+  ids: string[]
 }
 
 export interface ConnectorMqttIngressRemote {
@@ -1215,6 +1220,27 @@ export const BridgeRedisPostSentinelRedisType = {
   sentinel: 'sentinel',
 } as const
 
+export interface BridgeRedisPostSentinel {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisSentinel
+  servers: string
+  redis_type?: BridgeRedisPostSentinelRedisType
+  sentinel: string
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisPostSentinelType
+  name: string
+}
+
 export type BridgeRedisPostClusterType =
   (typeof BridgeRedisPostClusterType)[keyof typeof BridgeRedisPostClusterType]
 
@@ -1230,6 +1256,25 @@ export type BridgeRedisPostClusterRedisType =
 export const BridgeRedisPostClusterRedisType = {
   cluster: 'cluster',
 } as const
+
+export interface BridgeRedisPostCluster {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisCluster
+  servers: string
+  redis_type?: BridgeRedisPostClusterRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisPostClusterType
+  name: string
+}
 
 export type BridgeRedisGetSingleStatus =
   (typeof BridgeRedisGetSingleStatus)[keyof typeof BridgeRedisGetSingleStatus]
@@ -1447,27 +1492,6 @@ export interface BridgeRedisCreationOptsRedisSentinel {
   max_buffer_bytes?: string
 }
 
-export interface BridgeRedisPostSentinel {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisSentinel
-  servers: string
-  redis_type?: BridgeRedisPostSentinelRedisType
-  sentinel: string
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisPostSentinelType
-  name: string
-}
-
 export type BridgeRedisCreationOptsRedisClusterRequestTtl = 'infinity' | string
 
 export type BridgeRedisCreationOptsRedisClusterQueryMode =
@@ -1497,25 +1521,6 @@ export interface BridgeRedisCreationOptsRedisCluster {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeRedisPostCluster {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisCluster
-  servers: string
-  redis_type?: BridgeRedisPostClusterRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisPostClusterType
-  name: string
 }
 
 export type BridgeRabbitmqPutDeliveryMode =
@@ -2205,6 +2210,7 @@ export interface BridgeMqttPut {
   mode?: BridgeMqttPutMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: BridgeMqttPutProtoVer
@@ -2258,6 +2264,7 @@ export interface BridgeMqttPost {
   mode?: BridgeMqttPostMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: BridgeMqttPostProtoVer
@@ -2346,6 +2353,7 @@ export interface BridgeMqttGet {
   mode?: BridgeMqttGetMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: BridgeMqttGetProtoVer

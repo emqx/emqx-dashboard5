@@ -1,4 +1,4 @@
-export type PostLogout401Code = typeof PostLogout401Code[keyof typeof PostLogout401Code]
+export type PostLogout401Code = (typeof PostLogout401Code)[keyof typeof PostLogout401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogout401Code = {
@@ -14,14 +14,14 @@ export type PostLogoutBody = {
   username?: string
 }
 
-export type PostLogoutBackend = typeof PostLogoutBackend[keyof typeof PostLogoutBackend]
+export type PostLogoutBackend = (typeof PostLogoutBackend)[keyof typeof PostLogoutBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogoutBackend = {
   local: 'local',
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type PostLogoutParams = {
@@ -29,7 +29,7 @@ export type PostLogoutParams = {
 }
 
 export type PostUsersUsernameChangePwd404Code =
-  typeof PostUsersUsernameChangePwd404Code[keyof typeof PostUsersUsernameChangePwd404Code]
+  (typeof PostUsersUsernameChangePwd404Code)[keyof typeof PostUsersUsernameChangePwd404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUsersUsernameChangePwd404Code = {
@@ -42,7 +42,7 @@ export type PostUsersUsernameChangePwd404 = {
 }
 
 export type PostUsersUsernameChangePwd400Code =
-  typeof PostUsersUsernameChangePwd400Code[keyof typeof PostUsersUsernameChangePwd400Code]
+  (typeof PostUsersUsernameChangePwd400Code)[keyof typeof PostUsersUsernameChangePwd400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostUsersUsernameChangePwd400Code = {
@@ -61,7 +61,7 @@ export type PostUsersUsernameChangePwdBody = {
 }
 
 export type DeleteUsersUsername404Code =
-  typeof DeleteUsersUsername404Code[keyof typeof DeleteUsersUsername404Code]
+  (typeof DeleteUsersUsername404Code)[keyof typeof DeleteUsersUsername404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteUsersUsername404Code = {
@@ -74,7 +74,7 @@ export type DeleteUsersUsername404 = {
 }
 
 export type DeleteUsersUsername400Code =
-  typeof DeleteUsersUsername400Code[keyof typeof DeleteUsersUsername400Code]
+  (typeof DeleteUsersUsername400Code)[keyof typeof DeleteUsersUsername400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteUsersUsername400Code = {
@@ -88,14 +88,14 @@ export type DeleteUsersUsername400 = {
 }
 
 export type DeleteUsersUsernameBackend =
-  typeof DeleteUsersUsernameBackend[keyof typeof DeleteUsersUsernameBackend]
+  (typeof DeleteUsersUsernameBackend)[keyof typeof DeleteUsersUsernameBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type DeleteUsersUsernameParams = {
@@ -103,7 +103,7 @@ export type DeleteUsersUsernameParams = {
 }
 
 export type PutUsersUsername404Code =
-  typeof PutUsersUsername404Code[keyof typeof PutUsersUsername404Code]
+  (typeof PutUsersUsername404Code)[keyof typeof PutUsersUsername404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutUsersUsername404Code = {
@@ -128,21 +128,21 @@ export type PutUsersUsernameBody = {
 }
 
 export type PutUsersUsernameBackend =
-  typeof PutUsersUsernameBackend[keyof typeof PutUsersUsernameBackend]
+  (typeof PutUsersUsernameBackend)[keyof typeof PutUsersUsernameBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type PutUsersUsernameParams = {
   backend?: PutUsersUsernameBackend
 }
 
-export type PostLogin401Code = typeof PostLogin401Code[keyof typeof PostLogin401Code]
+export type PostLogin401Code = (typeof PostLogin401Code)[keyof typeof PostLogin401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin401Code = {
@@ -155,7 +155,7 @@ export type PostLogin401 = {
 }
 
 export type PostLogin200LicenseEdition =
-  typeof PostLogin200LicenseEdition[keyof typeof PostLogin200LicenseEdition]
+  (typeof PostLogin200LicenseEdition)[keyof typeof PostLogin200LicenseEdition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin200LicenseEdition = {

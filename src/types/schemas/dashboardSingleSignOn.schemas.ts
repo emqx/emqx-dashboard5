@@ -1,5 +1,5 @@
 export type DeleteSsoBackend404Code =
-  typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
+  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSsoBackend404Code = {
@@ -11,7 +11,7 @@ export type DeleteSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend404Code = typeof PutSsoBackend404Code[keyof typeof PutSsoBackend404Code]
+export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSsoBackend404Code = {
@@ -23,11 +23,11 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
 
-export type PutSsoBackendBody = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackendBody = SsoOidc | DashboardSaml | SsoLdap
 
-export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
+export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoBackend404Code = {
@@ -39,19 +39,19 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type GetSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
 
-export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
+export type GetSsoRunning200Item = (typeof GetSsoRunning200Item)[keyof typeof GetSsoRunning200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type PostSsoLoginBackend404Code =
-  typeof PostSsoLoginBackend404Code[keyof typeof PostSsoLoginBackend404Code]
+  (typeof PostSsoLoginBackend404Code)[keyof typeof PostSsoLoginBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend404Code = {
@@ -64,7 +64,7 @@ export type PostSsoLoginBackend404 = {
 }
 
 export type PostSsoLoginBackend401Code =
-  typeof PostSsoLoginBackend401Code[keyof typeof PostSsoLoginBackend401Code]
+  (typeof PostSsoLoginBackend401Code)[keyof typeof PostSsoLoginBackend401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend401Code = {
@@ -77,7 +77,7 @@ export type PostSsoLoginBackend401 = {
 }
 
 export type PostSsoLoginBackend302Code =
-  typeof PostSsoLoginBackend302Code[keyof typeof PostSsoLoginBackend302Code]
+  (typeof PostSsoLoginBackend302Code)[keyof typeof PostSsoLoginBackend302Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend302Code = {
@@ -90,7 +90,7 @@ export type PostSsoLoginBackend302 = {
 }
 
 export type PostSsoLoginBackend200LicenseEdition =
-  typeof PostSsoLoginBackend200LicenseEdition[keyof typeof PostSsoLoginBackend200LicenseEdition]
+  (typeof PostSsoLoginBackend200LicenseEdition)[keyof typeof PostSsoLoginBackend200LicenseEdition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend200LicenseEdition = {
@@ -109,10 +109,10 @@ export type PostSsoLoginBackend200 = {
   license?: PostSsoLoginBackend200License
 }
 
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
+export type PostSsoLoginBackendBody = SsoLogin | DashboardLogin | SsoLogin
 
 export type GetSsoSamlMetadata404Code =
-  typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
+  (typeof GetSsoSamlMetadata404Code)[keyof typeof GetSsoSamlMetadata404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoSamlMetadata404Code = {
@@ -125,7 +125,7 @@ export type GetSsoSamlMetadata404 = {
 }
 
 export type GetSsoSamlMetadata200LicenseEdition =
-  typeof GetSsoSamlMetadata200LicenseEdition[keyof typeof GetSsoSamlMetadata200LicenseEdition]
+  (typeof GetSsoSamlMetadata200LicenseEdition)[keyof typeof GetSsoSamlMetadata200LicenseEdition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoSamlMetadata200LicenseEdition = {
@@ -143,7 +143,8 @@ export type GetSsoSamlMetadata200 = {
   license?: GetSsoSamlMetadata200License
 }
 
-export type PostSsoSamlAcs404Code = typeof PostSsoSamlAcs404Code[keyof typeof PostSsoSamlAcs404Code]
+export type PostSsoSamlAcs404Code =
+  (typeof PostSsoSamlAcs404Code)[keyof typeof PostSsoSamlAcs404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoSamlAcs404Code = {
@@ -155,7 +156,8 @@ export type PostSsoSamlAcs404 = {
   message?: string
 }
 
-export type PostSsoSamlAcs401Code = typeof PostSsoSamlAcs401Code[keyof typeof PostSsoSamlAcs401Code]
+export type PostSsoSamlAcs401Code =
+  (typeof PostSsoSamlAcs401Code)[keyof typeof PostSsoSamlAcs401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoSamlAcs401Code = {
@@ -167,7 +169,8 @@ export type PostSsoSamlAcs401 = {
   message?: string
 }
 
-export type PostSsoSamlAcs302Code = typeof PostSsoSamlAcs302Code[keyof typeof PostSsoSamlAcs302Code]
+export type PostSsoSamlAcs302Code =
+  (typeof PostSsoSamlAcs302Code)[keyof typeof PostSsoSamlAcs302Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoSamlAcs302Code = {
@@ -180,7 +183,7 @@ export type PostSsoSamlAcs302 = {
 }
 
 export type GetSsoOidcCallback404Code =
-  typeof GetSsoOidcCallback404Code[keyof typeof GetSsoOidcCallback404Code]
+  (typeof GetSsoOidcCallback404Code)[keyof typeof GetSsoOidcCallback404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback404Code = {
@@ -193,7 +196,7 @@ export type GetSsoOidcCallback404 = {
 }
 
 export type GetSsoOidcCallback401Code =
-  typeof GetSsoOidcCallback401Code[keyof typeof GetSsoOidcCallback401Code]
+  (typeof GetSsoOidcCallback401Code)[keyof typeof GetSsoOidcCallback401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback401Code = {
@@ -206,7 +209,7 @@ export type GetSsoOidcCallback401 = {
 }
 
 export type GetSsoOidcCallback400Code =
-  typeof GetSsoOidcCallback400Code[keyof typeof GetSsoOidcCallback400Code]
+  (typeof GetSsoOidcCallback400Code)[keyof typeof GetSsoOidcCallback400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback400Code = {
@@ -219,7 +222,7 @@ export type GetSsoOidcCallback400 = {
 }
 
 export type GetSsoOidcCallback200LicenseEdition =
-  typeof GetSsoOidcCallback200LicenseEdition[keyof typeof GetSsoOidcCallback200LicenseEdition]
+  (typeof GetSsoOidcCallback200LicenseEdition)[keyof typeof GetSsoOidcCallback200LicenseEdition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback200LicenseEdition = {
@@ -239,7 +242,7 @@ export type GetSsoOidcCallback200 = {
 
 export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
 
-export type SsoOidcProvider = typeof SsoOidcProvider[keyof typeof SsoOidcProvider]
+export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvider]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcProvider = {
@@ -248,7 +251,7 @@ export const SsoOidcProvider = {
 } as const
 
 export type SsoOidcPreferredAuthMethodsItem =
-  typeof SsoOidcPreferredAuthMethodsItem[keyof typeof SsoOidcPreferredAuthMethodsItem]
+  (typeof SsoOidcPreferredAuthMethodsItem)[keyof typeof SsoOidcPreferredAuthMethodsItem]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcPreferredAuthMethodsItem = {
@@ -259,7 +262,7 @@ export const SsoOidcPreferredAuthMethodsItem = {
   none: 'none',
 } as const
 
-export type SsoOidcBackend = typeof SsoOidcBackend[keyof typeof SsoOidcBackend]
+export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcBackend = {
@@ -283,7 +286,7 @@ export interface SsoOidc {
   client_jwks?: SsoOidcClientJwks
 }
 
-export type SsoLoginBackend = typeof SsoLoginBackend[keyof typeof SsoLoginBackend]
+export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoLoginBackend = {
@@ -294,14 +297,15 @@ export interface SsoLogin {
   backend: SsoLoginBackend
 }
 
-export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
+export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoLdapBackend = {
   ldap: 'ldap',
 } as const
 
-export type SsoClientFileJwksType = typeof SsoClientFileJwksType[keyof typeof SsoClientFileJwksType]
+export type SsoClientFileJwksType =
+  (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoClientFileJwksType = {
@@ -315,7 +319,7 @@ export interface SsoClientFileJwks {
 
 export type LdapSslServerNameIndication = string | 'disable'
 
-export type LdapSslPartialChain = typeof LdapSslPartialChain[keyof typeof LdapSslPartialChain]
+export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
@@ -325,7 +329,7 @@ export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
 } as const
 
-export type LdapSslLogLevel = typeof LdapSslLogLevel[keyof typeof LdapSslLogLevel]
+export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
@@ -341,7 +345,7 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
+export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
@@ -384,7 +388,7 @@ export interface SsoLdap {
   ssl?: LdapSsl
 }
 
-export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
+export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSamlBackend = {
@@ -401,7 +405,8 @@ export interface DashboardSaml {
   sp_private_key?: string
 }
 
-export type DashboardLoginBackend = typeof DashboardLoginBackend[keyof typeof DashboardLoginBackend]
+export type DashboardLoginBackend =
+  (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardLoginBackend = {
@@ -413,13 +418,13 @@ export interface DashboardLogin {
 }
 
 export type DashboardSsoBackendStatusBackend =
-  typeof DashboardSsoBackendStatusBackend[keyof typeof DashboardSsoBackendStatusBackend]
+  (typeof DashboardSsoBackendStatusBackend)[keyof typeof DashboardSsoBackendStatusBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export interface DashboardSsoBackendStatus {

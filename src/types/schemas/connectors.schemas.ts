@@ -486,6 +486,42 @@ export type PostConnectorsProbe400 = {
 
 export type PostConnectorsProbeBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
+export interface TdengineConnectorPut {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  username?: string
+  password: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+}
+
+export type TdengineConnectorPostType =
+  (typeof TdengineConnectorPostType)[keyof typeof TdengineConnectorPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TdengineConnectorPostType = {
+  tdengine: 'tdengine',
+} as const
+
+export interface TdengineConnectorPost {
+  type: TdengineConnectorPostType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  server: string
+  pool_size?: number
+  username?: string
+  password: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+}
+
 export type PostConnectorsProbeBody =
   | BridgeTimescalePostConnector
   | BridgeMongodbPostConnector
@@ -570,21 +606,6 @@ export interface TdengineConnectorConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface TdengineConnectorPost {
-  type: TdengineConnectorPostType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  server: string
-  pool_size?: number
-  username?: string
-  password: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  resource_opts?: TdengineConnectorConnectorResourceOpts
 }
 
 export interface TdengineConnectorGet {
@@ -720,6 +741,20 @@ export interface S3TransportOptions {
   request_timeout?: string
 }
 
+export interface RocketmqPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  servers: string
+  namespace?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  pool_size?: number
+  ssl?: EmqxSslClientOpts
+  resource_opts?: RocketmqConnectorResourceOpts
+}
+
 export type RocketmqPostConnectorType =
   (typeof RocketmqPostConnectorType)[keyof typeof RocketmqPostConnectorType]
 
@@ -767,20 +802,6 @@ export interface RocketmqConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface RocketmqPutConnector {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  servers: string
-  namespace?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  pool_size?: number
-  ssl?: EmqxSslClientOpts
-  resource_opts?: RocketmqConnectorResourceOpts
 }
 
 export interface RocketmqGetConnector {
@@ -940,6 +961,29 @@ export interface RedisGetConnector {
   parameters: RedisGetConnectorParameters
   resource_opts?: RedisConnectorResourceOpts
   ssl?: EmqxSslClientOpts
+}
+
+export type RabbitmqPostType = (typeof RabbitmqPostType)[keyof typeof RabbitmqPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RabbitmqPostType = {
+  rabbitmq: 'rabbitmq',
+} as const
+
+export type RabbitmqGetStatus = (typeof RabbitmqGetStatus)[keyof typeof RabbitmqGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RabbitmqGetStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface RabbitmqConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export interface RabbitmqPut {
@@ -1693,6 +1737,22 @@ export const GcpPubsubProducerPostConnectorType = {
   gcp_pubsub_producer: 'gcp_pubsub_producer',
 } as const
 
+export interface GcpPubsubProducerPostConnector {
+  type: GcpPubsubProducerPostConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  connect_timeout?: string
+  pool_size?: number
+  pipelining?: number
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+  service_account_json: string
+  resource_opts?: GcpPubsubProducerConnectorResourceOpts
+}
+
 export type GcpPubsubProducerGetConnectorStatus =
   (typeof GcpPubsubProducerGetConnectorStatus)[keyof typeof GcpPubsubProducerGetConnectorStatus]
 
@@ -1718,22 +1778,6 @@ export interface GcpPubsubProducerConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface GcpPubsubProducerPostConnector {
-  type: GcpPubsubProducerPostConnectorType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  connect_timeout?: string
-  pool_size?: number
-  pipelining?: number
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-  service_account_json: string
-  resource_opts?: GcpPubsubProducerConnectorResourceOpts
-}
-
 export interface GcpPubsubProducerGetConnector {
   type: GcpPubsubProducerGetConnectorType
   name: string
@@ -1754,20 +1798,6 @@ export interface GcpPubsubProducerGetConnector {
   resource_opts?: GcpPubsubProducerConnectorResourceOpts
 }
 
-export interface GcpPubsubConsumerPutConnector {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  connect_timeout?: string
-  pool_size?: number
-  pipelining?: number
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-  service_account_json: string
-  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
-}
-
 export type GcpPubsubConsumerPostConnectorType =
   (typeof GcpPubsubConsumerPostConnectorType)[keyof typeof GcpPubsubConsumerPostConnectorType]
 
@@ -1775,22 +1805,6 @@ export type GcpPubsubConsumerPostConnectorType =
 export const GcpPubsubConsumerPostConnectorType = {
   gcp_pubsub_consumer: 'gcp_pubsub_consumer',
 } as const
-
-export interface GcpPubsubConsumerPostConnector {
-  type: GcpPubsubConsumerPostConnectorType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  connect_timeout?: string
-  pool_size?: number
-  pipelining?: number
-  max_retries?: number
-  /** @deprecated */
-  request_timeout?: string
-  service_account_json: string
-  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
-}
 
 export type GcpPubsubConsumerGetConnectorStatus =
   (typeof GcpPubsubConsumerGetConnectorStatus)[keyof typeof GcpPubsubConsumerGetConnectorStatus]
@@ -1815,6 +1829,36 @@ export interface GcpPubsubConsumerConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface GcpPubsubConsumerPutConnector {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  connect_timeout?: string
+  pool_size?: number
+  pipelining?: number
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+  service_account_json: string
+  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
+}
+
+export interface GcpPubsubConsumerPostConnector {
+  type: GcpPubsubConsumerPostConnectorType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  connect_timeout?: string
+  pool_size?: number
+  pipelining?: number
+  max_retries?: number
+  /** @deprecated */
+  request_timeout?: string
+  service_account_json: string
+  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
 }
 
 export interface GcpPubsubConsumerGetConnector {
@@ -2284,6 +2328,11 @@ export interface ConnectorPostgresGetConnector {
   resource_opts?: ConnectorPostgresResourceOpts
 }
 
+export interface ConnectorMqttStaticClientidEntry {
+  node: string
+  ids: string[]
+}
+
 export interface ConnectorMqttResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
@@ -2321,6 +2370,7 @@ export interface ConnectorMqttPutConnector {
   mode?: ConnectorMqttPutConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttPutConnectorProtoVer
@@ -2375,6 +2425,7 @@ export interface ConnectorMqttPostConnector {
   mode?: ConnectorMqttPostConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttPostConnectorProtoVer
@@ -2444,6 +2495,7 @@ export interface ConnectorMqttGetConnector {
   mode?: ConnectorMqttGetConnectorMode
   server: string
   clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
   /** @deprecated */
   reconnect_interval?: string
   proto_ver?: ConnectorMqttGetConnectorProtoVer

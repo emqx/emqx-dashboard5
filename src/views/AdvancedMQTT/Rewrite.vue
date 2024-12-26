@@ -2,14 +2,9 @@
   <div class="app-wrapper rewrite">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        @click="openOpDialog()"
-        :icon="Plus"
-      >
+      <CreateButton @click="openOpDialog()">
         {{ $t('Base.add') }}
-      </el-button>
+      </CreateButton>
     </div>
     <el-table :data="rewriteTbData" v-loading="tbDataLoading">
       <el-table-column :label="tl('action')" prop="action" :min-width="108">
@@ -22,17 +17,12 @@
       <el-table-column :label="tl('dTopic')" prop="dest_topic" :min-width="128" />
       <el-table-column :label="$t('Base.operation')" :min-width="146">
         <template #default="{ $index }">
-          <el-button size="small" :disabled="!$hasPermission('put')" @click="openOpDialog($index)">
+          <TableButton :disabled="!$hasPermission('put')" @click="openOpDialog($index)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteRewrite($index)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteRewrite($index)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -91,7 +81,6 @@ import { getLabelFromValueInOptionList } from '@/common/tools'
 import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Rewrite } from '@/types/extension'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { nextTick, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -109,28 +98,28 @@ const createRawRewriteForm = () => ({
   dest_topic: '',
 })
 
-let opRewrite = ref(false)
-let rewriteTbData: Ref<Array<Rewrite>> = ref([])
-let isEdit = ref(false)
+const opRewrite = ref(false)
+const rewriteTbData: Ref<Array<Rewrite>> = ref([])
+const isEdit = ref(false)
 const actionOpts = [
   { value: 'publish', label: 'Publish' },
   { value: 'subscribe', label: 'Subscribe' },
   { value: 'all', label: 'Publish & Subscribe' },
 ]
-let rewriteInput: Ref<Rewrite> = ref(createRawRewriteForm())
-let editPos: Ref<undefined | number> = ref(undefined)
-let submitLoading = ref(false)
-let tbDataLoading = ref(true)
-let rewriteForm = ref()
+const rewriteInput: Ref<Rewrite> = ref(createRawRewriteForm())
+const editPos: Ref<undefined | number> = ref(undefined)
+const submitLoading = ref(false)
+const tbDataLoading = ref(true)
+const rewriteForm = ref()
 
-let validatorRules = [
+const validatorRules = [
   {
     required: true,
     message: tl('required'),
     trigger: ['blur', 'change'],
   },
 ]
-let rewriteRules = {
+const rewriteRules = {
   action: validatorRules,
   source_topic: validatorRules,
   dest_topic: validatorRules,
@@ -156,7 +145,7 @@ const submitRewrite = async function (edit = false) {
   }
   await rewriteForm.value?.validate()
   try {
-    let pendingTbData = [...rewriteTbData.value]
+    const pendingTbData = [...rewriteTbData.value]
     if (!edit) {
       pendingTbData.push({ ...rewriteInput.value })
     } else {
@@ -186,7 +175,7 @@ const deleteRewrite = async function (index: number) {
     type: 'warning',
   })
   try {
-    let pendingTbData = [...rewriteTbData.value]
+    const pendingTbData = [...rewriteTbData.value]
     pendingTbData.splice(index, 1)
     ElMessage.success(t('Base.deleteSuccess'))
     await editTopicRewrite(pendingTbData)

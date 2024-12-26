@@ -41,15 +41,13 @@
             </span>
           </component>
         </template>
-        <el-button
+        <CreateButton
           class="btn-add"
           :disabled="!$hasPermission('post') || disabled"
-          type="primary"
-          :icon="Plus"
           @click="openOutputDrawer(false)"
         >
           {{ tl('addAction') }}
-        </el-button>
+        </CreateButton>
       </el-col>
     </el-row>
   </div>
@@ -77,7 +75,6 @@ import { useRuleOutputs } from '@/hooks/Rule/rule/useRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import type { PropType, Ref, WritableComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, ref } from 'vue'

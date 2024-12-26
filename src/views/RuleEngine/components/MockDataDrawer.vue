@@ -35,7 +35,7 @@
       <TestSQLContextForm v-model="testParams.context" />
     </div>
     <template #footer>
-      <el-button v-if="isFormModified" plain :icon="RefreshRight" @click="resetContext">
+      <el-button v-if="isFormModified" plain :icon="RefreshLeft" @click="resetContext">
         {{ t('Base.reset') }}
       </el-button>
       <el-button @click="showDrawer = false" :disabled="isSubmitting">
@@ -53,7 +53,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { useMockData } from '@/hooks/Rule/rule/useDebugRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
-import { CaretRight, RefreshRight } from '@element-plus/icons-vue'
+import { CaretRight, RefreshLeft } from '@element-plus/icons-vue'
 import type { PropType, WritableComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'

@@ -2,14 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="showDialog()"
-      >
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="showDialog()" />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -27,31 +20,24 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('put')"
-            @click="showDialog('edit', row)"
-          >
+          <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button
+          </TableButton>
+          <TableButton
             v-if="canChangePwd(row)"
-            size="small"
             :disabled="!isCurrentUser(row.username) && !$hasPermission('put')"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
-          </el-button>
+          </TableButton>
 
-          <el-button
-            plain
-            size="small"
+          <TableButton
             :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
             v-if="!isCurrentUser(row.username) && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -61,8 +47,8 @@
         accessType === 'edit'
           ? tl('editorUser')
           : accessType === 'chPass'
-          ? tl('changePassword')
-          : tl('creatingUser')
+            ? tl('changePassword')
+            : tl('creatingUser')
       "
       v-model="dialogVisible"
       destroy-on-close
@@ -155,7 +141,6 @@ import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl.ts'
 import { UserRole } from '@/types/enum.ts'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
@@ -317,7 +302,7 @@ const save = async () => {
       await updateUser(username, pick(record.value, ['description', 'role']), backend)
       ElMessage.success(t('Base.updateSuccess'))
     } else if (accessType.value === 'chPass') {
-      let pass = {
+      const pass = {
         new_pwd: record.value.newPassword,
         old_pwd: record.value.password,
       }

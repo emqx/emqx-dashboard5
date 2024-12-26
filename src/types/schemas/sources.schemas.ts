@@ -621,6 +621,7 @@ export const BridgeMqttPublisherPostSourceType = {
 } as const
 
 export interface BridgeMqttPublisherIngressParameters {
+  no_local?: boolean
   topic: string
   qos?: number
 }

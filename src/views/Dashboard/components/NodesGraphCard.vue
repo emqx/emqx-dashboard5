@@ -4,7 +4,10 @@
       <div class="nodes-graph-container">
         <span class="node-count">
           <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
-          {{ clusterName ? `${clusterName} -` : '' }}
+          <span class="cluster-name">
+            <CommonOverflowTooltip :content="clusterName" />
+          </span>
+          <span v-if="clusterName">&nbsp;-&nbsp;</span>
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
         <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
@@ -137,6 +140,7 @@ import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
@@ -160,10 +164,10 @@ const {
  * first time get node data, select the first node
  */
 let isInitialized = false
-let stats: Ref<Array<NodeStatisticalData>> = ref([])
-let graph: Ref<undefined | HTMLElement> = ref(undefined)
+const stats: Ref<Array<NodeStatisticalData>> = ref([])
+const graph: Ref<undefined | HTMLElement> = ref(undefined)
 const currentNodeName = ref('')
-let infoLoading: Ref<boolean> = ref(true)
+const infoLoading: Ref<boolean> = ref(true)
 
 const currentInfo = computed(() => {
   if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
@@ -175,7 +179,7 @@ const currentInfo = computed(() => {
 const { transMsNumToSimpleStr } = useDurationStr()
 const { syncPolling } = useSyncPolling()
 
-let getStats = async () => {
+const getStats = async () => {
   try {
     stats.value = await loadStats()
   } catch (error) {
@@ -191,7 +195,7 @@ const getNodeInfoByName = (nodeName: string) => {
 
 const { tl } = useI18nTl('Dashboard')
 
-let calcMemoryPercentage = computed(() => {
+const calcMemoryPercentage = computed(() => {
   return calcPercentage(
     currentInfo.value.node['memory_used'],
     currentInfo.value.node['memory_total'],
@@ -267,8 +271,12 @@ syncPolling(loadData, POLLING_INTERVAL)
     background: var(--bg-hover);
     display: flex;
     align-items: center;
+    z-index: 1;
     img {
       margin-right: 6px;
+    }
+    .cluster-name {
+      max-width: 80px;
     }
   }
 }

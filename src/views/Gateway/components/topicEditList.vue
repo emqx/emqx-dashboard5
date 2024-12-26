@@ -23,18 +23,14 @@
         </el-table-column>
         <el-table-column width="80">
           <template #header>
-            <el-button
-              size="small"
-              @click="addTopic()"
-              :disabled="disableAdd() || !$hasPermission('post')"
-            >
+            <TableButton @click="addTopic()" :disabled="disableAdd() || !$hasPermission('post')">
               {{ t('Base.add') }}
-            </el-button>
+            </TableButton>
           </template>
           <template #default="{ row }">
-            <el-button size="small" :disabled="!$hasPermission('delete')" @click="delTopic(row)">
+            <TableButton :disabled="!$hasPermission('delete')" @click="delTopic(row)">
               {{ t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>

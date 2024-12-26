@@ -11,7 +11,7 @@
       <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
       <el-table-column :label="'Payload'" :min-width="84">
         <template #default="{ row }">
-          <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
+          <TableButton @click="checkPayload(row)">{{ tl('openPayload') }}</TableButton>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.clientid')" prop="from_clientid" :min-width="146" />
@@ -25,14 +25,9 @@
 
       <el-table-column :label="$t('Base.operation')" :min-width="92">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteDelayedInfo(row)"
-          >
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteDelayedInfo(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -63,13 +58,13 @@ import { useRouter } from 'vue-router'
 
 const { tl, t } = useI18nTl('Extension')
 const router = useRouter()
-let copyShowTimeout: Ref<undefined | number> = ref(undefined)
+const copyShowTimeout: Ref<undefined | number> = ref(undefined)
 
-let delayedTbData: Ref<Array<DelayedMessage>> = ref([])
-let tbLoading = ref(false)
-let payloadDialog = ref(false)
-let payloadLoading = ref(false)
-let payloadDetail = ref('')
+const delayedTbData: Ref<Array<DelayedMessage>> = ref([])
+const tbLoading = ref(false)
+const payloadDialog = ref(false)
+const payloadLoading = ref(false)
+const payloadDetail = ref('')
 const currentTopic = ref('')
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
@@ -79,7 +74,7 @@ const goSetting = () => {
 
 const loadDelayedList = async (params = {}) => {
   tbLoading.value = true
-  let sendParams = { ...pageParams.value, ...params }
+  const sendParams = { ...pageParams.value, ...params }
   try {
     const { data, meta } = await getDelayedList(sendParams)
     delayedTbData.value = data
@@ -117,7 +112,7 @@ const checkPayload = async function (row: DelayedMessage) {
   payloadDetail.value = ''
   const { msgid, node, topic } = row
   try {
-    let res = await getDelayedInfo(node, msgid)
+    const res = await getDelayedInfo(node, msgid)
     if (res) {
       currentTopic.value = topic
       payloadDetail.value = res?.payload

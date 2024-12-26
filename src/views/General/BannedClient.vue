@@ -31,26 +31,15 @@
         </el-col>
 
         <el-col v-bind="colProps" class="buttons-wrap">
-          <el-button type="primary" plain :icon="Search" @click="refreshListData">
-            {{ t('Base.search') }}
-          </el-button>
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ t('Base.reset') }}
-          </el-button>
+          <SearchButton @click="refreshListData" />
+          <ResetButton @click="handleReset" />
         </el-col>
       </el-row>
     </el-form>
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button
-          type="primary"
-          :icon="Plus"
-          :disabled="!$hasPermission('post')"
-          @click="dialogVisible = true"
-        >
-          {{ t('Base.create') }}
-        </el-button>
+        <CreateButton @click="dialogVisible = true" />
         <el-button
           type="danger"
           plain
@@ -77,14 +66,9 @@
         </el-table-column>
         <el-table-column prop="oper" :label="t('Base.operation')">
           <template #default="{ row }">
-            <el-button
-              plain
-              size="small"
-              :disabled="!$hasPermission('delete')"
-              @click="deleteConfirm(row)"
-            >
+            <TableButton :disabled="!$hasPermission('delete')" @click="deleteConfirm(row)">
               {{ t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>
@@ -108,7 +92,7 @@ import useBannedType from '@/hooks/Auth/useBannedType'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { BannedItem } from '@/types/systemModule'
-import { Plus, RefreshLeft, Remove, Search } from '@element-plus/icons-vue'
+import { Remove } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Banned } from '@/types/auth'

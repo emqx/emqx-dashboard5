@@ -3,14 +3,7 @@
     <template v-if="!isEmpty">
       <div class="section-header">
         <div></div>
-        <el-button
-          type="primary"
-          :disabled="isLoading || !$hasPermission('post')"
-          @click="addWebhook"
-          :icon="Plus"
-        >
-          {{ $t('Base.create') }}
-        </el-button>
+        <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
       </div>
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
@@ -36,21 +29,16 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('put')"
-              @click="goEditWebhook(row.name)"
-            >
+            <TableButton :disabled="!$hasPermission('put')" @click="goEditWebhook(row.name)">
               {{ $t('Base.edit') }}
-            </el-button>
-            <el-button
-              size="small"
+            </TableButton>
+            <TableButton
               :disabled="!$hasPermission('delete')"
               :loading="deleteLoading"
               @click="handleDeleteWebhook(row)"
             >
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
             <!-- <TableItemDropdown :row-data="row" /> -->
           </template>
         </el-table-column>
@@ -73,7 +61,6 @@ import useWebhookList from '@/hooks/Webhook/useWebhookList'
 import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'

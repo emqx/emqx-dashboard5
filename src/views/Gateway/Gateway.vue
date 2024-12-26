@@ -51,22 +51,21 @@
       <el-table-column :label="$t('Base.operation')" :min-width="276">
         <template #default="{ row }">
           <template v-if="hasBeenInitialized(row)">
-            <el-button size="small" :disabled="isUnload(row.status)" @click="goSettingPage(row)">
+            <TableButton :disabled="isUnload(row.status)" @click="goSettingPage(row)">
               {{ t('Base.setting') }}
-            </el-button>
-            <el-button size="small" :disabled="!isRunning(row.status)" @click="goClientPage(row)">
+            </TableButton>
+            <TableButton :disabled="!isRunning(row.status)" @click="goClientPage(row)">
               {{ tl('clients') }}
-            </el-button>
+            </TableButton>
           </template>
-          <el-button
+          <TableButton
             v-else
             type="primary"
-            size="small"
             :disabled="!$hasPermission('post')"
             @click="setupGateway(row)"
           >
             {{ tl('setup') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -88,8 +87,8 @@ import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'Gateway',
   setup() {
-    let tbData = ref<GatewayItem[]>([])
-    let tbLoading = ref(false)
+    const tbData = ref<GatewayItem[]>([])
+    const tbLoading = ref(false)
     const enableStr = GatewayStatus.Running
     const disableStr = GatewayStatus.Stopped
     const unloadStr = GatewayStatus.Unloaded
@@ -106,7 +105,7 @@ export default defineComponent({
       tbLoading.value = true
       tbData.value = []
       try {
-        let res: Array<GatewayItem> = await getGatewayList()
+        const res: Array<GatewayItem> = await getGatewayList()
         tbData.value = res.sort((a, b) => a.status.localeCompare(b.status))
       } catch (error) {
         //

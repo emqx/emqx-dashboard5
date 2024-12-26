@@ -84,18 +84,14 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')" width="160">
           <template #default="{ $index }">
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('put')"
-              @click="editWhiteListItem($index)"
-            >
+            <TableButton :disabled="!$hasPermission('put')" @click="editWhiteListItem($index)">
               {{ $t('Base.edit') }}
-            </el-button>
+            </TableButton>
             <el-popconfirm :title="t('Base.confirmDelete')" @confirm="deleteWhiteListItem($index)">
               <template #reference>
-                <el-button plain size="small" :disabled="!$hasPermission('delete')">
+                <TableButton :disabled="!$hasPermission('delete')">
                   {{ $t('Base.delete') }}
-                </el-button>
+                </TableButton>
               </template>
             </el-popconfirm>
           </template>
@@ -116,18 +112,14 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')" width="160">
           <template #default="{ $index }">
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('put')"
-              @click="editWhiteListItem($index)"
-            >
+            <TableButton :disabled="!$hasPermission('put')" @click="editWhiteListItem($index)">
               {{ $t('Base.edit') }}
-            </el-button>
+            </TableButton>
             <el-popconfirm :title="t('Base.confirmDelete')" @confirm="deleteWhiteListItem($index)">
               <template #reference>
-                <el-button plain size="small" :disabled="!$hasPermission('delete')">
+                <TableButton :disabled="!$hasPermission('delete')">
                   {{ $t('Base.delete') }}
-                </el-button>
+                </TableButton>
               </template>
             </el-popconfirm>
           </template>

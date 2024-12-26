@@ -2,14 +2,9 @@
   <div class="app-wrapper subscribe">
     <div class="section-header">
       <div></div>
-      <el-button
-        :disabled="!$hasPermission('post')"
-        type="primary"
-        @click="openOpDialog()"
-        :icon="Plus"
-      >
+      <CreateButton @click="openOpDialog()">
         {{ $t('Base.add') }}
-      </el-button>
+      </CreateButton>
     </div>
 
     <el-table :data="subTbData" v-loading="tbLoading">
@@ -28,20 +23,12 @@
       <el-table-column :label="$t('Clients.retainHandling')" prop="rh" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ $index }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('put')"
-            @click="openOpDialog($index)"
-            >{{ $t('Base.edit') }}</el-button
-          >
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteSubs($index)"
-          >
+          <TableButton :disabled="!$hasPermission('put')" @click="openOpDialog($index)">
+            {{ $t('Base.edit') }}
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteSubs($index)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -130,7 +117,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { QoSLevel } from '@/types/enum'
 import { AutoSubscribe } from '@/types/extension'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { nextTick, onMounted, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -148,16 +134,16 @@ const createRawSubForm = (): AutoSubscribe => ({
 
 const { t } = useI18n()
 const { tl } = useI18nTl('Extension')
-let isEdit = ref(false)
-let opSubs = ref(false)
-let subTbData: Ref<Array<AutoSubscribe>> = ref([])
+const isEdit = ref(false)
+const opSubs = ref(false)
+const subTbData: Ref<Array<AutoSubscribe>> = ref([])
 const { noLocalOpts, retainAsPublishedOpts, retainHandlingOpts } = useMQTTVersion5NewConfig()
-let subsInput = ref(createRawSubForm())
-let editPos: Ref<undefined | number> = ref(undefined)
-let submitLoading = ref(false)
-let tbLoading = ref(false)
-let subsForm = ref()
-let subsRules = {
+const subsInput = ref(createRawSubForm())
+const editPos: Ref<undefined | number> = ref(undefined)
+const submitLoading = ref(false)
+const tbLoading = ref(false)
+const subsForm = ref()
+const subsRules = {
   topic: [
     {
       required: true,
@@ -167,7 +153,7 @@ let subsRules = {
   ],
 }
 
-let openOpDialog = async (editIndex?: number) => {
+const openOpDialog = async (editIndex?: number) => {
   opSubs.value = true
   isEdit.value = editIndex !== undefined
   const target = isEdit.value ? subTbData.value[editIndex as number] : undefined
@@ -191,7 +177,7 @@ const submitSubs = async function (edit = false) {
   try {
     await subsForm.value?.validate()
     submitLoading.value = true
-    let pendingTbData = [...subTbData.value]
+    const pendingTbData = [...subTbData.value]
     if (!edit) {
       pendingTbData.push(subsInput.value)
     } else {
@@ -217,7 +203,7 @@ const deleteSubs = async function (index: number) {
       confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
-    let pendingTbData = [...subTbData.value]
+    const pendingTbData = [...subTbData.value]
     pendingTbData.splice(index, 1)
     await editSubscribe(pendingTbData)
     ElMessage.success(t('Base.deleteSuccess'))
@@ -232,7 +218,7 @@ const closeDialog = () => {
   subsInput.value = createRawSubForm()
 }
 
-let loadData = async () => {
+const loadData = async () => {
   try {
     tbLoading.value = true
     subTbData.value = await getSubscribe()
