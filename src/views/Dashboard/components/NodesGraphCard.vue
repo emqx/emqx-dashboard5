@@ -12,9 +12,9 @@
         <div class="node-info" v-if="currentInfo">
           <div class="node-card-header">
             <div class="node-title">{{ tl('nodeData') }}</div>
-            <a class="nodes-link" href="javascript:;" @click="$router.push('nodes')">
+            <router-link class="nodes-link" :to="{ name: 'nodes' }">
               {{ tl('viewNodes') }}<el-icon><Right /></el-icon>
-            </a>
+            </router-link>
           </div>
           <div class="node-card-body">
             <el-row :gutter="26">
