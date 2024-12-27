@@ -24,7 +24,9 @@
         </template>
       </div>
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <CreateButton class="icon-button" @click="handleAdd"><span /></CreateButton>
+        <CreateButton class="icon-button" @click="handleAdd"  >
+          <template v-if="false"></template>
+        </CreateButton>
       </el-tooltip>
     </div>
     <el-table
