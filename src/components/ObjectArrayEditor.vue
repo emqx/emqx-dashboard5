@@ -34,14 +34,14 @@
     </el-table-column>
     <el-table-column width="80px" v-if="!disabled">
       <template #header>
-        <a href="javascript:;" @click="addItem">
+        <el-button link type="primary" @click="addItem">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ $index }">
-        <a href="javascript:;" @click="deleteItem($index)">
+        <el-button link type="primary" @click="deleteItem($index)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
