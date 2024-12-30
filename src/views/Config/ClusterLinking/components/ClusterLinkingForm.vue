@@ -73,24 +73,11 @@
                       @click="delTopic($index)"
                     />
                   </el-tooltip>
-                  <el-button
-                    v-if="$index === record.topics.length - 1"
-                    class="btn-add"
-                    :icon="Plus"
-                    :disabled="!$hasPermission('post')"
-                    @click="addTopic"
-                  />
                 </div>
               </el-form-item>
             </li>
           </ul>
-          <el-button
-            v-if="!record.topics.length"
-            class="btn-add"
-            :icon="Plus"
-            :disabled="!$hasPermission('post')"
-            @click="addTopic"
-          />
+          <AddItemButton class="btn-add" @click="addTopic" />
         </el-form-item>
       </el-col>
     </el-row>
