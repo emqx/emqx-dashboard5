@@ -6,7 +6,7 @@
       :model="builtConfig"
       :rules="rules"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
     >
       <el-row :gutter="20" v-if="authType === 'authz'">
         <el-col :span="12">
@@ -59,6 +59,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import type { PropType } from 'vue'
 import { defineComponent, reactive, ref, watch } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   name: 'BuiltInConfig',
@@ -107,6 +108,7 @@ export default defineComponent({
     })
     return {
       tl,
+      COMMON_FORM_LABEL_WIDTH,
       builtConfig,
       formCom,
       rules,

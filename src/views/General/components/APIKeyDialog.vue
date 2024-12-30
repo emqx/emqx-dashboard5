@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="showDialog"
-    :width="600"
+    :width="getPopupSize(120)"
     class="API-key-dialog"
     :title="dialogTitle"
     :z-index="2000"
@@ -121,6 +121,7 @@ import useCopy from '@/hooks/useCopy'
 import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useFormRules from '@/hooks/useFormRules'
 import useRole from '@/hooks/SSO/useRole'
+import { getPopupSize } from '@/common/tools'
 
 export type OperationType = 'create' | 'view' | 'edit'
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form class="tong-form" label-width="200px">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH">
       <div>
         <el-row :gutter="30">
           <el-col :span="12">
@@ -75,6 +75,7 @@ import { useI18n } from 'vue-i18n'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   name: 'ExprotoBasic',
@@ -135,6 +136,7 @@ export default defineComponent({
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       eValueDefault,
       eValue,
+      COMMON_FORM_LABEL_WIDTH,
     }
   },
 })

@@ -2,7 +2,7 @@
   <el-dialog
     v-bind="$attrs"
     :title="$t('Clients.addASubscription')"
-    width="400px"
+    :size="getPopupSize(160)"
     v-model="dialogVisible"
     @close="close"
     @open="open"
@@ -81,6 +81,7 @@ export default {
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
 import { QoSOptions } from '@/common/constants'
+import { getPopupSize } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { QoSLevel } from '@/types/enum'

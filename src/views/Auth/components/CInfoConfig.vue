@@ -5,7 +5,7 @@
       :model="cinfoConfig"
       :rules="rules"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
     >
       <el-row :gutter="20">
         <el-col :span="20">
@@ -29,6 +29,7 @@ import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { cloneDeep } from 'lodash'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   modelValue: {

@@ -30,6 +30,7 @@
   <el-dialog
     v-model="opRewrite"
     :title="(isEdit ? $t('Base.edit') : $t('Base.add')) + ' ' + tl('rewrite')"
+    :width="getPopupSize(160)"
     @close="initForm"
   >
     <TipContainer :content="tl('rewriteTip')" />
@@ -39,7 +40,7 @@
       :rules="rewriteRules"
       @keyup.enter="submitRewrite(isEdit)"
       class="tong-form"
-      label-width="160px"
+      :label-width="160"
     >
       <el-form-item :label="tl('action')" prop="action">
         <el-select v-model="rewriteInput.action">
@@ -77,7 +78,7 @@
 
 <script lang="ts" setup>
 import { editTopicRewrite, getTopicRewrite } from '@/api/extension'
-import { getLabelFromValueInOptionList } from '@/common/tools'
+import { getLabelFromValueInOptionList, getPopupSize } from '@/common/tools'
 import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Rewrite } from '@/types/extension'

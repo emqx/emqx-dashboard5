@@ -104,9 +104,6 @@
   .common-tls-config,
   .TLS-enable-config {
     flex-grow: 1;
-    .TLS-input {
-      width: 100%;
-    }
   }
   .el-form-item {
     .common-tls-config {
@@ -117,26 +114,24 @@
     width: 100%;
   }
   .configuration-form {
-    $base-number-input-width: 160px + 120px;
-    $base-input-width: 280px + 120px;
+    $input-width: 400px;
     // src/style/common.scss:309:16
-    $input-append-width: 120px;
     .el-form-item__content,
     .oneof-item {
       > .el-select,
       > .el-input-number {
-        width: $base-number-input-width;
+        width: $input-width;
       }
       > .el-input,
       > .el-textarea {
-        width: $base-input-width;
+        width: $input-width;
       }
       > .textarea-with-uploader,
       > .config-item-data-look {
-        width: $base-input-width * 1.5;
+        width: $input-width * 1.5;
       }
       > .input-with-unit {
-        width: $base-number-input-width + $input-append-width;
+        width: $input-width
       }
     }
     .el-table {

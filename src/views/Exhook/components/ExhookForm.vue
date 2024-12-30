@@ -4,7 +4,7 @@
     ref="formCom"
     :model="formData"
     :rules="rules"
-    label-width="200px"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
   >
     <el-row :gutter="24">
       <el-col :span="12">
@@ -83,6 +83,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Oneof from '@/components/Oneof.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'

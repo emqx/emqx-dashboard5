@@ -2,7 +2,7 @@
   <el-form
     ref="FormCom"
     class="event-form"
-    label-width="100px"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
     label-position="right"
     hide-required-asterisk
     :rules="rules"
@@ -23,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
 import useFormRules from '@/hooks/useFormRules'

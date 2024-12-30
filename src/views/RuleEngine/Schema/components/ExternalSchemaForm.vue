@@ -1,5 +1,11 @@
 <template>
-  <el-form ref="FormCom" class="tong-form" label-width="200px" :model="form" :rules="rules">
+  <el-form
+    ref="FormCom"
+    class="tong-form"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
+    :model="form"
+    :rules="rules"
+  >
     <el-row :gutter="24">
       <el-col :span="12">
         <el-form-item prop="name">
@@ -60,6 +66,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'

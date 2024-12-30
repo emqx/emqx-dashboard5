@@ -2,7 +2,7 @@
   <div class="http-config config">
     <el-form
       ref="formCom"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
       class="create-form tong-form"
       :model="httpConfig"
       :rules="rules"
@@ -130,6 +130,7 @@ import { ElMessageBox } from 'element-plus'
 import { isEqual } from 'lodash'
 import { computed, defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   name: 'HttpConfig',
@@ -238,6 +239,7 @@ export default defineComponent({
       validate,
       toggleNeedHelp,
       setDefaultContent,
+      COMMON_FORM_LABEL_WIDTH,
     }
   },
 })

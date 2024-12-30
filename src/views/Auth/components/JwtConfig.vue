@@ -9,7 +9,7 @@
       :model="jwtConfig"
       :rules="rules"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
     >
       <el-row :gutter="20">
         <!-- JWT -->
@@ -114,6 +114,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useJWTConfigForm from '@/hooks/Auth/useJWTConfigForm'
 import { defineComponent, reactive, watch } from 'vue'
 import useSSL from '@/hooks/useSSL'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   name: 'JwtConfig',
@@ -151,6 +152,7 @@ export default defineComponent({
       rules,
       handleUseJWKSChanged,
       validate,
+      COMMON_FORM_LABEL_WIDTH,
     }
   },
 })

@@ -47,7 +47,7 @@ export default (): {
     return drawerTitleMap[type]
   }
 
-  const drawerDefaultWidth = '560px'
+  const drawerDefaultWidth = `${400 + 200 + 16 * 2}px`
   const drawerWidthMap: Record<string, string> = {
     [ProcessingType.Filter]: '960px',
     [ProcessingType.Function]: '680px',

@@ -1,6 +1,6 @@
 <template>
   <div class="gbt32960-basic">
-    <el-form class="tong-form" label-width="200px" :model="gbtValue">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH" :model="gbtValue">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -61,6 +61,7 @@ import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   value: {

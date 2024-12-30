@@ -412,3 +412,6 @@ export const BANNED_NEVER_EXPIRE_VALUE = 'infinity'
 export const DEFAULT_PAGE_SIZE_OPT = [20, 50, 100, 500]
 
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048
+
+export const COMMON_FORM_LABEL_WIDTH = 200
+export const COMMON_FORM_CONTENT_WIDTH = 400

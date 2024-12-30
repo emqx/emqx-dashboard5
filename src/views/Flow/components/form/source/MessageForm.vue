@@ -1,8 +1,8 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="100px"
-    class="message-form"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
+    class="message-form tong-form"
     label-position="right"
     hide-required-asterisk
     :rules="rules"
@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'

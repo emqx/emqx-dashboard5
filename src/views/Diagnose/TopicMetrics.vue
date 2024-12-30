@@ -131,7 +131,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="tl('addTopic')" v-model="addVisible" width="400px">
+    <el-dialog :title="tl('addTopic')" v-model="addVisible" :width="getPopupSize(100)">
       <el-form
         ref="record"
         :model="topicInput"
@@ -169,7 +169,7 @@ import {
   deleteTopicMetrics,
   resetTopicMetrics,
 } from '@/api/diagnose'
-import { dateFormat } from '@/common/tools'
+import { dateFormat, getPopupSize } from '@/common/tools'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -370,6 +370,7 @@ export default defineComponent({
       tableExpandRowKeys,
       loadMetricsFromTopic,
       addLoading,
+      getPopupSize,
       getStrForConcat,
       getKey,
       getTopicClassName,

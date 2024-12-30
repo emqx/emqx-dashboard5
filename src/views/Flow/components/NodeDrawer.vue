@@ -90,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
@@ -230,7 +231,7 @@ const bridgeFormProps = {
 }
 const schemaProps = {
   formProps: {
-    labelWidth: '180px',
+    labelWidth: COMMON_FORM_LABEL_WIDTH,
     labelPosition: 'right',
     requireAsteriskPosition: 'left',
   },
@@ -241,7 +242,7 @@ const getSchemaBridgeProps = (type: string) => ({
   ...schemaProps,
   isSource: props.node?.type === FlowNodeType.Input,
   isUsingInFlow: true,
-  labelWidth: '180px',
+  labelWidth: COMMON_FORM_LABEL_WIDTH,
   hiddenFields: ['role'],
   type: type,
 })
@@ -251,8 +252,8 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
   [SinkType.RePub]: { isUsingInFlow: true },
-  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
-  [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px' },
+  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: COMMON_FORM_LABEL_WIDTH },
+  [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: COMMON_FORM_LABEL_WIDTH },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
@@ -410,9 +411,6 @@ watch(showDrawer, (val) => {
   .in-tab {
     padding-top: 24px;
   }
-  .action-select {
-    width: calc(100% - 120px);
-  }
   .bridge-config {
     .el-form-item {
       margin-top: 0;
@@ -427,20 +425,8 @@ watch(showDrawer, (val) => {
       text-align: right;
       line-height: 1.2;
     }
-    $input-append-width: 120px;
-    .el-form-item__content,
-    .oneof-item {
-      > .el-input:not(.el-input-group--append),
-      > .el-select,
-      .connector-select {
-        width: calc(100% - #{$input-append-width});
-      }
-    }
     .one-of {
       width: 100%;
-    }
-    .monaco-container {
-      width: calc(100% - #{$input-append-width} / 2);
     }
   }
   .el-alert {
@@ -450,10 +436,6 @@ watch(showDrawer, (val) => {
     .monaco-container {
       margin-top: 0;
     }
-  }
-  .message-form,
-  .event-form {
-    width: 80%;
   }
   .TLS-enable-config .TLS-input {
     width: 100%;

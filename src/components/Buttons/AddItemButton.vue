@@ -13,7 +13,7 @@ const { t } = useI18n()
 
 <style lang="scss">
 .add-item-button {
-  width: 100%;
+  width: 400px;
   &.el-button {
     border-style: dashed;
   }

@@ -55,6 +55,8 @@ body {
 
 * {
   box-sizing: border-box;
+  // src/common/constants.ts:416
+  --form-item-label-width: 200px;
 }
 
 a {
@@ -1065,13 +1067,13 @@ code {
     .el-button {
       padding-left: 8px;
       padding-right: 8px;
-      margin-left: 12px;
+      margin-left: 16px;
     }
   }
   .btn-container {
     position: absolute;
     top: 0;
-    right: -12px;
+    right: 0;
     transform: translateX(100%);
   }
 }
@@ -1100,7 +1102,7 @@ code {
   .advanced-settings-btn {
     margin-top: 0;
     margin-bottom: 24px;
-    margin-left: 200px;
+    margin-left: var(--form-item-label-width);
   }
   .btn-container {
     margin-top: 0;
@@ -1118,6 +1120,35 @@ code {
   }
 }
 
+.tong-form {
+  .el-form-item__content {
+    &> {
+      .el-input,
+      .el-textarea,
+      .el-input-number,
+      .el-select,
+      .el-autocomplete,
+      .one-of {
+        width: 400px;
+      }
+    }
+  }
+  .el-table,
+  .object-array-editor {
+    .el-input,
+    .el-textarea,
+    .el-input-number,
+    .el-select,
+    .el-autocomplete {
+      width: 100%;
+    }
+  }
+}
+.el-drawer {
+  .el-drawer__body {
+    padding: 20px 16px;
+  }
+}
 .el-drawer__body {
   > .el-form {
     padding-top: 4px;
