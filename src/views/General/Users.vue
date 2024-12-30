@@ -56,6 +56,7 @@
     >
       <el-form
         ref="formCom"
+        class="tong-form"
         :model="record"
         :rules="rules"
         label-width="120px"

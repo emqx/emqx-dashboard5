@@ -1,9 +1,9 @@
 <template>
   <div class="nav-header">
     <div class="header-left">
-      <div :class="['logo']">
+      <router-link :class="['logo']" to="/">
         <img src="@/assets/img/tongtech.svg" alt="emqx-logo" />
-      </div>
+      </router-link>
       <h1 class="header-title">{{ title }}</h1>
     </div>
     <div class="pull-right">

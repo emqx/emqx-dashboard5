@@ -1149,8 +1149,10 @@ code {
     padding: 20px 16px;
   }
 }
-.el-drawer__body {
+.el-drawer__body,
+.el-dialog__body {
   > .el-form {
     padding-top: 4px;
+    padding-bottom: 4px;
   }
 }
