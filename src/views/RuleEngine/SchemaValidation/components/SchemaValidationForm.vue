@@ -14,28 +14,7 @@
       </el-col>
       <el-col :span="15">
         <el-form-item prop="topics" :label="tl('msgSourceTopic')">
-          <ul class="topic-list">
-            <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
-              <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
-                <el-input v-model="formData.topics[$index]" />
-                <div class="btn-container vertical-align-center">
-                  <el-button
-                    class="btn-del"
-                    :icon="Delete"
-                    :disabled="formData.topics.length <= 1 || !$hasPermission('delete')"
-                    @click="delTopic($index)"
-                  />
-                  <el-button
-                    v-if="$index === formData.topics.length - 1"
-                    class="btn-add"
-                    :icon="Plus"
-                    :disabled="!$hasPermission('post')"
-                    @click="addTopic"
-                  />
-                </div>
-              </el-form-item>
-            </li>
-          </ul>
+          <EditTopicList v-model="topics" prop="topics" :rules="arrayItemRule.topic" />
         </el-form-item>
       </el-col>
       <el-col :span="15">
@@ -243,6 +222,7 @@ import {
 } from 'vue'
 import SQLContentDialog from '../../components/SQLContentDialog.vue'
 import SchemaCreateDrawer from './SchemaCreateDrawer.vue'
+import EditTopicList from '@/components/EditTopicList.vue'
 
 const props = defineProps({
   modelValue: {
@@ -325,6 +305,15 @@ const arrayItemRule = {
   message_type: createRequiredRule(tl('messageType')),
 }
 
+const topics = computed({
+  get() {
+    return Array.isArray(formData.value.topics) ? formData.value.topics : [formData.value.topics]
+  },
+  set(value) {
+    formData.value.topics = value
+  },
+})
+
 const { validationStrategyOpts } = useValidationStrategy()
 const { failureActionOpts } = useFailureAction()
 const { validationLogLevelOpts: rawValidationLogLevelOpts } = useValidationLogLevel()
@@ -332,21 +321,6 @@ const validationLogLevelOpts = rawValidationLogLevelOpts.filter(
   (item) => item.value !== SchemaValidationLogLevel.none,
 )
 const { validationItemTypeOpts, isSchemaRegistry } = useValidationItemType()
-
-const delTopic = (index: number) => {
-  if (Array.isArray(formData.value.topics)) {
-    formData.value.topics.splice(index, 1)
-  } else {
-    throw new Error('topics is not an array')
-  }
-}
-const addTopic = () => {
-  if (Array.isArray(formData.value.topics)) {
-    formData.value.topics.push('')
-  } else {
-    throw new Error('topics is not an array')
-  }
-}
 
 const addValidationItem = () => {
   formData.value.checks.push({
@@ -424,34 +398,6 @@ defineExpose({
 
 <style lang="scss">
 .message-validation-form {
-  .topic-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-
-  .topic-item {
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
-    .el-form-item {
-      width: 100%;
-      margin-bottom: 0;
-    }
-    .el-form-item__content {
-      position: relative;
-    }
-    .el-button {
-      margin-left: 12px;
-    }
-  }
-  .btn-container {
-    position: absolute;
-    top: 0;
-    right: -12px;
-    transform: translateX(100%);
-  }
   .column-type.el-table__cell {
     vertical-align: top;
   }

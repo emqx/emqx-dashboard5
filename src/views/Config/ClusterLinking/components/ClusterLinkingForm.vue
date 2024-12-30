@@ -52,7 +52,7 @@
               desc-marked
             />
           </template>
-          <ul class="topic-list">
+          <ul class="form-topic-list-vertical">
             <li class="topic-item" v-for="(item, $index) in record.topics" :key="$index">
               <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
                 <el-tooltip
@@ -68,7 +68,7 @@
                   >
                     <el-button
                       class="btn-del"
-                      :icon="Minus"
+                      :icon="Delete"
                       :disabled="disabledEditTopic($index) || !$hasPermission('delete')"
                       @click="delTopic($index)"
                     />
@@ -177,7 +177,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ClusterLinkingForm } from '@/types/typeAlias'
-import { Minus, Plus } from '@element-plus/icons-vue'
+import { Delete, Plus } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps, ref, defineExpose } from 'vue'
 
 const props = defineProps<{
@@ -251,35 +251,5 @@ defineExpose({ validate })
 .cluster-linking-form {
   width: 75%;
   margin-bottom: 36px;
-  .topic-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-
-  .topic-item {
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
-    .el-form-item {
-      width: 100%;
-      margin-bottom: 0;
-    }
-    .el-form-item__content {
-      position: relative;
-    }
-    .el-button {
-      margin-left: 12px;
-      padding-right: 8px;
-      padding-left: 8px;
-    }
-    .btn-container {
-      position: absolute;
-      top: 0;
-      right: -12px;
-      transform: translateX(100%);
-    }
-  }
 }
 </style>

@@ -14,28 +14,7 @@
       </el-col>
       <el-col :span="15">
         <el-form-item prop="topics" :label="tl('msgSourceTopic')">
-          <ul class="topic-list">
-            <li class="topic-item" v-for="(item, $index) in formData.topics" :key="$index">
-              <el-form-item :prop="`topics.${$index}`" :rules="arrayItemRule.topic">
-                <el-input v-model="formData.topics[$index]" />
-                <div class="btn-container vertical-align-center">
-                  <el-button
-                    class="btn-del"
-                    :icon="Delete"
-                    :disabled="formData.topics.length <= 1 || !$hasPermission('delete')"
-                    @click="delTopic($index)"
-                  />
-                  <el-button
-                    v-if="$index === formData.topics.length - 1"
-                    class="btn-add"
-                    :icon="Plus"
-                    :disabled="!$hasPermission('post')"
-                    @click="addTopic"
-                  />
-                </div>
-              </el-form-item>
-            </li>
-          </ul>
+          <EditTopicList v-model="topics" prop="topics" :rules="arrayItemRule.topic" />
         </el-form-item>
       </el-col>
       <el-col :span="15">
@@ -205,6 +184,7 @@
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
 import { customValidate, getLabelFromValueInOptionList } from '@/common/tools'
+import EditTopicList from '@/components/EditTopicList.vue'
 import {
   AvailableKey,
   MESSAGE_TYPE_NONE,
@@ -219,7 +199,6 @@ import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformLogLevel } from '@/types/typeAlias'
-import { Delete, Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import {
   PropType,
@@ -367,27 +346,21 @@ const rules: FormRules = {
 
 const arrayItemRule = { topic: createRequiredRule(t('Base.topic')) }
 
+const topics = computed({
+  get() {
+    return Array.isArray(formData.value.topics) ? formData.value.topics : [formData.value.topics]
+  },
+  set(value) {
+    formData.value.topics = value
+  },
+})
+
 const { failureActionOpts } = useFailureAction()
 const { messageTransformLogLevelOpts: rawMessageTransformLogLevelOpts } =
   useMessageTransformLogLevel()
 const messageTransformLogLevelOpts = rawMessageTransformLogLevelOpts.filter(
   (item) => item.value !== MessageTransformLogLevel.none,
 )
-
-const delTopic = (index: number) => {
-  if (Array.isArray(formData.value.topics)) {
-    formData.value.topics.splice(index, 1)
-  } else {
-    throw new Error('topics is not an array')
-  }
-}
-const addTopic = () => {
-  if (Array.isArray(formData.value.topics)) {
-    formData.value.topics.push('')
-  } else {
-    throw new Error('topics is not an array')
-  }
-}
 
 const formatOpts = [
   { value: MESSAGE_TYPE_NONE, label: t('Base.none') },
@@ -491,34 +464,6 @@ defineExpose({
 
 <style lang="scss">
 .message-transform-form {
-  .topic-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-
-  .topic-item {
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
-    .el-form-item {
-      width: 100%;
-      margin-bottom: 0;
-    }
-    .el-form-item__content {
-      position: relative;
-    }
-    .el-button {
-      margin-left: 12px;
-    }
-  }
-  .btn-container {
-    position: absolute;
-    top: 0;
-    right: -12px;
-    transform: translateX(100%);
-  }
   .part-header {
     flex-basis: 220px;
   }

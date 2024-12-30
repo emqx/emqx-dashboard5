@@ -1048,6 +1048,33 @@ code {
   }
 }
 
+.form-topic-list-vertical {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  .topic-item {
+    margin-bottom: 12px;
+    .el-form-item {
+      width: 100%;
+    }
+    .el-form-item__content {
+      position: relative;
+    }
+    .el-button {
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-left: 12px;
+    }
+  }
+  .btn-container {
+    position: absolute;
+    top: 0;
+    right: -12px;
+    transform: translateX(100%);
+  }
+}
+
 .chart-tooltip {
   border-radius: 0 !important;
 }
