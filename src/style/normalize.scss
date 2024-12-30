@@ -37,6 +37,7 @@
     'bg-color': var(--color-bg-content),
     'tr-bg-color': var(--color-bg-content),
     'expanded-cell-bg-color': var(--color-bg-content),
+    'bg-split': var(--color-grey-12),
   ),
   $dialog: (
     'border-radius': 0,
@@ -254,13 +255,16 @@
       margin-left: 0;
       margin-right: 12px;
     }
+    & + .el-dropdown {
+      vertical-align: middle;
+    }
   }
 }
 .el-table__inner-wrapper::before {
   height: 0px;
 }
 .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
-  background: var(--color-bg-split);
+  background: var(--color-grey-12);
 }
 .el-table__header-wrapper tr td.el-table-fixed-column--left,
 .el-table__header-wrapper tr td.el-table-fixed-column--right,

@@ -10,23 +10,17 @@
             :disabled="(!allowEmpty && topics.length <= 1) || !$hasPermission('delete')"
             @click="delTopic($index)"
           />
-          <el-button
-            v-if="$index === topics.length - 1"
-            class="btn-add"
-            :icon="Plus"
-            :disabled="!$hasPermission('post')"
-            @click="addTopic"
-          />
         </div>
       </el-form-item>
     </li>
   </ul>
+  <AddItemButton class="btn-add" @click="addTopic" />
 </template>
 
 <script setup lang="ts">
-import { Delete, Plus } from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import type { FormItemRule } from 'element-plus'
-import { computed, defineProps, defineEmits } from 'vue'
+import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: string[]
