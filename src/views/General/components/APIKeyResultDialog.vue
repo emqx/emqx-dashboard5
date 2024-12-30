@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="showDialog"
-    :width="600"
+    :width="getPopupSize(120)"
     class="API-key-result-dialog"
     :title="$t('Base.createSuccess')"
     :z-index="2000"
@@ -52,6 +52,7 @@ import { ElDialog } from 'element-plus'
 import { APIKey } from '@/types/systemModule'
 import useCopy from '@/hooks/useCopy'
 import TipContainer from '@/components/TipContainer.vue'
+import { getPopupSize } from '@/common/tools'
 
 const props = defineProps({
   modelValue: {

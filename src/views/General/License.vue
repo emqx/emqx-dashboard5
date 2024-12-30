@@ -108,7 +108,7 @@
           ref="licenseConfigForm"
           :model="licenseConfig"
           label-position="right"
-          :label-width="store.state.lang === 'zh' ? 216 : 245"
+          :label-width="store.state.lang === 'zh' ? 216 : 270"
           :rules="rules"
           hide-required-asterisk
         >
@@ -297,7 +297,7 @@ loadLicenseData()
 
 <style lang="scss">
 html[lang='en'] .license .el-descriptions .el-descriptions__label {
-  width: 95px;
+  width: 105px;
 }
 html[lang='zh'] .license .el-descriptions .el-descriptions__label {
   width: 123px;

@@ -803,7 +803,8 @@ export const getValueFromQuery = (key: string): string | undefined => {
   return infoFromParams[key] || infoFromHash[key]
 }
 
-const paddingBeside = 16
+const popupPaddingLeft = 16
+const popupPaddingRight = 100
 export const getPopupSize = (labelWidth = COMMON_FORM_LABEL_WIDTH) => {
-  return `${COMMON_FORM_CONTENT_WIDTH + labelWidth + paddingBeside * 2}px`
+  return `${COMMON_FORM_CONTENT_WIDTH + labelWidth + popupPaddingLeft + popupPaddingRight}px`
 }
