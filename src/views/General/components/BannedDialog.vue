@@ -2,7 +2,7 @@
   <el-dialog
     :title="$t('Base.create')"
     v-model="showDialog"
-    width="800px"
+    :width="`${getPopupSize()}px`"
     class="banned-dialog"
     destroy-on-close
   >
@@ -77,6 +77,7 @@
 
 <script setup lang="ts">
 import { createBannedClient } from '@/api/function'
+import { getPopupSize } from '@/common/tools'
 import useBannedType from '@/hooks/Auth/useBannedType'
 import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
 import useI18nTl from '@/hooks/useI18nTl'

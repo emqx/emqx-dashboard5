@@ -9,7 +9,7 @@
         <el-form
           class="slow-sub-form tong-form"
           ref="formCom"
-          label-width="200px"
+          :label-width="COMMON_FORM_LABEL_WIDTH"
           :model="configForm"
           :rules="rulesOfConfigForm"
         >
@@ -100,6 +100,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import DetailHeader from '@/components/DetailHeader.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'

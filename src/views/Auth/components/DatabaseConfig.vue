@@ -4,7 +4,7 @@
     <el-form
       ref="formCom"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
       :model="databaseConfig"
       :rules="rules"
     >
@@ -242,10 +242,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item>
-                  <FormItemLabel
-                    :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
-                    :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
-                  />
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('BridgeSchema.mongodb.use_legacy_protocol.label')"
+                      :desc="t('BridgeSchema.mongodb.use_legacy_protocol.desc')"
+                    />
+                  </template>
                   <el-select v-model="databaseConfig.use_legacy_protocol">
                     <el-option value="auto" label="auto" />
                     <el-option value="true" label="true" />
@@ -289,7 +291,10 @@
 </template>
 
 <script lang="ts">
-import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
+import {
+  COMMON_FORM_LABEL_WIDTH,
+  PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION,
+} from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
@@ -445,6 +450,7 @@ export default defineComponent({
       btnCopyHelp,
       MongoType,
       isAuthn,
+      COMMON_FORM_LABEL_WIDTH,
       clearValidateAfterSomeFieldChanged,
       validate,
       setDefaultContent,

@@ -3,7 +3,7 @@
     <el-form
       ref="formCom"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
       :model="ldapConfig"
       :rules="rules"
     >
@@ -139,6 +139,7 @@
 </template>
 
 <script lang="ts" setup>
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'

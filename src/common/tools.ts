@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, round, set } from 'lodash'
 import moment from 'moment'
-import { API_BASE_URL, COPY_SUFFIX } from './constants'
+import {
+  API_BASE_URL,
+  COMMON_FORM_CONTENT_WIDTH,
+  COMMON_FORM_LABEL_WIDTH,
+  COPY_SUFFIX,
+} from './constants'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 
@@ -796,4 +801,9 @@ export const getValueFromQuery = (key: string): string | undefined => {
   const infoFromParams = getDataFromParams(location.search.slice(1))
   const infoFromHash = getDataFromParams(getQueryInHash(location.hash))
   return infoFromParams[key] || infoFromHash[key]
+}
+
+const paddingBeside = 16
+export const getPopupSize = (labelWidth = COMMON_FORM_LABEL_WIDTH) => {
+  return `${COMMON_FORM_CONTENT_WIDTH + labelWidth + paddingBeside * 2}px`
 }

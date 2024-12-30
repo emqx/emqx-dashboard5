@@ -2,7 +2,7 @@
   <el-form
     ref="formCom"
     class="bridge-influxdb-config bridge-config tong-form"
-    label-width="200px"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
     :rules="formRules"
     :model="formData"
     :disabled="disabled"
@@ -98,6 +98,7 @@ import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } fro
 import ConnectorSelect from '../ConnectorSelect.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   modelValue: {

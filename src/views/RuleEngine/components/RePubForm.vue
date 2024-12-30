@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { QoSOptions as defaultQoSOptions } from '@/common/constants'
+import { COMMON_FORM_LABEL_WIDTH, QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
@@ -166,7 +166,7 @@ const saveConfig = () => {
 const formProps: ComputedRef<Partial<FormProps>> = computed(() => {
   if (props.isUsingInFlow) {
     return {
-      labelWidth: '120px',
+      labelWidth: COMMON_FORM_LABEL_WIDTH,
       labelPosition: 'right',
       hideRequiredAsterisk: true,
     }

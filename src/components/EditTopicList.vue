@@ -50,3 +50,9 @@ const delTopic = (index: number) => {
   topics.value.splice(index, 1)
 }
 </script>
+
+<style lang="scss">
+.form-topic-list-vertical {
+  width: 400px;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form class="tong-form" label-width="200px">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('resDirectory')">
@@ -122,6 +122,7 @@ import { onMounted, reactive, watch, defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 import _ from 'lodash'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   value: {

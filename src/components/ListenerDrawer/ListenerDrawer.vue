@@ -4,14 +4,14 @@
     v-model="showDialog"
     :lock-scroll="false"
     :close-on-click-modal="false"
-    size="50%"
+    :size="getPopupSize()"
     :z-index="1999"
     class="listener-drawer"
     destroy-on-close
   >
     <el-form
       class="tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
       :rules="listenerFormRules"
       :model="listenerRecord"
       :validate-on-rule-change="false"
@@ -461,7 +461,8 @@
 </template>
 
 <script lang="ts" setup>
-import { INFINITY_VALUE } from '@/common/constants'
+import { COMMON_FORM_LABEL_WIDTH, INFINITY_VALUE } from '@/common/constants'
+import { getPopupSize } from '@/common/tools'
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'

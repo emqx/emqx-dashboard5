@@ -5,7 +5,7 @@
       :model="kerberosConfig"
       :rules="rules"
       class="create-form tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
     >
       <el-row :gutter="20">
         <el-col :span="12">
@@ -26,6 +26,7 @@ import { defineProps, reactive, defineExpose, watch, defineEmits } from 'vue'
 import useKerberosConfigForm from '@/hooks/Auth/useKerberosConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   modelValue: {

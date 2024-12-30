@@ -103,7 +103,7 @@
       :title="$t('LogTrace.createLog')"
       v-model="createDialog"
       @close="initForm"
-      width="800px"
+      :width="getPopupSize()"
     >
       <el-form
         ref="createForm"
@@ -213,7 +213,11 @@
 
 <script lang="ts">
 import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
-import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
+import {
+  getLabelFromValueInOptionList,
+  getPopupSize,
+  transMemorySizeNumToStr,
+} from '@/common/tools'
 import CheckIcon from '@/components/CheckIcon.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
@@ -455,6 +459,7 @@ export default defineComponent({
       stopTraceHandler,
       openCreateDialog,
       moment,
+      getPopupSize,
       download,
       deleteTraceHandler,
       createRules,

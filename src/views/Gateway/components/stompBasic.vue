@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form class="tong-form" label-width="200px">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('maxHeader')">
@@ -62,6 +62,7 @@ import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   name: 'StompBasic',
@@ -107,6 +108,7 @@ export default defineComponent({
       tl: (key, collection = 'Gateway') => t(collection + '.' + key),
       sValue,
       sValueDefault,
+      COMMON_FORM_LABEL_WIDTH,
     }
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="200px"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
     class="schema-registry-form tong-form"
     :rules="rules"
     :model="schemaForm"
@@ -96,6 +96,7 @@ import {
   ref,
 } from 'vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   modelValue: {

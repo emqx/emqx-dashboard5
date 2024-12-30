@@ -1,6 +1,6 @@
 <template>
   <div class="mqttsn-basic">
-    <el-form class="tong-form" label-width="200px" :model="mValue">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH" :model="mValue">
       <el-row :gutter="30">
         <el-col :span="12" prop="gateway_id">
           <el-form-item :label="'Gateway ID'">
@@ -61,6 +61,7 @@ import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 export default defineComponent({
   components: { topicEditList, TimeInputWithUnitSelect, CustomInputNumber },
@@ -104,6 +105,7 @@ export default defineComponent({
       mValueDefault,
       mValue,
       formPassed,
+      COMMON_FORM_LABEL_WIDTH,
     }
   },
 })

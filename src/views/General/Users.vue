@@ -52,7 +52,7 @@
       "
       v-model="dialogVisible"
       destroy-on-close
-      width="650px"
+      :width="getPopupSize(120)"
     >
       <el-form
         ref="formCom"
@@ -134,7 +134,7 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { PASSWORD_REG } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools.ts'
+import { getLabelFromValueInOptionList, getPopupSize } from '@/common/tools.ts'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useFormRules from '@/hooks/useFormRules'

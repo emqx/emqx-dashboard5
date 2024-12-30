@@ -1,6 +1,12 @@
 <template>
   <div class="jt808-basic">
-    <el-form ref="refForm" class="tong-form" label-width="200px" :model="jValue" :rules="rules">
+    <el-form
+      ref="refForm"
+      class="tong-form"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
+      :model="jValue"
+      :rules="rules"
+    >
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -117,6 +123,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   value: {

@@ -3,10 +3,16 @@
     :title="!isEdit ? tl('addInput') : tl('editInput')"
     v-model="showDrawer"
     :lock-scroll="false"
-    size="60%"
+    :size="getPopupSize()"
     destroy-on-close
   >
-    <el-form :model="inputForm" :rules="rules" ref="FormCom" class="tong-form" label-width="200px">
+    <el-form
+      :model="inputForm"
+      :rules="rules"
+      ref="FormCom"
+      class="tong-form"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
+    >
       <el-row :gutter="26">
         <el-col :span="12">
           <el-form-item :label="tl('inputType')" prop="type">
@@ -84,8 +90,8 @@
 </template>
 
 <script setup lang="ts">
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
-import { waitAMoment } from '@/common/tools'
+import { COMMON_FORM_LABEL_WIDTH, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
+import { getPopupSize, waitAMoment } from '@/common/tools'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { RuleSourceType, useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useFormRules from '@/hooks/useFormRules'

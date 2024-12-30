@@ -1,6 +1,6 @@
 <template>
   <div class="ocpp-basic">
-    <el-form class="tong-form" label-width="200px" :model="oValue">
+    <el-form class="tong-form" :label-width="COMMON_FORM_LABEL_WIDTH" :model="oValue">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item :label="tl('mountPoint')">
@@ -122,6 +122,7 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 
 const props = defineProps({
   value: {

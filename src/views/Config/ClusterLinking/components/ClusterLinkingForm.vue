@@ -4,7 +4,7 @@
     class="cluster-linking-form tong-form"
     :model="record"
     :rules="rules"
-    label-width="200px"
+    :label-width="COMMON_FORM_LABEL_WIDTH"
   >
     <el-row :gutter="20">
       <el-col :span="12">
@@ -153,6 +153,7 @@
 </template>
 
 <script setup lang="ts">
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
@@ -164,7 +165,7 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ClusterLinkingForm } from '@/types/typeAlias'
-import { Delete, Plus } from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps, ref, defineExpose } from 'vue'
 
 const props = defineProps<{

@@ -121,7 +121,7 @@ defineExpose({ validate, clearValidate })
   .json-form-card {
     margin-top: 12px;
     // same as the label width
-    margin-left: 200px;
+    margin-left: var(--form-item-label-width);
     border: 1px solid var(--el-card-border-color);
   }
   .type-select {

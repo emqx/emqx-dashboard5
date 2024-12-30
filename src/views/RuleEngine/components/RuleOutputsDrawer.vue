@@ -3,7 +3,7 @@
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDrawer"
     :lock-scroll="false"
-    size="900px"
+    :size="`${getPopupSize()}px`"
     destroy-on-close
   >
     <el-form
@@ -11,7 +11,7 @@
       :rules="outputFormRules"
       ref="formCom"
       class="tong-form"
-      label-width="200px"
+      :label-width="COMMON_FORM_LABEL_WIDTH"
     >
       <el-row :gutter="26">
         <el-col :span="12">
@@ -108,7 +108,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getTypeAndNameFromKey } from '@/common/tools'
+import { COMMON_FORM_LABEL_WIDTH } from '@/common/constants'
+import { getPopupSize, getTypeAndNameFromKey } from '@/common/tools'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
