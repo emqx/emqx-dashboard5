@@ -75,7 +75,7 @@
     margin-left: -16px - 1px;
     @include mixins.mock-ft-card;
     &.el-card.ft-card {
-      margin-bottom: 0;
+      margin-bottom: 16px;
     }
     &.is-pinned {
       padding-top: 0;

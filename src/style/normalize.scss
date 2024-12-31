@@ -161,9 +161,8 @@
     background-color: transparent;
     border-bottom: 1px solid var(--color-border-card);
     & > .el-menu-item {
-      height: 36px;
-      padding: 0px 12px;
-      margin-right: 16px;
+      height: 44px;
+      padding: 0px 16px;
       &:hover {
         background-color: var(--color-hover);
         color: var(--color-primary);
@@ -354,10 +353,10 @@
     visibility: hidden;
   }
   &::before {
-    width: 22px;
+    width: 16px;
   }
   &::after {
-    width: 22px;
+    width: 16px;
   }
 }
 
@@ -387,6 +386,37 @@
       }
     }
   }
+}
+
+.el-tabs--card {
+  background-color: var(--color-bg-content);
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item.is-active,
+.el-tabs--card>.el-tabs__header .el-tabs__item .is-focus,
+.el-tabs--card>.el-tabs__header .is-focus.is-active,
+.el-tabs--card>.el-tabs__header .is-focus .is-focus {
+  border-top: none;
+}
+.el-tabs--top.el-tabs--border-card>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--top.el-tabs--card>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--top .el-tabs--left>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--top .el-tabs--right>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--bottom.el-tabs--border-card>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--bottom.el-tabs--card>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--bottom .el-tabs--left>.el-tabs__header .el-tabs__item:last-child,
+.el-tabs--bottom .el-tabs--right>.el-tabs__header .el-tabs__item:last-child {
+  padding-left: 16px;
+}
+
+.el-tabs--top.el-tabs--border-card>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--top.el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--top .el-tabs--left>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--top .el-tabs--right>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--bottom.el-tabs--border-card>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--bottom.el-tabs--card>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--bottom .el-tabs--left>.el-tabs__header .el-tabs__item:nth-child(2),
+.el-tabs--bottom .el-tabs--right>.el-tabs__header .el-tabs__item:nth-child(2) {
+  padding-right: 16px;
 }
 
 @mixin border-gradient($from, $to, $weight: 0) {

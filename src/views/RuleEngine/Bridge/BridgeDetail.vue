@@ -55,11 +55,11 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
-      <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">
+    <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" type="card" v-model="activeTab">
+      <div :class="{ 'detail-main': true }">
         <el-tab-pane v-if="!isFromRule" :label="tl('overview')" :name="Tab.Overview" lazy>
           <div
-            class="overview-container"
+            class="app-wrapper overview-container"
             :class="{ 'is-loading': infoLoading }"
             v-loading="infoLoading"
           >
@@ -75,7 +75,8 @@
           <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
           <el-card
             v-loading="isSettingCardLoading"
-            :class="['app-card', isFromRule && 'app-inline-card']"
+            class="app-card no-border"
+            :class="[isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
             <el-alert
@@ -120,7 +121,7 @@
               />
             </div>
           </el-card>
-          <el-card v-if="!isFromRule" class="ft-card">
+          <el-card v-if="!isFromRule" class="ft-card fake-separation">
             <el-button
               v-if="bridgeInfo.type"
               type="primary"

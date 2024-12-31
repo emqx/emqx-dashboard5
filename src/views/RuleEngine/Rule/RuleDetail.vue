@@ -34,10 +34,10 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="activeTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" v-model="activeTab" type="card">
+      <div>
         <el-tab-pane :label="tl('overview')" :name="Tab.Overview" lazy>
-          <div v-loading="infoLoading">
+          <div class="app-wrapper" v-loading="infoLoading">
             <RuleItemOverview :rule-id="id" />
           </div>
         </el-tab-pane>
@@ -61,7 +61,7 @@
               </template>
             </i18n-t>
           </el-alert>
-          <el-card class="detail-card overview-visible app-card" v-loading="infoLoading">
+          <el-card class="detail-card overview-visible no-border" v-loading="infoLoading">
             <rule-form
               ref="formCom"
               v-model="ruleInfo"

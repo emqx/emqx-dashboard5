@@ -56,13 +56,15 @@
         </div>
       </div>
     </div>
-    <el-tabs class="detail-tabs" v-model="currTab" v-loading.lock="authnDetailLock">
-      <div :class="{ 'app-wrapper': !gateway }">
+    <el-tabs class="detail-tabs" type="card" v-model="currTab" v-loading.lock="authnDetailLock">
+      <div>
         <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
-          <AuthItemOverview :metrics="authMetrics" type="authn" lazy />
+          <div class="app-wrapper">
+            <AuthItemOverview :metrics="authMetrics" type="authn" lazy />
+          </div>
         </el-tab-pane>
         <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
-          <el-card class="app-card" :shadow="gateway ? 'never' : 'always'">
+          <el-card class="app-card no-border" :shadow="gateway ? 'never' : 'always'">
             <template v-if="configData.mechanism !== 'jwt' && configData.mechanism !== 'cinfo'">
               <database-config
                 v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(currBackend)"
@@ -110,7 +112,7 @@
               {{ $t('Base.test') }}
             </el-button> -->
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button @click="$router.push('/authentication')" v-if="!gateway">
               {{ $t('Base.cancel') }}
             </el-button>

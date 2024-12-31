@@ -501,13 +501,23 @@ input:disabled {
   }
 }
 .el-tabs.detail-tabs {
-  .el-tabs__header {
-    background-color: var(--color-bg-details);
-    padding: 0 24px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border-card);
+  > .el-tabs__header {
+    background-color: var(--color-grey-12);
     margin-bottom: 24px;
-    border-bottom: 1px solid var(--color-border-primary);
-    .el-tabs__item.is-active {
-      border-bottom: 1px solid var(--color-border-card);
+    .el-tabs__item {
+      &:not(.is-active) {
+        background-color: var(--color-grey-11);
+      }
+      &.is-active {
+        background-color: var(--color-bg-content);
+      }
+      &, &.is-active, &.is-focus {
+        border-top: none;
+      }
     }
   }
   .app-wrapper {
@@ -519,16 +529,28 @@ input:disabled {
   &.ft-card {
     margin-bottom: 16px;
   }
+  &.no-border {
+    border: none;
+  }
   .el-card__body>.el-form:not(.search-wrapper),
   .el-card__body>.schema-form:not(.is-loading) {
     padding-top: 8px;
     margin-bottom: -16px;
+    .el-tabs {
+      margin-top: -8px;
+    }
   }
   &.ft-card {
     .el-card__body {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    &.fake-separation {
+      @include mixins.mock-ft-card;
+      margin-bottom: -1px;
+      margin-left: -1px;
+      margin-right: -1px;
     }
   }
   &.no-padding-bottom {

@@ -20,10 +20,10 @@
         </el-tooltip>
       </div>
     </div>
-    <el-tabs class="detail-tabs">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card">
+      <div>
         <el-tab-pane :label="t('Base.setting')">
-          <el-card class="app-card detail-card overview-visible" v-loading="isLoading">
+          <el-card class="app-card detail-card overview-visible no-border" v-loading="isLoading">
             <ExternalSchemaForm
               class="schema-create-form"
               ref="FormCom"
@@ -31,7 +31,7 @@
               is-edit
             />
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"
