@@ -36,10 +36,10 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="currTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card" v-model="currTab">
+      <div>
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
-          <el-card class="app-card">
+          <el-card class="app-card no-border">
             <PluginManage
               :plugin-name="pluginName"
               :plugin-version="pluginVersion"
@@ -49,7 +49,7 @@
           </el-card>
         </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
-          <el-card class="app-card">
+          <el-card class="app-card no-border">
             <el-row class="plugin-info-bd" :gutter="20">
               <el-col :span="16">
                 <MarkdownContent class="plugin-content" :content="pluginInfo.readme" />

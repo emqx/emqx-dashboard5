@@ -31,16 +31,18 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="activeTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card" v-model="activeTab">
+      <div>
         <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" lazy>
-          <TransformOverview :transform-name="transformName" />
+          <div class="app-wrapper">
+            <TransformOverview :transform-name="transformName" />
+          </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting">
-          <el-card class="app-card">
+          <el-card class="app-card no-border">
             <TransformForm v-if="!isLoading" ref="formCom" v-model="transformData" is-edit />
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button type="primary" plain :disabled="!$hasPermission('post')" @click="openTest">
               {{ tl('preview') }}
             </el-button>

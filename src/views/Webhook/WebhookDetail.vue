@@ -38,10 +38,10 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="activeTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card" v-model="activeTab">
+      <div>
         <el-tab-pane :label="tl('overview')" :name="DetailTab.Overview" lazy>
-          <div class="overview-container" v-loading="infoLoading">
+          <div class="app-wrapper overview-container" v-loading="infoLoading">
             <BridgeItemOverview
               v-if="!infoLoading && webhookData"
               :bridge-id="webhookData.action.id"
@@ -51,10 +51,13 @@
           </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" lazy>
-          <el-card class="detail-card webhook-create-card app-card" v-loading="infoLoading">
+          <el-card
+            class="detail-card webhook-create-card app-card no-border"
+            v-loading="infoLoading"
+          >
             <WebhookFormCom v-if="webhookData" ref="FormCom" v-model="webhookData" is-edit />
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button
               :loading="isSubmitting"
               :disabled="!$hasPermission('put')"

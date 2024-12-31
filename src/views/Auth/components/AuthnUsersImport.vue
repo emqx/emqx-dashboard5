@@ -155,6 +155,7 @@ async function downloadTemplate() {
 
 <style lang="scss">
 .authn-users-import {
+  margin-right: 8px;
   line-height: 0;
   .el-button.is-link {
     font-weight: normal;

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="authn-manager">
+  <el-card class="authn-manager no-border">
     <div class="section-header space-between">
       <div class="add-funcs-container">
         <template v-if="mechanism === 'password_based'">

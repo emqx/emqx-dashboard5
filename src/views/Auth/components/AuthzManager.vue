@@ -1,5 +1,5 @@
 <template>
-  <el-card class="authz-manager">
+  <el-card class="authz-manager no-border">
     <el-radio-group v-model="type">
       <el-radio-button v-for="item in typeList" :key="item.value" :label="item.value" border>
         {{ item.label }}

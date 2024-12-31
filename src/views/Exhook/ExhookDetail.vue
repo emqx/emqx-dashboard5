@@ -34,41 +34,45 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="activeTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card" v-model="activeTab">
+      <div>
         <el-tab-pane :label="tl('overview')" name="overview" lazy>
-          <ExhookItemOverview :exhook="exhookData" :exhook-name="exhookName" />
+          <div class="app-wrapper">
+            <ExhookItemOverview :exhook="exhookData" :exhook-name="exhookName" />
+          </div>
         </el-tab-pane>
         <el-tab-pane :label="tl('registeredHooks')" name="hooks">
-          <el-table :data="registeredHooks">
-            <el-table-column prop="name" :label="tl('name')"></el-table-column>
-            <el-table-column prop="params" :label="tl('params')">
-              <template #default="{ row }">
-                {{ stringifyObjSafely(row.params) }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="t('Base.success')">
-              <template #default="{ row }">
-                {{ row.metrics?.succeed }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="t('Base.failed')">
-              <template #default="{ row }">
-                {{ row.metrics?.failed }}
-              </template>
-            </el-table-column>
-            <el-table-column :label="`${tl('rate')}(${tl('second')})`">
-              <template #default="{ row }">
-                {{ row.metrics?.rate / 1000 }}
-              </template>
-            </el-table-column>
-          </el-table>
+          <div class="app-wrapper">
+            <el-table :data="registeredHooks">
+              <el-table-column prop="name" :label="tl('name')"></el-table-column>
+              <el-table-column prop="params" :label="tl('params')">
+                <template #default="{ row }">
+                  {{ stringifyObjSafely(row.params) }}
+                </template>
+              </el-table-column>
+              <el-table-column :label="t('Base.success')">
+                <template #default="{ row }">
+                  {{ row.metrics?.succeed }}
+                </template>
+              </el-table-column>
+              <el-table-column :label="t('Base.failed')">
+                <template #default="{ row }">
+                  {{ row.metrics?.failed }}
+                </template>
+              </el-table-column>
+              <el-table-column :label="`${tl('rate')}(${tl('second')})`">
+                <template #default="{ row }">
+                  {{ row.metrics?.rate / 1000 }}
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" name="settings">
-          <el-card class="app-card">
+          <el-card class="app-card no-border">
             <ExhookForm class="exhook-form" ref="formCom" v-model="exhookData" is-edit />
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button
               type="primary"
               :disabled="!$hasPermission('put')"

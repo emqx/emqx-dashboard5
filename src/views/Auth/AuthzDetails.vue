@@ -35,10 +35,12 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-loading.lock="authzDetailLock" v-model="currTab">
-      <div class="app-wrapper">
+    <el-tabs class="detail-tabs" type="card" v-loading.lock="authzDetailLock" v-model="currTab">
+      <div>
         <el-tab-pane :label="$t('Base.overview')" name="overview" :lazy="true">
-          <AuthItemOverview :metrics="authMetrics" type="authz" />
+          <div class="app-wrapper">
+            <AuthItemOverview :metrics="authMetrics" type="authz" />
+          </div>
         </el-tab-pane>
         <el-tab-pane
           v-if="type === 'built_in_database'"
@@ -49,7 +51,7 @@
           <authz-manager />
         </el-tab-pane>
         <el-tab-pane :label="$t('Base.setting')" name="settings" :lazy="true">
-          <el-card v-if="!authzDetailLock" class="app-card">
+          <el-card v-if="!authzDetailLock" class="app-card no-border">
             <database-config
               v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
               ref="formCom"
@@ -84,7 +86,7 @@
               {{ $t('Base.test') }}
             </el-button> -->
           </el-card>
-          <el-card class="ft-card">
+          <el-card class="ft-card fake-separation">
             <el-button @click="$router.push('/authorization')">
               {{ $t('Base.cancel') }}
             </el-button>
