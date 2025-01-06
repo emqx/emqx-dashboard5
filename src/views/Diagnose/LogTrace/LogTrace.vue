@@ -10,17 +10,9 @@
     <el-table :data="traceTable" v-loading="traceTbLoading" class="data-table">
       <el-table-column :label="$t('LogTrace.name')" prop="name" :min-width="100">
         <template #default="{ row }">
-          <a
-            href="javascript:;"
-            @click="
-              $router.push({
-                name: 'log-trace-detail',
-                params: { id: row.name },
-              })
-            "
-          >
+          <router-link :to="{ name: 'log-trace-detail', params: { id: row.name } }">
             {{ row.name }}
-          </a>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column :label="$t('LogTrace.type')" prop="type" :min-width="100">

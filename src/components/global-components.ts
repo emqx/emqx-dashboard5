@@ -5,6 +5,7 @@ import {
   RefreshButton,
   SearchButton,
   ResetButton,
+  ShowMoreButton
   AddItemButton,
 } from './Buttons'
 import ListCard from './ListCard.vue'
@@ -18,6 +19,7 @@ export default {
     app.component('RefreshButton', RefreshButton)
     app.component('SearchButton', SearchButton)
     app.component('ResetButton', ResetButton)
+    app.component('ShowMoreButton', ShowMoreButton)
     app.component('AddItemButton', AddItemButton)
     app.component('ListCard', ListCard)
   },

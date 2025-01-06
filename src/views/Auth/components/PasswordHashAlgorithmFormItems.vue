@@ -102,7 +102,7 @@ const formData = computed<PasswordHashAlgorithmFormItems>({
 const { HashOptions } = usePassword()
 
 const saltPositionOpt = [SaltPosition.Disable, SaltPosition.Prefix, SaltPosition.Suffix]
-const macFunOpt = ['md4', 'md5', 'ripemd160', 'sha', 'sha224', 'sha256', 'sha384', 'sha512']
+const macFunOpt = ['sha', 'sha224', 'sha256', 'sha384', 'sha512']
 
 const needSelectSaltPosition = computed(() => {
   const { name } = formData.value.password_hash_algorithm

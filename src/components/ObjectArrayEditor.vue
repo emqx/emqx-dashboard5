@@ -34,15 +34,15 @@
         <template #header>
           <div class="header-settings">
             <batch-settings v-if="dbType" :type="dbType" @uploaded-data="handleUploadedData" />
-            <a href="javascript:;" @click="addItem">
+            <el-button link type="primary" @click="addItem">
               {{ $t('Base.add') }}
-            </a>
+            </el-button>
           </div>
         </template>
         <template #default="{ $index }">
-          <a href="javascript:;" @click="deleteItem($index)">
+          <el-button link type="primary" @click="deleteItem($index)">
             {{ $t('Base.delete') }}
-          </a>
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
