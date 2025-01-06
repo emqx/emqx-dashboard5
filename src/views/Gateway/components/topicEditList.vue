@@ -22,7 +22,7 @@
           </template>
         </el-table-column>
         <el-table-column width="80">
-          <template #header="scope">
+          <template #header>
             <el-button
               link
               type="primary"
