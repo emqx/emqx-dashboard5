@@ -61,18 +61,7 @@
         <el-col class="col-oper" v-bind="colProps">
           <SearchButton @click="handleSearch" />
           <ResetButton @click="handleReset" />
-          <el-tooltip
-            :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
-            placement="top"
-          >
-            <el-button
-              class="icon-button"
-              plain
-              :icon="showMoreQuery ? ArrowUp : ArrowDown"
-              @click="showMoreQuery = !showMoreQuery"
-            >
-            </el-button>
-          </el-tooltip>
+          <ShowMoreButton v-model="showMoreQuery" />
         </el-col>
       </el-row>
     </el-form>
@@ -129,7 +118,6 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import useClusterNodes from '@/hooks/useClusterNodes'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

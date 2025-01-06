@@ -81,20 +81,20 @@
         </el-button>
         <el-button
           type="primary"
+          plain
+          :disabled="!$hasPermission('post') || disabled"
+          @click="saveAsCopy"
+          v-if="isEdit"
+        >
+          {{ tl('saveAsCopy') }}
+        </el-button>
+        <el-button
+          type="primary"
           :disabled="!$hasPermission('post') || disabled || isDataSaveButtonDisabled"
           :loading="submitLoading"
           @click="$emit('save')"
         >
           {{ isEdit ? $t('Base.update') : $t('Base.save') }}
-        </el-button>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post') || disabled"
-          plain
-          @click="saveAsCopy"
-          v-if="isEdit"
-        >
-          {{ tl('saveAsCopy') }}
         </el-button>
       </el-col>
     </el-row>

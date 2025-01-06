@@ -672,6 +672,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'mqtt-system-topic',
         component: () => import('@/views/Config/BasicConfig/SystemTopics.vue'),
       },
+      {
+        path: 'force-shutdown',
+        name: 'mqtt-force-shutdown',
+        component: () => import('@/views/Config/BasicConfig/ForceShutdown.vue'),
+      },
     ],
   },
   // Advanced MQTT

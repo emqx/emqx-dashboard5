@@ -1,6 +1,7 @@
 <template>
-  <el-button type="primary" plain :icon="Search">
-    <template v-if="!noText">{{ tl('search') }}</template>
+  <el-button type="primary" plain :icon="Search" v-if="noText"></el-button>
+  <el-button type="primary" plain :icon="Search" v-else>
+    <template>{{ tl('search') }}</template>
   </el-button>
 </template>
 

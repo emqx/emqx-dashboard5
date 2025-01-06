@@ -1,4 +1,5 @@
 import { ComponentPublicInstance } from 'vue'
+import { EmqxForceShutdown } from './schemas/configs.schemas'
 import { LogConf } from './typeAlias'
 
 export interface SubTabComponent extends ComponentPublicInstance {
@@ -166,7 +167,7 @@ export interface Zone {
   mqtt: Mqtt
   stats: Stats
   flapping_detect: FlappingDetect
-  force_shutdown: ForceShutdown
+  force_shutdown: EmqxForceShutdown
   conn_congestion: ConnCongestion
   force_gc: ForceGc
   overload_protection: OverloadProtection
@@ -213,12 +214,6 @@ export interface FlappingDetect {
   max_count: number
   window_time: string
   ban_time: string
-}
-
-export interface ForceShutdown {
-  enable: boolean
-  max_message_queue_len: number
-  max_heap_size: string
 }
 
 export interface ConnCongestion {
