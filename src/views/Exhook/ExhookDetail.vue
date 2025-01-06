@@ -42,7 +42,7 @@
           </div>
         </el-tab-pane>
         <el-tab-pane :label="tl('registeredHooks')" name="hooks">
-          <div class="app-wrapper">
+          <el-card class="no-border">
             <el-table :data="registeredHooks">
               <el-table-column prop="name" :label="tl('name')"></el-table-column>
               <el-table-column prop="params" :label="tl('params')">
@@ -66,7 +66,7 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
+          </el-card>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" name="settings">
           <el-card class="app-card no-border">

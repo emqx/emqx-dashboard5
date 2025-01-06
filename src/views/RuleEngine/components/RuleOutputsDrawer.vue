@@ -3,7 +3,7 @@
     :title="!isEdit ? tl('addAction') : tl('editAction')"
     v-model="showDrawer"
     :lock-scroll="false"
-    :size="`${getPopupSize()}px`"
+    :size="getPopupSize()"
     destroy-on-close
   >
     <el-form
