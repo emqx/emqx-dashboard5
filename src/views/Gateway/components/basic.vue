@@ -1,5 +1,5 @@
 <template>
-  <el-card class="app-card">
+  <el-card class="detail-card app-card no-border">
     <div class="basic-info" v-loading="infoLoading">
       <template v-if="name === 'stomp'">
         <stomp-basic v-model:value="basicData" :key="iKey" />
@@ -27,7 +27,7 @@
       </template>
     </div>
   </el-card>
-  <el-card class="ft-card">
+  <el-card class="ft-card fake-separation">
     <el-button
       type="primary"
       :loading="updateLoading"

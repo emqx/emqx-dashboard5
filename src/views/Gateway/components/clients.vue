@@ -1,5 +1,5 @@
 <template>
-  <el-card class="gateway-client">
+  <el-card class="gateway-client app-card no-border">
     <el-form class="search-wrapper" @keyup.enter="searchGatewayList()">
       <el-row :gutter="20">
         <el-col :span="6">

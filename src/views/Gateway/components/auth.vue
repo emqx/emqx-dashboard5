@@ -9,7 +9,7 @@
           {{ tl('noAuthTips') }}
         </div>
       </div>
-      <el-card v-else>
+      <el-card class="app-card no-border" v-else>
         <authn-details
           :gateway-info="hasAuth"
           :update-func="authUpdate"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-card class="app-card no-border">
     <div class="section-header" v-if="!showIntegration">
       <div></div>
       <CreateButton @click="addListener">
@@ -52,7 +52,7 @@
       @submit="submitListener"
       @delete="delListener($event)"
     />
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
