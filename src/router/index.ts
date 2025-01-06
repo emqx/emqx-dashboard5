@@ -504,6 +504,11 @@ export const routes: Array<RouteRecordRaw> = [
         name: 'mqtt-system-topic',
         component: () => import('@/views/Config/BasicConfig/SystemTopics.vue'),
       },
+      {
+        path: 'force-shutdown',
+        name: 'mqtt-force-shutdown',
+        component: () => import('@/views/Config/BasicConfig/ForceShutdown.vue'),
+      },
     ],
   },
   // log config
@@ -617,7 +622,7 @@ export function toLogin(path?: string): void {
   currentPath !== '/login' &&
     router.push({
       path: '/login',
-      query: { to: path ? path : currentPath ?? undefined },
+      query: { to: path ? path : (currentPath ?? undefined) },
     })
 }
 

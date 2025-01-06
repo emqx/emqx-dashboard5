@@ -7,14 +7,14 @@
     </el-table-column>
     <el-table-column v-if="!disabled" width="100">
       <template #header>
-        <a href="javascript:;" class="btn" @click="addColumn">
+        <el-button link type="primary" @click="addColumn">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ $index }">
-        <a href="javascript:;" class="btn" @click="deleteItem($index)">
+        <el-button link type="primary" @click="deleteItem($index)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>

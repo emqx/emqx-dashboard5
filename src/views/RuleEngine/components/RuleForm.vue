@@ -79,6 +79,9 @@
         <el-button @click="$router.push({ name: 'rule' })">
           {{ savedAfterDataChange ? tl('backToRuleList') : $t('Base.cancel') }}
         </el-button>
+        <el-button type="primary" plain :disabled="disabled" @click="saveAsCopy" v-if="isEdit">
+          {{ tl('saveAsCopy') }}
+        </el-button>
         <el-button
           type="primary"
           :disabled="disabled || isDataSaveButtonDisabled"
@@ -86,9 +89,6 @@
           @click="$emit('save')"
         >
           {{ isEdit ? $t('Base.update') : $t('Base.save') }}
-        </el-button>
-        <el-button type="primary" plain :disabled="disabled" @click="saveAsCopy" v-if="isEdit">
-          {{ tl('saveAsCopy') }}
         </el-button>
       </el-col>
     </el-row>

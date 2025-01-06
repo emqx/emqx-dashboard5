@@ -12,9 +12,9 @@
         <div class="node-info" v-if="currentInfo">
           <div class="node-card-header">
             <div class="node-title">{{ tl('nodeData') }}</div>
-            <a class="nodes-link" href="javascript:;" @click="$router.push('nodes')">
+            <router-link class="nodes-link" :to="{ name: 'nodes' }">
               {{ tl('viewNodes') }}<el-icon><Right /></el-icon>
-            </a>
+            </router-link>
           </div>
           <div class="node-card-body">
             <el-row :gutter="26">
@@ -155,10 +155,10 @@ const { nodes, loadData: getNodes } = useClusterNodes({
  * first time get node data, select the first node
  */
 let isInitialized = false
-let stats: Ref<Array<NodeStatisticalData>> = ref([])
-let graph: Ref<undefined | HTMLElement> = ref(undefined)
+const stats: Ref<Array<NodeStatisticalData>> = ref([])
+const graph: Ref<undefined | HTMLElement> = ref(undefined)
 const currentNodeName = ref('')
-let infoLoading: Ref<boolean> = ref(true)
+const infoLoading: Ref<boolean> = ref(true)
 
 const currentInfo = computed(() => {
   if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
@@ -170,7 +170,7 @@ const currentInfo = computed(() => {
 const { transMsNumToSimpleStr } = useDurationStr()
 const { syncPolling } = useSyncPolling()
 
-let getStats = async () => {
+const getStats = async () => {
   try {
     stats.value = await loadStats()
   } catch (error) {
@@ -186,7 +186,7 @@ const getNodeInfoByName = (nodeName: string) => {
 
 const { tl } = useI18nTl('Dashboard')
 
-let calcMemoryPercentage = computed(() => {
+const calcMemoryPercentage = computed(() => {
   return calcPercentage(
     currentInfo.value.node['memory_used'],
     currentInfo.value.node['memory_total'],

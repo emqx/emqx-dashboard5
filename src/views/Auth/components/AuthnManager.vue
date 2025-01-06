@@ -32,7 +32,7 @@
           <authn-users-import @uploadedData="loadData" />
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
-          <CreateButton class="icon-button" @click="addCommand"><span /></CreateButton>
+          <CreateButton class="icon-button" @click="addCommand" no-text />
         </el-tooltip>
       </div>
     </div>
@@ -149,7 +149,7 @@ const prop = defineProps({
 })
 
 const { t } = useI18n()
-let record = ref<DataManagerItem>(createRawUserForm())
+const record = ref<DataManagerItem>(createRawUserForm())
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
@@ -255,7 +255,7 @@ const handleDelete = (row: DataManagerItem) => {
 }
 
 const save = async () => {
-  let validation = await recordForm.value.validate()
+  const validation = await recordForm.value.validate()
   if (!validation) {
     return
   }

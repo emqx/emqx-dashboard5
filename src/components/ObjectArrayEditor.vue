@@ -22,8 +22,8 @@
           <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
             <SchemaFormItem
               v-model="arr[$index][key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols as string[] | number[] | undefined)"
+              :type="(value as any).type"
+              :symbols="(value as any).symbols"
               :custom-props="value.componentProps"
               :property="value"
               :items="value.items"
@@ -34,14 +34,14 @@
     </el-table-column>
     <el-table-column width="80px" v-if="!disabled">
       <template #header>
-        <a href="javascript:;" @click="addItem">
+        <el-button link type="primary" @click="addItem">
           {{ $t('Base.add') }}
-        </a>
+        </el-button>
       </template>
       <template #default="{ $index }">
-        <a href="javascript:;" @click="deleteItem($index)">
+        <el-button link type="primary" @click="deleteItem($index)">
           {{ $t('Base.delete') }}
-        </a>
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -61,8 +61,8 @@
           >
             <SchemaFormItem
               v-model="item[key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols  as string[] | number[] | undefined)"
+              :type="(value as any).type"
+              :symbols="(value as any).symbols"
             />
           </CustomFormItem>
         </div>

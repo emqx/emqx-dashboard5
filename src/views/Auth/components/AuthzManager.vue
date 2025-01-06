@@ -24,7 +24,9 @@
         </template>
       </div>
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <CreateButton class="icon-button" @click="handleAdd"><span /></CreateButton>
+        <CreateButton class="icon-button" @click="handleAdd">
+          <template v-if="false"></template>
+        </CreateButton>
       </el-tooltip>
     </div>
     <el-table
@@ -211,28 +213,30 @@
               </el-table-column>
               <el-table-column align="right" max-width="160px">
                 <template #header>
-                  <a href="javascript:;" class="btn" @click="addColumn">
+                  <el-button link type="primary" class="btn" @click="addColumn">
                     {{ $t('Base.add') }}
-                  </a>
+                  </el-button>
                 </template>
                 <template #default="{ row, $index }">
-                  <a
-                    href="javascript:;"
-                    :class="['btn', { disabled: $index === 0 }]"
+                  <el-button
+                    link
+                    type="primary"
+                    :disabled="$index === 0"
                     @click="handleUp(row, $index)"
                   >
                     {{ $t('Base.up') }}
-                  </a>
-                  <a
-                    href="javascript:;"
-                    :class="['btn', { disabled: $index === rulesData.length - 1 }]"
+                  </el-button>
+                  <el-button
+                    link
+                    type="primary"
+                    :disabled="$index === rulesData.length - 1"
                     @click="handleDown(row, $index)"
                   >
                     {{ $t('Base.down') }}
-                  </a>
-                  <a href="javascript:;" class="btn" @click="deleteItem(row, $index)">
+                  </el-button>
+                  <el-button link type="primary" class="btn" @click="deleteItem(row, $index)">
                     {{ $t('Base.delete') }}
-                  </a>
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -661,12 +665,13 @@ export default defineComponent({
   }
   .form-table {
     .cell {
-      .btn.disabled {
-        cursor: not-allowed;
-        color: var(--color-text-placeholder);
-      }
-      .btn + .btn {
-        margin-left: 8px;
+      .el-button {
+        padding: 0;
+        margin-right: 0;
+        border: none;
+        & + .el-button {
+          margin-left: 8px;
+        }
       }
     }
   }
