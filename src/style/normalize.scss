@@ -178,6 +178,8 @@
 /* Table */
 .el-table {
   border-radius: 0;
+  --el-fill-color-lighter: var(--color-grey-12);
+  --el-table-row-hover-bg-color: var(--color-grey-10);
   &:after,
   &:before,
   .el-table__inner-wrapper:after,
@@ -265,9 +267,6 @@
 }
 .el-table__inner-wrapper::before {
   height: 0px;
-}
-.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
-  background: var(--color-grey-12);
 }
 .el-table__header-wrapper tr td.el-table-fixed-column--left,
 .el-table__header-wrapper tr td.el-table-fixed-column--right,

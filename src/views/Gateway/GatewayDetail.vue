@@ -1,32 +1,42 @@
 <template>
-  <div class="app-wrapper gateway-detail">
-    <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }">
-      <template #content>
-        <div class="vertical-align-center">
-          <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
-          <p class="block-title">{{ transGatewayName(gname) }}</p>
-          <el-tag type="info" class="section-status">
-            <span>
-              <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
-              <span>{{ gInfo.status }}</span>
-            </span>
-          </el-tag>
-        </div>
-      </template>
-    </detail-header>
-    <el-menu router :default-active="matchedUrl" mode="horizontal">
+  <div class="gateway-detail">
+    <div class="detail-top">
+      <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <span
+              class="g-icon"
+              :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"
+            ></span>
+            <p class="block-title">{{ transGatewayName(gname) }}</p>
+            <el-tag type="info" class="section-status">
+              <span>
+                <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
+                <span>{{ gInfo.status }}</span>
+              </span>
+            </el-tag>
+          </div>
+        </template>
+      </detail-header>
+    </div>
+    <el-tabs class="detail-tabs" type="card" :model-value="matchedUrl" @tab-click="handleTabClick">
+      <el-tab-pane v-for="item in types" :key="item" :label="tl(item)" :name="item" lazy>
+        <router-view></router-view>
+      </el-tab-pane>
+    </el-tabs>
+    <!-- <el-menu router :default-active="matchedUrl" mode="horizontal">
       <template v-for="item in types" :key="item">
         <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
       </template>
     </el-menu>
-    <router-view></router-view>
+    <router-view></router-view> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { getGateway } from '@/api/gateway'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
@@ -53,6 +63,13 @@ const matchedUrl = computed(() => {
   )
 })
 
+const router = useRouter()
+const handleTabClick = ({ paneName }: { paneName: string } & unknown) => {
+  if (paneName !== matchedUrl.value) {
+    router.push(paneName)
+  }
+}
+
 const loadGatewayInfo = async () => {
   try {
     gInfo.value = await getGateway(gname.value)
@@ -75,8 +92,6 @@ loadGatewayInfo()
   .detail-top {
     display: flex;
     align-items: center;
-    padding-left: 0;
-    padding-right: 0;
   }
   .el-page-header__content {
     line-height: 1;
