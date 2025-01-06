@@ -403,6 +403,10 @@ export default {
     zh: '会话持久化',
     en: 'Durable Sessions',
   },
+  'mqtt-force-shutdown': {
+    zh: '强制关闭',
+    en: 'Force Shutdown',
+  },
   /* For Quick Panel Start */
   'rule-create': {
     zh: '创建规则',
