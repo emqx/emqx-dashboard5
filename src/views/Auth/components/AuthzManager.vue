@@ -16,24 +16,15 @@
             @keyup.enter="resetPageAndLoadData"
           />
           <el-tooltip :content="$t('Base.search')" placement="top">
-            <el-button type="primary" plain :icon="Search" @click="resetPageAndLoadData">
-            </el-button>
+            <SearchButton @click="resetPageAndLoadData" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <el-button class="icon-button" type="primary" :icon="Refresh" @click="loadData">
-            </el-button>
+            <RefreshButton class="icon-button" no-text @click="loadData" />
           </el-tooltip>
         </template>
       </div>
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <el-button
-          class="icon-button"
-          :disabled="!$hasPermission('post')"
-          type="primary"
-          :icon="Plus"
-          @click="handleAdd"
-        >
-        </el-button>
+        <CreateButton class="icon-button" @click="handleAdd"><span /></CreateButton>
       </el-tooltip>
     </div>
     <el-table
@@ -62,21 +53,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row, $index }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('put')"
-            @click="handleEdit(row, $index)"
-          >
+          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row, $index)">
             {{ $t('Base.edit') }}
-          </el-button>
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="handleDelete(row, $index)"
-          >
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row, $index)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
           <TableDropdown
             :row-data="row"
             :position="$index"
@@ -127,21 +109,12 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row, $index }">
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('put')"
-              @click="handleEdit(row, $index)"
-            >
+            <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
-            </el-button>
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('delete')"
-              plain
-              @click="handleDelete(row, $index)"
-            >
+            </TableButton>
+            <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row, $index)">
               {{ $t('Base.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </el-table-column>
       </el-table>
@@ -294,7 +267,6 @@ import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -624,9 +596,6 @@ export default defineComponent({
 
     return {
       BuiltInDBType,
-      Plus,
-      Search,
-      Refresh,
       tableCom,
       recordForm,
       type,

@@ -1213,8 +1213,8 @@
   resolved "https://registry.yarnpkg.com/@emqx/shared-ui-utils/-/shared-ui-utils-0.0.16.tgz#3cb4f16f0050bae0fa5818db2948105a48bcf9b5"
   integrity sha512-MAF8Ta8phj+1BCuAT+wbUqLIGdYV6yAww0GtvL6t+ezJcxjyXsS50HT+W8MOTv82A6GnI1Oj3ZS41PfcNOHJFw==
   dependencies:
-    "@emqx/shared-ui-constants" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants"
-    "@emqx/shared-ui-i18n" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n"
+    "@emqx/shared-ui-constants" "link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants"
+    "@emqx/shared-ui-i18n" "link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n"
     json-bigint "^1.0.0"
     papaparse "^5.4.1"
     vue-i18n "^9.10.2"

@@ -2,14 +2,9 @@
   <div>
     <div class="section-header" v-if="!showIntegration">
       <div></div>
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="addListener"
-      >
+      <CreateButton @click="addListener">
         {{ tl('addListener') }}
-      </el-button>
+      </CreateButton>
     </div>
     <el-table :data="listenerTable" v-loading="listenerLoading">
       <el-table-column :label="$t('Base.name')" prop="name" show-overflow-tooltip>
@@ -43,14 +38,9 @@
       </el-table-column>
     </el-table>
     <div class="not-standalone-btn" v-if="showIntegration">
-      <el-button
-        type="primary"
-        :disabled="!$hasPermission('post')"
-        :icon="Plus"
-        @click="addListener"
-      >
+      <CreateButton @click="addListener">
         {{ tl('addListener') }}
-      </el-button>
+      </CreateButton>
     </div>
 
     <ListenerDrawer
@@ -71,7 +61,6 @@ import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import _ from 'lodash'
 import { useRoute } from 'vue-router'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
 import useI18nTl from '@/hooks/useI18nTl'

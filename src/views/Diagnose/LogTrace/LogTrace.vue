@@ -3,14 +3,7 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('post')"
-          :icon="Plus"
-          @click="openCreateDialog"
-        >
-          {{ $t('Base.create') }}
-        </el-button>
+        <CreateButton @click="openCreateDialog" />
       </div>
     </div>
 
@@ -85,29 +78,22 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
-          <el-button size="small" @click="download(row)" :loading="row.isLoading">
+          <TableButton @click="download(row)" :loading="row.isLoading">
             {{ $t('LogTrace.download') }}
-          </el-button>
+          </TableButton>
           <template v-if="row.status !== 'stopped'">
-            <el-button
-              size="small"
+            <TableButton
               type="danger"
               :disabled="!$hasPermission('put')"
-              plain
               @click="stopTraceHandler(row)"
             >
               {{ $t('LogTrace.stop') }}
-            </el-button>
+            </TableButton>
           </template>
           <template v-else>
-            <el-button
-              size="small"
-              :disabled="!$hasPermission('delete')"
-              plain
-              @click="deleteTraceHandler(row)"
-            >
+            <TableButton :disabled="!$hasPermission('delete')" @click="deleteTraceHandler(row)">
               {{ $t('LogTrace.delete') }}
-            </el-button>
+            </TableButton>
           </template>
         </template>
       </el-table-column>
@@ -231,7 +217,6 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
-import { Plus } from '@element-plus/icons-vue'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { omit, startCase } from 'lodash'
 import moment from 'moment'
@@ -449,7 +434,6 @@ export default defineComponent({
     })
 
     return {
-      Plus,
       t,
       tl: (key: string) => t('LogTrace.' + key),
       traceTbLoading,

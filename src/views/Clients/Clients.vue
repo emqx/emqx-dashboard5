@@ -70,12 +70,8 @@
           <el-col v-bind="colProps" />
         </template>
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
-          <el-button type="primary" plain :icon="Search" @click="handleSearch">
-            {{ $t('Base.search') }}
-          </el-button>
-          <el-button :icon="RefreshLeft" @click="handleReset">
-            {{ $t('Base.reset') }}
-          </el-button>
+          <SearchButton @click="handleSearch" />
+          <ResetButton @click="handleReset" />
           <el-tooltip
             :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
             placement="top"
@@ -106,9 +102,7 @@
         >
           {{ tl('kickOut') }}
         </el-button>
-        <el-button type="primary" :icon="Refresh" @click="loadNodeClients">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="loadNodeClients" />
       </div>
       <el-table
         :data="tableData"
@@ -189,7 +183,7 @@ import { useCursorPagination } from '@/hooks/usePagination'
 import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { ArrowDown, ArrowUp, Delete, Refresh, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed } from 'vue'

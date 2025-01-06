@@ -109,12 +109,8 @@
         <el-col :sm="12" :md="12" :lg="12" />
       </template>
       <el-col v-bind="colProps" class="col-oper">
-        <el-button plain type="primary" :icon="Search" @click="searchRule">
-          {{ $t('Base.search') }}
-        </el-button>
-        <el-button :icon="RefreshLeft" @click="handleReset">
-          {{ $t('Base.reset') }}
-        </el-button>
+        <SearchButton @click="searchRule" />
+        <ResetButton @click="handleReset" />
         <el-tooltip
           :content="!showMoreQuery ? $t('Base.showMore') : $t('Base.lessMore')"
           placement="top"
@@ -139,7 +135,7 @@ import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
-import { ArrowDown, ArrowUp, RefreshLeft, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { omit } from 'lodash'
 import type { Ref } from 'vue'
 import { computed, defineEmits, defineProps, ref } from 'vue'

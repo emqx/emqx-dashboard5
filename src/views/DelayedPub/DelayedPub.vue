@@ -11,7 +11,7 @@
       <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
       <el-table-column :label="'Payload'" :min-width="84">
         <template #default="{ row }">
-          <el-button size="small" @click="checkPayload(row)">{{ tl('openPayload') }}</el-button>
+          <TableButton @click="checkPayload(row)">{{ tl('openPayload') }}</TableButton>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.clientid')" prop="from_clientid" :min-width="146" />
@@ -25,14 +25,9 @@
 
       <el-table-column :label="$t('Base.operation')" :min-width="92">
         <template #default="{ row }">
-          <el-button
-            size="small"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="deleteDelayedInfo(row)"
-          >
+          <TableButton :disabled="!$hasPermission('delete')" @click="deleteDelayedInfo(row)">
             {{ $t('Base.delete') }}
-          </el-button>
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>

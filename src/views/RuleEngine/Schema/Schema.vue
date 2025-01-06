@@ -2,9 +2,7 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button :disabled="!$hasPermission('post')" type="primary" @click="addSchema" :icon="Plus">
-        {{ $t('Base.create') }}
-      </el-button>
+      <CreateButton @click="addSchema" />
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
       <el-table-column prop="name" :label="t('Base.name')" />
@@ -16,9 +14,9 @@
       <el-table-column prop="description" :label="t('Base.note')" />
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <el-button size="small" @click="goSchemaDetail(row.name)">
+          <TableButton @click="goSchemaDetail(row.name)">
             {{ $t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             @duplicate="handleCopy(row.name)"
@@ -35,7 +33,6 @@ import { deleteSchema, querySchemas } from '@/api/ruleengine'
 import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistry } from '@/types/rule'
-import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Ref, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'

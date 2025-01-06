@@ -2,9 +2,9 @@
   <div class="exhook app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addExhook" :icon="Plus">
-        {{ $t('Base.add') }}
-      </el-button>
+      <CreateButton @click="addExhook">
+        {{ t('Base.add') }}
+      </CreateButton>
     </div>
     <el-table
       ref="tableCom"
@@ -46,12 +46,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row, $index }">
-          <el-button size="small" @click="goExhookDetail(row, 'hooks')">
+          <TableButton @click="goExhookDetail(row, 'hooks')">
             {{ tl('hooks') }}
-          </el-button>
-          <el-button size="small" @click="goExhookDetail(row, 'settings')">
+          </TableButton>
+          <TableButton @click="goExhookDetail(row, 'settings')">
             {{ $t('Base.setting') }}
-          </el-button>
+          </TableButton>
           <TableItemDropdown
             :row-data="row"
             :table-len="exhooks.length"
@@ -80,7 +80,6 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useMove from '@/hooks/useMove'
-import { Plus } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()
