@@ -539,6 +539,9 @@
 .el-button:focus-visible {
   outline: none;
 }
+.el-button--small {
+  font-size: 14px;
+}
 
 /* Dropdown */
 .el-dropdown-menu {

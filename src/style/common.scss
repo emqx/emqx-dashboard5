@@ -506,11 +506,14 @@ input:disabled {
   margin-bottom: 16px;
   border: 1px solid var(--color-border-card);
   > .el-tabs__header {
-    background-color: var(--color-grey-12);
     margin-bottom: 24px;
+    border-bottom: none;
+    background-color: var(--color-grey-12);
     .el-tabs__item {
+      border-left: none;
+      border-right: 1px solid var(--color-border-card);
       &:not(.is-active) {
-        background-color: var(--color-grey-11);
+        background-color: #f5f6f7;
       }
       &.is-active {
         background-color: var(--color-bg-content);
