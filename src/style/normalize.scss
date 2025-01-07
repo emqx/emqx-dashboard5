@@ -68,7 +68,7 @@
   --el-color-info: #7A7B80;
   --el-box-shadow-light: var(--color-shadow-primary) 0px 4px 12px;
   --el-border: 1px solid var(--color-border-primary);
-  --el-fill-color-light: var(--color-bg-split);
+  --el-fill-color-light: var(--color-grey-10);
 }
 
 /* Menu */
@@ -790,8 +790,24 @@
 
 /* Message Box */
 .el-message-box {
+  padding-bottom: 12px;
   background-color: var(--color-bg-content);
   border: 1px solid var(--color-border-normal);
+  .el-message-box__headerbtn {
+    display: none;
+  }
+  .el-message-box__header {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .el-message-box__content {
+    padding-top: 24px;
+    padding-bottom: 20px;
+  }
+  .el-message-box__btns {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
 .el-message-box__status + .el-message-box__message {
   line-height: 1.4;

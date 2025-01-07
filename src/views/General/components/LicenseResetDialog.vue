@@ -103,7 +103,6 @@ const submit = async () => {
 <style lang="scss">
 .license-reset-dialog {
   .el-form-item {
-    margin-bottom: 0;
     .el-form-item__content {
       line-height: 1.5;
     }
