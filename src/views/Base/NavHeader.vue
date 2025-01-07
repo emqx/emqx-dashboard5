@@ -234,13 +234,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$header-heigh: 60px;
+$header-heigh: 52px;
 
 .nav-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  height: $header-heigh;
   padding: 0 12px 0 8px;
   background-color: #272e3d;
   left: 200px;
@@ -304,7 +304,7 @@ $header-heigh: 60px;
   height: 32px;
   width: 360px;
   padding: 4px 16px;
-  margin-right: 24px;
+  margin-right: 20px;
   justify-content: space-between;
   align-items: center;
   border: 1px solid transparent;
@@ -344,7 +344,7 @@ $header-heigh: 60px;
 }
 
 .func-item {
-  padding: 0 10px;
+  padding: 0 9px;
   transition: all 0.3s;
   cursor: pointer;
   color: #fff;
@@ -364,7 +364,7 @@ $header-heigh: 60px;
   background-color: transparent;
   color: #fff;
   border: 1px solid var(--color-border-primary);
-  margin-right: 12px;
+  margin-right: 9px;
   .el-icon {
     padding-left: 10px;
     width: 24px;
@@ -382,7 +382,7 @@ $header-heigh: 60px;
   display: inline-block;
 }
 .link-help {
-  margin: 12px;
+  margin: 9px;
 }
 .el-icon.bell,
 .el-icon.settings {
