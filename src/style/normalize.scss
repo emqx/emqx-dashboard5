@@ -1071,4 +1071,12 @@
       height: 50px;
     }
   }
+  &.is-simple {
+    .el-dialog__body {
+      padding-bottom: 4px;
+    }
+    .el-dialog__footer {
+      border-top: none;
+    }
+  }
 }

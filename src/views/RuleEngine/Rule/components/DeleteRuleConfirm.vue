@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="showDialog"
-    class="common-dialog delete-second-confirm"
+    class="common-dialog delete-second-confirm is-simple"
     :width="400"
     :z-index="2000"
   >
