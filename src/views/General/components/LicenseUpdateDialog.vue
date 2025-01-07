@@ -93,11 +93,3 @@ const submit = async () => {
   }
 }
 </script>
-
-<style lang="scss">
-.license-update-dialog {
-  .el-form-item {
-    margin-bottom: 0;
-  }
-}
-</style>

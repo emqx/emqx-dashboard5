@@ -506,7 +506,6 @@ input:disabled {
   margin-bottom: 16px;
   border: 1px solid var(--color-border-card);
   > .el-tabs__header {
-    margin-bottom: 24px;
     border-bottom: none;
     background-color: var(--color-grey-12);
     .el-tabs__item {
@@ -534,6 +533,10 @@ input:disabled {
   }
   &.no-border {
     border: none;
+    .el-card__body {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   .el-card__body>.el-form:not(.search-wrapper),
   .el-card__body>.schema-form:not(.is-loading) {

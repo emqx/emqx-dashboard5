@@ -395,6 +395,7 @@ const { syncPolling } = useSyncPolling()
 @use 'sass:math';
 
 .overview-metrics {
+  padding-top: 16px;
   .stats-numbers {
     margin-bottom: 24px;
     &:last-child {

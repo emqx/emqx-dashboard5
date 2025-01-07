@@ -5,7 +5,7 @@ import {
   RefreshButton,
   SearchButton,
   ResetButton,
-  ShowMoreButton
+  ShowMoreButton,
   AddItemButton,
 } from './Buttons'
 import ListCard from './ListCard.vue'

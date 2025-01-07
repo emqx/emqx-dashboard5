@@ -453,11 +453,11 @@ defineExpose({ validate })
 @use '~@/style/mixins.scss';
 .rule-form {
   .sql-col {
-    padding: 24px;
+    padding: 24px 16px;
     border-right: 1px solid var(--color-border-normal);
   }
   .action-col {
-    padding: 24px;
+    padding: 16px;
     height: 628px;
     .io-tabs {
       display: flex;
