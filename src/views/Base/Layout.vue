@@ -233,7 +233,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$header-heigh: 60px;
+$header-heigh: 52px;
 
 .el-aside {
   transition: all 0.3s;
@@ -295,7 +295,7 @@ $header-heigh: 60px;
     margin-top: $header-heigh;
     position: relative;
     height: 100%;
-    height: calc(100% - #{$header-heigh}); /* 60px + 12px padding */
+    height: calc(100% - #{$header-heigh});
     overflow: hidden;
   }
 }

@@ -18,7 +18,7 @@ const { tl } = useI18nTl('Base')
 <style lang="scss">
 .not-found {
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 52px);
   align-items: center;
   .el-icon {
     color: var(--color-text-secondary);
