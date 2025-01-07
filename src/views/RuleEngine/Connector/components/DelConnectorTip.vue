@@ -2,7 +2,7 @@
   <el-dialog
     v-model="showDialog"
     :width="400"
-    class="common-dialog delete-second-confirm"
+    class="common-dialog delete-second-confirm is-simple"
     :title="t('Base.confirmDelete')"
     :z-index="2000"
   >

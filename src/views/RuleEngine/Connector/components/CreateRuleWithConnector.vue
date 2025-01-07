@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="showDialog"
-    class="create-rule-with-connector-dialog"
+    class="create-rule-with-connector-dialog is-simple"
     :width="420"
     :title="title"
     :close-on-click-modal="false"
