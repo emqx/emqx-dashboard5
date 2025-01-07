@@ -77,11 +77,6 @@
     </el-tabs>
     <CopySubmitDialog :target="copyTarget" v-model="showNameInputDialog" />
   </div>
-  <DeleteWebhookAssociatedTip
-    v-model="showDeleteWebhookAssociatedTip"
-    type="rule"
-    :name="currentDelId"
-  />
   <DeleteRuleConfirm v-model="showDeleteConfirm" :rule="currentRule" @submitted="handleDeleteSuc" />
 </template>
 
@@ -104,7 +99,6 @@ import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
-import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import RuleForm from '../components/RuleForm.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
@@ -172,8 +166,6 @@ const enableOrDisableRule = async () => {
   }
 }
 
-const currentDelId = ref('')
-const showDeleteWebhookAssociatedTip = ref(false)
 const { judgeIsWebhookRule } = useWebhookUtils()
 
 /* Webhook associated */
@@ -188,8 +180,6 @@ const showDeleteConfirm = ref(false)
 const currentRule = ref<undefined | RuleItem>(undefined)
 const deleteRule = async () => {
   if (isWebhookRule.value) {
-    currentDelId.value = id
-    showDeleteWebhookAssociatedTip.value = true
     return
   }
   currentRule.value = ruleInfo.value
