@@ -319,7 +319,7 @@ $header-heigh: 52px;
 }
 
 .top-submenu {
-  margin: 16px;
+  margin: 8px 16px 16px;
 }
 
 // 60px is header height

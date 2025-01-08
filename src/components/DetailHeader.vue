@@ -55,8 +55,8 @@ const goBack = () => {
 
 <style lang="scss">
 .detail-header {
-  margin-top: 32px;
-  margin-bottom: 24px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   .el-page-header__breadcrumb {
     display: none;
   }
