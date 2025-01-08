@@ -43,12 +43,14 @@
           <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
             :disabled="!$hasPermission('put')"
+            :icon="RemoveFilled"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
           </TableButton>
           <TableButton
             :disabled="!$hasPermission('put')"
+            :icon="CaretRight"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
@@ -86,6 +88,7 @@ import { SortableEvent } from 'sortablejs'
 import useSortableTable from '@/hooks/useSortableTable'
 import useMove from '@/hooks/useMove'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import { CaretRight, RemoveFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

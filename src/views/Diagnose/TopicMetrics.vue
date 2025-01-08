@@ -118,10 +118,18 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row, $index }">
-          <TableButton :class="BTN_VIEW_CLASS" @click="loadMetricsFromTopic(row, $index)">
+          <TableButton
+            :class="BTN_VIEW_CLASS"
+            :icon="View"
+            @click="loadMetricsFromTopic(row, $index)"
+          >
             {{ $t('Base.view') }}
           </TableButton>
-          <TableButton :disabled="!$hasPermission('put')" @click="resetTopic(row, $index)">
+          <TableButton
+            :disabled="!$hasPermission('put')"
+            :icon="RefreshLeft"
+            @click="resetTopic(row, $index)"
+          >
             {{ $t('Base.reset') }}
           </TableButton>
           <TableButton :disabled="!$hasPermission('delete')" @click="deleteTopic(row)">
@@ -175,6 +183,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { waitAMoment } from '@/common/tools.ts'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
+import { RefreshLeft, View } from '@element-plus/icons-vue'
 
 const DEFAULT_QOS = 'all'
 

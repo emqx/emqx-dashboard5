@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="232">
         <template #default="{ row, $index }">
-          <TableButton @click="goExhookDetail(row, 'hooks')">
+          <TableButton :icon="Check" @click="goExhookDetail(row, 'hooks')">
             {{ tl('hooks') }}
           </TableButton>
           <TableButton @click="goExhookDetail(row, 'settings')">
@@ -80,6 +80,7 @@ import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import useMove from '@/hooks/useMove'
+import { Check } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

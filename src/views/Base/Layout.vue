@@ -27,7 +27,7 @@
         </div>
       </el-aside>
       <el-main :style="{ marginLeft: elMainStyle }">
-        <div class="main-content">
+        <div class="main-content" :class="{ 'bg-white': isWhiteBg }">
           <el-scrollbar>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
@@ -179,6 +179,11 @@ export default defineComponent({
       isNotFound.value = route.matched?.[1]?.name === 'not-found'
     }
 
+    const whiteBgRouteNames = ['overview']
+    const isWhiteBg = computed(() => {
+      return whiteBgRouteNames.includes(route.name as string)
+    })
+
     onBeforeRouteUpdate((to) => {
       if (
         to &&
@@ -222,6 +227,7 @@ export default defineComponent({
       showSubMenu,
       leftBarCollapse,
       fullHeight,
+      isWhiteBg,
       kebab2pascal,
       isNotFound,
       firstPath,
@@ -297,6 +303,9 @@ $header-heigh: 52px;
     height: 100%;
     height: calc(100% - #{$header-heigh});
     overflow: hidden;
+    &.bg-white {
+      background-color: var(--color-bg-content);
+    }
   }
 }
 

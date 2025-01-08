@@ -82,7 +82,11 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('delete')" @click="disconnectClient(row)">
+          <TableButton
+            :disabled="!$hasPermission('delete')"
+            :icon="Close"
+            @click="disconnectClient(row)"
+          >
             {{ $t('Clients.kickOut') }}
           </TableButton>
         </template>
@@ -116,6 +120,7 @@ import useClusterNodes from '@/hooks/useClusterNodes'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { CheckStatus, GatewayName } from '@/types/enum'
+import { Close } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { commonPagination, ClientDetails, CheckIcon },
@@ -227,6 +232,7 @@ export default defineComponent({
       name: gname,
       pageMeta,
       CheckStatus,
+      Close,
     }
   },
 })

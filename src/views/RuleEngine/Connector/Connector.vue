@@ -72,6 +72,7 @@
                 v-if="isErrorStatus(row)"
                 :disabled="!$hasPermission('post') || row.canNotView"
                 :loading="reconnectingMap.get(row.id)"
+                :icon="Connection"
                 @click="reconnect(row)"
               >
                 {{ $t('RuleEngine.reconnect') }}
@@ -134,6 +135,7 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
 import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
+import { Connection } from '@element-plus/icons-vue'
 
 const router = useRouter()
 

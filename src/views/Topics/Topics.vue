@@ -37,12 +37,13 @@
               :content="tl('wildcardNotSupport')"
             >
               <span>
-                <TableButton disabled>{{ tl('addMetric') }}</TableButton>
+                <TableButton :icon="DataAnalysis" disabled>{{ tl('addMetric') }}</TableButton>
               </span>
             </el-tooltip>
             <TableButton
               v-else
               :disabled="!$hasPermission('post')"
+              :icon="DataAnalysis"
               @click="createMetricForTopic(row.topic)"
             >
               {{ tl('addMetric') }}
@@ -72,6 +73,7 @@ import { useRouter } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
+import { DataAnalysis } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { tl } = useI18nTl('Subs')

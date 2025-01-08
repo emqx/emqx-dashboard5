@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <TableButton @click="checkPayload(row)">
+            <TableButton :icon="View" @click="checkPayload(row)">
               {{ tl('openPayload') }}
             </TableButton>
             <TableButton :disabled="!$hasPermission('delete')" @click="deleteRetainerTopic(row)">
@@ -112,7 +112,7 @@ import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RetainerMessage } from '@/types/extension'
-import { Remove, Setting } from '@element-plus/icons-vue'
+import { Remove, Setting, View } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')

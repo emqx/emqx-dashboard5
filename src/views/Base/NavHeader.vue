@@ -287,8 +287,10 @@ $header-heigh: 52px;
 .header-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 22px;
-  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  font-weight: normal;
+  color: #d3d5d8;
 }
 
 .pull-right {

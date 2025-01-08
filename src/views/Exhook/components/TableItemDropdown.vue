@@ -6,10 +6,10 @@
     popper-class="table-dropdown-popper"
   >
     <TableButton class="table-dropdown-btn">
-      <span>{{ $t('Base.more') }}</span>
-      <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
-        <CaretBottom />
+      <el-icon class="icon-arrow" :class="{ rotate: dropdownVisible }">
+        <ArrowDown />
       </el-icon>
+      <span>{{ $t('Base.more') }}</span>
     </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
@@ -54,7 +54,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
-import { ArrowDown, ArrowUp, Bottom, CaretBottom, Delete, Top } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp, Bottom, Delete, Top } from '@element-plus/icons-vue'
 import type { PropType, Ref } from 'vue'
 import { defineEmits, defineProps, ref } from 'vue'
 

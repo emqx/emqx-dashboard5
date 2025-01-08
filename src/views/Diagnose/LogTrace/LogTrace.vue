@@ -70,12 +70,12 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="220">
         <template #default="{ row }">
-          <TableButton @click="download(row)" :loading="row.isLoading">
+          <TableButton @click="download(row)" :loading="row.isLoading" :icon="Download">
             {{ $t('LogTrace.download') }}
           </TableButton>
           <template v-if="row.status !== 'stopped'">
             <TableButton
-              type="danger"
+              :icon="CircleClose"
               :disabled="!$hasPermission('put')"
               @click="stopTraceHandler(row)"
             >
@@ -215,6 +215,7 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
+import { CircleClose, Download } from '@element-plus/icons-vue'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { omit, startCase } from 'lodash'
 import moment from 'moment'
@@ -437,6 +438,8 @@ export default defineComponent({
       traceTbLoading,
       traceTable,
       CheckStatus,
+      Download,
+      CircleClose,
       createForm,
       typeOptions,
       record,

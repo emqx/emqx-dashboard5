@@ -6,12 +6,12 @@
     :disabled="disabled"
   >
     <TableButton class="table-dropdown-btn" :disabled="disabled">
+      <el-icon class="icon-arrow" :class="{ rotate: dropdownVisible }">
+        <ArrowDown />
+      </el-icon>
       <span>
         {{ $t('Base.more') }}
       </span>
-      <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
-        <CaretBottom />
-      </el-icon>
     </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
@@ -47,7 +47,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
-import { CaretBottom, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
+import { ArrowDown, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
