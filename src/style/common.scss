@@ -573,6 +573,9 @@ input:disabled {
     }
   }
 }
+.el-tab-pane > .el-card {
+  margin-bottom: 0;
+}
 .el-drawer__body {
   .ft-card {
     position: absolute;

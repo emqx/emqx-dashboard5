@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gateway-auth">
     <div v-loading="loadingAuth">
       <div class="auth-create" v-if="!hasAuth">
         <CreateButton @click="openAuthCreate()">
@@ -9,7 +9,7 @@
           {{ tl('noAuthTips') }}
         </div>
       </div>
-      <el-card class="app-card no-border" v-else>
+      <el-card class="app-card no-border allow-overflow detail-card" v-else>
         <authn-details
           :gateway-info="hasAuth"
           :update-func="authUpdate"
@@ -176,6 +176,21 @@ getAuthInfo()
 </style>
 
 <style lang="scss">
+.gateway-auth {
+  .ft-card.fake-separation {
+    margin-right: -17px;
+    margin-left: -17px;
+  }
+  .detail-card {
+    margin-bottom: 0;
+    > .el-card__body {
+      padding-bottom: 0;
+    }
+  }
+  .detail-top {
+    padding-left: 0;
+  }
+}
 .gateway-auth-dialog {
   .el-card.app-card {
     margin-bottom: 0;
