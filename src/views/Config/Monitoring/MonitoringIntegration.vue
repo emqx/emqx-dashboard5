@@ -265,18 +265,22 @@
             </el-row>
           </template>
           <!-- DATADOG -->
-          <el-form-item v-if="selectedPlatform === DATADOG">
-            <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
-              <template #docUse>
-                <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
-              </template>
-              <template #docIntegration>
-                <a :href="docMap.datadogIntegration" target="_blank">
-                  {{ tl('datadogIntegration') }}
-                </a>
-              </template>
-            </i18n-t>
-          </el-form-item>
+          <el-row v-if="selectedPlatform === DATADOG">
+            <el-col :span="21">
+              <el-form-item>
+                <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
+                  <template #docUse>
+                    <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
+                  </template>
+                  <template #docIntegration>
+                    <a :href="docMap.datadogIntegration" target="_blank">
+                      {{ tl('datadogIntegration') }}
+                    </a>
+                  </template>
+                </i18n-t>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
         <el-card class="ft-card btn-col">
           <el-button
