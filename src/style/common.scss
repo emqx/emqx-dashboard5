@@ -1155,8 +1155,12 @@ code {
       .el-input-number,
       .el-select,
       .el-autocomplete,
-      .one-of {
+      .one-of,
+      .el-date-editor {
         width: 400px;
+      }
+      .el-date-editor {
+        flex-grow: 0;
       }
     }
   }

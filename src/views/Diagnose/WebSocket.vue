@@ -1,8 +1,9 @@
 <template>
-  <div class="app-wrapper websocket">
+  <div class="websocket">
     <el-tabs
       v-model="activeTab"
       type="card"
+      class="detail-tabs"
       :before-leave="handleBeforeLeave"
       @tab-remove="handleTabEdit"
     >
@@ -35,6 +36,7 @@
       :ref="(el:typeof WebSocketItem) => storeItemRef(item.name, el)"
       :key="item.name"
       :name="item.name"
+      class="websocket-item"
       v-model:message-count="item.messageCount"
     />
   </div>
@@ -150,12 +152,21 @@ addNewTab()
 </script>
 
 <style lang="scss" scoped>
-.app-wrapper.websocket {
-  padding-top: 24px;
+.websocket {
+  padding-top: 16px;
+  .el-tabs.detail-tabs {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}
+.websocket-item {
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  border-top: none;
 }
 .el-tabs {
   :deep(.el-tabs__header) {
-    margin-bottom: 24px;
     .el-tabs__item.is-active {
       border-bottom: 1px solid var(--color-bg-main);
     }
@@ -163,6 +174,14 @@ addNewTab()
   & :deep(.el-badge__content.is-dot) {
     top: 7px;
     right: 5px;
+  }
+}
+</style>
+
+<style lang="scss">
+.websocket-item {
+  .el-card__body {
+    padding-top: 0;
   }
 }
 </style>
