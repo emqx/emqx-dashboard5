@@ -156,8 +156,7 @@
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <TableButton
-              type="danger"
-              plain
+              :icon="Close"
               @click="unSubscribe(row)"
               :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"
             >
@@ -287,7 +286,7 @@ import mqtt from 'mqtt'
 import moment from 'moment'
 import { ElMessage } from 'element-plus'
 import { QoSOptions, WEB_SOCKET_STATUS } from '@/common/constants'
-import { Delete } from '@element-plus/icons-vue'
+import { Delete, Close } from '@element-plus/icons-vue'
 import { chunkStr } from '@/common/tools.ts'
 import { MQTT_V3_RES_CODES, MQTT_V5_RES_CODES } from '@/common/constants.ts'
 import BooleanSelect from '@/components/BooleanSelect.vue'
@@ -318,6 +317,7 @@ export default {
 
   data() {
     return {
+      Close,
       WEB_SOCKET_STATUS,
       QoSOptions,
       times: 0,

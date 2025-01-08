@@ -6,10 +6,10 @@
     popper-class="table-dropdown-popper"
   >
     <TableButton class="table-dropdown-btn">
-      <span>{{ $t('Base.more') }}</span>
-      <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
-        <CaretBottom />
+      <el-icon class="icon-arrow" :class="{ rotate: dropdownVisible }">
+        <ArrowDown />
       </el-icon>
+      <span>{{ $t('Base.more') }}</span>
     </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
@@ -37,7 +37,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { SchemaRegistry } from '@/types/rule'
 import { defineProps, defineEmits, PropType, Ref, ref } from 'vue'
-import { CaretBottom, CopyDocument, Delete } from '@element-plus/icons-vue'
+import { ArrowDown, CopyDocument, Delete } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 
 defineProps({

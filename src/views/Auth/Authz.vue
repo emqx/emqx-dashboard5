@@ -50,6 +50,7 @@
         <template #default="{ row, $index }">
           <TableButton
             :style="{ marginRight: '10px' }"
+            :icon="Finished"
             v-if="row.type === 'built_in_database'"
             @click="routeToDetail(row, 'users')"
           >
@@ -86,7 +87,7 @@ import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
 import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
-import { Setting } from '@element-plus/icons-vue'
+import { Finished, Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'

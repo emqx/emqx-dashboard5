@@ -56,6 +56,7 @@
             "
             :disabled="!$hasPermission('post')"
             :loading="reconnectingMap.get(row.id)"
+            :icon="Connection"
             @click="reconnect(row)"
           >
             {{ $t('RuleEngine.reconnect') }}
@@ -97,6 +98,7 @@ import { useRouter } from 'vue-router'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+import { Connection } from '@element-plus/icons-vue'
 
 const router = useRouter()
 

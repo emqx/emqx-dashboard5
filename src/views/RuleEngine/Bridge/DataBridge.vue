@@ -61,6 +61,7 @@
               (row.status === ConnectionStatus.Disconnected ||
                 row.status === ConnectionStatus.Inconsistent)
             "
+            :icon="Connection"
             :disabled="!$hasPermission('post')"
             :loading="reconnectingMap.get(row.id)"
             @click="reconnect(row)"
@@ -121,6 +122,7 @@ import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssocia
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
+import { Connection } from '@element-plus/icons-vue'
 
 const bridgeTb = ref<Array<BridgeItem>>([])
 const tbLoading = ref(false)

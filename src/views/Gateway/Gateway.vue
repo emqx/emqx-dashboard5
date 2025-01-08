@@ -55,13 +55,17 @@
               {{ t('Base.setting') }}
             </TableButton>
             <TableButton :disabled="!isRunning(row.status)" @click="goClientPage(row)">
-              {{ tl('clients') }}
+              <el-icon><i class="iconfont icon-connections"></i></el-icon>
+              <span>
+                {{ tl('clients') }}
+              </span>
             </TableButton>
           </template>
           <TableButton
             v-else
             type="primary"
             :disabled="!$hasPermission('post')"
+            :icon="SetUp"
             @click="setupGateway(row)"
           >
             {{ tl('setup') }}
@@ -80,6 +84,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
+import { Platform, SetUp } from '@element-plus/icons-vue'
 import { ElMessageBox, ElMessage as M } from 'element-plus'
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -168,6 +173,8 @@ export default defineComponent({
     return {
       t,
       tl,
+      SetUp,
+      Platform,
       tbLoading,
       tbData,
       calcPercentage,
@@ -209,6 +216,9 @@ export default defineComponent({
   .g-title {
     vertical-align: 23px;
     padding: 0 5px;
+  }
+  .icon-connections {
+    font-size: 16px;
   }
 }
 [data-theme='light'] {

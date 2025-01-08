@@ -11,7 +11,7 @@
       <el-table-column :label="'QoS'" prop="qos" :min-width="84" />
       <el-table-column :label="'Payload'" :min-width="84">
         <template #default="{ row }">
-          <TableButton @click="checkPayload(row)">{{ tl('openPayload') }}</TableButton>
+          <TableButton :icon="View" @click="checkPayload(row)">{{ tl('openPayload') }}</TableButton>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.clientid')" prop="from_clientid" :min-width="146" />
@@ -51,7 +51,7 @@ import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DelayedMessage } from '@/types/extension'
-import { Setting } from '@element-plus/icons-vue'
+import { Setting, View } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { Ref, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'

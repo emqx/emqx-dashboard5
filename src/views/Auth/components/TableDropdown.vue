@@ -9,12 +9,12 @@
       popper-class="table-dropdown-popper"
     >
       <TableButton class="table-dropdown-btn">
+        <el-icon class="icon-arrow" :class="{ rotate: dropdownVisible }">
+          <ArrowDown />
+        </el-icon>
         <span>
           {{ $t('Base.more') }}
         </span>
-        <el-icon :size="8" class="icon-arrow" :class="{ rotate: dropdownVisible }">
-          <CaretBottom />
-        </el-icon>
       </TableButton>
       <template #dropdown>
         <el-dropdown-menu>
@@ -59,12 +59,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { Top, Bottom, Delete, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'TableDropdown',
-  components: { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown },
+  components: { Top, Bottom, Delete, ArrowUp, ArrowDown },
   props: {
     tableDataLen: {
       required: true,

@@ -26,6 +26,7 @@
           <TableButton
             v-if="canChangePwd(row)"
             :disabled="!isCurrentUser(row.username) && !$hasPermission('put')"
+            :icon="Lock"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
@@ -146,6 +147,7 @@ import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
 import useRole from '@/hooks/SSO/useRole'
+import { Lock } from '@element-plus/icons-vue'
 
 const SOURCE_LOCAL = 'local'
 

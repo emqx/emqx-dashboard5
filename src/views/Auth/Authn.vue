@@ -43,6 +43,7 @@
         <template #default="{ row, $index }">
           <TableButton
             :style="{ marginRight: '10px' }"
+            :icon="User"
             v-if="row.backend === 'built_in_database'"
             @click="routeToDetail(row, 'users')"
           >
@@ -82,6 +83,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
+import { User } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

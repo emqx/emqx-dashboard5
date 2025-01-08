@@ -33,13 +33,21 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" min-width="228">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('get')" @click="handleDownloadBackup(row)">
+          <TableButton
+            :disabled="!$hasPermission('get')"
+            :icon="Download"
+            @click="handleDownloadBackup(row)"
+          >
             {{ $t('Base.download') }}
           </TableButton>
           <TableButton :disabled="!$hasPermission('delete')" @click="handleDeleteBackup(row)">
             {{ $t('Base.delete') }}
           </TableButton>
-          <TableButton :disabled="!$hasPermission('post')" @click="handleRestoreBackup(row)">
+          <TableButton
+            :icon="RefreshRight"
+            :disabled="!$hasPermission('post')"
+            @click="handleRestoreBackup(row)"
+          >
             {{ tl('restore') }}
           </TableButton>
         </template>
@@ -65,7 +73,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
-import { Upload } from '@element-plus/icons-vue'
+import { Download, RefreshRight, Upload } from '@element-plus/icons-vue'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import {
   ElMessage,

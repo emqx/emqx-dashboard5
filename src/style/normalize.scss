@@ -238,11 +238,13 @@
     margin-right: 3px;
   }
   .el-table__cell {
-    padding: 16px 0;
+    padding: 14px 0;
+    line-height: 1;
     > .cell {
       padding: 0 16px;
       word-break: break-word;
       text-overflow: clip;
+      line-height: 20px;
     }
   }
   .el-table__row:last-child {
@@ -251,8 +253,6 @@
     }
   }
   .el-button {
-    margin-top: 2px;
-    margin-bottom: 2px;
     &:not(:last-child),
     & + .el-button,
     & + .el-dropdown {

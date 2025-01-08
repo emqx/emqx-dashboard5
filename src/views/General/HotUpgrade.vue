@@ -29,11 +29,12 @@
         <template #default="{ row }">
           <TableButton
             :disabled="!$hasPermission('post') || isUpgrading(row.status)"
+            :icon="Top"
             @click="openUpgradeDialog(row)"
           >
             {{ t('Base.upgrade') }}
           </TableButton>
-          <TableButton @click="openRecordsDialog(row)">
+          <TableButton :icon="Tickets" @click="openRecordsDialog(row)">
             {{ tl('upgradeRecords') }}
           </TableButton>
         </template>
@@ -51,6 +52,7 @@ import { NodeUpgradeData, NodeUpgradeStatus, TypeNodeUpgradeStatus } from '@/typ
 import { ref } from 'vue'
 import UpgradeNodeDialog from './components/UpgradeNodeDialog.vue'
 import UpgradeRecordsDialog from './components/UpgradeRecordsDialog.vue'
+import { Tickets, Top } from '@element-plus/icons-vue'
 
 const isTableLoading = ref(false)
 const nodeList = ref<NodeUpgradeData[]>([])
