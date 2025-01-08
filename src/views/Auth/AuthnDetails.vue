@@ -56,7 +56,12 @@
         </div>
       </div>
     </div>
-    <el-tabs class="detail-tabs" type="card" v-model="currTab" v-loading.lock="authnDetailLock">
+    <el-tabs
+      :class="{ 'detail-tabs': !gateway }"
+      :type="!gateway ? 'card' : undefined"
+      v-model="currTab"
+      v-loading.lock="authnDetailLock"
+    >
       <div>
         <el-tab-pane v-if="!gateway" name="overview" :label="$t('Base.overview')" :lazy="true">
           <div class="app-wrapper">
