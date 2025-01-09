@@ -943,19 +943,19 @@ code {
 
     &.node-source {
       &::before {
-        border-left-color: #4c9f8a;
+        border-left-color: #212734;
       }
     }
 
     &.node-processing {
       &::before {
-        border-left-color: var(--color-blue-grey);
+        border-left-color: #469CF7;
       }
     }
 
     &.node-sink {
       &::before {
-        border-left-color: #705799;
+        border-left-color: var(--color-blue-grey);
       }
     }
     img.is-scaled-up {
