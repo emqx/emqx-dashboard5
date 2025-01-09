@@ -52,7 +52,7 @@ const emit = defineEmits(['select'])
 const id = createRandomString()
 
 const gradientColor = computed(() =>
-  props.status === NodeStatus.Running ? ['#6D90C8', '#4A75BB'] : ['#dcdcdc', '#cdcdcd'],
+  props.status === NodeStatus.Running ? ['#5785e2', '#244ba6'] : ['#dcdcdc', '#cdcdcd'],
 )
 
 const getPoints = (multiple = 1) => {
