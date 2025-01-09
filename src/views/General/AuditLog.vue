@@ -91,18 +91,7 @@
             <el-col v-bind="showMoreQuery ? { sm: 24, md: 24, lg: 24 } : colProps" class="col-oper">
               <SearchButton @click="search" />
               <ResetButton @click="resetFilter" />
-              <el-tooltip
-                :content="!showMoreQuery ? t('Base.showMore') : $t('Base.lessMore')"
-                placement="top"
-              >
-                <el-button
-                  class="icon-button"
-                  plain
-                  :icon="showMoreQuery ? ArrowUp : ArrowDown"
-                  @click="showMoreQuery = !showMoreQuery"
-                >
-                </el-button>
-              </el-tooltip>
+              <ShowMoreButton v-model="showMoreQuery" />
             </el-col>
           </el-row>
         </div>
@@ -197,7 +186,7 @@ import {
   AuditLogOperationResult,
   GetAuditParams,
 } from '@/types/typeAlias'
-import { ArrowDown, ArrowUp, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import { pickBy, toUpper } from 'lodash'
 import moment from 'moment'
 import { Ref, computed, reactive, ref } from 'vue'
