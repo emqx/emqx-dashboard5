@@ -1,7 +1,7 @@
 <template>
   <el-button type="primary" plain :icon="Search" v-if="noText"></el-button>
   <el-button type="primary" plain :icon="Search" v-else>
-    <template>{{ tl('search') }}</template>
+    {{ tl('search') }}
   </el-button>
 </template>
 
