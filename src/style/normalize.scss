@@ -627,6 +627,10 @@
     white-space: normal;
   }
 }
+.el-select-dropdown__item.selected {
+  color: inherit;
+  background-color: var(--color-hover);
+}
 
 
 /* Date Edtior */
@@ -642,10 +646,10 @@
 .el-picker-panel__footer {
   background-color: var(--color-bg-content);
 }
-.el-date-table td.in-range .el-date-table-cell:hover,
-.el-date-table td.in-range .el-date-table-cell {
-  background-color: var(--color-bg-split); 
-}
+// .el-date-table td.in-range .el-date-table-cell:hover,
+// .el-date-table td.in-range .el-date-table-cell {
+//   background-color: var(--color-bg-split); 
+// }
 
 .el-picker-panel .el-time-panel {
   background-color: var(--color-bg-content);
@@ -654,6 +658,26 @@
 .el-picker-panel *[slot=sidebar],
 .el-picker-panel__sidebar {
   background-color: var(--color-bg-content);
+}
+.el-date-table td .el-date-table-cell .el-date-table-cell__text {
+  border-radius: 2px;
+}
+.el-date-table td.in-range .el-date-table-cell {
+  background-color: var(--color-hover);
+}
+.el-date-table td.start-date .el-date-table-cell {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.el-date-table td.end-date .el-date-table-cell {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.el-time-spinner__item:hover:not(.is-disabled):not(.is-active) {
+  background-color: var(--color-hover);
+}
+.el-time-spinner__item.is-active:not(.is-disabled) {
+  background-color: var(--color-grey-11);
 }
 
 /* Steps */
@@ -908,7 +932,30 @@
     display: none;
   }
 }
+.el-radio {
+  font-weight: normal;
+}
+.el-radio__inner::after {
+  width: 7px;
+  height: 7px;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  background-color: var(--color-bg-content);
+  &::after {
+    background-color: var(--color-blue-grey);
+  }
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: inherit;
+}
 
+/* Checkbox */
+.el-checkbox {
+  font-weight: normal;
+}
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: inherit;
+}
 
 /* Description */
 .el-descriptions {
