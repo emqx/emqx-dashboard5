@@ -352,7 +352,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       return true
     }
     return !(
-      outType === MESSAGE_TYPE_NONE && [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(inType)
+      inType === MESSAGE_TYPE_NONE && [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(outType)
     )
   }
 
