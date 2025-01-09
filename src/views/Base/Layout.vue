@@ -302,6 +302,7 @@ $header-heigh: 60px;
 .el-header {
   padding: 0;
   right: 0;
+  left: 0;
   position: fixed;
   z-index: 101;
   transition: all 0.3s;
