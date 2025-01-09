@@ -151,11 +151,6 @@
       :id="currentDeleteBridgeId"
       @submitted="handleDeleteSuc"
     />
-    <DeleteWebhookAssociatedTip
-      v-model="showDeleteWebhookAssociatedTip"
-      type="action"
-      :name="currentDelName"
-    />
   </div>
 </template>
 
@@ -178,7 +173,6 @@ import _ from 'lodash'
 import type { Ref } from 'vue'
 import { computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -387,8 +381,6 @@ const {
   showSecondConfirm,
   usingBridgeRules,
   currentDeleteBridgeId,
-  showDeleteWebhookAssociatedTip,
-  currentDelName,
   handleDeleteSuc,
   handleDeleteBridge,
 } = useDeleteBridge(goBack)

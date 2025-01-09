@@ -94,11 +94,6 @@
       </div>
     </div>
   </ListCard>
-  <DeleteWebhookAssociatedTip
-    v-model="showDeleteWebhookAssociatedTip"
-    type="rule"
-    :name="currentDelId"
-  />
   <DeleteRuleConfirm v-model="showDeleteConfirm" :rule="currentRule" @submitted="handleDeleteSuc" />
 </template>
 
@@ -116,7 +111,6 @@ import type { Ref } from 'vue'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
@@ -175,8 +169,6 @@ const copyRuleItem = (rule: RuleItem) => {
   router.push({ name: 'rule-create', query: { target: rule.id, action: 'copy' } })
 }
 
-const currentDelId = ref('')
-const showDeleteWebhookAssociatedTip = ref(false)
 const { judgeIsWebhookRule } = useWebhookUtils()
 
 const showDeleteConfirm = ref(false)
@@ -187,8 +179,6 @@ const deleteRule = async (rule: RuleItem) => {
     return
   }
   if (judgeIsWebhookRule(rule)) {
-    currentDelId.value = id
-    showDeleteWebhookAssociatedTip.value = true
     return
   }
   currentRule.value = rule
