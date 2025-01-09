@@ -549,7 +549,7 @@ export default {
   },
   lessMore: {
     zh: '收起',
-    en: 'Less',
+    en: 'Collapse',
   },
   followUs: {
     zh: '关注我们',

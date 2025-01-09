@@ -29,8 +29,7 @@
             {{ t('Clients.enableFuzzySearch') }}
           </el-checkbox>
         </el-col>
-
-        <el-col v-bind="colProps" class="buttons-wrap">
+        <el-col v-bind="colProps">
           <SearchButton @click="refreshListData" />
           <ResetButton @click="handleReset" />
         </el-col>
@@ -232,11 +231,6 @@ listBlackList()
     .el-form-item {
       margin-bottom: 0;
     }
-  }
-  .buttons-wrap {
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-end;
   }
 }
 </style>
