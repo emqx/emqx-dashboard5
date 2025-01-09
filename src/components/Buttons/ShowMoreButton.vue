@@ -1,17 +1,10 @@
 <template>
-  <el-tooltip :content="!showMoreQuery ? t('Base.showMore') : t('Base.lessMore')" placement="top">
-    <el-button
-      class="icon-button"
-      plain
-      :icon="showMoreQuery ? ArrowUp : ArrowDown"
-      @click="showMoreQuery = !showMoreQuery"
-    >
-    </el-button>
-  </el-tooltip>
+  <el-button link @click="showMoreQuery = !showMoreQuery">
+    {{ showMoreQuery ? t('Base.lessMore') : t('Base.showMore') }}
+  </el-button>
 </template>
 
 <script setup lang="ts">
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { defineProps, defineEmits, computed } from 'vue'
 
