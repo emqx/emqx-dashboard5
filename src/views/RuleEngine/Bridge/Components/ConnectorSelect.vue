@@ -103,7 +103,7 @@ const handleConnectorSubmitted = (name: string) => {
   display: flex;
   width: 100%;
   .el-select {
-    flex-grow: 1;
+    width: 400px;
   }
   .btn-add {
     flex-grow: 0;
