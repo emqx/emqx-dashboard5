@@ -854,6 +854,17 @@
   z-index: 99;
   background-color: var(--color-bg-trans) !important;
 }
+.el-loading-spinner {
+  svg {
+    > * {
+      display: none;
+    }
+    &.circular {
+      background: url('~@/assets/img/loading.png') no-repeat center center;
+      background-size: 100%;
+    }
+  }
+}
 
 /* Form */
 .el-form {
