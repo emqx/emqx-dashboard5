@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    class="message-form"
+    class="message-form tong-form"
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
@@ -10,33 +10,25 @@
     @keyup.enter="saveConfig()"
   >
     <el-row :gutter="26">
-      <el-col :span="getColSpan(10)">
+      <el-col :span="12">
         <CustomFormItem :label="$t('Base.topic')" required prop="args.topic" :readonly="readonly">
           <el-input v-model="record.args.topic" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="getColSpan(6)">
+      <el-col :span="12">
         <CustomFormItem label="QoS" :readonly="readonly">
           <InputWithPlaceholderSelect v-model="record.args.qos" :options="QoSOptions" />
         </CustomFormItem>
       </el-col>
-      <el-col :span="getColSpan(6)">
+      <el-col :span="12">
         <CustomFormItem label="Retain" :readonly="readonly">
           <InputWithPlaceholderSelect v-model="record.args.retain" :options="retainOptions" />
         </CustomFormItem>
       </el-col>
       <el-col :span="24">
-        <CustomFormItem label="Payload">
+        <CustomFormItem label="Payload" class="payload-form-item">
           <template #label>
-            <FormItemLabel
-              v-if="isUsingInFlow"
-              label="Payload"
-              :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`"
-            />
-            <template v-else>
-              <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')}`" />
-              <p class="payload-desc">{{ tl('payloadDesc') }}</p>
-            </template>
+            <FormItemLabel label="Payload" :desc="`${tl('payloadDesc')} ${tl('payloadExample')}`" />
           </template>
           <div class="monaco-container">
             <Monaco
@@ -164,15 +156,8 @@ const saveConfig = () => {
 }
 
 const formProps: ComputedRef<Partial<FormProps>> = computed(() => {
-  if (props.isUsingInFlow) {
-    return {
-      labelWidth: COMMON_FORM_LABEL_WIDTH,
-      labelPosition: 'right',
-      hideRequiredAsterisk: true,
-    }
-  }
   return {
-    labelPosition: 'top',
+    labelWidth: COMMON_FORM_LABEL_WIDTH,
   }
 })
 

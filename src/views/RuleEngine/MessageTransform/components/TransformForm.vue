@@ -32,7 +32,7 @@
         <el-col :span="20">
           <el-row :gutter="24" class="row-formats">
             <!-- ------- DECODER ------- -->
-            <el-col :span="12">
+            <el-col :span="12" class="col-source">
               <el-form-item prop="payload_decoder.type" :label="tl('inputFormat')">
                 <el-select
                   v-model="(formData.payload_decoder as any).type"
@@ -65,6 +65,7 @@
                 </el-form-item>
                 <el-form-item
                   prop="payload_decoder.message_type"
+                  label-width="0px"
                   v-if="showMessageTypeSelect(formData.payload_decoder.type)"
                 >
                   <el-input
@@ -109,6 +110,7 @@
                 </el-form-item>
                 <el-form-item
                   prop="payload_encoder.message_type"
+                  label-width="0px"
                   v-if="showMessageTypeSelect(formData.payload_encoder.type)"
                 >
                   <el-input
@@ -498,19 +500,21 @@ defineExpose({
     line-height: 32px;
     padding-right: 12px;
   }
+  .col-source {
+    margin-bottom: 8px;
+  }
   .row-formats {
     > .el-col:not(:last-child) {
       position: relative;
       &::after {
         position: absolute;
-        top: 30px;
-        right: 0;
+        bottom: 8px;
+        left: 220px + 12px;
         content: '';
         display: block;
-        width: 1px;
-        height: calc(100% - 30px - 18px);
+        width: 400px;
+        height: 1px;
         background-color: #ebeef5;
-        margin-left: 24px;
       }
     }
   }

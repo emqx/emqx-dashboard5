@@ -1,7 +1,7 @@
 <template>
   <div class="slow-sub app-wrapper with-padding-top" v-loading="isLoading">
     <div class="placeholder" v-if="!isEnable">
-      <el-empty :description="$t('SlowSub.slowSubPlaceholder')" />
+      <el-empty :description="$t('SlowSub.slowSubPlaceholder')" :image="emptyImg" />
       <el-button
         :disabled="!$hasPermission('put')"
         @click="$router.push({ name: 'slow-sub-config', query: { enable: true } })"
@@ -25,6 +25,7 @@ export default defineComponent({
 import { ref, Ref } from 'vue'
 import SlowSubData from './components/SlowSubData.vue'
 import { querySlowSubConfig } from '@/api/diagnose'
+import emptyImg from '@/assets/img/empty.png'
 
 const isEnable: Ref<boolean> = ref(false)
 const isLoading = ref(true)
