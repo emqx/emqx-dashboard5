@@ -107,11 +107,6 @@
     <CreateRuleWithConnector v-model="showCreateRuleDialog" :connector="createdConnector" />
   </div>
   <DelConnectorTip v-model="showDelTip" :connector="currentConnector" />
-  <DeleteWebhookAssociatedTip
-    v-model="showDeleteWebhookAssociatedTip"
-    type="connector"
-    :name="currentDelName"
-  />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
     :connector="(currentConnector as Connector)"
@@ -129,7 +124,6 @@ import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
@@ -174,8 +168,6 @@ const {
   currentConnector,
   handleToggleConnectorEnable,
   showDelTip,
-  currentDelName,
-  showDeleteWebhookAssociatedTip,
 } = useHandleConnectorItem()
 const { judgeIsWebhookConnector } = useWebhookUtils()
 
