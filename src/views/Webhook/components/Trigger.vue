@@ -27,9 +27,9 @@
                     </el-button>
                   </li>
                 </ul>
-                <el-button link type="primary" :icon="Plus" @click="addTopic">
+                <AddItemButton @click="addTopic">
                   {{ tl('addTopic') }}
-                </el-button>
+                </AddItemButton>
               </div>
             </div>
           </div>
