@@ -383,6 +383,8 @@ export default defineComponent({
       getStrForConcat,
       getKey,
       getTopicClassName,
+      RefreshLeft,
+      View,
     }
   },
 })

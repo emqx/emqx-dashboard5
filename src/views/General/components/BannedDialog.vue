@@ -2,7 +2,7 @@
   <el-dialog
     :title="$t('Base.create')"
     v-model="showDialog"
-    :width="`${getPopupSize()}px`"
+    :width="getPopupSize(160)"
     class="banned-dialog"
     destroy-on-close
   >

@@ -189,7 +189,6 @@ defineExpose({ validate })
 <style lang="scss">
 .webhook-form {
   .el-form-item {
-    width: 400px;
     &.item-trigger {
       width: 100%;
     }

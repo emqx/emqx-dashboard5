@@ -236,6 +236,9 @@ checkProps()
   .form-container {
     width: 75%;
   }
+  .form-container {
+    padding-top: 8px;
+  }
 
   .el-alert {
     margin-bottom: 24px;

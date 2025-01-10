@@ -824,6 +824,10 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+  .el-message-box__title > span {
+    display: block;
+    padding-top: 16px;
+  }
   .el-message-box__content {
     padding-top: 24px;
     padding-bottom: 20px;
