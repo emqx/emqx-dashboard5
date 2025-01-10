@@ -1,6 +1,10 @@
 <template>
   <div class="test-sql-context-form">
-    <el-form label-position="top">
+    <el-form
+      :label-position="inDrawer ? undefined : 'top'"
+      :label-width="inDrawer ? '200px' : undefined"
+      :class="{ 'tong-form': inDrawer }"
+    >
       <el-row v-if="Object.keys(record).length > 0" :gutter="26">
         <el-col v-for="key in Object.keys(record)" :key="key" :span="key !== 'payload' ? 12 : 24">
           <el-form-item
@@ -55,6 +59,10 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<Record<string, string>>,
     required: true,
+  },
+  inDrawer: {
+    type: Boolean,
+    default: false,
   },
 })
 

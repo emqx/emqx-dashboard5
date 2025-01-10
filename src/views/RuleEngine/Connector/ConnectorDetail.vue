@@ -283,6 +283,7 @@ const submit = async () => {
 @import '~@/style/rule.scss';
 .connector-detail {
   .form-container {
+    padding-top: 8px;
     width: 75%;
   }
   .block-title {

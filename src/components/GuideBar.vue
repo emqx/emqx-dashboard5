@@ -44,7 +44,7 @@ const currentStep = computed(() => {
 .guide-bar {
   display: flex;
   font-size: 16px;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
 
   .guide-item {
     position: relative;

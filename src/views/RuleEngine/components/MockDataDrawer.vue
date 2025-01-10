@@ -3,36 +3,29 @@
     v-model="showDrawer"
     destroy-on-close
     class="mock-data-drawer"
-    :size="660"
+    :size="getPopupSize()"
     :title="tl('mockData')"
   >
-    <div class="form-item-source">
-      <label class="test-label">
-        {{ tl('dataSource') }}
-        <InfoTooltip :content="tl('dataSourceDesc')" />
-      </label>
-      <el-row :gutter="26">
-        <el-col :span="12">
-          <FromSelect
-            v-model="dataType"
-            :ingress-bridge-list="ingressBridgeList"
-            :event-list="eventList"
-            for-test
-          />
-        </el-col>
-        <el-col :span="12" v-if="isDataTypeNoMatchSQL">
-          <p class="no-match-tip">
-            {{ tl('dataTypeSQLNoMatch') }}
-          </p>
-        </el-col>
-      </el-row>
-    </div>
+    <el-form-item :label-width="200" class="form-item-source">
+      <template #label>
+        <FormItemLabel :label="tl('dataSource')" :desc="tl('dataSourceDesc')" />
+      </template>
+      <FromSelect
+        v-model="dataType"
+        :ingress-bridge-list="ingressBridgeList"
+        :event-list="eventList"
+        for-test
+      />
+      <p class="no-match-tip" v-if="isDataTypeNoMatchSQL">
+        {{ tl('dataTypeSQLNoMatch') }}
+      </p>
+    </el-form-item>
     <div>
-      <label class="test-label">
-        {{ tl('testData') }}
-        <InfoTooltip :content="tl('testDataDesc')" />
-      </label>
-      <TestSQLContextForm v-model="testParams.context" />
+      <div class="part-header-container">
+        <p class="part-header">{{ tl('testData') }}</p>
+        <p class="tip">{{ tl('testDataDesc') }}</p>
+      </div>
+      <TestSQLContextForm v-model="testParams.context" in-drawer />
     </div>
     <template #footer>
       <el-button v-if="isFormModified" plain :icon="RefreshLeft" @click="resetContext">
@@ -49,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
+import FormItemLabel from '@/components/FormItemLabel.vue'
 import { useMockData } from '@/hooks/Rule/rule/useDebugRule'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
@@ -58,6 +51,7 @@ import type { PropType, WritableComputedRef } from 'vue'
 import { computed, defineEmits, defineProps, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
+import { getPopupSize } from '@/common/tools'
 
 const props = defineProps({
   modelValue: {
@@ -115,17 +109,23 @@ const submit = () => {
 
 <style lang="scss">
 .mock-data-drawer {
-  .test-label {
-    display: block;
-    margin-bottom: 8px;
+  .part-header {
+    flex-basis: 200px;
+  }
+  .el-form-item {
+    margin-top: 0;
   }
   .form-item-source {
-    margin-bottom: 32px;
+    display: flex;
+    margin-bottom: 16px;
     .from-select {
-      width: 100%;
+      margin-top: 0;
+      width: 400px;
     }
     .no-match-tip {
       position: static;
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 }

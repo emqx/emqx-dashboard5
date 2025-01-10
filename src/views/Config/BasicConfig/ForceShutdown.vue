@@ -5,7 +5,7 @@
       <div class="schema-form" v-else>
         <el-form
           ref="forceShutdownForm"
-          class="configuration-form"
+          class="configuration-form tong-form"
           label-position="right"
           require-asterisk-position="left"
           hide-required-asterisk
@@ -63,7 +63,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="24" class="btn-col">
+            <el-card :span="24" class="btn-col ft-card">
               <el-button
                 type="primary"
                 :loading="saveLoading"
@@ -72,7 +72,7 @@
               >
                 {{ $t('Base.saveChanges') }}
               </el-button>
-            </el-col>
+            </el-card>
           </el-row>
         </el-form>
       </div>

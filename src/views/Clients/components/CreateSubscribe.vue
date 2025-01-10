@@ -2,7 +2,7 @@
   <el-dialog
     v-bind="$attrs"
     :title="$t('Clients.addASubscription')"
-    :size="getPopupSize(160)"
+    :width="getPopupSize(160)"
     v-model="dialogVisible"
     @close="close"
     @open="open"
