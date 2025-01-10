@@ -60,9 +60,9 @@ const setLang = () => {
 setTheme()
 setLang()
 setWatchOSTheme()
-if (syncOsTheme.value) {
-  hadleSyncOSTheme()
-}
+// if (syncOsTheme.value) {
+//   hadleSyncOSTheme()
+// }
 
 const { printVersion } = useDashboardVersion()
 printVersion()

@@ -1,6 +1,9 @@
 <template>
   <el-button class="add-item-button" :icon="Plus" :disabled="!$hasPermission('post')">
-    {{ t('Base.add') }}
+    <slot v-if="!$slots.default"></slot>
+    <template v-else>
+      {{ t('Base.add') }}
+    </template>
   </el-button>
 </template>
 
