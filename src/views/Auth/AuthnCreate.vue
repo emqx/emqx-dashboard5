@@ -128,7 +128,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="backend as DatabaseAndServerDOM"
+            :database="(backend as DatabaseAndServerDOM)"
             auth-type="authn"
           />
           <built-in-config
