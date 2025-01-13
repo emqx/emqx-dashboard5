@@ -41,12 +41,7 @@
                     :content="$t('Auth.jwtBase64Tips')"
                   />
                 </template>
-                <el-input
-                  v-model="jwtConfig.secret"
-                  type="password"
-                  show-password
-                  autocomplete="one-time-code"
-                />
+                <CustomInputPassword v-model="jwtConfig.secret" />
               </el-form-item>
             </el-col>
             <el-col :span="24">

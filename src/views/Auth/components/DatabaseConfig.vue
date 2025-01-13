@@ -79,12 +79,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Base.password')">
-              <el-input
-                v-model="databaseConfig.password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
+              <CustomInputPassword v-model="databaseConfig.password" />
             </el-form-item>
           </el-col>
           <el-col v-if="isAuthn && isMongoDB" :span="12">
