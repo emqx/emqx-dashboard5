@@ -27,12 +27,7 @@
       <el-input v-model="formData.clientid" />
     </el-form-item>
     <el-form-item prop="secret" label="Client Secret">
-      <el-input
-        v-model="formData.secret"
-        type="password"
-        show-password
-        autocomplete="one-time-code"
-      />
+      <CustomInputPassword v-model="formData.secret" />
     </el-form-item>
     <el-form-item prop="dashboard_addr">
       <template #label>
