@@ -172,7 +172,7 @@
           </el-col>
           <!-- Mongodb -->
           <el-col :span="24" v-else-if="isMongoDB">
-            <el-form-item class="label-whole-line">
+            <el-form-item class="label-whole-line" prop="filter">
               <template #label>
                 <span>{{ $t('Auth.filter') }}</span>
                 <el-button

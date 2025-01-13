@@ -1,6 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import { computed, ref } from 'vue'
 import useFormRules from '@/hooks/useFormRules'
+import { isJSONString } from '@emqx/shared-ui-utils'
 import { FormRules } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import { usePasswordHashRules } from './usePasswordHashAlgorithmData'
@@ -67,6 +68,16 @@ export default (props: PropsParams, databaseConfig: any): ReturnData => {
         ...createMongoCommonFormRules(),
         /* For mongo type 'rs' */
         replica_set_name: createRequiredRule(tl('replicaSetName')),
+        filter: [
+          {
+            validator(rules, value, callback) {
+              if (!value || isJSONString(value)) {
+                return callback()
+              }
+              callback(new Error(tl('jsonFormatError')))
+            },
+          },
+        ],
       }
     } else if (isMySQL.value || isPgSQL.value) {
       ret = { ...ret, ...createMySQLFormRules() }
