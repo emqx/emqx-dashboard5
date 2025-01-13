@@ -11,6 +11,10 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
+  currentConnection: {
+    zh: '连接数',
+    en: 'Current Connections',
+  },
   listeners: {
     zh: '监听器',
     en: 'Listeners',
