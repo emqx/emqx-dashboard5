@@ -53,12 +53,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('password')" prop="auth.password">
-            <el-input
-              v-model="form.auth.password"
-              type="password"
-              show-password
-              autocomplete="new-password"
-            />
+            <CustomInputPassword v-model="form.auth.password" />
           </el-form-item>
         </el-col>
       </template>

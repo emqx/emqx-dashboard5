@@ -17,7 +17,7 @@
       <el-input v-model="formData.username" />
     </el-form-item>
     <el-form-item prop="password" :label="t('Base.password')">
-      <el-input type="password" v-model="formData.password" autocomplete="one-time-code" />
+      <CustomInputPassword v-model="formData.password" />
     </el-form-item>
     <el-form-item prop="base_dn" :label="tl('baseDN')">
       <el-input v-model="formData.base_dn" />

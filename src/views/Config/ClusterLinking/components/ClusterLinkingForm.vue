@@ -36,12 +36,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item :label="t('Base.password')" prop="password">
-          <el-input
-            v-model="record.password"
-            type="password"
-            autocomplete="one-time-code"
-            show-password
-          />
+          <CustomInputPassword v-model="record.password" />
         </el-form-item>
       </el-col>
       <el-col :span="15">
