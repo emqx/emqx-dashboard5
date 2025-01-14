@@ -254,6 +254,10 @@ const SchemaForm = defineComponent({
       return TLSEnableConfig
     }
 
+    const handleObjectArrayEditorOperation = (property: Property) => {
+      formCom?.value?.validateField?.(property.path)
+    }
+
     const isComplexOneof = (prop: Property) =>
       prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
 
@@ -491,6 +495,8 @@ const SchemaForm = defineComponent({
                 {...customProps}
                 disabled={props.disabled}
                 rules={rules.value}
+                onAddItem={() => handleObjectArrayEditorOperation(property)}
+                onDeleteItem={() => handleObjectArrayEditorOperation(property)}
               />
             )
           }
@@ -679,7 +685,7 @@ const SchemaForm = defineComponent({
                 />
               )
             }
-            return <OneofRefs {...props} />
+            return <OneofRefs {...(props as any)} />
           }
           return <p class="value">{modelValue}</p>
         }
