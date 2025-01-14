@@ -33,6 +33,7 @@
                 v-model.trim="record.username"
                 :placeholder="$t('Base.username')"
                 tabindex="1"
+                autocomplete="username"
               />
             </el-form-item>
             <el-form-item prop="password">
@@ -41,6 +42,7 @@
                 type="password"
                 :placeholder="$t('Base.password')"
                 tabindex="2"
+                autocomplete="current-password"
               />
             </el-form-item>
             <el-form-item>
@@ -92,6 +94,7 @@
             :rules="pwdRules"
             @keyup.enter="submitNewPwd"
           >
+            <el-input class="username-placeholder" v-model.trim="record.username" />
             <el-form-item prop="password">
               <el-input
                 v-model.trim="newPasswordRecord.password"
@@ -99,6 +102,7 @@
                 show-password
                 tabindex="1"
                 type="password"
+                autocomplete="new-password"
                 :placeholder="t('General.newPassword')"
               />
             </el-form-item>
@@ -108,6 +112,7 @@
                 show-password
                 tabindex="2"
                 type="password"
+                autocomplete="new-password"
                 :placeholder="t('General.confirmPassword')"
               />
             </el-form-item>
@@ -412,6 +417,10 @@ const submitNewPwd = async () => {
     .btn-skip {
       padding: 0;
     }
+  }
+
+  .username-placeholder {
+    display: none;
   }
 
   .password-form {

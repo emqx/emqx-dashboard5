@@ -32,8 +32,8 @@
         accessType === 'edit'
           ? tl('editorUser')
           : accessType === 'chPass'
-          ? tl('changePassword')
-          : tl('creatingUser')
+            ? tl('changePassword')
+            : tl('creatingUser')
       "
       v-model="dialogVisible"
       destroy-on-close
@@ -66,6 +66,7 @@
           />
         </el-form-item>
         <div v-if="accessType === 'chPass'">
+          <el-input class="username-placeholder" v-model="record.username" disabled />
           <el-form-item prop="newPassword" :label="tl('newPassword')">
             <el-input
               v-model="record.newPassword"
@@ -239,7 +240,7 @@ const save = async () => {
       await updateUser(username, record.value)
       ElMessage.success(t('Base.updateSuccess'))
     } else if (accessType.value === 'chPass') {
-      let pass = {
+      const pass = {
         new_pwd: record.value.newPassword,
         old_pwd: record.value.password,
       }
@@ -284,3 +285,9 @@ onBeforeMount(async () => {
   await loadData()
 })
 </script>
+
+<style lang="scss" scoped>
+.username-placeholder {
+  display: none;
+}
+</style>
