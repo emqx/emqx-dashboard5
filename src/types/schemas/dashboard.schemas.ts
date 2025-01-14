@@ -11,6 +11,7 @@ export type PostLogout401 = {
 }
 
 export type PostLogoutBody = {
+  /** @maxLength 100 */
   username?: string
 }
 
@@ -20,8 +21,8 @@ export type PostLogoutBackend = (typeof PostLogoutBackend)[keyof typeof PostLogo
 export const PostLogoutBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type PostLogoutParams = {
@@ -56,8 +57,8 @@ export type PostUsersUsernameChangePwd400 = {
 }
 
 export type PostUsersUsernameChangePwdBody = {
-  old_pwd?: string
   new_pwd?: string
+  old_pwd?: string
 }
 
 export type DeleteUsersUsername404Code =
@@ -94,8 +95,8 @@ export type DeleteUsersUsernameBackend =
 export const DeleteUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type DeleteUsersUsernameParams = {
@@ -116,15 +117,16 @@ export type PutUsersUsername404 = {
 }
 
 export type PutUsersUsername200 = {
-  username?: string
-  role?: string
-  description?: string
   backend?: string
+  description?: string
+  role?: string
+  /** @maxLength 100 */
+  username?: string
 }
 
 export type PutUsersUsernameBody = {
-  role?: string
   description?: string
+  role?: string
 }
 
 export type PutUsersUsernameBackend =
@@ -134,8 +136,8 @@ export type PutUsersUsernameBackend =
 export const PutUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type PutUsersUsernameParams = {
@@ -168,35 +170,155 @@ export type PostLogin200License = {
 }
 
 export type PostLogin200 = {
+  license?: PostLogin200License
+  password_expire_in_seconds?: number
   role?: string
   token?: string
   version?: string
-  license?: PostLogin200License
-  password_expire_in_seconds?: number
 }
 
-export type PostLoginBody = {
-  username?: string
-  password?: string
+export type PostLoginBody = MfaTotpSecondLogin | DashboardLogin
+
+export type PostUsersUsernameSetupMfa404Code =
+  (typeof PostUsersUsernameSetupMfa404Code)[keyof typeof PostUsersUsernameSetupMfa404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameSetupMfa404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type PostUsersUsernameSetupMfa404 = {
+  code?: PostUsersUsernameSetupMfa404Code
+  message?: string
+}
+
+export type PostUsersUsernameSetupMfa400Code =
+  (typeof PostUsersUsernameSetupMfa400Code)[keyof typeof PostUsersUsernameSetupMfa400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameSetupMfa400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostUsersUsernameSetupMfa400 = {
+  code?: PostUsersUsernameSetupMfa400Code
+  message?: string
 }
 
 export type PostUsers200 = {
-  username?: string
-  role?: string
-  description?: string
   backend?: string
+  description?: string
+  role?: string
+  /** @maxLength 100 */
+  username?: string
 }
 
 export type PostUsersBody = {
-  username?: string
+  description?: string
+  /** @maxLength 100 */
   password?: string
   role?: string
-  description?: string
+  /** @maxLength 100 */
+  username?: string
+}
+
+export type PostMfa400Code = (typeof PostMfa400Code)[keyof typeof PostMfa400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMfa400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostMfa400 = {
+  code?: PostMfa400Code
+  message?: string
+}
+
+export type MfaTotpSetupRespMethod =
+  (typeof MfaTotpSetupRespMethod)[keyof typeof MfaTotpSetupRespMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MfaTotpSetupRespMethod = {
+  totp: 'totp',
+} as const
+
+export interface MfaTotpSetupResp {
+  method: MfaTotpSetupRespMethod
+  secret: string
+}
+
+export type MfaTotpSetupMethod = (typeof MfaTotpSetupMethod)[keyof typeof MfaTotpSetupMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MfaTotpSetupMethod = {
+  totp: 'totp',
+} as const
+
+export interface MfaTotpSetup {
+  method: MfaTotpSetupMethod
+  /** @maxLength 100 */
+  password?: string
+}
+
+export type MfaTotpSecondLoginMethod =
+  (typeof MfaTotpSecondLoginMethod)[keyof typeof MfaTotpSecondLoginMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MfaTotpSecondLoginMethod = {
+  totp: 'totp',
+} as const
+
+export interface MfaTotpSecondLogin {
+  code: string
+  method: MfaTotpSecondLoginMethod
+  token?: string
+}
+
+export type MfaTotpFirstLoginRespMethod =
+  (typeof MfaTotpFirstLoginRespMethod)[keyof typeof MfaTotpFirstLoginRespMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MfaTotpFirstLoginRespMethod = {
+  totp: 'totp',
+} as const
+
+export interface MfaTotpFirstLoginResp {
+  method: MfaTotpFirstLoginRespMethod
+  secret?: string
+  token?: string
+}
+
+export type MfaTotpApiConfigMethod =
+  (typeof MfaTotpApiConfigMethod)[keyof typeof MfaTotpApiConfigMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MfaTotpApiConfigMethod = {
+  totp: 'totp',
+} as const
+
+export interface MfaTotpApiConfig {
+  enable?: boolean
+  interval_length?: number
+  method: MfaTotpApiConfigMethod
+  token_length?: number
 }
 
 export interface DashboardUser {
-  username?: string
-  role?: string
-  description?: string
   backend?: string
+  description?: string
+  role?: string
+  /** @maxLength 100 */
+  username?: string
+}
+
+export type DashboardLoginBackend =
+  (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardLoginBackend = {
+  saml: 'saml',
+} as const
+
+export interface DashboardLogin {
+  backend: DashboardLoginBackend
 }

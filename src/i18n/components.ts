@@ -235,6 +235,10 @@ export default {
     zh: '用户',
     en: 'Users',
   },
+  mfa: {
+    zh: '多因素认证',
+    en: 'MFA',
+  },
   'audit-log': {
     zh: '审计日志',
     en: 'Audit Log',

@@ -1,7 +1,7 @@
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
 import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
-import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
+import { AuditLogItem, GetAuditParams, MfaTotpConfig } from '@/types/typeAlias'
 import {
   EmqxMgmtApiDataBackupFilesResponse,
   EmqxMgmtApiDataBackupBackupFileInfo,
@@ -78,4 +78,13 @@ export const uploadBackup = (fileName: string, file: File): Promise<unknown> => 
   return http.post('/data/files', formData, {
     timeout: 600000,
   })
+}
+
+/* MFA */
+export const getMfaList = (): Promise<Array<MfaTotpConfig>> => {
+  return http.get(`/mfa`)
+}
+
+export const postMfa = (data: MfaTotpConfig): Promise<MfaTotpConfig> => {
+  return http.post(`/mfa`, data)
 }
