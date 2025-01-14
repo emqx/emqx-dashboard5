@@ -184,6 +184,28 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
+  // MFA
+  {
+    path: '/mfa',
+    component: Layout,
+    meta: {
+      hideKey: 'mfa',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'mfa',
+        component: () => import('@/views/General/MFA.vue'),
+      },
+      {
+        path: ':method',
+        name: 'mfa-detail',
+        component: () => import('@/views/General/MFADetail.vue'),
+      },
+    ],
+  },
+
   // Audit Log
   {
     path: '/audit-log',

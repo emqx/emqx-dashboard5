@@ -647,4 +647,16 @@ export default {
     zh: '请确认信息并勾选已确认',
     en: 'Please confirm the information and check the confirmation box',
   },
+  interval: {
+    en: 'Interval',
+    zh: '时间间隔',
+  },
+  tokenLength: {
+    en: 'Token Length',
+    zh: '令牌长度',
+  },
+  enableMfaMethod: {
+    en: 'Enable {method} MFA',
+    zh: '启用 {method} 多因素认证',
+  },
 }
