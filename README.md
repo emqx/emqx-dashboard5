@@ -85,7 +85,7 @@ To set up for local development, follow these steps:
 3. To start the development server, run:
 
     ```shell
-    pnpm serve
+    pnpm dev
     ```
 
 4. For production compilation and minification:
