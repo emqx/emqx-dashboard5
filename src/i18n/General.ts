@@ -659,4 +659,32 @@ export default {
     en: 'Enable {method} MFA',
     zh: '启用 {method} 多因素认证',
   },
+  twoFactorVerification: {
+    en: 'Two-Factor Verification',
+    zh: '两步验证',
+  },
+  twoFASecretSetupTip: {
+    en: 'Please scan the QR code or enter the {key} in the app to complete the setup.',
+    zh: '请扫描二维码或输入{key}在应用中完成设置。',
+  },
+  setupKey: {
+    en: 'setup key',
+    zh: '设置密钥',
+  },
+  authenticationCode: {
+    en: 'Authentication Code',
+    zh: '认证码',
+  },
+  verifyCode: {
+    en: 'Verify the code from the app',
+    zh: '验证应用中的认证码',
+  },
+  enterCode: {
+    en: 'Enter the authentication code',
+    zh: '输入认证码',
+  },
+  authenticationCodeError: {
+    en: 'Please enter a valid authentication code',
+    zh: '请输入格式正确的认证码',
+  },
 }

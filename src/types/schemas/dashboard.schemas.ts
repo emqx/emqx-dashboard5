@@ -175,6 +175,8 @@ export type PostLogin200 = {
   role?: string
   token?: string
   version?: string
+  secret?: string
+  method?: string
 }
 
 export type PostLoginBody = MfaTotpSecondLogin | DashboardLogin
