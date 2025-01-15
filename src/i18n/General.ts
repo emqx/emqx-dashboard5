@@ -687,4 +687,8 @@ export default {
     en: 'Please enter a valid authentication code',
     zh: '请输入格式正确的认证码',
   },
+  confirmSetupKey: {
+    en: 'Please confirm that the setup key has been saved in the app',
+    zh: '请确认已将密钥保存在应用中',
+  },
 }

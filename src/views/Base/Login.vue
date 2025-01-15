@@ -299,6 +299,7 @@ import { waitAMoment } from '@/common/tools'
 import useSSO from '@/hooks/SSO/useSSO'
 import useConvertSecretToQRCode from '@/hooks/useConvertSecretToQRCode'
 import useCopy from '@/hooks/useCopy'
+import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useDocLink from '@/hooks/useDocLink'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
 import useFormRules from '@/hooks/useFormRules'
@@ -408,6 +409,9 @@ const showTotpSecret = ref(false)
 const totpSecret = ref('')
 const { copyText } = useCopy()
 const { canvasRef, displayQRCode } = useConvertSecretToQRCode()
+
+const needLeaveTip = () => showTotpSecret.value
+useDataNotSaveConfirm(needLeaveTip, 'General.confirmSetupKey')
 
 const TwoFAFormCom = ref()
 const twoFARecord = reactive({ authCode: '' })
