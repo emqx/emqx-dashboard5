@@ -3,48 +3,50 @@
     <el-row :gutter="16" v-loading="isLoading">
       <el-col :span="12">
         <el-card class="app-card with-border" shadow="never">
-          <el-form :model="record" label-position="top">
-            <section>
-              <el-form-item :label="$t('Auth.enableCache')">
-                <el-switch v-model="record.cache.enable" />
-              </el-form-item>
-              <template v-if="record.cache?.enable">
-                <el-form-item :label="$t('Auth.maxSize')">
-                  <CustomInputNumber v-model.number="record.cache.max_size" placeholder="32" />
+          <div>
+            <el-form :model="record" label-position="top">
+              <section>
+                <el-form-item :label="$t('Auth.enableCache')">
+                  <el-switch v-model="record.cache.enable" />
                 </el-form-item>
-                <el-form-item :label="$t('Auth.ttl')">
-                  <InputWithUnit
-                    v-model="record.cache.ttl"
-                    :units="timeUnits"
-                    number-placeholder="1"
-                  />
-                </el-form-item>
-                <el-form-item>
-                  <template #label>
-                    <FormItemLabel
-                      :label="$t('Auth.excludedTopics')"
-                      :desc="$t('Auth.excludedTopicsDesc')"
+                <template v-if="record.cache?.enable">
+                  <el-form-item :label="$t('Auth.maxSize')">
+                    <CustomInputNumber v-model.number="record.cache.max_size" placeholder="32" />
+                  </el-form-item>
+                  <el-form-item :label="$t('Auth.ttl')">
+                    <InputWithUnit
+                      v-model="record.cache.ttl"
+                      :units="timeUnits"
+                      number-placeholder="1"
                     />
-                  </template>
-                  <ArrayEditor v-model="record.cache.excludes" />
+                  </el-form-item>
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel
+                        :label="$t('Auth.excludedTopics')"
+                        :desc="$t('Auth.excludedTopicsDesc')"
+                      />
+                    </template>
+                    <ArrayEditor v-model="record.cache.excludes" />
+                  </el-form-item>
+                </template>
+              </section>
+              <section>
+                <el-form-item :label="$t('Auth.noMatch')">
+                  <el-select v-model="record.no_match">
+                    <el-option value="allow" />
+                    <el-option value="deny" />
+                  </el-select>
                 </el-form-item>
-              </template>
-            </section>
-            <section>
-              <el-form-item :label="$t('Auth.noMatch')">
-                <el-select v-model="record.no_match">
-                  <el-option value="allow" />
-                  <el-option value="deny" />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('Auth.denyAction')">
-                <el-select v-model="record.deny_action">
-                  <el-option value="ignore" />
-                  <el-option value="disconnect" />
-                </el-select>
-              </el-form-item>
-            </section>
-          </el-form>
+                <el-form-item :label="$t('Auth.denyAction')">
+                  <el-select v-model="record.deny_action">
+                    <el-option value="ignore" />
+                    <el-option value="disconnect" />
+                  </el-select>
+                </el-form-item>
+              </section>
+            </el-form>
+          </div>
           <el-button @click="showDrawer = false">
             {{ $t('Base.cancel') }}
           </el-button>
