@@ -16,7 +16,9 @@ import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 
 //account
-export function login(user: { password: string; username: string }): Promise<PostLogin200> {
+export function login(
+  user: { password: string; username: string } | { method: string; token: string; code: string },
+): Promise<PostLogin200> {
   return http.post('/login', user, { keepSpaces: true })
 }
 

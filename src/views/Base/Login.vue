@@ -1,5 +1,72 @@
 <template>
   <div class="login">
+    <el-row v-if="show2FA">
+      <el-col :span="12" class="img-container">
+        <img
+          src="@/assets/img/img-change-default-pwd.png"
+          alt="img-change-default-pwd"
+          width="328"
+        />
+      </el-col>
+      <el-col :span="12" class="col-new-pwd">
+        <!-- Change default password -->
+        <div class="form-container">
+          <div class="form-hd">
+            <h5 class="title-pwd">{{ $t('General.twoFactorVerification') }}</h5>
+            <div class="tip totp-secret-tip" v-if="showTotpSecret">
+              <i18n-t keypath="General.twoFASecretSetupTip" tag="p">
+                <template #key>
+                  <el-popover placement="bottom" popper-class="is-wider" :width="360">
+                    <div class="space-between">
+                      <span>{{ totpSecret }}</span>
+                      <el-button
+                        type="primary"
+                        link
+                        :icon="CopyDocument"
+                        @click="copyText(totpSecret)"
+                      />
+                    </div>
+                    <template #reference>
+                      <el-button type="primary" link class="setup-key-btn">
+                        {{ t('General.setupKey') }}
+                      </el-button>
+                    </template>
+                  </el-popover>
+                </template>
+              </i18n-t>
+            </div>
+          </div>
+          <div>
+            <canvas
+              class="qr-code"
+              width="180"
+              height="180"
+              v-if="showTotpSecret"
+              ref="canvasRef"
+            />
+            <el-form ref="TwoFAFormCom" :model="twoFARecord" :rules="twoFARules">
+              <div class="tip auth-code-tip">
+                {{ showTotpSecret ? t('General.verifyCode') : t('General.enterCode') }}
+              </div>
+              <el-form-item>
+                <el-input v-model="twoFARecord.authCode" @input="checkAuthCode" />
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  class="btn-submit"
+                  type="primary"
+                  @click="submitWithAuthCode"
+                  :loading="isSubmitting"
+                >
+                  {{ $t('Base.confirm') }}
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <!-- TODO: -->
+        </div>
+      </el-col>
+    </el-row>
     <el-row v-if="!showChangePwdForm">
       <el-col class="intro" :span="8">
         <div class="content">
@@ -228,15 +295,18 @@
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
+import { waitAMoment } from '@/common/tools'
 import useSSO from '@/hooks/SSO/useSSO'
+import useConvertSecretToQRCode from '@/hooks/useConvertSecretToQRCode'
+import useCopy from '@/hooks/useCopy'
 import useDocLink from '@/hooks/useDocLink'
+import useEditionConfigs from '@/hooks/useEditionConfigs'
 import useFormRules from '@/hooks/useFormRules'
 import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -332,6 +402,49 @@ const pwdRules = {
 const FormCom = ref()
 const PwdFormCom = ref()
 
+const loginMethod = ref('')
+const show2FA = computed(() => loginMethod.value === 'totp')
+const showTotpSecret = ref(false)
+const totpSecret = ref('')
+const { copyText } = useCopy()
+const { canvasRef, displayQRCode } = useConvertSecretToQRCode()
+
+const TwoFAFormCom = ref()
+const twoFARecord = reactive({ authCode: '' })
+const twoFARules = {
+  authCode: [
+    ...createRequiredRule(t('General.authenticationCode')),
+    {
+      validator(rules: unknown, value: string) {
+        if (!/^\d{6}$/.test(value)) {
+          return [new Error(t('General.authenticationCodeError'))]
+        }
+      },
+    },
+  ],
+}
+
+const handleMFAMethod = async (res: PostLogin200, username: string) => {
+  loginMethod.value = res.method ?? ''
+  showTotpSecret.value = !!res.secret
+  if (res.secret) {
+    totpSecret.value = res.secret
+    await waitAMoment()
+    displayQRCode(totpSecret.value, username)
+  }
+  if (show2FA.value) {
+    twoFARecord.authCode = ''
+  }
+}
+
+const checkPasswordChange = () => {
+  if (!isUsingDefaultPwd.value && !isPwdExpired.value) {
+    redirectToDashboard()
+  } else {
+    showChangePwdForm.value = true
+  }
+}
+
 const { updateBaseInfo } = useUpdateBaseInfo()
 const updateStoreInfo = (username: string, data: PostLogin200) =>
   updateBaseInfo(username, data, currentLoginBackend.value)
@@ -340,15 +453,17 @@ const queryLogin = async ({ username, password }: { username: string; password: 
   isSubmitting.value = true
   try {
     const res = await loginApi({ username, password })
+    handleMFAMethod(res, username)
+
     isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
     pwdValidSeconds.value = res.password_expire_in_seconds ?? Number.MAX_SAFE_INTEGER
     updateStoreInfo(username, res)
 
-    if (!isUsingDefaultPwd.value && !isPwdExpired.value) {
-      redirectToDashboard()
-    } else {
-      showChangePwdForm.value = true
+    if (show2FA.value) {
+      return
     }
+
+    checkPasswordChange()
     return Promise.resolve({ username, response: res })
   } catch (error) {
     return Promise.reject(error)
@@ -409,6 +524,33 @@ const submitNewPwd = async () => {
     await changePassword(username, { new_pwd, old_pwd })
     store.commit('UPDATE_USER_INFO', { logOut: true })
     queryLogin({ username, password: new_pwd })
+  } catch (error) {
+    //
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const checkAuthCode = () => {
+  if (twoFARecord.authCode.length !== 6) {
+    return
+  }
+  submitWithAuthCode()
+}
+
+const submitWithAuthCode = async () => {
+  try {
+    await TwoFAFormCom.value.validate()
+    isSubmitting.value = true
+    const { username, token } = store.state.user
+    const data = {
+      method: loginMethod.value,
+      token,
+      code: twoFARecord.authCode,
+    }
+    const res = await loginApi(data)
+    updateStoreInfo(username, res)
+    checkPasswordChange()
   } catch (error) {
     //
   } finally {
@@ -610,6 +752,29 @@ const submitNewPwd = async () => {
       padding-inline-start: 18px;
       margin: 0;
     }
+  }
+
+  .totp-secret-tip {
+    margin-top: 20px;
+    margin-bottom: 12px;
+    p {
+      margin: 0;
+    }
+  }
+
+  .auth-code-tip {
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
+
+  .qr-code {
+    margin-left: -12px;
+  }
+
+  .setup-key-btn {
+    padding: 0;
+    vertical-align: baseline;
+    font-weight: normal;
   }
 }
 </style>
