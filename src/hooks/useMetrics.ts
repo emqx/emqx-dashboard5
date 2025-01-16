@@ -25,15 +25,15 @@ export const enum MetricType {
 
 export type TypeMapData = Array<{ type: MetricType; title: string; contains: Array<string> }>
 
-const BLUE = '#469cf7'
+const BLUE = '#4A75BB'
 
 export const TYPE_COLOR_MAP: Record<MetricType, string> = {
-  [MetricType.Green]: '#7fd7b8',
+  [MetricType.Green]: '#629d8b',
   [MetricType.Blue]: BLUE,
-  [MetricType.Red]: '#fdafa6',
-  [MetricType.Gray]: '#bac1cd',
-  [MetricType.Purple]: '#c5a3e5',
-  [MetricType.Yellow]: '#ffd78e',
+  [MetricType.Red]: '#bb4a4a',
+  [MetricType.Gray]: '#a0a0a0',
+  [MetricType.Purple]: '#6a5acd',
+  [MetricType.Yellow]: '#ffd700',
 }
 
 const COLOR_NONE = '#c2c8d1'
@@ -140,7 +140,7 @@ export const usePieChart = (): {
 }
 
 // Rate Chart
-const NEWEST_GREEN = '#4af746'
+const NEWEST_GREEN = '#3cb371'
 export const useRateChart = (): {
   updateBarData: (chartID: string, xData: Array<string>, yData: Array<number>) => void
 } => {
