@@ -1,7 +1,7 @@
 <template>
   <div class="overview app-wrapper">
     <el-row class="block" :gutter="26">
-      <el-col :span="8" :lg="9">
+      <el-col :span="6">
         <el-card class="rate-card">
           <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
             <el-radio-button label="byte" />
@@ -71,9 +71,9 @@
           </template>
         </el-card>
       </el-col>
-      <el-col :span="16" :lg="15">
+      <el-col :span="18">
         <el-row :gutter="24">
-          <el-col :span="12" class="main-info-item">
+          <el-col :span="8" class="main-info-item">
             <el-card class="with-multiple-counts">
               <div class="multiple-counts-wrap">
                 <div>
@@ -86,7 +86,7 @@
                         alt="clients"
                       />
                     </div>
-                    <p>{{ $t('Dashboard.allConnections') }}</p>
+                    <p class="info-label">{{ $t('Dashboard.allConnections') }}</p>
                   </router-link>
                   <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
                 </div>
@@ -96,7 +96,7 @@
                     :to="{ name: 'clients', query: { conn_state: 'connected' } }"
                   >
                     <i class="node-status-dot is-running"></i>
-                    <p>{{ $t('Dashboard.liveConnections') }}</p>
+                    <p class="info-label">{{ $t('Dashboard.liveConnections') }}</p>
                   </router-link>
                   <div class="num">
                     {{ _formatNumber(currentMetrics.live_connections) }}
@@ -105,29 +105,51 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :span="6" class="main-info-item">
+          <el-col :span="8" class="main-info-item">
+            <el-card class="with-multiple-counts">
+              <div class="multiple-counts-wrap">
+                <div>
+                  <router-link :to="{ name: 'subscription' }">
+                    <div class="img-container">
+                      <img src="@/assets/img/subs.png" width="40" height="40" alt="subs" />
+                    </div>
+                    <p class="info-label">{{ $t('Dashboard.subscriptionNumber') }}</p>
+                  </router-link>
+                  <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
+                </div>
+                <div>
+                  <div class="no-img">
+                    <p class="info-label">{{ $t('Dashboard.shareSubscription') }}</p>
+                  </div>
+                  <div class="num">{{ _formatNumber(currentMetrics.shared_subscriptions) }}</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="4" class="main-info-item">
             <el-card>
               <div>
                 <router-link :to="{ name: 'topics' }">
                   <div class="img-container">
                     <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
                   </div>
-                  <p>{{ $t('Dashboard.topics') }}</p>
+                  <p class="info-label">{{ $t('Dashboard.topics') }}</p>
                 </router-link>
                 <div class="num">{{ _formatNumber(currentMetrics.topics) }}</div>
               </div>
             </el-card>
           </el-col>
-          <el-col :span="6" class="main-info-item">
+          <el-col :span="4" class="main-info-item">
             <el-card>
               <div>
-                <router-link :to="{ name: 'subscription' }">
+                <router-link :to="{ name: 'retained' }">
                   <div class="img-container">
-                    <img src="@/assets/img/subs.png" width="40" height="40" alt="subs" />
+                    <!-- FIXME:FIXME:FIXME:FIXME:img -->
+                    <img src="@/assets/img/topics.png" width="40" height="40" alt="topics" />
                   </div>
-                  <p>{{ $t('Dashboard.subscriptionNumber') }}</p>
+                  <p class="info-label">{{ $t('Dashboard.retained') }}</p>
                 </router-link>
-                <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
+                <div class="num">{{ _formatNumber(currentMetrics.retained_msg_count) }}</div>
               </div>
             </el-card>
           </el-col>
@@ -240,25 +262,24 @@ syncPolling(loadData, POLLING_INTERVAL)
       height: 100%;
       &.with-multiple-counts {
         .el-card__body {
-          padding-left: 28px;
+          padding-left: 20px;
         }
       }
     }
     .el-card__body {
       padding-top: 36px;
-      padding-left: 32px;
+      padding-left: 24px;
     }
     .multiple-counts-wrap {
       display: flex;
       // justify-content: space-around;
       div:not(:last-child) {
-        margin-right: 48px;
+        margin-right: 32px;
       }
     }
     a {
+      position: relative;
       display: block;
-      font-size: 16px;
-      color: var(--color-text-secondary);
       transition: none;
       &:hover {
         color: var(--color-primary);
@@ -269,16 +290,26 @@ syncPolling(loadData, POLLING_INTERVAL)
       .img-container {
         line-height: 0;
       }
-      &.no-img {
-        // img size
-        padding-top: 40px;
-        // by the way
-        display: flex;
-        align-items: center;
-      }
+    }
+    .no-img {
+      // img size
+      padding-top: 40px;
+      // by the way
+      display: flex;
+      align-items: center;
+    }
+    .info-label {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      font-size: 16px;
+      color: var(--color-text-secondary);
+      line-height: 20px;
     }
     .node-status-dot {
-      margin-right: 4px;
+      position: absolute;
+      left: -4px;
+      transform: translateX(-100%);
     }
     .num {
       color: var(--color-title-primary);
