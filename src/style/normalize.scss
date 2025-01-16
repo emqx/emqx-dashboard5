@@ -49,6 +49,9 @@
   $switch: (
     'on-color': var(--color-status-success),
   ),
+  $notification: (
+    'radius': 0,
+  )
 );
 
 @use "element-plus/theme-chalk/src/index";
