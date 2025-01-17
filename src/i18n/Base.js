@@ -643,4 +643,8 @@ export default {
     zh: '，',
     en: ', ',
   },
+  lastModified: {
+    zh: '最后修改',
+    en: 'Last Modified',
+  },
 }
