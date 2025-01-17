@@ -21,6 +21,17 @@ export const getActions = async (): Promise<Array<Action>> => {
   }
 }
 
+export const getSimplifiedActions = async (): Promise<Array<Action>> => {
+  try {
+    const data = await http.get(`/actions_summary`)
+    return Promise.resolve(
+      data.map((item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item })),
+    )
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export const postAction = async (data: Action): Promise<Action> => {
   try {
     const ret = await http.post(`/actions`, data)
