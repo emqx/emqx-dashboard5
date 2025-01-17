@@ -107,7 +107,7 @@ import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { defineProps, ref } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import OperateWebhookAssociatedPopover from './OperateWebhookAssociatedPopover.vue'
@@ -117,6 +117,8 @@ import TargetItemStatus from './TargetItemStatus.vue'
 const props = defineProps<{
   type: 'source' | 'action'
 }>()
+
+const isSource = computed(() => props.type === 'source')
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -129,7 +131,7 @@ const isLoading = ref(false)
 const getList = async () => {
   isLoading.value = true
   try {
-    const queryFn = props.type === 'source' ? getSourceList : getActionList
+    const queryFn = isSource.value ? getSourceList : getActionList
     dataList.value = await queryFn()
   } catch (error) {
     console.error(error)
@@ -139,7 +141,7 @@ const getList = async () => {
 }
 getList()
 
-const emptyTip = props.type === 'source' ? tl('sourceEmptyTip') : tl('actionsEmptyTip')
+const emptyTip = isSource.value ? tl('sourceEmptyTip') : tl('actionsEmptyTip')
 
 const getDetailPageRoute = (id: string, tab?: string) => ({
   name: `${props.type}-detail`,
@@ -148,7 +150,7 @@ const getDetailPageRoute = (id: string, tab?: string) => ({
 })
 
 const ruleFilterRoute = (id: string) => {
-  const query = props.type === 'source' ? { source: id } : { action: id }
+  const query = isSource.value ? { source: id } : { action: id }
   return { name: 'rule', query }
 }
 
@@ -162,7 +164,7 @@ const { toggleActionEnable, reconnectAction } = useHandleActionItem()
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 const reconnect = ({ id }: Source | Action) => {
   try {
-    const reconnectFn = props.type === 'source' ? reconnectSource : reconnectAction
+    const reconnectFn = isSource.value ? reconnectSource : reconnectAction
     reconnectingMap.value.set(id, true)
     reconnectFn(id)
   } catch (error) {
@@ -175,7 +177,7 @@ const reconnect = ({ id }: Source | Action) => {
 const toggleEnable = async (row: Source | Action) => {
   const { enable } = row
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
-  const toggleFn = props.type === 'source' ? toggleSourceEnable : toggleActionEnable
+  const toggleFn = isSource.value ? toggleSourceEnable : toggleActionEnable
   try {
     await toggleFn(row.id, enable)
     ElMessage.success(t(sucMessage))
@@ -188,9 +190,8 @@ const toggleEnable = async (row: Source | Action) => {
 
 const router = useRouter()
 const createRuleWithTarget = (id: string) => {
-  const confirmContent =
-    props.type === 'source' ? tl('useSourceCreateRule') : tl('useActionCreateRule')
-  const query = props.type === 'source' ? { sourceId: id } : { actionId: id }
+  const confirmContent = isSource.value ? tl('useSourceCreateRule') : tl('useActionCreateRule')
+  const query = isSource.value ? { sourceId: id } : { actionId: id }
   ElMessageBox.confirm(confirmContent, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -209,7 +210,7 @@ const {
   handleDeleteSuc,
   handleDeleteBridge,
 } = useDeleteBridge(getList)
-const direction = props.type === 'source' ? BridgeDirection.Ingress : BridgeDirection.Egress
+const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egress
 </script>
 
 <style lang="scss"></style>
