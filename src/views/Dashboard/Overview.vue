@@ -85,7 +85,7 @@
             :to="{ name: 'clients', query: { conn_state: 'connected' } }"
           >
             <div class="count-item-hd">
-              <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
+              <img src="@/assets/img/live_connections.png" width="16" height="16" alt="clients" />
               <p class="info-label">{{ $t('Dashboard.liveConnections') }}</p>
             </div>
             <div class="num">
@@ -103,7 +103,7 @@
           </router-link>
           <div class="count-item">
             <div class="count-item-hd">
-              <img src="@/assets/img/subs.png" width="16" height="16" alt="subs" />
+              <img src="@/assets/img/shared_subscriptions.png" width="16" height="16" alt="subs" />
               <p class="info-label">{{ $t('Dashboard.shareSubscription') }}</p>
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.shared_subscriptions) }}</div>
@@ -123,7 +123,7 @@
         <el-card class="main-info-item">
           <router-link class="count-item" :to="{ name: 'retained' }">
             <div class="count-item-hd">
-              <img src="@/assets/img/topics.png" width="16" height="16" alt="topics" />
+              <img src="@/assets/img/retained.png" width="16" height="16" alt="topics" />
               <p class="info-label">{{ $t('Dashboard.retained') }}</p>
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.retained_msg_count) }}</div>
@@ -262,7 +262,7 @@ syncPolling(loadData, POLLING_INTERVAL)
           color: var(--color-primary);
         }
         img {
-          filter: saturate(65%) contrast(135%);
+          filter: contrast(125%);
         }
       }
       .img-container {
