@@ -393,3 +393,20 @@ export interface BridgeMqttPublisherGetSource {
   description?: string
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
 }
+
+export interface ActionsAndSourcesResponseNodeStatus {
+  node?: string
+  status?: string
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesResponseSummary {
+  enabled?: boolean
+  name?: string
+  type?: string
+  last_modified_at?: number
+  node_status?: ActionsAndSourcesResponseNodeStatus[]
+  rules?: string[]
+  status?: string
+  status_reason?: string
+}
