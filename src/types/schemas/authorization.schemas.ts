@@ -919,6 +919,8 @@ export interface AuthzMongoSingle {
   enable?: boolean
   collection: string
   filter?: AuthzMongoSingleFilter
+  limit?: number
+  skip?: number
   mongo_type: AuthzMongoSingleMongoType
   server: string
   w_mode?: AuthzMongoSingleWMode
@@ -974,6 +976,8 @@ export interface AuthzMongoSharded {
   enable?: boolean
   collection: string
   filter?: AuthzMongoShardedFilter
+  limit?: number
+  skip?: number
   mongo_type: AuthzMongoShardedMongoType
   servers: string
   w_mode?: AuthzMongoShardedWMode
@@ -1035,6 +1039,8 @@ export interface AuthzMongoRs {
   enable?: boolean
   collection: string
   filter?: AuthzMongoRsFilter
+  limit?: number
+  skip?: number
   mongo_type: AuthzMongoRsMongoType
   servers: string
   w_mode?: AuthzMongoRsWMode
