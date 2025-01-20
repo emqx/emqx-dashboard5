@@ -1,7 +1,5 @@
 <template>
-  <div class="app-wrapper data-bridge">
-    <ActionAndSourceList type="action" />
-  </div>
+  <ActionAndSourceList type="action" />
 </template>
 
 <script lang="ts" setup>
