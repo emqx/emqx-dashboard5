@@ -87,6 +87,7 @@
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { titleCase } from '@/common/tools'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
@@ -123,9 +124,10 @@ const showMoreQuery = ref(false)
 const filterParams: Ref<ActionAndSourceFilterParams> = ref(createRawFilterParams())
 
 const { egressBridgeTypeList: actionTypeList } = useBridgeTypeValue()
+const { sourceServerOptList } = useRuleInputs()
 const typeOptList = [
   { value: NOT_SPECIFIC_TYPE, label: t('Base.all') },
-  ...(props.type === 'action' ? actionTypeList : []),
+  ...(props.type === 'source' ? sourceServerOptList : actionTypeList),
 ]
 
 const { statusOptList } = useActionAndSourceStatus()

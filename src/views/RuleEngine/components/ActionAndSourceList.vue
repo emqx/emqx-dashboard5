@@ -26,13 +26,6 @@
           <TargetItemStatus type="action" :target="row" />
         </template>
       </el-table-column>
-      <el-table-column :label="tl('associatedRules')" :min-width="120">
-        <template #default="{ row }">
-          <router-link :to="ruleFilterRoute(row.id)">
-            {{ row.rules?.length || 0 }}
-          </router-link>
-        </template>
-      </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92" sortable>
         <template #default="{ row }">
           <OperateWebhookAssociatedPopover
@@ -62,6 +55,23 @@
       >
         <template #default="{ row }">
           {{ dateFormat(row.last_modified_at) }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('associatedRules')" :min-width="120">
+        <template #default="{ row }">
+          <router-link
+            v-for="item in row.rules"
+            :to="{ name: 'rule-detail', params: { id: item } }"
+            target="_blank"
+            :key="item"
+          >
+            <el-tag size="small" type="info">{{ item }}</el-tag>
+          </router-link>
+          <div class="view-rules-link">
+            <router-link :to="ruleFilterRoute(row.id)">
+              {{ `${tl('viewRules')} (${row.rules?.length || 0})` }}
+            </router-link>
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="168">
@@ -113,6 +123,7 @@
 
 <script setup lang="ts">
 import { dateFormat } from '@/common/tools'
+import CommonPagination from '@/components/commonPagination.vue'
 import useActionList from '@/hooks/Rule/action/useActionList'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
@@ -300,4 +311,10 @@ const {
 const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egress
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.view-rules-link {
+  margin-top: 2px;
+  margin-left: 4px;
+  font-size: 12px;
+}
+</style>
