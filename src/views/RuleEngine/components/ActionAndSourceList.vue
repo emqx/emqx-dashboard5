@@ -1,8 +1,8 @@
 <template>
-  <ActionAndSourceFilterForm :type="type" />
+  <ActionAndSourceFilterForm :type="type" @search="search" />
   <div class="app-wrapper">
     <el-table
-      :data="dataList"
+      :data="tableData"
       :empty-text="emptyTip"
       v-loading="isLoading"
       row-key="id"
@@ -98,6 +98,9 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="emq-table-footer">
+      <commonPagination :meta-data="pageParams" @load-page="refreshTable" />
+    </div>
   </div>
   <DeleteBridgeSecondConfirm
     v-model="showSecondConfirm"
@@ -117,17 +120,21 @@ import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue, { useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useI18nTl from '@/hooks/useI18nTl'
+import usePagination from '@/hooks/usePagination'
+import usePaginationRemember from '@/hooks/usePaginationRemember'
+import usePaging from '@/hooks/usePaging'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { pick } from 'lodash'
 import { computed, defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
+import ActionAndSourceFilterForm from './ActionAndSourceFilterForm.vue'
 import OperateWebhookAssociatedPopover from './OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from './TableItemDropDown.vue'
 import TargetItemStatus from './TargetItemStatus.vue'
-import ActionAndSourceFilterForm from './ActionAndSourceFilterForm.vue'
 
 const props = defineProps<{
   type: 'source' | 'action'
@@ -137,7 +144,22 @@ const isSource = computed(() => props.type === 'source')
 
 const { t, tl } = useI18nTl('RuleEngine')
 
-const dataList = ref<Array<BridgeItem>>([])
+let totalData: Array<BridgeItem> = []
+const tableData = ref<Array<BridgeItem>>([])
+
+const filters = ref<Array<{ key: string; value: string | boolean }>>([])
+
+let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
+
+const { setTotalData, getAPageData } = usePaging()
+const { updateParams, checkParamsInQuery } = usePaginationRemember(`${props.type}-detail`)
+
+const { page, limit, count } = usePagination()
+const pageParams = computed(() => ({
+  page: page.value,
+  limit: limit.value,
+  count: count.value,
+}))
 
 const { getSourceList } = useSourceList()
 const { getActionList } = useActionList()
@@ -147,7 +169,9 @@ const getList = async () => {
   isLoading.value = true
   try {
     const queryFn = isSource.value ? getSourceList : getActionList
-    dataList.value = await queryFn()
+    totalData = await queryFn()
+    setTotalData(totalData)
+    getTableData()
   } catch (error) {
     console.error(error)
   } finally {
@@ -156,14 +180,55 @@ const getList = async () => {
 }
 getList()
 
+const getTableData = () => {
+  const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, [], sortFrom)
+  tableData.value = data
+  count.value = meta.count || 0
+  updateParams({ ...pick(meta, ['limit', 'page']), ...sortFrom })
+}
+
+const refreshTable = (pageData: { page: number; limit: number }) => {
+  page.value = pageData.page
+  limit.value = pageData.limit
+  getTableData()
+}
+
+const getFilterParams = (
+  filterParams: Record<string, string | boolean>,
+): Array<{ key: string; value: string | boolean }> => {
+  return Object.entries(filterParams).reduce(
+    (arr: Array<{ key: string; value: string | boolean }>, [currentKey, currentVal]) => {
+      return [...arr, { key: currentKey, value: currentVal }]
+    },
+    [],
+  )
+}
+
+const search = (filterParams: Record<string, string | boolean>) => {
+  filters.value = getFilterParams(filterParams)
+  const { data } = getAPageData({ page: 1, limit: totalData.length }, filters.value)
+  tableData.value = data
+}
+
 const emptyTip = isSource.value ? tl('sourceEmptyTip') : tl('actionsEmptyTip')
 
-const handleSortChange = (data: { column: any; prop: string; order: any }) => {
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-  // TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+const handleSortChange = ({ prop, order }: { column: any; prop: string; order: any }) => {
+  sortFrom = prop ? { key: prop, type: order === 'descending' ? 'desc' : 'asc' } : undefined
+  refreshTable({ page: 1, limit: limit.value })
 }
+
+const getParamsFromQuery = async () => {
+  const { pageParams, filterParams } = checkParamsInQuery()
+  page.value = pageParams.page || page.value
+  limit.value = pageParams.limit || limit.value
+  if (filterParams && (filterParams.key || filterParams.type)) {
+    sortFrom = {
+      key: filterParams.key ?? sortFrom?.key ?? '',
+      type: filterParams.type ?? sortFrom?.type ?? 'desc',
+    }
+  }
+}
+getParamsFromQuery()
 
 const getDetailPageRoute = (id: string, tab?: string) => ({
   name: `${props.type}-detail`,
