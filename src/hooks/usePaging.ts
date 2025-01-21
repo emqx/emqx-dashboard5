@@ -11,7 +11,7 @@ interface PageMeta {
 
 export interface FilterItem {
   key: string
-  value: string
+  value: string | boolean
 }
 
 interface SortFrom {
@@ -46,14 +46,22 @@ export default (): {
     chunkList()
   }
 
+  const checkValue = (filterValue: string | boolean, value: any) => {
+    if (typeof filterValue === 'string') {
+      const reg = new RegExp(filterValue, 'i')
+      return reg.test(value)
+    }
+    return filterValue === value
+  }
+
   const filterList = (filters: Array<FilterItem> = []) => {
     latestFiltersString = JSON.stringify(filters)
     if (filters.length === 0) {
       listAfterFilter.value = totalData.value
     } else {
-      listAfterFilter.value = totalData.value.filter((item) =>
-        filters.every(({ key, value }) => item[key]?.indexOf && item[key].indexOf(value) > -1),
-      )
+      listAfterFilter.value = totalData.value.filter((item) => {
+        return filters.every(({ key, value: filterValue }) => checkValue(filterValue, item[key]))
+      })
     }
   }
 
