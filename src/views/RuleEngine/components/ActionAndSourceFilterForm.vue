@@ -15,7 +15,7 @@
             @clear="search"
           >
             <template #prepend>
-              <el-select v-model="filterParams.type">
+              <el-select v-model="filterParams.type" @change="search">
                 <el-option
                   v-for="{ value, label } in typeOptList"
                   :key="value"
@@ -29,7 +29,14 @@
       </el-col>
       <el-col v-bind="colProps">
         <el-form-item>
-          <el-select class="select-topic-type" v-model="filterParams.status">
+          <el-select
+            class="select-topic-type"
+            :placeholder="t('Base.status')"
+            v-model="filterParams.status"
+            clearable
+            @clear="search"
+            @change="search"
+          >
             <el-option
               v-for="{ label, value } in statusOptList"
               :key="value"
@@ -46,6 +53,7 @@
             v-model="filterParams.enable"
             clearable
             @clear="search"
+            @change="search"
             :placeholder="t('Base.isEnabled')"
           >
             <el-option :label="t('Base.enabled')" :value="true" />
@@ -65,9 +73,8 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="24" />
       </template>
-      <el-col v-bind="colProps" class="col-oper">
+      <el-col v-bind="showMoreQuery ? { span: 24 } : colProps" class="col-oper">
         <SearchButton @click="search" />
         <ResetButton @click="handleReset" />
         <ShowMoreButton v-model="showMoreQuery" />
@@ -84,7 +91,7 @@ import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import type { Ref } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 
 interface ActionAndSourceFilterParams {
   type?: string
@@ -97,6 +104,9 @@ interface ActionAndSourceFilterParams {
 const props = defineProps<{
   type: 'action' | 'source'
 }>()
+const emit = defineEmits<{
+  (e: 'search', filterParams: ActionAndSourceFilterParams): void
+}>()
 
 const NOT_SPECIFIC_TYPE = 'not_specific'
 const createRawFilterParams = (): ActionAndSourceFilterParams => ({
@@ -108,20 +118,33 @@ const createRawFilterParams = (): ActionAndSourceFilterParams => ({
 })
 const { tl, t } = useI18nTl('RuleEngine')
 
-const emit = defineEmits(['search', 'refresh'])
-
 const showMoreQuery = ref(false)
 
 const filterParams: Ref<ActionAndSourceFilterParams> = ref(createRawFilterParams())
 
 const { egressBridgeTypeList: actionTypeList } = useBridgeTypeValue()
-const typeOptList = computed(() => {
-  return props.type === 'action' ? actionTypeList : []
-})
+const typeOptList = [
+  { value: NOT_SPECIFIC_TYPE, label: t('Base.all') },
+  ...(props.type === 'action' ? actionTypeList : []),
+]
+
 const { statusOptList } = useActionAndSourceStatus()
 
 const getFilterParams = () => {
-  const ret = {}
+  const ret = (Object.keys(filterParams.value) as Array<keyof typeof filterParams.value>).reduce(
+    (obj, currentKey) => {
+      const currentVal = filterParams.value[currentKey]
+      if (
+        currentVal !== undefined &&
+        currentVal !== '' &&
+        !(currentKey === 'type' && currentVal === NOT_SPECIFIC_TYPE)
+      ) {
+        return { ...obj, [currentKey]: currentVal }
+      }
+      return obj
+    },
+    {},
+  )
   return ret
 }
 
@@ -139,9 +162,6 @@ const handleReset = () => {
 @import '~@/style/management.scss';
 .action-filter-form {
   margin-top: -12px;
-  .col-oper {
-    float: right;
-  }
   // when show more query
   .el-col-24 {
     margin-top: 16px;
