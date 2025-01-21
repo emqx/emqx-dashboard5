@@ -1,5 +1,5 @@
 import { deleteAction, putActionEnable } from '@/api/action'
-import { deleteConnector } from '@/api/connector'
+import { deleteConnector, putConnectorEnable } from '@/api/connector'
 import { deleteRules, updateRules } from '@/api/ruleengine'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default (): {
-  toggleWebhookEnableStatus: (webhook: WebhookItem) => Promise<[any, any]>
+  toggleWebhookEnableStatus: (webhook: WebhookItem) => Promise<[any, any, any]>
   deleteLoading: Ref<boolean>
   deleteWebhook: (webhook: WebhookItem) => Promise<void>
 } => {
@@ -23,6 +23,7 @@ export default (): {
     return await Promise.all([
       toggleBridgeEnableStatus(webhook.action.id, enable),
       toggleRuleEnableStatus(webhook.rule.id, enable),
+      putConnectorEnable(webhook.connector.id, enable),
     ])
   }
 
