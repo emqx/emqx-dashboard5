@@ -66,7 +66,7 @@
           <el-form-item>
             <el-input
               type="text"
-              v-model="filterParams.rule"
+              v-model="filterParams.rules"
               clearable
               :placeholder="`${titleCase(tl('rule'))} ID`"
               @clear="search"
@@ -98,7 +98,7 @@ interface ActionAndSourceFilterParams {
   type?: string
   name?: string
   status?: ConnectionStatus
-  rule?: string
+  rules?: string
   enable?: boolean
 }
 
@@ -114,7 +114,7 @@ const createRawFilterParams = (): ActionAndSourceFilterParams => ({
   type: NOT_SPECIFIC_TYPE,
   name: undefined,
   status: undefined,
-  rule: undefined,
+  rules: undefined,
   enable: undefined,
 })
 const { tl, t } = useI18nTl('RuleEngine')

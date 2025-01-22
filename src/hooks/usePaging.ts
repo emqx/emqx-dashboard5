@@ -49,6 +49,9 @@ export default (): {
   const checkValue = (filterValue: string | boolean, value: any) => {
     if (typeof filterValue === 'string') {
       const reg = new RegExp(filterValue, 'i')
+      if (Array.isArray(value)) {
+        return value.some((item) => reg.test(item))
+      }
       return reg.test(value)
     }
     return filterValue === value

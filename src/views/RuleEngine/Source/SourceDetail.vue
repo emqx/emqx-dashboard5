@@ -1,7 +1,7 @@
 <template>
   <div class="bridge-detail">
     <div class="detail-top">
-      <detail-header v-if="!isFromRule" :item="{ name: sourceInfo.name, routeName: 'source' }">
+      <detail-header v-if="!isFromRule" :item="{ name: sourceInfo.name, route: backRoute }">
         <template #content>
           <div class="vertical-align-center">
             <img :src="getBridgeIcon(sourceInfo.type)" />
@@ -114,6 +114,7 @@ import useHandleSourceItem, { useDeleteSource } from '@/hooks/Rule/action/useHan
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
@@ -136,6 +137,9 @@ enum Tab {
 
 const route = useRoute()
 const router = useRouter()
+const { getBackRoute } = useReceiveParams('source')
+const backRoute = computed(() => getBackRoute({ name: 'source' }))
+
 // for compare when update
 let rawSourceInfo: undefined | Source = undefined
 const sourceInfo: Ref<Source> = ref({} as Source)

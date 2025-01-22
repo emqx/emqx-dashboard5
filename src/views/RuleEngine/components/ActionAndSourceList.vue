@@ -57,7 +57,13 @@
           {{ dateFormat(row.last_modified_at) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('associatedRules')" :min-width="120">
+      <el-table-column
+        sortable
+        prop="rules.length"
+        :min-width="120"
+        :label="tl('associatedRules')"
+        :sort-method="(row:BridgeItem) => row.rules?.length ?? 0"
+      >
         <template #default="{ row }">
           <router-link
             v-for="item in row.rules"
@@ -138,7 +144,7 @@ import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
+import { isPlainObject, pick } from 'lodash'
 import { computed, defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
@@ -158,7 +164,21 @@ const { t, tl } = useI18nTl('RuleEngine')
 let totalData: Array<BridgeItem> = []
 const tableData = ref<Array<BridgeItem>>([])
 
-const filters = ref<Array<{ key: string; value: string | boolean }>>([])
+let filters = ref<Record<string, string | boolean>>({})
+const getFilterArr = (
+  filterParams: Record<string, string | boolean>,
+): Array<{ key: string; value: string | boolean }> => {
+  if (!isPlainObject(filterParams)) {
+    return []
+  }
+  return Object.entries(filterParams).reduce(
+    (arr: Array<{ key: string; value: string | boolean }>, [currentKey, currentVal]) => {
+      return [...arr, { key: currentKey, value: currentVal }]
+    },
+    [],
+  )
+}
+const filterArr = computed(() => getFilterArr(filters.value))
 
 let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
 
@@ -192,10 +212,19 @@ const getList = async () => {
 getList()
 
 const getTableData = () => {
-  const { data, meta } = getAPageData({ page: page.value, limit: limit.value }, [], sortFrom)
+  const { data, meta } = getAPageData(
+    { page: page.value, limit: limit.value },
+    filterArr.value,
+    sortFrom,
+  )
   tableData.value = data
   count.value = meta.count || 0
-  updateParams({ ...pick(meta, ['limit', 'page']), ...sortFrom })
+  updateParams({
+    ...pick(meta, ['limit', 'page']),
+    ...filters.value,
+    sortBy: sortFrom?.key,
+    sortType: sortFrom?.type,
+  })
 }
 
 const refreshTable = (pageData: { page: number; limit: number }) => {
@@ -204,26 +233,15 @@ const refreshTable = (pageData: { page: number; limit: number }) => {
   getTableData()
 }
 
-const getFilterParams = (
-  filterParams: Record<string, string | boolean>,
-): Array<{ key: string; value: string | boolean }> => {
-  return Object.entries(filterParams).reduce(
-    (arr: Array<{ key: string; value: string | boolean }>, [currentKey, currentVal]) => {
-      return [...arr, { key: currentKey, value: currentVal }]
-    },
-    [],
-  )
-}
-
 const search = (filterParams: Record<string, string | boolean>) => {
-  filters.value = getFilterParams(filterParams)
-  const { data } = getAPageData({ page: 1, limit: totalData.length }, filters.value)
-  tableData.value = data
+  filters.value = filterParams
+  refreshTable({ page: 1, limit: limit.value })
 }
 
 const emptyTip = isSource.value ? tl('sourceEmptyTip') : tl('actionsEmptyTip')
 
-const handleSortChange = ({ prop, order }: { column: any; prop: string; order: any }) => {
+const handleSortChange = (p: { column: any; prop: string; order: any }) => {
+  const { prop, order } = p
   sortFrom = prop ? { key: prop, type: order === 'descending' ? 'desc' : 'asc' } : undefined
   refreshTable({ page: 1, limit: limit.value })
 }
@@ -232,11 +250,15 @@ const getParamsFromQuery = async () => {
   const { pageParams, filterParams } = checkParamsInQuery()
   page.value = pageParams.page || page.value
   limit.value = pageParams.limit || limit.value
-  if (filterParams && (filterParams.key || filterParams.type)) {
+  const { sortBy, sortType, ...rest } = filterParams || {}
+  if (sortBy && sortType) {
     sortFrom = {
-      key: filterParams.key ?? sortFrom?.key ?? '',
-      type: filterParams.type ?? sortFrom?.type ?? 'desc',
+      key: sortBy ?? sortFrom?.key ?? '',
+      type: sortType ?? sortFrom?.type ?? 'desc',
     }
+  }
+  if (Object.keys(rest).length > 0) {
+    filters.value = rest
   }
 }
 getParamsFromQuery()
