@@ -401,9 +401,11 @@ export interface ActionsAndSourcesResponseNodeStatus {
 }
 
 export interface ActionsAndSourcesResponseSummary {
-  enabled?: boolean
+  enable?: boolean
   name?: string
   type?: string
+  description?: string
+  created_at?: number
   last_modified_at?: number
   node_status?: ActionsAndSourcesResponseNodeStatus[]
   rules?: string[]
