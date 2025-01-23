@@ -249,6 +249,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <template v-if="!isAuthn">
+                <el-col :span="12">
+                  <el-form-item :label="t('Auth.authzMongoLimit')">
+                    <CustomInputNumber v-model="databaseConfig.limit" :min="1" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="t('Auth.authzMongoSkip')">
+                    <CustomInputNumber v-model="databaseConfig.skip" :min="0" />
+                  </el-form-item>
+                </el-col>
+              </template>
             </template>
 
             <el-col :span="12">
