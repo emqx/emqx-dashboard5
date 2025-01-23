@@ -1,6 +1,8 @@
 <template>
-  <div class="login">
-    <el-container>
+  <div class="login" v-loading="isSSOLoading">
+    <TongTechAuthGuidance v-if="!isTongTechAuthEnabled" />
+    <TongTechAuthForm v-else />
+    <el-container v-if="false">
       <el-header>
         <img src="@/assets/img/tongtech.svg" alt="logo" height="40" />
         <el-dropdown popper-class="lang-dropdown">
@@ -290,6 +292,8 @@ import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import TongTechAuthGuidance from './components/TongTechAuthGuidance.vue'
+import TongTechAuthForm from './components/TongTechAuthForm.vue'
 
 const { t } = useI18n()
 const store = useStore()
@@ -309,6 +313,7 @@ const {
   isSSOLoading,
   ldapRecord,
   hasSSOEnabled,
+  isTongTechAuthEnabled,
   ldapLogin,
   getEnabledSSO,
 } = useSSO()

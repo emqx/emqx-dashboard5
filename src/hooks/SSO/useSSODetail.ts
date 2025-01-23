@@ -52,11 +52,20 @@ export default (): {
     fallback_methods: ['RS256'],
     client_jwks: 'none',
   })
+  const createRawTongTechForm = (): any => ({
+    enable: true,
+    backend: DashboardSsoBackendStatusBackend.tongauth,
+    dashboard_addr: location.origin + location.pathname.slice(0, -1),
+    auth_server_addr: 'http://168.1.15.162:9000',
+    client_id: 'tongmmp_yunjian_oauth2',
+    client_secret: 'b2c3d4e5-f678-9c0a-1b2f-4567890abcde',
+  })
 
   const formCreatorMap: Map<string, () => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
     [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
     [DashboardSsoBackendStatusBackend.oidc, createRawOIDCForm],
+    [DashboardSsoBackendStatusBackend.tongauth, createRawTongTechForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)

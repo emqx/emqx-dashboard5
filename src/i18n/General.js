@@ -263,6 +263,10 @@ export default {
     zh: '启用 {backend} SSO',
     en: 'Enable {backend} SSO',
   },
+  tongtech: {
+    zh: '东方通',
+    en: 'TongTech',
+  },
   baseDN: {
     zh: '基本 DN',
     en: 'Base DN',
@@ -354,6 +358,14 @@ export default {
   fallbackMethods: {
     zh: '备用方法',
     en: 'Fallback Methods',
+  },
+  authServerAddr: {
+    zh: '认证服务器地址',
+    en: 'Auth Server Address',
+  },
+  authServerAddrDesc: {
+    zh: '东方通认证服务器的基本 URL。示例：http://168.1.15.162:9000',
+    en: 'The Base URL of the TongAuth Server. Example: http://168.1.15.162:9000',
   },
   JWK: {
     zh: 'JSON Web 密钥',

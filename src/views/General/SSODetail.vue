@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSSOBackend, putSSOBackend, getSSOList } from '@/api/sso'
+import { getSSOBackend, getSSOList, putSSOBackend } from '@/api/sso'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useSSODetail from '@/hooks/SSO/useSSODetail'
@@ -40,8 +40,9 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
-import SAMLForm from './components/SSOForm/SAMLForm.vue'
 import OIDCForm from './components/SSOForm/OIDCForm.vue'
+import SAMLForm from './components/SSOForm/SAMLForm.vue'
+import TongTechForm from './components/SSOForm/TongTechForm.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -59,6 +60,7 @@ const formComMap: Record<string, Component> = {
   [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
   [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
   [DashboardSsoBackendStatusBackend.oidc]: OIDCForm,
+  [DashboardSsoBackendStatusBackend.tongauth]: TongTechForm,
 }
 
 const formCom = computed(() =>
