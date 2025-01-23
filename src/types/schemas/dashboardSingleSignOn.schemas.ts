@@ -1,3 +1,55 @@
+export type GetSsoTongauthCallback404Code =
+  typeof GetSsoTongauthCallback404Code[keyof typeof GetSsoTongauthCallback404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoTongauthCallback404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type GetSsoTongauthCallback404 = {
+  code?: GetSsoTongauthCallback404Code
+  message?: string
+}
+
+export type GetSsoTongauthCallback401Code =
+  typeof GetSsoTongauthCallback401Code[keyof typeof GetSsoTongauthCallback401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoTongauthCallback401Code = {
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+} as const
+
+export type GetSsoTongauthCallback401 = {
+  code?: GetSsoTongauthCallback401Code
+  message?: string
+}
+
+export type GetSsoTongauthCallback400Code =
+  typeof GetSsoTongauthCallback400Code[keyof typeof GetSsoTongauthCallback400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoTongauthCallback400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetSsoTongauthCallback400 = {
+  code?: GetSsoTongauthCallback400Code
+  message?: string
+}
+
+export type GetSsoTongauthCallback302Code =
+  typeof GetSsoTongauthCallback302Code[keyof typeof GetSsoTongauthCallback302Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoTongauthCallback302Code = {
+  REDIRECT: 'REDIRECT',
+} as const
+
+export type GetSsoTongauthCallback302 = {
+  code?: GetSsoTongauthCallback302Code
+  message?: string
+}
+
 export type DeleteSsoBackend404Code =
   typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
 
@@ -23,9 +75,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
+export type PutSsoBackend200 = DashboardTongauth | DashboardSaml | SsoOidc | SsoLdap
 
-export type PutSsoBackendBody = SsoOidc | DashboardSaml | SsoLdap
+export type PutSsoBackendBody = DashboardTongauth | DashboardSaml | SsoOidc | SsoLdap
 
 export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
 
@@ -39,15 +91,16 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = SsoOidc | DashboardSaml | SsoLdap
+export type GetSsoBackend200 = DashboardTongauth | DashboardSaml | SsoOidc | SsoLdap
 
 export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
+  tongauth: 'tongauth',
 } as const
 
 export type PostSsoLoginBackend404Code =
@@ -109,7 +162,7 @@ export type PostSsoLoginBackend200 = {
   license?: PostSsoLoginBackend200License
 }
 
-export type PostSsoLoginBackendBody = SsoLogin | DashboardLogin | SsoLogin
+export type PostSsoLoginBackendBody = DashboardLogin | DashboardLogin | SsoLogin | SsoLogin
 
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
@@ -301,6 +354,20 @@ export const SsoLdapBackend = {
   ldap: 'ldap',
 } as const
 
+export interface SsoLdap {
+  enable?: boolean
+  backend: SsoLdapBackend
+  query_timeout?: string
+  server: string
+  pool_size?: number
+  username: string
+  password?: string
+  base_dn: string
+  filter?: string
+  request_timeout?: string
+  ssl?: LdapSsl
+}
+
 export type SsoClientFileJwksType = typeof SsoClientFileJwksType[keyof typeof SsoClientFileJwksType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -370,18 +437,21 @@ export interface LdapSsl {
   server_name_indication?: LdapSslServerNameIndication
 }
 
-export interface SsoLdap {
+export type DashboardTongauthBackend =
+  typeof DashboardTongauthBackend[keyof typeof DashboardTongauthBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardTongauthBackend = {
+  tongauth: 'tongauth',
+} as const
+
+export interface DashboardTongauth {
   enable?: boolean
-  backend: SsoLdapBackend
-  query_timeout?: string
-  server: string
-  pool_size?: number
-  username: string
-  password?: string
-  base_dn: string
-  filter?: string
-  request_timeout?: string
-  ssl?: LdapSsl
+  backend: DashboardTongauthBackend
+  dashboard_addr?: string
+  auth_server_addr?: string
+  client_id?: string
+  client_secret?: string
 }
 
 export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
@@ -405,7 +475,7 @@ export type DashboardLoginBackend = typeof DashboardLoginBackend[keyof typeof Da
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardLoginBackend = {
-  saml: 'saml',
+  tongauth: 'tongauth',
 } as const
 
 export interface DashboardLogin {
@@ -418,8 +488,9 @@ export type DashboardSsoBackendStatusBackend =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
+  tongauth: 'tongauth',
 } as const
 
 export interface DashboardSsoBackendStatus {
