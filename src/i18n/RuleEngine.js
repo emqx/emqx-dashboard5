@@ -1677,6 +1677,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '关联规则',
     en: 'Associated Rules',
   },
+  viewRules: {
+    zh: '查看规则',
+    en: 'View Rules',
+  },
   invalidGroupId: {
     zh: '无效的 Group ID',
     en: 'Invalid Group ID',

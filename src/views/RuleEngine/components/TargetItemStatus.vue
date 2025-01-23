@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
+import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
@@ -33,17 +34,10 @@ const props = defineProps({
   },
 })
 
-const { t, tl } = useI18nTl('RuleEngine')
-
+const { tl } = useI18nTl('RuleEngine')
 const { getStatusLabel: getConnectorStatusLabel, getStatusClass } = useCommonConnectionStatus()
+const { statusLabelMap } = useActionAndSourceStatus()
 const getActionStatusLabel = (status?: ConnectionStatus) => {
-  const statusLabelMap = {
-    [ConnectionStatus.Connected]: tl('actionAvailable'),
-    [ConnectionStatus.Disconnected]: tl('actionUnavailable'),
-    [ConnectionStatus.Connecting]: t('Base.connecting'),
-    [ConnectionStatus.Inconsistent]: t('Base.inconsistent'),
-    [ConnectionStatus.Stopped]: t('Base.stopped'),
-  }
   return status ? statusLabelMap[status] || tl('disconnected') : ''
 }
 const statusData = computed(() => {

@@ -1,7 +1,13 @@
 <template>
   <div class="bridge-detail">
     <div class="detail-top">
-      <detail-header v-if="!isFromRule" :item="{ name: bridgeInfo.name, routeName: 'actions' }">
+      <detail-header
+        v-if="!isFromRule"
+        :item="{
+          name: bridgeInfo.name,
+          route: backRoute,
+        }"
+      >
         <template #content>
           <div class="vertical-align-center">
             <img :src="getBridgeIcon(bridgeInfo.type)" />
@@ -157,12 +163,15 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
+import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
+import TextEasyCopy from '@/components/TextEasyCopy.vue'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
@@ -176,8 +185,6 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -186,6 +193,9 @@ enum Tab {
 
 const route = useRoute()
 const router = useRouter()
+const { getBackRoute } = useReceiveParams('actions')
+const backRoute = computed(() => getBackRoute({ name: 'actions' }))
+
 // for compare when update
 let rawBridgeInfo: undefined | BridgeItem = undefined
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)

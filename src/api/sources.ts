@@ -21,6 +21,24 @@ export const getSources = async (): Promise<Array<Source>> => {
   }
 }
 
+export const getSimplifiedSources = async (): Promise<Array<Source>> => {
+  try {
+    const data = await http.get(`/sources_summary`)
+    return Promise.resolve(
+      data.map((item: Omit<Source, 'id'>) => {
+        const id = getBridgeKey(item as any)
+        return {
+          id,
+          idForRuleFrom: `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}`,
+          ...item,
+        }
+      }),
+    )
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export const postSource = async (source: Source): Promise<Source> => {
   try {
     const ret = await http.post(`/sources`, source)

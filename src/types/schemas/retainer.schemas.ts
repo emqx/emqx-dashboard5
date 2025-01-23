@@ -136,6 +136,7 @@ export interface RetainerRetainer {
   max_payload_size?: string
   stop_publish_clear_msg?: boolean
   delivery_rate?: string
+  max_publish_rate?: string
   backend?: RetainerMnesiaConfig
 }
 
