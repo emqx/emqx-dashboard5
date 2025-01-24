@@ -655,10 +655,6 @@ export default {
     en: 'Token Length',
     zh: '令牌长度',
   },
-  enableMfaMethod: {
-    en: 'Enable {method} MFA',
-    zh: '启用 {method} 多因素认证',
-  },
   twoFactorVerification: {
     en: 'Two-Factor Verification',
     zh: '两步验证',

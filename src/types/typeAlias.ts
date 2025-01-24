@@ -58,7 +58,6 @@ import type {
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
-import { MfaTotpSetupRespMethod, type MfaTotpApiConfig } from './schemas/dashboard.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -141,7 +140,3 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
-
-/* MFA */
-export type MfaTotpConfig = MfaTotpApiConfig
-export const MfaMethod = MfaTotpSetupRespMethod
