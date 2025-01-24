@@ -295,6 +295,7 @@
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
+import { MFA_REQUIRED } from '@/common/customErrorCode'
 import { waitAMoment } from '@/common/tools'
 import useSSO from '@/hooks/SSO/useSSO'
 import useConvertSecretToQRCode from '@/hooks/useConvertSecretToQRCode'
@@ -312,6 +313,13 @@ import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+
+interface MFAError {
+  cluster_name: string
+  error: string
+  mechanism: string
+  secret: string
+}
 
 const { t } = useI18n()
 const store = useStore()
@@ -428,8 +436,8 @@ const twoFARules = {
   ],
 }
 
-const handleMFAMethod = async (res: PostLogin200, username: string) => {
-  loginMethod.value = res.method ?? ''
+const handleMFAMethod = async (res: MFAError, username: string) => {
+  loginMethod.value = res.mechanism ?? ''
   showTotpSecret.value = !!res.secret
   if (res.secret) {
     totpSecret.value = res.secret
@@ -457,19 +465,18 @@ const queryLogin = async ({ username, password }: { username: string; password: 
   isSubmitting.value = true
   try {
     const res = await loginApi({ username, password })
-    handleMFAMethod(res, username)
 
     isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
     pwdValidSeconds.value = res.password_expire_in_seconds ?? Number.MAX_SAFE_INTEGER
     updateStoreInfo(username, res)
 
-    if (show2FA.value) {
-      return
-    }
-
     checkPasswordChange()
     return Promise.resolve({ username, response: res })
-  } catch (error) {
+  } catch (error: any) {
+    const { code, message } = error?.response?.data || {}
+    if (code === MFA_REQUIRED) {
+      handleMFAMethod(message, username)
+    }
     return Promise.reject(error)
   } finally {
     isSubmitting.value = false
@@ -546,13 +553,14 @@ const submitWithAuthCode = async () => {
   try {
     await TwoFAFormCom.value.validate()
     isSubmitting.value = true
-    const { username, token } = store.state.user
+    const { username, password } = record
     const data = {
-      method: loginMethod.value,
-      token,
-      code: twoFARecord.authCode,
+      username,
+      password,
+      mfa_token: twoFARecord.authCode,
     }
     const res = await loginApi(data)
+    showTotpSecret.value = false
     updateStoreInfo(username, res)
     checkPasswordChange()
   } catch (error) {

@@ -1,5 +1,5 @@
 import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
-import { BAD_TOKEN, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
+import { BAD_TOKEN, MFA_REQUIRED, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import { trimValues } from '@/common/tools'
 import i18n from '@/i18n'
@@ -156,6 +156,8 @@ axios.interceptors.response.use(
         if (!handleErrorSelf) {
           if (data.code === NAME_PWD_ERROR) {
             ElNotification.error(t('Base.namePwdError'))
+          } else if (data.code === MFA_REQUIRED) {
+            // do nothing, leave it to the page to do the rest of the processing
           } else {
             CustomMessage.error(getErrorMessage(data, status))
           }
