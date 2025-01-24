@@ -687,4 +687,8 @@ export default {
     en: 'Please confirm that the setup key has been saved in the app',
     zh: '请确认已将密钥保存在应用中',
   },
+  userInfoError: {
+    en: 'Username or password or authentication code error',
+    zh: '用户名或密码或认证码错误',
+  },
 }

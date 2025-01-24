@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <el-row v-if="show2FA">
+    <el-row v-if="showTotpSecret">
       <el-col :span="12" class="img-container">
         <img
           src="@/assets/img/img-change-default-pwd.png"
@@ -46,7 +46,7 @@
             />
             <el-form ref="TwoFAFormCom" :model="twoFARecord" :rules="twoFARules">
               <div class="tip auth-code-tip">
-                {{ showTotpSecret ? t('General.verifyCode') : t('General.enterCode') }}
+                {{ t('General.verifyCode') }}
               </div>
               <el-form-item>
                 <el-input v-model="twoFARecord.authCode" @input="checkAuthCode" />
@@ -63,7 +63,6 @@
               </el-form-item>
             </el-form>
           </div>
-          <!-- TODO: -->
         </div>
       </el-col>
     </el-row>
@@ -109,6 +108,14 @@
                 :placeholder="$t('Base.password')"
                 tabindex="2"
               />
+            </el-form-item>
+            <el-form-item
+              v-if="show2FAInput"
+              prop="mfa_token"
+              label-position="top"
+              :label="t('General.enterCode')"
+            >
+              <el-input v-model="record.mfa_token" tabindex="3" @input="checkAuthCode" />
             </el-form-item>
             <div class="btn-container">
               <a
@@ -309,6 +316,7 @@ import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
+import { ElNotification } from 'element-plus'
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -348,6 +356,7 @@ getEnabledSSO()
 const record = reactive({
   username: '',
   password: '',
+  mfa_token: '',
 })
 const newPasswordRecord = reactive({
   password: '',
@@ -365,11 +374,22 @@ const isUsingDefaultPwd = ref(false)
 const pwdValidSeconds = ref(Number.MAX_SAFE_INTEGER)
 const isPwdExpired = computed(() => pwdValidSeconds.value < 0)
 
+const { createRequiredRule } = useFormRules()
+const authCodeRule = [
+  ...createRequiredRule(t('General.authenticationCode')),
+  {
+    validator(rules: unknown, value: string) {
+      if (!/^\d{6}$/.test(value)) {
+        return [new Error(t('General.authenticationCodeError'))]
+      }
+    },
+  },
+]
 const rules = {
   username: [{ required: true, message: t('Base.unameRequired') }],
   password: [{ required: true, message: t('Base.passwordRequired') }],
+  mfa_token: authCodeRule,
 }
-const { createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   t('General.passwordRequirement1') +
   t('General.semicolon') +
@@ -393,26 +413,14 @@ const pwdRules = {
       trigger: ['blur'],
     },
   ],
-  passwordRepeat: [
-    ...createRequiredRule(t('General.confirmPassword')),
-    {
-      validator: (rule: any, value: string) => {
-        if (value !== newPasswordRecord.password) {
-          return [new Error(t('General.confirmNotMatch'))]
-        } else {
-          return []
-        }
-      },
-      trigger: ['blur'],
-    },
-  ],
+  passwordRepeat: authCodeRule,
 }
 
 const FormCom = ref()
 const PwdFormCom = ref()
 
 const loginMethod = ref('')
-const show2FA = computed(() => loginMethod.value === 'totp')
+const show2FAInput = computed(() => loginMethod.value === 'totp')
 const showTotpSecret = ref(false)
 const totpSecret = ref('')
 const { copyText } = useCopy()
@@ -436,7 +444,17 @@ const twoFARules = {
   ],
 }
 
+const resetMFAData = () => {
+  loginMethod.value = ''
+  showTotpSecret.value = false
+}
+
+const codeErrorMsg = 'bad_mfa_token'
 const handleMFAMethod = async (res: MFAError, username: string) => {
+  if (new RegExp(codeErrorMsg, 'i').test(res.error)) {
+    ElNotification.error(t('General.userInfoError'))
+    return
+  }
   loginMethod.value = res.mechanism ?? ''
   showTotpSecret.value = !!res.secret
   if (res.secret) {
@@ -444,9 +462,17 @@ const handleMFAMethod = async (res: MFAError, username: string) => {
     await waitAMoment()
     displayQRCode(totpSecret.value, username)
   }
-  if (show2FA.value) {
+  if (showTotpSecret.value) {
     twoFARecord.authCode = ''
   }
+}
+
+const updatePasswordData = (
+  user: { username: string; password: string },
+  password_expire_in_seconds?: number,
+) => {
+  isUsingDefaultPwd.value = user.password === DEFAULT_PWD && ADMIN_USERNAMES.includes(user.username)
+  pwdValidSeconds.value = password_expire_in_seconds ?? Number.MAX_SAFE_INTEGER
 }
 
 const checkPasswordChange = () => {
@@ -461,13 +487,15 @@ const { updateBaseInfo } = useUpdateBaseInfo()
 const updateStoreInfo = (username: string, data: PostLogin200) =>
   updateBaseInfo(username, data, currentLoginBackend.value)
 
-const queryLogin = async ({ username, password }: { username: string; password: string }) => {
+const queryLogin = async (user: { username: string; password: string; mfa_token?: string }) => {
   isSubmitting.value = true
+  const { username, password } = user
+  const mfa_token = user.mfa_token || undefined
   try {
-    const res = await loginApi({ username, password })
+    const res = await loginApi({ username, password, mfa_token })
+    resetMFAData()
 
-    isUsingDefaultPwd.value = password === DEFAULT_PWD && ADMIN_USERNAMES.includes(username)
-    pwdValidSeconds.value = res.password_expire_in_seconds ?? Number.MAX_SAFE_INTEGER
+    updatePasswordData(user, res.password_expire_in_seconds)
     updateStoreInfo(username, res)
 
     checkPasswordChange()
@@ -534,7 +562,11 @@ const submitNewPwd = async () => {
     const { password: new_pwd } = newPasswordRecord
     await changePassword(username, { new_pwd, old_pwd })
     store.commit('UPDATE_USER_INFO', { logOut: true })
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
     queryLogin({ username, password: new_pwd })
+    redirectToDashboard()
   } catch (error) {
     //
   } finally {
@@ -543,30 +575,25 @@ const submitNewPwd = async () => {
 }
 
 const checkAuthCode = () => {
-  if (twoFARecord.authCode.length !== 6) {
-    return
+  if (showTotpSecret.value) {
+    if (twoFARecord.authCode.length !== 6) {
+      return
+    }
+    submitWithAuthCode()
+  } else {
+    if (record.mfa_token.length !== 6) {
+      return
+    }
+    queryLogin(record)
   }
-  submitWithAuthCode()
 }
 
 const submitWithAuthCode = async () => {
   try {
     await TwoFAFormCom.value.validate()
-    isSubmitting.value = true
-    const { username, password } = record
-    const data = {
-      username,
-      password,
-      mfa_token: twoFARecord.authCode,
-    }
-    const res = await loginApi(data)
-    showTotpSecret.value = false
-    updateStoreInfo(username, res)
-    checkPasswordChange()
+    queryLogin({ ...record, mfa_token: twoFARecord.authCode })
   } catch (error) {
     //
-  } finally {
-    isSubmitting.value = false
   }
 }
 </script>
