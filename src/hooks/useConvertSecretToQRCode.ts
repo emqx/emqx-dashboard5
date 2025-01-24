@@ -4,11 +4,11 @@ import { ref } from 'vue'
 const useConvertSecretToQRCode = () => {
   const canvasRef = ref<HTMLCanvasElement | null>(null)
 
-  const issuer = `EMQXDashboard`
+  const issuer = encodeURIComponent(window.location.host)
   const defaultLabel = `admin`
 
   const getOtpauthUrl = (secret: string, label = defaultLabel) => {
-    const otpauthUrl = `otpauth://totp/${issuer}:${label}?secret=${secret}`
+    const otpauthUrl = `otpauth://totp/${issuer}:${label}?secret=${secret}&issuer=${issuer}`
     return otpauthUrl
   }
   const displayQRCode = (secret: string, label?: string, callback?: (url: string) => void) => {

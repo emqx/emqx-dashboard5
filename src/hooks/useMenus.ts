@@ -75,7 +75,6 @@ export default (): {
 
   const system = [
     { title: 'users', path: '/users' },
-    { title: 'mfa', path: '/mfa' },
     { title: 'audit-log', path: '/audit-log' },
     { title: 'api-key', path: '/api-key' },
     { title: 'license', path: '/license' },
