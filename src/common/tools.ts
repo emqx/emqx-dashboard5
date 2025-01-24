@@ -7,8 +7,10 @@ import { BridgeType } from '@/types/enum'
 
 export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
+  errorReturn?: string,
 ): string => {
-  return moment(date).format('YYYY-MM-DD HH:mm:ss')
+  const ret = moment(date).format('YYYY-MM-DD HH:mm:ss')
+  return ret === 'Invalid date' ? errorReturn ?? ret : ret
 }
 
 export const caseInsensitiveCompare = (w: string, k: string): boolean => {

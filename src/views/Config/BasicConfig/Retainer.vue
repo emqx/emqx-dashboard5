@@ -140,6 +140,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
+              <el-form-item prop="max_publish_rate">
+                <template #label>
+                  <FormItemLabel :label="tl('maxPublishRate')" :desc="tl('maxPublishRateDesc')" />
+                </template>
+                <InputWithUnit
+                  v-model="retainerConfig.max_publish_rate"
+                  :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
+                  :disabled="!configEnable"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
               <el-form-item prop="delivery_rate">
                 <template #label>
                   <FormItemLabel :label="tl('deliverRate')" :desc="tl('deliverRateDesc')" />
@@ -202,6 +214,7 @@ let retainerConfig = ref<Retainer>({
   msg_expiry_interval_override: DISABLED_VALUE,
   allow_never_expire: true,
   delivery_rate: '1000/s',
+  max_publish_rate: '1000/s',
   backend: {
     storage_type: 'ram',
     type: 'built_in_database',

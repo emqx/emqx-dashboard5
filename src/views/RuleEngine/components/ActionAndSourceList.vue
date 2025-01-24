@@ -8,7 +8,7 @@
       row-key="id"
       @sort-change="handleSortChange"
     >
-      <el-table-column :label="tl('name')" :min-width="120" sortable="custom" prop="id">
+      <el-table-column :label="tl('name')" :min-width="172" sortable="custom" prop="id">
         <template #default="{ row }">
           <router-link :to="getDetailPageRoute(row.id)" class="first-column-with-icon-type">
             <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
@@ -26,7 +26,7 @@
           <TargetItemStatus type="action" :target="row" />
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92" sortable>
+      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="102" sortable>
         <template #default="{ row }">
           <OperateWebhookAssociatedPopover
             :disabled="!judgeIsWebhookAction(row)"
@@ -48,19 +48,9 @@
         :min-width="108"
       />
       <el-table-column
-        prop="last_modified_at"
-        :label="t('Base.lastModified')"
-        :min-width="162"
-        sortable
-      >
-        <template #default="{ row }">
-          {{ dateFormat(row.last_modified_at) }}
-        </template>
-      </el-table-column>
-      <el-table-column
         sortable
         prop="rules.length"
-        :min-width="120"
+        :min-width="168"
         :label="tl('associatedRules')"
         :sort-method="(row:BridgeItem) => row.rules?.length ?? 0"
       >
@@ -80,7 +70,22 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="168">
+      <el-table-column prop="created_at" :label="t('Base.createdAt')" :min-width="162" sortable>
+        <template #default="{ row }">
+          {{ dateFormat(row.created_at, '') }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="last_modified_at"
+        :label="t('Base.lastModified')"
+        :min-width="162"
+        sortable
+      >
+        <template #default="{ row }">
+          {{ dateFormat(row.last_modified_at, '') }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Base.operation')" :min-width="180">
         <template #default="{ row }">
           <TableButton
             v-if="

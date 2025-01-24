@@ -700,7 +700,11 @@ export default {
     en: ' ',
   },
   lastModified: {
-    zh: '最后修改',
+    zh: '更新时间',
     en: 'Last Modified',
+  },
+  createdAt: {
+    zh: '创建时间',
+    en: 'Created At',
   },
 }
