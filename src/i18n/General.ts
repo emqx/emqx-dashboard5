@@ -655,6 +655,34 @@ export default {
     en: 'Token Length',
     zh: '令牌长度',
   },
+  mfaSettings: {
+    en: 'MFA Settings',
+    zh: 'MFA 设置',
+  },
+  currentMFA: {
+    en: 'Current MFA',
+    zh: '当前 MFA',
+  },
+  resetTOTPSecret: {
+    en: 'Reset TOTP Secret Key',
+    zh: '重置 TOTP 密钥',
+  },
+  confirmResetTOTPSecret: {
+    en: 'Confirm to reset TOTP secret key?',
+    zh: '确认重置 TOTP 密钥？',
+  },
+  disableMFA: {
+    en: 'Disable MFA',
+    zh: '禁用 MFA',
+  },
+  confirmDisableMFA: {
+    en: 'Disabling MFA may affect account security, confirm to disable?',
+    zh: '禁用 MFA 可能影响账户安全，确认禁用？',
+  },
+  enableMFA: {
+    en: 'Enable MFA',
+    zh: '启用 MFA',
+  },
   twoFactorVerification: {
     en: 'Two-Factor Verification',
     zh: '两步验证',

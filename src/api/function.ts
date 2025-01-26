@@ -35,6 +35,14 @@ export function destroyUser(username: string, backend?: string): Promise<void> {
   )
 }
 
+export function updateUserMfa(username: string, body: { mechanism: string }): Promise<void> {
+  return http.post(`/users/${encodeURIComponent(username)}/mfa`, body)
+}
+
+export function deleteUserMfa(username: string): Promise<void> {
+  return http.delete(`/users/${encodeURIComponent(username)}/mfa`)
+}
+
 export function loadBannedClient(params = {}): Promise<ListDataWithPagination<BannedItem>> {
   return http.get('/banned', { params })
 }
