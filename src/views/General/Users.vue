@@ -30,7 +30,13 @@
           >
             {{ tl('changePassword') }}
           </TableButton>
-
+          <TableButton
+            v-if="canChangePwd(row)"
+            :disabled="!isCurrentUser(row.username) && !$hasPermission('post')"
+            @click="openMfaSettingsDialog(row)"
+          >
+            {{ tl('mfaSettings') }}
+          </TableButton>
           <TableButton
             :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
@@ -130,6 +136,7 @@
       </template>
     </el-dialog>
   </div>
+  <UserMFASettingDialog v-model="isMfaSettingsDialogVisible" :user="record" />
 </template>
 
 <script setup>
@@ -146,6 +153,7 @@ import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
 import useRole from '@/hooks/SSO/useRole'
+import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
 const SOURCE_LOCAL = 'local'
 
@@ -280,6 +288,12 @@ const showDialog = (type = 'create', item = {}) => {
     record.value = generateRawForm()
   }
   accessType.value = type
+}
+
+const isMfaSettingsDialogVisible = ref(false)
+const openMfaSettingsDialog = (item) => {
+  record.value = item
+  isMfaSettingsDialogVisible.value = true
 }
 
 const closeDialog = () => {

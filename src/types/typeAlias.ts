@@ -58,6 +58,7 @@ import type {
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
+import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -140,3 +141,7 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
+
+/* DASHBOARD */
+export type User = DashboardUser
+export const UserMFA = DashboardUserMfa
