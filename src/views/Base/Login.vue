@@ -106,7 +106,7 @@
                 autocomplete="username"
               />
             </el-form-item>
-            <el-form-item class="small-mg-bt" prop="password">
+            <el-form-item prop="password">
               <el-input
                 v-model="record.password"
                 type="password"
@@ -117,14 +117,15 @@
             </el-form-item>
             <el-form-item
               v-if="show2FAInput"
+              class="small-mg-bt"
               prop="mfa_token"
               label-position="top"
-              :label="t('General.enterCode')"
             >
               <el-input
                 v-model="record.mfa_token"
                 tabindex="3"
                 v-bind="tokenInputProp"
+                :placeholder="t('Base.authCode')"
                 @input="checkAuthCode"
               />
             </el-form-item>
@@ -685,8 +686,9 @@ const submitWithAuthCode = async () => {
           height: 78px;
         }
         .el-form-item--large {
-          &:first-child {
-            margin-bottom: 32px;
+          &:first-child,
+          &:nth-child(2) {
+            margin-bottom: 24px;
           }
           &.small-mg-bt {
             margin-bottom: 8px;

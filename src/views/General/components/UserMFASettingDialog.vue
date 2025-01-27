@@ -6,8 +6,11 @@
     class="mfa-setting-dialog"
     destroy-on-close
   >
+    <el-card class="info-card" shadow="never">
+      <p>{{ tl('username') }}: {{ props.user?.username ?? '' }}</p>
+      <p>{{ t('General.currentMFA') }}: {{ mfaLabelMap.get(props.user?.mfa ?? '') }}</p>
+    </el-card>
     <template v-if="withMFA">
-      <p>{{ t('General.currentMFA') }}: {{ props.user.mfa }}</p>
       <div class="buttons">
         <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
           {{ tl('resetTOTPSecret') }}
@@ -19,8 +22,16 @@
     </template>
     <template v-else>
       <el-select v-model="selectedMFA">
-        <el-option v-for="item in mfaOptions" :key="item" :value="item" :label="item" />
+        <el-option
+          v-for="{ value, label } in mfaOptions"
+          :key="value"
+          :value="value"
+          :label="label"
+        />
       </el-select>
+      <el-alert type="info" :closable="false">
+        {{ t('General.enableMAFTip') }}
+      </el-alert>
       <div class="buttons">
         <el-button type="primary" @click="enableMFA">{{ tl('enableMFA') }}</el-button>
       </div>
@@ -47,13 +58,23 @@ const { t, tl } = useI18nTl('General')
 const noMFAValues = [UserMFA.disabled, UserMFA.none]
 const withMFA = computed(() => props.user.mfa && !noMFAValues.includes(props.user.mfa as any))
 
-const mfaOptions = Object.values(UserMFA).reduce((acc: Array<string>, value: any) => {
-  if (noMFAValues.includes(value)) {
+const mfaLabelMap = new Map<string, string>([
+  [UserMFA.totp, 'TOTP'],
+  [UserMFA.none, t('Base.none')],
+  [UserMFA.disabled, t('Base.none')],
+])
+
+const mfaOptions = Object.values(UserMFA).reduce(
+  (acc: Array<{ label: string; value: string }>, value: any) => {
+    if (noMFAValues.includes(value)) {
+      return acc
+    }
+    acc.push({ label: mfaLabelMap.get(value) ?? '', value })
     return acc
-  }
-  acc.push(value)
-  return acc
-}, [])
+  },
+  [],
+)
+const defaultMFA = mfaOptions[0].value
 
 const submitLoading = ref(false)
 
@@ -72,7 +93,7 @@ watch(showDialog, async (value: boolean) => {
 
 const initData = () => {
   submitLoading.value = false
-  selectedMFA.value = mfaOptions[0]
+  selectedMFA.value = defaultMFA
 }
 
 const resetTOTPSecret = async () => {
@@ -93,7 +114,7 @@ const resetTOTPSecret = async () => {
   }
 }
 
-const selectedMFA = ref(mfaOptions[0])
+const selectedMFA = ref(defaultMFA)
 const enableMFA = async () => {
   try {
     submitLoading.value = true
@@ -103,6 +124,7 @@ const enableMFA = async () => {
     }
     await updateUserMfa(username, { mechanism: selectedMFA.value })
     ElMessage.success(t('Base.enableSuccess'))
+    emit('submitted')
     showDialog.value = false
   } catch (error) {
     //
@@ -121,7 +143,8 @@ const deleteMFA = async () => {
     await operationWarning(t('General.confirmDisableMFA'))
     submitLoading.value = true
     await deleteUserMfa(username)
-    ElMessage.success(tl('deleteMFA'))
+    ElMessage.success(t('Base.disabledSuccess'))
+    emit('submitted')
     showDialog.value = false
   } catch (error) {
     //
@@ -135,6 +158,15 @@ const deleteMFA = async () => {
 .mfa-setting-dialog {
   .buttons {
     margin-top: 12px;
+  }
+  .info-card {
+    margin-bottom: 12px;
+    .el-card__body {
+      padding: 0 12px;
+    }
+  }
+  .el-select {
+    margin-bottom: 12px;
   }
 }
 </style>

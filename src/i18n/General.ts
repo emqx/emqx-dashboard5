@@ -668,12 +668,12 @@ export default {
     zh: '重置 TOTP 密钥',
   },
   confirmResetTOTPSecret: {
-    en: 'Confirm to reset TOTP secret key?',
-    zh: '确认重置 TOTP 密钥？',
+    en: 'After resetting, the previous TOTP secret key will be invalid, and the user will set up a new TOTP secret key in the next login. Confirm to reset?',
+    zh: '重置后，之前的 TOTP 密钥将失效，用户将在下次登录时，设置新的 TOTP 密钥，确认重置？',
   },
   disableMFA: {
     en: 'Disable MFA',
-    zh: '禁用 MFA',
+    zh: '停用 MFA',
   },
   confirmDisableMFA: {
     en: 'Disabling MFA may affect account security, confirm to disable?',
@@ -682,6 +682,10 @@ export default {
   enableMFA: {
     en: 'Enable MFA',
     zh: '启用 MFA',
+  },
+  enableMAFTip: {
+    en: 'After enabling, the user will set up TOTP secret key in the next login.',
+    zh: '启用后，用户将在下次登录时，设置 TOTP 密钥。',
   },
   twoFactorVerification: {
     en: 'Two-Factor Verification',
