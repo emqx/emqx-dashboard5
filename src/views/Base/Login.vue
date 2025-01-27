@@ -276,6 +276,7 @@
                 show-password
                 tabindex="1"
                 type="password"
+                autocomplete="new-password"
                 :placeholder="t('General.newPassword')"
               />
             </el-form-item>
@@ -285,17 +286,20 @@
                 show-password
                 tabindex="2"
                 type="password"
+                autocomplete="new-password"
                 :placeholder="t('General.confirmPassword')"
               />
             </el-form-item>
-            <el-button
-              class="btn-submit"
-              type="primary"
-              @click="submitNewPwd"
-              :loading="isSubmitting"
-            >
-              {{ $t('Base.confirm') }}
-            </el-button>
+            <el-form-item>
+              <el-button
+                class="btn-submit"
+                type="primary"
+                @click="submitNewPwd"
+                :loading="isSubmitting"
+              >
+                {{ $t('Base.confirm') }}
+              </el-button>
+            </el-form-item>
             <div class="skip-wrap">
               <el-tooltip class="box-item" effect="dark" :content="$t('Base.skipTip')">
                 <el-button class="btn-skip" type="primary" link @click="redirectToDashboard">
@@ -378,13 +382,13 @@ const isSubmitting = ref(false)
 
 const isSSOSubmitting = ref(false)
 
-const showChangePwdForm = ref(false)
 const isUsingDefaultPwd = ref(false)
 /**
  * if value is negative, it means the password is expired
  */
 const pwdValidSeconds = ref(Number.MAX_SAFE_INTEGER)
 const isPwdExpired = computed(() => pwdValidSeconds.value < 0)
+const showChangePwdForm = computed(() => isPwdExpired.value || isUsingDefaultPwd.value)
 
 const { createRequiredRule } = useFormRules()
 const authCodeRule = [
@@ -425,7 +429,19 @@ const pwdRules = {
       trigger: ['blur'],
     },
   ],
-  passwordRepeat: authCodeRule,
+  passwordRepeat: [
+    ...createRequiredRule(t('General.confirmPassword')),
+    {
+      validator: (rule: any, value: string) => {
+        if (value !== newPasswordRecord.password) {
+          return [new Error(t('General.confirmNotMatch'))]
+        } else {
+          return []
+        }
+      },
+      trigger: ['blur'],
+    },
+  ],
 }
 
 const FormCom = ref()
@@ -444,18 +460,7 @@ useDataNotSaveConfirm(needLeaveTip, 'General.confirmSetupKey')
 
 const TwoFAFormCom = ref()
 const twoFARecord = reactive({ authCode: '' })
-const twoFARules = {
-  authCode: [
-    ...createRequiredRule(t('General.authenticationCode')),
-    {
-      validator(rules: unknown, value: string) {
-        if (!/^\d{6}$/.test(value)) {
-          return [new Error(t('General.authenticationCodeError'))]
-        }
-      },
-    },
-  ],
-}
+const twoFARules = { authCode: authCodeRule }
 
 const resetMFAData = () => {
   loginMethod.value = ''
@@ -489,10 +494,8 @@ const updatePasswordData = (
 }
 
 const checkPasswordChange = () => {
-  if (!isUsingDefaultPwd.value && !isPwdExpired.value) {
+  if (!showChangePwdForm.value) {
     redirectToDashboard()
-  } else {
-    showChangePwdForm.value = true
   }
 }
 
@@ -574,12 +577,10 @@ const submitNewPwd = async () => {
     const { username, password: old_pwd } = record
     const { password: new_pwd } = newPasswordRecord
     await changePassword(username, { new_pwd, old_pwd })
+    updatePasswordData({ username, password: new_pwd })
+    record.password = new_pwd
     store.commit('UPDATE_USER_INFO', { logOut: true })
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
     queryLogin({ username, password: new_pwd })
-    redirectToDashboard()
   } catch (error) {
     //
   } finally {
