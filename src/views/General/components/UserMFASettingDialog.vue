@@ -3,23 +3,27 @@
     :title="tl('mfaSettings')"
     v-model="showDialog"
     width="400px"
-    class="banned-dialog"
+    class="mfa-setting-dialog"
     destroy-on-close
   >
     <template v-if="withMFA">
       <p>{{ t('General.currentMFA') }}: {{ props.user.mfa }}</p>
-      <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
-        {{ tl('resetTOTPSecret') }}
-      </el-button>
-      <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
-        {{ tl('disableMFA') }}
-      </el-button>
+      <div class="buttons">
+        <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
+          {{ tl('resetTOTPSecret') }}
+        </el-button>
+        <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
+          {{ tl('disableMFA') }}
+        </el-button>
+      </div>
     </template>
     <template v-else>
       <el-select v-model="selectedMFA">
         <el-option v-for="item in mfaOptions" :key="item" :value="item" :label="item" />
       </el-select>
-      <el-button type="primary" @click="enableMFA">{{ tl('enableMFA') }}</el-button>
+      <div class="buttons">
+        <el-button type="primary" @click="enableMFA">{{ tl('enableMFA') }}</el-button>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -126,3 +130,11 @@ const deleteMFA = async () => {
   }
 }
 </script>
+
+<style lang="scss">
+.mfa-setting-dialog {
+  .buttons {
+    margin-top: 12px;
+  }
+}
+</style>
