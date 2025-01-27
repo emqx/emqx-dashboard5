@@ -19,6 +19,10 @@ export default {
     zh: '密码',
     en: 'Password',
   },
+  authCode: {
+    zh: '6 位验证代码',
+    en: '6-Digit Verification Code',
+  },
   otherMethodsLogin: {
     zh: '或者使用其他方式登录',
     en: 'Or login with other methods',
