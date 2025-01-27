@@ -6,19 +6,19 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="username" :label="tl('username')" />
-      <el-table-column prop="description" :label="t('Base.note')" />
-      <el-table-column :label="t('Dashboard.role')">
+      <el-table-column prop="username" :label="tl('username')" :min-width="200" />
+      <el-table-column prop="description" :label="t('Base.note')" :min-width="160" />
+      <el-table-column :label="t('Dashboard.role')" :min-width="160">
         <template #default="{ row }">
           {{ getLabelFromValueInOptionList(row.role, userRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="hasSSOEnabled" :label="tl('source')">
+      <el-table-column v-if="hasSSOEnabled" :label="tl('source')" :min-width="160">
         <template #default="{ row }">
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
+      <el-table-column :label="$t('Base.operation')" :min-width="386">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
