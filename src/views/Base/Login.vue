@@ -49,7 +49,11 @@
                 {{ t('General.verifyCode') }}
               </div>
               <el-form-item>
-                <el-input v-model="twoFARecord.authCode" @input="checkAuthCode" />
+                <el-input
+                  v-model="twoFARecord.authCode"
+                  v-bind="tokenInputProp"
+                  @input="checkAuthCode"
+                />
               </el-form-item>
               <el-form-item>
                 <el-button
@@ -99,6 +103,7 @@
                 v-model.trim="record.username"
                 :placeholder="$t('Base.username')"
                 tabindex="1"
+                autocomplete="username"
               />
             </el-form-item>
             <el-form-item class="small-mg-bt" prop="password">
@@ -107,6 +112,7 @@
                 type="password"
                 :placeholder="$t('Base.password')"
                 tabindex="2"
+                autocomplete="current-password"
               />
             </el-form-item>
             <el-form-item
@@ -115,7 +121,12 @@
               label-position="top"
               :label="t('General.enterCode')"
             >
-              <el-input v-model="record.mfa_token" tabindex="3" @input="checkAuthCode" />
+              <el-input
+                v-model="record.mfa_token"
+                tabindex="3"
+                v-bind="tokenInputProp"
+                @input="checkAuthCode"
+              />
             </el-form-item>
             <div class="btn-container">
               <a
@@ -423,6 +434,7 @@ const loginMethod = ref('')
 const show2FAInput = computed(() => loginMethod.value === 'totp')
 const showTotpSecret = ref(false)
 const totpSecret = ref('')
+const tokenInputProp = { pattern: '\\d{6}' }
 const { copyText } = useCopy()
 const { canvasRef, displayQRCode } = useConvertSecretToQRCode()
 

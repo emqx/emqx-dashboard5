@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const useConvertSecretToQRCode = () => {
   const canvasRef = ref<HTMLCanvasElement | null>(null)
 
-  const issuer = encodeURIComponent(window.location.host)
+  const issuer = encodeURIComponent(window.location.hostname)
   const defaultLabel = `admin`
 
   const getOtpauthUrl = (secret: string, label = defaultLabel) => {
