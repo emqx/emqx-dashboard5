@@ -663,6 +663,10 @@ export default {
     en: 'Current MFA',
     zh: '当前 MFA',
   },
+  totpLabel: {
+    en: 'TOTP (Authenticator App)',
+    zh: 'TOTP (认证器应用)',
+  },
   resetTOTPSecret: {
     en: 'Reset TOTP Secret Key',
     zh: '重置 TOTP 密钥',
@@ -687,9 +691,9 @@ export default {
     en: 'After enabling, the user will set up TOTP secret key in the next login.',
     zh: '启用后，用户将在下次登录时，设置 TOTP 密钥。',
   },
-  twoFactorVerification: {
-    en: 'Two-Factor Verification',
-    zh: '两步验证',
+  mfa: {
+    en: 'Multi-Factor Authentication',
+    zh: '多因素认证',
   },
   twoFASecretSetupTip: {
     en: 'Please scan the QR code or enter the {key} in the app to complete the setup.',

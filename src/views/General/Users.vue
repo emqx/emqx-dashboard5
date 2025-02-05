@@ -18,6 +18,11 @@
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
+      <el-table-column :label="tl('mfa')" :min-width="208">
+        <template #default="{ row }">
+          {{ getMFAMethodLabel(row.mfa) }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="386">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
@@ -144,15 +149,16 @@ import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@
 import { PASSWORD_REG } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools.ts'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import useRole from '@/hooks/SSO/useRole'
 import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl.ts'
+import { useMFAMethods } from '@/hooks/useMFA'
 import { UserRole } from '@/types/enum.ts'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
-import useRole from '@/hooks/SSO/useRole'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
 const SOURCE_LOCAL = 'local'
@@ -295,6 +301,7 @@ const openMfaSettingsDialog = (item) => {
   record.value = item
   isMfaSettingsDialogVisible.value = true
 }
+const { getMFAMethodLabel } = useMFAMethods()
 
 const closeDialog = () => {
   dialogVisible.value = false

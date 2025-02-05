@@ -8,7 +8,7 @@
   >
     <el-card class="info-card" shadow="never">
       <p>{{ tl('username') }}: {{ props.user?.username ?? '' }}</p>
-      <p>{{ t('General.currentMFA') }}: {{ mfaLabelMap.get(props.user?.mfa ?? '') }}</p>
+      <p>{{ t('General.currentMFA') }}: {{ getMFAMethodLabel(props.user?.mfa ?? '') }}</p>
     </el-card>
     <template v-if="withMFA">
       <div class="buttons">
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
 import useI18nTl from '@/hooks/useI18nTl'
+import { useMFAMethods } from '@/hooks/useMFA'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { type User, UserMFA } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
@@ -55,25 +56,9 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('General')
 
-const noMFAValues = [UserMFA.disabled, UserMFA.none]
+const { noMFAValues, mfaOptions, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => props.user.mfa && !noMFAValues.includes(props.user.mfa as any))
 
-const mfaLabelMap = new Map<string, string>([
-  [UserMFA.totp, 'TOTP'],
-  [UserMFA.none, t('Base.none')],
-  [UserMFA.disabled, t('Base.none')],
-])
-
-const mfaOptions = Object.values(UserMFA).reduce(
-  (acc: Array<{ label: string; value: string }>, value: any) => {
-    if (noMFAValues.includes(value)) {
-      return acc
-    }
-    acc.push({ label: mfaLabelMap.get(value) ?? '', value })
-    return acc
-  },
-  [],
-)
 const defaultMFA = mfaOptions[0].value
 
 const submitLoading = ref(false)
