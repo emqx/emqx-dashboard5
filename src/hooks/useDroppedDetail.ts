@@ -126,11 +126,12 @@ export const useDroppedCharts = () => {
   }
 }
 
-export const enum MetricKey {
+export enum MetricKey {
   MessagesDropped = 'messages.dropped',
   AwaitPubrelTimeout = 'messages.dropped.await_pubrel_timeout',
   NoSubscribers = 'messages.dropped.no_subscribers',
-  PacketsDropped = 'packets.publish.dropped',
+  QuotaExceeded = 'messages.dropped.quota_exceeded',
+  ReceiveMaximum = 'messages.dropped.receive_maximum',
 
   DeliveryDropped = 'delivery.dropped',
   Qos0Msg = 'delivery.dropped.qos0_msg',
@@ -143,17 +144,12 @@ export const enum MetricKey {
 const COLOR_NONE = '#c2c8d1'
 
 export const useMessageDroppedDetails = (totalMessageDropped: ComputedRef<number>) => {
-  const metricsKeyReg = new RegExp(
-    `^(${escapeRegExp(MetricKey.MessagesDropped)}\\.(.)+)|${escapeRegExp(
-      MetricKey.PacketsDropped,
-    )}`,
-  )
+  const metricsKeyReg = new RegExp(`^(${escapeRegExp(MetricKey.MessagesDropped)}\\.(.)+)`)
 
   const { getLastKey, getTypeName } = useDroppedCharts()
   const nameColor = new Map<string, string>([
     [getTypeName(MetricKey.AwaitPubrelTimeout) ?? '', '#fdafa6'],
     [getTypeName(MetricKey.NoSubscribers) ?? '', '#bac1cd'],
-    [getTypeName(MetricKey.PacketsDropped) ?? '', '#7fd7b8'],
   ])
 
   const itemStyle = computed<ItemStyle>(() => ({
@@ -164,19 +160,17 @@ export const useMessageDroppedDetails = (totalMessageDropped: ComputedRef<number
 
   const { tl } = useI18nTl('Dashboard')
 
-  const messageDroppedDesc = [
-    MetricKey.AwaitPubrelTimeout,
-    MetricKey.NoSubscribers,
-    MetricKey.PacketsDropped,
-  ].map((key) => {
-    const lastKey = getLastKey(key)
-    return {
-      key,
-      name: getTypeName(key),
-      desc: tl(`dropped_${lastKey}_desc`),
-      impact: tl(`dropped_${lastKey}_impact`),
-    }
-  })
+  const messageDroppedDesc = Object.values(MetricKey)
+    .filter((value) => metricsKeyReg.test(value))
+    .map((key) => {
+      const lastKey = getLastKey(key)
+      return {
+        key,
+        name: getTypeName(key),
+        desc: tl(`dropped_${lastKey}_desc`),
+        impact: tl(`dropped_${lastKey}_impact`),
+      }
+    })
 
   return {
     metricsKeyReg,
@@ -204,19 +198,16 @@ export const useDeliveryDroppedDetails = (totalDeliveryDropped: ComputedRef<numb
   }))
 
   const { tl } = useI18nTl('Dashboard')
-  const deliveryDroppedDesc = [
-    MetricKey.Qos0Msg,
-    MetricKey.Expired,
-    MetricKey.QueueFull,
-    MetricKey.NoLocal,
-    MetricKey.TooLarge,
-  ].map((key) => {
-    return {
-      key,
-      name: getTypeName(key),
-      impact: tl(`dropped_${getLastKey(key)}_impact`),
-    }
-  })
+  const deliveryDroppedDesc = Object.values(MetricKey)
+    .filter((value) => metricsKeyReg.test(value))
+    .map((key) => {
+      const lastKey = getLastKey(key)
+      return {
+        key,
+        name: getTypeName(key),
+        impact: tl(`dropped_${lastKey}_impact`),
+      }
+    })
 
   return {
     metricsKeyReg,
