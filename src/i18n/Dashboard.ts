@@ -876,6 +876,22 @@ export default {
     zh: '无订阅者',
     en: 'No Subscribers',
   },
+  dropped_quota_exceeded: {
+    zh: '超出配额限制',
+    en: 'Quota Exceeded',
+  },
+  dropped_quota_exceeded_impact: {
+    zh: '可能表明消息生产速率过快或订阅者处理消息速率过慢。',
+    en: 'Could suggest message production rate is too high or subscriber message processing rate is too slow.',
+  },
+  dropped_receive_maximum: {
+    zh: '超出接收限制',
+    en: 'Receive Maximum Exceeded',
+  },
+  dropped_receive_maximum_impact: {
+    zh: '可能表明消息生产速率过快或订阅者处理消息速率过慢。',
+    en: 'Could suggest message production rate is too high or subscriber message processing rate is too slow.',
+  },
   dropped_no_subscribers_desc: {
     zh: '消息因主题无订阅者而被丢弃。',
     en: 'Messages dropped because there were no subscribers for the topic.',
@@ -883,18 +899,6 @@ export default {
   dropped_no_subscribers_impact: {
     zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：EMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
     en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
-  },
-  dropped_dropped: {
-    zh: '超出接收限制',
-    en: 'Exceeded Receiving Limit',
-  },
-  dropped_dropped_desc: {
-    zh: '消息因超出接收限制而被丢弃。',
-    en: 'Messages dropped due to exceeding the receiving limit.',
-  },
-  dropped_dropped_impact: {
-    zh: '消息在抵达任何订阅会话之前被丢弃。丢弃的原因包括：<br />1) QoS 0 消息因超出路由速率限制而被丢弃<br />2) 当等待确认的 `PUBREC` 数据包数量达到 `max_awaiting_rel` 限制时，QoS 2 的 `PUBLISH` 消息被丢弃，随后客户端会断开连接。',
-    en: 'A message is dropped before reaching any subscribing sessions. The drop happens for two reasons:<br /> 1) A QoS 0 message is dropped due to routing rate limit is exceeded<br /> 2) A QoS 2 `PUBLISH` message is dropped when the number of pending `PUBREC` packets has reached the `max_awaiting_rel` limit, this counter is followed by a client disconnect event.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',
