@@ -704,8 +704,12 @@ export default {
     en: ' ',
   },
   tongTechAuthGuidance: {
-    zh: '请在配置文件中，{add}或启用东方通单点登录，并重启服务',
-    en: 'Please {add} or enable TongTech Auth in the configuration file and restart the service',
+    zh: '请在{configFile}中，{add}或启用东方通单点登录，并重启服务',
+    en: 'Please {add} or enable TongTech Auth in the {configFile} and restart the service',
+  },
+  configFile: {
+    zh: '配置文件',
+    en: 'configuration file',
   },
   tongTechAuthConfigComment: {
     zh: '东方通单点登录配置参数，请确保参数在 dashboard > sso 层级下',
