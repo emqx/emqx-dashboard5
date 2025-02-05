@@ -12,7 +12,7 @@
         <!-- Change default password -->
         <div class="form-container">
           <div class="form-hd">
-            <h5 class="title-pwd">{{ $t('General.twoFactorVerification') }}</h5>
+            <h5 class="title-pwd">{{ $t('General.mfa') }}</h5>
             <div class="tip totp-secret-tip" v-if="showTotpSecret">
               <i18n-t keypath="General.twoFASecretSetupTip" tag="p">
                 <template #key>
