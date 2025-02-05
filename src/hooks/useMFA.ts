@@ -11,6 +11,9 @@ export const useMFAMethods = () => {
   ])
 
   const noMFAValues = [UserMFA.disabled, UserMFA.none]
+  const isMFAEnabled = (value: string): boolean => {
+    return !!value && !noMFAValues.includes(value as any)
+  }
   const mfaOptions = Object.values(UserMFA).reduce(
     (acc: Array<{ label: string; value: string }>, value: any) => {
       if (noMFAValues.includes(value)) {
@@ -26,5 +29,5 @@ export const useMFAMethods = () => {
     return mfaLabelMap.get(value) ?? ''
   }
 
-  return { noMFAValues, mfaOptions, getMFAMethodLabel }
+  return { noMFAValues, mfaOptions, isMFAEnabled, getMFAMethodLabel }
 }
