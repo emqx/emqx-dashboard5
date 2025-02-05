@@ -6,21 +6,26 @@
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="username" :label="tl('username')" :min-width="200" />
-      <el-table-column prop="description" :label="t('Base.note')" :min-width="160" />
-      <el-table-column :label="t('Dashboard.role')" :min-width="160">
+      <el-table-column prop="username" :label="tl('username')" :min-width="160" />
+      <el-table-column prop="description" :label="t('Base.note')" :min-width="150" />
+      <el-table-column :label="t('Dashboard.role')" :min-width="128">
         <template #default="{ row }">
           {{ getLabelFromValueInOptionList(row.role, userRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="hasSSOEnabled" :label="tl('source')" :min-width="160">
+      <el-table-column v-if="hasSSOEnabled" :label="tl('source')" :min-width="120">
         <template #default="{ row }">
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('mfa')" :min-width="208">
+      <el-table-column :label="tl('mfa')" :min-width="280">
         <template #default="{ row }">
-          {{ getMFAMethodLabel(row.mfa) }}
+          <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
+            {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
+          </el-tag>
+          <span class="mfa-label" v-if="isMFAEnabled(row.mfa)">
+            ( {{ getMFAMethodLabel(row.mfa) }} )
+          </span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="386">
@@ -301,7 +306,7 @@ const openMfaSettingsDialog = (item) => {
   record.value = item
   isMfaSettingsDialogVisible.value = true
 }
-const { getMFAMethodLabel } = useMFAMethods()
+const { isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 
 const closeDialog = () => {
   dialogVisible.value = false
@@ -369,3 +374,14 @@ onBeforeMount(async () => {
   await loadData()
 })
 </script>
+
+<style lang="scss">
+.users {
+  .el-tag {
+    margin-right: 4px;
+  }
+  .mfa-label {
+    text-wrap: nowrap;
+  }
+}
+</style>

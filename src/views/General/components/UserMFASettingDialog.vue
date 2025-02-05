@@ -56,8 +56,8 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('General')
 
-const { noMFAValues, mfaOptions, getMFAMethodLabel } = useMFAMethods()
-const withMFA = computed(() => props.user.mfa && !noMFAValues.includes(props.user.mfa as any))
+const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
+const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
 
 const defaultMFA = mfaOptions[0].value
 
