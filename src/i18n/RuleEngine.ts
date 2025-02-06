@@ -1081,6 +1081,10 @@ export default {
     zh: '关联规则',
     en: 'Associated Rules',
   },
+  viewRules: {
+    zh: '查看规则',
+    en: 'View Rules',
+  },
   directDispatch: {
     zh: '直接派发',
     en: 'Direct Dispatch',

@@ -1,5 +1,5 @@
 export type PostSourcesIdOperation503Code =
-  typeof PostSourcesIdOperation503Code[keyof typeof PostSourcesIdOperation503Code]
+  (typeof PostSourcesIdOperation503Code)[keyof typeof PostSourcesIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation503Code = {
@@ -12,7 +12,7 @@ export type PostSourcesIdOperation503 = {
 }
 
 export type PostSourcesIdOperation501Code =
-  typeof PostSourcesIdOperation501Code[keyof typeof PostSourcesIdOperation501Code]
+  (typeof PostSourcesIdOperation501Code)[keyof typeof PostSourcesIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation501Code = {
@@ -25,7 +25,7 @@ export type PostSourcesIdOperation501 = {
 }
 
 export type PostSourcesIdOperation404Code =
-  typeof PostSourcesIdOperation404Code[keyof typeof PostSourcesIdOperation404Code]
+  (typeof PostSourcesIdOperation404Code)[keyof typeof PostSourcesIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation404Code = {
@@ -38,7 +38,7 @@ export type PostSourcesIdOperation404 = {
 }
 
 export type PostSourcesIdOperation400Code =
-  typeof PostSourcesIdOperation400Code[keyof typeof PostSourcesIdOperation400Code]
+  (typeof PostSourcesIdOperation400Code)[keyof typeof PostSourcesIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesIdOperation400Code = {
@@ -51,7 +51,7 @@ export type PostSourcesIdOperation400 = {
 }
 
 export type GetSourcesIdMetrics404Code =
-  typeof GetSourcesIdMetrics404Code[keyof typeof GetSourcesIdMetrics404Code]
+  (typeof GetSourcesIdMetrics404Code)[keyof typeof GetSourcesIdMetrics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourcesIdMetrics404Code = {
@@ -69,7 +69,7 @@ export type GetSourcesIdMetrics200 = {
 }
 
 export type PostSourcesProbe400Code =
-  typeof PostSourcesProbe400Code[keyof typeof PostSourcesProbe400Code]
+  (typeof PostSourcesProbe400Code)[keyof typeof PostSourcesProbe400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSourcesProbe400Code = {
@@ -82,7 +82,7 @@ export type PostSourcesProbe400 = {
 }
 
 export type PutSourcesIdEnableEnable503Code =
-  typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
+  (typeof PutSourcesIdEnableEnable503Code)[keyof typeof PutSourcesIdEnableEnable503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdEnableEnable503Code = {
@@ -95,7 +95,7 @@ export type PutSourcesIdEnableEnable503 = {
 }
 
 export type PutSourcesIdEnableEnable404Code =
-  typeof PutSourcesIdEnableEnable404Code[keyof typeof PutSourcesIdEnableEnable404Code]
+  (typeof PutSourcesIdEnableEnable404Code)[keyof typeof PutSourcesIdEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdEnableEnable404Code = {
@@ -108,7 +108,7 @@ export type PutSourcesIdEnableEnable404 = {
 }
 
 export type PutSourcesIdMetricsReset404Code =
-  typeof PutSourcesIdMetricsReset404Code[keyof typeof PutSourcesIdMetricsReset404Code]
+  (typeof PutSourcesIdMetricsReset404Code)[keyof typeof PutSourcesIdMetricsReset404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesIdMetricsReset404Code = {
@@ -120,7 +120,8 @@ export type PutSourcesIdMetricsReset404 = {
   message?: string
 }
 
-export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof GetSourceTypes200Item]
+export type GetSourceTypes200Item =
+  (typeof GetSourceTypes200Item)[keyof typeof GetSourceTypes200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourceTypes200Item = {
@@ -128,7 +129,7 @@ export const GetSourceTypes200Item = {
 } as const
 
 export type DeleteSourcesId503Code =
-  typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
+  (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId503Code = {
@@ -141,7 +142,7 @@ export type DeleteSourcesId503 = {
 }
 
 export type DeleteSourcesId404Code =
-  typeof DeleteSourcesId404Code[keyof typeof DeleteSourcesId404Code]
+  (typeof DeleteSourcesId404Code)[keyof typeof DeleteSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId404Code = {
@@ -154,7 +155,7 @@ export type DeleteSourcesId404 = {
 }
 
 export type DeleteSourcesId400Code =
-  typeof DeleteSourcesId400Code[keyof typeof DeleteSourcesId400Code]
+  (typeof DeleteSourcesId400Code)[keyof typeof DeleteSourcesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSourcesId400Code = {
@@ -171,7 +172,7 @@ export type DeleteSourcesIdParams = {
   also_delete_dep_actions?: boolean
 }
 
-export type PutSourcesId503Code = typeof PutSourcesId503Code[keyof typeof PutSourcesId503Code]
+export type PutSourcesId503Code = (typeof PutSourcesId503Code)[keyof typeof PutSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId503Code = {
@@ -183,7 +184,7 @@ export type PutSourcesId503 = {
   message?: string
 }
 
-export type PutSourcesId404Code = typeof PutSourcesId404Code[keyof typeof PutSourcesId404Code]
+export type PutSourcesId404Code = (typeof PutSourcesId404Code)[keyof typeof PutSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId404Code = {
@@ -195,7 +196,7 @@ export type PutSourcesId404 = {
   message?: string
 }
 
-export type PutSourcesId400Code = typeof PutSourcesId400Code[keyof typeof PutSourcesId400Code]
+export type PutSourcesId400Code = (typeof PutSourcesId400Code)[keyof typeof PutSourcesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSourcesId400Code = {
@@ -207,7 +208,7 @@ export type PutSourcesId400 = {
   message?: string
 }
 
-export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
+export type GetSourcesId404Code = (typeof GetSourcesId404Code)[keyof typeof GetSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourcesId404Code = {
@@ -219,7 +220,7 @@ export type GetSourcesId404 = {
   message?: string
 }
 
-export type PostSources400Code = typeof PostSources400Code[keyof typeof PostSources400Code]
+export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSources400Code = {
@@ -232,7 +233,7 @@ export type PostSources400 = {
 }
 
 export type PostNodesNodeSourcesIdOperation503Code =
-  typeof PostNodesNodeSourcesIdOperation503Code[keyof typeof PostNodesNodeSourcesIdOperation503Code]
+  (typeof PostNodesNodeSourcesIdOperation503Code)[keyof typeof PostNodesNodeSourcesIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation503Code = {
@@ -245,7 +246,7 @@ export type PostNodesNodeSourcesIdOperation503 = {
 }
 
 export type PostNodesNodeSourcesIdOperation501Code =
-  typeof PostNodesNodeSourcesIdOperation501Code[keyof typeof PostNodesNodeSourcesIdOperation501Code]
+  (typeof PostNodesNodeSourcesIdOperation501Code)[keyof typeof PostNodesNodeSourcesIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation501Code = {
@@ -258,7 +259,7 @@ export type PostNodesNodeSourcesIdOperation501 = {
 }
 
 export type PostNodesNodeSourcesIdOperation404Code =
-  typeof PostNodesNodeSourcesIdOperation404Code[keyof typeof PostNodesNodeSourcesIdOperation404Code]
+  (typeof PostNodesNodeSourcesIdOperation404Code)[keyof typeof PostNodesNodeSourcesIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation404Code = {
@@ -271,7 +272,7 @@ export type PostNodesNodeSourcesIdOperation404 = {
 }
 
 export type PostNodesNodeSourcesIdOperation400Code =
-  typeof PostNodesNodeSourcesIdOperation400Code[keyof typeof PostNodesNodeSourcesIdOperation400Code]
+  (typeof PostNodesNodeSourcesIdOperation400Code)[keyof typeof PostNodesNodeSourcesIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeSourcesIdOperation400Code = {
@@ -284,7 +285,7 @@ export type PostNodesNodeSourcesIdOperation400 = {
 }
 
 export type BridgeNodeStatusStatus =
-  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+  (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
@@ -328,7 +329,7 @@ export interface BridgeMqttPublisherSourceResourceOpts {
 }
 
 export type BridgeMqttPublisherPostSourceType =
-  typeof BridgeMqttPublisherPostSourceType[keyof typeof BridgeMqttPublisherPostSourceType]
+  (typeof BridgeMqttPublisherPostSourceType)[keyof typeof BridgeMqttPublisherPostSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherPostSourceType = {
@@ -362,7 +363,7 @@ export interface BridgeMqttPublisherPostSource {
 }
 
 export type BridgeMqttPublisherGetSourceStatus =
-  typeof BridgeMqttPublisherGetSourceStatus[keyof typeof BridgeMqttPublisherGetSourceStatus]
+  (typeof BridgeMqttPublisherGetSourceStatus)[keyof typeof BridgeMqttPublisherGetSourceStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetSourceStatus = {
@@ -373,7 +374,7 @@ export const BridgeMqttPublisherGetSourceStatus = {
 } as const
 
 export type BridgeMqttPublisherGetSourceType =
-  typeof BridgeMqttPublisherGetSourceType[keyof typeof BridgeMqttPublisherGetSourceType]
+  (typeof BridgeMqttPublisherGetSourceType)[keyof typeof BridgeMqttPublisherGetSourceType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetSourceType = {
@@ -392,4 +393,23 @@ export interface BridgeMqttPublisherGetSource {
   tags?: string[]
   description?: string
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
+}
+
+export interface ActionsAndSourcesResponseNodeStatus {
+  node?: string
+  status?: string
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesResponseSummary {
+  enable?: boolean
+  name?: string
+  type?: string
+  description?: string
+  created_at?: number
+  last_modified_at?: number
+  node_status?: ActionsAndSourcesResponseNodeStatus[]
+  rules?: string[]
+  status?: string
+  status_reason?: string
 }

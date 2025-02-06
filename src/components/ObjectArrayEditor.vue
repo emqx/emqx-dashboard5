@@ -132,7 +132,7 @@ const props = defineProps({
     type: Object,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'add-item', 'delete-item'])
 
 const { tl } = useI18nTl('Base')
 
@@ -174,10 +174,12 @@ const addItem = () => {
   }
   const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
+  emit('add-item')
 }
 
 const deleteItem = (index: number) => {
   arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+  emit('delete-item')
 }
 
 const getProp = (index: number, key: string | number) => `${props.propKey}.${index}.${key}`

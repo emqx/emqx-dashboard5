@@ -647,4 +647,12 @@ export default {
     zh: '，',
     en: ', ',
   },
+  lastModified: {
+    zh: '更新时间',
+    en: 'Last Modified',
+  },
+  createdAt: {
+    zh: '创建时间',
+    en: 'Created At',
+  },
 }

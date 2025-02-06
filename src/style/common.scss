@@ -2,7 +2,7 @@
 @use './themes/dark.scss';
 @use 'normalize.scss';
 @use '@/style/schemaForm.scss';
-@use "sass:math";
+@use 'sass:math';
 
 @font-face {
   font-family: 'Roboto';
@@ -41,8 +41,16 @@
   src: url(../assets/fonts/Roboto-BlackItalic.ttf) format('truetype');
 }
 
-$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue,
-  Helvetica, Arial, sans-serif;
+$font:
+  Roboto,
+  -apple-system,
+  BlinkMacSystemFont,
+  PingFang SC,
+  Hiragino Sans GB,
+  Helvetica Neue,
+  Helvetica,
+  Arial,
+  sans-serif;
 
 body {
   padding: 0;
@@ -172,6 +180,11 @@ p.description {
   }
   .el-date-editor {
     width: 100%;
+  }
+  .col-oper {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 
@@ -750,10 +763,15 @@ code {
   padding: 0.25rem 0.5rem;
   margin: 0;
   color: var(--color-text-mdcode);
-  font-size: .85em;
+  font-size: 0.85em;
   border-radius: 3px;
   background-color: var(--color-bg-mdcode);
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family:
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
 }
 
 [data-theme='dark'] {
@@ -885,11 +903,11 @@ code {
   }
 
   .vue-flow__handle-left {
-    left: math.div(-$handle-size, 2)
+    left: math.div(-$handle-size, 2);
   }
 
   .vue-flow__handle-right {
-    right: math.div(-$handle-size, 2)
+    right: math.div(-$handle-size, 2);
   }
 
   .vue-flow__handle {

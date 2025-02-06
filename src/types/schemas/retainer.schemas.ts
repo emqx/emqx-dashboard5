@@ -1,5 +1,5 @@
 export type PutMqttRetainer400Code =
-  typeof PutMqttRetainer400Code[keyof typeof PutMqttRetainer400Code]
+  (typeof PutMqttRetainer400Code)[keyof typeof PutMqttRetainer400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutMqttRetainer400Code = {
@@ -12,7 +12,7 @@ export type PutMqttRetainer400 = {
 }
 
 export type GetMqttRetainer404Code =
-  typeof GetMqttRetainer404Code[keyof typeof GetMqttRetainer404Code]
+  (typeof GetMqttRetainer404Code)[keyof typeof GetMqttRetainer404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttRetainer404Code = {
@@ -25,7 +25,7 @@ export type GetMqttRetainer404 = {
 }
 
 export type DeleteMqttRetainerMessageTopic404Code =
-  typeof DeleteMqttRetainerMessageTopic404Code[keyof typeof DeleteMqttRetainerMessageTopic404Code]
+  (typeof DeleteMqttRetainerMessageTopic404Code)[keyof typeof DeleteMqttRetainerMessageTopic404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteMqttRetainerMessageTopic404Code = {
@@ -38,7 +38,7 @@ export type DeleteMqttRetainerMessageTopic404 = {
 }
 
 export type DeleteMqttRetainerMessageTopic400Code =
-  typeof DeleteMqttRetainerMessageTopic400Code[keyof typeof DeleteMqttRetainerMessageTopic400Code]
+  (typeof DeleteMqttRetainerMessageTopic400Code)[keyof typeof DeleteMqttRetainerMessageTopic400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteMqttRetainerMessageTopic400Code = {
@@ -51,7 +51,7 @@ export type DeleteMqttRetainerMessageTopic400 = {
 }
 
 export type GetMqttRetainerMessageTopic404Code =
-  typeof GetMqttRetainerMessageTopic404Code[keyof typeof GetMqttRetainerMessageTopic404Code]
+  (typeof GetMqttRetainerMessageTopic404Code)[keyof typeof GetMqttRetainerMessageTopic404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttRetainerMessageTopic404Code = {
@@ -64,7 +64,7 @@ export type GetMqttRetainerMessageTopic404 = {
 }
 
 export type GetMqttRetainerMessageTopic400Code =
-  typeof GetMqttRetainerMessageTopic400Code[keyof typeof GetMqttRetainerMessageTopic400Code]
+  (typeof GetMqttRetainerMessageTopic400Code)[keyof typeof GetMqttRetainerMessageTopic400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttRetainerMessageTopic400Code = {
@@ -77,7 +77,7 @@ export type GetMqttRetainerMessageTopic400 = {
 }
 
 export type GetMqttRetainerMessages400Code =
-  typeof GetMqttRetainerMessages400Code[keyof typeof GetMqttRetainerMessages400Code]
+  (typeof GetMqttRetainerMessages400Code)[keyof typeof GetMqttRetainerMessages400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttRetainerMessages400Code = {
@@ -103,7 +103,7 @@ export type GetMqttRetainerMessagesParams = {
 export type RetainerRetainerMsgExpiryIntervalOverride = string | 'disabled'
 
 export type RetainerMnesiaConfigStorageType =
-  typeof RetainerMnesiaConfigStorageType[keyof typeof RetainerMnesiaConfigStorageType]
+  (typeof RetainerMnesiaConfigStorageType)[keyof typeof RetainerMnesiaConfigStorageType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RetainerMnesiaConfigStorageType = {
@@ -112,7 +112,7 @@ export const RetainerMnesiaConfigStorageType = {
 } as const
 
 export type RetainerMnesiaConfigType =
-  typeof RetainerMnesiaConfigType[keyof typeof RetainerMnesiaConfigType]
+  (typeof RetainerMnesiaConfigType)[keyof typeof RetainerMnesiaConfigType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RetainerMnesiaConfigType = {
@@ -136,6 +136,7 @@ export interface RetainerRetainer {
   max_payload_size?: string
   stop_publish_clear_msg?: boolean
   delivery_rate?: string
+  max_publish_rate?: string
   backend?: RetainerMnesiaConfig
 }
 

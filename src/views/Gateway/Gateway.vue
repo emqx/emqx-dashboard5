@@ -10,22 +10,10 @@
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connection')" :min-width="160">
+      <el-table-column :label="tl('currentConnection')" :min-width="160">
         <template #default="{ row }">
           <template v-if="hasBeenInitialized(row)">
-            <template v-if="row?.max_connections === INFINITY_VALUE">
-              {{ connectionCount(row) }}
-            </template>
-            <template v-else>
-              <el-tooltip placement="top" effect="dark" :content="connectionCount(row)">
-                <el-progress
-                  :stroke-width="20"
-                  :percentage="calcPercentage(row.current_connections, row.max_connections, false)"
-                  :format="() => row.current_connections || 0"
-                >
-                </el-progress>
-              </el-tooltip>
-            </template>
+            {{ row.current_connections ?? 0 }}
           </template>
         </template>
       </el-table-column>
@@ -69,7 +57,7 @@
 <script lang="ts">
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { INFINITY_VALUE } from '@/common/constants'
-import { calcPercentage, caseInsensitiveCompare } from '@/common/tools'
+import { caseInsensitiveCompare } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
@@ -81,8 +69,8 @@ import { useRouter } from 'vue-router'
 export default defineComponent({
   name: 'Gateway',
   setup() {
-    let tbData = ref<GatewayItem[]>([])
-    let tbLoading = ref(false)
+    const tbData = ref<GatewayItem[]>([])
+    const tbLoading = ref(false)
     const enableStr = GatewayStatus.Running
     const disableStr = GatewayStatus.Stopped
     const unloadStr = GatewayStatus.Unloaded
@@ -99,7 +87,7 @@ export default defineComponent({
       tbLoading.value = true
       tbData.value = []
       try {
-        let res: Array<GatewayItem> = await getGatewayList()
+        const res: Array<GatewayItem> = await getGatewayList()
         tbData.value = res.sort((a, b) => a.status.localeCompare(b.status))
       } catch (error) {
         //
@@ -114,12 +102,6 @@ export default defineComponent({
 
     const setupGateway = (listener: any) => {
       router.push({ name: 'gateway-create', params: { name: listener.name } })
-    }
-
-    const connectionCount = ({ current_connections, max_connections }: any) => {
-      const max =
-        max_connections === INFINITY_VALUE ? 'Infinity' : max_connections ? max_connections : 0
-      return `${current_connections || 0}/${max}`
     }
 
     const gatewayStartStop = async function (instance: any) {
@@ -164,12 +146,10 @@ export default defineComponent({
       tl,
       tbLoading,
       tbData,
-      calcPercentage,
       GatewayStatus,
       isRunning,
       isUnload,
       INFINITY_VALUE,
-      connectionCount,
       hasBeenInitialized,
       getRowClassName,
       transGatewayName,

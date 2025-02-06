@@ -136,7 +136,7 @@ export default (
       }
     }
     const i18nPrefix = getI18nPrefix(BridgeType.MQTT)
-    if (comRet?.static_clientids.items.properties) {
+    if (comRet?.static_clientids?.items?.properties) {
       const props = comRet.static_clientids.items.properties
       if (props.ids) {
         setLabelAndDesc(props.ids, `${i18nPrefix}ids`)

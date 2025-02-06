@@ -28,11 +28,7 @@
           <!-- Password -->
           <el-col :span="12">
             <el-form-item :label="$t('Base.password')" prop="password">
-              <el-input
-                type="password"
-                v-model="ldapConfig.password"
-                autocomplete="one-time-code"
-              />
+              <CustomInputPassword v-model="ldapConfig.password" />
             </el-form-item>
           </el-col>
 

@@ -4,8 +4,12 @@ import { API_BASE_URL, COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 
-export const dateFormat = (date: Date | string | number | null | undefined): string => {
-  return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+export const dateFormat = (
+  date: Date | string | number | (number | string)[] | null | undefined,
+  errorReturn?: string,
+): string => {
+  const ret = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+  return ret === 'Invalid date' ? (errorReturn ?? ret) : ret
 }
 
 export const caseInsensitiveCompare = (w: string, k: string): boolean => {

@@ -1,5 +1,5 @@
 export type PostNodesNodeActionsIdOperation503Code =
-  typeof PostNodesNodeActionsIdOperation503Code[keyof typeof PostNodesNodeActionsIdOperation503Code]
+  (typeof PostNodesNodeActionsIdOperation503Code)[keyof typeof PostNodesNodeActionsIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeActionsIdOperation503Code = {
@@ -12,7 +12,7 @@ export type PostNodesNodeActionsIdOperation503 = {
 }
 
 export type PostNodesNodeActionsIdOperation501Code =
-  typeof PostNodesNodeActionsIdOperation501Code[keyof typeof PostNodesNodeActionsIdOperation501Code]
+  (typeof PostNodesNodeActionsIdOperation501Code)[keyof typeof PostNodesNodeActionsIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeActionsIdOperation501Code = {
@@ -25,7 +25,7 @@ export type PostNodesNodeActionsIdOperation501 = {
 }
 
 export type PostNodesNodeActionsIdOperation404Code =
-  typeof PostNodesNodeActionsIdOperation404Code[keyof typeof PostNodesNodeActionsIdOperation404Code]
+  (typeof PostNodesNodeActionsIdOperation404Code)[keyof typeof PostNodesNodeActionsIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeActionsIdOperation404Code = {
@@ -38,7 +38,7 @@ export type PostNodesNodeActionsIdOperation404 = {
 }
 
 export type PostNodesNodeActionsIdOperation400Code =
-  typeof PostNodesNodeActionsIdOperation400Code[keyof typeof PostNodesNodeActionsIdOperation400Code]
+  (typeof PostNodesNodeActionsIdOperation400Code)[keyof typeof PostNodesNodeActionsIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostNodesNodeActionsIdOperation400Code = {
@@ -51,7 +51,7 @@ export type PostNodesNodeActionsIdOperation400 = {
 }
 
 export type GetActionsIdMetrics404Code =
-  typeof GetActionsIdMetrics404Code[keyof typeof GetActionsIdMetrics404Code]
+  (typeof GetActionsIdMetrics404Code)[keyof typeof GetActionsIdMetrics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetActionsIdMetrics404Code = {
@@ -69,7 +69,7 @@ export type GetActionsIdMetrics200 = {
 }
 
 export type DeleteActionsId503Code =
-  typeof DeleteActionsId503Code[keyof typeof DeleteActionsId503Code]
+  (typeof DeleteActionsId503Code)[keyof typeof DeleteActionsId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteActionsId503Code = {
@@ -82,7 +82,7 @@ export type DeleteActionsId503 = {
 }
 
 export type DeleteActionsId404Code =
-  typeof DeleteActionsId404Code[keyof typeof DeleteActionsId404Code]
+  (typeof DeleteActionsId404Code)[keyof typeof DeleteActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteActionsId404Code = {
@@ -95,7 +95,7 @@ export type DeleteActionsId404 = {
 }
 
 export type DeleteActionsId400Code =
-  typeof DeleteActionsId400Code[keyof typeof DeleteActionsId400Code]
+  (typeof DeleteActionsId400Code)[keyof typeof DeleteActionsId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteActionsId400Code = {
@@ -112,7 +112,7 @@ export type DeleteActionsIdParams = {
   also_delete_dep_actions?: boolean
 }
 
-export type PutActionsId503Code = typeof PutActionsId503Code[keyof typeof PutActionsId503Code]
+export type PutActionsId503Code = (typeof PutActionsId503Code)[keyof typeof PutActionsId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsId503Code = {
@@ -124,7 +124,7 @@ export type PutActionsId503 = {
   message?: string
 }
 
-export type PutActionsId404Code = typeof PutActionsId404Code[keyof typeof PutActionsId404Code]
+export type PutActionsId404Code = (typeof PutActionsId404Code)[keyof typeof PutActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsId404Code = {
@@ -136,7 +136,7 @@ export type PutActionsId404 = {
   message?: string
 }
 
-export type PutActionsId400Code = typeof PutActionsId400Code[keyof typeof PutActionsId400Code]
+export type PutActionsId400Code = (typeof PutActionsId400Code)[keyof typeof PutActionsId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsId400Code = {
@@ -152,7 +152,7 @@ export type PutActionsId200 = BridgeMqttPublisherGetBridgeV2 | BridgeHttpGetBrid
 
 export type PutActionsIdBody = BridgeMqttPublisherPutBridgeV2 | BridgeHttpPutBridgeV2
 
-export type GetActionsId404Code = typeof GetActionsId404Code[keyof typeof GetActionsId404Code]
+export type GetActionsId404Code = (typeof GetActionsId404Code)[keyof typeof GetActionsId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetActionsId404Code = {
@@ -166,7 +166,8 @@ export type GetActionsId404 = {
 
 export type GetActionsId200 = BridgeMqttPublisherGetBridgeV2 | BridgeHttpGetBridgeV2
 
-export type GetActionTypes200Item = typeof GetActionTypes200Item[keyof typeof GetActionTypes200Item]
+export type GetActionTypes200Item =
+  (typeof GetActionTypes200Item)[keyof typeof GetActionTypes200Item]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetActionTypes200Item = {
@@ -175,7 +176,7 @@ export const GetActionTypes200Item = {
 } as const
 
 export type PostActionsProbe400Code =
-  typeof PostActionsProbe400Code[keyof typeof PostActionsProbe400Code]
+  (typeof PostActionsProbe400Code)[keyof typeof PostActionsProbe400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActionsProbe400Code = {
@@ -189,7 +190,7 @@ export type PostActionsProbe400 = {
 
 export type PostActionsProbeBody = BridgeMqttPublisherPostBridgeV2 | BridgeHttpPostBridgeV2
 
-export type PostActions400Code = typeof PostActions400Code[keyof typeof PostActions400Code]
+export type PostActions400Code = (typeof PostActions400Code)[keyof typeof PostActions400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActions400Code = {
@@ -208,7 +209,7 @@ export type PostActionsBody = BridgeMqttPublisherPostBridgeV2 | BridgeHttpPostBr
 export type GetActions200Item = BridgeMqttPublisherGetBridgeV2 | BridgeHttpGetBridgeV2
 
 export type PutActionsIdEnableEnable503Code =
-  typeof PutActionsIdEnableEnable503Code[keyof typeof PutActionsIdEnableEnable503Code]
+  (typeof PutActionsIdEnableEnable503Code)[keyof typeof PutActionsIdEnableEnable503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsIdEnableEnable503Code = {
@@ -221,7 +222,7 @@ export type PutActionsIdEnableEnable503 = {
 }
 
 export type PutActionsIdEnableEnable404Code =
-  typeof PutActionsIdEnableEnable404Code[keyof typeof PutActionsIdEnableEnable404Code]
+  (typeof PutActionsIdEnableEnable404Code)[keyof typeof PutActionsIdEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsIdEnableEnable404Code = {
@@ -234,7 +235,7 @@ export type PutActionsIdEnableEnable404 = {
 }
 
 export type PostActionsIdOperation503Code =
-  typeof PostActionsIdOperation503Code[keyof typeof PostActionsIdOperation503Code]
+  (typeof PostActionsIdOperation503Code)[keyof typeof PostActionsIdOperation503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActionsIdOperation503Code = {
@@ -247,7 +248,7 @@ export type PostActionsIdOperation503 = {
 }
 
 export type PostActionsIdOperation501Code =
-  typeof PostActionsIdOperation501Code[keyof typeof PostActionsIdOperation501Code]
+  (typeof PostActionsIdOperation501Code)[keyof typeof PostActionsIdOperation501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActionsIdOperation501Code = {
@@ -260,7 +261,7 @@ export type PostActionsIdOperation501 = {
 }
 
 export type PostActionsIdOperation404Code =
-  typeof PostActionsIdOperation404Code[keyof typeof PostActionsIdOperation404Code]
+  (typeof PostActionsIdOperation404Code)[keyof typeof PostActionsIdOperation404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActionsIdOperation404Code = {
@@ -273,7 +274,7 @@ export type PostActionsIdOperation404 = {
 }
 
 export type PostActionsIdOperation400Code =
-  typeof PostActionsIdOperation400Code[keyof typeof PostActionsIdOperation400Code]
+  (typeof PostActionsIdOperation400Code)[keyof typeof PostActionsIdOperation400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostActionsIdOperation400Code = {
@@ -286,7 +287,7 @@ export type PostActionsIdOperation400 = {
 }
 
 export type PutActionsIdMetricsReset404Code =
-  typeof PutActionsIdMetricsReset404Code[keyof typeof PutActionsIdMetricsReset404Code]
+  (typeof PutActionsIdMetricsReset404Code)[keyof typeof PutActionsIdMetricsReset404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutActionsIdMetricsReset404Code = {
@@ -299,7 +300,7 @@ export type PutActionsIdMetricsReset404 = {
 }
 
 export type BridgeNodeStatusStatus =
-  typeof BridgeNodeStatusStatus[keyof typeof BridgeNodeStatusStatus]
+  (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
@@ -338,38 +339,16 @@ export interface BridgeNodeMetrics {
   metrics?: BridgeMetrics
 }
 
-export interface BridgeMqttPublisherPutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeMqttPublisherActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeMqttPublisherActionResourceOpts
-}
-
 export type BridgeMqttPublisherPostBridgeV2Type =
-  typeof BridgeMqttPublisherPostBridgeV2Type[keyof typeof BridgeMqttPublisherPostBridgeV2Type]
+  (typeof BridgeMqttPublisherPostBridgeV2Type)[keyof typeof BridgeMqttPublisherPostBridgeV2Type]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherPostBridgeV2Type = {
   mqtt: 'mqtt',
 } as const
 
-export interface BridgeMqttPublisherPostBridgeV2 {
-  type: BridgeMqttPublisherPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: BridgeMqttPublisherActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeMqttPublisherActionResourceOpts
-}
-
 export type BridgeMqttPublisherGetBridgeV2Status =
-  typeof BridgeMqttPublisherGetBridgeV2Status[keyof typeof BridgeMqttPublisherGetBridgeV2Status]
+  (typeof BridgeMqttPublisherGetBridgeV2Status)[keyof typeof BridgeMqttPublisherGetBridgeV2Status]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetBridgeV2Status = {
@@ -380,7 +359,7 @@ export const BridgeMqttPublisherGetBridgeV2Status = {
 } as const
 
 export type BridgeMqttPublisherGetBridgeV2Type =
-  typeof BridgeMqttPublisherGetBridgeV2Type[keyof typeof BridgeMqttPublisherGetBridgeV2Type]
+  (typeof BridgeMqttPublisherGetBridgeV2Type)[keyof typeof BridgeMqttPublisherGetBridgeV2Type]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetBridgeV2Type = {
@@ -405,7 +384,7 @@ export interface BridgeMqttPublisherGetBridgeV2 {
 export type BridgeMqttPublisherActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeMqttPublisherActionResourceOptsQueryMode =
-  typeof BridgeMqttPublisherActionResourceOptsQueryMode[keyof typeof BridgeMqttPublisherActionResourceOptsQueryMode]
+  (typeof BridgeMqttPublisherActionResourceOptsQueryMode)[keyof typeof BridgeMqttPublisherActionResourceOptsQueryMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherActionResourceOptsQueryMode = {
@@ -433,38 +412,40 @@ export interface BridgeMqttPublisherActionParameters {
   payload?: string
 }
 
-export interface BridgeHttpPutBridgeV2 {
+export interface BridgeMqttPublisherPutBridgeV2 {
+  local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
+}
+
+export interface BridgeMqttPublisherPostBridgeV2 {
+  type: BridgeMqttPublisherPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
 export type BridgeHttpPostBridgeV2Type =
-  typeof BridgeHttpPostBridgeV2Type[keyof typeof BridgeHttpPostBridgeV2Type]
+  (typeof BridgeHttpPostBridgeV2Type)[keyof typeof BridgeHttpPostBridgeV2Type]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostBridgeV2Type = {
   http: 'http',
 } as const
 
-export interface BridgeHttpPostBridgeV2 {
-  type: BridgeHttpPostBridgeV2Type
-  name: string
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
-}
-
 export type BridgeHttpParametersOptsHeaders = { [key: string]: any }
 
 export type BridgeHttpParametersOptsMethod =
-  typeof BridgeHttpParametersOptsMethod[keyof typeof BridgeHttpParametersOptsMethod]
+  (typeof BridgeHttpParametersOptsMethod)[keyof typeof BridgeHttpParametersOptsMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpParametersOptsMethod = {
@@ -484,8 +465,28 @@ export interface BridgeHttpParametersOpts {
   request_timeout?: string
 }
 
+export interface BridgeHttpPutBridgeV2 {
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
+
+export interface BridgeHttpPostBridgeV2 {
+  type: BridgeHttpPostBridgeV2Type
+  name: string
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+}
+
 export type BridgeHttpGetBridgeV2Type =
-  typeof BridgeHttpGetBridgeV2Type[keyof typeof BridgeHttpGetBridgeV2Type]
+  (typeof BridgeHttpGetBridgeV2Type)[keyof typeof BridgeHttpGetBridgeV2Type]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetBridgeV2Type = {
@@ -493,7 +494,7 @@ export const BridgeHttpGetBridgeV2Type = {
 } as const
 
 export type BridgeHttpGetBridgeV2Status =
-  typeof BridgeHttpGetBridgeV2Status[keyof typeof BridgeHttpGetBridgeV2Status]
+  (typeof BridgeHttpGetBridgeV2Status)[keyof typeof BridgeHttpGetBridgeV2Status]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetBridgeV2Status = {
@@ -520,7 +521,7 @@ export interface BridgeHttpGetBridgeV2 {
 export type BridgeHttpActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeHttpActionResourceOptsQueryMode =
-  typeof BridgeHttpActionResourceOptsQueryMode[keyof typeof BridgeHttpActionResourceOptsQueryMode]
+  (typeof BridgeHttpActionResourceOptsQueryMode)[keyof typeof BridgeHttpActionResourceOptsQueryMode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpActionResourceOptsQueryMode = {
@@ -535,4 +536,23 @@ export interface BridgeHttpActionResourceOpts {
   request_ttl?: BridgeHttpActionResourceOptsRequestTtl
   inflight_window?: number
   max_buffer_bytes?: string
+}
+
+export interface ActionsAndSourcesResponseNodeStatus {
+  node?: string
+  status?: string
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesResponseSummary {
+  enable?: boolean
+  name?: string
+  type?: string
+  description?: string
+  created_at?: number
+  last_modified_at?: number
+  node_status?: ActionsAndSourcesResponseNodeStatus[]
+  rules?: string[]
+  status?: string
+  status_reason?: string
 }

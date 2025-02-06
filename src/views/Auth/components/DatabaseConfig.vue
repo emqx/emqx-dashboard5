@@ -79,12 +79,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('Base.password')">
-              <el-input
-                v-model="databaseConfig.password"
-                type="password"
-                autocomplete="one-time-code"
-                show-password
-              />
+              <CustomInputPassword v-model="databaseConfig.password" />
             </el-form-item>
           </el-col>
           <el-col v-if="isAuthn && isMongoDB" :span="12">
@@ -177,7 +172,7 @@
           </el-col>
           <!-- Mongodb -->
           <el-col :span="24" v-else-if="isMongoDB">
-            <el-form-item class="label-whole-line">
+            <el-form-item class="label-whole-line" prop="filter">
               <template #label>
                 <span>{{ $t('Auth.filter') }}</span>
                 <el-button
@@ -254,6 +249,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+              <template v-if="!isAuthn">
+                <el-col :span="12">
+                  <el-form-item :label="t('Auth.authzMongoLimit')">
+                    <CustomInputNumber v-model="databaseConfig.limit" :min="1" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item :label="t('Auth.authzMongoSkip')">
+                    <CustomInputNumber v-model="databaseConfig.skip" :min="0" />
+                  </el-form-item>
+                </el-col>
+              </template>
             </template>
 
             <el-col :span="12">

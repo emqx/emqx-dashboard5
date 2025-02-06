@@ -1,4 +1,4 @@
-import { getActions } from '@/api/action'
+import { getSimplifiedActions } from '@/api/action'
 import { BridgeItem } from '@/types/rule'
 
 export default (): {
@@ -6,7 +6,7 @@ export default (): {
 } => {
   const getActionList = async (): Promise<Array<BridgeItem>> => {
     try {
-      const data = await getActions()
+      const data = await getSimplifiedActions()
       return Promise.resolve(data)
     } catch (error) {
       return Promise.reject(error)

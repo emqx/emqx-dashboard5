@@ -183,6 +183,14 @@ export default {
     zh: '认证源',
     en: 'Auth Source',
   },
+  authzMongoLimit: {
+    zh: '记录条数限制',
+    en: 'Record Limit',
+  },
+  authzMongoSkip: {
+    zh: '跳过记录数',
+    en: 'Skip',
+  },
   srvRecord: {
     zh: 'SRV 记录',
     en: 'SRV Record',
