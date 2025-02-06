@@ -245,6 +245,8 @@ export type RuleEngineRuleEventsEvent =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineRuleEventsEvent = {
+  '$events/alarm_activated': '$events/alarm_activated',
+  '$events/alarm_deactivated': '$events/alarm_deactivated',
   '$events/client_connected': '$events/client_connected',
   '$events/client_disconnected': '$events/client_disconnected',
   '$events/client_connack': '$events/client_connack',
