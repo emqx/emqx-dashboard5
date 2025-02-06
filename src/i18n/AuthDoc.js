@@ -62,6 +62,10 @@ export default {
     zh: '{0} 语句支持的占位符有：',
     en: 'The {0} supports the following placeholders: ',
   },
+  authzMongoDBOrderTip: {
+    zh: '查询器语句支持使用 $orderby 对查询结果进行排序',
+    en: 'The selector supports using the $orderby operator to sort query results',
+  },
   /* MySQL, PgSQL */
   authzSQLParagraph1: {
     zh: 'SQL 语句需要从 {0} 中查询出包含 action permission topic 字段的数据列表',
