@@ -55,6 +55,14 @@ export default {
     en: 'Message Transformation Failed',
     zh: '消息转换失败',
   },
+  eventsAlarmActivated: {
+    en: 'Alarm Activated',
+    zh: '警报触发',
+  },
+  eventsAlarmDeactivated: {
+    en: 'Alarm Deactivated',
+    zh: '警报解除',
+  },
   bridgesMqtt: {
     en: 'Mqtt Bridge Message',
     zh: 'MQTT 桥接消息',

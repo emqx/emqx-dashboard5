@@ -693,6 +693,14 @@ export default {
     zh: '当取消终端订阅成功时触发规则',
     en: `Triggered when the terminal subscription is cancelled successfully`,
   },
+  alarmActivatedDesc: {
+    zh: '当告警激活时触发规则',
+    en: `Trigger the rule when the alarm is activated`,
+  },
+  alarmDeactivatedDesc: {
+    zh: '当告警解除时触发规则',
+    en: `Trigger the rule when the alarm is deactivated`,
+  },
   useAction: {
     zh: '使用动作',
     en: 'Use action',
