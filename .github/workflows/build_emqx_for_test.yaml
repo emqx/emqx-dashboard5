@@ -15,7 +15,6 @@ jobs:
       OTP_VSN: '26.2.5-3'
       ELIXIR_VSN: '1.15.7'
 
-
     steps:
       - name: checkout emqx code
         uses: actions/checkout@v3
@@ -31,7 +30,7 @@ jobs:
       - name: export docker image
         run: |
           docker save $_EMQX_DOCKER_IMAGE_TAG | gzip > $EMQX_NAME-docker.tar.gz
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: '${{ env.EMQX_NAME }}-docker'
           path: '${{ env.EMQX_NAME }}-docker.tar.gz'
