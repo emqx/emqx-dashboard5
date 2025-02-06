@@ -8,7 +8,7 @@ export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
   errorReturn?: string,
 ): string => {
-  const ret = moment(date).format('YYYY-MM-DD HH:mm:ss')
+  const ret = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
   return ret === 'Invalid date' ? (errorReturn ?? ret) : ret
 }
 

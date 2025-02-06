@@ -134,7 +134,7 @@
             v-if="['mysql', 'postgresql', 'mongodb', 'redis'].includes(backend)"
             v-model="configData"
             ref="formCom"
-            :database="backend"
+            :database="backend as DatabaseAndServerDOM"
             auth-type="authn"
           />
           <built-in-config
@@ -306,7 +306,7 @@ const mechanismDesc = computed(
       scram: tl('enhancedAuthDesc'),
       gssapi: tl('enhancedAuthDesc'),
       cinfo: tl('cinfoAuthDesc'),
-    }[mechanism.value] || ''),
+    })[mechanism.value] || '',
 )
 const hasDatabaseToChoose = computed(() => {
   const { disabledDatabases } = props
