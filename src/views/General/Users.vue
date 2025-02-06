@@ -110,6 +110,7 @@
           </el-select>
         </el-form-item>
         <div v-if="accessType === 'chPass'">
+          <el-input class="username-placeholder" v-model="record.username" disabled />
           <el-form-item prop="newPassword" :label="tl('newPassword')">
             <el-input
               v-model="record.newPassword"
@@ -383,5 +384,11 @@ onBeforeMount(async () => {
   .mfa-label {
     text-wrap: nowrap;
   }
+}
+</style>
+
+<style lang="scss" scoped>
+.username-placeholder {
+  display: none;
 }
 </style>

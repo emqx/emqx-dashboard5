@@ -269,6 +269,7 @@
             :rules="pwdRules"
             @keyup.enter="submitNewPwd"
           >
+            <el-input class="username-placeholder" v-model.trim="record.username" />
             <el-form-item prop="password">
               <el-input
                 v-model.trim="newPasswordRecord.password"
@@ -782,6 +783,10 @@ const submitWithAuthCode = async () => {
     .btn-skip {
       padding: 0;
     }
+  }
+
+  .username-placeholder {
+    display: none;
   }
 
   .password-form {

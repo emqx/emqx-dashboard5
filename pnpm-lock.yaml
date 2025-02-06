@@ -12,8 +12,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.25
-        version: 0.0.27
+        specifier: ~0.0.35
+        version: 0.0.36
       '@emqx/shared-ui-utils':
         specifier: ~0.0.14
         version: 0.0.14(vue@3.5.4(typescript@5.5.4))
@@ -358,8 +358,8 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emqx/shared-ui-i18n@0.0.27':
-    resolution: {integrity: sha512-Du99X1s3M7exMS+h010Ck0z4o1zMjAw1Y1ssYUWpAVK1cc0f1cP5tzzg3B4SseCs9M8LjQkIWOsR+1rpXHPtjA==}
+  '@emqx/shared-ui-i18n@0.0.36':
+    resolution: {integrity: sha512-p2IOdvQ0NTJZa6NcXwEBXeXuHr9H3MagdOVpkK5fgjFhEeNsu7bp3WI7Ai7p1WKKAS89ijMigJQLUeswQM8wOw==}
 
   '@emqx/shared-ui-utils@0.0.14':
     resolution: {integrity: sha512-65TsDNoEyb6obdupU4zuFSxjTa7hXxS8n+BdJ5CvpBuZCPne4zMNV3djuSEVS3LqlwV8RrIzKzN7QZar1G+0bQ==}
@@ -3614,7 +3614,7 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-i18n@0.0.27': {}
+  '@emqx/shared-ui-i18n@0.0.36': {}
 
   '@emqx/shared-ui-utils@0.0.14(vue@3.5.4(typescript@5.5.4))':
     dependencies:
