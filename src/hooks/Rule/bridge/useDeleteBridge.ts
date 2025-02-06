@@ -11,8 +11,6 @@ interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>
   usingBridgeRules: Ref<string[]>
   currentDeleteBridgeId: Ref<string>
-  currentDelName: Ref<string>
-  showDeleteWebhookAssociatedTip: Ref<boolean>
   handleDeleteSuc: () => void
   handleDeleteBridge: (data: BridgeItem) => Promise<void>
 }
@@ -24,8 +22,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
   const usingBridgeRules: Ref<Array<string>> = ref([])
   const currentDeleteBridgeId = ref('')
 
-  const currentDelName = ref('')
-  const showDeleteWebhookAssociatedTip = ref(false)
   const { judgeIsWebhookAction } = useWebhookUtils()
 
   const handleDeleteSuc = () => {
@@ -43,8 +39,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
   const { deleteAction } = useHandleActionItem()
   const handleDeleteBridge = async (item: BridgeItem) => {
     if (judgeIsWebhookAction(item)) {
-      currentDelName.value = item.name
-      showDeleteWebhookAssociatedTip.value = true
       return
     }
     if (item.rules?.length) {
@@ -71,8 +65,6 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
     showSecondConfirm,
     usingBridgeRules,
     currentDeleteBridgeId,
-    currentDelName,
-    showDeleteWebhookAssociatedTip,
     handleDeleteSuc,
     handleDeleteBridge,
   }

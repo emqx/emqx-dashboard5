@@ -9,10 +9,10 @@ import {
 import { cloneDeep } from 'lodash'
 
 export type TypeMessageTransformFailureAction =
-  typeof MessageTransformFailureAction[keyof typeof MessageTransformFailureAction]
+  (typeof MessageTransformFailureAction)[keyof typeof MessageTransformFailureAction]
 
 export type TypeMessageTransformLogLevel =
-  typeof MessageTransformLogLevel[keyof typeof MessageTransformLogLevel]
+  (typeof MessageTransformLogLevel)[keyof typeof MessageTransformLogLevel]
 
 export const useFailureAction = (): {
   failureActionOpts: { label: string; value: TypeMessageTransformFailureAction }[]
@@ -352,7 +352,7 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
       return true
     }
     return !(
-      outType === MESSAGE_TYPE_NONE && [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(inType)
+      inType === MESSAGE_TYPE_NONE && [MESSAGE_TYPE_NONE, SchemaRegistryType.JSON].includes(outType)
     )
   }
 

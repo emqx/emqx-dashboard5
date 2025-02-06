@@ -111,11 +111,6 @@
   </div>
   <CopySubmitDialog v-model="showNameInputDialog" :target="copyTarget" />
   <DelConnectorTip v-model="showDelTip" :connector="connectorData" />
-  <DeleteWebhookAssociatedTip
-    v-model="showDeleteWebhookAssociatedTip"
-    type="connector"
-    :name="connectorData.name"
-  />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
     :connector="currentConnector as Connector"
@@ -145,7 +140,6 @@ import { lowerCase } from 'lodash'
 import { computed, defineProps, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
-import DeleteWebhookAssociatedTip from '../components/DeleteWebhookAssociatedTip.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'
@@ -204,7 +198,6 @@ const {
   testConnectivity,
   handleDeleteConnector,
   showDelTip,
-  showDeleteWebhookAssociatedTip,
 } = useHandleConnectorItem()
 
 /* Webhook associated */

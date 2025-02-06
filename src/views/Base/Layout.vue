@@ -175,8 +175,8 @@ export default defineComponent({
     const firstPath = ref('')
     const isNotFound = ref(false)
     const setHeaderTitle = () => {
-      let { path } = route || []
-      let _firstPath = path.split('/')[1]
+      const { path } = route || []
+      const _firstPath = path.split('/')[1]
       firstPath.value = _firstPath
       isNotFound.value = route.matched?.[1]?.name === 'not-found'
     }
@@ -333,6 +333,7 @@ $header-heigh: 60px;
 .el-header {
   padding: 0;
   right: 0;
+  left: 0;
   position: fixed;
   z-index: 101;
   transition: all 0.3s;

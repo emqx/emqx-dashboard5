@@ -1122,7 +1122,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@127001': 'emqx@127.0.0.1',
+  'emqx@1721702': 'emqx@172.17.0.2',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {

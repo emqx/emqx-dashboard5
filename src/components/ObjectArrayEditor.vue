@@ -153,7 +153,7 @@ const props = defineProps({
     type: String as PropType<BatchSettingDatabaseType>,
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'add-item', 'delete-item'])
 
 const currentPage = ref(1)
 const pageSize = ref(50)
@@ -218,10 +218,12 @@ const addItem = () => {
   }
   const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
+  emit('add-item')
 }
 
 const deleteItem = (index: number) => {
   arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+  emit('delete-item')
 }
 
 const getProp = (index: number, key: string | number) => `${props.propKey}.${index}.${key}`

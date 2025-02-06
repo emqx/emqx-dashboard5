@@ -232,22 +232,27 @@ export const useRuleUtils = (): {
   }
 }
 
+export const SourceServerType = {
+  MQTTBroker: BridgeType.MQTT,
+  Kafka: BridgeType.KafkaConsumer,
+  GCP: BridgeType.GCPConsumer,
+  RabbitMQ: BridgeType.RabbitMQ,
+}
+
 /**
  * Unlike RuleInputType, the action here is specific to what type of action it is.
  */
 export const RuleSourceType = {
   Message: 'message',
   Event: 'event',
-  MQTT: BridgeType.MQTT,
-  Kafka: BridgeType.KafkaConsumer,
-  GCP: BridgeType.GCPConsumer,
-  RabbitMQ: BridgeType.RabbitMQ,
+  ...SourceServerType,
 }
 export const useRuleInputs = (): {
   getBridgeIdFromInput: (input: string) => string
   detectInputType: (from: string) => string
   isBridgeType: (type: string) => boolean
   isNotBridgeSourceTypes: Array<string>
+  sourceServerOptList: Array<{ value: string; label: string }>
   sourceOptList: Array<{ value: string; label: string }>
   inputTypesIconNew: string[]
   getRuleSourceIcon: (type: string) => string
@@ -276,6 +281,11 @@ export const useRuleInputs = (): {
     }
     return ret || specificType
   }
+
+  const sourceServerOptList = Object.entries(SourceServerType).map(([, value]) => ({
+    value,
+    label: getTypeLabel(value),
+  }))
 
   const sourceOptList = Object.entries(RuleSourceType).map(([, value]) => ({
     value,
@@ -340,6 +350,7 @@ export const useRuleInputs = (): {
     detectInputType,
     isBridgeType,
     isNotBridgeSourceTypes,
+    sourceServerOptList,
     sourceOptList,
     inputTypesIconNew: typesIconNew,
     getRuleSourceIcon,

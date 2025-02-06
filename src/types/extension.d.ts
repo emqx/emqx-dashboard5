@@ -19,6 +19,7 @@ export interface Retainer {
   allow_never_expire: boolean
   msg_clear_interval: string
   delivery_rate: string
+  max_publish_rate: string
   backend: {
     type: string
     storage_type: string

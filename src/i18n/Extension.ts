@@ -47,6 +47,14 @@ export default {
     zh: '派发保留消息的最大速率',
     en: 'The maximum rate of delivering retained messages',
   },
+  maxPublishRate: {
+    zh: '最大发布速率',
+    en: 'Max Publish Rate',
+  },
+  maxPublishRateDesc: {
+    zh: '发布保留消息的最大速率。超过限制发布的消息会被投递，但不会存储为保留消息。',
+    en: 'The maximum rate of publishing retained messages. Messages that are published over the limit are delivered but not stored as retained.',
+  },
   storageMethod: {
     zh: '存储方式',
     en: 'Storage Method',

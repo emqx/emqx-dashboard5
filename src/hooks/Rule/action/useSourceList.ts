@@ -1,4 +1,4 @@
-import { getSources } from '@/api/sources'
+import { getSimplifiedSources } from '@/api/sources'
 import { BridgeItem } from '@/types/rule'
 
 export default (): {
@@ -6,7 +6,7 @@ export default (): {
 } => {
   const getSourceList = async () => {
     try {
-      const sourceList: Array<BridgeItem> = await getSources()
+      const sourceList = await getSimplifiedSources()
       return Promise.resolve(sourceList)
     } catch (error) {
       return Promise.reject(error)

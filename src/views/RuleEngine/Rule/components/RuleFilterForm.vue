@@ -237,9 +237,6 @@ const handleReset = () => {
 @import '@/style/management.scss';
 .rule-filter-form {
   margin-top: -12px;
-  .col-oper {
-    float: right;
-  }
   // when show more query
   .el-col-24 {
     margin-top: 16px;

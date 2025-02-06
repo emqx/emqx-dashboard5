@@ -182,6 +182,11 @@ p.description {
   .el-date-editor {
     width: 100%;
   }
+  .col-oper {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }
 
 .emq-table-footer {
