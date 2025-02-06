@@ -1,5 +1,5 @@
 <template>
-  <div class="dropped-analysis app-wrapper">
+  <div class="dropped-analysis app-wrapper with-padding-top">
     <el-radio-group v-model="activeTab" @change="handleTabChanged">
       <el-radio-button :value="TabName.Message" :label="tl('messagesDroppedAtDelivery')" />
       <el-radio-button :value="TabName.Delivery" :label="tl('messagesDroppedAtReception')" />
@@ -190,8 +190,9 @@ const tableData = computed(() => {
 
 <style lang="scss">
 .dropped-analysis {
-  padding-top: 28px;
-  padding-bottom: 24px;
+  &.app-wrapper {
+    padding-bottom: 24px;
+  }
   .el-radio-button {
     margin-bottom: 8px;
   }

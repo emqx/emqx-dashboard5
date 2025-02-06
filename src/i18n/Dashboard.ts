@@ -881,16 +881,16 @@ export default {
     en: 'Quota Exceeded',
   },
   dropped_quota_exceeded_impact: {
-    zh: '可能表明消息生产速率过快或订阅者处理消息速率过慢。',
-    en: 'Could suggest message production rate is too high or subscriber message processing rate is too slow.',
+    zh: '可能表明超过连接数限制',
+    en: 'May indicate exceeding the connection limit',
   },
   dropped_receive_maximum: {
     zh: '超出接收限制',
     en: 'Receive Maximum Exceeded',
   },
   dropped_receive_maximum_impact: {
-    zh: '可能表明消息生产速率过快或订阅者处理消息速率过慢。',
-    en: 'Could suggest message production rate is too high or subscriber message processing rate is too slow.',
+    zh: 'TODO:',
+    en: 'TODO:',
   },
   dropped_no_subscribers_desc: {
     zh: '消息因主题无订阅者而被丢弃。',

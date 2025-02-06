@@ -150,6 +150,8 @@ export const useMessageDroppedDetails = (totalMessageDropped: ComputedRef<number
   const nameColor = new Map<string, string>([
     [getTypeName(MetricKey.AwaitPubrelTimeout) ?? '', '#fdafa6'],
     [getTypeName(MetricKey.NoSubscribers) ?? '', '#bac1cd'],
+    [getTypeName(MetricKey.QuotaExceeded) ?? '', '#ffd78e'],
+    [getTypeName(MetricKey.ReceiveMaximum) ?? '', '#7fd7b8'],
   ])
 
   const itemStyle = computed<ItemStyle>(() => ({
