@@ -3,7 +3,7 @@
     v-model="showDialog"
     :width="600"
     class="API-key-dialog"
-    :title="dialogTitle"
+    :title="t('Base.create')"
     :z-index="2000"
   >
     <el-form
@@ -176,15 +176,6 @@ const showDialog = computed({
     emit('update:modelValue', val)
   },
 })
-
-const dialogTitle = computed(
-  () =>
-    ({
-      create: `${tl('create', 'Base')}  ${tl('api-key', 'components')}`,
-      edit: `${tl('edit', 'Base')}  ${tl('api-key', 'components')}`,
-      view: tl('apiKeyDetail'),
-    }[props.operationType]),
-)
 
 watch(showDialog, async (val) => {
   if (val) {
