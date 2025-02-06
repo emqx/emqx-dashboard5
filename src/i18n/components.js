@@ -109,7 +109,7 @@ export default {
   },
   rule: {
     zh: '规则',
-    en: 'Rule',
+    en: 'Rules',
   },
   rules: {
     zh: '规则',
@@ -132,8 +132,8 @@ export default {
     en: 'Create Flow',
   },
   webhook: {
-    zh: 'Webhook',
-    en: 'Webhook',
+    zh: 'Webhooks',
+    en: 'Webhooks',
   },
   'webhook-create': {
     zh: '创建 Webhook',
@@ -200,12 +200,12 @@ export default {
     en: 'Gateways',
   },
   exhook: {
-    zh: 'ExHook',
-    en: 'ExHook',
+    zh: 'ExHooks',
+    en: 'ExHooks',
   },
   'api-key': {
     zh: 'API 密钥',
-    en: 'API Key',
+    en: 'API Keys',
   },
   'banned-clients': {
     zh: '黑名单',
@@ -357,11 +357,11 @@ export default {
   },
   'log-trace': {
     zh: '日志追踪',
-    en: 'Log Trace',
+    en: 'Log Traces',
   },
   connector: {
     zh: '连接器',
-    en: 'Connector',
+    en: 'Connectors',
   },
   extensions: {
     zh: '插件扩展',
