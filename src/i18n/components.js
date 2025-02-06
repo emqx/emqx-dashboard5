@@ -28,8 +28,8 @@ export default {
     en: 'Management',
   },
   diagnose: {
-    zh: '问题分析',
-    en: 'Diagnose',
+    zh: '诊断工具',
+    en: 'Diagnostics Tools',
   },
   acl: {
     zh: 'ACL',
@@ -189,7 +189,7 @@ export default {
   },
   extension: {
     zh: '扩展',
-    en: 'Extension',
+    en: 'Extensions',
   },
   'mqtt-system-topic': {
     zh: '系统主题',
@@ -237,7 +237,7 @@ export default {
   },
   'audit-log': {
     zh: '审计日志',
-    en: 'Audit Log',
+    en: 'Audit Logs',
   },
   system: {
     zh: '系统设置',
@@ -304,8 +304,8 @@ export default {
     en: 'Actions (Sink)',
   },
   schema: {
-    zh: 'Schema',
-    en: 'Schema',
+    zh: 'Schema Registry',
+    en: 'Schema Registry',
   },
   source: {
     zh: 'Sources',
@@ -369,7 +369,7 @@ export default {
   },
   'mqtt-session': {
     zh: '会话',
-    en: 'Session',
+    en: 'Sessions',
   },
   'mqtt-retainer': {
     zh: '保留消息',
