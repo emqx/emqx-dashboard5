@@ -24,8 +24,8 @@ export default {
     en: 'Management',
   },
   diagnose: {
-    zh: '问题分析',
-    en: 'Diagnose',
+    zh: '诊断工具',
+    en: 'Diagnostics Tools',
   },
   acl: {
     zh: 'ACL',
@@ -157,7 +157,7 @@ export default {
   },
   extension: {
     zh: '扩展',
-    en: 'Extension',
+    en: 'Extensions',
   },
   'mqtt-system-topic': {
     zh: '系统主题',
@@ -269,7 +269,7 @@ export default {
   },
   'mqtt-session': {
     zh: '会话',
-    en: 'Session',
+    en: 'Sessions',
   },
   'mqtt-retainer': {
     zh: '保留消息',
