@@ -2,7 +2,6 @@
   <el-form
     class="oidc-form tong-form"
     ref="FormCom"
-    require-asterisk-position="right"
     :model="formData"
     :rules="rules"
     :label-width="state.lang === 'zh' ? 140 : 224"

@@ -2,7 +2,6 @@
   <el-form
     class="ldap-form tong-form"
     ref="FormCom"
-    require-asterisk-position="right"
     :model="formData"
     :rules="rules"
     :label-width="150"

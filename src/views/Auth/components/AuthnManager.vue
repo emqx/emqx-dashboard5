@@ -6,7 +6,7 @@
           <authn-users-import @uploadedData="loadData" />
         </template>
         <el-tooltip :content="$t('Base.add')" placement="top">
-          <CreateButton class="icon-button" @click="addCommand"><span /></CreateButton>
+          <CreateButton class="icon-button" no-text @click="addCommand" />
         </el-tooltip>
       </div>
 
