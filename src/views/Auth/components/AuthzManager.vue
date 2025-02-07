@@ -7,7 +7,7 @@
     </el-radio-group>
     <div class="section-searchbar" :gutter="16">
       <el-tooltip :content="$t('Base.add')" placement="top">
-        <CreateButton class="icon-button" @click="handleAdd"><span /></CreateButton>
+        <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
       </el-tooltip>
       <div class="searchbar-content">
         <template v-if="!isTypeAll">
@@ -124,15 +124,17 @@
     </div>
     <el-dialog
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      width="700px"
+      :width="isTypeAll ? getPopupSize(120) : '700px'"
       v-model="dialogVisible"
     >
       <el-form
         ref="recordForm"
         :model="record"
         :rules="getRules()"
-        label-position="top"
-        require-asterisk-position="right"
+        :class="isTypeAll ? 'tong-form' : undefined"
+        :label-position="isTypeAll ? 'right' : 'top'"
+        :label-width="isTypeAll ? '120px' : undefined"
+        :require-asterisk-position="isTypeAll ? 'left' : 'right'"
       >
         <template v-if="isTypeAll">
           <el-form-item prop="action" :label="$t('Auth.action')">
@@ -270,7 +272,7 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
-import { replaceSpaceForHTML } from '@/common/tools'
+import { getPopupSize, replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
@@ -597,6 +599,7 @@ export default defineComponent({
     const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
     return {
+      t,
       BuiltInDBType,
       tableCom,
       recordForm,
@@ -618,6 +621,7 @@ export default defineComponent({
       getRules,
       handleAdd,
       addColumn,
+      getPopupSize,
       deleteItem,
       handleSubmit,
       handleDelete,

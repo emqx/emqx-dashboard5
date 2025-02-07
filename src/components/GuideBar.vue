@@ -4,9 +4,9 @@
       v-for="(item, index) in guideList"
       :key="item"
       class="guide-item"
-      :class="{ active: currentStep === index, completed: currentStep > index }"
+      :class="{ active: currentStep === index, completed: isFinishedStep(index) }"
     >
-      <el-icon v-if="currentStep > index" class="el-icon-check">
+      <el-icon v-if="isFinishedStep(index)" class="el-icon-check">
         <Check />
       </el-icon>
       <span class="icon-number" v-else>{{ index + 1 }}</span>
@@ -38,6 +38,8 @@ const props = defineProps({
 const currentStep = computed(() => {
   return props.activeGuideIndexList[props.activeGuideIndexList.length - 1]
 })
+
+const isFinishedStep = (step: number) => currentStep.value > step
 </script>
 
 <style lang="scss">
@@ -58,10 +60,11 @@ const currentStep = computed(() => {
       height: 24px;
       width: 24px;
       border-radius: 50%;
-      line-height: 24px;
+      line-height: 24px - 2px;
       text-align: center;
       color: #fff;
       font-size: 14px;
+      border: 1px solid var(--color-grey-4);
     }
     .el-icon-check {
       display: flex;
@@ -69,15 +72,16 @@ const currentStep = computed(() => {
       justify-content: center;
       font-weight: 600;
       color: var(--color-primary);
-      border: 1px solid var(--color-primary);
+      border-color: var(--color-primary);
     }
     .icon-number {
-      background: var(--color-border-primary);
+      background: var(--color-bg-content);
+      color: var(--color-grey-4);
     }
     .guide-title {
       display: inline-block;
       margin-left: 8px;
-      color: var(--color-title-primary);
+      color: var(--color-grey-3);
     }
     .guide-desc {
       color: var(--color-text-secondary);
@@ -88,10 +92,17 @@ const currentStep = computed(() => {
     &.active {
       font-weight: 600;
       .icon-number {
+        color: var(--color-bg-content);
         background: var(--color-primary);
+        border-color: var(--color-primary);
       }
       .guide-title {
-        color: var(--color-title-primary);
+        color: var(--color-grey-1);
+      }
+    }
+    &.completed {
+      .guide-title {
+        color: var(--color-grey-1);
       }
     }
     // the line

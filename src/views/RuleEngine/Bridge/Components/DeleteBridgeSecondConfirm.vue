@@ -38,9 +38,8 @@
           {{ $t('Base.cancel') }}
         </el-button>
         <el-button
-          type="danger"
+          type="primary"
           :disabled="!$hasPermission('delete')"
-          plain
           @click="submit"
           :loading="isSubmitting"
           v-if="isEgress"

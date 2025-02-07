@@ -9,7 +9,6 @@
           label-position="right"
           :label-width="store.state.lang === 'zh' ? 160 : 220"
           class="configuration-form schema-form"
-          require-asterisk-position="right"
           hide-required-asterisk
           @keyup.enter="updateDelayedConfig()"
         >

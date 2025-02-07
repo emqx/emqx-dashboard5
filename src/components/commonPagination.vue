@@ -6,7 +6,7 @@
         meta.count > (meta.limit >= defaultPageSizeOpt[0] ? defaultPageSizeOpt[0] : meta.limit)
       "
       background
-      layout="total, sizes, prev, pager, next"
+      layout="prev, pager, next, sizes, jumper, total"
       :page-sizes="defaultPageSizeOpt"
       v-model:page-size="meta.limit"
       v-model:current-page="meta.page"

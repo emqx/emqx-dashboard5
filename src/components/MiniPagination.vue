@@ -2,7 +2,7 @@
 <template>
   <el-pagination
     background
-    layout="sizes, prev, next"
+    layout="prev, next, sizes"
     :current-page="currentPage"
     :page-count="pageCount"
     @current-change="handleCurrentChanged"

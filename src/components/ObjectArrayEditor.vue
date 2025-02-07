@@ -52,7 +52,7 @@
       @current-change="handleCurrentChange"
       :current-page="currentPage"
       :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="prev, pager, next, sizes, jumper, total"
       :page-sizes="[50, 100, 200, 400]"
       :total="arr.length"
     ></el-pagination>

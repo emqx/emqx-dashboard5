@@ -7,9 +7,7 @@
     destroy-on-close
   >
     <div class="dialog-hd">
-      <el-button type="primary" @click="refreshList">
-        {{ t('Base.refresh') }}
-      </el-button>
+      <RefreshButton @click="refreshList" />
     </div>
 
     <div class="table-container">
@@ -22,7 +20,11 @@
         :row-height="TABLE_ROW_HEIGHT"
         scrollbar-always-on
         @scroll="handleScroll"
-      />
+      >
+        <template #empty>
+          <el-empty :description="$t('Base.noData')" :image="emptyImg" :image-size="96" />
+        </template>
+      </el-table-v2>
     </div>
     <PayloadDialog
       v-model="showPayloadDialog"
@@ -34,6 +36,7 @@
 
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
+import emptyImg from '@/assets/img/empty.png'
 import { dateFormat, waitAMoment } from '@/common/tools'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import PayloadDialog from '@/components/PayloadDialog.vue'
@@ -108,7 +111,7 @@ const isScrollToBottom = computed(() => {
 
 const limit = 200
 
-const tableWidth = 1020
+const tableWidth = 1028
 const publishTimeWidth = 180
 const qosWidth = 100
 const payloadWidth = 180
