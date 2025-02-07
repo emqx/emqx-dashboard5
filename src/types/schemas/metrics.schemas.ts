@@ -313,44 +313,42 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
+  connections?: number
+  disconnected_durable_sessions?: number
   dropped_msg_rate?: number
-  sent_msg_rate?: number
+  live_connections?: number
+  node_uptime?: number
   persisted_rate?: number
   received_msg_rate?: number
+  retained_msg_count?: number
+  sent_msg_rate?: number
+  shared_subscriptions?: number
+  subscriptions?: number
+  subscriptions_durable?: number
+  topics?: number
   transformation_failed_rate?: number
   transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
-  disconnected_durable_sessions?: number
-  subscriptions_durable?: number
-  subscriptions?: number
-  topics?: number
-  connections?: number
-  live_connections?: number
-  node_uptime?: number
-  retained_msg_count?: number
-  shared_subscriptions?: number
-  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
+  connections?: number
+  disconnected_durable_sessions?: number
   dropped_msg_rate?: number
-  sent_msg_rate?: number
+  live_connections?: number
   persisted_rate?: number
   received_msg_rate?: number
+  retained_msg_count?: number
+  sent_msg_rate?: number
+  shared_subscriptions?: number
+  subscriptions?: number
+  subscriptions_durable?: number
+  topics?: number
   transformation_failed_rate?: number
   transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
-  disconnected_durable_sessions?: number
-  subscriptions_durable?: number
-  subscriptions?: number
-  topics?: number
-  connections?: number
-  live_connections?: number
-  retained_msg_count?: number
-  shared_subscriptions?: number
-  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSampler {

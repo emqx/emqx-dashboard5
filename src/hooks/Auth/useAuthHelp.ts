@@ -60,6 +60,7 @@ export default (context: {
       mongodb: [
         tl('authzMongoDBParagraph1'),
         `${t('AuthDoc.authzSupportedPlaceholders', [tl('selector')])}${AUTHZ_MONGODB_PLACEHOLDERS}`,
+        tl('authzMongoDBOrderTip'),
         tl('dataStructureExample'),
       ],
       postgresql: [
