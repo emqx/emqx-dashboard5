@@ -2,15 +2,19 @@
 <template>
   <el-pagination
     background
-    layout="prev, next, sizes"
+    layout="prev, next, slot"
     :current-page="currentPage"
     :page-count="pageCount"
     @current-change="handleCurrentChanged"
-  />
+  >
+    <TongPaginationSizes v-model="pageLimit" :page-sizes="DEFAULT_PAGE_SIZE_OPT" />
+  </el-pagination>
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, defineEmits } from 'vue'
+import { DEFAULT_PAGE_SIZE_OPT } from '@/common/constants'
+import { computed, defineEmits, defineProps } from 'vue'
+import TongPaginationSizes from './TongPaginationSizes.vue'
 
 const props = defineProps({
   currentPage: {
@@ -21,9 +25,13 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  pageSize: {
+    type: Number,
+    required: true,
+  },
 })
 
-const emit = defineEmits(['current-change'])
+const emit = defineEmits(['current-change', 'size-change'])
 
 const pageCount = computed(() => {
   if (props.hasnext) {
@@ -36,4 +44,19 @@ const pageCount = computed(() => {
 const handleCurrentChanged = (page: number) => {
   emit('current-change', page)
 }
+
+const pageLimit = computed({
+  get() {
+    return props.pageSize
+  },
+  set(val: number) {
+    emit('size-change', val)
+  },
+})
 </script>
+
+<style lang="scss">
+.tong-pagination-sizes {
+  margin-left: 8px;
+}
+</style>

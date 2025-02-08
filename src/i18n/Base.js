@@ -719,4 +719,20 @@ export default {
     zh: '跳转中...',
     en: 'Jumping...',
   },
+  perPage: {
+    zh: '每页',
+    en: 'Per Page',
+  },
+  items: {
+    zh: '条',
+    en: 'Items',
+  },
+  jumpTo: {
+    zh: '跳转',
+    en: 'Jump to',
+  },
+  page: {
+    zh: '页',
+    en: 'Page',
+  },
 }
