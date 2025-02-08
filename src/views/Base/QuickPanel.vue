@@ -36,8 +36,7 @@
 <script lang="ts" setup>
 import { titleCase, waitAMoment } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
-import type { Menu } from '@/hooks/useMenus'
-import useMenus from '@/hooks/useMenus'
+import { useMenusTools } from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
@@ -82,31 +81,7 @@ watch(showDialog, async (val) => {
 const { te } = useI18n()
 const { t, tl } = useI18nTl('Base')
 
-const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
-
-const { menuList } = useMenus()
-const findParentAndBlock = (path: string) => {
-  let parent: Menu | any = undefined
-  const walk = (menuItem: Menu): boolean => {
-    if (menuItem.path) {
-      const isTarget = menuItem.path === path
-      const isChild = createChildReg(menuItem.path).test(path)
-      if (isChild) {
-        parent = menuItem
-      }
-      return isTarget || isChild
-    } else if (menuItem.children) {
-      return menuItem.children.some((item: Menu) => walk(item))
-    }
-    return false
-  }
-
-  const block = menuList.find((item) => walk(item))
-  return {
-    parentLabel: parent ? t(`components.${parent.title}`) : undefined,
-    blockTitle: block ? t(`components.${block.title}`) : '',
-  }
-}
+const { findParentAndBlock } = useMenusTools()
 
 const withParamsPathReg = /:/
 const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {

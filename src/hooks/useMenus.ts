@@ -1,3 +1,5 @@
+import useI18nTl from './useI18nTl'
+
 export interface Menu {
   title: string
   path?: string
@@ -5,7 +7,7 @@ export interface Menu {
   children?: Menu[]
 }
 
-export default (): {
+const useMenus = (): {
   menuList: Array<Menu>
 } => {
   const monitoring = [
@@ -117,5 +119,39 @@ export default (): {
 
   return {
     menuList,
+  }
+}
+export default useMenus
+
+export const useMenusTools = () => {
+  const { t } = useI18nTl('Base')
+  const { menuList } = useMenus()
+
+  const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
+
+  const findParentAndBlock = (path: string) => {
+    let parent: Menu | any = undefined
+    const walk = (menuItem: Menu): boolean => {
+      if (menuItem.path) {
+        const isTarget = menuItem.path === path
+        const isChild = createChildReg(menuItem.path).test(path)
+        if (isChild) {
+          parent = menuItem
+        }
+        return isTarget || isChild
+      } else if (menuItem.children) {
+        return menuItem.children.some((item: Menu) => walk(item))
+      }
+      return false
+    }
+
+    const block = menuList.find((item) => walk(item))
+    return {
+      parentLabel: parent ? t(`components.${parent.title}`) : undefined,
+      blockTitle: block ? t(`components.${block.title}`) : '',
+    }
+  }
+  return {
+    findParentAndBlock,
   }
 }

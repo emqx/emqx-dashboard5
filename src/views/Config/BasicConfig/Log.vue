@@ -1,5 +1,5 @@
 <template>
-  <div class="log app-wrapper with-padding-top">
+  <div class="log app-wrapper">
     <el-card class="app-card allow-overflow no-padding-bottom">
       <schema-form
         ref="SchemaFormCom"
