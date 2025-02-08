@@ -6,14 +6,22 @@
         meta.count > (meta.limit >= defaultPageSizeOpt[0] ? defaultPageSizeOpt[0] : meta.limit)
       "
       background
-      layout="prev, pager, next, sizes, jumper, total"
+      layout="prev, pager, next, slot"
       :page-sizes="defaultPageSizeOpt"
       v-model:page-size="meta.limit"
       v-model:current-page="meta.page"
       :total="meta.count"
       @size-change="handleSizeChanged"
       @current-change="handleCurrentChanged"
-    />
+    >
+      <TongPaginationExtra
+        :meta-data="meta"
+        :page-sizes="defaultPageSizeOpt"
+        jumper
+        @size-change="handleSizeChanged"
+        @current-change="handleCurrentChanged"
+      />
+    </el-pagination>
     <MiniPagination
       v-else-if="meta.count === -1"
       :current-page="meta.page"
@@ -31,6 +39,7 @@ import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import { computed, watch, PropType, defineProps, defineEmits } from 'vue'
 import MiniPagination from './MiniPagination.vue'
 import { PageData } from '@/types/common'
+import TongPaginationExtra from './TongPaginationExtra.vue'
 
 const props = defineProps({
   metaData: {
@@ -52,6 +61,7 @@ watch(meta, (v) => {
 
 const handleSizeChanged = (size: number) => {
   meta.value.page = 1
+  meta.value.limit = size
   emits('loadPage', {
     page: meta.value.page,
     limit: size,

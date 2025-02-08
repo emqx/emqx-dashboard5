@@ -1064,6 +1064,19 @@
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
 }
+.el-pagination {
+  .tong-pagination-extra {
+    .el-button {
+      color: var(--el-button-text-color);
+      outline: none;
+      background-color: var(--el-button-bg-color);
+      border: var(--el-border);
+      border-color: var(--el-button-border-color);
+      padding: 8px 15px;
+      font-weight: normal;
+    }
+  }
+}
 
 /* Uploader */
 .el-upload-dragger {

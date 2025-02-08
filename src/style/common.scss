@@ -1190,3 +1190,44 @@ code {
     padding-bottom: 4px;
   }
 }
+
+.el-pagination {
+  .tong-pagination-extra {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    >& {
+      flex-grow: 0;
+    }
+    .extra-item {
+      display: flex;
+      align-items: center;
+      &:not(:last-child) {
+        margin-right: 16px;
+      }
+      >& {
+        flex-grow: 0;
+      }
+    }
+  }
+  .tong-size-select,
+  .tong-jumper-input {
+    margin: 0 8px;
+  }
+  .tong-size-select {
+    width: 80px;
+  }
+  .tong-jumper-input {
+    width: 60px;
+  }
+  .tong-size-select {
+    &.el-select {
+      .el-input {
+        width: 100%;
+      }
+    }
+  }
+  .tong-jumper-button {
+    margin-left: 8px;
+  }
+}
