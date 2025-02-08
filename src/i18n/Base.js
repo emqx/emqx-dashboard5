@@ -1,4 +1,8 @@
 export default {
+  tongTitle: {
+    zh: '消息协同服务标准中间件',
+    en: 'Message Collaboration Service Standard Middleware',
+  },
   forgetPassword: {
     zh: '忘记密码？',
     en: 'Forgot your password?',

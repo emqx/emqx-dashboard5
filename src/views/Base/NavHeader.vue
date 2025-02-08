@@ -4,7 +4,7 @@
       <router-link :class="['logo']" to="/">
         <img src="@/assets/img/tongtech.svg" alt="emqx-logo" />
       </router-link>
-      <h1 class="header-title">{{ title }}</h1>
+      <h1 class="header-title">{{ t('Base.tongTitle') }}</h1>
     </div>
     <div class="pull-right">
       <div class="quick-panel-enter" @click="openQuickPanel">

@@ -29,6 +29,9 @@
       <el-main :style="{ marginLeft: elMainStyle }">
         <div class="main-content" :class="{ 'bg-white': isWhiteBg }">
           <el-scrollbar>
+            <!-- <div class="title-bar">
+              <h1>{{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}</h1>
+            </div> -->
             <el-menu
               v-if="hasSubMenu && showSubMenu"
               :default-active="defaultSubMenu"
@@ -316,6 +319,16 @@ $header-heigh: 52px;
   position: fixed;
   z-index: 101;
   transition: all 0.3s;
+}
+
+.title-bar {
+  background: var(--color-bg);
+  padding: 16px;
+  h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+  }
 }
 
 .top-submenu {
