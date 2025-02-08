@@ -6,9 +6,7 @@
       </el-radio-button>
     </el-radio-group>
     <div class="section-searchbar" :gutter="16">
-      <el-tooltip :content="$t('Base.add')" placement="top">
-        <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
-      </el-tooltip>
+      <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
       <div class="searchbar-content">
         <template v-if="!isTypeAll">
           <el-input
@@ -18,12 +16,8 @@
             @clear="resetPageAndLoadData"
             @keyup.enter="resetPageAndLoadData"
           />
-          <el-tooltip :content="$t('Base.search')" placement="top">
-            <SearchButton @click="resetPageAndLoadData" />
-          </el-tooltip>
-          <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <RefreshButton class="icon-button" no-text @click="loadData" />
-          </el-tooltip>
+          <SearchButton @click="resetPageAndLoadData" />
+          <RefreshButton @click="loadData" />
         </template>
       </div>
     </div>

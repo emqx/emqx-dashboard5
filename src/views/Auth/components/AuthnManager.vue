@@ -5,9 +5,9 @@
         <template v-if="mechanism === 'password_based'">
           <authn-users-import @uploadedData="loadData" />
         </template>
-        <el-tooltip :content="$t('Base.add')" placement="top">
-          <CreateButton class="icon-button" no-text @click="addCommand" />
-        </el-tooltip>
+        <CreateButton @click="addCommand">
+          {{ t('Base.add') }}
+        </CreateButton>
       </div>
 
       <div class="searchbar">
@@ -28,12 +28,8 @@
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
-          <el-tooltip :content="$t('Base.search')" placement="top">
-            <SearchButton no-text @click="resetPageAndLoadData" />
-          </el-tooltip>
-          <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <RefreshButton class="icon-button" no-text @click="loadData" />
-          </el-tooltip>
+          <SearchButton @click="resetPageAndLoadData" />
+          <RefreshButton @click="loadData" />
         </el-space>
       </div>
     </div>
