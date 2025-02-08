@@ -96,13 +96,7 @@
                 :content="!showMoreQuery ? t('Base.showMore') : $t('Base.lessMore')"
                 placement="top"
               >
-                <el-button
-                  class="icon-button"
-                  plain
-                  :icon="showMoreQuery ? ArrowUp : ArrowDown"
-                  @click="showMoreQuery = !showMoreQuery"
-                >
-                </el-button>
+                <ShowMoreButton v-model="showMoreQuery" />
               </el-tooltip>
             </el-col>
           </el-row>
@@ -198,7 +192,7 @@ import {
   AuditLogOperationResult,
   GetAuditParams,
 } from '@/types/typeAlias'
-import { ArrowDown, ArrowUp, Setting } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 import { pickBy, toUpper } from 'lodash'
 import moment from 'moment'
 import { Ref, computed, reactive, ref } from 'vue'
