@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper delayed-config with-padding-top">
+  <div class="app-wrapper delayed-config">
     <el-card class="app-card allow-overflow no-padding-bottom" v-loading="isLoading">
       <div class="schema-form">
         <el-form

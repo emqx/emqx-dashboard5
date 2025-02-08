@@ -153,7 +153,6 @@ addNewTab()
 
 <style lang="scss" scoped>
 .websocket {
-  padding-top: 16px;
   .el-tabs.detail-tabs {
     margin-bottom: 0;
     border-bottom: none;

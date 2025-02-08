@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { loadAlarm } from '@/api/common'
 import { getSysMon, updateSysMon } from '@/api/config'
-import { customValidate } from '@/common/tools'
+import { checkNOmitFromObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { AlarmSettings } from '@/types/config'
@@ -70,7 +70,7 @@ const handleSave = async (val: AlarmSettings) => {
   try {
     await customValidate(SchemaFormCom.value)
     saveLoading.value = true
-    const data = { ...val }
+    const data = checkNOmitFromObj({ ...val }) as AlarmSettings
     await updateSysMon(data)
     refreshAlarmList()
     ElMessage.success(t('Base.updateSuccess'))

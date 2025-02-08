@@ -11,4 +11,9 @@
   margin-top: 16px;
   margin-bottom: 16px;
 }
+.title-bar + div {
+  > .app-wrapper.list-page {
+    margin-top: 0;
+  }
+}
 </style>

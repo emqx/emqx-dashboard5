@@ -1,5 +1,5 @@
 <template>
-  <div class="license app-wrapper with-padding-top">
+  <div class="license app-wrapper">
     <el-card class="license-card app-card">
       <div class="license-info">
         <el-descriptions :title="tl('basic')" :column="1">

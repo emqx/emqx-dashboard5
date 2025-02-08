@@ -29,11 +29,12 @@
       <el-main :style="{ marginLeft: elMainStyle }">
         <div class="main-content" :class="{ 'bg-white': isWhiteBg }">
           <el-scrollbar>
-            <!-- <div class="title-bar">
+            <div class="title-bar" v-if="showPageTitle">
               <h1>{{ !isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound') }}</h1>
-            </div> -->
+              <span class="page-block-label">{{ pageBlockLabel }}</span>
+            </div>
             <el-menu
-              v-if="hasSubMenu && showSubMenu"
+              v-if="isSubMenuShow"
               :default-active="defaultSubMenu"
               :key="defaultSubMenu"
               mode="horizontal"
@@ -75,6 +76,7 @@
 <script lang="ts">
 import { loadLicenseInfo } from '@/api/common'
 import EMQXVersion from '@/components/EMQXVersion.vue'
+import { useMenusTools } from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
@@ -139,6 +141,7 @@ export default defineComponent({
       const { meta } = topLvRoute.value
       return meta && meta.subMenu
     })
+
     const showSubMenu = computed(() => {
       const { meta } = topLvRoute.value
       const showSubMenuInFirstLevel = meta.showSubMenuInFirstLevel || false
@@ -187,6 +190,19 @@ export default defineComponent({
       return whiteBgRouteNames.includes(route.name as string)
     })
 
+    const firstLevelPathReg = /^[^/]*\/[^/]+$/
+    const isFirstLevel = computed(() => firstLevelPathReg.test(route.path))
+
+    const isSubMenuShow = computed(() => hasSubMenu.value && showSubMenu.value)
+    const showPageTitle = computed(() => isFirstLevel.value && !isSubMenuShow.value)
+    const { findParentAndBlock } = useMenusTools()
+    const pageBlockLabel = computed(() => {
+      if (!showPageTitle.value) {
+        return ''
+      }
+      return findParentAndBlock(route.path).blockTitle
+    })
+
     onBeforeRouteUpdate((to) => {
       if (
         to &&
@@ -226,8 +242,9 @@ export default defineComponent({
       elMainStyle,
       topLvRoute,
       defaultSubMenu,
-      hasSubMenu,
-      showSubMenu,
+      showPageTitle,
+      pageBlockLabel,
+      isSubMenuShow,
       leftBarCollapse,
       fullHeight,
       isWhiteBg,
@@ -322,12 +339,21 @@ $header-heigh: 52px;
 }
 
 .title-bar {
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 16px;
+  line-height: 1;
   background: var(--color-bg);
-  padding: 16px;
   h1 {
     margin: 0;
     font-size: 20px;
     font-weight: 500;
+    margin-right: 16px;
+  }
+  .page-block-label {
+    font-size: 14px;
+    color: var(--color-grey-2);
+    font-weight: 400;
   }
 }
 
