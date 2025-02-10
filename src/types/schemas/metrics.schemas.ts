@@ -316,6 +316,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   connections?: number
   disconnected_durable_sessions?: number
   dropped_msg_rate?: number
+  license_quota?: number
   live_connections?: number
   node_uptime?: number
   persisted_rate?: number
@@ -336,6 +337,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   connections?: number
   disconnected_durable_sessions?: number
   dropped_msg_rate?: number
+  license_quota?: number
   live_connections?: number
   persisted_rate?: number
   received_msg_rate?: number
