@@ -37,7 +37,7 @@ const configView = `dashboard {
       enable = true
       backend = tongauth
       auth_server_addr = "http://168.1.15.162:11111"
-      dashboard_addr = "${dashboard_addr}"AI
+      dashboard_addr = "${dashboard_addr}"
       client_id = tongmmp_yunjian_oauth2
       client_secret = "b2c3d4e5-f678-9c0a-1b2f-4567890abcde"
     }
