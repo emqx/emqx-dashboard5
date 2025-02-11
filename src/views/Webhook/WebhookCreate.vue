@@ -24,25 +24,55 @@ import { postConnector } from '@/api/connector'
 import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, customValidate, getBridgeKey } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
+import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
+import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useI18nTl from '@/hooks/useI18nTl'
+import { RuleSQLKeyword } from '@/types/enum'
 import { WebhookForm } from '@/types/webhook'
 import { ElMessage } from 'element-plus'
+import { escapeRegExp } from 'lodash'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import WebhookFormCom from './components/WebhookForm.vue'
 
 const { t, tl } = useI18nTl('Base')
 const router = useRouter()
+const { query } = useRoute()
 
 const FormCom = ref()
 
 const { createRawWebhookForm, getRuleIdByName, getActionNameByName, syncHeaders } = useWebhookForm()
+const { getEventList } = useRuleEvents()
+const { transFromDataArrToStr, replaceTargetPartInSQL } = useRuleUtils()
+
+const checkTriggerInQuery = () => {
+  const trigger = query.trigger
+  return trigger?.toString()
+}
+
+const replaceTriggerInSQL = async (preSql: string, triggerInQuery: string) => {
+  try {
+    const triggerReg = new RegExp(`${escapeRegExp(triggerInQuery)}`)
+    const ruleEvents = await getEventList()
+    const events = ruleEvents
+      .filter(({ event }) => triggerReg.test(event))
+      .map(({ event }) => event)
+    const fromPart = transFromDataArrToStr(events)
+    return replaceTargetPartInSQL(preSql, RuleSQLKeyword.From, fromPart)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 
 const webhook: Ref<WebhookForm | undefined> = ref(undefined)
 const initForm = async () => {
   webhook.value = await createRawWebhookForm()
+  const triggerInQuery = checkTriggerInQuery()
+  if (triggerInQuery) {
+    webhook.value.rule.sql = await replaceTriggerInSQL(webhook.value.rule.sql, triggerInQuery)
+  }
 }
 initForm()
 
