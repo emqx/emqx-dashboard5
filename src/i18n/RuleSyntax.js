@@ -1064,7 +1064,7 @@ export default {
   },
   hexstr2BinDesc: {
     zh: 'Hex 字符串转为二进制数据',
-    en: 'Binary to Hex String',
+    en: 'Hex String to Hex String',
   },
   hexstr2BinParams: {
     zh: 'Hex 字符串',
