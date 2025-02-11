@@ -219,6 +219,7 @@ export interface OpentelemetryTraceFilter {
 
 export interface OpentelemetryOtelTraces {
   enable?: boolean
+  max_queue_size?: number
   scheduled_delay?: string
   filter?: OpentelemetryTraceFilter
 }

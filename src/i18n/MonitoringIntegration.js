@@ -146,6 +146,14 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     // Must have a space at the beginning
     en: ' Export Interval',
   },
+  maxQueueSize: {
+    zh: '最大队列大小',
+    en: 'Max Queue Size',
+  },
+  maxQueueSizeDesc: {
+    zh: '最大队列大小。当达到此大小时，Open Telemetry 信号将被丢弃。',
+    en: 'The maximum queue size. After the size is reached Open Telemetry signals are dropped.',
+  },
   enableBasicAuth: {
     zh: '启用基本认证',
     en: 'Enable Basic Auth',
@@ -245,6 +253,14 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
   traceMessage: {
     zh: '跟踪消息',
     en: 'Trace Message',
+  },
+  followTraceparent: {
+    zh: '跟随 Traceparent',
+    en: 'Follow Traceparent',
+  },
+  followTraceparentDesc: {
+    zh: '是否跟随客户端通过 User-Property 传入的 Traceparent 标识',
+    en: 'Whether to follow the traceparent passed in by the client through User-Property.',
   },
   traceSamplingRatio: {
     zh: '跟踪抽样频率',
