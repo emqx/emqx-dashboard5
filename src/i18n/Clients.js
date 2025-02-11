@@ -415,6 +415,26 @@ export default {
     zh: '来自于用户名',
     en: 'From Username',
   },
+  name: {
+    zh: '警报名称',
+    en: 'Alarm Name',
+  },
+  details: {
+    zh: '告警消息',
+    en: 'Alarm Message',
+  },
+  message: {
+    zh: '警报信息',
+    en: 'Alarm Message',
+  },
+  activated_at: {
+    zh: '开始时间',
+    en: 'Activated At',
+  },
+  deactivated_at: {
+    zh: '解除时间',
+    en: 'Deactivated At',
+  },
   reason: {
     zh: '原因',
     en: 'Reason',
