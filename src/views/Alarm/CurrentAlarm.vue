@@ -4,6 +4,9 @@
       <div></div>
       <el-tooltip link :content="tl('setupWebhookDesc')" placement="top">
         <router-link class="el-button" :to="alarmWebhookRoute">
+          <el-icon :size="16">
+            <i class="iconfont icon-webhook"></i>
+          </el-icon>
           {{ tl('setUpWebhook') }}
         </router-link>
       </el-tooltip>
@@ -113,4 +116,10 @@ loadData()
 
 <style lang="scss">
 @import '~@/style/alarm.scss';
+.alarm {
+  .icon-webhook {
+    font-size: 13.5px;
+    margin-right: 6px;
+  }
+}
 </style>

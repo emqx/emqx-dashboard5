@@ -242,7 +242,6 @@ const getSchemaBridgeProps = (type: string) => ({
   isSource: props.node?.type === FlowNodeType.Input,
   isUsingInFlow: true,
   labelWidth: '180px',
-  hiddenFields: ['role'],
   type: type,
 })
 

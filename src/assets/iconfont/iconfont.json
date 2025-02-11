@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "43312615",
+      "name": "webhook",
+      "font_class": "webhook",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "42670784",
+      "name": "Stream",
+      "font_class": "Stream",
+      "unicode": "e809",
+      "unicode_decimal": 59401
+    },
+    {
       "icon_id": "40606647",
       "name": "x",
       "font_class": "x",

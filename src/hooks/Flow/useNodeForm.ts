@@ -89,12 +89,10 @@ export default (): {
   const formDataCreatorMap = {
     [SourceType.Message]: createMessageForm,
     [SourceType.Event]: createEventForm,
-    [SourceType.GCP]: () => ({ role: Role.Consumer }),
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
-    [SinkType.GCP]: () => ({ role: Role.Producer }),
     [SinkType.InfluxDB]: createRawInfluxDBForm,
     [SinkType.Datalayers]: createRawDataLayersForm,
     [SinkType.Pulsar]: emptyCreator,
