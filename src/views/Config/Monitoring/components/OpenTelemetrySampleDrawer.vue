@@ -29,6 +29,16 @@
       <el-form-item :label="tl('traceMessage')">
         <el-switch v-model="traceConf.client_messaging" />
       </el-form-item>
+      <el-form-item>
+        <template #label>
+          <FormItemLabel
+            :label="tl('followTraceparent')"
+            :desc="tl('followTraceparentDesc')"
+            desc-marked
+          />
+        </template>
+        <el-switch v-model="traceConf.follow_traceparent" />
+      </el-form-item>
       <el-form-item prop="sample_ratio">
         <template #label>
           <FormItemLabel
