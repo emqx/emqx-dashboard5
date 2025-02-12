@@ -1,12 +1,5 @@
 <template>
-  <el-form
-    class="ldap-form"
-    ref="FormCom"
-    require-asterisk-position="right"
-    :model="formData"
-    :rules="rules"
-    :label-width="150"
-  >
+  <el-form class="ldap-form" ref="FormCom" :model="formData" :rules="rules" :label-width="150">
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'LDAP' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
