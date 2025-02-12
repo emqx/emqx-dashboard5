@@ -4,6 +4,7 @@
     v-model="showDialog"
     :lock-scroll="false"
     :close-on-click-modal="false"
+    :before-close="handleClose"
     size="50%"
     :z-index="1999"
     class="listener-drawer"
@@ -429,7 +430,7 @@
       </advanced-setting-container>
     </el-form>
     <template #footer>
-      <el-button @click="showDialog = false">
+      <el-button @click="cancel">
         {{ $t('Base.cancel') }}
       </el-button>
       <el-button v-if="canBeDeleted" type="danger" plain @click="onDelete">
@@ -508,6 +509,7 @@ const {
   showWSConfig,
   listenerFormRules,
   submit,
+  confirmClose,
   onDelete,
   handleTLSVerifyChange,
 } = useListenerDrawer(props, emit)
@@ -519,6 +521,16 @@ const isQUIC = computed(() => listenerRecord.value.type === ListenerType.QUIC)
 const isWSS = computed(() => listenerRecord.value.type === ListenerType.WSS)
 
 const typesWithoutMaxConnectionRate = [ListenerType.WS, ListenerType.WSS, ListenerType.QUIC]
+
+const cancel = async () => {
+  await confirmClose()
+  showDialog.value = false
+}
+
+const handleClose = async (done: (cancel?: boolean) => void) => {
+  await confirmClose()
+  done()
+}
 </script>
 
 <style lang="scss">

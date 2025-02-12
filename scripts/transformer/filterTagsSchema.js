@@ -189,9 +189,28 @@ const handleSourceJSON = (swaggerJSON) => {
   return swaggerJSON
 }
 
+const sortMetricsKey = (metrics) => {
+  const sortedMetrics = Object.keys(metrics).sort((a, b) => a.localeCompare(b))
+  const sortedMetricsObj = sortedMetrics.reduce((obj, key) => {
+    obj[key] = metrics[key]
+    return obj
+  }, {})
+  return sortedMetricsObj
+}
+const handleMetricsJSON = (swaggerJSON) => {
+  const handleTarget = (key) => {
+    const targetObj = swaggerJSON.components.schemas[key].properties
+    swaggerJSON.components.schemas[key].properties = sortMetricsKey(targetObj)
+  }
+  handleTarget('emqx_dashboard_monitor_api.sampler_current')
+  handleTarget('emqx_dashboard_monitor_api.sampler_current_node')
+  return swaggerJSON
+}
+
 const specialHandlers = new Map([
   ['Actions', handleActionJSON],
   ['Sources', handleSourceJSON],
+  ['Metrics', handleMetricsJSON],
 ])
 
 const filterTargetSchema = (swaggerJSON, tag) => {

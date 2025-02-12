@@ -12,6 +12,7 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column prop="api_key" label="API Key" />
       <el-table-column prop="expired_at" :label="tl('expireAt')">
         <template #default="{ row }">
           {{ expiredAt(row.expired_at) }}

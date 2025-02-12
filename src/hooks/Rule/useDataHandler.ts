@@ -9,7 +9,6 @@ const keysDoNotNeedForAPI = [
   'status',
   'status_reason',
   'error',
-  'role',
   'idForRuleFrom',
   'actions',
   'id',

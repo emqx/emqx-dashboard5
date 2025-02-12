@@ -43,6 +43,8 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, PropType, watch } from 'vue'
 import Monaco from '@/components/Monaco.vue'
+import { isJSONString, stringifyObjSafely } from '@emqx/shared-ui-utils'
+import { isEqual } from 'lodash'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'
 
@@ -65,18 +67,34 @@ const payloadEditorHeight = ref(200)
 
 const record = ref<{ [key: string]: string }>(props.modelValue)
 
+let previousModelValue: Record<string, string> | undefined = undefined
 watch(
   () => props.modelValue,
   (val) => {
+    if (isEqual(previousModelValue, val)) {
+      return
+    }
     if (val) {
-      record.value = val
+      record.value = Object.entries(val).reduce((acc: Record<string, string>, [key, value]) => {
+        acc[key] = typeof value === 'object' ? stringifyObjSafely(value) : value
+        return acc
+      }, {})
     }
   },
 )
 
-watch(record, (val) => {
-  emit('update:modelValue', val)
-})
+watch(
+  record,
+  (val) => {
+    const data = { ...val }
+    if (data.details && isJSONString(data.details)) {
+      data.details = JSON.parse(data.details)
+    }
+    previousModelValue = { ...data }
+    emit('update:modelValue', data)
+  },
+  { deep: true },
+)
 </script>
 
 <style lang="scss" scoped>

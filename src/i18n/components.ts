@@ -24,8 +24,8 @@ export default {
     en: 'Management',
   },
   diagnose: {
-    zh: '问题分析',
-    en: 'Diagnose',
+    zh: '诊断工具',
+    en: 'Diagnostics Tools',
   },
   acl: {
     zh: 'ACL',
@@ -89,7 +89,7 @@ export default {
   },
   rule: {
     zh: '规则',
-    en: 'Rule',
+    en: 'Rules',
   },
   rules: {
     zh: '规则',
@@ -108,8 +108,8 @@ export default {
     en: 'Create Flow',
   },
   webhook: {
-    zh: 'Webhook',
-    en: 'Webhook',
+    zh: 'Webhooks',
+    en: 'Webhooks',
   },
   'webhook-create': {
     zh: '创建 Webhook',
@@ -157,7 +157,7 @@ export default {
   },
   extension: {
     zh: '扩展',
-    en: 'Extension',
+    en: 'Extensions',
   },
   'mqtt-system-topic': {
     zh: '系统主题',
@@ -172,12 +172,12 @@ export default {
     en: 'Gateways',
   },
   exhook: {
-    zh: 'ExHook',
-    en: 'ExHook',
+    zh: 'ExHooks',
+    en: 'ExHooks',
   },
   'api-key': {
     zh: 'API 密钥',
-    en: 'API Key',
+    en: 'API Keys',
   },
   'banned-clients': {
     zh: '黑名单',
@@ -257,11 +257,11 @@ export default {
   },
   'log-trace': {
     zh: '日志追踪',
-    en: 'Log Trace',
+    en: 'Log Traces',
   },
   connector: {
     zh: '连接器',
-    en: 'Connector',
+    en: 'Connectors',
   },
   extensions: {
     zh: '插件扩展',
@@ -269,7 +269,7 @@ export default {
   },
   'mqtt-session': {
     zh: '会话',
-    en: 'Session',
+    en: 'Sessions',
   },
   'mqtt-retainer': {
     zh: '保留消息',
