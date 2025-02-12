@@ -21,15 +21,7 @@
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="isWebhookRule"
-              @click="deleteRule"
-              plain
-            >
-            </el-button>
+            <DeleteButton :disabled="isWebhookRule" @click="deleteRule" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -91,7 +83,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
-import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isEqual, lowerCase } from 'lodash'
 import type { ComputedRef, Ref } from 'vue'

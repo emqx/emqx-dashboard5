@@ -20,8 +20,7 @@
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -71,7 +70,6 @@
 
 <script setup lang="ts">
 import { computed, ref, Ref } from 'vue'
-import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'

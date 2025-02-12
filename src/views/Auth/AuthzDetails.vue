@@ -17,8 +17,7 @@
             <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -88,7 +87,6 @@
 import { computed, defineComponent, ref } from 'vue'
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { Delete } from '@element-plus/icons-vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { loadAuthz, deleteAuthz, updateAuthz } from '@/api/auth'
 import FileConfig from './components/FileConfig.vue'
@@ -242,7 +240,6 @@ export default defineComponent({
     initData()
 
     return {
-      Delete,
       type,
       currImg,
       currTab,

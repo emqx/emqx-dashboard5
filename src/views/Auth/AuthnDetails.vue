@@ -23,8 +23,7 @@
             <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -38,8 +37,7 @@
             <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </div>
       </div>
@@ -111,7 +109,6 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox as MB, ElMessage as M } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
 import { isFunction, isUndefined, omit } from 'lodash'
 import { queryAuthnItemMetrics, updateAuthn, deleteAuthn, loadAuthn } from '@/api/auth'
 import { LDAPAuthMethod } from '@/types/enum'
@@ -380,7 +377,6 @@ export default defineComponent({
     initData()
 
     return {
-      Delete,
       currBackend,
       refreshLoading,
       currTab,

@@ -30,8 +30,7 @@
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -117,7 +116,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
-import { Delete, Share } from '@element-plus/icons-vue'
+import { Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, omit } from 'lodash'
 import type { Ref } from 'vue'

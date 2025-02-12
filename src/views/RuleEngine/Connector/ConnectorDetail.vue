@@ -27,19 +27,14 @@
             />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
+            <DeleteButton
               :disabled="isWebhookConnector"
               @click="
                 handleDeleteConnector(connectorData, () => {
                   $router.push({ name: 'connector' })
                 })
               "
-              plain
-            >
-            </el-button>
+            />
           </el-tooltip>
         </template>
       </detail-header>
@@ -134,7 +129,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { lowerCase } from 'lodash'
 import { computed, defineProps, ref } from 'vue'

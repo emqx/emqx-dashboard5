@@ -30,15 +30,7 @@
           :content="record.connected ? tl('kickOut') : tl('cleanSession')"
           placement="top"
         >
-          <el-button
-            v-if="doesTheClientExist"
-            class="icon-button"
-            type="danger"
-            :icon="Delete"
-            plain
-            @click="handleDisconnect"
-          >
-          </el-button>
+          <DeleteButton v-if="doesTheClientExist" @click="handleDisconnect" />
         </el-tooltip>
       </div>
     </div>
@@ -217,7 +209,7 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
-import { Delete, Warning } from '@element-plus/icons-vue'
+import { Warning } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'

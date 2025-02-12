@@ -48,15 +48,7 @@
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="isWebhookAction"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
+            <DeleteButton :disabled="isWebhookAction" @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -162,7 +154,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { Delete, Share } from '@element-plus/icons-vue'
+import { Share } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import _ from 'lodash'
 import type { Ref } from 'vue'

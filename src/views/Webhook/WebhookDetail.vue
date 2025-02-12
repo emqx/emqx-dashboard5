@@ -23,15 +23,7 @@
             </span>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              @click="handleDeleteWebhook"
-              :loading="deleteLoading"
-              plain
-            >
-            </el-button>
+            <DeleteButton :loading="deleteLoading" @click="handleDeleteWebhook" />
           </el-tooltip>
         </template>
       </detail-header>
@@ -80,7 +72,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
-import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
