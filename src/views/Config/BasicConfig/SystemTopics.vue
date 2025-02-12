@@ -7,7 +7,6 @@
           ref="retainerForm"
           class="configuration-form schema-form"
           label-position="right"
-          require-asterisk-position="left"
           :rules="rules"
           :model="sysTopics"
           :label-width="store.state.lang === 'zh' ? 192 : 270"

@@ -6,12 +6,7 @@
     destroy-on-close
     class="settings"
   >
-    <el-form
-      class="configuration-form"
-      label-position="top"
-      require-asterisk-position="left"
-      :model="record"
-    >
+    <el-form class="configuration-form" label-position="top" :model="record">
       <el-row class="settings-form">
         <el-col :span="24">
           <el-form-item prop="lang">
