@@ -3,9 +3,7 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button type="primary" @click="getTableData">
-          {{ $t('Base.refresh') }}
-        </el-button>
+        <RefreshButton @click="getTableData" />
       </div>
     </div>
     <el-table :data="nodeList" v-loading.lock="isTableLoading">
