@@ -1,15 +1,8 @@
 <template>
   <div class="authn-users-import">
-    <el-tooltip :content="$t('Auth.importUsers')" placement="top">
-      <el-button
-        class="icon-button"
-        type="primary"
-        plain
-        :icon="Upload"
-        @click="dialogVisible = true"
-      >
-      </el-button>
-    </el-tooltip>
+    <el-button type="primary" plain :icon="Upload" @click="dialogVisible = true">
+      {{ t('Auth.importUsers') }}
+    </el-button>
 
     <el-dialog
       :title="$t('Auth.importUsers')"

@@ -15,17 +15,11 @@
             @clear="resetPageAndLoadData"
             @keyup.enter="resetPageAndLoadData"
           />
-          <el-tooltip :content="$t('Base.search')" placement="top">
-            <SearchButton @click="resetPageAndLoadData" />
-          </el-tooltip>
-          <el-tooltip :content="$t('Base.refresh')" placement="top">
-            <RefreshButton class="icon-button" no-text @click="loadData" />
-          </el-tooltip>
+          <SearchButton @click="resetPageAndLoadData" />
+          <RefreshButton @click="loadData" />
         </template>
       </div>
-      <el-tooltip :content="$t('Base.add')" placement="top">
-        <CreateButton class="icon-button" @click="handleAdd" no-text />
-      </el-tooltip>
+      <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
     </div>
     <el-table
       ref="tableCom"
@@ -614,6 +608,7 @@ export default defineComponent({
       searchVal,
       actionOpts,
       permissionOpts,
+      t,
       loadData,
       getRules,
       handleAdd,
