@@ -861,6 +861,7 @@ const SchemaForm = defineComponent({
     const getFormProps = () => ({
       ...defaultFormProps,
       disabled: props.disabled,
+      'hide-required-asterisk': props.readonly ? true : undefined,
       ...(props.formProps || {}),
     })
     const rowGutter = computed(() => (props.formItemSpan <= 12 ? 24 : 0))

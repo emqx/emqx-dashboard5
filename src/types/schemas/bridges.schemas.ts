@@ -592,6 +592,32 @@ export const RocketmqGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface RocketmqGet {
+  status?: RocketmqGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: RocketmqGetType
+  name: string
+  enable?: boolean
+  template?: string
+  local_topic?: string
+  strategy?: RocketmqGetStrategy
+  resource_opts?: ResourceSchemaCreationOpts
+  servers: string
+  namespace?: string
+  topic?: string
+  access_key?: string
+  secret_key?: string
+  security_token?: string
+  sync_timeout?: string
+  refresh_interval?: string
+  send_buffer?: string
+  pool_size?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+}
+
 export type ResourceSchemaCreationOptsRequestTtl = 'infinity' | string
 
 export type ResourceSchemaCreationOptsQueryMode =
@@ -623,32 +649,6 @@ export interface ResourceSchemaCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface RocketmqGet {
-  status?: RocketmqGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: RocketmqGetType
-  name: string
-  enable?: boolean
-  template?: string
-  local_topic?: string
-  strategy?: RocketmqGetStrategy
-  resource_opts?: ResourceSchemaCreationOpts
-  servers: string
-  namespace?: string
-  topic?: string
-  access_key?: string
-  secret_key?: string
-  security_token?: string
-  sync_timeout?: string
-  refresh_interval?: string
-  send_buffer?: string
-  pool_size?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
 }
 
 export interface PulsarProducerPulsarMessage {
@@ -1303,6 +1303,29 @@ export const BridgeRedisGetSingleRedisType = {
   single: 'single',
 } as const
 
+export interface BridgeRedisGetSingle {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  local_topic?: string
+  command_template: string[]
+  resource_opts?: BridgeRedisCreationOptsRedisSingle
+  server: string
+  redis_type?: BridgeRedisGetSingleRedisType
+  pool_size?: number
+  username?: string
+  password?: string
+  database?: number
+  /** @deprecated */
+  auto_reconnect?: boolean
+  ssl?: EmqxSslClientOpts
+  type: BridgeRedisGetSingleType
+  name: string
+  status?: BridgeRedisGetSingleStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+}
+
 export type BridgeRedisGetSentinelStatus =
   (typeof BridgeRedisGetSentinelStatus)[keyof typeof BridgeRedisGetSentinelStatus]
 
@@ -1434,29 +1457,6 @@ export interface BridgeRedisCreationOptsRedisSingle {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeRedisGetSingle {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  local_topic?: string
-  command_template: string[]
-  resource_opts?: BridgeRedisCreationOptsRedisSingle
-  server: string
-  redis_type?: BridgeRedisGetSingleRedisType
-  pool_size?: number
-  username?: string
-  password?: string
-  database?: number
-  /** @deprecated */
-  auto_reconnect?: boolean
-  ssl?: EmqxSslClientOpts
-  type: BridgeRedisGetSingleType
-  name: string
-  status?: BridgeRedisGetSingleStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
 }
 
 export type BridgeRedisCreationOptsRedisSentinelRequestTtl = 'infinity' | string
@@ -1621,32 +1621,6 @@ export const BridgeRabbitmqGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface BridgeRabbitmqGet {
-  status?: BridgeRabbitmqGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeRabbitmqGetType
-  name: string
-  enable?: boolean
-  local_topic?: string
-  resource_opts?: BridgeRabbitmqCreationOpts
-  server?: string
-  port?: number
-  username: string
-  password: string
-  pool_size?: number
-  timeout?: string
-  virtual_host?: string
-  heartbeat?: string
-  ssl?: EmqxSslClientOpts
-  wait_for_publish_confirmations?: boolean
-  publish_confirmation_timeout?: string
-  exchange: string
-  routing_key: string
-  delivery_mode?: BridgeRabbitmqGetDeliveryMode
-  payload_template?: string
-}
-
 export type BridgeRabbitmqCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeRabbitmqCreationOptsQueryMode =
@@ -1680,6 +1654,32 @@ export interface BridgeRabbitmqCreationOpts {
   max_buffer_bytes?: string
 }
 
+export interface BridgeRabbitmqGet {
+  status?: BridgeRabbitmqGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeRabbitmqGetType
+  name: string
+  enable?: boolean
+  local_topic?: string
+  resource_opts?: BridgeRabbitmqCreationOpts
+  server?: string
+  port?: number
+  username: string
+  password: string
+  pool_size?: number
+  timeout?: string
+  virtual_host?: string
+  heartbeat?: string
+  ssl?: EmqxSslClientOpts
+  wait_for_publish_confirmations?: boolean
+  publish_confirmation_timeout?: string
+  exchange: string
+  routing_key: string
+  delivery_mode?: BridgeRabbitmqGetDeliveryMode
+  payload_template?: string
+}
+
 export type BridgePulsarPutProducerStrategy =
   (typeof BridgePulsarPutProducerStrategy)[keyof typeof BridgePulsarPutProducerStrategy]
 
@@ -1711,6 +1711,23 @@ export interface BridgePulsarProducerResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export type BridgePulsarProducerBufferMode =
+  (typeof BridgePulsarProducerBufferMode)[keyof typeof BridgePulsarProducerBufferMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgePulsarProducerBufferMode = {
+  memory: 'memory',
+  disk: 'disk',
+  hybrid: 'hybrid',
+} as const
+
+export interface BridgePulsarProducerBuffer {
+  mode?: BridgePulsarProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
+  memory_overload_protection?: boolean
 }
 
 export interface BridgePulsarPutProducer {
@@ -1963,6 +1980,14 @@ export interface BridgePgsqlGet {
   ssl?: EmqxSslClientOpts
 }
 
+export type BridgeOraclePutRole = (typeof BridgeOraclePutRole)[keyof typeof BridgeOraclePutRole]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeOraclePutRole = {
+  normal: 'normal',
+  sysdba: 'sysdba',
+} as const
+
 export interface BridgeOraclePut {
   enable?: boolean
   sql?: string
@@ -1971,6 +1996,7 @@ export interface BridgeOraclePut {
   server: string
   sid?: string
   service_name?: string
+  role?: BridgeOraclePutRole
   pool_size?: number
   username: string
   password?: string
@@ -1995,6 +2021,7 @@ export interface BridgeOraclePost {
   server: string
   sid?: string
   service_name?: string
+  role?: BridgeOraclePostRole
   pool_size?: number
   username: string
   password?: string
@@ -2033,6 +2060,7 @@ export interface BridgeOracleGet {
   server: string
   sid?: string
   service_name?: string
+  role?: BridgeOracleGetRole
   pool_size?: number
   username: string
   password?: string
@@ -2310,6 +2338,34 @@ export const BridgeMqttGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeMqttGet {
+  status?: BridgeMqttGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeMqttCreationOpts
+  /** @deprecated */
+  mode?: BridgeMqttGetMode
+  server: string
+  clientid_prefix?: string
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
+  /** @deprecated */
+  reconnect_interval?: string
+  proto_ver?: BridgeMqttGetProtoVer
+  bridge_mode?: boolean
+  username?: string
+  password?: string
+  clean_start?: boolean
+  keepalive?: string
+  retry_interval?: string
+  max_inflight?: number
+  ssl?: EmqxSslClientOpts
+  ingress?: ConnectorMqttIngress
+  egress?: ConnectorMqttEgress
+}
+
 export type BridgeMqttCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeMqttCreationOptsQueryMode =
@@ -2339,34 +2395,6 @@ export interface BridgeMqttCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeMqttGet {
-  status?: BridgeMqttGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeMqttCreationOpts
-  /** @deprecated */
-  mode?: BridgeMqttGetMode
-  server: string
-  clientid_prefix?: string
-  static_clientids?: ConnectorMqttStaticClientidEntry[]
-  /** @deprecated */
-  reconnect_interval?: string
-  proto_ver?: BridgeMqttGetProtoVer
-  bridge_mode?: boolean
-  username?: string
-  password?: string
-  clean_start?: boolean
-  keepalive?: string
-  retry_interval?: string
-  max_inflight?: number
-  ssl?: EmqxSslClientOpts
-  ingress?: ConnectorMqttIngress
-  egress?: ConnectorMqttEgress
 }
 
 export type BridgeMongodbPutSingleUseLegacyProtocol =
@@ -2892,6 +2920,32 @@ export const BridgeMongodbGetRsStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeMongodbGetRs {
+  status?: BridgeMongodbGetRsStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  mongo_type: BridgeMongodbGetRsMongoType
+  servers: string
+  w_mode?: BridgeMongodbGetRsWMode
+  r_mode?: BridgeMongodbGetRsRMode
+  replica_set_name: string
+  srv_record?: boolean
+  pool_size?: number
+  username?: string
+  password?: string
+  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
+  auth_source?: string
+  database: string
+  topology?: MongoTopology
+  ssl?: EmqxSslClientOpts
+  enable?: boolean
+  collection?: string
+  payload_template?: string
+  resource_opts: BridgeMongodbCreationOpts
+  type: BridgeMongodbGetRsType
+  name: string
+}
+
 export type BridgeMongodbCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeMongodbCreationOptsQueryMode =
@@ -2921,32 +2975,6 @@ export interface BridgeMongodbCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
-}
-
-export interface BridgeMongodbGetRs {
-  status?: BridgeMongodbGetRsStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  mongo_type: BridgeMongodbGetRsMongoType
-  servers: string
-  w_mode?: BridgeMongodbGetRsWMode
-  r_mode?: BridgeMongodbGetRsRMode
-  replica_set_name: string
-  srv_record?: boolean
-  pool_size?: number
-  username?: string
-  password?: string
-  use_legacy_protocol?: BridgeMongodbGetRsUseLegacyProtocol
-  auth_source?: string
-  database: string
-  topology?: MongoTopology
-  ssl?: EmqxSslClientOpts
-  enable?: boolean
-  collection?: string
-  payload_template?: string
-  resource_opts: BridgeMongodbCreationOpts
-  type: BridgeMongodbGetRsType
-  name: string
 }
 
 export interface BridgeMatrixPut {
@@ -3024,22 +3052,6 @@ export interface BridgeMatrixGet {
   /** @deprecated */
   auto_reconnect?: boolean
   ssl?: EmqxSslClientOpts
-}
-
-export interface BridgeKinesisPutProducer {
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeKinesisCreationOpts
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  endpoint: string
-  max_retries?: number
-  pool_size?: number
-  payload_template?: string
-  stream_name: string
-  partition_key: string
-  local_topic?: string
 }
 
 export type BridgeKinesisPostProducerType =
@@ -3139,6 +3151,22 @@ export interface BridgeKinesisCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   max_buffer_bytes?: string
+}
+
+export interface BridgeKinesisPutProducer {
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeKinesisCreationOpts
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  endpoint: string
+  max_retries?: number
+  pool_size?: number
+  payload_template?: string
+  stream_name: string
+  partition_key: string
+  local_topic?: string
 }
 
 export type BridgeKafkaV1ProducerKafkaOptsQueryMode =
@@ -3275,11 +3303,6 @@ export interface BridgeKafkaSocketOpts {
   tcp_keepalive?: string
 }
 
-export type BridgeKafkaPutProducerAuthentication =
-  | BridgeKafkaAuthGssapiKerberos
-  | BridgeKafkaAuthUsernamePassword
-  | 'none'
-
 export interface BridgeKafkaPutProducer {
   enable?: boolean
   tags?: string[]
@@ -3356,11 +3379,6 @@ export interface BridgeKafkaProducerBuffer {
   memory_overload_protection?: boolean
 }
 
-export type BridgeKafkaPostProducerAuthentication =
-  | BridgeKafkaAuthGssapiKerberos
-  | BridgeKafkaAuthUsernamePassword
-  | 'none'
-
 export type BridgeKafkaPostProducerType =
   (typeof BridgeKafkaPostProducerType)[keyof typeof BridgeKafkaPostProducerType]
 
@@ -3370,25 +3388,6 @@ export const BridgeKafkaPostProducerType = {
   kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
 } as const
-
-export interface BridgeKafkaPostProducer {
-  type: BridgeKafkaPostProducerType
-  name: string
-  enable?: boolean
-  tags?: string[]
-  description?: string
-  bootstrap_hosts: string
-  connect_timeout?: string
-  min_metadata_refresh_interval?: string
-  metadata_request_timeout?: string
-  authentication?: BridgeKafkaPostProducerAuthentication
-  socket_opts?: BridgeKafkaSocketOpts
-  health_check_topic?: string
-  ssl?: BridgeKafkaSslClientOpts
-  resource_opts?: BridgeKafkaConnectorResourceOpts
-  local_topic?: string
-  kafka: BridgeKafkaV1ProducerKafkaOpts
-}
 
 export type BridgeKafkaPostConsumerValueEncodingMode =
   (typeof BridgeKafkaPostConsumerValueEncodingMode)[keyof typeof BridgeKafkaPostConsumerValueEncodingMode]
@@ -3610,10 +3609,39 @@ export interface BridgeKafkaAuthGssapiKerberos {
   kerberos_keytab_file: string
 }
 
+export type BridgeKafkaPutProducerAuthentication =
+  | BridgeKafkaAuthGssapiKerberos
+  | BridgeKafkaAuthUsernamePassword
+  | 'none'
+
 export type BridgeKafkaPutConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
   | 'none'
+
+export type BridgeKafkaPostProducerAuthentication =
+  | BridgeKafkaAuthGssapiKerberos
+  | BridgeKafkaAuthUsernamePassword
+  | 'none'
+
+export interface BridgeKafkaPostProducer {
+  type: BridgeKafkaPostProducerType
+  name: string
+  enable?: boolean
+  tags?: string[]
+  description?: string
+  bootstrap_hosts: string
+  connect_timeout?: string
+  min_metadata_refresh_interval?: string
+  metadata_request_timeout?: string
+  authentication?: BridgeKafkaPostProducerAuthentication
+  socket_opts?: BridgeKafkaSocketOpts
+  health_check_topic?: string
+  ssl?: BridgeKafkaSslClientOpts
+  resource_opts?: BridgeKafkaConnectorResourceOpts
+  local_topic?: string
+  kafka: BridgeKafkaV1ProducerKafkaOpts
+}
 
 export type BridgeKafkaGetConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
@@ -3742,6 +3770,29 @@ export const BridgeIotdbGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface BridgeIotdbGet {
+  status?: BridgeIotdbGetStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeIotdbGetType
+  name: string
+  enable?: boolean
+  authentication?: BridgeIotdbAuthBasic
+  is_aligned?: boolean
+  device_id?: string
+  iotdb_version?: BridgeIotdbGetIotdbVersion
+  resource_opts?: BridgeIotdbCreationOpts
+  connect_timeout?: string
+  /** @deprecated */
+  retry_interval?: string
+  pool_type?: BridgeIotdbGetPoolType
+  pool_size?: number
+  enable_pipelining?: number
+  ssl?: EmqxSslClientOpts
+  base_url: string
+  max_retries?: number
+}
+
 export type BridgeIotdbCreationOptsRequestTtl = 'infinity' | string
 
 export type BridgeIotdbCreationOptsQueryMode =
@@ -3778,29 +3829,6 @@ export interface BridgeIotdbCreationOpts {
 export interface BridgeIotdbAuthBasic {
   username: string
   password: string
-}
-
-export interface BridgeIotdbGet {
-  status?: BridgeIotdbGetStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeIotdbGetType
-  name: string
-  enable?: boolean
-  authentication?: BridgeIotdbAuthBasic
-  is_aligned?: boolean
-  device_id?: string
-  iotdb_version?: BridgeIotdbGetIotdbVersion
-  resource_opts?: BridgeIotdbCreationOpts
-  connect_timeout?: string
-  /** @deprecated */
-  retry_interval?: string
-  pool_type?: BridgeIotdbGetPoolType
-  pool_size?: number
-  enable_pipelining?: number
-  ssl?: EmqxSslClientOpts
-  base_url: string
-  max_retries?: number
 }
 
 export type BridgeInfluxdbPutApiV2Precision =

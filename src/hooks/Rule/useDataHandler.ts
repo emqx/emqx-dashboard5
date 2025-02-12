@@ -1,7 +1,7 @@
 import { NUM_REG } from '@/common/constants'
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
-import { BridgeType, Role } from '@/types/enum'
+import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, omit, set } from 'lodash'
@@ -13,7 +13,6 @@ const keysDoNotNeedForAPI = [
   'status',
   'status_reason',
   'error',
-  'role',
   'idForRuleFrom',
   'actions',
   'id',
@@ -147,7 +146,6 @@ export const useConnectorDataHandler = (): {
     if ('service_account_json' in data && typeof data.service_account_json === 'object') {
       data.service_account_json = stringifyObjSafely(data.service_account_json, 2)
     }
-    data.role = data.type.indexOf('consumer') > -1 ? Role.Consumer : Role.Producer
     return data
   }
 

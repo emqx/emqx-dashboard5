@@ -632,6 +632,21 @@ export const SyskeeperGetBridgeV2Status = {
   inconsistent: 'inconsistent',
 } as const
 
+export interface SyskeeperGetBridgeV2 {
+  status?: SyskeeperGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: SyskeeperGetBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: SyskeeperParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: SyskeeperCreationOpts
+}
+
 export type SyskeeperCreationOptsRequestTtl = 'infinity' | string
 
 export type SyskeeperCreationOptsQueryMode =
@@ -665,31 +680,6 @@ export interface SyskeeperCreationOpts {
   max_buffer_bytes?: string
 }
 
-export interface SyskeeperGetBridgeV2 {
-  status?: SyskeeperGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: SyskeeperGetBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: SyskeeperParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: SyskeeperCreationOpts
-}
-
-export interface RocketmqPutBridgeV2 {
-  local_topic?: string
-  parameters: RocketmqActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export type RocketmqPostBridgeV2Type =
   (typeof RocketmqPostBridgeV2Type)[keyof typeof RocketmqPostBridgeV2Type]
 
@@ -697,18 +687,6 @@ export type RocketmqPostBridgeV2Type =
 export const RocketmqPostBridgeV2Type = {
   rocketmq: 'rocketmq',
 } as const
-
-export interface RocketmqPostBridgeV2 {
-  type: RocketmqPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: RocketmqActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
 
 export type RocketmqGetBridgeV2Status =
   (typeof RocketmqGetBridgeV2Status)[keyof typeof RocketmqGetBridgeV2Status]
@@ -753,6 +731,28 @@ export interface RocketmqActionParameters {
   sync_timeout?: string
   refresh_interval?: string
   send_buffer?: string
+}
+
+export interface RocketmqPutBridgeV2 {
+  local_topic?: string
+  parameters: RocketmqActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
+export interface RocketmqPostBridgeV2 {
+  type: RocketmqPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: RocketmqActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
 export interface RedisPutBridgeV2 {
@@ -853,6 +853,18 @@ export const PulsarPostBridgeV2Type = {
   pulsar: 'pulsar',
 } as const
 
+export interface PulsarPostBridgeV2 {
+  type: PulsarPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: PulsarActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: PulsarActionResourceOpts
+}
+
 export type PulsarGetBridgeV2Status =
   (typeof PulsarGetBridgeV2Status)[keyof typeof PulsarGetBridgeV2Status]
 
@@ -871,6 +883,21 @@ export type PulsarGetBridgeV2Type =
 export const PulsarGetBridgeV2Type = {
   pulsar: 'pulsar',
 } as const
+
+export interface PulsarGetBridgeV2 {
+  type: PulsarGetBridgeV2Type
+  name: string
+  status?: PulsarGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  local_topic?: string
+  parameters: PulsarActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: PulsarActionResourceOpts
+}
 
 /**
  * @deprecated
@@ -891,21 +918,6 @@ export interface PulsarActionResourceOpts {
   query_mode?: PulsarActionResourceOptsQueryMode
   /** @deprecated */
   request_ttl?: PulsarActionResourceOptsRequestTtl
-}
-
-export interface PulsarGetBridgeV2 {
-  type: PulsarGetBridgeV2Type
-  name: string
-  status?: PulsarGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  local_topic?: string
-  parameters: PulsarActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: PulsarActionResourceOpts
 }
 
 export type PulsarActionParametersStrategy =
@@ -953,16 +965,14 @@ export interface PulsarPutBridgeV2 {
   resource_opts?: PulsarActionResourceOpts
 }
 
-export interface PulsarPostBridgeV2 {
-  type: PulsarPostBridgeV2Type
-  name: string
+export interface GcpPubsubProducerPutBridgeV2 {
   local_topic?: string
-  parameters: PulsarActionParameters
+  parameters: GcpPubsubProducerActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
   description?: string
-  resource_opts?: PulsarActionResourceOpts
+  resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
 export type GcpPubsubProducerPostBridgeV2Type =
@@ -1011,16 +1021,6 @@ export interface GcpPubsubProducerActionParameters {
   pubsub_topic: string
 }
 
-export interface GcpPubsubProducerPutBridgeV2 {
-  local_topic?: string
-  parameters: GcpPubsubProducerActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export interface GcpPubsubProducerGetBridgeV2 {
   status?: GcpPubsubProducerGetBridgeV2Status
   status_reason?: string
@@ -1047,6 +1047,35 @@ export const ConnectorAggregatorContainerCsvType = {
 export interface ConnectorAggregatorContainerCsv {
   type: ConnectorAggregatorContainerCsvType
   column_order?: string[]
+}
+
+export type ConfluentProducerKafkaOptsQueryMode =
+  (typeof ConfluentProducerKafkaOptsQueryMode)[keyof typeof ConfluentProducerKafkaOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentProducerKafkaOptsQueryMode = {
+  async: 'async',
+  sync: 'sync',
+} as const
+
+export interface ConfluentProducerKafkaOpts {
+  topic: string
+  message?: ConfluentKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
+  max_batch_bytes?: string
+  compression?: ConfluentProducerKafkaOptsCompression
+  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
+  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: ConfluentProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
 }
 
 export interface ConfluentPutBridgeV2 {
@@ -1107,26 +1136,6 @@ export const ConfluentProducerKafkaOptsCompression = {
   snappy: 'snappy',
   gzip: 'gzip',
 } as const
-
-export interface ConfluentProducerKafkaOpts {
-  topic: string
-  message?: ConfluentKafkaMessage
-  max_linger_time?: string
-  max_linger_bytes?: string
-  max_batch_bytes?: string
-  compression?: ConfluentProducerKafkaOptsCompression
-  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
-  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
-  kafka_headers?: string
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
-  partition_count_refresh_interval?: string
-  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
-  max_inflight?: number
-  buffer?: BridgeKafkaProducerBuffer
-  query_mode?: ConfluentProducerKafkaOptsQueryMode
-  sync_query_timeout?: string
-}
 
 export type ConfluentPostBridgeV2Type =
   (typeof ConfluentPostBridgeV2Type)[keyof typeof ConfluentPostBridgeV2Type]
@@ -1267,7 +1276,17 @@ export interface BridgeTimescaleGetBridgeV2 {
   resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
-export interface BridgeTdenginePutBridgeV2 {
+export type BridgeTdenginePostBridgeV2Type =
+  (typeof BridgeTdenginePostBridgeV2Type)[keyof typeof BridgeTdenginePostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeTdenginePostBridgeV2Type = {
+  tdengine: 'tdengine',
+} as const
+
+export interface BridgeTdenginePostBridgeV2 {
+  type: BridgeTdenginePostBridgeV2Type
+  name: string
   local_topic?: string
   parameters: BridgeTdengineActionParameters
   enable?: boolean
@@ -1310,9 +1329,7 @@ export interface BridgeTdengineActionParameters {
   undefined_vars_as_null?: boolean
 }
 
-export interface BridgeTdenginePostBridgeV2 {
-  type: BridgeTdenginePostBridgeV2Type
-  name: string
+export interface BridgeTdenginePutBridgeV2 {
   local_topic?: string
   parameters: BridgeTdengineActionParameters
   enable?: boolean
@@ -1710,6 +1727,18 @@ export const BridgeRabbitmqPostBridgeV2Type = {
   rabbitmq: 'rabbitmq',
 } as const
 
+export interface BridgeRabbitmqPostBridgeV2 {
+  type: BridgeRabbitmqPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeRabbitmqActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeRabbitmqActionResourceOpts
+}
+
 export type BridgeRabbitmqGetBridgeV2Status =
   (typeof BridgeRabbitmqGetBridgeV2Status)[keyof typeof BridgeRabbitmqGetBridgeV2Status]
 
@@ -1728,21 +1757,6 @@ export type BridgeRabbitmqGetBridgeV2Type =
 export const BridgeRabbitmqGetBridgeV2Type = {
   rabbitmq: 'rabbitmq',
 } as const
-
-export interface BridgeRabbitmqGetBridgeV2 {
-  type: BridgeRabbitmqGetBridgeV2Type
-  name: string
-  status?: BridgeRabbitmqGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  local_topic?: string
-  parameters: BridgeRabbitmqActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeRabbitmqActionResourceOpts
-}
 
 export type BridgeRabbitmqActionResourceOptsRequestTtl = 'infinity' | string
 
@@ -1794,9 +1808,12 @@ export interface BridgeRabbitmqPutBridgeV2 {
   resource_opts?: BridgeRabbitmqActionResourceOpts
 }
 
-export interface BridgeRabbitmqPostBridgeV2 {
-  type: BridgeRabbitmqPostBridgeV2Type
+export interface BridgeRabbitmqGetBridgeV2 {
+  type: BridgeRabbitmqGetBridgeV2Type
   name: string
+  status?: BridgeRabbitmqGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
   local_topic?: string
   parameters: BridgeRabbitmqActionParameters
   enable?: boolean
@@ -1875,6 +1892,18 @@ export const BridgeOraclePostBridgeV2Type = {
   oracle: 'oracle',
 } as const
 
+export interface BridgeOraclePostBridgeV2 {
+  type: BridgeOraclePostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeOracleActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
 export type BridgeOracleGetBridgeV2Status =
   (typeof BridgeOracleGetBridgeV2Status)[keyof typeof BridgeOracleGetBridgeV2Status]
 
@@ -1899,18 +1928,6 @@ export interface BridgeOracleActionParameters {
 }
 
 export interface BridgeOraclePutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeOracleActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
-export interface BridgeOraclePostBridgeV2 {
-  type: BridgeOraclePostBridgeV2Type
-  name: string
   local_topic?: string
   parameters: BridgeOracleActionParameters
   enable?: boolean
@@ -2001,6 +2018,8 @@ export interface BridgeOpentsGetBridgeV2 {
 
 export type BridgeOpentsActionParametersDataValue = string | number | number
 
+export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: any }
+
 export type BridgeOpentsActionParametersDataTags =
   | string
   | BridgeOpentsActionParametersDataTagsOneOf
@@ -2011,8 +2030,6 @@ export interface BridgeOpentsActionParametersData {
   tags: BridgeOpentsActionParametersDataTags
   value: BridgeOpentsActionParametersDataValue
 }
-
-export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: any }
 
 export interface BridgeOpentsActionParameters {
   data?: BridgeOpentsActionParametersData[]
@@ -2105,6 +2122,18 @@ export const BridgeMqttPublisherPostBridgeV2Type = {
   mqtt: 'mqtt',
 } as const
 
+export interface BridgeMqttPublisherPostBridgeV2 {
+  type: BridgeMqttPublisherPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeMqttPublisherActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeMqttPublisherActionResourceOpts
+}
+
 export type BridgeMqttPublisherGetBridgeV2Status =
   (typeof BridgeMqttPublisherGetBridgeV2Status)[keyof typeof BridgeMqttPublisherGetBridgeV2Status]
 
@@ -2170,7 +2199,17 @@ export interface BridgeMqttPublisherActionParameters {
   payload?: string
 }
 
-export interface BridgeMongodbPutBridgeV2 {
+export type BridgeMongodbPostBridgeV2Type =
+  (typeof BridgeMongodbPostBridgeV2Type)[keyof typeof BridgeMongodbPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMongodbPostBridgeV2Type = {
+  mongodb: 'mongodb',
+} as const
+
+export interface BridgeMongodbPostBridgeV2 {
+  type: BridgeMongodbPostBridgeV2Type
+  name: string
   local_topic?: string
   parameters: BridgeMongodbActionParameters
   enable?: boolean
@@ -2247,9 +2286,7 @@ export interface BridgeMongodbActionParameters {
   payload_template?: string
 }
 
-export interface BridgeMongodbPostBridgeV2 {
-  type: BridgeMongodbPostBridgeV2Type
-  name: string
+export interface BridgeMongodbPutBridgeV2 {
   local_topic?: string
   parameters: BridgeMongodbActionParameters
   enable?: boolean
@@ -2348,21 +2385,6 @@ export const BridgeKinesisGetBridgeV2Type = {
   kinesis: 'kinesis',
 } as const
 
-export interface BridgeKinesisGetBridgeV2 {
-  type: BridgeKinesisGetBridgeV2Type
-  name: string
-  status?: BridgeKinesisGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  local_topic?: string
-  parameters: BridgeKinesisActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeKinesisActionResourceOpts
-}
-
 export type BridgeKinesisActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeKinesisActionResourceOptsQueryMode =
@@ -2389,6 +2411,21 @@ export interface BridgeKinesisActionParameters {
   payload_template?: string
   stream_name: string
   partition_key: string
+}
+
+export interface BridgeKinesisGetBridgeV2 {
+  type: BridgeKinesisGetBridgeV2Type
+  name: string
+  status?: BridgeKinesisGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  local_topic?: string
+  parameters: BridgeKinesisActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeKinesisActionResourceOpts
 }
 
 export interface BridgeKafkaResourceOpts {
@@ -2459,6 +2496,13 @@ export interface BridgeKafkaProducerKafkaExtHeaders {
   kafka_ext_header_value: string
 }
 
+export interface BridgeKafkaProducerBuffer {
+  mode?: BridgeKafkaProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
+  memory_overload_protection?: boolean
+}
+
 export interface BridgeKafkaProducerKafkaOpts {
   topic: string
   message?: BridgeKafkaKafkaMessage
@@ -2488,13 +2532,6 @@ export const BridgeKafkaProducerBufferMode = {
   disk: 'disk',
   hybrid: 'hybrid',
 } as const
-
-export interface BridgeKafkaProducerBuffer {
-  mode?: BridgeKafkaProducerBufferMode
-  per_partition_limit?: string
-  segment_bytes?: string
-  memory_overload_protection?: boolean
-}
 
 export type BridgeKafkaPostBridgeV2Type =
   (typeof BridgeKafkaPostBridgeV2Type)[keyof typeof BridgeKafkaPostBridgeV2Type]
@@ -2556,7 +2593,17 @@ export interface BridgeKafkaGetBridgeV2 {
   resource_opts?: BridgeKafkaResourceOpts
 }
 
-export interface BridgeIotdbPutBridgeV2 {
+export type BridgeIotdbPostBridgeV2Type =
+  (typeof BridgeIotdbPostBridgeV2Type)[keyof typeof BridgeIotdbPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeIotdbPostBridgeV2Type = {
+  iotdb: 'iotdb',
+} as const
+
+export interface BridgeIotdbPostBridgeV2 {
+  type: BridgeIotdbPostBridgeV2Type
+  name: string
   local_topic?: string
   parameters: BridgeIotdbActionParameters
   enable?: boolean
@@ -2664,9 +2711,7 @@ export interface BridgeIotdbActionParameters {
   max_retries?: number
 }
 
-export interface BridgeIotdbPostBridgeV2 {
-  type: BridgeIotdbPostBridgeV2Type
-  name: string
+export interface BridgeIotdbPutBridgeV2 {
   local_topic?: string
   parameters: BridgeIotdbActionParameters
   enable?: boolean
@@ -2676,16 +2721,6 @@ export interface BridgeIotdbPostBridgeV2 {
   resource_opts?: BridgeIotdbActionResourceOpts
 }
 
-export interface BridgeInfluxdbPutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeInfluxdbActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export type BridgeInfluxdbPostBridgeV2Type =
   (typeof BridgeInfluxdbPostBridgeV2Type)[keyof typeof BridgeInfluxdbPostBridgeV2Type]
 
@@ -2693,18 +2728,6 @@ export type BridgeInfluxdbPostBridgeV2Type =
 export const BridgeInfluxdbPostBridgeV2Type = {
   influxdb: 'influxdb',
 } as const
-
-export interface BridgeInfluxdbPostBridgeV2 {
-  type: BridgeInfluxdbPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: BridgeInfluxdbActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
 
 export type BridgeInfluxdbGetBridgeV2Status =
   (typeof BridgeInfluxdbGetBridgeV2Status)[keyof typeof BridgeInfluxdbGetBridgeV2Status]
@@ -2741,6 +2764,28 @@ export interface BridgeInfluxdbActionParameters {
   precision?: BridgeInfluxdbActionParametersPrecision
 }
 
+export interface BridgeInfluxdbPutBridgeV2 {
+  local_topic?: string
+  parameters: BridgeInfluxdbActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
+export interface BridgeInfluxdbPostBridgeV2 {
+  type: BridgeInfluxdbPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeInfluxdbActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
 export interface BridgeInfluxdbGetBridgeV2 {
   type: BridgeInfluxdbGetBridgeV2Type
   name: string
@@ -2754,26 +2799,6 @@ export interface BridgeInfluxdbGetBridgeV2 {
   tags?: string[]
   description?: string
   resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
-export interface BridgeHttpPutBridgeV2 {
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeMqttPublisherActionResourceOpts
-}
-
-export interface BridgeMqttPublisherPostBridgeV2 {
-  type: BridgeMqttPublisherPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: BridgeMqttPublisherActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeMqttPublisherActionResourceOpts
 }
 
 export type BridgeHttpPostBridgeV2Type =
@@ -2880,16 +2905,6 @@ export interface BridgeHttpGetBridgeV2 {
   resource_opts?: BridgeHttpActionResourceOpts
 }
 
-export interface BridgeHstreamdbPutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeHstreamdbActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export type BridgeHstreamdbPostBridgeV2Type =
   (typeof BridgeHstreamdbPostBridgeV2Type)[keyof typeof BridgeHstreamdbPostBridgeV2Type]
 
@@ -2897,18 +2912,6 @@ export type BridgeHstreamdbPostBridgeV2Type =
 export const BridgeHstreamdbPostBridgeV2Type = {
   hstreamdb: 'hstreamdb',
 } as const
-
-export interface BridgeHstreamdbPostBridgeV2 {
-  type: BridgeHstreamdbPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: BridgeHstreamdbActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
 
 export type BridgeHstreamdbGetBridgeV2Status =
   (typeof BridgeHstreamdbGetBridgeV2Status)[keyof typeof BridgeHstreamdbGetBridgeV2Status]
@@ -2939,6 +2942,28 @@ export interface BridgeHstreamdbActionParameters {
   writer_pool_size?: number
   batch_size?: number
   batch_interval?: string
+}
+
+export interface BridgeHstreamdbPutBridgeV2 {
+  local_topic?: string
+  parameters: BridgeHstreamdbActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
+export interface BridgeHstreamdbPostBridgeV2 {
+  type: BridgeHstreamdbPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeHstreamdbActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
 export interface BridgeHstreamdbGetBridgeV2 {
@@ -3005,21 +3030,6 @@ export const BridgeGreptimedbGetBridgeV2Type = {
   greptimedb: 'greptimedb',
 } as const
 
-export interface BridgeGreptimedbGetBridgeV2 {
-  type: BridgeGreptimedbGetBridgeV2Type
-  name: string
-  status?: BridgeGreptimedbGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  local_topic?: string
-  parameters: BridgeGreptimedbActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export type BridgeGreptimedbActionParametersPrecision =
   (typeof BridgeGreptimedbActionParametersPrecision)[keyof typeof BridgeGreptimedbActionParametersPrecision]
 
@@ -3036,19 +3046,30 @@ export interface BridgeGreptimedbActionParameters {
   precision?: BridgeGreptimedbActionParametersPrecision
 }
 
+export interface BridgeGreptimedbGetBridgeV2 {
+  type: BridgeGreptimedbGetBridgeV2Type
+  name: string
+  status?: BridgeGreptimedbGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  local_topic?: string
+  parameters: BridgeGreptimedbActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
 export interface BridgeGcpPubsubKeyValuePair {
   key: string
   value: string
 }
 
-export interface BridgeElasticsearchPutBridgeV2 {
-  parameters: BridgeElasticsearchPutBridgeV2Parameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeElasticsearchActionResourceOpts
-}
+export type BridgeElasticsearchPutBridgeV2Parameters =
+  | BridgeElasticsearchActionUpdate
+  | BridgeElasticsearchActionDelete
+  | BridgeElasticsearchActionCreate
 
 export type BridgeElasticsearchPostBridgeV2Type =
   (typeof BridgeElasticsearchPostBridgeV2Type)[keyof typeof BridgeElasticsearchPostBridgeV2Type]
@@ -3069,6 +3090,11 @@ export interface BridgeElasticsearchPostBridgeV2 {
   resource_opts?: BridgeElasticsearchActionResourceOpts
 }
 
+export type BridgeElasticsearchGetBridgeV2Parameters =
+  | BridgeElasticsearchActionUpdate
+  | BridgeElasticsearchActionDelete
+  | BridgeElasticsearchActionCreate
+
 export type BridgeElasticsearchGetBridgeV2Type =
   (typeof BridgeElasticsearchGetBridgeV2Type)[keyof typeof BridgeElasticsearchGetBridgeV2Type]
 
@@ -3087,6 +3113,20 @@ export const BridgeElasticsearchGetBridgeV2Status = {
   connecting: 'connecting',
   inconsistent: 'inconsistent',
 } as const
+
+export interface BridgeElasticsearchGetBridgeV2 {
+  status?: BridgeElasticsearchGetBridgeV2Status
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  type: BridgeElasticsearchGetBridgeV2Type
+  name: string
+  parameters: BridgeElasticsearchGetBridgeV2Parameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeElasticsearchActionResourceOpts
+}
 
 export type BridgeElasticsearchActionUpdateAction =
   (typeof BridgeElasticsearchActionUpdateAction)[keyof typeof BridgeElasticsearchActionUpdateAction]
@@ -3107,6 +3147,11 @@ export interface BridgeElasticsearchActionUpdate {
   max_retries?: number
 }
 
+export type BridgeElasticsearchPostBridgeV2Parameters =
+  | BridgeElasticsearchActionUpdate
+  | BridgeElasticsearchActionDelete
+  | BridgeElasticsearchActionCreate
+
 export type BridgeElasticsearchActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeElasticsearchActionResourceOptsQueryMode =
@@ -3125,6 +3170,15 @@ export interface BridgeElasticsearchActionResourceOpts {
   request_ttl?: BridgeElasticsearchActionResourceOptsRequestTtl
   inflight_window?: number
   max_buffer_bytes?: string
+}
+
+export interface BridgeElasticsearchPutBridgeV2 {
+  parameters: BridgeElasticsearchPutBridgeV2Parameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: BridgeElasticsearchActionResourceOpts
 }
 
 export type BridgeElasticsearchActionDeleteAction =
@@ -3162,35 +3216,6 @@ export interface BridgeElasticsearchActionCreate {
   max_retries?: number
 }
 
-export type BridgeElasticsearchPutBridgeV2Parameters =
-  | BridgeElasticsearchActionUpdate
-  | BridgeElasticsearchActionDelete
-  | BridgeElasticsearchActionCreate
-
-export type BridgeElasticsearchPostBridgeV2Parameters =
-  | BridgeElasticsearchActionUpdate
-  | BridgeElasticsearchActionDelete
-  | BridgeElasticsearchActionCreate
-
-export type BridgeElasticsearchGetBridgeV2Parameters =
-  | BridgeElasticsearchActionUpdate
-  | BridgeElasticsearchActionDelete
-  | BridgeElasticsearchActionCreate
-
-export interface BridgeElasticsearchGetBridgeV2 {
-  status?: BridgeElasticsearchGetBridgeV2Status
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  type: BridgeElasticsearchGetBridgeV2Type
-  name: string
-  parameters: BridgeElasticsearchGetBridgeV2Parameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: BridgeElasticsearchActionResourceOpts
-}
-
 export type BridgeDynamoPostBridgeV2Type =
   (typeof BridgeDynamoPostBridgeV2Type)[keyof typeof BridgeDynamoPostBridgeV2Type]
 
@@ -3198,6 +3223,18 @@ export type BridgeDynamoPostBridgeV2Type =
 export const BridgeDynamoPostBridgeV2Type = {
   dynamo: 'dynamo',
 } as const
+
+export interface BridgeDynamoPostBridgeV2 {
+  type: BridgeDynamoPostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeDynamoActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
 
 export type BridgeDynamoGetBridgeV2Status =
   (typeof BridgeDynamoGetBridgeV2Status)[keyof typeof BridgeDynamoGetBridgeV2Status]
@@ -3236,18 +3273,6 @@ export interface BridgeDynamoPutBridgeV2 {
   resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
-export interface BridgeDynamoPostBridgeV2 {
-  type: BridgeDynamoPostBridgeV2Type
-  name: string
-  local_topic?: string
-  parameters: BridgeDynamoActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
 export interface BridgeDynamoGetBridgeV2 {
   type: BridgeDynamoGetBridgeV2Type
   name: string
@@ -3263,7 +3288,17 @@ export interface BridgeDynamoGetBridgeV2 {
   resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
-export interface BridgeDatalayersPutBridgeV2 {
+export type BridgeDatalayersPostBridgeV2Type =
+  (typeof BridgeDatalayersPostBridgeV2Type)[keyof typeof BridgeDatalayersPostBridgeV2Type]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeDatalayersPostBridgeV2Type = {
+  datalayers: 'datalayers',
+} as const
+
+export interface BridgeDatalayersPostBridgeV2 {
+  type: BridgeDatalayersPostBridgeV2Type
+  name: string
   local_topic?: string
   parameters: BridgeDatalayersActionParameters
   enable?: boolean
@@ -3331,21 +3366,9 @@ export interface BridgeDatalayersActionParameters {
   precision?: BridgeDatalayersActionParametersPrecision
 }
 
-export interface BridgeDatalayersPostBridgeV2 {
-  type: BridgeDatalayersPostBridgeV2Type
-  name: string
+export interface BridgeDatalayersPutBridgeV2 {
   local_topic?: string
   parameters: BridgeDatalayersActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
-}
-
-export interface BridgeClickhousePutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeClickhouseActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
@@ -3360,6 +3383,18 @@ export type BridgeClickhousePostBridgeV2Type =
 export const BridgeClickhousePostBridgeV2Type = {
   clickhouse: 'clickhouse',
 } as const
+
+export interface BridgeClickhousePostBridgeV2 {
+  type: BridgeClickhousePostBridgeV2Type
+  name: string
+  local_topic?: string
+  parameters: BridgeClickhouseActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
 
 export type BridgeClickhouseGetBridgeV2Status =
   (typeof BridgeClickhouseGetBridgeV2Status)[keyof typeof BridgeClickhouseGetBridgeV2Status]
@@ -3386,9 +3421,7 @@ export interface BridgeClickhouseActionParameters {
   batch_value_separator?: string
 }
 
-export interface BridgeClickhousePostBridgeV2 {
-  type: BridgeClickhousePostBridgeV2Type
-  name: string
+export interface BridgeClickhousePutBridgeV2 {
   local_topic?: string
   parameters: BridgeClickhouseActionParameters
   enable?: boolean
@@ -3406,6 +3439,16 @@ export interface BridgeClickhouseGetBridgeV2 {
   node_status?: BridgeNodeStatus[]
   local_topic?: string
   parameters: BridgeClickhouseActionParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+}
+
+export interface BridgeCassaPutBridgeV2 {
+  local_topic?: string
+  parameters: BridgeCassaActionParameters
   enable?: boolean
   connector: string
   tags?: string[]
@@ -3454,16 +3497,6 @@ export const BridgeCassaGetBridgeV2Type = {
 
 export interface BridgeCassaActionParameters {
   cql?: string
-}
-
-export interface BridgeCassaPutBridgeV2 {
-  local_topic?: string
-  parameters: BridgeCassaActionParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: ActionsAndSourcesActionResourceOpts
 }
 
 export interface BridgeCassaGetBridgeV2 {
@@ -3519,6 +3552,15 @@ export interface BridgeAzureEventHubPutBridgeV2 {
   resource_opts?: BridgeKafkaResourceOpts
 }
 
+export type BridgeAzureEventHubProducerKafkaOptsQueryMode =
+  (typeof BridgeAzureEventHubProducerKafkaOptsQueryMode)[keyof typeof BridgeAzureEventHubProducerKafkaOptsQueryMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeAzureEventHubProducerKafkaOptsQueryMode = {
+  async: 'async',
+  sync: 'sync',
+} as const
+
 export type BridgeAzureEventHubProducerKafkaOptsPartitionsLimit = number | 'all_partitions'
 
 export type BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode =
@@ -3547,6 +3589,25 @@ export const BridgeAzureEventHubProducerKafkaOptsPartitionStrategy = {
   random: 'random',
   key_dispatch: 'key_dispatch',
 } as const
+
+export interface BridgeAzureEventHubProducerKafkaOpts {
+  topic: string
+  message?: BridgeAzureEventHubKafkaMessage
+  max_linger_time?: string
+  max_linger_bytes?: string
+  max_batch_bytes?: string
+  partition_strategy?: BridgeAzureEventHubProducerKafkaOptsPartitionStrategy
+  required_acks?: BridgeAzureEventHubProducerKafkaOptsRequiredAcks
+  kafka_headers?: string
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode
+  partition_count_refresh_interval?: string
+  partitions_limit?: BridgeAzureEventHubProducerKafkaOptsPartitionsLimit
+  max_inflight?: number
+  buffer?: BridgeKafkaProducerBuffer
+  query_mode?: BridgeAzureEventHubProducerKafkaOptsQueryMode
+  sync_query_timeout?: string
+}
 
 export type BridgeAzureEventHubPostBridgeV2Type =
   (typeof BridgeAzureEventHubPostBridgeV2Type)[keyof typeof BridgeAzureEventHubPostBridgeV2Type]
@@ -3605,6 +3666,25 @@ export interface BridgeAzureEventHubGetBridgeV2 {
   local_topic?: string
   parameters: BridgeAzureEventHubProducerKafkaOpts
   resource_opts?: BridgeKafkaResourceOpts
+}
+
+export interface ActionsAndSourcesResponseNodeStatus {
+  node?: string
+  status?: string
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesResponseSummary {
+  enable?: boolean
+  name?: string
+  type?: string
+  description?: string
+  created_at?: number
+  last_modified_at?: number
+  node_status?: ActionsAndSourcesResponseNodeStatus[]
+  rules?: string[]
+  status?: string
+  status_reason?: string
 }
 
 export type ActionsAndSourcesActionResourceOptsRequestTtl = 'infinity' | string

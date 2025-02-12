@@ -1,4 +1,4 @@
-export type PutRuleEngine400Code = typeof PutRuleEngine400Code[keyof typeof PutRuleEngine400Code]
+export type PutRuleEngine400Code = (typeof PutRuleEngine400Code)[keyof typeof PutRuleEngine400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutRuleEngine400Code = {
@@ -10,7 +10,7 @@ export type PutRuleEngine400 = {
   message?: string
 }
 
-export type DeleteRulesId404Code = typeof DeleteRulesId404Code[keyof typeof DeleteRulesId404Code]
+export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteRulesId404Code = {
@@ -22,7 +22,7 @@ export type DeleteRulesId404 = {
   message?: string
 }
 
-export type PutRulesId400Code = typeof PutRulesId400Code[keyof typeof PutRulesId400Code]
+export type PutRulesId400Code = (typeof PutRulesId400Code)[keyof typeof PutRulesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutRulesId400Code = {
@@ -34,7 +34,7 @@ export type PutRulesId400 = {
   message?: string
 }
 
-export type GetRulesId404Code = typeof GetRulesId404Code[keyof typeof GetRulesId404Code]
+export type GetRulesId404Code = (typeof GetRulesId404Code)[keyof typeof GetRulesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRulesId404Code = {
@@ -47,7 +47,7 @@ export type GetRulesId404 = {
 }
 
 export type PutRulesIdMetricsReset404Code =
-  typeof PutRulesIdMetricsReset404Code[keyof typeof PutRulesIdMetricsReset404Code]
+  (typeof PutRulesIdMetricsReset404Code)[keyof typeof PutRulesIdMetricsReset404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutRulesIdMetricsReset404Code = {
@@ -60,7 +60,7 @@ export type PutRulesIdMetricsReset404 = {
 }
 
 export type GetRulesIdMetrics404Code =
-  typeof GetRulesIdMetrics404Code[keyof typeof GetRulesIdMetrics404Code]
+  (typeof GetRulesIdMetrics404Code)[keyof typeof GetRulesIdMetrics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRulesIdMetrics404Code = {
@@ -72,7 +72,7 @@ export type GetRulesIdMetrics404 = {
   message?: string
 }
 
-export type PostRules400Code = typeof PostRules400Code[keyof typeof PostRules400Code]
+export type PostRules400Code = (typeof PostRules400Code)[keyof typeof PostRules400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRules400Code = {
@@ -84,7 +84,7 @@ export type PostRules400 = {
   message?: string
 }
 
-export type GetRules400Code = typeof GetRules400Code[keyof typeof GetRules400Code]
+export type GetRules400Code = (typeof GetRules400Code)[keyof typeof GetRules400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRules400Code = {
@@ -115,7 +115,7 @@ export type GetRulesParams = {
 }
 
 export type PostRulesIdTest412Code =
-  typeof PostRulesIdTest412Code[keyof typeof PostRulesIdTest412Code]
+  (typeof PostRulesIdTest412Code)[keyof typeof PostRulesIdTest412Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRulesIdTest412Code = {
@@ -128,7 +128,7 @@ export type PostRulesIdTest412 = {
 }
 
 export type PostRulesIdTest404Code =
-  typeof PostRulesIdTest404Code[keyof typeof PostRulesIdTest404Code]
+  (typeof PostRulesIdTest404Code)[keyof typeof PostRulesIdTest404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRulesIdTest404Code = {
@@ -141,7 +141,7 @@ export type PostRulesIdTest404 = {
 }
 
 export type PostRulesIdTest400Code =
-  typeof PostRulesIdTest400Code[keyof typeof PostRulesIdTest400Code]
+  (typeof PostRulesIdTest400Code)[keyof typeof PostRulesIdTest400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRulesIdTest400Code = {
@@ -153,7 +153,7 @@ export type PostRulesIdTest400 = {
   message?: string
 }
 
-export type PostRuleTest412Code = typeof PostRuleTest412Code[keyof typeof PostRuleTest412Code]
+export type PostRuleTest412Code = (typeof PostRuleTest412Code)[keyof typeof PostRuleTest412Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRuleTest412Code = {
@@ -165,7 +165,7 @@ export type PostRuleTest412 = {
   message?: string
 }
 
-export type PostRuleTest400Code = typeof PostRuleTest400Code[keyof typeof PostRuleTest400Code]
+export type PostRuleTest400Code = (typeof PostRuleTest400Code)[keyof typeof PostRuleTest400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostRuleTest400Code = {
@@ -241,10 +241,12 @@ export type RuleEngineRuleEventsTestColumns = { [key: string]: any }
 export type RuleEngineRuleEventsColumns = { [key: string]: any }
 
 export type RuleEngineRuleEventsEvent =
-  typeof RuleEngineRuleEventsEvent[keyof typeof RuleEngineRuleEventsEvent]
+  (typeof RuleEngineRuleEventsEvent)[keyof typeof RuleEngineRuleEventsEvent]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineRuleEventsEvent = {
+  '$events/alarm_activated': '$events/alarm_activated',
+  '$events/alarm_deactivated': '$events/alarm_deactivated',
   '$events/client_connected': '$events/client_connected',
   '$events/client_disconnected': '$events/client_disconnected',
   '$events/client_connack': '$events/client_connack',
@@ -355,7 +357,7 @@ export interface RuleEngineMetrics {
 }
 
 export type RuleEngineCtxUnsubEventType =
-  typeof RuleEngineCtxUnsubEventType[keyof typeof RuleEngineCtxUnsubEventType]
+  (typeof RuleEngineCtxUnsubEventType)[keyof typeof RuleEngineCtxUnsubEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxUnsubEventType = {
@@ -374,7 +376,7 @@ export interface RuleEngineCtxUnsub {
 }
 
 export type RuleEngineCtxSubEventType =
-  typeof RuleEngineCtxSubEventType[keyof typeof RuleEngineCtxSubEventType]
+  (typeof RuleEngineCtxSubEventType)[keyof typeof RuleEngineCtxSubEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxSubEventType = {
@@ -393,7 +395,7 @@ export interface RuleEngineCtxSub {
 }
 
 export type RuleEngineCtxSchemaValidationFailedEventType =
-  typeof RuleEngineCtxSchemaValidationFailedEventType[keyof typeof RuleEngineCtxSchemaValidationFailedEventType]
+  (typeof RuleEngineCtxSchemaValidationFailedEventType)[keyof typeof RuleEngineCtxSchemaValidationFailedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxSchemaValidationFailedEventType = {
@@ -413,7 +415,7 @@ export interface RuleEngineCtxSchemaValidationFailed {
 }
 
 export type RuleEngineCtxPubEventType =
-  typeof RuleEngineCtxPubEventType[keyof typeof RuleEngineCtxPubEventType]
+  (typeof RuleEngineCtxPubEventType)[keyof typeof RuleEngineCtxPubEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxPubEventType = {
@@ -433,7 +435,7 @@ export interface RuleEngineCtxPub {
 }
 
 export type RuleEngineCtxMessageTransformationFailedEventType =
-  typeof RuleEngineCtxMessageTransformationFailedEventType[keyof typeof RuleEngineCtxMessageTransformationFailedEventType]
+  (typeof RuleEngineCtxMessageTransformationFailedEventType)[keyof typeof RuleEngineCtxMessageTransformationFailedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxMessageTransformationFailedEventType = {
@@ -453,7 +455,7 @@ export interface RuleEngineCtxMessageTransformationFailed {
 }
 
 export type RuleEngineCtxDroppedEventType =
-  typeof RuleEngineCtxDroppedEventType[keyof typeof RuleEngineCtxDroppedEventType]
+  (typeof RuleEngineCtxDroppedEventType)[keyof typeof RuleEngineCtxDroppedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxDroppedEventType = {
@@ -491,7 +493,7 @@ export type RuleEngineRuleApplyTestContext =
   | RuleEngineCtxPub
 
 export type RuleEngineCtxDisconnectedEventType =
-  typeof RuleEngineCtxDisconnectedEventType[keyof typeof RuleEngineCtxDisconnectedEventType]
+  (typeof RuleEngineCtxDisconnectedEventType)[keyof typeof RuleEngineCtxDisconnectedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxDisconnectedEventType = {
@@ -509,7 +511,7 @@ export interface RuleEngineCtxDisconnected {
 }
 
 export type RuleEngineCtxDeliveryDroppedEventType =
-  typeof RuleEngineCtxDeliveryDroppedEventType[keyof typeof RuleEngineCtxDeliveryDroppedEventType]
+  (typeof RuleEngineCtxDeliveryDroppedEventType)[keyof typeof RuleEngineCtxDeliveryDroppedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxDeliveryDroppedEventType = {
@@ -532,7 +534,7 @@ export interface RuleEngineCtxDeliveryDropped {
 }
 
 export type RuleEngineCtxDeliveredEventType =
-  typeof RuleEngineCtxDeliveredEventType[keyof typeof RuleEngineCtxDeliveredEventType]
+  (typeof RuleEngineCtxDeliveredEventType)[keyof typeof RuleEngineCtxDeliveredEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxDeliveredEventType = {
@@ -554,7 +556,7 @@ export interface RuleEngineCtxDelivered {
 }
 
 export type RuleEngineCtxConnectedEventType =
-  typeof RuleEngineCtxConnectedEventType[keyof typeof RuleEngineCtxConnectedEventType]
+  (typeof RuleEngineCtxConnectedEventType)[keyof typeof RuleEngineCtxConnectedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxConnectedEventType = {
@@ -578,7 +580,7 @@ export interface RuleEngineCtxConnected {
 }
 
 export type RuleEngineCtxConnackEventType =
-  typeof RuleEngineCtxConnackEventType[keyof typeof RuleEngineCtxConnackEventType]
+  (typeof RuleEngineCtxConnackEventType)[keyof typeof RuleEngineCtxConnackEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxConnackEventType = {
@@ -601,7 +603,7 @@ export interface RuleEngineCtxConnack {
 }
 
 export type RuleEngineCtxCheckAuthzCompleteEventType =
-  typeof RuleEngineCtxCheckAuthzCompleteEventType[keyof typeof RuleEngineCtxCheckAuthzCompleteEventType]
+  (typeof RuleEngineCtxCheckAuthzCompleteEventType)[keyof typeof RuleEngineCtxCheckAuthzCompleteEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxCheckAuthzCompleteEventType = {
@@ -620,7 +622,7 @@ export interface RuleEngineCtxCheckAuthzComplete {
 }
 
 export type RuleEngineCtxCheckAuthnCompleteEventType =
-  typeof RuleEngineCtxCheckAuthnCompleteEventType[keyof typeof RuleEngineCtxCheckAuthnCompleteEventType]
+  (typeof RuleEngineCtxCheckAuthnCompleteEventType)[keyof typeof RuleEngineCtxCheckAuthnCompleteEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxCheckAuthnCompleteEventType = {
@@ -638,7 +640,7 @@ export interface RuleEngineCtxCheckAuthnComplete {
 }
 
 export type RuleEngineCtxBridgeMqttEventType =
-  typeof RuleEngineCtxBridgeMqttEventType[keyof typeof RuleEngineCtxBridgeMqttEventType]
+  (typeof RuleEngineCtxBridgeMqttEventType)[keyof typeof RuleEngineCtxBridgeMqttEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxBridgeMqttEventType = {
@@ -658,7 +660,7 @@ export interface RuleEngineCtxBridgeMqtt {
 }
 
 export type RuleEngineCtxAckedEventType =
-  typeof RuleEngineCtxAckedEventType[keyof typeof RuleEngineCtxAckedEventType]
+  (typeof RuleEngineCtxAckedEventType)[keyof typeof RuleEngineCtxAckedEventType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineCtxAckedEventType = {
@@ -680,7 +682,7 @@ export interface RuleEngineCtxAcked {
 }
 
 export type RuleEngineBuiltinActionRepublishFunction =
-  typeof RuleEngineBuiltinActionRepublishFunction[keyof typeof RuleEngineBuiltinActionRepublishFunction]
+  (typeof RuleEngineBuiltinActionRepublishFunction)[keyof typeof RuleEngineBuiltinActionRepublishFunction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineBuiltinActionRepublishFunction = {
@@ -693,7 +695,7 @@ export interface RuleEngineBuiltinActionRepublish {
 }
 
 export type RuleEngineBuiltinActionConsoleFunction =
-  typeof RuleEngineBuiltinActionConsoleFunction[keyof typeof RuleEngineBuiltinActionConsoleFunction]
+  (typeof RuleEngineBuiltinActionConsoleFunction)[keyof typeof RuleEngineBuiltinActionConsoleFunction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineBuiltinActionConsoleFunction = {

@@ -2,6 +2,14 @@
   <div class="alarm app-wrapper">
     <div class="section-header">
       <div></div>
+      <el-tooltip link :content="tl('setupWebhookDesc')" placement="top">
+        <router-link class="el-button" :to="alarmWebhookRoute">
+          <el-icon :size="16">
+            <i class="iconfont icon-webhook"></i>
+          </el-icon>
+          {{ tl('setUpWebhook') }}
+        </router-link>
+      </el-tooltip>
       <el-button
         :icon="Setting"
         :disabled="!$hasPermission('put')"
@@ -69,11 +77,19 @@ import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Setting } from '@element-plus/icons-vue'
 import useDurationStr from '@/hooks/useDurationStr'
+import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+
+const { tl } = useI18nTl('Alarm')
 
 const currentLockTable = ref(false)
 const currentAlarmData = ref<any[]>([])
 const store = useStore()
+
+const alarmWebhookRoute = {
+  name: 'webhook-create',
+  query: { trigger: 'alarm' },
+}
 
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
@@ -100,4 +116,10 @@ loadData()
 
 <style lang="scss">
 @import '@/style/alarm.scss';
+.alarm {
+  .icon-webhook {
+    font-size: 13.5px;
+    margin-right: 6px;
+  }
+}
 </style>

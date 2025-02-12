@@ -1229,8 +1229,8 @@ export interface DashboardSaml {
 
 export interface DashboardSso {
   ldap?: SsoLdap
-  saml?: DashboardSaml
   oidc?: SsoOidc
+  saml?: DashboardSaml
 }
 
 export interface DashboardHttps {

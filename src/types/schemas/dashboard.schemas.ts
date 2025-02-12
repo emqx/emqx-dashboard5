@@ -21,8 +21,8 @@ export type PostLogoutBackend = (typeof PostLogoutBackend)[keyof typeof PostLogo
 export const PostLogoutBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type PostLogoutParams = {
@@ -133,8 +133,8 @@ export type DeleteUsersUsernameBackend =
 export const DeleteUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type DeleteUsersUsernameParams = {
@@ -185,8 +185,8 @@ export type PutUsersUsernameBackend =
 export const PutUsersUsernameBackend = {
   local: 'local',
   ldap: 'ldap',
-  saml: 'saml',
   oidc: 'oidc',
+  saml: 'saml',
 } as const
 
 export type PutUsersUsernameParams = {

@@ -241,6 +241,17 @@
                     />
                   </el-form-item>
                 </el-col>
+                <el-col :span="21">
+                  <el-form-item>
+                    <template #label>
+                      <FormItemLabel :label="tl('maxQueueSize')" :desc="tl('maxQueueSizeDesc')" />
+                    </template>
+                    <CustomInputNumber
+                      v-model="opentelemetryFormData.traces.max_queue_size"
+                      :min="1"
+                    />
+                  </el-form-item>
+                </el-col>
               </template>
               <!-- Logs -->
               <template v-if="opentelemetryFormData.logs?.enable">
@@ -339,6 +350,7 @@ import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'
 import OpenTelemetrySampleDrawer from './components/OpenTelemetrySampleDrawer.vue'
 import useFormRules from '@/hooks/useFormRules'
+import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 const PROMETHEUS = 'Prometheus'
 const OPENTELEMETRY = 'OpenTelemetry'

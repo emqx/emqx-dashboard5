@@ -1,4 +1,4 @@
-export type GetMonitor400Code = typeof GetMonitor400Code[keyof typeof GetMonitor400Code]
+export type GetMonitor400Code = (typeof GetMonitor400Code)[keyof typeof GetMonitor400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMonitor400Code = {
@@ -15,7 +15,7 @@ export type GetMonitorParams = {
 }
 
 export type GetMonitorNodesNode404Code =
-  typeof GetMonitorNodesNode404Code[keyof typeof GetMonitorNodesNode404Code]
+  (typeof GetMonitorNodesNode404Code)[keyof typeof GetMonitorNodesNode404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMonitorNodesNode404Code = {
@@ -32,7 +32,7 @@ export type GetMonitorNodesNodeParams = {
 }
 
 export type GetMonitorCurrentNodesNode404Code =
-  typeof GetMonitorCurrentNodesNode404Code[keyof typeof GetMonitorCurrentNodesNode404Code]
+  (typeof GetMonitorCurrentNodesNode404Code)[keyof typeof GetMonitorCurrentNodesNode404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMonitorCurrentNodesNode404Code = {
@@ -313,44 +313,44 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
+  connections?: number
+  disconnected_durable_sessions?: number
   dropped_msg_rate?: number
-  sent_msg_rate?: number
+  license_quota?: number
+  live_connections?: number
+  node_uptime?: number
   persisted_rate?: number
   received_msg_rate?: number
+  retained_msg_count?: number
+  sent_msg_rate?: number
+  shared_subscriptions?: number
+  subscriptions?: number
+  subscriptions_durable?: number
+  topics?: number
   transformation_failed_rate?: number
   transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
-  disconnected_durable_sessions?: number
-  subscriptions_durable?: number
-  subscriptions?: number
-  topics?: number
-  connections?: number
-  live_connections?: number
-  node_uptime?: number
-  retained_msg_count?: number
-  shared_subscriptions?: number
-  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
+  connections?: number
+  disconnected_durable_sessions?: number
   dropped_msg_rate?: number
-  sent_msg_rate?: number
+  license_quota?: number
+  live_connections?: number
   persisted_rate?: number
   received_msg_rate?: number
+  retained_msg_count?: number
+  sent_msg_rate?: number
+  shared_subscriptions?: number
+  subscriptions?: number
+  subscriptions_durable?: number
+  topics?: number
   transformation_failed_rate?: number
   transformation_succeeded_rate?: number
   validation_failed_rate?: number
   validation_succeeded_rate?: number
-  disconnected_durable_sessions?: number
-  subscriptions_durable?: number
-  subscriptions?: number
-  topics?: number
-  connections?: number
-  live_connections?: number
-  retained_msg_count?: number
-  shared_subscriptions?: number
-  license_quota?: number
 }
 
 export interface EmqxDashboardMonitorApiSampler {

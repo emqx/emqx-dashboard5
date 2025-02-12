@@ -487,20 +487,6 @@ export const GcpPubsubConsumerGetSourceType = {
   gcp_pubsub_consumer: 'gcp_pubsub_consumer',
 } as const
 
-export interface GcpPubsubConsumerGetSource {
-  type: GcpPubsubConsumerGetSourceType
-  name: string
-  status?: GcpPubsubConsumerGetSourceStatus
-  status_reason?: string
-  node_status?: BridgeNodeStatus[]
-  parameters: GcpPubsubConsumerSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
-  resource_opts?: GcpPubsubConsumerSourceResourceOpts
-}
-
 export type BridgeNodeStatusStatus =
   (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
 
@@ -516,6 +502,20 @@ export interface BridgeNodeStatus {
   node?: string
   status?: BridgeNodeStatusStatus
   status_reason?: string
+}
+
+export interface GcpPubsubConsumerGetSource {
+  type: GcpPubsubConsumerGetSourceType
+  name: string
+  status?: GcpPubsubConsumerGetSourceStatus
+  status_reason?: string
+  node_status?: BridgeNodeStatus[]
+  parameters: GcpPubsubConsumerSourceParameters
+  enable?: boolean
+  connector: string
+  tags?: string[]
+  description?: string
+  resource_opts?: GcpPubsubConsumerSourceResourceOpts
 }
 
 export interface BridgeMetrics {
@@ -681,4 +681,23 @@ export interface BridgeMqttPublisherGetSource {
 
 export interface ActionsAndSourcesSourceResourceOpts {
   health_check_interval?: string
+}
+
+export interface ActionsAndSourcesResponseNodeStatus {
+  node?: string
+  status?: string
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesResponseSummary {
+  enable?: boolean
+  name?: string
+  type?: string
+  description?: string
+  created_at?: number
+  last_modified_at?: number
+  node_status?: ActionsAndSourcesResponseNodeStatus[]
+  rules?: string[]
+  status?: string
+  status_reason?: string
 }

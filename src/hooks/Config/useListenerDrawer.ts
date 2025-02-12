@@ -6,7 +6,7 @@ import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { assign, cloneDeep, merge, omit } from 'lodash'
+import { assign, cloneDeep, isEqual, merge, omit } from 'lodash'
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { computed, nextTick, ref, watch } from 'vue'
 import useI18nTl from '../useI18nTl'
@@ -52,6 +52,7 @@ interface useListenerDrawerReturns {
   showWSConfig: ComputedRef<boolean>
   listenerFormRules: ComputedRef<FormRules>
   submit: () => Promise<void>
+  confirmClose: () => Promise<void>
   onDelete: () => void
   transPort: (port: string) => string
   handleTLSVerifyChange: (val: string | number | boolean) => void
@@ -148,6 +149,34 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
 
   const isLoading = ref(false)
 
+  let rawListenerRecord = {}
+  let rawListenerCustomConfigs = {}
+  const isRecordChanged = () =>
+    !isEqual(rawListenerRecord, listenerRecord.value) ||
+    !isEqual(rawListenerCustomConfigs, listenerCustomConfigs.value)
+  const confirmClose = async () => {
+    try {
+      const isChanged = isRecordChanged()
+      if (isChanged) {
+        await ElMessageBox({
+          type: 'info',
+          title: t('APIKey.close'),
+          message: t('Base.unloadTip'),
+          showCancelButton: true,
+          confirmButtonText: t('Base.confirm'),
+          showClose: false,
+          closeOnClickModal: false,
+          closeOnPressEscape: false,
+          closeOnHashChange: false,
+        })
+        return Promise.resolve()
+      }
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject()
+    }
+  }
+
   const loadListenerData = async () => {
     if (!props.listener) {
       return
@@ -166,6 +195,8 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       if (!isEmptyObj(differences)) {
         listenerCustomConfigs.value = unflattenObject(differences)
       }
+      rawListenerRecord = cloneDeep(listenerRecord.value)
+      rawListenerCustomConfigs = cloneDeep(listenerCustomConfigs.value)
     } catch (error) {
       //
     } finally {
@@ -358,6 +389,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     isCoAP,
     SSLConfigKey,
     listenerFormRules,
+    confirmClose,
     submit,
     onDelete,
     transPort,

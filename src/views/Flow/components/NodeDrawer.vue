@@ -34,6 +34,7 @@
         :is="getFormComponent(type)"
         :key="selectedAction"
         v-model="record"
+        v-loading="isLoading"
         v-bind="getFormComponentProps(type)"
         :readonly="readonly"
         :edit="isEdit"
@@ -116,6 +117,7 @@ import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import NodeMetrics from './metrics/NodeMetrics.vue'
+import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 
 const props = defineProps({
   modelValue: {
@@ -242,7 +244,6 @@ const getSchemaBridgeProps = (type: string) => ({
   isSource: props.node?.type === FlowNodeType.Input,
   isUsingInFlow: true,
   labelWidth: '180px',
-  hiddenFields: ['role'],
   type: type,
 })
 
@@ -381,6 +382,24 @@ const webhookName = computed(() => {
 
 const edit = () => emit('edit')
 
+const { getDetail: getActionDetail } = useHandleActionItem()
+const { getSourceDetail } = useHandleSourceItem()
+const isLoading = ref(false)
+/**
+ * summary api do not have detail, so we need to get the detail from the api
+ */
+const getActionAndSourceDetail = async () => {
+  try {
+    isLoading.value = true
+    const func = props.node?.type === FlowNodeType.Input ? getSourceDetail : getActionDetail
+    record.value = await func(record.value.id)
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
+
 watch(showDrawer, (val) => {
   if (!val) {
     activeTab.value = DetailTab.Setting
@@ -392,6 +411,9 @@ watch(showDrawer, (val) => {
   record.value = formData && isObject(formData) ? cloneDeep(formData) : getFormDataByType(type)
   if (isBridgeType(type)) {
     selectedAction.value = record.value.id ? record.value.id : ''
+    if (props.readonly) {
+      getActionAndSourceDetail()
+    }
   }
   rawRecord = cloneDeep(record.value)
 })

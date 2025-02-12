@@ -28,8 +28,8 @@ export default {
     en: 'Management',
   },
   diagnose: {
-    zh: '问题分析',
-    en: 'Diagnose',
+    zh: '诊断工具',
+    en: 'Diagnostics Tools',
   },
   acl: {
     zh: 'ACL',
@@ -109,7 +109,7 @@ export default {
   },
   rule: {
     zh: '规则',
-    en: 'Rule',
+    en: 'Rules',
   },
   rules: {
     zh: '规则',
@@ -132,8 +132,8 @@ export default {
     en: 'Create Flow',
   },
   webhook: {
-    zh: 'Webhook',
-    en: 'Webhook',
+    zh: 'Webhooks',
+    en: 'Webhooks',
   },
   'webhook-create': {
     zh: '创建 Webhook',
@@ -189,7 +189,7 @@ export default {
   },
   extension: {
     zh: '扩展',
-    en: 'Extension',
+    en: 'Extensions',
   },
   'mqtt-system-topic': {
     zh: '系统主题',
@@ -200,12 +200,12 @@ export default {
     en: 'Gateways',
   },
   exhook: {
-    zh: 'ExHook',
-    en: 'ExHook',
+    zh: 'ExHooks',
+    en: 'ExHooks',
   },
   'api-key': {
     zh: 'API 密钥',
-    en: 'API Key',
+    en: 'API Keys',
   },
   'banned-clients': {
     zh: '黑名单',
@@ -237,7 +237,7 @@ export default {
   },
   'audit-log': {
     zh: '审计日志',
-    en: 'Audit Log',
+    en: 'Audit Logs',
   },
   system: {
     zh: '系统设置',
@@ -304,8 +304,8 @@ export default {
     en: 'Actions (Sink)',
   },
   schema: {
-    zh: 'Schema',
-    en: 'Schema',
+    zh: 'Schema Registry',
+    en: 'Schema Registry',
   },
   source: {
     zh: 'Sources',
@@ -357,7 +357,7 @@ export default {
   },
   'log-trace': {
     zh: '日志追踪',
-    en: 'Log Trace',
+    en: 'Log Traces',
   },
   'dropped-analysis': {
     zh: '丢弃分析',
@@ -365,7 +365,7 @@ export default {
   },
   connector: {
     zh: '连接器',
-    en: 'Connector',
+    en: 'Connectors',
   },
   extensions: {
     zh: '插件扩展',
@@ -373,7 +373,7 @@ export default {
   },
   'mqtt-session': {
     zh: '会话',
-    en: 'Session',
+    en: 'Sessions',
   },
   'mqtt-retainer': {
     zh: '保留消息',

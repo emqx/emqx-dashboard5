@@ -11,6 +11,14 @@ export default {
     zh: '历史告警',
     en: 'History',
   },
+  setUpWebhook: {
+    zh: '配置告警 Webhook',
+    en: 'Set Up Webhook',
+  },
+  setupWebhookDesc: {
+    zh: '快速配置一个 Webhook 以接收告警事件通知。',
+    en: 'Quickly configure a webhook to receive alarm event notifications.',
+  },
   node: {
     zh: '节点',
     en: 'Node',

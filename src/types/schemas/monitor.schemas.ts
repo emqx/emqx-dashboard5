@@ -219,6 +219,7 @@ export interface OpentelemetryTraceFilter {
 
 export interface OpentelemetryOtelTraces {
   enable?: boolean
+  max_queue_size?: number
   scheduled_delay?: string
   filter?: OpentelemetryTraceFilter
 }
@@ -271,6 +272,7 @@ export interface OpentelemetryE2eTracingOptions {
   client_connect_disconnect?: boolean
   client_subscribe_unsubscribe?: boolean
   client_messaging?: boolean
+  follow_traceparent?: boolean
 }
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
