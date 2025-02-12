@@ -1,4 +1,4 @@
-import { DEFAULT_SELECT } from '@/common/constants'
+import { CONNECTOR_TYPES_WITH_TWO_DIRECTIONS, DEFAULT_SELECT } from '@/common/constants'
 import {
   arraysAreEqual,
   getKeyPartsFromSQL,
@@ -11,6 +11,7 @@ import {
   judgeRuleSelectionWithFunc,
 } from '@/common/tools'
 import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
+import { BridgeType } from '@/types/enum'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { isString, isUndefined } from 'lodash'
@@ -240,10 +241,17 @@ export default (): {
         specificType = getSpecificTypeForBridge(specificType)
       }
       const formData = getFormDataByType(type, fromItem)
+      let typeInId = type
+      /**
+       * for prevent display issues in the flow diagram when action and source have the same name
+       */
+      if (CONNECTOR_TYPES_WITH_TWO_DIRECTIONS.includes(type as BridgeType)) {
+        typeInId = `${type}_source`
+      }
       const id =
         type === SourceType.Event || type === SourceType.Message
-          ? `${type}-${fromItem}`
-          : `${type}-${getBridgeIdFromInput(fromItem)}`
+          ? `${typeInId}-${fromItem}`
+          : `${typeInId}-${getBridgeIdFromInput(fromItem)}`
 
       const node = {
         id,
