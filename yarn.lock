@@ -1196,9 +1196,9 @@
   integrity sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==
 
 "@emqx/shared-ui-i18n@~0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.35.tgz#48c75215c214108cf3314009ef296df2e9deae13"
-  integrity sha512-a24skqxz78+D9x8ATB46sT4svrVc0PMrPxSjczBaccAHPcBQu83y7AwPtwhAAiGM3gKcx86e7d1PlcjkmvWaLQ==
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.37.tgz#22dd28adef89a719acbfe927afc780150231bd69"
+  integrity sha512-w7NBBEMYkHLAcleLsLXXCgNZH+XC5G4/F8oEY7M0VfVqYHqiYFnRQ4vAZ7CO2GtPVeU2sSL+mO8YtWAAwET6UQ==
 
 "@emqx/shared-ui-utils@^0.0.14":
   version "0.0.14"
