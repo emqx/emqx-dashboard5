@@ -43,6 +43,7 @@ import useParseWhere from './useParseWhere'
  * - topic - `topic-{val}`
  * - console - `console`
  * - bridge - `{bridgeType}-{bridgeID}`
+ * if bridge type is both direction, add `_source` to the source node id
  * - repub - `republish-{topic}`
  * - filter - `filter-{ruleID}`
  * - function - `function-{ruleID}`
