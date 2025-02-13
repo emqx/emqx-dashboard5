@@ -216,5 +216,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import './style/auth.scss';
+@use './style/auth.scss';
 </style>

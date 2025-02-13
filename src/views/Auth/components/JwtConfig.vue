@@ -153,7 +153,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 .jwt-config {
   .el-radio-group {
     margin: 12px 0 32px 0;

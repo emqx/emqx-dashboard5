@@ -19,7 +19,7 @@ import {} from 'vue'
 </script>
 
 <style lang="scss">
-@import '@/style/common.scss';
+@use '@/style/variables.scss';
 .pre-with-ellipsis {
   white-space: nowrap;
   .placeholder {
@@ -29,7 +29,7 @@ import {} from 'vue'
   }
   pre {
     margin: 0;
-    font-family: $font;
+    font-family: variables.$font;
     overflow: hidden;
     text-overflow: ellipsis;
   }

@@ -206,7 +206,7 @@ checkProps()
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .connector-create {
   .type-select-container,
   .form-container {

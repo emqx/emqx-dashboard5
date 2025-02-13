@@ -5,8 +5,9 @@
 </template>
 
 <style lang="scss">
-@import '@/style/common.scss';
+@use '@/style/variables.scss';
 .pre-with-wrap {
   word-break: break-all;
+  font-family: variables.$font;
 }
 </style>

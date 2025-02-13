@@ -34,7 +34,7 @@ const sourceRecord = ref({})
 const { addSource, isTesting, testConnectivity } = useHandleSourceItem()
 
 const getDataForSubmit = (): Source =>
-  ({ type: props.type, ...cloneDeep(sourceRecord.value) } as Source)
+  ({ type: props.type, ...cloneDeep(sourceRecord.value) }) as Source
 
 const testConnection = async () => {
   try {
@@ -66,7 +66,7 @@ defineExpose({ testConnection, submitNewSource, sourceRecord })
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>
