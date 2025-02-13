@@ -1,6 +1,6 @@
 <template>
   <ActionAndSourceFilterForm :type="type" @search="search" />
-  <div class="app-wrapper">
+  <div class="app-wrapper action-source-list">
     <el-table
       :data="tableData"
       :empty-text="emptyTip"
@@ -58,8 +58,9 @@
           <router-link
             v-for="item in row.rules"
             :to="{ name: 'rule-detail', params: { id: item } }"
-            target="_blank"
             :key="item"
+            target="_blank"
+            class="rule-detail-link"
           >
             <el-tag size="small" type="info">{{ item }}</el-tag>
           </router-link>
@@ -340,9 +341,16 @@ const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egr
 </script>
 
 <style lang="scss">
-.view-rules-link {
-  margin-top: 2px;
-  margin-left: 4px;
-  font-size: 12px;
+.action-source-list {
+  .rule-detail-link {
+    &:not(:last-child) {
+      margin-right: 4px;
+    }
+  }
+  .view-rules-link {
+    margin-top: 2px;
+    margin-left: 4px;
+    font-size: 12px;
+  }
 }
 </style>

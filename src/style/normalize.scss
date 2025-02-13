@@ -406,6 +406,10 @@
       background: var(--color-bg-content);
       color: var(--color-primary);
       @include border-gradient(#ac6eff, #5f56fc);
+      &:not(.el-button--small, .el-button--large) {
+        // the border is shadow, so we need to set the height to 30px (32 - 2)
+        height: 30px;
+      }
     }
     &:hover {
       background: linear-gradient(135deg, #bc7eff 0%, #6f66ec 100%);

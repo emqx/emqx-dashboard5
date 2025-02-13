@@ -6,6 +6,7 @@
       v-model="rawListener"
       :rows="12"
       :placeholder="defaultPlaceHolder"
+      @keydown.tab="handleTab"
       @blur="resetRawData"
       @focus="handleFocus"
     />
@@ -74,6 +75,19 @@ async function resetRawData() {
 
 function handleFocus() {
   errorMsg.value = ''
+}
+
+const handleTab = (e: KeyboardEvent) => {
+  e.preventDefault()
+  const textarea = e.target as HTMLTextAreaElement
+  const { selectionStart, selectionEnd, value } = textarea
+  const tabSize = 2
+  const before = value.slice(0, selectionStart)
+  const after = value.slice(selectionEnd)
+  const newText = before + ' '.repeat(tabSize) + after
+  const newCursorPos = selectionStart + tabSize
+  textarea.value = newText
+  textarea.setSelectionRange(newCursorPos, newCursorPos)
 }
 
 defineExpose({
