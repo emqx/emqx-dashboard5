@@ -655,4 +655,8 @@ export default {
     zh: '创建时间',
     en: 'Created At',
   },
+  duplicatedInput: {
+    zh: '重复的输入',
+    en: 'Duplicated Input',
+  },
 }

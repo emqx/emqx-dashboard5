@@ -2,20 +2,18 @@
   <p class="value" v-if="readonly">
     {{ Array.isArray(modelValue) ? modelValue.join(', ') : modelValue }}
   </p>
-  <el-select
+  <el-input-tag
     v-else
     class="array-editor"
     v-model="selected"
-    multiple
-    filterable
-    allow-create
-    default-first-option
-    :reserve-keyword="false"
     :disabled="disabled"
     :placeholder="$t('Base.enterToCreate')"
+    @add-tag="checkDuplicate"
   >
-    <el-option v-for="item in options" :key="item" :value="item" :label="item" />
-  </el-select>
+    <template #tag="{ value }">
+      <CommonOverflowTooltip :content="value" />
+    </template>
+  </el-input-tag>
 </template>
 
 <script lang="ts">
@@ -27,8 +25,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import useI18nTl from '@/hooks/useI18nTl'
+import { ElMessage } from 'element-plus'
 import type { PropType, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
+import { computed, nextTick } from 'vue'
+import CommonOverflowTooltip from './CommonOverflowTooltip.vue'
 
 const props = defineProps({
   modelValue: {
@@ -45,15 +46,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  allowDuplicates: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:modelValue'])
-
-const options = computed(() => {
-  if (props.default && Array.isArray(props.default)) {
-    return props.default
-  }
-  return props.modelValue
-})
 
 const selected: WritableComputedRef<Array<string>> = computed({
   get() {
@@ -63,4 +61,32 @@ const selected: WritableComputedRef<Array<string>> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const { tl } = useI18nTl('Base')
+const checkDuplicate = async (tag: string) => {
+  if (props.allowDuplicates) {
+    return
+  }
+  const isDuplicated = selected.value.some((item) => item === tag)
+  if (isDuplicated) {
+    ElMessage({ type: 'info', message: tl('duplicatedInput'), duration: 1000 })
+    await nextTick()
+    selected.value = selected.value.slice(0, -1)
+  }
+}
 </script>
+
+<style lang="scss">
+.array-editor {
+  width: 100%;
+  .el-tag {
+    max-width: 100px;
+    .el-tag__content {
+      max-width: 64px;
+    }
+    .overflow-tooltip {
+      min-width: 100%;
+    }
+  }
+}
+</style>
