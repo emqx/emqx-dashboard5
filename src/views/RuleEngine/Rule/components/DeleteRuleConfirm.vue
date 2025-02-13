@@ -177,7 +177,7 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .delete-second-confirm {
   .checkbox-wrapper {
     padding: 12px 0 8px 36px;

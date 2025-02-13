@@ -211,7 +211,7 @@ updateInputListBySql()
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .rule-inputs {
   .img-io-item {
     border: 8px solid transparent;

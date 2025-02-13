@@ -1,5 +1,6 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { resolve } from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { version as packageVersion } from './package.json'
@@ -45,6 +46,11 @@ export default defineConfig(({ mode }) => {
       modules: {
         localsConvention: 'camelCaseOnly',
       },
+      preprocessorOptions: {
+        scss: {
+          api: 'modern',
+        },
+      },
     },
     build: {
       assetsDir: 'static',
@@ -59,7 +65,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@': '/src',
+        '@': resolve(__dirname, 'src'),
       },
     },
     optimizeDeps: {

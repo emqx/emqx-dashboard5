@@ -234,7 +234,7 @@ const handleReset = () => {
 </script>
 
 <style lang="scss">
-@import '@/style/management.scss';
+@use '@/style/management.scss';
 .rule-filter-form {
   margin-top: -12px;
   // when show more query

@@ -139,5 +139,5 @@ const routeToDetail = function ({ type }: AuthzSourceItem, tab: string) {
 </script>
 
 <style lang="scss">
-@import './style/authTable.scss';
+@use './style/authTable.scss';
 </style>

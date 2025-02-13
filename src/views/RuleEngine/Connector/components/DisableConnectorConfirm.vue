@@ -100,5 +100,5 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>

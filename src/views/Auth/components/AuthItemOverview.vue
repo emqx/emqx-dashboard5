@@ -153,5 +153,5 @@ const getMetricsTypes = () =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>

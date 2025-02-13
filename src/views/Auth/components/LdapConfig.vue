@@ -183,7 +183,7 @@ watch(ldapConfig, (value) => {
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 .ldap-config.config {
   .viewer-container {
     height: 200px;
