@@ -608,8 +608,8 @@ export default {
     en: 'Maximum Rate',
   },
   enterToCreate: {
-    zh: '输入后创建新的自定义条目',
-    en: 'Enter to create a new custom item',
+    zh: '输入后创建新的条目',
+    en: 'Enter to create a new item',
   },
   node: {
     zh: '节点',
