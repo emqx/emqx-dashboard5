@@ -1204,17 +1204,17 @@
   uid ""
 
 "@emqx/shared-ui-i18n@~0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.36.tgz#24fda341b4f8f8d96f9a2ed7e2ee00609afcb5f4"
-  integrity sha512-p2IOdvQ0NTJZa6NcXwEBXeXuHr9H3MagdOVpkK5fgjFhEeNsu7bp3WI7Ai7p1WKKAS89ijMigJQLUeswQM8wOw==
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.37.tgz#22dd28adef89a719acbfe927afc780150231bd69"
+  integrity sha512-w7NBBEMYkHLAcleLsLXXCgNZH+XC5G4/F8oEY7M0VfVqYHqiYFnRQ4vAZ7CO2GtPVeU2sSL+mO8YtWAAwET6UQ==
 
 "@emqx/shared-ui-utils@^0.0.16":
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/@emqx/shared-ui-utils/-/shared-ui-utils-0.0.16.tgz#3cb4f16f0050bae0fa5818db2948105a48bcf9b5"
   integrity sha512-MAF8Ta8phj+1BCuAT+wbUqLIGdYV6yAww0GtvL6t+ezJcxjyXsS50HT+W8MOTv82A6GnI1Oj3ZS41PfcNOHJFw==
   dependencies:
-    "@emqx/shared-ui-constants" "link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants"
-    "@emqx/shared-ui-i18n" "link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n"
+    "@emqx/shared-ui-constants" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants"
+    "@emqx/shared-ui-i18n" "link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n"
     json-bigint "^1.0.0"
     papaparse "^5.4.1"
     vue-i18n "^9.10.2"
