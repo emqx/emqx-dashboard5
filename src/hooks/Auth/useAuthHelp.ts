@@ -14,7 +14,7 @@ export default (context: {
   authType: 'authn' | 'authz'
   databaseType: 'mysql' | 'postgresql' | 'mongodb' | 'redis' | 'http' | undefined
 }): {
-  helpText: ComputedRef<string[]>
+  helpText: ComputedRef<(string | { type: string; content: string })[]>
   helpCode: ComputedRef<string>
 } => {
   const { t, tl } = useI18nTl('AuthDoc')
@@ -61,6 +61,13 @@ export default (context: {
         tl('authzMongoDBParagraph1'),
         `${t('AuthDoc.authzSupportedPlaceholders', [tl('selector')])}${AUTHZ_MONGODB_PLACEHOLDERS}`,
         tl('authzMongoDBOrderTip'),
+        {
+          type: 'code',
+          content: `{
+  "username": "\${username}",
+  "$orderby": {"info.order": 1}
+}`,
+        },
         tl('dataStructureExample'),
       ],
       postgresql: [
@@ -82,9 +89,11 @@ export default (context: {
     if (!databaseType) {
       return []
     }
-    let ret = helpTextMap[authType][databaseType]
+    let ret = helpTextMap[authType][databaseType] as (string | { type: string; content: string })[]
     if (gateway) {
-      ret = ret.map((item) => item.replace(AUTH_PLACEHOLDER_CLIENT_ATTRS, ''))
+      ret = ret.map((item) =>
+        typeof item === 'string' ? item.replace(AUTH_PLACEHOLDER_CLIENT_ATTRS, '') : item,
+      )
     }
     return ret
   })
