@@ -62,7 +62,9 @@
             target="_blank"
             class="rule-detail-link"
           >
-            <el-tag size="small" type="info">{{ item }}</el-tag>
+            <el-tag size="small" type="info">
+              <CommonOverflowTooltip :content="item" />
+            </el-tag>
           </router-link>
           <div class="view-rules-link">
             <router-link :to="ruleFilterRoute(row.id)">
@@ -135,6 +137,7 @@
 
 <script setup lang="ts">
 import { dateFormat } from '@/common/tools'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useActionList from '@/hooks/Rule/action/useActionList'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
@@ -342,10 +345,21 @@ const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egr
 <style lang="scss">
 .action-source-list {
   .rule-detail-link {
+    display: inline-block;
+    max-width: 100%;
+    line-height: 0;
     &:not(:last-child) {
       margin-right: 4px;
     }
+    .el-tag {
+      max-width: 100%;
+    }
+    .el-tag__content {
+      display: block;
+      max-width: 100%;
+    }
   }
+
   .view-rules-link {
     margin-top: 2px;
     margin-left: 4px;
