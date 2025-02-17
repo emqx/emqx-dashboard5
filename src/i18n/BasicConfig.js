@@ -118,11 +118,11 @@ export default {
   },
   console: {
     zh: '控制台日志',
-    en: 'Console Log',
+    en: 'Console Logs',
   },
   file: {
     zh: '文件日志',
-    en: 'File Log',
+    en: 'File Logs',
   },
   throttling: {
     zh: '日志限流',
