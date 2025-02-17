@@ -7,7 +7,7 @@
           <el-icon :size="16">
             <i class="iconfont icon-webhook"></i>
           </el-icon>
-          {{ tl('setUpWebhook') }}
+          <span>{{ tl('setUpWebhook') }}</span>
         </router-link>
       </el-tooltip>
       <el-button
@@ -119,7 +119,6 @@ loadData()
 .alarm {
   .icon-webhook {
     font-size: 13.5px;
-    margin-right: 6px;
   }
 }
 </style>
