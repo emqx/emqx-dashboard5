@@ -25,11 +25,13 @@ export default {
   },
   jobNameDesc: {
     zh: `推送到 Pushgateway 的 Job 名称。可用变量为：<br/>
+- \${'{'}cluster_name{'}'}: 在 <code>cluster.name</code> 中配置的集群名称。<br/>
 - \${'{'}name{'}'}: EMQX 节点的名称。<br/>
 - \${'{'}host{'}'}: EMQX 节点主机名。<br/>
 例如，当 EMQX 节点名为 <code>emqx{'@'}127.0.0.1</code> 则 name 变量的值为 <code>emqx</code>，host 变量的值为 <code>127.0.0.1</code>。<br/>
 默认值为: <code>\${'{'}name{'}'}/instance/\${'{'}name{'}'}~\${'{'}host{'}'}</code>`,
     en: `Job Name that is pushed to the Pushgateway. Available variables:<br/>
+- \${'{'}cluster_name{'}'}: The cluster name configured in <code>cluster.name</code>.<br/>
 - \${'{'}name{'}'}: Name of EMQX node.<br/>
 - \${'{'}host{'}'}: Host name of EMQX node.<br/>
 For example, when the EMQX node name is <code>emqx{'@'}127.0.0.1</code> then the <code>name</code> variable takes value <code>emqx</code> and the <code>host</code> variable takes value <code>127.0.0.1</code>.<br/>
