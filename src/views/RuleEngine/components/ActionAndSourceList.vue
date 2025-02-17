@@ -351,12 +351,18 @@ const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egr
     &:not(:last-child) {
       margin-right: 4px;
     }
-    .el-tag {
+    .el-tag,
+    .el-tag__content,
+    .overflow-tooltip {
       max-width: 100%;
     }
     .el-tag__content {
-      display: block;
-      max-width: 100%;
+      height: 100%;
+      align-items: center;
+    }
+    .overflow-tooltip {
+      height: 100%;
+      line-height: 18px;
     }
   }
 
