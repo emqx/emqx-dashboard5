@@ -1195,18 +1195,18 @@
   resolved "https://registry.yarnpkg.com/@element-plus/icons-vue/-/icons-vue-2.0.9.tgz#b7777c57534522e387303d194451d50ff549d49a"
   integrity sha512-okdrwiVeKBmW41Hkl0eMrXDjzJwhQMuKiBOu17rOszqM+LS/yBYpNQNV5Jvoh06Wc+89fMmb/uhzf8NZuDuUaQ==
 
-"@emqx/shared-ui-constants@link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants":
+"@emqx/shared-ui-constants@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/constants":
   version "0.0.0"
   uid ""
 
-"@emqx/shared-ui-i18n@link:../../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n":
+"@emqx/shared-ui-i18n@link:../../Library/Caches/Yarn/v6/npm-@emqx-shared-ui-utils-0.0.16-3cb4f16f0050bae0fa5818db2948105a48bcf9b5-integrity/node_modules/@emqx/i18n":
   version "0.0.0"
   uid ""
 
 "@emqx/shared-ui-i18n@~0.0.36":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.37.tgz#22dd28adef89a719acbfe927afc780150231bd69"
-  integrity sha512-w7NBBEMYkHLAcleLsLXXCgNZH+XC5G4/F8oEY7M0VfVqYHqiYFnRQ4vAZ7CO2GtPVeU2sSL+mO8YtWAAwET6UQ==
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.38.tgz#30e9e57bec1978d147fd63f6529628770c471fa1"
+  integrity sha512-I9UgOGQUnMAu4pGkYchWPkPe8T+MIoXb1UpZESRbSKIRgPjtIPbJDZLp4l1PqTwqeX4GcnFBVVUIWtIIQBHxwg==
 
 "@emqx/shared-ui-utils@^0.0.16":
   version "0.0.16"
