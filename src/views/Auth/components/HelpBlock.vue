@@ -1,7 +1,15 @@
 <template>
   <div class="help-block">
     <div>
-      <p v-for="(item, $index) in helpText" :key="$index">{{ item }}</p>
+      <template v-for="(item, $index) in helpText" :key="$index">
+        <p v-if="typeof item === 'string'">{{ item }}</p>
+        <code-view
+          v-else-if="typeof item === 'object' && item.type === 'code'"
+          :lang="codeLang"
+          :code="item.content"
+          :show-copy-btn="false"
+        />
+      </template>
     </div>
     <template v-if="helpCode">
       <code-view :lang="codeLang" :code="helpCode" :show-copy-btn="false" />
