@@ -130,7 +130,7 @@ export default {
   },
   audit: {
     zh: '审计日志',
-    en: 'Audit Log',
+    en: 'Audit Logs',
   },
   connection: {
     zh: '连接速率',
