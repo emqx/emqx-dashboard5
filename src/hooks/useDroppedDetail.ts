@@ -48,12 +48,13 @@ export const useDroppedCharts = () => {
     return sortData(arr)
   }
 
+  const yAxisLabelWidth = 110
   const getBarChartOptions = (data: ChartData, itemStyle: ItemStyle) => {
     return {
       backgroundColor: 'transparent',
       animation: false,
       grid: {
-        left: 80,
+        left: yAxisLabelWidth + 10,
       },
       tooltip: {
         trigger: 'axis',
@@ -69,7 +70,7 @@ export const useDroppedCharts = () => {
         type: 'category',
         data: data.map(({ name }) => name),
         axisLabel: {
-          width: 70,
+          width: yAxisLabelWidth,
           overflow: 'break',
         },
       },
@@ -94,7 +95,7 @@ export const useDroppedCharts = () => {
       },
       legend: {
         left: 'center',
-        bottom: 20,
+        bottom: 0,
       },
       series: [
         {
@@ -160,16 +161,17 @@ export const useMessageDroppedDetails = (totalMessageDropped: ComputedRef<number
     },
   }))
 
-  const { tl } = useI18nTl('Dashboard')
+  const { tl, te } = useI18nTl('Dashboard')
 
   const messageDroppedDesc = Object.values(MetricKey)
     .filter((value) => metricsKeyReg.test(value))
     .map((key) => {
       const lastKey = getLastKey(key)
+      const descKey = `dropped_${lastKey}_desc`
       return {
         key,
         name: getTypeName(key),
-        desc: tl(`dropped_${lastKey}_desc`),
+        desc: te(descKey) ? tl(descKey) : '',
         impact: tl(`dropped_${lastKey}_impact`),
       }
     })
