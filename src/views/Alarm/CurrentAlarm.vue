@@ -3,20 +3,20 @@
     <div class="section-header">
       <div></div>
       <el-tooltip link :content="tl('setupWebhookDesc')" placement="top">
-        <router-link class="el-button" :to="alarmWebhookRoute">
-          <el-icon :size="16">
+        <LinkButton :to="alarmWebhookRoute" :disabled="!$hasPermission('post')">
+          <el-icon :size="14">
             <i class="iconfont icon-webhook"></i>
           </el-icon>
           <span>{{ tl('setUpWebhook') }}</span>
-        </router-link>
+        </LinkButton>
       </el-tooltip>
-      <el-button
+      <LinkButton
         :icon="Setting"
+        :to="{ name: 'alarm-settings' }"
         :disabled="!$hasPermission('put')"
-        @click="$router.push({ name: 'alarm-settings' })"
       >
         {{ $t('Base.setting') }}
-      </el-button>
+      </LinkButton>
       <RefreshButton :disabled="!$hasPermission('get')" @click="loadData({ page: 1 })" />
     </div>
     <el-table :data="currentAlarmData" v-loading.lock="currentLockTable">
