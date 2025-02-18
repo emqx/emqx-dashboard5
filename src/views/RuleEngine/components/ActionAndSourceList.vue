@@ -115,7 +115,7 @@
               :row-data="row"
               :can-copy="false"
               :disabled="judgeIsWebhookAction(row)"
-              @delete="handleDeleteBridge(row)"
+              @delete="handleDelete(row)"
               @create-rule="createRuleWithTarget(row.id)"
             />
           </OperateWebhookAssociatedPopover>
@@ -141,7 +141,7 @@ import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useActionList from '@/hooks/Rule/action/useActionList'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
+import useHandleSourceItem, { useDeleteSource } from '@/hooks/Rule/action/useHandleSourceItem'
 import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue, { useBridgeTypeIcon } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
@@ -332,13 +332,13 @@ const createRuleWithTarget = (id: string) => {
     .catch(() => ({}))
 }
 
-const {
-  showSecondConfirm,
-  usingBridgeRules,
-  currentDeleteBridgeId,
-  handleDeleteSuc,
-  handleDeleteBridge,
-} = useDeleteBridge(getList)
+const useDeleteHook = isSource.value ? useDeleteSource : useDeleteBridge
+const { showSecondConfirm, usingBridgeRules, currentDeleteBridgeId, handleDeleteSuc, ...other } =
+  useDeleteHook(getList)
+const handleDelete = isSource.value
+  ? (other as ReturnType<typeof useDeleteSource>).handleDeleteSource
+  : (other as ReturnType<typeof useDeleteBridge>).handleDeleteBridge
+
 const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egress
 </script>
 
