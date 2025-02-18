@@ -48,11 +48,11 @@ export default (): {
   }
 
   const judgeIsWebhookAction = (action: BridgeItem) => {
-    const { type, name, connector } = action
-    if (!(type === BridgeType.Webhook && webhookTargetReg.test(name))) {
+    const { type, name, rules } = action
+    if (!(type === BridgeType.Webhook && webhookTargetReg.test(name) && rules?.length > 0)) {
       return false
     }
-    return name === connector
+    return rules.some((ruleName: string) => ruleName === name)
   }
 
   const judgeOutputsContainWebhook = (rule: RuleItem) => {

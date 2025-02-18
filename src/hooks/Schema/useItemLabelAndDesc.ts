@@ -160,8 +160,6 @@ export default (
       }
       case 'connector':
         return { label: t('components.connector') }
-      case 'role':
-        return { label: t('RuleEngine.role') }
       case 'enable':
         return { label: t('Base.enable') }
       case 'type':

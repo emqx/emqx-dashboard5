@@ -110,11 +110,11 @@ export default {
   },
   console: {
     zh: '控制台日志',
-    en: 'Console Log',
+    en: 'Console Logs',
   },
   file: {
     zh: '文件日志',
-    en: 'File Log',
+    en: 'File Logs',
   },
   throttling: {
     zh: '日志限流',
@@ -122,7 +122,7 @@ export default {
   },
   audit: {
     zh: '审计日志',
-    en: 'Audit Log',
+    en: 'Audit Logs',
   },
   connection: {
     zh: '连接速率',

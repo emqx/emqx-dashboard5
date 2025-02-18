@@ -7,8 +7,6 @@
           ref="sessionPersistenceForm"
           class="configuration-form"
           label-position="right"
-          require-asterisk-position="left"
-          hide-required-asterisk
           :label-width="store.state.lang === 'zh' ? 202 : 238"
           :model="sessionPersistenceConfig"
           :validate-on-rule-change="false"

@@ -63,8 +63,8 @@ export default {
     en: 'The {0} supports the following placeholders: ',
   },
   authzMongoDBOrderTip: {
-    zh: '查询器语句支持使用 $orderby 对查询结果进行排序',
-    en: 'The selector supports using the $orderby operator to sort query results',
+    zh: '查询器语句支持在第一层级中使用 $orderby 指定排序字段和排序顺序，对查询结果进行排序，排序字段支持嵌套',
+    en: 'The selector statement supports using the $orderby operator in the first level to specify sorting fields and order, sorting the query results. Nested fields are supported in sorting.',
   },
   /* MySQL, PgSQL */
   authzSQLParagraph1: {

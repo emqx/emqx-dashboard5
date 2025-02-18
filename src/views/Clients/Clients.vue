@@ -142,7 +142,6 @@
           :hasnext="hasNext"
           :page-size="limit"
           :page-sizes="defaultPageSizeOpt"
-          :layout="paginationLayout"
           @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
@@ -433,20 +432,6 @@ const getParamsFromQuery = () => {
     showMoreQuery.value = true
   }
 }
-
-const paginationLayout = computed(() => {
-  // const withFilters = Object.entries(params.value).filter(([, value]) => !!value).length > 0
-  return `sizes, prev, next`
-})
-// const clientsCount = ref<number>(0)
-// const updateClientsCount = async () => {
-//   try {
-//     const { connections } = await loadCurrentMetrics()
-//     clientsCount.value = connections
-//   } catch (error) {
-//     //
-//   }
-// }
 
 getParamsFromQuery()
 loadNodeClients()

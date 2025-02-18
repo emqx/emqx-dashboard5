@@ -4,7 +4,7 @@
     class="client-field-select"
     @visible-change="dropdownVisibleChanged"
   >
-    <el-button class="table-dropdown-btn" type="primary" plain>
+    <el-button type="primary" plain>
       <el-icon><Setting /></el-icon>
       <span>
         {{ t('Base.selectColumn') }}
@@ -119,12 +119,6 @@ const reset = () => {
 </script>
 
 <style lang="scss">
-.client-field-select {
-  .table-dropdown-btn {
-    // FIXME: style of plain primary button
-    height: 30px;
-  }
-}
 .client-field-select-dropdown {
   padding: 4px;
   .el-scrollbar__view {
