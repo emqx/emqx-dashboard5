@@ -593,6 +593,14 @@ export default {
     zh: '由于等待 PUBREL 报文超时而被丢弃的消息数量',
     en: 'Number of messages dropped due to timeout waiting for PUBREL message',
   },
+  messages_dropped_quota_exceeded: {
+    zh: '由于超出配额限制而被丢弃的消息数量',
+    en: 'Number of messages dropped due to quota exceeded',
+  },
+  messages_dropped_receive_maximum: {
+    zh: '由于超出飞行窗口限制而被丢弃的消息数量',
+    en: 'Number of messages dropped due to inflight window exceeded',
+  },
   messages_forward: {
     zh: '向其他节点转发的消息数量',
     en: 'Number of messages forwarded to other nodes',
@@ -870,7 +878,7 @@ export default {
   },
   dropped_await_pubrel_timeout_impact: {
     zh: '可能表明发布客户端运行缓慢或行为异常，无法在 EMQX 等待超过最大 PUBREL 等待时长（`await_rel_timeout`）限制之前发送 `PUBREL` 消息。这并不一定表示消息丢失，因为 `PUBLISH` 数据包已经被路由至订阅客户端。',
-    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessary indicates message loss since the `PUBLISH` packet itself is routed to the subscriber clients already.',
+    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessary indicates message loss since the `PUBLISH` packet itself is routed to the subscriber clients already.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
@@ -881,16 +889,16 @@ export default {
     en: 'Quota Exceeded',
   },
   dropped_quota_exceeded_impact: {
-    zh: '可能表明超过连接数限制',
-    en: 'May indicate exceeding the connection limit',
+    zh: '表明客户端 QoS0 消息发布速率超过最大消息发布速率',
+    en: 'Indicate that the client QoS0 message publishing rate exceeds the max message publishing rate',
   },
   dropped_receive_maximum: {
-    zh: '超出接收限制',
-    en: 'Receive Maximum Exceeded',
+    zh: '超出飞行窗口限制',
+    en: 'Exceeds the Inflight Window Limit',
   },
   dropped_receive_maximum_impact: {
-    zh: 'TODO:',
-    en: 'TODO:',
+    zh: '表明客户端在已达到飞行窗口限制的情况下仍尝试发布 QoS 2 消息',
+    en: 'Indicates that the client is attempting to publish QoS 2 messages while it has already reached its inflight window limit',
   },
   dropped_no_subscribers_desc: {
     zh: '消息因主题无订阅者而被丢弃。',
@@ -898,7 +906,7 @@ export default {
   },
   dropped_no_subscribers_impact: {
     zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：EMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
-    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
+    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',
@@ -953,8 +961,8 @@ export default {
     en: 'Detailed Metrics',
   },
   messageDroppedDesc: {
-    en: 'Messages be dropped at receive, including messages dropped due to waiting PUBREL timeout and no subscribers.',
-    zh: '接收时被丢弃的消息，包括等待 PUBREL 超时和无订阅者两种情况。',
+    en: 'Messages be dropped at receive, including messages dropped due to waiting PUBREL timeout, no subscribers, quota exceeded and inflight window exceeded.',
+    zh: '接收时被丢弃的消息，包括等待 PUBREL 超时，无订阅者，超出配额限制和超出飞行窗口限制等情况。',
   },
   deliveryDroppedDesc: {
     en: 'Messages be dropped after reaching subscriber session, including messages dropped due to no local option, message size limit and expiration.',
