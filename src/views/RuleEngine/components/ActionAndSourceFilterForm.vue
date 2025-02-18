@@ -91,6 +91,7 @@ import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
+import { escapeRegExp } from 'lodash'
 import type { Ref } from 'vue'
 import { defineEmits, defineProps, ref } from 'vue'
 
@@ -141,6 +142,9 @@ const getFilterParams = () => {
         currentVal !== '' &&
         !(currentKey === 'type' && currentVal === NOT_SPECIFIC_TYPE)
       ) {
+        if (currentKey === 'status') {
+          return { ...obj, [currentKey]: new RegExp(`^${escapeRegExp(currentVal as string)}$`) }
+        }
         return { ...obj, [currentKey]: currentVal }
       }
       return obj

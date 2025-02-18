@@ -76,7 +76,7 @@ CREATE TABLE mqtt_acl (
   topics: ["#"]
 }
 
-db.mqtt_acl.findOne({"username": "emqx_user"})`,
+db.mqtt_acl.findOne({"username": "emqx_u"})`,
     redis: `# sample data
 HSET mqtt_acl:emqx_u 't/#' subscribe
 

@@ -7,9 +7,7 @@
     destroy-on-close
   >
     <div class="dialog-hd">
-      <el-button type="primary" @click="refreshList">
-        {{ t('Base.refresh') }}
-      </el-button>
+      <RefreshButton @click="refreshList" />
     </div>
 
     <div class="table-container">

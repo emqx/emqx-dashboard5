@@ -1,5 +1,5 @@
 import { ListDataWithPagination } from '@/types/common'
-import _ from 'lodash'
+import { chunk, cloneDeep, isEqual, isRegExp, orderBy } from 'lodash'
 import { ref, Ref } from 'vue'
 
 type ListData = Array<any>
@@ -11,7 +11,7 @@ interface PageMeta {
 
 export interface FilterItem {
   key: string
-  value: string | boolean
+  value: string | boolean | RegExp
 }
 
 interface SortFrom {
@@ -32,7 +32,7 @@ export default (): {
 } => {
   const totalData: Ref<ListData> = ref([])
   // Use the following six variables to do a cache-like operation to reduce computational overhead
-  let latestFiltersString = ''
+  let latestFilters: Array<FilterItem> = []
   const listAfterFilter: Ref<ListData> = ref([])
   let latestSortFromString: string | undefined = undefined
   const listAfterFilterNSort: Ref<ListData> = ref([])
@@ -46,19 +46,21 @@ export default (): {
     chunkList()
   }
 
-  const checkValue = (filterValue: string | boolean, value: any) => {
+  const checkValue = (filterValue: string | boolean | RegExp, value: any) => {
     if (typeof filterValue === 'string') {
       const reg = new RegExp(filterValue, 'i')
       if (Array.isArray(value)) {
         return value.some((item) => reg.test(item))
       }
       return reg.test(value)
+    } else if (isRegExp(filterValue)) {
+      return filterValue.test(value)
     }
     return filterValue === value
   }
 
   const filterList = (filters: Array<FilterItem> = []) => {
-    latestFiltersString = JSON.stringify(filters)
+    latestFilters = cloneDeep(filters)
     if (filters.length === 0) {
       listAfterFilter.value = totalData.value
     } else {
@@ -74,13 +76,13 @@ export default (): {
       listAfterFilterNSort.value = listAfterFilter.value
     } else {
       latestSortFromString = JSON.stringify(sortFrom)
-      listAfterFilterNSort.value = _.orderBy(listAfterFilter.value, [sortFrom.key], [sortFrom.type])
+      listAfterFilterNSort.value = orderBy(listAfterFilter.value, [sortFrom.key], [sortFrom.type])
     }
   }
 
   const chunkList = (pageSize = DEFAULT_PAGE_SIZE) => {
     currentPageSize = pageSize
-    currentChunks.value = _.chunk(listAfterFilterNSort.value, currentPageSize)
+    currentChunks.value = chunk(listAfterFilterNSort.value, currentPageSize)
   }
 
   const getAPageData = (
@@ -88,7 +90,7 @@ export default (): {
     filters: Array<FilterItem> = [],
     sortFrom?: SortFrom,
   ) => {
-    if (latestFiltersString !== JSON.stringify(filters)) {
+    if (!isEqual(latestFilters, filters)) {
       filterList(filters)
       sortList(sortFrom)
       chunkList(pageMeta.limit)

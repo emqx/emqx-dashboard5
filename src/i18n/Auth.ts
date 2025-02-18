@@ -529,7 +529,7 @@ export default {
   },
   importUsers: {
     zh: '导入用户',
-    en: 'Import users',
+    en: 'Import Users',
   },
   selectImportMethod: {
     zh: '选择导入方式',
