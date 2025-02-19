@@ -189,21 +189,23 @@ export interface RuleEngineUserProvidedFunction {
 }
 
 export type RuleEngineRuleTestContext =
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
   | RuleEngineCtxUnsub
   | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxPub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleTest {
   context?: RuleEngineRuleTestContext
@@ -245,8 +247,8 @@ export type RuleEngineRuleEventsEvent =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineRuleEventsEvent = {
-  '$events/alarm_activated': '$events/alarm_activated',
-  '$events/alarm_deactivated': '$events/alarm_deactivated',
+  '$events/sys/alarm_activated': '$events/sys/alarm_activated',
+  '$events/sys/alarm_deactivated': '$events/sys/alarm_deactivated',
   '$events/client_connected': '$events/client_connected',
   '$events/client_disconnected': '$events/client_disconnected',
   '$events/client_connack': '$events/client_connack',
@@ -291,6 +293,25 @@ export interface RuleEngineRuleCreation {
   description?: string
   metadata?: RuleEngineRuleCreationMetadata
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxPub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext
@@ -475,23 +496,6 @@ export interface RuleEngineCtxDropped {
   qos?: number
 }
 
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxPub
-
 export type RuleEngineCtxDisconnectedEventType =
   typeof RuleEngineCtxDisconnectedEventType[keyof typeof RuleEngineCtxDisconnectedEventType]
 
@@ -657,6 +661,43 @@ export interface RuleEngineCtxBridgeMqtt {
   retain?: string
   message_received_at?: number
   qos?: number
+}
+
+export type RuleEngineCtxAlarmDeactivatedDetails = { [key: string]: any }
+
+export type RuleEngineCtxAlarmDeactivatedEventType =
+  typeof RuleEngineCtxAlarmDeactivatedEventType[keyof typeof RuleEngineCtxAlarmDeactivatedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxAlarmDeactivatedEventType = {
+  alarm_deactivated: 'alarm_deactivated',
+} as const
+
+export interface RuleEngineCtxAlarmDeactivated {
+  event_type: RuleEngineCtxAlarmDeactivatedEventType
+  name?: string
+  message?: string
+  details?: RuleEngineCtxAlarmDeactivatedDetails
+  activated_at?: number
+  deactivated_at?: number
+}
+
+export type RuleEngineCtxAlarmActivatedDetails = { [key: string]: any }
+
+export type RuleEngineCtxAlarmActivatedEventType =
+  typeof RuleEngineCtxAlarmActivatedEventType[keyof typeof RuleEngineCtxAlarmActivatedEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxAlarmActivatedEventType = {
+  alarm_activated: 'alarm_activated',
+} as const
+
+export interface RuleEngineCtxAlarmActivated {
+  event_type: RuleEngineCtxAlarmActivatedEventType
+  name?: string
+  message?: string
+  details?: RuleEngineCtxAlarmActivatedDetails
+  activated_at?: number
 }
 
 export type RuleEngineCtxAckedEventType =
