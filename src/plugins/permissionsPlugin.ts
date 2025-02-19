@@ -3,7 +3,7 @@ import store from '@/store'
 
 const PERMISSIONS_KEY = Symbol('PERMISSIONS')
 
-type ActionType = 'post' | 'get' | 'delete' | 'put'
+export type ActionType = 'post' | 'get' | 'delete' | 'put'
 
 interface Permissions {
   hasPermission: (actionType: ActionType) => boolean
@@ -34,10 +34,4 @@ export default {
 
     app.config.globalProperties.$hasPermission = hasPermission
   },
-}
-
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $hasPermission: (actionType: ActionType) => boolean
-  }
 }
