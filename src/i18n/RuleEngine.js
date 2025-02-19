@@ -709,13 +709,13 @@ export default {
     zh: '消息转换失败时触发规则',
     en: 'Trigger when message transformation fails',
   },
-  alarmActivatedDesc: {
-    zh: '当告警激活时触发规则',
-    en: `Trigger the rule when the alarm is activated`,
+  sysAlarmActivatedDesc: {
+    zh: '当系统告警激活时触发规则',
+    en: `Trigger the rule when the system alarm is activated`,
   },
-  alarmDeactivatedDesc: {
-    zh: '当告警解除时触发规则',
-    en: `Trigger the rule when the alarm is deactivated`,
+  sysAlarmDeactivatedDesc: {
+    zh: '当系统告警解除时触发规则',
+    en: `Trigger the rule when the system alarm is deactivated`,
   },
   useAction: {
     zh: '使用动作',
