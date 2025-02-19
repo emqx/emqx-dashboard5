@@ -8,11 +8,11 @@
               :stroke-width="20"
               :percentage="licensePercentage"
               :status="isWarningUsage ? 'warning' : ''"
-              :format="() => `${currentConnections}/${licenseData.max_connections}`"
+              :format="() => `${currentConnections}/${licenseData.max_sessions}`"
               @mouseover="showTooltip = true"
               @mouseout="showTooltip = false"
             >
-              {{ `${currentConnections}/${licenseData.max_connections}` }}
+              {{ `${currentConnections}/${licenseData.max_sessions}` }}
             </el-progress>
             <el-tooltip
               :visible="showTooltip"
@@ -62,7 +62,7 @@
         <el-alert v-if="isEvaluationLicense" show-icon :closable="false" type="info">
           <template #title>
             <i18n-t keypath="Dashboard.licenseEvaluationTip" scope="global">
-              {{ licenseData.max_connections
+              {{ licenseData.max_sessions
               }}<a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
             </i18n-t>
           </template>
@@ -195,8 +195,8 @@ const licenseConfigForm = ref<HTMLFormElement | null>(null)
 
 const licensePercentage = computed(() => {
   const connection = currentConnections.value
-  const { max_connections } = licenseData.value
-  const value = connection ? Math.floor((connection / max_connections) * 100) : 0
+  const { max_sessions } = licenseData.value
+  const value = connection ? Math.floor((connection / max_sessions) * 100) : 0
   return value
 })
 
