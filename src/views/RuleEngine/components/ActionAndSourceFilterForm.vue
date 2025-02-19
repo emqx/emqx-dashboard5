@@ -165,7 +165,7 @@ const handleReset = () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@import '@/style/management.scss';
 .action-filter-form {
   margin-top: -12px;
   // when show more query

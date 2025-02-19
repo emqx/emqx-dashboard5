@@ -19,26 +19,19 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <template v-if="isEnabledRetainer">
-          <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
-            {{ $t('Base.setting') }}
-          </el-button>
-          <RefreshButton @click="refresh" />
-          <el-button
-            type="danger"
-            plain
-            :icon="Remove"
-            :disabled="tbData.length === 0"
-            @click="handleDeleteAll"
-          >
-            {{ $t('General.clearAll') }}
-          </el-button>
-        </template>
-        <el-tooltip v-else effect="dark" placement="top" :content="tl('retainerDisabled')">
-          <el-button type="primary" @click="$router.push({ name: 'mqtt-retainer' })">
-            {{ $t('Base.enable') }}
-          </el-button>
-        </el-tooltip>
+        <el-button :icon="Setting" @click="$router.push({ name: 'mqtt-retainer' })">
+          {{ $t('Base.setting') }}
+        </el-button>
+        <el-button
+          type="danger"
+          plain
+          :icon="Remove"
+          :disabled="tbData.length === 0"
+          @click="handleDeleteAll"
+        >
+          {{ $t('General.clearAll') }}
+        </el-button>
+        <RefreshButton @click="refresh" />
       </div>
       <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
         <el-table-column :label="$t('Base.topic')" prop="topic" min-width="100">
@@ -93,7 +86,6 @@ export default defineComponent({
 import {
   delAllRetainerMessages,
   delRetainerTopic,
-  getRetainer,
   getRetainerList,
   getRetainerTopic,
 } from '@/api/extension'
@@ -115,7 +107,6 @@ const payloadDialog = ref(false)
 const currentTopic = ref('')
 const payloadDetail = ref('')
 const payloadLoading = ref(false)
-const isEnabledRetainer = ref(true)
 const searchValue = ref('')
 const params = ref<Record<string, any>>({})
 
@@ -184,17 +175,6 @@ const deleteRetainerTopic = async function (row: any) {
     })
 }
 
-const loadConfigData = async () => {
-  try {
-    let res = await getRetainer()
-    if (res) {
-      isEnabledRetainer.value = res.enable
-    }
-  } catch (error) {
-    //
-  }
-}
-
 const handleDeleteAll = () => {
   ElMessageBox.confirm(t('General.clearAllRetainedConfirm'), {
     confirmButtonText: t('Base.confirm'),
@@ -233,5 +213,4 @@ const handleReset = () => {
 }
 
 loadTbData()
-loadConfigData()
 </script>

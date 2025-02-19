@@ -12,7 +12,6 @@ export interface SysTopics {
 }
 
 export interface Retainer {
-  enable: boolean
   max_payload_size: string
   msg_expiry_interval: string
   msg_expiry_interval_override: string

@@ -22,3 +22,14 @@ export default {
     app.component('LinkButton', LinkButton)
   },
 }
+
+export {
+  CustomInputPassword,
+  CreateButton,
+  TableButton,
+  RefreshButton,
+  SearchButton,
+  ResetButton,
+  ShowMoreButton,
+  LinkButton,
+}

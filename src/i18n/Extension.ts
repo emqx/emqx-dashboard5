@@ -71,14 +71,6 @@ export default {
     zh: '启用',
     en: 'Enable',
   },
-  enableRetained: {
-    zh: '启用保留消息',
-    en: 'Enable Retained Messages',
-  },
-  enableDesc: {
-    zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
-    en: 'Enable retainer feature, disabling will not clear the saved retained messages',
-  },
   createDate: {
     zh: '发布时间',
     en: 'Created At',
@@ -210,10 +202,6 @@ export default {
   messages: {
     zh: '已保留消息',
     en: 'Retained Messages',
-  },
-  retainerDisabled: {
-    zh: '保留消息功能已禁用，点击跳转到设置页面中开启。',
-    en: 'Retained message is disabled, click to enable on settings page.',
   },
   msgExpiryIntervalDesc: {
     en: 'Message retention time. 0 means message will never be expired',
