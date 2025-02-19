@@ -270,6 +270,7 @@ watch(
   &.el-table .cell {
     font-weight: normal;
     color: var(--el-text-color-regular);
+    overflow: visible;
   }
   ul {
     list-style: none;
