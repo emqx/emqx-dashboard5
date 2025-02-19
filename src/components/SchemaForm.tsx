@@ -225,6 +225,13 @@ const SchemaForm = defineComponent({
 
     const clearValidate = () => formCom.value?.clearValidate?.()
 
+    const validateField = (propArr: Array<string>) => {
+      if (formCom.value?.validateField) {
+        return formCom.value.validateField(propArr)
+      }
+      return Promise.resolve()
+    }
+
     const replaceVarPath = (path: string) => {
       let _path = path
       if (/\$\w+/g.test(_path)) {
@@ -1126,7 +1133,7 @@ const SchemaForm = defineComponent({
       init()
     })()
 
-    ctx.expose({ configForm, validate, clearValidate, getInitRecord })
+    ctx.expose({ configForm, validate, clearValidate, validateField, getInitRecord })
 
     return () => {
       return (

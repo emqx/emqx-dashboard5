@@ -25,6 +25,7 @@ import { createOrderObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+import useFormRules from '@/hooks/useFormRules'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
@@ -76,6 +77,7 @@ export default defineComponent({
       0,
     )
 
+    const { createRequiredRule } = useFormRules()
     const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
       const { client_attrs_init } = data?.components?.mqtt?.properties || {}
@@ -94,22 +96,35 @@ export default defineComponent({
           }
           data.rules[client_attrs_init.path].push({
             validator(rules: any, value: any, cb: (errors?: Error) => void) {
-              if (
-                value?.some?.(
-                  ({ set_as_attr, expression }: { expression: string; set_as_attr: string }) =>
-                    !set_as_attr || !expression,
-                )
-              ) {
-                cb(new Error(t('Rule.incompleteTableError')))
-              }
               const setAsAttrArr = value?.map?.((item: any) => item.set_as_attr)
               const uniqueSetAsAttrArr = [...new Set(setAsAttrArr)]
-              if (setAsAttrArr.length !== uniqueSetAsAttrArr.length) {
+              if (
+                value?.every(({ set_as_attr }: any) => !!set_as_attr) &&
+                setAsAttrArr.length !== uniqueSetAsAttrArr.length
+              ) {
                 cb(new Error(t('BasicConfig.duplicatedAttrError')))
               }
               cb()
             },
           })
+
+          if (client_attrs_init?.items?.properties) {
+            Object.entries(client_attrs_init.items.properties).forEach(([key, item]: any) => {
+              if (!data.rules[item.path]) {
+                data.rules[item.path] = []
+              }
+              data.rules[item.path].push(...createRequiredRule(''))
+              if (key === 'set_as_attr') {
+                data.rules[item.path].push({
+                  validator(rules: any, value: any, cb: (errors?: Error) => void) {
+                    // just validate the set_as_attr..
+                    SchemaFormCom.value?.validateField?.s([client_attrs_init.path])
+                    cb()
+                  },
+                })
+              }
+            })
+          }
         }
       }
       if (max_packet_size) {
