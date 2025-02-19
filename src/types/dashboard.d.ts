@@ -96,6 +96,7 @@ export interface LicenseData {
   expiry: boolean
   expiry_at: string
   max_connections: number
+  max_sessions: number
   start_at: string
   type: string
 }

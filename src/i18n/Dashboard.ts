@@ -288,16 +288,16 @@ export default {
     en: 'Clear Alarm when usage is below:',
   },
   connection_low_watermark_desc: {
-    zh: '当低于此限制时，License 的连接配额使用警报将被停用',
-    en: 'Low watermark limit below which license connection quota usage alarms are deactivated.',
+    zh: '当低于此限制时，License 的会话配额使用警报将被停用',
+    en: 'Low watermark limit below which license session quota usage alarms are deactivated.',
   },
   connection_high_watermark: {
     zh: '当使用量达到此值时触发警报',
     en: 'Raise Alarm when usage reaches',
   },
   connection_high_watermark_desc: {
-    en: 'High watermark limit above which license connection quota usage alarms are activated.',
-    zh: '当 License 连接配额使用量超过预设的上限时，系统会发出警报',
+    en: 'High watermark limit above which license session quota usage alarms are activated.',
+    zh: '当 License 会话配额使用量超过预设的上限时，系统会发出警报',
   },
   highWatermarkRequired: {
     zh: '需要填写使用量高水位线',
@@ -316,8 +316,8 @@ export default {
     en: 'Usage Low Watermark must be less than Usage High Watermark',
   },
   usageWarning: {
-    zh: '当连接数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
-    en: 'Trigger usage warning and send notifications through system alert when the number of connections exceeds {percentage}.',
+    zh: '当会话数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
+    en: 'Trigger usage warning and send notifications through system alert when the number of sessions exceeds {percentage}.',
   },
   key: {
     zh: 'Key',
