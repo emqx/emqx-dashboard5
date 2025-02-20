@@ -166,8 +166,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
-import type { ComputedRef, PropType } from 'vue'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 import PubProps from './PubProps.vue'
 
 type RePubForm = RuleEngineBuiltinActionRepublish | any

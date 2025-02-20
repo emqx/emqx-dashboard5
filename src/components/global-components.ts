@@ -8,7 +8,6 @@ import {
   ShowMoreButton,
   LinkButton,
 } from './Buttons'
-import type { App } from 'vue'
 
 export default {
   install(app: App): void {

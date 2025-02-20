@@ -21,15 +21,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'HelpBlock',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed } from 'vue'
 import useCopy from '@/hooks/useCopy'
 import useAuthHelp from '@/hooks/Auth/useAuthHelp'
 import CodeView from '@/components/CodeView.vue'

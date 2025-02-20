@@ -3,7 +3,6 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import { AuthnItemInTable } from './useAuthn'
 import { AuthzItemInTable } from './useAuthz'
-import { omit } from 'lodash'
 
 export default (): {
   toggleAuthStatus: (

@@ -37,8 +37,6 @@ import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorProps
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
-import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getTypeRefKey } = useConnectorSchema()
 

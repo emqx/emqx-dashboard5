@@ -3,15 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'PluginItemStatus',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed } from 'vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { PluginItem } from '@/types/plugin'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
@@ -34,13 +31,13 @@ const dotClass = (status: PluginStatus) =>
   ({
     [PluginStatus.Running]: NodeStatusClass.Success,
     [PluginStatus.Stopped]: NodeStatusClass.Danger,
-  }[status] || NodeStatusClass.Danger)
+  })[status] || NodeStatusClass.Danger
 
 const statusText = (status: PluginStatus) =>
   ({
     [PluginStatus.Running]: tl('active'),
     [PluginStatus.Stopped]: tl('inactive'),
-  }[status] || 'unknown')
+  })[status] || 'unknown'
 
 const { getTheWorstStatus } = usePluginItem()
 

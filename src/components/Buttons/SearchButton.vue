@@ -8,7 +8,6 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { Search } from '@element-plus/icons-vue'
-import { defineProps } from 'vue'
 
 defineProps<{
   noText?: boolean

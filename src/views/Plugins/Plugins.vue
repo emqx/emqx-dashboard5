@@ -72,8 +72,6 @@
 <script lang="ts" setup>
 import { PluginStatus } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
-import type { ComputedRef } from 'vue'
-import { computed, nextTick, ref } from 'vue'
 import { PluginItem } from '@/types/plugin'
 import { useRouter } from 'vue-router'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'

@@ -39,8 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneDeep } from 'lodash'
-import { computed, nextTick, onMounted, ref, watch, withDefaults } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 type TopicItem = { id: number; topic: string }

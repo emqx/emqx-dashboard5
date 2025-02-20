@@ -115,7 +115,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 
 export default defineComponent({
@@ -131,7 +130,6 @@ import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
-import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'

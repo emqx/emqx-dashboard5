@@ -1,7 +1,4 @@
 import { OtherBridge } from '@/types/rule'
-import type { ComputedRef, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
-import { isString, omit } from 'lodash'
 
 /**
  * some utils about sync, batch and msg queue configuration

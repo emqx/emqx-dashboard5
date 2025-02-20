@@ -3,7 +3,7 @@
   <InputWithUnit
     v-else
     class="time-input-with-unit-select"
-    :modelValue="(inputValue as string)"
+    :modelValue="inputValue as string"
     :units="unitList"
     :disabled="disabled"
     :default-unit="defaultUnitValue"
@@ -15,9 +15,6 @@
 
 <script lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { isUndefined } from 'lodash'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, defineComponent } from 'vue'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 

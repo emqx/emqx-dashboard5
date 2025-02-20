@@ -116,7 +116,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
 export default defineComponent({
   name: 'PolylineCards',
 })
@@ -126,7 +125,6 @@ export default defineComponent({
 import PolylineChart from './PolylineChart.vue'
 import { waitAMoment } from '@/common/tools'
 import { loadChartData, resetMonitorData } from '@/api/common'
-import { ref, reactive, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
@@ -135,7 +133,6 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { ElMessage } from 'element-plus'
 import { Close, FullScreen } from '@element-plus/icons-vue'
-import { isNumber } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const POLLING_INTERVAL = 60000

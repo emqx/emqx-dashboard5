@@ -65,9 +65,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { escapeRegExp, startCase } from 'lodash'
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { computed, nextTick, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 const enum TriggerType {

@@ -1,6 +1,4 @@
 import useI18nTl from '@/hooks/useI18nTl'
-import { camelCase } from 'lodash'
-import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRuleUtils } from './useRule'
 

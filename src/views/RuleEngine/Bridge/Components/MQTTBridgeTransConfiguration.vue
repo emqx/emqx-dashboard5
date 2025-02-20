@@ -62,7 +62,6 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import Monaco from '@/components/Monaco.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { MQTTBridgeTransConfiguration } from '@/types/rule'
-import { computed, defineEmits, defineProps, PropType } from 'vue'
 
 const props = defineProps({
   modelValue: {

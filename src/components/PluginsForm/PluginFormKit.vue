@@ -26,11 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import { ref, watch, nextTick } from 'vue'
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
-import _ from 'lodash'
 import usePluginGenFormRules from '@/hooks/Plugins/useGenPluginFormRules'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'

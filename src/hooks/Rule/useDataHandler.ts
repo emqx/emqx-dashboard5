@@ -2,7 +2,6 @@ import { checkNOmitFromObj } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Action, Connector } from '@/types/rule'
-import { cloneDeep, get, omit, set } from 'lodash'
 
 const keysDoNotNeedForAPI = [
   'node_status',

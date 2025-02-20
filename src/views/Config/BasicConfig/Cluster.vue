@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
 import SchemaForm from '@/components/SchemaForm'
 import InviteNode from './components/InviteNode.vue'
 import { getClusterConfigs, updateClusterConfigs } from '@/api/config'

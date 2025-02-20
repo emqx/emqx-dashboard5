@@ -111,8 +111,6 @@ import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import { ElMessage } from 'element-plus'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
 import Trigger from './Trigger.vue'
 
 const props = defineProps({

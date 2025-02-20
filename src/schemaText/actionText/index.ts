@@ -6,7 +6,6 @@ import {
   zhIntegrationDesc,
   enIntegrationDesc,
 } from '@emqx/shared-ui-i18n'
-import { merge } from 'lodash'
 import customActionDescEn from './action-desc-en.json'
 import customActionDescZh from './action-desc-zh.json'
 import customActionLabelEn from './action-label-en.json'

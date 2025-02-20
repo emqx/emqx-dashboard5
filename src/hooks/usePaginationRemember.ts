@@ -1,7 +1,5 @@
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { PageData } from '@/types/common'
-import { omit } from 'lodash'
-import { Ref } from 'vue'
 import { RouteLocationRaw, onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 
 const STORE_KEY = 'list_page_params'

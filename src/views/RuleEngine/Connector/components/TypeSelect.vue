@@ -22,7 +22,6 @@
 <script setup lang="ts">
 import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
-import { computed } from 'vue'
 
 const props = defineProps<{
   modelValue: BridgeType

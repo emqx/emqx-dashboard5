@@ -41,7 +41,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import dayjs from 'dayjs'
-import { computed, defineProps } from 'vue'
 import useClientFields from '@/hooks/Clients/useClientFields'
 
 CheckStatus

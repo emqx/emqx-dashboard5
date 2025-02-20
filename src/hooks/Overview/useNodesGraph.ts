@@ -1,8 +1,6 @@
 import { numToFixed, waitAMoment } from '@/common/tools'
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
-import type { ComputedRef, Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 export interface FlowNodeData {

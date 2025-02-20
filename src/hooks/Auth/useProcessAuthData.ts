@@ -1,5 +1,4 @@
 import { ElMessage as M } from 'element-plus'
-import _ from 'lodash'
 import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'

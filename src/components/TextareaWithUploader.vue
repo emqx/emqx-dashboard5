@@ -20,16 +20,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TextareaWithUploader',
 })
 </script>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
-import { computed } from 'vue'
 import { UploadFile, ElMessageBox, ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { findExtensionByName } from '@/common/tools'

@@ -25,8 +25,6 @@ import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
-import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 
@@ -79,7 +77,7 @@ export default defineComponent({
             } else {
               const obj = JSON.parse(value)
               let invalidPriority = false
-              for (let key in obj) {
+              for (const key in obj) {
                 const priority = obj[key]
                 if (typeof priority !== 'number' || priority < 1 || priority > 255) {
                   invalidPriority = true

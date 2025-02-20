@@ -62,9 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import topicEditList from './topicEditList.vue'
-import _ from 'lodash'
 import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'

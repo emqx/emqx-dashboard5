@@ -1,6 +1,5 @@
 import { PluginUIConfigForm, Rule } from '@/types/plugin'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { computed } from 'vue'
 
 /**
  * Checks if a given value is within the specified range.

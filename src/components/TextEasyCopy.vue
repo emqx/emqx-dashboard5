@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
 import useCopy from '@/hooks/useCopy'
 
 const props = defineProps({

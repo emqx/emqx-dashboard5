@@ -5,15 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'StretchHeight',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, onMounted, defineEmits } from 'vue'
 import { More } from '@element-plus/icons-vue'
 
 const props = defineProps({

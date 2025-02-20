@@ -26,8 +26,6 @@ import { NUM_REG } from '@/common/constants'
 import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { PropType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
-import { escapeRegExp } from 'lodash'
-import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
   modelValue?: string | number | boolean

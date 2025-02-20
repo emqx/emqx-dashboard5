@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import OverflowTooltip from './OverflowTooltip.vue'
 import PreWithEllipsis from './PreWithEllipsis.vue'
 import PreWrap from './PreWrap.vue'

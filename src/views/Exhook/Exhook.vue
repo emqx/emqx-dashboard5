@@ -66,7 +66,6 @@
 
 <script setup lang="ts">
 import TableItemDropdown from './components/TableItemDropdown.vue'
-import { nextTick, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'

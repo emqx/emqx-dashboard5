@@ -45,7 +45,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
 import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 

@@ -28,8 +28,6 @@
 
 <script setup lang="ts">
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
-import { computed, watch } from 'vue'
-import type { PropType } from 'vue'
 import MiniPagination from './MiniPagination.vue'
 import { PageData } from '@/types/common'
 

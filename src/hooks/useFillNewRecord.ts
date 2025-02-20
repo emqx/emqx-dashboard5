@@ -2,7 +2,6 @@
  * fill new record by old record, old component and new component
  */
 import { Properties } from '@/types/schemaForm'
-import { cloneDeep, get, omit, set } from 'lodash'
 
 interface Val {
   components: Properties

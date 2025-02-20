@@ -103,9 +103,6 @@
 <script lang="ts" setup>
 import { splitOnComma, splitOnSymbol } from '@/common/tools'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { cloneDeep, isEqual, isPlainObject } from 'lodash'
-import type { PropType } from 'vue'
-import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 

@@ -52,7 +52,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage } from 'element-plus'
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 

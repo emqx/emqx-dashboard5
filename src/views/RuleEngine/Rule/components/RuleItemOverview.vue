@@ -79,8 +79,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleItemOverview',
 })
@@ -92,8 +90,6 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useRuleMetrics } from '@/hooks/useMetrics'
-import { lowerCase } from 'lodash'
-import { defineProps } from 'vue'
 
 const props = defineProps({
   ruleId: {

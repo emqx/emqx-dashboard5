@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-import { ref, watch } from 'vue'
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from '@/common/constants'
 import { encode, decode } from 'js-base64'
 import { PayloadShowByType } from '@/types/enum'

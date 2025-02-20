@@ -84,7 +84,6 @@ import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
 import AuthzSettingDrawer from './components/AuthzSettingDrawer.vue'
-import { ref } from 'vue'
 
 const { t } = useI18n()
 

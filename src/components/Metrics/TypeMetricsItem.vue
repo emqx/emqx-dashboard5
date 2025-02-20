@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
 import { MoreFilled } from '@element-plus/icons-vue'
-import { computed, defineProps, PropType, ref, watch } from 'vue'
 import { MetricType, TYPE_COLOR_MAP } from '@/hooks/useMetrics'
 import InfoTooltip from '../InfoTooltip.vue'
 
@@ -156,7 +155,9 @@ watch(
     }
   }
 }
-.el-popper:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(.el-cascader__dropdown):not(.el-autocomplete__popper) {
+.el-popper:not(.el-select__popper):not(.el-picker__popper):not(.is-wider):not(
+    .el-cascader__dropdown
+  ):not(.el-autocomplete__popper) {
   &.type-detail-tooltip {
     max-width: 700px;
   }

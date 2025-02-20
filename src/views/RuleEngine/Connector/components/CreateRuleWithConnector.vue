@@ -43,8 +43,6 @@ import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
-import { isFunction } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{

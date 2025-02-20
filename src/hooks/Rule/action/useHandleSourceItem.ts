@@ -13,9 +13,6 @@ import {
 import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { isFunction } from 'lodash'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
 import { useActionDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {

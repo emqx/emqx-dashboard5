@@ -205,10 +205,7 @@ import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { omit, startCase } from 'lodash'
 import dayjs from 'dayjs'
-import type { Ref } from 'vue'
-import { defineComponent, nextTick, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const DEFAULT_DURATION = 30 * 60 * 1000

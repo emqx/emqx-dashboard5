@@ -89,9 +89,6 @@
 <script setup lang="ts">
 import { Properties, Property } from '@/types/schemaForm'
 import { ElFormItem } from 'element-plus'
-import { isFunction } from 'lodash'
-import type { ComputedRef, PropType, WritableComputedRef } from 'vue'
-import { computed, getCurrentInstance, nextTick, watch } from 'vue'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'

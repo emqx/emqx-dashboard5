@@ -33,18 +33,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TestSQLContextForm',
 })
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, PropType, watch } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import { isJSONString, stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { isEqual } from 'lodash'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'
 

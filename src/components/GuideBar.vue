@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
 import { Check } from '@element-plus/icons-vue'
 
 defineProps({
