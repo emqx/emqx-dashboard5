@@ -79,6 +79,14 @@ export default {
     zh: '订阅',
     en: 'Subscribe',
   },
+  invalidPubTopic: {
+    zh: '请输入有效的主题',
+    en: 'Please enter a valid topic',
+  },
+  invalidSubTopic: {
+    zh: '发布主题不能包含通配符',
+    en: 'Publish topic cannot contain wildcards',
+  },
   time: {
     zh: '时间',
     en: 'Time',
