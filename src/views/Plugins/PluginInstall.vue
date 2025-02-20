@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'

@@ -27,7 +27,6 @@ import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorIte
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem, Connector, RuleItem } from '@/types/rule'
 import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
-import { PropType, computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import CreateRuleWithConnector from '../Connector/components/CreateRuleWithConnector.vue'
 

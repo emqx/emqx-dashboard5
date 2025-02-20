@@ -85,8 +85,6 @@ import { QoSOptions } from '@/common/constants'
 import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { QoSLevel } from '@/types/enum'
-import { omit, pick } from 'lodash'
-import { computed, defineEmits, defineProps, ref, Ref } from 'vue'
 
 interface SubRecord {
   clientid: string

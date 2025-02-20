@@ -83,8 +83,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
-import { isEqual, cloneDeep } from 'lodash'
-import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { EmqxForceShutdown } from '@/types/schemas/configs.schemas'
 

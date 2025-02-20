@@ -26,9 +26,6 @@
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
-import { isEqual, isFunction, snakeCase } from 'lodash'
-import { computed, ref, watch } from 'vue'
-import type { PropType } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 
 type OneOfItem = Property | Properties

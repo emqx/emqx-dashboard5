@@ -146,8 +146,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'Metrics',
 })
@@ -157,9 +155,6 @@ export default defineComponent({
 import { loadMetrics, loadNodes } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
-import { snakeCase } from 'lodash'
-import type { Ref } from 'vue'
-import { onMounted, ref } from 'vue'
 
 interface MetricItem {
   [propName: string]: string | number

@@ -16,16 +16,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'CommonTLSConfig',
 })
 </script>
 
 <script setup lang="ts">
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
 import TLSBaseConfig from './TLSBaseConfig.vue'
 import TLSEnableConfig from './TLSEnableConfig.vue'
 import { SSL } from '@/types/common'

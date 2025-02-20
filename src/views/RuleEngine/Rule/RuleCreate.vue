@@ -14,8 +14,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleCreate',
 })
@@ -30,8 +28,6 @@ import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, pick } from 'lodash'
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import RuleForm from '../components/RuleForm.vue'

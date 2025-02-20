@@ -12,10 +12,7 @@ import useBridgeTypeValue, {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, EventForRule, RuleInputType, RuleOutput, RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
-import type { ComputedRef } from 'vue'
-import { computed, ref } from 'vue'
 import useRuleEvents from './useRuleEvents'
-import { escapeRegExp } from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 
 export const useRuleUtils = (): {

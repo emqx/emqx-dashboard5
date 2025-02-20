@@ -37,8 +37,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-
 export default defineComponent({
   name: 'Topics',
 })
@@ -47,11 +45,8 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-
-const { tl } = useI18nTl('Subs')
 
 const tableData = ref([])
 const searchValue = ref('')
@@ -86,9 +81,6 @@ const loadTopics = async (_params = {}) => {
     lockTable.value = false
   }
 }
-
-const wildcardReg = /\/(#|\+)/
-const isTopicCanCreateTopic = (topic: string) => !wildcardReg.test(topic)
 
 loadTopics()
 </script>

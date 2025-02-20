@@ -1,4 +1,3 @@
-import { computed, ref, Ref } from 'vue'
 import { useStore } from 'vuex'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/types/plugin'

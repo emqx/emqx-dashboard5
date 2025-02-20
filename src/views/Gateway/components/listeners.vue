@@ -56,9 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, defineProps, defineEmits, computed, PropType } from 'vue'
 import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
-import _ from 'lodash'
 import { useRoute } from 'vue-router'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import useListenerUtils from '@/hooks/Config/useListenerUtils'
@@ -95,9 +93,9 @@ const name = (route.params.name || props.gatewayName) as string
 const gName = name.toLowerCase() as GatewayName
 const { normalizeStructure, deNormalizeStructure, transPort } = useListenerUtils(gName)
 
-let opListener = ref(false)
-let listenerTable = ref<Listener[]>([])
-let listenerLoading = ref(false)
+const opListener = ref(false)
+const listenerTable = ref<Listener[]>([])
+const listenerLoading = ref(false)
 const currentListener = ref<Listener | undefined>(undefined)
 
 let editPos = 0
@@ -116,7 +114,7 @@ const editListener = (listener: Listener, index: number) => {
 const loadListenerData = async function () {
   listenerLoading.value = true
   try {
-    let res = await getGatewayListeners(gName)
+    const res = await getGatewayListeners(gName)
     listenerTable.value = res.map((v: Listener) => deNormalizeStructure(v, gName))
   } catch (error) {
     //

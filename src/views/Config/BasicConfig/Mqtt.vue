@@ -29,8 +29,6 @@ import useFormRules from '@/hooks/useFormRules'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
-import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 

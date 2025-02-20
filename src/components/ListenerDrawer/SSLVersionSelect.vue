@@ -5,17 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'SSLVersionSelect',
 })
 </script>
 
 <script setup lang="ts">
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
-
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Array<string>>,

@@ -36,7 +36,6 @@ import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { computed, ref, withDefaults } from 'vue'
 
 /**
  * do not selecting exiting one, create a new one

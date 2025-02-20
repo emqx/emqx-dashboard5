@@ -1,5 +1,3 @@
-import type { ComputedRef, Ref } from 'vue'
-import { computed, ref } from 'vue'
 import useFormRules from '@/hooks/useFormRules'
 import { isJSONString } from '@emqx/shared-ui-utils'
 import { FormRules } from 'element-plus'

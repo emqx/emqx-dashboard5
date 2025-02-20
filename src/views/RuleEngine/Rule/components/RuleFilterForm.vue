@@ -120,9 +120,6 @@ import useSourceList from '@/hooks/Rule/action/useSourceList'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
-import { omit } from 'lodash'
-import type { Ref } from 'vue'
-import { computed, ref } from 'vue'
 
 const props = defineProps({
   initialValue: {

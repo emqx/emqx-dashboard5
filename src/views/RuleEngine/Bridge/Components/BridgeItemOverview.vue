@@ -131,9 +131,6 @@ import { useActionQueueMetrics, useBridgeMetrics } from '@/hooks/useMetrics'
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'
-import { lowerCase } from 'lodash'
-import type { ComputedRef, PropType, Ref } from 'vue'
-import { computed, defineEmits, defineProps, inject, ref, watch } from 'vue'
 
 const props = defineProps({
   /**

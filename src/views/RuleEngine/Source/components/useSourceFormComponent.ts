@@ -1,5 +1,3 @@
-import type { Component, ComputedRef, Ref } from 'vue'
-import { computed } from 'vue'
 import UsingSchemaBridgeConfig from '../../Bridge/Components/UsingSchemaBridgeConfig.vue'
 
 export default (

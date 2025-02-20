@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import useDashboardVersion from '@/hooks/useDashboardVersion'
-import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()

@@ -3,16 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, shallowRef } from 'vue'
-
 export default defineComponent({
   name: 'PolylineChart',
 })
 </script>
 
 <script setup lang="ts">
-import type { PropType, Ref } from 'vue'
-import { computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
 import * as echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
@@ -23,7 +19,6 @@ import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/legend'
 import useEchartResize from '@/hooks/useEchartResize'
 import useI18nTl from '@/hooks/useI18nTl'
-import { isUndefined } from 'lodash'
 import dayjs from 'dayjs'
 import { useStore } from 'vuex'
 

@@ -3,15 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'AuthItemStatus',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed } from 'vue'
 import { ConnectionStatus } from '@/types/enum'
 import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { Metrics } from '@/types/auth'

@@ -1,6 +1,4 @@
 import { BridgeType } from '@/types/enum'
-import type { Component, ComputedRef, Ref } from 'vue'
-import { computed } from 'vue'
 import ConnectorSchemaForm from './ConnectorSchemaForm.vue'
 
 export default (

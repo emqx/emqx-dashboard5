@@ -104,7 +104,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import dayjs from 'dayjs'

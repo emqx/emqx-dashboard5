@@ -70,7 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'

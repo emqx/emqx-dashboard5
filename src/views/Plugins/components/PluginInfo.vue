@@ -38,8 +38,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'PluginInfo',
 })
@@ -47,7 +45,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { PluginItem } from '@/types/plugin'
-import { PropType, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 import PluginInfoItem from './PluginInfoItem.vue'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'

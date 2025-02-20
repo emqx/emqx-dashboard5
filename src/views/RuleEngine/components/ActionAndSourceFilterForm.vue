@@ -91,9 +91,6 @@ import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
 import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
-import { escapeRegExp } from 'lodash'
-import type { Ref } from 'vue'
-import { defineEmits, defineProps, ref } from 'vue'
 
 interface ActionAndSourceFilterParams {
   type?: string

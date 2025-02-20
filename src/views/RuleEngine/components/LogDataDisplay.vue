@@ -132,8 +132,6 @@ import {
   Loading,
   WarningFilled,
 } from '@element-plus/icons-vue'
-import { escapeRegExp, get, set } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps<{
   logData: FormattedLog

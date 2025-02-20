@@ -250,7 +250,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import {
   loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
@@ -258,7 +257,6 @@ import {
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
-import _, { cloneDeep } from 'lodash'
 import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'

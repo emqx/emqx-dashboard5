@@ -43,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
 import { APIKey } from '@/types/systemModule'
 import { useI18n } from 'vue-i18n'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'

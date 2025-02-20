@@ -151,8 +151,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-
 export default defineComponent({
   name: 'Clients',
 })
@@ -176,7 +174,6 @@ import { CheckStatus } from '@/types/enum'
 import { Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'

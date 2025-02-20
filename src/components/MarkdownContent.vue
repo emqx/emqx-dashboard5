@@ -18,7 +18,6 @@
 
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { ref, defineProps, onMounted, onUnmounted, PropType, watch } from 'vue'
 import { marked } from 'marked'
 import { useStore } from 'vuex'
 import xss from 'xss'

@@ -107,8 +107,6 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox } from 'element-plus'
-import { isEqual } from 'lodash'
-import { defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({

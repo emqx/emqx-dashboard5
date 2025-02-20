@@ -50,8 +50,6 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import { usePasswordHashRules } from '@/hooks/Auth/usePasswordHashAlgorithmData'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import type { PropType } from 'vue'
-import { defineComponent, reactive, ref, watch } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({

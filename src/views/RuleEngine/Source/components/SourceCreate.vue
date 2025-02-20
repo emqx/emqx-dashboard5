@@ -14,8 +14,6 @@ import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
-import { computed, defineExpose, defineProps, ref } from 'vue'
 import useSourceFormComponent from './useSourceFormComponent'
 
 const props = defineProps<{

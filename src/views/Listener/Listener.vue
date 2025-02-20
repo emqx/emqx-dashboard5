@@ -104,8 +104,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
 
 const { t, tl } = useI18nTl('Gateway')
 

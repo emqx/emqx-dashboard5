@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { pick } from 'lodash'
 import qs from 'qs'
 
 export function listClients(params = {}) {

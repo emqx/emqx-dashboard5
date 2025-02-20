@@ -180,8 +180,6 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { get } from 'lodash'
-import { computed, defineEmits, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>

@@ -4,13 +4,11 @@
 
 <script lang="ts" setup>
 import EditorDark from '@/assets/theme/editor-dark.json'
-import { debounce } from 'lodash'
 import type { IDisposable, IScrollEvent } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
 import { language as sql, conf as sqlConf } from 'monaco-editor/esm/vs/basic-languages/sql/sql'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useStore } from 'vuex'
 
 declare global {

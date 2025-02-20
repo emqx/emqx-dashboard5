@@ -40,8 +40,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'AuthItemOverview',
 })
@@ -56,8 +54,6 @@ import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import { MetricsData } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
-import type { PropType, Ref } from 'vue'
-import { computed, defineProps, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const props = defineProps({

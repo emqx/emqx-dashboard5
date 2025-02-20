@@ -96,7 +96,6 @@ import { Remove } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Banned } from '@/types/auth'
-import { computed, ref } from 'vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import BannedDialog from './components/BannedDialog.vue'
 

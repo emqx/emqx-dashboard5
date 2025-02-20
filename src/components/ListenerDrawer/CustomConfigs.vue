@@ -15,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, ref, watch } from 'vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Listener } from '@/types/listener'
 import { unexposedConfigs } from '@/common/constants'

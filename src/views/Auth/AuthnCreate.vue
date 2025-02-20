@@ -182,7 +182,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, defineProps, PropType, provide } from 'vue'
 import GuideBar from '@/components/GuideBar.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
@@ -195,7 +194,6 @@ import { createAuthn } from '@/api/auth'
 import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { cloneDeep } from 'lodash'
 import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'

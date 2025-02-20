@@ -8,16 +8,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'PluginInfoItem',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 defineProps({
   label: {
     type: String,

@@ -39,8 +39,6 @@ import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
 import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
-import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
 const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()

@@ -9,10 +9,8 @@ import 'echarts/lib/component/grid'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
-import { get, isUndefined } from 'lodash'
 import dayjs from 'dayjs'
 import useI18nTl from './useI18nTl'
-import { ref } from 'vue'
 
 export const enum MetricType {
   Green,

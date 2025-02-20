@@ -1,6 +1,4 @@
 import { ListDataWithPagination } from '@/types/common'
-import { chunk, cloneDeep, isEqual, isRegExp, orderBy } from 'lodash'
-import { ref, Ref } from 'vue'
 
 type ListData = Array<any>
 

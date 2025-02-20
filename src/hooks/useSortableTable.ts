@@ -1,6 +1,4 @@
 import Sortable, { SortableEvent } from 'sortablejs'
-import type { Ref } from 'vue'
-import { Component, ref } from 'vue'
 
 export default (
   onUpdate: (evt: SortableEvent) => void,

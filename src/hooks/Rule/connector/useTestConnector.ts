@@ -1,7 +1,5 @@
 import { testConnectorConnectivity } from '@/api/connector'
 import { Connector } from '@/types/rule'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
 import { useConnectorDataHandler } from '../useDataHandler'
 
 export default (): {

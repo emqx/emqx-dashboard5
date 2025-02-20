@@ -39,8 +39,6 @@ import useClientFields from '@/hooks/Clients/useClientFields'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { isEqual } from 'lodash'
-import { ref, watch } from 'vue'
 
 const { t, tl } = useI18nTl('Clients')
 

@@ -61,8 +61,6 @@
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
 import { stringifyObjSafely } from '@/common/tools'
-import type { Ref, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CodeView from '@/components/CodeView.vue'
 

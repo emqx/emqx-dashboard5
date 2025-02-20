@@ -16,19 +16,9 @@
   </el-input-tag>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'ArrayEditor',
-})
-</script>
-
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, nextTick } from 'vue'
 import CommonOverflowTooltip from './CommonOverflowTooltip.vue'
 
 const props = defineProps({

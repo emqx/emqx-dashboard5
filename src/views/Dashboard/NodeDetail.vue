@@ -111,7 +111,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -123,7 +122,6 @@ export default defineComponent({
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { calcPercentage } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatus } from '@/types/enum'

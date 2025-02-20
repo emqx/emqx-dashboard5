@@ -29,18 +29,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'InputWithUnit',
 })
 </script>
 
 <script setup lang="ts">
-import { escapeRegExp } from 'lodash'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, ref } from 'vue'
-
 const props = defineProps({
   modelValue: {
     type: String,

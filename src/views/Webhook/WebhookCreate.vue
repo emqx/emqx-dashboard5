@@ -23,8 +23,6 @@ import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { WebhookForm } from '@/types/webhook'
 import { ElMessage } from 'element-plus'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import WebhookFormCom from './components/WebhookForm.vue'
 

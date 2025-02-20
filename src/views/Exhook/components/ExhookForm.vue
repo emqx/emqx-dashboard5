@@ -77,8 +77,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'ExhookForm',
 })
@@ -92,8 +90,6 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { ExhookFailedAction } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({

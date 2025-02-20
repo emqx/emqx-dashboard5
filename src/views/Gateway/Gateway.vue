@@ -63,7 +63,6 @@ import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
 import { ElMessageBox, ElMessage as M } from 'element-plus'
-import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({

@@ -47,7 +47,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
-import { PropType, computed, defineExpose, defineProps, ref, watch } from 'vue'
 import LogDataDisplay from './LogDataDisplay.vue'
 import MockDataDrawer from './MockDataDrawer.vue'
 

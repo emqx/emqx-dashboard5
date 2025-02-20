@@ -93,7 +93,6 @@
 
 <script lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'RuleOutputsDrawer',
@@ -107,8 +106,6 @@ import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'
 import BridgeDetail from '../Bridge/BridgeDetail.vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'

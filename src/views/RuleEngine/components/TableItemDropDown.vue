@@ -33,8 +33,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TableItemDropdown',
 })
@@ -42,7 +40,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
-import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
 import { CaretBottom, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
 import { useI18n } from 'vue-i18n'
 

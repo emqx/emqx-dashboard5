@@ -3,7 +3,6 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { pick } from 'lodash'
 import { useAvailableProviders } from '../useProvidersForMonaco'
 import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
 

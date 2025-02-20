@@ -1,6 +1,5 @@
 import { waitAMoment } from '@/common/tools'
 import { ECharts } from 'echarts'
-import { nextTick, onUnmounted, watch } from 'vue'
 import { useStore } from 'vuex'
 
 export default (): {

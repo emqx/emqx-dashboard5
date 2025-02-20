@@ -19,7 +19,6 @@ import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { computed, defineProps, PropType } from 'vue'
 
 const props = defineProps({
   target: {

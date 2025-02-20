@@ -32,10 +32,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, computed } from 'vue'
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
-import { isEqual } from 'lodash'
 import { useAdaptiveEditor } from '@/hooks/useAdaptiveEditor'
 
 export default defineComponent({
