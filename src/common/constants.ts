@@ -339,3 +339,8 @@ export const DEFAULT_CLIENT_TABLE_COLUMNS = [
 export const BANNED_NEVER_EXPIRE_VALUE = 'infinity'
 
 export const DEFAULT_PAGE_SIZE_OPT = [20, 50, 100, 500]
+
+export const INVALID_SUB_TOPIC_REG = /#.+|.+[^/]#|[^/]\+|\+[^/]/
+export const SPECIAL_INVALID_SUB_TOPIC_REG = /^(\$exclusive|\$share\/[^/]*)$/
+
+export const INVALID_PUB_TOPIC_REG = /\+|#/
