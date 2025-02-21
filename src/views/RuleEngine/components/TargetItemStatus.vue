@@ -55,11 +55,7 @@ const statusData = computed(() => {
   if (props.type === 'connector') {
     statusLabel = getConnectorStatusLabel(target?.status)
   } else {
-    if (!target?.enable) {
-      statusLabel = tl('actionDisabled')
-    } else {
-      statusLabel = getActionStatusLabel(target?.status)
-    }
+    statusLabel = getActionStatusLabel(target?.status)
   }
 
   const statusClass = getStatusClass(target?.status)

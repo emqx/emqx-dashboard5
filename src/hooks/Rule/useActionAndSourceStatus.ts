@@ -3,7 +3,7 @@ import useI18nTl from '../useI18nTl'
 
 const useActionAndSourceStatus = (): {
   statusOptList: Array<{ value: ConnectionStatus; label: string }>
-  statusLabelMap: Record<ConnectionStatus, string>
+  statusLabelMap: Partial<Record<ConnectionStatus, string>>
 } => {
   const { t, tl } = useI18nTl('RuleEngine')
   const statusLabelMap = {
@@ -11,7 +11,6 @@ const useActionAndSourceStatus = (): {
     [ConnectionStatus.Disconnected]: tl('actionUnavailable'),
     [ConnectionStatus.Connecting]: t('Base.connecting'),
     [ConnectionStatus.Inconsistent]: t('Base.inconsistent'),
-    [ConnectionStatus.Stopped]: t('Base.stopped'),
   }
   const statusOptList = (Object.entries(statusLabelMap) as [ConnectionStatus, string][]).map(
     ([key, value]) => ({
