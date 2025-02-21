@@ -57,10 +57,16 @@ export default {
         'lowerCase',
       ],
       vuex: ['useStore', 'createStore'],
+      'vue-i18n': ['useI18n'],
     },
     {
       from: 'vue-router',
       imports: ['RouteLocationRaw', 'RouteRecordRaw'],
+      type: true,
+    },
+    {
+      from: 'vue-i18n',
+      imports: ['ComposerTranslation'],
       type: true,
     },
   ],

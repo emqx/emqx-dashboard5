@@ -51,7 +51,6 @@
 
 <script setup lang="ts">
 import { PluginDetail } from '@/types/plugin'
-import { useI18n } from 'vue-i18n'
 import PluginInfo from './components/PluginInfo.vue'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'

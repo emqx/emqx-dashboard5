@@ -1,4 +1,3 @@
-import { useI18n } from 'vue-i18n'
 import getDocLinks, { DocMap } from '@/common/docLinks'
 
 export default (): { docMap: DocMap } => {

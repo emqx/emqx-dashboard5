@@ -45,7 +45,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { PluginItem } from '@/types/plugin'
-import { useI18n } from 'vue-i18n'
 import PluginInfoItem from './PluginInfoItem.vue'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 

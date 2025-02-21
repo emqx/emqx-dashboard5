@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import { APIKey } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { ElMessageBox, ElMessage } from 'element-plus'

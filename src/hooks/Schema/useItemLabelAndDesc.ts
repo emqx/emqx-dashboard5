@@ -6,7 +6,6 @@ import {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import actionText from '@/schemaText/actionText/index'
 import { Property } from '@/types/schemaForm'
-import { useI18n } from 'vue-i18n'
 
 type GetTextKey = (prop: Property) => string
 

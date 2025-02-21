@@ -39,8 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-
 type TopicItem = { id: number; topic: string }
 
 const props = withDefaults(

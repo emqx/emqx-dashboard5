@@ -125,7 +125,6 @@ export default defineComponent({
 import PolylineChart from './PolylineChart.vue'
 import { waitAMoment } from '@/common/tools'
 import { loadChartData, resetMonitorData } from '@/api/common'
-import { useI18n } from 'vue-i18n'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
 import useI18nTl from '@/hooks/useI18nTl'

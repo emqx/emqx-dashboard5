@@ -2,7 +2,6 @@ import { moveExhook, deleteExhook as requestDeleteExhook, updateExhook } from '@
 import { TargetPosition } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import useSSL from '../useSSL'
 
 export default (): {

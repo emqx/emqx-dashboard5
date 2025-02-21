@@ -68,7 +68,6 @@
 import { toLogin } from '@/router'
 import { Right, Setting, Search } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'

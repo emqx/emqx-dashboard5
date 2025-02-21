@@ -206,7 +206,6 @@ import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import dayjs from 'dayjs'
-import { useI18n } from 'vue-i18n'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 

@@ -90,6 +90,7 @@ declare global {
   const useAttrs: (typeof import('vue'))['useAttrs']
   const useCssModule: (typeof import('vue'))['useCssModule']
   const useCssVars: (typeof import('vue'))['useCssVars']
+  const useI18n: (typeof import('vue-i18n'))['useI18n']
   const useId: (typeof import('vue'))['useId']
   const useLink: (typeof import('vue-router'))['useLink']
   const useModel: (typeof import('vue'))['useModel']
@@ -126,4 +127,7 @@ declare global {
   // @ts-ignore
   export type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
   import('vue-router')
+  // @ts-ignore
+  export type { ComposerTranslation } from 'vue-i18n'
+  import('vue-i18n')
 }

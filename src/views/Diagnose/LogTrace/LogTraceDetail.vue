@@ -42,7 +42,6 @@
 </template>
 
 <script lang="ts">
-import { useI18n } from 'vue-i18n'
 import Monaco from '@/components/Monaco.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { IScrollEvent } from 'monaco-editor'

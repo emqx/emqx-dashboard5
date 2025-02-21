@@ -121,7 +121,6 @@
 </template>
 
 <script lang="ts">
-import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 
 export default defineComponent({

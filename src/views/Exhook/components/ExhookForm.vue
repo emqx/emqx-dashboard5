@@ -90,7 +90,6 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import { ExhookFailedAction } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: {

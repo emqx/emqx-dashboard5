@@ -1,5 +1,4 @@
 import { NodeStatusClass } from '@/types/enum'
-import { useI18n } from 'vue-i18n'
 
 export default (): {
   getStatusLabel: (enable: boolean | undefined) => string

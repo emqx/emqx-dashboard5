@@ -103,7 +103,6 @@
 <script lang="ts" setup>
 import { splitOnComma, splitOnSymbol } from '@/common/tools'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 
 enum State {

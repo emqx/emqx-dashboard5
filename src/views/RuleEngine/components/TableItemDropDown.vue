@@ -41,7 +41,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { CaretBottom, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
