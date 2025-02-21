@@ -54,7 +54,6 @@ import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import { MetricsData } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
-import { useRoute } from 'vue-router'
 
 const props = defineProps({
   metrics: {

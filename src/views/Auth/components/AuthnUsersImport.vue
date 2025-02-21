@@ -71,7 +71,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ImportResult } from '@/types/auth'
 import { ElMessage, ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'
-import { useRoute } from 'vue-router'
 
 type PasswordType = 'plain' | 'hash'
 

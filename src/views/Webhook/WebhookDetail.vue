@@ -82,7 +82,6 @@ import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import WebhookFormCom from './components/WebhookForm.vue'
 

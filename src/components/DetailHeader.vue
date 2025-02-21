@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-import { RouteLocationRaw, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'DetailHeader',
 })

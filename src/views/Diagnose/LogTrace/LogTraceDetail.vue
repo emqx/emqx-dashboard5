@@ -46,7 +46,6 @@ import { useI18n } from 'vue-i18n'
 import Monaco from '@/components/Monaco.vue'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { IScrollEvent } from 'monaco-editor'
-import { useRoute } from 'vue-router'
 import { getTraceLog, downloadTrace, getTraceNodesMsg } from '@/api/diagnose'
 import { ElMessage as M } from 'element-plus'
 

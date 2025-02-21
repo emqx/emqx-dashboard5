@@ -29,7 +29,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()

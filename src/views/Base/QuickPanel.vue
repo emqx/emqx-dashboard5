@@ -42,7 +42,6 @@ import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { RouteRecordRaw, useRouter } from 'vue-router'
 
 interface MenuItem {
   path: string

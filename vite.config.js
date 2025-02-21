@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
       AutoImport(autoImportConfig),
     ],
     server: {
-      port: 7000,
+      port: 7001,
       proxy: {
         '/api/v5': {
           target,

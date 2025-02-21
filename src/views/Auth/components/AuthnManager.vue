@@ -119,7 +119,6 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import AuthnUsersImport from './AuthnUsersImport.vue'
 
 const createRawUserForm = () => ({

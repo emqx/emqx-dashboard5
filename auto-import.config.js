@@ -10,10 +10,16 @@ export default {
   imports: [
     // presets
     'vue',
-    'vue-router',
-
     // custom
     {
+      'vue-router': [
+        'useRouter',
+        'onBeforeRouteLeave',
+        'useRoute',
+        'createRouter',
+        'createWebHashHistory',
+        'onBeforeRouteUpdate',
+      ],
       axios: [
         // default imports
         ['default', 'axios'], // import { default as axios } from 'axios',
@@ -50,6 +56,11 @@ export default {
         'isNumber',
         'lowerCase',
       ],
+    },
+    {
+      from: 'vue-router',
+      imports: ['RouteLocationRaw', 'RouteRecordRaw'],
+      type: true,
     },
   ],
   dts: 'src/auto-imports.d.ts',

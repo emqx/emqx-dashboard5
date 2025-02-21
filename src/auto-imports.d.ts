@@ -15,6 +15,8 @@ declare global {
   const cloneDeep: (typeof import('lodash'))['cloneDeep']
   const computed: (typeof import('vue'))['computed']
   const createApp: (typeof import('vue'))['createApp']
+  const createRouter: (typeof import('vue-router'))['createRouter']
+  const createWebHashHistory: (typeof import('vue-router'))['createWebHashHistory']
   const customRef: (typeof import('vue'))['customRef']
   const debounce: (typeof import('lodash'))['debounce']
   const defineAsyncComponent: (typeof import('vue'))['defineAsyncComponent']
@@ -119,4 +121,7 @@ declare global {
     WritableComputedRef,
   } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
+  import('vue-router')
 }
