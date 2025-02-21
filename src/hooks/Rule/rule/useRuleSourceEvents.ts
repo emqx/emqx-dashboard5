@@ -1,5 +1,4 @@
 import useI18nTl from '@/hooks/useI18nTl'
-import { useStore } from 'vuex'
 import { useRuleUtils } from './useRule'
 
 export default (): {

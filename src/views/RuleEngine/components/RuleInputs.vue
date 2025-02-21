@@ -55,7 +55,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { useStore } from 'vuex'
 import RuleInputsDrawer from './RuleInputsDrawer.vue'
 
 interface InputItem {

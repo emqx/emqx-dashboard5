@@ -26,7 +26,6 @@ import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
 import { checkNOmitFromObj, customValidate } from '@/common/tools'
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 import useLimiter from '@/hooks/Config/useLimiter'
 
 const configs = ref<Limiter>({} as Limiter)

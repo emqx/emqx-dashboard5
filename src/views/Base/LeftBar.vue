@@ -63,7 +63,6 @@
 <script lang="ts">
 import useMenus from '@/hooks/useMenus'
 import type { Menu } from '@/hooks/useMenus'
-import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Leftbar',

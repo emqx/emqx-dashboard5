@@ -14,7 +14,6 @@ import {
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
-import { useStore } from 'vuex'
 import type { FormattedLog, LogItem } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'
 import { useRuleUtils } from './useRule'

@@ -1,7 +1,6 @@
 import { numToFixed, waitAMoment } from '@/common/tools'
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
-import { useStore } from 'vuex'
 
 export interface FlowNodeData {
   type: 'core' | 'replicant' | 'background'
