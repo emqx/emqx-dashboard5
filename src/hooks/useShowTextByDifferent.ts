@@ -1,7 +1,6 @@
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from '@/common/constants'
 import { encode, decode } from 'js-base64'
 import { PayloadShowByType } from '@/types/enum'
-import { ElMessage } from 'element-plus'
 
 /**
  * format obj str

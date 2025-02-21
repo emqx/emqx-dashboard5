@@ -1,5 +1,4 @@
 import type { MessageBoxData } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from './useI18nTl'
 
 export default (): {

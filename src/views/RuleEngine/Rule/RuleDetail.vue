@@ -92,7 +92,7 @@ import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import RuleForm from '../components/RuleForm.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'

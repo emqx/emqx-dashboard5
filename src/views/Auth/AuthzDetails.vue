@@ -94,7 +94,7 @@ import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { Metrics } from '@/types/auth'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import AuthzManager from './components/AuthzManager.vue'

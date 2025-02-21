@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessage } from 'element-plus'
+
 import CommonOverflowTooltip from './CommonOverflowTooltip.vue'
 
 const props = defineProps({

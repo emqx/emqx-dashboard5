@@ -64,7 +64,7 @@ import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { ElMessage } from 'element-plus'
+
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'

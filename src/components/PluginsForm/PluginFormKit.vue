@@ -29,7 +29,6 @@
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import usePluginGenFormRules from '@/hooks/Plugins/useGenPluginFormRules'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   data: {

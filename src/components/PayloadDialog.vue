@@ -44,7 +44,6 @@ import useCopy from '@/hooks/useCopy'
 import useI18nTl from '@/hooks/useI18nTl'
 import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { PayloadShowByType } from '@/types/enum'
-import { ElDialog } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{

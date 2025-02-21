@@ -23,7 +23,7 @@ import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { Limiter } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { ElMessage } from 'element-plus'
+
 import { checkNOmitFromObj, customValidate } from '@/common/tools'
 import useLimiter from '@/hooks/Config/useLimiter'
 

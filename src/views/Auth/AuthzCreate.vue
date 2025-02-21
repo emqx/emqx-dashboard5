@@ -98,7 +98,7 @@ import useAuth from '@/hooks/Auth/useAuth'
 import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessage } from 'element-plus'
+
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import FileConfig from './components/FileConfig.vue'

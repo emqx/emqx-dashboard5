@@ -1,5 +1,4 @@
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox } from 'element-plus'
 
 export const useCheckDataChanged = (
   nowData: Ref<any>,

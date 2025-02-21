@@ -62,7 +62,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
-import { ElMessageBox, ElMessage as M } from 'element-plus'
+import { ElMessage as M } from 'element-plus'
 
 export default defineComponent({
   name: 'Gateway',

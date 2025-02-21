@@ -110,7 +110,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
-import { ElMessage } from 'element-plus'
+
 import Trigger from './Trigger.vue'
 
 const props = defineProps({

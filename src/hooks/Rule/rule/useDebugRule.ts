@@ -12,7 +12,6 @@ import {
   TraceEncodeType,
 } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
-import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
 import type { FormattedLog, LogItem } from './useFormatDebugLog'
 import useFormatDebugLog from './useFormatDebugLog'

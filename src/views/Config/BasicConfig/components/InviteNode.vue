@@ -42,7 +42,6 @@
 
 <script lang="ts">
 import { forceLeaveNode, getClusterNodes, inviteNode } from '@/api/common'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 interface ClusterNode {
   name: string

@@ -27,7 +27,7 @@ import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
-import { ElMessage } from 'element-plus'
+
 import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()

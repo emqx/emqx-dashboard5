@@ -94,7 +94,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElDialog } from 'element-plus'
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'

@@ -75,7 +75,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { TeleStatus } from '@/types/config'

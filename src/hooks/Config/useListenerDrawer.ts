@@ -5,7 +5,6 @@ import { checkNOmitFromObj, emptyObject, jumpToErrorFormItem } from '@/common/to
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import useListenerUtils from './useListenerUtils'
 import { isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'

@@ -133,7 +133,6 @@ import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
 
 const { t, tl } = useI18nTl('General')
 

@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElDialog } from 'element-plus'
 import { APIKey } from '@/types/systemModule'
 import useCopy from '@/hooks/useCopy'
 import TipContainer from '@/components/TipContainer.vue'

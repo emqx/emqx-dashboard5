@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
 import DetailHeader from '@/components/DetailHeader.vue'

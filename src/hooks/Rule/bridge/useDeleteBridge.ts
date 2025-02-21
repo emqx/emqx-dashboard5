@@ -1,7 +1,6 @@
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import useHandleActionItem from '../action/useHandleActionItem'
 
 interface DeleteBridgeResult {

@@ -27,7 +27,6 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Log',

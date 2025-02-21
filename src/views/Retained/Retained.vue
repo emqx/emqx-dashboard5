@@ -95,7 +95,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RetainerMessage } from '@/types/extension'
 import { Remove, Setting } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox, ElMessageBox as MB } from 'element-plus'
+import { ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()

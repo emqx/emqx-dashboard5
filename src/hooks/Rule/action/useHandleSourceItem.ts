@@ -12,7 +12,6 @@ import {
 } from '@/api/sources'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { useActionDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {

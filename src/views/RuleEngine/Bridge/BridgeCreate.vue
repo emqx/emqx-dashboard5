@@ -96,7 +96,6 @@ import { useActionDataHandler, useBridgeDataHandler } from '@/hooks/Rule/useData
 import useGuide from '@/hooks/useGuide'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 /**

@@ -42,7 +42,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
 
 const props = defineProps<{
   modelValue: boolean

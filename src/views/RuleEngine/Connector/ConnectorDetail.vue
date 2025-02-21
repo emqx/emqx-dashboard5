@@ -135,7 +135,7 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
