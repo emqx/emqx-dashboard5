@@ -73,7 +73,6 @@
 import { PluginStatus } from '@/types/enum'
 import { useI18n } from 'vue-i18n'
 import { PluginItem } from '@/types/plugin'
-import { useRouter } from 'vue-router'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 import usePaging, { FilterItem } from '@/hooks/usePaging'

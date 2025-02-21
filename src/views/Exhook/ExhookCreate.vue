@@ -24,7 +24,6 @@ import { ExhookFailedAction } from '@/types/enum'
 import { ExhookFormForCreate } from '@/types/systemModule'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import ExhookForm from './components/ExhookForm.vue'
 
 const router = useRouter()

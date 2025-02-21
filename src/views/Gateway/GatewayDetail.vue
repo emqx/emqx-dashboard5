@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { getGateway } from '@/api/gateway'
-import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'

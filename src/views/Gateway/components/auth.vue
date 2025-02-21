@@ -37,7 +37,6 @@ import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/
 import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName, AuthnMechanismType, DatabasesType } from '@/types/enum'
 import { ElMessage as M } from 'element-plus'
-import { useRoute } from 'vue-router'
 import AuthnCreate from '../../Auth/AuthnCreate.vue'
 import AuthnDetails from '../../Auth/AuthnDetails.vue'
 

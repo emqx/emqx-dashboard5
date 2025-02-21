@@ -43,7 +43,6 @@ import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
-import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   modelValue: boolean

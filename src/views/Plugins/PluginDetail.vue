@@ -53,7 +53,6 @@
 import { PluginDetail } from '@/types/plugin'
 import { useI18n } from 'vue-i18n'
 import PluginInfo from './components/PluginInfo.vue'
-import { useRoute } from 'vue-router'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'
 import MarkdownContent from '@/components/MarkdownContent.vue'

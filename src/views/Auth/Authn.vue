@@ -75,7 +75,6 @@ import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import { AuthnItem } from '@/types/auth'
 import { ElMessageBox as MB } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
 
