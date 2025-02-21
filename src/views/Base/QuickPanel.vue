@@ -40,7 +40,6 @@ import type { Menu } from '@/hooks/useMenus'
 import useMenus from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
 
 interface MenuItem {
   path: string

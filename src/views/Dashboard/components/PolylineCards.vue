@@ -130,7 +130,7 @@ import { ChartDataItem } from '@/types/dashboard'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSyncPolling from '@/hooks/useSyncPolling'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
-import { ElMessage } from 'element-plus'
+
 import { Close, FullScreen } from '@element-plus/icons-vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 

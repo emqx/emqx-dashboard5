@@ -1,5 +1,4 @@
 import copy from 'copy-to-clipboard'
-import { ElMessage } from 'element-plus'
 
 export default function useCopy(callback?: () => void): {
   copyText: (text: string) => Promise<void>

@@ -22,7 +22,7 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { WebhookForm } from '@/types/webhook'
-import { ElMessage } from 'element-plus'
+
 import WebhookFormCom from './components/WebhookForm.vue'
 
 const { t, tl } = useI18nTl('Base')

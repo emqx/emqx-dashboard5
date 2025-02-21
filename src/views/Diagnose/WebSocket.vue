@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import WebSocketItem from './components/WebSocketItem.vue'
-import { ElMessage, TabPanelName } from 'element-plus'
+import { TabPanelName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 

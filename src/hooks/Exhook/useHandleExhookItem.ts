@@ -1,7 +1,6 @@
 import { moveExhook, deleteExhook as requestDeleteExhook, updateExhook } from '@/api/exhook'
 import { TargetPosition } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import useSSL from '../useSSL'
 
 export default (): {

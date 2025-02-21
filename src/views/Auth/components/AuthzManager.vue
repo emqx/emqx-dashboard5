@@ -259,7 +259,7 @@ import {
 } from '@/api/auth'
 import commonPagination from '@/components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { ElMessage, ElMessageBox as MB } from 'element-plus'
+import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'

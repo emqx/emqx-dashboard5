@@ -173,7 +173,6 @@ import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 

@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { UploadFile, ElMessageBox, ElMessage } from 'element-plus'
+import { UploadFile } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { findExtensionByName } from '@/common/tools'
 

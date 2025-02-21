@@ -73,7 +73,7 @@
 import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
 import ExhookForm from './components/ExhookForm.vue'
-import { ElMessage } from 'element-plus'
+
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import {
   queryExhookDetail,

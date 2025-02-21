@@ -49,7 +49,6 @@ import { putConnectorEnable } from '@/api/connector'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog, ElMessage } from 'element-plus'
 
 const props = defineProps<{ modelValue: boolean; connector: Connector }>()
 const emit = defineEmits(['update:modelValue', 'submitted'])

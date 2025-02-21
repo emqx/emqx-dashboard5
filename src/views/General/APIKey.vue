@@ -46,7 +46,6 @@
 import { APIKey } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
-import { ElMessageBox, ElMessage } from 'element-plus'
 import dayjs from 'dayjs'
 import { Plus } from '@element-plus/icons-vue'
 

@@ -2,7 +2,6 @@
 // @ts-ignore
 import { jsonToAvro, avroToJson } from 'json-to-avro'
 import avro from 'avsc'
-import { ElMessage } from 'element-plus'
 
 /**
  * Converts an object to Avro JSON format.

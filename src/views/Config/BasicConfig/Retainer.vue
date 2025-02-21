@@ -167,7 +167,6 @@ import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSa
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Retainer } from '@/types/extension'
-import { ElMessage } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')
 const store = useStore()

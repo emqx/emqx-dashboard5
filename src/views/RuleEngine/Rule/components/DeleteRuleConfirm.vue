@@ -45,7 +45,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType, RuleOutput } from '@/types/enum'
 import { RuleEvent, RuleItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog, ElMessage } from 'element-plus'
 
 const props = defineProps<{ modelValue: boolean; rule?: RuleItem }>()
 const emit = defineEmits(['update:modelValue', 'submitted'])

@@ -26,7 +26,6 @@ import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem, Connector, RuleItem } from '@/types/rule'
-import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
 import CreateRuleWithConnector from '../Connector/components/CreateRuleWithConnector.vue'
 
 interface CopyTarget {

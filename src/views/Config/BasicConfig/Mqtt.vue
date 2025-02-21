@@ -28,7 +28,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useFormRules from '@/hooks/useFormRules'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Mqtt',

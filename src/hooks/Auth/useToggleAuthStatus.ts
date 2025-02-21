@@ -1,5 +1,4 @@
 import { updateAuthn, updateAuthz } from '@/api/auth'
-import { ElMessageBox, ElMessage } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 import { AuthnItemInTable } from './useAuthn'
 import { AuthzItemInTable } from './useAuthz'

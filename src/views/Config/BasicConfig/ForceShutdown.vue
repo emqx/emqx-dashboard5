@@ -82,7 +82,7 @@ import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
+
 import { EmqxForceShutdown } from '@/types/schemas/configs.schemas'
 
 const { t, tl } = useI18nTl('General')

@@ -1,5 +1,5 @@
 import { AuthnItem } from '@/types/auth'
-import { ElMessageBox, MessageBoxData } from 'element-plus'
+import { MessageBoxData } from 'element-plus'
 import useI18nTl from '../useI18nTl'
 
 export default (): {

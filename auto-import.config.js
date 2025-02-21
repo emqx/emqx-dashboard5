@@ -58,6 +58,7 @@ export default {
       ],
       vuex: ['useStore', 'createStore'],
       'vue-i18n': ['useI18n'],
+      'element-plus': ['ElMessage', 'ElMessageBox', 'ElNotification'],
     },
     {
       from: 'vue-router',

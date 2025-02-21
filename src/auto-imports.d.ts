@@ -7,6 +7,9 @@
 export {}
 declare global {
   const EffectScope: (typeof import('vue'))['EffectScope']
+  const ElMessage: (typeof import('element-plus'))['ElMessage']
+  const ElMessageBox: (typeof import('element-plus'))['ElMessageBox']
+  const ElNotification: (typeof import('element-plus'))['ElNotification']
   const _: (typeof import('lodash'))['default']
   const assign: (typeof import('lodash'))['assign']
   const axios: (typeof import('axios'))['default']

@@ -1,5 +1,4 @@
 import { uninstallPlugin } from '@/api/plugins'
-import { ElMessageBox, ElMessage } from 'element-plus'
 import { PluginItem } from '@/types/plugin'
 import { PluginStatus, StatusCommandSendToPlugin, TargetPosition } from '@/types/enum'
 import { updatePluginStatus } from '@/api/plugins'

@@ -24,7 +24,6 @@ import { isJSONString } from '@emqx/shared-ui-utils'
 import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'Session',

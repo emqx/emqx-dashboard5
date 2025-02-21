@@ -106,7 +106,6 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox } from 'element-plus'
 import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({

@@ -11,7 +11,7 @@ import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
-import { ElMessage } from 'element-plus'
+
 import { useConnectorDataHandler } from '../useDataHandler'
 
 type NowConnector = Connector | BridgeItem

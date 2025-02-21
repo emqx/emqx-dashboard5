@@ -8,7 +8,6 @@ import store from '@/store'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
-import { ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 

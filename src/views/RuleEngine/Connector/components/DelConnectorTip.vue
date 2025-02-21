@@ -46,7 +46,6 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
 
 const props = defineProps<{
   modelValue: boolean
