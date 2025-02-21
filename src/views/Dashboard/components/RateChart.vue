@@ -9,7 +9,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
 import useI18nTl from '@/hooks/useI18nTl'
 import * as echarts from 'echarts/lib/echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'

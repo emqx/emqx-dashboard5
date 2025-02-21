@@ -56,6 +56,7 @@ export default {
         'isNumber',
         'lowerCase',
       ],
+      vuex: ['useStore', 'createStore'],
     },
     {
       from: 'vue-router',

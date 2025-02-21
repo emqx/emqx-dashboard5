@@ -19,7 +19,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { marked } from 'marked'
-import { useStore } from 'vuex'
 import xss from 'xss'
 
 interface TocItem {

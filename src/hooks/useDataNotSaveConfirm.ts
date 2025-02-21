@@ -1,6 +1,5 @@
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessageBox } from 'element-plus'
-import { useStore } from 'vuex'
 
 export const useCheckDataChanged = (
   nowData: Ref<any>,

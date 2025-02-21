@@ -24,7 +24,6 @@ import {
   useBackgroundCircle,
 } from '@/hooks/Overview/useNodesGraph'
 import { ClickOutside as vClickOutside } from 'element-plus'
-import { useStore } from 'vuex'
 
 const emit = defineEmits(['showPopover'])
 const store = useStore()

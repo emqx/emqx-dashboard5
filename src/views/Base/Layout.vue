@@ -69,7 +69,6 @@
 import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
-import { useStore } from 'vuex'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 import QuickPanel from './QuickPanel.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'

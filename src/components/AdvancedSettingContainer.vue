@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
-import { useStore } from 'vuex'
 
 defineProps<{
   buttonText?: string

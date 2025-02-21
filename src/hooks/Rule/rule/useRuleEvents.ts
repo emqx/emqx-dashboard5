@@ -1,7 +1,6 @@
 import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
 import { RuleEvent } from '@/types/rule'
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 
 const EVENT_SORT: Array<string> = [
   '$events/client_check_authn_complete',

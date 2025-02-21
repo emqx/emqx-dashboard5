@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import useDashboardVersion from '@/hooks/useDashboardVersion'
-import { useStore } from 'vuex'
 
 const store = useStore()
 const lang = computed(() => {

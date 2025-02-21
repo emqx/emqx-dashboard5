@@ -26,7 +26,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Session',

@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import { toLogin } from '@/router'
-import { useStore } from 'vuex'
 import { Right, Setting, Search } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'

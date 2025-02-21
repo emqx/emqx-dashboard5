@@ -76,7 +76,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
 import useI18nTl from '@/hooks/useI18nTl'
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { useI18n } from 'vue-i18n'

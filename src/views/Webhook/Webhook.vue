@@ -52,7 +52,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
 
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
