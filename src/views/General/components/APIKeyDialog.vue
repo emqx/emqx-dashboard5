@@ -95,7 +95,6 @@
 
 <script lang="ts" setup>
 import { ElDialog } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'

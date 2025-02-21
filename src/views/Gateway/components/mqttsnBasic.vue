@@ -63,7 +63,6 @@
 
 <script lang="ts">
 import topicEditList from './topicEditList.vue'
-import { useI18n } from 'vue-i18n'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 

@@ -78,7 +78,6 @@ export default defineComponent({
 import { ElMessage } from 'element-plus'
 import useI18nTl from '@/hooks/useI18nTl'
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
-import { useI18n } from 'vue-i18n'
 import { TeleStatus } from '@/types/config'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 

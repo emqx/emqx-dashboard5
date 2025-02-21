@@ -72,7 +72,6 @@
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
 import ExhookForm from './components/ExhookForm.vue'
 import { ElMessage } from 'element-plus'
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'

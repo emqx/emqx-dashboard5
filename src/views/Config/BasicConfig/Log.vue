@@ -28,7 +28,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'Log',

@@ -5,7 +5,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { useI18n } from 'vue-i18n'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties

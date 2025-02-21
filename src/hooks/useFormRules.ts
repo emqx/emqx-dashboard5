@@ -2,7 +2,6 @@ import { COMMON_ID_REG } from '@/common/constants'
 import { checkInRange, checkStringWithUnit } from '@/common/tools'
 import { InternalRuleItem } from 'async-validator'
 import { FormItemRule } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
 

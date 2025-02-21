@@ -66,7 +66,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { RuleEvent, BridgeItem } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
 import { BackendI18n } from '@/types/common'
 import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'

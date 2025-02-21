@@ -43,7 +43,6 @@
 <script lang="ts">
 import { forceLeaveNode, getClusterNodes, inviteNode } from '@/api/common'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 interface ClusterNode {
   name: string

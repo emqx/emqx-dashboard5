@@ -131,7 +131,6 @@ import useSyncPolling from '@/hooks/useSyncPolling'
 import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { Right } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
 

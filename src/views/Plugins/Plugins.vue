@@ -71,7 +71,6 @@
 
 <script lang="ts" setup>
 import { PluginStatus } from '@/types/enum'
-import { useI18n } from 'vue-i18n'
 import { PluginItem } from '@/types/plugin'
 import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import TableItemDropdown from './components/TableItemDropdown.vue'

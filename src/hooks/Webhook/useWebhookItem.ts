@@ -3,7 +3,6 @@ import { deleteConnector, putConnectorEnable } from '@/api/connector'
 import { deleteRules, updateRules } from '@/api/ruleengine'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 export default (): {
   toggleWebhookEnableStatus: (webhook: WebhookItem) => Promise<[any, any, any]>

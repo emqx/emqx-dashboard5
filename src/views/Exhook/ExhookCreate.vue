@@ -23,7 +23,6 @@ import useSSL from '@/hooks/useSSL'
 import { ExhookFailedAction } from '@/types/enum'
 import { ExhookFormForCreate } from '@/types/systemModule'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import ExhookForm from './components/ExhookForm.vue'
 
 const router = useRouter()

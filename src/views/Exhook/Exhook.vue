@@ -66,7 +66,6 @@
 
 <script setup lang="ts">
 import TableItemDropdown from './components/TableItemDropdown.vue'
-import { useI18n } from 'vue-i18n'
 import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import { Exhook } from '@/types/systemModule'
 import { queryExhooks } from '@/api/exhook'

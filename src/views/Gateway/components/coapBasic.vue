@@ -65,7 +65,6 @@
 import BooleanSelect from '@/components/BooleanSelect.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import { useI18n } from 'vue-i18n'
 import { CoapGatewayConfig } from '@/types/typeAlias'
 
 const props = defineProps<{
