@@ -9,7 +9,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import useI18nTl from '@/hooks/useI18nTl'
 import * as echarts from 'echarts/lib/echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'
 import 'echarts/lib/chart/line'
@@ -19,7 +18,6 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/markLine'
 import 'echarts/lib/component/markPoint'
-import useEchartResize from '@/hooks/useEchartResize'
 
 const store = useStore()
 const { tl } = useI18nTl('Base')

@@ -286,8 +286,6 @@ import {
 } from '@/common/constants'
 import { chunkStr } from '@/common/tools'
 import BooleanSelect from '@/components/BooleanSelect.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import type { FormRules } from 'element-plus'

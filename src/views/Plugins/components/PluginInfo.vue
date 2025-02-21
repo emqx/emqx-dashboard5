@@ -46,7 +46,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { PluginItem } from '@/types/plugin'
 import PluginInfoItem from './PluginInfoItem.vue'
-import usePluginItem from '@/hooks/Plugins/usePluginItem'
 
 defineProps({
   pluginData: {

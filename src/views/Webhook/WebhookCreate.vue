@@ -19,10 +19,7 @@ import { postConnector } from '@/api/connector'
 import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, customValidate, getBridgeKey } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { WebhookForm } from '@/types/webhook'
-
 import WebhookFormCom from './components/WebhookForm.vue'
 
 const { t, tl } = useI18nTl('Base')

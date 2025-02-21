@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import { NUM_REG } from '@/common/constants'
-import useSQLAvailablePlaceholder from '@/hooks/Rule/useSQLAvailablePlaceholder'
 import { PropType } from '@/types/enum'
 import { Property } from '@/types/schemaForm'
 

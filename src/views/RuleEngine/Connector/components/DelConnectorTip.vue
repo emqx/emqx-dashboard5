@@ -43,7 +43,6 @@
 </template>
 
 <script lang="ts" setup>
-import useI18nTl from '@/hooks/useI18nTl'
 import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 

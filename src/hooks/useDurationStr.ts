@@ -1,5 +1,4 @@
 import { TimeUnit } from '@/types/enum'
-import useI18nTl from './useI18nTl'
 
 const timeUnitArr: Array<TimeUnit> = [
   TimeUnit.Millisecond,

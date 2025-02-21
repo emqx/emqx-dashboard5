@@ -66,13 +66,10 @@
 
 <script setup lang="ts">
 import TableItemDropdown from './components/TableItemDropdown.vue'
-import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import { Exhook } from '@/types/systemModule'
 import { queryExhooks } from '@/api/exhook'
-import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
-import useMove from '@/hooks/useMove'
 
 const router = useRouter()
 const { t } = useI18n()

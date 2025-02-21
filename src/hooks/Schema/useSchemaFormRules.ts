@@ -2,8 +2,6 @@ import { transTimeStrToMS } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { PropType } from '@/types/enum'
 import { Component } from '@/types/schemaForm'
-import useFormRules from '../useFormRules'
-import useI18nTl from '../useI18nTl'
 
 export type SchemaRules = FormRules
 

@@ -78,11 +78,7 @@ import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
-
 import { EmqxForceShutdown } from '@/types/schemas/configs.schemas'
 
 const { t, tl } = useI18nTl('General')

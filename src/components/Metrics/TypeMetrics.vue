@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { TypeMetricDataItem } from '@/hooks/useMetrics'
 import TypeMetricsItem from './TypeMetricsItem.vue'
 
 defineProps<{

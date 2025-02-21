@@ -86,15 +86,11 @@ import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import {
   useBridgeTypeIcon,
   useBridgeTypeOptions,
   useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useActionDataHandler, useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
-import useGuide from '@/hooks/useGuide'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 

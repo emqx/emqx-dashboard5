@@ -46,9 +46,6 @@
 </template>
 
 <script lang="ts" setup>
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
 

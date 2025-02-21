@@ -35,8 +35,6 @@
 
 <script setup lang="ts">
 import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
-import useClientFields from '@/hooks/Clients/useClientFields'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Setting } from '@element-plus/icons-vue'
 
 const { t, tl } = useI18nTl('Clients')

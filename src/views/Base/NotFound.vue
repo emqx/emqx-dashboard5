@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import { CircleCloseFilled } from '@element-plus/icons-vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const { tl } = useI18nTl('Base')
 </script>

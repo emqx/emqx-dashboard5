@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 

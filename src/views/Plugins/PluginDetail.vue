@@ -52,7 +52,6 @@
 <script setup lang="ts">
 import { PluginDetail } from '@/types/plugin'
 import PluginInfo from './components/PluginInfo.vue'
-import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import DetailHeader from '@/components/DetailHeader.vue'

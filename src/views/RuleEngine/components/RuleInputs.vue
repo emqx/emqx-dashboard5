@@ -48,11 +48,6 @@
 
 <script setup lang="ts">
 import { getKeywordsFromSQL, getTypeAndNameFromKey } from '@/common/tools'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { RuleSourceType, useRuleInputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import RuleInputsDrawer from './RuleInputsDrawer.vue'

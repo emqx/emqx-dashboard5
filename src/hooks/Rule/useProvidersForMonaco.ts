@@ -2,10 +2,7 @@ import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_INPUT_EVENT_PREFIX } from '@/common
 import { waitAMoment } from '@/common/tools'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
-import useI18nTl from '../useI18nTl'
 import keysInRule from './KeysInRule'
-import useRuleSourceEvents from './rule/useRuleSourceEvents'
-import useSQLAvailablePlaceholder from './useSQLAvailablePlaceholder'
 
 const { syntaxKeys, fieldsCanUse, builtInSQLFuncs, jqFunc } = keysInRule
 

@@ -33,8 +33,6 @@
 
 <script lang="ts">
 import Monaco from '@/components/Monaco.vue'
-import useFormRules from '@/hooks/useFormRules'
-import { useAdaptiveEditor } from '@/hooks/useAdaptiveEditor'
 
 export default defineComponent({
   name: 'FileConfig',

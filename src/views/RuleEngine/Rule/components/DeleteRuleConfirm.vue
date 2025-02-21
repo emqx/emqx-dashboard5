@@ -35,13 +35,6 @@
 
 <script lang="ts" setup>
 import { deleteRules } from '@/api/ruleengine'
-import useActionList from '@/hooks/Rule/action/useActionList'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import { useRuleOutputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType, RuleOutput } from '@/types/enum'
 import { RuleEvent, RuleItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'

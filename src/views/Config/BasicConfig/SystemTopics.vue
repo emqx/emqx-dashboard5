@@ -109,9 +109,6 @@ export default defineComponent({
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { SysTopics } from '@/types/extension'
 
 const { t, tl } = useI18nTl('Extension')

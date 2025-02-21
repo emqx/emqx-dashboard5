@@ -1,6 +1,3 @@
-import useI18nTl from '@/hooks/useI18nTl'
-import { useRuleUtils } from './useRule'
-
 export default (): {
   eventDoNotNeedShow: string[]
   isMsgPubEvent: (event: string) => boolean

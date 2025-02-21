@@ -120,9 +120,7 @@ export default defineComponent({
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { calcPercentage } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatus } from '@/types/enum'
-import useDurationStr from '@/hooks/useDurationStr'
 import { IS_ENTERPRISE } from '@/common/constants'
 
 const nodeLoading = ref(true)

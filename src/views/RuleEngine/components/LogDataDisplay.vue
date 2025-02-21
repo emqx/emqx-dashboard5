@@ -116,13 +116,6 @@
 import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import CodeView from '@/components/CodeView.vue'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import type { FormattedLog, TargetLog, TargetLogInfo } from '@/hooks/Rule/rule/useFormatDebugLog'
-import { LogMsg, LogTargetType, useShowLog } from '@/hooks/Rule/rule/useFormatDebugLog'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
-import useI18nTl from '@/hooks/useI18nTl'
 import { LogResult } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import {

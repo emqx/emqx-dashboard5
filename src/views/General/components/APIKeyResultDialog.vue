@@ -47,7 +47,6 @@
 
 <script lang="ts" setup>
 import { APIKey } from '@/types/systemModule'
-import useCopy from '@/hooks/useCopy'
 import TipContainer from '@/components/TipContainer.vue'
 
 const props = defineProps({

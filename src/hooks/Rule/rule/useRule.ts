@@ -12,8 +12,6 @@ import useBridgeTypeValue, {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, EventForRule, RuleInputType, RuleOutput, RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
-import useRuleEvents from './useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string

@@ -61,9 +61,6 @@
 </template>
 
 <script lang="ts">
-import useMenus from '@/hooks/useMenus'
-import type { Menu } from '@/hooks/useMenus'
-
 export default defineComponent({
   name: 'Leftbar',
   setup() {

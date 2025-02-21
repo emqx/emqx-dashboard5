@@ -1,5 +1,4 @@
 import { BannedType } from '@/types/enum'
-import useI18nTl from '../useI18nTl'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 
 export default (): {

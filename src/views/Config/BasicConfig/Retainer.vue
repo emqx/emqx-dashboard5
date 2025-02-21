@@ -162,10 +162,6 @@ import { getRetainer, updateRetainer } from '@/api/extension'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import Oneof from '@/components/Oneof.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Retainer } from '@/types/extension'
 
 const { tl, t } = useI18nTl('Extension')

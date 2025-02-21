@@ -1,8 +1,5 @@
 import { listAuthz, queryAuthzItemMetrics } from '@/api/auth'
 import { AuthzSourceItem, Metrics } from '@/types/auth'
-import useHandleAuthzItem from '@/hooks/Auth/useHandleAuthzItem'
-import useMove from '@/hooks/useMove'
-import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 import { getImg } from '@/common/tools'
 

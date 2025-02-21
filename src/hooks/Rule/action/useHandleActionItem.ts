@@ -12,7 +12,6 @@ import {
 } from '@/api/action'
 import { BridgeType } from '@/types/enum'
 import { Action } from '@/types/rule'
-import { useActionDataHandler } from '../useDataHandler'
 
 type HandleDirectionCallback = (
   direction?: number,

@@ -69,9 +69,6 @@ export default {
 
 <script lang="ts" setup>
 import { deleteAuthn } from '@/api/auth'
-import useAuthn, { AuthnItemInTable } from '@/hooks/Auth/useAuthn'
-import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import { AuthnItem } from '@/types/auth'
 import { ElMessageBox as MB } from 'element-plus'
 import AuthItemStatus from './components/AuthItemStatus.vue'

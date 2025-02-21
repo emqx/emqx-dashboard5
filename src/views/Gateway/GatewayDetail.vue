@@ -27,8 +27,6 @@
 import { getGateway } from '@/api/gateway'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayName } from '@/types/enum'
-import useTransName from '@/hooks/useTransName'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const gInfo = ref<Record<string, any>>({})
 const route = useRoute()

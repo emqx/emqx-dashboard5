@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRepCodeNodeSize } from '@/hooks/Overview/useNodesGraph'
 import { NodeStatus } from '@/types/enum'
 
 const { nonactivatedRadius, activatedInnerRadius, activatedOuterRadius } = useRepCodeNodeSize()

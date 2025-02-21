@@ -80,8 +80,6 @@
 <script setup lang="ts">
 import { createRandomString } from '@/common/tools'
 import MarkdownContent from '@/components/MarkdownContent.vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { Properties, Property } from '@/types/schemaForm'
 import { Delete, Plus } from '@element-plus/icons-vue'

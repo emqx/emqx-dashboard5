@@ -44,7 +44,6 @@
 import WebSocketItem from './components/WebSocketItem.vue'
 import { TabPanelName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 interface TabItem {
   name: string

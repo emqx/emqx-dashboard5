@@ -32,11 +32,6 @@
 <script setup lang="ts">
 import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import { useActionSchema, useSourceSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
-import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
-import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 

@@ -139,9 +139,7 @@
 
 <script lang="ts" setup>
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useLdapConfigFrom from '@/hooks/Auth/useLdapConfigForm'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import Monaco from '@/components/Monaco.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { LDAPAuthMethod } from '@/types/enum'

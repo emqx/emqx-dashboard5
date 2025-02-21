@@ -189,16 +189,11 @@ import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
-import useGuide from '@/hooks/useGuide'
 import { createAuthn } from '@/api/auth'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
 import { ElMessage as M } from 'element-plus'
 import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
-import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
-import useAuth from '@/hooks/Auth/useAuth'
 
 interface PresetData {
   mechanism: AuthnMechanismType

@@ -1,5 +1,4 @@
 import { ElMessage as M } from 'element-plus'
-import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 // import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'

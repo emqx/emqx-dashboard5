@@ -1,4 +1,3 @@
-import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus, NodeStatusClass } from '@/types/enum'
 
 export default (): {

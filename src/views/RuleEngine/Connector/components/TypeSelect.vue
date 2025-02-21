@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 
 const props = defineProps<{

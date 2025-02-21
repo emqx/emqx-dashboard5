@@ -53,7 +53,6 @@
 
 <script setup lang="ts">
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'

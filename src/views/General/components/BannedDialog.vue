@@ -72,11 +72,7 @@
 
 <script setup lang="ts">
 import { createBannedClient } from '@/api/function'
-import useBannedType from '@/hooks/Auth/useBannedType'
-import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BannedType } from '@/types/enum'
-
 import { Banned } from '@/types/auth'
 
 const props = defineProps({

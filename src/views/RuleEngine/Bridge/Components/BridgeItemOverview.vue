@@ -123,11 +123,6 @@
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useActionQueueMetrics, useBridgeMetrics } from '@/hooks/useMetrics'
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'

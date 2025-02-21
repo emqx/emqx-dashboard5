@@ -11,7 +11,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 
 const props = defineProps({
   exhook: {

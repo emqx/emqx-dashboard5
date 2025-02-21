@@ -20,12 +20,9 @@
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
 import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { Limiter } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-
 import { checkNOmitFromObj, customValidate } from '@/common/tools'
-import useLimiter from '@/hooks/Config/useLimiter'
 
 const configs = ref<Limiter>({} as Limiter)
 const saveLoading = ref(false)

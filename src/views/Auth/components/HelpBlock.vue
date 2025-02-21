@@ -27,8 +27,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import useCopy from '@/hooks/useCopy'
-import useAuthHelp from '@/hooks/Auth/useAuthHelp'
 import CodeView from '@/components/CodeView.vue'
 
 const props = defineProps({

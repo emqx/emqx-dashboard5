@@ -23,11 +23,7 @@ export default defineComponent({
 import { createRules, getRuleInfo, updateRules } from '@/api/ruleengine'
 import { countDuplicationName } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
-
 import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()

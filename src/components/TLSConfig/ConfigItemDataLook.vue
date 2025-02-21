@@ -25,7 +25,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { DocumentCopy } from '@element-plus/icons-vue'
-import useCopy from '@/hooks/useCopy'
 
 const props = defineProps({
   value: {

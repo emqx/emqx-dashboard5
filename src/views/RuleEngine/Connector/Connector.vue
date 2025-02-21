@@ -115,11 +115,6 @@
 </template>
 
 <script setup lang="ts">
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useConnectorList from '@/hooks/Rule/connector/useConnectorList'
-import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'

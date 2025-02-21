@@ -10,9 +10,7 @@ import {
   getSourceMetrics as requestSourceMetrics,
   testSourceConnectivity,
 } from '@/api/sources'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
-import { useActionDataHandler } from '../useDataHandler'
 
 const useHandleSourceItem = (): {
   getSourceDetail: (id: string) => Promise<Source>

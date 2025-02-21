@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import useCopy from '@/hooks/useCopy'
-
 const props = defineProps({
   content: {
     type: String,

@@ -6,7 +6,6 @@ import {
   splitOnComma,
   trimSpacesAndLFs,
 } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { RuleInputType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 

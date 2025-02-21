@@ -1,12 +1,8 @@
 import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { BridgeType } from '@/types/enum'
 import { ConnectorForm, HTTPBridge } from '@/types/rule'
 import { WebhookForm } from '@/types/webhook'
-import { useActionSchema } from '../Rule/bridge/useBridgeTypeValue'
-import useSchemaForm from '../Schema/useSchemaForm'
-import useSchemaRecord from '../Schema/useSchemaRecord'
 
 export default (): {
   createRawWebhookForm: () => Promise<WebhookForm>

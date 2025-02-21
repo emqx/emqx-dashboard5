@@ -1,6 +1,5 @@
 import { testConnectorConnectivity } from '@/api/connector'
 import { Connector } from '@/types/rule'
-import { useConnectorDataHandler } from '../useDataHandler'
 
 export default (): {
   isTesting: Ref<boolean>

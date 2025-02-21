@@ -40,9 +40,6 @@
 <script lang="ts" setup>
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from '@/common/constants'
 import Monaco from '@/components/Monaco.vue'
-import useCopy from '@/hooks/useCopy'
-import useI18nTl from '@/hooks/useI18nTl'
-import useShowTextByDifferent from '@/hooks/useShowTextByDifferent'
 import { PayloadShowByType } from '@/types/enum'
 
 const props = withDefaults(

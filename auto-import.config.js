@@ -72,4 +72,12 @@ export default {
     },
   ],
   dts: 'src/auto-imports.d.ts',
+  vueTemplate: true,
+  dirs: [
+    'src/hooks/**',
+    {
+      glob: 'src/hooks/**',
+      types: true, // enable import the types
+    },
+  ],
 }

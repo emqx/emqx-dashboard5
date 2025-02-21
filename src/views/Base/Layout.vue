@@ -71,7 +71,6 @@ import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 import QuickPanel from './QuickPanel.vue'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]

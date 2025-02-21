@@ -6,13 +6,7 @@ import {
   deleteConnector as requestDelConnector,
   reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
-import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
-
-import { useConnectorDataHandler } from '../useDataHandler'
 
 type NowConnector = Connector | BridgeItem
 

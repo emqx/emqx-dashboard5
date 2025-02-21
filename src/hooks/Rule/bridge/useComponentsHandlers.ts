@@ -1,10 +1,5 @@
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useFormRules from '@/hooks/useFormRules'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { useAvailableProviders } from '../useProvidersForMonaco'
-import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties

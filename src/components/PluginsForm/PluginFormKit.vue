@@ -28,7 +28,6 @@
 <script lang="ts" setup>
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
-import usePluginGenFormRules from '@/hooks/Plugins/useGenPluginFormRules'
 
 const props = defineProps({
   data: {

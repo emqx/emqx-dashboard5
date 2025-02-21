@@ -27,7 +27,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { UploadFile } from 'element-plus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { findExtensionByName } from '@/common/tools'
 
 const props = defineProps({

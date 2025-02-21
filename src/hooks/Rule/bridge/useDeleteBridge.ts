@@ -1,7 +1,4 @@
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
-import useHandleActionItem from '../action/useHandleActionItem'
 
 interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>

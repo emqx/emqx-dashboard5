@@ -72,13 +72,9 @@
 <script lang="ts" setup>
 import { PluginStatus } from '@/types/enum'
 import { PluginItem } from '@/types/plugin'
-import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import TableItemDropdown from './components/TableItemDropdown.vue'
-import usePaging, { FilterItem } from '@/hooks/usePaging'
 import { queryPlugins } from '@/api/plugins'
 import { SortableEvent } from 'sortablejs'
-import useSortableTable from '@/hooks/useSortableTable'
-import useMove from '@/hooks/useMove'
 import PluginItemStatus from './components/PluginItemStatus.vue'
 
 const router = useRouter()
