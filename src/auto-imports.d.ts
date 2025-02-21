@@ -6,17 +6,35 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const ACTIVE_RING_STROKE_WIDTH: (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
+  const ArgumentType: (typeof import('./hooks/useRuleFunc'))['ArgumentType']
+  const AvroJsonToObject: (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
+  const BACKGROUND_CIRCLE_INNER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_INNER_RADIUS']
+  const BACKGROUND_CIRCLE_OUTER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_OUTER_RADIUS']
+  const BACKGROUND_CIRCLE_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
   const EffectScope: (typeof import('vue'))['EffectScope']
   const ElMessage: (typeof import('element-plus'))['ElMessage']
   const ElMessageBox: (typeof import('element-plus'))['ElMessageBox']
   const ElNotification: (typeof import('element-plus'))['ElNotification']
+  const KeysInRule: (typeof import('./hooks/Rule/KeysInRule'))['default']
+  const LogMsg: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']
+  const LogTargetType: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogTargetType']
+  const MAX_DISPLAYED_REP_NODE: (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
+  const MetricType: (typeof import('./hooks/useMetrics'))['MetricType']
+  const NO_CHINESE_REG: (typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']
+  const RuleSourceType: (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
+  const SourceServerType: (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
+  const TYPE_COLOR_MAP: (typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']
   const _: (typeof import('lodash'))['default']
   const assign: (typeof import('lodash'))['assign']
+  const avroUtils: (typeof import('./hooks/Plugins/avroUtils'))['default']
   const axios: (typeof import('axios'))['default']
+  const bridgeOrderIndex: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
   const camelCase: (typeof import('lodash'))['camelCase']
   const chunk: (typeof import('lodash'))['chunk']
   const cloneDeep: (typeof import('lodash'))['cloneDeep']
   const computed: (typeof import('vue'))['computed']
+  const consumerReg: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
   const createApp: (typeof import('vue'))['createApp']
   const createRouter: (typeof import('vue-router'))['createRouter']
   const createStore: (typeof import('vuex'))['createStore']
@@ -31,6 +49,8 @@ declare global {
   const get: (typeof import('lodash'))['get']
   const getCurrentInstance: (typeof import('vue'))['getCurrentInstance']
   const getCurrentScope: (typeof import('vue'))['getCurrentScope']
+  const getPasswordHashAlgorithmObj: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
+  const getUsefulPasswordHashAlgorithmData: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
   const groupBy: (typeof import('lodash'))['groupBy']
   const h: (typeof import('vue'))['h']
   const inject: (typeof import('vue'))['inject']
@@ -52,6 +72,7 @@ declare global {
   const merge: (typeof import('lodash'))['merge']
   const mergeWith: (typeof import('lodash'))['mergeWith']
   const nextTick: (typeof import('vue'))['nextTick']
+  const objectToAvroJson: (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
   const omit: (typeof import('lodash'))['omit']
   const onActivated: (typeof import('vue'))['onActivated']
   const onBeforeMount: (typeof import('vue'))['onBeforeMount']
@@ -76,8 +97,10 @@ declare global {
   const readonly: (typeof import('vue'))['readonly']
   const ref: (typeof import('vue'))['ref']
   const resolveComponent: (typeof import('vue'))['resolveComponent']
+  const resourceOptFields: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
   const round: (typeof import('lodash'))['round']
   const set: (typeof import('lodash'))['set']
+  const setPwdFormat: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
   const shallowReactive: (typeof import('vue'))['shallowReactive']
   const shallowReadonly: (typeof import('vue'))['shallowReadonly']
   const shallowRef: (typeof import('vue'))['shallowRef']
@@ -89,19 +112,153 @@ declare global {
   const toRefs: (typeof import('vue'))['toRefs']
   const toValue: (typeof import('vue'))['toValue']
   const triggerRef: (typeof import('vue'))['triggerRef']
+  const typesWithProducerAndConsumer: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
   const unref: (typeof import('vue'))['unref']
+  const useActionAndSourceStatus: (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
+  const useActionDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
+  const useActionList: (typeof import('./hooks/Rule/action/useActionList'))['default']
+  const useActionQueueMetrics: (typeof import('./hooks/useMetrics'))['useActionQueueMetrics']
+  const useActionSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useActionSchema']
+  const useAdaptiveEditor: (typeof import('./hooks/useAdaptiveEditor'))['default']
   const useAttrs: (typeof import('vue'))['useAttrs']
+  const useAuth: (typeof import('./hooks/Auth/useAuth'))['default']
+  const useAuthHelp: (typeof import('./hooks/Auth/useAuthHelp'))['default']
+  const useAuthMetrics: (typeof import('./hooks/useMetrics'))['useAuthMetrics']
+  const useAuthn: (typeof import('./hooks/Auth/useAuthn'))['default']
+  const useAuthnCreate: (typeof import('./hooks/Auth/useAuthnCreate'))['default']
+  const useAuthnMechanismType: (typeof import('./hooks/Auth/useAuthnType'))['useAuthnMechanismType']
+  const useAuthz: (typeof import('./hooks/Auth/useAuthz'))['default']
+  const useAuthzCreate: (typeof import('./hooks/Auth/useAuthzCreate'))['default']
+  const useAvailableProviders: (typeof import('./hooks/Rule/useProvidersForMonaco'))['useAvailableProviders']
+  const useBackgroundCircle: (typeof import('./hooks/Overview/useNodesGraph'))['useBackgroundCircle']
+  const useBannedType: (typeof import('./hooks/Auth/useBannedType'))['default']
+  const useBridgeDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useBridgeDataHandler']
+  const useBridgeFormCreator: (typeof import('./hooks/Rule/bridge/useBridgeFormCreator'))['default']
+  const useBridgeMetrics: (typeof import('./hooks/useMetrics'))['useBridgeMetrics']
+  const useBridgeTypeIcon: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeIcon']
+  const useBridgeTypeOptions: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeOptions']
+  const useBridgeTypeValue: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['default']
+  const useBuiltInDataUpdateTip: (typeof import('./hooks/Auth/useBuiltInDataUpdateTip'))['default']
+  const useCSSVariables: (typeof import('./hooks/useCSSVariables'))['default']
+  const useChartDataUtils: (typeof import('./hooks/useMetrics'))['useChartDataUtils']
+  const useCheckBeforeSaveAsCopy: (typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy'))['default']
+  const useCheckDataChanged: (typeof import('./hooks/useDataNotSaveConfirm'))['useCheckDataChanged']
+  const useClientDetail: (typeof import('./hooks/Clients/useClientDetail'))['default']
+  const useClientFields: (typeof import('./hooks/Clients/useClientFields'))['default']
+  const useClusterNodes: (typeof import('./hooks/useClusterNodes'))['default']
+  const useCommonConnectionStatus: (typeof import('./hooks/useCommonConnectionStatus'))['default']
+  const useComponentsHandlers: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
+  const useConfFooterStyle: (typeof import('./hooks/useConfFooterStyle'))['default']
+  const useConnectorDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
+  const useConnectorDirection: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorDirection']
+  const useConnectorList: (typeof import('./hooks/Rule/connector/useConnectorList'))['default']
+  const useConnectorSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorSchema']
+  const useConnectorTypeValue: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorTypeValue']
+  const useCopy: (typeof import('./hooks/useCopy'))['default']
+  const useCoreNodeSize: (typeof import('./hooks/Overview/useNodesGraph'))['useCoreNodeSize']
   const useCssModule: (typeof import('vue'))['useCssModule']
   const useCssVars: (typeof import('vue'))['useCssVars']
+  const useCursorPagination: (typeof import('./hooks/usePagination'))['useCursorPagination']
+  const useDashboardVersion: (typeof import('./hooks/useDashboardVersion'))['default']
+  const useDataNotSaveConfirm: (typeof import('./hooks/useDataNotSaveConfirm'))['default']
+  const useDatabaseConfig: (typeof import('./hooks/Auth/useDatabaseConfig'))['default']
+  const useDatabaseConfigForm: (typeof import('./hooks/Auth/useDatabaseConfigForm'))['default']
+  const useDatePickerShortcuts: (typeof import('./hooks/useDatePickerShortcuts'))['default']
+  const useDebugRule: (typeof import('./hooks/Rule/rule/useDebugRule'))['default']
+  const useDeleteBridge: (typeof import('./hooks/Rule/bridge/useDeleteBridge'))['default']
+  const useDeleteSource: (typeof import('./hooks/Rule/action/useHandleSourceItem'))['useDeleteSource']
+  const useDocLink: (typeof import('./hooks/useDocLink'))['default']
+  const useDurationStr: (typeof import('./hooks/useDurationStr'))['default']
+  const useEchartResize: (typeof import('./hooks/useEchartResize'))['default']
+  const useEditionConfigs: (typeof import('./hooks/useEditionConfigs'))['default']
+  const useExHooksMetrics: (typeof import('./hooks/useMetrics'))['useExHooksMetrics']
+  const useExhookItemStatus: (typeof import('./hooks/Exhook/useExhookItemStatus'))['default']
+  const useFillNewRecord: (typeof import('./hooks/useFillNewRecord'))['default']
+  const useFormRules: (typeof import('./hooks/useFormRules'))['default']
+  const useFormatDebugLog: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['default']
+  const useGenPluginFormRules: (typeof import('./hooks/Plugins/useGenPluginFormRules'))['default']
+  const useGuide: (typeof import('./hooks/useGuide'))['default']
+  const useHTTPConfigForm: (typeof import('./hooks/Auth/useHTTPConfigForm'))['default']
+  const useHandleActionItem: (typeof import('./hooks/Rule/action/useHandleActionItem'))['default']
+  const useHandleAuthnItem: (typeof import('./hooks/Auth/useHandleAuthnItem'))['default']
+  const useHandleAuthzItem: (typeof import('./hooks/Auth/useHandleAuthzItem'))['default']
+  const useHandleConnectorItem: (typeof import('./hooks/Rule/connector/useHandleConnectorItem'))['default']
+  const useHandleExhookItem: (typeof import('./hooks/Exhook/useHandleExhookItem'))['default']
+  const useHandleExprotoData: (typeof import('./hooks/Gateway/useHandleExprotoData'))['default']
+  const useHandleSourceItem: (typeof import('./hooks/Rule/action/useHandleSourceItem'))['default']
   const useI18n: (typeof import('vue-i18n'))['useI18n']
+  const useI18nTl: (typeof import('./hooks/useI18nTl'))['default']
   const useId: (typeof import('vue'))['useId']
+  const useItemLabelAndDesc: (typeof import('./hooks/Schema/useItemLabelAndDesc'))['default']
+  const useJWTConfigForm: (typeof import('./hooks/Auth/useJWTConfigForm'))['default']
+  const useLdapConfigForm: (typeof import('./hooks/Auth/useLdapConfigForm'))['default']
+  const useLimiter: (typeof import('./hooks/Config/useLimiter'))['default']
   const useLink: (typeof import('vue-router'))['useLink']
+  const useListenerDrawer: (typeof import('./hooks/Config/useListenerDrawer'))['default']
+  const useListenerUtils: (typeof import('./hooks/Config/useListenerUtils'))['default']
+  const useMQTTVersion5NewConfig: (typeof import('./hooks/useMQTTVersion5NewConfig'))['default']
+  const useMenus: (typeof import('./hooks/useMenus'))['default']
+  const useMockData: (typeof import('./hooks/Rule/rule/useDebugRule'))['useMockData']
   const useModel: (typeof import('vue'))['useModel']
+  const useMove: (typeof import('./hooks/useMove'))['default']
+  const useNodesGraph: (typeof import('./hooks/Overview/useNodesGraph'))['default']
+  const useOperationConfirm: (typeof import('./hooks/useOperationConfirm'))['default']
+  const usePagination: (typeof import('./hooks/usePagination'))['default']
+  const usePaginationRemember: (typeof import('./hooks/usePaginationRemember'))['default']
+  const usePaginationWithHasNext: (typeof import('./hooks/usePaginationWithHasNext'))['default']
+  const usePaging: (typeof import('./hooks/usePaging'))['default']
+  const usePassword: (typeof import('./hooks/usePassword'))['default']
+  const usePasswordHashRules: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['usePasswordHashRules']
+  const usePieChart: (typeof import('./hooks/useMetrics'))['usePieChart']
+  const usePluginItem: (typeof import('./hooks/Plugins/usePluginItem'))['default']
+  const usePluginStatus: (typeof import('./hooks/Plugins/usePluginStatus'))['default']
+  const useProcessAuthData: (typeof import('./hooks/Auth/useProcessAuthData'))['default']
+  const useProviderUtils: (typeof import('./hooks/Rule/useProvidersForMonaco'))['useProviderUtils']
+  const useProvidersForMonaco: (typeof import('./hooks/Rule/useProvidersForMonaco'))['default']
+  const useRateChart: (typeof import('./hooks/useMetrics'))['useRateChart']
+  const useReceiveParams: (typeof import('./hooks/usePaginationRemember'))['useReceiveParams']
+  const useRenderPluginForm: (typeof import('./hooks/Plugins/useRenderPluginForm'))['default']
+  const useRepCodeNodeSize: (typeof import('./hooks/Overview/useNodesGraph'))['useRepCodeNodeSize']
+  const useResourceOpt: (typeof import('./hooks/Rule/bridge/useResourceOpt'))['default']
   const useRoute: (typeof import('vue-router'))['useRoute']
   const useRouter: (typeof import('vue-router'))['useRouter']
+  const useRuleEvents: (typeof import('./hooks/Rule/rule/useRuleEvents'))['default']
+  const useRuleForm: (typeof import('./hooks/Rule/rule/useRuleForm'))['default']
+  const useRuleFunc: (typeof import('./hooks/useRuleFunc'))['default']
+  const useRuleInputs: (typeof import('./hooks/Rule/rule/useRule'))['useRuleInputs']
+  const useRuleMetrics: (typeof import('./hooks/useMetrics'))['useRuleMetrics']
+  const useRuleOutputs: (typeof import('./hooks/Rule/rule/useRule'))['useRuleOutputs']
+  const useRuleSourceEvents: (typeof import('./hooks/Rule/rule/useRuleSourceEvents'))['default']
+  const useRuleStatus: (typeof import('./hooks/Rule/rule/useRuleStatus'))['default']
+  const useRuleUtils: (typeof import('./hooks/Rule/rule/useRule'))['useRuleUtils']
+  const useSQLAvailablePlaceholder: (typeof import('./hooks/Rule/useSQLAvailablePlaceholder'))['default']
+  const useSSL: (typeof import('./hooks/useSSL'))['default']
+  const useSchemaBridgePropsLayout: (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['default']
+  const useSchemaConnectorPropsLayout: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['default']
+  const useSchemaForm: (typeof import('./hooks/Schema/useSchemaForm'))['default']
+  const useSchemaFormRules: (typeof import('./hooks/Schema/useSchemaFormRules'))['default']
+  const useSchemaRecord: (typeof import('./hooks/Schema/useSchemaRecord'))['default']
+  const useShowLog: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['useShowLog']
+  const useShowTextByDifferent: (typeof import('./hooks/useShowTextByDifferent'))['default']
   const useSlots: (typeof import('vue'))['useSlots']
+  const useSortableTable: (typeof import('./hooks/useSortableTable'))['default']
+  const useSourceList: (typeof import('./hooks/Rule/action/useSourceList'))['default']
+  const useSourceSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useSourceSchema']
+  const useSpecialRuleForPassword: (typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword'))['default']
+  const useStatusController: (typeof import('./hooks/Rule/rule/useDebugRule'))['useStatusController']
   const useStore: (typeof import('vuex'))['useStore']
+  const useSymbolLabel: (typeof import('./hooks/Schema/useItemLabelAndDesc'))['useSymbolLabel']
+  const useSyncConfiguration: (typeof import('./hooks/Rule/bridge/useSyncConfiguration'))['default']
+  const useSyncPolling: (typeof import('./hooks/useSyncPolling'))['default']
   const useTemplateRef: (typeof import('vue'))['useTemplateRef']
+  const useTestConnector: (typeof import('./hooks/Rule/connector/useTestConnector'))['default']
+  const useToggleAuthStatus: (typeof import('./hooks/Auth/useToggleAuthStatus'))['default']
+  const useTransName: (typeof import('./hooks/useTransName'))['default']
+  const useTwoWayBindingManually: (typeof import('./hooks/useTwoWayBindingManually'))['default']
+  const useWebhookForm: (typeof import('./hooks/Webhook/useWebhookForm'))['default']
+  const useWebhookItem: (typeof import('./hooks/Webhook/useWebhookItem'))['default']
+  const useWebhookList: (typeof import('./hooks/Webhook/useWebhookList'))['default']
+  const useWebhookUtils: (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
   const watch: (typeof import('vue'))['watch']
   const watchEffect: (typeof import('vue'))['watchEffect']
   const watchPostEffect: (typeof import('vue'))['watchPostEffect']
@@ -133,4 +290,515 @@ declare global {
   // @ts-ignore
   export type { ComposerTranslation } from 'vue-i18n'
   import('vue-i18n')
+  // @ts-ignore
+  export type { AuthnItemInTable } from './hooks/Auth/useAuthn'
+  import('./hooks/Auth/useAuthn')
+  // @ts-ignore
+  export type { AuthzItemInTable } from './hooks/Auth/useAuthz'
+  import('./hooks/Auth/useAuthz')
+  // @ts-ignore
+  export type { ListenerUtils } from './hooks/Config/useListenerUtils'
+  import('./hooks/Config/useListenerUtils')
+  // @ts-ignore
+  export type { FlowNodeData, FlowEdgeData, FlowDataItem } from './hooks/Overview/useNodesGraph'
+  import('./hooks/Overview/useNodesGraph')
+  // @ts-ignore
+  export type { PluginUI } from './hooks/Plugins/useRenderPluginForm'
+  import('./hooks/Plugins/useRenderPluginForm')
+  // @ts-ignore
+  export type { BridgeTypeOptions } from './hooks/Rule/bridge/useBridgeTypeValue'
+  import('./hooks/Rule/bridge/useBridgeTypeValue')
+  // @ts-ignore
+  export type {
+    LogItem,
+    LogTargetTypeValue,
+    TargetLogInfo,
+    TargetLog,
+    TargetLogMap,
+    FormattedLog,
+  } from './hooks/Rule/rule/useFormatDebugLog'
+  import('./hooks/Rule/rule/useFormatDebugLog')
+  // @ts-ignore
+  export type { SchemaRules } from './hooks/Schema/useSchemaFormRules'
+  import('./hooks/Schema/useSchemaFormRules')
+  // @ts-ignore
+  export type { Menu } from './hooks/useMenus'
+  import('./hooks/useMenus')
+  // @ts-ignore
+  export type { TypeMapData, PieDataItem, TypeMetricDataItem } from './hooks/useMetrics'
+  import('./hooks/useMetrics')
+  // @ts-ignore
+  export type { FilterItem } from './hooks/usePaging'
+  import('./hooks/usePaging')
+  // @ts-ignore
+  export type { ArgItem, FuncItem } from './hooks/useRuleFunc'
+  import('./hooks/useRuleFunc')
+}
+
+// for vue template auto import
+import { UnwrapRef } from 'vue'
+declare module 'vue' {
+  interface GlobalComponents {}
+  interface ComponentCustomProperties {
+    readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
+    >
+    readonly ArgumentType: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['ArgumentType']>
+    readonly AvroJsonToObject: UnwrapRef<
+      (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
+    >
+    readonly BACKGROUND_CIRCLE_INNER_RADIUS: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_INNER_RADIUS']
+    >
+    readonly BACKGROUND_CIRCLE_OUTER_RADIUS: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_OUTER_RADIUS']
+    >
+    readonly BACKGROUND_CIRCLE_RADIUS: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
+    >
+    readonly EffectScope: UnwrapRef<(typeof import('vue'))['EffectScope']>
+    readonly ElMessage: UnwrapRef<(typeof import('element-plus'))['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<(typeof import('element-plus'))['ElMessageBox']>
+    readonly ElNotification: UnwrapRef<(typeof import('element-plus'))['ElNotification']>
+    readonly KeysInRule: UnwrapRef<(typeof import('./hooks/Rule/KeysInRule'))['default']>
+    readonly LogMsg: UnwrapRef<(typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']>
+    readonly LogTargetType: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogTargetType']
+    >
+    readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
+    >
+    readonly MetricType: UnwrapRef<(typeof import('./hooks/useMetrics'))['MetricType']>
+    readonly NO_CHINESE_REG: UnwrapRef<(typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']>
+    readonly RuleSourceType: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
+    >
+    readonly SourceServerType: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
+    >
+    readonly TYPE_COLOR_MAP: UnwrapRef<(typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']>
+    readonly _: UnwrapRef<(typeof import('lodash'))['default']>
+    readonly assign: UnwrapRef<(typeof import('lodash'))['assign']>
+    readonly avroUtils: UnwrapRef<(typeof import('./hooks/Plugins/avroUtils'))['default']>
+    readonly axios: UnwrapRef<(typeof import('axios'))['default']>
+    readonly bridgeOrderIndex: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
+    >
+    readonly camelCase: UnwrapRef<(typeof import('lodash'))['camelCase']>
+    readonly chunk: UnwrapRef<(typeof import('lodash'))['chunk']>
+    readonly cloneDeep: UnwrapRef<(typeof import('lodash'))['cloneDeep']>
+    readonly computed: UnwrapRef<(typeof import('vue'))['computed']>
+    readonly consumerReg: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
+    >
+    readonly createApp: UnwrapRef<(typeof import('vue'))['createApp']>
+    readonly createRouter: UnwrapRef<(typeof import('vue-router'))['createRouter']>
+    readonly createStore: UnwrapRef<(typeof import('vuex'))['createStore']>
+    readonly createWebHashHistory: UnwrapRef<(typeof import('vue-router'))['createWebHashHistory']>
+    readonly customRef: UnwrapRef<(typeof import('vue'))['customRef']>
+    readonly debounce: UnwrapRef<(typeof import('lodash'))['debounce']>
+    readonly defineAsyncComponent: UnwrapRef<(typeof import('vue'))['defineAsyncComponent']>
+    readonly defineComponent: UnwrapRef<(typeof import('vue'))['defineComponent']>
+    readonly effectScope: UnwrapRef<(typeof import('vue'))['effectScope']>
+    readonly escape: UnwrapRef<(typeof import('lodash'))['escape']>
+    readonly escapeRegExp: UnwrapRef<(typeof import('lodash'))['escapeRegExp']>
+    readonly get: UnwrapRef<(typeof import('lodash'))['get']>
+    readonly getCurrentInstance: UnwrapRef<(typeof import('vue'))['getCurrentInstance']>
+    readonly getCurrentScope: UnwrapRef<(typeof import('vue'))['getCurrentScope']>
+    readonly getPasswordHashAlgorithmObj: UnwrapRef<
+      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
+    >
+    readonly getUsefulPasswordHashAlgorithmData: UnwrapRef<
+      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
+    >
+    readonly groupBy: UnwrapRef<(typeof import('lodash'))['groupBy']>
+    readonly h: UnwrapRef<(typeof import('vue'))['h']>
+    readonly inject: UnwrapRef<(typeof import('vue'))['inject']>
+    readonly isArray: UnwrapRef<(typeof import('lodash'))['isArray']>
+    readonly isEqual: UnwrapRef<(typeof import('lodash'))['isEqual']>
+    readonly isFunction: UnwrapRef<(typeof import('lodash'))['isFunction']>
+    readonly isNumber: UnwrapRef<(typeof import('lodash'))['isNumber']>
+    readonly isObject: UnwrapRef<(typeof import('lodash'))['isObject']>
+    readonly isPlainObject: UnwrapRef<(typeof import('lodash'))['isPlainObject']>
+    readonly isProxy: UnwrapRef<(typeof import('vue'))['isProxy']>
+    readonly isReactive: UnwrapRef<(typeof import('vue'))['isReactive']>
+    readonly isReadonly: UnwrapRef<(typeof import('vue'))['isReadonly']>
+    readonly isRef: UnwrapRef<(typeof import('vue'))['isRef']>
+    readonly isRegExp: UnwrapRef<(typeof import('lodash'))['isRegExp']>
+    readonly isString: UnwrapRef<(typeof import('lodash'))['isString']>
+    readonly isUndefined: UnwrapRef<(typeof import('lodash'))['isUndefined']>
+    readonly lowerCase: UnwrapRef<(typeof import('lodash'))['lowerCase']>
+    readonly markRaw: UnwrapRef<(typeof import('vue'))['markRaw']>
+    readonly merge: UnwrapRef<(typeof import('lodash'))['merge']>
+    readonly mergeWith: UnwrapRef<(typeof import('lodash'))['mergeWith']>
+    readonly nextTick: UnwrapRef<(typeof import('vue'))['nextTick']>
+    readonly objectToAvroJson: UnwrapRef<
+      (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
+    >
+    readonly omit: UnwrapRef<(typeof import('lodash'))['omit']>
+    readonly onActivated: UnwrapRef<(typeof import('vue'))['onActivated']>
+    readonly onBeforeMount: UnwrapRef<(typeof import('vue'))['onBeforeMount']>
+    readonly onBeforeRouteLeave: UnwrapRef<(typeof import('vue-router'))['onBeforeRouteLeave']>
+    readonly onBeforeRouteUpdate: UnwrapRef<(typeof import('vue-router'))['onBeforeRouteUpdate']>
+    readonly onBeforeUnmount: UnwrapRef<(typeof import('vue'))['onBeforeUnmount']>
+    readonly onBeforeUpdate: UnwrapRef<(typeof import('vue'))['onBeforeUpdate']>
+    readonly onDeactivated: UnwrapRef<(typeof import('vue'))['onDeactivated']>
+    readonly onErrorCaptured: UnwrapRef<(typeof import('vue'))['onErrorCaptured']>
+    readonly onMounted: UnwrapRef<(typeof import('vue'))['onMounted']>
+    readonly onRenderTracked: UnwrapRef<(typeof import('vue'))['onRenderTracked']>
+    readonly onRenderTriggered: UnwrapRef<(typeof import('vue'))['onRenderTriggered']>
+    readonly onScopeDispose: UnwrapRef<(typeof import('vue'))['onScopeDispose']>
+    readonly onServerPrefetch: UnwrapRef<(typeof import('vue'))['onServerPrefetch']>
+    readonly onUnmounted: UnwrapRef<(typeof import('vue'))['onUnmounted']>
+    readonly onUpdated: UnwrapRef<(typeof import('vue'))['onUpdated']>
+    readonly onWatcherCleanup: UnwrapRef<(typeof import('vue'))['onWatcherCleanup']>
+    readonly orderBy: UnwrapRef<(typeof import('lodash'))['orderBy']>
+    readonly pick: UnwrapRef<(typeof import('lodash'))['pick']>
+    readonly provide: UnwrapRef<(typeof import('vue'))['provide']>
+    readonly reactive: UnwrapRef<(typeof import('vue'))['reactive']>
+    readonly readonly: UnwrapRef<(typeof import('vue'))['readonly']>
+    readonly ref: UnwrapRef<(typeof import('vue'))['ref']>
+    readonly resolveComponent: UnwrapRef<(typeof import('vue'))['resolveComponent']>
+    readonly resourceOptFields: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
+    >
+    readonly round: UnwrapRef<(typeof import('lodash'))['round']>
+    readonly set: UnwrapRef<(typeof import('lodash'))['set']>
+    readonly setPwdFormat: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
+    >
+    readonly shallowReactive: UnwrapRef<(typeof import('vue'))['shallowReactive']>
+    readonly shallowReadonly: UnwrapRef<(typeof import('vue'))['shallowReadonly']>
+    readonly shallowRef: UnwrapRef<(typeof import('vue'))['shallowRef']>
+    readonly snakeCase: UnwrapRef<(typeof import('lodash'))['snakeCase']>
+    readonly startCase: UnwrapRef<(typeof import('lodash'))['startCase']>
+    readonly throttle: UnwrapRef<(typeof import('lodash'))['throttle']>
+    readonly toRaw: UnwrapRef<(typeof import('vue'))['toRaw']>
+    readonly toRef: UnwrapRef<(typeof import('vue'))['toRef']>
+    readonly toRefs: UnwrapRef<(typeof import('vue'))['toRefs']>
+    readonly toValue: UnwrapRef<(typeof import('vue'))['toValue']>
+    readonly triggerRef: UnwrapRef<(typeof import('vue'))['triggerRef']>
+    readonly typesWithProducerAndConsumer: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
+    >
+    readonly unref: UnwrapRef<(typeof import('vue'))['unref']>
+    readonly useActionAndSourceStatus: UnwrapRef<
+      (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
+    >
+    readonly useActionDataHandler: UnwrapRef<
+      (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
+    >
+    readonly useActionList: UnwrapRef<
+      (typeof import('./hooks/Rule/action/useActionList'))['default']
+    >
+    readonly useActionQueueMetrics: UnwrapRef<
+      (typeof import('./hooks/useMetrics'))['useActionQueueMetrics']
+    >
+    readonly useActionSchema: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useActionSchema']
+    >
+    readonly useAdaptiveEditor: UnwrapRef<(typeof import('./hooks/useAdaptiveEditor'))['default']>
+    readonly useAttrs: UnwrapRef<(typeof import('vue'))['useAttrs']>
+    readonly useAuth: UnwrapRef<(typeof import('./hooks/Auth/useAuth'))['default']>
+    readonly useAuthHelp: UnwrapRef<(typeof import('./hooks/Auth/useAuthHelp'))['default']>
+    readonly useAuthMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useAuthMetrics']>
+    readonly useAuthn: UnwrapRef<(typeof import('./hooks/Auth/useAuthn'))['default']>
+    readonly useAuthnCreate: UnwrapRef<(typeof import('./hooks/Auth/useAuthnCreate'))['default']>
+    readonly useAuthnMechanismType: UnwrapRef<
+      (typeof import('./hooks/Auth/useAuthnType'))['useAuthnMechanismType']
+    >
+    readonly useAuthz: UnwrapRef<(typeof import('./hooks/Auth/useAuthz'))['default']>
+    readonly useAuthzCreate: UnwrapRef<(typeof import('./hooks/Auth/useAuthzCreate'))['default']>
+    readonly useAvailableProviders: UnwrapRef<
+      (typeof import('./hooks/Rule/useProvidersForMonaco'))['useAvailableProviders']
+    >
+    readonly useBackgroundCircle: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['useBackgroundCircle']
+    >
+    readonly useBannedType: UnwrapRef<(typeof import('./hooks/Auth/useBannedType'))['default']>
+    readonly useBridgeDataHandler: UnwrapRef<
+      (typeof import('./hooks/Rule/useDataHandler'))['useBridgeDataHandler']
+    >
+    readonly useBridgeFormCreator: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeFormCreator'))['default']
+    >
+    readonly useBridgeMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useBridgeMetrics']>
+    readonly useBridgeTypeIcon: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeIcon']
+    >
+    readonly useBridgeTypeOptions: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeOptions']
+    >
+    readonly useBridgeTypeValue: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['default']
+    >
+    readonly useBuiltInDataUpdateTip: UnwrapRef<
+      (typeof import('./hooks/Auth/useBuiltInDataUpdateTip'))['default']
+    >
+    readonly useCSSVariables: UnwrapRef<(typeof import('./hooks/useCSSVariables'))['default']>
+    readonly useChartDataUtils: UnwrapRef<
+      (typeof import('./hooks/useMetrics'))['useChartDataUtils']
+    >
+    readonly useCheckBeforeSaveAsCopy: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy'))['default']
+    >
+    readonly useCheckDataChanged: UnwrapRef<
+      (typeof import('./hooks/useDataNotSaveConfirm'))['useCheckDataChanged']
+    >
+    readonly useClientDetail: UnwrapRef<
+      (typeof import('./hooks/Clients/useClientDetail'))['default']
+    >
+    readonly useClientFields: UnwrapRef<
+      (typeof import('./hooks/Clients/useClientFields'))['default']
+    >
+    readonly useClusterNodes: UnwrapRef<(typeof import('./hooks/useClusterNodes'))['default']>
+    readonly useCommonConnectionStatus: UnwrapRef<
+      (typeof import('./hooks/useCommonConnectionStatus'))['default']
+    >
+    readonly useComponentsHandlers: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
+    >
+    readonly useConfFooterStyle: UnwrapRef<(typeof import('./hooks/useConfFooterStyle'))['default']>
+    readonly useConnectorDataHandler: UnwrapRef<
+      (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
+    >
+    readonly useConnectorDirection: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorDirection']
+    >
+    readonly useConnectorList: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useConnectorList'))['default']
+    >
+    readonly useConnectorSchema: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorSchema']
+    >
+    readonly useConnectorTypeValue: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorTypeValue']
+    >
+    readonly useCopy: UnwrapRef<(typeof import('./hooks/useCopy'))['default']>
+    readonly useCoreNodeSize: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['useCoreNodeSize']
+    >
+    readonly useCssModule: UnwrapRef<(typeof import('vue'))['useCssModule']>
+    readonly useCssVars: UnwrapRef<(typeof import('vue'))['useCssVars']>
+    readonly useCursorPagination: UnwrapRef<
+      (typeof import('./hooks/usePagination'))['useCursorPagination']
+    >
+    readonly useDashboardVersion: UnwrapRef<
+      (typeof import('./hooks/useDashboardVersion'))['default']
+    >
+    readonly useDataNotSaveConfirm: UnwrapRef<
+      (typeof import('./hooks/useDataNotSaveConfirm'))['default']
+    >
+    readonly useDatabaseConfig: UnwrapRef<
+      (typeof import('./hooks/Auth/useDatabaseConfig'))['default']
+    >
+    readonly useDatabaseConfigForm: UnwrapRef<
+      (typeof import('./hooks/Auth/useDatabaseConfigForm'))['default']
+    >
+    readonly useDatePickerShortcuts: UnwrapRef<
+      (typeof import('./hooks/useDatePickerShortcuts'))['default']
+    >
+    readonly useDebugRule: UnwrapRef<(typeof import('./hooks/Rule/rule/useDebugRule'))['default']>
+    readonly useDeleteBridge: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useDeleteBridge'))['default']
+    >
+    readonly useDeleteSource: UnwrapRef<
+      (typeof import('./hooks/Rule/action/useHandleSourceItem'))['useDeleteSource']
+    >
+    readonly useDocLink: UnwrapRef<(typeof import('./hooks/useDocLink'))['default']>
+    readonly useDurationStr: UnwrapRef<(typeof import('./hooks/useDurationStr'))['default']>
+    readonly useEchartResize: UnwrapRef<(typeof import('./hooks/useEchartResize'))['default']>
+    readonly useEditionConfigs: UnwrapRef<(typeof import('./hooks/useEditionConfigs'))['default']>
+    readonly useExHooksMetrics: UnwrapRef<
+      (typeof import('./hooks/useMetrics'))['useExHooksMetrics']
+    >
+    readonly useExhookItemStatus: UnwrapRef<
+      (typeof import('./hooks/Exhook/useExhookItemStatus'))['default']
+    >
+    readonly useFillNewRecord: UnwrapRef<(typeof import('./hooks/useFillNewRecord'))['default']>
+    readonly useFormRules: UnwrapRef<(typeof import('./hooks/useFormRules'))['default']>
+    readonly useFormatDebugLog: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['default']
+    >
+    readonly useGenPluginFormRules: UnwrapRef<
+      (typeof import('./hooks/Plugins/useGenPluginFormRules'))['default']
+    >
+    readonly useGuide: UnwrapRef<(typeof import('./hooks/useGuide'))['default']>
+    readonly useHTTPConfigForm: UnwrapRef<
+      (typeof import('./hooks/Auth/useHTTPConfigForm'))['default']
+    >
+    readonly useHandleActionItem: UnwrapRef<
+      (typeof import('./hooks/Rule/action/useHandleActionItem'))['default']
+    >
+    readonly useHandleAuthnItem: UnwrapRef<
+      (typeof import('./hooks/Auth/useHandleAuthnItem'))['default']
+    >
+    readonly useHandleAuthzItem: UnwrapRef<
+      (typeof import('./hooks/Auth/useHandleAuthzItem'))['default']
+    >
+    readonly useHandleConnectorItem: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useHandleConnectorItem'))['default']
+    >
+    readonly useHandleExhookItem: UnwrapRef<
+      (typeof import('./hooks/Exhook/useHandleExhookItem'))['default']
+    >
+    readonly useHandleExprotoData: UnwrapRef<
+      (typeof import('./hooks/Gateway/useHandleExprotoData'))['default']
+    >
+    readonly useHandleSourceItem: UnwrapRef<
+      (typeof import('./hooks/Rule/action/useHandleSourceItem'))['default']
+    >
+    readonly useI18n: UnwrapRef<(typeof import('vue-i18n'))['useI18n']>
+    readonly useI18nTl: UnwrapRef<(typeof import('./hooks/useI18nTl'))['default']>
+    readonly useId: UnwrapRef<(typeof import('vue'))['useId']>
+    readonly useItemLabelAndDesc: UnwrapRef<
+      (typeof import('./hooks/Schema/useItemLabelAndDesc'))['default']
+    >
+    readonly useJWTConfigForm: UnwrapRef<
+      (typeof import('./hooks/Auth/useJWTConfigForm'))['default']
+    >
+    readonly useLdapConfigForm: UnwrapRef<
+      (typeof import('./hooks/Auth/useLdapConfigForm'))['default']
+    >
+    readonly useLimiter: UnwrapRef<(typeof import('./hooks/Config/useLimiter'))['default']>
+    readonly useListenerDrawer: UnwrapRef<
+      (typeof import('./hooks/Config/useListenerDrawer'))['default']
+    >
+    readonly useListenerUtils: UnwrapRef<
+      (typeof import('./hooks/Config/useListenerUtils'))['default']
+    >
+    readonly useMQTTVersion5NewConfig: UnwrapRef<
+      (typeof import('./hooks/useMQTTVersion5NewConfig'))['default']
+    >
+    readonly useMenus: UnwrapRef<(typeof import('./hooks/useMenus'))['default']>
+    readonly useMockData: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useDebugRule'))['useMockData']
+    >
+    readonly useModel: UnwrapRef<(typeof import('vue'))['useModel']>
+    readonly useMove: UnwrapRef<(typeof import('./hooks/useMove'))['default']>
+    readonly useNodesGraph: UnwrapRef<(typeof import('./hooks/Overview/useNodesGraph'))['default']>
+    readonly useOperationConfirm: UnwrapRef<
+      (typeof import('./hooks/useOperationConfirm'))['default']
+    >
+    readonly usePagination: UnwrapRef<(typeof import('./hooks/usePagination'))['default']>
+    readonly usePaginationRemember: UnwrapRef<
+      (typeof import('./hooks/usePaginationRemember'))['default']
+    >
+    readonly usePaginationWithHasNext: UnwrapRef<
+      (typeof import('./hooks/usePaginationWithHasNext'))['default']
+    >
+    readonly usePaging: UnwrapRef<(typeof import('./hooks/usePaging'))['default']>
+    readonly usePassword: UnwrapRef<(typeof import('./hooks/usePassword'))['default']>
+    readonly usePasswordHashRules: UnwrapRef<
+      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['usePasswordHashRules']
+    >
+    readonly usePieChart: UnwrapRef<(typeof import('./hooks/useMetrics'))['usePieChart']>
+    readonly usePluginItem: UnwrapRef<(typeof import('./hooks/Plugins/usePluginItem'))['default']>
+    readonly usePluginStatus: UnwrapRef<
+      (typeof import('./hooks/Plugins/usePluginStatus'))['default']
+    >
+    readonly useProcessAuthData: UnwrapRef<
+      (typeof import('./hooks/Auth/useProcessAuthData'))['default']
+    >
+    readonly useProviderUtils: UnwrapRef<
+      (typeof import('./hooks/Rule/useProvidersForMonaco'))['useProviderUtils']
+    >
+    readonly useProvidersForMonaco: UnwrapRef<
+      (typeof import('./hooks/Rule/useProvidersForMonaco'))['default']
+    >
+    readonly useRateChart: UnwrapRef<(typeof import('./hooks/useMetrics'))['useRateChart']>
+    readonly useReceiveParams: UnwrapRef<
+      (typeof import('./hooks/usePaginationRemember'))['useReceiveParams']
+    >
+    readonly useRenderPluginForm: UnwrapRef<
+      (typeof import('./hooks/Plugins/useRenderPluginForm'))['default']
+    >
+    readonly useRepCodeNodeSize: UnwrapRef<
+      (typeof import('./hooks/Overview/useNodesGraph'))['useRepCodeNodeSize']
+    >
+    readonly useResourceOpt: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useResourceOpt'))['default']
+    >
+    readonly useRoute: UnwrapRef<(typeof import('vue-router'))['useRoute']>
+    readonly useRouter: UnwrapRef<(typeof import('vue-router'))['useRouter']>
+    readonly useRuleEvents: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleEvents'))['default']>
+    readonly useRuleForm: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleForm'))['default']>
+    readonly useRuleFunc: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['default']>
+    readonly useRuleInputs: UnwrapRef<(typeof import('./hooks/Rule/rule/useRule'))['useRuleInputs']>
+    readonly useRuleMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useRuleMetrics']>
+    readonly useRuleOutputs: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useRule'))['useRuleOutputs']
+    >
+    readonly useRuleSourceEvents: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useRuleSourceEvents'))['default']
+    >
+    readonly useRuleStatus: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleStatus'))['default']>
+    readonly useRuleUtils: UnwrapRef<(typeof import('./hooks/Rule/rule/useRule'))['useRuleUtils']>
+    readonly useSQLAvailablePlaceholder: UnwrapRef<
+      (typeof import('./hooks/Rule/useSQLAvailablePlaceholder'))['default']
+    >
+    readonly useSSL: UnwrapRef<(typeof import('./hooks/useSSL'))['default']>
+    readonly useSchemaBridgePropsLayout: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['default']
+    >
+    readonly useSchemaConnectorPropsLayout: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['default']
+    >
+    readonly useSchemaForm: UnwrapRef<(typeof import('./hooks/Schema/useSchemaForm'))['default']>
+    readonly useSchemaFormRules: UnwrapRef<
+      (typeof import('./hooks/Schema/useSchemaFormRules'))['default']
+    >
+    readonly useSchemaRecord: UnwrapRef<
+      (typeof import('./hooks/Schema/useSchemaRecord'))['default']
+    >
+    readonly useShowLog: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['useShowLog']
+    >
+    readonly useShowTextByDifferent: UnwrapRef<
+      (typeof import('./hooks/useShowTextByDifferent'))['default']
+    >
+    readonly useSlots: UnwrapRef<(typeof import('vue'))['useSlots']>
+    readonly useSortableTable: UnwrapRef<(typeof import('./hooks/useSortableTable'))['default']>
+    readonly useSourceList: UnwrapRef<
+      (typeof import('./hooks/Rule/action/useSourceList'))['default']
+    >
+    readonly useSourceSchema: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useSourceSchema']
+    >
+    readonly useSpecialRuleForPassword: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword'))['default']
+    >
+    readonly useStatusController: UnwrapRef<
+      (typeof import('./hooks/Rule/rule/useDebugRule'))['useStatusController']
+    >
+    readonly useStore: UnwrapRef<(typeof import('vuex'))['useStore']>
+    readonly useSymbolLabel: UnwrapRef<
+      (typeof import('./hooks/Schema/useItemLabelAndDesc'))['useSymbolLabel']
+    >
+    readonly useSyncConfiguration: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useSyncConfiguration'))['default']
+    >
+    readonly useSyncPolling: UnwrapRef<(typeof import('./hooks/useSyncPolling'))['default']>
+    readonly useTemplateRef: UnwrapRef<(typeof import('vue'))['useTemplateRef']>
+    readonly useTestConnector: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useTestConnector'))['default']
+    >
+    readonly useToggleAuthStatus: UnwrapRef<
+      (typeof import('./hooks/Auth/useToggleAuthStatus'))['default']
+    >
+    readonly useTransName: UnwrapRef<(typeof import('./hooks/useTransName'))['default']>
+    readonly useTwoWayBindingManually: UnwrapRef<
+      (typeof import('./hooks/useTwoWayBindingManually'))['default']
+    >
+    readonly useWebhookForm: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookForm'))['default']>
+    readonly useWebhookItem: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookItem'))['default']>
+    readonly useWebhookList: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookList'))['default']>
+    readonly useWebhookUtils: UnwrapRef<
+      (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
+    >
+    readonly watch: UnwrapRef<(typeof import('vue'))['watch']>
+    readonly watchEffect: UnwrapRef<(typeof import('vue'))['watchEffect']>
+    readonly watchPostEffect: UnwrapRef<(typeof import('vue'))['watchPostEffect']>
+    readonly watchSyncEffect: UnwrapRef<(typeof import('vue'))['watchSyncEffect']>
+  }
 }

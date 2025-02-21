@@ -42,9 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import useDebugRule, { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
 import LogDataDisplay from './LogDataDisplay.vue'

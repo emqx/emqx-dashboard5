@@ -17,8 +17,6 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/legend'
-import useEchartResize from '@/hooks/useEchartResize'
-import useI18nTl from '@/hooks/useI18nTl'
 import dayjs from 'dayjs'
 
 const props = defineProps({

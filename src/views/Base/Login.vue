@@ -142,9 +142,6 @@
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
 import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
-import useDocLink from '@/hooks/useDocLink'
-import useFormRules from '@/hooks/useFormRules'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 import { toLogin } from '@/router'
 
 const { t } = useI18n()

@@ -1,5 +1,4 @@
 import { BridgeType } from '@/types/enum'
-import useSyncConfiguration from './useSyncConfiguration'
 
 export const resourceOptFields = [
   'start_timeout',

@@ -99,8 +99,6 @@ import {
 import { INFINITY_VALUE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
 import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
-import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 

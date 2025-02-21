@@ -2,8 +2,6 @@
 import { PropType } from '@/types/enum'
 import { Component, Properties, Property, Schema } from '@/types/schemaForm'
 import axios from 'axios'
-import useSchemaFormRules, { SchemaRules } from './useSchemaFormRules'
-import useSchemaRecord from './useSchemaRecord'
 
 const CONNECTOR_CONF_KEYS = 'connector'
 

@@ -88,8 +88,6 @@ export default defineComponent({
 import { queryRuleMetrics, resetRuleMetrics } from '@/api/ruleengine'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useRuleMetrics } from '@/hooks/useMetrics'
 
 const props = defineProps({
   ruleId: {

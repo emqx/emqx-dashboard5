@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { NodeInfo } from '@/types/dashboard'
 import { Search } from '@element-plus/icons-vue'
 

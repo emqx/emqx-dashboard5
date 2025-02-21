@@ -1,8 +1,5 @@
-import useFormRules from '@/hooks/useFormRules'
 import { isJSONString } from '@emqx/shared-ui-utils'
 import { FormRules } from 'element-plus'
-import useI18nTl from '../useI18nTl'
-import { usePasswordHashRules } from './usePasswordHashAlgorithmData'
 
 type PropsParams = {
   database: string

@@ -10,10 +10,7 @@
 
 <script lang="ts" setup>
 import { customValidate } from '@/common/tools'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
-
 import useSourceFormComponent from './useSourceFormComponent'
 
 const props = defineProps<{

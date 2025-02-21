@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
 import { MoreFilled } from '@element-plus/icons-vue'
-import { MetricType, TYPE_COLOR_MAP } from '@/hooks/useMetrics'
 import InfoTooltip from '../InfoTooltip.vue'
 
 interface DetailItem {

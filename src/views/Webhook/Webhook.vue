@@ -46,9 +46,6 @@
 <script lang="ts" setup>
 import placeholderImgDark from '@/assets/img/webhook-placeholder-dark.png'
 import placeholderImgLight from '@/assets/img/webhook-placeholder-light.png'
-import useWebhookItem from '@/hooks/Webhook/useWebhookItem'
-import useWebhookList from '@/hooks/Webhook/useWebhookList'
-import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 

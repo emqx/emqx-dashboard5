@@ -58,8 +58,6 @@
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { INFINITY_VALUE } from '@/common/constants'
 import { caseInsensitiveCompare } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import useTransName from '@/hooks/useTransName'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
 import { ElMessage as M } from 'element-plus'

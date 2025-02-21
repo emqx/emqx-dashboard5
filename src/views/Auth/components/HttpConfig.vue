@@ -104,8 +104,6 @@ import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import Monaco from '@/components/Monaco.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
 import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({

@@ -1,5 +1,4 @@
 import { accAdd, transMemorySizeNumToStr } from '@/common/tools'
-import useEchartResize from '@/hooks/useEchartResize'
 import { Metrics } from '@/types/common'
 import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
 import 'echarts/lib/chart/bar'
@@ -10,7 +9,6 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
 import dayjs from 'dayjs'
-import useI18nTl from './useI18nTl'
 
 export const enum MetricType {
   Green,

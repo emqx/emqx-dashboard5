@@ -115,10 +115,6 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import useActionList from '@/hooks/Rule/action/useActionList'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FilterParamsForQueryRules } from '@/types/rule'
 
 const props = defineProps({

@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatus } from '@/types/enum'
 
 defineProps({

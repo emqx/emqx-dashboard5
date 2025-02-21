@@ -107,8 +107,6 @@
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useJWTConfigForm from '@/hooks/Auth/useJWTConfigForm'
-import useSSL from '@/hooks/useSSL'
 
 export default defineComponent({
   name: 'JwtConfig',

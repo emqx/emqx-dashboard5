@@ -1,7 +1,5 @@
 import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { HashType } from '@/types/enum'
-import useFormRules from '../useFormRules'
-import useI18nTl from '../useI18nTl'
 import { FormRules } from '@/types/common'
 
 interface PasswordHashAlgorithm {

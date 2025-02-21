@@ -1,7 +1,5 @@
 import { ENCRYPTED_PWD_REG } from '@/common/constants'
 import { jumpToErrorFormItem } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useBridgeDataHandler } from '../useDataHandler'
 
 export default (): {
   pwdErrorWhenCoping: Ref<string>

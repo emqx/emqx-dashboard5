@@ -48,9 +48,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import { MetricsData } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'

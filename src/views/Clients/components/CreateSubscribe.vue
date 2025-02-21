@@ -82,8 +82,6 @@ export default {
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
 import { QoSOptions } from '@/common/constants'
-import useI18nTl from '@/hooks/useI18nTl'
-import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { QoSLevel } from '@/types/enum'
 
 interface SubRecord {

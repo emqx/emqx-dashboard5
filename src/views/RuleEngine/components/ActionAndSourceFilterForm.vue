@@ -86,10 +86,6 @@
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { titleCase } from '@/common/tools'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
-import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
 
 interface ActionAndSourceFilterParams {

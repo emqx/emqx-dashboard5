@@ -1,6 +1,3 @@
-import RuleFunc from '@/hooks/Rule/RuleFunc.json'
-import useI18nTl from './useI18nTl'
-
 export const enum ArgumentType {
   Number = 'number',
   Any = 'any',

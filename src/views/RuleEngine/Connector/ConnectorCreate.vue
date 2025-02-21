@@ -58,13 +58,8 @@
 import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
 import GuideBar from '@/components/GuideBar.vue'
-import { useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
-import useGuide from '@/hooks/useGuide'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
-
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import TypeSelect from './components/TypeSelect.vue'
 import useConnectorFormComponent from './components/useConnectorFormComponent'

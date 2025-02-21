@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { Search } from '@element-plus/icons-vue'
 
 defineProps<{

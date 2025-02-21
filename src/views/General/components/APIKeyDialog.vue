@@ -98,9 +98,6 @@ import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/s
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
-import useCopy from '@/hooks/useCopy'
-import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
-import useFormRules from '@/hooks/useFormRules'
 
 export type OperationType = 'create' | 'view' | 'edit'
 

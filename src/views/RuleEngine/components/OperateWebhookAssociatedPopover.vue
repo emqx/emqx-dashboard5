@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
 
 const props = withDefaults(

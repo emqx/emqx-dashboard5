@@ -1,6 +1,5 @@
 import { ExhookStatus, NodeStatusClass } from '@/types/enum'
 import { Exhook } from '@/types/systemModule'
-import useI18nTl from '../useI18nTl'
 
 export default (): {
   getTheWorstStatus: (exhook: Exhook) => ExhookStatus
@@ -40,7 +39,7 @@ export default (): {
       [ExhookStatus.Disconnected]: t('RuleEngine.disconnected'),
       [ExhookStatus.Disabled]: tl('disabled'),
       [ExhookStatus.Error]: tl('error'),
-    }[status] || 'unknown')
+    })[status] || 'unknown'
 
   const statusTextClass = (status: ExhookStatus): NodeStatusClass =>
     ({
@@ -49,7 +48,7 @@ export default (): {
       [ExhookStatus.Disconnected]: NodeStatusClass.Danger,
       [ExhookStatus.Disabled]: NodeStatusClass.Danger,
       [ExhookStatus.Error]: NodeStatusClass.Danger,
-    }[status] || NodeStatusClass.Danger)
+    })[status] || NodeStatusClass.Danger
 
   return {
     getTheWorstStatus,

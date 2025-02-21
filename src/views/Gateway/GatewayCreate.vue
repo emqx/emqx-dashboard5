@@ -77,8 +77,6 @@
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
-import useTransName from '@/hooks/useTransName'
 import router from '@/router'
 import { GatewayName } from '@/types/enum'
 import { GatewayListener } from '@/types/typeAlias'

@@ -1,8 +1,4 @@
 import { DEFAULT_SSL_VERIFY_VALUE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useFormRules from '@/hooks/useFormRules'
-import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 

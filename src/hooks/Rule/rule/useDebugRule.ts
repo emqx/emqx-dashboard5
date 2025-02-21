@@ -1,8 +1,6 @@
 import { addTrace, deleteTrace, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
 import { getKeywordsFromSQL } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
 import {
   EventForRule,
@@ -13,10 +11,6 @@ import {
 } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import dayjs from 'dayjs'
-import type { FormattedLog, LogItem } from './useFormatDebugLog'
-import useFormatDebugLog from './useFormatDebugLog'
-import { useRuleUtils } from './useRule'
-import useRuleEvents from './useRuleEvents'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 

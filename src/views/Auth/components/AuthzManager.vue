@@ -264,9 +264,7 @@ import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
 import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import TableDropdown from './TableDropdown.vue'
-import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 
 interface AllTableDataItem {

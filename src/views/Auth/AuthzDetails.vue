@@ -88,13 +88,8 @@
 import { deleteAuthz, loadAuthz, queryAuthzItemMetrics, updateAuthz } from '@/api/auth'
 import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { Metrics } from '@/types/auth'
 import { Delete } from '@element-plus/icons-vue'
-
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import AuthzManager from './components/AuthzManager.vue'

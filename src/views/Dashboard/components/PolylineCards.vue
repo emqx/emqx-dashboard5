@@ -127,10 +127,6 @@ import { waitAMoment } from '@/common/tools'
 import { loadChartData, resetMonitorData } from '@/api/common'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSyncPolling from '@/hooks/useSyncPolling'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
-
 import { Close, FullScreen } from '@element-plus/icons-vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 

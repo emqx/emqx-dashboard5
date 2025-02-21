@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { createRandomString, numToFixed } from '@/common/tools'
-import { useCoreNodeSize } from '@/hooks/Overview/useNodesGraph'
 import { Handle } from '@vue-flow/core'
 import { NodeStatus } from '@/types/enum'
 

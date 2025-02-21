@@ -1,6 +1,4 @@
-import useFormRules from '@/hooks/useFormRules'
 import { FormRules } from '@/types/common'
-import useI18nTl from '../useI18nTl'
 
 export default (): {
   formCom: Ref<any>

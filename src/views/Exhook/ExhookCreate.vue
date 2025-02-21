@@ -18,11 +18,8 @@
 <script setup lang="ts">
 import { createExhook } from '@/api/exhook'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
-import useSSL from '@/hooks/useSSL'
 import { ExhookFailedAction } from '@/types/enum'
 import { ExhookFormForCreate } from '@/types/systemModule'
-
 import ExhookForm from './components/ExhookForm.vue'
 
 const router = useRouter()

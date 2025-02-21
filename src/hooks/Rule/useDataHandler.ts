@@ -1,5 +1,4 @@
 import { checkNOmitFromObj } from '@/common/tools'
-import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Action, Connector } from '@/types/rule'
 

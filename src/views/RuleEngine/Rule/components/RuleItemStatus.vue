@@ -11,7 +11,6 @@ export default defineComponent({
 <script setup lang="ts">
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { RuleItem } from '@/types/rule'
-import useRuleStatus from '@/hooks/Rule/rule/useRuleStatus'
 
 const props = defineProps({
   rule: { type: Object as PropType<RuleItem> },

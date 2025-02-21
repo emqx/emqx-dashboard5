@@ -11,9 +11,7 @@ export default defineComponent({
 <script setup lang="ts">
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { PluginItem } from '@/types/plugin'
-import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { NodeStatusClass, PluginStatus } from '@/types/enum'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   pluginData: {

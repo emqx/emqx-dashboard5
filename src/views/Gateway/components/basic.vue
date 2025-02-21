@@ -30,9 +30,7 @@
 
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
-import useHandleExprotoData from '@/hooks/Gateway/useHandleExprotoData'
 import { GatewayName } from '@/types/enum'
-
 import CoapBasic from './coapBasic.vue'
 import ExprotoBasic from './exprotoBasic.vue'
 import Lwm2mBasic from './lwm2mBasic.vue'

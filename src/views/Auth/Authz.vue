@@ -73,9 +73,6 @@ export default {
 
 <script lang="ts" setup>
 import { deleteAuthz } from '@/api/auth'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
 import { Setting } from '@element-plus/icons-vue'

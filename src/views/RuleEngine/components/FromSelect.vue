@@ -67,10 +67,8 @@ export default defineComponent({
 <script setup lang="ts">
 import { RuleEvent, BridgeItem } from '@/types/rule'
 import { BackendI18n } from '@/types/common'
-import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
 import { createRandomString, waitAMoment } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 
 const props = defineProps({
   modelValue: {

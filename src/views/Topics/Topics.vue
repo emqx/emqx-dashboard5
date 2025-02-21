@@ -45,7 +45,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const tableData = ref([])

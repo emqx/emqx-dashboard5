@@ -91,8 +91,6 @@ import helpDocIcon from '@/assets/img/help-doc.png'
 import helpForumIcon from '@/assets/img/help-forum.png'
 import helpGithubIcon from '@/assets/img/help-github.png'
 import { IS_ENTERPRISE } from '@/common/constants'
-import useDocLink from '@/hooks/useDocLink'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
 import DocListCard from './components/DocListCard.vue'
 

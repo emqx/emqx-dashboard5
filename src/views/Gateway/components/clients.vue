@@ -109,9 +109,6 @@ import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import dayjs from 'dayjs'
 import ClientDetails from '../../Clients/ClientDetails.vue'
 import CheckIcon from '@/components/CheckIcon.vue'
-import useClusterNodes from '@/hooks/useClusterNodes'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { CheckStatus, GatewayName } from '@/types/enum'
 
 export default defineComponent({

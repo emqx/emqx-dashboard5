@@ -92,8 +92,6 @@
 </template>
 
 <script lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-
 export default defineComponent({
   name: 'RuleOutputsDrawer',
 })
@@ -101,9 +99,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getTypeAndNameFromKey } from '@/common/tools'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useFormRules from '@/hooks/useFormRules'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'

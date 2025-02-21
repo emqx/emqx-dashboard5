@@ -73,8 +73,6 @@
 import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
 import ExhookForm from './components/ExhookForm.vue'
-
-import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import {
   queryExhookDetail,
   queryExhookRegisteredHooks,
@@ -82,7 +80,6 @@ import {
 } from '@/api/exhook'
 import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
-import useSSL from '@/hooks/useSSL'
 import DetailHeader from '@/components/DetailHeader.vue'
 import ExhookItemOverview from './components/ExhookItemOverview.vue'
 

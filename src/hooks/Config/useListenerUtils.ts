@@ -1,10 +1,7 @@
 import { SSL_VERIFY_VALUE_MAP, unexposedConfigs } from '@/common/constants'
-import useLimiter from '@/hooks/Config/useLimiter'
 import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import useFormRules from '../useFormRules'
-import useI18nTl from '../useI18nTl'
 import parseHoconToObject from 'hocon-parser'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 

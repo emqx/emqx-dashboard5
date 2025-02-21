@@ -13,7 +13,6 @@
 
 <script lang="ts" setup>
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   modelValue: {

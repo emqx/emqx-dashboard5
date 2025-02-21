@@ -126,16 +126,9 @@ import useBridgeTypeValue, {
   useBridgeTypeIcon,
   useConnectorTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
-import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
-import { useConnectorDataHandler } from '@/hooks/Rule/useDataHandler'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'

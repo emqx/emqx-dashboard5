@@ -23,9 +23,6 @@
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { createOrderObj, customValidate } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useFormRules from '@/hooks/useFormRules'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 

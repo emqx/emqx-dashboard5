@@ -50,8 +50,6 @@
 
 <script setup lang="ts">
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import { useMockData } from '@/hooks/Rule/rule/useDebugRule'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight, RefreshLeft } from '@element-plus/icons-vue'
 import FromSelect from '../components/FromSelect.vue'

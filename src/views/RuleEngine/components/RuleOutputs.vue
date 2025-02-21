@@ -64,9 +64,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getImg } from '@/common/tools'
-import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleOutputs } from '@/hooks/Rule/rule/useRule'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { ElMessageBox as MB } from 'element-plus'

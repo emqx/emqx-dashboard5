@@ -201,7 +201,6 @@ import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@
 import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
 import CheckIcon from '@/components/CheckIcon.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
-import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'

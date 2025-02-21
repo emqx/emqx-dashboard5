@@ -115,8 +115,6 @@
 </template>
 
 <script lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-
 export default defineComponent({
   name: 'NodesGraph',
 })
@@ -126,13 +124,9 @@ export default defineComponent({
 import { loadStats } from '@/api/common'
 import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
-import useDurationStr from '@/hooks/useDurationStr'
-import useSyncPolling from '@/hooks/useSyncPolling'
-import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { Right } from '@element-plus/icons-vue'
 import NodesGraph from './NodesGraph.vue'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 

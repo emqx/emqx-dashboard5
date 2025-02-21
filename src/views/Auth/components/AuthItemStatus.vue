@@ -10,7 +10,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { ConnectionStatus } from '@/types/enum'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
 import { Metrics } from '@/types/auth'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 

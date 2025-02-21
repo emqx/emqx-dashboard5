@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-
 import CommonOverflowTooltip from './CommonOverflowTooltip.vue'
 
 const props = defineProps({

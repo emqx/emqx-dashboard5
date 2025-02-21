@@ -114,12 +114,6 @@
 import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/api/auth'
 import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
-import useBuiltInDataUpdateTip from '@/hooks/Auth/useBuiltInDataUpdateTip'
-import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer, Metrics } from '@/types/auth'
 import { LDAPAuthMethod } from '@/types/enum'
 import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'
@@ -133,7 +127,6 @@ import DatabaseConfig from './components/DatabaseConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
-import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 const props = defineProps<{
   gatewayInfo?: Record<string, any> | boolean

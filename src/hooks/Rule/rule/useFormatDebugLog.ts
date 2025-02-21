@@ -1,5 +1,4 @@
 import { getBridgeKey } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, LogResult, RuleOutput } from '@/types/enum'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 

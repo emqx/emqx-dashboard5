@@ -3,8 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import useDashboardVersion from '@/hooks/useDashboardVersion'
-
 const store = useStore()
 const lang = computed(() => {
   return store.state.lang

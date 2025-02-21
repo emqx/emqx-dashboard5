@@ -35,9 +35,6 @@
 
 <script lang="ts" setup>
 import { titleCase, waitAMoment } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import type { Menu } from '@/hooks/useMenus'
-import useMenus from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 

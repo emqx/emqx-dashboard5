@@ -1,5 +1,4 @@
 import { WEBHOOK_SUFFIX } from '@/common/constants'
-import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BridgeItem, Connector, HTTPBridge, OutputItem, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'

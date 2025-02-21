@@ -14,8 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import useClusterNodes from '@/hooks/useClusterNodes'
-
 const { versionInfo } = useClusterNodes({
   loadByDefault: true,
   hideProgress: true,

@@ -1,4 +1,3 @@
-import useI18nTl from '../useI18nTl'
 import {
   AUTHZ_COMMON_PLACEHOLDERS,
   AUTHZ_HTTP_PLACEHOLDERS,

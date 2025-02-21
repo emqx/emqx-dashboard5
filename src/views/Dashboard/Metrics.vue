@@ -153,7 +153,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadMetrics, loadNodes } from '@/api/common'
-import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatisticalData } from '@/types/dashboard'
 
 interface MetricItem {

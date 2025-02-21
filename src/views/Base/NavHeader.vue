@@ -67,7 +67,6 @@
 <script lang="ts">
 import { toLogin } from '@/router'
 import { Right, Setting, Search } from '@element-plus/icons-vue'
-import useDocLink from '@/hooks/useDocLink'
 import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
