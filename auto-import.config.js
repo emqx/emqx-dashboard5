@@ -81,3 +81,8 @@ export default {
     },
   ],
 }
+
+export const autoImportComponentsConfig = {
+  dts: 'src/components.d.ts',
+  dirs: ['src/components/**'],
+}
