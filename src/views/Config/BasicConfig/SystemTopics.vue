@@ -107,8 +107,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { SysTopics } from '@/types/extension'
 
 const { t, tl } = useI18nTl('Extension')

@@ -49,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight, RefreshLeft } from '@element-plus/icons-vue'
 import FromSelect from '../components/FromSelect.vue'

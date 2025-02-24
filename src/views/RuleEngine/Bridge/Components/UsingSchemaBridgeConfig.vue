@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { getAPIPath } from '@/common/tools'
-import SchemaForm from '@/components/SchemaForm'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 

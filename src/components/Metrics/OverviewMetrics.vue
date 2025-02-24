@@ -167,7 +167,6 @@
 
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import {
   TypeMapData,
   TypeMetricDataItem,

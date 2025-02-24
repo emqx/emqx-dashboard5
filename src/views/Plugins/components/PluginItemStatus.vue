@@ -9,7 +9,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { PluginItem } from '@/types/plugin'
 import { NodeStatusClass, PluginStatus } from '@/types/enum'
 

@@ -87,7 +87,6 @@
 <script lang="ts" setup>
 import { deleteAuthz, loadAuthz, queryAuthzItemMetrics, updateAuthz } from '@/api/auth'
 import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { Metrics } from '@/types/auth'
 import { Delete } from '@element-plus/icons-vue'
 import AuthItemOverview from './components/AuthItemOverview.vue'

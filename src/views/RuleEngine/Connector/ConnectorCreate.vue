@@ -56,8 +56,6 @@
 
 <script setup lang="ts">
 import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import GuideBar from '@/components/GuideBar.vue'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'

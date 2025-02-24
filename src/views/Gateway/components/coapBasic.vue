@@ -62,9 +62,6 @@
 </template>
 
 <script lang="ts" setup>
-import BooleanSelect from '@/components/BooleanSelect.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { CoapGatewayConfig } from '@/types/typeAlias'
 
 const props = defineProps<{

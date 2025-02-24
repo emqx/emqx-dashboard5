@@ -83,10 +83,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Oneof from '@/components/Oneof.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { ExhookFailedAction } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
 

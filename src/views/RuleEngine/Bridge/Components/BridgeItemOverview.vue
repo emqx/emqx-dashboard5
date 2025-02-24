@@ -122,7 +122,6 @@
 
 <script setup lang="ts">
 import { formatNumber } from '@/common/tools'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'

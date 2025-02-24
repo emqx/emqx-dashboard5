@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import AdvancedSettingsBtn from '@/components/AdvancedSettingsBtn.vue'
-
 defineProps<{
   buttonText?: string
 }>()

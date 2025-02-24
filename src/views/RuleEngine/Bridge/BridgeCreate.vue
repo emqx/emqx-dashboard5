@@ -84,8 +84,6 @@
 <script lang="ts" setup>
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import GuideBar from '@/components/GuideBar.vue'
 import {
   useBridgeTypeIcon,
   useBridgeTypeOptions,

@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 

@@ -19,7 +19,6 @@
 
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
-import SchemaForm from '@/components/SchemaForm'
 import { Limiter } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 import { checkNOmitFromObj, customValidate } from '@/common/tools'

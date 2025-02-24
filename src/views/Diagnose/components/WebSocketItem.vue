@@ -285,21 +285,11 @@ import {
   WEB_SOCKET_STATUS,
 } from '@/common/constants'
 import { chunkStr } from '@/common/tools'
-import BooleanSelect from '@/components/BooleanSelect.vue'
 import { Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import type { FormRules } from 'element-plus'
 import type { IClientOptions, IClientSubscribeOptions, IPublishPacket, MqttClient } from 'mqtt'
 import mqtt from 'mqtt'
-import {
-  computed,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  reactive,
-  ref,
-} from 'vue'
 
 interface Subscription {
   topic: string

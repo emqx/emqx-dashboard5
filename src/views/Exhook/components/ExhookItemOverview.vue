@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { MetricsData } from '@/types/common'
 import { Exhook } from '@/types/systemModule'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { queryExhookDetail } from '@/api/exhook'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 

@@ -75,10 +75,6 @@
 </template>
 
 <script lang="ts" setup>
-import BooleanSelect from '@/components/BooleanSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { ExprotoGatewayConfig } from '@/types/typeAlias'
 
 const props = defineProps<{

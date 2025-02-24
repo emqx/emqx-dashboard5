@@ -445,14 +445,6 @@
 
 <script lang="ts" setup>
 import { INFINITY_VALUE } from '@/common/constants'
-import BooleanSelect from '@/components/BooleanSelect.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import Oneof from '@/components/Oneof.vue'
-import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
-import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import ArrayEditorInput from '../ArrayEditorInput.vue'

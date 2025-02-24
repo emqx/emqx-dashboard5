@@ -11,7 +11,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { ConnectionStatus } from '@/types/enum'
 import { Metrics } from '@/types/auth'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 
 const props = defineProps({
   enable: {

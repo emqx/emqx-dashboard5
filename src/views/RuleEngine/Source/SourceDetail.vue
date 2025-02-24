@@ -109,7 +109,6 @@
 <script lang="ts" setup>
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'

@@ -33,8 +33,6 @@
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
 import { dateFormat, waitAMoment } from '@/common/tools'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import PayloadDialog from '@/components/PayloadDialog.vue'
 import { MessageItem } from '@/types/client'
 
 type MsgItem = MessageItem & {

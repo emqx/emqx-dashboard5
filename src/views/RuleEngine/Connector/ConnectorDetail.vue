@@ -120,8 +120,6 @@
 
 <script setup lang="ts">
 import { customValidate } from '@/common/tools'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import useBridgeTypeValue, {
   useBridgeTypeIcon,
   useConnectorTypeValue,

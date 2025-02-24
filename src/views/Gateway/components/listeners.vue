@@ -58,7 +58,6 @@
 <script setup lang="ts">
 import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
 import { GatewayName } from '@/types/enum'
 import { Listener } from '@/types/listener'
 

@@ -53,8 +53,6 @@
 import { PluginDetail } from '@/types/plugin'
 import PluginInfo from './components/PluginInfo.vue'
 import { queryPluginDetail } from '@/api/plugins'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
 import PluginItemStatus from './components/PluginItemStatus.vue'

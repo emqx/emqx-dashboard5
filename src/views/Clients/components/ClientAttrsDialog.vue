@@ -12,8 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,

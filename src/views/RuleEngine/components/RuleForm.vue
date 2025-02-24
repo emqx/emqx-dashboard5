@@ -105,21 +105,8 @@ export default defineComponent({
 <script lang="ts" setup>
 import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
 import { BridgeDirection, BridgeType, TestRuleTarget } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
-import {
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  nextTick,
-  onMounted,
-  provide,
-  ref,
-  watch,
-} from 'vue'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'

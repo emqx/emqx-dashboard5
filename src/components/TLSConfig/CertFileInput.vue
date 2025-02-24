@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import { CER_FILE_ACCEPTS } from '@/common/constants'
-import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 
 const props = defineProps({

@@ -99,8 +99,6 @@
 
 <script lang="ts" setup>
 import { getRules, updateRules } from '@/api/ruleengine'
-import CodeView from '@/components/CodeView.vue'
-import commonPagination from '@/components/commonPagination.vue'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'

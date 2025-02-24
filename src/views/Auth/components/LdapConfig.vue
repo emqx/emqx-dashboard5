@@ -138,10 +138,6 @@
 </template>
 
 <script lang="ts" setup>
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import Monaco from '@/components/Monaco.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { LDAPAuthMethod } from '@/types/enum'
 
 const props = defineProps({

@@ -162,9 +162,6 @@ import {
   SEARCH_FORM_RES_PROPS as colProps,
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
 } from '@/common/constants'
-import CheckIcon from '@/components/CheckIcon.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import MiniPagination from '@/components/MiniPagination.vue'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { Delete } from '@element-plus/icons-vue'

@@ -159,9 +159,6 @@
 
 <script setup lang="ts">
 import { getRetainer, updateRetainer } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import Oneof from '@/components/Oneof.vue'
 import { Retainer } from '@/types/extension'
 
 const { tl, t } = useI18nTl('Extension')

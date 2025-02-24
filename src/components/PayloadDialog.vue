@@ -39,7 +39,6 @@
 
 <script lang="ts" setup>
 import { SHOW_PAYLOAD_BY_WHICH_OPTION_LIST } from '@/common/constants'
-import Monaco from '@/components/Monaco.vue'
 import { PayloadShowByType } from '@/types/enum'
 
 const props = withDefaults(
