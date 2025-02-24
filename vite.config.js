@@ -2,9 +2,10 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
-import autoImportConfig from './auto-import.config.js'
+import autoImportConfig, { autoImportComponentsConfig } from './auto-import.config.js'
 import { version as packageVersion } from './package.json'
 
 const getVersion = (packageVersion) => {
@@ -32,6 +33,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       AutoImport(autoImportConfig),
+      Components(autoImportComponentsConfig),
     ],
     server: {
       port: 7002,
