@@ -76,14 +76,7 @@
 <script lang="ts">
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
-import { useStore } from 'vuex'
 import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
-import { ElNotification, ElMessageBox } from 'element-plus'
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import useDocLink from '@/hooks/useDocLink'
-import { IS_ENTERPRISE } from '@/common/constants'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
 

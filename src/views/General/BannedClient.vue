@@ -86,17 +86,11 @@
 
 <script setup lang="ts">
 import { clearAllBannedClients, deleteBannedClient, loadBannedClient } from '@/api/function'
-import { BANNED_NEVER_EXPIRE_VALUE, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { dateFormat, getLabelFromValueInOptionList } from '@/common/tools'
-import useBannedType from '@/hooks/Auth/useBannedType'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { BannedItem } from '@/types/systemModule'
 import { Remove } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { Banned } from '@/types/auth'
-import { computed, ref } from 'vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import BannedDialog from './components/BannedDialog.vue'
 

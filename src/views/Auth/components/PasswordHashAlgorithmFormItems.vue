@@ -51,12 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
-import { titleCase } from '@/common/tools'
-import usePassword from '@/hooks/usePassword'
 import { SaltPosition } from '@/types/enum'
-import type { PropType } from 'vue'
-import { computed, watch } from 'vue'
 
 interface PasswordHashAlgorithmFormItems {
   password_hash_algorithm: {

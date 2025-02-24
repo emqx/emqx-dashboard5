@@ -1,5 +1,3 @@
-import { EMQX_VERSION } from './constants'
-
 type DocKey =
   | 'cloud'
   | 'sqlGrammar'

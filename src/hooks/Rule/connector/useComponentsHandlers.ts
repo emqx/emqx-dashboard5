@@ -1,15 +1,7 @@
-import { DEFAULT_SSL_VERIFY_VALUE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
-import { cloneDeep, pick } from 'lodash'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
-import useI18nPrefix from '@/hooks/useI18nPrefix'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties

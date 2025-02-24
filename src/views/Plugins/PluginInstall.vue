@@ -39,13 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
-import DetailHeader from '@/components/DetailHeader.vue'
 
 const router = useRouter()
 const { t } = useI18n()

@@ -81,18 +81,13 @@ export default {
 
 <script lang="ts" setup>
 import { deleteAuthz } from '@/api/auth'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthz, { AuthzItemInTable } from '@/hooks/Auth/useAuthz'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
 import AuthzSettingDrawer from './components/AuthzSettingDrawer.vue'
-import { ref } from 'vue'
 
 const { t } = useI18n()
 
@@ -147,5 +142,5 @@ const routeToDetail = function ({ type }: AuthzSourceItem, tab: string) {
 </script>
 
 <style lang="scss">
-@import './style/authTable.scss';
+@use './style/authTable.scss';
 </style>

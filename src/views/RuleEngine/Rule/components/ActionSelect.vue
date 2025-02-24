@@ -27,16 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
-import useActionList from '@/hooks/Rule/action/useActionList'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { computed, ref, withDefaults } from 'vue'
 
 /**
  * do not selecting exiting one, create a new one

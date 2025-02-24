@@ -1,17 +1,6 @@
-import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { FormItemRule } from 'element-plus'
-import { cloneDeep, escapeRegExp, get, pick } from 'lodash'
-import { useRedisCommandCheck } from '../useDataHandler'
-import { useAvailableProviders } from '../useProvidersForMonaco'
-import useSQLAvailablePlaceholder from '../useSQLAvailablePlaceholder'
-import useI18nPrefix from '@/hooks/useI18nPrefix'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties

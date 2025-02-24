@@ -98,15 +98,6 @@ import postgresqlIcon from '@/assets/img/postgresql.png'
 import redisIcon from '@/assets/img/redis.png'
 import ldapIcon from '@/assets/img/ldap.png'
 import { checkNOmitFromObj, jumpToErrorFormItem } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import GuideBar from '@/components/GuideBar.vue'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthzCreate from '@/hooks/Auth/useAuthzCreate'
-import useGuide from '@/hooks/useGuide'
-import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessage } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import FileConfig from './components/FileConfig.vue'
@@ -199,5 +190,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import './style/auth.scss';
+@use './style/auth.scss';
 </style>

@@ -35,19 +35,9 @@
 
 <script lang="ts" setup>
 import { deleteRules } from '@/api/ruleengine'
-import useActionList from '@/hooks/Rule/action/useActionList'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import { useRuleOutputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType, RuleOutput } from '@/types/enum'
 import { RuleEvent, RuleItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog, ElMessage } from 'element-plus'
-import { lowerCase } from 'lodash'
-import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{ modelValue: boolean; rule?: RuleItem }>()
 const emit = defineEmits(['update:modelValue', 'submitted'])
@@ -177,7 +167,7 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .delete-second-confirm {
   .checkbox-wrapper {
     padding: 12px 0 8px 36px;

@@ -53,12 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { StompGatewayConfig } from '@/types/typeAlias'
-import _ from 'lodash'
-import { onMounted, reactive, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   value?: StompGatewayConfig

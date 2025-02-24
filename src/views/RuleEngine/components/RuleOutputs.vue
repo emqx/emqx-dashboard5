@@ -61,23 +61,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleOutputs',
 })
 </script>
 
 <script setup lang="ts">
-import { getImg } from '@/common/tools'
-import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleOutputs } from '@/hooks/Rule/rule/useRule'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { ElMessageBox as MB } from 'element-plus'
-import type { PropType, Ref, WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 
 const ACTION_TYPE_NAME_CONNECTOR = ':'
@@ -225,5 +217,5 @@ const getOutputTypeLabel = (item: OutputItem) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>

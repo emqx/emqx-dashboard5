@@ -99,18 +99,8 @@
 
 <script lang="ts" setup>
 import { getRules, updateRules } from '@/api/ruleengine'
-import CodeView from '@/components/CodeView.vue'
-import commonPagination from '@/components/commonPagination.vue'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import usePagination from '@/hooks/usePagination'
-import usePaginationRemember from '@/hooks/usePaginationRemember'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
-import type { Ref } from 'vue'
-import { onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'

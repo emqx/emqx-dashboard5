@@ -1,7 +1,11 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { resolve } from 'path'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import autoImportConfig, { autoImportComponentsConfig } from './auto-import.config.js'
 import { version as packageVersion } from './package.json'
 
 const getVersion = (packageVersion) => {
@@ -28,9 +32,11 @@ export default defineConfig(({ mode }) => {
           util: true,
         },
       }),
+      AutoImport(autoImportConfig),
+      Components(autoImportComponentsConfig),
     ],
     server: {
-      port: 7000,
+      port: 7001,
       proxy: {
         '/api/v5': {
           target,
@@ -44,6 +50,11 @@ export default defineConfig(({ mode }) => {
     css: {
       modules: {
         localsConvention: 'camelCaseOnly',
+      },
+      preprocessorOptions: {
+        scss: {
+          api: 'modern',
+        },
       },
     },
     build: {
@@ -59,7 +70,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@': '/src',
+        '@': resolve(__dirname, 'src'),
       },
     },
     optimizeDeps: {

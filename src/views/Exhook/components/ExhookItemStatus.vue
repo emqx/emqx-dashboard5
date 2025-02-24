@@ -3,17 +3,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
 export default defineComponent({
   name: 'ExhookItemStatus',
 })
 </script>
 
 <script setup lang="ts">
-import { PropType, defineProps } from 'vue'
 import { Exhook } from '@/types/systemModule'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
 
 const props = defineProps({
   exhook: {

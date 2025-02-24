@@ -1,6 +1,3 @@
-import { ref } from 'vue'
-import { isFunction } from 'lodash'
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useGuide(before?: () => void) {
   const activeGuidesIndex = ref([0])

@@ -90,15 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
-import { waitAMoment } from '@/common/tools'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { RuleSourceType, useRuleInputs } from '@/hooks/Rule/rule/useRule'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
-import type { WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import SourceDetail from '../Source/SourceDetail.vue'
 import SourceCreate from '../Source/components/SourceCreate.vue'

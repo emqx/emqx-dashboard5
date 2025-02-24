@@ -297,35 +297,16 @@
 </template>
 
 <script lang="ts">
-import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
-import { waitAMoment } from '@/common/tools'
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useDatabaseConfig from '@/hooks/Auth/useDatabaseConfig'
-import useDatabaseConfigForm from '@/hooks/Auth/useDatabaseConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
-import { ElMessageBox } from 'element-plus'
-import { computed, defineComponent, PropType, ref } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
   components: {
-    CommonTLSConfig,
-    TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
-    Monaco,
     HelpBlock,
-    CustomInputNumber,
-    FormItemLabel,
-    AdvancedSettingContainer,
   },
 
   props: {
@@ -464,5 +445,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 </style>

@@ -1,16 +1,8 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, unexposedConfigs } from '@/common/constants'
-import { checkNOmitFromObj, emptyObject, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { assign, cloneDeep, isEqual, merge, omit } from 'lodash'
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { computed, nextTick, ref, watch } from 'vue'
-import useI18nTl from '../useI18nTl'
-import useListenerUtils from './useListenerUtils'
 import { isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'
 
 type Props = Readonly<

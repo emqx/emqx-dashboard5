@@ -1,6 +1,3 @@
-import { checkNOmitFromObj } from '@/common/tools'
-import { cloneDeep, omit } from 'lodash'
-
 export default (): {
   handleExprotoData: (gatewayData: Record<string, any>) => Record<string, any>
 } => {

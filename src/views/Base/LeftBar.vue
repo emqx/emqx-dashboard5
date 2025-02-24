@@ -61,12 +61,6 @@
 </template>
 
 <script lang="ts">
-import useMenus from '@/hooks/useMenus'
-import type { Menu } from '@/hooks/useMenus'
-import { computed, defineComponent, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-
 export default defineComponent({
   name: 'Leftbar',
   setup() {

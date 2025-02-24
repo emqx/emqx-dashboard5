@@ -46,12 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType, Ref } from 'vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
-import { ElDialog } from 'element-plus'
 import { APIKey } from '@/types/systemModule'
-import useCopy from '@/hooks/useCopy'
-import TipContainer from '@/components/TipContainer.vue'
 
 const props = defineProps({
   modelValue: {

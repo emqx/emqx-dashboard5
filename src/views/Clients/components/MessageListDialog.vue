@@ -32,13 +32,7 @@
 
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
-import { dateFormat, waitAMoment } from '@/common/tools'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import PayloadDialog from '@/components/PayloadDialog.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { MessageItem } from '@/types/client'
-import { debounce, isUndefined } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 type MsgItem = MessageItem & {
   mqueue_priority: number | string

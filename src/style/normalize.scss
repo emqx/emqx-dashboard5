@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 /* Components Reset Colors */
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $main: (
@@ -391,9 +392,9 @@
 }
 
 @mixin border-gradient($from, $to, $weight: 0) {
-  $mix-main: mix($from, $to);
-  $mix-sub-from: mix($mix-main, $from);
-  $mix-sub-to: mix($mix-main, $to);
+  $mix-main: color.mix($from, $to);
+  $mix-sub-from: color.mix($mix-main, $from);
+  $mix-sub-to: color.mix($mix-main, $to);
 
   box-shadow:
     0 1px 0 $weight rgba($mix-sub-to, 0.25),

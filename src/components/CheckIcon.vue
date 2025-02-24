@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType, computed } from 'vue'
 import { Check, Close, Warning } from '@element-plus/icons-vue'
 import { CheckStatus } from '@/types/enum'
 

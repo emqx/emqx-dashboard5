@@ -6,16 +6,7 @@ import {
   deleteConnector as requestDelConnector,
   reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
-import useTestConnector from '@/hooks/Rule/connector/useTestConnector'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeItem, Connector } from '@/types/rule'
-import { ElMessage } from 'element-plus'
-import { isFunction } from 'lodash'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import { useConnectorDataHandler } from '../useDataHandler'
 
 type NowConnector = Connector | BridgeItem
 

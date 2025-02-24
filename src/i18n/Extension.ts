@@ -79,14 +79,6 @@ export default {
     zh: '启用延迟发布',
     en: 'Enable Delayed Publish',
   },
-  enableRetained: {
-    zh: '启用保留消息',
-    en: 'Enable Retained Messages',
-  },
-  enableDesc: {
-    zh: '打开或关闭保留消息功能，停用后不会清除已保留消息',
-    en: 'Enable retainer feature, disabling will not clear the saved retained messages',
-  },
   enableDelayedDesc: {
     zh: '启用延迟发布功能，停用将终止延迟列表',
     en: 'Enable the delayed publish and disable it to delete the delayed list',
@@ -246,10 +238,6 @@ export default {
   messages: {
     zh: '已保留消息',
     en: 'Retained Messages',
-  },
-  retainerDisabled: {
-    zh: '保留消息功能已禁用，点击跳转到设置页面中开启。',
-    en: 'Retained message is disabled, click to enable on settings page.',
   },
   msgExpiryIntervalDesc: {
     en: 'Message retention time. 0 means message will never be expired',

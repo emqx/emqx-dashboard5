@@ -38,12 +38,7 @@
 </template>
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
-import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
 import { GatewayName } from '@/types/enum'
-import { ElMessage } from 'element-plus'
-import { onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import CoapBasic from './coapBasic.vue'
 import ExprotoBasic from './exprotoBasic.vue'
 import Gbt32960Basic from './gbt32960Basic.vue'

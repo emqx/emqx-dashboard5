@@ -1,5 +1,3 @@
-import useI18nTl from '../useI18nTl'
-
 export default (): {
   clientFields: { connection: string[]; session: string[] }
   snake2pascal: (s: string) => string

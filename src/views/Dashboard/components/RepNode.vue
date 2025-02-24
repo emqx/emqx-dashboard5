@@ -26,9 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRepCodeNodeSize } from '@/hooks/Overview/useNodesGraph'
 import { NodeStatus } from '@/types/enum'
-import { PropType, computed, defineEmits, defineProps } from 'vue'
 
 const { nonactivatedRadius, activatedInnerRadius, activatedOuterRadius } = useRepCodeNodeSize()
 

@@ -3,15 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import useDashboardVersion from '@/hooks/useDashboardVersion'
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import useGetInfoFromQuery, { USER_INFO_KEY } from '@/hooks/useGetInfoFromQuery'
-import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { waitAMoment } from './common/tools'
-import { omit } from 'lodash'
 
 const store = useStore()
 const lang = computed(() => {
@@ -82,8 +74,8 @@ const handleQuery = async () => {
     const backend = info.backend
       ? info.backend
       : location.search
-      ? DashboardSamlBackend.saml
-      : undefined
+        ? DashboardSamlBackend.saml
+        : undefined
     updateBaseInfo(info.username, info, backend)
     // if in login page, redirect to overview page
     if (/login/i.test(location.hash.split('?')[0])) {

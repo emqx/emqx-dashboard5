@@ -1,5 +1,3 @@
-import { useI18n, ComposerTranslation } from 'vue-i18n'
-
 export default function useI18nTl(collection: string): {
   t: ComposerTranslation
   tl: (

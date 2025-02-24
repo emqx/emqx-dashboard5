@@ -85,15 +85,7 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { titleCase } from '@/common/tools'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useRuleInputs } from '@/hooks/Rule/rule/useRule'
-import useActionAndSourceStatus from '@/hooks/Rule/useActionAndSourceStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ConnectionStatus } from '@/types/enum'
-import { escapeRegExp } from 'lodash'
-import type { Ref } from 'vue'
-import { defineEmits, defineProps, ref } from 'vue'
 
 interface ActionAndSourceFilterParams {
   type?: string
@@ -165,7 +157,7 @@ const handleReset = () => {
 </script>
 
 <style lang="scss">
-@import '~@/style/management.scss';
+@use '@/style/management.scss';
 .action-filter-form {
   margin-top: -12px;
   // when show more query

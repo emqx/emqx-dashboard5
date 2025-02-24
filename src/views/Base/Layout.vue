@@ -31,6 +31,7 @@
           <el-scrollbar>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
+              :ellipsis="false"
               :default-active="defaultSubMenu"
               :key="defaultSubMenu"
               mode="horizontal"
@@ -71,16 +72,11 @@
 
 <script lang="ts">
 import { loadLicenseInfo } from '@/api/common'
-import EMQXVersion from '@/components/EMQXVersion.vue'
 import { routes } from '@/router'
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -91,7 +87,6 @@ export default defineComponent({
     NavHeader,
     LeftBar,
     LicenseTipDialog,
-    EMQXVersion,
     QuickPanel,
   },
   props: {

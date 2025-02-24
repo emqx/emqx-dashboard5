@@ -1,7 +1,3 @@
-import _ from 'lodash'
-import useProcessAuthData from './useProcessAuthData'
-import useSSL from '@/hooks/useSSL'
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthzCreate() {
   const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()

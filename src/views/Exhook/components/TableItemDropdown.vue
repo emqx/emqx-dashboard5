@@ -45,8 +45,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TableItemDropdown',
 })
@@ -55,8 +53,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
 import { ArrowDown, ArrowUp, Bottom, CaretBottom, Delete, Top } from '@element-plus/icons-vue'
-import type { PropType, Ref } from 'vue'
-import { defineEmits, defineProps, ref } from 'vue'
 
 defineProps({
   rowData: {

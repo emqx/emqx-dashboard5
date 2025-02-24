@@ -22,10 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-import { defineProps, PropType } from 'vue'
 import { Right, MoreFilled } from '@element-plus/icons-vue'
-import useDocLink from '@/hooks/useDocLink'
 
 interface Doc {
   link: string

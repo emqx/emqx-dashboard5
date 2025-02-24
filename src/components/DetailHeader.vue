@@ -10,8 +10,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineProps, PropType } from 'vue'
-import { RouteLocationRaw, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'DetailHeader',
 })
@@ -20,7 +18,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { ArrowLeft } from '@element-plus/icons-vue'
 
-interface item {
+interface Item {
   name?: string
   path?: string
   route?: RouteLocationRaw
@@ -33,7 +31,7 @@ const router = useRouter()
 const props = defineProps({
   item: {
     required: true,
-    type: Object as PropType<item>,
+    type: Object as PropType<Item>,
   },
 })
 

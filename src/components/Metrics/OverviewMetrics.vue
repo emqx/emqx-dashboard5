@@ -171,9 +171,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatNumber } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import {
   TypeMapData,
   TypeMetricDataItem,
@@ -181,12 +178,8 @@ import {
   usePieChart,
   useRateChart,
 } from '@/hooks/useMetrics'
-import useSyncPolling from '@/hooks/useSyncPolling'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
 import { Close } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { get } from 'lodash'
-import { computed, defineEmits, defineProps, inject, ref } from 'vue'
 import TypeMetrics from './TypeMetrics.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>

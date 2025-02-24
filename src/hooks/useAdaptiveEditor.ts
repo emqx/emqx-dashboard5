@@ -1,6 +1,3 @@
-import type { Ref } from 'vue'
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-
 interface UseAdaptiveEditorOptions {
   initialContent: Ref<string>
   maxHeightRatio?: number

@@ -18,17 +18,9 @@
             <el-col :span="21" class="custom-col">
               <el-form-item>
                 <template #label>
-                  <FormItemLabel :label="tl('enableRetained')" :desc="tl('enableDesc')" />
-                </template>
-                <el-switch v-model="retainerConfig.enable" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item>
-                <template #label>
                   <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
                 </template>
-                <el-select v-model="retainerConfig.backend.type" :disabled="!configEnable">
+                <el-select v-model="retainerConfig.backend.type">
                   <el-option value="built_in_database" :label="t('Auth.builtInDatabase')" />
                 </el-select>
               </el-form-item>
@@ -38,7 +30,7 @@
                 <template #label>
                   <FormItemLabel :label="tl('storageMethod')" :desc="tl('storageTypeDesc')" />
                 </template>
-                <el-select :disabled="!configEnable" v-model="retainerConfig.backend.storage_type">
+                <el-select v-model="retainerConfig.backend.storage_type">
                   <el-option value="ram" />
                   <el-option value="disc" />
                 </el-select>
@@ -56,7 +48,6 @@
                   v-model="retainerConfig.backend.max_retained_messages"
                   :items="[{ type: 'number' }, { type: 'enum', symbols: [0] }]"
                   :disabled-label="tl('unlimited')"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -65,11 +56,7 @@
                 <template #label>
                   <FormItemLabel :label="tl('maxPayloadSize')" :desc="tl('maxPayloadSizeDesc')" />
                 </template>
-                <InputWithUnit
-                  v-model="retainerConfig.max_payload_size"
-                  :units="['KB', 'MB']"
-                  :disabled="!configEnable"
-                />
+                <InputWithUnit v-model="retainerConfig.max_payload_size" :units="['KB', 'MB']" />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -85,7 +72,6 @@
                   v-model="retainerConfig.msg_expiry_interval"
                   :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
                   :disabled-label="tl('noExp')"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -102,7 +88,6 @@
                   v-model="retainerConfig.msg_expiry_interval_override"
                   :items="[{ type: 'duration' }, { type: 'enum', symbols: [DISABLED_VALUE] }]"
                   :disabled-label="tl('disable')"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -135,7 +120,6 @@
                   v-model="retainerConfig.msg_clear_interval"
                   :items="[{ type: 'duration' }, { type: 'enum', symbols: [NO_INTERVAL_VALUE] }]"
                   :disabled-label="tl('disable')"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -147,7 +131,6 @@
                 <InputWithUnit
                   v-model="retainerConfig.max_publish_rate"
                   :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -159,7 +142,6 @@
                 <InputWithUnit
                   v-model="retainerConfig.delivery_rate"
                   :units="[{ label: `/${t('Base.second')}`, value: '/s' }]"
-                  :disabled="!configEnable"
                 />
               </el-form-item>
             </el-col>
@@ -184,17 +166,7 @@
 
 <script setup lang="ts">
 import { getRetainer, updateRetainer } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import Oneof from '@/components/Oneof.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Retainer } from '@/types/extension'
-import { ElMessage } from 'element-plus'
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 const { hasPermission } = usePerms()
@@ -207,7 +179,6 @@ const NO_INTERVAL_VALUE = '0s'
 const DISABLED_VALUE = 'disabled'
 
 const retainerConfig = ref<Retainer>({
-  enable: false,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,
@@ -263,8 +234,6 @@ const retainerRules = ref<Record<string, any>>({
     numberRule,
   ],
 })
-
-const configEnable = computed(() => retainerConfig.value?.enable === true)
 
 const { setRawData, checkDataIsChanged } = useCheckDataChanged(retainerConfig)
 useDataNotSaveConfirm(checkDataIsChanged)

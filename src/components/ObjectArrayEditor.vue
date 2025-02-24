@@ -94,15 +94,9 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { Properties, Property } from '@/types/schemaForm'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { cloneDeep, get, isFunction } from 'lodash'
-import { PropType, computed, defineEmits, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'

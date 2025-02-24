@@ -16,9 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
-import { defineProps } from 'vue'
-
 defineProps<{
   to: string
   icon?: Component

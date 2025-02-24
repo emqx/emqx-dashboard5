@@ -1,8 +1,5 @@
 import { addTrace, deleteTrace, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
-import { getKeywordsFromSQL } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSyncPolling from '@/hooks/useSyncPolling'
 import { TraceRecord } from '@/types/diagnose'
 import {
   EventForRule,
@@ -13,16 +10,7 @@ import {
 } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-import { ElMessageBox } from 'element-plus'
-import { cloneDeep, debounce, isArray, isEqual, mergeWith, startCase } from 'lodash'
 import dayjs from 'dayjs'
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { computed, onUnmounted, ref, watch } from 'vue'
-import { useStore } from 'vuex'
-import type { FormattedLog, LogItem } from './useFormatDebugLog'
-import useFormatDebugLog from './useFormatDebugLog'
-import { useRuleUtils } from './useRule'
-import useRuleEvents from './useRuleEvents'
 
 const BYTE_PER_PAGE = Math.pow(2, 30)
 

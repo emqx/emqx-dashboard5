@@ -1,11 +1,3 @@
-import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox } from 'element-plus'
-import { isFunction } from 'lodash'
-import { onMounted, onUnmounted, Ref } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
-import { useStore } from 'vuex'
-import { isEqual, cloneDeep } from 'lodash'
-
 export const useCheckDataChanged = (
   nowData: Ref<any>,
 ): {

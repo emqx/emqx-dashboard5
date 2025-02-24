@@ -90,14 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import Oneof from '@/components/Oneof.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineProps } from 'vue'
-
 const props = defineProps({
   modelValue: {
     type: Object,

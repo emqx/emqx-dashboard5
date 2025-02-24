@@ -78,8 +78,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'Help',
 })
@@ -91,9 +89,6 @@ import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
 import helpBlogIcon from '@/assets/img/help-blog.png'
 import helpDocIcon from '@/assets/img/help-doc.png'
 import helpForumIcon from '@/assets/img/help-forum.png'
-import { IS_ENTERPRISE } from '@/common/constants'
-import useDocLink from '@/hooks/useDocLink'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Right } from '@element-plus/icons-vue'
 import DocListCard from './components/DocListCard.vue'
 

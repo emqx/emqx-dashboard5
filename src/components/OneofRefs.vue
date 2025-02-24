@@ -54,12 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { getLabelFromValueInOptionList } from '@/common/tools'
-import { useSymbolLabel } from '@/hooks/Schema/useItemLabelAndDesc'
 import { Properties, Property } from '@/types/schemaForm'
-import { cloneDeep, isEqual, isFunction, snakeCase } from 'lodash'
-import type { PropType } from 'vue'
-import { computed, ref, watch } from 'vue'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'
 import SchemaFormItem from './SchemaFormItem'

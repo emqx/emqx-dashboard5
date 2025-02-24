@@ -71,14 +71,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import { Upload } from '@element-plus/icons-vue'
-import { downloadByURL } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ImportResult } from '@/types/auth'
-import { ElMessage, ElUpload } from 'element-plus'
+import { ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'
-import { useRoute } from 'vue-router'
 
 type PasswordType = 'plain' | 'hash'
 

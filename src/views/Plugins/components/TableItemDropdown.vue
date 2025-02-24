@@ -51,8 +51,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TableDropdown',
 })
@@ -60,7 +58,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
-import { defineProps, defineEmits, PropType, ref, Ref } from 'vue'
 import { CaretBottom, ArrowUp, ArrowDown, Top, Bottom, Delete } from '@element-plus/icons-vue'
 
 const props = defineProps({

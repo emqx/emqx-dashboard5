@@ -1,8 +1,5 @@
-import { getBridgeKey } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType, LogResult, RuleOutput } from '@/types/enum'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { groupBy, get, omit, startCase } from 'lodash'
 
 /**
  * Some Special Log Msg
@@ -68,7 +65,7 @@ export const LogTargetType = {
   Republish: RuleOutput.Republish,
   Action: RuleOutput.DataBridge,
 }
-export type LogTargetTypeValue = typeof LogTargetType[keyof typeof LogTargetType]
+export type LogTargetTypeValue = (typeof LogTargetType)[keyof typeof LogTargetType]
 
 export interface TargetLogInfo {
   [key: string]: {

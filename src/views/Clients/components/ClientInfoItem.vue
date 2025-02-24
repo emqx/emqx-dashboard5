@@ -34,15 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import CheckIcon from '@/components/CheckIcon.vue'
-import useClientDetail from '@/hooks/Clients/useClientDetail'
-import useCopy from '@/hooks/useCopy'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import dayjs from 'dayjs'
-import { computed, defineProps } from 'vue'
-import useClientFields from '@/hooks/Clients/useClientFields'
 
 CheckStatus
 

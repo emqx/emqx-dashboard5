@@ -100,18 +100,9 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
-import { useMockData, useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import useCopy from '@/hooks/useCopy'
-import useI18nTl from '@/hooks/useI18nTl'
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshLeft } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { startCase } from 'lodash'
-import { PropType, defineExpose, defineProps, onUnmounted, ref, watch } from 'vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'

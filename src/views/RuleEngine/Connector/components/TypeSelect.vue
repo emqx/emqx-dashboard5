@@ -25,10 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { useBridgeTypeIcon, useConnectorTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { computed } from 'vue'
 
 const props = defineProps<{
   modelValue: BridgeType
@@ -54,7 +51,7 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .type-filter-bar {
   margin-bottom: 16px;
 }

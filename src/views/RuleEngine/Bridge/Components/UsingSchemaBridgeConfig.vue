@@ -31,18 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
-import SchemaForm from '@/components/SchemaForm'
-import { useActionSchema, useSourceSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
-import useSchemaBridgePropsLayout from '@/hooks/Rule/bridge/useSchemaBridgePropsLayout'
-import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
-import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { BatchSettingDatabaseType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
-import { cloneDeep } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
 const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()

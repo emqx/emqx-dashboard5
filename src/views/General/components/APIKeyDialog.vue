@@ -109,18 +109,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType, Ref } from 'vue'
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
-import { ElDialog } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { ElInput } from 'element-plus'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
-import useCopy from '@/hooks/useCopy'
-import useDatePickerShortcuts from '@/hooks/useDatePickerShortcuts'
-import useFormRules from '@/hooks/useFormRules'
-import useRole from '@/hooks/SSO/useRole'
 
 export type OperationType = 'create' | 'view' | 'edit'
 

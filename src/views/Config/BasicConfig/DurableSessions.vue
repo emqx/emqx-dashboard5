@@ -131,17 +131,7 @@
 
 <script setup lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
-import { isEqual, cloneDeep } from 'lodash'
-import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
 
 const { t, tl } = useI18nTl('General')
 

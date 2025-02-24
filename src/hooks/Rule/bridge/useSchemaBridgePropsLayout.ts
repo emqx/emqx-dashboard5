@@ -1,7 +1,4 @@
 import { BridgeType } from '@/types/enum'
-import { isFunction } from 'lodash'
-import type { ComputedRef, WritableComputedRef } from 'vue'
-import { computed, ref } from 'vue'
 import useCheckIoTDBConnectorDriver from '../connector/useCheckIoTDBConnectorDriver'
 import useSyncConfiguration from './useSyncConfiguration'
 

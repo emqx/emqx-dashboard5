@@ -136,13 +136,6 @@
 </template>
 
 <script lang="ts" setup>
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useLdapConfigFrom from '@/hooks/Auth/useLdapConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { LDAPAuthMethod } from '@/types/enum'
 import type { PropType } from 'vue'
 import { ref, watch } from 'vue'
@@ -182,7 +175,7 @@ watch(ldapConfig, (value) => {
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 .ldap-config.config {
   .viewer-container {
     height: 200px;

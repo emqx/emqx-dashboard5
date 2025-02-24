@@ -19,22 +19,11 @@
 
 <script lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { createOrderObj, customValidate } from '@/common/tools'
 import { isJSONString } from '@emqx/shared-ui-utils'
-import SchemaForm from '@/components/SchemaForm'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
-import { defineComponent, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Session',
-  components: {
-    SchemaForm,
-  },
   setup() {
     const configs = ref<Record<string, any>>({})
     const saveLoading = ref(false)
@@ -79,7 +68,7 @@ export default defineComponent({
             } else {
               const obj = JSON.parse(value)
               let invalidPriority = false
-              for (let key in obj) {
+              for (const key in obj) {
                 const priority = obj[key]
                 if (typeof priority !== 'number' || priority < 1 || priority > 255) {
                   invalidPriority = true

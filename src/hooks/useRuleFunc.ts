@@ -1,9 +1,3 @@
-import RuleFunc from '@/hooks/Rule/RuleFunc.json'
-import type { ComputedRef, WritableComputedRef } from 'vue'
-import { computed } from 'vue'
-import { FunctionItem } from './Flow/useFlowNode'
-import useI18nTl from './useI18nTl'
-
 export const enum ArgumentType {
   Number = 'number',
   Any = 'any',

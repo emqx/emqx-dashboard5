@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import { WarningFilled } from '@element-plus/icons-vue'
-import { defineProps } from 'vue'
 
 defineProps({
   content: {

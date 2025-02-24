@@ -88,17 +88,9 @@
 </template>
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
-import DetailHeader from '@/components/DetailHeader.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-import useHandleGatewayData from '@/hooks/Gateway/useHandleGatewayData'
-import useI18nTl from '@/hooks/useI18nTl'
-import useTransName from '@/hooks/useTransName'
 import { GatewayName } from '@/types/enum'
 import { GatewayListener } from '@/types/typeAlias'
 import { ElMessage as M } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import CoapBasic from './components/coapBasic.vue'
 import ExprotoBasic from './components/exprotoBasic.vue'
 import Gbt32960Basic from './components/gbt32960Basic.vue'

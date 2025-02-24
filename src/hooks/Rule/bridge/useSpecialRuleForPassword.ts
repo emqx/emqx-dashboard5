@@ -1,5 +1,3 @@
-import { ENCRYPTED_PWD_REG } from '@/common/constants'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FormItemRule } from '@/types/common'
 
 export default (

@@ -152,19 +152,7 @@
 
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
-import { PASSWORD_REG } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools.ts'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useRole from '@/hooks/SSO/useRole'
-import useSSO, { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl.ts'
-import { useMFAMethods } from '@/hooks/useMFA'
 import { UserRole } from '@/types/enum.ts'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
-import { computed, onBeforeMount, ref } from 'vue'
-import { useStore } from 'vuex'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
 const SOURCE_LOCAL = 'local'

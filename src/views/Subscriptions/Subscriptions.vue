@@ -102,8 +102,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-
 export default defineComponent({
   name: 'Subscriptions',
 })
@@ -112,12 +110,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listSubscriptions } from '@/api/common'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-import useClusterNodes from '@/hooks/useClusterNodes'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 
@@ -181,7 +173,7 @@ loadTableData()
 </script>
 
 <style lang="scss">
-@import '@/style/management.scss';
+@use '@/style/management.scss';
 .subscriptions {
   .search-wrapper {
     margin-top: -12px;

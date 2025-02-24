@@ -1,6 +1,4 @@
 import { ElMessage as M } from 'element-plus'
-import _, { cloneDeep } from 'lodash'
-import { getUsefulPasswordHashAlgorithmData } from './usePasswordHashAlgorithmData'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 import { CInfoConfig } from '@/types/auth'

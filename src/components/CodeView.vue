@@ -17,9 +17,7 @@ import bash from '@/common/highlight/bash'
 import yaml from 'highlight.js/lib/languages/yaml'
 import javascript from 'highlight.js/lib/languages/javascript'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
-import useI18nTl from '@/hooks/useI18nTl'
 import { CopyDocument } from '@element-plus/icons-vue'
-import useCopy from '@/hooks/useCopy'
 
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('json', json)

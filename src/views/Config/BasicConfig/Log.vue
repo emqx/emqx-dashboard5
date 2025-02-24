@@ -21,25 +21,12 @@
 
 <script lang="ts">
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
-import { customValidate } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual } from 'lodash'
-import { ComputedRef, computed, defineComponent, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'Log',
-  components: {
-    SchemaForm,
-  },
   setup() {
     const configs = ref({})
     const saveLoading = ref(false)

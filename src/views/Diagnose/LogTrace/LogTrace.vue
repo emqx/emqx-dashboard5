@@ -203,18 +203,10 @@
 
 <script lang="ts">
 import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
-import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
-import CheckIcon from '@/components/CheckIcon.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import useFormRules from '@/hooks/useFormRules'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { omit, startCase } from 'lodash'
 import dayjs from 'dayjs'
-import type { Ref } from 'vue'
-import { defineComponent, nextTick, onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 
@@ -235,10 +227,6 @@ type TraceItemInTable = TraceItem & {
 }
 
 export default defineComponent({
-  components: {
-    CheckIcon,
-    FormItemLabel,
-  },
   setup() {
     const { t } = useI18n()
     const traceTbLoading = ref(false)

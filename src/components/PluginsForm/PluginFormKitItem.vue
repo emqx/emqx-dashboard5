@@ -76,17 +76,8 @@ export default {
 
 <script lang="ts" setup>
 import { ConfigField } from '@/types/plugin'
-import type { PropType } from 'vue'
-import { ref, watch } from 'vue'
 import PluginFormKitItem from './PluginFormKitItem.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import KeyValueEditor from '@/components/KeyAndValueEditor.vue'
-import Monaco from '@/components/Monaco.vue'
-import ArrayEditorInput from '@/components/ArrayEditorInput.vue'
-import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
-import { createRandomString } from '@/common/tools'
-import { isUndefined } from 'lodash'
 
 const props = defineProps({
   modelValue: [String, Number, Array, Object, Boolean] as PropType<any>,

@@ -54,12 +54,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
 import { APIKey } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
-import { ElMessageBox, ElMessage } from 'element-plus'
 import dayjs from 'dayjs'
 import useRole from '@/hooks/SSO/useRole'
 import { getLabelFromValueInOptionList } from '@/common/tools'
@@ -142,7 +139,7 @@ getList()
 </script>
 
 <style lang="scss">
-@import '@/views/Auth/style/authTable.scss';
+@use '@/views/Auth/style/authTable.scss';
 .API-key {
   .key-name {
     cursor: pointer;

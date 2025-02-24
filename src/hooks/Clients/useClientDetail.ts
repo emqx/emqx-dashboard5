@@ -1,9 +1,5 @@
 import { Client } from '@/types/client'
 import dayjs from 'dayjs'
-import type { ComputedRef, Ref } from 'vue'
-import useDurationStr from '@/hooks/useDurationStr'
-import useI18nTl from '../useI18nTl'
-import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
 
 type GetSessionInfoItem = (msg: string) => string | number | boolean
 

@@ -14,8 +14,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleCreate',
 })
@@ -23,17 +21,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { createRules, getRuleInfo, updateRules } from '@/api/ruleengine'
-import { countDuplicationName } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { RuleItem } from '@/types/rule'
-import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, pick } from 'lodash'
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import RuleForm from '../components/RuleForm.vue'
 
 const { t } = useI18n()

@@ -40,8 +40,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'AuthItemOverview',
 })
@@ -49,16 +47,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import useCommonConnectionStatus from '@/hooks/useCommonConnectionStatus'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useAuthMetrics } from '@/hooks/useMetrics'
 import { Metrics } from '@/types/auth'
 import { MetricsData } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
-import type { PropType, Ref } from 'vue'
-import { computed, defineProps, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
 
 const props = defineProps({
   metrics: {
@@ -153,5 +144,5 @@ const getMetricsTypes = () =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>

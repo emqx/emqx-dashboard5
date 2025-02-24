@@ -32,7 +32,7 @@
     <web-socket-item
       v-for="item in tabs"
       v-show="item.name === activeTab"
-      :ref="(el:typeof WebSocketItem) => storeItemRef(item.name, el)"
+      :ref="(el: typeof WebSocketItem) => storeItemRef(item.name, el)"
       :key="item.name"
       :name="item.name"
       v-model:message-count="item.messageCount"
@@ -42,11 +42,8 @@
 
 <script lang="ts" setup>
 import WebSocketItem from './components/WebSocketItem.vue'
-import { ElMessage, TabPanelName } from 'element-plus'
+import { TabPanelName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import type { Ref } from 'vue'
-import { nextTick, ref, watch } from 'vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 interface TabItem {
   name: string

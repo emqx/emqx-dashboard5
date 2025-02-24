@@ -1,5 +1,4 @@
 import { ResourceOpt } from '@/types/rule'
-import { omit } from 'lodash'
 
 export default (): {
   createDefaultResourceOptsForm: (config?: {

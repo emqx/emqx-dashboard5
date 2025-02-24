@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import MarkdownContent from './MarkdownContent.vue'
 import InfoTooltip from './InfoTooltip.vue'
 

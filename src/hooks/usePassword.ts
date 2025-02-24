@@ -1,6 +1,3 @@
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-
 export default function usePassword(): {
   HashOptions: Ref<string[]>
 } {

@@ -104,20 +104,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'CreateTLSEnableConfig',
 })
 </script>
 
 <script setup lang="ts">
-import { CER_FILE_ACCEPTS, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { SSL } from '@/types/common'
-import type { PropType } from 'vue'
-import { computed, ref } from 'vue'
 import CustomFormItem from '../CustomFormItem.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'

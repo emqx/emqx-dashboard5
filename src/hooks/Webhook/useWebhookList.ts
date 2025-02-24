@@ -1,12 +1,8 @@
 import { getActions as queryActions } from '@/api/action'
 import { getConnectors as queryConnectors } from '@/api/connector'
 import { getRules as queryRules } from '@/api/ruleengine'
-import { getAllListData } from '@/common/tools'
 import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import useWebhookUtils from './useWebhookUtils'
 
 export default (): {
   webhookList: Ref<WebhookItem[]>

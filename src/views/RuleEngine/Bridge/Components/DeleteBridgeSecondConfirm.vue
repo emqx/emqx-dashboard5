@@ -53,13 +53,8 @@
 </template>
 
 <script lang="ts" setup>
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { WarningFilled } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -108,5 +103,5 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>

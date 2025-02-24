@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineProps } from 'vue'
 import ConnectorCreate from '../ConnectorCreate.vue'
 
 const props = defineProps<{

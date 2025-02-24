@@ -8,7 +8,6 @@ import {
   ShowMoreButton,
   LinkButton,
 } from './Buttons'
-import type { App } from 'vue'
 
 export default {
   install(app: App): void {
@@ -21,4 +20,15 @@ export default {
     app.component('ShowMoreButton', ShowMoreButton)
     app.component('LinkButton', LinkButton)
   },
+}
+
+export {
+  CustomInputPassword,
+  CreateButton,
+  TableButton,
+  RefreshButton,
+  SearchButton,
+  ResetButton,
+  ShowMoreButton,
+  LinkButton,
 }

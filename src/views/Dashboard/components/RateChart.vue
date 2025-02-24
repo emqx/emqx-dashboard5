@@ -3,17 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RateChart',
 })
 </script>
 
 <script lang="ts" setup>
-import { defineProps, ref, watch, onMounted, reactive } from 'vue'
-import { useStore } from 'vuex'
-import useI18nTl from '@/hooks/useI18nTl'
 import * as echarts from 'echarts/lib/echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'
 import 'echarts/lib/chart/line'
@@ -23,7 +18,6 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/markLine'
 import 'echarts/lib/component/markPoint'
-import useEchartResize from '@/hooks/useEchartResize'
 
 const store = useStore()
 const { tl } = useI18nTl('Base')
@@ -155,7 +149,7 @@ const initChart = async () => {
     removeListener()
     chartInstance.dispose()
   }
-  let Dom = chartEl.value
+  const Dom = chartEl.value
   if (!Dom) return
   chartInstance = echarts.init(Dom)
   addListener(chartInstance as ECharts)

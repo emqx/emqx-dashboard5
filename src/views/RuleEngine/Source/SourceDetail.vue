@@ -122,22 +122,9 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { customValidate } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import useHandleSourceItem, { useDeleteSource } from '@/hooks/Rule/action/useHandleSourceItem'
-import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { cloneDeep, isEqual, omit } from 'lodash'
-import type { Ref } from 'vue'
-import { computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
@@ -359,7 +346,7 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>

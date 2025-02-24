@@ -1,4 +1,3 @@
-import { DirectiveBinding } from 'vue'
 import xss from 'xss'
 
 // TODO: try to rewrite the v-html

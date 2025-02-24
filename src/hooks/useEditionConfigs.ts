@@ -2,9 +2,6 @@ import enterpriseLogo from '@/assets/img/emqx-logo-enterprise.svg'
 import openSourceLogo from '@/assets/img/emqx-logo-open-source.png'
 import enterpriseBanner from '@/assets/img/login-banner-enterprise.png'
 import openSourceBanner from '@/assets/img/login-banner-open-source.png'
-import { IS_ENTERPRISE } from '@/common/constants'
-import { computed, ComputedRef } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 // Configs for different editions
 const editionConfigs = {

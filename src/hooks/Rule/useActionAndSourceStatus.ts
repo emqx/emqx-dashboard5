@@ -1,5 +1,4 @@
 import { ConnectionStatus } from '@/types/enum'
-import useI18nTl from '../useI18nTl'
 
 const useActionAndSourceStatus = (): {
   statusOptList: Array<{ value: ConnectionStatus; label: string }>

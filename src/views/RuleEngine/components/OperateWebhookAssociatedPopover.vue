@@ -28,10 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { DetailTab } from '@/types/enum'
-import { lowerCase } from 'lodash'
-import { defineProps, withDefaults, computed } from 'vue'
 
 const props = withDefaults(
   defineProps<{

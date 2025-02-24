@@ -56,14 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, defineProps, defineEmits, computed, PropType } from 'vue'
 import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
-import _ from 'lodash'
-import { useRoute } from 'vue-router'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { GatewayName } from '@/types/enum'
 import { Listener } from '@/types/listener'
 

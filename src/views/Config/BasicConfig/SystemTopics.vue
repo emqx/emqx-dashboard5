@@ -105,8 +105,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'sysTopics',
 })
@@ -114,16 +112,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getSystemTopicsConfig, updateSystemTopicConfig } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
 import { SysTopics } from '@/types/extension'
-import { ElMessage } from 'element-plus'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import { useStore } from 'vuex'
 
 const { t, tl } = useI18nTl('Extension')
 const store = useStore()

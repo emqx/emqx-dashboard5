@@ -9,16 +9,9 @@ import Monaco from '@/components/Monaco.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import TLSEnableConfig from '@/components/TLSConfig/TLSEnableConfig.vue'
 import TextareaWithUploader from '@/components/TextareaWithUploader.vue'
-import useItemLabelAndDesc from '@/hooks/Schema/useItemLabelAndDesc'
-import useSchemaForm from '@/hooks/Schema/useSchemaForm'
-import useSchemaRecord from '@/hooks/Schema/useSchemaRecord'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Properties, Property } from '@/types/schemaForm'
 import ConnectorSelect from '@/views/RuleEngine/Bridge/Components/ConnectorSelect.vue'
 import { Setting } from '@element-plus/icons-vue'
-import _ from 'lodash'
-import { PropType, computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { JSX } from 'vue/jsx-runtime'
 import AdvancedSettingContainer from './AdvancedSettingContainer.vue'
 import ArrayEditor from './ArrayEditor.vue'
@@ -239,6 +232,13 @@ const SchemaForm = defineComponent({
     }
 
     const clearValidate = () => formCom.value?.clearValidate?.()
+
+    const validateField = (propArr: Array<string>) => {
+      if (formCom.value?.validateField) {
+        return formCom.value.validateField(propArr)
+      }
+      return Promise.resolve()
+    }
 
     const replaceVarPath = (path: string) => {
       let _path = path
@@ -1147,6 +1147,9 @@ const SchemaForm = defineComponent({
         (isSchemaLoading.value || props.recordLoading) &&
         typesDoNotShowSkeleton.includes(props.type),
     )
+    const schemaFormClass = computed(
+      () => `schema-form ${showSkeleton.value || showLoading.value ? 'is-loading' : ''}`,
+    )
     ;(() => {
       if (props.form && _.isObject(props.form) && !isEmptyObj(props.form)) {
         configForm.value = _.cloneDeep(props.form)
@@ -1154,14 +1157,11 @@ const SchemaForm = defineComponent({
       init()
     })()
 
-    ctx.expose({ configForm, validate, clearValidate, getInitRecord })
+    ctx.expose({ configForm, validate, clearValidate, validateField, getInitRecord })
 
     return () => {
       return (
-        <div
-          class={`schema-form ${showSkeleton.value || showLoading.value ? 'is-loading' : ''}`}
-          v-loading={showLoading.value}
-        >
+        <div class={schemaFormClass.value} v-loading={showLoading.value}>
           {showSkeleton.value ? <el-skeleton rows={12} animated={true} /> : null}
           {renderSchemaForm(components.value)}
         </div>

@@ -1,14 +1,7 @@
-import type { Ref, Component } from 'vue'
-import { ref, nextTick } from 'vue'
 import { listAuthn, queryAuthnItemMetrics } from '@/api/auth'
 import { AuthnItem, Metrics } from '@/types/auth'
-import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
-import useHandleAuthnItem from '@/hooks/Auth/useHandleAuthnItem'
-import useMove from '@/hooks/useMove'
-import useAuth from '@/hooks/Auth/useAuth'
 import jwtIcon from '@/assets/img/jwt.png'
-import { getImg } from '@/common/tools'
 
 export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics

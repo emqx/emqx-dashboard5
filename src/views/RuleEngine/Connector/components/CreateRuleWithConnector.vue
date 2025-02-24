@@ -36,16 +36,9 @@
 </template>
 
 <script lang="ts" setup>
-import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
-import { useConnectorDirection } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
-import { isFunction } from 'lodash'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   modelValue: boolean

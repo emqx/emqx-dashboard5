@@ -77,16 +77,7 @@
 
 <script setup lang="ts">
 import { listAuthzSetting, clearCache as requestClearCache, updateAuthzSetting } from '@/api/auth'
-import { titleCase } from '@/common/tools'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
 import { AuthzSetting } from '@/types/auth'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Ref, WritableComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import ArrayEditor from '@/components/ArrayEditor.vue'
 
 const props = defineProps({
   modelValue: {

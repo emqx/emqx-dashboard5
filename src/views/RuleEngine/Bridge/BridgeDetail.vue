@@ -160,27 +160,10 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { customValidate } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import { useBridgeTypeIcon, useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useCheckBeforeSaveAsCopy from '@/hooks/Rule/bridge/useCheckBeforeSaveAsCopy'
-import useDeleteBridge from '@/hooks/Rule/bridge/useDeleteBridge'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import { Delete, Share } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import _ from 'lodash'
-import type { Ref } from 'vue'
-import { computed, defineExpose, defineProps, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
@@ -411,7 +394,7 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>

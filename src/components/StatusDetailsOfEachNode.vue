@@ -34,18 +34,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'StatusDetailsOfEachNode',
 })
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, computed, useSlots } from 'vue'
 import { TargetStatusWithDetail } from '@/types/common'
 import { NodeStatusClass, CheckStatus } from '@/types/enum'
-import CheckIcon from '@/components/CheckIcon.vue'
 
 const props = defineProps({
   statusData: {

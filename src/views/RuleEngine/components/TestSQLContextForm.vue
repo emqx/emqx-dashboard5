@@ -33,20 +33,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TestSQLContextForm',
 })
 </script>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, PropType, watch } from 'vue'
-import Monaco from '@/components/Monaco.vue'
-import Resizer from '@/components/Resizer.vue'
 import { isJSONString, stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { isEqual } from 'lodash'
-import { createRandomString } from '@/common/tools'
 
 enum PayloadType {
   JSON = 'json',

@@ -1,7 +1,4 @@
 import type { MessageBoxData } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { isFunction } from 'lodash'
-import useI18nTl from './useI18nTl'
 
 export default (): {
   operationWarning: (confirmText: string, opts?: Record<string, any>) => Promise<MessageBoxData>

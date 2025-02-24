@@ -66,16 +66,9 @@
 </template>
 
 <script setup lang="ts">
-import type { ComputedRef, Ref } from 'vue'
-import { computed, ref } from 'vue'
 import { PluginDetail } from '@/types/plugin'
-import { useI18n } from 'vue-i18n'
 import PluginInfo from './components/PluginInfo.vue'
-import { useRoute } from 'vue-router'
-import usePluginItem from '@/hooks/Plugins/usePluginItem'
 import { queryPluginDetail } from '@/api/plugins'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { PluginStatus } from '@/types/enum'
 import router from '@/router'
 import PluginItemStatus from './components/PluginItemStatus.vue'

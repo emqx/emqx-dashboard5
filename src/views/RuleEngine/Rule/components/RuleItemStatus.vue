@@ -3,18 +3,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleItemStatus',
 })
 </script>
 
 <script setup lang="ts">
-import { PropType, defineProps, computed } from 'vue'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { RuleItem } from '@/types/rule'
-import useRuleStatus from '@/hooks/Rule/rule/useRuleStatus'
 
 const props = defineProps({
   rule: { type: Object as PropType<RuleItem> },

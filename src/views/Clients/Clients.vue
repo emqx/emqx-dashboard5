@@ -151,8 +151,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-
 export default defineComponent({
   name: 'Clients',
 })
@@ -164,21 +162,10 @@ import {
   SEARCH_FORM_RES_PROPS as colProps,
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
 } from '@/common/constants'
-import CheckIcon from '@/components/CheckIcon.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import MiniPagination from '@/components/MiniPagination.vue'
-import useClientFields from '@/hooks/Clients/useClientFields'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useCursorPagination } from '@/hooks/usePagination'
-import usePaginationRemember from '@/hooks/usePaginationRemember'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
 import { Delete } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 
@@ -463,7 +450,7 @@ const cleanBatchClients = async () => {
 </script>
 
 <style lang="scss">
-@import '@/style/management.scss';
+@use '@/style/management.scss';
 .search-wrapper {
   $prepend-width: 128px;
   .el-input-group--prepend .el-input-group__prepend {

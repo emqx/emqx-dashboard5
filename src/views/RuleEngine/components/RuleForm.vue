@@ -103,44 +103,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'rule-form',
 })
 </script>
 
 <script lang="ts" setup>
-import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
-import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useProvidersForMonaco from '@/hooks/Rule/useProvidersForMonaco'
-import useDocLink from '@/hooks/useDocLink'
-import useFormRules from '@/hooks/useFormRules'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { BridgeDirection, BridgeType, TestRuleTarget } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'
-import { cloneDeep } from 'lodash'
-import type { Ref } from 'vue'
-import {
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  nextTick,
-  onMounted,
-  provide,
-  ref,
-  watch,
-} from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
@@ -448,7 +418,7 @@ defineExpose({ validate })
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss">

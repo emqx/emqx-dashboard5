@@ -9,13 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { customValidate } from '@/common/tools'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Source } from '@/types/rule'
-import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
-import { computed, defineExpose, defineProps, ref } from 'vue'
 import useSourceFormComponent from './useSourceFormComponent'
 
 const props = defineProps<{
@@ -66,7 +60,7 @@ defineExpose({ testConnection, submitNewSource, sourceRecord })
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>

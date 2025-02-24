@@ -33,13 +33,8 @@
 
 <script setup lang="ts">
 import { addGatewayAuth, deleteGatewayAuth, getGatewayAuth, updateGatewayAuth } from '@/api/gateway'
-import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
-import useI18nTl from '@/hooks/useI18nTl'
 import { AuthnMechanismType, GatewayName, DatabasesType } from '@/types/enum'
 import { ElMessage as M } from 'element-plus'
-import { cloneDeep, omit } from 'lodash'
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import AuthnCreate from '../../Auth/AuthnCreate.vue'
 import AuthnDetails from '../../Auth/AuthnDetails.vue'
 

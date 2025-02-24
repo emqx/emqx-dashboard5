@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const Com = ref()
 const content = ref('')
 const needTooltip = ref(false)

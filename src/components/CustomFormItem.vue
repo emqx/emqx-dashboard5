@@ -10,9 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { isFunction } from 'lodash'
-import { defineProps, onMounted, ref, useSlots } from 'vue'
-
 const props = defineProps({
   readonly: {
     type: Boolean,

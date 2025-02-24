@@ -118,11 +118,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watch, defineProps, defineEmits } from 'vue'
-import { useI18n } from 'vue-i18n'
-import _ from 'lodash'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-
 const props = defineProps({
   value: {
     type: Object,

@@ -19,16 +19,8 @@
 
 <script lang="ts" setup>
 import { getLimiters, updateLimiters } from '@/api/config'
-import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import { Limiter } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { ElMessage } from 'element-plus'
-import { checkNOmitFromObj, customValidate } from '@/common/tools'
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
-import useLimiter from '@/hooks/Config/useLimiter'
 
 const configs = ref<Limiter>({} as Limiter)
 const saveLoading = ref(false)

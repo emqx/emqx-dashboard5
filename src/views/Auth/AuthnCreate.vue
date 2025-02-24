@@ -196,9 +196,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, defineProps, PropType, provide } from 'vue'
-import GuideBar from '@/components/GuideBar.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'
@@ -206,18 +203,10 @@ import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
-import useGuide from '@/hooks/useGuide'
 import { createAuthn } from '@/api/auth'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
-import { useRouter } from 'vue-router'
 import { ElMessage as M } from 'element-plus'
-import { cloneDeep } from 'lodash'
-import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
 import type { DatabaseAndServer, BackendMap, MechanismType, BackendType } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
-import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
-import useAuth from '@/hooks/Auth/useAuth'
 
 interface PresetData {
   mechanism: AuthnMechanismType
@@ -462,7 +451,7 @@ const isAddedBadgeHidden = (value: AuthnMechanismType) => {
 </script>
 
 <style lang="scss">
-@import './style/auth.scss';
+@use './style/auth.scss';
 .app-card.no-border {
   border: none;
 }

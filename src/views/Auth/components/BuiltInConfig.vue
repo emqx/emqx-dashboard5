@@ -52,13 +52,6 @@
 </template>
 
 <script lang="ts">
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import { usePasswordHashRules } from '@/hooks/Auth/usePasswordHashAlgorithmData'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
-import type { PropType } from 'vue'
-import { defineComponent, reactive, ref, watch } from 'vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({
@@ -66,8 +59,6 @@ export default defineComponent({
 
   components: {
     PasswordHashAlgorithmFormItems,
-    CustomInputNumber,
-    FormItemLabel,
   },
 
   props: {
@@ -120,5 +111,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 </style>

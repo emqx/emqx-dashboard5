@@ -27,12 +27,9 @@
 
 <script lang="ts" setup>
 import { getConnectors } from '@/api/connector'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import { Plus } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref, withDefaults } from 'vue'
 import ConnectorCreateDrawer from '../../Connector/components/ConnectorCreateDrawer.vue'
 
 const props = withDefaults(

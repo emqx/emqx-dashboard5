@@ -69,23 +69,14 @@
 </template>
 
 <script lang="ts">
-import type { WritableComputedRef } from 'vue'
-import { computed, defineComponent, reactive, ref } from 'vue'
-
 export default defineComponent({
   name: 'Settings',
 })
 </script>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
-import useI18nTl from '@/hooks/useI18nTl'
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
-import { useI18n } from 'vue-i18n'
 import { TeleStatus } from '@/types/config'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import { IS_ENTERPRISE } from '@/common/constants'
 
 const record = reactive({
   lang: 'en',

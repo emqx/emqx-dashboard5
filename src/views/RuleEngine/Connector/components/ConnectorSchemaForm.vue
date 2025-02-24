@@ -28,27 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
-import SchemaForm from '@/components/SchemaForm'
-import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
-import useComponentsHandlers from '@/hooks/Rule/connector/useComponentsHandlers'
-import useSchemaPropsLayout from '@/hooks/Rule/connector/useSchemaConnectorPropsLayout'
-import { useIoTDBSecondRefControl } from '@/hooks/Rule/connector/useSecondRefControl'
-import useFillNewRecord from '@/hooks/useFillNewRecord'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
-import { cloneDeep } from 'lodash'
-import {
-  computed,
-  ComputedRef,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  ref,
-  withDefaults,
-} from 'vue'
 
 const { getTypeRefKey } = useConnectorSchema()
 

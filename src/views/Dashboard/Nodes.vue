@@ -72,19 +72,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'Nodes',
 })
 </script>
 
 <script setup lang="ts">
-import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import useDurationStr from '@/hooks/useDurationStr'
-import useClusterNodes from '@/hooks/useClusterNodes'
-
 const { t, tl } = useI18nTl('Dashboard')
 
 const { transMsNumToSimpleStr } = useDurationStr()

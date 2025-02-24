@@ -59,23 +59,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'FromSelect',
 })
 </script>
 
 <script setup lang="ts">
-import type { PropType, Ref } from 'vue'
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
 import { RuleEvent, BridgeItem } from '@/types/rule'
-import { useI18n } from 'vue-i18n'
 import { BackendI18n } from '@/types/common'
-import useI18nTl from '@/hooks/useI18nTl'
 import { RuleInputType } from '@/types/enum'
-import { createRandomString, waitAMoment } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 
 const props = defineProps({
   modelValue: {
@@ -144,7 +136,7 @@ const eventOptions = computed(() =>
 //   ),
 // )
 
-let selectedValueForProxyTopic = ref('')
+const selectedValueForProxyTopic = ref('')
 
 const topicOptionValue = computed(() => (isTopic.value ? selected.value : EMPTY_TOPIC_VALUE))
 

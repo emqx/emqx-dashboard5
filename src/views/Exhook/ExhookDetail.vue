@@ -83,23 +83,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
 import { Exhook, RegisteredHook } from '@/types/systemModule'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import ExhookForm from './components/ExhookForm.vue'
-import { ElMessage } from 'element-plus'
-import useHandleExhookItem from '@/hooks/Exhook/useHandleExhookItem'
 import {
   queryExhookDetail,
   queryExhookRegisteredHooks,
   updateExhook as requestUpdateExhook,
 } from '@/api/exhook'
-import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
-import useSSL from '@/hooks/useSSL'
-import DetailHeader from '@/components/DetailHeader.vue'
 import ExhookItemOverview from './components/ExhookItemOverview.vue'
 
 const router = useRouter()

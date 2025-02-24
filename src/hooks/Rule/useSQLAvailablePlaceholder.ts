@@ -1,4 +1,3 @@
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
 import {
   getKeyPartsFromSQL,
   getRuleSelectionAlias,
@@ -6,12 +5,8 @@ import {
   splitOnComma,
   trimSpacesAndLFs,
 } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { RuleInputType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
-import { escapeRegExp, isUndefined } from 'lodash'
-import type { ComputedRef, Ref } from 'vue'
-import { computed, inject, ref } from 'vue'
 
 // store kafka, rabbit columns...can not get from api like mqtt
 const _events: Array<RuleEvent> = [
@@ -99,8 +94,8 @@ export default (): {
         const itemType = checkIsBridge(item)
           ? RuleInputType.Bridge
           : checkIsTopic(item)
-          ? RuleInputType.Topic
-          : RuleInputType.Event
+            ? RuleInputType.Topic
+            : RuleInputType.Event
         const value =
           itemType === RuleInputType.Bridge ? item.replace(ruleInputBridgeReg, '') : item
         const targetEvent = getTestTargetEvent(itemType, value, totalEventList.value)

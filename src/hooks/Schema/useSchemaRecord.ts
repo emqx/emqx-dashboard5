@@ -1,6 +1,5 @@
 import { PropType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
-import { set } from 'lodash'
 
 export default (): {
   createInitValueByType: (prop: Property) => any

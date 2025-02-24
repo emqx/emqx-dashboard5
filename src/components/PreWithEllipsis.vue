@@ -7,19 +7,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'PreWithEllipsis',
 })
 </script>
 
-<script setup lang="ts">
-import {} from 'vue'
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
-@import '@/style/common.scss';
+@use '@/style/variables.scss';
 .pre-with-ellipsis {
   white-space: nowrap;
   .placeholder {
@@ -29,7 +25,7 @@ import {} from 'vue'
   }
   pre {
     margin: 0;
-    font-family: $font;
+    font-family: variables.$font;
     overflow: hidden;
     text-overflow: ellipsis;
   }

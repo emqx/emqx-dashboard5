@@ -115,32 +115,12 @@
 </template>
 
 <script lang="ts">
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
-import useHTTPConfigForm from '@/hooks/Auth/useHTTPConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessageBox } from 'element-plus'
-import { isEqual } from 'lodash'
-import { computed, defineComponent, PropType, ref, watch } from 'vue'
 import HelpBlock from './HelpBlock.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
   components: {
-    KeyAndValueEditor,
-    CommonTLSConfig,
-    TimeInputWithUnitSelect,
-    Monaco,
     HelpBlock,
-    FormItemLabel,
-    CustomInputNumber,
-    AdvancedSettingContainer,
   },
 
   props: {
@@ -243,7 +223,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 .http-config.config {
   .viewer-container {
     height: 200px;

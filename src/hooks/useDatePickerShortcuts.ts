@@ -1,5 +1,3 @@
-import useI18nTl from './useI18nTl'
-
 export default (): {
   datePickerShortcuts: {
     text: string

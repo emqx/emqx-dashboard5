@@ -51,18 +51,8 @@
 </template>
 
 <script setup lang="ts">
-import { getKeywordsFromSQL, getTypeAndNameFromKey } from '@/common/tools'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { RuleSourceType, useRuleInputs, useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
-import { startCase } from 'lodash'
-import type { ComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
-import { useStore } from 'vuex'
 import RuleInputsDrawer from './RuleInputsDrawer.vue'
 
 interface InputItem {
@@ -215,7 +205,7 @@ updateInputListBySql()
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 .rule-inputs {
   .img-io-item {
     border: 8px solid transparent;

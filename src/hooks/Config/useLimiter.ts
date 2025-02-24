@@ -1,5 +1,4 @@
 import { FormRules } from '@/types/common'
-import useI18nTl from '../useI18nTl'
 
 export default (): {
   limiterRules: FormRules

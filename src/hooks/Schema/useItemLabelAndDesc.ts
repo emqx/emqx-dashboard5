@@ -1,4 +1,3 @@
-import { SSL_FIELDS, INTEGRATION_SCHEMA_TYPES } from '@/common/constants'
 import {
   useActionSchema,
   useConnectorSchema,
@@ -7,8 +6,6 @@ import {
 import { BridgeType } from '@/types/enum'
 import actionText from '@/schemaText/actionText/index'
 import { Property } from '@/types/schemaForm'
-import { isFunction, snakeCase } from 'lodash'
-import { useI18n } from 'vue-i18n'
 
 type GetTextKey = (prop: Property) => string
 

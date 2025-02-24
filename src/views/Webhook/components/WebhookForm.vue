@@ -96,24 +96,9 @@
 </template>
 
 <script setup lang="ts">
-import { WEBHOOK_SUFFIX } from '@/common/constants'
-import { getKeywordsFromSQL } from '@/common/tools'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import useHandleConnectorItem from '@/hooks/Rule/connector/useHandleConnectorItem'
-import useWebhookForm from '@/hooks/Webhook/useWebhookForm'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
-import { ElMessage } from 'element-plus'
-import type { PropType, WritableComputedRef } from 'vue'
-import { computed, ref, watch } from 'vue'
 import Trigger from './Trigger.vue'
 
 const props = defineProps({

@@ -1,12 +1,6 @@
 import { NUM_REG } from '@/common/constants'
-import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
-import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { ElMessage } from 'element-plus'
-import { cloneDeep, get, omit, set } from 'lodash'
-import useI18nTl from '../useI18nTl'
-import useCheckIoTDBConnectorDriver from './connector/useCheckIoTDBConnectorDriver'
 
 const keysDoNotNeedForAPI = [
   'node_status',

@@ -34,13 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import useExhookItemStatus from '@/hooks/Exhook/useExhookItemStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { MetricsData } from '@/types/common'
 import { Exhook } from '@/types/systemModule'
-import { defineProps, PropType } from 'vue'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import { useExHooksMetrics } from '@/hooks/useMetrics'
 import { queryExhookDetail } from '@/api/exhook'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 

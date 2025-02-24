@@ -13,8 +13,6 @@
 
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
-import { defineProps } from 'vue'
 
 defineProps<{
   noText?: boolean

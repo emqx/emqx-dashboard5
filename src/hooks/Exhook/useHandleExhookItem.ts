@@ -1,10 +1,6 @@
 import { moveExhook, deleteExhook as requestDeleteExhook, updateExhook } from '@/api/exhook'
 import { TargetPosition } from '@/types/enum'
 import { Exhook, ExhookFormForCreate } from '@/types/systemModule'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { cloneDeep } from 'lodash'
-import { useI18n } from 'vue-i18n'
-import useSSL from '../useSSL'
 
 export default (): {
   deleteExhook: (name: string) => Promise<void>

@@ -660,8 +660,8 @@ export default {
     en: 'Supports csv format files, and the data in the file cannot exceed 2048 lines',
   },
   enterToCreate: {
-    zh: '输入后创建新的自定义条目',
-    en: 'Enter to create a new custom item',
+    zh: '输入后创建新的条目',
+    en: 'Enter to create a new item',
   },
   node: {
     zh: '节点',
@@ -714,6 +714,10 @@ export default {
   createdAt: {
     zh: '创建时间',
     en: 'Created At',
+  },
+  duplicatedInput: {
+    zh: '重复的输入',
+    en: 'Duplicated Input',
   },
   description: {
     zh: '描述',

@@ -1,5 +1,4 @@
 import bash from 'highlight.js/lib/languages/bash'
-import { isString } from 'lodash'
 
 export default (hljs: any) => {
   const ret = bash?.(hljs)

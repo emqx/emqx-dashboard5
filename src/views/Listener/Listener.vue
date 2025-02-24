@@ -100,16 +100,8 @@ import {
   queryListener,
   deleteListener as requestDeleteListener,
 } from '@/api/listener'
-import { INFINITY_VALUE } from '@/common/constants'
-import { calcPercentage } from '@/common/tools'
-import ListenerDrawer from '@/components/ListenerDrawer/ListenerDrawer.vue'
-import useListenerUtils from '@/hooks/Config/useListenerUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
 
 const { t, tl } = useI18nTl('Gateway')
 

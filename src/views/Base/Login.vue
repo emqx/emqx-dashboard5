@@ -318,26 +318,11 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
-import { ADMIN_USERNAMES, DEFAULT_PWD, PASSWORD_REG } from '@/common/constants'
 import { MFA_REQUIRED } from '@/common/customErrorCode'
-import { waitAMoment } from '@/common/tools'
-import useSSO from '@/hooks/SSO/useSSO'
-import useConvertSecretToQRCode from '@/hooks/useConvertSecretToQRCode'
-import useCopy from '@/hooks/useCopy'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useDocLink from '@/hooks/useDocLink'
-import useEditionConfigs from '@/hooks/useEditionConfigs'
-import useFormRules from '@/hooks/useFormRules'
-import useUpdateBaseInfo from '@/hooks/useUpdateBaseInfo'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
-import { ElNotification } from 'element-plus'
-import { computed, reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 
 interface MFAError {
   cluster_name: string

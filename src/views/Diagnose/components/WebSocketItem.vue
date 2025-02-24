@@ -276,30 +276,19 @@
 
 <script lang="ts" setup>
 import {
+  INVALID_PUB_TOPIC_REG,
+  INVALID_SUB_TOPIC_REG,
   MQTT_V3_RES_CODES,
   MQTT_V5_RES_CODES,
   QoSOptions,
+  SPECIAL_INVALID_SUB_TOPIC_REG,
   WEB_SOCKET_STATUS,
 } from '@/common/constants'
-import { chunkStr } from '@/common/tools'
-import BooleanSelect from '@/components/BooleanSelect.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import type { FormRules } from 'element-plus'
-import { ElMessage, ElNotification } from 'element-plus'
 import type { IClientOptions, IClientSubscribeOptions, IPublishPacket, MqttClient } from 'mqtt'
 import mqtt from 'mqtt'
-import {
-  computed,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  reactive,
-  ref,
-} from 'vue'
 
 interface Subscription {
   topic: string
@@ -357,7 +346,18 @@ const { t, tl } = useI18nTl('Tools')
 const times = ref(0)
 const cStatus = ref<number | Status>(0b00000)
 const { createRequiredRule, createIntFieldRule } = useFormRules()
-const messageRecordRules = reactive({ topic: createRequiredRule(t('Base.topic')) })
+const messageRecordRules = reactive({
+  topic: [
+    ...createRequiredRule(t('Base.topic')),
+    {
+      validator(rules, value, cb) {
+        const isInvalid = INVALID_PUB_TOPIC_REG.test(value)
+        cb(isInvalid ? new Error(t('Tools.invalidPubTopic')) : undefined)
+      },
+      trigger: ['blur'],
+    },
+  ],
+})
 const connectionRules = reactive<FormRules>({
   host: { required: true },
   port: [...createRequiredRule(t('Clients.port')), ...createIntFieldRule(1, 65535)],
@@ -374,7 +374,19 @@ const connectionRules = reactive<FormRules>({
     },
   ],
 })
-const subscriptionsRules = reactive({ topic: createRequiredRule(t('Base.topic')) })
+const subscriptionsRules = reactive({
+  topic: [
+    ...createRequiredRule(t('Base.topic')),
+    {
+      validator(rules, value, cb) {
+        const isInvalid =
+          INVALID_SUB_TOPIC_REG.test(value) || SPECIAL_INVALID_SUB_TOPIC_REG.test(value)
+        cb(isInvalid ? new Error(t('Tools.invalidPubTopic')) : undefined)
+      },
+      trigger: ['blur'],
+    },
+  ],
+})
 const client = ref<MqttClient | null>(null)
 const connection = reactive<ConnectionRecord>({
   host: window.location.hostname,

@@ -82,22 +82,9 @@
 
 <script lang="ts" setup>
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useReceiveParams } from '@/hooks/usePaginationRemember'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, lowerCase } from 'lodash'
-import type { ComputedRef, Ref } from 'vue'
-import { computed, onMounted, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import RuleForm from '../components/RuleForm.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
@@ -224,7 +211,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 
 .rule-detail {
   .el-card.detail-card {

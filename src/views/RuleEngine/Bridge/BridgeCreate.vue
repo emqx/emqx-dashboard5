@@ -116,26 +116,13 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import GuideBar from '@/components/GuideBar.vue'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import {
   useBridgeTypeIcon,
   useBridgeTypeOptions,
   useBridgeTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useActionDataHandler, useBridgeDataHandler } from '@/hooks/Rule/useDataHandler'
-import useGuide from '@/hooks/useGuide'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import _ from 'lodash'
-import type { Ref } from 'vue'
-import { computed, defineExpose, defineProps, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 /**
@@ -297,7 +284,7 @@ checkBridgeClipStatus()
 </script>
 
 <style lang="scss">
-@import '@/style/rule.scss';
+@use '@/style/rule.scss';
 </style>
 
 <style lang="scss" scoped>

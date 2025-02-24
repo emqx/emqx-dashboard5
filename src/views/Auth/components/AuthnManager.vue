@@ -118,14 +118,8 @@ import {
   getGatewayUserManagement,
   updateGatewayUser,
 } from '@/api/gateway'
-import { replaceSpaceForHTML } from '@/common/tools'
-import commonPagination from '@/components/commonPagination.vue'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DataManagerItem } from '@/types/auth'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { computed, defineProps, onMounted, PropType, reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import AuthnUsersImport from './AuthnUsersImport.vue'
 
 const createRawUserForm = () => ({

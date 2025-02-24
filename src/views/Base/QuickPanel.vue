@@ -34,17 +34,8 @@
 </template>
 
 <script lang="ts" setup>
-import { titleCase, waitAMoment } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import type { Menu } from '@/hooks/useMenus'
-import useMenus from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
-import { escapeRegExp } from 'lodash'
-import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { RouteRecordRaw, useRouter } from 'vue-router'
 
 interface MenuItem {
   path: string

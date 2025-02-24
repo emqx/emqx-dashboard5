@@ -1,11 +1,4 @@
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeItem } from '@/types/rule'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { isFunction } from 'lodash'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import useHandleActionItem from '../action/useHandleActionItem'
 
 interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>

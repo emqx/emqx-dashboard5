@@ -1,11 +1,4 @@
-import {
-  ElMessage,
-  MessageParamsNormalized,
-  MessageParams,
-  MessageOptions,
-  messageTypes,
-} from 'element-plus'
-import { isFunction, isString } from 'lodash'
+import { MessageParamsNormalized, MessageParams, MessageOptions, messageTypes } from 'element-plus'
 
 /* for rewrite some configuration */
 const PER_MIN_LETTERS = 25

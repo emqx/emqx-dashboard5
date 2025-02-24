@@ -1,6 +1,4 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
-import { getValueFromQuery } from '@/common/tools'
-import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType } from '@/types/enum'

@@ -12,10 +12,6 @@ import {
 } from '@/api/action'
 import { BridgeType } from '@/types/enum'
 import { Action } from '@/types/rule'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useActionDataHandler } from '../useDataHandler'
 
 type HandleDirectionCallback = (
   direction?: number,

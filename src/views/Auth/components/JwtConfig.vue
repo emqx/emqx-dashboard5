@@ -104,20 +104,8 @@
 </template>
 
 <script lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useJWTConfigForm from '@/hooks/Auth/useJWTConfigForm'
-import { defineComponent, reactive, watch } from 'vue'
-import useSSL from '@/hooks/useSSL'
-
 export default defineComponent({
   name: 'JwtConfig',
-  components: {
-    KeyAndValueEditor,
-    InfoTooltip,
-    CommonTLSConfig,
-  },
   props: {
     modelValue: {
       type: Object,
@@ -153,7 +141,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../style/authConfig.scss';
+@use '../style/authConfig.scss';
 .jwt-config {
   .el-radio-group {
     margin: 12px 0 32px 0;

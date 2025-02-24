@@ -1,10 +1,3 @@
-import { ENCRYPTED_PWD_REG } from '@/common/constants'
-import { jumpToErrorFormItem } from '@/common/tools'
-import useI18nTl from '@/hooks/useI18nTl'
-import { get } from 'lodash'
-import { ref, Ref } from 'vue'
-import { useBridgeDataHandler } from '../useDataHandler'
-
 export default (): {
   pwdErrorWhenCoping: Ref<string>
   checkLikePwdField: (bridge: any, errorMsg?: string) => Promise<void>

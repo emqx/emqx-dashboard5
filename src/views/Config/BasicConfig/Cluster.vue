@@ -21,19 +21,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import SchemaForm from '@/components/SchemaForm'
 import InviteNode from './components/InviteNode.vue'
 import { getClusterConfigs, updateClusterConfigs } from '@/api/config'
 import { Cluster } from '@/types/config'
-import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { customValidate } from '@/common/tools'
 
 export default defineComponent({
   name: 'Cluster',
   components: {
-    SchemaForm,
     InviteNode,
   },
   setup() {

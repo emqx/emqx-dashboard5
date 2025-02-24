@@ -140,22 +140,11 @@
 
 <script lang="ts" setup>
 import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/api/auth'
-import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import useAuth from '@/hooks/Auth/useAuth'
-import useAuthnCreate from '@/hooks/Auth/useAuthnCreate'
-import useBuiltInDataUpdateTip from '@/hooks/Auth/useBuiltInDataUpdateTip'
-import { getPasswordHashAlgorithmObj } from '@/hooks/Auth/usePasswordHashAlgorithmData'
-import useToggleAuthStatus from '@/hooks/Auth/useToggleAuthStatus'
-import useI18nTl from '@/hooks/useI18nTl'
 import { DatabaseAndServer, Metrics } from '@/types/auth'
 import { LDAPAuthMethod } from '@/types/enum'
 import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
-import { isFunction, isUndefined, omit } from 'lodash'
-import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import AuthnManager from './components/AuthnManager.vue'
@@ -166,8 +155,6 @@ import JwtConfig from './components/JwtConfig.vue'
 import LdapConfig from './components/LdapConfig.vue'
 import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
-import useProcessAuthData from '@/hooks/Auth/useProcessAuthData'
-import { useAuthnMechanismType } from '@/hooks/Auth/useAuthnType'
 
 const props = defineProps<{
   gatewayInfo?: Record<string, any> | boolean
@@ -382,5 +369,5 @@ initData()
 </script>
 
 <style lang="scss">
-@import './style/auth.scss';
+@use './style/auth.scss';
 </style>

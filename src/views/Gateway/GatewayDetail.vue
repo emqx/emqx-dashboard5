@@ -14,7 +14,7 @@
         </div>
       </template>
     </detail-header>
-    <el-menu router :default-active="matchedUrl" mode="horizontal">
+    <el-menu router :default-active="matchedUrl" :ellipsis="false" mode="horizontal">
       <template v-for="item in types" :key="item">
         <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
       </template>
@@ -24,13 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { getGateway } from '@/api/gateway'
-import { useRoute } from 'vue-router'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayName } from '@/types/enum'
-import useTransName from '@/hooks/useTransName'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const gInfo = ref<Record<string, any>>({})
 const route = useRoute()

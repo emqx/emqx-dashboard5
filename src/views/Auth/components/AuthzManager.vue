@@ -250,7 +250,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import {
   loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
@@ -258,18 +257,10 @@ import {
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
-import _, { cloneDeep } from 'lodash'
-import commonPagination from '@/components/commonPagination.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
-import { replaceSpaceForHTML } from '@/common/tools'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import TableDropdown from './TableDropdown.vue'
-import useSortableTable from '@/hooks/useSortableTable'
 import { SortableEvent } from 'sortablejs'
 
 interface AllTableDataItem {
@@ -279,7 +270,7 @@ interface AllTableDataItem {
 }
 
 export default defineComponent({
-  components: { commonPagination, InfoTooltip, TableDropdown },
+  components: { TableDropdown },
   name: 'AuthzManager',
   setup() {
     const { t } = useI18n()

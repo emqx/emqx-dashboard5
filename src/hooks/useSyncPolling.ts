@@ -1,5 +1,3 @@
-import { onUnmounted, ref, Ref } from 'vue'
-
 export default (): {
   needPolling: Ref<boolean>
   syncPolling: (queryData: () => Promise<void>, interval: number) => Promise<void>

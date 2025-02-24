@@ -1,6 +1,4 @@
-import { cloneDeep, escape, get, isFunction, isObject, isUndefined, omit, round, set } from 'lodash'
 import dayjs from 'dayjs'
-import { API_BASE_URL, COPY_SUFFIX } from './constants'
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 

@@ -1,4 +1,3 @@
-import { ComponentPublicInstance } from 'vue'
 import { EmqxForceShutdown } from './schemas/configs.schemas'
 import { LogConf } from './typeAlias'
 

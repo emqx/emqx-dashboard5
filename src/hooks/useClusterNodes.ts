@@ -1,6 +1,3 @@
-import type { Ref } from 'vue'
-import { ref, reactive } from 'vue'
-import _ from 'lodash'
 import { compareVersions } from 'compare-versions'
 import { loadNodes } from '@/api/common'
 import { NodeInfo } from '@/types/dashboard'

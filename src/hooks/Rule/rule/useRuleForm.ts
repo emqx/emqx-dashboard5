@@ -1,6 +1,3 @@
-import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
-import { createRandomString } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, RuleItem } from '@/types/rule'
 
 export default (): {
@@ -16,7 +13,7 @@ export default (): {
     sql: transSQLFormDataToSQL(DEFAULT_SELECT, [from]),
     actions: [],
     description: '',
-    enable: true
+    enable: true,
   })
 
   const getRuleDataForUpdate = ({

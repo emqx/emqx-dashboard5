@@ -42,13 +42,7 @@
 </template>
 
 <script lang="ts">
-import type { Ref } from 'vue'
-import { defineComponent, onMounted, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import Monaco from '@/components/Monaco.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { IScrollEvent } from 'monaco-editor'
-import { useRoute } from 'vue-router'
 import { getTraceLog, downloadTrace, getTraceNodesMsg } from '@/api/diagnose'
 import { ElMessage as M } from 'element-plus'
 
@@ -64,10 +58,6 @@ interface NodeInfo {
 }
 
 export default defineComponent({
-  components: {
-    Monaco,
-    DetailHeader,
-  },
   setup() {
     const { t } = useI18n()
     const route = useRoute()

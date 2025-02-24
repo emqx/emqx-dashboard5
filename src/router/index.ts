@@ -1,6 +1,4 @@
 import store from '@/store'
-import { Component } from 'vue'
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
 // const Cluster =()=> import('@/views/Config/BasicConfig/Cluster.vue')

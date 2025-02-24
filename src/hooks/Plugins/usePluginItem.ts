@@ -1,11 +1,8 @@
 import { uninstallPlugin } from '@/api/plugins'
-import { useI18n } from 'vue-i18n'
-import { ElMessageBox, ElMessage } from 'element-plus'
 import { PluginItem } from '@/types/plugin'
 import { PluginStatus, StatusCommandSendToPlugin, TargetPosition } from '@/types/enum'
 import { updatePluginStatus } from '@/api/plugins'
 import { movePluginPosition } from '@/api/plugins'
-import { tryToCompleteURL } from '@/common/tools'
 
 interface FuncRet {
   NAME_VERSION_JOINER: string

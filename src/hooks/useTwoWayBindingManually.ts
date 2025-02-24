@@ -1,5 +1,3 @@
-import { get, set } from 'lodash'
-
 type Get = typeof get
 type Set = typeof set
 

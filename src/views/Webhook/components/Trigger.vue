@@ -58,17 +58,9 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { arraysAreEqual, getKeyPartsFromSQL } from '@/common/tools'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
 import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { escapeRegExp, startCase } from 'lodash'
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import { computed, nextTick, ref, watch } from 'vue'
-import { useStore } from 'vuex'
 
 const enum TriggerType {
   Messages,

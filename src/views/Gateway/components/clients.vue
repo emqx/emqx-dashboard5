@@ -104,21 +104,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
-import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import dayjs from 'dayjs'
 import ClientDetails from '../../Clients/ClientDetails.vue'
-import { useRoute } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import CheckIcon from '@/components/CheckIcon.vue'
-import useClusterNodes from '@/hooks/useClusterNodes'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { CheckStatus, GatewayName } from '@/types/enum'
 
 export default defineComponent({
-  components: { commonPagination, ClientDetails, CheckIcon },
+  components: { ClientDetails },
 
   setup() {
     const pCommon = ref(null)
