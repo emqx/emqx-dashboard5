@@ -199,8 +199,6 @@
 <script lang="ts">
 import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
 import { getLabelFromValueInOptionList, transMemorySizeNumToStr } from '@/common/tools'
-import CheckIcon from '@/components/CheckIcon.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
@@ -225,10 +223,6 @@ type TraceItemInTable = TraceItem & {
 }
 
 export default defineComponent({
-  components: {
-    CheckIcon,
-    FormItemLabel,
-  },
   setup() {
     const { t } = useI18n()
     const traceTbLoading = ref(false)

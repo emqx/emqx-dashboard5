@@ -45,8 +45,6 @@
 </template>
 
 <script lang="ts">
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 
 export default defineComponent({
@@ -54,8 +52,6 @@ export default defineComponent({
 
   components: {
     PasswordHashAlgorithmFormItems,
-    CustomInputNumber,
-    FormItemLabel,
   },
 
   props: {

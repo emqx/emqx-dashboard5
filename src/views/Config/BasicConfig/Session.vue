@@ -21,14 +21,10 @@
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { createOrderObj, customValidate } from '@/common/tools'
 import { isJSONString } from '@emqx/shared-ui-utils'
-import SchemaForm from '@/components/SchemaForm'
 import { Zone } from '@/types/config'
 
 export default defineComponent({
   name: 'Session',
-  components: {
-    SchemaForm,
-  },
   setup() {
     const configs = ref<Record<string, any>>({})
     const saveLoading = ref(false)

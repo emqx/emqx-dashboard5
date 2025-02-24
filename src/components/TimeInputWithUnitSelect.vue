@@ -3,7 +3,7 @@
   <InputWithUnit
     v-else
     class="time-input-with-unit-select"
-    :modelValue="inputValue as string"
+    :modelValue="String(inputValue)"
     :units="unitList"
     :disabled="disabled"
     :default-unit="defaultUnitValue"
@@ -14,15 +14,8 @@
 </template>
 
 <script lang="ts">
-import CustomInputNumber from './CustomInputNumber.vue'
-import InputWithUnit from './InputWithUnit.vue'
-
 export default defineComponent({
   name: 'TimeInputWithUnitSelect',
-  components: {
-    InputWithUnit,
-    CustomInputNumber,
-  },
   props: {
     modelValue: {
       type: [String, Number] as PropType<string | number>,

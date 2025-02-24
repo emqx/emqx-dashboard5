@@ -257,8 +257,6 @@ import {
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
-import commonPagination from '@/components/commonPagination.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { replaceSpaceForHTML } from '@/common/tools'
@@ -274,7 +272,7 @@ interface AllTableDataItem {
 }
 
 export default defineComponent({
-  components: { commonPagination, InfoTooltip, TableDropdown },
+  components: { TableDropdown },
   name: 'AuthzManager',
   setup() {
     const { t } = useI18n()

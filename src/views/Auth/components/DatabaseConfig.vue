@@ -299,12 +299,6 @@
 <script lang="ts">
 import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
 import HelpBlock from './HelpBlock.vue'
@@ -313,14 +307,8 @@ import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue
 export default defineComponent({
   name: 'DatabaseConfig',
   components: {
-    CommonTLSConfig,
-    TimeInputWithUnitSelect,
     PasswordHashAlgorithmFormItems,
-    Monaco,
     HelpBlock,
-    CustomInputNumber,
-    FormItemLabel,
-    AdvancedSettingContainer,
   },
 
   props: {
