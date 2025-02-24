@@ -14,7 +14,7 @@
         </div>
       </template>
     </detail-header>
-    <el-menu router :default-active="matchedUrl" mode="horizontal">
+    <el-menu router :default-active="matchedUrl" :ellipsis="false" mode="horizontal">
       <template v-for="item in types" :key="item">
         <el-menu-item :index="`${item}`">{{ tl(item) }}</el-menu-item>
       </template>
