@@ -148,7 +148,6 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
 import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'

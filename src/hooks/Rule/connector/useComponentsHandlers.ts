@@ -1,4 +1,3 @@
-import { DEFAULT_SSL_VERIFY_VALUE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 

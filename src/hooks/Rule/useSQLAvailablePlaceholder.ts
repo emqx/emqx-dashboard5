@@ -1,4 +1,3 @@
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX, RULE_INPUT_EVENT_PREFIX } from '@/common/constants'
 import {
   getKeyPartsFromSQL,
   getRuleSelectionAlias,

@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
 import { Setting } from '@element-plus/icons-vue'
 
 const { t, tl } = useI18nTl('Clients')

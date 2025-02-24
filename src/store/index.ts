@@ -1,5 +1,5 @@
 import { getUser, setUser, removeUser } from '@/common/auth'
-import { DEFAULT_CLIENT_TABLE_COLUMNS } from '@/common/constants'
+
 import { UserInfo } from '@/types/common'
 import { TestRuleTarget } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'

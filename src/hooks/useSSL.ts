@@ -1,4 +1,3 @@
-import { DEFAULT_SSL_VERIFY_VALUE } from '@/common/constants'
 import { SSL } from '@/types/common'
 
 type CreateSSLForm = () => SSL

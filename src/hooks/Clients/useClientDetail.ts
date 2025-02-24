@@ -1,6 +1,5 @@
 import { Client } from '@/types/client'
 import dayjs from 'dayjs'
-import { SESSION_NEVER_EXPIRE_TIME } from '@/common/constants'
 
 type GetSessionInfoItem = (msg: string) => string | number | boolean
 

@@ -1,4 +1,3 @@
-import { API_BASE_URL, REQUEST_TIMEOUT_CODE } from '@/common/constants'
 import { BAD_TOKEN, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import { trimValues } from '@/common/tools'

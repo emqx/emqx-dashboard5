@@ -81,7 +81,7 @@ export default {
 <script setup lang="ts">
 import { subscribe } from '@/api/clients'
 import { addGatewayClientSubs } from '@/api/gateway'
-import { QoSOptions } from '@/common/constants'
+
 import { QoSLevel } from '@/types/enum'
 
 interface SubRecord {

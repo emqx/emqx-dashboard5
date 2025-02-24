@@ -1,4 +1,3 @@
-import { ENCRYPTED_PWD_REG } from '@/common/constants'
 import { jumpToErrorFormItem } from '@/common/tools'
 
 export default (): {

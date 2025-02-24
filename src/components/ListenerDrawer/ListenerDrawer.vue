@@ -444,7 +444,6 @@
 </template>
 
 <script lang="ts" setup>
-import { INFINITY_VALUE } from '@/common/constants'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import ArrayEditorInput from '../ArrayEditorInput.vue'

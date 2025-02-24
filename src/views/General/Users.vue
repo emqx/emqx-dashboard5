@@ -102,7 +102,6 @@
 
 <script setup>
 import { loadUser, createUser, updateUser, destroyUser, changePassword } from '@/api/function.ts'
-import { PASSWORD_REG } from '@/common/constants'
 
 const store = useStore()
 const { tl, t } = useI18nTl('General')

@@ -1,4 +1,3 @@
-import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getAPIPath } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { ConnectorForm, HTTPBridge } from '@/types/rule'

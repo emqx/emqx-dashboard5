@@ -1,6 +1,6 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-import { GATEWAY_DISABLED_LISTENER_TYPE_MAP, unexposedConfigs } from '@/common/constants'
+
 import { checkNOmitFromObj, emptyObject, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'

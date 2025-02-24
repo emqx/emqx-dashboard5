@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { addGatewayAuth, deleteGatewayAuth, getGatewayAuth, updateGatewayAuth } from '@/api/gateway'
-import { GATEWAY_ENABLED_DATABASES_MAP, GATEWAY_ENABLED_MECHANISM_MAP } from '@/common/constants'
+
 import { GatewayName, AuthnMechanismType, DatabasesType } from '@/types/enum'
 import { ElMessage as M } from 'element-plus'
 import AuthnCreate from '../../Auth/AuthnCreate.vue'

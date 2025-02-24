@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       Components(autoImportComponentsConfig),
     ],
     server: {
-      port: 7002,
+      port: 7001,
       proxy: {
         '/api/v5': {
           target,

@@ -1,4 +1,3 @@
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import http from '@/common/http'
 import { getBridgeKey } from '@/common/tools'
 import { ListDataWithPagination } from '@/types/common'

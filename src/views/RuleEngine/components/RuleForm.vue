@@ -103,7 +103,6 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { checkIsValidArr, createRandomString, getKeywordsFromSQL } from '@/common/tools'
 import { BridgeDirection, BridgeType, TestRuleTarget } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleForm } from '@/types/rule'

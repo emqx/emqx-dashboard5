@@ -82,7 +82,6 @@
 </template>
 
 <script lang="ts" setup>
-import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import {
   useBridgeTypeIcon,

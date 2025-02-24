@@ -1,4 +1,3 @@
-import { SSL_VERIFY_VALUE_MAP, unexposedConfigs } from '@/common/constants'
 import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
