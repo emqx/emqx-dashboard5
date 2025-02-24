@@ -22,15 +22,11 @@
 <script lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
 import { createOrderObj, customValidate } from '@/common/tools'
-import SchemaForm from '@/components/SchemaForm'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 
 export default defineComponent({
   name: 'Mqtt',
-  components: {
-    SchemaForm,
-  },
   setup() {
     const configs = ref({})
     const saveLoading = ref(false)

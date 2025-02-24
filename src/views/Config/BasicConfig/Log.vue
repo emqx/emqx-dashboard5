@@ -22,15 +22,11 @@
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
 import { customValidate } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import SchemaForm from '@/components/SchemaForm'
 import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 
 export default defineComponent({
   name: 'Log',
-  components: {
-    SchemaForm,
-  },
   setup() {
     const configs = ref({})
     const saveLoading = ref(false)

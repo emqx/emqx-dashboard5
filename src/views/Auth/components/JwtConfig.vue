@@ -104,17 +104,8 @@
 </template>
 
 <script lang="ts">
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-
 export default defineComponent({
   name: 'JwtConfig',
-  components: {
-    KeyAndValueEditor,
-    InfoTooltip,
-    CommonTLSConfig,
-  },
   props: {
     modelValue: {
       type: Object,

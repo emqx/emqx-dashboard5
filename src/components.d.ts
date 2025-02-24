@@ -55,6 +55,8 @@ declare module 'vue' {
     ResetButton: typeof import('./components/Buttons/ResetButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SchemaForm: typeof import('./components/SchemaForm.tsx')['default']
+    SchemaFormItem: typeof import('./components/SchemaFormItem.tsx')['default']
     SearchButton: typeof import('./components/Buttons/SearchButton.vue')['default']
     ShowMoreButton: typeof import('./components/Buttons/ShowMoreButton.vue')['default']
     SSLVersionSelect: typeof import('./components/ListenerDrawer/SSLVersionSelect.vue')['default']

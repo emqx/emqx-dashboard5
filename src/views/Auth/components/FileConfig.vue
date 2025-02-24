@@ -32,13 +32,8 @@
 </template>
 
 <script lang="ts">
-import Monaco from '@/components/Monaco.vue'
-
 export default defineComponent({
   name: 'FileConfig',
-  components: {
-    Monaco,
-  },
   props: {
     modelValue: {
       type: Object,

@@ -70,7 +70,6 @@
 import LeftBar from './LeftBar.vue'
 import NavHeader from './NavHeader.vue'
 import { routes } from '@/router'
-import EMQXVersion from '@/components/EMQXVersion.vue'
 import QuickPanel from './QuickPanel.vue'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
@@ -81,7 +80,6 @@ export default defineComponent({
   components: {
     NavHeader,
     LeftBar,
-    EMQXVersion,
     QuickPanel,
   },
   props: {

@@ -104,15 +104,13 @@
 </template>
 
 <script lang="ts">
-import commonPagination from '@/components/commonPagination.vue'
 import { getGatewayClients, disconnGatewayClient } from '@/api/gateway'
 import dayjs from 'dayjs'
 import ClientDetails from '../../Clients/ClientDetails.vue'
-import CheckIcon from '@/components/CheckIcon.vue'
 import { CheckStatus, GatewayName } from '@/types/enum'
 
 export default defineComponent({
-  components: { commonPagination, ClientDetails, CheckIcon },
+  components: { ClientDetails },
 
   setup() {
     const pCommon = ref(null)

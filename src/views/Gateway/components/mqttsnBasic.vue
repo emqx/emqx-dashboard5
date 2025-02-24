@@ -63,11 +63,9 @@
 
 <script lang="ts">
 import topicEditList from './topicEditList.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 export default defineComponent({
-  components: { topicEditList, TimeInputWithUnitSelect, CustomInputNumber },
+  components: { topicEditList },
   name: 'MqttsnBasic',
   props: {
     value: {

@@ -121,8 +121,6 @@
 </template>
 
 <script lang="ts">
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-
 export default defineComponent({
   name: 'LwBasic',
   props: {
@@ -131,9 +129,6 @@ export default defineComponent({
       required: false,
       default: () => ({}),
     },
-  },
-  components: {
-    TimeInputWithUnitSelect,
   },
   setup(props, context) {
     const createDefaultValue = () => ({
