@@ -101,7 +101,6 @@
 </template>
 
 <script lang="ts" setup>
-import { splitOnComma, splitOnSymbol } from '@/common/tools'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 

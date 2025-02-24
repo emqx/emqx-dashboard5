@@ -2,7 +2,6 @@ import { listAuthn, queryAuthnItemMetrics } from '@/api/auth'
 import { AuthnItem, Metrics } from '@/types/auth'
 import { SortableEvent } from 'sortablejs'
 import jwtIcon from '@/assets/img/jwt.png'
-import { getImg } from '@/common/tools'
 
 export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics

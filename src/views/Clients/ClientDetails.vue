@@ -203,7 +203,6 @@ import {
   getGatewayClientSubs,
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'

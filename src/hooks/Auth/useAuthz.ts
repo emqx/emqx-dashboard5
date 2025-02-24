@@ -1,7 +1,6 @@
 import { listAuthz, queryAuthzItemMetrics } from '@/api/auth'
 import { AuthzSourceItem, Metrics } from '@/types/auth'
 import { SortableEvent } from 'sortablejs'
-import { getImg } from '@/common/tools'
 
 export type AuthzItemInTable = AuthzSourceItem & {
   metrics: Metrics

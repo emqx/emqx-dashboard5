@@ -1,5 +1,3 @@
-import { checkNOmitFromObj } from '@/common/tools'
-
 export default (): {
   handleExprotoData: (gatewayData: Record<string, any>) => Record<string, any>
 } => {

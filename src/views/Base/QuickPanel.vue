@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" setup>
-import { titleCase, waitAMoment } from '@/common/tools'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 

@@ -78,7 +78,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { Properties, Property } from '@/types/schemaForm'
 import { Delete, Plus } from '@element-plus/icons-vue'

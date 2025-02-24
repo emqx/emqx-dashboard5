@@ -107,7 +107,6 @@
 </template>
 
 <script lang="ts" setup>
-import { customValidate } from '@/common/tools'
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'

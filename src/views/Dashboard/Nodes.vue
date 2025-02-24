@@ -78,8 +78,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { caseInsensitiveCompare, calcPercentage } from '@/common/tools'
-
 const { t, tl } = useI18nTl('Dashboard')
 
 const { transMsNumToSimpleStr } = useDurationStr()

@@ -1,4 +1,3 @@
-import { accAdd, transMemorySizeNumToStr } from '@/common/tools'
 import { Metrics } from '@/types/common'
 import { BarSeriesOption, ECharts, EChartsOption, PieSeriesOption } from 'echarts'
 import 'echarts/lib/chart/bar'

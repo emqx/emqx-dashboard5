@@ -259,8 +259,6 @@ import {
 } from '@/api/auth'
 import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
-import { replaceSpaceForHTML } from '@/common/tools'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { BuiltInDBType } from '@/types/enum'
 import TableDropdown from './TableDropdown.vue'
 import { SortableEvent } from 'sortablejs'

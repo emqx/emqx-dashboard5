@@ -122,8 +122,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadStats } from '@/api/common'
-
-import { calcPercentage } from '@/common/tools'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { Right } from '@element-plus/icons-vue'
 import NodesGraph from './NodesGraph.vue'

@@ -58,7 +58,6 @@ import {
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
-import { arraysAreEqual, getKeyPartsFromSQL } from '@/common/tools'
 import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'

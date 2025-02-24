@@ -1,5 +1,4 @@
 import http from '@/common/http'
-import { getBridgeKey } from '@/common/tools'
 import { Connector } from '@/types/rule'
 
 export const testConnectorConnectivity = (data: Connector): Promise<void> => {

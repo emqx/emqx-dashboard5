@@ -51,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { titleCase } from '@/common/tools'
 import { SaltPosition } from '@/types/enum'
 
 interface PasswordHashAlgorithmFormItems {

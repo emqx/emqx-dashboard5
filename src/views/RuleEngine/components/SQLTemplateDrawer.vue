@@ -60,7 +60,6 @@
 
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
-import { stringifyObjSafely } from '@/common/tools'
 
 interface TemplateItem {
   title: string

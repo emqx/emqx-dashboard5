@@ -99,7 +99,6 @@
 
 <script setup lang="ts">
 import { testsql } from '@/api/ruleengine'
-import { createRandomString } from '@/common/tools'
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { CaretRight, CopyDocument, RefreshLeft } from '@element-plus/icons-vue'

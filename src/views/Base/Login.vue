@@ -141,7 +141,6 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
-
 import { toLogin } from '@/router'
 
 const { t } = useI18n()

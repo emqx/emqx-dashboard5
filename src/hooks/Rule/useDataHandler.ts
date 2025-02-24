@@ -1,4 +1,3 @@
-import { checkNOmitFromObj } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { Action, Connector } from '@/types/rule'
 

@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 

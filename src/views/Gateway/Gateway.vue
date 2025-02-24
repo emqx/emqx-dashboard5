@@ -56,8 +56,6 @@
 
 <script lang="ts">
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
-
-import { caseInsensitiveCompare } from '@/common/tools'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'
 import { ElMessage as M } from 'element-plus'

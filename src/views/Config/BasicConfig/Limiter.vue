@@ -21,7 +21,6 @@
 import { getLimiters, updateLimiters } from '@/api/config'
 import { Limiter } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
-import { checkNOmitFromObj, customValidate } from '@/common/tools'
 
 const configs = ref<Limiter>({} as Limiter)
 const saveLoading = ref(false)

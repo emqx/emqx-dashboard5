@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { clearAllBannedClients, deleteBannedClient, loadBannedClient } from '@/api/function'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { dateFormat, getLabelFromValueInOptionList } from '@/common/tools'
 import { BannedItem } from '@/types/systemModule'
 import { Remove } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'

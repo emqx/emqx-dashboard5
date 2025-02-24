@@ -1,4 +1,3 @@
-import { transTimeStrToMS } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { PropType } from '@/types/enum'
 import { Component } from '@/types/schemaForm'

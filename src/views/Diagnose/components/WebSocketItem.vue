@@ -284,7 +284,6 @@ import {
   SPECIAL_INVALID_SUB_TOPIC_REG,
   WEB_SOCKET_STATUS,
 } from '@/common/constants'
-import { chunkStr } from '@/common/tools'
 import { Delete } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import type { FormRules } from 'element-plus'

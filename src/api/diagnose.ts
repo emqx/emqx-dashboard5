@@ -1,7 +1,5 @@
 import http from '@/common/http'
 import { TraceRecord, TraceItem } from '@/types/diagnose'
-import { downloadBlobData } from '@/common/tools'
-
 import { getLocalMessage } from '@/i18n'
 
 export function getTraceList(): Promise<Array<TraceItem>> {

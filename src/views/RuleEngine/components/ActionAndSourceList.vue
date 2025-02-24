@@ -136,7 +136,6 @@
 </template>
 
 <script setup lang="ts">
-import { dateFormat } from '@/common/tools'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'

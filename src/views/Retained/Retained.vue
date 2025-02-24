@@ -87,7 +87,6 @@ import {
   getRetainerList,
   getRetainerTopic,
 } from '@/api/extension'
-import { dateFormat } from '@/common/tools'
 import { RetainerMessage } from '@/types/extension'
 import { Remove, Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'

@@ -56,7 +56,6 @@
 
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
-import { createRandomString } from '@/common/tools'
 import { MQTTBridgeTransConfiguration } from '@/types/rule'
 
 const props = defineProps({

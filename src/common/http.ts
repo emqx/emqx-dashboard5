@@ -1,6 +1,5 @@
 import { BAD_TOKEN, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
-import { trimValues } from '@/common/tools'
 import i18n from '@/i18n'
 import { toLogin } from '@/router'
 import store from '@/store'

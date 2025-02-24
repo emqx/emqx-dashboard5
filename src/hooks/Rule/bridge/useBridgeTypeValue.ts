@@ -1,4 +1,3 @@
-import { getImg, getLabelFromValueInOptionList } from '@/common/tools'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 

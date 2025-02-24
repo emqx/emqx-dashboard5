@@ -95,7 +95,6 @@
 </template>
 
 <script setup lang="ts">
-import { getKeywordsFromSQL } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'

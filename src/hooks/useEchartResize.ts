@@ -1,4 +1,3 @@
-import { waitAMoment } from '@/common/tools'
 import { ECharts } from 'echarts'
 
 export default (): {

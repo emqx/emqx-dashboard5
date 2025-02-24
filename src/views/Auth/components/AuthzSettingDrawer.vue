@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import { listAuthzSetting, clearCache as requestClearCache, updateAuthzSetting } from '@/api/auth'
-import { titleCase } from '@/common/tools'
 import { AuthzSetting } from '@/types/auth'
 
 const props = defineProps({

@@ -47,7 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import { getKeywordsFromSQL, getTypeAndNameFromKey } from '@/common/tools'
 import { RuleSQLKeyword } from '@/types/enum'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import RuleInputsDrawer from './RuleInputsDrawer.vue'

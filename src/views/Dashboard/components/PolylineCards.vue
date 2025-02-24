@@ -123,7 +123,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
-import { waitAMoment } from '@/common/tools'
 import { loadChartData, resetMonitorData } from '@/api/common'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'

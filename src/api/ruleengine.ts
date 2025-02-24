@@ -1,5 +1,4 @@
 import http from '@/common/http'
-import { getBridgeKey } from '@/common/tools'
 import { ListDataWithPagination } from '@/types/common'
 import {
   BridgeItem,

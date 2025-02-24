@@ -1,4 +1,3 @@
-import { checkInRange, checkStringWithUnit } from '@/common/tools'
 import { InternalRuleItem } from 'async-validator'
 import { FormItemRule } from 'element-plus'
 

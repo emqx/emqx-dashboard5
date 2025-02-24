@@ -1,5 +1,4 @@
 import { BannedType } from '@/types/enum'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 
 export default (): {
   typeList: {

@@ -1,5 +1,3 @@
-import { jumpToErrorFormItem } from '@/common/tools'
-
 export default (): {
   pwdErrorWhenCoping: Ref<string>
   checkLikePwdField: (bridge: any, errorMsg?: string) => Promise<void>

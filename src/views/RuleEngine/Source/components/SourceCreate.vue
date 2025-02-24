@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import { customValidate } from '@/common/tools'
 import { Source } from '@/types/rule'
 import useSourceFormComponent from './useSourceFormComponent'
 

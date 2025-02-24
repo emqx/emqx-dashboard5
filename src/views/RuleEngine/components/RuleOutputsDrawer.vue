@@ -98,7 +98,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getTypeAndNameFromKey } from '@/common/tools'
 import { BridgeDirection, RuleOutput } from '@/types/enum'
 import { OutputItemObj, RePub } from '@/types/rule'
 import BridgeCreate from '../Bridge/BridgeCreate.vue'

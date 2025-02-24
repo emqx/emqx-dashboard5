@@ -110,7 +110,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listSubscriptions } from '@/api/common'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

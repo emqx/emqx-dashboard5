@@ -47,7 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatNumber } from '@/common/tools'
 import { MoreFilled } from '@element-plus/icons-vue'
 import InfoTooltip from '../InfoTooltip.vue'
 

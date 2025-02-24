@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-
 import { ListDataWithPagination } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 
