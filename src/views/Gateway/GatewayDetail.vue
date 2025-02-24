@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { getGateway } from '@/api/gateway'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { GatewayName } from '@/types/enum'
 
 const gInfo = ref<Record<string, any>>({})

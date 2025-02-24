@@ -9,7 +9,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import { RuleItem } from '@/types/rule'
 
 const props = defineProps({

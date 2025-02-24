@@ -150,9 +150,6 @@
 <script lang="ts" setup>
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
 import { customValidate } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
 import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'

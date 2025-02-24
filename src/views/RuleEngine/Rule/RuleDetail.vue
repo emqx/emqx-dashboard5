@@ -82,7 +82,6 @@
 
 <script lang="ts" setup>
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'

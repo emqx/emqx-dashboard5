@@ -114,7 +114,6 @@ import {
   updateGatewayUser,
 } from '@/api/gateway'
 import { replaceSpaceForHTML } from '@/common/tools'
-import commonPagination from '@/components/commonPagination.vue'
 import { DataManagerItem } from '@/types/auth'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthnUsersImport from './AuthnUsersImport.vue'

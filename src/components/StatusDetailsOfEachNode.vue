@@ -42,7 +42,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { TargetStatusWithDetail } from '@/types/common'
 import { NodeStatusClass, CheckStatus } from '@/types/enum'
-import CheckIcon from '@/components/CheckIcon.vue'
 
 const props = defineProps({
   statusData: {

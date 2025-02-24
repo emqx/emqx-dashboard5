@@ -39,7 +39,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import Monaco from '@/components/Monaco.vue'
 import { isJSONString, stringifyObjSafely } from '@emqx/shared-ui-utils'
 import StretchHeight from './StretchHeight.vue'
 import { createRandomString } from '@/common/tools'

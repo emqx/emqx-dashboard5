@@ -18,7 +18,6 @@ import { postAction } from '@/api/action'
 import { postConnector } from '@/api/connector'
 import { createRules } from '@/api/ruleengine'
 import { checkNOmitFromObj, customValidate, getBridgeKey } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
 import { WebhookForm } from '@/types/webhook'
 import WebhookFormCom from './components/WebhookForm.vue'
 

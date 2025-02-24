@@ -61,7 +61,6 @@
 <script setup lang="ts">
 import SQLTemplates from '@/common/SQLTemplates'
 import { stringifyObjSafely } from '@/common/tools'
-import CodeView from '@/components/CodeView.vue'
 
 interface TemplateItem {
   title: string

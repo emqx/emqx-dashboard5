@@ -53,9 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import BooleanSelect from '@/components/BooleanSelect.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { StompGatewayConfig } from '@/types/typeAlias'
 
 const props = defineProps<{

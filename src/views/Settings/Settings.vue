@@ -77,7 +77,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { getTeleStatus, updateTeleStatus } from '@/api/config'
 import { TeleStatus } from '@/types/config'
-import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const record = reactive({
   lang: 'en',

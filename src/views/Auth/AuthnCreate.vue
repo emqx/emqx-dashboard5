@@ -182,8 +182,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import GuideBar from '@/components/GuideBar.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import HttpConfig from './components/HttpConfig.vue'

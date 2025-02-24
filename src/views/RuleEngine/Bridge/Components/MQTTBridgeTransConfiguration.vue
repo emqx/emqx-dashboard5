@@ -57,9 +57,6 @@
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import Monaco from '@/components/Monaco.vue'
 import { MQTTBridgeTransConfiguration } from '@/types/rule'
 
 const props = defineProps({

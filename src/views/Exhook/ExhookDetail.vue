@@ -80,7 +80,6 @@ import {
 } from '@/api/exhook'
 import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
-import DetailHeader from '@/components/DetailHeader.vue'
 import ExhookItemOverview from './components/ExhookItemOverview.vue'
 
 const router = useRouter()

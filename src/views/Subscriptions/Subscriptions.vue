@@ -111,8 +111,6 @@ export default defineComponent({
 import { listSubscriptions } from '@/api/common'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 import CommonPagination from '../../components/commonPagination.vue'
 import 'element-plus/theme-chalk/display.css'
 

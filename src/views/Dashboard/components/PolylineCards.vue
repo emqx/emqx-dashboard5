@@ -128,7 +128,6 @@ import { loadChartData, resetMonitorData } from '@/api/common'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
 import { Close, FullScreen } from '@element-plus/icons-vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const POLLING_INTERVAL = 60000
 

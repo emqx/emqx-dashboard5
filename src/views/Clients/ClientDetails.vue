@@ -204,9 +204,6 @@ import {
   unsubscribeGatewayClientSub,
 } from '@/api/gateway'
 import { getLabelFromValueInOptionList } from '@/common/tools'
-import DetailHeader from '@/components/DetailHeader.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-import TextEasyCopy from '@/components/TextEasyCopy.vue'
 import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
@@ -215,8 +212,6 @@ import { Delete, Warning } from '@element-plus/icons-vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
 import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const props = defineProps({
   gateway: {

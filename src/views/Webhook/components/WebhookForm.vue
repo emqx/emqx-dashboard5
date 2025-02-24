@@ -97,12 +97,6 @@
 <script setup lang="ts">
 import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getKeywordsFromSQL } from '@/common/tools'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'

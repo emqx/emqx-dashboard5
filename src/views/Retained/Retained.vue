@@ -88,9 +88,6 @@ import {
   getRetainerTopic,
 } from '@/api/extension'
 import { dateFormat } from '@/common/tools'
-import PayloadDialog from '@/components/PayloadDialog.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import CommonPagination from '@/components/commonPagination.vue'
 import { RetainerMessage } from '@/types/extension'
 import { Remove, Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'

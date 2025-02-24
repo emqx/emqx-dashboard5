@@ -157,10 +157,6 @@
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
-import Monaco from '@/components/Monaco.vue'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
 import PubProps from './PubProps.vue'

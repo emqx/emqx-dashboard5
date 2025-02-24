@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
-import DetailHeader from '@/components/DetailHeader.vue'
 
 const router = useRouter()
 const { t } = useI18n()

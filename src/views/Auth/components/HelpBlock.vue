@@ -27,8 +27,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import CodeView from '@/components/CodeView.vue'
-
 const props = defineProps({
   authType: {
     type: String as PropType<'authn' | 'authz'>,
