@@ -31,6 +31,7 @@
           <el-scrollbar>
             <el-menu
               v-if="hasSubMenu && showSubMenu"
+              :ellipsis="false"
               :default-active="defaultSubMenu"
               :key="defaultSubMenu"
               mode="horizontal"
