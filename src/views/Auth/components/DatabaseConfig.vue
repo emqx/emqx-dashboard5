@@ -297,7 +297,6 @@
 </template>
 
 <script lang="ts">
-import { PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'

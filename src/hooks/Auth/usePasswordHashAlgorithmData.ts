@@ -1,4 +1,3 @@
-import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { HashType } from '@/types/enum'
 import { FormRules } from '@/types/common'
 

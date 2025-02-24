@@ -36,7 +36,6 @@
 </template>
 
 <script lang="ts" setup>
-import { CONNECTOR_TYPES_WITH_SOURCE } from '@/common/constants'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
 import { SuccessFilled } from '@element-plus/icons-vue'

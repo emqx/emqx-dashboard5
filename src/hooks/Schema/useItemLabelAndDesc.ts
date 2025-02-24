@@ -1,4 +1,3 @@
-import { INTEGRATION_SCHEMA_TYPES } from '@/common/constants'
 import {
   useActionSchema,
   useConnectorSchema,

@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import { Listener } from '@/types/listener'
-import { unexposedConfigs } from '@/common/constants'
 
 const { tl } = useI18nTl('Gateway')
 

@@ -75,6 +75,7 @@ export default {
   vueTemplate: true,
   dirs: [
     'src/hooks/**',
+    'src/common/constants.ts',
     {
       glob: 'src/hooks/**',
       types: true, // enable import the types

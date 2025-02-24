@@ -120,7 +120,6 @@ export default defineComponent({
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { calcPercentage } from '@/common/tools'
 import { NodeStatus } from '@/types/enum'
-import { IS_ENTERPRISE } from '@/common/constants'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)

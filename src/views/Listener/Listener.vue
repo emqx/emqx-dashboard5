@@ -96,7 +96,7 @@ import {
   queryListener,
   deleteListener as requestDeleteListener,
 } from '@/api/listener'
-import { INFINITY_VALUE } from '@/common/constants'
+
 import { calcPercentage } from '@/common/tools'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'

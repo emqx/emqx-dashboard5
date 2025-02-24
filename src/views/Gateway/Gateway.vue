@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
-import { INFINITY_VALUE } from '@/common/constants'
+
 import { caseInsensitiveCompare } from '@/common/tools'
 import { GatewayStatus } from '@/types/enum'
 import { GatewayItem } from '@/types/gateway'

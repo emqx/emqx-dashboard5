@@ -95,7 +95,6 @@
 </template>
 
 <script setup lang="ts">
-import { WEBHOOK_SUFFIX } from '@/common/constants'
 import { getKeywordsFromSQL } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'

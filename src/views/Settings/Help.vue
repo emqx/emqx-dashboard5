@@ -90,7 +90,7 @@ import helpBlogIcon from '@/assets/img/help-blog.png'
 import helpDocIcon from '@/assets/img/help-doc.png'
 import helpForumIcon from '@/assets/img/help-forum.png'
 import helpGithubIcon from '@/assets/img/help-github.png'
-import { IS_ENTERPRISE } from '@/common/constants'
+
 import { Right } from '@element-plus/icons-vue'
 import DocListCard from './components/DocListCard.vue'
 

@@ -1,4 +1,3 @@
-import { DEFAULT_FROM, DEFAULT_SELECT } from '@/common/constants'
 import { createRandomString } from '@/common/tools'
 import { BasicRule, RuleItem } from '@/types/rule'
 

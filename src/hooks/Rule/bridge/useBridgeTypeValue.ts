@@ -1,4 +1,3 @@
-import { CONNECTOR_TYPES_WITH_TWO_DIRECTIONS, INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getImg, getLabelFromValueInOptionList } from '@/common/tools'
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'

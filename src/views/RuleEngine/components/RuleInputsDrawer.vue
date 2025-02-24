@@ -90,7 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { waitAMoment } from '@/common/tools'
 import { BridgeDirection } from '@/types/enum'
 import ActionSelect from '../Rule/components/ActionSelect.vue'

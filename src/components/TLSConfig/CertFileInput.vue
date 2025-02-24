@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { CER_FILE_ACCEPTS } from '@/common/constants'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 
 const props = defineProps({

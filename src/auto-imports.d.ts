@@ -7,24 +7,81 @@
 export {}
 declare global {
   const ACTIVE_RING_STROKE_WIDTH: (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
+  const ADMIN_USERNAMES: (typeof import('./common/constants'))['ADMIN_USERNAMES']
+  const API_BASE_URL: (typeof import('./common/constants'))['API_BASE_URL']
+  const AUTHZ_COMMON_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_COMMON_PLACEHOLDERS']
+  const AUTHZ_HTTP_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_HTTP_PLACEHOLDERS']
+  const AUTHZ_MONGODB_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_MONGODB_PLACEHOLDERS']
+  const AUTH_PLACEHOLDERS: (typeof import('./common/constants'))['AUTH_PLACEHOLDERS']
+  const AUTH_PLACEHOLDER_CLIENT_ATTRS: (typeof import('./common/constants'))['AUTH_PLACEHOLDER_CLIENT_ATTRS']
+  const AUTO_RESTART_INTERVAL_DEFAULT: (typeof import('./common/constants'))['AUTO_RESTART_INTERVAL_DEFAULT']
   const ArgumentType: (typeof import('./hooks/useRuleFunc'))['ArgumentType']
   const AvroJsonToObject: (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
   const BACKGROUND_CIRCLE_INNER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_INNER_RADIUS']
   const BACKGROUND_CIRCLE_OUTER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_OUTER_RADIUS']
   const BACKGROUND_CIRCLE_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
+  const BANNED_NEVER_EXPIRE_VALUE: (typeof import('./common/constants'))['BANNED_NEVER_EXPIRE_VALUE']
+  const BRIDGE_TYPES_NOT_USE_SCHEMA: (typeof import('./common/constants'))['BRIDGE_TYPES_NOT_USE_SCHEMA']
+  const CER_FILE_ACCEPTS: (typeof import('./common/constants'))['CER_FILE_ACCEPTS']
+  const COMMON_ID_REG: (typeof import('./common/constants'))['COMMON_ID_REG']
+  const CONNECTOR_TYPES_WITH_SOURCE: (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_SOURCE']
+  const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
+  const COPY_SUFFIX: (typeof import('./common/constants'))['COPY_SUFFIX']
+  const DEFAULT_CLIENT_TABLE_COLUMNS: (typeof import('./common/constants'))['DEFAULT_CLIENT_TABLE_COLUMNS']
+  const DEFAULT_FROM: (typeof import('./common/constants'))['DEFAULT_FROM']
+  const DEFAULT_PAGE_SIZE_OPT: (typeof import('./common/constants'))['DEFAULT_PAGE_SIZE_OPT']
+  const DEFAULT_PWD: (typeof import('./common/constants'))['DEFAULT_PWD']
+  const DEFAULT_SALT_POSITION: (typeof import('./common/constants'))['DEFAULT_SALT_POSITION']
+  const DEFAULT_SELECT: (typeof import('./common/constants'))['DEFAULT_SELECT']
+  const DEFAULT_SSL_VERIFY_VALUE: (typeof import('./common/constants'))['DEFAULT_SSL_VERIFY_VALUE']
+  const DEFAULT_ZONE: (typeof import('./common/constants'))['DEFAULT_ZONE']
+  const ENCRYPTED_PWD_REG: (typeof import('./common/constants'))['ENCRYPTED_PWD_REG']
   const EffectScope: (typeof import('vue'))['EffectScope']
   const ElMessage: (typeof import('element-plus'))['ElMessage']
   const ElMessageBox: (typeof import('element-plus'))['ElMessageBox']
   const ElNotification: (typeof import('element-plus'))['ElNotification']
+  const GATEWAY_DISABLED_LISTENER_TYPE_MAP: (typeof import('./common/constants'))['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
+  const GATEWAY_ENABLED_DATABASES_MAP: (typeof import('./common/constants'))['GATEWAY_ENABLED_DATABASES_MAP']
+  const GATEWAY_ENABLED_MECHANISM_MAP: (typeof import('./common/constants'))['GATEWAY_ENABLED_MECHANISM_MAP']
+  const INFINITY_VALUE: (typeof import('./common/constants'))['INFINITY_VALUE']
+  const INGRESS_BRIDGE_TYPES: (typeof import('./common/constants'))['INGRESS_BRIDGE_TYPES']
+  const INTEGRATION_SCHEMA_TYPES: (typeof import('./common/constants'))['INTEGRATION_SCHEMA_TYPES']
+  const INVALID_PUB_TOPIC_REG: (typeof import('./common/constants'))['INVALID_PUB_TOPIC_REG']
+  const IP_REG: (typeof import('./common/constants'))['IP_REG']
+  const IS_ENTERPRISE: (typeof import('./common/constants'))['IS_ENTERPRISE']
   const KeysInRule: (typeof import('./hooks/Rule/KeysInRule'))['default']
   const LogMsg: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']
   const LogTargetType: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogTargetType']
   const MAX_DISPLAYED_REP_NODE: (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
+  const MQTT_V3_RES_CODES: (typeof import('./common/constants'))['MQTT_V3_RES_CODES']
+  const MQTT_V5_RES_CODES: (typeof import('./common/constants'))['MQTT_V5_RES_CODES']
+  const MQTT_VERSION_LIST: (typeof import('./common/constants'))['MQTT_VERSION_LIST']
+  const MQTTingressRemoteQoS: (typeof import('./common/constants'))['MQTTingressRemoteQoS']
+  const MULTI_LEVEL_WILDCARD: (typeof import('./common/constants'))['MULTI_LEVEL_WILDCARD']
   const MetricType: (typeof import('./hooks/useMetrics'))['MetricType']
   const NO_CHINESE_REG: (typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']
+  const NUM_REG: (typeof import('./common/constants'))['NUM_REG']
+  const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: (typeof import('./common/constants'))['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
+  const PASSWORD_REG: (typeof import('./common/constants'))['PASSWORD_REG']
+  const QoSOptions: (typeof import('./common/constants'))['QoSOptions']
+  const REQUEST_TIMEOUT_CODE: (typeof import('./common/constants'))['REQUEST_TIMEOUT_CODE']
+  const RULE_FROM_SEPARATOR: (typeof import('./common/constants'))['RULE_FROM_SEPARATOR']
+  const RULE_INPUT_BRIDGE_TYPE_PREFIX: (typeof import('./common/constants'))['RULE_INPUT_BRIDGE_TYPE_PREFIX']
+  const RULE_INPUT_EVENT_PREFIX: (typeof import('./common/constants'))['RULE_INPUT_EVENT_PREFIX']
+  const RULE_LOGICAL_OPERATORS: (typeof import('./common/constants'))['RULE_LOGICAL_OPERATORS']
+  const RULE_MAX_NUM_PER_PAGE: (typeof import('./common/constants'))['RULE_MAX_NUM_PER_PAGE']
   const RuleSourceType: (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
+  const SEARCH_FORM_RES_PROPS: (typeof import('./common/constants'))['SEARCH_FORM_RES_PROPS']
+  const SESSION_FIELDS: (typeof import('./common/constants'))['SESSION_FIELDS']
+  const SESSION_NEVER_EXPIRE_TIME: (typeof import('./common/constants'))['SESSION_NEVER_EXPIRE_TIME']
+  const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: (typeof import('./common/constants'))['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
+  const SPECIAL_INVALID_SUB_TOPIC_REG: (typeof import('./common/constants'))['SPECIAL_INVALID_SUB_TOPIC_REG']
+  const SSL_VERIFY_VALUE_MAP: (typeof import('./common/constants'))['SSL_VERIFY_VALUE_MAP']
   const SourceServerType: (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
+  const TOPIC_EVENT: (typeof import('./common/constants'))['TOPIC_EVENT']
   const TYPE_COLOR_MAP: (typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']
+  const WEBHOOK_SUFFIX: (typeof import('./common/constants'))['WEBHOOK_SUFFIX']
+  const WEB_SOCKET_STATUS: (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
   const _: (typeof import('lodash'))['default']
   const assign: (typeof import('lodash'))['assign']
   const avroUtils: (typeof import('./hooks/Plugins/avroUtils'))['default']
@@ -113,6 +170,7 @@ declare global {
   const toValue: (typeof import('vue'))['toValue']
   const triggerRef: (typeof import('vue'))['triggerRef']
   const typesWithProducerAndConsumer: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
+  const unexposedConfigs: (typeof import('./common/constants'))['unexposedConfigs']
   const unref: (typeof import('vue'))['unref']
   const useActionAndSourceStatus: (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
   const useActionDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
@@ -343,6 +401,26 @@ declare module 'vue' {
     readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<
       (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
     >
+    readonly ADMIN_USERNAMES: UnwrapRef<(typeof import('./common/constants'))['ADMIN_USERNAMES']>
+    readonly API_BASE_URL: UnwrapRef<(typeof import('./common/constants'))['API_BASE_URL']>
+    readonly AUTHZ_COMMON_PLACEHOLDERS: UnwrapRef<
+      (typeof import('./common/constants'))['AUTHZ_COMMON_PLACEHOLDERS']
+    >
+    readonly AUTHZ_HTTP_PLACEHOLDERS: UnwrapRef<
+      (typeof import('./common/constants'))['AUTHZ_HTTP_PLACEHOLDERS']
+    >
+    readonly AUTHZ_MONGODB_PLACEHOLDERS: UnwrapRef<
+      (typeof import('./common/constants'))['AUTHZ_MONGODB_PLACEHOLDERS']
+    >
+    readonly AUTH_PLACEHOLDERS: UnwrapRef<
+      (typeof import('./common/constants'))['AUTH_PLACEHOLDERS']
+    >
+    readonly AUTH_PLACEHOLDER_CLIENT_ATTRS: UnwrapRef<
+      (typeof import('./common/constants'))['AUTH_PLACEHOLDER_CLIENT_ATTRS']
+    >
+    readonly AUTO_RESTART_INTERVAL_DEFAULT: UnwrapRef<
+      (typeof import('./common/constants'))['AUTO_RESTART_INTERVAL_DEFAULT']
+    >
     readonly ArgumentType: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['ArgumentType']>
     readonly AvroJsonToObject: UnwrapRef<
       (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
@@ -356,10 +434,65 @@ declare module 'vue' {
     readonly BACKGROUND_CIRCLE_RADIUS: UnwrapRef<
       (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
     >
+    readonly BANNED_NEVER_EXPIRE_VALUE: UnwrapRef<
+      (typeof import('./common/constants'))['BANNED_NEVER_EXPIRE_VALUE']
+    >
+    readonly BRIDGE_TYPES_NOT_USE_SCHEMA: UnwrapRef<
+      (typeof import('./common/constants'))['BRIDGE_TYPES_NOT_USE_SCHEMA']
+    >
+    readonly CER_FILE_ACCEPTS: UnwrapRef<(typeof import('./common/constants'))['CER_FILE_ACCEPTS']>
+    readonly COMMON_ID_REG: UnwrapRef<(typeof import('./common/constants'))['COMMON_ID_REG']>
+    readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<
+      (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_SOURCE']
+    >
+    readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<
+      (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
+    >
+    readonly COPY_SUFFIX: UnwrapRef<(typeof import('./common/constants'))['COPY_SUFFIX']>
+    readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<
+      (typeof import('./common/constants'))['DEFAULT_CLIENT_TABLE_COLUMNS']
+    >
+    readonly DEFAULT_FROM: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_FROM']>
+    readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<
+      (typeof import('./common/constants'))['DEFAULT_PAGE_SIZE_OPT']
+    >
+    readonly DEFAULT_PWD: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_PWD']>
+    readonly DEFAULT_SALT_POSITION: UnwrapRef<
+      (typeof import('./common/constants'))['DEFAULT_SALT_POSITION']
+    >
+    readonly DEFAULT_SELECT: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_SELECT']>
+    readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<
+      (typeof import('./common/constants'))['DEFAULT_SSL_VERIFY_VALUE']
+    >
+    readonly DEFAULT_ZONE: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_ZONE']>
+    readonly ENCRYPTED_PWD_REG: UnwrapRef<
+      (typeof import('./common/constants'))['ENCRYPTED_PWD_REG']
+    >
     readonly EffectScope: UnwrapRef<(typeof import('vue'))['EffectScope']>
     readonly ElMessage: UnwrapRef<(typeof import('element-plus'))['ElMessage']>
     readonly ElMessageBox: UnwrapRef<(typeof import('element-plus'))['ElMessageBox']>
     readonly ElNotification: UnwrapRef<(typeof import('element-plus'))['ElNotification']>
+    readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<
+      (typeof import('./common/constants'))['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
+    >
+    readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<
+      (typeof import('./common/constants'))['GATEWAY_ENABLED_DATABASES_MAP']
+    >
+    readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<
+      (typeof import('./common/constants'))['GATEWAY_ENABLED_MECHANISM_MAP']
+    >
+    readonly INFINITY_VALUE: UnwrapRef<(typeof import('./common/constants'))['INFINITY_VALUE']>
+    readonly INGRESS_BRIDGE_TYPES: UnwrapRef<
+      (typeof import('./common/constants'))['INGRESS_BRIDGE_TYPES']
+    >
+    readonly INTEGRATION_SCHEMA_TYPES: UnwrapRef<
+      (typeof import('./common/constants'))['INTEGRATION_SCHEMA_TYPES']
+    >
+    readonly INVALID_PUB_TOPIC_REG: UnwrapRef<
+      (typeof import('./common/constants'))['INVALID_PUB_TOPIC_REG']
+    >
+    readonly IP_REG: UnwrapRef<(typeof import('./common/constants'))['IP_REG']>
+    readonly IS_ENTERPRISE: UnwrapRef<(typeof import('./common/constants'))['IS_ENTERPRISE']>
     readonly KeysInRule: UnwrapRef<(typeof import('./hooks/Rule/KeysInRule'))['default']>
     readonly LogMsg: UnwrapRef<(typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']>
     readonly LogTargetType: UnwrapRef<
@@ -368,15 +501,75 @@ declare module 'vue' {
     readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<
       (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
     >
+    readonly MQTT_V3_RES_CODES: UnwrapRef<
+      (typeof import('./common/constants'))['MQTT_V3_RES_CODES']
+    >
+    readonly MQTT_V5_RES_CODES: UnwrapRef<
+      (typeof import('./common/constants'))['MQTT_V5_RES_CODES']
+    >
+    readonly MQTT_VERSION_LIST: UnwrapRef<
+      (typeof import('./common/constants'))['MQTT_VERSION_LIST']
+    >
+    readonly MQTTingressRemoteQoS: UnwrapRef<
+      (typeof import('./common/constants'))['MQTTingressRemoteQoS']
+    >
+    readonly MULTI_LEVEL_WILDCARD: UnwrapRef<
+      (typeof import('./common/constants'))['MULTI_LEVEL_WILDCARD']
+    >
     readonly MetricType: UnwrapRef<(typeof import('./hooks/useMetrics'))['MetricType']>
     readonly NO_CHINESE_REG: UnwrapRef<(typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']>
+    readonly NUM_REG: UnwrapRef<(typeof import('./common/constants'))['NUM_REG']>
+    readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<
+      (typeof import('./common/constants'))['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
+    >
+    readonly PASSWORD_REG: UnwrapRef<(typeof import('./common/constants'))['PASSWORD_REG']>
+    readonly QoSOptions: UnwrapRef<(typeof import('./common/constants'))['QoSOptions']>
+    readonly REQUEST_TIMEOUT_CODE: UnwrapRef<
+      (typeof import('./common/constants'))['REQUEST_TIMEOUT_CODE']
+    >
+    readonly RULE_FROM_SEPARATOR: UnwrapRef<
+      (typeof import('./common/constants'))['RULE_FROM_SEPARATOR']
+    >
+    readonly RULE_INPUT_BRIDGE_TYPE_PREFIX: UnwrapRef<
+      (typeof import('./common/constants'))['RULE_INPUT_BRIDGE_TYPE_PREFIX']
+    >
+    readonly RULE_INPUT_EVENT_PREFIX: UnwrapRef<
+      (typeof import('./common/constants'))['RULE_INPUT_EVENT_PREFIX']
+    >
+    readonly RULE_LOGICAL_OPERATORS: UnwrapRef<
+      (typeof import('./common/constants'))['RULE_LOGICAL_OPERATORS']
+    >
+    readonly RULE_MAX_NUM_PER_PAGE: UnwrapRef<
+      (typeof import('./common/constants'))['RULE_MAX_NUM_PER_PAGE']
+    >
     readonly RuleSourceType: UnwrapRef<
       (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
+    >
+    readonly SEARCH_FORM_RES_PROPS: UnwrapRef<
+      (typeof import('./common/constants'))['SEARCH_FORM_RES_PROPS']
+    >
+    readonly SESSION_FIELDS: UnwrapRef<(typeof import('./common/constants'))['SESSION_FIELDS']>
+    readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<
+      (typeof import('./common/constants'))['SESSION_NEVER_EXPIRE_TIME']
+    >
+    readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<
+      (typeof import('./common/constants'))['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
+    >
+    readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<
+      (typeof import('./common/constants'))['SPECIAL_INVALID_SUB_TOPIC_REG']
+    >
+    readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<
+      (typeof import('./common/constants'))['SSL_VERIFY_VALUE_MAP']
     >
     readonly SourceServerType: UnwrapRef<
       (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
     >
+    readonly TOPIC_EVENT: UnwrapRef<(typeof import('./common/constants'))['TOPIC_EVENT']>
     readonly TYPE_COLOR_MAP: UnwrapRef<(typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']>
+    readonly WEBHOOK_SUFFIX: UnwrapRef<(typeof import('./common/constants'))['WEBHOOK_SUFFIX']>
+    readonly WEB_SOCKET_STATUS: UnwrapRef<
+      (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
+    >
     readonly _: UnwrapRef<(typeof import('lodash'))['default']>
     readonly assign: UnwrapRef<(typeof import('lodash'))['assign']>
     readonly avroUtils: UnwrapRef<(typeof import('./hooks/Plugins/avroUtils'))['default']>
@@ -481,6 +674,7 @@ declare module 'vue' {
     readonly typesWithProducerAndConsumer: UnwrapRef<
       (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
     >
+    readonly unexposedConfigs: UnwrapRef<(typeof import('./common/constants'))['unexposedConfigs']>
     readonly unref: UnwrapRef<(typeof import('vue'))['unref']>
     readonly useActionAndSourceStatus: UnwrapRef<
       (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']

@@ -113,7 +113,6 @@
 </template>
 
 <script setup lang="ts">
-import { RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
 import { dateFormat, getTypeAndNameFromKey } from '@/common/tools'
 import { LogResult } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
