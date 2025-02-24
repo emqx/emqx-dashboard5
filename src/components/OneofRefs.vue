@@ -52,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { Properties, Property } from '@/types/schemaForm'
 import CustomFormItem from './CustomFormItem.vue'
 import FormItemLabel from './FormItemLabel.vue'

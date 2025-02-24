@@ -90,7 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import { waitAMoment } from '@/common/tools'
 import { BridgeDirection } from '@/types/enum'
 import ActionSelect from '../Rule/components/ActionSelect.vue'
 import SourceDetail from '../Source/SourceDetail.vue'

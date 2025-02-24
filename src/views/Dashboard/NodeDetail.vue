@@ -118,7 +118,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
-import { calcPercentage } from '@/common/tools'
 import { NodeStatus } from '@/types/enum'
 
 const nodeLoading = ref(true)

@@ -63,7 +63,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getImg } from '@/common/tools'
 import { BridgeType, RuleOutput } from '@/types/enum'
 import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { ElMessageBox as MB } from 'element-plus'

@@ -80,39 +80,77 @@ declare global {
   const SourceServerType: (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
   const TOPIC_EVENT: (typeof import('./common/constants'))['TOPIC_EVENT']
   const TYPE_COLOR_MAP: (typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']
+  const URLReg: (typeof import('./common/tools'))['URLReg']
   const WEBHOOK_SUFFIX: (typeof import('./common/constants'))['WEBHOOK_SUFFIX']
   const WEB_SOCKET_STATUS: (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
   const _: (typeof import('lodash'))['default']
+  const accAdd: (typeof import('./common/tools'))['accAdd']
+  const addNewlineAfterComma: (typeof import('./common/tools'))['addNewlineAfterComma']
+  const arraysAreEqual: (typeof import('./common/tools'))['arraysAreEqual']
   const assign: (typeof import('lodash'))['assign']
   const avroUtils: (typeof import('./hooks/Plugins/avroUtils'))['default']
   const axios: (typeof import('axios'))['default']
   const bridgeOrderIndex: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
+  const calcPercentage: (typeof import('./common/tools'))['calcPercentage']
   const camelCase: (typeof import('lodash'))['camelCase']
+  const caseInsensitiveCompare: (typeof import('./common/tools'))['caseInsensitiveCompare']
+  const checkInRange: (typeof import('./common/tools'))['checkInRange']
+  const checkIsValidArr: (typeof import('./common/tools'))['checkIsValidArr']
+  const checkNOmitFromObj: (typeof import('./common/tools'))['checkNOmitFromObj']
+  const checkNSetToNullFromObj: (typeof import('./common/tools'))['checkNSetToNullFromObj']
+  const checkStringWithUnit: (typeof import('./common/tools'))['checkStringWithUnit']
   const chunk: (typeof import('lodash'))['chunk']
+  const chunkStr: (typeof import('./common/tools'))['chunkStr']
   const cloneDeep: (typeof import('lodash'))['cloneDeep']
   const computed: (typeof import('vue'))['computed']
   const consumerReg: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
+  const countDuplicationName: (typeof import('./common/tools'))['countDuplicationName']
   const createApp: (typeof import('vue'))['createApp']
+  const createOrderObj: (typeof import('./common/tools'))['createOrderObj']
+  const createRandomString: (typeof import('./common/tools'))['createRandomString']
   const createRouter: (typeof import('vue-router'))['createRouter']
   const createStore: (typeof import('vuex'))['createStore']
   const createWebHashHistory: (typeof import('vue-router'))['createWebHashHistory']
   const customRef: (typeof import('vue'))['customRef']
+  const customValidate: (typeof import('./common/tools'))['customValidate']
+  const dateFormat: (typeof import('./common/tools'))['dateFormat']
   const debounce: (typeof import('lodash'))['debounce']
   const defineAsyncComponent: (typeof import('vue'))['defineAsyncComponent']
   const defineComponent: (typeof import('vue'))['defineComponent']
+  const downloadBlobData: (typeof import('./common/tools'))['downloadBlobData']
+  const downloadByURL: (typeof import('./common/tools'))['downloadByURL']
   const effectScope: (typeof import('vue'))['effectScope']
+  const emptyObject: (typeof import('./common/tools'))['emptyObject']
   const escape: (typeof import('lodash'))['escape']
+  const escapeCode: (typeof import('./common/tools'))['escapeCode']
   const escapeRegExp: (typeof import('lodash'))['escapeRegExp']
+  const fillEmptyValueToUndefinedField: (typeof import('./common/tools'))['fillEmptyValueToUndefinedField']
+  const findExtensionByName: (typeof import('./common/tools'))['findExtensionByName']
+  const formatNumber: (typeof import('./common/tools'))['formatNumber']
+  const formatSQL: (typeof import('./common/tools'))['formatSQL']
   const get: (typeof import('lodash'))['get']
+  const getAPIPath: (typeof import('./common/tools'))['getAPIPath']
+  const getAllListData: (typeof import('./common/tools'))['getAllListData']
+  const getBridgeKey: (typeof import('./common/tools'))['getBridgeKey']
   const getCurrentInstance: (typeof import('vue'))['getCurrentInstance']
   const getCurrentScope: (typeof import('vue'))['getCurrentScope']
+  const getEmptyValueByDefaultValue: (typeof import('./common/tools'))['getEmptyValueByDefaultValue']
+  const getImg: (typeof import('./common/tools'))['getImg']
+  const getKeyPartsFromSQL: (typeof import('./common/tools'))['getKeyPartsFromSQL']
+  const getKeywordsFromSQL: (typeof import('./common/tools'))['getKeywordsFromSQL']
+  const getLabelFromValueInOptionList: (typeof import('./common/tools'))['getLabelFromValueInOptionList']
   const getPasswordHashAlgorithmObj: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
+  const getProgressColor: (typeof import('./common/tools'))['getProgressColor']
+  const getRuleSelectionAlias: (typeof import('./common/tools'))['getRuleSelectionAlias']
+  const getTypeAndNameFromKey: (typeof import('./common/tools'))['getTypeAndNameFromKey']
+  const getUnitInStr: (typeof import('./common/tools'))['getUnitInStr']
   const getUsefulPasswordHashAlgorithmData: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
   const groupBy: (typeof import('lodash'))['groupBy']
   const h: (typeof import('vue'))['h']
   const inject: (typeof import('vue'))['inject']
   const isArray: (typeof import('lodash'))['isArray']
   const isEqual: (typeof import('lodash'))['isEqual']
+  const isForeachReg: (typeof import('./common/tools'))['isForeachReg']
   const isFunction: (typeof import('lodash'))['isFunction']
   const isNumber: (typeof import('lodash'))['isNumber']
   const isObject: (typeof import('lodash'))['isObject']
@@ -124,13 +162,17 @@ declare global {
   const isRegExp: (typeof import('lodash'))['isRegExp']
   const isString: (typeof import('lodash'))['isString']
   const isUndefined: (typeof import('lodash'))['isUndefined']
+  const judgeRuleSelectionWithFunc: (typeof import('./common/tools'))['judgeRuleSelectionWithFunc']
+  const jumpToErrorFormItem: (typeof import('./common/tools'))['jumpToErrorFormItem']
   const lowerCase: (typeof import('lodash'))['lowerCase']
   const markRaw: (typeof import('vue'))['markRaw']
   const merge: (typeof import('lodash'))['merge']
   const mergeWith: (typeof import('lodash'))['mergeWith']
   const nextTick: (typeof import('vue'))['nextTick']
+  const numToFixed: (typeof import('./common/tools'))['numToFixed']
   const objectToAvroJson: (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
   const omit: (typeof import('lodash'))['omit']
+  const omitArr: (typeof import('./common/tools'))['omitArr']
   const onActivated: (typeof import('vue'))['onActivated']
   const onBeforeMount: (typeof import('vue'))['onBeforeMount']
   const onBeforeRouteLeave: (typeof import('vue-router'))['onBeforeRouteLeave']
@@ -153,22 +195,40 @@ declare global {
   const reactive: (typeof import('vue'))['reactive']
   const readonly: (typeof import('vue'))['readonly']
   const ref: (typeof import('vue'))['ref']
+  const removeFromArr: (typeof import('./common/tools'))['removeFromArr']
+  const replaceSpaceForHTML: (typeof import('./common/tools'))['replaceSpaceForHTML']
   const resolveComponent: (typeof import('vue'))['resolveComponent']
   const resourceOptFields: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
   const round: (typeof import('lodash'))['round']
+  const ruleSelectionAliasPartReg: (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
+  const scrollToTop: (typeof import('./common/tools'))['scrollToTop']
   const set: (typeof import('lodash'))['set']
   const setPwdFormat: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
   const shallowReactive: (typeof import('vue'))['shallowReactive']
   const shallowReadonly: (typeof import('vue'))['shallowReadonly']
   const shallowRef: (typeof import('vue'))['shallowRef']
   const snakeCase: (typeof import('lodash'))['snakeCase']
+  const sortStringArr: (typeof import('./common/tools'))['sortStringArr']
+  const sortedUniq: (typeof import('./common/tools'))['sortedUniq']
+  const splitOnComma: (typeof import('./common/tools'))['splitOnComma']
+  const splitOnSymbol: (typeof import('./common/tools'))['splitOnSymbol']
   const startCase: (typeof import('lodash'))['startCase']
+  const stringifyObjSafely: (typeof import('./common/tools'))['stringifyObjSafely']
   const throttle: (typeof import('lodash'))['throttle']
+  const titleCase: (typeof import('./common/tools'))['titleCase']
   const toRaw: (typeof import('vue'))['toRaw']
   const toRef: (typeof import('vue'))['toRef']
   const toRefs: (typeof import('vue'))['toRefs']
   const toValue: (typeof import('vue'))['toValue']
+  const transLink: (typeof import('./common/tools'))['transLink']
+  const transMSNumToString: (typeof import('./common/tools'))['transMSNumToString']
+  const transMemorySizeNumToStr: (typeof import('./common/tools'))['transMemorySizeNumToStr']
+  const transMemorySizeStrToNum: (typeof import('./common/tools'))['transMemorySizeStrToNum']
+  const transTimeStrToMS: (typeof import('./common/tools'))['transTimeStrToMS']
   const triggerRef: (typeof import('vue'))['triggerRef']
+  const trimSpacesAndLFs: (typeof import('./common/tools'))['trimSpacesAndLFs']
+  const trimValues: (typeof import('./common/tools'))['trimValues']
+  const tryToCompleteURL: (typeof import('./common/tools'))['tryToCompleteURL']
   const typesWithProducerAndConsumer: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
   const unexposedConfigs: (typeof import('./common/constants'))['unexposedConfigs']
   const unref: (typeof import('vue'))['unref']
@@ -317,6 +377,8 @@ declare global {
   const useWebhookItem: (typeof import('./hooks/Webhook/useWebhookItem'))['default']
   const useWebhookList: (typeof import('./hooks/Webhook/useWebhookList'))['default']
   const useWebhookUtils: (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
+  const usefulMemoryUnit: (typeof import('./common/tools'))['usefulMemoryUnit']
+  const waitAMoment: (typeof import('./common/tools'))['waitAMoment']
   const watch: (typeof import('vue'))['watch']
   const watchEffect: (typeof import('vue'))['watchEffect']
   const watchPostEffect: (typeof import('vue'))['watchPostEffect']
@@ -566,41 +628,100 @@ declare module 'vue' {
     >
     readonly TOPIC_EVENT: UnwrapRef<(typeof import('./common/constants'))['TOPIC_EVENT']>
     readonly TYPE_COLOR_MAP: UnwrapRef<(typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']>
+    readonly URLReg: UnwrapRef<(typeof import('./common/tools'))['URLReg']>
     readonly WEBHOOK_SUFFIX: UnwrapRef<(typeof import('./common/constants'))['WEBHOOK_SUFFIX']>
     readonly WEB_SOCKET_STATUS: UnwrapRef<
       (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
     >
     readonly _: UnwrapRef<(typeof import('lodash'))['default']>
+    readonly accAdd: UnwrapRef<(typeof import('./common/tools'))['accAdd']>
+    readonly addNewlineAfterComma: UnwrapRef<
+      (typeof import('./common/tools'))['addNewlineAfterComma']
+    >
+    readonly arraysAreEqual: UnwrapRef<(typeof import('./common/tools'))['arraysAreEqual']>
     readonly assign: UnwrapRef<(typeof import('lodash'))['assign']>
     readonly avroUtils: UnwrapRef<(typeof import('./hooks/Plugins/avroUtils'))['default']>
     readonly axios: UnwrapRef<(typeof import('axios'))['default']>
     readonly bridgeOrderIndex: UnwrapRef<
       (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
     >
+    readonly calcPercentage: UnwrapRef<(typeof import('./common/tools'))['calcPercentage']>
     readonly camelCase: UnwrapRef<(typeof import('lodash'))['camelCase']>
+    readonly caseInsensitiveCompare: UnwrapRef<
+      (typeof import('./common/tools'))['caseInsensitiveCompare']
+    >
+    readonly checkInRange: UnwrapRef<(typeof import('./common/tools'))['checkInRange']>
+    readonly checkIsValidArr: UnwrapRef<(typeof import('./common/tools'))['checkIsValidArr']>
+    readonly checkNOmitFromObj: UnwrapRef<(typeof import('./common/tools'))['checkNOmitFromObj']>
+    readonly checkNSetToNullFromObj: UnwrapRef<
+      (typeof import('./common/tools'))['checkNSetToNullFromObj']
+    >
+    readonly checkStringWithUnit: UnwrapRef<
+      (typeof import('./common/tools'))['checkStringWithUnit']
+    >
     readonly chunk: UnwrapRef<(typeof import('lodash'))['chunk']>
+    readonly chunkStr: UnwrapRef<(typeof import('./common/tools'))['chunkStr']>
     readonly cloneDeep: UnwrapRef<(typeof import('lodash'))['cloneDeep']>
     readonly computed: UnwrapRef<(typeof import('vue'))['computed']>
     readonly consumerReg: UnwrapRef<
       (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
     >
+    readonly countDuplicationName: UnwrapRef<
+      (typeof import('./common/tools'))['countDuplicationName']
+    >
     readonly createApp: UnwrapRef<(typeof import('vue'))['createApp']>
+    readonly createOrderObj: UnwrapRef<(typeof import('./common/tools'))['createOrderObj']>
+    readonly createRandomString: UnwrapRef<(typeof import('./common/tools'))['createRandomString']>
     readonly createRouter: UnwrapRef<(typeof import('vue-router'))['createRouter']>
     readonly createStore: UnwrapRef<(typeof import('vuex'))['createStore']>
     readonly createWebHashHistory: UnwrapRef<(typeof import('vue-router'))['createWebHashHistory']>
     readonly customRef: UnwrapRef<(typeof import('vue'))['customRef']>
+    readonly customValidate: UnwrapRef<(typeof import('./common/tools'))['customValidate']>
+    readonly dateFormat: UnwrapRef<(typeof import('./common/tools'))['dateFormat']>
     readonly debounce: UnwrapRef<(typeof import('lodash'))['debounce']>
     readonly defineAsyncComponent: UnwrapRef<(typeof import('vue'))['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<(typeof import('vue'))['defineComponent']>
+    readonly downloadBlobData: UnwrapRef<(typeof import('./common/tools'))['downloadBlobData']>
+    readonly downloadByURL: UnwrapRef<(typeof import('./common/tools'))['downloadByURL']>
     readonly effectScope: UnwrapRef<(typeof import('vue'))['effectScope']>
+    readonly emptyObject: UnwrapRef<(typeof import('./common/tools'))['emptyObject']>
     readonly escape: UnwrapRef<(typeof import('lodash'))['escape']>
+    readonly escapeCode: UnwrapRef<(typeof import('./common/tools'))['escapeCode']>
     readonly escapeRegExp: UnwrapRef<(typeof import('lodash'))['escapeRegExp']>
+    readonly fillEmptyValueToUndefinedField: UnwrapRef<
+      (typeof import('./common/tools'))['fillEmptyValueToUndefinedField']
+    >
+    readonly findExtensionByName: UnwrapRef<
+      (typeof import('./common/tools'))['findExtensionByName']
+    >
+    readonly formatNumber: UnwrapRef<(typeof import('./common/tools'))['formatNumber']>
+    readonly formatSQL: UnwrapRef<(typeof import('./common/tools'))['formatSQL']>
     readonly get: UnwrapRef<(typeof import('lodash'))['get']>
+    readonly getAPIPath: UnwrapRef<(typeof import('./common/tools'))['getAPIPath']>
+    readonly getAllListData: UnwrapRef<(typeof import('./common/tools'))['getAllListData']>
+    readonly getBridgeKey: UnwrapRef<(typeof import('./common/tools'))['getBridgeKey']>
     readonly getCurrentInstance: UnwrapRef<(typeof import('vue'))['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<(typeof import('vue'))['getCurrentScope']>
+    readonly getEmptyValueByDefaultValue: UnwrapRef<
+      (typeof import('./common/tools'))['getEmptyValueByDefaultValue']
+    >
+    readonly getImg: UnwrapRef<(typeof import('./common/tools'))['getImg']>
+    readonly getKeyPartsFromSQL: UnwrapRef<(typeof import('./common/tools'))['getKeyPartsFromSQL']>
+    readonly getKeywordsFromSQL: UnwrapRef<(typeof import('./common/tools'))['getKeywordsFromSQL']>
+    readonly getLabelFromValueInOptionList: UnwrapRef<
+      (typeof import('./common/tools'))['getLabelFromValueInOptionList']
+    >
     readonly getPasswordHashAlgorithmObj: UnwrapRef<
       (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
     >
+    readonly getProgressColor: UnwrapRef<(typeof import('./common/tools'))['getProgressColor']>
+    readonly getRuleSelectionAlias: UnwrapRef<
+      (typeof import('./common/tools'))['getRuleSelectionAlias']
+    >
+    readonly getTypeAndNameFromKey: UnwrapRef<
+      (typeof import('./common/tools'))['getTypeAndNameFromKey']
+    >
+    readonly getUnitInStr: UnwrapRef<(typeof import('./common/tools'))['getUnitInStr']>
     readonly getUsefulPasswordHashAlgorithmData: UnwrapRef<
       (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
     >
@@ -609,6 +730,7 @@ declare module 'vue' {
     readonly inject: UnwrapRef<(typeof import('vue'))['inject']>
     readonly isArray: UnwrapRef<(typeof import('lodash'))['isArray']>
     readonly isEqual: UnwrapRef<(typeof import('lodash'))['isEqual']>
+    readonly isForeachReg: UnwrapRef<(typeof import('./common/tools'))['isForeachReg']>
     readonly isFunction: UnwrapRef<(typeof import('lodash'))['isFunction']>
     readonly isNumber: UnwrapRef<(typeof import('lodash'))['isNumber']>
     readonly isObject: UnwrapRef<(typeof import('lodash'))['isObject']>
@@ -620,15 +742,23 @@ declare module 'vue' {
     readonly isRegExp: UnwrapRef<(typeof import('lodash'))['isRegExp']>
     readonly isString: UnwrapRef<(typeof import('lodash'))['isString']>
     readonly isUndefined: UnwrapRef<(typeof import('lodash'))['isUndefined']>
+    readonly judgeRuleSelectionWithFunc: UnwrapRef<
+      (typeof import('./common/tools'))['judgeRuleSelectionWithFunc']
+    >
+    readonly jumpToErrorFormItem: UnwrapRef<
+      (typeof import('./common/tools'))['jumpToErrorFormItem']
+    >
     readonly lowerCase: UnwrapRef<(typeof import('lodash'))['lowerCase']>
     readonly markRaw: UnwrapRef<(typeof import('vue'))['markRaw']>
     readonly merge: UnwrapRef<(typeof import('lodash'))['merge']>
     readonly mergeWith: UnwrapRef<(typeof import('lodash'))['mergeWith']>
     readonly nextTick: UnwrapRef<(typeof import('vue'))['nextTick']>
+    readonly numToFixed: UnwrapRef<(typeof import('./common/tools'))['numToFixed']>
     readonly objectToAvroJson: UnwrapRef<
       (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
     >
     readonly omit: UnwrapRef<(typeof import('lodash'))['omit']>
+    readonly omitArr: UnwrapRef<(typeof import('./common/tools'))['omitArr']>
     readonly onActivated: UnwrapRef<(typeof import('vue'))['onActivated']>
     readonly onBeforeMount: UnwrapRef<(typeof import('vue'))['onBeforeMount']>
     readonly onBeforeRouteLeave: UnwrapRef<(typeof import('vue-router'))['onBeforeRouteLeave']>
@@ -651,11 +781,19 @@ declare module 'vue' {
     readonly reactive: UnwrapRef<(typeof import('vue'))['reactive']>
     readonly readonly: UnwrapRef<(typeof import('vue'))['readonly']>
     readonly ref: UnwrapRef<(typeof import('vue'))['ref']>
+    readonly removeFromArr: UnwrapRef<(typeof import('./common/tools'))['removeFromArr']>
+    readonly replaceSpaceForHTML: UnwrapRef<
+      (typeof import('./common/tools'))['replaceSpaceForHTML']
+    >
     readonly resolveComponent: UnwrapRef<(typeof import('vue'))['resolveComponent']>
     readonly resourceOptFields: UnwrapRef<
       (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
     >
     readonly round: UnwrapRef<(typeof import('lodash'))['round']>
+    readonly ruleSelectionAliasPartReg: UnwrapRef<
+      (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
+    >
+    readonly scrollToTop: UnwrapRef<(typeof import('./common/tools'))['scrollToTop']>
     readonly set: UnwrapRef<(typeof import('lodash'))['set']>
     readonly setPwdFormat: UnwrapRef<
       (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
@@ -664,13 +802,31 @@ declare module 'vue' {
     readonly shallowReadonly: UnwrapRef<(typeof import('vue'))['shallowReadonly']>
     readonly shallowRef: UnwrapRef<(typeof import('vue'))['shallowRef']>
     readonly snakeCase: UnwrapRef<(typeof import('lodash'))['snakeCase']>
+    readonly sortStringArr: UnwrapRef<(typeof import('./common/tools'))['sortStringArr']>
+    readonly sortedUniq: UnwrapRef<(typeof import('./common/tools'))['sortedUniq']>
+    readonly splitOnComma: UnwrapRef<(typeof import('./common/tools'))['splitOnComma']>
+    readonly splitOnSymbol: UnwrapRef<(typeof import('./common/tools'))['splitOnSymbol']>
     readonly startCase: UnwrapRef<(typeof import('lodash'))['startCase']>
+    readonly stringifyObjSafely: UnwrapRef<(typeof import('./common/tools'))['stringifyObjSafely']>
     readonly throttle: UnwrapRef<(typeof import('lodash'))['throttle']>
+    readonly titleCase: UnwrapRef<(typeof import('./common/tools'))['titleCase']>
     readonly toRaw: UnwrapRef<(typeof import('vue'))['toRaw']>
     readonly toRef: UnwrapRef<(typeof import('vue'))['toRef']>
     readonly toRefs: UnwrapRef<(typeof import('vue'))['toRefs']>
     readonly toValue: UnwrapRef<(typeof import('vue'))['toValue']>
+    readonly transLink: UnwrapRef<(typeof import('./common/tools'))['transLink']>
+    readonly transMSNumToString: UnwrapRef<(typeof import('./common/tools'))['transMSNumToString']>
+    readonly transMemorySizeNumToStr: UnwrapRef<
+      (typeof import('./common/tools'))['transMemorySizeNumToStr']
+    >
+    readonly transMemorySizeStrToNum: UnwrapRef<
+      (typeof import('./common/tools'))['transMemorySizeStrToNum']
+    >
+    readonly transTimeStrToMS: UnwrapRef<(typeof import('./common/tools'))['transTimeStrToMS']>
     readonly triggerRef: UnwrapRef<(typeof import('vue'))['triggerRef']>
+    readonly trimSpacesAndLFs: UnwrapRef<(typeof import('./common/tools'))['trimSpacesAndLFs']>
+    readonly trimValues: UnwrapRef<(typeof import('./common/tools'))['trimValues']>
+    readonly tryToCompleteURL: UnwrapRef<(typeof import('./common/tools'))['tryToCompleteURL']>
     readonly typesWithProducerAndConsumer: UnwrapRef<
       (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
     >
@@ -990,6 +1146,8 @@ declare module 'vue' {
     readonly useWebhookUtils: UnwrapRef<
       (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
     >
+    readonly usefulMemoryUnit: UnwrapRef<(typeof import('./common/tools'))['usefulMemoryUnit']>
+    readonly waitAMoment: UnwrapRef<(typeof import('./common/tools'))['waitAMoment']>
     readonly watch: UnwrapRef<(typeof import('vue'))['watch']>
     readonly watchEffect: UnwrapRef<(typeof import('vue'))['watchEffect']>
     readonly watchPostEffect: UnwrapRef<(typeof import('vue'))['watchPostEffect']>

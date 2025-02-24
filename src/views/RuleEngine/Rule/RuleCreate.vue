@@ -21,7 +21,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { createRules, getRuleInfo, updateRules } from '@/api/ruleengine'
-import { countDuplicationName } from '@/common/tools'
 import { RuleItem } from '@/types/rule'
 import RuleForm from '../components/RuleForm.vue'
 

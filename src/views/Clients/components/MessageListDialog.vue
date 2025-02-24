@@ -32,7 +32,6 @@
 
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
-import { dateFormat, waitAMoment } from '@/common/tools'
 import { MessageItem } from '@/types/client'
 
 type MsgItem = MessageItem & {

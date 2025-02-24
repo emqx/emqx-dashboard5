@@ -1,4 +1,3 @@
-import { waitAMoment } from '@/common/tools'
 import { BridgeItem, RuleEvent } from '@/types/rule'
 import * as monaco from 'monaco-editor'
 import keysInRule from './KeysInRule'

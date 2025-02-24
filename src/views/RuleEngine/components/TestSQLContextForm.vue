@@ -41,7 +41,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { isJSONString, stringifyObjSafely } from '@emqx/shared-ui-utils'
 import StretchHeight from './StretchHeight.vue'
-import { createRandomString } from '@/common/tools'
 
 enum PayloadType {
   JSON = 'json',

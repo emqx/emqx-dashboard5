@@ -121,7 +121,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatNumber } from '@/common/tools'
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { BridgeItem, NodeStatus } from '@/types/rule'

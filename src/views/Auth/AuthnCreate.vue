@@ -189,7 +189,6 @@ import LdapConfig from './components/LdapConfig.vue'
 import JwtConfig from './components/JwtConfig.vue'
 import { createAuthn } from '@/api/auth'
 import { ElMessage as M } from 'element-plus'
-import { checkNOmitFromObj, getImg, jumpToErrorFormItem, sortStringArr } from '@/common/tools'
 import { DatabaseAndServer } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
 

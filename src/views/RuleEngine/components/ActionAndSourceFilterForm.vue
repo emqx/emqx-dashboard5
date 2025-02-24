@@ -85,7 +85,6 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
-import { titleCase } from '@/common/tools'
 import { ConnectionStatus } from '@/types/enum'
 
 interface ActionAndSourceFilterParams {

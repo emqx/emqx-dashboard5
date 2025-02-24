@@ -1,4 +1,3 @@
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { AuthnMechanismType } from '@/types/enum'
 
 export const useAuthnMechanismType = (): {

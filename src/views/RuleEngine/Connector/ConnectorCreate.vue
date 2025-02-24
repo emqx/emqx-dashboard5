@@ -55,7 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import { countDuplicationName, customValidate, scrollToTop } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'

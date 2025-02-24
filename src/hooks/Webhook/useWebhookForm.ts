@@ -1,4 +1,3 @@
-import { getAPIPath } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { ConnectorForm, HTTPBridge } from '@/types/rule'
 import { WebhookForm } from '@/types/webhook'

@@ -150,7 +150,6 @@ import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import dayjs from 'dayjs'
 import { loadCurrentMetrics } from '@/api/common'
-import { formatNumber } from '@/common/tools'
 
 interface MetricData {
   x: Array<string>

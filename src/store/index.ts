@@ -1,5 +1,4 @@
 import { getUser, setUser, removeUser } from '@/common/auth'
-
 import { UserInfo } from '@/types/common'
 import { TestRuleTarget } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'

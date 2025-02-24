@@ -112,7 +112,6 @@
 
 <script lang="ts" setup>
 import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/api/auth'
-import { checkNOmitFromObj, getImg, jumpToErrorFormItem } from '@/common/tools'
 import { DatabaseAndServer, Metrics } from '@/types/auth'
 import { LDAPAuthMethod } from '@/types/enum'
 import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'

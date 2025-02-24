@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { createOrderObj, customValidate } from '@/common/tools'
 import { Zone } from '@/types/config'
 import { Properties } from '@/types/schemaForm'
 

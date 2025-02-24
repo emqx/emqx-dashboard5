@@ -1,4 +1,3 @@
-import { getBridgeKey } from '@/common/tools'
 import { BridgeType, LogResult, RuleOutput } from '@/types/enum'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 

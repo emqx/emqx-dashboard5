@@ -1,7 +1,5 @@
 import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
-
-import { checkNOmitFromObj, emptyObject, jumpToErrorFormItem } from '@/common/tools'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'

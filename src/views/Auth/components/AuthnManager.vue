@@ -113,7 +113,6 @@ import {
   getGatewayUserManagement,
   updateGatewayUser,
 } from '@/api/gateway'
-import { replaceSpaceForHTML } from '@/common/tools'
 import { DataManagerItem } from '@/types/auth'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthnUsersImport from './AuthnUsersImport.vue'

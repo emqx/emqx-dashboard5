@@ -166,7 +166,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatNumber } from '@/common/tools'
 import {
   TypeMapData,
   TypeMetricDataItem,

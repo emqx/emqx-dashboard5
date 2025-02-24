@@ -297,7 +297,6 @@
 </template>
 
 <script lang="ts">
-import { waitAMoment } from '@/common/tools'
 import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
 import HelpBlock from './HelpBlock.vue'

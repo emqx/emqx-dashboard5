@@ -76,6 +76,7 @@ export default {
   dirs: [
     'src/hooks/**',
     'src/common/constants.ts',
+    'src/common/tools.ts',
     {
       glob: 'src/hooks/**',
       types: true, // enable import the types

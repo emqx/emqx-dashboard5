@@ -1,4 +1,3 @@
-import { createRandomString } from '@/common/tools'
 import { BasicRule, RuleItem } from '@/types/rule'
 
 export default (): {

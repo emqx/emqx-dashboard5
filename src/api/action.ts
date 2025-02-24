@@ -1,5 +1,4 @@
 import http from '@/common/http'
-import { getBridgeKey } from '@/common/tools'
 import { Action, BridgeMetricsData } from '@/types/rule'
 
 export const reconnectAction = (id: string): Promise<void> => {

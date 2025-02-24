@@ -5,7 +5,6 @@ import {
   RULE_INPUT_EVENT_PREFIX,
   TOPIC_EVENT,
 } from '@/common/constants'
-import { addNewlineAfterComma, getImg, getTypeAndNameFromKey, splitOnComma } from '@/common/tools'
 import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,

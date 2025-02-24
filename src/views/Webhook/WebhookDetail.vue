@@ -67,7 +67,6 @@
 import { getActionDetail, putAction } from '@/api/action'
 import { getConnectorDetail, putConnector } from '@/api/connector'
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
-import { checkNOmitFromObj, getBridgeKey } from '@/common/tools'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'

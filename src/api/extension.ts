@@ -1,5 +1,4 @@
 import http from '@/common/http'
-import { transMemorySizeNumToStr } from '@/common/tools'
 import { Retainer, RetainerMessage, RetainerMessageDetail, SysTopics } from '@/types/extension'
 import { ListDataWithPagination } from '@/types/common'
 

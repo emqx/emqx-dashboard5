@@ -27,7 +27,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { UploadFile } from 'element-plus'
-import { findExtensionByName } from '@/common/tools'
 
 const props = defineProps({
   modelValue: {

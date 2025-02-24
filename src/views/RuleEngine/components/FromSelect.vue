@@ -68,7 +68,6 @@ export default defineComponent({
 import { RuleEvent, BridgeItem } from '@/types/rule'
 import { BackendI18n } from '@/types/common'
 import { RuleInputType } from '@/types/enum'
-import { createRandomString, waitAMoment } from '@/common/tools'
 
 const props = defineProps({
   modelValue: {

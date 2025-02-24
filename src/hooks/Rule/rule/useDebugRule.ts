@@ -1,6 +1,5 @@
 import { addTrace, deleteTrace, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { applyRuleTest } from '@/api/ruleengine'
-import { getKeywordsFromSQL } from '@/common/tools'
 import { TraceRecord } from '@/types/diagnose'
 import {
   EventForRule,

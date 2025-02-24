@@ -148,7 +148,6 @@
 </template>
 
 <script lang="ts" setup>
-import { customValidate } from '@/common/tools'
 import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'

@@ -78,7 +78,6 @@ export default {
 import { ConfigField } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
-import { createRandomString } from '@/common/tools'
 
 const props = defineProps({
   modelValue: [String, Number, Array, Object, Boolean] as PropType<any>,

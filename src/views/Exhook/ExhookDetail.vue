@@ -78,7 +78,6 @@ import {
   queryExhookRegisteredHooks,
   updateExhook as requestUpdateExhook,
 } from '@/api/exhook'
-import { stringifyObjSafely } from '@/common/tools'
 import ExhookItemStatus from './components/ExhookItemStatus.vue'
 import ExhookItemOverview from './components/ExhookItemOverview.vue'
 

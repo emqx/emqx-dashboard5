@@ -82,7 +82,6 @@
 </template>
 
 <script lang="ts" setup>
-import { countDuplicationName, jumpToErrorFormItem } from '@/common/tools'
 import {
   useBridgeTypeIcon,
   useBridgeTypeOptions,

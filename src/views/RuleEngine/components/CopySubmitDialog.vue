@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import { createRules } from '@/api/ruleengine'
-import { checkNOmitFromObj } from '@/common/tools'
 import { BridgeItem, Connector, RuleItem } from '@/types/rule'
 import CreateRuleWithConnector from '../Connector/components/CreateRuleWithConnector.vue'
 

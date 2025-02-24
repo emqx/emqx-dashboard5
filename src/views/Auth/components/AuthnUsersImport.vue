@@ -66,7 +66,6 @@
 
 <script setup lang="ts">
 import { Upload } from '@element-plus/icons-vue'
-import { downloadByURL } from '@/common/tools'
 import { ImportResult } from '@/types/auth'
 import { ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'

@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
-import { customValidate } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { Log } from '@/types/config'
 import { Properties } from '@/types/schemaForm'

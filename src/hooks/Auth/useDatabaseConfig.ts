@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
 import { SaltPosition } from '@/types/enum'
 
 export default function useDatabaseConfig(

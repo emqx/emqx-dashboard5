@@ -156,7 +156,6 @@
 
 <script setup lang="ts">
 import { QoSOptions as defaultQoSOptions } from '@/common/constants'
-import { createRandomString } from '@/common/tools'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
 import PubProps from './PubProps.vue'

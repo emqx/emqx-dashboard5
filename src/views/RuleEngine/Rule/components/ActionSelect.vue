@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 

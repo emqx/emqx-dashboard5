@@ -96,8 +96,6 @@ import {
   queryListener,
   deleteListener as requestDeleteListener,
 } from '@/api/listener'
-
-import { calcPercentage } from '@/common/tools'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
 
