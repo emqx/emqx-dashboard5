@@ -3,7 +3,7 @@
  * but some of the data in the schema is needed
  */
 import { Properties, Property } from '@/types/schemaForm'
-import { ComputedRef, Ref } from 'vue'
+
 import { get } from 'lodash'
 
 export default (

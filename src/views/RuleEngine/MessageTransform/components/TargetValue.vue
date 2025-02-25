@@ -47,7 +47,7 @@ import {
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, defineEmits, defineProps, ref } from 'vue'
+
 import SQLContentDialog from '../../components/SQLContentDialog.vue'
 
 const { availablePropKeyMap, targetBelongOpts } = useMessageTransformForm()

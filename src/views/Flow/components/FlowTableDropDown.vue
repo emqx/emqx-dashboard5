@@ -21,7 +21,6 @@
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
 import { CopyDocument, Delete, MoreFilled } from '@element-plus/icons-vue'
-import { PropType, Ref, defineEmits, defineProps, ref } from 'vue'
 
 defineProps({
   rowData: {

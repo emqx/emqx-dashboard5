@@ -1,5 +1,5 @@
 import { BridgeType } from '@/types/enum'
-import { computed, ComputedRef, WritableComputedRef } from 'vue'
+
 import { useConnectorSchema } from '../bridge/useBridgeTypeValue'
 
 export const enum IoTDBDriver {

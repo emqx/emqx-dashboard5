@@ -81,7 +81,7 @@ import { DetailTab } from '@/types/enum'
 import { MessageTransform } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { SortableEvent } from 'sortablejs'
-import { Ref, nextTick, onMounted, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue'
 

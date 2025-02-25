@@ -27,8 +27,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'TableItemDropdown',
 })
@@ -36,7 +34,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { SchemaRegistry } from '@/types/rule'
-import { defineProps, defineEmits, PropType, Ref, ref } from 'vue'
+
 import { CaretBottom, CopyDocument, Delete } from '@element-plus/icons-vue'
 import useI18nTl from '@/hooks/useI18nTl'
 

@@ -41,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, defineProps, computed } from 'vue'
 import FilterItemReadonly from './FilterItemReadonly.vue'
 import FilterOperatorLineReadonly from './FilterOperatorLineReadonly.vue'
 import OperatorTag from './OperatorTag.vue'

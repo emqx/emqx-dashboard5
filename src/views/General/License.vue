@@ -154,7 +154,7 @@ import {
   updateLicenseConfig,
 } from '@/api/common'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ref, ComputedRef, computed, onMounted, onUnmounted } from 'vue'
+
 import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
 import LicenseResetDialog from './components/LicenseResetDialog.vue'

@@ -74,7 +74,7 @@ import { NodeStatusClass } from '@/types/enum'
 import type { SchemaValidation } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { computed, ref, Ref } from 'vue'
+
 import { useRoute, useRouter } from 'vue-router'
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 import { DetailTab } from '@/types/enum'

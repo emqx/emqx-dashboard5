@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import { Delete, Plus } from '@element-plus/icons-vue'
 import type { FormItemRule } from 'element-plus'
-import { computed, defineProps, defineEmits } from 'vue'
 
 const props = defineProps<{
   modelValue: string[]

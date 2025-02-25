@@ -76,7 +76,7 @@ import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { computed, ref, Ref } from 'vue'
+
 import { useRoute, useRouter } from 'vue-router'
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'

@@ -46,7 +46,6 @@ import { useMFAMethods } from '@/hooks/useMFA'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { type User, UserMFA } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean

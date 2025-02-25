@@ -54,7 +54,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
-import { ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 
 const { t, tl } = useI18nTl('BasicConfig')

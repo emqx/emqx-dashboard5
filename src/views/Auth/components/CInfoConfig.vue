@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, reactive, watch, defineExpose } from 'vue'
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'

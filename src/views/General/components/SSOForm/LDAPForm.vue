@@ -42,7 +42,6 @@ import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { EmqxDashboardSsoLdapLdap } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {

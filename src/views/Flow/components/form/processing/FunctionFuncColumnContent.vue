@@ -5,7 +5,7 @@
       filterable
       class="select-func"
       :show-all-levels="false"
-      :options="(funcOptList as any)"
+      :options="funcOptList as any"
       :props="cascaderProps"
       :placeholder="tl('transform')"
       @change="handleSelectFunc"
@@ -18,7 +18,6 @@ import CustomFormItem from '@/components/CustomFormItem.vue'
 import { FunctionItem } from '@/hooks/Flow/useFlowNode'
 import useI18nTl from '@/hooks/useI18nTl'
 import { useFunctionItemData } from '@/hooks/useRuleFunc'
-import { defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   modelValue: FunctionItem

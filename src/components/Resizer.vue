@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { More } from '@element-plus/icons-vue'
-import { defineEmits, defineProps, onUnmounted, ref, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{

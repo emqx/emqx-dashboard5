@@ -55,7 +55,6 @@ import {
 } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import { get } from 'lodash'
-import { computed, ref } from 'vue'
 
 const enum TabName {
   Message,

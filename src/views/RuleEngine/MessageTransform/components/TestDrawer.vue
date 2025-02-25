@@ -106,7 +106,7 @@ import { PayloadShowByType, QoSLevel } from '@/types/enum'
 import { MessageTransform, TestMessageTransformData } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-import { computed, defineEmits, defineProps, ref, watch, WritableComputedRef } from 'vue'
+
 import PubProps from '../../components/PubProps.vue'
 
 const props = defineProps<{

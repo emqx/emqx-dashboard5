@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { defineEmits, defineProps, ref, Ref } from 'vue'
+
 import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 defineProps({

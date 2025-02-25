@@ -21,7 +21,6 @@ import {
   INPUT_MARGIN_BOTTOM,
 } from '@/hooks/Flow/useFilterConnectorInForm'
 import { isFunction, isUndefined } from 'lodash'
-import { computed, defineEmits, defineProps, onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
   data: {

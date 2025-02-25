@@ -2,7 +2,7 @@ import { createRules, updateRules } from '@/api/ruleengine'
 import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { BasicRule, BridgeItem, RuleItem } from '@/types/rule'
 import { groupBy } from 'lodash'
-import { Ref, ref } from 'vue'
+
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
 interface BridgeData {

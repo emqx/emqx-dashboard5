@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import { FilterLogicalOperator } from '@/types/enum'
-import { defineProps, PropType } from 'vue'
 
 defineProps({
   data: {

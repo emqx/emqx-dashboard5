@@ -53,7 +53,7 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { DelayedMessage } from '@/types/extension'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
-import { Ref, onMounted, onUnmounted, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 
 const { tl, t } = useI18nTl('Extension')

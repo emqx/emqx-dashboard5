@@ -34,7 +34,7 @@ import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistry } from '@/types/rule'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Ref, onMounted, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 

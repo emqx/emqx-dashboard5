@@ -68,7 +68,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { FormRules } from '@/types/common'
 import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { CopyDocument } from '@element-plus/icons-vue'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const SAML_SSO_PATH = '/api/v5/sso/saml/acs'
 const SAML_SSO_METADATA_PATH = '/api/v5/sso/saml/metadata'

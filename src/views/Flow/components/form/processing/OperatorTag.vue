@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { FilterLogicalOperator } from '@/types/enum'
 
 defineProps({

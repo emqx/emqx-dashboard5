@@ -18,7 +18,6 @@
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
 import { BaseEdge, EdgeLabelRenderer, getBezierPath, useVueFlow } from '@vue-flow/core'
-import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps({
   id: {

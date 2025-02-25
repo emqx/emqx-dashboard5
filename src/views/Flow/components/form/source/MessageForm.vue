@@ -21,7 +21,6 @@
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { PropType, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {

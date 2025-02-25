@@ -141,7 +141,7 @@ import { HotUpgradePackage, NodeUpgradeData } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { ElDialog, ElMessage, UploadFile } from 'element-plus'
 import dayjs from 'dayjs'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+
 import { useStore } from 'vuex'
 
 const props = defineProps<{ modelValue: boolean; node?: NodeUpgradeData }>()

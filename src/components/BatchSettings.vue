@@ -68,7 +68,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BatchSettingDatabaseType } from '@/types/enum'
 import { useBatchSettings } from '@emqx/shared-ui-utils'
 import { ElMessage, ElUpload } from 'element-plus'
-import { defineEmits, defineProps, ref } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{

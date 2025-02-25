@@ -94,7 +94,7 @@ import { BridgeType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { Property } from '@/types/schemaForm'
 import { cloneDeep, isEqual } from 'lodash'
-import { Ref, computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+
 import ConnectorSelect from '../ConnectorSelect.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'

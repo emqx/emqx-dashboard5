@@ -32,7 +32,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useMessageTransformMetrics } from '@/hooks/useMetrics'
 import { MetricsData } from '@/types/common'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
-import { defineProps } from 'vue'
 
 const props = defineProps({
   transformName: {

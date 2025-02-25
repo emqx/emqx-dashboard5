@@ -117,7 +117,7 @@ import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
 import { QoSLevel } from '@/types/enum'
 import { AutoSubscribe } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { nextTick, onMounted, ref, Ref } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 import { usePerms } from '@/plugins/permissionsPlugin'
 

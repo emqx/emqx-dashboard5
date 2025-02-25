@@ -171,7 +171,7 @@ import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { cloneDeep, isEqual, set } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref, watch } from 'vue'
+
 import OpenTelemetryWhiteListItemDialog from './OpenTelemetryWhiteListItemDialog.vue'
 
 const props = defineProps<{

@@ -7,7 +7,7 @@ import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
 import { escapeRegExp, pickBy, startCase } from 'lodash'
-import { computed, ComputedRef } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import useI18nTl from './useI18nTl'

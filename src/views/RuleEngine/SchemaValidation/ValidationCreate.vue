@@ -34,7 +34,7 @@ import {
   SchemaValidationStrategy,
 } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { ref, Ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 

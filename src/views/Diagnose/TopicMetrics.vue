@@ -162,7 +162,6 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted, computed } from 'vue'
 import {
   getTopicMetrics,
   addTopicMetrics,

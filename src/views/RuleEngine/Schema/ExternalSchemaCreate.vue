@@ -33,7 +33,7 @@ import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, isObject } from 'lodash'
-import { defineEmits, defineProps, Ref, ref } from 'vue'
+
 import { useRoute, useRouter } from 'vue-router'
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 

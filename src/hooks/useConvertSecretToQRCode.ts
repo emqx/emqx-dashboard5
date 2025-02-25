@@ -1,5 +1,4 @@
 import QRCode from 'qrcode'
-import { ref } from 'vue'
 
 const useConvertSecretToQRCode = () => {
   const canvasRef = ref<HTMLCanvasElement | null>(null)

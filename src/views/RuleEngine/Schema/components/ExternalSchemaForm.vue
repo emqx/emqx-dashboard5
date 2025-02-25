@@ -66,7 +66,6 @@ import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { startCase } from 'lodash'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const enum AuthType {
   None,
