@@ -11,7 +11,6 @@
 <script setup lang="ts">
 import { NodeType } from '@/hooks/Flow/useFlowNode'
 import { Handle, Position } from '@vue-flow/core'
-import { computed, defineProps } from 'vue'
 
 const props = defineProps({
   data: {

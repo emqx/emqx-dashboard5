@@ -18,7 +18,7 @@
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import { FunctionItem } from '@/hooks/Flow/useFlowNode'
 import { useFunctionItemData } from '@/hooks/useRuleFunc'
-import { defineEmits, defineProps, withDefaults } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(
@@ -28,7 +28,7 @@ const props = withDefaults(
     availableFields: Array<string>
   }>(),
   {
-    modelValue: () => ({ func: {} } as FunctionItem),
+    modelValue: () => ({ func: {} }) as FunctionItem,
   },
 )
 const emit = defineEmits<{

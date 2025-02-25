@@ -1,4 +1,3 @@
-import { App, inject } from 'vue'
 import store from '@/store'
 
 const PERMISSIONS_KEY = Symbol('PERMISSIONS')

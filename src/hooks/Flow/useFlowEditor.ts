@@ -1,5 +1,5 @@
 import { Edge, Node, VueFlow } from '@vue-flow/core'
-import { Ref, ref } from 'vue'
+
 import useFlowNode, {
   FlowData,
   FlowNodeType,

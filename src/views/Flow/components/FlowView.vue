@@ -27,7 +27,7 @@
 import useFlowView from '@/hooks/Flow/useFlowView'
 import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
-import { Ref, computed, defineEmits, nextTick, onMounted, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'

@@ -81,7 +81,7 @@ import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, get, isEqual, merge, omit, pick, set } from 'lodash'
-import { Ref, computed, nextTick, ref } from 'vue'
+
 import { useStore } from 'vuex'
 
 interface SchemaData {

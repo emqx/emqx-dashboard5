@@ -52,7 +52,7 @@ import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { computed, defineEmits, defineExpose, defineProps, PropType, ref } from 'vue'
+
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 
 enum Tab {

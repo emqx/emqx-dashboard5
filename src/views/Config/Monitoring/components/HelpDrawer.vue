@@ -203,16 +203,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'RuleOutputsDrawer',
 })
 </script>
 
 <script setup lang="ts">
-import type { WritableComputedRef } from 'vue'
-import { computed, defineEmits, defineProps, ref } from 'vue'
 import usePromConfig from '../assets/usePromConfig'
 import useI18nTl from '@/hooks/useI18nTl'
 import CodeView from '@/components/CodeView.vue'

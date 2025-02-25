@@ -5,7 +5,7 @@ import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
-import { Ref, ref } from 'vue'
+
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
 import useActionList from '../Rule/action/useActionList'
 import useSourceList from '../Rule/action/useSourceList'

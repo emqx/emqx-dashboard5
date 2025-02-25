@@ -32,7 +32,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
 import { createSchema } from 'genson-js'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {

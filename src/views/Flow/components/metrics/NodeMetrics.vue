@@ -22,7 +22,6 @@ import { BridgeItem } from '@/types/rule'
 import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import RuleItemOverview from '@/views/RuleEngine/Rule/components/RuleItemOverview.vue'
 import { Node } from '@vue-flow/core'
-import { Ref, computed, defineProps, onMounted, provide, ref } from 'vue'
 
 const props = defineProps<{
   node?: Node

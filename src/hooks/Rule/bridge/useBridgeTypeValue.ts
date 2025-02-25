@@ -1,7 +1,5 @@
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import type { ComputedRef, Ref } from 'vue'
-import { computed, ref } from 'vue'
 
 const bridgesOrder = [
   BridgeType.MQTT,

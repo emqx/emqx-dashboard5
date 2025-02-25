@@ -91,8 +91,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'SlowSubConfig',
 })
@@ -108,7 +106,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SlowSubConfig } from '@/types/diagnose'
 import { SlowSubType } from '@/types/enum'
 import { ElMessage } from 'element-plus'
-import { nextTick, ref, Ref } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 

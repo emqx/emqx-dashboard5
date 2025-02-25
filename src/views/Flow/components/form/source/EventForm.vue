@@ -30,7 +30,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { RuleEvent } from '@/types/rule'
 import RuleInputEventSelect from '@/views/RuleEngine/components/RuleInputEventSelect.vue'
 import { startCase } from 'lodash'
-import { PropType, Ref, computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
 
 const props = defineProps({
   modelValue: {

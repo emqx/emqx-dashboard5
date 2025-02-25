@@ -60,7 +60,7 @@ import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSa
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElMessage } from 'element-plus'
-import { computed, reactive, ref, watch } from 'vue'
+
 import { useStore } from 'vuex'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
@@ -113,7 +113,7 @@ const loadDelayedConfig = async () => {
   try {
     isLoading.value = true
     delayedForm.value?.resetFields()
-    let res = await getDelayedConfig()
+    const res = await getDelayedConfig()
     Object.assign(delayedConfig, res)
     setRawData(delayedConfig)
     delayedOption.value = getDelayedOption()

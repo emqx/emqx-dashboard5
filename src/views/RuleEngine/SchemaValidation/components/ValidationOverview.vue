@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
 import { MetricsData } from '@/types/common'
-import { defineProps } from 'vue'
+
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
 import { useSchemaValidationMetrics } from '@/hooks/useMetrics'
 import { isEmptyObj } from '@emqx/shared-ui-utils'

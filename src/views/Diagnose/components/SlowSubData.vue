@@ -46,8 +46,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'SlowSubData',
 })
@@ -66,7 +64,7 @@ import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { pick } from 'lodash'
 import dayjs from 'dayjs'
-import { Ref, computed, ref } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

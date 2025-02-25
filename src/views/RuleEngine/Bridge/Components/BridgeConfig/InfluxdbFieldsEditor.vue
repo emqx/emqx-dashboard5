@@ -72,7 +72,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { Warning } from '@element-plus/icons-vue'
 import { cloneDeep, isEqual, isPlainObject } from 'lodash'
-import { computed, defineComponent, ref, Ref, watch } from 'vue'
 
 type kvRow = {
   key: string

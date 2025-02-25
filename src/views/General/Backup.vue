@@ -75,7 +75,7 @@ import {
   UploadRequestOptions,
 } from 'element-plus'
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+
 import { useStore } from 'vuex'
 
 interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {

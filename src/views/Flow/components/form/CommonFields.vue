@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmits } from 'vue'
 import ruleFields from '@/hooks/Rule/RuleField.json'
 
 const props = defineProps({

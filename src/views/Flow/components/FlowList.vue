@@ -97,7 +97,7 @@ import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RuleItem } from '@/types/rule'
 import { EditPen, PieChart } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Ref, ref } from 'vue'
+
 import FlowTableDropDown from './FlowTableDropDown.vue'
 
 const colProps = { sm: 12, md: 12, lg: 8 }

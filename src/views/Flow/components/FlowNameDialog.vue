@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
-import { PropType, computed, defineEmits, defineProps, ref, watch } from 'vue'
+
 import useFormRules from '@/hooks/useFormRules'
 
 const props = defineProps({

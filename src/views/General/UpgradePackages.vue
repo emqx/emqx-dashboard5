@@ -33,7 +33,7 @@ import {
 } from '@/api/systemModule'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
-import { ref } from 'vue'
+
 import HotUpgradePackageUploadDialog from './components/HotUpgradePackageUploadDialog.vue'
 
 type PackageItem = any

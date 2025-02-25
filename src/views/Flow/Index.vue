@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import useI18nTl from '@/hooks/useI18nTl'
-import { computed, ref } from 'vue'
+
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import FlowView from './components/FlowView.vue'

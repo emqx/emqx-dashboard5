@@ -82,7 +82,7 @@ import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Rewrite } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
-import { nextTick, onMounted, ref, Ref } from 'vue'
+
 import { useI18n } from 'vue-i18n'
 import { usePerms } from '@/plugins/permissionsPlugin'
 

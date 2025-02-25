@@ -46,7 +46,7 @@
 import { getAllNodeStatus } from '@/api/hotUpgrade'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeUpgradeData, NodeUpgradeStatus, TypeNodeUpgradeStatus } from '@/types/typeAlias'
-import { ref } from 'vue'
+
 import UpgradeNodeDialog from './components/UpgradeNodeDialog.vue'
 import UpgradeRecordsDialog from './components/UpgradeRecordsDialog.vue'
 

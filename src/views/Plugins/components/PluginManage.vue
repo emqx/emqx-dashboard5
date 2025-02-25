@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, watch } from 'vue'
 import useRenderPluginForm from '@/hooks/Plugins/useRenderPluginForm'
 import PluginFormKit from '@/components/PluginsForm/PluginFormKit.vue'
 

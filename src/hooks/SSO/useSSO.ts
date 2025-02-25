@@ -6,7 +6,6 @@ import {
   DashboardSamlBackend,
   PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { ComputedRef, Ref, computed, reactive, ref } from 'vue'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
   const backendsLabelMap: Map<string, string> = new Map([

@@ -173,7 +173,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ClusterLinkingForm } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { computed, defineEmits, defineProps, ref, defineExpose } from 'vue'
 
 const props = defineProps<{
   modelValue: ClusterLinkingForm

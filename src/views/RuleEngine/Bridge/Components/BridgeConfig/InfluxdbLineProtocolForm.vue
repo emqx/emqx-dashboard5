@@ -61,8 +61,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'InfluxDBLineProtocolForm',
 })
@@ -77,7 +75,7 @@ import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
-import { computed, defineEmits, defineExpose, defineProps, PropType, ref, Ref, watch } from 'vue'
+
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor

@@ -8,8 +8,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
 export default defineComponent({
   name: 'FilterItemConnectorReadonly',
 })
@@ -17,7 +15,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { FilterLogicalOperator } from '@/types/enum'
-import { defineProps, PropType } from 'vue'
 
 defineProps({
   operator: {

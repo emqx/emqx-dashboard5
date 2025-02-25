@@ -137,8 +137,6 @@
 
 <script lang="ts" setup>
 import { LDAPAuthMethod } from '@/types/enum'
-import type { PropType } from 'vue'
-import { ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: {

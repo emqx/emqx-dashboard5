@@ -124,8 +124,7 @@ import type { OIDBForm } from '@/types/typeAlias'
 import { OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { isObject } from 'lodash'
-import type { PropType } from 'vue'
-import { computed, defineEmits, defineExpose, defineProps, ref } from 'vue'
+
 import { useStore } from 'vuex'
 
 const OIDC_REDIRECT = '/api/v5/sso/oidc/callback'

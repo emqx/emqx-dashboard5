@@ -18,7 +18,6 @@
 import useFlowNode, { FlowNodeType } from '@/hooks/Flow/useFlowNode'
 import { Plus } from '@element-plus/icons-vue'
 import { Handle, Position } from '@vue-flow/core'
-import { computed, defineProps } from 'vue'
 
 const props = defineProps({
   data: {

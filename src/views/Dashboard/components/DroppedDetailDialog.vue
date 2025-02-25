@@ -45,7 +45,7 @@ import MarkdownContent from '@/components/MarkdownContent.vue'
 import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
-import { computed, defineEmits, defineProps, nextTick, ref, watch } from 'vue'
+
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{

@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { FilterLogicalOperator } from '@/types/enum'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
-import { PropType, defineEmits, defineProps } from 'vue'
+
 import OperatorTag from './OperatorTag.vue'
 
 defineProps({

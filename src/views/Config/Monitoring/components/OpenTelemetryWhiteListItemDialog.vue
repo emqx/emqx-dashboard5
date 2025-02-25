@@ -25,7 +25,6 @@
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
-import { computed, defineProps, ref, defineEmits, watch } from 'vue'
 
 const props = defineProps<{
   modelValue: boolean

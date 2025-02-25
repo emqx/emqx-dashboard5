@@ -45,7 +45,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { NodeUpgradeData } from '@/types/typeAlias'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import dayjs from 'dayjs'
-import { computed, defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{ modelValue: boolean; node?: NodeUpgradeData }>()
 const emit = defineEmits(['update:modelValue'])

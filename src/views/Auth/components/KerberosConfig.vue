@@ -23,7 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, reactive, defineExpose, watch, defineEmits } from 'vue'
 import useKerberosConfigForm from '@/hooks/Auth/useKerberosConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
 import FormItemLabel from '@/components/FormItemLabel.vue'

@@ -43,7 +43,6 @@ import { ArgumentType, useFunctionItemData } from '@/hooks/useRuleFunc'
 import type { Rules, ValidateError } from 'async-validator'
 import Schema from 'async-validator'
 import { get, pick } from 'lodash'
-import { computed, defineProps, ref, defineExpose, defineEmits } from 'vue'
 
 const props = defineProps<{
   modelValue: FunctionItem
@@ -88,7 +87,7 @@ const validate = async () => {
 const validateItem = (index: number) => {
   const validator = new Schema({ [index]: rules.value[index] })
   validator.validate(pick(record.value.func.args, index), (errors) => {
-    errorMsgMap.value[index] = errors ? errors[0].message ?? '' : ''
+    errorMsgMap.value[index] = errors ? (errors[0].message ?? '') : ''
   })
 }
 defineExpose({ validate })

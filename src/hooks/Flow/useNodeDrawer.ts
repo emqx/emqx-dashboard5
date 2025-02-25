@@ -8,7 +8,7 @@ import AllMsgsAndEventsForm from '@/views/Flow/components/form/source/AllMsgsAnd
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
 import ConsoleForm from '@/views/RuleEngine/components/ConsoleForm.vue'
 import RePubForm from '@/views/RuleEngine/components/RePubForm.vue'
-import { Component } from 'vue'
+
 import useBridgeTypeValue from '../Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '../useI18nTl'
 import useFlowNode, {

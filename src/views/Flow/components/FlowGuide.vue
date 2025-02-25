@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import useFlowGuideNodes from '@/hooks/Flow/useFlowGuideNodes'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
-import { ref } from 'vue'
+
 import FlowGuideNode from './FlowGuideNode.vue'
 
 const flowId = createRandomString()
