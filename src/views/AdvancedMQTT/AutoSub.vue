@@ -112,8 +112,7 @@
 import { editSubscribe, getSubscribe } from '@/api/extension'
 
 import TipContainer from '@/components/TipContainer.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'
+
 import { QoSLevel } from '@/types/enum'
 import { AutoSubscribe } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'

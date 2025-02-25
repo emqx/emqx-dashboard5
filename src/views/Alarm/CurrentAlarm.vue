@@ -73,9 +73,6 @@ import { loadAlarm } from '@/api/common'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Setting } from '@element-plus/icons-vue'
-import useDurationStr from '@/hooks/useDurationStr'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 
 const { tl } = useI18nTl('Alarm')
 

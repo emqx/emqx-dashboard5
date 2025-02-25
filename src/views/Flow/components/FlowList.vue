@@ -91,9 +91,7 @@
 import { deleteRules, getRules } from '@/api/ruleengine'
 
 import CommonPagination from '@/components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePagination from '@/hooks/usePagination'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+
 import { RuleItem } from '@/types/rule'
 import { EditPen, PieChart } from '@element-plus/icons-vue'
 

@@ -30,7 +30,7 @@ import { getSSOBackend, putSSOBackend, getSSOList } from '@/api/sso'
 import DetailHeader from '@/components/DetailHeader.vue'
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import useSSODetail from '@/hooks/SSO/useSSODetail'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import {
   DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,

@@ -104,8 +104,7 @@ import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
 import { createFilterForm, createFilterFormData, createFilterItem } from '@/hooks/Flow/useNodeForm'
 import useParseWhere from '@/hooks/Flow/useParseWhere'
 import useSortableFilterList from '@/hooks/Flow/useSortableFilterList'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { FilterLogicalOperator } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import {

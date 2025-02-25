@@ -153,9 +153,7 @@ import {
   loadLicenseConfig,
   updateLicenseConfig,
 } from '@/api/common'
-import useI18nTl from '@/hooks/useI18nTl'
 
-import useDocLink from '@/hooks/useDocLink'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
 import LicenseResetDialog from './components/LicenseResetDialog.vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'

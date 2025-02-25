@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-
 import SchemaCreate from '@/views/RuleEngine/Schema/SchemaCreate.vue'
 
 const props = defineProps<{

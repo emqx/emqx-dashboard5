@@ -27,8 +27,7 @@
 import { getExternalSchemaDetail, postExternalSchema } from '@/api/ruleengine'
 
 import DetailHeader from '@/components/DetailHeader.vue'
-import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
 

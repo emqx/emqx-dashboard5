@@ -68,8 +68,7 @@ import {
 } from '@/api/schemaValidation'
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import { NodeStatusClass } from '@/types/enum'
 import type { SchemaValidation } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'

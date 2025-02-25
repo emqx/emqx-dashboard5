@@ -23,11 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
 import { MetricsData } from '@/types/common'
 
 import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-import { useSchemaValidationMetrics } from '@/hooks/useMetrics'
+
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { getValidationMetrics, resetValidationMetrics } from '@/api/schemaValidation'
 

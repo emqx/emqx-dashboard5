@@ -74,9 +74,7 @@ import {
 } from '@/api/messageTransformation'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import { useValidationFailureAction } from '@/hooks/Rule/validation/useValidation'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
-import useSortableTable from '@/hooks/useSortableTable'
+
 import { DetailTab } from '@/types/enum'
 import { MessageTransform } from '@/types/typeAlias'
 

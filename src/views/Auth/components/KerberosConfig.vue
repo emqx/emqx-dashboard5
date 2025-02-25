@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import useKerberosConfigForm from '@/hooks/Auth/useKerberosConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import FormItemLabel from '@/components/FormItemLabel.vue'
 
 const props = defineProps({

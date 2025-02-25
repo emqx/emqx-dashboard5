@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { postSchemaValidation } from '@/api/schemaValidation'
 import DetailHeader from '@/components/DetailHeader.vue'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { SchemaRegistryType } from '@/types/enum'
 import type { SchemaValidation } from '@/types/typeAlias'
 import {

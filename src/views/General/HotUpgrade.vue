@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { getAllNodeStatus } from '@/api/hotUpgrade'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { NodeUpgradeData, NodeUpgradeStatus, TypeNodeUpgradeStatus } from '@/types/typeAlias'
 
 import UpgradeNodeDialog from './components/UpgradeNodeDialog.vue'

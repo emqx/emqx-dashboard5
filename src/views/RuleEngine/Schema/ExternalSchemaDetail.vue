@@ -49,8 +49,7 @@
 import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
 import DetailHeader from '@/components/DetailHeader.vue'
 import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import type { ExternalSchema } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 

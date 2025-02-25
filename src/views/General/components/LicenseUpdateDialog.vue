@@ -37,9 +37,6 @@
 </template>
 
 <script lang="ts" setup>
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
-
 import { updateLicense } from '@/api/common'
 
 const props = defineProps({

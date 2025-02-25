@@ -56,9 +56,6 @@
 import { getDelayedConfig, updateDelayedConfig as requestUpdateConfig } from '@/api/extension'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Oneof from '@/components/Oneof.vue'
-import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSaveConfirm'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 
 import { usePerms } from '@/plugins/permissionsPlugin'
 

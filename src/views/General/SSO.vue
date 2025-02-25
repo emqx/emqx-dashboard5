@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { getSSOList } from '@/api/sso'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
 import {
   DashboardSsoBackendStatus,

@@ -31,8 +31,6 @@ import {
   deleteBackup as deleteUpgradePackage,
   getBackups as getUpgradePackages,
 } from '@/api/systemModule'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
 
 import HotUpgradePackageUploadDialog from './components/HotUpgradePackageUploadDialog.vue'
 

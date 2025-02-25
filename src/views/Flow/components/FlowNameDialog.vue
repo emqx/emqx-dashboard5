@@ -32,10 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-import useI18nTl from '@/hooks/useI18nTl'
-
-import useFormRules from '@/hooks/useFormRules'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,

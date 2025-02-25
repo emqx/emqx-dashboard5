@@ -41,9 +41,7 @@
 
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useMFAMethods } from '@/hooks/useMFA'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import { type User, UserMFA } from '@/types/typeAlias'
 
 const props = defineProps<{

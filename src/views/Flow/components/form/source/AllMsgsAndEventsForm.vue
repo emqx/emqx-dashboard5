@@ -13,7 +13,7 @@
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { RuleEvent } from '@/types/rule'
 
 const { tl } = useI18nTl('Flow')

@@ -101,8 +101,7 @@ import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
 import DetailHeader from '@/components/DetailHeader.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { SlowSubConfig } from '@/types/diagnose'
 import { SlowSubType } from '@/types/enum'
 

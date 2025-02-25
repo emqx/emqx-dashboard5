@@ -75,8 +75,7 @@ import { getFileTransConfigs, updateFileTransConfigs } from '@/api/config'
 
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 

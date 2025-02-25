@@ -90,7 +90,6 @@
 
 <script setup lang="ts">
 import CustomFormItem from '@/components/CustomFormItem.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 type PubProps = { 'User-Property': Record<string, string> } & Record<string, string>
 const props = defineProps<{

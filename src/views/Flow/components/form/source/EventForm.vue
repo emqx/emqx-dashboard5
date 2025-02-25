@@ -25,8 +25,7 @@
 <script setup lang="ts">
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { RuleEvent } from '@/types/rule'
 import RuleInputEventSelect from '@/views/RuleEngine/components/RuleInputEventSelect.vue'
 

@@ -83,7 +83,7 @@ import {
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
 

@@ -30,8 +30,7 @@
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemas } from '@/api/ruleengine'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import type { ExternalSchema } from '@/types/typeAlias'
 
 import TableItemDropdown from './components/TableItemDropdown.vue'

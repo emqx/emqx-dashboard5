@@ -210,7 +210,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import usePromConfig from '../assets/usePromConfig'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import CodeView from '@/components/CodeView.vue'
 import Monaco from '@/components/Monaco.vue'
 import GrafanaTemplate from '../assets/emqx5_grafana_template.json'

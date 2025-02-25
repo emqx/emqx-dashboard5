@@ -336,16 +336,12 @@ import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-import useConfFooterStyle from '@/hooks/useConfFooterStyle'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
-import useDocLink from '@/hooks/useDocLink'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
+
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
 
 import HelpDrawer from './components/HelpDrawer.vue'
 import OpenTelemetrySampleDrawer from './components/OpenTelemetrySampleDrawer.vue'
-import useFormRules from '@/hooks/useFormRules'
+
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 
 const PROMETHEUS = 'Prometheus'

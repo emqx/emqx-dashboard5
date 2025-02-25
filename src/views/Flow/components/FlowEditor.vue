@@ -119,7 +119,7 @@ import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useFlowNode, { FlowNodeType, NodeType, ProcessingType } from '@/hooks/Flow/useFlowNode'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { RuleEvent } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'

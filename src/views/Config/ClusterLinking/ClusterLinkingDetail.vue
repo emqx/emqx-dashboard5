@@ -66,8 +66,7 @@ import { deleteClusterLinking, getClusterLinkingDetail, putClusterLinking } from
 import DetailHeader from '@/components/DetailHeader.vue'
 import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
 import useClusterLinking from '@/hooks/Config/useClusterLinking'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
