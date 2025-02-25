@@ -80,7 +80,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, get, isEqual, merge, omit, pick, set } from 'lodash'
 
 import { useStore } from 'vuex'
 

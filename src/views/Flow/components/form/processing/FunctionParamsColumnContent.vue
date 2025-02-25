@@ -42,7 +42,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ArgumentType, useFunctionItemData } from '@/hooks/useRuleFunc'
 import type { Rules, ValidateError } from 'async-validator'
 import Schema from 'async-validator'
-import { get, pick } from 'lodash'
 
 const props = defineProps<{
   modelValue: FunctionItem

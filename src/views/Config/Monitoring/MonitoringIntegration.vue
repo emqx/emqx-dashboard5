@@ -343,7 +343,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, set } from 'lodash'
 
 import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'

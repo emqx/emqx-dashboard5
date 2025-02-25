@@ -54,7 +54,6 @@ import {
   useMessageDroppedDetails,
 } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
-import { get } from 'lodash'
 
 const enum TabName {
   Message,

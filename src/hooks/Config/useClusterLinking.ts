@@ -5,7 +5,7 @@ import {
   CreatedClusterLinking,
 } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { omit } from 'lodash'
+
 import useI18nTl from '../useI18nTl'
 import useOperationConfirm from '../useOperationConfirm'
 import useSSL from '../useSSL'

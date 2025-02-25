@@ -27,7 +27,6 @@
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
 import useI18nTl from '@/hooks/useI18nTl'
-import { cloneDeep } from 'lodash'
 
 const props = defineProps({
   modelValue: {

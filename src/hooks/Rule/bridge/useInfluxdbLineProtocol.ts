@@ -1,4 +1,3 @@
-import { trim } from 'lodash'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'

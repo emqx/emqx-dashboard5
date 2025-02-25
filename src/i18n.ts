@@ -15,8 +15,6 @@ import {
 
 import actionText from '@/schemaText/actionText/index'
 
-import { get } from 'lodash'
-
 const lang: { [key: string]: any } = {
   en: {
     ...enLocale,

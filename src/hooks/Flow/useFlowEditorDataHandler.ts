@@ -7,7 +7,7 @@ import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElementData, GraphEdge } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
-import { groupBy } from 'lodash'
+
 import useI18nTl from '../useI18nTl'
 import useFlowEdge from './useFlowEdge'
 import useFlowNode, { FlowNodeType, ProcessingType, SinkType, SourceType } from './useFlowNode'

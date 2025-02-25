@@ -3,7 +3,6 @@ import { AvroEnum, AvroSchema, PluginUIConfigForm, PluginUIConfigs } from '@/typ
 import { getPluginConfigs, getPluginSchema, updatePluginConfigs } from '@/api/plugins'
 import { AvroJsonToObject, objectToAvroJson } from './avroUtils'
 import avro from 'avsc'
-import { isUndefined } from 'lodash'
 
 /**
  * Returns the default value for a given basic type.

@@ -170,7 +170,6 @@ import { OpenTelemetry } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { cloneDeep, isEqual, set } from 'lodash'
 
 import OpenTelemetryWhiteListItemDialog from './OpenTelemetryWhiteListItemDialog.vue'
 

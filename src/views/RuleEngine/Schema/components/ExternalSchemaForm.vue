@@ -65,7 +65,6 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { startCase } from 'lodash'
 
 const enum AuthType {
   None,

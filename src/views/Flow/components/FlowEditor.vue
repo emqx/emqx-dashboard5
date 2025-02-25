@@ -136,7 +136,6 @@ import {
   useVueFlow,
 } from '@vue-flow/core'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isEqual, pick } from 'lodash'
 
 import {
   computed,

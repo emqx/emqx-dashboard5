@@ -37,7 +37,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import { ElMessage } from 'element-plus'
-import { cloneDeep } from 'lodash'
 
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
