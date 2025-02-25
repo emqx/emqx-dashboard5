@@ -73,7 +73,6 @@ import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeA
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-import { useRoute, useRouter } from 'vue-router'
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 import ClusterLinkingOverview from './components/ClusterLinkingOverview.vue'
 

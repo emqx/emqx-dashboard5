@@ -39,7 +39,6 @@ import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
 
-import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 const props = defineProps({

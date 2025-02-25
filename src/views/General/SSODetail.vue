@@ -38,7 +38,6 @@ import {
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { ElMessage } from 'element-plus'
 
-import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'

@@ -108,7 +108,6 @@ import { SlowSubType } from '@/types/enum'
 import { ElMessage } from 'element-plus'
 
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 
 import { InternalRuleItem } from 'async-validator'
 

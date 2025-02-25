@@ -56,7 +56,6 @@ import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 
-import { useRoute, useRouter } from 'vue-router'
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 

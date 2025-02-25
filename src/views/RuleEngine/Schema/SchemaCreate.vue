@@ -39,7 +39,6 @@ import { SchemaRegistry } from '@/types/rule'
 import { ElMessage } from 'element-plus'
 import { cloneDeep } from 'lodash'
 
-import { useRoute, useRouter } from 'vue-router'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
 /**

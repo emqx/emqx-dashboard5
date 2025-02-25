@@ -31,7 +31,6 @@ import useSSL from '@/hooks/useSSL'
 import type { ClusterLinkingForm as ClusterLinkingData } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 
-import { useRouter } from 'vue-router'
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 
 const router = useRouter()

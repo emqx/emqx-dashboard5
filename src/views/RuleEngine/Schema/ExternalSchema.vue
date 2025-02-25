@@ -34,7 +34,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'
 
-import { useRouter } from 'vue-router'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 
 const router = useRouter()

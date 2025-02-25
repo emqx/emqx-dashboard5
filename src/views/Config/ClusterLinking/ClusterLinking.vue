@@ -55,8 +55,6 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
 
-import { useRouter } from 'vue-router'
-
 const { t, tl } = useI18nTl('BasicConfig')
 
 const tableData = ref<Array<CreatedClusterLinking>>([])

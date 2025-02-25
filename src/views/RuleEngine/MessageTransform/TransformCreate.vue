@@ -36,7 +36,6 @@ import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 
-import { useRouter } from 'vue-router'
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 

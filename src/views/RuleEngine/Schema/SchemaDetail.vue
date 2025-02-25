@@ -50,7 +50,6 @@ import { Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 
-import { useRoute, useRouter } from 'vue-router'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
 const route = useRoute()

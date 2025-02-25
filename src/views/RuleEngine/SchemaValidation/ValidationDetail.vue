@@ -75,7 +75,6 @@ import type { SchemaValidation } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-import { useRoute, useRouter } from 'vue-router'
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 import { DetailTab } from '@/types/enum'
 import ValidationOverview from './components/ValidationOverview.vue'
