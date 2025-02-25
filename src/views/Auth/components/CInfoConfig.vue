@@ -26,7 +26,6 @@
 <script lang="ts" setup>
 import ObjectArrayEditor from '@/components/ObjectArrayEditor.vue'
 import useCInfoConfigForm from '@/hooks/Auth/useCInfoConfigForm'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   modelValue: {

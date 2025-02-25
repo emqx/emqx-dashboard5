@@ -68,9 +68,6 @@ import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Remove } from '@element-plus/icons-vue'
 
-import useDurationStr from '@/hooks/useDurationStr'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
-
 const historyLockTable = ref(false)
 const historyAlarmData = ref<any[]>([])
 const { t } = useI18n()

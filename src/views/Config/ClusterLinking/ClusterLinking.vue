@@ -50,8 +50,7 @@
 import { deleteClusterLinking, getClusterLinking } from '@/api/cluster'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import useClusterLinking from '@/hooks/Config/useClusterLinking'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
 

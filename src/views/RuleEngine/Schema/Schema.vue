@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { deleteSchema, querySchemas } from '@/api/ruleengine'
 import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { SchemaRegistry } from '@/types/rule'
 
 import TableItemDropdown from './components/TableItemDropdown.vue'

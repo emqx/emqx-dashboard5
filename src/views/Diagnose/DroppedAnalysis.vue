@@ -53,7 +53,6 @@ import {
   useDroppedCharts,
   useMessageDroppedDetails,
 } from '@/hooks/useDroppedDetail'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const enum TabName {
   Message,

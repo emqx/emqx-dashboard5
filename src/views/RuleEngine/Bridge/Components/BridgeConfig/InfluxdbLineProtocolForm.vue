@@ -73,7 +73,7 @@ import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { BridgeType } from '@/types/enum'
 
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'

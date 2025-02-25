@@ -68,7 +68,7 @@ import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { Warning } from '@element-plus/icons-vue'
 

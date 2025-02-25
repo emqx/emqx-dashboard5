@@ -165,7 +165,7 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { OpenTelemetry } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'

@@ -63,8 +63,6 @@
 <script lang="ts" setup>
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const enum AuthType {
   None,

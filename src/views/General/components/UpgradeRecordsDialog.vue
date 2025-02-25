@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import InfoTooltip from '@/components/InfoTooltip.vue'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { NodeUpgradeData } from '@/types/typeAlias'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 import dayjs from 'dayjs'

@@ -26,8 +26,7 @@
 import { postClusterLinking } from '@/api/cluster'
 import DetailHeader from '@/components/DetailHeader.vue'
 import useClusterLinking from '@/hooks/Config/useClusterLinking'
-import useI18nTl from '@/hooks/useI18nTl'
-import useSSL from '@/hooks/useSSL'
+
 import type { ClusterLinkingForm as ClusterLinkingData } from '@/types/typeAlias'
 
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'

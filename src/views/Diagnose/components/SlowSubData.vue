@@ -55,10 +55,7 @@ export default defineComponent({
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import commonPagination from '@/components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePageController from '@/hooks/usePagination'
-import usePaginationRemember from '@/hooks/usePaginationRemember'
-import usePaging from '@/hooks/usePaging'
+
 import { SlowSubStatistic } from '@/types/diagnose'
 import { Setting } from '@element-plus/icons-vue'
 

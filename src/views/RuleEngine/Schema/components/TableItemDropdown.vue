@@ -36,7 +36,6 @@ export default defineComponent({
 import { SchemaRegistry } from '@/types/rule'
 
 import { CaretBottom, CopyDocument, Delete } from '@element-plus/icons-vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 defineProps({
   rowData: {

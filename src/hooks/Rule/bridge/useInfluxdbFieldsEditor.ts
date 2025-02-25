@@ -1,5 +1,3 @@
-import useI18nTl from '@/hooks/useI18nTl'
-
 export enum FieldValueType {
   Float,
   Integer,

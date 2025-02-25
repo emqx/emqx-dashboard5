@@ -202,8 +202,7 @@ import {
   useValidationLogLevel,
   useValidationStrategy,
 } from '@/hooks/Rule/validation/useValidation'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { FormRules } from '@/types/common'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'

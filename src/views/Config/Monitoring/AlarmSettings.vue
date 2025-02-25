@@ -20,7 +20,7 @@ import { loadAlarm } from '@/api/common'
 import { getSysMon, updateSysMon } from '@/api/config'
 
 import SchemaForm from '@/components/SchemaForm'
-import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
+
 import { AlarmSettings } from '@/types/config'
 
 import { useI18n } from 'vue-i18n'

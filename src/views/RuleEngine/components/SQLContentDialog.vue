@@ -29,8 +29,6 @@
 
 <script lang="ts" setup>
 import Monaco from '@/components/Monaco.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps<{ modelValue: boolean; sql?: string; title?: string }>()
 const emit = defineEmits<{

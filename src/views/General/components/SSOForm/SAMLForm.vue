@@ -62,9 +62,7 @@
 <script setup lang="ts">
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import CertFileInput from '@/components/TLSConfig/CertFileInput.vue'
-import useCopy from '@/hooks/useCopy'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { FormRules } from '@/types/common'
 import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { CopyDocument } from '@element-plus/icons-vue'

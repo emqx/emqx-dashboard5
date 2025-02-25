@@ -48,8 +48,7 @@ import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
 
 import PayloadDialog from '@/components/PayloadDialog.vue'
 import CommonPagination from '@/components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+
 import { DelayedMessage } from '@/types/extension'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'

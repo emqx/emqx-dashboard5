@@ -79,7 +79,7 @@
 import { editTopicRewrite, getTopicRewrite } from '@/api/extension'
 
 import TipContainer from '@/components/TipContainer.vue'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { Rewrite } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
 

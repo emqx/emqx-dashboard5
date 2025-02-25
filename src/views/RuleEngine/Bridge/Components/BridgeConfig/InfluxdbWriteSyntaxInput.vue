@@ -50,7 +50,7 @@ import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { BridgeType } from '@/types/enum'
 
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'

@@ -61,8 +61,7 @@ import {
   uploadBackup,
 } from '@/api/systemModule'
 import commonPagination from '@/components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { Upload } from '@element-plus/icons-vue'

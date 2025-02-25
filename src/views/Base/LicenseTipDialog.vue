@@ -35,9 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-import useDocLink from '@/hooks/useDocLink'
-import useI18nTl from '@/hooks/useI18nTl'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,

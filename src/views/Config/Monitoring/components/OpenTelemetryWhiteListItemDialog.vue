@@ -22,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 
 const props = defineProps<{

@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   modelValue: {

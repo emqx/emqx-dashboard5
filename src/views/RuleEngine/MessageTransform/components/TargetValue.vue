@@ -46,7 +46,6 @@ import {
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
-import useI18nTl from '@/hooks/useI18nTl'
 
 import SQLContentDialog from '../../components/SQLContentDialog.vue'
 

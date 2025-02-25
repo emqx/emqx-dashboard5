@@ -16,8 +16,6 @@
 <script setup lang="ts">
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import { FunctionItem } from '@/hooks/Flow/useFlowNode'
-import useI18nTl from '@/hooks/useI18nTl'
-import { useFunctionItemData } from '@/hooks/useRuleFunc'
 
 const props = defineProps<{
   modelValue: FunctionItem

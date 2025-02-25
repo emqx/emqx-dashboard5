@@ -23,8 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import useI18nTl from '@/hooks/useI18nTl'
-
 import FlowView from './components/FlowView.vue'
 
 const router = useRouter()

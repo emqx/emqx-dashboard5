@@ -19,8 +19,6 @@
 
 <script setup lang="ts">
 import CustomFormItem from '@/components/CustomFormItem.vue'
-import useFormRules from '@/hooks/useFormRules'
-import useI18nTl from '@/hooks/useI18nTl'
 
 const props = defineProps({
   modelValue: {

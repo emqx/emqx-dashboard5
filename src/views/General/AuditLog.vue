@@ -178,8 +178,7 @@ import {
 import CodeView from '@/components/CodeView.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import commonPagination from '@/components/commonPagination.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
+
 import {
   AuditLogFrom,
   AuditLogItem,

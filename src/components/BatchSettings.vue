@@ -63,8 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import useDocLink from '@/hooks/useDocLink'
-import useI18nTl from '@/hooks/useI18nTl'
 import { BatchSettingDatabaseType } from '@/types/enum'
 import { useBatchSettings } from '@emqx/shared-ui-utils'
 import { ElUpload } from 'element-plus'

@@ -135,8 +135,7 @@ import {
 } from '@/api/hotUpgrade'
 import GuideBar from '@/components/GuideBar.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
-import useI18nTl from '@/hooks/useI18nTl'
-import useOperationConfirm from '@/hooks/useOperationConfirm'
+
 import { HotUpgradePackage, NodeUpgradeData } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { UploadFile } from 'element-plus'

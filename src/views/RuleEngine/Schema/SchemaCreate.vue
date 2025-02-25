@@ -32,8 +32,7 @@
 import { createSchema, querySchemaDetail } from '@/api/ruleengine'
 
 import DetailHeader from '@/components/DetailHeader.vue'
-import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
-import useI18nTl from '@/hooks/useI18nTl'
+
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 
