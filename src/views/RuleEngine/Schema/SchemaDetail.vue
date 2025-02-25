@@ -47,7 +47,6 @@ import DetailHeader from '@/components/DetailHeader.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistry } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 

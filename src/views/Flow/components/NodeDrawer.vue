@@ -111,7 +111,6 @@ import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
-import { ElMessageBox } from 'element-plus'
 
 import NodeMetrics from './metrics/NodeMetrics.vue'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'

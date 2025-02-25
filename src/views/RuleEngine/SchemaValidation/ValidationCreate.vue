@@ -33,7 +33,6 @@ import {
   SchemaValidationLogLevel,
   SchemaValidationStrategy,
 } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 

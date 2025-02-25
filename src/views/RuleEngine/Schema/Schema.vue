@@ -33,7 +33,6 @@ import { deleteSchema, querySchemas } from '@/api/ruleengine'
 import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistry } from '@/types/rule'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 import TableItemDropdown from './components/TableItemDropdown.vue'
 

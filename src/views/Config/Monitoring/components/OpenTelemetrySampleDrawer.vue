@@ -169,7 +169,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { OpenTelemetry } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 import OpenTelemetryWhiteListItemDialog from './OpenTelemetryWhiteListItemDialog.vue'
 

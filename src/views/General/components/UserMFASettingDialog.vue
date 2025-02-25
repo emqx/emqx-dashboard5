@@ -45,7 +45,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { useMFAMethods } from '@/hooks/useMFA'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { type User, UserMFA } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps<{
   modelValue: boolean

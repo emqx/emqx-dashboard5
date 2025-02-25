@@ -111,7 +111,6 @@
 <script lang="ts" setup>
 import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
-import { ElInput } from 'element-plus'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'

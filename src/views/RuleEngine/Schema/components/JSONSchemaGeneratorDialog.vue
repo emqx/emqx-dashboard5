@@ -30,7 +30,7 @@
 import Monaco from '@/components/Monaco.vue'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElMessage } from 'element-plus'
+
 import { createSchema } from 'genson-js'
 
 const props = defineProps({

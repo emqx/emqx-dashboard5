@@ -105,7 +105,6 @@ import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import { SlowSubConfig } from '@/types/diagnose'
 import { SlowSubType } from '@/types/enum'
-import { ElMessage } from 'element-plus'
 
 import { useI18n } from 'vue-i18n'
 

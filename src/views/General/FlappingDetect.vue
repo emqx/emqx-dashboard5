@@ -83,7 +83,6 @@ import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
-import { ElMessage } from 'element-plus'
 
 import { useStore } from 'vuex'
 import { usePerms } from '@/plugins/permissionsPlugin'

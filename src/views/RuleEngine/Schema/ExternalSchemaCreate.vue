@@ -31,7 +31,6 @@ import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
 import useI18nTl from '@/hooks/useI18nTl'
 import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 

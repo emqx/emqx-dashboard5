@@ -165,7 +165,6 @@ import { useStore } from 'vuex'
 
 import { LicenseType } from '@/types/enum'
 import { LicenseConfig, LicenseData } from '@/types/dashboard'
-import { ElMessage } from 'element-plus'
 
 type ValidatorFn = (
   rule: Record<string, unknown>,

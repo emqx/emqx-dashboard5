@@ -35,7 +35,6 @@
 <script lang="ts" setup>
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElDialog } from 'element-plus'
 
 const props = defineProps({
   modelValue: {

@@ -67,7 +67,7 @@ import { loadAlarm, clearHistoryAlarm } from '@/api/common'
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Remove } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+
 import useDurationStr from '@/hooks/useDurationStr'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 

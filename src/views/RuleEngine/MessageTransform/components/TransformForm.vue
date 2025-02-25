@@ -194,7 +194,7 @@ import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformLogLevel } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
+
 import {
   PropType,
   WritableComputedRef,

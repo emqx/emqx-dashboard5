@@ -33,7 +33,6 @@
 
 <script lang="ts" setup>
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElDialog } from 'element-plus'
 
 import useFormRules from '@/hooks/useFormRules'
 

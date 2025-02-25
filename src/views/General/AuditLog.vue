@@ -192,7 +192,6 @@ import dayjs from 'dayjs'
 
 import { useStore } from 'vuex'
 import resourceDictArr from './resource_dict.json'
-import { ElMessage } from 'element-plus'
 
 interface LabelItem {
   en: string
