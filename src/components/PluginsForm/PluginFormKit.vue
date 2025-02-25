@@ -55,7 +55,7 @@ const saveLoading = ref(false)
 
 const { t } = useI18n()
 
-const { rules } = usePluginGenFormRules({
+const { rules } = useGenPluginFormRules({
   formConfigs: props.layouts.$form,
 })
 

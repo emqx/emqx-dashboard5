@@ -86,7 +86,7 @@ const {
   propsOrderMap,
   customColClass: fixedCustomColClass,
   advancedFields,
-} = useSchemaPropsLayout(props, connectorRecord)
+} = useSchemaConnectorPropsLayout(props, connectorRecord)
 const customColClass = computed(() => {
   const ret = fixedCustomColClass.value
   if (props.hiddenFields) {
