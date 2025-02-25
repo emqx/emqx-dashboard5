@@ -32,6 +32,7 @@
 
 <script lang="tsx" setup>
 import { loadInflightMsgs, loadMsgQueue } from '@/api/clients'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import { MessageItem } from '@/types/client'
 
 type MsgItem = MessageItem & {

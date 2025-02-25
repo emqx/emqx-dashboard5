@@ -227,6 +227,7 @@ declare global {
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
   const orderBy: typeof import('lodash')['orderBy']
   const pick: typeof import('lodash')['pick']
+  const pickBy: typeof import('lodash')['pickBy']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
@@ -249,11 +250,13 @@ declare global {
   const splitOnSymbol: typeof import('./common/tools')['splitOnSymbol']
   const startCase: typeof import('lodash')['startCase']
   const stringifyObjSafely: typeof import('./common/tools')['stringifyObjSafely']
+  const sum: typeof import('lodash')['sum']
   const throttle: typeof import('lodash')['throttle']
   const titleCase: typeof import('./common/tools')['titleCase']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
+  const toUpper: typeof import('lodash')['toUpper']
   const toValue: typeof import('vue')['toValue']
   const transLink: typeof import('./common/tools')['transLink']
   const transMSNumToString: typeof import('./common/tools')['transMSNumToString']
@@ -261,11 +264,13 @@ declare global {
   const transMemorySizeStrToNum: typeof import('./common/tools')['transMemorySizeStrToNum']
   const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
   const triggerRef: typeof import('vue')['triggerRef']
+  const trim: typeof import('lodash')['trim']
   const trimSpacesAndLFs: typeof import('./common/tools')['trimSpacesAndLFs']
   const trimValues: typeof import('./common/tools')['trimValues']
   const tryToCompleteURL: typeof import('./common/tools')['tryToCompleteURL']
   const typesWithProducerAndConsumer: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']
   const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
+  const unionBy: typeof import('lodash')['unionBy']
   const unref: typeof import('vue')['unref']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
@@ -765,6 +770,7 @@ declare module 'vue' {
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly orderBy: UnwrapRef<typeof import('lodash')['orderBy']>
     readonly pick: UnwrapRef<typeof import('lodash')['pick']>
+    readonly pickBy: UnwrapRef<typeof import('lodash')['pickBy']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
@@ -787,11 +793,13 @@ declare module 'vue' {
     readonly splitOnSymbol: UnwrapRef<typeof import('./common/tools')['splitOnSymbol']>
     readonly startCase: UnwrapRef<typeof import('lodash')['startCase']>
     readonly stringifyObjSafely: UnwrapRef<typeof import('./common/tools')['stringifyObjSafely']>
+    readonly sum: UnwrapRef<typeof import('lodash')['sum']>
     readonly throttle: UnwrapRef<typeof import('lodash')['throttle']>
     readonly titleCase: UnwrapRef<typeof import('./common/tools')['titleCase']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toUpper: UnwrapRef<typeof import('lodash')['toUpper']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly transLink: UnwrapRef<typeof import('./common/tools')['transLink']>
     readonly transMSNumToString: UnwrapRef<typeof import('./common/tools')['transMSNumToString']>
@@ -799,11 +807,13 @@ declare module 'vue' {
     readonly transMemorySizeStrToNum: UnwrapRef<typeof import('./common/tools')['transMemorySizeStrToNum']>
     readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
+    readonly trim: UnwrapRef<typeof import('lodash')['trim']>
     readonly trimSpacesAndLFs: UnwrapRef<typeof import('./common/tools')['trimSpacesAndLFs']>
     readonly trimValues: UnwrapRef<typeof import('./common/tools')['trimValues']>
     readonly tryToCompleteURL: UnwrapRef<typeof import('./common/tools')['tryToCompleteURL']>
     readonly typesWithProducerAndConsumer: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']>
     readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
+    readonly unionBy: UnwrapRef<typeof import('lodash')['unionBy']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
     readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>

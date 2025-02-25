@@ -1,4 +1,5 @@
 import store from '@/store'
+import { App } from 'vue'
 
 const PERMISSIONS_KEY = Symbol('PERMISSIONS')
 
