@@ -76,8 +76,6 @@ import {
 } from 'element-plus'
 import dayjs from 'dayjs'
 
-import { useStore } from 'vuex'
-
 interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {
   size: number
 }

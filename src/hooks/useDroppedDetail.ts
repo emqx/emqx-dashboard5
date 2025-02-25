@@ -8,7 +8,7 @@ import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
 
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
+
 import useI18nTl from './useI18nTl'
 
 interface ChartDataItem {

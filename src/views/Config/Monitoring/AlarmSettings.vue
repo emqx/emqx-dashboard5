@@ -24,7 +24,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { AlarmSettings } from '@/types/config'
 
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
 
 const configs = ref({})
 const saveLoading = ref(false)

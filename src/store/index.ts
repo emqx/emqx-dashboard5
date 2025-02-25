@@ -3,7 +3,6 @@ import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
-import { createStore } from 'vuex'
 
 const getLang = () => {
   const langFromQuery = getValueFromQuery('lang')

@@ -161,7 +161,6 @@ import LicenseResetDialog from './components/LicenseResetDialog.vue'
 import EMQXVersion from '@/components/EMQXVersion.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
-import { useStore } from 'vuex'
 
 import { LicenseType } from '@/types/enum'
 import { LicenseConfig, LicenseData } from '@/types/dashboard'

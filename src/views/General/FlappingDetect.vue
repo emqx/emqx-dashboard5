@@ -84,7 +84,6 @@ import useConfFooterStyle from '@/hooks/useConfFooterStyle'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Zone } from '@/types/config'
 
-import { useStore } from 'vuex'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 const { hasPermission } = usePerms()

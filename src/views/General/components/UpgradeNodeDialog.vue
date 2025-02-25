@@ -142,8 +142,6 @@ import { Plus } from '@element-plus/icons-vue'
 import { UploadFile } from 'element-plus'
 import dayjs from 'dayjs'
 
-import { useStore } from 'vuex'
-
 const props = defineProps<{ modelValue: boolean; node?: NodeUpgradeData }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', val: boolean): void

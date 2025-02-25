@@ -80,8 +80,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 
-import { useStore } from 'vuex'
-
 interface SchemaData {
   components: Properties
   rules: SchemaRules

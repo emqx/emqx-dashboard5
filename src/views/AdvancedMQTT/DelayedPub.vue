@@ -60,7 +60,6 @@ import useDataNotSaveConfirm, { useCheckDataChanged } from '@/hooks/useDataNotSa
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 
-import { useStore } from 'vuex'
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 const { hasPermission } = usePerms()

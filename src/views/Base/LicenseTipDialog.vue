@@ -38,8 +38,6 @@
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 
-import { useStore } from 'vuex'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,
