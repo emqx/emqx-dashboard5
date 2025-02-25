@@ -4,7 +4,6 @@ import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import { unionBy } from 'lodash'
 
-import { useRoute } from 'vue-router'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'

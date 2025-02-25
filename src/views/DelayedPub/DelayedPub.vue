@@ -54,8 +54,6 @@ import { DelayedMessage } from '@/types/extension'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 
-import { useRouter } from 'vue-router'
-
 const { tl, t } = useI18nTl('Extension')
 const router = useRouter()
 const copyShowTimeout: Ref<undefined | number> = ref(undefined)

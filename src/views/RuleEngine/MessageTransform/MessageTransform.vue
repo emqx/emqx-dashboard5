@@ -82,7 +82,6 @@ import { MessageTransform } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 import { SortableEvent } from 'sortablejs'
 
-import { useRouter } from 'vue-router'
 import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue'
 
 const router = useRouter()

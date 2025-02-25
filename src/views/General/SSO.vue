@@ -38,8 +38,6 @@ import {
   DashboardSsoBackendStatusBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
-import { useRouter } from 'vue-router'
-
 type SSOItem = DashboardSsoBackendStatus & { isCreated: boolean }
 
 const { t, tl } = useI18nTl('General')

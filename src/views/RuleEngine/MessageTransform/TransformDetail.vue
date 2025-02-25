@@ -77,7 +77,6 @@ import type { MessageTransform } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-import { useRoute, useRouter } from 'vue-router'
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 import TransformOverview from './components/TransformOverview.vue'

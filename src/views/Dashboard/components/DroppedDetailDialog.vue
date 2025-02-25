@@ -46,8 +46,6 @@ import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/u
 import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog } from 'element-plus'
 
-import { useRouter } from 'vue-router'
-
 const props = defineProps<{
   modelValue: boolean
   metrics: Record<string, number>

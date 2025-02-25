@@ -35,7 +35,6 @@ import {
 } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
 
-import { useRouter } from 'vue-router'
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 
 const router = useRouter()
