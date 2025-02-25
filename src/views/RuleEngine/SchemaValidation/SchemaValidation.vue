@@ -73,7 +73,7 @@ import {
   reorderAllValidations,
 } from '@/api/schemaValidation'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
+import { useValidationFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
@@ -134,7 +134,7 @@ const toggleValidationEnable = async (data: SchemaValidation) => {
   }
 }
 
-const { getLabelByValue } = useFailureAction()
+const { getLabelByValue } = useValidationFailureAction()
 
 const reorderValidation = async (order: Array<string>) => {
   try {

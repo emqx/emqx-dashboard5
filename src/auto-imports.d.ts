@@ -337,7 +337,6 @@ declare global {
   const useExHooksMetrics: typeof import('./hooks/useMetrics')['useExHooksMetrics']
   const useExhookItemStatus: typeof import('./hooks/Exhook/useExhookItemStatus')['default']
   const useExternalSchemaType: typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']
-  const useFailureAction: typeof import('./hooks/Rule/validation/useValidation')['useFailureAction']
   const useFillNewRecord: typeof import('./hooks/useFillNewRecord')['default']
   const useFilterConnectorInForm: typeof import('./hooks/Flow/useFilterConnectorInForm')['default']
   const useFlowEdge: typeof import('./hooks/Flow/useFlowEdge')['default']
@@ -452,8 +451,10 @@ declare global {
   const useTestConnector: typeof import('./hooks/Rule/connector/useTestConnector')['default']
   const useToggleAuthStatus: typeof import('./hooks/Auth/useToggleAuthStatus')['default']
   const useTransName: typeof import('./hooks/useTransName')['default']
+  const useTransformFailureAction: typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']
   const useTwoWayBindingManually: typeof import('./hooks/useTwoWayBindingManually')['default']
   const useUpdateBaseInfo: typeof import('./hooks/useUpdateBaseInfo')['default']
+  const useValidationFailureAction: typeof import('./hooks/Rule/validation/useValidation')['useValidationFailureAction']
   const useValidationItemType: typeof import('./hooks/Rule/validation/useValidation')['useValidationItemType']
   const useValidationLogLevel: typeof import('./hooks/Rule/validation/useValidation')['useValidationLogLevel']
   const useValidationStrategy: typeof import('./hooks/Rule/validation/useValidation')['useValidationStrategy']
@@ -874,7 +875,6 @@ declare module 'vue' {
     readonly useExHooksMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useExHooksMetrics']>
     readonly useExhookItemStatus: UnwrapRef<typeof import('./hooks/Exhook/useExhookItemStatus')['default']>
     readonly useExternalSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']>
-    readonly useFailureAction: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useFailureAction']>
     readonly useFillNewRecord: UnwrapRef<typeof import('./hooks/useFillNewRecord')['default']>
     readonly useFilterConnectorInForm: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['default']>
     readonly useFlowEdge: UnwrapRef<typeof import('./hooks/Flow/useFlowEdge')['default']>
@@ -989,8 +989,10 @@ declare module 'vue' {
     readonly useTestConnector: UnwrapRef<typeof import('./hooks/Rule/connector/useTestConnector')['default']>
     readonly useToggleAuthStatus: UnwrapRef<typeof import('./hooks/Auth/useToggleAuthStatus')['default']>
     readonly useTransName: UnwrapRef<typeof import('./hooks/useTransName')['default']>
+    readonly useTransformFailureAction: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']>
     readonly useTwoWayBindingManually: UnwrapRef<typeof import('./hooks/useTwoWayBindingManually')['default']>
     readonly useUpdateBaseInfo: UnwrapRef<typeof import('./hooks/useUpdateBaseInfo')['default']>
+    readonly useValidationFailureAction: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationFailureAction']>
     readonly useValidationItemType: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationItemType']>
     readonly useValidationLogLevel: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationLogLevel']>
     readonly useValidationStrategy: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationStrategy']>

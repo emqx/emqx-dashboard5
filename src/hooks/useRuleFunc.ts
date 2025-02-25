@@ -1,3 +1,5 @@
+import RuleFunc from './Rule/RuleFunc.json'
+
 export const enum ArgumentType {
   Number = 'number',
   Any = 'any',

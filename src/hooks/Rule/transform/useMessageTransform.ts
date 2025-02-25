@@ -14,7 +14,7 @@ export type TypeMessageTransformFailureAction =
 export type TypeMessageTransformLogLevel =
   (typeof MessageTransformLogLevel)[keyof typeof MessageTransformLogLevel]
 
-export const useFailureAction = (): {
+export const useTransformFailureAction = (): {
   failureActionOpts: { label: string; value: TypeMessageTransformFailureAction }[]
   getLabelByValue: (value: TypeMessageTransformFailureAction) => string
 } => {
