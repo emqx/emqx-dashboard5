@@ -129,7 +129,7 @@ const getRefKey = computed(() => {
   return props.isSource ? getSourceTypeRefKey(props.type) : getActionTypeRefKey(props.type)
 })
 
-const { getComponentsHandler } = useComponentsHandlers(props)
+const { getComponentsHandler } = useActionComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({
