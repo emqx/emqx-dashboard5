@@ -6,9 +6,7 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
-
 import { useI18n } from 'vue-i18n'
-
 import useI18nTl from './useI18nTl'
 
 interface ChartDataItem {

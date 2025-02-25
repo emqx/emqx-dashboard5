@@ -91,20 +91,11 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import Monaco from '@/components/Monaco.vue'
-import { EditedWay, FunctionForm, SourceType } from '@/hooks/Flow/useFlowNode'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
-import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
-import { createFunctionItem } from '@/hooks/Flow/useNodeForm'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-
 import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { Node } from '@vue-flow/core'
 import type { Rules, ValidateError } from 'async-validator'
 import Schema from 'async-validator'
-
 import {
   ComputedRef,
   PropType,

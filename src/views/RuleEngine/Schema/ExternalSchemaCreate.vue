@@ -25,12 +25,8 @@
 
 <script setup lang="ts">
 import { getExternalSchemaDetail, postExternalSchema } from '@/api/ruleengine'
-
-import DetailHeader from '@/components/DetailHeader.vue'
-
 import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
-
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 /**

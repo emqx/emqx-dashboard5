@@ -1,5 +1,4 @@
 import { BridgeType } from '@/types/enum'
-
 import { useConnectorSchema } from '../bridge/useBridgeTypeValue'
 
 export const enum IoTDBDriver {

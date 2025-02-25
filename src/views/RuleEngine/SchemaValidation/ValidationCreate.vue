@@ -24,8 +24,6 @@
 
 <script setup lang="ts">
 import { postSchemaValidation } from '@/api/schemaValidation'
-import DetailHeader from '@/components/DetailHeader.vue'
-
 import { SchemaRegistryType } from '@/types/enum'
 import type { SchemaValidation } from '@/types/typeAlias'
 import {
@@ -33,7 +31,6 @@ import {
   SchemaValidationLogLevel,
   SchemaValidationStrategy,
 } from '@/types/typeAlias'
-
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 
 const router = useRouter()

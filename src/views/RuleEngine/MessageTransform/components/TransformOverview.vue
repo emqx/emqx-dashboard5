@@ -27,8 +27,6 @@ import {
   getMessageTransformMetrics,
   resetMessageTransformMetrics,
 } from '@/api/messageTransformation'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-
 import { MetricsData } from '@/types/common'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 

@@ -72,10 +72,6 @@
 
 <script lang="ts" setup>
 import { getFileTransConfigs, updateFileTransConfigs } from '@/api/config'
-
-import SchemaForm from '@/components/SchemaForm'
-import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
-
 import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
 

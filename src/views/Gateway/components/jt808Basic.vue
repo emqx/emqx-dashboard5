@@ -113,10 +113,6 @@ import {
   defineExpose,
 } from 'vue'
 
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-
 const props = defineProps({
   value: {
     type: Object,

@@ -28,8 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import Monaco from '@/components/Monaco.vue'
-
 const props = defineProps<{ modelValue: boolean; sql?: string; title?: string }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', v: boolean): void

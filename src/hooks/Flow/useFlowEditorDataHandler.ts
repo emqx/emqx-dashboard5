@@ -1,12 +1,8 @@
 /**
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
-
-import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElementData, GraphEdge } from '@vue-flow/core'
-
 import useI18nTl from '../useI18nTl'
 import useFlowEdge from './useFlowEdge'
 import useFlowNode, { FlowNodeType, ProcessingType, SinkType, SourceType } from './useFlowNode'

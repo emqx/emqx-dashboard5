@@ -1,8 +1,6 @@
 import { getRuleInfo } from '@/api/ruleengine'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'

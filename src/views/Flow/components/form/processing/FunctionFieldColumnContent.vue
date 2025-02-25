@@ -15,9 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import { FunctionItem } from '@/hooks/Flow/useFlowNode'
-
 import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(

@@ -35,9 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import { FunctionItem } from '@/hooks/Flow/useFlowNode'
-
 import type { Rules, ValidateError } from 'async-validator'
 import Schema from 'async-validator'
 

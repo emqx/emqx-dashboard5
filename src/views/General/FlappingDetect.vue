@@ -77,12 +77,7 @@
 
 <script setup lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-
 import { Zone } from '@/types/config'
-
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 const { hasPermission } = usePerms()

@@ -98,15 +98,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { querySlowSubConfig, updateSlowSubConfig } from '@/api/diagnose'
-import DetailHeader from '@/components/DetailHeader.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-
 import { SlowSubConfig } from '@/types/diagnose'
 import { SlowSubType } from '@/types/enum'
-
 import { useI18n } from 'vue-i18n'
-
 import { InternalRuleItem } from 'async-validator'
 
 const { t } = useI18n()

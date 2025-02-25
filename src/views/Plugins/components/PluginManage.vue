@@ -21,9 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import useRenderPluginForm from '@/hooks/Plugins/useRenderPluginForm'
-import PluginFormKit from '@/components/PluginsForm/PluginFormKit.vue'
-
 const props = defineProps({
   pluginName: {
     type: String,

@@ -97,14 +97,6 @@
 </template>
 
 <script setup lang="ts">
-import Monaco from '@/components/Monaco.vue'
-import useFilterConnectorInForm from '@/hooks/Flow/useFilterConnectorInForm'
-import { EditedWay, FilterForm, FilterFormData, FilterItem } from '@/hooks/Flow/useFlowNode'
-import useHandleFlowDataUtils from '@/hooks/Flow/useHandleFlowDataUtils'
-import { createFilterForm, createFilterFormData, createFilterItem } from '@/hooks/Flow/useNodeForm'
-import useParseWhere from '@/hooks/Flow/useParseWhere'
-import useSortableFilterList from '@/hooks/Flow/useSortableFilterList'
-
 import { FilterLogicalOperator } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import {

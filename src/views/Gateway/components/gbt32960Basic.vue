@@ -56,9 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-
 const props = defineProps({
   value: {
     type: Object,

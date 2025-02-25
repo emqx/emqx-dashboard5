@@ -66,13 +66,9 @@ import {
   getSchemaValidationDetail,
   putSchemaValidation,
 } from '@/api/schemaValidation'
-import DetailHeader from '@/components/DetailHeader.vue'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-
 import { NodeStatusClass } from '@/types/enum'
 import type { SchemaValidation } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-
 import SchemaValidationForm from './components/SchemaValidationForm.vue'
 import { DetailTab } from '@/types/enum'
 import ValidationOverview from './components/ValidationOverview.vue'

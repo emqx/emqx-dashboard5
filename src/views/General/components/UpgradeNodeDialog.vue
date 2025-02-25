@@ -133,9 +133,6 @@ import {
   upgradeNode,
   deleteUpgradePackage,
 } from '@/api/hotUpgrade'
-import GuideBar from '@/components/GuideBar.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-
 import { HotUpgradePackage, NodeUpgradeData } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
 import { UploadFile } from 'element-plus'

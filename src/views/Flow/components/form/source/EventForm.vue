@@ -23,9 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'
-
 import { RuleEvent } from '@/types/rule'
 import RuleInputEventSelect from '@/views/RuleEngine/components/RuleInputEventSelect.vue'
 

@@ -34,7 +34,6 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { SchemaRegistry } from '@/types/rule'
-
 import { CaretBottom, CopyDocument, Delete } from '@element-plus/icons-vue'
 
 defineProps({

@@ -24,10 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import useFlowView from '@/hooks/Flow/useFlowView'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
 import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
-
 import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
 import NodeDrawer from './NodeDrawer.vue'

@@ -97,7 +97,6 @@ import mysqlIcon from '@/assets/img/mysql.png'
 import postgresqlIcon from '@/assets/img/postgresql.png'
 import redisIcon from '@/assets/img/redis.png'
 import ldapIcon from '@/assets/img/ldap.png'
-
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import FileConfig from './components/FileConfig.vue'

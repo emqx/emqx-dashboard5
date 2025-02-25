@@ -66,7 +66,6 @@
 import { BatchSettingDatabaseType } from '@/types/enum'
 import { useBatchSettings } from '@emqx/shared-ui-utils'
 import { ElUpload } from 'element-plus'
-
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{

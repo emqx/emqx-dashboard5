@@ -111,13 +111,6 @@
 </template>
 
 <script setup lang="ts">
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import ArrayEditor from '@/components/ArrayEditor.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import Monaco from '@/components/Monaco.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-
 import type { OIDBForm } from '@/types/typeAlias'
 import { OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'

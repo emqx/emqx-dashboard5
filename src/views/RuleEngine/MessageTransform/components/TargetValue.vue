@@ -46,7 +46,6 @@ import {
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
-
 import SQLContentDialog from '../../components/SQLContentDialog.vue'
 
 const { availablePropKeyMap, targetBelongOpts } = useMessageTransformForm()

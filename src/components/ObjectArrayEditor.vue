@@ -100,7 +100,6 @@ import { Delete, Plus } from '@element-plus/icons-vue'
 import CustomFormItem from './CustomFormItem.vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
-import BatchSettings from '@/components/BatchSettings.vue'
 import { BatchSettingDatabaseType } from '@/types/enum'
 
 const props = defineProps({

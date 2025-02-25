@@ -41,8 +41,6 @@
 </template>
 
 <script lang="ts" setup>
-import MarkdownContent from '@/components/MarkdownContent.vue'
-
 const props = defineProps<{
   modelValue: boolean
   metrics: Record<string, number>

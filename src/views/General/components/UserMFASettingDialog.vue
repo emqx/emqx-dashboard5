@@ -41,7 +41,6 @@
 
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
-
 import { type User, UserMFA } from '@/types/typeAlias'
 
 const props = defineProps<{

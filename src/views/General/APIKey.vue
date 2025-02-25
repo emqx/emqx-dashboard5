@@ -58,7 +58,6 @@ import { APIKey } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import dayjs from 'dayjs'
-import useRole from '@/hooks/SSO/useRole'
 
 const { t } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {

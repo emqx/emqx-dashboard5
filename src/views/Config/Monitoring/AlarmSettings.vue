@@ -18,11 +18,7 @@
 <script setup lang="ts">
 import { loadAlarm } from '@/api/common'
 import { getSysMon, updateSysMon } from '@/api/config'
-
-import SchemaForm from '@/components/SchemaForm'
-
 import { AlarmSettings } from '@/types/config'
-
 import { useI18n } from 'vue-i18n'
 
 const configs = ref({})

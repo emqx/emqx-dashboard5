@@ -14,9 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import { FunctionItem } from '@/hooks/Flow/useFlowNode'
-
 const props = defineProps<{
   modelValue: FunctionItem
   readonly: boolean

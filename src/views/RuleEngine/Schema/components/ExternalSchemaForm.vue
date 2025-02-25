@@ -61,9 +61,6 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
-
 const enum AuthType {
   None,
   Basic,

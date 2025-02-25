@@ -60,8 +60,6 @@ import {
   restoreBackup,
   uploadBackup,
 } from '@/api/systemModule'
-import commonPagination from '@/components/commonPagination.vue'
-
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { Upload } from '@element-plus/icons-vue'

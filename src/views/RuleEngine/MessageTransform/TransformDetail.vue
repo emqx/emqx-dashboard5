@@ -67,14 +67,9 @@ import {
   getMessageTransformDetail,
   putMessageTransform,
 } from '@/api/messageTransformation'
-import DetailHeader from '@/components/DetailHeader.vue'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
-
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 import TransformOverview from './components/TransformOverview.vue'

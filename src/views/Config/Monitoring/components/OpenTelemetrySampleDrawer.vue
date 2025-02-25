@@ -160,16 +160,9 @@ import {
   setOpenTelemetry,
   updateOpenTelemetrySampleWhiteList,
 } from '@/api/common'
-
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-
 import { OpenTelemetry } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { OpenTelemetryE2EConfigs } from '@/types/typeAlias'
-
 import OpenTelemetryWhiteListItemDialog from './OpenTelemetryWhiteListItemDialog.vue'
 
 const props = defineProps<{

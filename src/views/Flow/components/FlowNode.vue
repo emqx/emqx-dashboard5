@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import useFlowNode, { FlowNodeType } from '@/hooks/Flow/useFlowNode'
 import { Plus } from '@element-plus/icons-vue'
 import { Handle, Position } from '@vue-flow/core'
 

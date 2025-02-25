@@ -9,11 +9,9 @@ import {
   trimSpacesAndLFs,
   judgeRuleSelectionWithFunc,
 } from '@/common/tools'
-import { useBridgeTypeValue } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType } from '@/types/enum'
 import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-
 import { useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'

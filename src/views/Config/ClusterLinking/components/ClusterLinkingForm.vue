@@ -162,14 +162,6 @@
 </template>
 
 <script setup lang="ts">
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import CustomInputNumber from '@/components/CustomInputNumber.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithUnit from '@/components/InputWithUnit.vue'
-import Oneof from '@/components/Oneof.vue'
-import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-
 import { ClusterLinkingForm } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
 

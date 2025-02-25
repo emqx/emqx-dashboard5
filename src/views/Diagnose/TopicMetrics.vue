@@ -168,12 +168,9 @@ import {
   deleteTopicMetrics,
   resetTopicMetrics,
 } from '@/api/diagnose'
-
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-
 import { waitAMoment } from '@/common/tools.ts'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const DEFAULT_QOS = 'all'
 

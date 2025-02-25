@@ -110,13 +110,9 @@
 
 <script lang="ts" setup>
 import { editSubscribe, getSubscribe } from '@/api/extension'
-
-import TipContainer from '@/components/TipContainer.vue'
-
 import { QoSLevel } from '@/types/enum'
 import { AutoSubscribe } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
-
 import { useI18n } from 'vue-i18n'
 import { usePerms } from '@/plugins/permissionsPlugin'
 

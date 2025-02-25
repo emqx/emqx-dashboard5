@@ -99,21 +99,13 @@ import useFlowNode, {
   SourceType,
   SourceTypeAllMsgsAndEvents,
 } from '@/hooks/Flow/useFlowNode'
-import useGenerateFlowDataUtils from '@/hooks/Flow/useGenerateFlowDataUtils'
-import useNodeDrawer from '@/hooks/Flow/useNodeDrawer'
-import useNodeForm from '@/hooks/Flow/useNodeForm'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useWebhookUtils from '@/hooks/Webhook/useWebhookUtils'
-
 import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
-
 import NodeMetrics from './metrics/NodeMetrics.vue'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 
 const props = defineProps({
   modelValue: {

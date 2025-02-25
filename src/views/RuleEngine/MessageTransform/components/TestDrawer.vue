@@ -94,17 +94,10 @@
 
 <script setup lang="ts">
 import { testMessageTransform } from '@/api/messageTransformation'
-
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import Monaco from '@/components/Monaco.vue'
-import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
-
 import { PayloadShowByType, QoSLevel } from '@/types/enum'
 import { MessageTransform, TestMessageTransformData } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 import { stringifyObjSafely } from '@emqx/shared-ui-utils'
-
 import PubProps from '../../components/PubProps.vue'
 
 const props = defineProps<{

@@ -1,4 +1,3 @@
-import useResourceOpt from '@/hooks/Rule/bridge/useResourceOpt'
 import { BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 

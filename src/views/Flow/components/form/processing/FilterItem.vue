@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
-
 import CommonFields from '../CommonFields.vue'
 
 const props = defineProps({

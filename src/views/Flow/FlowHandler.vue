@@ -74,18 +74,10 @@
 </template>
 
 <script setup lang="ts">
-import useEditFlow from '@/hooks/Flow/useEditFlow'
-import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
-import useFlowNode from '@/hooks/Flow/useFlowNode'
-import useSubmitFlowData from '@/hooks/Flow/useSubmitFlowData'
-import useSourceList from '@/hooks/Rule/action/useSourceList'
-import { useStatusController } from '@/hooks/Rule/rule/useDebugRule'
-
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
 import { Edge, Node } from '@vue-flow/core'
-
 import RuleTest from '../RuleEngine/components/RuleTest.vue'
 import FlowEditor from './components/FlowEditor.vue'
 import FlowNameDialog from './components/FlowNameDialog.vue'

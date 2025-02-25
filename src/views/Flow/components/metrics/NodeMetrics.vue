@@ -15,9 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { FlowNodeType } from '@/hooks/Flow/useFlowNode'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
-import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'
 import { BridgeItem } from '@/types/rule'
 import BridgeItemOverview from '@/views/RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import RuleItemOverview from '@/views/RuleEngine/Rule/components/RuleItemOverview.vue'

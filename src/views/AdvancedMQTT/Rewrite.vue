@@ -77,12 +77,8 @@
 
 <script lang="ts" setup>
 import { editTopicRewrite, getTopicRewrite } from '@/api/extension'
-
-import TipContainer from '@/components/TipContainer.vue'
-
 import { Rewrite } from '@/types/extension'
 import { ElMessage, ElMessageBox as MB } from 'element-plus'
-
 import { useI18n } from 'vue-i18n'
 import { usePerms } from '@/plugins/permissionsPlugin'
 

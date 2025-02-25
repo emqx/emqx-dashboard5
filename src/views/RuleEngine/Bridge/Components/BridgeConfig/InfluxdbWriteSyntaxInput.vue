@@ -46,13 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import Monaco from '@/components/Monaco.vue'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { useAvailableProviders } from '@/hooks/Rule/useProvidersForMonaco'
-
 import { BridgeType } from '@/types/enum'
-
 import InfluxdbLineProtocolForm from './InfluxdbLineProtocolForm.vue'
 
 enum Tab {
