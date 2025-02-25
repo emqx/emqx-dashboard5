@@ -35,6 +35,7 @@ declare global {
   const DEFAULT_SELECT: typeof import('./common/constants')['DEFAULT_SELECT']
   const DEFAULT_SSL_VERIFY_VALUE: typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']
   const DEFAULT_ZONE: typeof import('./common/constants')['DEFAULT_ZONE']
+  const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
   const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
   const EffectScope: typeof import('vue')['EffectScope']
   const ElMessage: typeof import('element-plus')['ElMessage']
@@ -468,6 +469,7 @@ declare module 'vue' {
     readonly DEFAULT_SELECT: UnwrapRef<typeof import('./common/constants')['DEFAULT_SELECT']>
     readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']>
     readonly DEFAULT_ZONE: UnwrapRef<typeof import('./common/constants')['DEFAULT_ZONE']>
+    readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
     readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
