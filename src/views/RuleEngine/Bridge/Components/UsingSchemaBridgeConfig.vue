@@ -154,7 +154,7 @@ const batchSettingConfigs = computed(() => {
   return undefined
 })
 
-const { getComponentsHandler } = useComponentsHandlers(props)
+const { getComponentsHandler } = useActionComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

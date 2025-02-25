@@ -6,487 +6,472 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const ACTIVE_RING_STROKE_WIDTH: (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
-  const ADMIN_USERNAMES: (typeof import('./common/constants'))['ADMIN_USERNAMES']
-  const API_BASE_URL: (typeof import('./common/constants'))['API_BASE_URL']
-  const AUTHZ_COMMON_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_COMMON_PLACEHOLDERS']
-  const AUTHZ_HTTP_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_HTTP_PLACEHOLDERS']
-  const AUTHZ_MONGODB_PLACEHOLDERS: (typeof import('./common/constants'))['AUTHZ_MONGODB_PLACEHOLDERS']
-  const AUTH_PLACEHOLDERS: (typeof import('./common/constants'))['AUTH_PLACEHOLDERS']
-  const AUTH_PLACEHOLDER_CLIENT_ATTRS: (typeof import('./common/constants'))['AUTH_PLACEHOLDER_CLIENT_ATTRS']
-  const AUTO_RESTART_INTERVAL_DEFAULT: (typeof import('./common/constants'))['AUTO_RESTART_INTERVAL_DEFAULT']
-  const ArgumentType: (typeof import('./hooks/useRuleFunc'))['ArgumentType']
-  const AvailableKey: (typeof import('./hooks/Rule/transform/useMessageTransform'))['AvailableKey']
-  const AvroJsonToObject: (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
-  const BACKGROUND_CIRCLE_INNER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_INNER_RADIUS']
-  const BACKGROUND_CIRCLE_OUTER_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_OUTER_RADIUS']
-  const BACKGROUND_CIRCLE_RADIUS: (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
-  const BANNED_NEVER_EXPIRE_VALUE: (typeof import('./common/constants'))['BANNED_NEVER_EXPIRE_VALUE']
-  const BATCH_UPLOAD_CSV_MAX_ROWS: (typeof import('./common/constants'))['BATCH_UPLOAD_CSV_MAX_ROWS']
-  const BRIDGE_TYPES_NOT_USE_SCHEMA: (typeof import('./common/constants'))['BRIDGE_TYPES_NOT_USE_SCHEMA']
-  const CER_FILE_ACCEPTS: (typeof import('./common/constants'))['CER_FILE_ACCEPTS']
-  const COMMON_ID_REG: (typeof import('./common/constants'))['COMMON_ID_REG']
-  const CONNECTOR_TYPES_WITH_SOURCE: (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_SOURCE']
-  const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
-  const COPY_SUFFIX: (typeof import('./common/constants'))['COPY_SUFFIX']
-  const DEFAULT_CLIENT_TABLE_COLUMNS: (typeof import('./common/constants'))['DEFAULT_CLIENT_TABLE_COLUMNS']
-  const DEFAULT_FROM: (typeof import('./common/constants'))['DEFAULT_FROM']
-  const DEFAULT_PAGE_SIZE_OPT: (typeof import('./common/constants'))['DEFAULT_PAGE_SIZE_OPT']
-  const DEFAULT_PWD: (typeof import('./common/constants'))['DEFAULT_PWD']
-  const DEFAULT_SALT_POSITION: (typeof import('./common/constants'))['DEFAULT_SALT_POSITION']
-  const DEFAULT_SELECT: (typeof import('./common/constants'))['DEFAULT_SELECT']
-  const DEFAULT_SSL_VERIFY_VALUE: (typeof import('./common/constants'))['DEFAULT_SSL_VERIFY_VALUE']
-  const DEFAULT_ZONE: (typeof import('./common/constants'))['DEFAULT_ZONE']
-  const DOT_RADIUS: (typeof import('./hooks/Flow/useFilterConnectorInForm'))['DOT_RADIUS']
-  const EMQX_VERSION: (typeof import('./common/constants'))['EMQX_VERSION']
-  const ENCRYPTED_PWD_REG: (typeof import('./common/constants'))['ENCRYPTED_PWD_REG']
-  const EditedWay: (typeof import('./hooks/Flow/useFlowNode'))['EditedWay']
-  const EffectScope: (typeof import('vue'))['EffectScope']
-  const ElMessage: (typeof import('element-plus'))['ElMessage']
-  const ElMessageBox: (typeof import('element-plus'))['ElMessageBox']
-  const ElNotification: (typeof import('element-plus'))['ElNotification']
-  const FieldValueType: (typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor'))['FieldValueType']
-  const FlowNodeType: (typeof import('./hooks/Flow/useFlowNode'))['FlowNodeType']
-  const GATEWAY_DISABLED_LISTENER_TYPE_MAP: (typeof import('./common/constants'))['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
-  const GATEWAY_ENABLED_DATABASES_MAP: (typeof import('./common/constants'))['GATEWAY_ENABLED_DATABASES_MAP']
-  const GATEWAY_ENABLED_MECHANISM_MAP: (typeof import('./common/constants'))['GATEWAY_ENABLED_MECHANISM_MAP']
-  const INFINITY_VALUE: (typeof import('./common/constants'))['INFINITY_VALUE']
-  const INGRESS_BRIDGE_TYPES: (typeof import('./common/constants'))['INGRESS_BRIDGE_TYPES']
-  const INPUT_HEIGHT: (typeof import('./hooks/Flow/useFilterConnectorInForm'))['INPUT_HEIGHT']
-  const INPUT_MARGIN_BOTTOM: (typeof import('./hooks/Flow/useFilterConnectorInForm'))['INPUT_MARGIN_BOTTOM']
-  const INTEGRATION_SCHEMA_TYPES: (typeof import('./common/constants'))['INTEGRATION_SCHEMA_TYPES']
-  const INVALID_PUB_TOPIC_REG: (typeof import('./common/constants'))['INVALID_PUB_TOPIC_REG']
-  const IP_REG: (typeof import('./common/constants'))['IP_REG']
-  const IS_ENTERPRISE: (typeof import('./common/constants'))['IS_ENTERPRISE']
-  const IoTDBDriver: (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBDriver']
-  const IoTDBDrivers: (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBDrivers']
-  const IoTDBKeyField: (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBKeyField']
-  const KeysInRule: (typeof import('./hooks/Rule/KeysInRule'))['default']
-  const LogMsg: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']
-  const LogTargetType: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogTargetType']
-  const MAX_DISPLAYED_REP_NODE: (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
-  const MESSAGE_TYPE_NONE: (typeof import('./hooks/Rule/transform/useMessageTransform'))['MESSAGE_TYPE_NONE']
-  const MQTT_V3_RES_CODES: (typeof import('./common/constants'))['MQTT_V3_RES_CODES']
-  const MQTT_V5_RES_CODES: (typeof import('./common/constants'))['MQTT_V5_RES_CODES']
-  const MQTT_VERSION_LIST: (typeof import('./common/constants'))['MQTT_VERSION_LIST']
-  const MQTTingressRemoteQoS: (typeof import('./common/constants'))['MQTTingressRemoteQoS']
-  const MULTI_LEVEL_WILDCARD: (typeof import('./common/constants'))['MULTI_LEVEL_WILDCARD']
-  const MetricKey: (typeof import('./hooks/useDroppedDetail'))['MetricKey']
-  const MetricType: (typeof import('./hooks/useMetrics'))['MetricType']
-  const MsgKey: (typeof import('./hooks/Flow/useFlowEditor'))['MsgKey']
-  const NO_CHINESE_REG: (typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']
-  const NUM_REG: (typeof import('./common/constants'))['NUM_REG']
-  const NodeType: (typeof import('./hooks/Flow/useFlowNode'))['NodeType']
-  const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: (typeof import('./common/constants'))['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
-  const PASSWORD_REG: (typeof import('./common/constants'))['PASSWORD_REG']
-  const ProcessingType: (typeof import('./hooks/Flow/useFlowNode'))['ProcessingType']
-  const QoSOptions: (typeof import('./common/constants'))['QoSOptions']
-  const REQUEST_TIMEOUT_CODE: (typeof import('./common/constants'))['REQUEST_TIMEOUT_CODE']
-  const RULE_FROM_SEPARATOR: (typeof import('./common/constants'))['RULE_FROM_SEPARATOR']
-  const RULE_INPUT_BRIDGE_TYPE_PREFIX: (typeof import('./common/constants'))['RULE_INPUT_BRIDGE_TYPE_PREFIX']
-  const RULE_INPUT_EVENT_PREFIX: (typeof import('./common/constants'))['RULE_INPUT_EVENT_PREFIX']
-  const RULE_LOGICAL_OPERATORS: (typeof import('./common/constants'))['RULE_LOGICAL_OPERATORS']
-  const RULE_MAX_NUM_PER_PAGE: (typeof import('./common/constants'))['RULE_MAX_NUM_PER_PAGE']
-  const RuleSourceType: (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
-  const SEARCH_FORM_RES_PROPS: (typeof import('./common/constants'))['SEARCH_FORM_RES_PROPS']
-  const SESSION_FIELDS: (typeof import('./common/constants'))['SESSION_FIELDS']
-  const SESSION_NEVER_EXPIRE_TIME: (typeof import('./common/constants'))['SESSION_NEVER_EXPIRE_TIME']
-  const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: (typeof import('./common/constants'))['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
-  const SPECIAL_INVALID_SUB_TOPIC_REG: (typeof import('./common/constants'))['SPECIAL_INVALID_SUB_TOPIC_REG']
-  const SSL_VERIFY_VALUE_MAP: (typeof import('./common/constants'))['SSL_VERIFY_VALUE_MAP']
-  const SinkType: (typeof import('./hooks/Flow/useFlowNode'))['SinkType']
-  const SourceServerType: (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
-  const SourceType: (typeof import('./hooks/Flow/useFlowNode'))['SourceType']
-  const SourceTypeAllMsgsAndEvents: (typeof import('./hooks/Flow/useFlowNode'))['SourceTypeAllMsgsAndEvents']
-  const TARGET_EXPRESSION: (typeof import('./hooks/Rule/transform/useMessageTransform'))['TARGET_EXPRESSION']
-  const TOPIC_EVENT: (typeof import('./common/constants'))['TOPIC_EVENT']
-  const TYPE_COLOR_MAP: (typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']
-  const URLReg: (typeof import('./common/tools'))['URLReg']
-  const USER_INFO_KEY: (typeof import('./hooks/useGetInfoFromQuery'))['USER_INFO_KEY']
-  const WEBHOOK_SUFFIX: (typeof import('./common/constants'))['WEBHOOK_SUFFIX']
-  const WEB_SOCKET_STATUS: (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
-  const _: (typeof import('lodash'))['default']
-  const accAdd: (typeof import('./common/tools'))['accAdd']
-  const addNewlineAfterComma: (typeof import('./common/tools'))['addNewlineAfterComma']
-  const arraysAreEqual: (typeof import('./common/tools'))['arraysAreEqual']
-  const assign: (typeof import('lodash'))['assign']
-  const avroUtils: (typeof import('./hooks/Plugins/avroUtils'))['default']
-  const axios: (typeof import('axios'))['default']
-  const bridgeOrderIndex: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
-  const calcPercentage: (typeof import('./common/tools'))['calcPercentage']
-  const camelCase: (typeof import('lodash'))['camelCase']
-  const caseInsensitiveCompare: (typeof import('./common/tools'))['caseInsensitiveCompare']
-  const checkInRange: (typeof import('./common/tools'))['checkInRange']
-  const checkIsValidArr: (typeof import('./common/tools'))['checkIsValidArr']
-  const checkNOmitFromObj: (typeof import('./common/tools'))['checkNOmitFromObj']
-  const checkNSetToNullFromObj: (typeof import('./common/tools'))['checkNSetToNullFromObj']
-  const checkStringWithUnit: (typeof import('./common/tools'))['checkStringWithUnit']
-  const chunk: (typeof import('lodash'))['chunk']
-  const chunkStr: (typeof import('./common/tools'))['chunkStr']
-  const cloneDeep: (typeof import('lodash'))['cloneDeep']
-  const computed: (typeof import('vue'))['computed']
-  const consumerReg: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
-  const countDuplicationName: (typeof import('./common/tools'))['countDuplicationName']
-  const createApp: (typeof import('vue'))['createApp']
-  const createConsoleForm: (typeof import('./hooks/Flow/useNodeForm'))['createConsoleForm']
-  const createEventForm: (typeof import('./hooks/Flow/useNodeForm'))['createEventForm']
-  const createFilterForm: (typeof import('./hooks/Flow/useNodeForm'))['createFilterForm']
-  const createFilterFormData: (typeof import('./hooks/Flow/useNodeForm'))['createFilterFormData']
-  const createFilterItem: (typeof import('./hooks/Flow/useNodeForm'))['createFilterItem']
-  const createFunctionForm: (typeof import('./hooks/Flow/useNodeForm'))['createFunctionForm']
-  const createFunctionItem: (typeof import('./hooks/Flow/useNodeForm'))['createFunctionItem']
-  const createMessageForm: (typeof import('./hooks/Flow/useNodeForm'))['createMessageForm']
-  const createOrderObj: (typeof import('./common/tools'))['createOrderObj']
-  const createRandomString: (typeof import('./common/tools'))['createRandomString']
-  const createRePubForm: (typeof import('./hooks/Flow/useNodeForm'))['createRePubForm']
-  const createRouter: (typeof import('vue-router'))['createRouter']
-  const createStore: (typeof import('vuex'))['createStore']
-  const createWebHashHistory: (typeof import('vue-router'))['createWebHashHistory']
-  const customRef: (typeof import('vue'))['customRef']
-  const customValidate: (typeof import('./common/tools'))['customValidate']
-  const dateFormat: (typeof import('./common/tools'))['dateFormat']
-  const debounce: (typeof import('lodash'))['debounce']
-  const defineAsyncComponent: (typeof import('vue'))['defineAsyncComponent']
-  const defineComponent: (typeof import('vue'))['defineComponent']
-  const downloadBlobData: (typeof import('./common/tools'))['downloadBlobData']
-  const downloadByURL: (typeof import('./common/tools'))['downloadByURL']
-  const effectScope: (typeof import('vue'))['effectScope']
-  const emptyObject: (typeof import('./common/tools'))['emptyObject']
-  const escape: (typeof import('lodash'))['escape']
-  const escapeCode: (typeof import('./common/tools'))['escapeCode']
-  const escapeRegExp: (typeof import('lodash'))['escapeRegExp']
-  const fillEmptyValueToUndefinedField: (typeof import('./common/tools'))['fillEmptyValueToUndefinedField']
-  const findExtensionByName: (typeof import('./common/tools'))['findExtensionByName']
-  const formatNumber: (typeof import('./common/tools'))['formatNumber']
-  const formatSQL: (typeof import('./common/tools'))['formatSQL']
-  const get: (typeof import('lodash'))['get']
-  const getAPIPath: (typeof import('./common/tools'))['getAPIPath']
-  const getAllListData: (typeof import('./common/tools'))['getAllListData']
-  const getBridgeKey: (typeof import('./common/tools'))['getBridgeKey']
-  const getCurrentInstance: (typeof import('vue'))['getCurrentInstance']
-  const getCurrentScope: (typeof import('vue'))['getCurrentScope']
-  const getEmptyValueByDefaultValue: (typeof import('./common/tools'))['getEmptyValueByDefaultValue']
-  const getImg: (typeof import('./common/tools'))['getImg']
-  const getKeyPartsFromSQL: (typeof import('./common/tools'))['getKeyPartsFromSQL']
-  const getKeywordsFromSQL: (typeof import('./common/tools'))['getKeywordsFromSQL']
-  const getLabelFromValueInOptionList: (typeof import('./common/tools'))['getLabelFromValueInOptionList']
-  const getPasswordHashAlgorithmObj: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
-  const getProgressColor: (typeof import('./common/tools'))['getProgressColor']
-  const getRuleSelectionAlias: (typeof import('./common/tools'))['getRuleSelectionAlias']
-  const getTypeAndNameFromKey: (typeof import('./common/tools'))['getTypeAndNameFromKey']
-  const getUnitInStr: (typeof import('./common/tools'))['getUnitInStr']
-  const getUsefulPasswordHashAlgorithmData: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
-  const getValueFromQuery: (typeof import('./common/tools'))['getValueFromQuery']
-  const groupBy: (typeof import('lodash'))['groupBy']
-  const h: (typeof import('vue'))['h']
-  const handleTransformData: (typeof import('./hooks/Rule/transform/useMessageTransform'))['handleTransformData']
-  const inject: (typeof import('vue'))['inject']
-  const isArray: (typeof import('lodash'))['isArray']
-  const isEqual: (typeof import('lodash'))['isEqual']
-  const isForeachReg: (typeof import('./common/tools'))['isForeachReg']
-  const isFunction: (typeof import('lodash'))['isFunction']
-  const isNumber: (typeof import('lodash'))['isNumber']
-  const isObject: (typeof import('lodash'))['isObject']
-  const isPlainObject: (typeof import('lodash'))['isPlainObject']
-  const isProxy: (typeof import('vue'))['isProxy']
-  const isReactive: (typeof import('vue'))['isReactive']
-  const isReadonly: (typeof import('vue'))['isReadonly']
-  const isRef: (typeof import('vue'))['isRef']
-  const isRegExp: (typeof import('lodash'))['isRegExp']
-  const isString: (typeof import('lodash'))['isString']
-  const isUndefined: (typeof import('lodash'))['isUndefined']
-  const judgeRuleSelectionWithFunc: (typeof import('./common/tools'))['judgeRuleSelectionWithFunc']
-  const jumpToErrorFormItem: (typeof import('./common/tools'))['jumpToErrorFormItem']
-  const lowerCase: (typeof import('lodash'))['lowerCase']
-  const markRaw: (typeof import('vue'))['markRaw']
-  const merge: (typeof import('lodash'))['merge']
-  const mergeWith: (typeof import('lodash'))['mergeWith']
-  const nextTick: (typeof import('vue'))['nextTick']
-  const numToFixed: (typeof import('./common/tools'))['numToFixed']
-  const numberArgTypes: (typeof import('./hooks/useRuleFunc'))['numberArgTypes']
-  const objectToAvroJson: (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
-  const omit: (typeof import('lodash'))['omit']
-  const omitArr: (typeof import('./common/tools'))['omitArr']
-  const onActivated: (typeof import('vue'))['onActivated']
-  const onBeforeMount: (typeof import('vue'))['onBeforeMount']
-  const onBeforeRouteLeave: (typeof import('vue-router'))['onBeforeRouteLeave']
-  const onBeforeRouteUpdate: (typeof import('vue-router'))['onBeforeRouteUpdate']
-  const onBeforeUnmount: (typeof import('vue'))['onBeforeUnmount']
-  const onBeforeUpdate: (typeof import('vue'))['onBeforeUpdate']
-  const onDeactivated: (typeof import('vue'))['onDeactivated']
-  const onErrorCaptured: (typeof import('vue'))['onErrorCaptured']
-  const onMounted: (typeof import('vue'))['onMounted']
-  const onRenderTracked: (typeof import('vue'))['onRenderTracked']
-  const onRenderTriggered: (typeof import('vue'))['onRenderTriggered']
-  const onScopeDispose: (typeof import('vue'))['onScopeDispose']
-  const onServerPrefetch: (typeof import('vue'))['onServerPrefetch']
-  const onUnmounted: (typeof import('vue'))['onUnmounted']
-  const onUpdated: (typeof import('vue'))['onUpdated']
-  const onWatcherCleanup: (typeof import('vue'))['onWatcherCleanup']
-  const orderBy: (typeof import('lodash'))['orderBy']
-  const pick: (typeof import('lodash'))['pick']
-  const provide: (typeof import('vue'))['provide']
-  const reactive: (typeof import('vue'))['reactive']
-  const readonly: (typeof import('vue'))['readonly']
-  const ref: (typeof import('vue'))['ref']
-  const removeFromArr: (typeof import('./common/tools'))['removeFromArr']
-  const replaceSpaceForHTML: (typeof import('./common/tools'))['replaceSpaceForHTML']
-  const resolveComponent: (typeof import('vue'))['resolveComponent']
-  const resourceOptFields: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
-  const round: (typeof import('lodash'))['round']
-  const ruleSelectionAliasPartReg: (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
-  const scrollToTop: (typeof import('./common/tools'))['scrollToTop']
-  const set: (typeof import('lodash'))['set']
-  const setPwdFormat: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
-  const shallowReactive: (typeof import('vue'))['shallowReactive']
-  const shallowReadonly: (typeof import('vue'))['shallowReadonly']
-  const shallowRef: (typeof import('vue'))['shallowRef']
-  const snakeCase: (typeof import('lodash'))['snakeCase']
-  const sortStringArr: (typeof import('./common/tools'))['sortStringArr']
-  const sortedUniq: (typeof import('./common/tools'))['sortedUniq']
-  const splitOnComma: (typeof import('./common/tools'))['splitOnComma']
-  const splitOnSymbol: (typeof import('./common/tools'))['splitOnSymbol']
-  const startCase: (typeof import('lodash'))['startCase']
-  const stringifyObjSafely: (typeof import('./common/tools'))['stringifyObjSafely']
-  const throttle: (typeof import('lodash'))['throttle']
-  const titleCase: (typeof import('./common/tools'))['titleCase']
-  const toRaw: (typeof import('vue'))['toRaw']
-  const toRef: (typeof import('vue'))['toRef']
-  const toRefs: (typeof import('vue'))['toRefs']
-  const toValue: (typeof import('vue'))['toValue']
-  const transLink: (typeof import('./common/tools'))['transLink']
-  const transMSNumToString: (typeof import('./common/tools'))['transMSNumToString']
-  const transMemorySizeNumToStr: (typeof import('./common/tools'))['transMemorySizeNumToStr']
-  const transMemorySizeStrToNum: (typeof import('./common/tools'))['transMemorySizeStrToNum']
-  const transTimeStrToMS: (typeof import('./common/tools'))['transTimeStrToMS']
-  const triggerRef: (typeof import('vue'))['triggerRef']
-  const trimSpacesAndLFs: (typeof import('./common/tools'))['trimSpacesAndLFs']
-  const trimValues: (typeof import('./common/tools'))['trimValues']
-  const tryToCompleteURL: (typeof import('./common/tools'))['tryToCompleteURL']
-  const typesWithProducerAndConsumer: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
-  const unexposedConfigs: (typeof import('./common/constants'))['unexposedConfigs']
-  const unref: (typeof import('vue'))['unref']
-  const useActionAndSourceStatus: (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
-  const useActionDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
-  const useActionList: (typeof import('./hooks/Rule/action/useActionList'))['default']
-  const useActionQueueMetrics: (typeof import('./hooks/useMetrics'))['useActionQueueMetrics']
-  const useActionSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useActionSchema']
-  const useAdaptiveEditor: (typeof import('./hooks/useAdaptiveEditor'))['default']
-  const useAttrs: (typeof import('vue'))['useAttrs']
-  const useAuth: (typeof import('./hooks/Auth/useAuth'))['default']
-  const useAuthHelp: (typeof import('./hooks/Auth/useAuthHelp'))['default']
-  const useAuthMetrics: (typeof import('./hooks/useMetrics'))['useAuthMetrics']
-  const useAuthn: (typeof import('./hooks/Auth/useAuthn'))['default']
-  const useAuthnCreate: (typeof import('./hooks/Auth/useAuthnCreate'))['default']
-  const useAuthnMechanismType: (typeof import('./hooks/Auth/useAuthnType'))['useAuthnMechanismType']
-  const useAuthz: (typeof import('./hooks/Auth/useAuthz'))['default']
-  const useAuthzCreate: (typeof import('./hooks/Auth/useAuthzCreate'))['default']
-  const useAvailableProviders: (typeof import('./hooks/Rule/useProvidersForMonaco'))['useAvailableProviders']
-  const useBackgroundCircle: (typeof import('./hooks/Overview/useNodesGraph'))['useBackgroundCircle']
-  const useBannedType: (typeof import('./hooks/Auth/useBannedType'))['default']
-  const useBridgeDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useBridgeDataHandler']
-  const useBridgeFormCreator: (typeof import('./hooks/Rule/bridge/useBridgeFormCreator'))['default']
-  const useBridgeMetrics: (typeof import('./hooks/useMetrics'))['useBridgeMetrics']
-  const useBridgeTypeIcon: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeIcon']
-  const useBridgeTypeOptions: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeOptions']
-  const useBridgeTypeValue: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['default']
-  const useBuiltInDataUpdateTip: (typeof import('./hooks/Auth/useBuiltInDataUpdateTip'))['default']
-  const useCInfoConfigForm: (typeof import('./hooks/Auth/useCInfoConfigForm'))['default']
-  const useCSSVariables: (typeof import('./hooks/useCSSVariables'))['default']
-  const useChartDataUtils: (typeof import('./hooks/useMetrics'))['useChartDataUtils']
-  const useCheckBeforeSaveAsCopy: (typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy'))['default']
-  const useCheckDataChanged: (typeof import('./hooks/useDataNotSaveConfirm'))['useCheckDataChanged']
-  const useCheckIoTDBConnectorDriver: (typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver'))['default']
-  const useClientDetail: (typeof import('./hooks/Clients/useClientDetail'))['default']
-  const useClientFields: (typeof import('./hooks/Clients/useClientFields'))['default']
-  const useClusterLinking: (typeof import('./hooks/Config/useClusterLinking'))['default']
-  const useClusterLinkingMetrics: (typeof import('./hooks/useMetrics'))['useClusterLinkingMetrics']
-  const useClusterNodes: (typeof import('./hooks/useClusterNodes'))['default']
-  const useCommonConnectionStatus: (typeof import('./hooks/useCommonConnectionStatus'))['default']
-  const useComponentsHandlers: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
-  const useConfFooterStyle: (typeof import('./hooks/useConfFooterStyle'))['default']
-  const useConnectorDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
-  const useConnectorDirection: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorDirection']
-  const useConnectorList: (typeof import('./hooks/Rule/connector/useConnectorList'))['default']
-  const useConnectorSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorSchema']
-  const useConnectorTypeValue: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorTypeValue']
-  const useConvertSecretToQRCode: (typeof import('./hooks/useConvertSecretToQRCode'))['default']
-  const useCopy: (typeof import('./hooks/useCopy'))['default']
-  const useCoreNodeSize: (typeof import('./hooks/Overview/useNodesGraph'))['useCoreNodeSize']
-  const useCssModule: (typeof import('vue'))['useCssModule']
-  const useCssVars: (typeof import('vue'))['useCssVars']
-  const useCursorPagination: (typeof import('./hooks/usePagination'))['useCursorPagination']
-  const useDashboardVersion: (typeof import('./hooks/useDashboardVersion'))['default']
-  const useDataNotSaveConfirm: (typeof import('./hooks/useDataNotSaveConfirm'))['default']
-  const useDatabaseConfig: (typeof import('./hooks/Auth/useDatabaseConfig'))['default']
-  const useDatabaseConfigForm: (typeof import('./hooks/Auth/useDatabaseConfigForm'))['default']
-  const useDatePickerShortcuts: (typeof import('./hooks/useDatePickerShortcuts'))['default']
-  const useDebugRule: (typeof import('./hooks/Rule/rule/useDebugRule'))['default']
-  const useDeleteBridge: (typeof import('./hooks/Rule/bridge/useDeleteBridge'))['default']
-  const useDeleteSource: (typeof import('./hooks/Rule/action/useHandleSourceItem'))['useDeleteSource']
-  const useDeliveryDroppedDetails: (typeof import('./hooks/useDroppedDetail'))['useDeliveryDroppedDetails']
-  const useDetectIsComInSinglePage: (typeof import('./hooks/useDetectIsComInSinglePage'))['default']
-  const useDocLink: (typeof import('./hooks/useDocLink'))['default']
-  const useDroppedCharts: (typeof import('./hooks/useDroppedDetail'))['useDroppedCharts']
-  const useDurationStr: (typeof import('./hooks/useDurationStr'))['default']
-  const useEchartResize: (typeof import('./hooks/useEchartResize'))['default']
-  const useEditFlow: (typeof import('./hooks/Flow/useEditFlow'))['default']
-  const useEditionConfigs: (typeof import('./hooks/useEditionConfigs'))['default']
-  const useExHooksMetrics: (typeof import('./hooks/useMetrics'))['useExHooksMetrics']
-  const useExhookItemStatus: (typeof import('./hooks/Exhook/useExhookItemStatus'))['default']
-  const useExternalSchemaType: (typeof import('./hooks/Rule/schema/useExternalSchemaType'))['default']
-  const useFailureAction: (typeof import('./hooks/Rule/validation/useValidation'))['useFailureAction']
-  const useFillNewRecord: (typeof import('./hooks/useFillNewRecord'))['default']
-  const useFilterConnectorInForm: (typeof import('./hooks/Flow/useFilterConnectorInForm'))['default']
-  const useFlowEdge: (typeof import('./hooks/Flow/useFlowEdge'))['default']
-  const useFlowEditor: (typeof import('./hooks/Flow/useFlowEditor'))['default']
-  const useFlowEditorDataHandler: (typeof import('./hooks/Flow/useFlowEditorDataHandler'))['default']
-  const useFlowGuideNodes: (typeof import('./hooks/Flow/useFlowGuideNodes'))['default']
-  const useFlowNode: (typeof import('./hooks/Flow/useFlowNode'))['default']
-  const useFlowView: (typeof import('./hooks/Flow/useFlowView'))['default']
-  const useFormRules: (typeof import('./hooks/useFormRules'))['default']
-  const useFormatDebugLog: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['default']
-  const useFunctionItemData: (typeof import('./hooks/useRuleFunc'))['useFunctionItemData']
-  const useGenPluginFormRules: (typeof import('./hooks/Plugins/useGenPluginFormRules'))['default']
-  const useGenerateFlowDataUtils: (typeof import('./hooks/Flow/useGenerateFlowDataUtils'))['default']
-  const useGetInfoFromComponents: (typeof import('./hooks/Rule/bridge/useGetInfoFromComponents'))['default']
-  const useGetInfoFromQuery: (typeof import('./hooks/useGetInfoFromQuery'))['default']
-  const useGuide: (typeof import('./hooks/useGuide'))['default']
-  const useHTTPConfigForm: (typeof import('./hooks/Auth/useHTTPConfigForm'))['default']
-  const useHandleActionItem: (typeof import('./hooks/Rule/action/useHandleActionItem'))['default']
-  const useHandleAuthnItem: (typeof import('./hooks/Auth/useHandleAuthnItem'))['default']
-  const useHandleAuthzItem: (typeof import('./hooks/Auth/useHandleAuthzItem'))['default']
-  const useHandleConnectorItem: (typeof import('./hooks/Rule/connector/useHandleConnectorItem'))['default']
-  const useHandleExhookItem: (typeof import('./hooks/Exhook/useHandleExhookItem'))['default']
-  const useHandleExprotoData: (typeof import('./hooks/Gateway/useHandleExprotoData'))['default']
-  const useHandleFlowDataUtils: (typeof import('./hooks/Flow/useHandleFlowDataUtils'))['default']
-  const useHandleGatewayData: (typeof import('./hooks/Gateway/useHandleGatewayData'))['default']
-  const useHandleSourceItem: (typeof import('./hooks/Rule/action/useHandleSourceItem'))['default']
-  const useI18n: (typeof import('vue-i18n'))['useI18n']
-  const useI18nPrefix: (typeof import('./hooks/useI18nPrefix'))['default']
-  const useI18nTl: (typeof import('./hooks/useI18nTl'))['default']
-  const useId: (typeof import('vue'))['useId']
-  const useInfluxdbFieldsEditor: (typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor'))['default']
-  const useInfluxdbLineProtocol: (typeof import('./hooks/Rule/bridge/useInfluxdbLineProtocol'))['default']
-  const useIoTDBSecondRefControl: (typeof import('./hooks/Rule/connector/useSecondRefControl'))['useIoTDBSecondRefControl']
-  const useItemLabelAndDesc: (typeof import('./hooks/Schema/useItemLabelAndDesc'))['default']
-  const useJWTConfigForm: (typeof import('./hooks/Auth/useJWTConfigForm'))['default']
-  const useKerberosConfigForm: (typeof import('./hooks/Auth/useKerberosConfigForm'))['default']
-  const useLdapConfigForm: (typeof import('./hooks/Auth/useLdapConfigForm'))['default']
-  const useLimiter: (typeof import('./hooks/Config/useLimiter'))['default']
-  const useLink: (typeof import('vue-router'))['useLink']
-  const useListenerDrawer: (typeof import('./hooks/Config/useListenerDrawer'))['default']
-  const useListenerUtils: (typeof import('./hooks/Config/useListenerUtils'))['default']
-  const useMFAMethods: (typeof import('./hooks/useMFA'))['useMFAMethods']
-  const useMQTTVersion5NewConfig: (typeof import('./hooks/useMQTTVersion5NewConfig'))['default']
-  const useMenus: (typeof import('./hooks/useMenus'))['default']
-  const useMessageDroppedDetails: (typeof import('./hooks/useDroppedDetail'))['useMessageDroppedDetails']
-  const useMessageTransformForm: (typeof import('./hooks/Rule/transform/useMessageTransform'))['useMessageTransformForm']
-  const useMessageTransformLogLevel: (typeof import('./hooks/Rule/transform/useMessageTransform'))['useMessageTransformLogLevel']
-  const useMessageTransformMetrics: (typeof import('./hooks/useMetrics'))['useMessageTransformMetrics']
-  const useMockData: (typeof import('./hooks/Rule/rule/useDebugRule'))['useMockData']
-  const useModel: (typeof import('vue'))['useModel']
-  const useMove: (typeof import('./hooks/useMove'))['default']
-  const useNodeDrawer: (typeof import('./hooks/Flow/useNodeDrawer'))['default']
-  const useNodeForm: (typeof import('./hooks/Flow/useNodeForm'))['default']
-  const useNodesGraph: (typeof import('./hooks/Overview/useNodesGraph'))['default']
-  const useOperationConfirm: (typeof import('./hooks/useOperationConfirm'))['default']
-  const usePagination: (typeof import('./hooks/usePagination'))['default']
-  const usePaginationRemember: (typeof import('./hooks/usePaginationRemember'))['default']
-  const usePaginationWithHasNext: (typeof import('./hooks/usePaginationWithHasNext'))['default']
-  const usePaging: (typeof import('./hooks/usePaging'))['default']
-  const useParseWhere: (typeof import('./hooks/Flow/useParseWhere'))['default']
-  const usePassword: (typeof import('./hooks/usePassword'))['default']
-  const usePasswordHashRules: (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['usePasswordHashRules']
-  const usePieChart: (typeof import('./hooks/useMetrics'))['usePieChart']
-  const usePluginItem: (typeof import('./hooks/Plugins/usePluginItem'))['default']
-  const usePluginStatus: (typeof import('./hooks/Plugins/usePluginStatus'))['default']
-  const useProcessAuthData: (typeof import('./hooks/Auth/useProcessAuthData'))['default']
-  const useProviderUtils: (typeof import('./hooks/Rule/useProvidersForMonaco'))['useProviderUtils']
-  const useProvidersForMonaco: (typeof import('./hooks/Rule/useProvidersForMonaco'))['default']
-  const useRateChart: (typeof import('./hooks/useMetrics'))['useRateChart']
-  const useReceiveParams: (typeof import('./hooks/usePaginationRemember'))['useReceiveParams']
-  const useRedisCommandCheck: (typeof import('./hooks/Rule/useDataHandler'))['useRedisCommandCheck']
-  const useRenderPluginForm: (typeof import('./hooks/Plugins/useRenderPluginForm'))['default']
-  const useRepCodeNodeSize: (typeof import('./hooks/Overview/useNodesGraph'))['useRepCodeNodeSize']
-  const useResourceOpt: (typeof import('./hooks/Rule/bridge/useResourceOpt'))['default']
-  const useRole: (typeof import('./hooks/SSO/useRole'))['default']
-  const useRoute: (typeof import('vue-router'))['useRoute']
-  const useRouter: (typeof import('vue-router'))['useRouter']
-  const useRuleEvents: (typeof import('./hooks/Rule/rule/useRuleEvents'))['default']
-  const useRuleForm: (typeof import('./hooks/Rule/rule/useRuleForm'))['default']
-  const useRuleFunc: (typeof import('./hooks/useRuleFunc'))['default']
-  const useRuleInputs: (typeof import('./hooks/Rule/rule/useRule'))['useRuleInputs']
-  const useRuleMetrics: (typeof import('./hooks/useMetrics'))['useRuleMetrics']
-  const useRuleOutputs: (typeof import('./hooks/Rule/rule/useRule'))['useRuleOutputs']
-  const useRuleSourceEvents: (typeof import('./hooks/Rule/rule/useRuleSourceEvents'))['default']
-  const useRuleStatus: (typeof import('./hooks/Rule/rule/useRuleStatus'))['default']
-  const useRuleUtils: (typeof import('./hooks/Rule/rule/useRule'))['useRuleUtils']
-  const useSQLAvailablePlaceholder: (typeof import('./hooks/Rule/useSQLAvailablePlaceholder'))['default']
-  const useSSL: (typeof import('./hooks/useSSL'))['default']
-  const useSSO: (typeof import('./hooks/SSO/useSSO'))['default']
-  const useSSOBackendsLabel: (typeof import('./hooks/SSO/useSSO'))['useSSOBackendsLabel']
-  const useSSODetail: (typeof import('./hooks/SSO/useSSODetail'))['default']
-  const useSchemaBridgePropsLayout: (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['default']
-  const useSchemaConnectorPropsLayout: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['default']
-  const useSchemaForm: (typeof import('./hooks/Schema/useSchemaForm'))['default']
-  const useSchemaFormRules: (typeof import('./hooks/Schema/useSchemaFormRules'))['default']
-  const useSchemaRecord: (typeof import('./hooks/Schema/useSchemaRecord'))['default']
-  const useSchemaType: (typeof import('./hooks/Rule/schema/useSchemaType'))['default']
-  const useSchemaValidationMetrics: (typeof import('./hooks/useMetrics'))['useSchemaValidationMetrics']
-  const useShowLog: (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['useShowLog']
-  const useShowTextByDifferent: (typeof import('./hooks/useShowTextByDifferent'))['default']
-  const useSlots: (typeof import('vue'))['useSlots']
-  const useSortableFilterList: (typeof import('./hooks/Flow/useSortableFilterList'))['default']
-  const useSortableTable: (typeof import('./hooks/useSortableTable'))['default']
-  const useSourceList: (typeof import('./hooks/Rule/action/useSourceList'))['default']
-  const useSourceSchema: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useSourceSchema']
-  const useSpecialRuleForPassword: (typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword'))['default']
-  const useStatusController: (typeof import('./hooks/Rule/rule/useDebugRule'))['useStatusController']
-  const useStore: (typeof import('vuex'))['useStore']
-  const useSubmitFlowData: (typeof import('./hooks/Flow/useSubmitFlowData'))['default']
-  const useSymbolLabel: (typeof import('./hooks/Schema/useItemLabelAndDesc'))['useSymbolLabel']
-  const useSyncConfiguration: (typeof import('./hooks/Rule/bridge/useSyncConfiguration'))['default']
-  const useSyncPolling: (typeof import('./hooks/useSyncPolling'))['default']
-  const useTemplateRef: (typeof import('vue'))['useTemplateRef']
-  const useTestConnector: (typeof import('./hooks/Rule/connector/useTestConnector'))['default']
-  const useToggleAuthStatus: (typeof import('./hooks/Auth/useToggleAuthStatus'))['default']
-  const useTransName: (typeof import('./hooks/useTransName'))['default']
-  const useTwoWayBindingManually: (typeof import('./hooks/useTwoWayBindingManually'))['default']
-  const useUpdateBaseInfo: (typeof import('./hooks/useUpdateBaseInfo'))['default']
-  const useValidationItemType: (typeof import('./hooks/Rule/validation/useValidation'))['useValidationItemType']
-  const useValidationLogLevel: (typeof import('./hooks/Rule/validation/useValidation'))['useValidationLogLevel']
-  const useValidationStrategy: (typeof import('./hooks/Rule/validation/useValidation'))['useValidationStrategy']
-  const useWebhookForm: (typeof import('./hooks/Webhook/useWebhookForm'))['default']
-  const useWebhookItem: (typeof import('./hooks/Webhook/useWebhookItem'))['default']
-  const useWebhookList: (typeof import('./hooks/Webhook/useWebhookList'))['default']
-  const useWebhookUtils: (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
-  const usefulMemoryUnit: (typeof import('./common/tools'))['usefulMemoryUnit']
-  const waitAMoment: (typeof import('./common/tools'))['waitAMoment']
-  const watch: (typeof import('vue'))['watch']
-  const watchEffect: (typeof import('vue'))['watchEffect']
-  const watchPostEffect: (typeof import('vue'))['watchPostEffect']
-  const watchSyncEffect: (typeof import('vue'))['watchSyncEffect']
+  const ACTIVE_RING_STROKE_WIDTH: typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']
+  const ADMIN_USERNAMES: typeof import('./common/constants')['ADMIN_USERNAMES']
+  const API_BASE_URL: typeof import('./common/constants')['API_BASE_URL']
+  const AUTHZ_COMMON_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']
+  const AUTHZ_HTTP_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']
+  const AUTHZ_MONGODB_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_MONGODB_PLACEHOLDERS']
+  const AUTH_PLACEHOLDERS: typeof import('./common/constants')['AUTH_PLACEHOLDERS']
+  const AUTH_PLACEHOLDER_CLIENT_ATTRS: typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']
+  const AUTO_RESTART_INTERVAL_DEFAULT: typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']
+  const ArgumentType: typeof import('./hooks/useRuleFunc')['ArgumentType']
+  const AvailableKey: typeof import('./hooks/Rule/transform/useMessageTransform')['AvailableKey']
+  const AvroJsonToObject: typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']
+  const BACKGROUND_CIRCLE_INNER_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']
+  const BACKGROUND_CIRCLE_OUTER_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_OUTER_RADIUS']
+  const BACKGROUND_CIRCLE_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_RADIUS']
+  const BANNED_NEVER_EXPIRE_VALUE: typeof import('./common/constants')['BANNED_NEVER_EXPIRE_VALUE']
+  const BATCH_UPLOAD_CSV_MAX_ROWS: typeof import('./common/constants')['BATCH_UPLOAD_CSV_MAX_ROWS']
+  const BRIDGE_TYPES_NOT_USE_SCHEMA: typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']
+  const CER_FILE_ACCEPTS: typeof import('./common/constants')['CER_FILE_ACCEPTS']
+  const COMMON_ID_REG: typeof import('./common/constants')['COMMON_ID_REG']
+  const CONNECTOR_TYPES_WITH_SOURCE: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']
+  const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
+  const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
+  const DEFAULT_CLIENT_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']
+  const DEFAULT_FROM: typeof import('./common/constants')['DEFAULT_FROM']
+  const DEFAULT_PAGE_SIZE_OPT: typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']
+  const DEFAULT_PWD: typeof import('./common/constants')['DEFAULT_PWD']
+  const DEFAULT_SALT_POSITION: typeof import('./common/constants')['DEFAULT_SALT_POSITION']
+  const DEFAULT_SELECT: typeof import('./common/constants')['DEFAULT_SELECT']
+  const DEFAULT_SSL_VERIFY_VALUE: typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']
+  const DEFAULT_ZONE: typeof import('./common/constants')['DEFAULT_ZONE']
+  const DOT_RADIUS: typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']
+  const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
+  const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
+  const EditedWay: typeof import('./hooks/Flow/useFlowNode')['EditedWay']
+  const EffectScope: typeof import('vue')['EffectScope']
+  const ElMessage: typeof import('element-plus')['ElMessage']
+  const ElMessageBox: typeof import('element-plus')['ElMessageBox']
+  const ElNotification: typeof import('element-plus')['ElNotification']
+  const FieldValueType: typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']
+  const FlowNodeType: typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']
+  const GATEWAY_DISABLED_LISTENER_TYPE_MAP: typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
+  const GATEWAY_ENABLED_DATABASES_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']
+  const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
+  const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
+  const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
+  const INPUT_HEIGHT: typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']
+  const INPUT_MARGIN_BOTTOM: typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_MARGIN_BOTTOM']
+  const INTEGRATION_SCHEMA_TYPES: typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']
+  const INVALID_PUB_TOPIC_REG: typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']
+  const IP_REG: typeof import('./common/constants')['IP_REG']
+  const IS_ENTERPRISE: typeof import('./common/constants')['IS_ENTERPRISE']
+  const IoTDBDriver: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDriver']
+  const IoTDBDrivers: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']
+  const IoTDBKeyField: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']
+  const KeysInRule: typeof import('./hooks/Rule/KeysInRule')['default']
+  const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
+  const LogTargetType: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']
+  const MAX_DISPLAYED_REP_NODE: typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']
+  const MESSAGE_TYPE_NONE: typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']
+  const MQTT_V3_RES_CODES: typeof import('./common/constants')['MQTT_V3_RES_CODES']
+  const MQTT_V5_RES_CODES: typeof import('./common/constants')['MQTT_V5_RES_CODES']
+  const MQTT_VERSION_LIST: typeof import('./common/constants')['MQTT_VERSION_LIST']
+  const MQTTingressRemoteQoS: typeof import('./common/constants')['MQTTingressRemoteQoS']
+  const MULTI_LEVEL_WILDCARD: typeof import('./common/constants')['MULTI_LEVEL_WILDCARD']
+  const MetricKey: typeof import('./hooks/useDroppedDetail')['MetricKey']
+  const MetricType: typeof import('./hooks/useMetrics')['MetricType']
+  const MsgKey: typeof import('./hooks/Flow/useFlowEditor')['MsgKey']
+  const NO_CHINESE_REG: typeof import('./hooks/useFormRules')['NO_CHINESE_REG']
+  const NUM_REG: typeof import('./common/constants')['NUM_REG']
+  const NodeType: typeof import('./hooks/Flow/useFlowNode')['NodeType']
+  const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
+  const PASSWORD_REG: typeof import('./common/constants')['PASSWORD_REG']
+  const ProcessingType: typeof import('./hooks/Flow/useFlowNode')['ProcessingType']
+  const QoSOptions: typeof import('./common/constants')['QoSOptions']
+  const REQUEST_TIMEOUT_CODE: typeof import('./common/constants')['REQUEST_TIMEOUT_CODE']
+  const RULE_FROM_SEPARATOR: typeof import('./common/constants')['RULE_FROM_SEPARATOR']
+  const RULE_INPUT_BRIDGE_TYPE_PREFIX: typeof import('./common/constants')['RULE_INPUT_BRIDGE_TYPE_PREFIX']
+  const RULE_INPUT_EVENT_PREFIX: typeof import('./common/constants')['RULE_INPUT_EVENT_PREFIX']
+  const RULE_LOGICAL_OPERATORS: typeof import('./common/constants')['RULE_LOGICAL_OPERATORS']
+  const RULE_MAX_NUM_PER_PAGE: typeof import('./common/constants')['RULE_MAX_NUM_PER_PAGE']
+  const RuleSourceType: typeof import('./hooks/Rule/rule/useRule')['RuleSourceType']
+  const SEARCH_FORM_RES_PROPS: typeof import('./common/constants')['SEARCH_FORM_RES_PROPS']
+  const SESSION_FIELDS: typeof import('./common/constants')['SESSION_FIELDS']
+  const SESSION_NEVER_EXPIRE_TIME: typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']
+  const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
+  const SPECIAL_INVALID_SUB_TOPIC_REG: typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']
+  const SSL_VERIFY_VALUE_MAP: typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']
+  const SinkType: typeof import('./hooks/Flow/useFlowNode')['SinkType']
+  const SourceServerType: typeof import('./hooks/Rule/rule/useRule')['SourceServerType']
+  const SourceType: typeof import('./hooks/Flow/useFlowNode')['SourceType']
+  const SourceTypeAllMsgsAndEvents: typeof import('./hooks/Flow/useFlowNode')['SourceTypeAllMsgsAndEvents']
+  const TARGET_EXPRESSION: typeof import('./hooks/Rule/transform/useMessageTransform')['TARGET_EXPRESSION']
+  const TOPIC_EVENT: typeof import('./common/constants')['TOPIC_EVENT']
+  const TYPE_COLOR_MAP: typeof import('./hooks/useMetrics')['TYPE_COLOR_MAP']
+  const URLReg: typeof import('./common/tools')['URLReg']
+  const USER_INFO_KEY: typeof import('./hooks/useGetInfoFromQuery')['USER_INFO_KEY']
+  const WEBHOOK_SUFFIX: typeof import('./common/constants')['WEBHOOK_SUFFIX']
+  const WEB_SOCKET_STATUS: typeof import('./common/constants')['WEB_SOCKET_STATUS']
+  const _: typeof import('lodash')['default']
+  const accAdd: typeof import('./common/tools')['accAdd']
+  const actionResourceOptFields: typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['actionResourceOptFields']
+  const addNewlineAfterComma: typeof import('./common/tools')['addNewlineAfterComma']
+  const arraysAreEqual: typeof import('./common/tools')['arraysAreEqual']
+  const assign: typeof import('lodash')['assign']
+  const avroUtils: typeof import('./hooks/Plugins/avroUtils')['default']
+  const axios: typeof import('axios')['default']
+  const bridgeOrderIndex: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['bridgeOrderIndex']
+  const calcPercentage: typeof import('./common/tools')['calcPercentage']
+  const camelCase: typeof import('lodash')['camelCase']
+  const caseInsensitiveCompare: typeof import('./common/tools')['caseInsensitiveCompare']
+  const checkInRange: typeof import('./common/tools')['checkInRange']
+  const checkIsValidArr: typeof import('./common/tools')['checkIsValidArr']
+  const checkNOmitFromObj: typeof import('./common/tools')['checkNOmitFromObj']
+  const checkNSetToNullFromObj: typeof import('./common/tools')['checkNSetToNullFromObj']
+  const checkStringWithUnit: typeof import('./common/tools')['checkStringWithUnit']
+  const chunk: typeof import('lodash')['chunk']
+  const chunkStr: typeof import('./common/tools')['chunkStr']
+  const cloneDeep: typeof import('lodash')['cloneDeep']
+  const computed: typeof import('vue')['computed']
+  const connectorResourceOptFields: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']
+  const consumerReg: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']
+  const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
+  const createApp: typeof import('vue')['createApp']
+  const createConsoleForm: typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']
+  const createEventForm: typeof import('./hooks/Flow/useNodeForm')['createEventForm']
+  const createFilterForm: typeof import('./hooks/Flow/useNodeForm')['createFilterForm']
+  const createFilterFormData: typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']
+  const createFilterItem: typeof import('./hooks/Flow/useNodeForm')['createFilterItem']
+  const createFunctionForm: typeof import('./hooks/Flow/useNodeForm')['createFunctionForm']
+  const createFunctionItem: typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']
+  const createMessageForm: typeof import('./hooks/Flow/useNodeForm')['createMessageForm']
+  const createOrderObj: typeof import('./common/tools')['createOrderObj']
+  const createRandomString: typeof import('./common/tools')['createRandomString']
+  const createRePubForm: typeof import('./hooks/Flow/useNodeForm')['createRePubForm']
+  const createRouter: typeof import('vue-router')['createRouter']
+  const createStore: typeof import('vuex')['createStore']
+  const createWebHashHistory: typeof import('vue-router')['createWebHashHistory']
+  const customRef: typeof import('vue')['customRef']
+  const customValidate: typeof import('./common/tools')['customValidate']
+  const dateFormat: typeof import('./common/tools')['dateFormat']
+  const debounce: typeof import('lodash')['debounce']
+  const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
+  const defineComponent: typeof import('vue')['defineComponent']
+  const downloadBlobData: typeof import('./common/tools')['downloadBlobData']
+  const downloadByURL: typeof import('./common/tools')['downloadByURL']
+  const effectScope: typeof import('vue')['effectScope']
+  const emptyObject: typeof import('./common/tools')['emptyObject']
+  const escape: typeof import('lodash')['escape']
+  const escapeCode: typeof import('./common/tools')['escapeCode']
+  const escapeRegExp: typeof import('lodash')['escapeRegExp']
+  const fillEmptyValueToUndefinedField: typeof import('./common/tools')['fillEmptyValueToUndefinedField']
+  const findExtensionByName: typeof import('./common/tools')['findExtensionByName']
+  const formatNumber: typeof import('./common/tools')['formatNumber']
+  const formatSQL: typeof import('./common/tools')['formatSQL']
+  const get: typeof import('lodash')['get']
+  const getAPIPath: typeof import('./common/tools')['getAPIPath']
+  const getAllListData: typeof import('./common/tools')['getAllListData']
+  const getBridgeKey: typeof import('./common/tools')['getBridgeKey']
+  const getCurrentInstance: typeof import('vue')['getCurrentInstance']
+  const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getEmptyValueByDefaultValue: typeof import('./common/tools')['getEmptyValueByDefaultValue']
+  const getImg: typeof import('./common/tools')['getImg']
+  const getKeyPartsFromSQL: typeof import('./common/tools')['getKeyPartsFromSQL']
+  const getKeywordsFromSQL: typeof import('./common/tools')['getKeywordsFromSQL']
+  const getLabelFromValueInOptionList: typeof import('./common/tools')['getLabelFromValueInOptionList']
+  const getPasswordHashAlgorithmObj: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['getPasswordHashAlgorithmObj']
+  const getProgressColor: typeof import('./common/tools')['getProgressColor']
+  const getRuleSelectionAlias: typeof import('./common/tools')['getRuleSelectionAlias']
+  const getTypeAndNameFromKey: typeof import('./common/tools')['getTypeAndNameFromKey']
+  const getUnitInStr: typeof import('./common/tools')['getUnitInStr']
+  const getUsefulPasswordHashAlgorithmData: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['getUsefulPasswordHashAlgorithmData']
+  const getValueFromQuery: typeof import('./common/tools')['getValueFromQuery']
+  const groupBy: typeof import('lodash')['groupBy']
+  const h: typeof import('vue')['h']
+  const handleTransformData: typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']
+  const inject: typeof import('vue')['inject']
+  const isArray: typeof import('lodash')['isArray']
+  const isEqual: typeof import('lodash')['isEqual']
+  const isForeachReg: typeof import('./common/tools')['isForeachReg']
+  const isFunction: typeof import('lodash')['isFunction']
+  const isNumber: typeof import('lodash')['isNumber']
+  const isObject: typeof import('lodash')['isObject']
+  const isPlainObject: typeof import('lodash')['isPlainObject']
+  const isProxy: typeof import('vue')['isProxy']
+  const isReactive: typeof import('vue')['isReactive']
+  const isReadonly: typeof import('vue')['isReadonly']
+  const isRef: typeof import('vue')['isRef']
+  const isRegExp: typeof import('lodash')['isRegExp']
+  const isString: typeof import('lodash')['isString']
+  const isUndefined: typeof import('lodash')['isUndefined']
+  const judgeRuleSelectionWithFunc: typeof import('./common/tools')['judgeRuleSelectionWithFunc']
+  const jumpToErrorFormItem: typeof import('./common/tools')['jumpToErrorFormItem']
+  const lowerCase: typeof import('lodash')['lowerCase']
+  const markRaw: typeof import('vue')['markRaw']
+  const merge: typeof import('lodash')['merge']
+  const mergeWith: typeof import('lodash')['mergeWith']
+  const nextTick: typeof import('vue')['nextTick']
+  const numToFixed: typeof import('./common/tools')['numToFixed']
+  const numberArgTypes: typeof import('./hooks/useRuleFunc')['numberArgTypes']
+  const objectToAvroJson: typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']
+  const omit: typeof import('lodash')['omit']
+  const omitArr: typeof import('./common/tools')['omitArr']
+  const onActivated: typeof import('vue')['onActivated']
+  const onBeforeMount: typeof import('vue')['onBeforeMount']
+  const onBeforeRouteLeave: typeof import('vue-router')['onBeforeRouteLeave']
+  const onBeforeRouteUpdate: typeof import('vue-router')['onBeforeRouteUpdate']
+  const onBeforeUnmount: typeof import('vue')['onBeforeUnmount']
+  const onBeforeUpdate: typeof import('vue')['onBeforeUpdate']
+  const onDeactivated: typeof import('vue')['onDeactivated']
+  const onErrorCaptured: typeof import('vue')['onErrorCaptured']
+  const onMounted: typeof import('vue')['onMounted']
+  const onRenderTracked: typeof import('vue')['onRenderTracked']
+  const onRenderTriggered: typeof import('vue')['onRenderTriggered']
+  const onScopeDispose: typeof import('vue')['onScopeDispose']
+  const onServerPrefetch: typeof import('vue')['onServerPrefetch']
+  const onUnmounted: typeof import('vue')['onUnmounted']
+  const onUpdated: typeof import('vue')['onUpdated']
+  const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const orderBy: typeof import('lodash')['orderBy']
+  const pick: typeof import('lodash')['pick']
+  const provide: typeof import('vue')['provide']
+  const reactive: typeof import('vue')['reactive']
+  const readonly: typeof import('vue')['readonly']
+  const ref: typeof import('vue')['ref']
+  const removeFromArr: typeof import('./common/tools')['removeFromArr']
+  const replaceSpaceForHTML: typeof import('./common/tools')['replaceSpaceForHTML']
+  const resolveComponent: typeof import('vue')['resolveComponent']
+  const round: typeof import('lodash')['round']
+  const ruleSelectionAliasPartReg: typeof import('./common/tools')['ruleSelectionAliasPartReg']
+  const scrollToTop: typeof import('./common/tools')['scrollToTop']
+  const set: typeof import('lodash')['set']
+  const setPwdFormat: typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['setPwdFormat']
+  const shallowReactive: typeof import('vue')['shallowReactive']
+  const shallowReadonly: typeof import('vue')['shallowReadonly']
+  const shallowRef: typeof import('vue')['shallowRef']
+  const snakeCase: typeof import('lodash')['snakeCase']
+  const sortStringArr: typeof import('./common/tools')['sortStringArr']
+  const sortedUniq: typeof import('./common/tools')['sortedUniq']
+  const splitOnComma: typeof import('./common/tools')['splitOnComma']
+  const splitOnSymbol: typeof import('./common/tools')['splitOnSymbol']
+  const startCase: typeof import('lodash')['startCase']
+  const stringifyObjSafely: typeof import('./common/tools')['stringifyObjSafely']
+  const throttle: typeof import('lodash')['throttle']
+  const titleCase: typeof import('./common/tools')['titleCase']
+  const toRaw: typeof import('vue')['toRaw']
+  const toRef: typeof import('vue')['toRef']
+  const toRefs: typeof import('vue')['toRefs']
+  const toValue: typeof import('vue')['toValue']
+  const transLink: typeof import('./common/tools')['transLink']
+  const transMSNumToString: typeof import('./common/tools')['transMSNumToString']
+  const transMemorySizeNumToStr: typeof import('./common/tools')['transMemorySizeNumToStr']
+  const transMemorySizeStrToNum: typeof import('./common/tools')['transMemorySizeStrToNum']
+  const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
+  const triggerRef: typeof import('vue')['triggerRef']
+  const trimSpacesAndLFs: typeof import('./common/tools')['trimSpacesAndLFs']
+  const trimValues: typeof import('./common/tools')['trimValues']
+  const tryToCompleteURL: typeof import('./common/tools')['tryToCompleteURL']
+  const typesWithProducerAndConsumer: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']
+  const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
+  const unref: typeof import('vue')['unref']
+  const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
+  const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
+  const useActionDataHandler: typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']
+  const useActionList: typeof import('./hooks/Rule/action/useActionList')['default']
+  const useActionQueueMetrics: typeof import('./hooks/useMetrics')['useActionQueueMetrics']
+  const useActionSchema: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useActionSchema']
+  const useAdaptiveEditor: typeof import('./hooks/useAdaptiveEditor')['default']
+  const useAttrs: typeof import('vue')['useAttrs']
+  const useAuth: typeof import('./hooks/Auth/useAuth')['default']
+  const useAuthHelp: typeof import('./hooks/Auth/useAuthHelp')['default']
+  const useAuthMetrics: typeof import('./hooks/useMetrics')['useAuthMetrics']
+  const useAuthn: typeof import('./hooks/Auth/useAuthn')['default']
+  const useAuthnCreate: typeof import('./hooks/Auth/useAuthnCreate')['default']
+  const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
+  const useAuthz: typeof import('./hooks/Auth/useAuthz')['default']
+  const useAuthzCreate: typeof import('./hooks/Auth/useAuthzCreate')['default']
+  const useAvailableProviders: typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']
+  const useBackgroundCircle: typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']
+  const useBannedType: typeof import('./hooks/Auth/useBannedType')['default']
+  const useBridgeDataHandler: typeof import('./hooks/Rule/useDataHandler')['useBridgeDataHandler']
+  const useBridgeFormCreator: typeof import('./hooks/Rule/bridge/useBridgeFormCreator')['default']
+  const useBridgeMetrics: typeof import('./hooks/useMetrics')['useBridgeMetrics']
+  const useBridgeTypeIcon: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeIcon']
+  const useBridgeTypeOptions: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeOptions']
+  const useBridgeTypeValue: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['default']
+  const useBuiltInDataUpdateTip: typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']
+  const useCInfoConfigForm: typeof import('./hooks/Auth/useCInfoConfigForm')['default']
+  const useCSSVariables: typeof import('./hooks/useCSSVariables')['default']
+  const useChartDataUtils: typeof import('./hooks/useMetrics')['useChartDataUtils']
+  const useCheckBeforeSaveAsCopy: typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy')['default']
+  const useCheckDataChanged: typeof import('./hooks/useDataNotSaveConfirm')['useCheckDataChanged']
+  const useCheckIoTDBConnectorDriver: typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver')['default']
+  const useClientDetail: typeof import('./hooks/Clients/useClientDetail')['default']
+  const useClientFields: typeof import('./hooks/Clients/useClientFields')['default']
+  const useClusterLinking: typeof import('./hooks/Config/useClusterLinking')['default']
+  const useClusterLinkingMetrics: typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']
+  const useClusterNodes: typeof import('./hooks/useClusterNodes')['default']
+  const useCommonConnectionStatus: typeof import('./hooks/useCommonConnectionStatus')['default']
+  const useConfFooterStyle: typeof import('./hooks/useConfFooterStyle')['default']
+  const useConnectorComponentsHandlers: typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['default']
+  const useConnectorDataHandler: typeof import('./hooks/Rule/useDataHandler')['useConnectorDataHandler']
+  const useConnectorDirection: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorDirection']
+  const useConnectorList: typeof import('./hooks/Rule/connector/useConnectorList')['default']
+  const useConnectorSchema: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorSchema']
+  const useConnectorTypeValue: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorTypeValue']
+  const useConvertSecretToQRCode: typeof import('./hooks/useConvertSecretToQRCode')['default']
+  const useCopy: typeof import('./hooks/useCopy')['default']
+  const useCoreNodeSize: typeof import('./hooks/Overview/useNodesGraph')['useCoreNodeSize']
+  const useCssModule: typeof import('vue')['useCssModule']
+  const useCssVars: typeof import('vue')['useCssVars']
+  const useCursorPagination: typeof import('./hooks/usePagination')['useCursorPagination']
+  const useDashboardVersion: typeof import('./hooks/useDashboardVersion')['default']
+  const useDataNotSaveConfirm: typeof import('./hooks/useDataNotSaveConfirm')['default']
+  const useDatabaseConfig: typeof import('./hooks/Auth/useDatabaseConfig')['default']
+  const useDatabaseConfigForm: typeof import('./hooks/Auth/useDatabaseConfigForm')['default']
+  const useDatePickerShortcuts: typeof import('./hooks/useDatePickerShortcuts')['default']
+  const useDebugRule: typeof import('./hooks/Rule/rule/useDebugRule')['default']
+  const useDeleteBridge: typeof import('./hooks/Rule/bridge/useDeleteBridge')['default']
+  const useDeleteSource: typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']
+  const useDeliveryDroppedDetails: typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']
+  const useDetectIsComInSinglePage: typeof import('./hooks/useDetectIsComInSinglePage')['default']
+  const useDocLink: typeof import('./hooks/useDocLink')['default']
+  const useDroppedCharts: typeof import('./hooks/useDroppedDetail')['useDroppedCharts']
+  const useDurationStr: typeof import('./hooks/useDurationStr')['default']
+  const useEchartResize: typeof import('./hooks/useEchartResize')['default']
+  const useEditFlow: typeof import('./hooks/Flow/useEditFlow')['default']
+  const useEditionConfigs: typeof import('./hooks/useEditionConfigs')['default']
+  const useExHooksMetrics: typeof import('./hooks/useMetrics')['useExHooksMetrics']
+  const useExhookItemStatus: typeof import('./hooks/Exhook/useExhookItemStatus')['default']
+  const useExternalSchemaType: typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']
+  const useFailureAction: typeof import('./hooks/Rule/validation/useValidation')['useFailureAction']
+  const useFillNewRecord: typeof import('./hooks/useFillNewRecord')['default']
+  const useFilterConnectorInForm: typeof import('./hooks/Flow/useFilterConnectorInForm')['default']
+  const useFlowEdge: typeof import('./hooks/Flow/useFlowEdge')['default']
+  const useFlowEditor: typeof import('./hooks/Flow/useFlowEditor')['default']
+  const useFlowEditorDataHandler: typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']
+  const useFlowGuideNodes: typeof import('./hooks/Flow/useFlowGuideNodes')['default']
+  const useFlowNode: typeof import('./hooks/Flow/useFlowNode')['default']
+  const useFlowView: typeof import('./hooks/Flow/useFlowView')['default']
+  const useFormRules: typeof import('./hooks/useFormRules')['default']
+  const useFormatDebugLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']
+  const useFunctionItemData: typeof import('./hooks/useRuleFunc')['useFunctionItemData']
+  const useGenPluginFormRules: typeof import('./hooks/Plugins/useGenPluginFormRules')['default']
+  const useGenerateFlowDataUtils: typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']
+  const useGetInfoFromComponents: typeof import('./hooks/Rule/bridge/useGetInfoFromComponents')['default']
+  const useGetInfoFromQuery: typeof import('./hooks/useGetInfoFromQuery')['default']
+  const useGuide: typeof import('./hooks/useGuide')['default']
+  const useHTTPConfigForm: typeof import('./hooks/Auth/useHTTPConfigForm')['default']
+  const useHandleActionItem: typeof import('./hooks/Rule/action/useHandleActionItem')['default']
+  const useHandleAuthnItem: typeof import('./hooks/Auth/useHandleAuthnItem')['default']
+  const useHandleAuthzItem: typeof import('./hooks/Auth/useHandleAuthzItem')['default']
+  const useHandleConnectorItem: typeof import('./hooks/Rule/connector/useHandleConnectorItem')['default']
+  const useHandleExhookItem: typeof import('./hooks/Exhook/useHandleExhookItem')['default']
+  const useHandleFlowDataUtils: typeof import('./hooks/Flow/useHandleFlowDataUtils')['default']
+  const useHandleGatewayData: typeof import('./hooks/Gateway/useHandleGatewayData')['default']
+  const useHandleSourceItem: typeof import('./hooks/Rule/action/useHandleSourceItem')['default']
+  const useI18n: typeof import('vue-i18n')['useI18n']
+  const useI18nPrefix: typeof import('./hooks/useI18nPrefix')['default']
+  const useI18nTl: typeof import('./hooks/useI18nTl')['default']
+  const useId: typeof import('vue')['useId']
+  const useInfluxdbFieldsEditor: typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['default']
+  const useInfluxdbLineProtocol: typeof import('./hooks/Rule/bridge/useInfluxdbLineProtocol')['default']
+  const useIoTDBSecondRefControl: typeof import('./hooks/Rule/connector/useSecondRefControl')['useIoTDBSecondRefControl']
+  const useItemLabelAndDesc: typeof import('./hooks/Schema/useItemLabelAndDesc')['default']
+  const useJWTConfigForm: typeof import('./hooks/Auth/useJWTConfigForm')['default']
+  const useKerberosConfigForm: typeof import('./hooks/Auth/useKerberosConfigForm')['default']
+  const useLdapConfigForm: typeof import('./hooks/Auth/useLdapConfigForm')['default']
+  const useLimiter: typeof import('./hooks/Config/useLimiter')['default']
+  const useListenerDrawer: typeof import('./hooks/Config/useListenerDrawer')['default']
+  const useListenerUtils: typeof import('./hooks/Config/useListenerUtils')['default']
+  const useMFAMethods: typeof import('./hooks/useMFA')['useMFAMethods']
+  const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
+  const useMenus: typeof import('./hooks/useMenus')['default']
+  const useMessageDroppedDetails: typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']
+  const useMessageTransformForm: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']
+  const useMessageTransformLogLevel: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']
+  const useMessageTransformMetrics: typeof import('./hooks/useMetrics')['useMessageTransformMetrics']
+  const useMockData: typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']
+  const useModel: typeof import('vue')['useModel']
+  const useMove: typeof import('./hooks/useMove')['default']
+  const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
+  const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
+  const useNodesGraph: typeof import('./hooks/Overview/useNodesGraph')['default']
+  const useOperationConfirm: typeof import('./hooks/useOperationConfirm')['default']
+  const usePagination: typeof import('./hooks/usePagination')['default']
+  const usePaginationRemember: typeof import('./hooks/usePaginationRemember')['default']
+  const usePaginationWithHasNext: typeof import('./hooks/usePaginationWithHasNext')['default']
+  const usePaging: typeof import('./hooks/usePaging')['default']
+  const useParseWhere: typeof import('./hooks/Flow/useParseWhere')['default']
+  const usePassword: typeof import('./hooks/usePassword')['default']
+  const usePasswordHashRules: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']
+  const usePieChart: typeof import('./hooks/useMetrics')['usePieChart']
+  const usePluginItem: typeof import('./hooks/Plugins/usePluginItem')['default']
+  const usePluginStatus: typeof import('./hooks/Plugins/usePluginStatus')['default']
+  const useProcessAuthData: typeof import('./hooks/Auth/useProcessAuthData')['default']
+  const useProviderUtils: typeof import('./hooks/Rule/useProvidersForMonaco')['useProviderUtils']
+  const useProvidersForMonaco: typeof import('./hooks/Rule/useProvidersForMonaco')['default']
+  const useRateChart: typeof import('./hooks/useMetrics')['useRateChart']
+  const useReceiveParams: typeof import('./hooks/usePaginationRemember')['useReceiveParams']
+  const useRedisCommandCheck: typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']
+  const useRenderPluginForm: typeof import('./hooks/Plugins/useRenderPluginForm')['default']
+  const useRepCodeNodeSize: typeof import('./hooks/Overview/useNodesGraph')['useRepCodeNodeSize']
+  const useResourceOpt: typeof import('./hooks/Rule/bridge/useResourceOpt')['default']
+  const useRole: typeof import('./hooks/SSO/useRole')['default']
+  const useRoute: typeof import('vue-router')['useRoute']
+  const useRouter: typeof import('vue-router')['useRouter']
+  const useRuleEvents: typeof import('./hooks/Rule/rule/useRuleEvents')['default']
+  const useRuleForm: typeof import('./hooks/Rule/rule/useRuleForm')['default']
+  const useRuleFunc: typeof import('./hooks/useRuleFunc')['default']
+  const useRuleInputs: typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']
+  const useRuleMetrics: typeof import('./hooks/useMetrics')['useRuleMetrics']
+  const useRuleOutputs: typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']
+  const useRuleSourceEvents: typeof import('./hooks/Rule/rule/useRuleSourceEvents')['default']
+  const useRuleStatus: typeof import('./hooks/Rule/rule/useRuleStatus')['default']
+  const useRuleUtils: typeof import('./hooks/Rule/rule/useRule')['useRuleUtils']
+  const useSQLAvailablePlaceholder: typeof import('./hooks/Rule/useSQLAvailablePlaceholder')['default']
+  const useSSL: typeof import('./hooks/useSSL')['default']
+  const useSSO: typeof import('./hooks/SSO/useSSO')['default']
+  const useSSOBackendsLabel: typeof import('./hooks/SSO/useSSO')['useSSOBackendsLabel']
+  const useSSODetail: typeof import('./hooks/SSO/useSSODetail')['default']
+  const useSchemaBridgePropsLayout: typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['default']
+  const useSchemaConnectorPropsLayout: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['default']
+  const useSchemaForm: typeof import('./hooks/Schema/useSchemaForm')['default']
+  const useSchemaFormRules: typeof import('./hooks/Schema/useSchemaFormRules')['default']
+  const useSchemaRecord: typeof import('./hooks/Schema/useSchemaRecord')['default']
+  const useSchemaType: typeof import('./hooks/Rule/schema/useSchemaType')['default']
+  const useSchemaValidationMetrics: typeof import('./hooks/useMetrics')['useSchemaValidationMetrics']
+  const useShowLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']
+  const useShowTextByDifferent: typeof import('./hooks/useShowTextByDifferent')['default']
+  const useSlots: typeof import('vue')['useSlots']
+  const useSortableFilterList: typeof import('./hooks/Flow/useSortableFilterList')['default']
+  const useSortableTable: typeof import('./hooks/useSortableTable')['default']
+  const useSourceList: typeof import('./hooks/Rule/action/useSourceList')['default']
+  const useSourceSchema: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useSourceSchema']
+  const useSpecialRuleForPassword: typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword')['default']
+  const useStatusController: typeof import('./hooks/Rule/rule/useDebugRule')['useStatusController']
+  const useStore: typeof import('vuex')['useStore']
+  const useSubmitFlowData: typeof import('./hooks/Flow/useSubmitFlowData')['default']
+  const useSymbolLabel: typeof import('./hooks/Schema/useItemLabelAndDesc')['useSymbolLabel']
+  const useSyncConfiguration: typeof import('./hooks/Rule/bridge/useSyncConfiguration')['default']
+  const useSyncPolling: typeof import('./hooks/useSyncPolling')['default']
+  const useTemplateRef: typeof import('vue')['useTemplateRef']
+  const useTestConnector: typeof import('./hooks/Rule/connector/useTestConnector')['default']
+  const useToggleAuthStatus: typeof import('./hooks/Auth/useToggleAuthStatus')['default']
+  const useTransName: typeof import('./hooks/useTransName')['default']
+  const useTwoWayBindingManually: typeof import('./hooks/useTwoWayBindingManually')['default']
+  const useUpdateBaseInfo: typeof import('./hooks/useUpdateBaseInfo')['default']
+  const useValidationItemType: typeof import('./hooks/Rule/validation/useValidation')['useValidationItemType']
+  const useValidationLogLevel: typeof import('./hooks/Rule/validation/useValidation')['useValidationLogLevel']
+  const useValidationStrategy: typeof import('./hooks/Rule/validation/useValidation')['useValidationStrategy']
+  const useWebhookForm: typeof import('./hooks/Webhook/useWebhookForm')['default']
+  const useWebhookItem: typeof import('./hooks/Webhook/useWebhookItem')['default']
+  const useWebhookList: typeof import('./hooks/Webhook/useWebhookList')['default']
+  const useWebhookUtils: typeof import('./hooks/Webhook/useWebhookUtils')['default']
+  const usefulMemoryUnit: typeof import('./common/tools')['usefulMemoryUnit']
+  const waitAMoment: typeof import('./common/tools')['waitAMoment']
+  const watch: typeof import('vue')['watch']
+  const watchEffect: typeof import('vue')['watchEffect']
+  const watchPostEffect: typeof import('vue')['watchPostEffect']
+  const watchSyncEffect: typeof import('vue')['watchSyncEffect']
 }
 // for type re-export
 declare global {
   // @ts-ignore
-  export type {
-    Component,
-    ComponentPublicInstance,
-    ComputedRef,
-    DirectiveBinding,
-    ExtractDefaultPropTypes,
-    ExtractPropTypes,
-    ExtractPublicPropTypes,
-    InjectionKey,
-    PropType,
-    Ref,
-    MaybeRef,
-    MaybeRefOrGetter,
-    VNode,
-    WritableComputedRef,
-  } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
   export type { RouteLocationRaw, RouteRecordRaw } from 'vue-router'
@@ -507,13 +492,7 @@ declare global {
   export type { NodeItem } from './hooks/Flow/useFlowEditor'
   import('./hooks/Flow/useFlowEditor')
   // @ts-ignore
-  export type {
-    FlowData,
-    FunctionItem,
-    FunctionForm,
-    FilterFormData,
-    FilterForm,
-  } from './hooks/Flow/useFlowNode'
+  export type { FlowData, FunctionItem, FunctionForm, FilterFormData, FilterForm } from './hooks/Flow/useFlowNode'
   import('./hooks/Flow/useFlowNode')
   // @ts-ignore
   export type { GroupedNode } from './hooks/Flow/useGenerateFlowDataUtils'
@@ -534,21 +513,10 @@ declare global {
   export type { KeyValueItem } from './hooks/Rule/bridge/useInfluxdbLineProtocol'
   import('./hooks/Rule/bridge/useInfluxdbLineProtocol')
   // @ts-ignore
-  export type {
-    LogItem,
-    LogTargetTypeValue,
-    TargetLogInfo,
-    TargetLog,
-    TargetLogMap,
-    FormattedLog,
-  } from './hooks/Rule/rule/useFormatDebugLog'
+  export type { LogItem, LogTargetTypeValue, TargetLogInfo, TargetLog, TargetLogMap, FormattedLog } from './hooks/Rule/rule/useFormatDebugLog'
   import('./hooks/Rule/rule/useFormatDebugLog')
   // @ts-ignore
-  export type {
-    AvailableKey,
-    TypeMessageTransformFailureAction,
-    TypeMessageTransformLogLevel,
-  } from './hooks/Rule/transform/useMessageTransform'
+  export type { AvailableKey, TypeMessageTransformFailureAction, TypeMessageTransformLogLevel } from './hooks/Rule/transform/useMessageTransform'
   import('./hooks/Rule/transform/useMessageTransform')
   // @ts-ignore
   export type { SchemaRules } from './hooks/Schema/useSchemaFormRules'
@@ -575,898 +543,466 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
-    readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['ACTIVE_RING_STROKE_WIDTH']
-    >
-    readonly ADMIN_USERNAMES: UnwrapRef<(typeof import('./common/constants'))['ADMIN_USERNAMES']>
-    readonly API_BASE_URL: UnwrapRef<(typeof import('./common/constants'))['API_BASE_URL']>
-    readonly AUTHZ_COMMON_PLACEHOLDERS: UnwrapRef<
-      (typeof import('./common/constants'))['AUTHZ_COMMON_PLACEHOLDERS']
-    >
-    readonly AUTHZ_HTTP_PLACEHOLDERS: UnwrapRef<
-      (typeof import('./common/constants'))['AUTHZ_HTTP_PLACEHOLDERS']
-    >
-    readonly AUTHZ_MONGODB_PLACEHOLDERS: UnwrapRef<
-      (typeof import('./common/constants'))['AUTHZ_MONGODB_PLACEHOLDERS']
-    >
-    readonly AUTH_PLACEHOLDERS: UnwrapRef<
-      (typeof import('./common/constants'))['AUTH_PLACEHOLDERS']
-    >
-    readonly AUTH_PLACEHOLDER_CLIENT_ATTRS: UnwrapRef<
-      (typeof import('./common/constants'))['AUTH_PLACEHOLDER_CLIENT_ATTRS']
-    >
-    readonly AUTO_RESTART_INTERVAL_DEFAULT: UnwrapRef<
-      (typeof import('./common/constants'))['AUTO_RESTART_INTERVAL_DEFAULT']
-    >
-    readonly ArgumentType: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['ArgumentType']>
-    readonly AvailableKey: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['AvailableKey']
-    >
-    readonly AvroJsonToObject: UnwrapRef<
-      (typeof import('./hooks/Plugins/avroUtils'))['AvroJsonToObject']
-    >
-    readonly BACKGROUND_CIRCLE_INNER_RADIUS: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_INNER_RADIUS']
-    >
-    readonly BACKGROUND_CIRCLE_OUTER_RADIUS: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_OUTER_RADIUS']
-    >
-    readonly BACKGROUND_CIRCLE_RADIUS: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['BACKGROUND_CIRCLE_RADIUS']
-    >
-    readonly BANNED_NEVER_EXPIRE_VALUE: UnwrapRef<
-      (typeof import('./common/constants'))['BANNED_NEVER_EXPIRE_VALUE']
-    >
-    readonly BATCH_UPLOAD_CSV_MAX_ROWS: UnwrapRef<
-      (typeof import('./common/constants'))['BATCH_UPLOAD_CSV_MAX_ROWS']
-    >
-    readonly BRIDGE_TYPES_NOT_USE_SCHEMA: UnwrapRef<
-      (typeof import('./common/constants'))['BRIDGE_TYPES_NOT_USE_SCHEMA']
-    >
-    readonly CER_FILE_ACCEPTS: UnwrapRef<(typeof import('./common/constants'))['CER_FILE_ACCEPTS']>
-    readonly COMMON_ID_REG: UnwrapRef<(typeof import('./common/constants'))['COMMON_ID_REG']>
-    readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<
-      (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_SOURCE']
-    >
-    readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<
-      (typeof import('./common/constants'))['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
-    >
-    readonly COPY_SUFFIX: UnwrapRef<(typeof import('./common/constants'))['COPY_SUFFIX']>
-    readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<
-      (typeof import('./common/constants'))['DEFAULT_CLIENT_TABLE_COLUMNS']
-    >
-    readonly DEFAULT_FROM: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_FROM']>
-    readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<
-      (typeof import('./common/constants'))['DEFAULT_PAGE_SIZE_OPT']
-    >
-    readonly DEFAULT_PWD: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_PWD']>
-    readonly DEFAULT_SALT_POSITION: UnwrapRef<
-      (typeof import('./common/constants'))['DEFAULT_SALT_POSITION']
-    >
-    readonly DEFAULT_SELECT: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_SELECT']>
-    readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<
-      (typeof import('./common/constants'))['DEFAULT_SSL_VERIFY_VALUE']
-    >
-    readonly DEFAULT_ZONE: UnwrapRef<(typeof import('./common/constants'))['DEFAULT_ZONE']>
-    readonly DOT_RADIUS: UnwrapRef<
-      (typeof import('./hooks/Flow/useFilterConnectorInForm'))['DOT_RADIUS']
-    >
-    readonly EMQX_VERSION: UnwrapRef<(typeof import('./common/constants'))['EMQX_VERSION']>
-    readonly ENCRYPTED_PWD_REG: UnwrapRef<
-      (typeof import('./common/constants'))['ENCRYPTED_PWD_REG']
-    >
-    readonly EditedWay: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['EditedWay']>
-    readonly EffectScope: UnwrapRef<(typeof import('vue'))['EffectScope']>
-    readonly ElMessage: UnwrapRef<(typeof import('element-plus'))['ElMessage']>
-    readonly ElMessageBox: UnwrapRef<(typeof import('element-plus'))['ElMessageBox']>
-    readonly ElNotification: UnwrapRef<(typeof import('element-plus'))['ElNotification']>
-    readonly FieldValueType: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor'))['FieldValueType']
-    >
-    readonly FlowNodeType: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['FlowNodeType']>
-    readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<
-      (typeof import('./common/constants'))['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
-    >
-    readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<
-      (typeof import('./common/constants'))['GATEWAY_ENABLED_DATABASES_MAP']
-    >
-    readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<
-      (typeof import('./common/constants'))['GATEWAY_ENABLED_MECHANISM_MAP']
-    >
-    readonly INFINITY_VALUE: UnwrapRef<(typeof import('./common/constants'))['INFINITY_VALUE']>
-    readonly INGRESS_BRIDGE_TYPES: UnwrapRef<
-      (typeof import('./common/constants'))['INGRESS_BRIDGE_TYPES']
-    >
-    readonly INPUT_HEIGHT: UnwrapRef<
-      (typeof import('./hooks/Flow/useFilterConnectorInForm'))['INPUT_HEIGHT']
-    >
-    readonly INPUT_MARGIN_BOTTOM: UnwrapRef<
-      (typeof import('./hooks/Flow/useFilterConnectorInForm'))['INPUT_MARGIN_BOTTOM']
-    >
-    readonly INTEGRATION_SCHEMA_TYPES: UnwrapRef<
-      (typeof import('./common/constants'))['INTEGRATION_SCHEMA_TYPES']
-    >
-    readonly INVALID_PUB_TOPIC_REG: UnwrapRef<
-      (typeof import('./common/constants'))['INVALID_PUB_TOPIC_REG']
-    >
-    readonly IP_REG: UnwrapRef<(typeof import('./common/constants'))['IP_REG']>
-    readonly IS_ENTERPRISE: UnwrapRef<(typeof import('./common/constants'))['IS_ENTERPRISE']>
-    readonly IoTDBDriver: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBDriver']
-    >
-    readonly IoTDBDrivers: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBDrivers']
-    >
-    readonly IoTDBKeyField: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSecondRefControl'))['IoTDBKeyField']
-    >
-    readonly KeysInRule: UnwrapRef<(typeof import('./hooks/Rule/KeysInRule'))['default']>
-    readonly LogMsg: UnwrapRef<(typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogMsg']>
-    readonly LogTargetType: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['LogTargetType']
-    >
-    readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['MAX_DISPLAYED_REP_NODE']
-    >
-    readonly MESSAGE_TYPE_NONE: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['MESSAGE_TYPE_NONE']
-    >
-    readonly MQTT_V3_RES_CODES: UnwrapRef<
-      (typeof import('./common/constants'))['MQTT_V3_RES_CODES']
-    >
-    readonly MQTT_V5_RES_CODES: UnwrapRef<
-      (typeof import('./common/constants'))['MQTT_V5_RES_CODES']
-    >
-    readonly MQTT_VERSION_LIST: UnwrapRef<
-      (typeof import('./common/constants'))['MQTT_VERSION_LIST']
-    >
-    readonly MQTTingressRemoteQoS: UnwrapRef<
-      (typeof import('./common/constants'))['MQTTingressRemoteQoS']
-    >
-    readonly MULTI_LEVEL_WILDCARD: UnwrapRef<
-      (typeof import('./common/constants'))['MULTI_LEVEL_WILDCARD']
-    >
-    readonly MetricKey: UnwrapRef<(typeof import('./hooks/useDroppedDetail'))['MetricKey']>
-    readonly MetricType: UnwrapRef<(typeof import('./hooks/useMetrics'))['MetricType']>
-    readonly MsgKey: UnwrapRef<(typeof import('./hooks/Flow/useFlowEditor'))['MsgKey']>
-    readonly NO_CHINESE_REG: UnwrapRef<(typeof import('./hooks/useFormRules'))['NO_CHINESE_REG']>
-    readonly NUM_REG: UnwrapRef<(typeof import('./common/constants'))['NUM_REG']>
-    readonly NodeType: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['NodeType']>
-    readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<
-      (typeof import('./common/constants'))['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
-    >
-    readonly PASSWORD_REG: UnwrapRef<(typeof import('./common/constants'))['PASSWORD_REG']>
-    readonly ProcessingType: UnwrapRef<
-      (typeof import('./hooks/Flow/useFlowNode'))['ProcessingType']
-    >
-    readonly QoSOptions: UnwrapRef<(typeof import('./common/constants'))['QoSOptions']>
-    readonly REQUEST_TIMEOUT_CODE: UnwrapRef<
-      (typeof import('./common/constants'))['REQUEST_TIMEOUT_CODE']
-    >
-    readonly RULE_FROM_SEPARATOR: UnwrapRef<
-      (typeof import('./common/constants'))['RULE_FROM_SEPARATOR']
-    >
-    readonly RULE_INPUT_BRIDGE_TYPE_PREFIX: UnwrapRef<
-      (typeof import('./common/constants'))['RULE_INPUT_BRIDGE_TYPE_PREFIX']
-    >
-    readonly RULE_INPUT_EVENT_PREFIX: UnwrapRef<
-      (typeof import('./common/constants'))['RULE_INPUT_EVENT_PREFIX']
-    >
-    readonly RULE_LOGICAL_OPERATORS: UnwrapRef<
-      (typeof import('./common/constants'))['RULE_LOGICAL_OPERATORS']
-    >
-    readonly RULE_MAX_NUM_PER_PAGE: UnwrapRef<
-      (typeof import('./common/constants'))['RULE_MAX_NUM_PER_PAGE']
-    >
-    readonly RuleSourceType: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useRule'))['RuleSourceType']
-    >
-    readonly SEARCH_FORM_RES_PROPS: UnwrapRef<
-      (typeof import('./common/constants'))['SEARCH_FORM_RES_PROPS']
-    >
-    readonly SESSION_FIELDS: UnwrapRef<(typeof import('./common/constants'))['SESSION_FIELDS']>
-    readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<
-      (typeof import('./common/constants'))['SESSION_NEVER_EXPIRE_TIME']
-    >
-    readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<
-      (typeof import('./common/constants'))['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
-    >
-    readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<
-      (typeof import('./common/constants'))['SPECIAL_INVALID_SUB_TOPIC_REG']
-    >
-    readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<
-      (typeof import('./common/constants'))['SSL_VERIFY_VALUE_MAP']
-    >
-    readonly SinkType: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['SinkType']>
-    readonly SourceServerType: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useRule'))['SourceServerType']
-    >
-    readonly SourceType: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['SourceType']>
-    readonly SourceTypeAllMsgsAndEvents: UnwrapRef<
-      (typeof import('./hooks/Flow/useFlowNode'))['SourceTypeAllMsgsAndEvents']
-    >
-    readonly TARGET_EXPRESSION: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['TARGET_EXPRESSION']
-    >
-    readonly TOPIC_EVENT: UnwrapRef<(typeof import('./common/constants'))['TOPIC_EVENT']>
-    readonly TYPE_COLOR_MAP: UnwrapRef<(typeof import('./hooks/useMetrics'))['TYPE_COLOR_MAP']>
-    readonly URLReg: UnwrapRef<(typeof import('./common/tools'))['URLReg']>
-    readonly USER_INFO_KEY: UnwrapRef<
-      (typeof import('./hooks/useGetInfoFromQuery'))['USER_INFO_KEY']
-    >
-    readonly WEBHOOK_SUFFIX: UnwrapRef<(typeof import('./common/constants'))['WEBHOOK_SUFFIX']>
-    readonly WEB_SOCKET_STATUS: UnwrapRef<
-      (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
-    >
-    readonly _: UnwrapRef<(typeof import('lodash'))['default']>
-    readonly accAdd: UnwrapRef<(typeof import('./common/tools'))['accAdd']>
-    readonly addNewlineAfterComma: UnwrapRef<
-      (typeof import('./common/tools'))['addNewlineAfterComma']
-    >
-    readonly arraysAreEqual: UnwrapRef<(typeof import('./common/tools'))['arraysAreEqual']>
-    readonly assign: UnwrapRef<(typeof import('lodash'))['assign']>
-    readonly avroUtils: UnwrapRef<(typeof import('./hooks/Plugins/avroUtils'))['default']>
-    readonly axios: UnwrapRef<(typeof import('axios'))['default']>
-    readonly bridgeOrderIndex: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['bridgeOrderIndex']
-    >
-    readonly calcPercentage: UnwrapRef<(typeof import('./common/tools'))['calcPercentage']>
-    readonly camelCase: UnwrapRef<(typeof import('lodash'))['camelCase']>
-    readonly caseInsensitiveCompare: UnwrapRef<
-      (typeof import('./common/tools'))['caseInsensitiveCompare']
-    >
-    readonly checkInRange: UnwrapRef<(typeof import('./common/tools'))['checkInRange']>
-    readonly checkIsValidArr: UnwrapRef<(typeof import('./common/tools'))['checkIsValidArr']>
-    readonly checkNOmitFromObj: UnwrapRef<(typeof import('./common/tools'))['checkNOmitFromObj']>
-    readonly checkNSetToNullFromObj: UnwrapRef<
-      (typeof import('./common/tools'))['checkNSetToNullFromObj']
-    >
-    readonly checkStringWithUnit: UnwrapRef<
-      (typeof import('./common/tools'))['checkStringWithUnit']
-    >
-    readonly chunk: UnwrapRef<(typeof import('lodash'))['chunk']>
-    readonly chunkStr: UnwrapRef<(typeof import('./common/tools'))['chunkStr']>
-    readonly cloneDeep: UnwrapRef<(typeof import('lodash'))['cloneDeep']>
-    readonly computed: UnwrapRef<(typeof import('vue'))['computed']>
-    readonly consumerReg: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
-    >
-    readonly countDuplicationName: UnwrapRef<
-      (typeof import('./common/tools'))['countDuplicationName']
-    >
-    readonly createApp: UnwrapRef<(typeof import('vue'))['createApp']>
-    readonly createConsoleForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createConsoleForm']
-    >
-    readonly createEventForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createEventForm']
-    >
-    readonly createFilterForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createFilterForm']
-    >
-    readonly createFilterFormData: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createFilterFormData']
-    >
-    readonly createFilterItem: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createFilterItem']
-    >
-    readonly createFunctionForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createFunctionForm']
-    >
-    readonly createFunctionItem: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createFunctionItem']
-    >
-    readonly createMessageForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createMessageForm']
-    >
-    readonly createOrderObj: UnwrapRef<(typeof import('./common/tools'))['createOrderObj']>
-    readonly createRandomString: UnwrapRef<(typeof import('./common/tools'))['createRandomString']>
-    readonly createRePubForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useNodeForm'))['createRePubForm']
-    >
-    readonly createRouter: UnwrapRef<(typeof import('vue-router'))['createRouter']>
-    readonly createStore: UnwrapRef<(typeof import('vuex'))['createStore']>
-    readonly createWebHashHistory: UnwrapRef<(typeof import('vue-router'))['createWebHashHistory']>
-    readonly customRef: UnwrapRef<(typeof import('vue'))['customRef']>
-    readonly customValidate: UnwrapRef<(typeof import('./common/tools'))['customValidate']>
-    readonly dateFormat: UnwrapRef<(typeof import('./common/tools'))['dateFormat']>
-    readonly debounce: UnwrapRef<(typeof import('lodash'))['debounce']>
-    readonly defineAsyncComponent: UnwrapRef<(typeof import('vue'))['defineAsyncComponent']>
-    readonly defineComponent: UnwrapRef<(typeof import('vue'))['defineComponent']>
-    readonly downloadBlobData: UnwrapRef<(typeof import('./common/tools'))['downloadBlobData']>
-    readonly downloadByURL: UnwrapRef<(typeof import('./common/tools'))['downloadByURL']>
-    readonly effectScope: UnwrapRef<(typeof import('vue'))['effectScope']>
-    readonly emptyObject: UnwrapRef<(typeof import('./common/tools'))['emptyObject']>
-    readonly escape: UnwrapRef<(typeof import('lodash'))['escape']>
-    readonly escapeCode: UnwrapRef<(typeof import('./common/tools'))['escapeCode']>
-    readonly escapeRegExp: UnwrapRef<(typeof import('lodash'))['escapeRegExp']>
-    readonly fillEmptyValueToUndefinedField: UnwrapRef<
-      (typeof import('./common/tools'))['fillEmptyValueToUndefinedField']
-    >
-    readonly findExtensionByName: UnwrapRef<
-      (typeof import('./common/tools'))['findExtensionByName']
-    >
-    readonly formatNumber: UnwrapRef<(typeof import('./common/tools'))['formatNumber']>
-    readonly formatSQL: UnwrapRef<(typeof import('./common/tools'))['formatSQL']>
-    readonly get: UnwrapRef<(typeof import('lodash'))['get']>
-    readonly getAPIPath: UnwrapRef<(typeof import('./common/tools'))['getAPIPath']>
-    readonly getAllListData: UnwrapRef<(typeof import('./common/tools'))['getAllListData']>
-    readonly getBridgeKey: UnwrapRef<(typeof import('./common/tools'))['getBridgeKey']>
-    readonly getCurrentInstance: UnwrapRef<(typeof import('vue'))['getCurrentInstance']>
-    readonly getCurrentScope: UnwrapRef<(typeof import('vue'))['getCurrentScope']>
-    readonly getEmptyValueByDefaultValue: UnwrapRef<
-      (typeof import('./common/tools'))['getEmptyValueByDefaultValue']
-    >
-    readonly getImg: UnwrapRef<(typeof import('./common/tools'))['getImg']>
-    readonly getKeyPartsFromSQL: UnwrapRef<(typeof import('./common/tools'))['getKeyPartsFromSQL']>
-    readonly getKeywordsFromSQL: UnwrapRef<(typeof import('./common/tools'))['getKeywordsFromSQL']>
-    readonly getLabelFromValueInOptionList: UnwrapRef<
-      (typeof import('./common/tools'))['getLabelFromValueInOptionList']
-    >
-    readonly getPasswordHashAlgorithmObj: UnwrapRef<
-      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getPasswordHashAlgorithmObj']
-    >
-    readonly getProgressColor: UnwrapRef<(typeof import('./common/tools'))['getProgressColor']>
-    readonly getRuleSelectionAlias: UnwrapRef<
-      (typeof import('./common/tools'))['getRuleSelectionAlias']
-    >
-    readonly getTypeAndNameFromKey: UnwrapRef<
-      (typeof import('./common/tools'))['getTypeAndNameFromKey']
-    >
-    readonly getUnitInStr: UnwrapRef<(typeof import('./common/tools'))['getUnitInStr']>
-    readonly getUsefulPasswordHashAlgorithmData: UnwrapRef<
-      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['getUsefulPasswordHashAlgorithmData']
-    >
-    readonly getValueFromQuery: UnwrapRef<(typeof import('./common/tools'))['getValueFromQuery']>
-    readonly groupBy: UnwrapRef<(typeof import('lodash'))['groupBy']>
-    readonly h: UnwrapRef<(typeof import('vue'))['h']>
-    readonly handleTransformData: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['handleTransformData']
-    >
-    readonly inject: UnwrapRef<(typeof import('vue'))['inject']>
-    readonly isArray: UnwrapRef<(typeof import('lodash'))['isArray']>
-    readonly isEqual: UnwrapRef<(typeof import('lodash'))['isEqual']>
-    readonly isForeachReg: UnwrapRef<(typeof import('./common/tools'))['isForeachReg']>
-    readonly isFunction: UnwrapRef<(typeof import('lodash'))['isFunction']>
-    readonly isNumber: UnwrapRef<(typeof import('lodash'))['isNumber']>
-    readonly isObject: UnwrapRef<(typeof import('lodash'))['isObject']>
-    readonly isPlainObject: UnwrapRef<(typeof import('lodash'))['isPlainObject']>
-    readonly isProxy: UnwrapRef<(typeof import('vue'))['isProxy']>
-    readonly isReactive: UnwrapRef<(typeof import('vue'))['isReactive']>
-    readonly isReadonly: UnwrapRef<(typeof import('vue'))['isReadonly']>
-    readonly isRef: UnwrapRef<(typeof import('vue'))['isRef']>
-    readonly isRegExp: UnwrapRef<(typeof import('lodash'))['isRegExp']>
-    readonly isString: UnwrapRef<(typeof import('lodash'))['isString']>
-    readonly isUndefined: UnwrapRef<(typeof import('lodash'))['isUndefined']>
-    readonly judgeRuleSelectionWithFunc: UnwrapRef<
-      (typeof import('./common/tools'))['judgeRuleSelectionWithFunc']
-    >
-    readonly jumpToErrorFormItem: UnwrapRef<
-      (typeof import('./common/tools'))['jumpToErrorFormItem']
-    >
-    readonly lowerCase: UnwrapRef<(typeof import('lodash'))['lowerCase']>
-    readonly markRaw: UnwrapRef<(typeof import('vue'))['markRaw']>
-    readonly merge: UnwrapRef<(typeof import('lodash'))['merge']>
-    readonly mergeWith: UnwrapRef<(typeof import('lodash'))['mergeWith']>
-    readonly nextTick: UnwrapRef<(typeof import('vue'))['nextTick']>
-    readonly numToFixed: UnwrapRef<(typeof import('./common/tools'))['numToFixed']>
-    readonly numberArgTypes: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['numberArgTypes']>
-    readonly objectToAvroJson: UnwrapRef<
-      (typeof import('./hooks/Plugins/avroUtils'))['objectToAvroJson']
-    >
-    readonly omit: UnwrapRef<(typeof import('lodash'))['omit']>
-    readonly omitArr: UnwrapRef<(typeof import('./common/tools'))['omitArr']>
-    readonly onActivated: UnwrapRef<(typeof import('vue'))['onActivated']>
-    readonly onBeforeMount: UnwrapRef<(typeof import('vue'))['onBeforeMount']>
-    readonly onBeforeRouteLeave: UnwrapRef<(typeof import('vue-router'))['onBeforeRouteLeave']>
-    readonly onBeforeRouteUpdate: UnwrapRef<(typeof import('vue-router'))['onBeforeRouteUpdate']>
-    readonly onBeforeUnmount: UnwrapRef<(typeof import('vue'))['onBeforeUnmount']>
-    readonly onBeforeUpdate: UnwrapRef<(typeof import('vue'))['onBeforeUpdate']>
-    readonly onDeactivated: UnwrapRef<(typeof import('vue'))['onDeactivated']>
-    readonly onErrorCaptured: UnwrapRef<(typeof import('vue'))['onErrorCaptured']>
-    readonly onMounted: UnwrapRef<(typeof import('vue'))['onMounted']>
-    readonly onRenderTracked: UnwrapRef<(typeof import('vue'))['onRenderTracked']>
-    readonly onRenderTriggered: UnwrapRef<(typeof import('vue'))['onRenderTriggered']>
-    readonly onScopeDispose: UnwrapRef<(typeof import('vue'))['onScopeDispose']>
-    readonly onServerPrefetch: UnwrapRef<(typeof import('vue'))['onServerPrefetch']>
-    readonly onUnmounted: UnwrapRef<(typeof import('vue'))['onUnmounted']>
-    readonly onUpdated: UnwrapRef<(typeof import('vue'))['onUpdated']>
-    readonly onWatcherCleanup: UnwrapRef<(typeof import('vue'))['onWatcherCleanup']>
-    readonly orderBy: UnwrapRef<(typeof import('lodash'))['orderBy']>
-    readonly pick: UnwrapRef<(typeof import('lodash'))['pick']>
-    readonly provide: UnwrapRef<(typeof import('vue'))['provide']>
-    readonly reactive: UnwrapRef<(typeof import('vue'))['reactive']>
-    readonly readonly: UnwrapRef<(typeof import('vue'))['readonly']>
-    readonly ref: UnwrapRef<(typeof import('vue'))['ref']>
-    readonly removeFromArr: UnwrapRef<(typeof import('./common/tools'))['removeFromArr']>
-    readonly replaceSpaceForHTML: UnwrapRef<
-      (typeof import('./common/tools'))['replaceSpaceForHTML']
-    >
-    readonly resolveComponent: UnwrapRef<(typeof import('vue'))['resolveComponent']>
-    readonly resourceOptFields: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
-    >
-    readonly round: UnwrapRef<(typeof import('lodash'))['round']>
-    readonly ruleSelectionAliasPartReg: UnwrapRef<
-      (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
-    >
-    readonly scrollToTop: UnwrapRef<(typeof import('./common/tools'))['scrollToTop']>
-    readonly set: UnwrapRef<(typeof import('lodash'))['set']>
-    readonly setPwdFormat: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
-    >
-    readonly shallowReactive: UnwrapRef<(typeof import('vue'))['shallowReactive']>
-    readonly shallowReadonly: UnwrapRef<(typeof import('vue'))['shallowReadonly']>
-    readonly shallowRef: UnwrapRef<(typeof import('vue'))['shallowRef']>
-    readonly snakeCase: UnwrapRef<(typeof import('lodash'))['snakeCase']>
-    readonly sortStringArr: UnwrapRef<(typeof import('./common/tools'))['sortStringArr']>
-    readonly sortedUniq: UnwrapRef<(typeof import('./common/tools'))['sortedUniq']>
-    readonly splitOnComma: UnwrapRef<(typeof import('./common/tools'))['splitOnComma']>
-    readonly splitOnSymbol: UnwrapRef<(typeof import('./common/tools'))['splitOnSymbol']>
-    readonly startCase: UnwrapRef<(typeof import('lodash'))['startCase']>
-    readonly stringifyObjSafely: UnwrapRef<(typeof import('./common/tools'))['stringifyObjSafely']>
-    readonly throttle: UnwrapRef<(typeof import('lodash'))['throttle']>
-    readonly titleCase: UnwrapRef<(typeof import('./common/tools'))['titleCase']>
-    readonly toRaw: UnwrapRef<(typeof import('vue'))['toRaw']>
-    readonly toRef: UnwrapRef<(typeof import('vue'))['toRef']>
-    readonly toRefs: UnwrapRef<(typeof import('vue'))['toRefs']>
-    readonly toValue: UnwrapRef<(typeof import('vue'))['toValue']>
-    readonly transLink: UnwrapRef<(typeof import('./common/tools'))['transLink']>
-    readonly transMSNumToString: UnwrapRef<(typeof import('./common/tools'))['transMSNumToString']>
-    readonly transMemorySizeNumToStr: UnwrapRef<
-      (typeof import('./common/tools'))['transMemorySizeNumToStr']
-    >
-    readonly transMemorySizeStrToNum: UnwrapRef<
-      (typeof import('./common/tools'))['transMemorySizeStrToNum']
-    >
-    readonly transTimeStrToMS: UnwrapRef<(typeof import('./common/tools'))['transTimeStrToMS']>
-    readonly triggerRef: UnwrapRef<(typeof import('vue'))['triggerRef']>
-    readonly trimSpacesAndLFs: UnwrapRef<(typeof import('./common/tools'))['trimSpacesAndLFs']>
-    readonly trimValues: UnwrapRef<(typeof import('./common/tools'))['trimValues']>
-    readonly tryToCompleteURL: UnwrapRef<(typeof import('./common/tools'))['tryToCompleteURL']>
-    readonly typesWithProducerAndConsumer: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['typesWithProducerAndConsumer']
-    >
-    readonly unexposedConfigs: UnwrapRef<(typeof import('./common/constants'))['unexposedConfigs']>
-    readonly unref: UnwrapRef<(typeof import('vue'))['unref']>
-    readonly useActionAndSourceStatus: UnwrapRef<
-      (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
-    >
-    readonly useActionDataHandler: UnwrapRef<
-      (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
-    >
-    readonly useActionList: UnwrapRef<
-      (typeof import('./hooks/Rule/action/useActionList'))['default']
-    >
-    readonly useActionQueueMetrics: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useActionQueueMetrics']
-    >
-    readonly useActionSchema: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useActionSchema']
-    >
-    readonly useAdaptiveEditor: UnwrapRef<(typeof import('./hooks/useAdaptiveEditor'))['default']>
-    readonly useAttrs: UnwrapRef<(typeof import('vue'))['useAttrs']>
-    readonly useAuth: UnwrapRef<(typeof import('./hooks/Auth/useAuth'))['default']>
-    readonly useAuthHelp: UnwrapRef<(typeof import('./hooks/Auth/useAuthHelp'))['default']>
-    readonly useAuthMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useAuthMetrics']>
-    readonly useAuthn: UnwrapRef<(typeof import('./hooks/Auth/useAuthn'))['default']>
-    readonly useAuthnCreate: UnwrapRef<(typeof import('./hooks/Auth/useAuthnCreate'))['default']>
-    readonly useAuthnMechanismType: UnwrapRef<
-      (typeof import('./hooks/Auth/useAuthnType'))['useAuthnMechanismType']
-    >
-    readonly useAuthz: UnwrapRef<(typeof import('./hooks/Auth/useAuthz'))['default']>
-    readonly useAuthzCreate: UnwrapRef<(typeof import('./hooks/Auth/useAuthzCreate'))['default']>
-    readonly useAvailableProviders: UnwrapRef<
-      (typeof import('./hooks/Rule/useProvidersForMonaco'))['useAvailableProviders']
-    >
-    readonly useBackgroundCircle: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['useBackgroundCircle']
-    >
-    readonly useBannedType: UnwrapRef<(typeof import('./hooks/Auth/useBannedType'))['default']>
-    readonly useBridgeDataHandler: UnwrapRef<
-      (typeof import('./hooks/Rule/useDataHandler'))['useBridgeDataHandler']
-    >
-    readonly useBridgeFormCreator: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeFormCreator'))['default']
-    >
-    readonly useBridgeMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useBridgeMetrics']>
-    readonly useBridgeTypeIcon: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeIcon']
-    >
-    readonly useBridgeTypeOptions: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useBridgeTypeOptions']
-    >
-    readonly useBridgeTypeValue: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['default']
-    >
-    readonly useBuiltInDataUpdateTip: UnwrapRef<
-      (typeof import('./hooks/Auth/useBuiltInDataUpdateTip'))['default']
-    >
-    readonly useCInfoConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useCInfoConfigForm'))['default']
-    >
-    readonly useCSSVariables: UnwrapRef<(typeof import('./hooks/useCSSVariables'))['default']>
-    readonly useChartDataUtils: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useChartDataUtils']
-    >
-    readonly useCheckBeforeSaveAsCopy: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy'))['default']
-    >
-    readonly useCheckDataChanged: UnwrapRef<
-      (typeof import('./hooks/useDataNotSaveConfirm'))['useCheckDataChanged']
-    >
-    readonly useCheckIoTDBConnectorDriver: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver'))['default']
-    >
-    readonly useClientDetail: UnwrapRef<
-      (typeof import('./hooks/Clients/useClientDetail'))['default']
-    >
-    readonly useClientFields: UnwrapRef<
-      (typeof import('./hooks/Clients/useClientFields'))['default']
-    >
-    readonly useClusterLinking: UnwrapRef<
-      (typeof import('./hooks/Config/useClusterLinking'))['default']
-    >
-    readonly useClusterLinkingMetrics: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useClusterLinkingMetrics']
-    >
-    readonly useClusterNodes: UnwrapRef<(typeof import('./hooks/useClusterNodes'))['default']>
-    readonly useCommonConnectionStatus: UnwrapRef<
-      (typeof import('./hooks/useCommonConnectionStatus'))['default']
-    >
-    readonly useComponentsHandlers: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
-    >
-    readonly useConfFooterStyle: UnwrapRef<(typeof import('./hooks/useConfFooterStyle'))['default']>
-    readonly useConnectorDataHandler: UnwrapRef<
-      (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
-    >
-    readonly useConnectorDirection: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorDirection']
-    >
-    readonly useConnectorList: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useConnectorList'))['default']
-    >
-    readonly useConnectorSchema: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorSchema']
-    >
-    readonly useConnectorTypeValue: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorTypeValue']
-    >
-    readonly useConvertSecretToQRCode: UnwrapRef<
-      (typeof import('./hooks/useConvertSecretToQRCode'))['default']
-    >
-    readonly useCopy: UnwrapRef<(typeof import('./hooks/useCopy'))['default']>
-    readonly useCoreNodeSize: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['useCoreNodeSize']
-    >
-    readonly useCssModule: UnwrapRef<(typeof import('vue'))['useCssModule']>
-    readonly useCssVars: UnwrapRef<(typeof import('vue'))['useCssVars']>
-    readonly useCursorPagination: UnwrapRef<
-      (typeof import('./hooks/usePagination'))['useCursorPagination']
-    >
-    readonly useDashboardVersion: UnwrapRef<
-      (typeof import('./hooks/useDashboardVersion'))['default']
-    >
-    readonly useDataNotSaveConfirm: UnwrapRef<
-      (typeof import('./hooks/useDataNotSaveConfirm'))['default']
-    >
-    readonly useDatabaseConfig: UnwrapRef<
-      (typeof import('./hooks/Auth/useDatabaseConfig'))['default']
-    >
-    readonly useDatabaseConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useDatabaseConfigForm'))['default']
-    >
-    readonly useDatePickerShortcuts: UnwrapRef<
-      (typeof import('./hooks/useDatePickerShortcuts'))['default']
-    >
-    readonly useDebugRule: UnwrapRef<(typeof import('./hooks/Rule/rule/useDebugRule'))['default']>
-    readonly useDeleteBridge: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useDeleteBridge'))['default']
-    >
-    readonly useDeleteSource: UnwrapRef<
-      (typeof import('./hooks/Rule/action/useHandleSourceItem'))['useDeleteSource']
-    >
-    readonly useDeliveryDroppedDetails: UnwrapRef<
-      (typeof import('./hooks/useDroppedDetail'))['useDeliveryDroppedDetails']
-    >
-    readonly useDetectIsComInSinglePage: UnwrapRef<
-      (typeof import('./hooks/useDetectIsComInSinglePage'))['default']
-    >
-    readonly useDocLink: UnwrapRef<(typeof import('./hooks/useDocLink'))['default']>
-    readonly useDroppedCharts: UnwrapRef<
-      (typeof import('./hooks/useDroppedDetail'))['useDroppedCharts']
-    >
-    readonly useDurationStr: UnwrapRef<(typeof import('./hooks/useDurationStr'))['default']>
-    readonly useEchartResize: UnwrapRef<(typeof import('./hooks/useEchartResize'))['default']>
-    readonly useEditFlow: UnwrapRef<(typeof import('./hooks/Flow/useEditFlow'))['default']>
-    readonly useEditionConfigs: UnwrapRef<(typeof import('./hooks/useEditionConfigs'))['default']>
-    readonly useExHooksMetrics: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useExHooksMetrics']
-    >
-    readonly useExhookItemStatus: UnwrapRef<
-      (typeof import('./hooks/Exhook/useExhookItemStatus'))['default']
-    >
-    readonly useExternalSchemaType: UnwrapRef<
-      (typeof import('./hooks/Rule/schema/useExternalSchemaType'))['default']
-    >
-    readonly useFailureAction: UnwrapRef<
-      (typeof import('./hooks/Rule/validation/useValidation'))['useFailureAction']
-    >
-    readonly useFillNewRecord: UnwrapRef<(typeof import('./hooks/useFillNewRecord'))['default']>
-    readonly useFilterConnectorInForm: UnwrapRef<
-      (typeof import('./hooks/Flow/useFilterConnectorInForm'))['default']
-    >
-    readonly useFlowEdge: UnwrapRef<(typeof import('./hooks/Flow/useFlowEdge'))['default']>
-    readonly useFlowEditor: UnwrapRef<(typeof import('./hooks/Flow/useFlowEditor'))['default']>
-    readonly useFlowEditorDataHandler: UnwrapRef<
-      (typeof import('./hooks/Flow/useFlowEditorDataHandler'))['default']
-    >
-    readonly useFlowGuideNodes: UnwrapRef<
-      (typeof import('./hooks/Flow/useFlowGuideNodes'))['default']
-    >
-    readonly useFlowNode: UnwrapRef<(typeof import('./hooks/Flow/useFlowNode'))['default']>
-    readonly useFlowView: UnwrapRef<(typeof import('./hooks/Flow/useFlowView'))['default']>
-    readonly useFormRules: UnwrapRef<(typeof import('./hooks/useFormRules'))['default']>
-    readonly useFormatDebugLog: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['default']
-    >
-    readonly useFunctionItemData: UnwrapRef<
-      (typeof import('./hooks/useRuleFunc'))['useFunctionItemData']
-    >
-    readonly useGenPluginFormRules: UnwrapRef<
-      (typeof import('./hooks/Plugins/useGenPluginFormRules'))['default']
-    >
-    readonly useGenerateFlowDataUtils: UnwrapRef<
-      (typeof import('./hooks/Flow/useGenerateFlowDataUtils'))['default']
-    >
-    readonly useGetInfoFromComponents: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useGetInfoFromComponents'))['default']
-    >
-    readonly useGetInfoFromQuery: UnwrapRef<
-      (typeof import('./hooks/useGetInfoFromQuery'))['default']
-    >
-    readonly useGuide: UnwrapRef<(typeof import('./hooks/useGuide'))['default']>
-    readonly useHTTPConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useHTTPConfigForm'))['default']
-    >
-    readonly useHandleActionItem: UnwrapRef<
-      (typeof import('./hooks/Rule/action/useHandleActionItem'))['default']
-    >
-    readonly useHandleAuthnItem: UnwrapRef<
-      (typeof import('./hooks/Auth/useHandleAuthnItem'))['default']
-    >
-    readonly useHandleAuthzItem: UnwrapRef<
-      (typeof import('./hooks/Auth/useHandleAuthzItem'))['default']
-    >
-    readonly useHandleConnectorItem: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useHandleConnectorItem'))['default']
-    >
-    readonly useHandleExhookItem: UnwrapRef<
-      (typeof import('./hooks/Exhook/useHandleExhookItem'))['default']
-    >
-    readonly useHandleFlowDataUtils: UnwrapRef<
-      (typeof import('./hooks/Flow/useHandleFlowDataUtils'))['default']
-    >
-    readonly useHandleGatewayData: UnwrapRef<
-      (typeof import('./hooks/Gateway/useHandleGatewayData'))['default']
-    >
-    readonly useHandleSourceItem: UnwrapRef<
-      (typeof import('./hooks/Rule/action/useHandleSourceItem'))['default']
-    >
-    readonly useI18n: UnwrapRef<(typeof import('vue-i18n'))['useI18n']>
-    readonly useI18nPrefix: UnwrapRef<(typeof import('./hooks/useI18nPrefix'))['default']>
-    readonly useI18nTl: UnwrapRef<(typeof import('./hooks/useI18nTl'))['default']>
-    readonly useId: UnwrapRef<(typeof import('vue'))['useId']>
-    readonly useInfluxdbFieldsEditor: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor'))['default']
-    >
-    readonly useInfluxdbLineProtocol: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useInfluxdbLineProtocol'))['default']
-    >
-    readonly useIoTDBSecondRefControl: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSecondRefControl'))['useIoTDBSecondRefControl']
-    >
-    readonly useItemLabelAndDesc: UnwrapRef<
-      (typeof import('./hooks/Schema/useItemLabelAndDesc'))['default']
-    >
-    readonly useJWTConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useJWTConfigForm'))['default']
-    >
-    readonly useKerberosConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useKerberosConfigForm'))['default']
-    >
-    readonly useLdapConfigForm: UnwrapRef<
-      (typeof import('./hooks/Auth/useLdapConfigForm'))['default']
-    >
-    readonly useLimiter: UnwrapRef<(typeof import('./hooks/Config/useLimiter'))['default']>
-    readonly useListenerDrawer: UnwrapRef<
-      (typeof import('./hooks/Config/useListenerDrawer'))['default']
-    >
-    readonly useListenerUtils: UnwrapRef<
-      (typeof import('./hooks/Config/useListenerUtils'))['default']
-    >
-    readonly useMFAMethods: UnwrapRef<(typeof import('./hooks/useMFA'))['useMFAMethods']>
-    readonly useMQTTVersion5NewConfig: UnwrapRef<
-      (typeof import('./hooks/useMQTTVersion5NewConfig'))['default']
-    >
-    readonly useMenus: UnwrapRef<(typeof import('./hooks/useMenus'))['default']>
-    readonly useMessageDroppedDetails: UnwrapRef<
-      (typeof import('./hooks/useDroppedDetail'))['useMessageDroppedDetails']
-    >
-    readonly useMessageTransformForm: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['useMessageTransformForm']
-    >
-    readonly useMessageTransformLogLevel: UnwrapRef<
-      (typeof import('./hooks/Rule/transform/useMessageTransform'))['useMessageTransformLogLevel']
-    >
-    readonly useMessageTransformMetrics: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useMessageTransformMetrics']
-    >
-    readonly useMockData: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useDebugRule'))['useMockData']
-    >
-    readonly useModel: UnwrapRef<(typeof import('vue'))['useModel']>
-    readonly useMove: UnwrapRef<(typeof import('./hooks/useMove'))['default']>
-    readonly useNodeDrawer: UnwrapRef<(typeof import('./hooks/Flow/useNodeDrawer'))['default']>
-    readonly useNodeForm: UnwrapRef<(typeof import('./hooks/Flow/useNodeForm'))['default']>
-    readonly useNodesGraph: UnwrapRef<(typeof import('./hooks/Overview/useNodesGraph'))['default']>
-    readonly useOperationConfirm: UnwrapRef<
-      (typeof import('./hooks/useOperationConfirm'))['default']
-    >
-    readonly usePagination: UnwrapRef<(typeof import('./hooks/usePagination'))['default']>
-    readonly usePaginationRemember: UnwrapRef<
-      (typeof import('./hooks/usePaginationRemember'))['default']
-    >
-    readonly usePaginationWithHasNext: UnwrapRef<
-      (typeof import('./hooks/usePaginationWithHasNext'))['default']
-    >
-    readonly usePaging: UnwrapRef<(typeof import('./hooks/usePaging'))['default']>
-    readonly useParseWhere: UnwrapRef<(typeof import('./hooks/Flow/useParseWhere'))['default']>
-    readonly usePassword: UnwrapRef<(typeof import('./hooks/usePassword'))['default']>
-    readonly usePasswordHashRules: UnwrapRef<
-      (typeof import('./hooks/Auth/usePasswordHashAlgorithmData'))['usePasswordHashRules']
-    >
-    readonly usePieChart: UnwrapRef<(typeof import('./hooks/useMetrics'))['usePieChart']>
-    readonly usePluginItem: UnwrapRef<(typeof import('./hooks/Plugins/usePluginItem'))['default']>
-    readonly usePluginStatus: UnwrapRef<
-      (typeof import('./hooks/Plugins/usePluginStatus'))['default']
-    >
-    readonly useProcessAuthData: UnwrapRef<
-      (typeof import('./hooks/Auth/useProcessAuthData'))['default']
-    >
-    readonly useProviderUtils: UnwrapRef<
-      (typeof import('./hooks/Rule/useProvidersForMonaco'))['useProviderUtils']
-    >
-    readonly useProvidersForMonaco: UnwrapRef<
-      (typeof import('./hooks/Rule/useProvidersForMonaco'))['default']
-    >
-    readonly useRateChart: UnwrapRef<(typeof import('./hooks/useMetrics'))['useRateChart']>
-    readonly useReceiveParams: UnwrapRef<
-      (typeof import('./hooks/usePaginationRemember'))['useReceiveParams']
-    >
-    readonly useRedisCommandCheck: UnwrapRef<
-      (typeof import('./hooks/Rule/useDataHandler'))['useRedisCommandCheck']
-    >
-    readonly useRenderPluginForm: UnwrapRef<
-      (typeof import('./hooks/Plugins/useRenderPluginForm'))['default']
-    >
-    readonly useRepCodeNodeSize: UnwrapRef<
-      (typeof import('./hooks/Overview/useNodesGraph'))['useRepCodeNodeSize']
-    >
-    readonly useResourceOpt: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useResourceOpt'))['default']
-    >
-    readonly useRole: UnwrapRef<(typeof import('./hooks/SSO/useRole'))['default']>
-    readonly useRoute: UnwrapRef<(typeof import('vue-router'))['useRoute']>
-    readonly useRouter: UnwrapRef<(typeof import('vue-router'))['useRouter']>
-    readonly useRuleEvents: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleEvents'))['default']>
-    readonly useRuleForm: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleForm'))['default']>
-    readonly useRuleFunc: UnwrapRef<(typeof import('./hooks/useRuleFunc'))['default']>
-    readonly useRuleInputs: UnwrapRef<(typeof import('./hooks/Rule/rule/useRule'))['useRuleInputs']>
-    readonly useRuleMetrics: UnwrapRef<(typeof import('./hooks/useMetrics'))['useRuleMetrics']>
-    readonly useRuleOutputs: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useRule'))['useRuleOutputs']
-    >
-    readonly useRuleSourceEvents: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useRuleSourceEvents'))['default']
-    >
-    readonly useRuleStatus: UnwrapRef<(typeof import('./hooks/Rule/rule/useRuleStatus'))['default']>
-    readonly useRuleUtils: UnwrapRef<(typeof import('./hooks/Rule/rule/useRule'))['useRuleUtils']>
-    readonly useSQLAvailablePlaceholder: UnwrapRef<
-      (typeof import('./hooks/Rule/useSQLAvailablePlaceholder'))['default']
-    >
-    readonly useSSL: UnwrapRef<(typeof import('./hooks/useSSL'))['default']>
-    readonly useSSO: UnwrapRef<(typeof import('./hooks/SSO/useSSO'))['default']>
-    readonly useSSOBackendsLabel: UnwrapRef<
-      (typeof import('./hooks/SSO/useSSO'))['useSSOBackendsLabel']
-    >
-    readonly useSSODetail: UnwrapRef<(typeof import('./hooks/SSO/useSSODetail'))['default']>
-    readonly useSchemaBridgePropsLayout: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['default']
-    >
-    readonly useSchemaConnectorPropsLayout: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['default']
-    >
-    readonly useSchemaForm: UnwrapRef<(typeof import('./hooks/Schema/useSchemaForm'))['default']>
-    readonly useSchemaFormRules: UnwrapRef<
-      (typeof import('./hooks/Schema/useSchemaFormRules'))['default']
-    >
-    readonly useSchemaRecord: UnwrapRef<
-      (typeof import('./hooks/Schema/useSchemaRecord'))['default']
-    >
-    readonly useSchemaType: UnwrapRef<
-      (typeof import('./hooks/Rule/schema/useSchemaType'))['default']
-    >
-    readonly useSchemaValidationMetrics: UnwrapRef<
-      (typeof import('./hooks/useMetrics'))['useSchemaValidationMetrics']
-    >
-    readonly useShowLog: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useFormatDebugLog'))['useShowLog']
-    >
-    readonly useShowTextByDifferent: UnwrapRef<
-      (typeof import('./hooks/useShowTextByDifferent'))['default']
-    >
-    readonly useSlots: UnwrapRef<(typeof import('vue'))['useSlots']>
-    readonly useSortableFilterList: UnwrapRef<
-      (typeof import('./hooks/Flow/useSortableFilterList'))['default']
-    >
-    readonly useSortableTable: UnwrapRef<(typeof import('./hooks/useSortableTable'))['default']>
-    readonly useSourceList: UnwrapRef<
-      (typeof import('./hooks/Rule/action/useSourceList'))['default']
-    >
-    readonly useSourceSchema: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useSourceSchema']
-    >
-    readonly useSpecialRuleForPassword: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword'))['default']
-    >
-    readonly useStatusController: UnwrapRef<
-      (typeof import('./hooks/Rule/rule/useDebugRule'))['useStatusController']
-    >
-    readonly useStore: UnwrapRef<(typeof import('vuex'))['useStore']>
-    readonly useSubmitFlowData: UnwrapRef<
-      (typeof import('./hooks/Flow/useSubmitFlowData'))['default']
-    >
-    readonly useSymbolLabel: UnwrapRef<
-      (typeof import('./hooks/Schema/useItemLabelAndDesc'))['useSymbolLabel']
-    >
-    readonly useSyncConfiguration: UnwrapRef<
-      (typeof import('./hooks/Rule/bridge/useSyncConfiguration'))['default']
-    >
-    readonly useSyncPolling: UnwrapRef<(typeof import('./hooks/useSyncPolling'))['default']>
-    readonly useTemplateRef: UnwrapRef<(typeof import('vue'))['useTemplateRef']>
-    readonly useTestConnector: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useTestConnector'))['default']
-    >
-    readonly useToggleAuthStatus: UnwrapRef<
-      (typeof import('./hooks/Auth/useToggleAuthStatus'))['default']
-    >
-    readonly useTransName: UnwrapRef<(typeof import('./hooks/useTransName'))['default']>
-    readonly useTwoWayBindingManually: UnwrapRef<
-      (typeof import('./hooks/useTwoWayBindingManually'))['default']
-    >
-    readonly useUpdateBaseInfo: UnwrapRef<(typeof import('./hooks/useUpdateBaseInfo'))['default']>
-    readonly useValidationItemType: UnwrapRef<
-      (typeof import('./hooks/Rule/validation/useValidation'))['useValidationItemType']
-    >
-    readonly useValidationLogLevel: UnwrapRef<
-      (typeof import('./hooks/Rule/validation/useValidation'))['useValidationLogLevel']
-    >
-    readonly useValidationStrategy: UnwrapRef<
-      (typeof import('./hooks/Rule/validation/useValidation'))['useValidationStrategy']
-    >
-    readonly useWebhookForm: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookForm'))['default']>
-    readonly useWebhookItem: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookItem'))['default']>
-    readonly useWebhookList: UnwrapRef<(typeof import('./hooks/Webhook/useWebhookList'))['default']>
-    readonly useWebhookUtils: UnwrapRef<
-      (typeof import('./hooks/Webhook/useWebhookUtils'))['default']
-    >
-    readonly usefulMemoryUnit: UnwrapRef<(typeof import('./common/tools'))['usefulMemoryUnit']>
-    readonly waitAMoment: UnwrapRef<(typeof import('./common/tools'))['waitAMoment']>
-    readonly watch: UnwrapRef<(typeof import('vue'))['watch']>
-    readonly watchEffect: UnwrapRef<(typeof import('vue'))['watchEffect']>
-    readonly watchPostEffect: UnwrapRef<(typeof import('vue'))['watchPostEffect']>
-    readonly watchSyncEffect: UnwrapRef<(typeof import('vue'))['watchSyncEffect']>
+    readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']>
+    readonly ADMIN_USERNAMES: UnwrapRef<typeof import('./common/constants')['ADMIN_USERNAMES']>
+    readonly API_BASE_URL: UnwrapRef<typeof import('./common/constants')['API_BASE_URL']>
+    readonly AUTHZ_COMMON_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']>
+    readonly AUTHZ_HTTP_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']>
+    readonly AUTHZ_MONGODB_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_MONGODB_PLACEHOLDERS']>
+    readonly AUTH_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDERS']>
+    readonly AUTH_PLACEHOLDER_CLIENT_ATTRS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']>
+    readonly AUTO_RESTART_INTERVAL_DEFAULT: UnwrapRef<typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']>
+    readonly ArgumentType: UnwrapRef<typeof import('./hooks/useRuleFunc')['ArgumentType']>
+    readonly AvailableKey: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['AvailableKey']>
+    readonly AvroJsonToObject: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']>
+    readonly BACKGROUND_CIRCLE_INNER_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']>
+    readonly BACKGROUND_CIRCLE_OUTER_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_OUTER_RADIUS']>
+    readonly BACKGROUND_CIRCLE_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_RADIUS']>
+    readonly BANNED_NEVER_EXPIRE_VALUE: UnwrapRef<typeof import('./common/constants')['BANNED_NEVER_EXPIRE_VALUE']>
+    readonly BATCH_UPLOAD_CSV_MAX_ROWS: UnwrapRef<typeof import('./common/constants')['BATCH_UPLOAD_CSV_MAX_ROWS']>
+    readonly BRIDGE_TYPES_NOT_USE_SCHEMA: UnwrapRef<typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']>
+    readonly CER_FILE_ACCEPTS: UnwrapRef<typeof import('./common/constants')['CER_FILE_ACCEPTS']>
+    readonly COMMON_ID_REG: UnwrapRef<typeof import('./common/constants')['COMMON_ID_REG']>
+    readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']>
+    readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
+    readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
+    readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']>
+    readonly DEFAULT_FROM: UnwrapRef<typeof import('./common/constants')['DEFAULT_FROM']>
+    readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']>
+    readonly DEFAULT_PWD: UnwrapRef<typeof import('./common/constants')['DEFAULT_PWD']>
+    readonly DEFAULT_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['DEFAULT_SALT_POSITION']>
+    readonly DEFAULT_SELECT: UnwrapRef<typeof import('./common/constants')['DEFAULT_SELECT']>
+    readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']>
+    readonly DEFAULT_ZONE: UnwrapRef<typeof import('./common/constants')['DEFAULT_ZONE']>
+    readonly DOT_RADIUS: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']>
+    readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
+    readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
+    readonly EditedWay: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['EditedWay']>
+    readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus')['ElMessageBox']>
+    readonly ElNotification: UnwrapRef<typeof import('element-plus')['ElNotification']>
+    readonly FieldValueType: UnwrapRef<typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']>
+    readonly FlowNodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']>
+    readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']>
+    readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']>
+    readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']>
+    readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
+    readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
+    readonly INPUT_HEIGHT: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']>
+    readonly INPUT_MARGIN_BOTTOM: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_MARGIN_BOTTOM']>
+    readonly INTEGRATION_SCHEMA_TYPES: UnwrapRef<typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']>
+    readonly INVALID_PUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']>
+    readonly IP_REG: UnwrapRef<typeof import('./common/constants')['IP_REG']>
+    readonly IS_ENTERPRISE: UnwrapRef<typeof import('./common/constants')['IS_ENTERPRISE']>
+    readonly IoTDBDriver: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDriver']>
+    readonly IoTDBDrivers: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']>
+    readonly IoTDBKeyField: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']>
+    readonly KeysInRule: UnwrapRef<typeof import('./hooks/Rule/KeysInRule')['default']>
+    readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
+    readonly LogTargetType: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']>
+    readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']>
+    readonly MESSAGE_TYPE_NONE: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']>
+    readonly MQTT_V3_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V3_RES_CODES']>
+    readonly MQTT_V5_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V5_RES_CODES']>
+    readonly MQTT_VERSION_LIST: UnwrapRef<typeof import('./common/constants')['MQTT_VERSION_LIST']>
+    readonly MQTTingressRemoteQoS: UnwrapRef<typeof import('./common/constants')['MQTTingressRemoteQoS']>
+    readonly MULTI_LEVEL_WILDCARD: UnwrapRef<typeof import('./common/constants')['MULTI_LEVEL_WILDCARD']>
+    readonly MetricKey: UnwrapRef<typeof import('./hooks/useDroppedDetail')['MetricKey']>
+    readonly MetricType: UnwrapRef<typeof import('./hooks/useMetrics')['MetricType']>
+    readonly MsgKey: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['MsgKey']>
+    readonly NO_CHINESE_REG: UnwrapRef<typeof import('./hooks/useFormRules')['NO_CHINESE_REG']>
+    readonly NUM_REG: UnwrapRef<typeof import('./common/constants')['NUM_REG']>
+    readonly NodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['NodeType']>
+    readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']>
+    readonly PASSWORD_REG: UnwrapRef<typeof import('./common/constants')['PASSWORD_REG']>
+    readonly ProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['ProcessingType']>
+    readonly QoSOptions: UnwrapRef<typeof import('./common/constants')['QoSOptions']>
+    readonly REQUEST_TIMEOUT_CODE: UnwrapRef<typeof import('./common/constants')['REQUEST_TIMEOUT_CODE']>
+    readonly RULE_FROM_SEPARATOR: UnwrapRef<typeof import('./common/constants')['RULE_FROM_SEPARATOR']>
+    readonly RULE_INPUT_BRIDGE_TYPE_PREFIX: UnwrapRef<typeof import('./common/constants')['RULE_INPUT_BRIDGE_TYPE_PREFIX']>
+    readonly RULE_INPUT_EVENT_PREFIX: UnwrapRef<typeof import('./common/constants')['RULE_INPUT_EVENT_PREFIX']>
+    readonly RULE_LOGICAL_OPERATORS: UnwrapRef<typeof import('./common/constants')['RULE_LOGICAL_OPERATORS']>
+    readonly RULE_MAX_NUM_PER_PAGE: UnwrapRef<typeof import('./common/constants')['RULE_MAX_NUM_PER_PAGE']>
+    readonly RuleSourceType: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['RuleSourceType']>
+    readonly SEARCH_FORM_RES_PROPS: UnwrapRef<typeof import('./common/constants')['SEARCH_FORM_RES_PROPS']>
+    readonly SESSION_FIELDS: UnwrapRef<typeof import('./common/constants')['SESSION_FIELDS']>
+    readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']>
+    readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']>
+    readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']>
+    readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']>
+    readonly SinkType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SinkType']>
+    readonly SourceServerType: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['SourceServerType']>
+    readonly SourceType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SourceType']>
+    readonly SourceTypeAllMsgsAndEvents: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SourceTypeAllMsgsAndEvents']>
+    readonly TARGET_EXPRESSION: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['TARGET_EXPRESSION']>
+    readonly TOPIC_EVENT: UnwrapRef<typeof import('./common/constants')['TOPIC_EVENT']>
+    readonly TYPE_COLOR_MAP: UnwrapRef<typeof import('./hooks/useMetrics')['TYPE_COLOR_MAP']>
+    readonly URLReg: UnwrapRef<typeof import('./common/tools')['URLReg']>
+    readonly USER_INFO_KEY: UnwrapRef<typeof import('./hooks/useGetInfoFromQuery')['USER_INFO_KEY']>
+    readonly WEBHOOK_SUFFIX: UnwrapRef<typeof import('./common/constants')['WEBHOOK_SUFFIX']>
+    readonly WEB_SOCKET_STATUS: UnwrapRef<typeof import('./common/constants')['WEB_SOCKET_STATUS']>
+    readonly _: UnwrapRef<typeof import('lodash')['default']>
+    readonly accAdd: UnwrapRef<typeof import('./common/tools')['accAdd']>
+    readonly actionResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['actionResourceOptFields']>
+    readonly addNewlineAfterComma: UnwrapRef<typeof import('./common/tools')['addNewlineAfterComma']>
+    readonly arraysAreEqual: UnwrapRef<typeof import('./common/tools')['arraysAreEqual']>
+    readonly assign: UnwrapRef<typeof import('lodash')['assign']>
+    readonly avroUtils: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['default']>
+    readonly axios: UnwrapRef<typeof import('axios')['default']>
+    readonly bridgeOrderIndex: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['bridgeOrderIndex']>
+    readonly calcPercentage: UnwrapRef<typeof import('./common/tools')['calcPercentage']>
+    readonly camelCase: UnwrapRef<typeof import('lodash')['camelCase']>
+    readonly caseInsensitiveCompare: UnwrapRef<typeof import('./common/tools')['caseInsensitiveCompare']>
+    readonly checkInRange: UnwrapRef<typeof import('./common/tools')['checkInRange']>
+    readonly checkIsValidArr: UnwrapRef<typeof import('./common/tools')['checkIsValidArr']>
+    readonly checkNOmitFromObj: UnwrapRef<typeof import('./common/tools')['checkNOmitFromObj']>
+    readonly checkNSetToNullFromObj: UnwrapRef<typeof import('./common/tools')['checkNSetToNullFromObj']>
+    readonly checkStringWithUnit: UnwrapRef<typeof import('./common/tools')['checkStringWithUnit']>
+    readonly chunk: UnwrapRef<typeof import('lodash')['chunk']>
+    readonly chunkStr: UnwrapRef<typeof import('./common/tools')['chunkStr']>
+    readonly cloneDeep: UnwrapRef<typeof import('lodash')['cloneDeep']>
+    readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly connectorResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']>
+    readonly consumerReg: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']>
+    readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
+    readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createConsoleForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']>
+    readonly createEventForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createEventForm']>
+    readonly createFilterForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterForm']>
+    readonly createFilterFormData: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']>
+    readonly createFilterItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterItem']>
+    readonly createFunctionForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFunctionForm']>
+    readonly createFunctionItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']>
+    readonly createMessageForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createMessageForm']>
+    readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
+    readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
+    readonly createRePubForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createRePubForm']>
+    readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>
+    readonly createStore: UnwrapRef<typeof import('vuex')['createStore']>
+    readonly createWebHashHistory: UnwrapRef<typeof import('vue-router')['createWebHashHistory']>
+    readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
+    readonly customValidate: UnwrapRef<typeof import('./common/tools')['customValidate']>
+    readonly dateFormat: UnwrapRef<typeof import('./common/tools')['dateFormat']>
+    readonly debounce: UnwrapRef<typeof import('lodash')['debounce']>
+    readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
+    readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly downloadBlobData: UnwrapRef<typeof import('./common/tools')['downloadBlobData']>
+    readonly downloadByURL: UnwrapRef<typeof import('./common/tools')['downloadByURL']>
+    readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly emptyObject: UnwrapRef<typeof import('./common/tools')['emptyObject']>
+    readonly escape: UnwrapRef<typeof import('lodash')['escape']>
+    readonly escapeCode: UnwrapRef<typeof import('./common/tools')['escapeCode']>
+    readonly escapeRegExp: UnwrapRef<typeof import('lodash')['escapeRegExp']>
+    readonly fillEmptyValueToUndefinedField: UnwrapRef<typeof import('./common/tools')['fillEmptyValueToUndefinedField']>
+    readonly findExtensionByName: UnwrapRef<typeof import('./common/tools')['findExtensionByName']>
+    readonly formatNumber: UnwrapRef<typeof import('./common/tools')['formatNumber']>
+    readonly formatSQL: UnwrapRef<typeof import('./common/tools')['formatSQL']>
+    readonly get: UnwrapRef<typeof import('lodash')['get']>
+    readonly getAPIPath: UnwrapRef<typeof import('./common/tools')['getAPIPath']>
+    readonly getAllListData: UnwrapRef<typeof import('./common/tools')['getAllListData']>
+    readonly getBridgeKey: UnwrapRef<typeof import('./common/tools')['getBridgeKey']>
+    readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
+    readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getEmptyValueByDefaultValue: UnwrapRef<typeof import('./common/tools')['getEmptyValueByDefaultValue']>
+    readonly getImg: UnwrapRef<typeof import('./common/tools')['getImg']>
+    readonly getKeyPartsFromSQL: UnwrapRef<typeof import('./common/tools')['getKeyPartsFromSQL']>
+    readonly getKeywordsFromSQL: UnwrapRef<typeof import('./common/tools')['getKeywordsFromSQL']>
+    readonly getLabelFromValueInOptionList: UnwrapRef<typeof import('./common/tools')['getLabelFromValueInOptionList']>
+    readonly getPasswordHashAlgorithmObj: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['getPasswordHashAlgorithmObj']>
+    readonly getProgressColor: UnwrapRef<typeof import('./common/tools')['getProgressColor']>
+    readonly getRuleSelectionAlias: UnwrapRef<typeof import('./common/tools')['getRuleSelectionAlias']>
+    readonly getTypeAndNameFromKey: UnwrapRef<typeof import('./common/tools')['getTypeAndNameFromKey']>
+    readonly getUnitInStr: UnwrapRef<typeof import('./common/tools')['getUnitInStr']>
+    readonly getUsefulPasswordHashAlgorithmData: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['getUsefulPasswordHashAlgorithmData']>
+    readonly getValueFromQuery: UnwrapRef<typeof import('./common/tools')['getValueFromQuery']>
+    readonly groupBy: UnwrapRef<typeof import('lodash')['groupBy']>
+    readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly handleTransformData: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']>
+    readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly isArray: UnwrapRef<typeof import('lodash')['isArray']>
+    readonly isEqual: UnwrapRef<typeof import('lodash')['isEqual']>
+    readonly isForeachReg: UnwrapRef<typeof import('./common/tools')['isForeachReg']>
+    readonly isFunction: UnwrapRef<typeof import('lodash')['isFunction']>
+    readonly isNumber: UnwrapRef<typeof import('lodash')['isNumber']>
+    readonly isObject: UnwrapRef<typeof import('lodash')['isObject']>
+    readonly isPlainObject: UnwrapRef<typeof import('lodash')['isPlainObject']>
+    readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
+    readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
+    readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
+    readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly isRegExp: UnwrapRef<typeof import('lodash')['isRegExp']>
+    readonly isString: UnwrapRef<typeof import('lodash')['isString']>
+    readonly isUndefined: UnwrapRef<typeof import('lodash')['isUndefined']>
+    readonly judgeRuleSelectionWithFunc: UnwrapRef<typeof import('./common/tools')['judgeRuleSelectionWithFunc']>
+    readonly jumpToErrorFormItem: UnwrapRef<typeof import('./common/tools')['jumpToErrorFormItem']>
+    readonly lowerCase: UnwrapRef<typeof import('lodash')['lowerCase']>
+    readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly merge: UnwrapRef<typeof import('lodash')['merge']>
+    readonly mergeWith: UnwrapRef<typeof import('lodash')['mergeWith']>
+    readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
+    readonly numToFixed: UnwrapRef<typeof import('./common/tools')['numToFixed']>
+    readonly numberArgTypes: UnwrapRef<typeof import('./hooks/useRuleFunc')['numberArgTypes']>
+    readonly objectToAvroJson: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']>
+    readonly omit: UnwrapRef<typeof import('lodash')['omit']>
+    readonly omitArr: UnwrapRef<typeof import('./common/tools')['omitArr']>
+    readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
+    readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
+    readonly onBeforeRouteLeave: UnwrapRef<typeof import('vue-router')['onBeforeRouteLeave']>
+    readonly onBeforeRouteUpdate: UnwrapRef<typeof import('vue-router')['onBeforeRouteUpdate']>
+    readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
+    readonly onBeforeUpdate: UnwrapRef<typeof import('vue')['onBeforeUpdate']>
+    readonly onDeactivated: UnwrapRef<typeof import('vue')['onDeactivated']>
+    readonly onErrorCaptured: UnwrapRef<typeof import('vue')['onErrorCaptured']>
+    readonly onMounted: UnwrapRef<typeof import('vue')['onMounted']>
+    readonly onRenderTracked: UnwrapRef<typeof import('vue')['onRenderTracked']>
+    readonly onRenderTriggered: UnwrapRef<typeof import('vue')['onRenderTriggered']>
+    readonly onScopeDispose: UnwrapRef<typeof import('vue')['onScopeDispose']>
+    readonly onServerPrefetch: UnwrapRef<typeof import('vue')['onServerPrefetch']>
+    readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
+    readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly orderBy: UnwrapRef<typeof import('lodash')['orderBy']>
+    readonly pick: UnwrapRef<typeof import('lodash')['pick']>
+    readonly provide: UnwrapRef<typeof import('vue')['provide']>
+    readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
+    readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
+    readonly ref: UnwrapRef<typeof import('vue')['ref']>
+    readonly removeFromArr: UnwrapRef<typeof import('./common/tools')['removeFromArr']>
+    readonly replaceSpaceForHTML: UnwrapRef<typeof import('./common/tools')['replaceSpaceForHTML']>
+    readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
+    readonly round: UnwrapRef<typeof import('lodash')['round']>
+    readonly ruleSelectionAliasPartReg: UnwrapRef<typeof import('./common/tools')['ruleSelectionAliasPartReg']>
+    readonly scrollToTop: UnwrapRef<typeof import('./common/tools')['scrollToTop']>
+    readonly set: UnwrapRef<typeof import('lodash')['set']>
+    readonly setPwdFormat: UnwrapRef<typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['setPwdFormat']>
+    readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
+    readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
+    readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly snakeCase: UnwrapRef<typeof import('lodash')['snakeCase']>
+    readonly sortStringArr: UnwrapRef<typeof import('./common/tools')['sortStringArr']>
+    readonly sortedUniq: UnwrapRef<typeof import('./common/tools')['sortedUniq']>
+    readonly splitOnComma: UnwrapRef<typeof import('./common/tools')['splitOnComma']>
+    readonly splitOnSymbol: UnwrapRef<typeof import('./common/tools')['splitOnSymbol']>
+    readonly startCase: UnwrapRef<typeof import('lodash')['startCase']>
+    readonly stringifyObjSafely: UnwrapRef<typeof import('./common/tools')['stringifyObjSafely']>
+    readonly throttle: UnwrapRef<typeof import('lodash')['throttle']>
+    readonly titleCase: UnwrapRef<typeof import('./common/tools')['titleCase']>
+    readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
+    readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
+    readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
+    readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
+    readonly transLink: UnwrapRef<typeof import('./common/tools')['transLink']>
+    readonly transMSNumToString: UnwrapRef<typeof import('./common/tools')['transMSNumToString']>
+    readonly transMemorySizeNumToStr: UnwrapRef<typeof import('./common/tools')['transMemorySizeNumToStr']>
+    readonly transMemorySizeStrToNum: UnwrapRef<typeof import('./common/tools')['transMemorySizeStrToNum']>
+    readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>
+    readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
+    readonly trimSpacesAndLFs: UnwrapRef<typeof import('./common/tools')['trimSpacesAndLFs']>
+    readonly trimValues: UnwrapRef<typeof import('./common/tools')['trimValues']>
+    readonly tryToCompleteURL: UnwrapRef<typeof import('./common/tools')['tryToCompleteURL']>
+    readonly typesWithProducerAndConsumer: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']>
+    readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
+    readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
+    readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>
+    readonly useActionDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']>
+    readonly useActionList: UnwrapRef<typeof import('./hooks/Rule/action/useActionList')['default']>
+    readonly useActionQueueMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useActionQueueMetrics']>
+    readonly useActionSchema: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useActionSchema']>
+    readonly useAdaptiveEditor: UnwrapRef<typeof import('./hooks/useAdaptiveEditor')['default']>
+    readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useAuth: UnwrapRef<typeof import('./hooks/Auth/useAuth')['default']>
+    readonly useAuthHelp: UnwrapRef<typeof import('./hooks/Auth/useAuthHelp')['default']>
+    readonly useAuthMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useAuthMetrics']>
+    readonly useAuthn: UnwrapRef<typeof import('./hooks/Auth/useAuthn')['default']>
+    readonly useAuthnCreate: UnwrapRef<typeof import('./hooks/Auth/useAuthnCreate')['default']>
+    readonly useAuthnMechanismType: UnwrapRef<typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']>
+    readonly useAuthz: UnwrapRef<typeof import('./hooks/Auth/useAuthz')['default']>
+    readonly useAuthzCreate: UnwrapRef<typeof import('./hooks/Auth/useAuthzCreate')['default']>
+    readonly useAvailableProviders: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']>
+    readonly useBackgroundCircle: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']>
+    readonly useBannedType: UnwrapRef<typeof import('./hooks/Auth/useBannedType')['default']>
+    readonly useBridgeDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useBridgeDataHandler']>
+    readonly useBridgeFormCreator: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeFormCreator')['default']>
+    readonly useBridgeMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useBridgeMetrics']>
+    readonly useBridgeTypeIcon: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeIcon']>
+    readonly useBridgeTypeOptions: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeOptions']>
+    readonly useBridgeTypeValue: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['default']>
+    readonly useBuiltInDataUpdateTip: UnwrapRef<typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']>
+    readonly useCInfoConfigForm: UnwrapRef<typeof import('./hooks/Auth/useCInfoConfigForm')['default']>
+    readonly useCSSVariables: UnwrapRef<typeof import('./hooks/useCSSVariables')['default']>
+    readonly useChartDataUtils: UnwrapRef<typeof import('./hooks/useMetrics')['useChartDataUtils']>
+    readonly useCheckBeforeSaveAsCopy: UnwrapRef<typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy')['default']>
+    readonly useCheckDataChanged: UnwrapRef<typeof import('./hooks/useDataNotSaveConfirm')['useCheckDataChanged']>
+    readonly useCheckIoTDBConnectorDriver: UnwrapRef<typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver')['default']>
+    readonly useClientDetail: UnwrapRef<typeof import('./hooks/Clients/useClientDetail')['default']>
+    readonly useClientFields: UnwrapRef<typeof import('./hooks/Clients/useClientFields')['default']>
+    readonly useClusterLinking: UnwrapRef<typeof import('./hooks/Config/useClusterLinking')['default']>
+    readonly useClusterLinkingMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']>
+    readonly useClusterNodes: UnwrapRef<typeof import('./hooks/useClusterNodes')['default']>
+    readonly useCommonConnectionStatus: UnwrapRef<typeof import('./hooks/useCommonConnectionStatus')['default']>
+    readonly useConfFooterStyle: UnwrapRef<typeof import('./hooks/useConfFooterStyle')['default']>
+    readonly useConnectorComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['default']>
+    readonly useConnectorDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useConnectorDataHandler']>
+    readonly useConnectorDirection: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorDirection']>
+    readonly useConnectorList: UnwrapRef<typeof import('./hooks/Rule/connector/useConnectorList')['default']>
+    readonly useConnectorSchema: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorSchema']>
+    readonly useConnectorTypeValue: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useConnectorTypeValue']>
+    readonly useConvertSecretToQRCode: UnwrapRef<typeof import('./hooks/useConvertSecretToQRCode')['default']>
+    readonly useCopy: UnwrapRef<typeof import('./hooks/useCopy')['default']>
+    readonly useCoreNodeSize: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useCoreNodeSize']>
+    readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
+    readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useCursorPagination: UnwrapRef<typeof import('./hooks/usePagination')['useCursorPagination']>
+    readonly useDashboardVersion: UnwrapRef<typeof import('./hooks/useDashboardVersion')['default']>
+    readonly useDataNotSaveConfirm: UnwrapRef<typeof import('./hooks/useDataNotSaveConfirm')['default']>
+    readonly useDatabaseConfig: UnwrapRef<typeof import('./hooks/Auth/useDatabaseConfig')['default']>
+    readonly useDatabaseConfigForm: UnwrapRef<typeof import('./hooks/Auth/useDatabaseConfigForm')['default']>
+    readonly useDatePickerShortcuts: UnwrapRef<typeof import('./hooks/useDatePickerShortcuts')['default']>
+    readonly useDebugRule: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['default']>
+    readonly useDeleteBridge: UnwrapRef<typeof import('./hooks/Rule/bridge/useDeleteBridge')['default']>
+    readonly useDeleteSource: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']>
+    readonly useDeliveryDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']>
+    readonly useDetectIsComInSinglePage: UnwrapRef<typeof import('./hooks/useDetectIsComInSinglePage')['default']>
+    readonly useDocLink: UnwrapRef<typeof import('./hooks/useDocLink')['default']>
+    readonly useDroppedCharts: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDroppedCharts']>
+    readonly useDurationStr: UnwrapRef<typeof import('./hooks/useDurationStr')['default']>
+    readonly useEchartResize: UnwrapRef<typeof import('./hooks/useEchartResize')['default']>
+    readonly useEditFlow: UnwrapRef<typeof import('./hooks/Flow/useEditFlow')['default']>
+    readonly useEditionConfigs: UnwrapRef<typeof import('./hooks/useEditionConfigs')['default']>
+    readonly useExHooksMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useExHooksMetrics']>
+    readonly useExhookItemStatus: UnwrapRef<typeof import('./hooks/Exhook/useExhookItemStatus')['default']>
+    readonly useExternalSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']>
+    readonly useFailureAction: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useFailureAction']>
+    readonly useFillNewRecord: UnwrapRef<typeof import('./hooks/useFillNewRecord')['default']>
+    readonly useFilterConnectorInForm: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['default']>
+    readonly useFlowEdge: UnwrapRef<typeof import('./hooks/Flow/useFlowEdge')['default']>
+    readonly useFlowEditor: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['default']>
+    readonly useFlowEditorDataHandler: UnwrapRef<typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']>
+    readonly useFlowGuideNodes: UnwrapRef<typeof import('./hooks/Flow/useFlowGuideNodes')['default']>
+    readonly useFlowNode: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['default']>
+    readonly useFlowView: UnwrapRef<typeof import('./hooks/Flow/useFlowView')['default']>
+    readonly useFormRules: UnwrapRef<typeof import('./hooks/useFormRules')['default']>
+    readonly useFormatDebugLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']>
+    readonly useFunctionItemData: UnwrapRef<typeof import('./hooks/useRuleFunc')['useFunctionItemData']>
+    readonly useGenPluginFormRules: UnwrapRef<typeof import('./hooks/Plugins/useGenPluginFormRules')['default']>
+    readonly useGenerateFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']>
+    readonly useGetInfoFromComponents: UnwrapRef<typeof import('./hooks/Rule/bridge/useGetInfoFromComponents')['default']>
+    readonly useGetInfoFromQuery: UnwrapRef<typeof import('./hooks/useGetInfoFromQuery')['default']>
+    readonly useGuide: UnwrapRef<typeof import('./hooks/useGuide')['default']>
+    readonly useHTTPConfigForm: UnwrapRef<typeof import('./hooks/Auth/useHTTPConfigForm')['default']>
+    readonly useHandleActionItem: UnwrapRef<typeof import('./hooks/Rule/action/useHandleActionItem')['default']>
+    readonly useHandleAuthnItem: UnwrapRef<typeof import('./hooks/Auth/useHandleAuthnItem')['default']>
+    readonly useHandleAuthzItem: UnwrapRef<typeof import('./hooks/Auth/useHandleAuthzItem')['default']>
+    readonly useHandleConnectorItem: UnwrapRef<typeof import('./hooks/Rule/connector/useHandleConnectorItem')['default']>
+    readonly useHandleExhookItem: UnwrapRef<typeof import('./hooks/Exhook/useHandleExhookItem')['default']>
+    readonly useHandleFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useHandleFlowDataUtils')['default']>
+    readonly useHandleGatewayData: UnwrapRef<typeof import('./hooks/Gateway/useHandleGatewayData')['default']>
+    readonly useHandleSourceItem: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['default']>
+    readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
+    readonly useI18nPrefix: UnwrapRef<typeof import('./hooks/useI18nPrefix')['default']>
+    readonly useI18nTl: UnwrapRef<typeof import('./hooks/useI18nTl')['default']>
+    readonly useId: UnwrapRef<typeof import('vue')['useId']>
+    readonly useInfluxdbFieldsEditor: UnwrapRef<typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['default']>
+    readonly useInfluxdbLineProtocol: UnwrapRef<typeof import('./hooks/Rule/bridge/useInfluxdbLineProtocol')['default']>
+    readonly useIoTDBSecondRefControl: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['useIoTDBSecondRefControl']>
+    readonly useItemLabelAndDesc: UnwrapRef<typeof import('./hooks/Schema/useItemLabelAndDesc')['default']>
+    readonly useJWTConfigForm: UnwrapRef<typeof import('./hooks/Auth/useJWTConfigForm')['default']>
+    readonly useKerberosConfigForm: UnwrapRef<typeof import('./hooks/Auth/useKerberosConfigForm')['default']>
+    readonly useLdapConfigForm: UnwrapRef<typeof import('./hooks/Auth/useLdapConfigForm')['default']>
+    readonly useLimiter: UnwrapRef<typeof import('./hooks/Config/useLimiter')['default']>
+    readonly useListenerDrawer: UnwrapRef<typeof import('./hooks/Config/useListenerDrawer')['default']>
+    readonly useListenerUtils: UnwrapRef<typeof import('./hooks/Config/useListenerUtils')['default']>
+    readonly useMFAMethods: UnwrapRef<typeof import('./hooks/useMFA')['useMFAMethods']>
+    readonly useMQTTVersion5NewConfig: UnwrapRef<typeof import('./hooks/useMQTTVersion5NewConfig')['default']>
+    readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
+    readonly useMessageDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']>
+    readonly useMessageTransformForm: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']>
+    readonly useMessageTransformLogLevel: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']>
+    readonly useMessageTransformMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useMessageTransformMetrics']>
+    readonly useMockData: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']>
+    readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
+    readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
+    readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
+    readonly useNodesGraph: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['default']>
+    readonly useOperationConfirm: UnwrapRef<typeof import('./hooks/useOperationConfirm')['default']>
+    readonly usePagination: UnwrapRef<typeof import('./hooks/usePagination')['default']>
+    readonly usePaginationRemember: UnwrapRef<typeof import('./hooks/usePaginationRemember')['default']>
+    readonly usePaginationWithHasNext: UnwrapRef<typeof import('./hooks/usePaginationWithHasNext')['default']>
+    readonly usePaging: UnwrapRef<typeof import('./hooks/usePaging')['default']>
+    readonly useParseWhere: UnwrapRef<typeof import('./hooks/Flow/useParseWhere')['default']>
+    readonly usePassword: UnwrapRef<typeof import('./hooks/usePassword')['default']>
+    readonly usePasswordHashRules: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']>
+    readonly usePieChart: UnwrapRef<typeof import('./hooks/useMetrics')['usePieChart']>
+    readonly usePluginItem: UnwrapRef<typeof import('./hooks/Plugins/usePluginItem')['default']>
+    readonly usePluginStatus: UnwrapRef<typeof import('./hooks/Plugins/usePluginStatus')['default']>
+    readonly useProcessAuthData: UnwrapRef<typeof import('./hooks/Auth/useProcessAuthData')['default']>
+    readonly useProviderUtils: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['useProviderUtils']>
+    readonly useProvidersForMonaco: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['default']>
+    readonly useRateChart: UnwrapRef<typeof import('./hooks/useMetrics')['useRateChart']>
+    readonly useReceiveParams: UnwrapRef<typeof import('./hooks/usePaginationRemember')['useReceiveParams']>
+    readonly useRedisCommandCheck: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']>
+    readonly useRenderPluginForm: UnwrapRef<typeof import('./hooks/Plugins/useRenderPluginForm')['default']>
+    readonly useRepCodeNodeSize: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useRepCodeNodeSize']>
+    readonly useResourceOpt: UnwrapRef<typeof import('./hooks/Rule/bridge/useResourceOpt')['default']>
+    readonly useRole: UnwrapRef<typeof import('./hooks/SSO/useRole')['default']>
+    readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
+    readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
+    readonly useRuleEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleEvents')['default']>
+    readonly useRuleForm: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleForm')['default']>
+    readonly useRuleFunc: UnwrapRef<typeof import('./hooks/useRuleFunc')['default']>
+    readonly useRuleInputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']>
+    readonly useRuleMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useRuleMetrics']>
+    readonly useRuleOutputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']>
+    readonly useRuleSourceEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleSourceEvents')['default']>
+    readonly useRuleStatus: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleStatus')['default']>
+    readonly useRuleUtils: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleUtils']>
+    readonly useSQLAvailablePlaceholder: UnwrapRef<typeof import('./hooks/Rule/useSQLAvailablePlaceholder')['default']>
+    readonly useSSL: UnwrapRef<typeof import('./hooks/useSSL')['default']>
+    readonly useSSO: UnwrapRef<typeof import('./hooks/SSO/useSSO')['default']>
+    readonly useSSOBackendsLabel: UnwrapRef<typeof import('./hooks/SSO/useSSO')['useSSOBackendsLabel']>
+    readonly useSSODetail: UnwrapRef<typeof import('./hooks/SSO/useSSODetail')['default']>
+    readonly useSchemaBridgePropsLayout: UnwrapRef<typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['default']>
+    readonly useSchemaConnectorPropsLayout: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['default']>
+    readonly useSchemaForm: UnwrapRef<typeof import('./hooks/Schema/useSchemaForm')['default']>
+    readonly useSchemaFormRules: UnwrapRef<typeof import('./hooks/Schema/useSchemaFormRules')['default']>
+    readonly useSchemaRecord: UnwrapRef<typeof import('./hooks/Schema/useSchemaRecord')['default']>
+    readonly useSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useSchemaType')['default']>
+    readonly useSchemaValidationMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useSchemaValidationMetrics']>
+    readonly useShowLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']>
+    readonly useShowTextByDifferent: UnwrapRef<typeof import('./hooks/useShowTextByDifferent')['default']>
+    readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useSortableFilterList: UnwrapRef<typeof import('./hooks/Flow/useSortableFilterList')['default']>
+    readonly useSortableTable: UnwrapRef<typeof import('./hooks/useSortableTable')['default']>
+    readonly useSourceList: UnwrapRef<typeof import('./hooks/Rule/action/useSourceList')['default']>
+    readonly useSourceSchema: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useSourceSchema']>
+    readonly useSpecialRuleForPassword: UnwrapRef<typeof import('./hooks/Rule/bridge/useSpecialRuleForPassword')['default']>
+    readonly useStatusController: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['useStatusController']>
+    readonly useStore: UnwrapRef<typeof import('vuex')['useStore']>
+    readonly useSubmitFlowData: UnwrapRef<typeof import('./hooks/Flow/useSubmitFlowData')['default']>
+    readonly useSymbolLabel: UnwrapRef<typeof import('./hooks/Schema/useItemLabelAndDesc')['useSymbolLabel']>
+    readonly useSyncConfiguration: UnwrapRef<typeof import('./hooks/Rule/bridge/useSyncConfiguration')['default']>
+    readonly useSyncPolling: UnwrapRef<typeof import('./hooks/useSyncPolling')['default']>
+    readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
+    readonly useTestConnector: UnwrapRef<typeof import('./hooks/Rule/connector/useTestConnector')['default']>
+    readonly useToggleAuthStatus: UnwrapRef<typeof import('./hooks/Auth/useToggleAuthStatus')['default']>
+    readonly useTransName: UnwrapRef<typeof import('./hooks/useTransName')['default']>
+    readonly useTwoWayBindingManually: UnwrapRef<typeof import('./hooks/useTwoWayBindingManually')['default']>
+    readonly useUpdateBaseInfo: UnwrapRef<typeof import('./hooks/useUpdateBaseInfo')['default']>
+    readonly useValidationItemType: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationItemType']>
+    readonly useValidationLogLevel: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationLogLevel']>
+    readonly useValidationStrategy: UnwrapRef<typeof import('./hooks/Rule/validation/useValidation')['useValidationStrategy']>
+    readonly useWebhookForm: UnwrapRef<typeof import('./hooks/Webhook/useWebhookForm')['default']>
+    readonly useWebhookItem: UnwrapRef<typeof import('./hooks/Webhook/useWebhookItem')['default']>
+    readonly useWebhookList: UnwrapRef<typeof import('./hooks/Webhook/useWebhookList')['default']>
+    readonly useWebhookUtils: UnwrapRef<typeof import('./hooks/Webhook/useWebhookUtils')['default']>
+    readonly usefulMemoryUnit: UnwrapRef<typeof import('./common/tools')['usefulMemoryUnit']>
+    readonly waitAMoment: UnwrapRef<typeof import('./common/tools')['waitAMoment']>
+    readonly watch: UnwrapRef<typeof import('vue')['watch']>
+    readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
+    readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
+    readonly watchSyncEffect: UnwrapRef<typeof import('vue')['watchSyncEffect']>
   }
 }

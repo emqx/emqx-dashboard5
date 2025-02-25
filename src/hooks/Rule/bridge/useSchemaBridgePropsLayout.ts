@@ -2,7 +2,7 @@ import { BridgeType } from '@/types/enum'
 import useCheckIoTDBConnectorDriver from '../connector/useCheckIoTDBConnectorDriver'
 import useSyncConfiguration from './useSyncConfiguration'
 
-export const resourceOptFields = [
+export const actionResourceOptFields = [
   'start_timeout',
   'worker_pool_size',
   'request_ttl',
@@ -53,7 +53,7 @@ export default (
     'connect_timeout',
     'max_retries',
     'parameters.max_retries',
-    ...resourceOptFields,
+    ...actionResourceOptFields,
   ]
 
   const baseFields = ['name', 'connector', 'description']

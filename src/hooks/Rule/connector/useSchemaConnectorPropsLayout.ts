@@ -1,7 +1,7 @@
 import { BridgeType } from '@/types/enum'
 import useSyncConfiguration from '../bridge/useSyncConfiguration'
 
-export const resourceOptFields = [
+export const connectorResourceOptFields = [
   'start_timeout',
   'worker_pool_size',
   'request_ttl',
@@ -46,7 +46,7 @@ export default (
     'pool_size',
     'connect_timeout',
     'max_retries',
-    ...resourceOptFields,
+    ...connectorResourceOptFields,
   ]
 
   const baseFields = ['name', 'description']
