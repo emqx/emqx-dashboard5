@@ -9,9 +9,9 @@ import {
 import useSchemaType from '../schema/useSchemaType'
 
 type FailureActionValue =
-  typeof SchemaValidationFailureAction[keyof typeof SchemaValidationFailureAction]
+  (typeof SchemaValidationFailureAction)[keyof typeof SchemaValidationFailureAction]
 
-export const useFailureAction = (): {
+export const useValidationFailureAction = (): {
   failureActionOpts: { label: string; value: FailureActionValue }[]
   getLabelByValue: (value: FailureActionValue) => string
 } => {
@@ -30,7 +30,7 @@ export const useFailureAction = (): {
 }
 
 type ValidationStrategyValue =
-  typeof SchemaValidationStrategy[keyof typeof SchemaValidationStrategy]
+  (typeof SchemaValidationStrategy)[keyof typeof SchemaValidationStrategy]
 
 export const useValidationStrategy = (): {
   validationStrategyOpts: { label: string; value: ValidationStrategyValue }[]
@@ -50,7 +50,7 @@ export const useValidationStrategy = (): {
 }
 
 type ValidationLogLevelValue =
-  typeof SchemaValidationLogLevel[keyof typeof SchemaValidationLogLevel]
+  (typeof SchemaValidationLogLevel)[keyof typeof SchemaValidationLogLevel]
 
 export const useValidationLogLevel = (): {
   validationLogLevelOpts: { label: string; value: ValidationLogLevelValue }[]

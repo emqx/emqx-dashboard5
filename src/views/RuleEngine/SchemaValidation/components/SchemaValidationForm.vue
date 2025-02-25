@@ -53,7 +53,7 @@
                     <el-option
                       v-for="{ label, value } in validationItemTypeOpts"
                       :key="value"
-                      :value="(value as any)"
+                      :value="value as any"
                       :label="label"
                     />
                   </el-select>
@@ -70,7 +70,9 @@
                       <el-form-item :prop="`checks.${$index}.schema`" :rules="arrayItemRule.schema">
                         <el-select v-model="(formData.checks[$index] as any).schema">
                           <el-option
-                            v-for="{ name } in getSchemaTypeList(formData.checks[$index].type as string)"
+                            v-for="{ name } in getSchemaTypeList(
+                              formData.checks[$index].type as string,
+                            )"
                             :key="name"
                             :value="name"
                             :label="name"
@@ -195,7 +197,7 @@
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
 import {
-  useFailureAction,
+  useValidationFailureAction,
   useValidationItemType,
   useValidationLogLevel,
   useValidationStrategy,
@@ -312,7 +314,7 @@ const topics = computed({
 })
 
 const { validationStrategyOpts } = useValidationStrategy()
-const { failureActionOpts } = useFailureAction()
+const { failureActionOpts } = useValidationFailureAction()
 const { validationLogLevelOpts: rawValidationLogLevelOpts } = useValidationLogLevel()
 const validationLogLevelOpts = rawValidationLogLevelOpts.filter(
   (item) => item.value !== SchemaValidationLogLevel.none,

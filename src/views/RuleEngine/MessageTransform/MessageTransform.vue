@@ -73,7 +73,7 @@ import {
   reorderMessageTransforms,
 } from '@/api/messageTransformation'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import { useFailureAction } from '@/hooks/Rule/validation/useValidation'
+import { useValidationFailureAction } from '@/hooks/Rule/validation/useValidation'
 import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
@@ -134,7 +134,7 @@ const toggleTransformEnable = async (data: MessageTransform) => {
   }
 }
 
-const { getLabelByValue } = useFailureAction()
+const { getLabelByValue } = useValidationFailureAction()
 
 const reorderTransform = async (order: Array<string>) => {
   try {

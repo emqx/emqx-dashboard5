@@ -183,7 +183,7 @@ import EditTopicList from '@/components/EditTopicList.vue'
 import {
   AvailableKey,
   MESSAGE_TYPE_NONE,
-  useFailureAction,
+  useTransformFailureAction,
   useMessageTransformForm,
   useMessageTransformLogLevel,
 } from '@/hooks/Rule/transform/useMessageTransform'
@@ -350,7 +350,7 @@ const topics = computed({
   },
 })
 
-const { failureActionOpts } = useFailureAction()
+const { failureActionOpts } = useTransformFailureAction()
 const { messageTransformLogLevelOpts: rawMessageTransformLogLevelOpts } =
   useMessageTransformLogLevel()
 const messageTransformLogLevelOpts = rawMessageTransformLogLevelOpts.filter(
