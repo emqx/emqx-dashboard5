@@ -102,7 +102,7 @@ const getRefKey = computed(() => {
   return getTypeRefKey(props.type)
 })
 
-const { getComponentsHandler } = useComponentsHandlers(props)
+const { getComponentsHandler } = useConnectorComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const handleComponentChange = ({

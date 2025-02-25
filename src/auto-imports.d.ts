@@ -85,6 +85,7 @@ declare global {
   const WEB_SOCKET_STATUS: (typeof import('./common/constants'))['WEB_SOCKET_STATUS']
   const _: (typeof import('lodash'))['default']
   const accAdd: (typeof import('./common/tools'))['accAdd']
+  const actionResourceOptFields: (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['actionResourceOptFields']
   const addNewlineAfterComma: (typeof import('./common/tools'))['addNewlineAfterComma']
   const arraysAreEqual: (typeof import('./common/tools'))['arraysAreEqual']
   const assign: (typeof import('lodash'))['assign']
@@ -103,6 +104,7 @@ declare global {
   const chunkStr: (typeof import('./common/tools'))['chunkStr']
   const cloneDeep: (typeof import('lodash'))['cloneDeep']
   const computed: (typeof import('vue'))['computed']
+  const connectorResourceOptFields: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['connectorResourceOptFields']
   const consumerReg: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
   const countDuplicationName: (typeof import('./common/tools'))['countDuplicationName']
   const createApp: (typeof import('vue'))['createApp']
@@ -198,12 +200,11 @@ declare global {
   const removeFromArr: (typeof import('./common/tools'))['removeFromArr']
   const replaceSpaceForHTML: (typeof import('./common/tools'))['replaceSpaceForHTML']
   const resolveComponent: (typeof import('vue'))['resolveComponent']
-  const resourceOptFields: (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
   const round: (typeof import('lodash'))['round']
   const ruleSelectionAliasPartReg: (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
   const scrollToTop: (typeof import('./common/tools'))['scrollToTop']
   const set: (typeof import('lodash'))['set']
-  const setPwdFormat: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
+  const setPwdFormat: (typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers'))['setPwdFormat']
   const shallowReactive: (typeof import('vue'))['shallowReactive']
   const shallowReadonly: (typeof import('vue'))['shallowReadonly']
   const shallowRef: (typeof import('vue'))['shallowRef']
@@ -233,6 +234,7 @@ declare global {
   const unexposedConfigs: (typeof import('./common/constants'))['unexposedConfigs']
   const unref: (typeof import('vue'))['unref']
   const useActionAndSourceStatus: (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
+  const useActionComponentsHandlers: (typeof import('./hooks/Rule/bridge/useActionComponentsHandlers'))['default']
   const useActionDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
   const useActionList: (typeof import('./hooks/Rule/action/useActionList'))['default']
   const useActionQueueMetrics: (typeof import('./hooks/useMetrics'))['useActionQueueMetrics']
@@ -265,8 +267,8 @@ declare global {
   const useClientFields: (typeof import('./hooks/Clients/useClientFields'))['default']
   const useClusterNodes: (typeof import('./hooks/useClusterNodes'))['default']
   const useCommonConnectionStatus: (typeof import('./hooks/useCommonConnectionStatus'))['default']
-  const useComponentsHandlers: (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
   const useConfFooterStyle: (typeof import('./hooks/useConfFooterStyle'))['default']
+  const useConnectorComponentsHandlers: (typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers'))['default']
   const useConnectorDataHandler: (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
   const useConnectorDirection: (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['useConnectorDirection']
   const useConnectorList: (typeof import('./hooks/Rule/connector/useConnectorList'))['default']
@@ -311,7 +313,6 @@ declare global {
   const useJWTConfigForm: (typeof import('./hooks/Auth/useJWTConfigForm'))['default']
   const useLdapConfigForm: (typeof import('./hooks/Auth/useLdapConfigForm'))['default']
   const useLimiter: (typeof import('./hooks/Config/useLimiter'))['default']
-  const useLink: (typeof import('vue-router'))['useLink']
   const useListenerDrawer: (typeof import('./hooks/Config/useListenerDrawer'))['default']
   const useListenerUtils: (typeof import('./hooks/Config/useListenerUtils'))['default']
   const useMQTTVersion5NewConfig: (typeof import('./hooks/useMQTTVersion5NewConfig'))['default']
@@ -635,6 +636,9 @@ declare module 'vue' {
     >
     readonly _: UnwrapRef<(typeof import('lodash'))['default']>
     readonly accAdd: UnwrapRef<(typeof import('./common/tools'))['accAdd']>
+    readonly actionResourceOptFields: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout'))['actionResourceOptFields']
+    >
     readonly addNewlineAfterComma: UnwrapRef<
       (typeof import('./common/tools'))['addNewlineAfterComma']
     >
@@ -663,6 +667,9 @@ declare module 'vue' {
     readonly chunkStr: UnwrapRef<(typeof import('./common/tools'))['chunkStr']>
     readonly cloneDeep: UnwrapRef<(typeof import('lodash'))['cloneDeep']>
     readonly computed: UnwrapRef<(typeof import('vue'))['computed']>
+    readonly connectorResourceOptFields: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['connectorResourceOptFields']
+    >
     readonly consumerReg: UnwrapRef<
       (typeof import('./hooks/Rule/bridge/useBridgeTypeValue'))['consumerReg']
     >
@@ -786,9 +793,6 @@ declare module 'vue' {
       (typeof import('./common/tools'))['replaceSpaceForHTML']
     >
     readonly resolveComponent: UnwrapRef<(typeof import('vue'))['resolveComponent']>
-    readonly resourceOptFields: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout'))['resourceOptFields']
-    >
     readonly round: UnwrapRef<(typeof import('lodash'))['round']>
     readonly ruleSelectionAliasPartReg: UnwrapRef<
       (typeof import('./common/tools'))['ruleSelectionAliasPartReg']
@@ -796,7 +800,7 @@ declare module 'vue' {
     readonly scrollToTop: UnwrapRef<(typeof import('./common/tools'))['scrollToTop']>
     readonly set: UnwrapRef<(typeof import('lodash'))['set']>
     readonly setPwdFormat: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['setPwdFormat']
+      (typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers'))['setPwdFormat']
     >
     readonly shallowReactive: UnwrapRef<(typeof import('vue'))['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<(typeof import('vue'))['shallowReadonly']>
@@ -834,6 +838,9 @@ declare module 'vue' {
     readonly unref: UnwrapRef<(typeof import('vue'))['unref']>
     readonly useActionAndSourceStatus: UnwrapRef<
       (typeof import('./hooks/Rule/useActionAndSourceStatus'))['default']
+    >
+    readonly useActionComponentsHandlers: UnwrapRef<
+      (typeof import('./hooks/Rule/bridge/useActionComponentsHandlers'))['default']
     >
     readonly useActionDataHandler: UnwrapRef<
       (typeof import('./hooks/Rule/useDataHandler'))['useActionDataHandler']
@@ -905,10 +912,10 @@ declare module 'vue' {
     readonly useCommonConnectionStatus: UnwrapRef<
       (typeof import('./hooks/useCommonConnectionStatus'))['default']
     >
-    readonly useComponentsHandlers: UnwrapRef<
-      (typeof import('./hooks/Rule/connector/useComponentsHandlers'))['default']
-    >
     readonly useConfFooterStyle: UnwrapRef<(typeof import('./hooks/useConfFooterStyle'))['default']>
+    readonly useConnectorComponentsHandlers: UnwrapRef<
+      (typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers'))['default']
+    >
     readonly useConnectorDataHandler: UnwrapRef<
       (typeof import('./hooks/Rule/useDataHandler'))['useConnectorDataHandler']
     >
