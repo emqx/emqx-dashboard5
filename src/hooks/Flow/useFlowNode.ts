@@ -1,4 +1,3 @@
-import { INGRESS_BRIDGE_TYPES } from '@/common/constants'
 import { getImg } from './../../common/tools'
 import useBridgeTypeValue, {
   bridgeOrderIndex,

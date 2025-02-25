@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
 import { Delete } from '@element-plus/icons-vue'
 import { computed, defineEmits, defineProps } from 'vue'
 import CommonFields from '../CommonFields.vue'

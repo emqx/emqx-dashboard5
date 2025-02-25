@@ -1,4 +1,3 @@
-import { NUM_REG } from '@/common/constants'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 

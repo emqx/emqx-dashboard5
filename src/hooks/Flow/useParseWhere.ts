@@ -1,5 +1,3 @@
-import { RULE_LOGICAL_OPERATORS } from '@/common/constants'
-
 import { FilterLogicalOperator } from '@/types/enum'
 import { FilterFormData, FilterItem } from './useFlowNode'
 import { cloneDeep } from 'lodash'

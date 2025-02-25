@@ -2,7 +2,7 @@ import { ElMessage as M } from 'element-plus'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 import { CInfoConfig } from '@/types/auth'
-// import { AUTO_RESTART_INTERVAL_DEFAULT } from '@/common/constants'
+//
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProcessAuthData() {
