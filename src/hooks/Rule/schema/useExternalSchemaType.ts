@@ -1,7 +1,6 @@
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { ExternalSchemaType } from '@/types/typeAlias'
 
-type ExternalSchemaTypeValue = typeof ExternalSchemaType[keyof typeof ExternalSchemaType]
+type ExternalSchemaTypeValue = (typeof ExternalSchemaType)[keyof typeof ExternalSchemaType]
 
 export default (): {
   schemaTypeOpts: {

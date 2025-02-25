@@ -89,7 +89,7 @@
 
 <script setup lang="ts">
 import { deleteRules, getRules } from '@/api/ruleengine'
-import { checkNOmitFromObj } from '@/common/tools'
+
 import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import usePagination from '@/hooks/usePagination'

@@ -78,7 +78,6 @@
 </template>
 
 <script lang="ts" setup>
-import { createRandomString } from '@/common/tools'
 import {
   AvailableKey,
   TARGET_EXPRESSION,

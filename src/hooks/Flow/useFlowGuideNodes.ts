@@ -1,4 +1,3 @@
-import { createRandomString } from '@/common/tools'
 import { Edge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
 import { NodeType } from './useFlowNode'

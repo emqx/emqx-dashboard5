@@ -46,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import Monaco from '@/components/Monaco.vue'
 import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'

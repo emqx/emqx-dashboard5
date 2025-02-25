@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
-import { dateFormat } from '@/common/tools'
+
 import PayloadDialog from '@/components/PayloadDialog.vue'
 import CommonPagination from '@/components/commonPagination.vue'
 import useI18nTl from '@/hooks/useI18nTl'

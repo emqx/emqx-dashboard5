@@ -74,7 +74,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, getBridgeKey, waitAMoment } from '@/common/tools'
 import useEditFlow from '@/hooks/Flow/useEditFlow'
 import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
 import useFlowNode from '@/hooks/Flow/useFlowNode'

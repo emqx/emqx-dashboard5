@@ -91,7 +91,6 @@
 </template>
 
 <script setup lang="ts">
-import { customValidate } from '@/common/tools'
 import useFlowNode, {
   EditedWay,
   FlowNodeType,

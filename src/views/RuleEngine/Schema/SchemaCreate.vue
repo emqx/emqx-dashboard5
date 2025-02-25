@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { createSchema, querySchemaDetail } from '@/api/ruleengine'
-import { countDuplicationName } from '@/common/tools'
+
 import DetailHeader from '@/components/DetailHeader.vue'
 import useDetectIsComInSinglePage from '@/hooks/useDetectIsComInSinglePage'
 import useI18nTl from '@/hooks/useI18nTl'

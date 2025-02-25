@@ -73,7 +73,7 @@
 <script lang="ts" setup>
 import { getFileTransConfigs, updateFileTransConfigs } from '@/api/config'
 import { SSL_FIELDS, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
-import { checkNOmitFromObj, createOrderObj, customValidate } from '@/common/tools'
+
 import SchemaForm from '@/components/SchemaForm'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'

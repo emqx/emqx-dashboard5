@@ -111,7 +111,7 @@
 <script lang="ts" setup>
 import { editSubscribe, getSubscribe } from '@/api/extension'
 import { QoSOptions } from '@/common/constants'
-import { getLabelFromValueInOptionList } from '@/common/tools'
+
 import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import useMQTTVersion5NewConfig from '@/hooks/useMQTTVersion5NewConfig'

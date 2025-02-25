@@ -1,4 +1,3 @@
-import { getValueFromQuery } from '@/common/tools'
 import { decode } from 'js-base64'
 
 export const USER_INFO_KEY = 'login_meta'

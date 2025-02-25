@@ -112,7 +112,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, waitAMoment } from '@/common/tools'
 import Resizer from '@/components/Resizer.vue'
 import useFlowEdge from '@/hooks/Flow/useFlowEdge'
 import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'

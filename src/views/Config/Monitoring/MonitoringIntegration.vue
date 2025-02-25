@@ -330,7 +330,7 @@ import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from
 import dataDogImg from '@/assets/img/datadog.png'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
-import { checkNOmitFromObj } from '@/common/tools'
+
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'

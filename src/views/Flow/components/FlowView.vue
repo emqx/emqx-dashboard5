@@ -32,7 +32,6 @@ import { useRouter } from 'vue-router'
 import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
 import NodeDrawer from './NodeDrawer.vue'
-import { waitAMoment } from '@/common/tools'
 
 const router = useRouter()
 

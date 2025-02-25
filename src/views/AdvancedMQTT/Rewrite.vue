@@ -77,7 +77,7 @@
 
 <script lang="ts" setup>
 import { editTopicRewrite, getTopicRewrite } from '@/api/extension'
-import { getLabelFromValueInOptionList } from '@/common/tools'
+
 import TipContainer from '@/components/TipContainer.vue'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Rewrite } from '@/types/extension'
