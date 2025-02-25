@@ -426,7 +426,7 @@ declare global {
   export type { TypeMapData, PieDataItem, TypeMetricDataItem } from './hooks/useMetrics'
   import('./hooks/useMetrics')
   // @ts-ignore
-  export type { FilterItem } from './hooks/usePaging'
+  export type { DataFilterItem } from './hooks/usePaging'
   import('./hooks/usePaging')
 }
 

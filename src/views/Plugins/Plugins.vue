@@ -124,7 +124,7 @@ const isTableFiltered = computed(
  * Filtered by the search
  */
 const pluginsListAfterSearch: ComputedRef<Array<PluginItem>> = computed(() => {
-  const filters: Array<FilterItem> = [{ key: 'name', value: keyForSearch.value }]
+  const filters: Array<DataFilterItem> = [{ key: 'name', value: keyForSearch.value }]
   const { data } = getAPageData({ page: 1, limit: totalData.value.length }, filters)
   return data
 })
