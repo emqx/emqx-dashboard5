@@ -40,8 +40,6 @@
 
 <script setup lang="ts">
 import { getClusterLinkingMetrics, resetClusterLinkingMetrics } from '@/api/cluster'
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-
 import { MetricsData } from '@/types/common'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 

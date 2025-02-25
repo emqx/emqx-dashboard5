@@ -54,9 +54,6 @@
 
 <script setup lang="ts">
 import { getDelayedConfig, updateDelayedConfig as requestUpdateConfig } from '@/api/extension'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import Oneof from '@/components/Oneof.vue'
-
 import { usePerms } from '@/plugins/permissionsPlugin'
 
 const { hasPermission } = usePerms()

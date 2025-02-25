@@ -1,7 +1,5 @@
 import { createRules, updateRules } from '@/api/ruleengine'
-import useHandleActionItem from '@/hooks/Rule/action/useHandleActionItem'
 import { BasicRule, BridgeItem, RuleItem } from '@/types/rule'
-
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
 interface BridgeData {

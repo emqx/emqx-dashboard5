@@ -24,11 +24,7 @@
 
 <script setup lang="ts">
 import { postClusterLinking } from '@/api/cluster'
-import DetailHeader from '@/components/DetailHeader.vue'
-import useClusterLinking from '@/hooks/Config/useClusterLinking'
-
 import type { ClusterLinkingForm as ClusterLinkingData } from '@/types/typeAlias'
-
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 
 const router = useRouter()

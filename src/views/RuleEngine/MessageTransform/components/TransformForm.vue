@@ -178,8 +178,6 @@
 
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
-
-import EditTopicList from '@/components/EditTopicList.vue'
 import {
   AvailableKey,
   MESSAGE_TYPE_NONE,
@@ -187,13 +185,11 @@ import {
   useMessageTransformForm,
   useMessageTransformLogLevel,
 } from '@/hooks/Rule/transform/useMessageTransform'
-
 import { FormRules } from '@/types/common'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformLogLevel } from '@/types/typeAlias'
-
 import {
   PropType,
   WritableComputedRef,

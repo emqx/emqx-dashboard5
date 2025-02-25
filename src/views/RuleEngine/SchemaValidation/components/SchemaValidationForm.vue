@@ -202,7 +202,6 @@ import {
   useValidationLogLevel,
   useValidationStrategy,
 } from '@/hooks/Rule/validation/useValidation'
-
 import { FormRules } from '@/types/common'
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
@@ -220,7 +219,6 @@ import {
 } from 'vue'
 import SQLContentDialog from '../../components/SQLContentDialog.vue'
 import SchemaCreateDrawer from './SchemaCreateDrawer.vue'
-import EditTopicList from '@/components/EditTopicList.vue'
 
 const props = defineProps({
   modelValue: {

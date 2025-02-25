@@ -30,10 +30,7 @@
 
 <script lang="ts" setup>
 import { deleteSchema, querySchemas } from '@/api/ruleengine'
-import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
-
 import { SchemaRegistry } from '@/types/rule'
-
 import TableItemDropdown from './components/TableItemDropdown.vue'
 
 const router = useRouter()

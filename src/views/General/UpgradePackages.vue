@@ -31,7 +31,6 @@ import {
   deleteBackup as deleteUpgradePackage,
   getBackups as getUpgradePackages,
 } from '@/api/systemModule'
-
 import HotUpgradePackageUploadDialog from './components/HotUpgradePackageUploadDialog.vue'
 
 type PackageItem = any

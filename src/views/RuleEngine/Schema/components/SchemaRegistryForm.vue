@@ -72,12 +72,6 @@
 </template>
 
 <script lang="ts" setup>
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import MarkdownContent from '@/components/MarkdownContent.vue'
-import Monaco from '@/components/Monaco.vue'
-import useSchemaType from '@/hooks/Rule/schema/useSchemaType'
-
 import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import ajv from 'ajv'

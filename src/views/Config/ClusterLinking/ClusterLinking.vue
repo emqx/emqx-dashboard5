@@ -48,9 +48,6 @@
 
 <script lang="ts" setup>
 import { deleteClusterLinking, getClusterLinking } from '@/api/cluster'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import useClusterLinking from '@/hooks/Config/useClusterLinking'
-
 import { DetailTab } from '@/types/enum'
 import { CreatedClusterLinking } from '@/types/typeAlias'
 

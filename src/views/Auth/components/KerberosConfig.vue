@@ -23,10 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import useKerberosConfigForm from '@/hooks/Auth/useKerberosConfigForm'
-
-import FormItemLabel from '@/components/FormItemLabel.vue'
-
 const props = defineProps({
   modelValue: {
     type: Object,

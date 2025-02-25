@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { NodeType } from '@/hooks/Flow/useFlowNode'
 import { Handle, Position } from '@vue-flow/core'
 
 const props = defineProps({

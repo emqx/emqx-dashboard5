@@ -47,14 +47,9 @@
 
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
-import DetailHeader from '@/components/DetailHeader.vue'
-import PreWithEllipsis from '@/components/PreWithEllipsis.vue'
-
 import type { ExternalSchema } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 
 const route = useRoute()
 const router = useRouter()

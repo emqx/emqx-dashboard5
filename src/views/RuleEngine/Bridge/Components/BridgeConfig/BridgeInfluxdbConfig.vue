@@ -82,17 +82,9 @@
 </template>
 
 <script setup lang="ts">
-import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
-import useGetInfoFromComponents from '@/hooks/Rule/bridge/useGetInfoFromComponents'
-import useSchemaForm from '@/hooks/Schema/useSchemaForm'
-
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { Property } from '@/types/schemaForm'
-
 import ConnectorSelect from '../ConnectorSelect.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'

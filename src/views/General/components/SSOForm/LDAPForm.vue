@@ -37,9 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import CommonTLSConfig from '@/components/TLSConfig/CommonTLSConfig.vue'
-
 import { EmqxDashboardSsoLdapLdap } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 const props = defineProps({

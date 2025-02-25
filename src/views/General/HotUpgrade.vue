@@ -44,9 +44,7 @@
 
 <script setup lang="ts">
 import { getAllNodeStatus } from '@/api/hotUpgrade'
-
 import { NodeUpgradeData, NodeUpgradeStatus, TypeNodeUpgradeStatus } from '@/types/typeAlias'
-
 import UpgradeNodeDialog from './components/UpgradeNodeDialog.vue'
 import UpgradeRecordsDialog from './components/UpgradeRecordsDialog.vue'
 

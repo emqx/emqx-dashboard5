@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-
 const props = defineProps({
   modelValue: {
     type: Object,

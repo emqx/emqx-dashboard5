@@ -67,15 +67,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import CustomFormItem from '@/components/CustomFormItem.vue'
-import FormItemLabel from '@/components/FormItemLabel.vue'
-import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
-import KeyAndValueEditor from '@/components/KeyAndValueEditor.vue'
-import useBridgeTypeValue from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import useInfluxdbLineProtocol, { KeyValueItem } from '@/hooks/Rule/bridge/useInfluxdbLineProtocol'
-
 import { BridgeType } from '@/types/enum'
-
 import InfluxdbFieldsEditor from './InfluxdbFieldsEditor.vue'
 
 // TODO:the best implementation is bi-bind model value in time, maybe sometime can refactor

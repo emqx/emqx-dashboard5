@@ -63,12 +63,9 @@
 </template>
 
 <script lang="ts">
-import BatchSettings from '@/components/BatchSettings.vue'
-import InputWithPlaceholderSelect from '@/components/InputWithPlaceholderSelect.vue'
 import useInfluxdbFieldsEditor, {
   FieldValueType,
 } from '@/hooks/Rule/bridge/useInfluxdbFieldsEditor'
-
 import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { Warning } from '@element-plus/icons-vue'
 

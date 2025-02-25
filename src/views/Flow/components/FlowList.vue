@@ -89,12 +89,8 @@
 
 <script setup lang="ts">
 import { deleteRules, getRules } from '@/api/ruleengine'
-
-import CommonPagination from '@/components/commonPagination.vue'
-
 import { RuleItem } from '@/types/rule'
 import { EditPen, PieChart } from '@element-plus/icons-vue'
-
 import FlowTableDropDown from './FlowTableDropDown.vue'
 
 const colProps = { sm: 12, md: 12, lg: 8 }

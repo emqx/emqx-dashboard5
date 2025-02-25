@@ -27,8 +27,6 @@
 </template>
 
 <script lang="ts" setup>
-import Monaco from '@/components/Monaco.vue'
-
 import { createSchema } from 'genson-js'
 
 const props = defineProps({

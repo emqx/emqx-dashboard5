@@ -72,14 +72,9 @@ import {
   getMessageTransforms,
   reorderMessageTransforms,
 } from '@/api/messageTransformation'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import { useValidationFailureAction } from '@/hooks/Rule/validation/useValidation'
-
 import { DetailTab } from '@/types/enum'
 import { MessageTransform } from '@/types/typeAlias'
-
 import { SortableEvent } from 'sortablejs'
-
 import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue'
 
 const router = useRouter()

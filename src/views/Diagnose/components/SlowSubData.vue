@@ -53,14 +53,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import commonPagination from '@/components/commonPagination.vue'
-
 import { SlowSubStatistic } from '@/types/diagnose'
 import { Setting } from '@element-plus/icons-vue'
-
 import dayjs from 'dayjs'
-
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

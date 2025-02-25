@@ -29,10 +29,7 @@
 
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemas } from '@/api/ruleengine'
-import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
-
 import type { ExternalSchema } from '@/types/typeAlias'
-
 import TableItemDropdown from './components/TableItemDropdown.vue'
 
 const router = useRouter()

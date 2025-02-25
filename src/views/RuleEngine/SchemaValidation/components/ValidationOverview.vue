@@ -24,9 +24,6 @@
 
 <script setup lang="ts">
 import { MetricsData } from '@/types/common'
-
-import OverviewMetrics from '@/components/Metrics/OverviewMetrics.vue'
-
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import { getValidationMetrics, resetValidationMetrics } from '@/api/schemaValidation'
 

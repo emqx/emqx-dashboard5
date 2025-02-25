@@ -72,14 +72,9 @@ import {
   getSchemaValidations,
   reorderAllValidations,
 } from '@/api/schemaValidation'
-import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
-import { useValidationFailureAction } from '@/hooks/Rule/validation/useValidation'
-
 import { DetailTab } from '@/types/enum'
 import { SchemaValidation } from '@/types/typeAlias'
-
 import { SortableEvent } from 'sortablejs'
-
 import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue'
 
 const router = useRouter()

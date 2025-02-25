@@ -112,14 +112,6 @@
 </template>
 
 <script setup lang="ts">
-import Resizer from '@/components/Resizer.vue'
-import useFlowEdge from '@/hooks/Flow/useFlowEdge'
-import useFlowEditor, { MsgKey, NodeItem } from '@/hooks/Flow/useFlowEditor'
-import useFlowEditorDataHandler from '@/hooks/Flow/useFlowEditorDataHandler'
-import useFlowNode, { FlowNodeType, NodeType, ProcessingType } from '@/hooks/Flow/useFlowNode'
-import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
-import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
-
 import { RuleEvent } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
@@ -135,7 +127,6 @@ import {
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
-
 import {
   computed,
   defineEmits,

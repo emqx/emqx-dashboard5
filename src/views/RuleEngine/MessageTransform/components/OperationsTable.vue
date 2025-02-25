@@ -83,10 +83,8 @@ import {
   TARGET_EXPRESSION,
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
-
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
-
 import TargetValue from './TargetValue.vue'
 
 interface SubOperation {

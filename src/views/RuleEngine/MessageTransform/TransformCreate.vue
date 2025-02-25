@@ -28,13 +28,9 @@
 
 <script setup lang="ts">
 import { postMessageTransform } from '@/api/messageTransformation'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { handleTransformData } from '@/hooks/Rule/transform/useMessageTransform'
-
 import { SchemaRegistryType } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
-
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 

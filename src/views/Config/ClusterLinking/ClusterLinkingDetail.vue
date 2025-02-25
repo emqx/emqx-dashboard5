@@ -63,14 +63,9 @@
 
 <script setup lang="ts">
 import { deleteClusterLinking, getClusterLinkingDetail, putClusterLinking } from '@/api/cluster'
-import DetailHeader from '@/components/DetailHeader.vue'
-import StatusDetailsOfEachNode from '@/components/StatusDetailsOfEachNode.vue'
-import useClusterLinking from '@/hooks/Config/useClusterLinking'
-
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 import ClusterLinkingOverview from './components/ClusterLinkingOverview.vue'
 

@@ -45,10 +45,6 @@
 
 <script lang="ts" setup>
 import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
-
-import PayloadDialog from '@/components/PayloadDialog.vue'
-import CommonPagination from '@/components/commonPagination.vue'
-
 import { DelayedMessage } from '@/types/extension'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'

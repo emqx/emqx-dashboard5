@@ -175,10 +175,6 @@ import {
   getLabelFromValueInOptionList as getLabelFromOpts,
   stringifyObjSafely,
 } from '@/common/tools'
-import CodeView from '@/components/CodeView.vue'
-import InfoTooltip from '@/components/InfoTooltip.vue'
-import commonPagination from '@/components/commonPagination.vue'
-
 import {
   AuditLogFrom,
   AuditLogItem,
@@ -186,9 +182,7 @@ import {
   GetAuditParams,
 } from '@/types/typeAlias'
 import { Setting } from '@element-plus/icons-vue'
-
 import dayjs from 'dayjs'
-
 import resourceDictArr from './resource_dict.json'
 
 interface LabelItem {

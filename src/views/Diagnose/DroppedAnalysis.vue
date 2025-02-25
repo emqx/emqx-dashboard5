@@ -46,7 +46,6 @@
 
 <script setup lang="ts">
 import { loadMetrics, loadNodes } from '@/api/common'
-import MarkdownContent from '@/components/MarkdownContent.vue'
 import {
   MetricKey,
   useDeliveryDroppedDetails,

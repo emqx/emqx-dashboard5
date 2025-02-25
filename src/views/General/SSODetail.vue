@@ -27,16 +27,11 @@
 
 <script setup lang="ts">
 import { getSSOBackend, putSSOBackend, getSSOList } from '@/api/sso'
-import DetailHeader from '@/components/DetailHeader.vue'
-import { useSSOBackendsLabel } from '@/hooks/SSO/useSSO'
-import useSSODetail from '@/hooks/SSO/useSSODetail'
-
 import {
   DashboardSsoBackendStatus,
   DashboardSsoBackendStatusBackend,
   EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
-
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
 import OIDCForm from './components/SSOForm/OIDCForm.vue'

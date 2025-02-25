@@ -1,5 +1,4 @@
 import { FormRules } from '@/types/common'
-
 import useFormRules from '../useFormRules'
 import useI18nTl from '../useI18nTl'
 
