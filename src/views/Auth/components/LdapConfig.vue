@@ -155,7 +155,7 @@ const props = defineProps({
   },
 })
 const { tl } = useI18nTl('Auth')
-const { formCom, rules, validate } = useLdapConfigFrom()
+const { formCom, rules, validate } = useLdapConfigForm()
 const ldapConfig = ref(props.modelValue)
 
 defineExpose({

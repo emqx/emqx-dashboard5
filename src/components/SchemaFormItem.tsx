@@ -10,6 +10,7 @@ import KeyAndValueEditor from './KeyAndValueEditor.vue'
 import OneOf from './Oneof.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
 import CustomInputPassword from './CustomInputPassword.vue'
+import { SetupContext } from 'vue'
 
 type FormItemType =
   | 'string'

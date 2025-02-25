@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { SaltPosition } from '@/types/enum'
+import { SetupContext } from 'vue'
 
 export default function useDatabaseConfig(
   props: {
