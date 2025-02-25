@@ -15,7 +15,6 @@ declare global {
   const AUTH_PLACEHOLDERS: typeof import('./common/constants')['AUTH_PLACEHOLDERS']
   const AUTH_PLACEHOLDER_CLIENT_ATTRS: typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']
   const AUTO_RESTART_INTERVAL_DEFAULT: typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']
-  const ArgumentType: typeof import('./hooks/useRuleFunc')['ArgumentType']
   const AvroJsonToObject: typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']
   const BACKGROUND_CIRCLE_INNER_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']
   const BACKGROUND_CIRCLE_OUTER_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_OUTER_RADIUS']
@@ -344,7 +343,6 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useRuleEvents: typeof import('./hooks/Rule/rule/useRuleEvents')['default']
   const useRuleForm: typeof import('./hooks/Rule/rule/useRuleForm')['default']
-  const useRuleFunc: typeof import('./hooks/useRuleFunc')['default']
   const useRuleInputs: typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']
   const useRuleMetrics: typeof import('./hooks/useMetrics')['useRuleMetrics']
   const useRuleOutputs: typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']
@@ -430,9 +428,6 @@ declare global {
   // @ts-ignore
   export type { FilterItem } from './hooks/usePaging'
   import('./hooks/usePaging')
-  // @ts-ignore
-  export type { ArgItem, FuncItem } from './hooks/useRuleFunc'
-  import('./hooks/useRuleFunc')
 }
 
 // for vue template auto import
@@ -449,7 +444,6 @@ declare module 'vue' {
     readonly AUTH_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDERS']>
     readonly AUTH_PLACEHOLDER_CLIENT_ATTRS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']>
     readonly AUTO_RESTART_INTERVAL_DEFAULT: UnwrapRef<typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']>
-    readonly ArgumentType: UnwrapRef<typeof import('./hooks/useRuleFunc')['ArgumentType']>
     readonly AvroJsonToObject: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']>
     readonly BACKGROUND_CIRCLE_INNER_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']>
     readonly BACKGROUND_CIRCLE_OUTER_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_OUTER_RADIUS']>
@@ -778,7 +772,6 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useRuleEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleEvents')['default']>
     readonly useRuleForm: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleForm')['default']>
-    readonly useRuleFunc: UnwrapRef<typeof import('./hooks/useRuleFunc')['default']>
     readonly useRuleInputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']>
     readonly useRuleMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useRuleMetrics']>
     readonly useRuleOutputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']>
