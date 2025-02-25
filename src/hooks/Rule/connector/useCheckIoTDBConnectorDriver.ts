@@ -1,4 +1,3 @@
-import { getBridgeKey } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import useHandleConnectorItem from './useHandleConnectorItem'
 

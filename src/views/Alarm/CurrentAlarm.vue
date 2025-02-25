@@ -72,7 +72,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { loadAlarm } from '@/api/common'
-import { dateFormat } from '@/common/tools'
+
 import commonPagination from '../../components/commonPagination.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import { Setting } from '@element-plus/icons-vue'

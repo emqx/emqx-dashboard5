@@ -1,5 +1,5 @@
 import { BRIDGE_TYPES_NOT_USE_SCHEMA } from '@/common/constants'
-import { createRandomString } from '@/common/tools'
+
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import { BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'

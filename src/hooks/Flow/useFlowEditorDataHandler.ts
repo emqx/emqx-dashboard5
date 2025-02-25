@@ -2,7 +2,7 @@
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
 import { DEFAULT_SELECT, RULE_INPUT_BRIDGE_TYPE_PREFIX } from '@/common/constants'
-import { getBridgeKey } from '@/common/tools'
+
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import { BasicRule, BridgeItem } from '@/types/rule'

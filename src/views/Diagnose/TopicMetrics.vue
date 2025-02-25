@@ -169,7 +169,7 @@ import {
   deleteTopicMetrics,
   resetTopicMetrics,
 } from '@/api/diagnose'
-import { dateFormat } from '@/common/tools'
+
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'

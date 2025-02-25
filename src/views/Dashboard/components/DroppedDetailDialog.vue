@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts" setup>
-import { createRandomString } from '@/common/tools'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'

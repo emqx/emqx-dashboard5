@@ -61,7 +61,6 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { customValidate } from '@/common/tools'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import useExternalSchemaType from '@/hooks/Rule/schema/useExternalSchemaType'
 import useFormRules from '@/hooks/useFormRules'

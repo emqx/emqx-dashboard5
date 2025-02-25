@@ -162,7 +162,6 @@
 </template>
 
 <script setup lang="ts">
-import { customValidate } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'

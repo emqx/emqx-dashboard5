@@ -160,7 +160,7 @@ import {
   setOpenTelemetry,
   updateOpenTelemetrySampleWhiteList,
 } from '@/api/common'
-import { checkNOmitFromObj } from '@/common/tools'
+
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'

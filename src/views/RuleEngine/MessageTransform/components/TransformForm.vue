@@ -178,7 +178,7 @@
 
 <script setup lang="ts">
 import { querySchemas } from '@/api/ruleengine'
-import { customValidate, getLabelFromValueInOptionList } from '@/common/tools'
+
 import EditTopicList from '@/components/EditTopicList.vue'
 import {
   AvailableKey,

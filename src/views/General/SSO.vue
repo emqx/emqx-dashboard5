@@ -39,7 +39,6 @@ import {
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { computed, ComputedRef, ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getImg } from '@/common/tools'
 
 type SSOItem = DashboardSsoBackendStatus & { isCreated: boolean }
 

@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { numToFixed } from '@/common/tools'
 import {
   DOT_RADIUS,
   INPUT_HEIGHT,
@@ -61,9 +60,9 @@ const getRelativePositionInSVG = (event: any) => {
 
 const getIntersectedCircle = (x: number, y: number) => {
   for (let i = 0; i < circleList.value.length; i++) {
-    let circle = SVGCom.value.querySelector('.circle:nth-of-type(' + (i + 1) + ')')
-    let cy = numToFixed(parseFloat(circle.getAttribute('cy')))
-    let distance = Math.abs(cy - y)
+    const circle = SVGCom.value.querySelector('.circle:nth-of-type(' + (i + 1) + ')')
+    const cy = numToFixed(parseFloat(circle.getAttribute('cy')))
+    const distance = Math.abs(cy - y)
     if (distance <= numToFixed(parseFloat(circle.getAttribute('r')) * 3)) {
       return circle
     }
@@ -73,13 +72,13 @@ const getIntersectedCircle = (x: number, y: number) => {
 
 const handleMouseDown = (event: any) => {
   if (event?.target?.classList?.contains('circle')) {
-    let circle = event.target
+    const circle = event.target
     drawStartIndex = parseInt(circle.getAttribute('_index'))
-    let x1 = parseFloat(circle.getAttribute('cx')).toFixed(2)
-    let y1 = parseFloat(circle.getAttribute('cy')).toFixed(2)
+    const x1 = parseFloat(circle.getAttribute('cx')).toFixed(2)
+    const y1 = parseFloat(circle.getAttribute('cy')).toFixed(2)
     sourcePoint = { x: x1, y: y1 }
 
-    let line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
     line.setAttribute('class', 'line')
     line.setAttribute('x1', x1)
     line.setAttribute('y1', y1)
@@ -92,7 +91,7 @@ const handleMouseDown = (event: any) => {
 
 const handleMouseMove = (event: any) => {
   if (sourcePoint) {
-    let y2 = (event.clientY - SVGCom.value.getBoundingClientRect().top).toFixed(2)
+    const y2 = (event.clientY - SVGCom.value.getBoundingClientRect().top).toFixed(2)
     lines[lines.length - 1].setAttribute('x2', sourcePoint.x)
     lines[lines.length - 1].setAttribute('y2', y2)
   }

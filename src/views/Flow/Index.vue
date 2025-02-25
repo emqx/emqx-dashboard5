@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { getImg } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'

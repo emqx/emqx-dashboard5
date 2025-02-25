@@ -111,7 +111,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import ArrayEditor from '@/components/ArrayEditor.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'

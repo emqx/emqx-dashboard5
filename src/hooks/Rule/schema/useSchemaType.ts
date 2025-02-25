@@ -1,4 +1,3 @@
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import { SchemaRegistryType } from '@/types/enum'
 
 export default (): {

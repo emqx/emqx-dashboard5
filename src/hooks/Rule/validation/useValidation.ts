@@ -1,4 +1,3 @@
-import { getLabelFromValueInOptionList } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import type { SchemaValidationCheckItem } from '@/types/typeAlias'
 import {

@@ -97,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-import { createRandomString, removeFromArr } from '@/common/tools'
 import Monaco from '@/components/Monaco.vue'
 import useFilterConnectorInForm from '@/hooks/Flow/useFilterConnectorInForm'
 import { EditedWay, FilterForm, FilterFormData, FilterItem } from '@/hooks/Flow/useFlowNode'
