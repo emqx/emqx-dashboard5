@@ -1,5 +1,5 @@
 import { getSSORunning, postSSOLogin } from '@/api/sso'
-import { API_BASE_URL } from '@/common/constants'
+
 import {
   DashboardSsoBackendStatusBackend,
   SsoLogin,

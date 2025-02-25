@@ -1,4 +1,3 @@
-import { CONNECTOR_TYPES_WITH_TWO_DIRECTIONS, DEFAULT_SELECT } from '@/common/constants'
 import {
   arraysAreEqual,
   getKeyPartsFromSQL,

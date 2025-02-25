@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { MULTI_LEVEL_WILDCARD } from '@/common/constants'
 import { useRuleUtils } from '@/hooks/Rule/rule/useRule'
 import useRuleEvents from '@/hooks/Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '@/hooks/Rule/rule/useRuleSourceEvents'

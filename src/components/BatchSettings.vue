@@ -52,7 +52,7 @@
         </el-step>
       </el-steps>
 
-      <template #footer class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogVisible = false">{{ $t('Base.cancel') }}</el-button>
         <el-button type="primary" @click="importData" :loading="importLoading">{{
           $t('Base.import')
@@ -63,7 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BatchSettingDatabaseType } from '@/types/enum'
