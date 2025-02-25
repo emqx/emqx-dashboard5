@@ -112,7 +112,6 @@ import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/Opera
 import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
 import { Node } from '@vue-flow/core'
 import { ElMessageBox } from 'element-plus'
-import { cloneDeep, isEqual, isFunction, isObject, lowerCase } from 'lodash'
 
 import NodeMetrics from './metrics/NodeMetrics.vue'
 import useHandleSourceItem from '@/hooks/Rule/action/useHandleSourceItem'

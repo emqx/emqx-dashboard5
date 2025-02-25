@@ -86,7 +86,6 @@ import {
 import useI18nTl from '@/hooks/useI18nTl'
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import { isEqual, isUndefined } from 'lodash'
 
 import TargetValue from './TargetValue.vue'
 

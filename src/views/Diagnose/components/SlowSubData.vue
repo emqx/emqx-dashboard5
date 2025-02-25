@@ -62,7 +62,7 @@ import usePaging from '@/hooks/usePaging'
 import { SlowSubStatistic } from '@/types/diagnose'
 import { Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { pick } from 'lodash'
+
 import dayjs from 'dayjs'
 
 import { useI18n } from 'vue-i18n'

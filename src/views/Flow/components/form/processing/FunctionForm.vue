@@ -105,7 +105,7 @@ import { Delete, Plus } from '@element-plus/icons-vue'
 import { Node } from '@vue-flow/core'
 import type { Rules, ValidateError } from 'async-validator'
 import Schema from 'async-validator'
-import { get, isFunction, set } from 'lodash'
+
 import {
   ComputedRef,
   PropType,

@@ -42,7 +42,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { ElDialog, ElMessage } from 'element-plus'
 
 import { updateLicense } from '@/api/common'
-import { startCase } from 'lodash'
 
 const props = defineProps({
   modelValue: {

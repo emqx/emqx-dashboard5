@@ -32,7 +32,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import type { ExternalSchema } from '@/types/typeAlias'
 import { ExternalSchemaType } from '@/types/typeAlias'
 import { ElMessage } from 'element-plus'
-import { cloneDeep, isObject } from 'lodash'
 
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 

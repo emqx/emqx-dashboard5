@@ -1,7 +1,7 @@
 import useBridgeFormCreator from '@/hooks/Rule/bridge/useBridgeFormCreator'
 import { BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
-import { isObject } from 'lodash'
+
 import useFlowNode, {
   EditedWay,
   FilterForm,

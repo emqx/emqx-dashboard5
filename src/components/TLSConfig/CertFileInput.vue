@@ -12,7 +12,6 @@
 <script setup lang="ts">
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 import useI18nTl from '@/hooks/useI18nTl'
-import { isUndefined } from 'lodash'
 
 const props = defineProps({
   modelValue: {

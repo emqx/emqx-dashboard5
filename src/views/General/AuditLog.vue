@@ -187,7 +187,7 @@ import {
   GetAuditParams,
 } from '@/types/typeAlias'
 import { Setting } from '@element-plus/icons-vue'
-import { pickBy, toUpper } from 'lodash'
+
 import dayjs from 'dayjs'
 
 import { useStore } from 'vuex'

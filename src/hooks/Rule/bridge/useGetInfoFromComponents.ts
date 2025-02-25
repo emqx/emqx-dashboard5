@@ -4,8 +4,6 @@
  */
 import { Properties, Property } from '@/types/schemaForm'
 
-import { get } from 'lodash'
-
 export default (
   components: Ref<Properties> | ComputedRef<Properties>,
 ): {

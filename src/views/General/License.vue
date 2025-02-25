@@ -162,7 +162,7 @@ import EMQXVersion from '@/components/EMQXVersion.vue'
 import FormItemLabel from '@/components/FormItemLabel.vue'
 import InputWithUnit from '@/components/InputWithUnit.vue'
 import { useStore } from 'vuex'
-import { startCase } from 'lodash'
+
 import { LicenseType } from '@/types/enum'
 import { LicenseConfig, LicenseData } from '@/types/dashboard'
 import { ElMessage } from 'element-plus'

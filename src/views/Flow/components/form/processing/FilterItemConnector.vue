@@ -20,7 +20,6 @@ import {
   INPUT_HEIGHT,
   INPUT_MARGIN_BOTTOM,
 } from '@/hooks/Flow/useFilterConnectorInForm'
-import { isFunction, isUndefined } from 'lodash'
 
 const props = defineProps({
   data: {

@@ -123,7 +123,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import type { OIDBForm } from '@/types/typeAlias'
 import { OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
-import { isObject } from 'lodash'
 
 import { useStore } from 'vuex'
 

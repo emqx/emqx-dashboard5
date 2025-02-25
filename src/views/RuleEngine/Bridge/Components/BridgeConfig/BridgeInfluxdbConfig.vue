@@ -93,7 +93,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { BridgeType } from '@/types/enum'
 import { BridgeItem, OtherBridge } from '@/types/rule'
 import { Property } from '@/types/schemaForm'
-import { cloneDeep, isEqual } from 'lodash'
 
 import ConnectorSelect from '../ConnectorSelect.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'

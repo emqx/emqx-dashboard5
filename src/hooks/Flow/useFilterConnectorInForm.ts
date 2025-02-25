@@ -1,5 +1,3 @@
-import { isUndefined, sum } from 'lodash'
-
 import { FilterForm, FilterItem } from './useFlowNode'
 
 /**

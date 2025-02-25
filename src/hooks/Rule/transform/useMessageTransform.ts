@@ -5,7 +5,6 @@ import {
   MessageTransformFailureAction,
   MessageTransformLogLevel,
 } from '@/types/typeAlias'
-import { cloneDeep } from 'lodash'
 
 export type TypeMessageTransformFailureAction =
   (typeof MessageTransformFailureAction)[keyof typeof MessageTransformFailureAction]

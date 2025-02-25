@@ -1,6 +1,5 @@
 import { FilterLogicalOperator } from '@/types/enum'
 import { FilterFormData, FilterItem } from './useFlowNode'
-import { cloneDeep } from 'lodash'
 
 const parseWhere = (sql: string): FilterFormData | FilterItem => {
   return parseOrCondition(sql.trim())

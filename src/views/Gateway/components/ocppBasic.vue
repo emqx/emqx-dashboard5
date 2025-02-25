@@ -115,7 +115,6 @@
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash'
 import useI18nTl from '@/hooks/useI18nTl'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'

@@ -6,7 +6,6 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/tooltip'
 import * as echarts from 'echarts/lib/echarts'
-import { escapeRegExp, pickBy, startCase } from 'lodash'
 
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'

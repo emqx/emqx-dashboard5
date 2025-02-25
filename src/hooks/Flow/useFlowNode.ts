@@ -7,7 +7,7 @@ import useBridgeTypeValue, {
 import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import { Edge, Node, Position } from '@vue-flow/core'
-import { omit, startCase } from 'lodash'
+
 import { RuleSourceType, useRuleInputs } from '../Rule/rule/useRule'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useRuleSourceEvents from '../Rule/rule/useRuleSourceEvents'

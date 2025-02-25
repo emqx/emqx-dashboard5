@@ -48,7 +48,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistry } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { cloneDeep, omit } from 'lodash'
 
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
