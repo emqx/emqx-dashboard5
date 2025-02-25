@@ -37,7 +37,6 @@
 <script lang="ts" setup>
 import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElDialog } from 'element-plus'
 
 import { useStore } from 'vuex'
 

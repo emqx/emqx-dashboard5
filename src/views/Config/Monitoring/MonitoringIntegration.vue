@@ -342,7 +342,6 @@ import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import { OpenTelemetry, Prometheus } from '@/types/dashboard'
-import { ElMessage } from 'element-plus'
 
 import { useStore } from 'vuex'
 import HelpDrawer from './components/HelpDrawer.vue'

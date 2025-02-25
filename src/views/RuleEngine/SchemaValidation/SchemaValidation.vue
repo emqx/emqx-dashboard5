@@ -79,7 +79,7 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import useSortableTable from '@/hooks/useSortableTable'
 import { DetailTab } from '@/types/enum'
 import { SchemaValidation } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
+
 import { SortableEvent } from 'sortablejs'
 
 import MovableItemTableItemDrop from '../components/MovableItemTableItemDrop.vue'

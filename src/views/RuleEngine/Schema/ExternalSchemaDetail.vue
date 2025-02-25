@@ -53,7 +53,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import type { ExternalSchema } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'

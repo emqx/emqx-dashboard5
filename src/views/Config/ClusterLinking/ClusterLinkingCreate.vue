@@ -29,7 +29,6 @@ import useClusterLinking from '@/hooks/Config/useClusterLinking'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
 import type { ClusterLinkingForm as ClusterLinkingData } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 

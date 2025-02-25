@@ -71,7 +71,6 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 import ClusterLinkingOverview from './components/ClusterLinkingOverview.vue'

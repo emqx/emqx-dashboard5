@@ -61,7 +61,6 @@ import usePaginationRemember from '@/hooks/usePaginationRemember'
 import usePaging from '@/hooks/usePaging'
 import { SlowSubStatistic } from '@/types/diagnose'
 import { Setting } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 import dayjs from 'dayjs'
 

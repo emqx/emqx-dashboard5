@@ -22,7 +22,6 @@ import { getSysMon, updateSysMon } from '@/api/config'
 import SchemaForm from '@/components/SchemaForm'
 import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import { AlarmSettings } from '@/types/config'
-import { ElMessage } from 'element-plus'
 
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'

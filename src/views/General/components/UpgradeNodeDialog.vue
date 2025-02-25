@@ -139,7 +139,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { HotUpgradePackage, NodeUpgradeData } from '@/types/typeAlias'
 import { Plus } from '@element-plus/icons-vue'
-import { ElDialog, ElMessage, UploadFile } from 'element-plus'
+import { UploadFile } from 'element-plus'
 import dayjs from 'dayjs'
 
 import { useStore } from 'vuex'

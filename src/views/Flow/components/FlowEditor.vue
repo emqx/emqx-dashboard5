@@ -135,7 +135,6 @@ import {
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
-import { ElMessage } from 'element-plus'
 
 import {
   computed,

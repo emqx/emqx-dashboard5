@@ -34,7 +34,6 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { SchemaRegistryType } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { MessageTransformFailureAction, MessageTransformLogLevel } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'

@@ -4,7 +4,6 @@ import {
   ClusterLinkingFormForUpdate,
   CreatedClusterLinking,
 } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import useI18nTl from '../useI18nTl'
 import useOperationConfirm from '../useOperationConfirm'

@@ -96,7 +96,6 @@ import usePagination from '@/hooks/usePagination'
 import usePaginationWithHasNext from '@/hooks/usePaginationWithHasNext'
 import { RuleItem } from '@/types/rule'
 import { EditPen, PieChart } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 import FlowTableDropDown from './FlowTableDropDown.vue'
 

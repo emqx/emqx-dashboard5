@@ -75,7 +75,6 @@ import useOperationConfirm from '@/hooks/useOperationConfirm'
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'

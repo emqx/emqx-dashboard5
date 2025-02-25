@@ -44,7 +44,6 @@
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import { MetricKey, useDroppedCharts, useMessageDroppedDetails } from '@/hooks/useDroppedDetail'
 import useI18nTl from '@/hooks/useI18nTl'
-import { ElDialog } from 'element-plus'
 
 const props = defineProps<{
   modelValue: boolean

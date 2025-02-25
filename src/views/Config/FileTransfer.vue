@@ -79,7 +79,6 @@ import useDataNotSaveConfirm from '@/hooks/useDataNotSaveConfirm'
 import useI18nTl from '@/hooks/useI18nTl'
 import { Properties, Property } from '@/types/schemaForm'
 import { FileTransferConf } from '@/types/typeAlias'
-import { ElMessage } from 'element-plus'
 
 import { useStore } from 'vuex'
 
