@@ -242,9 +242,13 @@ export const INFINITY_VALUE = 'infinity'
 
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
-export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
-
 export const EMQX_VERSION = __EMQX_VERSION__
+
+/**
+ * ‼️ Must be placed above a variable that is not being exported;
+ * the unplugin-auto-import bug will affect the auto import of variables below that variable!
+ */
+export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 
 const defaultUnexposedConfig = {
   zone: 'default',
