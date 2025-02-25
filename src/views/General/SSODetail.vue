@@ -37,7 +37,6 @@ import {
   EmqxDashboardSsoLdapLdap,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
-import { useStore } from 'vuex'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
 import OIDCForm from './components/SSOForm/OIDCForm.vue'

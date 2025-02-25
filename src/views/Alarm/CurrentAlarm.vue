@@ -62,8 +62,6 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex'
-
 export default defineComponent({
   name: 'currentAlarm',
 })

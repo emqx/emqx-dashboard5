@@ -1,5 +1,4 @@
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
-import { useStore } from 'vuex'
 
 export default (): {
   updateBaseInfo: (username: string, info: PostLogin200, backend?: string) => void

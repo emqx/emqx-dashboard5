@@ -190,7 +190,6 @@ import { Setting } from '@element-plus/icons-vue'
 
 import dayjs from 'dayjs'
 
-import { useStore } from 'vuex'
 import resourceDictArr from './resource_dict.json'
 
 interface LabelItem {
