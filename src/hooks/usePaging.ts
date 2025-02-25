@@ -7,7 +7,7 @@ interface PageMeta {
   limit: number
 }
 
-export interface FilterItem {
+export interface DataFilterItem {
   key: string
   value: string | boolean | RegExp
 }
@@ -24,13 +24,13 @@ export default (): {
   setTotalData: (data: ListData) => void
   getAPageData: (
     pageMeta: PageMeta,
-    filters?: Array<FilterItem>,
+    filters?: Array<DataFilterItem>,
     sortFrom?: SortFrom,
   ) => ListDataWithPagination<any>
 } => {
   const totalData: Ref<ListData> = ref([])
   // Use the following six variables to do a cache-like operation to reduce computational overhead
-  let latestFilters: Array<FilterItem> = []
+  let latestFilters: Array<DataFilterItem> = []
   const listAfterFilter: Ref<ListData> = ref([])
   let latestSortFromString: string | undefined = undefined
   const listAfterFilterNSort: Ref<ListData> = ref([])
@@ -57,7 +57,7 @@ export default (): {
     return filterValue === value
   }
 
-  const filterList = (filters: Array<FilterItem> = []) => {
+  const filterList = (filters: Array<DataFilterItem> = []) => {
     latestFilters = cloneDeep(filters)
     if (filters.length === 0) {
       listAfterFilter.value = totalData.value
@@ -85,7 +85,7 @@ export default (): {
 
   const getAPageData = (
     pageMeta: PageMeta,
-    filters: Array<FilterItem> = [],
+    filters: Array<DataFilterItem> = [],
     sortFrom?: SortFrom,
   ) => {
     if (!isEqual(latestFilters, filters)) {
