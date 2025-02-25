@@ -1,4 +1,4 @@
-import { FormRules } from '@/types/common'
+import { FormItemRule, FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 

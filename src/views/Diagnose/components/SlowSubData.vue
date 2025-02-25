@@ -62,7 +62,7 @@ const { t } = useI18n()
 const { tl } = useI18nTl('SlowSub')
 
 const statistics: Ref<Array<SlowSubStatistic>> = ref([])
-const { page, limit, count } = usePageController()
+const { page, limit, count } = usePagination()
 const pageController = computed(() => ({
   page: page.value,
   limit: limit.value,
