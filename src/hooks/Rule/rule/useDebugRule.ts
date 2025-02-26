@@ -371,7 +371,7 @@ export const useMockData = (
   const getEventTypeInContext = () => {
     const { type, target } = findSourceTypeAndTarget(dataType.value)
     if (type === RuleInputType.Event) {
-      return dataType.value.match(/(\$events\/)([\w]+)/)?.[2]
+      return dataType.value.match(/\w+$/)?.[0]
     }
     if (type === RuleInputType.Bridge) {
       return `$bridges/${(target as BridgeItem).type}:*`

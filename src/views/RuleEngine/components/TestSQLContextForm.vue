@@ -58,7 +58,17 @@ const emit = defineEmits(['update:modelValue'])
 const payloadType = ref(PayloadType.JSON)
 const payloadEditorHeight = ref(200)
 
-const record = ref<{ [key: string]: string }>(props.modelValue)
+const getRecord = (v: Record<string, string>) => {
+  if (!(typeof v === 'object')) {
+    return v
+  }
+  return Object.entries(v).reduce((acc: Record<string, string>, [key, value]) => {
+    acc[key] = typeof value === 'object' ? stringifyObjSafely(value) : value
+    return acc
+  }, {})
+}
+
+const record = ref<{ [key: string]: string }>(getRecord(props.modelValue))
 
 let previousModelValue: Record<string, string> | undefined = undefined
 watch(
@@ -68,10 +78,7 @@ watch(
       return
     }
     if (val) {
-      record.value = Object.entries(val).reduce((acc: Record<string, string>, [key, value]) => {
-        acc[key] = typeof value === 'object' ? stringifyObjSafely(value) : value
-        return acc
-      }, {})
+      record.value = getRecord(val)
     }
   },
 )
