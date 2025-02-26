@@ -115,7 +115,7 @@
               :row-data="row"
               :can-copy="false"
               :disabled="judgeIsWebhookAction(row)"
-              @delete="handleDeleteBridge(row)"
+              @delete="handleDelete(row)"
               @create-rule="createRuleWithTarget(row.id)"
             />
           </OperateWebhookAssociatedPopover>
@@ -314,13 +314,13 @@ const createRuleWithTarget = (id: string) => {
     .catch(() => ({}))
 }
 
-const {
-  showSecondConfirm,
-  usingBridgeRules,
-  currentDeleteBridgeId,
-  handleDeleteSuc,
-  handleDeleteBridge,
-} = useDeleteBridge(getList)
+const useDeleteHook = isSource.value ? useDeleteSource : useDeleteBridge
+const { showSecondConfirm, usingBridgeRules, currentDeleteBridgeId, handleDeleteSuc, ...other } =
+  useDeleteHook(getList)
+const handleDelete = isSource.value
+  ? (other as ReturnType<typeof useDeleteSource>).handleDeleteSource
+  : (other as ReturnType<typeof useDeleteBridge>).handleDeleteBridge
+
 const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egress
 </script>
 
