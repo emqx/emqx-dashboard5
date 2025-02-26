@@ -23,6 +23,8 @@
     "@emqx/shared-ui-utils": "~0.0.16",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@vue-flow/core": "^1.20.1",
+    "async-validator": "4.2.5",
+    "avsc": "5.7.7",
     "axios": "^1.4.0",
     "compare-versions": "^6.0.0-rc.3",
     "copy-to-clipboard": "^3.3.1",
