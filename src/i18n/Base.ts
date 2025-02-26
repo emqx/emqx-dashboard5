@@ -659,4 +659,8 @@ export default {
     zh: '重复的输入',
     en: 'Duplicated Input',
   },
+  tableNo: {
+    zh: '序号',
+    en: 'No.',
+  },
 }
