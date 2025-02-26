@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import WebSocketItem from './components/WebSocketItem.vue'
-import { TabPanelName } from 'element-plus'
+import { TabPaneName } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
 interface TabItem {
@@ -93,7 +93,7 @@ const controlShowAddTab = async () => {
   showAddTab.value = true
 }
 
-const handleBeforeLeave = (currentName: TabPanelName) => {
+const handleBeforeLeave = (currentName: TabPaneName) => {
   if (currentName === 'add') {
     handleTabEdit('add')
     controlShowAddTab()
@@ -135,7 +135,7 @@ const removeTab = (name: string) => {
   tabs.value = tabs.value.filter(($) => $.name !== name)
 }
 
-const handleTabEdit = (targetName: TabPanelName) => {
+const handleTabEdit = (targetName: TabPaneName) => {
   if (targetName === 'add') {
     addNewTab()
   } else if (typeof targetName === 'string') {
