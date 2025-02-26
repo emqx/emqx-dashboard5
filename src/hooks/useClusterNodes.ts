@@ -34,7 +34,7 @@ export default function useClusterNodes(
 
   const handleVersions = (nodes: NodeInfo[]) => {
     const versionList = nodes.map((node) => node.version.split('-')[0])
-    const uniqueVersions = _.uniq(versionList)
+    const uniqueVersions = uniq(versionList)
     versionInfo.isMutiVersion = uniqueVersions.length > 1
     if (versionInfo.isMutiVersion) {
       versionInfo.latestVersion = uniqueVersions.reduce((latest, version) => {

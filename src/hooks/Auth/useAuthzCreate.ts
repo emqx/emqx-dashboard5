@@ -157,7 +157,7 @@ export default function useAuthzCreate() {
         data = processRedisConfig(config)
         break
       default:
-        data = _.cloneDeep(config)
+        data = cloneDeep(config)
         break
     }
     data.type = type

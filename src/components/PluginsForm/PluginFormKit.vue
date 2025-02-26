@@ -49,7 +49,7 @@ const emit = defineEmits(['saved'])
 
 const PluginForm = ref()
 
-const configsForm = ref(_.cloneDeep(props.data))
+const configsForm = ref(cloneDeep(props.data))
 
 const saveLoading = ref(false)
 
@@ -63,7 +63,7 @@ watch(
   () => props.data,
   (val) => {
     nextTick(() => {
-      configsForm.value = _.cloneDeep(val)
+      configsForm.value = cloneDeep(val)
     })
   },
   { deep: true },

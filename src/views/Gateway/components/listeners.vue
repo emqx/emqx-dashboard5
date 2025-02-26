@@ -24,7 +24,7 @@
         <template #default="{ row }">
           {{
             typeof row.max_connections === 'string'
-              ? _.startCase(row.max_connections)
+              ? startCase(row.max_connections)
               : row.max_connections
           }}
         </template>
@@ -151,7 +151,7 @@ const delListener = async function (row: Listener) {
 }
 
 watch(
-  () => _.cloneDeep(listenerTable.value),
+  () => cloneDeep(listenerTable.value),
   (v) => {
     if (props.integration) {
       emit(

@@ -451,7 +451,7 @@ export default defineComponent({
           data.permission = record.permission
           data.action = record.action
           data.topic = record.topic
-          const rules = _.cloneDeep(allTableData.value)
+          const rules = cloneDeep(allTableData.value)
           if (!isEdit.value) {
             rules.push(data as BuiltInDBRule)
           } else {
@@ -479,7 +479,7 @@ export default defineComponent({
               // ignore error
             })
           } else {
-            const rules = _.cloneDeep(allTableData.value)
+            const rules = cloneDeep(allTableData.value)
             rules.splice(index, 1)
             await updateAllBuiltInDatabaseData({
               rules,
