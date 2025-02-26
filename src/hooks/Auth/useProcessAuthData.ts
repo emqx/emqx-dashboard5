@@ -16,7 +16,7 @@ export default function useProcessAuthData() {
 
   const processHttpConfig = (data: any) => {
     try {
-      const tempData = _.cloneDeep(data)
+      const tempData = cloneDeep(data)
       const { body } = data
       if (body !== '' && body !== undefined) {
         tempData.body = parseJSONSelectively(body)
@@ -29,7 +29,7 @@ export default function useProcessAuthData() {
     }
   }
   const processRedisConfig = (data: any) => {
-    const tempData = _.cloneDeep(data)
+    const tempData = cloneDeep(data)
     const { redis_type } = data
     if (redis_type !== 'sentinel') {
       delete tempData.sentinel
@@ -46,7 +46,7 @@ export default function useProcessAuthData() {
   }
   const processMongoDBConfig = (data: any) => {
     try {
-      let tempData = _.cloneDeep(data)
+      let tempData = cloneDeep(data)
       const { mongo_type, filter } = data
       const needDeleteFields = []
       if (mongo_type !== 'single') {
@@ -57,7 +57,7 @@ export default function useProcessAuthData() {
       if (mongo_type !== 'rs') {
         needDeleteFields.push('w_mode', 'r_mode', 'replica_set_name')
       }
-      tempData = _.omit(tempData, needDeleteFields)
+      tempData = omit(tempData, needDeleteFields)
       if (filter !== '' && filter !== undefined) {
         tempData.filter = parseJSONSelectively(filter)
       } else {
@@ -71,9 +71,9 @@ export default function useProcessAuthData() {
   const processLDAPConfig = (data: any) => {
     const { method } = data
     if (method.type === LDAPAuthMethod.Hash) {
-      data.method = _.omit(method, 'bind_password')
+      data.method = omit(method, 'bind_password')
     } else if (method.type === LDAPAuthMethod.Bind) {
-      data.method = _.omit(method, ['password_attribute', 'is_superuser_attribute'])
+      data.method = omit(method, ['password_attribute', 'is_superuser_attribute'])
     }
     return data
   }
@@ -119,7 +119,7 @@ export default function useProcessAuthData() {
     return tempData
   }
   const processPasswordHashAlgorithmData = (data: any) => {
-    const ret = _.cloneDeep(data)
+    const ret = cloneDeep(data)
     const isBuiltInDatabase = data.backend === 'built_in_database'
     if ('password_hash_algorithm' in ret) {
       ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(

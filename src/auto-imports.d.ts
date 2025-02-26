@@ -232,6 +232,7 @@ declare global {
   const tryToCompleteURL: typeof import('./common/tools')['tryToCompleteURL']
   const typesWithProducerAndConsumer: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']
   const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
+  const uniq: typeof import('lodash')['uniq']
   const unref: typeof import('vue')['unref']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
@@ -661,6 +662,7 @@ declare module 'vue' {
     readonly tryToCompleteURL: UnwrapRef<typeof import('./common/tools')['tryToCompleteURL']>
     readonly typesWithProducerAndConsumer: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']>
     readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
+    readonly uniq: UnwrapRef<typeof import('lodash')['uniq']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
     readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>

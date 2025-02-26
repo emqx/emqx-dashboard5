@@ -89,12 +89,12 @@ export default defineComponent({
 
     const { t } = useI18n()
 
-    const mValue = reactive(_.merge(createDefaultValue(), props.value))
+    const mValue = reactive(merge(createDefaultValue(), props.value))
 
     const formPassed = ref(false)
 
     watch(
-      () => _.cloneDeep(mValue),
+      () => cloneDeep(mValue),
       (v) => {
         context.emit('update:value', v)
       },
