@@ -119,4 +119,24 @@ export default {
     zh: '此插件不支持在 Dashboard 中进行配置。',
     en: 'This plugin does not support configuration via the Dashboard.',
   },
+  inConsistent: {
+    zh: '集群中各节点版本不一致',
+    en: 'Inconsistent for nodes in the cluster',
+  },
+  syncToNodes: {
+    zh: '同步至各节点',
+    en: 'Sync to Nodes',
+  },
+  confirmSyncPluginVersion: {
+    zh: '是否确认将版本 {currentVersion} 的插件 {name} 同步至以下节点',
+    en: 'Are you sure to sync version {currentVersion} of the plugin {name} to the following nodes?',
+  },
+  currentVersion: {
+    zh: '当前版本',
+    en: 'Current Version',
+  },
+  syncSuccess: {
+    zh: '同步成功',
+    en: 'Synchronized Successfully',
+  },
 }
