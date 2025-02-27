@@ -26,11 +26,12 @@ defineProps({
   border-radius: 8px;
   .result-tip {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
   .icon-tip {
     --color: var(--el-color-warning);
     margin-right: 4px;
+    margin-top: 3px;
     vertical-align: text-top;
   }
   .result-tip {
