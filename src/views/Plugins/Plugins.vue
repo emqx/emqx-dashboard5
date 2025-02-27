@@ -219,8 +219,9 @@ const currentPluginInfo = ref<{ name: string; version: string }>({ name: '', ver
 const isSyncPluginVersionDialogVisible = ref(false)
 const pluginNodeVersionInfo = ref<Array<{ version: string; nodes: string[] }>>([])
 const showSyncPluginVersionDialog = (plugin: PluginItem) => {
-  currentPluginInfo.value = { name: plugin.name, version: plugin.rel_vsn }
-  pluginNodeVersionInfo.value = pluginVersionMap.value.get(plugin.name) || []
+  const { name, rel_vsn } = plugin
+  currentPluginInfo.value = { name: name, version: rel_vsn }
+  pluginNodeVersionInfo.value = pluginVersionMap.value.get(name) || []
   isSyncPluginVersionDialogVisible.value = true
 }
 

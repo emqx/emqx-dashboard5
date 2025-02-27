@@ -139,4 +139,8 @@ export default {
     zh: '同步成功',
     en: 'Synchronized Successfully',
   },
+  restartPluginTip: {
+    zh: '为保证同步后插件正常运行，请在同步后重新启动插件',
+    en: 'To ensure the plugin runs normally after synchronization, please restart the plugin after synchronization.',
+  },
 }

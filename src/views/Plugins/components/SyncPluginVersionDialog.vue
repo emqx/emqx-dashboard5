@@ -23,6 +23,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <TipContainer :content="tl('restartPluginTip')" />
     </div>
     <template #footer>
       <span class="dialog-footer">
@@ -102,9 +103,15 @@ const submit = async () => {
     margin-bottom: 20px;
     line-height: 1.5;
   }
+  .el-table {
+    margin-bottom: 16px;
+  }
   .el-table .el-table__cell {
     padding-top: 12px;
     padding-bottom: 12px;
+  }
+  .tip-container {
+    margin-bottom: 0;
   }
 }
 </style>
