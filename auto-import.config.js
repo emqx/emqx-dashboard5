@@ -60,6 +60,7 @@ export default {
         'trim',
         'unionBy',
         'sum',
+        'uniq',
       ],
       vuex: ['useStore', 'createStore'],
       'vue-i18n': ['useI18n'],

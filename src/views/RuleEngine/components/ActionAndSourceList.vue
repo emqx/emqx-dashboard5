@@ -8,6 +8,11 @@
       row-key="id"
       @sort-change="handleSortChange"
     >
+      <el-table-column :label="t('Base.tableNo')" width="56">
+        <template #default="{ $index }">
+          {{ $index + 1 }}
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('name')" :min-width="172" sortable="custom" prop="id">
         <template #default="{ row }">
           <router-link :to="getDetailPageRoute(row.id)" class="first-column-with-icon-type">
@@ -21,7 +26,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.status')" :min-width="120" sortable>
+      <el-table-column :label="t('Base.status')" :min-width="124" sortable>
         <template #default="{ row }">
           <TargetItemStatus type="action" :target="row" />
         </template>

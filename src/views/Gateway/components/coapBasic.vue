@@ -86,7 +86,7 @@ const cValueDefault = createDefault()
 
 const { t } = useI18n()
 
-const cValue = reactive(_.merge(createDefault(), props.value))
+const cValue = reactive(merge(createDefault(), props.value))
 
 const qosOptions = ['coap', 'qos0', 'qos1', 'qos2']
 

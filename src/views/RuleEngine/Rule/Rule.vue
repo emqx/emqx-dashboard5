@@ -13,8 +13,24 @@
           <RefreshButton @click="getRulesList" />
         </div>
       </div>
-      <el-table :data="ruleTable" v-loading="ruleLoading">
-        <el-table-column label="ID" show-overflow-tooltip>
+      <el-table
+        :data="ruleTable"
+        row-key="id"
+        v-loading="ruleLoading"
+        @sort-change="handleSortChange"
+      >
+        <el-table-column :label="t('Base.tableNo')" width="64">
+          <template #default="{ $index }">
+            {{ $index + 1 }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="ID"
+          prop="id"
+          sortable="custom"
+          :min-width="152"
+          show-overflow-tooltip
+        >
           <template #default="{ row }">
             <router-link
               :to="{ name: 'rule-detail', params: { id: row.id } }"
@@ -24,7 +40,7 @@
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column :label="tl('source')">
+        <el-table-column :min-width="160" :label="tl('source')">
           <template #default="{ row }">
             <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
               <template #content>
@@ -38,7 +54,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="enable" :label="$t('Base.isEnabled')">
+        <el-table-column prop="enable" :min-width="140" :label="$t('Base.isEnabled')" sortable>
           <template #default="{ row }">
             <OperateWebhookAssociatedPopover
               :disabled="!judgeIsWebhookRule(row)"
@@ -54,13 +70,28 @@
             </OperateWebhookAssociatedPopover>
           </template>
         </el-table-column>
-        <el-table-column prop="description" :label="tl('note')"></el-table-column>
-        <el-table-column :label="tl('actionsCount')">
+        <el-table-column prop="description" :label="tl('note')" :min-width="150"></el-table-column>
+        <el-table-column
+          :label="tl('actionsCount')"
+          prop="actions.length"
+          sortable
+          :min-width="140"
+        >
           <template #default="{ row }">
             {{ row.actions?.length }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Base.operation')">
+        <el-table-column
+          prop="last_modified_at"
+          :min-width="168"
+          :label="t('Base.lastModified')"
+          sortable
+        >
+          <template #default="{ row }">
+            {{ dateFormat(row.last_modified_at, '') }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Base.operation')" :min-width="168">
           <template #default="{ row }">
             <TableButton
               @click="
@@ -115,22 +146,70 @@ const { resetPageNum } = usePagination()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const filterParams: Ref<FilterParamsForQueryRules> = ref({})
 const { updateParams, checkParamsInQuery } = usePaginationRemember('rule-detail')
+
+let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
+
 const getParamsFormQuery = () => {
   const { pageParams, filterParams: f } = checkParamsInQuery()
+  const { sortBy, sortType, ...rest } = f || {}
+  if (sortBy && sortType) {
+    sortFrom = {
+      key: sortBy ?? sortFrom?.key ?? '',
+      type: sortType ?? sortFrom?.type ?? 'desc',
+    }
+  }
   pageMeta.value = { ...pageMeta.value, ...pageParams }
-  filterParams.value = f
+  if (Object.keys(rest).length > 0) {
+    filterParams.value = rest
+  }
 }
 getParamsFormQuery()
 
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)
 
+const getOnePageRuleList = async (pageParams: { limit: number; page: number }) => {
+  return getRules({ ...pageParams, ...filterParams.value })
+}
+
+let totalRuleList: Array<RuleItem> = []
+const refreshTotalRuleListAndTable = async () => {
+  try {
+    ruleLoading.value = true
+    totalRuleList = await getAllListData(getOnePageRuleList)
+    setTotalData(totalRuleList)
+    getRulesList()
+  } catch (error) {
+    //
+  } finally {
+    ruleLoading.value = false
+  }
+}
+
+const refreshTable = (pageData: { page: number; limit: number }) => {
+  pageMeta.value.page = pageData.page
+  pageMeta.value.limit = pageData.limit
+  getRulesList()
+}
+
+const handleSortChange = (p: { column: any; prop: string; order: any }) => {
+  const { prop, order } = p
+  sortFrom = prop ? { key: prop, type: order === 'descending' ? 'desc' : 'asc' } : undefined
+  refreshTable({ page: 1, limit: pageMeta.value.limit })
+}
+
+const { setTotalData, getAPageData } = usePaging()
 const getRulesList = async () => {
   ruleLoading.value = true
   try {
-    const { data = [], meta } = await getRules({ ...pageParams.value, ...filterParams.value })
+    const { data, meta } = getAPageData(pageParams.value, [], sortFrom)
     ruleTable.value = data
     setPageMeta(meta)
-    updateParams({ ...pageParams.value, ...filterParams.value })
+    updateParams({
+      ...pageParams.value,
+      ...filterParams.value,
+      sortBy: sortFrom?.key,
+      sortType: sortFrom?.type,
+    })
   } catch (error) {
     ruleTable.value = []
     initPageMeta()
@@ -142,7 +221,7 @@ const getRulesList = async () => {
 const searchRule = (filterParamsData: FilterParamsForQueryRules) => {
   filterParams.value = filterParamsData
   pageMeta.value.page = 1
-  getRulesList()
+  refreshTotalRuleListAndTable()
 }
 
 const startOrStopRule = async (row: RuleItem) => {
@@ -180,7 +259,8 @@ const handleDeleteSuc = () => {
   getRulesList()
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await refreshTotalRuleListAndTable()
   getRulesList()
 })
 </script>

@@ -689,11 +689,18 @@ export const getAllListData = async <T>(
     let allData: T[] = []
     let data: ListDataWithPagination<T>
 
+    const withNextPage = (data: ListDataWithPagination<T>) => {
+      if (isUndefined(data.meta.count) || data.meta.count < 0) {
+        return data.meta.hasnext
+      }
+      return data.meta.count && allData.length < data.meta.count && data.data.length
+    }
+
     do {
       data = await requestFunc({ page, limit })
       allData = allData.concat([...data.data])
       page++
-    } while (data.meta.count && allData.length < data.meta.count && data.data.length)
+    } while (withNextPage(data))
 
     return Promise.resolve(allData)
   } catch (error) {

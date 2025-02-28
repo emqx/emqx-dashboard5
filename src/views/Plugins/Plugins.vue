@@ -21,24 +21,29 @@
       row-key="name"
       class="table-with-draggable"
     >
-      <el-table-column :label="tl('name')">
+      <el-table-column :label="tl('name')" min-width="380">
         <template #default="{ row }">
           <!-- <i class="icon icon-plugin"></i> -->
           <div class="plugin-info-hd">
             <router-link :to="detailLink(row)">{{ row.name }}</router-link>
-            <span>{{ row.rel_vsn }}</span>
+            <div class="vertical-align-center">
+              <span class="version-info">{{ row.rel_vsn }}</span>
+              <el-tag v-if="isPluginInConsistent(row)" size="small" type="warning" effect="light">
+                {{ t('Plugins.inConsistent') }}
+              </el-tag>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('author')">
+      <el-table-column :label="tl('author')" min-width="200">
         <template #default="{ row }">{{ getPluginAuthorString(row) }}</template>
       </el-table-column>
-      <el-table-column :label="tl('status')">
+      <el-table-column :label="tl('status')" min-width="160">
         <template #default="{ row }">
           <PluginItemStatus :plugin-data="row" />
         </template>
       </el-table-column>
-      <el-table-column prop="oper" :label="$t('Base.operation')">
+      <el-table-column prop="oper" :label="$t('Base.operation')" min-width="272">
         <template #default="{ row, $index }">
           <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
@@ -53,6 +58,13 @@
             @click="handleEnable(row)"
           >
             {{ tl('start') }}
+          </TableButton>
+          <TableButton
+            v-if="isPluginInConsistent(row)"
+            :disabled="!$hasPermission('post')"
+            @click="showSyncPluginVersionDialog(row)"
+          >
+            {{ tl('syncToNodes') }}
           </TableButton>
           <TableItemDropdown
             :row-data="row"
@@ -69,6 +81,12 @@
       </el-table-column>
     </el-table>
   </div>
+  <SyncPluginVersionDialog
+    v-model="isSyncPluginVersionDialogVisible"
+    :plugin-info="currentPluginInfo"
+    :plugin-node-version-info="pluginNodeVersionInfo"
+    @submitted="queryListData"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -77,6 +95,7 @@ import { PluginItem } from '@/types/plugin'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 import { queryPlugins } from '@/api/plugins'
 import { SortableEvent } from 'sortablejs'
+import SyncPluginVersionDialog from './components/SyncPluginVersionDialog.vue'
 import PluginItemStatus from './components/PluginItemStatus.vue'
 
 const router = useRouter()
@@ -101,6 +120,9 @@ const statusOptions = [
 ]
 const filterStatus = ref(VALUE_FOR_NOT_FILTER)
 const keyForSearch = ref('')
+
+type PluginVersionMap = Map<string, Array<{ version: string; nodes: string[] }>>
+const pluginVersionMap = ref<PluginVersionMap>(new Map())
 
 const isTableLoading = ref(false)
 
@@ -159,6 +181,27 @@ const goInstall = () => {
   router.push({ name: 'plugin-install' })
 }
 
+const getPluginVersionInfoItem = ({ rel_vsn, running_status }: PluginItem) => ({
+  version: rel_vsn,
+  nodes: running_status.map(({ node }) => node),
+})
+const generatePluginVersionMap = (plugins: Array<PluginItem>) => {
+  const map: PluginVersionMap = new Map()
+  plugins.forEach((plugin) => {
+    if (map.has(plugin.name)) {
+      map.get(plugin.name)?.push(getPluginVersionInfoItem(plugin))
+    } else {
+      map.set(plugin.name, [getPluginVersionInfoItem(plugin)])
+    }
+  })
+  return map
+}
+
+const isPluginInConsistent = (plugin: PluginItem) => {
+  const versions = pluginVersionMap.value.get(plugin.name)
+  return versions?.length && versions?.length > 1
+}
+
 const emptyTotalData = () => {
   setTotalData([])
 }
@@ -167,6 +210,7 @@ const queryListData = async () => {
   try {
     isTableLoading.value = true
     const data = await queryPlugins()
+    pluginVersionMap.value = generatePluginVersionMap(data)
     setTotalData(data)
     await nextTick()
     initSortable()
@@ -175,6 +219,16 @@ const queryListData = async () => {
   } finally {
     isTableLoading.value = false
   }
+}
+
+const currentPluginInfo = ref<{ name: string; version: string }>({ name: '', version: '' })
+const isSyncPluginVersionDialogVisible = ref(false)
+const pluginNodeVersionInfo = ref<Array<{ version: string; nodes: string[] }>>([])
+const showSyncPluginVersionDialog = (plugin: PluginItem) => {
+  const { name, rel_vsn } = plugin
+  currentPluginInfo.value = { name: name, version: rel_vsn }
+  pluginNodeVersionInfo.value = pluginVersionMap.value.get(name) || []
+  isSyncPluginVersionDialogVisible.value = true
 }
 
 const moveUp = (index: number) => handleDragEvent(index - 1, index, pluginListToShow.value)
@@ -290,8 +344,10 @@ queryListData()
     a {
       display: block;
       line-height: 18px;
+      margin-bottom: 8px;
     }
-    span {
+    .version-info {
+      margin-right: 8px;
       font-size: 12px;
       line-height: 16px;
       color: var(--color-text-secondary);

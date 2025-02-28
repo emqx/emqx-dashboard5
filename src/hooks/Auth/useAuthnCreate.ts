@@ -216,7 +216,7 @@ export default function useAuthnCreate() {
           data = processLDAPConfig(config)
           break
         default:
-          data = _.cloneDeep(config)
+          data = cloneDeep(config)
           break
       }
       data.backend = backend

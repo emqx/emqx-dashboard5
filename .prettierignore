@@ -3,5 +3,6 @@
 /src/assets/iconfont
 /src/auto-imports.d.ts
 /src/components.d.ts
+/src/types/schemas/*
 # Ignore all HTML files:
 *.html

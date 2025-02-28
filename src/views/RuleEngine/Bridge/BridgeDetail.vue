@@ -96,7 +96,7 @@
                   <span>{{ t('RuleEngine.action') }}</span>
                 </template>
                 <template #operation>
-                  <span>{{ _.lowerCase(t('Base.edit')) }}</span>
+                  <span>{{ lowerCase(t('Base.edit')) }}</span>
                 </template>
                 <template #page>
                   <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
@@ -264,7 +264,7 @@ const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     bridgeInfo.value = await getDetail(id.value)
-    rawBridgeInfo = _.cloneDeep(bridgeInfo.value)
+    rawBridgeInfo = cloneDeep(bridgeInfo.value)
   } catch (error) {
     console.error(error)
   } finally {
@@ -298,7 +298,7 @@ const testConnection = async () => {
     await customValidate(formCom.value)
     isTesting.value = true
     const data = await getDataForSubmit()
-    await testConnectivity(_.omit(data, 'id') as any)
+    await testConnectivity(omit(data, 'id') as any)
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -314,7 +314,7 @@ const updateBridgeInfo = async () => {
 
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
-    if (isFromRule.value && _.isEqual(bridgeInfo.value, rawBridgeInfo)) {
+    if (isFromRule.value && isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
 

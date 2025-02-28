@@ -210,11 +210,11 @@ const checkBridgeClipStatus = async () => {
 const getDataForSubmit = () => {
   let dataToSubmit = {}
   if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(chosenBridgeType.value)) {
-    dataToSubmit = _.cloneDeep(formCom.value.getFormRecord())
+    dataToSubmit = cloneDeep(formCom.value.getFormRecord())
   } else {
     dataToSubmit = {
       type: chosenBridgeType.value,
-      ..._.cloneDeep(bridgeData.value),
+      ...cloneDeep(bridgeData.value),
     }
   }
   return handleActionDataBeforeSubmit(dataToSubmit)
