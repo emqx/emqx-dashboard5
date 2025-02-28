@@ -58,16 +58,6 @@ export default (
     }
     return false
   }
-  const getLimiterTextKey = ({ key }: Property) => `${getConfigurationTextZone()}.${key}`
-
-  const getFileTransTextKey = (propItem: Property) => {
-    const { key, path } = propItem
-    let textKey = key
-    if (key === 'enable' || key === 'root') {
-      textKey = snakeCase(path)
-    }
-    return `${textKey}`
-  }
 
   const commonGetConfigItemKey = (propItem: Property) => {
     const { key, path } = propItem

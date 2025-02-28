@@ -151,10 +151,10 @@ const lValueDefault = createDefaultValue()
 
 const { t } = useI18n()
 
-const lValue = reactive(_.merge(createDefaultValue(), props.value))
+const lValue = reactive(merge(createDefaultValue(), props.value))
 
 watch(
-  () => _.cloneDeep(lValue),
+  () => cloneDeep(lValue),
   (v) => {
     emit('update:value', v)
   },

@@ -110,5 +110,5 @@ loadData()
 </script>
 
 <style lang="scss">
-@import '@/style/alarm.scss';
+@use '@/style/alarm.scss';
 </style>

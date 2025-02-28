@@ -146,7 +146,7 @@ const createDefault = () => ({
   idle_timeout: '30s',
 })
 
-const jValue = reactive(_.merge(createDefault(), props.value))
+const jValue = reactive(merge(createDefault(), props.value))
 
 const rules: any = computed(() => {
   let rules = {}

@@ -384,7 +384,7 @@ init()
 </script>
 
 <style lang="scss">
-@import '@/style/management.scss';
+@use '@/style/management.scss';
 .audit-log {
   &.is-loading {
     min-height: 320px;
