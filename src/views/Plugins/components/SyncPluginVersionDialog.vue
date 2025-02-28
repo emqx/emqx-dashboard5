@@ -78,14 +78,11 @@ const otherNodesTable = computed(() => {
 })
 
 const isSubmitting = ref(false)
-const getPluginId = (name: string, version: string) => `${name}-${version}`
 const submit = async () => {
   isSubmitting.value = true
   try {
-    await syncPluginVersion({
-      name: getPluginId(props.pluginInfo.name, props.pluginInfo.version),
-      node: otherNodesTable.value[0].node,
-    })
+    const { name, version } = props.pluginInfo
+    await syncPluginVersion({ name, version })
     ElMessage.success(tl('syncSuccess'))
     emit('submitted')
     showDialog.value = false

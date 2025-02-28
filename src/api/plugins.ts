@@ -56,6 +56,7 @@ export const updatePluginConfigs = (
   return http.put(`/plugins/${pluginName}-${pluginVersion}/config`, data)
 }
 
-export const syncPluginVersion = (data: { name: string; node: string }): Promise<void> => {
-  return http.post(`/plugins/cluster_sync`, data)
+export const syncPluginVersion = (pluginInfo: { name: string; version: string }): Promise<void> => {
+  const pluginId = `${pluginInfo.name}-${pluginInfo.version}`
+  return http.post(`/plugins/cluster_sync`, { name: pluginId })
 }
