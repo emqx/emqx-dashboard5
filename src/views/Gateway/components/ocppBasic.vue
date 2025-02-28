@@ -146,7 +146,7 @@ const createDefault = () => ({
   enable_stats: true,
 })
 
-const oValue = reactive(_.merge(createDefault(), props.value))
+const oValue = reactive(merge(createDefault(), props.value))
 
 const { tl } = useI18nTl('Gateway')
 

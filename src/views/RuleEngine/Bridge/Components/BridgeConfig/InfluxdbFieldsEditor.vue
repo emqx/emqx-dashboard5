@@ -75,7 +75,7 @@ type kvRow = {
 }
 
 export default defineComponent({
-  components: { Warning, BatchSettings, InputWithPlaceholderSelect },
+  components: { Warning },
   emits: ['update:modelValue', 'add'],
   props: {
     modelValue: {

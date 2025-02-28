@@ -75,7 +75,7 @@ const createDefault = () => ({
   idle_timeout: '30s',
 })
 
-const gbtValue = reactive(_.merge(createDefault(), props.value))
+const gbtValue = reactive(merge(createDefault(), props.value))
 
 const { tl } = useI18nTl('Gateway')
 

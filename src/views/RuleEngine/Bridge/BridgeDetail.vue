@@ -32,7 +32,7 @@
             <el-switch
               class="enable-btn"
               v-model="bridgeInfo.enable"
-              :disabled="!$hasPermission('put') || isWebhookAction"
+              :disabled="isWebhookAction"
               @change="enableOrDisableBridge"
             />
           </el-tooltip>
@@ -41,7 +41,7 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!$hasPermission('post') || isWebhookAction"
+              :disabled="isWebhookAction"
               plain
               @click="createRuleWithBridge"
             >
@@ -50,9 +50,9 @@
           <el-tooltip :content="$t('Base.delete')" placement="top">
             <el-button
               class="icon-button"
-              :disabled="!$hasPermission('delete') || isWebhookAction"
               type="danger"
               :icon="Delete"
+              :disabled="isWebhookAction"
               @click="handleDelete"
               plain
             >
@@ -104,22 +104,11 @@
               </i18n-t>
             </el-alert>
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
-              <bridge-influxdb-config
-                v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(bridgeType)"
-                v-model="bridgeInfo"
-                ref="formCom"
-                :edit="true"
-                :type="bridgeType"
-                :disabled="disabled"
-                :hide-name="hideName"
-                @init="resetRawBridgeInfoAfterComponentInit"
-              />
               <using-schema-bridge-config
-                v-else-if="bridgeType && !BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType)"
+                ref="formCom"
+                v-model="bridgeInfo"
                 edit
                 :type="bridgeType"
-                v-model="bridgeInfo"
-                ref="formCom"
                 :disabled="disabled"
                 :hide-name="hideName"
                 :form-props="formProps"
@@ -129,7 +118,6 @@
               <el-button
                 v-if="bridgeInfo.type"
                 type="primary"
-                :disabled="!$hasPermission('put')"
                 plain
                 :loading="isTesting"
                 @click="testConnection"
@@ -139,8 +127,8 @@
               <el-button
                 type="primary"
                 v-if="bridgeInfo.type"
-                :disabled="!$hasPermission('put') || isWebhookAction"
                 :loading="updateLoading"
+                :disabled="isWebhookAction"
                 @click="updateBridgeInfo()"
               >
                 {{ $t('Base.update') }}
@@ -160,9 +148,8 @@
 </template>
 
 <script lang="ts" setup>
-import { BridgeType, DetailTab } from '@/types/enum'
+import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import { Delete, Share } from '@element-plus/icons-vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -272,16 +259,8 @@ const loadBridgeInfo = async () => {
   }
 }
 
-/**
- * because each component will fill empty value to the bridgeInfo, so we need to
- * reset the raw bridge info to prevent compare error
- */
-const resetRawBridgeInfoAfterComponentInit = (bridgeInfo: BridgeItem) => {
-  rawBridgeInfo = _.cloneDeep(bridgeInfo)
-}
-
 const setBridgeInfoFromSchemaForm = () => {
-  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value)) {
+  if (!BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeInfo.value.type)) {
     bridgeInfo.value = formCom.value.getFormRecord()
   }
 }
@@ -311,7 +290,6 @@ const updateBridgeInfo = async () => {
   try {
     await customValidate(formCom.value)
     setBridgeInfoFromSchemaForm()
-
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
     if (isFromRule.value && isEqual(bridgeInfo.value, rawBridgeInfo)) {

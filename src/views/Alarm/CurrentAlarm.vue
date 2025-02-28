@@ -107,7 +107,7 @@ loadData()
 </script>
 
 <style lang="scss">
-@import '@/style/alarm.scss';
+@use '@/style/alarm.scss';
 .alarm {
   .icon-webhook {
     font-size: 13.5px;
