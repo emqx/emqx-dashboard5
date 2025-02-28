@@ -82,7 +82,7 @@ const handleDeleteWebhook = async (webhook: WebhookItem) => {
     await deleteWebhook(webhook)
     getWebhookList()
   } catch (error) {
-    ElMessage.error(t('Base.deleteFailed'))
+    //
   }
 }
 
