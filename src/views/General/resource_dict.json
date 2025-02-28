@@ -1699,8 +1699,8 @@
       "zh": "插件"
     },
     "operation_name_label": {
-      "en": "Update plugin config. Config schema defined by user's schema.avsc file",
-      "zh": "更新插件配置。配置 schema 由用户的 schema.avsc 文件定义"
+      "en": "Update plugin config",
+      "zh": "更新插件配置"
     }
   },
   {
@@ -2419,8 +2419,8 @@
       "zh": "热升级"
     },
     "operation_name_label": {
-      "en": "Upgrade a specified node to the target version with the installed package.",
-      "zh": "将指定节点升级到安装包中的目标版本。"
+      "en": "Upgrade specified node to target version",
+      "zh": "升级指定节点到目标版本"
     }
   },
   {
@@ -2431,8 +2431,8 @@
       "zh": "热升级"
     },
     "operation_name_label": {
-      "en": "Upgrade all nodes to the target version with the installed package.",
-      "zh": "将所有节点升级到安装包中的目标版本。"
+      "en": "Upgrade all nodes to target version",
+      "zh": "升级所有节点到目标版本"
     }
   },
   {
@@ -2443,8 +2443,8 @@
       "zh": "热升级"
     },
     "operation_name_label": {
-      "en": "Upload a hot upgrade package. Note that only one package is alllowed to be installed at a time.",
-      "zh": "上传热升级包。请注意，一次只能安装一个包。"
+      "en": "Upload a hot upgrade package",
+      "zh": "上传热升级包"
     }
   },
   {
@@ -2455,8 +2455,8 @@
       "zh": "热升级"
     },
     "operation_name_label": {
-      "en": "Delete the installed hot upgrade package.",
-      "zh": "删除已安装的热升级包。"
+      "en": "Delete the installed hot upgrade package",
+      "zh": "删除已安装的热升级包"
     }
   },
   {
@@ -2467,8 +2467,8 @@
       "zh": "集群连接"
     },
     "operation_name_label": {
-      "en": "Create a cluster link",
-      "zh": "创建一个集群连接。"
+      "en": "Create cluster link",
+      "zh": "创建集群连接"
     }
   },
   {
@@ -2479,8 +2479,8 @@
       "zh": "集群连接"
     },
     "operation_name_label": {
-      "en": "Update a cluster link configuration",
-      "zh": "更新集群链接配置。"
+      "en": "Update cluster link configuration",
+      "zh": "更新集群链接配置"
     }
   },
   {
@@ -2491,8 +2491,8 @@
       "zh": "集群连接"
     },
     "operation_name_label": {
-      "en": "Delete a cluster link",
-      "zh": "删除一个集群链接。"
+      "en": "Delete cluster link",
+      "zh": "删除集群链接"
     }
   },
   {
@@ -2515,8 +2515,8 @@
       "zh": "持久队列"
     },
     "operation_name_label": {
-      "en": "Delete a durable queue.",
-      "zh": "删除一个持久队列。"
+      "en": "Delete durable queue",
+      "zh": "删除一个持久队列"
     }
   },
   {
@@ -2527,8 +2527,8 @@
       "zh": "持久队列"
     },
     "operation_name_label": {
-      "en": "Declare new durable queue.",
-      "zh": "声明新的持久队列。"
+      "en": "Declare new durable queue",
+      "zh": "声明新的持久队列"
     }
   },
   {
@@ -2539,8 +2539,8 @@
       "zh": "监控"
     },
     "operation_name_label": {
-      "en": "Clear monitor (statistics) data for the whole cluster.",
-      "zh": "清除集群监控（统计）数据。"
+      "en": "Clear monitor (statistics) data for the whole cluster",
+      "zh": "清除集群监控（统计）数据"
     }
   }
 ]
