@@ -176,7 +176,6 @@ const DEFAULT_QOS = 'all'
 
 export default defineComponent({
   name: 'TopicMetrics',
-  components: { CommonOverflowTooltip },
   data: function () {
     return {
       topicRules: {
