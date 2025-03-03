@@ -39,10 +39,10 @@
             :value="value"
           ></el-option>
         </el-select>
-        <key-value-editor
+        <key-and-value-editor
           v-else-if="formConfigs.component === 'key-value-editor'"
           v-model="bindValue"
-        ></key-value-editor>
+        ></key-and-value-editor>
         <div class="monaco-container" v-else-if="formConfigs.component === 'code-editor'">
           <Monaco :id="createRandomString()" :lang="formConfigs.format" v-model="bindValue" />
         </div>

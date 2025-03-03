@@ -161,7 +161,7 @@ const handleDeleteWebhook = async () => {
     await deleteWebhook(webhookData.value)
     router.push({ name: 'webhook' })
   } catch (error) {
-    ElMessage.error(t('Base.deleteFailed'))
+    //
   }
 }
 
