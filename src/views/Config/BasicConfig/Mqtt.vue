@@ -153,7 +153,7 @@ export default defineComponent({
         await customValidate(SchemaFormCom.value)
         saveLoading.value = true
         const data = { ...val }
-        await updateDefaultZoneConfigs(data)
+        await updateDefaultZoneConfigs(checkNSetToNullFromObj(data) as Zone)
         ElMessage.success(t('Base.updateSuccess'))
         reloading()
       } catch (error) {
