@@ -17,6 +17,8 @@ jobs:
     container: node:16.20
     steps:
       - uses: actions/checkout@v2
+      - name: Install pnpm
+        run: npm install -g pnpm
       - name: install zip
         run: apt-get update && apt-get install -y zip
       - name: build
