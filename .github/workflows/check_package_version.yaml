@@ -35,6 +35,9 @@ jobs:
       - name: checkout dashboard code
         uses: actions/checkout@v3
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: install dep
         run: |
           pnpm install
