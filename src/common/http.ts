@@ -102,7 +102,7 @@ const getErrorMessage = (data: AxiosResponse['data'], status: number) => {
  */
 axios.interceptors.response.use(
   (response: CustomResponse) => {
-    if (!response.config.doNotTriggerProgress) {
+    if (!response?.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
     if (response.data instanceof Blob) {
@@ -115,7 +115,7 @@ axios.interceptors.response.use(
     return response.data || response.status
   },
   async (error: any) => {
-    if (!error.config?.doNotTriggerProgress) {
+    if (!error?.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
 

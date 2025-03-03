@@ -12,7 +12,7 @@ interface UseAdaptiveEditorReturn {
   updateEditorHeight: () => void
 }
 
-export function useAdaptiveEditor({
+export default function useAdaptiveEditor({
   initialContent,
   maxHeightRatio = 0.9,
   minHeight = 100,
@@ -56,5 +56,3 @@ export function useAdaptiveEditor({
     updateEditorHeight,
   }
 }
-
-export default {}
