@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { DEFAULT_SALT_POSITION } from '@/common/constants'
 import { SaltPosition } from '@/types/enum'
 import { SetupContext } from 'vue'
 
