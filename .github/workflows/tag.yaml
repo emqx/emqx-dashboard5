@@ -15,7 +15,7 @@ jobs:
     - name: check branch and set output
       id: set-output
       run: |
-        if [[ "${{ github.base_ref }}" =~ "enterprise" ]]; then
+        if [[ "${{ github.ref }}" == "e*" ]]; then
           echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
         else
           echo "emqx-name=emqx" >> "$GITHUB_OUTPUT"
