@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  to: string
+  to: RouteLocationRaw
   icon?: Component
   disabled?: boolean
 }>()
