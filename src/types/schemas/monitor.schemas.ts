@@ -13,23 +13,17 @@ export type PutOpentelemetry400 = {
 
 export type GetPrometheusAuth200Two = { [key: string]: any }
 
-export type GetPrometheusAuthParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
 export type GetPrometheusMessageTransformation200Two = { [key: string]: any }
 
-export type GetPrometheusStats200Two = { [key: string]: any }
-
-export type GetPrometheusStatsParams = {
+export type GetPrometheusMessageTransformationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
+
+export type GetPrometheusStats200Two = { [key: string]: any }
 
 export type GetPrometheusSchemaValidation200Two = { [key: string]: any }
 
 export type GetPrometheusDataIntegration200Two = { [key: string]: any }
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type EmqxPrometheusApiModeParameter =
   typeof EmqxPrometheusApiModeParameter[keyof typeof EmqxPrometheusApiModeParameter]
@@ -41,7 +35,11 @@ export const EmqxPrometheusApiModeParameter = {
   all_nodes_unaggregated: 'all_nodes_unaggregated',
 } as const
 
-export type GetPrometheusMessageTransformationParams = {
+export type GetPrometheusAuthParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
@@ -55,8 +53,18 @@ export type GetPrometheusDataIntegrationParams = {
 
 export type PrometheusPushGatewayHeaders = { [key: string]: any }
 
+export type PrometheusPushGatewayMethod =
+  typeof PrometheusPushGatewayMethod[keyof typeof PrometheusPushGatewayMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PrometheusPushGatewayMethod = {
+  put: 'put',
+  post: 'post',
+} as const
+
 export interface PrometheusPushGateway {
   enable: boolean
+  method: PrometheusPushGatewayMethod
   url?: string
   interval?: string
   headers?: PrometheusPushGatewayHeaders
@@ -68,6 +76,8 @@ export interface PrometheusRecommendSetting {
   push_gateway?: PrometheusPushGateway
   collectors?: PrometheusCollectors
 }
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
   typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector[keyof typeof PrometheusLegacyDeprecatedSettingVmMsaccCollector]
