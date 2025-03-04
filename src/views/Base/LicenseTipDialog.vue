@@ -13,7 +13,7 @@
         tag="p"
         scope="global"
       >
-        <strong>{{ maxConnection }}</strong>
+        <strong>{{ maxSessions }}</strong>
         <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
         <a href="mailto:contact@emqx.io"> contact@emqx.io </a>
       </i18n-t>
@@ -40,7 +40,7 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  maxConnection: {
+  maxSessions: {
     type: Number,
   },
 })
