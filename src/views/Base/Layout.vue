@@ -65,7 +65,7 @@
   </el-container>
   <LicenseTipDialog
     v-model="showLicenseTipDialog"
-    :max-connection="store.state.licenseData.max_connections"
+    :maxSessions="store.state.licenseData.max_sessions"
   />
   <QuickPanel v-model="showQuickPanel" />
 </template>
