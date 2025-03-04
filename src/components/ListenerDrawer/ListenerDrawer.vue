@@ -5,7 +5,7 @@
     :lock-scroll="false"
     :close-on-click-modal="false"
     :before-close="handleClose"
-    size="50%"
+    size="760"
     :z-index="1999"
     class="listener-drawer"
     destroy-on-close
@@ -133,12 +133,44 @@
             />
           </el-form-item>
         </el-col>
+        <el-col v-if="!typesWithoutMaxConnectionRate.includes(listenerRecord.type)" :span="12">
+          <el-form-item prop="max_conn_burst">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxConnBurst')"
+                :desc="tl('maxConnBurstDesc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.max_conn_burst"
+              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
         <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubRate')" prop="messages_rate">
             <Oneof
               class="in-one-row"
               v-model="listenerRecord.messages_rate"
               :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="messages_burst">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxMsgPubBurst')"
+                :desc="t('ConfigSchema.messages_burst.desc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.messages_burst"
+              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
           </el-form-item>
         </el-col>
@@ -157,6 +189,22 @@
                 },
                 { symbols: [INFINITY_VALUE], type: 'enum' },
               ]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="bytes_burst">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxMsgPubTrafficBurst')"
+                :desc="t('ConfigSchema.bytes_burst.desc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.bytes_burst"
+              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
             />
           </el-form-item>
         </el-col>

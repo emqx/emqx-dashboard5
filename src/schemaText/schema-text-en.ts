@@ -108,7 +108,7 @@ export default {
     label: 'Messages Publish Rate',
   },
   messages_burst: {
-    desc: 'Number of messages that can be sent in a burst.\n\nFor example: `10000/60m` means allowing up to 10000 messages to be sent in 60 minutes.',
+    desc: 'Number of messages that can be sent in a burst. If empty, it means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 messages to be sent in 60 minutes.',
     label: 'Messages Publish Burst',
   },
   bytes_rate: {
@@ -116,7 +116,7 @@ export default {
     label: 'Data Publish Rate',
   },
   bytes_burst: {
-    desc: 'Number of bytes that can be sent in a burst.\n\nFor example: `100MB/60m` means allowing up to 100 megabytes of data to be sent in 60 minutes.',
+    desc: 'Number of bytes that can be sent in a burst. If empty, it means no limit.\n\nFor example: `100MB/60m` means allowing up to 100 megabytes of data to be sent in 60 minutes.',
     label: 'Data Publish Burst',
   },
   /* MQTT END */
