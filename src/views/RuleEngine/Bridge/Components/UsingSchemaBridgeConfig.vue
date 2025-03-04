@@ -45,6 +45,7 @@ import { cloneDeep } from 'lodash'
 import { computed, defineEmits, defineExpose, defineProps, ref, withDefaults } from 'vue'
 
 const { getSchemaRefByType: getActionTypeRefKey } = useActionSchema()
+
 const { getSchemaRefByType: getSourceTypeRefKey } = useSourceSchema()
 
 const props = withDefaults(
