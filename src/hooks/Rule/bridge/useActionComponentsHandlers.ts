@@ -577,6 +577,15 @@ export default (
     return { components, rules }
   }
 
+  const diskLogHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+    const { template } = components?.parameters?.properties || {}
+    if (template?.type === 'string') {
+      template.format = 'sql'
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
@@ -602,6 +611,7 @@ export default (
     [BridgeType.Couchbase]: couchbaseHandler,
     [BridgeType.Snowflake]: snowflakeHandler,
     [BridgeType.Tablestore]: tablestoreHandler,
+    [BridgeType.DiskLog]: diskLogHandler,
   }
 
   const getComponentsHandler = () => {

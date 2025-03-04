@@ -28,6 +28,7 @@
               <img
                 :src="getNodeIcon(node.specificType, !getDraggable(node.specificType))"
                 width="20"
+                height="20"
                 alt="node-img"
                 class="node-img"
                 :class="getIconClass(node.specificType)"
