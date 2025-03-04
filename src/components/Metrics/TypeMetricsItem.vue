@@ -35,6 +35,8 @@
                     </template>
                     {{ value }}
                   </el-descriptions-item>
+                  <!-- for align number -->
+                  <el-descriptions-item v-if="data.detail.length % 2 === 1" />
                 </el-descriptions>
               </div>
             </el-scrollbar>
