@@ -261,13 +261,29 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '最大连接速率（监听器）',
     en: 'Max Connection Rate (Listener)',
   },
+  maxConnBurst: {
+    zh: '最大连接突发速率（监听器）',
+    en: 'Max Connection Burst (Listener)',
+  },
+  maxConnBurstDesc: {
+    zh: '在突发情况下当前监听器可以接受的最大连接数量；为空时表示不限制。\n\n例如：`10000/60m` 表示在 60 分钟内，允许接受最多 10000 个连接。',
+    en: 'The maximum number of connections that can be accepted in a burst by the current listener; empty means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 connections in 60 minutes.',
+  },
   maxMsgPubRate: {
     zh: '最大消息发布速率（单客户端）',
     en: 'Max Message Publishing Rate (Per Client)',
   },
+  maxMsgPubBurst: {
+    zh: '最大消息发布突发速率（单客户端）',
+    en: 'Max Message Publishing Burst (Per Client)',
+  },
   maxMsgPubTraffic: {
     zh: '最大消息发布流量（单客户端）',
     en: 'Max Message Publishing Traffic (Per Client)',
+  },
+  maxMsgPubTrafficBurst: {
+    zh: '最大消息发布流量突发速率（单客户端）',
+    en: 'Max Message Publishing Traffic Burst (Per Client)',
   },
   maxConn: {
     zh: '最大连接数',
