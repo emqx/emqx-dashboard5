@@ -942,6 +942,7 @@ export const PulsarActionParametersCompression = {
 export interface PulsarActionParameters {
   message?: PulsarProducerPulsarMessage
   sync_timeout?: string
+  max_inflight?: number
   pulsar_topic: string
   batch_size?: number
   compression?: PulsarActionParametersCompression
