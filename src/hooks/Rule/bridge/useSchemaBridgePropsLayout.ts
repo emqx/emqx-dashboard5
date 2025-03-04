@@ -115,6 +115,7 @@ export default (
   const snowflakeAdvancedProps = getPathArrInParameters([
     'pool_size',
     'connect_timeout',
+    'max_inactive',
     'pipelining',
     'max_retries',
   ])
