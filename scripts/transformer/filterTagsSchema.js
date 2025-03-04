@@ -223,7 +223,12 @@ const sortObj = (rawObj) => {
 }
 
 const sortOneofRefs = (oneofRefs) => {
-  const sortedRefs = oneofRefs.sort((a, b) => a.$ref.localeCompare(b.$ref))
+  const sortedRefs = oneofRefs.sort((a, b) => {
+    if (a.$ref && b.$ref) {
+      return a.$ref.localeCompare(b.$ref)
+    }
+    return 0
+  })
   return sortedRefs
 }
 
