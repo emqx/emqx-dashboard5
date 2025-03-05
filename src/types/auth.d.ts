@@ -1,5 +1,6 @@
 import { MetricsDataWithExtraData } from './common'
 import { BannedType, ConnectionStatus, QoSLevel } from './enum'
+import { AuthzRuleAction, AuthzRulePermission } from './typeAlias'
 
 export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
@@ -49,8 +50,8 @@ export interface AuthnItem {
 }
 
 export interface BuiltInDBRule {
-  permission: string
-  action: string
+  permission: AuthzRulePermission
+  action: AuthzRuleAction
   topic: string
   qos?: Array<QoSLevel>
   retain?: boolean | 'all'
