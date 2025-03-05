@@ -57,7 +57,7 @@
       <el-table :key="type" :data="tableData" v-loading.lock="lockTable">
         <el-table-column type="expand">
           <template #default="{ row }">
-            <AuthzRulesTable :data="row.rules" />
+            <AuthzRulesTable :data="row.rules" :type="type" />
           </template>
         </el-table-column>
         <el-table-column v-if="type === BuiltInDBType.Client" :label="$t('Base.clientid')">
@@ -186,9 +186,9 @@
             <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
           <el-form-item>
-            <AuthzRulesTable class="form-table shadow-none" :data="rulesData" is-edit>
+            <AuthzRulesTable class="form-table shadow-none" :data="rulesData" :type="type" is-edit>
               <template #operation-column>
-                <el-table-column align="right" max-width="160px">
+                <el-table-column align="right" min-width="144">
                   <template #header>
                     <el-button link type="primary" class="btn" @click="addColumn">
                       {{ $t('Base.add') }}
@@ -523,6 +523,7 @@ const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 
 <style lang="scss">
 .authz-manager {
+  padding-bottom: 32px;
   .section-searchbar {
     display: flex;
     margin-bottom: 20px;
